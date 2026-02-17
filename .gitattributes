@@ -1,0 +1,2 @@
+Piru/Data/piru-substances.sqlite filter=lfs diff=lfs merge=lfs -text
+Piru/Data/piru-substances.sqlite !text !filter !merge !diff

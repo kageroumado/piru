@@ -1,0 +1,74 @@
+import Testing
+@testable import Piru
+
+@Suite("TimeRange")
+struct TimeRangeTests {
+
+    // MARK: - Midpoint
+
+    @Test("Midpoint of symmetric range")
+    func midpointSymmetric() {
+        let range = TimeRange(min: 10, max: 30)
+        #expect(range.midpoint == 20)
+    }
+
+    @Test("Midpoint of equal values")
+    func midpointEqual() {
+        let range = TimeRange(min: 15, max: 15)
+        #expect(range.midpoint == 15)
+    }
+
+    @Test("Midpoint produces decimal")
+    func midpointDecimal() {
+        let range = TimeRange(min: 10, max: 25)
+        #expect(range.midpoint == 17.5)
+    }
+
+    // MARK: - Display string (minutes)
+
+    @Test("Display string in minutes when max < 120")
+    func displayMinutes() {
+        let range = TimeRange(min: 15, max: 45)
+        #expect(range.displayString == "~15-45 minutes")
+    }
+
+    @Test("Display string in minutes at boundary (max = 119)")
+    func displayMinutesBoundary() {
+        let range = TimeRange(min: 60, max: 119)
+        #expect(range.displayString == "~60-119 minutes")
+    }
+
+    // MARK: - Display string (hours)
+
+    @Test("Display string in hours when max >= 120")
+    func displayHours() {
+        let range = TimeRange(min: 120, max: 360)
+        #expect(range.displayString == "~2-6 hours")
+    }
+
+    @Test("Display string in hours at boundary (max = 120)")
+    func displayHoursBoundary() {
+        let range = TimeRange(min: 60, max: 120)
+        #expect(range.displayString == "~1-2 hours")
+    }
+
+    @Test("Display string in hours with decimals")
+    func displayHoursDecimal() {
+        let range = TimeRange(min: 90, max: 210)
+        #expect(range.displayString == "~1.5-3.5 hours")
+    }
+
+    // MARK: - Formatting
+
+    @Test("Whole numbers formatted without decimal")
+    func wholeNumberFormat() {
+        let range = TimeRange(min: 30, max: 60)
+        #expect(range.displayString == "~30-60 minutes")
+    }
+
+    @Test("Decimal numbers formatted with one decimal place")
+    func decimalFormat() {
+        let range = TimeRange(min: 15.5, max: 45.5)
+        #expect(range.displayString == "~15.5-45.5 minutes")
+    }
+}
