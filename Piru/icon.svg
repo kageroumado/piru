@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFB6D9"/>
+      <stop offset="100%" stop-color="#FF7EB3"/>
+    </linearGradient>
+    <linearGradient id="pillTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0E8EE"/>
+    </linearGradient>
+    <linearGradient id="pillBottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF8EC4"/>
+      <stop offset="100%" stop-color="#E95AA0"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#D44A8A" flood-opacity="0.35"/>
+    </filter>
+    <filter id="innerGlow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset dx="0" dy="-3" result="offset"/>
+      <feComposite in="SourceGraphic" in2="offset" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="0" ry="0" fill="url(#bg)"/>
+
+  <!-- Subtle radial glow in center -->
+  <circle cx="512" cy="480" r="320" fill="white" opacity="0.08"/>
+
+  <!-- Capsule pill body with shadow -->
+  <g filter="url(#shadow)">
+    <!-- Top half (white) -->
+    <path d="M 392 320
+             Q 392 220, 512 220
+             Q 632 220, 632 320
+             L 632 490
+             L 392 490 Z"
+          fill="url(#pillTop)"/>
+
+    <!-- Bottom half (pink) -->
+    <path d="M 392 490
+             L 632 490
+             L 632 660
+             Q 632 760, 512 760
+             Q 392 760, 392 660 Z"
+          fill="url(#pillBottom)"/>
+  </g>
+
+  <!-- Pill dividing line -->
+  <line x1="392" y1="490" x2="632" y2="490" stroke="#E8D0DD" stroke-width="2.5"/>
+
+  <!-- Shine/highlight on top half -->
+  <path d="M 420 260
+           Q 420 235, 460 235
+           L 470 235
+           Q 440 250, 435 290
+           L 420 320 Z"
+        fill="white" opacity="0.5" rx="8"/>
+
+  <!-- Heart on top half -->
+  <g transform="translate(512, 380)">
+    <path d="M 0 28
+             C 0 28, -70 -18, -70 -42
+             C -70 -66, -42 -78, -20 -62
+             C -8 -52, 0 -38, 0 -38
+             C 0 -38, 8 -52, 20 -62
+             C 42 -78, 70 -66, 70 -42
+             C 70 -18, 0 28, 0 28 Z"
+          fill="#FF6BA8" opacity="0.9"/>
+    <!-- Heart shine -->
+    <ellipse cx="-28" cy="-46" rx="12" ry="10" fill="white" opacity="0.4" transform="rotate(-20, -28, -46)"/>
+  </g>
+
+  <!-- Cute blush spots -->
+  <ellipse cx="425" cy="620" rx="32" ry="18" fill="#FF5A9E" opacity="0.3"/>
+  <ellipse cx="599" cy="620" rx="32" ry="18" fill="#FF5A9E" opacity="0.3"/>
+
+  <!-- Cute face on bottom half - small eyes and smile -->
+  <circle cx="472" cy="590" r="10" fill="#D44A8A"/>
+  <circle cx="552" cy="590" r="10" fill="#D44A8A"/>
+  <!-- Eye shines -->
+  <circle cx="476" cy="586" r="3.5" fill="white"/>
+  <circle cx="556" cy="586" r="3.5" fill="white"/>
+  <!-- Cute smile -->
+  <path d="M 490 620 Q 512 642, 534 620" stroke="#D44A8A" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
