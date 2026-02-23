@@ -7,6 +7,7 @@ struct UsageStatsView: View {
     @Query private var substanceColors: [SubstanceColor]
 
     @State private var timeRange: TimeRange = .thirtyDays
+    @State private var selectedTrendSubstance: String?
 
     enum TimeRange: String, CaseIterable, Identifiable {
         case sevenDays = "7D"
@@ -50,6 +51,9 @@ struct UsageStatsView: View {
                     if !filteredEntries.isEmpty {
                         frequencyChart
                         timelineChart
+                        doseTrendChart
+                        timeOfDayChart
+                        categoryBreakdownChart
                     }
                 }
             }
@@ -226,6 +230,269 @@ struct UsageStatsView: View {
             .dateTime.month(.abbreviated).day()
         case .ninetyDays, .all:
             .dateTime.month(.abbreviated)
+        }
+    }
+
+    // MARK: - Dose Trends
+
+    private var uniqueSubstances: [String] {
+        let entries = filteredEntries
+        var seen = Set<String>()
+        var result: [String] = []
+        for entry in entries {
+            let key = entry.substance.lowercased()
+            if seen.insert(key).inserted {
+                result.append(entry.substance)
+            }
+        }
+        return result.sorted()
+    }
+
+    @ViewBuilder
+    private var doseTrendChart: some View {
+        let substances = uniqueSubstances
+        if !substances.isEmpty {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Dose Trends")
+                    .font(.headline)
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(substances, id: \.self) { name in
+                            let isSelected = selectedTrendSubstance == name
+                            Button {
+                                selectedTrendSubstance = isSelected ? nil : name
+                            } label: {
+                                Text(name)
+                                    .font(.caption.weight(.medium))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
+                                    .background(
+                                        isSelected
+                                            ? (colorMap[name.lowercased()] ?? Theme.accent)
+                                            : Color.clear
+                                    )
+                                    .foregroundStyle(isSelected ? .white : .primary)
+                                    .clipShape(Capsule())
+                                    .overlay(Capsule().stroke(.quaternary))
+                            }
+                        }
+                    }
+                }
+
+                if let selected = selectedTrendSubstance {
+                    let data = filteredEntries
+                        .filter { $0.substance == selected }
+                        .sorted { $0.timestamp < $1.timestamp }
+                    let color = colorMap[selected.lowercased()] ?? Theme.accent
+
+                    if data.isEmpty {
+                        Text("No entries for \(selected)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Chart(data) { entry in
+                            LineMark(
+                                x: .value("Date", entry.timestamp),
+                                y: .value("Dose", entry.amount)
+                            )
+                            .foregroundStyle(color)
+                            .interpolationMethod(.catmullRom)
+
+                            PointMark(
+                                x: .value("Date", entry.timestamp),
+                                y: .value("Dose", entry.amount)
+                            )
+                            .foregroundStyle(color)
+                            .symbolSize(30)
+                        }
+                        .frame(height: 180)
+                        .chartYAxisLabel(data.first?.unit ?? "mg")
+                        .chartXAxis {
+                            AxisMarks { _ in
+                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                                    .foregroundStyle(.secondary.opacity(0.3))
+                                AxisValueLabel()
+                                    .font(.caption2)
+                            }
+                        }
+                        .chartYAxis {
+                            AxisMarks { _ in
+                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                                    .foregroundStyle(.secondary.opacity(0.3))
+                                AxisValueLabel()
+                                    .font(.caption2)
+                            }
+                        }
+                    }
+                } else {
+                    Text("Select a substance to see dose trends")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 20)
+                }
+            }
+            .padding()
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        }
+    }
+
+    // MARK: - Time of Day
+
+    private var timeOfDayChart: some View {
+        let entries = filteredEntries
+        let calendar = Calendar.current
+
+        var morning = 0, afternoon = 0, evening = 0, night = 0
+
+        for entry in entries {
+            let hour = calendar.component(.hour, from: entry.timestamp)
+            switch hour {
+            case 6..<12: morning += 1
+            case 12..<18: afternoon += 1
+            case 18..<24: evening += 1
+            default: night += 1
+            }
+        }
+
+        struct TimeBucket: Identifiable {
+            let name: String
+            let count: Int
+            let color: Color
+            var id: String { name }
+        }
+
+        let buckets = [
+            TimeBucket(name: "Morning\n6–12", count: morning, color: .orange),
+            TimeBucket(name: "Afternoon\n12–18", count: afternoon, color: .yellow),
+            TimeBucket(name: "Evening\n18–0", count: evening, color: .indigo),
+            TimeBucket(name: "Night\n0–6", count: night, color: .blue),
+        ]
+
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Time of Day")
+                .font(.headline)
+
+            Chart(buckets) { bucket in
+                BarMark(
+                    x: .value("Time", bucket.name),
+                    y: .value("Count", bucket.count)
+                )
+                .foregroundStyle(bucket.color)
+                .cornerRadius(6)
+                .annotation(position: .top, spacing: 4) {
+                    if bucket.count > 0 {
+                        Text("\(bucket.count)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .frame(height: 180)
+            .chartXAxis {
+                AxisMarks { _ in
+                    AxisValueLabel()
+                        .font(.caption2)
+                }
+            }
+            .chartYAxis {
+                AxisMarks { _ in
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                        .foregroundStyle(.secondary.opacity(0.3))
+                    AxisValueLabel()
+                        .font(.caption2)
+                }
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    // MARK: - Category Breakdown
+
+    private var categoryBreakdownChart: some View {
+        let entries = filteredEntries
+
+        var categoryCounts: [SubstanceCategory: Int] = [:]
+        for entry in entries {
+            if let substance = SubstanceLibrary.lookup(entry.substance.lowercased()) {
+                categoryCounts[substance.category, default: 0] += 1
+            } else {
+                categoryCounts[.other, default: 0] += 1
+            }
+        }
+
+        let sorted = categoryCounts
+            .sorted { $0.value > $1.value }
+            .map { (category: $0.key, count: $0.value) }
+
+        let total = sorted.reduce(0) { $0 + $1.count }
+
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Categories")
+                .font(.headline)
+
+            if sorted.isEmpty {
+                Text("No data")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                Chart(sorted, id: \.category) { item in
+                    SectorMark(
+                        angle: .value("Count", item.count),
+                        innerRadius: .ratio(0.618),
+                        angularInset: 1.5
+                    )
+                    .foregroundStyle(colorForCategory(item.category))
+                    .cornerRadius(4)
+                }
+                .frame(height: 200)
+                .chartLegend(.hidden)
+
+                FlowLayout(spacing: 8) {
+                    ForEach(sorted, id: \.category) { item in
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(colorForCategory(item.category))
+                                .frame(width: 8, height: 8)
+                            Text(item.category.rawValue)
+                                .font(.caption2)
+                            Text("\(item.count)")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                            if total > 0 {
+                                Text("(\(Int(round(Double(item.count) / Double(total) * 100)))%)")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    private func colorForCategory(_ category: SubstanceCategory) -> Color {
+        switch category {
+        case .stimulant: .orange
+        case .psychedelic: .purple
+        case .dissociative: .cyan
+        case .opioid: .red
+        case .benzodiazepine: .blue
+        case .gabapentinoid: .indigo
+        case .empathogen: .pink
+        case .cannabinoid: .green
+        case .nootropic: .teal
+        case .depressant: .gray
+        case .antidepressant: .yellow
+        case .antipsychotic: .mint
+        case .analgesic: .brown
+        case .antihistamine: .secondary
+        case .supplement: .green.opacity(0.7)
+        case .other: .secondary
         }
     }
 }
