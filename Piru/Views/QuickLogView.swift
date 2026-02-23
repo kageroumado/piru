@@ -284,7 +284,30 @@ struct QuickLogView: View {
 
         return VStack(alignment: .leading, spacing: 8) {
             // Header — tapping anywhere on the row toggles expand
-            Button {
+            HStack(spacing: 8) {
+                Circle()
+                    .fill(color)
+                    .frame(width: 10, height: 10)
+                Text(card.substanceName)
+                    .font(.headline)
+                Spacer()
+                Button {
+                    toggleFavorite(card.substanceName)
+                } label: {
+                    Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
+                        .font(.body)
+                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
+                        .padding(.horizontal, 4)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(isExpanded ? -180 : 0))
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
                 withAnimation(.easeInOut(duration: 0.2)) {
                     if isExpanded {
                         expandedSubstances.remove(card.id)
@@ -292,32 +315,6 @@ struct QuickLogView: View {
                         expandedSubstances.insert(card.id)
                     }
                 }
-            } label: {
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(color)
-                        .frame(width: 10, height: 10)
-                    Text(card.substanceName)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                    Spacer()
-                    Image(systemName: "chevron.down")
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                        .rotationEffect(.degrees(isExpanded ? -180 : 0))
-                }
-            }
-            .buttonStyle(.plain)
-            .overlay(alignment: .trailing) {
-                Button {
-                    toggleFavorite(card.substanceName)
-                } label: {
-                    Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
-                        .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
-                }
-                .buttonStyle(.plain)
-                .padding(.trailing, 24)
             }
 
             // Expanded content
