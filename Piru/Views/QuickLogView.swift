@@ -18,7 +18,6 @@ struct QuickLogView: View {
     @State private var pendingLogAction: (() -> Void)?
 
     @State private var cachedGroups: [SubstanceGroup] = []
-    @State private var cachedFavoriteSet: Set<String> = []
 
     // MARK: - Grouping
 
@@ -52,10 +51,6 @@ struct QuickLogView: View {
         cachedGroups = groupMap.values.sorted { $0.latestTimestamp > $1.latestTimestamp }
     }
 
-    private func rebuildFavoriteSet() {
-        cachedFavoriteSet = Array(favorites).favoriteSet
-    }
-
     private var filteredGroups: [SubstanceGroup] {
         guard !searchText.isEmpty else { return cachedGroups }
         let query = searchText.lowercased()
@@ -70,15 +65,21 @@ struct QuickLogView: View {
 
     // MARK: - Favorites
 
+    private var favoriteSet: Set<String> {
+        Set(favorites.map { $0.substance.lowercased() })
+    }
+
     private var favoriteGroups: [SubstanceGroup] {
         guard searchText.isEmpty else { return [] }
-        return cachedGroups.filter { cachedFavoriteSet.contains($0.substanceName.lowercased()) }
+        let favs = favoriteSet
+        return cachedGroups.filter { favs.contains($0.substanceName.lowercased()) }
     }
 
     private var nonFavoriteGroups: [SubstanceGroup] {
+        let favs = favoriteSet
         let groups = searchText.isEmpty ? cachedGroups : filteredGroups
         if searchText.isEmpty {
-            return groups.filter { !cachedFavoriteSet.contains($0.substanceName.lowercased()) }
+            return groups.filter { !favs.contains($0.substanceName.lowercased()) }
         }
         return groups
     }
@@ -92,7 +93,7 @@ struct QuickLogView: View {
     }
 
     private func isFavorite(_ name: String) -> Bool {
-        cachedFavoriteSet.contains(name.lowercased())
+        favoriteSet.contains(name.lowercased())
     }
 
     private func toggleFavorite(_ name: String) {
@@ -154,10 +155,9 @@ struct QuickLogView: View {
             .sheet(isPresented: $showingDailyDose) {
                 LogDailyDoseView()
             }
-            .task { rebuildGroups(); rebuildFavoriteSet() }
+            .task { rebuildGroups() }
             .onChange(of: allEntries.count) { rebuildGroups() }
             .onChange(of: substanceColors.count) { rebuildGroups() }
-            .onChange(of: favorites.count) { rebuildFavoriteSet() }
         }
     }
 
