@@ -17,11 +17,12 @@ struct QuickLogView: View {
     @State private var entryFormPrefill: EntryPrefill?
     @State private var pendingLogAction: (() -> Void)?
 
-    @State private var cachedGroups: [SubstanceGroup] = []
+    @State private var cachedCards: [SubstanceCard] = []
+    @State private var expandedSubstances: Set<String> = []
 
     // MARK: - Grouping
 
-    private func rebuildGroups() {
+    private func rebuildCards() {
         var colorLookup: [String: String] = [:]
         for sc in substanceColors {
             colorLookup[sc.substance.lowercased()] = sc.hexColor
@@ -48,18 +49,33 @@ struct QuickLogView: View {
             }
         }
 
-        cachedGroups = groupMap.values.sorted { $0.latestTimestamp > $1.latestTimestamp }
+        // Group route-level groups into per-substance cards
+        var cardMap: [String: [SubstanceGroup]] = [:]
+        for group in groupMap.values {
+            cardMap[group.substanceName.lowercased(), default: []].append(group)
+        }
+
+        cachedCards = cardMap.values.map { routes in
+            let sorted = routes.sorted { $0.latestTimestamp > $1.latestTimestamp }
+            let first = sorted[0]
+            return SubstanceCard(
+                substanceName: first.substanceName,
+                colorHex: first.colorHex,
+                routes: sorted,
+                latestTimestamp: sorted[0].latestTimestamp
+            )
+        }.sorted { $0.latestTimestamp > $1.latestTimestamp }
     }
 
-    private var filteredGroups: [SubstanceGroup] {
-        guard !searchText.isEmpty else { return cachedGroups }
+    private var filteredCards: [SubstanceCard] {
+        guard !searchText.isEmpty else { return cachedCards }
         let query = searchText.lowercased()
-        return cachedGroups.filter { $0.substanceName.lowercased().contains(query) }
+        return cachedCards.filter { $0.substanceName.lowercased().contains(query) }
     }
 
     private var libraryResults: [Substance] {
         guard !searchText.isEmpty else { return [] }
-        let historyNames = Set(cachedGroups.map { $0.substanceName.lowercased() })
+        let historyNames = Set(cachedCards.map { $0.substanceName.lowercased() })
         return SubstanceLibrary.search(searchText).filter { !historyNames.contains($0.name.lowercased()) }
     }
 
@@ -69,24 +85,24 @@ struct QuickLogView: View {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private var favoriteGroups: [SubstanceGroup] {
+    private var favoriteCards: [SubstanceCard] {
         guard searchText.isEmpty else { return [] }
         let favs = favoriteSet
-        return cachedGroups.filter { favs.contains($0.substanceName.lowercased()) }
+        return cachedCards.filter { favs.contains($0.substanceName.lowercased()) }
     }
 
-    private var nonFavoriteGroups: [SubstanceGroup] {
+    private var nonFavoriteCards: [SubstanceCard] {
         let favs = favoriteSet
-        let groups = searchText.isEmpty ? cachedGroups : filteredGroups
+        let cards = searchText.isEmpty ? cachedCards : filteredCards
         if searchText.isEmpty {
-            return groups.filter { !favs.contains($0.substanceName.lowercased()) }
+            return cards.filter { !favs.contains($0.substanceName.lowercased()) }
         }
-        return groups
+        return cards
     }
 
     private var favoriteLibrarySubstances: [Substance] {
         guard searchText.isEmpty else { return [] }
-        let historyNames = Set(cachedGroups.map { $0.substanceName.lowercased() })
+        let historyNames = Set(cachedCards.map { $0.substanceName.lowercased() })
         return favorites
             .filter { !historyNames.contains($0.substance.lowercased()) }
             .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
@@ -115,7 +131,7 @@ struct QuickLogView: View {
                         dailyDoseButton
                     }
 
-                    if cachedGroups.isEmpty && searchText.isEmpty {
+                    if cachedCards.isEmpty && searchText.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -155,9 +171,9 @@ struct QuickLogView: View {
             .sheet(isPresented: $showingDailyDose) {
                 LogDailyDoseView()
             }
-            .task { rebuildGroups() }
-            .onChange(of: allEntries.count) { rebuildGroups() }
-            .onChange(of: substanceColors.count) { rebuildGroups() }
+            .task { rebuildCards() }
+            .onChange(of: allEntries.count) { rebuildCards() }
+            .onChange(of: substanceColors.count) { rebuildCards() }
         }
     }
 
@@ -184,10 +200,10 @@ struct QuickLogView: View {
     @ViewBuilder
     private var scrollContentInner: some View {
         // Favorites section (only when not searching)
-        if !favoriteGroups.isEmpty || !favoriteLibrarySubstances.isEmpty {
+        if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
             Section {
-                ForEach(favoriteGroups) { group in
-                    substanceRow(group)
+                ForEach(favoriteCards) { card in
+                    substanceCard(card)
                 }
                 ForEach(favoriteLibrarySubstances) { substance in
                     libraryRow(substance)
@@ -201,18 +217,18 @@ struct QuickLogView: View {
         }
 
         // Recent / search results
-        if !nonFavoriteGroups.isEmpty {
-            if !favoriteGroups.isEmpty && searchText.isEmpty {
+        if !nonFavoriteCards.isEmpty {
+            if !favoriteCards.isEmpty && searchText.isEmpty {
                 Text("Recent")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .textCase(.uppercase)
                     .padding(.top, 8)
             }
-            ForEach(nonFavoriteGroups) { group in
-                substanceRow(group)
+            ForEach(nonFavoriteCards) { card in
+                substanceCard(card)
             }
-        } else if !searchText.isEmpty && libraryResults.isEmpty && favoriteGroups.isEmpty {
+        } else if !searchText.isEmpty && libraryResults.isEmpty && favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
         }
 
@@ -260,64 +276,119 @@ struct QuickLogView: View {
         }
     }
 
-    // MARK: - Substance Row
+    // MARK: - Substance Card
 
-    private func substanceRow(_ group: SubstanceGroup) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+    private func substanceCard(_ card: SubstanceCard) -> some View {
+        let isExpanded = expandedSubstances.contains(card.id)
+        let hasMultipleRoutes = card.routes.count > 1
+        let color = card.colorHex.map { Color(hex: $0) } ?? .gray
+
+        return VStack(alignment: .leading, spacing: 8) {
+            // Header
             HStack(spacing: 8) {
                 Circle()
-                    .fill(group.colorHex.map { Color(hex: $0) } ?? .gray)
+                    .fill(color)
                     .frame(width: 10, height: 10)
-                Text(group.substanceName)
+                Text(card.substanceName)
                     .font(.headline)
-                Text(group.route.displayName)
-                    .font(.caption)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(.quaternary)
-                    .clipShape(Capsule())
-                Spacer()
-                Button {
-                    toggleFavorite(group.substanceName)
-                } label: {
-                    Image(systemName: isFavorite(group.substanceName) ? "star.fill" : "star")
-                        .font(.body)
-                        .foregroundStyle(isFavorite(group.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
-                }
-                .buttonStyle(.plain)
-            }
 
-            FlowLayout(spacing: 6) {
-                ForEach(group.doses) { chip in
-                    Button {
-                        instantLog(group: group, chip: chip)
-                    } label: {
-                        Text("\(chip.formattedAmount) \(chip.unit)")
-                            .font(.subheadline.weight(.medium))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                (group.colorHex.map { Color(hex: $0) } ?? Theme.accent).opacity(0.15)
-                            )
-                            .foregroundStyle(group.colorHex.map { Color(hex: $0) } ?? Theme.accent)
-                            .clipShape(Capsule())
-                    }
-                }
-
-                Button {
-                    openOtherDose(group: group)
-                } label: {
-                    Label("Other dose", systemImage: "slider.horizontal.3")
-                        .font(.subheadline.weight(.medium))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(.tint.opacity(0.12))
-                        .foregroundStyle(.tint)
+                if !hasMultipleRoutes {
+                    Text(card.routes[0].route.displayName)
+                        .font(.caption)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(.quaternary)
                         .clipShape(Capsule())
                 }
+
+                Spacer()
+
+                Button {
+                    toggleFavorite(card.substanceName)
+                } label: {
+                    Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
+                        .font(.body)
+                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
+                }
+                .buttonStyle(.plain)
+
+                if hasMultipleRoutes {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            if isExpanded {
+                                expandedSubstances.remove(card.id)
+                            } else {
+                                expandedSubstances.insert(card.id)
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text("\(card.routes.count) routes")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Image(systemName: "chevron.down")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                                .rotationEffect(.degrees(isExpanded ? -180 : 0))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            // Content
+            if hasMultipleRoutes {
+                if isExpanded {
+                    ForEach(card.routes) { group in
+                        routeSection(group, color: color)
+                    }
+                }
+            } else {
+                doseChips(for: card.routes[0], color: color)
             }
         }
         .padding(.vertical, 4)
+    }
+
+    private func routeSection(_ group: SubstanceGroup, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(group.route.displayName)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.secondary)
+                .padding(.top, 4)
+
+            doseChips(for: group, color: color)
+        }
+    }
+
+    private func doseChips(for group: SubstanceGroup, color: Color) -> some View {
+        FlowLayout(spacing: 6) {
+            ForEach(group.doses) { chip in
+                Button {
+                    instantLog(group: group, chip: chip)
+                } label: {
+                    Text("\(chip.formattedAmount) \(chip.unit)")
+                        .font(.subheadline.weight(.medium))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(color.opacity(0.15))
+                        .foregroundStyle(color)
+                        .clipShape(Capsule())
+                }
+            }
+
+            Button {
+                openOtherDose(group: group)
+            } label: {
+                Label("Other dose", systemImage: "slider.horizontal.3")
+                    .font(.subheadline.weight(.medium))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(.tint.opacity(0.12))
+                    .foregroundStyle(.tint)
+                    .clipShape(Capsule())
+            }
+        }
     }
 
     // MARK: - Library Row
@@ -420,6 +491,15 @@ struct QuickLogView: View {
 }
 
 // MARK: - Data Types
+
+struct SubstanceCard: Identifiable {
+    let substanceName: String
+    let colorHex: String?
+    let routes: [SubstanceGroup]
+    let latestTimestamp: Date
+
+    var id: String { substanceName.lowercased() }
+}
 
 struct SubstanceGroup: Identifiable {
     let id: String
