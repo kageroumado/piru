@@ -25,6 +25,8 @@ struct EntryFormView: View {
     @State private var savedSubstanceName = ""
     @State private var savedEntry: DoseEntry?
     @State private var interactionWarnings: [InteractionResult] = []
+    @State private var substanceLocked = false
+    @FocusState private var amountFocused: Bool
 
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
@@ -107,7 +109,7 @@ struct EntryFormView: View {
                 }
 
                 Section("Substance") {
-                    SubstanceSearchField(text: $substance) { selected in
+                    SubstanceSearchField(text: $substance, locked: substanceLocked) { selected in
                         selectSubstance(selected)
                     } onCustom: {
                         useCustomSubstance()
@@ -126,6 +128,7 @@ struct EntryFormView: View {
                     HStack {
                         TextField("Amount", text: $amount)
                             .keyboardType(.decimalPad)
+                            .focused($amountFocused)
                             .foregroundStyle(currentDoseLevel.map { colorFor($0) } ?? .primary)
                         if let level = currentDoseLevel {
                             DoseLevelBadge(level: level)
@@ -255,7 +258,7 @@ struct EntryFormView: View {
             return
         }
 
-        if let prefillName = prefillSubstanceName {
+        if let prefillName = prefillSubstanceName, !prefillName.isEmpty {
             substance = prefillName
             if let match = SubstanceLibrary.search(prefillName).first,
                match.name.lowercased() == prefillName.lowercased() {
@@ -263,7 +266,11 @@ struct EntryFormView: View {
             }
             if let r = prefillRoute { route = r }
             if let u = prefillUnit { unit = u }
+            substanceLocked = true
             checkInteractions()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                amountFocused = true
+            }
         }
     }
 

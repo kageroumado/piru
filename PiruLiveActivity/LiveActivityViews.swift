@@ -30,12 +30,14 @@ struct LockScreenView: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            // Timeline Graph
-            TimelineGraphView(
-                substances: substances,
-                currentTime: context.state.lastUpdated,
-                compact: false
-            )
+            // Timeline Graph – periodic refresh so knobs track real time
+            TimelineView(.periodic(from: .now, by: 1)) { timeline in
+                TimelineGraphView(
+                    substances: substances,
+                    currentTime: timeline.date,
+                    compact: true
+                )
+            }
             .frame(height: 80)
 
             // Gradient progress bar that auto-fills
@@ -102,11 +104,13 @@ struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        TimelineGraphView(
-            substances: context.state.activeSubstances,
-            currentTime: context.state.lastUpdated,
-            compact: true
-        )
+        TimelineView(.periodic(from: .now, by: 1)) { timeline in
+            TimelineGraphView(
+                substances: context.state.activeSubstances,
+                currentTime: timeline.date,
+                compact: true
+            )
+        }
         .frame(height: 50)
     }
 }

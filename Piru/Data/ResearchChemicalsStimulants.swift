@@ -46,7 +46,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "A sustained inability to fall asleep that can persist for many hours after the primary effects have faded due to the compound's long duration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3-FMA
@@ -90,7 +91,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A period of low mood, fatigue, and irritability following the peak effects, often proportional to the dose taken."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 2-FA
@@ -134,7 +136,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety", description: "A low-level nervousness that can emerge at higher doses, manifesting as physical tension or racing thoughts during the peak."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3-FA
@@ -178,7 +181,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown Irritability", description: "A period of reduced mood, mental fatigue, and irritability following the peak effects as neurotransmitter levels recover."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Fluorinated Ethamphetamines
@@ -224,7 +228,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty initiating sleep that can persist beyond the primary effects, requiring careful timing of doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3-FEA
@@ -268,7 +273,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Serotonergic Comedown", description: "A period of low mood, emotional flatness, and fatigue in the days following use due to temporary serotonin depletion."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Synthetic Cathinones (Pyrovalerones)
@@ -314,7 +320,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Crash", description: "A pronounced period of exhaustion, low mood, and irritability following binge use, often accompanied by strong cravings."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Hexen
@@ -358,14 +365,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite Suppression", description: "A total loss of interest in food that spans the entire session and well into recovery."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PHP
 
         Substance(
             name: "A-PHP",
-            aliases: ["Alpha-Pyrrolidinohexiophenone", "alpha-PHP", "PV-7"],
+            aliases: ["Alpha-Pyrrolidinohexanophenone", "alpha-PHP", "PV-7"],
             category: .stimulant,
             defaultRoute: .inhalation,
             routes: [
@@ -412,7 +420,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Severe Crash", description: "A devastating comedown characterized by profound depression, exhaustion, intense cravings, and an inability to experience pleasure for extended periods."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PVP
@@ -466,7 +475,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Devastating Crash", description: "A profound physical and psychological collapse following binge use, marked by severe depression, anhedonia, and extended recovery periods."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PIHP
@@ -510,7 +520,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Crash", description: "A period of significant fatigue, depression, and irritability following use, with intensity correlating to session length and total dosage."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PCyP
@@ -554,7 +565,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "A persistent inability to sleep that can last many hours after the last dose, compounded by residual anxiety and stimulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: MDPHP
@@ -598,14 +610,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Crash", description: "A pronounced comedown involving both stimulant fatigue and serotonergic depletion, potentially combining the worst of both classes."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: MDPV
 
         Substance(
             name: "MDPV",
-            aliases: ["Methylenedioxypyrovalerone", "Bath Salts", "Monkey Dust", "Super Coke"],
+            aliases: ["Methylenedioxypyrovalerone", "Bath Salts", "Super Coke"],
             category: .stimulant,
             defaultRoute: .insufflation,
             routes: [
@@ -652,7 +665,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Aggression", description: "Unpredictable hostile and aggressive behavior that contributed to the compound's notorious reputation and widespread media coverage."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Pyrovalerone
@@ -684,7 +698,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety", description: "A dose-dependent nervousness and restlessness that can emerge at higher doses, though less severe than with more potent pyrovalerones."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PBP
@@ -726,7 +741,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Restlessness", description: "A jittery, uncomfortable physical agitation that becomes more pronounced with repeated dosing throughout a session."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PPP
@@ -767,7 +783,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Restlessness", description: "A low-grade physical agitation that becomes the primary experience at higher doses as euphoria remains limited."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: A-PHiP
@@ -820,7 +837,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Crash", description: "A sharp and uncomfortable comedown featuring exhaustion, dysphoria, and strong cravings that can persist for hours after the last dose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3,4-DMMC-PVP
@@ -862,7 +880,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty initiating sleep that can persist for many hours after the last dose due to residual dopaminergic stimulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 4F-A-PVP
@@ -915,7 +934,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Insomnia", description: "An absolute inability to sleep lasting well beyond the primary effects, often accompanied by residual paranoia and visual disturbances."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 4-Cl-A-PVP
@@ -957,7 +977,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Harsh Comedown", description: "A particularly unpleasant crash period featuring dysphoria, exhaustion, and persistent cravings for redosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Phenidate Analogues
@@ -1003,7 +1024,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety", description: "A jittery nervousness that can emerge at higher doses or during the comedown, sometimes accompanied by cardiovascular awareness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Isopropylphenidate
@@ -1047,7 +1069,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep if taken too late in the day, though typically less prolonged than amphetamine-class compounds."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 4F-MPH
@@ -1091,7 +1114,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Prolonged Insomnia", description: "An extended inability to sleep that can last well over 12 hours from the time of dosing due to the long duration of action."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3,4-CTMP
@@ -1125,7 +1149,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "An inability to sleep that can persist for an entire day or longer, making timing critical and overdosing particularly dangerous."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: HDMP-28
@@ -1169,7 +1194,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep that can extend for hours beyond the perceived end of primary effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Other RC Stimulants
@@ -1215,7 +1241,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Rough Body Load", description: "A physical heaviness and tension that many users report as less comfortable than smoother stimulant compounds."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: N-Ethyl-Pentylone
@@ -1259,7 +1286,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Serotonergic Comedown", description: "A potentially severe multi-day period of emotional flatness, depression, and fatigue following use, reflecting significant serotonin depletion."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 3-FPM
@@ -1303,7 +1331,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty initiating sleep if taken later in the day, though the moderate duration makes timing somewhat manageable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 2-DPMP
@@ -1337,7 +1366,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Psychosis Risk", description: "A high risk of stimulant psychosis due to the forced multi-day wakefulness, with hallucinations and delusions reported at standard doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 960
+            halfLifeMinutes: 960,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Modafiendz
@@ -1371,7 +1401,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A vasoconstriction-related headache that some users report, particularly during the comedown phase."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Eutylone
@@ -1415,7 +1446,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite suppression", description: "A complete loss of interest in food that spans the entire session and often extends well into the recovery period."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Diethylpropion
@@ -1447,7 +1479,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild mood elevation", description: "A subtle improvement in baseline mood and motivation that feels natural rather than euphoric, contributing to its low abuse potential."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: Benzphetamine
@@ -1479,7 +1512,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased heart rate", description: "A noticeable cardiovascular stimulation that reflects the compound's sympathomimetic activity, requiring caution in those with heart conditions."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
     ]
 }

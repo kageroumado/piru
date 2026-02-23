@@ -291,6 +291,49 @@ struct SubstanceDetailSheet: View {
                     }
                 }
             }
+
+            if !substance.sources.isEmpty {
+                Section {
+                    ForEach(substance.sources, id: \.self) { source in
+                        if let info = AppSources.info(for: source) {
+                            if let url = URL(string: info.url) {
+                                Link(destination: url) {
+                                    HStack {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(source)
+                                                .font(.subheadline)
+                                                .foregroundStyle(.primary)
+                                            Text(info.detail)
+                                                .font(.caption2)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                        Spacer()
+                                        Image(systemName: "arrow.up.right.square")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                            } else {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(source)
+                                        .font(.subheadline)
+                                    Text(info.detail)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        } else {
+                            Text(source)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } header: {
+                    Label("Sources", systemImage: "book.closed")
+                } footer: {
+                    Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
+                }
+            }
         }
         .navigationTitle(substance.name)
         .navigationBarTitleDisplayMode(.inline)

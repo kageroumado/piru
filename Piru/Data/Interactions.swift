@@ -218,7 +218,7 @@ enum InteractionChecker {
         map["phenibut"] = [.gabapentinoid]
         map["gabapentin"] = [.gabapentinoid]
         map["pregabalin"] = [.gabapentinoid]
-        map["baclofen"] = [.gabapentinoid]
+        map["baclofen"] = [.ghb]
 
         // Stimulants (common names)
         map["caffeine"] = [.stimulant]
@@ -319,7 +319,7 @@ enum InteractionChecker {
         InteractionRule(classA: .maoi, classB: .stimulant, severity: .dangerous,
             description: "Hypertensive crisis — potentially fatal spike in blood pressure."),
         InteractionRule(classA: .maoi, classB: .opioid, severity: .dangerous,
-            description: "Risk of serotonin syndrome, especially with tramadol and fentanyl analogues."),
+            description: "Risk of serotonin syndrome, especially with meperidine/pethidine, tramadol, and tapentadol."),
         InteractionRule(classA: .lithium, classB: .psychedelic, severity: .dangerous,
             description: "Risk of seizures and serotonin toxicity — well-documented dangerous combination."),
         InteractionRule(classA: .ghb, classB: .alcohol, severity: .dangerous,
@@ -337,8 +337,8 @@ enum InteractionChecker {
             description: "Additive CNS and respiratory depression — antihistamines potentiate opioid sedation."),
         InteractionRule(classA: .opioid, classB: .stimulant, severity: .unsafe,
             description: "Stimulants mask overdose signs — when they wear off, respiratory depression can emerge."),
-        InteractionRule(classA: .benzodiazepine, classB: .alcohol, severity: .unsafe,
-            description: "Excessive CNS depression, blackouts, and respiratory risk."),
+        InteractionRule(classA: .benzodiazepine, classB: .alcohol, severity: .dangerous,
+            description: "Life-threatening respiratory depression — this combination is a leading cause of overdose death."),
         InteractionRule(classA: .benzodiazepine, classB: .gabapentinoid, severity: .unsafe,
             description: "Excessive sedation and respiratory depression risk."),
         InteractionRule(classA: .benzodiazepine, classB: .antihistamine, severity: .unsafe,
@@ -368,19 +368,19 @@ enum InteractionChecker {
             description: "Increased anxiety and vasoconstriction — stimulants can intensify difficult trips."),
         InteractionRule(classA: .cannabinoid, classB: .psychedelic, severity: .caution,
             description: "Unpredictable intensification — cannabis can trigger anxiety or thought loops."),
-        InteractionRule(classA: .dissociative, classB: .alcohol, severity: .caution,
-            description: "Nausea, blackout risk, and impaired motor control."),
-        InteractionRule(classA: .dissociative, classB: .benzodiazepine, severity: .caution,
-            description: "Excessive sedation — may impair breathing at higher doses."),
-        InteractionRule(classA: .benzodiazepine, classB: .benzodiazepine, severity: .caution,
-            description: "Stacking benzodiazepines increases sedation and respiratory depression risk."),
+        InteractionRule(classA: .dissociative, classB: .alcohol, severity: .unsafe,
+            description: "Risk of respiratory depression, aspiration, and loss of consciousness."),
+        InteractionRule(classA: .dissociative, classB: .benzodiazepine, severity: .unsafe,
+            description: "Significant respiratory depression risk and profound loss of consciousness."),
+        InteractionRule(classA: .benzodiazepine, classB: .benzodiazepine, severity: .unsafe,
+            description: "Stacking benzodiazepines dramatically increases sedation and respiratory depression risk."),
         InteractionRule(classA: .ssri, classB: .psychedelic, severity: .caution,
             description: "SSRIs typically reduce psychedelic effects but may increase risk with some compounds."),
         InteractionRule(classA: .ssri, classB: .ssri, severity: .caution,
             description: "Serotonin accumulation risk — combining serotonergic agents increases toxicity chance."),
-        InteractionRule(classA: .ssri, classB: .snri, severity: .caution,
+        InteractionRule(classA: .ssri, classB: .snri, severity: .unsafe,
             description: "Overlapping serotonin reuptake inhibition — increased serotonin syndrome risk."),
-        InteractionRule(classA: .ssri, classB: .tca, severity: .caution,
+        InteractionRule(classA: .ssri, classB: .tca, severity: .unsafe,
             description: "SSRIs inhibit TCA metabolism — risk of TCA toxicity and serotonin syndrome."),
         InteractionRule(classA: .stimulant, classB: .dissociative, severity: .caution,
             description: "Increased heart rate and blood pressure — cardiovascular strain."),
@@ -390,14 +390,18 @@ enum InteractionChecker {
             description: "Compounded drowsiness and impaired coordination."),
         InteractionRule(classA: .alcohol, classB: .antipsychotic, severity: .caution,
             description: "Additive CNS depression — increased sedation and impairment."),
-        InteractionRule(classA: .gabapentinoid, classB: .alcohol, severity: .caution,
-            description: "Enhanced CNS depression — increased sedation and dizziness."),
+        InteractionRule(classA: .gabapentinoid, classB: .alcohol, severity: .unsafe,
+            description: "Enhanced CNS depression — risk of respiratory depression and death."),
         InteractionRule(classA: .gabapentinoid, classB: .gabapentinoid, severity: .caution,
             description: "Stacking gabapentinoids compounds sedation and respiratory depression risk."),
         InteractionRule(classA: .dissociative, classB: .dissociative, severity: .caution,
             description: "Compounded dissociation — disorientation and loss of motor control."),
         InteractionRule(classA: .empathogen, classB: .empathogen, severity: .caution,
             description: "Serotonin depletion and neurotoxicity risk — allow adequate recovery between uses."),
+        InteractionRule(classA: .lithium, classB: .empathogen, severity: .dangerous,
+            description: "Risk of seizures and serotonin toxicity — potentially fatal combination."),
+        InteractionRule(classA: .lithium, classB: .maoi, severity: .unsafe,
+            description: "Risk of serotonin syndrome and lithium toxicity."),
     ]
 
     private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {

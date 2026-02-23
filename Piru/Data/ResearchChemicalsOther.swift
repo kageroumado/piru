@@ -6,50 +6,6 @@ extension SubstanceLibrary {
 
     static let researchChemicalsDissociatives: [Substance] = [
 
-        // MARK: NENDCK
-
-        Substance(
-            name: "NENDCK",
-            aliases: ["N-Ethylnordeschloroketamine"],
-            category: .dissociative,
-            defaultRoute: .insufflation,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 20, light: 40...80, common: 80...150, strong: 150...225, heavy: 225
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 45),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 90, max: 240),
-                    offset: TimeRange(min: 60, max: 180),
-                    afterglow: TimeRange(min: 120, max: 360),
-                    total: TimeRange(min: 240, max: 480)
-                )),
-                SubstanceRoute(route: .insufflation, unit: "mg", doses: DoseRange(
-                    threshold: 10, light: 25...50, common: 50...100, strong: 100...150, heavy: 150
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 5, max: 15),
-                    comeup: TimeRange(min: 5, max: 15),
-                    peak: TimeRange(min: 45, max: 120),
-                    offset: TimeRange(min: 30, max: 90),
-                    afterglow: TimeRange(min: 60, max: 240),
-                    total: TimeRange(min: 120, max: 300)
-                )),
-            ],
-            effects: ["Dissociation", "Sedation", "Motor control loss", "Spatial disorientation", "Cognitive disconnection", "Music enhancement", "Analgesia"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Dissociation", description: "A mild to moderate disconnection from physical awareness that feels subdued and gentle compared to more potent dissociatives."),
-                SubjectiveEffect(name: "Sedation", description: "A prominent calming and drowsy quality that makes this compound feel more like a sedative-dissociative than a stimulating one."),
-                SubjectiveEffect(name: "Cognitive Disconnection", description: "A detachment of normal thought patterns creating a foggy, dreamy mental state with reduced analytical thinking."),
-                SubjectiveEffect(name: "Analgesia", description: "A reduction in pain perception resulting from NMDA antagonism, providing notable pain relief throughout the experience."),
-                SubjectiveEffect(name: "Music Enhancement", description: "A modest improvement in musical appreciation where sounds gain added depth and emotional resonance."),
-                SubjectiveEffect(name: "Motor Control Loss", description: "An impairment of physical coordination and balance that can make movement clumsy and potentially hazardous."),
-                SubjectiveEffect(name: "Spatial Disorientation", description: "A mildly disorienting shift in spatial perception where body awareness and sense of location become blurred."),
-                SubjectiveEffect(name: "Mild Euphoria", description: "A gentle mood lift that provides a neutral-to-positive emotional backdrop without the intense pleasure of stronger dissociatives."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 240
-        ),
-
         // MARK: 3-Me-PCP
 
         Substance(
@@ -81,7 +37,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Dissociation", "Mania", "Stimulation", "Euphoria", "Delusions of sobriety", "Conceptual thinking", "Motor control loss", "Compulsive redosing"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: 3-Me-PCPy
@@ -105,7 +62,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Dissociation", "Stimulation", "Mania", "Euphoria", "Conceptual thinking", "Motor control loss", "Delusions of sobriety"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: 3-Cl-PCP
@@ -139,7 +97,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Dissociation", "Mania", "Stimulation", "Euphoria", "Delusions of sobriety", "Motor control loss", "Conceptual thinking", "Compulsive redosing"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: PCE
@@ -163,14 +122,15 @@ extension SubstanceLibrary {
             ],
             effects: ["Dissociation", "Mania", "Stimulation", "Euphoria", "Delusions of sobriety", "Motor control loss", "Spatial disorientation", "Compulsive redosing"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: 2-BDCK
 
         Substance(
             name: "2-BDCK",
-            aliases: ["2-Bromodeachloroketamine", "2-Bromoketamine"],
+            aliases: ["2-Bromodeschloroketamine", "2-Bromoketamine"],
             category: .dissociative,
             defaultRoute: .insufflation,
             routes: [
@@ -206,7 +166,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive disconnection", description: "A detachment from normal thought patterns where linear thinking dissolves into abstract, dreamlike ideation and the boundaries between self and environment blur."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
     ]
 
@@ -235,7 +196,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Euphoria", "Analgesia", "Sedation", "Anxiolysis", "Respiratory depression", "Nausea", "Warmth", "Itching"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: Metonitazene
@@ -246,8 +208,8 @@ extension SubstanceLibrary {
             category: .opioid,
             defaultRoute: .oral,
             routes: [
-                SubstanceRoute(route: .oral, unit: "\u{00B5}g", doses: DoseRange(
-                    threshold: 2, light: 5...10, common: 10...25, strong: 25...50, heavy: 50, fatal: 500
+                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
+                    threshold: 0.5, light: 1...2, common: 2...5, strong: 5...10, heavy: 10, fatal: 20
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 10, max: 30),
                     comeup: TimeRange(min: 5, max: 15),
@@ -259,7 +221,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Euphoria", "Analgesia", "Sedation", "Respiratory depression", "Nausea", "Itching", "Warmth", "Cognitive suppression"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: Protonitazene
@@ -283,7 +246,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Euphoria", "Analgesia", "Sedation", "Respiratory depression", "Nausea", "Warmth", "Itching", "Cognitive suppression"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: Dipyanone
@@ -307,7 +271,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Euphoria", "Analgesia", "Sedation", "Anxiolysis", "Respiratory depression", "Nausea", "Warmth"],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: 2F-Viminol
@@ -331,7 +296,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Euphoria", "Analgesia", "Sedation", "Anxiolysis", "Respiratory depression", "Nausea", "Warmth"],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: N-Desethyl Isotonitazene
@@ -374,7 +340,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Naloxone resistance", description: "Multiple doses of naloxone may be required to reverse overdose effects due to the compound's extreme receptor binding affinity, complicating emergency medical response."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
     ]
 

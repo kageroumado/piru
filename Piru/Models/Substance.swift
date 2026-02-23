@@ -43,6 +43,18 @@ enum DoseLevel: String, CaseIterable {
     case strong = "Strong"
     case heavy = "Heavy"
     case fatal = "Fatal Overdose"
+
+    var color: String {
+        switch self {
+        case .sub: "gray"
+        case .threshold: "blue"
+        case .light: "green"
+        case .common: "yellow"
+        case .strong: "orange"
+        case .heavy: "red"
+        case .fatal: "black"
+        }
+    }
 }
 
 extension Double {
@@ -179,6 +191,7 @@ struct Substance: Identifiable {
     let subjectiveEffects: [SubjectiveEffect]
     let toleranceInfo: ToleranceInfo?
     let halfLifeMinutes: Double?
+    let sources: [String]
 
     init(
         name: String,
@@ -189,7 +202,8 @@ struct Substance: Identifiable {
         effects: [String],
         subjectiveEffects: [SubjectiveEffect] = [],
         toleranceInfo: ToleranceInfo? = nil,
-        halfLifeMinutes: Double? = nil
+        halfLifeMinutes: Double? = nil,
+        sources: [String] = []
     ) {
         self.name = name
         self.aliases = aliases
@@ -200,6 +214,7 @@ struct Substance: Identifiable {
         self.subjectiveEffects = subjectiveEffects
         self.toleranceInfo = toleranceInfo
         self.halfLifeMinutes = halfLifeMinutes
+        self.sources = sources
     }
 
     var defaultUnit: String {

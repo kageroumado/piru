@@ -34,7 +34,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Morning Grogginess", description: "A hangover-like heaviness upon waking that can take hours to fully dissipate."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 390
+            halfLifeMinutes: 390,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -44,7 +45,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 1.25, light: 2.5...5, common: 5...15, strong: 15...20, heavy: 20, fatal: 300
+                    threshold: 1.25, light: 2.5...5, common: 5...15, strong: 15...20, heavy: 20, fatal: 1000
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 30, max: 60),
@@ -66,7 +67,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Stabilization", description: "A leveling of mood extremes, particularly helpful in bipolar mania, that develops over days to weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1800
+            halfLifeMinutes: 1800,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -98,7 +100,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A persistent low energy and tiredness that goes beyond simple drowsiness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -129,7 +132,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort that typically occurs during the initial dose titration period."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 4500
+            halfLifeMinutes: 4500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -170,7 +174,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness from anticholinergic activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -202,7 +207,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Slowing", description: "A noticeable reduction in mental speed and processing ability."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1380
+            halfLifeMinutes: 1380,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -234,7 +240,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Metabolic Effects", description: "Changes in blood sugar and lipid levels that contribute to long-term metabolic health concerns."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -265,7 +272,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Lightheadedness", description: "Dizziness and feeling faint, particularly when standing up or after meals."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -296,7 +304,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A persistent tiredness and low energy that goes beyond simple drowsiness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -327,7 +336,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A low-grade tiredness that some patients experience alongside treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 5580
+            halfLifeMinutes: 5580,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -358,7 +368,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Improved Motivation", description: "A subtle increase in drive and engagement that may emerge as negative symptoms improve."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -389,7 +400,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Preservation", description: "A relative maintenance of cognitive function and mental clarity during treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -421,7 +433,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Taste Alteration", description: "The sublingual tablet can leave a bitter or unpleasant taste that lingers after dissolution."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -453,7 +466,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Low Akathisia Risk", description: "Notably less inner restlessness compared to many other antipsychotics, which patients find a significant relief."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         // MARK: - First-Generation (Typical) Antipsychotics
@@ -486,7 +500,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness that accompanies the anticholinergic profile."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 3300
+            halfLifeMinutes: 3300,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -517,7 +532,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness from anticholinergic effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1980
+            halfLifeMinutes: 1980,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -548,7 +564,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness from anticholinergic activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 570
+            halfLifeMinutes: 570,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -580,7 +597,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Photosensitivity", description: "Increased skin sensitivity to sunlight, similar to other phenothiazines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -621,7 +639,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness from anticholinergic effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -652,7 +671,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "Persistent oral dryness from anticholinergic activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1320
+            halfLifeMinutes: 1320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
     ]
 }

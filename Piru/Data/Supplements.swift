@@ -34,7 +34,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Immune Resilience", description: "Fewer and shorter colds or infections noticed over months of maintaining optimal levels."),
                 SubjectiveEffect(name: "Reduced Seasonal Blues", description: "A lessening of the low mood and lethargy commonly experienced during shorter winter days."),
             ],
-            halfLifeMinutes: 21600
+            halfLifeMinutes: 21600,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 2. Vitamin C
@@ -64,7 +65,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Faster Recovery", description: "Minor cuts and bruises seem to heal somewhat more quickly with consistent intake."),
                 SubjectiveEffect(name: "Stomach Sensitivity", description: "Gastrointestinal discomfort or loose stools at higher doses, especially on an empty stomach."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 3. Vitamin B12
@@ -104,7 +106,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Tingling", description: "A reduction in numbness or tingling in extremities for those experiencing deficiency-related neuropathy."),
                 SubjectiveEffect(name: "Better Stamina", description: "Improved endurance during physical activity as oxygen-carrying capacity normalizes."),
             ],
-            halfLifeMinutes: 8640
+            halfLifeMinutes: 8640,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 4. Vitamin B6
@@ -134,7 +137,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Better Sleep Quality", description: "Improved sleep depth and feeling more rested upon waking, likely related to neurotransmitter support."),
                 SubjectiveEffect(name: "Dream Recall", description: "A marked increase in the ability to remember dreams in detail upon waking."),
             ],
-            halfLifeMinutes: 25920
+            halfLifeMinutes: 25920,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 5. Vitamin B1
@@ -164,7 +168,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nerve Comfort", description: "Reduced nerve-related discomfort and tingling sensations in those with prior deficiency."),
                 SubjectiveEffect(name: "Metabolic Support", description: "A general sense of the body processing food and energy more efficiently over time."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 6. Vitamin B2
@@ -194,7 +199,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Energy Support", description: "A mild improvement in daily energy levels as cellular energy production is supported."),
                 SubjectiveEffect(name: "Eye Comfort", description: "Reduced eye fatigue and sensitivity to light for those who were previously deficient."),
             ],
-            halfLifeMinutes: 75
+            halfLifeMinutes: 75,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 7. Vitamin B3
@@ -225,7 +231,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort and nausea at higher doses, particularly when taken on an empty stomach."),
                 SubjectiveEffect(name: "Energy Boost", description: "A subtle improvement in cellular energy production that may contribute to feeling slightly more energetic."),
             ],
-            halfLifeMinutes: 45
+            halfLifeMinutes: 45,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 8. Vitamin B5
@@ -255,7 +262,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Wound Healing", description: "Minor cuts and skin irritations seem to resolve somewhat faster with consistent use."),
                 SubjectiveEffect(name: "Adrenal Support", description: "A sense of better recovery from stressful periods, with less prolonged fatigue afterward."),
             ],
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 9. Vitamin B9
@@ -285,14 +293,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Stability", description: "More even moods with less frequent dips into low mood or irritability."),
                 SubjectiveEffect(name: "General Vitality", description: "An overall sense of improved health and vitality that develops over weeks of adequate intake."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 10. Vitamin A
 
         Substance(
             name: "Vitamin A",
-            aliases: ["Retinol", "Retinyl Palmitate", "Beta-Carotene"],
+            aliases: ["Retinol", "Retinyl Palmitate"],
             category: .supplement,
             defaultRoute: .oral,
             routes: [
@@ -315,7 +324,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Eye Comfort", description: "Reduced eye dryness and improved comfort during extended screen time."),
                 SubjectiveEffect(name: "Nausea", description: "Stomach upset and nausea at high doses, a sign of potential toxicity requiring dose reduction."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 11. Vitamin E
@@ -345,7 +355,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Immune Support", description: "A perception of improved resistance to common illnesses over long-term supplementation."),
                 SubjectiveEffect(name: "Cardiovascular Comfort", description: "A background sense of improved cardiovascular health, more inferred from biomarkers than directly felt."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 3600,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 12. Vitamin K2
@@ -375,7 +386,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Calcium Utilization", description: "A sense that calcium supplementation is working more effectively, with fewer issues like stiffness."),
                 SubjectiveEffect(name: "General Health Assurance", description: "Peace of mind from supporting proper calcium distribution away from arteries and into bones."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 4200,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: - Minerals
@@ -408,7 +420,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Bowel Regularity", description: "Improved regularity and easier bowel movements, especially with citrate forms at higher doses."),
                 SubjectiveEffect(name: "Headache Relief", description: "A reduction in tension headache frequency for those whose headaches are related to magnesium insufficiency."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 14. Zinc
@@ -438,7 +451,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach upset that can be quite pronounced when taken without food, particularly with higher doses."),
                 SubjectiveEffect(name: "Hormonal Support", description: "A subtle improvement in energy and libido that some male users attribute to testosterone support."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 800,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 15. Iron
@@ -469,7 +483,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Reduced bowel regularity and harder stools, a frequent side effect particularly with ferrous sulfate forms."),
                 SubjectiveEffect(name: "Stomach Upset", description: "Nausea and stomach discomfort, especially when taken on an empty stomach or at higher doses."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 16. Potassium
@@ -499,7 +514,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Blood Pressure Support", description: "A subtle improvement in cardiovascular comfort for those with borderline elevated blood pressure."),
                 SubjectiveEffect(name: "Reduced Fatigue", description: "Less physical fatigue during the day, particularly for those with previously low potassium intake."),
             ],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 17. Selenium
@@ -529,7 +545,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "General Vitality", description: "A background sense of improved cellular health and reduced oxidative burden."),
                 SubjectiveEffect(name: "Hair and Nail Quality", description: "Improved hair thickness and nail strength noticed over weeks to months of adequate selenium intake."),
             ],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 18. Calcium
@@ -559,7 +576,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "A common side effect of reduced bowel motility, especially with calcium carbonate forms."),
                 SubjectiveEffect(name: "Nail Strength", description: "Stronger, less brittle nails noticed over weeks of consistent supplementation."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 19. Chromium
@@ -589,7 +607,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Steady Energy", description: "More consistent energy levels throughout the day without the typical highs and lows."),
                 SubjectiveEffect(name: "Reduced Sweet Tooth", description: "A gradual diminishing of the desire for sugary foods and drinks over weeks of use."),
             ],
-            halfLifeMinutes: 2400
+            halfLifeMinutes: 2400,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 20. Iodine
@@ -619,7 +638,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Temperature Regulation", description: "Feeling less cold and better able to maintain body warmth, related to improved thyroid function."),
                 SubjectiveEffect(name: "Hormonal Balance", description: "A sense of improved overall hormonal function, with better mood and energy stability."),
             ],
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: - Amino Acids
@@ -652,7 +672,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stress Buffering", description: "An improved ability to cope with daily stressors without becoming overwhelmed or reactive."),
                 SubjectiveEffect(name: "Dream Vividness", description: "Increased dream recall and vividness due to enhanced serotonin signaling during sleep."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 22. 5-HTP
@@ -684,7 +705,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiolytic Calm", description: "A serotonin-mediated reduction in anxiety that can be felt within the first dose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 23. L-Tyrosine
@@ -715,7 +737,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Endurance", description: "Better sustained mental performance during long work sessions or sleep-deprived states."),
                 SubjectiveEffect(name: "Mood Stability Under Stress", description: "Maintained emotional composure in situations that would normally cause frustration or overwhelm."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 150,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 24. GABA
@@ -745,7 +768,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Skin Tingling", description: "A pins-and-needles tingling sensation across the face and body at higher doses, harmless but noticeable."),
                 SubjectiveEffect(name: "Anxiety Relief", description: "A perceptible reduction in anxious tension, though the oral bioavailability debate means effects vary widely."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 25. L-Glutamine
@@ -775,7 +799,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gut Healing", description: "A progressive improvement in digestive symptoms for those with gut permeability issues."),
                 SubjectiveEffect(name: "Immune Support", description: "A subtle improvement in overall immune resilience with consistent daily supplementation."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 26. NAC
@@ -806,7 +831,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Compulsive Behavior Reduction", description: "A reported reduction in ruminating thoughts and compulsive behaviors with consistent use."),
                 SubjectiveEffect(name: "Nausea", description: "Mild stomach discomfort that can occur due to the sulfurous nature of the compound."),
             ],
-            halfLifeMinutes: 330
+            halfLifeMinutes: 330,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 27. Creatine
@@ -837,7 +863,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Weight Gain", description: "A rapid increase of a few pounds on the scale from water retention, typically within the first week."),
                 SubjectiveEffect(name: "Exercise Endurance", description: "Improved ability to sustain high-intensity efforts for slightly longer before fatigue sets in."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 28. Beta-Alanine
@@ -867,7 +894,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pre-Workout Activation", description: "A sense of physical readiness and activation that many associate with the onset of the tingling effect."),
                 SubjectiveEffect(name: "Sustained Performance", description: "Better maintenance of exercise intensity across longer workout sessions over weeks of loading."),
             ],
-            halfLifeMinutes: 150
+            halfLifeMinutes: 25,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 29. Taurine
@@ -897,7 +925,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cardiovascular Steadiness", description: "A subtle sense of cardiovascular stability, with less awareness of heart rate during exertion."),
                 SubjectiveEffect(name: "Hydration Balance", description: "Better fluid balance and less swelling in extremities, related to improved electrolyte management."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 30. L-Citrulline
@@ -927,7 +956,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Soreness", description: "Less delayed-onset muscle soreness in the days following intense training sessions."),
                 SubjectiveEffect(name: "Blood Pressure Reduction", description: "A subtle lowering of blood pressure that some users notice as reduced head pressure or improved comfort."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 31. Glycine
@@ -957,7 +987,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Joint Comfort", description: "A gradual improvement in joint comfort and flexibility over weeks of consistent supplementation."),
                 SubjectiveEffect(name: "Relaxation", description: "A gentle calming effect that promotes rest without heavy sedation or cognitive impairment."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 32. L-Arginine
@@ -987,7 +1018,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gastrointestinal Discomfort", description: "Stomach upset, bloating, or diarrhea at higher doses, especially when taken on an empty stomach."),
                 SubjectiveEffect(name: "Improved Circulation", description: "A general sense of better blood flow, sometimes noticed as improved skin color and warmth."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: - Herbal
@@ -1021,7 +1053,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Groundedness", description: "A sense of being more emotionally centered and less reactive to minor daily frustrations."),
                 SubjectiveEffect(name: "Thyroid Warmth", description: "For those with sluggish thyroid, a sense of improved metabolic warmth and energy."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 34. Rhodiola Rosea
@@ -1053,7 +1086,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Physical Endurance", description: "Improved stamina during exercise and reduced perception of effort during physical activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 35. Valerian Root
@@ -1085,7 +1119,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Relaxation", description: "A deep muscle relaxation and mental unwinding that helps transition away from the stresses of the day."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 36. St. John's Wort
@@ -1117,7 +1152,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motivation Return", description: "A gradual return of interest and motivation for daily activities that had previously felt burdensome."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 1560
+            halfLifeMinutes: 1560,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 37. Ginkgo Biloba
@@ -1148,7 +1184,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "Occasional headaches at higher doses, possibly related to changes in cerebral blood flow."),
                 SubjectiveEffect(name: "Peripheral Warmth", description: "Improved circulation in hands and feet, with less coldness in the extremities."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 38. Turmeric/Curcumin
@@ -1178,7 +1215,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anti-Inflammatory Feel", description: "A general sense of reduced bodily inflammation, with less puffiness and physical discomfort."),
                 SubjectiveEffect(name: "Recovery Enhancement", description: "Improved physical recovery from exercise and daily wear, feeling less beaten up over time."),
             ],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 39. Milk Thistle
@@ -1208,7 +1246,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Bloating", description: "Less abdominal bloating and discomfort, particularly after eating."),
                 SubjectiveEffect(name: "Mild Laxative Effect", description: "Slightly increased bowel frequency and softer stools, usually mild and not bothersome."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 40. Tongkat Ali
@@ -1239,7 +1278,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Physical Performance", description: "Improved exercise capacity and body composition over weeks, with better strength and recovery."),
                 SubjectiveEffect(name: "Mood Elevation", description: "A mild but consistent improvement in overall mood and sense of well-being."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 41. Black Seed Oil
@@ -1270,7 +1310,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Peppery Taste", description: "A strong, spicy, peppery flavor that can be off-putting when taken straight, but manageable in capsules."),
                 SubjectiveEffect(name: "Digestive Warmth", description: "A warming sensation in the stomach after ingestion, along with generally improved digestive comfort."),
             ],
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 42. Ginseng
@@ -1301,7 +1342,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Immune Strengthening", description: "A sense of improved resistance to illness over long-term supplementation."),
                 SubjectiveEffect(name: "Libido Enhancement", description: "A subtle increase in sexual desire and function reported by some users."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 43. Echinacea
@@ -1331,7 +1373,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "General Wellness", description: "A sense of being better protected against seasonal illnesses with consistent prophylactic use."),
                 SubjectiveEffect(name: "Anti-Inflammatory Comfort", description: "A mild reduction in inflammatory symptoms like sore throat and nasal congestion during illness."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 44. Elderberry
@@ -1361,7 +1404,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pleasant Taste", description: "A naturally sweet, berry-like flavor that makes supplementation enjoyable, especially in syrup form."),
                 SubjectiveEffect(name: "General Wellness", description: "An overall sense of being better protected against seasonal illness with consistent use."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 45. Saw Palmetto
@@ -1391,7 +1435,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sleep Improvement", description: "Better sleep quality from reduced nighttime urination frequency."),
                 SubjectiveEffect(name: "Stomach Discomfort", description: "Mild stomach upset that some users experience, typically manageable by taking with food."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 46. Maca Root
@@ -1422,7 +1467,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Exercise Performance", description: "Improved physical endurance and strength during workouts, with better recovery afterward."),
                 SubjectiveEffect(name: "Adaptogenic Resilience", description: "An improved ability to cope with physical and mental stress without feeling depleted."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: - Other Supplements
@@ -1447,7 +1493,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced inflammation", "Improved cardiovascular health", "Better brain function", "Improved mood", "Fishy aftertaste", "Better joint mobility", "Improved skin hydration"],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 48. CoQ10
@@ -1470,7 +1517,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved cellular energy", "Enhanced heart health", "Reduced statin side effects", "Antioxidant protection", "Better exercise recovery", "Reduced migraines"],
-            halfLifeMinutes: 2040
+            halfLifeMinutes: 2040,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 49. Melatonin
@@ -1504,7 +1552,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Improved sleep onset", "Better circadian rhythm regulation", "Drowsiness", "Vivid dreams", "Morning grogginess", "Antioxidant effects", "Reduced jet lag"],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 40
+            halfLifeMinutes: 40,
+            sources: ["Drugs.com", "Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 50. Probiotics
@@ -1527,7 +1576,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved gut health", "Better digestion", "Reduced bloating", "Enhanced immune function", "Improved bowel regularity", "Initial gas and bloating"],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 51. Collagen
@@ -1550,7 +1600,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved skin elasticity", "Better joint comfort", "Stronger nails", "Improved hair health", "Enhanced gut lining", "Reduced wrinkles"],
-            halfLifeMinutes: 840
+            halfLifeMinutes: 840,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 52. MCT Oil
@@ -1573,7 +1624,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Quick energy boost", "Enhanced mental clarity", "Improved ketone production", "Better fat metabolism", "Gastrointestinal discomfort", "Reduced appetite"],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 53. Apple Cider Vinegar
@@ -1596,7 +1648,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved blood sugar regulation", "Better digestion", "Reduced appetite", "Throat irritation", "Improved satiety", "Nausea at high doses"],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 30,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 54. Berberine
@@ -1619,7 +1672,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved blood sugar control", "Better cholesterol levels", "Enhanced insulin sensitivity", "Gastrointestinal discomfort", "Reduced inflammation", "Weight management support"],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 55. Quercetin
@@ -1642,7 +1696,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced allergy symptoms", "Anti-inflammatory effects", "Antioxidant protection", "Improved cardiovascular health", "Enhanced exercise performance", "Better immune regulation"],
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 56. Resveratrol
@@ -1665,7 +1720,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Antioxidant protection", "Improved cardiovascular health", "Anti-aging effects", "Reduced inflammation", "Better blood sugar regulation"],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 57. Alpha-Lipoic Acid
@@ -1688,7 +1744,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Antioxidant protection", "Improved blood sugar regulation", "Enhanced nerve function", "Better mitochondrial energy", "Reduced neuropathy symptoms", "Nausea on empty stomach"],
-            halfLifeMinutes: 30
+            halfLifeMinutes: 30,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 58. PQQ
@@ -1700,7 +1757,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...10, common: 10...20, strong: 20...40, heavy: 40
+                    threshold: 5, light: 5...10, common: 10...20, strong: 20...40, heavy: 40
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 15, max: 30),
@@ -1711,7 +1768,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved mitochondrial function", "Enhanced cognitive performance", "Better sleep quality", "Increased cellular energy", "Neuroprotective effects"],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 59. Astaxanthin
@@ -1734,7 +1792,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Potent antioxidant protection", "Improved skin health", "Reduced UV damage", "Better exercise recovery", "Enhanced eye health", "Reduced joint inflammation"],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 960,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 60. Glucosamine
@@ -1757,7 +1816,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Improved joint comfort", "Reduced joint stiffness", "Enhanced cartilage repair", "Better joint mobility", "Mild gastrointestinal effects", "Reduced inflammation"],
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: - Herbal & Ethnobotanical
@@ -1790,7 +1850,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Stabilization", description: "A subtle evening-out of emotional ups and downs, with irritability and restlessness feeling less prominent."),
                 SubjectiveEffect(name: "Muscle Relaxation", description: "A gentle loosening of physical tension, particularly in the jaw, shoulders, and neck, that complements the mental calming effect."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 720,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 62. Passionflower
@@ -1822,7 +1883,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "GABAergic Sedation", description: "A mild sedating quality mediated by GABA-A receptor modulation, producing a gentle heaviness that promotes rest without cognitive impairment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 63. Lemon Balm
@@ -1854,14 +1916,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Sedation", description: "At higher doses, a comfortable drowsiness that supports sleep onset without the heavy grogginess of stronger sedative herbs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 64. Gotu Kola
 
         Substance(
             name: "Gotu Kola",
-            aliases: ["Centella asiatica", "Brahmi"],
+            aliases: ["Centella asiatica"],
             category: .supplement,
             defaultRoute: .oral,
             routes: [
@@ -1885,7 +1948,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Meditative Calm", description: "A contemplative, centered quality traditionally valued for meditation practice, with reduced mental restlessness and improved equanimity."),
                 SubjectiveEffect(name: "Adaptogenic Balance", description: "A general sense of improved stress resilience and mental stamina that accumulates over consistent long-term use."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 65. Blue Lotus
@@ -1918,7 +1982,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Meditative State", description: "A contemplative, inward-focused quality to consciousness that supports meditation and quiet reflection."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 65.5. Kanna
@@ -1972,7 +2037,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nasal Irritation", description: "When insufflated, a significant burning sensation in the nasal passages that can be intensely unpleasant for several minutes before subsiding."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 66. Wild Dagga
@@ -2014,7 +2080,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Visual Softening", description: "A very mild perceptual shift where colors may appear slightly warmer and the visual field takes on a gentle, dreamy quality when smoked."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 67. Skullcap
@@ -2046,7 +2113,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Tension Headache Relief", description: "A reduction in tension headaches and stress-related head pressure, particularly when the headache is associated with muscular tightness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 68. Damiana
@@ -2078,7 +2146,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sensory Warmth", description: "A slight enhancement of tactile sensitivity and a warm, tingling quality to physical sensations throughout the body."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 69. Mulungu
@@ -2110,7 +2179,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Mood Elevation", description: "A gentle improvement in overall mood and sense of well-being that accompanies the anxiolytic and relaxing effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 70. Cordyceps
@@ -2141,7 +2211,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Libido Enhancement", description: "A mild increase in sexual energy and vitality reported by some users, consistent with traditional use as a kidney tonic."),
                 SubjectiveEffect(name: "Recovery Support", description: "Reduced post-exercise fatigue and faster recovery between workouts, with less lingering soreness and tiredness."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 71. Reishi Mushroom
@@ -2172,7 +2243,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anti-Inflammatory Comfort", description: "A subtle reduction in chronic aches and inflammatory discomfort over weeks of consistent use."),
                 SubjectiveEffect(name: "General Vitality", description: "An overall sense of improved health, resilience, and well-being that develops gradually with long-term supplementation."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
         // MARK: 72. Turkey Tail Mushroom
@@ -2202,7 +2274,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Energy Steadiness", description: "A mild stabilization of daily energy levels with fewer dips and crashes, likely related to improved gut and immune function."),
                 SubjectiveEffect(name: "Reduced Inflammation", description: "A gradual decrease in background inflammatory discomfort and joint stiffness over weeks of consistent use."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "NIH ODS", "PubMed"]
         ),
 
     ]

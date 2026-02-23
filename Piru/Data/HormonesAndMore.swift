@@ -55,7 +55,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Temperature Sensitivity", description: "A shift in temperature perception, often feeling colder more easily with increased sensitivity to ambient temperature changes."),
                 SubjectiveEffect(name: "Fatigue", description: "A subtle but persistent tiredness, especially in the first weeks, often described as feeling drained or needing more sleep than usual."),
             ],
-            halfLifeMinutes: 990
+            halfLifeMinutes: 990,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -95,7 +96,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Energy Fluctuation", description: "A pattern of feeling more energetic shortly after injection followed by gradual fatigue as levels taper before the next dose."),
                 SubjectiveEffect(name: "Reduced Libido", description: "A decrease in spontaneous sexual desire that develops gradually over the first weeks to months of use."),
             ],
-            halfLifeMinutes: 6480
+            halfLifeMinutes: 6480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -124,7 +126,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Sensitivity", description: "A heightened responsiveness to emotional stimuli, where music, stories, or interpersonal moments can provoke stronger feelings than expected."),
                 SubjectiveEffect(name: "Fatigue", description: "A gentle tiredness that can accompany the first weeks of use, often requiring more sleep or rest than usual."),
             ],
-            halfLifeMinutes: 12960
+            halfLifeMinutes: 12960,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -153,7 +156,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Libido", description: "A gradual tapering of spontaneous sexual interest, often settling into a new baseline over the first months."),
                 SubjectiveEffect(name: "Temperature Sensitivity", description: "A tendency to feel colder more easily, with hands and feet often feeling chilly in environments that previously felt comfortable."),
             ],
-            halfLifeMinutes: 8640
+            halfLifeMinutes: 8640,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -182,7 +186,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Water Retention", description: "A bloated, puffy feeling particularly noticeable in the hands, feet, and face, caused by fluid retention."),
                 SubjectiveEffect(name: "Reduced Libido", description: "A dampening of sexual desire that can feel like a lack of interest or reduced responsiveness to arousal."),
             ],
-            halfLifeMinutes: 2160
+            halfLifeMinutes: 2160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -211,7 +216,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Water Retention", description: "A subtle bloating and puffiness, particularly in the extremities, that may cause a feeling of heaviness."),
                 SubjectiveEffect(name: "Improved Sleep", description: "A gradual improvement in sleep quality, with fewer nighttime awakenings and a more restful feeling upon waking."),
             ],
-            halfLifeMinutes: 1020
+            halfLifeMinutes: 1020,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Anti-Androgens
@@ -243,7 +249,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Salt Cravings", description: "An increased desire for salty foods as the body adjusts to electrolyte changes from the potassium-sparing diuretic effect."),
                 SubjectiveEffect(name: "Reduced Libido", description: "A gradual decrease in sexual drive that develops over weeks to months as androgen levels are suppressed."),
             ],
-            halfLifeMinutes: 1350
+            halfLifeMinutes: 1350,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -272,7 +279,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Weight Gain", description: "A gradual increase in body weight, often felt as increased appetite and a tendency to store more fat."),
                 SubjectiveEffect(name: "Emotional Blunting", description: "A muted emotional range where both positive and negative feelings feel dampened or distant."),
             ],
-            halfLifeMinutes: 2400
+            halfLifeMinutes: 2400,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -301,7 +309,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Changes", description: "Subtle shifts in emotional baseline, with some reporting increased emotional sensitivity or mild mood instability."),
                 SubjectiveEffect(name: "GI Discomfort", description: "Occasional nausea or stomach upset, usually mild and often occurring shortly after taking the dose."),
             ],
-            halfLifeMinutes: 8640
+            halfLifeMinutes: 8640,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - 5-Alpha Reductase Inhibitors
@@ -332,7 +341,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Changes", description: "Subtle shifts in emotional tone, occasionally including mild depressive symptoms or emotional flatness."),
                 SubjectiveEffect(name: "Watery Ejaculate", description: "A noticeable change in semen consistency, becoming thinner and more watery in texture."),
             ],
-            halfLifeMinutes: 390
+            halfLifeMinutes: 390,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -361,7 +371,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Changes", description: "Subtle emotional shifts that may include mild low mood or a sense of emotional dampening."),
                 SubjectiveEffect(name: "Brain Fog", description: "A diffuse mental cloudiness with difficulty focusing that some report developing gradually."),
             ],
-            halfLifeMinutes: 28800
+            halfLifeMinutes: 28800,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Testosterone and Esters
@@ -404,7 +415,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Composition Changes", description: "A shift toward increased muscle mass and reduced subcutaneous fat, with the body feeling harder and more angular over months."),
                 SubjectiveEffect(name: "Increased Appetite", description: "A heightened hunger drive with increased caloric needs, especially noticeable during the first months as metabolism shifts."),
             ],
-            halfLifeMinutes: 600
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -434,7 +446,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Swings", description: "Emotional fluctuations that track with the injection cycle, with irritability or low mood often appearing as levels trough."),
                 SubjectiveEffect(name: "Increased Strength", description: "A progressive increase in physical strength and exercise capacity that builds noticeably over the first months."),
             ],
-            halfLifeMinutes: 11520
+            halfLifeMinutes: 11520,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -464,7 +477,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Aggression", description: "A shortened temper or heightened irritability that can manifest as impatience or a lower threshold for frustration."),
                 SubjectiveEffect(name: "Night Sweats", description: "Episodes of heavy sweating during sleep, sometimes requiring a change of bedding, especially at higher doses."),
             ],
-            halfLifeMinutes: 7200
+            halfLifeMinutes: 7200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -493,7 +507,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Oily Skin", description: "A fast-developing increase in skin oiliness that tracks closely with the rapid rise in testosterone levels post-injection."),
                 SubjectiveEffect(name: "Increased Aggression", description: "Sharper spikes in irritability compared to longer esters, coinciding with the rapid peak in blood levels."),
             ],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -522,7 +537,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gradual Onset", description: "Effects build slowly over days to weeks rather than peaking sharply, creating a more gradual transition in how one feels."),
                 SubjectiveEffect(name: "Oily Skin", description: "A sustained increase in skin oiliness that remains relatively constant rather than spiking and falling."),
             ],
-            halfLifeMinutes: 30240
+            halfLifeMinutes: 60480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Progestogens
@@ -564,7 +580,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Appetite", description: "A heightened desire to eat, sometimes with specific cravings for carbohydrate-rich or comfort foods."),
                 SubjectiveEffect(name: "Dizziness", description: "A mild lightheadedness or spacey feeling, particularly noticeable within the first hour of oral dosing."),
             ],
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -603,7 +620,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Bloating", description: "A full, swollen feeling in the abdomen from water retention, often uncomfortable and persistent."),
                 SubjectiveEffect(name: "Headache", description: "A dull, tension-type headache that can recur regularly, especially in the first weeks of use."),
             ],
-            halfLifeMinutes: 1800
+            halfLifeMinutes: 1800,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -632,7 +650,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Breast Tenderness", description: "A soreness and sensitivity in breast tissue that can range from mild to moderately uncomfortable."),
                 SubjectiveEffect(name: "Fatigue", description: "A gentle but noticeable decrease in energy levels, sometimes accompanied by a desire to sleep more."),
             ],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -661,7 +680,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Breast Tenderness", description: "A swelling and soreness in the breasts that can develop shortly after dosing and persist for days."),
                 SubjectiveEffect(name: "Mood Changes", description: "Emotional volatility including tearfulness, irritability, or anxiety that may develop within days of use."),
             ],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - GnRH Agonists
@@ -693,7 +713,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Brain Fog", description: "A marked cognitive dulling with difficulty concentrating, poor memory recall, and a sense of mental sluggishness."),
                 SubjectiveEffect(name: "Initial Flare", description: "A temporary worsening of symptoms in the first one to two weeks as hormone levels spike before suppression takes effect."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Aromatase Inhibitors
@@ -724,7 +745,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Skin", description: "A noticeable dryness and thinning of the skin as estrogen levels drop, sometimes accompanied by itching."),
                 SubjectiveEffect(name: "Headache", description: "Recurring headaches that may range from mild tension-type to more severe, often developing in the first weeks."),
             ],
-            halfLifeMinutes: 2880
+            halfLifeMinutes: 2880,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -753,7 +775,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A persistent dull headache that may become a recurring feature, often worse in the first weeks of treatment."),
                 SubjectiveEffect(name: "Dizziness", description: "A lightheaded or unsteady sensation that can occur intermittently, especially when changing positions."),
             ],
-            halfLifeMinutes: 2880
+            halfLifeMinutes: 2880,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -782,7 +805,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Changes", description: "Emotional instability that may manifest as depression, anxiety, or a pervasive sense of being emotionally drained."),
                 SubjectiveEffect(name: "Nausea", description: "A mild but recurring stomach upset that some experience, particularly when taking the medication without food."),
             ],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - SERMs and Fertility
@@ -813,7 +837,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Brain Fog", description: "Cognitive difficulties often described as 'chemo brain,' including poor memory, difficulty finding words, and reduced mental clarity."),
                 SubjectiveEffect(name: "Joint Stiffness", description: "A mild to moderate aching and stiffness in the joints, particularly noticeable in the morning upon waking."),
             ],
-            halfLifeMinutes: 7200
+            halfLifeMinutes: 7200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -841,7 +866,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A subtle but persistent tiredness that may make physical activity feel more demanding than usual."),
                 SubjectiveEffect(name: "Sweating", description: "Increased perspiration that goes beyond hot flashes, with a general tendency to sweat more easily."),
             ],
-            halfLifeMinutes: 1920
+            halfLifeMinutes: 1920,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -870,7 +896,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A persistent dull headache that is common during the treatment cycle and may worsen with continued use."),
                 SubjectiveEffect(name: "Ovarian Discomfort", description: "A dull aching or pressure in the pelvic area as the ovaries respond to stimulation, ranging from mild to significant."),
             ],
-            halfLifeMinutes: 7200
+            halfLifeMinutes: 7200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Neurosteroids and Precursors
@@ -901,7 +928,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Odor Changes", description: "A shift in body scent toward a more pungent or musky odor, reflecting increased androgen metabolite production."),
                 SubjectiveEffect(name: "Hair Changes", description: "Potential changes in hair growth patterns, including increased body hair or scalp oiliness."),
             ],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -929,7 +957,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Energy", description: "A mild boost in mental and physical energy that feels more like restored baseline than stimulation."),
                 SubjectiveEffect(name: "Drowsiness", description: "A relaxing, mildly sedating quality at higher doses that can promote sleepiness, especially in the evening."),
             ],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Corticosteroids
@@ -960,7 +989,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep or staying asleep, especially when doses are taken later in the day."),
                 SubjectiveEffect(name: "Anxiety", description: "A jittery, wound-up feeling that can accompany the energy boost, sometimes manifesting as restlessness or racing thoughts."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -989,7 +1019,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Facial Puffiness", description: "A rounding and swelling of the face from fluid retention and fat redistribution, often called 'moon face.'"),
                 SubjectiveEffect(name: "GI Discomfort", description: "Stomach irritation, heartburn, or a gnawing sensation in the upper abdomen, worsened by taking without food."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1017,7 +1048,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A pressure-like headache that can develop if fluid retention or blood pressure increases beyond the intended range."),
                 SubjectiveEffect(name: "Ankle Swelling", description: "Noticeable puffiness in the ankles and lower legs from edema, particularly after prolonged standing."),
             ],
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Anabolic Steroids
@@ -1049,7 +1081,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Appetite", description: "A heightened drive to eat more, supporting the muscle-building process but requiring dietary discipline."),
                 SubjectiveEffect(name: "Improved Recovery", description: "A noticeable reduction in post-workout soreness and faster recovery between training sessions."),
             ],
-            halfLifeMinutes: 8640
+            halfLifeMinutes: 8640,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1078,7 +1111,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Slow Steady Gains", description: "A gradual but consistent increase in lean muscle mass that develops over many weeks due to the long-acting ester."),
                 SubjectiveEffect(name: "Elevated Hematocrit", description: "A sensation of improved oxygen delivery and endurance as red blood cell production increases, but with a feeling of thicker blood."),
             ],
-            halfLifeMinutes: 20160
+            halfLifeMinutes: 20160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1109,7 +1143,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Paranoia", description: "An intrusive, suspicious mindset that can include jealousy, distrust, and obsessive thought patterns."),
                 SubjectiveEffect(name: "Tren Cough", description: "A sudden, violent coughing episode immediately after injection caused by oil entering a blood vessel, lasting one to two minutes."),
             ],
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 2160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1139,7 +1174,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Paranoia", description: "Intrusive suspicious thoughts and jealousy that can intensify over the course of the cycle."),
                 SubjectiveEffect(name: "Mood Instability", description: "Unpredictable emotional swings between confidence and irritability, with potential for anxiety and depressive episodes."),
             ],
-            halfLifeMinutes: 10080
+            halfLifeMinutes: 10080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1168,7 +1204,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Muscle Pumps", description: "An intense, sometimes painful pumping sensation in muscles during exercise, particularly in the lower back and shins."),
                 SubjectiveEffect(name: "Reduced Appetite", description: "A slight suppression of hunger that some notice, making it easier to maintain a caloric deficit."),
             ],
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1197,7 +1234,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Aggression", description: "A shortened temper and heightened competitive drive that can affect mood and interpersonal interactions."),
                 SubjectiveEffect(name: "Muscle Cramps", description: "Sudden, painful cramping in muscles during or after exercise, often in the calves and hamstrings."),
             ],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1227,7 +1265,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Appetite", description: "A powerful hunger drive that makes consuming large amounts of food feel easy and natural."),
                 SubjectiveEffect(name: "Acne", description: "An increase in skin breakouts, particularly on the face, back, and shoulders, due to strong androgenic activity."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1257,7 +1296,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Bloating", description: "Extreme water retention creating a puffy, swollen appearance, particularly in the face and midsection."),
                 SubjectiveEffect(name: "Muscle Pumps", description: "Painful, debilitating pumps during training, particularly in the lower back, that can limit workout duration."),
             ],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1285,7 +1325,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Improved Vascularity", description: "Enhanced vein visibility and a more defined, dry look to the physique."),
                 SubjectiveEffect(name: "Reduced Estrogen Effects", description: "A reduction in estrogen-related side effects when combined with aromatizing compounds, through SHBG binding competition."),
             ],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1314,14 +1355,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Recovery Time", description: "A shortened recovery period between workouts, with less delayed-onset muscle soreness."),
                 SubjectiveEffect(name: "Mild Mood Boost", description: "A gentle improvement in drive and motivation without the intense emotional effects of stronger androgens."),
             ],
-            halfLifeMinutes: 960
+            halfLifeMinutes: 960,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Peptide Hormones and Growth Factors
 
         Substance(
             name: "Insulin",
-            aliases: ["Humalog", "Novolog", "Lantus"],
+            aliases: ["Humalog", "Novolog"],
             category: .other,
             defaultRoute: .subcutaneous,
             routes: [
@@ -1345,7 +1387,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Muscle Fullness", description: "A noticeable increase in muscle volume and fullness as glucose and nutrients are driven into muscle cells."),
                 SubjectiveEffect(name: "Injection Site Reactions", description: "Localized redness, swelling, or lipodystrophy at injection sites with repeated use in the same area."),
             ],
-            halfLifeMinutes: 6
+            halfLifeMinutes: 6,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1375,7 +1418,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Increased Energy", description: "A gradual improvement in overall vitality and recovery, with increased energy and reduced fatigue over weeks."),
                 SubjectiveEffect(name: "Fat Redistribution", description: "A slow reduction in abdominal fat and an overall leaner body composition that develops over months of consistent use."),
             ],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1403,7 +1447,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A tiredness that can follow the hypoglycemic dips, sometimes requiring rest or napping."),
                 SubjectiveEffect(name: "Improved Recovery", description: "A noticeable reduction in post-exercise soreness and faster healing of minor injuries."),
             ],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Thyroid Hormones
@@ -1435,7 +1480,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep due to the stimulatory metabolic effect, particularly with doses taken later in the day."),
                 SubjectiveEffect(name: "Increased Appetite", description: "A paradoxical increase in hunger as metabolism speeds up, requiring discipline to maintain a caloric deficit."),
             ],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Dopamine Agonists
@@ -1467,7 +1513,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Improved Libido", description: "An increase in sexual desire as prolactin levels normalize, often noticed within the first weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
     ]
@@ -1504,7 +1551,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Water Retention", description: "A puffy, bloated feeling from fluid retention, particularly noticeable in the face and extremities with oral use."),
                 SubjectiveEffect(name: "Heart Palpitations", description: "An awareness of the heartbeat that may include occasional racing or skipped beats, more common at higher oral doses."),
             ],
-            halfLifeMinutes: 270
+            halfLifeMinutes: 270,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1534,7 +1582,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Initial Breakout", description: "A temporary worsening of acne in the first weeks before improvement begins, sometimes called a 'purge.'"),
                 SubjectiveEffect(name: "Dry Eyes", description: "A gritty, uncomfortable dryness in the eyes that may make contact lens wear difficult or impossible."),
             ],
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Anti-Inflammatory and Immunomodulatory
@@ -1565,7 +1614,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A general tiredness and weakness that can accompany use, especially at higher doses."),
                 SubjectiveEffect(name: "Muscle Weakness", description: "A subtle weakening of muscle strength that can develop with prolonged use, manifesting as difficulty with physical tasks."),
             ],
-            halfLifeMinutes: 1740
+            halfLifeMinutes: 1740,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1586,7 +1636,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1607,7 +1658,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 28800
+            halfLifeMinutes: 57600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Antibiotics
@@ -1630,7 +1682,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1651,7 +1704,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1672,7 +1726,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1693,7 +1748,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Antifungals and Antivirals
@@ -1716,7 +1772,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1800
+            halfLifeMinutes: 1800,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1737,7 +1794,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Anticoagulants and Antiplatelets
@@ -1760,7 +1818,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 2400
+            halfLifeMinutes: 2400,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1781,7 +1840,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1802,7 +1862,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1823,7 +1884,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Statins
@@ -1846,7 +1908,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1140
+            halfLifeMinutes: 1140,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1867,7 +1930,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 840
+            halfLifeMinutes: 840,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1888,7 +1952,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - GI Medications
@@ -1911,7 +1976,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1932,7 +1998,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 30
+            halfLifeMinutes: 30,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -1953,7 +2020,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1620,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Opioid Antagonists and Addiction Medicine
@@ -1986,7 +2054,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2007,7 +2076,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2028,7 +2098,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 7200
+            halfLifeMinutes: 7200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2049,7 +2120,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2070,7 +2142,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Respiratory
@@ -2093,7 +2166,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2114,7 +2188,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2136,7 +2211,8 @@ extension SubstanceLibrary {
             ],
             effects: [],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 330
+            halfLifeMinutes: 330,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2157,7 +2233,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2179,7 +2256,8 @@ extension SubstanceLibrary {
             ],
             effects: [],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Immunosuppressants
@@ -2202,7 +2280,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2223,7 +2302,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1140
+            halfLifeMinutes: 1140,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2244,7 +2324,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 1020
+            halfLifeMinutes: 1020,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Diabetes and Metabolic
@@ -2267,7 +2348,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2288,7 +2370,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2309,7 +2392,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 780
+            halfLifeMinutes: 780,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - GLP-1 and Weight Management
@@ -2332,7 +2416,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 780
+            halfLifeMinutes: 780,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2353,7 +2438,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 10080
+            halfLifeMinutes: 10080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2374,7 +2460,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 7200
+            halfLifeMinutes: 7200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2395,7 +2482,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Miscellaneous
@@ -2418,7 +2506,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2439,7 +2528,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2460,7 +2550,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         Substance(
@@ -2481,7 +2572,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: [],
-            halfLifeMinutes: 105
+            halfLifeMinutes: 105,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
     ]

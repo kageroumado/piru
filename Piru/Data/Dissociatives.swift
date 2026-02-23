@@ -77,7 +77,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Environmental Unreality", description: "Surroundings appear dreamlike, artificial, or as though viewed through frosted glass, with a sense that the external world is not quite real."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - PCP
@@ -131,7 +132,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Flattening", description: "A blunting of normal emotional responses, where events that would normally provoke fear, sadness, or joy produce little to no emotional reaction."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["PsychonautWiki", "Erowid", "DEA", "StatPearls"]
         ),
 
         // MARK: - 3-MeO-PCP
@@ -175,7 +177,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hole Resistance", description: "Unlike ketamine, higher doses tend to produce mania and psychosis rather than a traditional dissociative hole, with users remaining ambulatory."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 3-HO-PCP
@@ -219,7 +222,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pain Dissolution", description: "Physical pain becomes distant and irrelevant, as if it belongs to someone else, with strong analgesic effects lasting well beyond the main experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 3-MeO-PCE
@@ -263,7 +267,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Residual Stimulation", description: "A long-lasting afterglow of mental stimulation that can persist well after the primary dissociative effects have subsided, sometimes interfering with sleep."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 3-HO-PCE
@@ -307,7 +312,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiolytic Afterglow", description: "A lingering sense of calm and reduced anxiety that persists for hours to days after the primary effects have worn off."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - O-PCE
@@ -351,7 +357,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Long Duration", description: "Effects last significantly longer than ketamine, with residual dissociation and cognitive effects persisting for many hours after dosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - MXE
@@ -406,14 +413,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Afterglow", description: "A positive mood lift and cognitive enhancement that can persist for days after the experience, often described as a lasting antidepressant effect."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - MXiPr
 
         Substance(
             name: "MXiPr",
-            aliases: ["Methoxisopropamine", "MXiPr"],
+            aliases: ["Methoxisopropylamine", "MXiPr"],
             category: .dissociative,
             defaultRoute: .insufflation,
             routes: [
@@ -450,7 +458,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Slowing", description: "Thought processes decelerate in a relaxing way, with a reduced sense of urgency and a peaceful mental quiet."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - MXPr
@@ -494,7 +503,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Nausea", description: "A common queasy feeling during the onset phase that typically resolves once the peak effects establish themselves."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - DMXE
@@ -538,7 +548,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Residual Wakefulness", description: "Difficulty sleeping for many hours after the primary effects subside due to lingering stimulation and mental activation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - FXE
@@ -582,7 +593,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Fog", description: "A progressive mental fogginess at higher doses where forming coherent thoughts becomes difficult and attention fragments."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 2-FDCK
@@ -626,7 +638,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Subtle Euphoria", description: "A mild, pleasant mood lift that is less intense than ketamine but persists throughout the duration of effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - DCK
@@ -670,7 +683,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Residual Dissociation", description: "A lingering sense of detachment and cognitive fog that can persist for a day or more after heavy use."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - HXE
@@ -714,7 +728,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Caution", description: "Like 3-HO-PCP, the opioid activity carries a risk of respiratory depression, particularly when combined with other depressant substances."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Diphenidine
@@ -748,7 +763,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Long Onset", description: "A notably slow onset when taken orally, sometimes taking over an hour to reach full effects, which can lead to dangerous premature redosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Ephenidine
@@ -782,7 +798,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Slow Onset Danger", description: "A very gradual onset that can take 1-2 hours to fully manifest, creating a significant risk of impatient redosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - MXP
@@ -816,7 +833,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Duration", description: "Long-lasting effects that can persist for many hours, with a gradual and sometimes incomplete feeling return to baseline."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 2-MDP
@@ -850,14 +868,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Speech Deterioration", description: "Progressive slurring and difficulty producing coherent speech as the dose increases and effects deepen."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Tiletamine
 
         Substance(
             name: "Tiletamine",
-            aliases: ["Telazol"],
+            aliases: ["Tiletamine"],
             category: .dissociative,
             defaultRoute: .intramuscular,
             routes: [
@@ -884,7 +903,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emergence Delirium", description: "A period of intense confusion, agitation, and hallucination that can occur when regaining awareness, a well-documented phenomenon in clinical settings."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Other Dissociatives
@@ -921,7 +941,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea and Vomiting", description: "Prominent gastrointestinal distress, especially during onset, which is exacerbated by inactive ingredients in many OTC formulations."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "Drugs.com", "PubMed"]
         ),
 
         // MARK: - Nitrous Oxide
@@ -956,7 +977,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Rapid Return to Baseline", description: "Effects dissipate almost completely within 1-5 minutes, with full sobriety returning remarkably quickly after cessation of inhalation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 3, buildRate: "rapid"),
-            halfLifeMinutes: 5
+            halfLifeMinutes: 5,
+            sources: ["PsychonautWiki", "Erowid", "Drugs.com", "PubMed"]
         ),
 
         // MARK: - Memantine
@@ -990,7 +1012,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Functional Disconnection", description: "The ability to remain outwardly functional while experiencing an internal sense of subtle unreality and detachment that persists for days."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 4200
+            halfLifeMinutes: 4200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki", "PubMed"]
         ),
 
         // MARK: - Salvia divinorum
@@ -1035,7 +1058,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dysphoric Terror", description: "Unlike most dissociatives, the experience is frequently described as deeply uncomfortable, frightening, or existentially threatening rather than pleasurable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 3, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Ibogaine
@@ -1070,7 +1094,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Recovery", description: "A prolonged recovery period of several days following the acute experience, with lingering fatigue, introspection, and sensitivity to stimulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 2160,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Xenon
@@ -1104,7 +1129,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Neuroprotective Profile", description: "Unlike most NMDA antagonists, xenon is considered neuroprotective rather than neurotoxic, and does not produce the concerning Olney's lesions seen with other dissociatives."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 3, buildRate: "rapid"),
-            halfLifeMinutes: 5
+            halfLifeMinutes: 5,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Dizocilpine
@@ -1138,7 +1164,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Research Chemical Danger", description: "Primarily a research tool not intended for human consumption, with extremely limited human experience data and a narrow margin between active and dangerous doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
     ]
 }

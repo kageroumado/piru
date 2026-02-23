@@ -59,8 +59,20 @@ struct EntryDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit") {
-                    showingEditForm = true
+                HStack(spacing: 12) {
+                    if substanceState != nil {
+                        Button {
+                            LiveActivityManager.shared.restartFromEntries(
+                                [entry],
+                                allColors: Array(substanceColors)
+                            )
+                        } label: {
+                            Image(systemName: "bolt.heart.fill")
+                        }
+                    }
+                    Button("Edit") {
+                        showingEditForm = true
+                    }
                 }
             }
         }

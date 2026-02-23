@@ -35,7 +35,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Mild to moderate stomach discomfort typically occurs during the onset, sometimes accompanied by a heavy feeling in the gut."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 100,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 2. Psilocin (4-HO-DMT)
@@ -68,7 +69,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gastrointestinal Discomfort", description: "Nausea and stomach cramping are common during the come-up, though typically less intense than with whole mushrooms."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 108
+            halfLifeMinutes: 108,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 3. DMT (N,N-DMT)
@@ -111,8 +113,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Profound Awe", description: "An overwhelming sense of wonder, sacredness, or cosmic significance that can leave lasting impressions on one's worldview."),
                 SubjectiveEffect(name: "Rapid Return to Baseline", description: "Effects dissipate remarkably quickly when smoked, with near-complete sobriety returning within 15-30 minutes."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 15
+            toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 2, buildRate: "rapid"),
+            halfLifeMinutes: 15,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 4. 5-MeO-DMT (Toad)
@@ -156,7 +159,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Afterglow Clarity", description: "A lasting sense of peace, gratitude, and emotional openness that can persist for days or weeks following the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 16
+            halfLifeMinutes: 16,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 5. 4-AcO-DMT (Psilacetin)
@@ -199,7 +203,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Contemplative Headspace", description: "A deeply thoughtful mental state that naturally gravitates toward philosophical questions and personal insight."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 100,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 6. 4-HO-MET (Metocin)
@@ -242,7 +247,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Music Enhancement", description: "Music sounds richer and more emotionally resonant, with individual instruments becoming more distinct and spatially defined."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 7. 4-AcO-MET (Metacetin)
@@ -285,7 +291,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Enhanced Sociability", description: "A desire to connect with others and share the experience, with conversations feeling fluid, funny, and meaningful."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 8. 4-HO-MiPT (Miprocin)
@@ -318,7 +325,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Moderate Nausea", description: "Stomach discomfort is common during the onset but typically resolves as the experience progresses into the peak."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 9. 4-HO-DiPT (Iprocin)
@@ -351,7 +359,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Intensity", description: "Emotions become amplified and can swing between euphoria and challenging introspective states with notable force."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 10. 4-HO-DET (Ethocin)
@@ -384,7 +393,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Nausea", description: "Some stomach discomfort may occur during the onset, though it is generally mild and short-lived compared to other tryptamines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 11. 4-HO-EPT (Eprocin)
@@ -417,7 +427,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Manageable Nausea", description: "Mild stomach discomfort may occur but is generally brief and does not significantly detract from the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 12. 4-AcO-DET (Ethacetin)
@@ -450,7 +461,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Calming Relaxation", description: "A soothing quality that encourages letting go of tension and anxiety, promoting a peaceful state of mind."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 13. 4-HO-DPT
@@ -483,7 +495,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety and Unease", description: "A sense of foreboding or anxious energy that can permeate the experience, particularly during the come-up and peak."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 14. 4-HO-McPT
@@ -516,7 +529,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Gastrointestinal Effects", description: "Some nausea may occur, consistent with the 4-HO tryptamine class, but typically mild and transient."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 15. 5-MeO-MiPT (Moxy)
@@ -549,7 +563,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea on Come-Up", description: "Stomach discomfort during onset is common and can be pronounced, sometimes accompanied by general body tension."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 16. 5-MeO-DiPT (Foxy)
@@ -582,7 +597,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Time Stretching", description: "Time perception becomes distorted, with the experience feeling significantly longer than its actual clock duration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 17. 5-MeO-DALT
@@ -615,7 +631,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Short to Moderate Duration", description: "The experience tends to be shorter than many oral tryptamines, making it more manageable for those seeking briefer effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 18. 5-MeO-MALT
@@ -648,7 +665,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Gastrointestinal discomfort is commonly reported, consistent with many 5-MeO substituted tryptamines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 19. DPT (Dipropyltryptamine)
@@ -702,7 +720,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Powerful Nausea", description: "Gastrointestinal distress is commonly reported and can be severe, especially when taken orally or insufflated."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 20. DiPT (Diisopropyltryptamine)
@@ -735,7 +754,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Unsettling Quality", description: "Many users find the auditory distortions disturbing rather than pleasant, giving the experience an eerie, alienating character."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 21. MiPT
@@ -768,7 +788,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Color Enhancement", description: "Colors appear slightly more vivid and appealing, adding a warm quality to the visual environment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 22. MET (Methylethyltryptamine)
@@ -801,7 +822,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Manageable Nausea", description: "Mild gastrointestinal effects may occur, particularly during the come-up phase, but are generally tolerable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 23. EPT (N-Ethyl-N-propyltryptamine)
@@ -834,7 +856,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Understudied Profile", description: "As a rare base tryptamine, the subjective experience is not well documented and individual responses may vary significantly."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 24. MPT (N-Methyl-N-propyltryptamine)
@@ -867,7 +890,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Moderate Nausea", description: "Some gastrointestinal discomfort may occur, particularly during onset, but typically resolves as the experience develops."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 25. DALT (N,N-Diallyltryptamine)
@@ -900,7 +924,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea at High Doses", description: "Due to the high doses required, gastrointestinal discomfort from the volume of material consumed is a common complaint."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 26. AMT (Alpha-methyltryptamine)
@@ -923,7 +948,7 @@ extension SubstanceLibrary {
             ],
             effects: ["Visual hallucinations", "Euphoria", "Stimulation", "Empathogenic effects", "Nausea", "Time distortion", "Introspection", "Long duration", "Insomnia", "Increased heart rate"],
             subjectiveEffects: [
-                SubjectiveEffect(name: "Stimulating Energy", description: "A pronounced stimulant quality that provides physical energy, wakefulness, and motivation, reflecting AMT's MAOI activity."),
+                SubjectiveEffect(name: "Stimulating Energy", description: "A pronounced stimulant quality that provides physical energy, wakefulness, and motivation, reflecting AMT's monoamine releasing properties."),
                 SubjectiveEffect(name: "Empathogenic Warmth", description: "Strong feelings of emotional openness, love, and social connection that have drawn comparisons to MDMA."),
                 SubjectiveEffect(name: "Extended Duration", description: "The experience lasts exceptionally long, often 12-16 hours or more, requiring significant time commitment and planning."),
                 SubjectiveEffect(name: "Progressive Visuals", description: "Visual effects build slowly over hours, eventually producing vivid color enhancement, morphing, and geometric patterns at higher doses."),
@@ -934,7 +959,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Deep Introspection", description: "Extended periods of deep self-reflection are facilitated by the long duration, often yielding significant personal insights."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 27. AET (Alpha-ethyltryptamine)
@@ -967,7 +993,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Residual Stimulation", description: "Lingering wakefulness and energy that can persist well after the primary psychedelic effects have faded."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 28. Bufotenin (5-HO-DMT)
@@ -1010,7 +1037,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety and Discomfort", description: "The combination of chest tightness, facial flushing, and nausea often creates significant anxiety about physical safety."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 30
+            halfLifeMinutes: 30,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 30. 5-MeO-TMT
@@ -1043,7 +1071,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Warmth", description: "A gentle emotional softening that fosters feelings of comfort and appreciation without dramatic shifts."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 31. 4-HO-MPT
@@ -1076,7 +1105,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Gastrointestinal Effects", description: "Some nausea may occur during the come-up but is typically manageable and short-lived."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 32. 4-AcO-MiPT
@@ -1109,7 +1139,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Moderate Nausea", description: "Some gastrointestinal discomfort during the onset phase, though it tends to resolve as the experience progresses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 33. 4-AcO-DiPT
@@ -1142,7 +1173,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gastrointestinal Effects", description: "Nausea and stomach discomfort are common during the come-up, consistent with acetoxy tryptamine prodrugs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 34. 4-AcO-EPT
@@ -1175,7 +1207,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Nausea", description: "Some gastrointestinal discomfort may occur but is generally brief and manageable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 35. 5-MeO-DET
@@ -1208,7 +1241,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Potent at Low Doses", description: "Like other 5-MeO tryptamines, effects can be strong at relatively low milligram doses, requiring careful measurement."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 36. 5-MeO-EPT
@@ -1241,7 +1275,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Potential Nausea", description: "Gastrointestinal discomfort is likely given the 5-MeO substitution pattern."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 36.5. Ayahuasca
@@ -1277,7 +1312,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "MAOI Interaction Sensitivity", description: "The harmine and harmaline MAOIs in the brew create dangerous interactions with tyramine-rich foods, serotonergic drugs, and many medications, requiring strict dietary and pharmacological preparation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 37. 5-MeO-MET
@@ -1310,7 +1346,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Gastrointestinal discomfort is commonly reported, consistent with the 5-MeO tryptamine class."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "TiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - 38. MALT (N-Methyl-N-allyltryptamine)
@@ -1343,7 +1380,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Nausea", description: "Some gastrointestinal discomfort may occur but is generally brief and not prominent at moderate doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
     ]

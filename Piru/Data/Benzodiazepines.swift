@@ -46,7 +46,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Flattening", description: "At higher doses, an indifference to emotional stimuli where nothing feels particularly upsetting or exciting."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 672,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Diazepam
@@ -100,7 +101,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Memory Gaps", description: "Anterograde amnesia where new memories are not properly formed, leading to gaps in recall of events during peak effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2880
+            halfLifeMinutes: 2880,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Clonazepam
@@ -144,7 +146,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Memory formation difficulties that are dose-dependent, with higher doses causing more significant gaps in recall."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 2280
+            halfLifeMinutes: 2280,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Lorazepam
@@ -198,7 +201,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Steady State", description: "Due to its intermediate half-life and lack of active metabolites, produces a predictable, stable effect profile without accumulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Midazolam
@@ -262,7 +266,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Dose-dependent suppression of breathing that requires monitoring in clinical settings, particularly with IV administration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Temazepam
@@ -296,7 +301,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor Impairment", description: "Reduced coordination and balance that can make walking difficult, especially combined with the sedation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 690
+            halfLifeMinutes: 690,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Triazolam
@@ -340,7 +346,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Short Duration", description: "Effects wear off within 2-4 hours, which minimizes next-day grogginess but can lead to early-morning awakening."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Oxazepam
@@ -369,12 +376,13 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Blunting", description: "A dampening of emotional responses that can be helpful for anxiety but may feel flat and emotionless at higher doses."),
                 SubjectiveEffect(name: "Mild Sedation", description: "Gentle drowsiness that is less overwhelming than more potent benzodiazepines, allowing functional use during the day."),
                 SubjectiveEffect(name: "Muscle Relaxation", description: "Moderate physical relaxation with reduced muscle tension, though less pronounced than diazepam."),
-                SubjectiveEffect(name: "Slow Onset", description: "Effects take longer to develop than most benzodiazepines due to the need for hepatic conversion to active metabolites."),
+                SubjectiveEffect(name: "Slow Onset", description: "Effects take longer to develop than most benzodiazepines due to slow absorption from the GI tract."),
                 SubjectiveEffect(name: "Disinhibition", description: "Subtle lowering of social barriers without the euphoric push of more potent benzodiazepines."),
                 SubjectiveEffect(name: "Motor Impairment", description: "Mild coordination decrease that is less pronounced than with faster-acting agents."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Flurazepam
@@ -408,7 +416,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Drowsiness", description: "A deep, heavy sleepiness that makes staying awake a struggle during peak effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2880
+            halfLifeMinutes: 2880,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Chlordiazepoxide
@@ -442,7 +451,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Mild memory impairment at higher doses, less pronounced than with more potent amnesia-producing benzodiazepines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Clobazam
@@ -475,8 +485,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor Impairment", description: "Slight coordination decrease that is less problematic than with more sedating agents."),
                 SubjectiveEffect(name: "Amnesia", description: "Minimal memory impairment at therapeutic doses, less amnestic than many other benzodiazepines."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1080
+            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
+            halfLifeMinutes: 2280,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Nitrazepam
@@ -510,7 +521,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Disinhibition", description: "Lowered behavioral control during the pre-sleep window, sometimes leading to unusual behavior with no memory the next day."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Bromazepam
@@ -544,7 +556,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Moderate memory impairment at higher doses, with gaps in recall for events during peak effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Flunitrazepam
@@ -578,7 +591,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Vulnerability", description: "The combination of amnesia, disinhibition, and sedation creates a uniquely dangerous state of suggestibility and vulnerability."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Nordazepam
@@ -612,7 +626,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Mild memory difficulties at higher doses, less pronounced than with more potent amnestic benzodiazepines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 3600
+            halfLifeMinutes: 3600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Prazepam
@@ -646,7 +661,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Mild memory effects that are less prominent than with faster-acting, more potent benzodiazepines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Quazepam
@@ -680,7 +696,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Drowsiness", description: "A heavy, persistent sleepiness that is the primary desired effect for insomnia treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2400
+            halfLifeMinutes: 2400,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Estazolam
@@ -714,7 +731,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Disinhibition", description: "Brief period of lowered inhibitions before sleep overtakes, potentially leading to unusual pre-sleep behavior."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Halazepam
@@ -748,7 +766,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Mild anterograde memory effects that are less pronounced than with more potent agents."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 840
+            halfLifeMinutes: 840,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Lormetazepam
@@ -782,7 +801,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Disinhibition", description: "Brief lowering of inhibitions before sleep onset, potentially leading to unusual behavior."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Medazepam
@@ -816,7 +836,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Minimal memory impairment at therapeutic doses, contributing to its favorable side-effect profile for daytime use."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2160
+            halfLifeMinutes: 2160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Clorazepate
@@ -850,7 +871,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Amnesia", description: "Moderate anterograde memory impairment that is dose-dependent and more noticeable at higher doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2880
+            halfLifeMinutes: 2880,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Cinolazepam
@@ -884,7 +906,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Moderate Duration", description: "Intermediate duration that generally maintains sleep through the night without excessive morning carryover."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: Nimetazepam
@@ -918,7 +941,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor Impairment", description: "Severe coordination loss with slurred speech and unsteady gait at moderate to high doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Novel / Designer Benzodiazepines
@@ -964,7 +988,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Drowsiness", description: "Moderate sedation that increases with dose, transitioning from mild relaxation to genuine sleepiness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 204,
+            sources: ["PsychonautWiki", "DrugBank", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Flualprazolam
@@ -998,7 +1023,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Notable breathing suppression that is more significant than with most classical benzodiazepines, increasing overdose risk."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Clonazolam
@@ -1022,7 +1048,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Amnesia", "Sedation", "Euphoria", "Anxiolysis", "Muscle relaxation", "Disinhibition", "Motor impairment", "Drowsiness", "Respiratory depression", "Blackouts"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Flubromazolam
@@ -1046,7 +1073,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Amnesia", "Sedation", "Muscle relaxation", "Anxiolysis", "Euphoria", "Disinhibition", "Motor impairment", "Drowsiness", "Respiratory depression", "Blackouts"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Pyrazolam
@@ -1070,7 +1098,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiolysis", "Muscle relaxation", "Disinhibition", "Motor impairment", "Amnesia", "Drowsiness", "Sedation", "Emotional blunting"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1020
+            halfLifeMinutes: 1020,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Nifoxipam
@@ -1094,7 +1123,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Anxiolysis", "Muscle relaxation", "Drowsiness", "Amnesia", "Motor impairment", "Disinhibition", "Anticonvulsant"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Diclazepam
@@ -1118,7 +1148,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiolysis", "Sedation", "Muscle relaxation", "Amnesia", "Disinhibition", "Drowsiness", "Motor impairment", "Anticonvulsant", "Euphoria"],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2520
+            halfLifeMinutes: 2520,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Meclonazepam
@@ -1142,7 +1173,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiolysis", "Sedation", "Muscle relaxation", "Drowsiness", "Amnesia", "Disinhibition", "Motor impairment", "Anticonvulsant"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Flubromazepam
@@ -1166,7 +1198,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Anxiolysis", "Muscle relaxation", "Amnesia", "Drowsiness", "Disinhibition", "Motor impairment", "Anticonvulsant", "Residual grogginess"],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 6360
+            halfLifeMinutes: 6360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Deschloroetizolam
@@ -1190,7 +1223,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiolysis", "Sedation", "Muscle relaxation", "Euphoria", "Disinhibition", "Drowsiness", "Amnesia", "Motor impairment"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Metizolam
@@ -1214,7 +1248,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiolysis", "Sedation", "Muscle relaxation", "Disinhibition", "Euphoria", "Drowsiness", "Amnesia", "Motor impairment"],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 200
+            halfLifeMinutes: 200,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Norflurazepam
@@ -1238,7 +1273,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Anxiolysis", "Muscle relaxation", "Drowsiness", "Amnesia", "Motor impairment", "Disinhibition", "Residual grogginess"],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 4320
+            halfLifeMinutes: 4320,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Bromazolam
@@ -1262,7 +1298,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Anxiolysis", "Euphoria", "Muscle relaxation", "Amnesia", "Disinhibition", "Motor impairment", "Drowsiness", "Blackouts"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Flunitrazolam
@@ -1286,7 +1323,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Amnesia", "Sedation", "Anxiolysis", "Muscle relaxation", "Euphoria", "Disinhibition", "Motor impairment", "Drowsiness", "Sleep induction", "Blackouts"],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Nitrazolam
@@ -1310,7 +1348,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Anxiolysis", "Sleep induction", "Muscle relaxation", "Amnesia", "Drowsiness", "Motor impairment", "Disinhibition"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: Phenazepam
@@ -1334,7 +1373,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Sedation", "Amnesia", "Anxiolysis", "Muscle relaxation", "Disinhibition", "Motor impairment", "Drowsiness", "Blackouts", "Anticonvulsant", "Respiratory depression"],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 3600
+            halfLifeMinutes: 3600,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
     ]
 }

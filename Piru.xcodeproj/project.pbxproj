@@ -43,6 +43,7 @@
 		A10031 /* SubstanceSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10031 /* SubstanceSearchField.swift */; };
 		A10032 /* HormonesAndMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10032 /* HormonesAndMore.swift */; };
 		A10070 /* Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* Interactions.swift */; };
+		A10098 /* AppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* AppSources.swift */; };
 		A10033 /* SubstanceLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10033 /* SubstanceLibraryView.swift */; };
 		A10075 /* InteractionCheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10075 /* InteractionCheckerView.swift */; };
 		A10034 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10034 /* DayDetailView.swift */; };
@@ -148,6 +149,7 @@
 		B10031 /* SubstanceSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceSearchField.swift; sourceTree = "<group>"; };
 		B10032 /* HormonesAndMore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesAndMore.swift; sourceTree = "<group>"; };
 		B10055 /* Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactions.swift; sourceTree = "<group>"; };
+		B10098 /* AppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSources.swift; sourceTree = "<group>"; };
 		B10033 /* SubstanceLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibraryView.swift; sourceTree = "<group>"; };
 		B10075 /* InteractionCheckerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionCheckerView.swift; sourceTree = "<group>"; };
 		B10034 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				B10029 /* Supplements.swift */,
 				B10032 /* HormonesAndMore.swift */,
 				B10055 /* Interactions.swift */,
+				B10098 /* AppSources.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				A10031 /* SubstanceSearchField.swift in Sources */,
 				A10032 /* HormonesAndMore.swift in Sources */,
 				A10070 /* Interactions.swift in Sources */,
+				A10098 /* AppSources.swift in Sources */,
 				A10033 /* SubstanceLibraryView.swift in Sources */,
 				A10034 /* DayDetailView.swift in Sources */,
 				A10035 /* SubstanceColor.swift in Sources */,

@@ -36,7 +36,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspection", description: "A natural pull toward examining one's inner world, memories, and emotional patterns with an unusual sense of honesty and perspective."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 4-AcO-DALT
@@ -70,7 +71,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A moderate stomach discomfort during the onset that is common with diallyltryptamines and may persist longer than with other analogs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 5-Cl-AMT
@@ -105,75 +107,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A stomach discomfort during the onset that can be more pronounced than with simpler tryptamines, potentially requiring anti-nausea preparation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 480
-        ),
-
-        // MARK: O-Acetylbufotenin
-
-        Substance(
-            name: "O-Acetylbufotenin",
-            aliases: ["5-AcO-DMT-analog", "Acetylbufotenine"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...20, common: 20...35, strong: 35...50, heavy: 50
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 45),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 60, max: 120),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 60, max: 360),
-                    total: TimeRange(min: 180, max: 360)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Euphoria", "Time distortion", "Introspection", "Color enhancement", "Nausea", "Body load", "Emotional enhancement", "Thought connectivity"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Visual Hallucinations", description: "Psilocin-like visual distortions including flowing surfaces, enhanced textures, and colorful geometric patterns typical of 4-hydroxy tryptamines."),
-                SubjectiveEffect(name: "Euphoria", description: "A gentle, warm sense of well-being and contentment characteristic of bufotenin analogs, with a distinctly organic and earthy quality."),
-                SubjectiveEffect(name: "Emotional Enhancement", description: "An amplification of emotional depth where feelings become more vivid and textured, allowing for deeper emotional processing."),
-                SubjectiveEffect(name: "Thought Connectivity", description: "An increase in associative thinking where ideas link together in unexpected but often insightful chains of meaning and connection."),
-                SubjectiveEffect(name: "Color Enhancement", description: "A vivid intensification of colors that makes the visual world appear extraordinarily beautiful and luminous."),
-                SubjectiveEffect(name: "Time Distortion", description: "An altered sense of time passage where the experience can feel much longer or shorter than actual elapsed time."),
-                SubjectiveEffect(name: "Introspection", description: "A natural inward focus that encourages examination of personal patterns, memories, and emotional states with gentle clarity."),
-                SubjectiveEffect(name: "Nausea", description: "A common onset-phase stomach discomfort that tends to resolve as the psychedelic effects fully develop."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 30
-        ),
-
-        // MARK: 4-HO-DSBT
-
-        Substance(
-            name: "4-HO-DSBT",
-            aliases: ["4-Hydroxy-N,N-di-sec-butyltryptamine"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...20, common: 20...35, strong: 35...50, heavy: 50
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 50),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 60, max: 120),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 60, max: 360),
-                    total: TimeRange(min: 210, max: 420)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Euphoria", "Time distortion", "Introspection", "Geometric visual patterns", "Nausea", "Body load", "Sedation", "Color enhancement"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Sedation", description: "A notable calming and relaxing quality that distinguishes this tryptamine from more stimulating analogs, creating a dreamy, laid-back headspace."),
-                SubjectiveEffect(name: "Geometric Visual Patterns", description: "Complex, interlocking geometric shapes visible with eyes open and closed, often with an organic, flowing quality typical of 4-hydroxy tryptamines."),
-                SubjectiveEffect(name: "Euphoria", description: "A mellow, warm sense of pleasure and contentment that feels deeply peaceful rather than energetically exciting."),
-                SubjectiveEffect(name: "Introspection", description: "A contemplative mental state that encourages gentle self-reflection without the forceful emotional confrontation of stronger psychedelics."),
-                SubjectiveEffect(name: "Color Enhancement", description: "An enrichment of visual color where hues become deeper, more vibrant, and emotionally resonant."),
-                SubjectiveEffect(name: "Time Distortion", description: "A slowing and stretching of perceived time that makes the experience feel spacious and unhurried."),
-                SubjectiveEffect(name: "Body Load", description: "A physical heaviness and potential stomach discomfort that can ground the experience in bodily awareness."),
-                SubjectiveEffect(name: "Nausea", description: "A stomach queasiness common during the onset phase of 4-hydroxy tryptamines, typically fading as effects plateau."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 5-MeO-EIPT
@@ -207,41 +142,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A notable stomach discomfort during onset that can be more pronounced with 5-MeO tryptamines than their 4-substituted counterparts."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 60
-        ),
-
-        // MARK: 5-MeO-NIPT
-
-        Substance(
-            name: "5-MeO-NIPT",
-            aliases: ["5-Methoxy-N-isopropyl-N-propyltryptamine"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 3, light: 5...10, common: 10...18, strong: 18...25, heavy: 25
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 15, max: 40),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 60, max: 120),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 60, max: 300),
-                    total: TimeRange(min: 180, max: 360)
-                )),
-            ],
-            effects: ["Ego dissolution", "Visual hallucinations", "Euphoria", "Time distortion", "Nausea", "Body load", "Anxiety", "Introspection", "Physical euphoria", "Perspective shifts"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Ego Dissolution", description: "A 5-MeO tryptamine-class dissolution of self-boundaries that can range from gentle loosening of identity to total loss of the sense of being a separate self."),
-                SubjectiveEffect(name: "Physical Euphoria", description: "A deep, resonating bodily pleasure characteristic of 5-MeO tryptamines, often described as a vibrating or humming sensation of pure well-being."),
-                SubjectiveEffect(name: "Introspection", description: "A natural inward turn of awareness that combines the ego-dissolving qualities of 5-MeO compounds with a contemplative, examining quality."),
-                SubjectiveEffect(name: "Perspective Shifts", description: "Sudden reframings of how one views one's life, relationships, and place in the world that can feel permanently transformative."),
-                SubjectiveEffect(name: "Visual Hallucinations", description: "Visual effects ranging from subtle enhancements to immersive visionary experiences, with a character somewhat different from 4-substituted tryptamines."),
-                SubjectiveEffect(name: "Anxiety", description: "An intense unease that commonly accompanies the rapid onset and powerful ego dissolution, particularly for unprepared users."),
-                SubjectiveEffect(name: "Body Load", description: "A physical weight and tension that can be significant, sometimes described as feeling pressed into the ground or pulled in multiple directions."),
-                SubjectiveEffect(name: "Nausea", description: "A stomach discomfort during onset that can be considerable with 5-MeO compounds and may benefit from fasting beforehand."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 4-Pro-DMT
@@ -275,41 +177,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "A physical heaviness and potential tension that grounds the experience in bodily awareness, sometimes with stomach discomfort."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 150
-        ),
-
-        // MARK: MCPT
-
-        Substance(
-            name: "MCPT",
-            aliases: ["N-Methyl-N-cyclopropyltryptamine"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...20, common: 20...35, strong: 35...50, heavy: 50
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 45),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 60, max: 120),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 60, max: 300),
-                    total: TimeRange(min: 180, max: 360)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Euphoria", "Time distortion", "Introspection", "Color enhancement", "Nausea", "Body load", "Thought connectivity", "Pattern recognition enhancement"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Visual Hallucinations", description: "Flowing, colorful visual distortions with a character similar to 4-HO-McPT, featuring organic patterning and enhanced textures on surfaces."),
-                SubjectiveEffect(name: "Pattern Recognition Enhancement", description: "A heightened ability to perceive meaningful patterns in visual noise and textures, with fractal-like structures appearing in natural surfaces."),
-                SubjectiveEffect(name: "Thought Connectivity", description: "An enhanced linking of ideas and concepts that creates novel associations, fostering creative thinking and conceptual exploration."),
-                SubjectiveEffect(name: "Euphoria", description: "A warm, contented sense of pleasure characteristic of base tryptamines, providing an emotionally positive foundation for the experience."),
-                SubjectiveEffect(name: "Color Enhancement", description: "A noticeable intensification of color perception that makes the visual environment feel more vivid and aesthetically rich."),
-                SubjectiveEffect(name: "Introspection", description: "A tendency toward thoughtful self-examination that can yield insights about personal habits, relationships, and thought patterns."),
-                SubjectiveEffect(name: "Time Distortion", description: "An altered perception of time passing where minutes may feel like extended periods of rich experience."),
-                SubjectiveEffect(name: "Body Load", description: "A physical heaviness and potential digestive discomfort typical of tryptamine compounds, varying in intensity with dose."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - NBOHs
@@ -345,7 +214,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "A heavy physical tension and discomfort that can include muscle cramping, stomach pain, and cardiovascular awareness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Phenethylamines
@@ -381,41 +251,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A stomach discomfort during onset common with phenethylamine psychedelics, sometimes accompanied by body load."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
-        ),
-
-        // MARK: 2C-B-CB
-
-        Substance(
-            name: "2C-B-CB",
-            aliases: ["2C-B-cyclobenzyl"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 10, light: 20...35, common: 35...55, strong: 55...80, heavy: 80
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 60),
-                    comeup: TimeRange(min: 15, max: 45),
-                    peak: TimeRange(min: 90, max: 180),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 120, max: 360),
-                    total: TimeRange(min: 240, max: 480)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Color enhancement", "Euphoria", "Body high", "Nausea", "Time distortion", "Empathogenic effects", "Tactile enhancement", "Geometric visual patterns"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Visual Hallucinations", description: "2C-B-like visual effects with geometric patterning and flowing surfaces, potentially with unique characteristics from the cyclobenzyl substitution."),
-                SubjectiveEffect(name: "Geometric Visual Patterns", description: "Intricate geometric shapes and patterns overlaying visual surfaces, characteristic of the 2C-x phenethylamine class."),
-                SubjectiveEffect(name: "Empathogenic Effects", description: "A warm sense of emotional connection and openness typical of the 2C-B family, fostering feelings of closeness and understanding."),
-                SubjectiveEffect(name: "Tactile Enhancement", description: "An amplified sensitivity to physical sensation where touch becomes extraordinarily pleasurable and textured surfaces feel fascinating."),
-                SubjectiveEffect(name: "Body High", description: "A pleasurable tingling warmth spreading through the body that enhances physical awareness and can feel deeply satisfying."),
-                SubjectiveEffect(name: "Color Enhancement", description: "A marked intensification of color vibrancy that gives the visual world an unusually rich and beautiful quality."),
-                SubjectiveEffect(name: "Euphoria", description: "A moderate, warm mood elevation combining psychedelic awe with empathogenic emotional warmth."),
-                SubjectiveEffect(name: "Nausea", description: "A stomach discomfort during the onset phase common to phenethylamine psychedelics, varying in severity by individual."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: 2C-G
@@ -449,7 +286,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A persistent stomach discomfort that may recur throughout the extended experience rather than resolving after onset as with shorter psychedelics."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed", "PiHKAL"]
         ),
 
         // MARK: 2C-N
@@ -483,41 +321,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A stomach queasiness during onset that is common across the phenethylamine psychedelic class."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
-        ),
-
-        // MARK: 2C-O-4
-
-        Substance(
-            name: "2C-O-4",
-            aliases: ["2,5-Dimethoxy-4-methoxyphenethylamine"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 10, light: 20...40, common: 40...60, strong: 60...80, heavy: 80
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 60),
-                    comeup: TimeRange(min: 15, max: 45),
-                    peak: TimeRange(min: 90, max: 180),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 120, max: 360),
-                    total: TimeRange(min: 240, max: 480)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Color enhancement", "Euphoria", "Introspection", "Nausea", "Body load", "Time distortion", "Geometric visual patterns", "Thought connectivity"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Visual Hallucinations", description: "Flowing, colorful visual distortions with geometric patterning characteristic of 2C-x compounds, developing gradually over the onset."),
-                SubjectiveEffect(name: "Geometric Visual Patterns", description: "Intricate, symmetrical geometric overlays on visual surfaces that can become increasingly complex with dose."),
-                SubjectiveEffect(name: "Color Enhancement", description: "A vivid intensification of color perception that makes the environment appear richly chromatic and aesthetically beautiful."),
-                SubjectiveEffect(name: "Thought Connectivity", description: "Enhanced associative thinking that links concepts in creative and unexpected ways, supporting contemplation and insight."),
-                SubjectiveEffect(name: "Euphoria", description: "A moderate, warm mood elevation that provides a positive emotional foundation for the psychedelic experience."),
-                SubjectiveEffect(name: "Introspection", description: "A contemplative quality that encourages personal reflection and examination of beliefs, habits, and relationships."),
-                SubjectiveEffect(name: "Body Load", description: "A physical heaviness and tension that can vary from mild to uncomfortable, common among 2C-x phenethylamines."),
-                SubjectiveEffect(name: "Nausea", description: "A stomach discomfort during onset typical of phenethylamine psychedelics, sometimes persisting into the early peak."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed", "PiHKAL"]
         ),
 
         // MARK: 2C-T-4
@@ -551,7 +356,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A stomach discomfort that can be more pronounced with thio-substituted 2C compounds and may recur periodically during the long experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed", "PiHKAL"]
         ),
     ]
 }

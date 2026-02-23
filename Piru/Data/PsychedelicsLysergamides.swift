@@ -44,7 +44,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Conceptual Thinking", description: "Abstract, philosophical, or metaphysical ideas arise spontaneously and feel profoundly meaningful, often with a sense of deep personal insight."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "Goodman & Gilman's"]
         ),
 
         // MARK: - 1P-LSD
@@ -88,7 +89,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Color Enhancement", description: "Colors appear significantly more vivid, saturated, and luminous, with surfaces appearing to breathe or shift in hue."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 1cP-LSD
@@ -122,7 +124,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body High", description: "A diffuse, tingling, electric sensation that radiates through the body, sometimes described as waves of energy or a buzzing feeling beneath the skin."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 1V-LSD
@@ -156,7 +159,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Color Shifting", description: "Colors appear more vivid and may shift or morph fluidly, with surfaces taking on an iridescent or breathing quality."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 1B-LSD
@@ -190,41 +194,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective Insight", description: "A tendency toward deep self-examination with moments of clarity about personal patterns, relationships, and life direction."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
-        ),
-
-        // MARK: - 1D-LSD
-
-        Substance(
-            name: "1D-LSD",
-            aliases: ["1-Dodecanoyl-LSD", "1-Dodecanoyl-lysergic acid diethylamide"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "µg", doses: DoseRange(
-                    threshold: 15, light: 25...75, common: 75...150, strong: 150...300, heavy: 300
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 60, max: 120),
-                    comeup: TimeRange(min: 60, max: 120),
-                    peak: TimeRange(min: 180, max: 300),
-                    offset: TimeRange(min: 120, max: 180),
-                    afterglow: TimeRange(min: 360, max: 720),
-                    total: TimeRange(min: 540, max: 780)
-                )),
-            ],
-            effects: ["Visual hallucinations", "Euphoria", "Time distortion", "Introspection", "Synesthesia", "Enhanced pattern recognition", "Thought loops", "Anxiety", "Increased music appreciation", "Ego dissolution"],
-            subjectiveEffects: [
-                SubjectiveEffect(name: "Visual Geometry", description: "LSD-type geometric visual effects that emerge after prodrug conversion, with the dodecanoyl ester requiring the longest metabolic activation of all LSD prodrugs."),
-                SubjectiveEffect(name: "Very Slow Onset", description: "An exceptionally delayed come-up, often 2-3 hours before peak effects, due to the large dodecanoyl (12-carbon) chain requiring extensive metabolic processing."),
-                SubjectiveEffect(name: "Thought Loops", description: "Repetitive thought patterns characteristic of the lysergamide class, where cognitive processes circle back to the same ideas or questions."),
-                SubjectiveEffect(name: "Ego Dissolution", description: "Gradual erosion of self-identity at higher doses leading to experiences of unity, boundlessness, or complete loss of the observer-observed distinction."),
-                SubjectiveEffect(name: "Time Distortion", description: "The perception of time becomes unreliable, with the already long duration feeling further extended by subjective time dilation effects."),
-                SubjectiveEffect(name: "Color Enhancement", description: "Colors appear more saturated and luminous, with the visual world taking on a heightened vividness and surfaces appearing to glow."),
-                SubjectiveEffect(name: "Body High", description: "A characteristic lysergamide body sensation of tingling electricity and physical lightness that moves in waves through the body."),
-                SubjectiveEffect(name: "Music Enhancement", description: "Music acquires profound emotional depth and spatial dimension, with enhanced ability to perceive layering, timing, and harmonic relationships."),
-            ],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - ALD-52
@@ -258,7 +229,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective Clarity", description: "A gentle tendency toward self-reflection that feels productive and insightful rather than overwhelming or anxious."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - AL-LAD
@@ -302,7 +274,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Lightness", description: "A sensation of physical buoyancy and energetic lightness, as though the body weighs less, accompanied by an urge to move and dance."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - ETH-LAD
@@ -336,7 +309,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Significant gastrointestinal discomfort that commonly occurs during the onset phase and can persist into the peak, more reliably present than with other lysergamides."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - PRO-LAD
@@ -370,7 +344,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective Depth", description: "A pull toward self-examination and contemplation of personal history, motivations, and relationships with greater emotional honesty."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - LSA
@@ -404,7 +379,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Euphoric Waves", description: "Intermittent waves of warm euphoria that alternate with periods of physical discomfort, creating an experience that oscillates between pleasant and challenging."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - LSZ
@@ -438,7 +414,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stimulation", description: "A physically and mentally energizing quality that creates restlessness and a desire for activity, more stimulating than many other lysergamides."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - LSM-775
@@ -470,7 +447,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Time Distortion", description: "A subtle stretching of temporal perception where time feels slow and languid, consistent with the overall sedating character of the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 200
+            halfLifeMinutes: 200,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - MiPLA
@@ -504,7 +482,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Time Distortion", description: "A subtle alteration in the perception of time that is far less pronounced than with full-potency lysergamides."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - PARGY-LAD
@@ -538,7 +517,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety Potential", description: "A susceptibility to anxious thought spirals, particularly during onset or in unfamiliar settings, that requires careful attention to set and setting."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 200
+            halfLifeMinutes: 200,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Ergometrine
@@ -570,7 +550,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "A pervasive sense of physical heaviness and discomfort that dominates the experience, with the body feeling tense and constricted."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Methysergide
@@ -578,7 +559,7 @@ extension SubstanceLibrary {
         Substance(
             name: "Methysergide",
             aliases: ["Sansert", "Deseril", "1-Methyl-d-lysergic acid butanolamide"],
-            category: .psychedelic,
+            category: .other,
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "µg", doses: DoseRange(
@@ -602,7 +583,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety", description: "A low-level anxious restlessness driven primarily by physical discomfort rather than psychedelic cognitive effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - 1P-ETH-LAD
@@ -636,7 +618,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Intensity", description: "Strong and sometimes unpredictable emotional responses that amplify whatever feelings are present in the psychological environment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - 1cP-AL-LAD
@@ -670,7 +653,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Physical Euphoria", description: "A warm, tingling body euphoria accompanied by a sense of lightness and energetic well-being that encourages physical activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Natural LSA Sources
@@ -706,7 +690,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Euphoric Waves", description: "Intermittent waves of warm bliss that alternate with periods of physical discomfort, creating an experience that oscillates between pleasant and challenging."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Hawaiian Baby Woodrose
@@ -740,7 +725,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Duration", description: "Effects can last 6-10 hours with a slow onset of 1-3 hours, requiring patience and commitment to a lengthy, physically demanding experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
     ]
 }
