@@ -89,9 +89,24 @@ struct ColorHexTests {
 
     // MARK: - Invalid input
 
+    @Test("3-char shorthand expands correctly")
+    func threeCharShorthand() {
+        let white = Color(hex: "FFF")
+        let (wr, wg, wb) = rgb(from: white)
+        #expect(wr > 0.99)
+        #expect(wg > 0.99)
+        #expect(wb > 0.99)
+
+        let red = Color(hex: "F00")
+        let (rr, rg, rb) = rgb(from: red)
+        #expect(rr > 0.99)
+        #expect(rg < 0.01)
+        #expect(rb < 0.01)
+    }
+
     @Test("Invalid length defaults to black")
     func invalidLength() {
-        let color = Color(hex: "FFF")
+        let color = Color(hex: "GG")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)
         #expect(g < 0.01)

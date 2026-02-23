@@ -19,7 +19,7 @@ final class DoseEntry {
         notes: String? = nil
     ) {
         self.substance = substance
-        self.amount = amount
+        self.amount = max(0, amount)
         self.unit = unit
         self.route = route
         self.timestamp = timestamp

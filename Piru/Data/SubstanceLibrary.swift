@@ -40,7 +40,7 @@ enum SubstanceLibrary {
 
     /// O(1) exact-name lookup, used by QuickLogView grouping.
     static func lookup(_ name: String) -> Substance? {
-        nameLookup[name]
+        nameLookup[name.lowercased()]
     }
 
     static func search(_ query: String) -> [Substance] {

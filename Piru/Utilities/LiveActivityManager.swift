@@ -18,6 +18,7 @@ struct DoseSnapshot {
     }
 }
 
+@MainActor
 @Observable
 final class LiveActivityManager {
     static let shared = LiveActivityManager()

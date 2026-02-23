@@ -18,7 +18,7 @@ struct DayDetailView: View {
     init(date: Date) {
         self.date = date
         let start = Calendar.current.startOfDay(for: date)
-        let end = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+        let end = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? start.addingTimeInterval(86400)
         _entries = Query(
             filter: #Predicate<DoseEntry> { entry in
                 entry.timestamp >= start && entry.timestamp < end

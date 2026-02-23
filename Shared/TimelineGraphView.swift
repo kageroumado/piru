@@ -25,7 +25,8 @@ struct TimelineGraphView: View {
             let end = offset + substance.totalMinutes
             maxEnd = max(maxEnd, end)
         }
-        return maxEnd
+        // Ensure non-zero span to prevent division by zero
+        return max(maxEnd, 1)
     }
 
     private var effectiveZoom: CGFloat {
@@ -296,7 +297,7 @@ struct TimelineGraphView: View {
                 label = "\(Int(t))m"
             } else {
                 let hours = t / 60
-                label = hours == hours.rounded() ? "\(Int(hours))h" : String(format: "%.1fh", hours)
+                label = abs(hours - hours.rounded()) < 0.01 ? "\(Int(hours.rounded()))h" : String(format: "%.1fh", hours)
             }
 
             let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))

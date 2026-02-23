@@ -223,8 +223,9 @@ struct DailyDoseSettingsView: View {
     }
 
     private func deleteReminder(at offsets: IndexSet) {
+        // ForEach displays reminderTimes sorted by id, so offsets index into the sorted array
         let sorted = reminderTimes.sorted { $0.id < $1.id }
-        let idsToRemove = offsets.map { sorted[$0].id }
+        let idsToRemove = Set(offsets.map { sorted[$0].id })
         reminderTimes.removeAll { idsToRemove.contains($0.id) }
         saveReminderTimes()
     }
