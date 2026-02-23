@@ -44,6 +44,7 @@
 		A10032 /* HormonesAndMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10032 /* HormonesAndMore.swift */; };
 		A10070 /* Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* Interactions.swift */; };
 		A10098 /* AppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* AppSources.swift */; };
+		A10099 /* FavoriteSubstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10099 /* FavoriteSubstance.swift */; };
 		A10033 /* SubstanceLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10033 /* SubstanceLibraryView.swift */; };
 		A10075 /* InteractionCheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10075 /* InteractionCheckerView.swift */; };
 		A10034 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10034 /* DayDetailView.swift */; };
@@ -157,6 +158,7 @@
 		B10036 /* SubstanceColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceColorPickerView.swift; sourceTree = "<group>"; };
 		B10037 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B10038 /* UserColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserColor.swift; sourceTree = "<group>"; };
+		B10099 /* FavoriteSubstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSubstance.swift; sourceTree = "<group>"; };
 		B10040 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		B10044 /* DataExportImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportImport.swift; sourceTree = "<group>"; };
 		B10041 /* PiruActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruActivityAttributes.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				B10010 /* Substance.swift */,
 				B10035 /* SubstanceColor.swift */,
 				B10038 /* UserColor.swift */,
+				B10099 /* FavoriteSubstance.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				A10037 /* SettingsView.swift in Sources */,
 				A10075 /* InteractionCheckerView.swift in Sources */,
 				A10038 /* UserColor.swift in Sources */,
+				A10099 /* FavoriteSubstance.swift in Sources */,
 				94EA4991AA17D6A2869442DA /* DailyDoseItem.swift in Sources */,
 				35A64EA4AA44B422AD89FC55 /* DailyDoseSettingsView.swift in Sources */,
 				50D644FBB760106BEDCD7147 /* DailyDoseItemFormView.swift in Sources */,

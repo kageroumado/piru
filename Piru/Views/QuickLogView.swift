@@ -8,6 +8,7 @@ struct QuickLogView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
+    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
 
     @State private var searchText = ""
     @State private var showingDailyDose = false
@@ -17,11 +18,11 @@ struct QuickLogView: View {
     @State private var pendingLogAction: (() -> Void)?
 
     @State private var cachedGroups: [SubstanceGroup] = []
+    @State private var cachedFavoriteSet: Set<String> = []
 
     // MARK: - Grouping
 
     private func rebuildGroups() {
-        // Pre-build color lookup: O(1) per substance instead of O(colors)
         var colorLookup: [String: String] = [:]
         for sc in substanceColors {
             colorLookup[sc.substance.lowercased()] = sc.hexColor
@@ -51,6 +52,10 @@ struct QuickLogView: View {
         cachedGroups = groupMap.values.sorted { $0.latestTimestamp > $1.latestTimestamp }
     }
 
+    private func rebuildFavoriteSet() {
+        cachedFavoriteSet = Array(favorites).favoriteSet
+    }
+
     private var filteredGroups: [SubstanceGroup] {
         guard !searchText.isEmpty else { return cachedGroups }
         let query = searchText.lowercased()
@@ -61,6 +66,42 @@ struct QuickLogView: View {
         guard !searchText.isEmpty else { return [] }
         let historyNames = Set(cachedGroups.map { $0.substanceName.lowercased() })
         return SubstanceLibrary.search(searchText).filter { !historyNames.contains($0.name.lowercased()) }
+    }
+
+    // MARK: - Favorites
+
+    private var favoriteGroups: [SubstanceGroup] {
+        guard searchText.isEmpty else { return [] }
+        return cachedGroups.filter { cachedFavoriteSet.contains($0.substanceName.lowercased()) }
+    }
+
+    private var nonFavoriteGroups: [SubstanceGroup] {
+        let groups = searchText.isEmpty ? cachedGroups : filteredGroups
+        if searchText.isEmpty {
+            return groups.filter { !cachedFavoriteSet.contains($0.substanceName.lowercased()) }
+        }
+        return groups
+    }
+
+    private var favoriteLibrarySubstances: [Substance] {
+        guard searchText.isEmpty else { return [] }
+        let historyNames = Set(cachedGroups.map { $0.substanceName.lowercased() })
+        return favorites
+            .filter { !historyNames.contains($0.substance.lowercased()) }
+            .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
+    }
+
+    private func isFavorite(_ name: String) -> Bool {
+        cachedFavoriteSet.contains(name.lowercased())
+    }
+
+    private func toggleFavorite(_ name: String) {
+        let lowered = name.lowercased()
+        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(FavoriteSubstance(substance: name))
+        }
     }
 
     // MARK: - Body
@@ -113,9 +154,10 @@ struct QuickLogView: View {
             .sheet(isPresented: $showingDailyDose) {
                 LogDailyDoseView()
             }
-            .task { rebuildGroups() }
+            .task { rebuildGroups(); rebuildFavoriteSet() }
             .onChange(of: allEntries.count) { rebuildGroups() }
             .onChange(of: substanceColors.count) { rebuildGroups() }
+            .onChange(of: favorites.count) { rebuildFavoriteSet() }
         }
     }
 
@@ -141,11 +183,36 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
-        if !filteredGroups.isEmpty {
-            ForEach(filteredGroups) { group in
+        // Favorites section (only when not searching)
+        if !favoriteGroups.isEmpty || !favoriteLibrarySubstances.isEmpty {
+            Section {
+                ForEach(favoriteGroups) { group in
+                    substanceRow(group)
+                }
+                ForEach(favoriteLibrarySubstances) { substance in
+                    libraryRow(substance)
+                }
+            } header: {
+                Label("Favorites", systemImage: "star.fill")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+            }
+        }
+
+        // Recent / search results
+        if !nonFavoriteGroups.isEmpty {
+            if !favoriteGroups.isEmpty && searchText.isEmpty {
+                Text("Recent")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                    .padding(.top, 8)
+            }
+            ForEach(nonFavoriteGroups) { group in
                 substanceRow(group)
             }
-        } else if !searchText.isEmpty && libraryResults.isEmpty {
+        } else if !searchText.isEmpty && libraryResults.isEmpty && favoriteGroups.isEmpty {
             ContentUnavailableView.search(text: searchText)
         }
 
@@ -209,6 +276,15 @@ struct QuickLogView: View {
                     .padding(.vertical, 2)
                     .background(.quaternary)
                     .clipShape(Capsule())
+                Spacer()
+                Button {
+                    toggleFavorite(group.substanceName)
+                } label: {
+                    Image(systemName: isFavorite(group.substanceName) ? "star.fill" : "star")
+                        .font(.body)
+                        .foregroundStyle(isFavorite(group.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
+                }
+                .buttonStyle(.plain)
             }
 
             FlowLayout(spacing: 6) {

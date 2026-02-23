@@ -30,6 +30,7 @@ struct EntryFormView: View {
 
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
+    @Query private var favorites: [FavoriteSubstance]
 
     init(entry: DoseEntry? = nil) {
         self.entry = entry
@@ -109,7 +110,7 @@ struct EntryFormView: View {
                 }
 
                 Section("Substance") {
-                    SubstanceSearchField(text: $substance, locked: substanceLocked) { selected in
+                    SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected in
                         selectSubstance(selected)
                     } onCustom: {
                         useCustomSubstance()

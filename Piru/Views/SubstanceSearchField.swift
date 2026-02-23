@@ -5,14 +5,16 @@ struct SubstanceSearchField: View {
     var onSelect: (Substance) -> Void
     var onCustom: (() -> Void)?
     var locked: Bool
+    var favoriteNames: Set<String>
 
     @State private var results: [Substance] = []
     @State private var showResults = false
     @FocusState private var isFocused: Bool
 
-    init(text: Binding<String>, locked: Bool = false, onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
+    init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
         _text = text
         self.locked = locked
+        self.favoriteNames = favoriteNames
         self.onSelect = onSelect
         self.onCustom = onCustom
     }
@@ -34,7 +36,14 @@ struct SubstanceSearchField: View {
                         results = []
                         showResults = false
                     } else if isFocused && !locked {
-                        results = SubstanceLibrary.search(text)
+                        let raw = SubstanceLibrary.search(text)
+                        if favoriteNames.isEmpty {
+                            results = raw
+                        } else {
+                            let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
+                            let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
+                            results = favs + rest
+                        }
                         showResults = true
                     }
                 }
@@ -58,9 +67,16 @@ struct SubstanceSearchField: View {
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(substance.name)
-                                            .font(.body)
-                                            .foregroundStyle(.primary)
+                                        HStack(spacing: 4) {
+                                            Text(substance.name)
+                                                .font(.body)
+                                                .foregroundStyle(.primary)
+                                            if favoriteNames.contains(substance.name.lowercased()) {
+                                                Image(systemName: "star.fill")
+                                                    .font(.caption2)
+                                                    .foregroundStyle(.yellow)
+                                            }
+                                        }
                                         if !substance.aliases.isEmpty {
                                             Text(substance.aliases.prefix(3).joined(separator: ", "))
                                                 .font(.caption)
