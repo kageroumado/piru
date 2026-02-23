@@ -280,29 +280,35 @@ struct QuickLogView: View {
 
     private func substanceCard(_ card: SubstanceCard) -> some View {
         let isExpanded = expandedSubstances.contains(card.id)
-        let hasMultipleRoutes = card.routes.count > 1
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
 
         return VStack(alignment: .leading, spacing: 8) {
-            // Header
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(color)
-                    .frame(width: 10, height: 10)
-                Text(card.substanceName)
-                    .font(.headline)
-
-                if !hasMultipleRoutes {
-                    Text(card.routes[0].route.displayName)
-                        .font(.caption)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(.quaternary)
-                        .clipShape(Capsule())
+            // Header — tapping anywhere on the row toggles expand
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    if isExpanded {
+                        expandedSubstances.remove(card.id)
+                    } else {
+                        expandedSubstances.insert(card.id)
+                    }
                 }
-
-                Spacer()
-
+            } label: {
+                HStack(spacing: 8) {
+                    Circle()
+                        .fill(color)
+                        .frame(width: 10, height: 10)
+                    Text(card.substanceName)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .rotationEffect(.degrees(isExpanded ? -180 : 0))
+                }
+            }
+            .buttonStyle(.plain)
+            .overlay(alignment: .trailing) {
                 Button {
                     toggleFavorite(card.substanceName)
                 } label: {
@@ -311,40 +317,14 @@ struct QuickLogView: View {
                         .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.3))
                 }
                 .buttonStyle(.plain)
-
-                if hasMultipleRoutes {
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            if isExpanded {
-                                expandedSubstances.remove(card.id)
-                            } else {
-                                expandedSubstances.insert(card.id)
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 4) {
-                            Text("\(card.routes.count) routes")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            Image(systemName: "chevron.down")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(.secondary)
-                                .rotationEffect(.degrees(isExpanded ? -180 : 0))
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
+                .padding(.trailing, 24)
             }
 
-            // Content
-            if hasMultipleRoutes {
-                if isExpanded {
-                    ForEach(card.routes) { group in
-                        routeSection(group, color: color)
-                    }
+            // Expanded content
+            if isExpanded {
+                ForEach(card.routes) { group in
+                    routeSection(group, color: color)
                 }
-            } else {
-                doseChips(for: card.routes[0], color: color)
             }
         }
         .padding(.vertical, 4)
