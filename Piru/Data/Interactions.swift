@@ -326,6 +326,8 @@ enum InteractionChecker {
             description: "Respiratory depression and loss of consciousness — very narrow safety margin."),
         InteractionRule(classA: .ghb, classB: .benzodiazepine, severity: .dangerous,
             description: "Severe respiratory depression — both are GABAergic depressants."),
+        InteractionRule(classA: .benzodiazepine, classB: .alcohol, severity: .dangerous,
+            description: "Life-threatening respiratory depression — this combination is a leading cause of overdose death."),
 
         // === UNSAFE ===
 
@@ -337,8 +339,6 @@ enum InteractionChecker {
             description: "Additive CNS and respiratory depression — antihistamines potentiate opioid sedation."),
         InteractionRule(classA: .opioid, classB: .stimulant, severity: .unsafe,
             description: "Stimulants mask overdose signs — when they wear off, respiratory depression can emerge."),
-        InteractionRule(classA: .benzodiazepine, classB: .alcohol, severity: .dangerous,
-            description: "Life-threatening respiratory depression — this combination is a leading cause of overdose death."),
         InteractionRule(classA: .benzodiazepine, classB: .gabapentinoid, severity: .unsafe,
             description: "Excessive sedation and respiratory depression risk."),
         InteractionRule(classA: .benzodiazepine, classB: .antihistamine, severity: .unsafe,
@@ -417,10 +417,8 @@ enum InteractionChecker {
     static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
         let now = Date.now
         return entries.filter { entry in
-            guard let substance = SubstanceLibrary.search(entry.substance).first(where: {
-                $0.name.lowercased() == entry.substance.lowercased()
-            }),
-            let duration = substance.duration(for: entry.route) else {
+            guard let substance = SubstanceLibrary.lookup(entry.substance),
+                  let duration = substance.duration(for: entry.route) else {
                 // No duration data — assume active for 24h as safety fallback
                 return entry.timestamp.addingTimeInterval(86400) > now
             }

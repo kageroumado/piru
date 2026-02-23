@@ -163,7 +163,7 @@ struct SubstanceColorPickerView: View {
                             Circle().strokeBorder(.primary, lineWidth: 2)
                         }
                     }
-                Text(isTaken ? takenBy! : name)
+                Text(isTaken ? (takenBy ?? name) : name)
                     .font(.system(size: 8))
                     .foregroundStyle(isTaken ? .secondary : .tertiary)
                     .lineLimit(1)

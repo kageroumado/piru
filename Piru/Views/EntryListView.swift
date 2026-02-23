@@ -67,17 +67,17 @@ struct DayCardView: View {
 
     private var substanceSummary: String {
         let names = entries.map(\.substance)
-        let unique = Array(NSOrderedSet(array: names)) as! [String]
+        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
         if unique.count <= 3 {
             return unique.joined(separator: ", ")
         }
         let first = unique.prefix(3).joined(separator: ", ")
-        return "\(first), and \(unique.count - 3) more"
+        return "\(first) +\(unique.count - 3) more"
     }
 
     private var barColors: [Color] {
         let names = entries.map(\.substance)
-        let unique = Array(NSOrderedSet(array: names)) as! [String]
+        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
         let colors = unique.compactMap { name in
             colorMap[name.lowercased()]
         }

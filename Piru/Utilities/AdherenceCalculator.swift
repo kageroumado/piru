@@ -32,7 +32,7 @@ enum AdherenceCalculator {
 
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
+        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86400)
         let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
 
         var matched = 0
@@ -63,7 +63,7 @@ enum AdherenceCalculator {
 
         var streak = 0
         for (index, day) in sorted.enumerated() {
-            let expectedDate = calendar.date(byAdding: .day, value: -(index + 1), to: today)!
+            guard let expectedDate = calendar.date(byAdding: .day, value: -(index + 1), to: today) else { break }
             guard calendar.isDate(day.date, inSameDayAs: expectedDate),
                   day.status == .complete || day.status == .partial else { break }
             streak += 1

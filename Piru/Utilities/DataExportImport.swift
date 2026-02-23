@@ -405,12 +405,15 @@ enum DataExportImport {
                 } else if let cuId = ingestion.customUnitId, let cu = customUnitMap[cuId] {
                     name = cu.name
                 } else {
-                    continue // skip ingestions with no resolvable substance
+                    continue
                 }
+
+                // Skip entries with missing or zero dose
+                guard let dose = ingestion.dose, dose > 0 else { continue }
 
                 context.insert(DoseEntry(
                     substance: name,
-                    amount: ingestion.dose ?? 0,
+                    amount: dose,
                     unit: ingestion.units,
                     route: RouteOfAdministration(psylogName: ingestion.administrationRoute),
                     timestamp: Date(ms: ingestion.time),
@@ -423,7 +426,9 @@ enum DataExportImport {
         var importedColors = Set<String>()
 
         for companion in file.substanceCompanions {
-            importedColors.insert(companion.substanceName.lowercased())
+            let key = companion.substanceName.lowercased()
+            guard !importedColors.contains(key) else { continue }
+            importedColors.insert(key)
             context.insert(SubstanceColor(
                 substance: companion.substanceName,
                 hexColor: PsyLogColorMap.hex(from: companion.color)
