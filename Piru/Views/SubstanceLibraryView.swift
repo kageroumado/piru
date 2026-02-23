@@ -2,7 +2,9 @@ import SwiftData
 import SwiftUI
 
 struct SubstanceLibraryView: View {
+    @Environment(\.modelContext) private var modelContext
     @Binding var searchText: String
+    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var selectedCategory: SubstanceCategory?
     @State private var selectedSubstance: Substance?
 
@@ -20,6 +22,21 @@ struct SubstanceLibraryView: View {
             return SubstanceLibrary.substances(in: category)
         }
         return []
+    }
+
+    private var favoriteSubstances: [Substance] {
+        favorites.compactMap { fav in
+            SubstanceLibrary.lookup(fav.substance.lowercased())
+        }
+    }
+
+    private func toggleFavorite(_ name: String) {
+        let lowered = name.lowercased()
+        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(FavoriteSubstance(substance: name))
+        }
     }
 
     var body: some View {
@@ -61,6 +78,31 @@ struct SubstanceLibraryView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .listRowBackground(Color.clear)
+        }
+
+        if !favoriteSubstances.isEmpty {
+            Section("Favorites") {
+                ForEach(favoriteSubstances) { substance in
+                    Button {
+                        selectedSubstance = substance
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "star.fill")
+                                .font(.caption)
+                                .foregroundStyle(.yellow)
+                            SubstanceRowView(substance: substance)
+                        }
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button {
+                            toggleFavorite(substance.name)
+                        } label: {
+                            Label("Unfavorite", systemImage: "star.slash")
+                        }
+                        .tint(.orange)
+                    }
+                }
+            }
         }
 
         Section("Categories") {
@@ -110,6 +152,15 @@ struct SubstanceLibraryView: View {
                         selectedSubstance = substance
                     } label: {
                         SubstanceRowView(substance: substance)
+                    }
+                    .swipeActions(edge: .trailing) {
+                        let isFav = Array(favorites).isFavorite(substance.name)
+                        Button {
+                            toggleFavorite(substance.name)
+                        } label: {
+                            Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
+                        }
+                        .tint(.yellow)
                     }
                 }
             }
@@ -199,8 +250,23 @@ struct SubstanceRowView: View {
 struct SubstanceDetailSheet: View {
     let substance: Substance
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Query private var favorites: [FavoriteSubstance]
     @State private var showAllHistory = false
+
+    private var isFavorite: Bool {
+        Array(favorites).isFavorite(substance.name)
+    }
+
+    private func toggleFavorite() {
+        let lowered = substance.name.lowercased()
+        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(FavoriteSubstance(substance: substance.name))
+        }
+    }
 
     private var historyEntries: [DoseEntry] {
         let name = substance.name.lowercased()
@@ -338,6 +404,14 @@ struct SubstanceDetailSheet: View {
         .navigationTitle(substance.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    toggleFavorite()
+                } label: {
+                    Image(systemName: isFavorite ? "star.fill" : "star")
+                        .foregroundStyle(isFavorite ? .yellow : .secondary)
+                }
+            }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Done") { dismiss() }
             }
