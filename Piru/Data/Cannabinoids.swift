@@ -50,7 +50,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective thinking", description: "Thoughts may turn inward toward self-examination, sometimes revealing new perspectives on personal matters."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 2. Delta-8-THC
@@ -98,7 +99,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild time distortion", description: "A slight alteration in time perception, less pronounced than with Delta-9-THC."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 3. CBD (Cannabidiol)
@@ -143,7 +145,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Improved sleep quality", description: "Sleep onset and maintenance may improve, with a calmer transition into rest without next-day grogginess."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "WHO", "Examine.com"]
         ),
 
         // MARK: - 4. CBN (Cannabinol)
@@ -179,7 +182,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite increase", description: "A mild stimulation of hunger, particularly noticeable in the evening hours."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 5. CBG (Cannabigerol)
@@ -215,7 +219,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pain relief", description: "Subtle analgesic effects that help take the edge off chronic pain and discomfort."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 6. THCV (Tetrahydrocannabivarin)
@@ -262,7 +267,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety potential", description: "The stimulating nature can occasionally produce anxiety or restlessness in sensitive individuals."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 7. HHC (Hexahydrocannabinol)
@@ -300,7 +306,8 @@ extension SubstanceLibrary {
                 "Drowsiness", "Anxiety",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 8. THCO (THC-O-Acetate)
@@ -338,7 +345,8 @@ extension SubstanceLibrary {
                 "Paranoia", "Anxiety", "Sedation", "Appetite increase",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 28, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 9. THCP (Tetrahydrocannabiphorol)
@@ -376,7 +384,8 @@ extension SubstanceLibrary {
                 "Time distortion", "Couch lock", "Anxiety",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 28, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 10. THCa (Tetrahydrocannabinolic acid)
@@ -404,7 +413,8 @@ extension SubstanceLibrary {
                 "Mild relaxation", "No intoxication",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 11. HHCO (HHC-O-Acetate)
@@ -442,7 +452,8 @@ extension SubstanceLibrary {
                 "Appetite increase", "Paranoia", "Couch lock",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 28, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 12. THCB
@@ -480,7 +491,8 @@ extension SubstanceLibrary {
                 "Time distortion",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 13. JWH-018
@@ -508,7 +520,8 @@ extension SubstanceLibrary {
                 "Dissociation", "Panic",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 14. JWH-073
@@ -536,7 +549,8 @@ extension SubstanceLibrary {
                 "Dizziness", "Sedation",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 15. JWH-210
@@ -564,7 +578,8 @@ extension SubstanceLibrary {
                 "Dissociation", "Time distortion",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 16. AM-2201
@@ -592,7 +607,8 @@ extension SubstanceLibrary {
                 "Panic", "Time distortion",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 17. 5F-AKB48
@@ -620,7 +636,8 @@ extension SubstanceLibrary {
                 "Seizure risk", "Confusion",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 18. AB-FUBINACA
@@ -632,7 +649,7 @@ extension SubstanceLibrary {
             defaultRoute: .inhalation,
             routes: [
                 SubstanceRoute(route: .inhalation, unit: "mcg", doses: DoseRange(
-                    threshold: 50, light: 100...250, common: 250...500, strong: 500...1000, heavy: 1000, fatal: 500
+                    threshold: 50, light: 100...250, common: 250...500, strong: 500...1000, heavy: 1000, fatal: 1500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 2),
                     comeup: TimeRange(min: 2, max: 5),
@@ -648,7 +665,8 @@ extension SubstanceLibrary {
                 "Loss of consciousness", "Psychosis",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 19. AB-CHMINACA
@@ -660,7 +678,7 @@ extension SubstanceLibrary {
             defaultRoute: .inhalation,
             routes: [
                 SubstanceRoute(route: .inhalation, unit: "mcg", doses: DoseRange(
-                    threshold: 50, light: 100...200, common: 200...500, strong: 500...750, heavy: 750, fatal: 500
+                    threshold: 50, light: 100...200, common: 200...500, strong: 500...750, heavy: 750, fatal: 1000
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 2),
                     comeup: TimeRange(min: 2, max: 5),
@@ -676,7 +694,8 @@ extension SubstanceLibrary {
                 "Loss of consciousness", "Psychosis",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 20. MDMB-4en-PINACA
@@ -688,7 +707,7 @@ extension SubstanceLibrary {
             defaultRoute: .inhalation,
             routes: [
                 SubstanceRoute(route: .inhalation, unit: "mcg", doses: DoseRange(
-                    threshold: 10, light: 25...75, common: 75...150, strong: 150...300, heavy: 300, fatal: 100
+                    threshold: 10, light: 25...75, common: 75...150, strong: 150...200, heavy: 200, fatal: 300
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 2),
                     comeup: TimeRange(min: 2, max: 5),
@@ -704,7 +723,8 @@ extension SubstanceLibrary {
                 "Loss of consciousness", "Psychosis",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "EMCDDA"]
         ),
 
         // MARK: - 21. Nabilone
@@ -732,7 +752,8 @@ extension SubstanceLibrary {
                 "Disorientation",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 2100,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - 22. Dronabinol
@@ -760,7 +781,8 @@ extension SubstanceLibrary {
                 "Time distortion", "Anxiety",
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 28, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 1800,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - 23. CUMYL-PINACA
@@ -796,7 +818,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive impairment", description: "Profound confusion and disorientation that far exceeds typical cannabis intoxication, with complete inability to think clearly or communicate coherently."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 24. ADB-BUTINACA
@@ -833,7 +856,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cardiovascular crisis", description: "Extreme tachycardia and blood pressure fluctuations that can progress to cardiac arrest, contributing to the compound's high fatality rate."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 25. MDMB-FUBINACA
@@ -870,7 +894,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Psychotic episodes", description: "Acute psychotic reactions including terrifying hallucinations, extreme agitation, and violent behavior that may persist long after the primary intoxication subsides."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 26. 5F-MDMB-PICA
@@ -905,7 +930,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea and vomiting", description: "Severe gastrointestinal distress that frequently accompanies use, creating additional aspiration risks in heavily sedated users."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
 
         // MARK: - 27. SGT-151
@@ -940,7 +966,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive impairment", description: "A significant dulling of mental function including impaired memory, slowed thinking, and difficulty concentrating that can persist beyond the acute effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "WHO", "Drugs.com"]
         ),
     ]
     // swiftlint:enable function_body_length

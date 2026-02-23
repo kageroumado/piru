@@ -30,7 +30,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Relaxation", description: "A subtle easing of tension and discomfort that can feel like a general settling of the body."),
                 SubjectiveEffect(name: "Stomach Comfort", description: "Generally well-tolerated on the stomach compared to NSAIDs, though high doses can cause nausea."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -59,7 +60,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache Relief", description: "A effective loosening of headache pain, often considered first-line for tension and migraine headaches."),
                 SubjectiveEffect(name: "Reduced Swelling", description: "A visible decrease in inflammatory swelling in joints and soft tissues over hours to days."),
             ],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -88,7 +90,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Blood Thinning", description: "Irreversible platelet inhibition that leads to easier bruising and prolonged bleeding from cuts."),
                 SubjectiveEffect(name: "Headache Relief", description: "Effective reduction of headache pain, particularly tension-type headaches."),
             ],
-            halfLifeMinutes: 300
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -117,7 +120,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Swelling", description: "A decrease in inflammatory swelling that improves joint mobility and comfort."),
                 SubjectiveEffect(name: "Fever Reduction", description: "A normalization of elevated body temperature with relief from fever symptoms."),
             ],
-            halfLifeMinutes: 870
+            halfLifeMinutes: 870,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -145,7 +149,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Swelling", description: "A decrease in inflammatory swelling around joints and soft tissues."),
                 SubjectiveEffect(name: "GI Tolerability", description: "Notably less stomach irritation and ulcer risk compared to traditional NSAIDs, often reported as gentler on the stomach."),
             ],
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -155,7 +160,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 3.75, light: 7.5...15, common: 15...22.5, strong: 22.5...30, heavy: 30
+                    threshold: 3.75, light: 7.5...15, common: 7.5...15, strong: 15...22.5, heavy: 22.5
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 30, max: 60),
@@ -173,7 +178,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Improved Mobility", description: "An increased ability to move joints and engage in physical activity as pain and stiffness diminish."),
                 SubjectiveEffect(name: "GI Tolerability", description: "Generally better stomach tolerance than older NSAIDs, though some GI effects can still occur."),
             ],
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -201,7 +207,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Muscle Pain Relief", description: "A reduction in muscle soreness and stiffness, particularly effective for acute musculoskeletal injuries."),
                 SubjectiveEffect(name: "Stomach Upset", description: "GI discomfort that can include nausea, indigestion, and abdominal pain, particularly with oral use."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -221,7 +228,7 @@ extension SubstanceLibrary {
                     total: TimeRange(min: 240, max: 420)
                 )),
                 SubstanceRoute(route: .intramuscular, unit: "mg", doses: DoseRange(
-                    threshold: 10, light: 15...30, common: 30...60, strong: 60...90, heavy: 90
+                    threshold: 10, light: 15...30, common: 15...30, strong: 30...60, heavy: 60
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 10, max: 20),
                     comeup: TimeRange(min: 10, max: 20),
@@ -239,7 +246,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stomach Upset", description: "Significant GI discomfort including nausea and stomach pain, particularly with repeated dosing."),
                 SubjectiveEffect(name: "Short Duration", description: "Pain relief that is intense but time-limited, requiring awareness that this medication is meant for short-term use only."),
             ],
-            halfLifeMinutes: 330
+            halfLifeMinutes: 330,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -268,7 +276,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stomach Upset", description: "Significant GI distress including nausea, indigestion, and stomach pain that limits long-term use."),
                 SubjectiveEffect(name: "Dizziness", description: "Lightheadedness and occasional vertigo that can occur during treatment."),
             ],
-            halfLifeMinutes: 270
+            halfLifeMinutes: 270,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Antihistamines
@@ -301,7 +310,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Impairment", description: "A noticeable slowing of reaction time and mental processing that accompanies the sedation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -322,7 +332,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Allergy relief", "Reduced sneezing", "Reduced itching", "Mild drowsiness", "Reduced runny nose"],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -343,7 +354,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Allergy relief", "Reduced sneezing", "Reduced itching", "Non-drowsy", "Reduced runny nose", "Hive relief"],
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -364,7 +376,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Allergy relief", "Reduced sneezing", "Non-drowsy", "Reduced itching", "Reduced watery eyes"],
-            halfLifeMinutes: 840
+            halfLifeMinutes: 840,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -386,7 +399,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anxiety relief", "Sedation", "Reduced itching", "Drowsiness", "Dry mouth", "Allergy relief"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -408,7 +422,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Anti-nausea", "Sedation", "Allergy relief", "Drowsiness", "Dry mouth", "Dizziness"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 960
+            halfLifeMinutes: 960,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -430,7 +445,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Allergy relief", "Drowsiness", "Reduced sneezing", "Dry mouth", "Reduced runny nose"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -452,12 +468,13 @@ extension SubstanceLibrary {
             ],
             effects: ["Drowsiness", "Sleep aid", "Allergy relief", "Dry mouth", "Sedation", "Grogginess"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
             name: "Meclizine",
-            aliases: ["Dramamine", "Antivert"],
+            aliases: ["Antivert", "Bonine"],
             category: .antihistamine,
             defaultRoute: .oral,
             routes: [
@@ -474,12 +491,13 @@ extension SubstanceLibrary {
             ],
             effects: ["Motion sickness relief", "Anti-nausea", "Reduced dizziness", "Drowsiness", "Dry mouth"],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
             name: "Dimenhydrinate",
-            aliases: ["Gravol"],
+            aliases: ["Dramamine", "Gravol"],
             category: .antihistamine,
             defaultRoute: .oral,
             routes: [
@@ -496,7 +514,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Motion sickness relief", "Anti-nausea", "Drowsiness", "Sedation", "Dry mouth", "Dizziness"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -517,7 +536,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Allergy relief", "Reduced sneezing", "Reduced itching", "Mild drowsiness", "Reduced runny nose"],
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -538,7 +558,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Allergy relief", "Reduced sneezing", "Non-drowsy", "Reduced itching", "Hive relief"],
-            halfLifeMinutes: 1620
+            halfLifeMinutes: 1620,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Proton Pump Inhibitors & Antacids
@@ -561,7 +582,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Heartburn relief", "Reduced stomach acid", "GERD relief", "Ulcer healing", "Nausea reduction"],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -582,7 +604,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Heartburn relief", "Reduced stomach acid", "GERD relief", "Ulcer healing", "Stomach pain relief"],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -603,7 +626,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Heartburn relief", "Reduced stomach acid", "Indigestion relief", "Ulcer prevention", "Acid reflux relief"],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Metabolic
@@ -626,7 +650,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Blood sugar reduction", "Improved insulin sensitivity", "Appetite suppression", "GI discomfort", "Nausea", "Weight management"],
-            halfLifeMinutes: 390
+            halfLifeMinutes: 390,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -647,7 +672,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Increased energy", "Improved metabolism", "Reduced fatigue", "Mood stabilization", "Weight normalization", "Reduced cold sensitivity"],
-            halfLifeMinutes: 10080
+            halfLifeMinutes: 10080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Cardiovascular
@@ -670,7 +696,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Blood pressure reduction", "Heart protection", "Dry cough", "Dizziness", "Kidney protection"],
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -691,7 +718,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Blood pressure reduction", "Reduced chest pain", "Ankle swelling", "Dizziness", "Flushing"],
-            halfLifeMinutes: 2100
+            halfLifeMinutes: 2100,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -712,7 +740,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Blood pressure reduction", "Kidney protection", "Dizziness", "Fatigue", "Heart protection"],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -733,7 +762,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced heart rate", "Blood pressure reduction", "Reduced anxiety tremor", "Fatigue", "Cold extremities", "Dizziness"],
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -754,7 +784,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced heart rate", "Blood pressure reduction", "Reduced chest pain", "Fatigue", "Dizziness", "Cold extremities"],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -775,7 +806,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced heart rate", "Anxiety relief", "Reduced tremor", "Blood pressure reduction", "Performance anxiety relief", "Fatigue"],
-            halfLifeMinutes: 270
+            halfLifeMinutes: 270,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -796,7 +828,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Blood pressure reduction", "Sedation", "Dry mouth", "Anxiety relief", "Drowsiness", "ADHD symptom relief"],
-            halfLifeMinutes: 780
+            halfLifeMinutes: 780,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - PDE5 Inhibitors
@@ -810,7 +843,7 @@ extension SubstanceLibrary {
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
                     threshold: 10, light: 25...50, common: 50...100, strong: 100...150, heavy: 150
                 ), duration: DurationProfile(
-                    onset: TimeRange(min: 15, max: 30),
+                    onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 15, max: 30),
                     peak: TimeRange(min: 60, max: 120),
                     offset: TimeRange(min: 120, max: 240),
@@ -819,7 +852,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Increased blood flow", "Headache", "Flushing", "Nasal congestion", "Dizziness", "Visual changes"],
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -831,7 +865,7 @@ extension SubstanceLibrary {
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
                     threshold: 2.5, light: 5...10, common: 10...20, strong: 20...40, heavy: 40
                 ), duration: DurationProfile(
-                    onset: TimeRange(min: 15, max: 30),
+                    onset: TimeRange(min: 30, max: 120),
                     comeup: TimeRange(min: 30, max: 60),
                     peak: TimeRange(min: 120, max: 240),
                     offset: TimeRange(min: 1440, max: 2160),
@@ -840,7 +874,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Increased blood flow", "Headache", "Back pain", "Flushing", "Nasal congestion", "Muscle aches"],
-            halfLifeMinutes: 1050
+            halfLifeMinutes: 1050,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Respiratory
@@ -863,7 +898,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Reduced asthma symptoms", "Allergy relief", "Improved breathing", "Headache", "Mood changes", "Reduced nasal congestion"],
-            halfLifeMinutes: 330
+            halfLifeMinutes: 330,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Corticosteroids
@@ -886,7 +922,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Anti-inflammatory", "Increased appetite", "Insomnia", "Mood changes", "Fluid retention", "Immune suppression", "Elevated energy"],
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -907,7 +944,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Anti-inflammatory", "Anti-nausea", "Increased appetite", "Insomnia", "Mood changes", "Immune suppression"],
-            halfLifeMinutes: 2160
+            halfLifeMinutes: 2160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Mood Stabilizers & Anticonvulsants
@@ -930,7 +968,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Mood stabilization", "Reduced mania", "Increased thirst", "Tremor", "Weight gain", "Cognitive dulling", "Nausea"],
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -951,7 +990,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Mood stabilization", "Seizure prevention", "Reduced depression", "Headache", "Dizziness", "Rash risk"],
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -972,7 +1012,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Mood stabilization", "Seizure prevention", "Weight gain", "Drowsiness", "Nausea", "Tremor", "Hair thinning"],
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -993,7 +1034,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Mood stabilization", "Seizure prevention", "Nerve pain relief", "Drowsiness", "Dizziness", "Nausea"],
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1014,7 +1056,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Seizure prevention", "Migraine prevention", "Appetite suppression", "Weight loss", "Cognitive dulling", "Tingling sensation"],
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Migraine & Anti-emetic
@@ -1047,7 +1090,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Migraine relief", "Reduced nausea", "Chest tightness", "Tingling sensation", "Dizziness", "Fatigue"],
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1068,7 +1112,8 @@ extension SubstanceLibrary {
                 )),
             ],
             effects: ["Anti-nausea", "Anti-vomiting", "Headache", "Constipation", "Fatigue"],
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Anxiolytics (Non-Benzodiazepine)
@@ -1100,7 +1145,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "No Recreational Potential", description: "The absence of euphoria, disinhibition, or immediate anxiolysis means this substance has virtually no abuse potential."),
                 SubjectiveEffect(name: "Improved Baseline Anxiety", description: "After weeks of consistent use, a general lowering of baseline anxiety becomes apparent, making daily stressors feel more manageable."),
             ],
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Anticonvulsants
@@ -1131,7 +1177,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Slowing", description: "Mental processing may feel slightly dulled, with reduced sharpness in concentration and slower reaction times."),
                 SubjectiveEffect(name: "Drowsiness", description: "A mild to moderate sedation that can interfere with alertness, especially during initial dosing or after dose increases."),
             ],
-            halfLifeMinutes: 1320
+            halfLifeMinutes: 1320,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1160,7 +1207,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "A pervasive tiredness and low energy that can accompany treatment, particularly at higher doses."),
                 SubjectiveEffect(name: "Cognitive Effects", description: "Some patients report difficulty with concentration or word-finding, though generally milder than with older anticonvulsants."),
             ],
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1189,7 +1237,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Double Vision", description: "Diplopia or blurred vision may occur, particularly at higher doses, making reading and driving difficult."),
                 SubjectiveEffect(name: "Mood Stabilization", description: "A subtle evening-out of mood fluctuations that contributes to its off-label use as a mood stabilizer."),
             ],
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Local Anesthetics & Analgesics
@@ -1241,7 +1290,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Perioral Numbness", description: "Numbness around the lips and tongue that can develop with systemic exposure, distinct from the intended local effect."),
                 SubjectiveEffect(name: "Antiarrhythmic Effect", description: "When administered intravenously, a stabilization of cardiac rhythm that is not subjectively felt but is clinically significant."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Orexin Receptor Antagonists
@@ -1273,7 +1323,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Minimal Cognitive Impairment", description: "Unlike benzodiazepines and Z-drugs, there is relatively little amnesia or confusion associated with this mechanism of action."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1302,7 +1353,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Low Dependence Risk", description: "Discontinuation does not typically produce the rebound insomnia seen with benzodiazepines or Z-drugs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 1020
+            halfLifeMinutes: 1020,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Expectorants & Antitussives
@@ -1332,7 +1384,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stomach Discomfort", description: "Abdominal cramping or discomfort may occur, especially with extended-release formulations on an empty stomach."),
                 SubjectiveEffect(name: "Increased Urination", description: "Some users notice increased urinary frequency, possibly due to the high fluid intake recommended with this medication."),
             ],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1360,7 +1413,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sedation", description: "A mild drowsiness that can accompany cough suppression, contributing to restful sleep when coughing has been disrupting it."),
                 SubjectiveEffect(name: "Overdose Danger", description: "The fatal dose is exceptionally low compared to therapeutic doses; even a small number of extra capsules can cause seizures, cardiac arrest, and death."),
             ],
-            halfLifeMinutes: 480
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Anti-Nausea & GI
@@ -1368,7 +1422,7 @@ extension SubstanceLibrary {
         Substance(
             name: "Prochlorperazine",
             aliases: ["Compazine", "Compro"],
-            category: .antihistamine,
+            category: .other,
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
@@ -1401,7 +1455,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dystonic Reactions", description: "Involuntary muscle contractions, particularly in the neck, jaw, or eyes, that can occur as an acute and distressing side effect."),
                 SubjectiveEffect(name: "Dry Mouth", description: "A noticeable reduction in saliva production creating persistent oral dryness and thirst."),
             ],
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -1429,7 +1484,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Reduced bowel frequency and harder stools that may develop with regular use."),
                 SubjectiveEffect(name: "Well Tolerated", description: "Generally produces minimal noticeable side effects at therapeutic doses, though the product has been withdrawn from many markets due to NDMA contamination concerns."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Melatonin Agonists
@@ -1437,7 +1493,7 @@ extension SubstanceLibrary {
         Substance(
             name: "Ramelteon",
             aliases: ["Rozerem"],
-            category: .supplement,
+            category: .other,
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
@@ -1459,7 +1515,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Dizziness", description: "A faint lightheadedness that some users experience, usually mild and transient."),
                 SubjectiveEffect(name: "Circadian Rhythm Reset", description: "With consistent nightly use, the body's internal clock gradually realigns, improving sleep-wake regularity over days to weeks."),
             ],
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
     ]
 }

@@ -33,8 +33,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Lift", description: "A gentle improvement in mood and outlook, often described as feeling slightly more optimistic or content."),
                 SubjectiveEffect(name: "Time Compression", description: "A subtle sense that time is passing more quickly, making tasks feel shorter than they actually are."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 1, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "Examine.com", "PubMed"]
         ),
 
         // MARK: - Amphetamine
@@ -46,7 +47,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 3, light: 5...15, common: 15...30, strong: 30...60, heavy: 60, fatal: 200
+                    threshold: 3, light: 5...15, common: 15...30, strong: 30...60, heavy: 60, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 20, max: 60),
                     comeup: TimeRange(min: 15, max: 30),
@@ -99,7 +100,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A period of irritability, fatigue, low mood, and difficulty concentrating as the effects wear off, often lasting several hours."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Dextroamphetamine
@@ -111,7 +113,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 2, light: 2.5...10, common: 10...20, strong: 20...40, heavy: 40, fatal: 150
+                    threshold: 2, light: 2.5...10, common: 10...20, strong: 20...40, heavy: 40, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 20, max: 40),
                     comeup: TimeRange(min: 15, max: 30),
@@ -154,7 +156,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A rebound period of low mood, fatigue, and mental fogginess as dopamine and norepinephrine activity returns to baseline."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Lisdexamfetamine
@@ -188,7 +191,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A gradual return to baseline that is typically milder than other amphetamines, though irritability and fatigue can still occur in the evening hours."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Methamphetamine
@@ -200,14 +204,14 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 3, light: 5...15, common: 15...30, strong: 30...60, heavy: 60, fatal: 150
+                    threshold: 3, light: 5...15, common: 15...30, strong: 30...60, heavy: 60, fatal: 300
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 20, max: 60),
                     comeup: TimeRange(min: 30, max: 60),
                     peak: TimeRange(min: 150, max: 300),
                     offset: TimeRange(min: 180, max: 360),
                     afterglow: TimeRange(min: 240, max: 720),
-                    total: TimeRange(min: 480, max: 720)
+                    total: TimeRange(min: 600, max: 960)
                 )),
                 SubstanceRoute(route: .insufflation, unit: "mg", doses: DoseRange(
                     threshold: 2, light: 5...10, common: 10...25, strong: 25...50, heavy: 50
@@ -264,7 +268,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Tactile Hallucinations", description: "At high doses or after prolonged use, a crawling or itching sensation under the skin known as 'meth bugs' or formication."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["PsychonautWiki", "Erowid", "DEA", "StatPearls"]
         ),
 
         // MARK: - Methylphenidate
@@ -276,7 +281,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 5...20, common: 20...40, strong: 40...60, heavy: 60, fatal: 200
+                    threshold: 5, light: 5...20, common: 20...40, strong: 40...60, heavy: 60, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 20, max: 45),
                     comeup: TimeRange(min: 15, max: 30),
@@ -328,7 +333,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Thought Organization", description: "An improved ability to sequence thoughts and follow through on plans, making executive function tasks like organizing and planning feel more manageable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Dexmethylphenidate
@@ -340,7 +346,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 1, light: 2.5...5, common: 5...15, strong: 15...30, heavy: 30, fatal: 100
+                    threshold: 1, light: 2.5...5, common: 5...15, strong: 15...30, heavy: 30, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 10, max: 20),
@@ -372,7 +378,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Wakefulness", description: "A reliable resistance to drowsiness and mental fog, providing sustained alertness without the intense stimulation of amphetamine-class drugs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Cocaine
@@ -437,7 +444,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A sharp crash involving depressed mood, fatigue, restlessness, and intense craving that arrives as the short-acting effects wear off."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "Erowid", "DEA", "StatPearls"]
         ),
 
         // MARK: - Crack Cocaine
@@ -471,7 +479,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Severe Comedown", description: "An intense crash characterized by deep depression, agitation, exhaustion, and overwhelming craving that begins minutes after the last dose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "Merck Manual", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Nicotine
@@ -483,7 +492,7 @@ extension SubstanceLibrary {
             defaultRoute: .inhalation,
             routes: [
                 SubstanceRoute(route: .inhalation, unit: "mg", doses: DoseRange(
-                    threshold: 0.5, light: 0.5...1, common: 1...3, strong: 3...5, heavy: 5, fatal: 100
+                    threshold: 0.5, light: 0.5...1, common: 1...3, strong: 3...5, heavy: 5, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 0.5),
                     comeup: TimeRange(min: 0.5, max: 2),
@@ -493,7 +502,7 @@ extension SubstanceLibrary {
                     total: TimeRange(min: 30, max: 60)
                 )),
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 0.5, light: 1...2, common: 2...4, strong: 4...8, heavy: 8, fatal: 60
+                    threshold: 0.5, light: 1...2, common: 2...4, strong: 4...8, heavy: 8, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 5, max: 15),
                     comeup: TimeRange(min: 5, max: 10),
@@ -535,7 +544,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Habituation", description: "A rapid development of tolerance where the pleasurable effects diminish within days of regular use, leaving primarily craving relief as the subjective experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PubMed"]
         ),
 
         // MARK: - Modafinil
@@ -569,7 +579,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Absence of Euphoria", description: "A notably non-euphoric experience compared to traditional stimulants, which makes it feel functional rather than recreational."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Armodafinil
@@ -603,7 +614,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Absence of Euphoria", description: "A characteristically non-recreational experience with no discernible high, making the effects feel like simply being awake and functional."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Ephedrine
@@ -637,7 +649,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Mood Lift", description: "A subtle improvement in mood and sense of well-being, though much less pronounced than with amphetamines."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Pseudoephedrine
@@ -669,7 +682,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep when taken later in the day, owing to its mild stimulant properties and relatively long duration of action."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Propylhexedrine
@@ -713,7 +727,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A harsh crash involving headache, fatigue, irritability, and body aches, often described as more physically uncomfortable than typical amphetamine comedowns."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - DMAA
@@ -757,7 +772,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A throbbing headache that often develops during or after the experience, likely related to vasoconstriction and blood pressure elevation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 510
+            halfLifeMinutes: 504,
+            sources: ["PubMed", "Examine.com", "WHO"]
         ),
 
         // MARK: - Phenylethylamine
@@ -800,7 +816,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fleeting Duration", description: "A remarkably short window of effects that is often over before it feels like it has fully begun, leading some users to compulsively redose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 10
+            halfLifeMinutes: 10,
+            sources: ["Drugs.com", "PubMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Adrafinil
@@ -834,7 +851,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Absence of Euphoria", description: "A characteristically non-recreational profile identical to modafinil, with effects limited to wakefulness and mild cognitive enhancement."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 900,
+            sources: ["PsychonautWiki", "PubMed", "DrugBank", "Examine.com"]
         ),
 
         // MARK: - Atomoxetine
@@ -868,7 +886,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gradual Onset", description: "A therapeutic effect that builds incrementally over 4-6 weeks of daily use, with no immediate cognitive boost felt on the first dose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "slow"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Phentermine
@@ -902,7 +921,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Tolerance Development", description: "A rapid diminishing of appetite-suppressant and euphoric effects with continued use, typically within weeks of regular administration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         // MARK: - Phenmetrazine
@@ -956,7 +976,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A moderate period of fatigue, low mood, and irritability as effects subside, though generally reported as less harsh than amphetamine."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "Merck Manual", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Pemoline
@@ -990,7 +1011,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Absence of Euphoria", description: "A characteristically non-euphoric stimulant profile that provides functional benefits without a discernible high or rewarding sensation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Amineptine
@@ -1024,7 +1046,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A mild stomach queasiness that can occur with each dose, generally improving with food."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "WHO", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Prolintane
@@ -1058,7 +1081,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiety", description: "A nervous tension that escalates with dose, potentially leading to uncomfortable feelings of unease and worry."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "PubMed", "DrugBank"]
         ),
 
         // MARK: - Theacrine
@@ -1092,7 +1116,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Potential difficulty falling asleep if taken too late in the day, though typically less disruptive than equivalent caffeine doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 150,
+            sources: ["Examine.com", "PubMed"]
         ),
 
         // MARK: - Dynamine
@@ -1126,7 +1151,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A tension headache that may develop as the short-lived effects wear off, potentially related to the rapid metabolic clearance."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "PubMed"]
         ),
 
         // MARK: - Yohimbine
@@ -1160,7 +1186,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Awareness", description: "An amplified awareness of physical sensations and bodily functions, sometimes causing benign sensations to feel concerning or alarming."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 36,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Hordenine
@@ -1202,7 +1229,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "A stomach discomfort that can occur particularly at higher doses or when combined with other supplements."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "PubMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Synephrine
@@ -1236,7 +1264,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Restlessness", description: "A mild fidgety energy that can make relaxation difficult, especially at higher doses or when combined with caffeine."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Clenbuterol
@@ -1271,7 +1300,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Bronchodilation", description: "A noticeable opening of the airways that makes breathing feel deeper and easier, reflecting its original medical purpose for treating asthma."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 2100
+            halfLifeMinutes: 2100,
+            sources: ["Drugs.com", "Merck Manual", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Herbal & Ethnobotanical Stimulants
@@ -1307,7 +1337,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep for several hours after a chewing session, particularly when consumed later in the day."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "WHO"]
         ),
 
         // MARK: - Betel Nut
@@ -1340,7 +1371,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort and nausea that can occur in non-habitual users or at higher doses, sometimes progressing to vomiting."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 45,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "WHO"]
         ),
 
         // MARK: - Guarana
@@ -1372,7 +1404,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gradual Onset", description: "A notably slower onset than coffee, with effects building over 30-60 minutes and sustaining for several hours due to the natural matrix of the seed."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Yerba Mate
@@ -1396,7 +1429,7 @@ extension SubstanceLibrary {
             ],
             effects: ["Sustained energy", "Focus", "Mood lift", "Appetite suppression", "Smooth stimulation"],
             subjectiveEffects: [
-                SubjectiveEffect(name: "Smooth Stimulation", description: "A clean, sustained energy that feels distinctly different from coffee, often described as alert yet relaxed, attributed to the synergy of caffeine, theobromine, and L-theanine."),
+                SubjectiveEffect(name: "Smooth Stimulation", description: "A clean, sustained energy that feels distinctly different from coffee, often described as alert yet relaxed, attributed to the synergy of caffeine, theobromine, and chlorogenic acids."),
                 SubjectiveEffect(name: "Mental Clarity", description: "An improved ability to focus and think clearly without the anxiety or jitteriness that often accompanies equivalent caffeine doses."),
                 SubjectiveEffect(name: "Mood Enhancement", description: "A reliable lift in mood and sense of well-being that adds a positive, social quality to the stimulant effects."),
                 SubjectiveEffect(name: "Physical Endurance", description: "Improved stamina and reduced perception of fatigue during physical activity, traditionally valued by South American laborers and athletes."),
@@ -1405,7 +1438,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Digestive Stimulation", description: "A mild stimulation of digestive processes and bowel motility, more gentle than coffee but still noticeable with regular consumption."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Coca Leaf
@@ -1438,7 +1472,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Digestive Aid", description: "A soothing effect on the stomach when consumed as tea, traditionally used to ease digestive discomfort and nausea."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "WHO"]
         ),
     ]
 }

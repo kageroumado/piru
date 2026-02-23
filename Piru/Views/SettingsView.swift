@@ -75,6 +75,51 @@ struct SettingsView: View {
                 LabeledContent("Substances in Library", value: "\(SubstanceLibrary.all.count)")
                 LabeledContent("Version", value: "1.0")
             }
+
+            Section {
+                ForEach(AppSources.all, id: \.name) { source in
+                    if !source.url.isEmpty, let url = URL(string: source.url) {
+                        Link(destination: url) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text(source.name)
+                                        .font(.subheadline.weight(.medium))
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right.square")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Text(source.detail)
+                                    .font(.caption2)
+                                    .foregroundStyle(Theme.accent)
+                                Text(source.description)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.vertical, 2)
+                        }
+                    } else {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(source.name)
+                                .font(.subheadline.weight(.medium))
+                            Text(source.detail)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                            Text(source.description)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.vertical, 2)
+                    }
+                }
+            } header: {
+                Label("Sources & References", systemImage: "book.closed")
+            } footer: {
+                Text("Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use.")
+            }
         }
         .navigationTitle("Settings")
         .fileExporter(

@@ -32,8 +32,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Mental Fatigue", description: "Cognitive tasks feel slightly less draining, allowing for longer periods of sustained mental effort."),
                 SubjectiveEffect(name: "Headache", description: "A dull tension headache that can occur when choline intake is insufficient, typically behind the forehead."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 300
+            toleranceInfo: ToleranceInfo(halfLife: 90, fullResetDays: 60, buildRate: "negligible"),
+            halfLifeMinutes: 300,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 2. Aniracetam
@@ -65,8 +66,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sensory Enrichment", description: "Music and visual experiences may feel slightly more vivid and engaging than baseline."),
                 SubjectiveEffect(name: "Headache", description: "A choline-depletion headache that can emerge after extended use without adequate choline supplementation."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 21, fullResetDays: 45, buildRate: "slow"),
-            halfLifeMinutes: 105
+            toleranceInfo: ToleranceInfo(halfLife: 90, fullResetDays: 45, buildRate: "negligible"),
+            halfLifeMinutes: 105,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 3. Oxiracetam
@@ -97,8 +99,9 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Phonetic Clarity", description: "Spoken words and sounds may seem slightly crisper and easier to distinguish and process."),
                 SubjectiveEffect(name: "Headache", description: "A tension-type headache from acetylcholine depletion, avoidable with concurrent choline supplementation."),
             ],
-            toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 480
+            toleranceInfo: ToleranceInfo(halfLife: 90, fullResetDays: 60, buildRate: "negligible"),
+            halfLifeMinutes: 480,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 4. Pramiracetam
@@ -130,7 +133,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A racetam-class headache typically caused by insufficient choline intake during supplementation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 330
+            halfLifeMinutes: 330,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 5. Phenylpiracetam
@@ -163,7 +167,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite Suppression", description: "A mild reduction in hunger that can last several hours after dosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 6. Coluracetam
@@ -205,7 +210,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "Possible tension headache from increased choline demand, usually preventable with choline co-supplementation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 7. Fasoracetam
@@ -247,7 +253,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mental Clarity", description: "A reduction in mental noise and improved ability to think through problems sequentially."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 105
+            halfLifeMinutes: 105,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 8. Noopept
@@ -290,7 +297,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A dull headache that may emerge with regular use, often mitigated by adding a choline source."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 45
+            halfLifeMinutes: 20,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 9. Semax
@@ -322,7 +330,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nasal Clarity", description: "When used intranasally, a brief tingling sensation followed by rapidly improving mental clarity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 3
+            halfLifeMinutes: 3,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 10. Selank
@@ -354,7 +363,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Stabilization", description: "A general evening-out of mood swings, with less reactivity to minor annoyances and setbacks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 3
+            halfLifeMinutes: 3,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 11. Alpha-GPC
@@ -385,7 +395,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Physical Power", description: "A mild improvement in explosive strength and power output during resistance training."),
                 SubjectiveEffect(name: "Nausea", description: "Mild stomach discomfort that can occur at higher doses, especially when taken on an empty stomach."),
             ],
-            halfLifeMinutes: 270
+            halfLifeMinutes: 270,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 12. CDP-Choline (Citicoline)
@@ -416,7 +427,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Wakefulness", description: "A gentle alerting effect from the cytidine component, less pronounced than typical stimulants."),
                 SubjectiveEffect(name: "Headache", description: "An occasional mild headache, less common than with Alpha-GPC due to the lower choline load per dose."),
             ],
-            halfLifeMinutes: 4200
+            halfLifeMinutes: 4200,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 13. L-Theanine
@@ -448,7 +460,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Attentional Flow", description: "An enhanced ability to enter flow states during focused work, with fewer intrusive thoughts."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 75
+            halfLifeMinutes: 75,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 14. Lion's Mane
@@ -479,7 +492,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dream Vividness", description: "Some users report more vivid and memorable dreams after several weeks of regular use."),
                 SubjectiveEffect(name: "Digestive Comfort", description: "A mild improvement in gut comfort and digestion, reflecting the mushroom's prebiotic properties."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 15. Bacopa Monnieri
@@ -510,7 +524,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild Sedation", description: "A gentle sleepiness that can occur initially, often diminishing as the body adjusts over the first week."),
                 SubjectiveEffect(name: "Stomach Discomfort", description: "Mild gastrointestinal upset that some users experience, typically manageable by taking it with food."),
             ],
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 16. Sulbutiamine
@@ -542,7 +557,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sleep Disruption", description: "Difficulty falling asleep if taken too late in the day due to the stimulating thiamine-derived effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 17. NSI-189
@@ -575,7 +591,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sleep Difficulty", description: "Trouble falling or staying asleep, more common at higher doses or when taken later in the day."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 1140
+            halfLifeMinutes: 1140,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 18. Dihexa
@@ -606,7 +623,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mental Resilience", description: "A sense of cognitive reserves being deeper, with less mental fatigue during extended intellectual work."),
                 SubjectiveEffect(name: "Subtle Neuroprotection", description: "A background sense of cognitive health being supported, though this is more inferred than directly felt."),
             ],
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 19. Sunifiram
@@ -648,7 +666,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort that can occur especially at higher doses, typically manageable with food."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 20. Unifiram
@@ -690,7 +709,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Gastrointestinal discomfort that may occur at higher doses, similar in character to sunifiram."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 21. IDRA-21
@@ -722,7 +742,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Intensity", description: "A strong sense of mental activation that some find productive and others find overwhelming."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 10, fullResetDays: 21, buildRate: "slow"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 22. PRL-8-53
@@ -753,7 +774,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Retention Improvement", description: "Information studied under the influence tends to stick better over subsequent days."),
                 SubjectiveEffect(name: "Headache", description: "A mild headache that some users report, possibly related to cholinergic activity changes."),
             ],
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 23. Bromantane
@@ -785,7 +807,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dopaminergic Tone", description: "A gentle baseline improvement in mood and reward sensitivity that builds over days of use."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 690
+            halfLifeMinutes: 690,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 24. RGPU-95
@@ -817,7 +840,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Difficulty falling asleep if dosed too late, as the wakefulness-promoting effects can last many hours."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 25. Cerebrolysin
@@ -848,7 +872,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Injection Site Discomfort", description: "Pain, redness, or swelling at the injection site that typically resolves within hours."),
                 SubjectiveEffect(name: "Dizziness", description: "A mild lightheadedness that can occur shortly after injection, usually transient."),
             ],
-            halfLifeMinutes: 30
+            halfLifeMinutes: 30,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 26. Cortexin
@@ -879,7 +904,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Injection Site Pain", description: "Localized soreness at the injection site that can last a day, typically mild and manageable."),
                 SubjectiveEffect(name: "Mild Headache", description: "An occasional light headache during the first few days of treatment that usually resolves."),
             ],
-            halfLifeMinutes: 30
+            halfLifeMinutes: 30,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 27. 9-Me-BC
@@ -911,7 +937,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Stabilization", description: "A gradual normalization of mood with improved emotional resilience over the supplementation period."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 1440
+            halfLifeMinutes: 1440,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
         // MARK: - 28. Nefiracetam
@@ -943,7 +970,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Mild stomach discomfort that some users experience, especially at higher doses or without food."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 30, buildRate: "slow"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Examine.com", "PubMed", "DrugBank"]
         ),
 
     ]

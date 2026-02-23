@@ -34,7 +34,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sleep Disruption", description: "Difficulty falling asleep or staying asleep, sometimes accompanied by vivid dreams, particularly in the early weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1560
+            halfLifeMinutes: 1560,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -66,7 +67,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Clarity", description: "An emerging sense that thoughts are less clouded by depressive rumination, noticed gradually over weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 21, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 5760
+            halfLifeMinutes: 5760,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -98,7 +100,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Fog", description: "A subtle difficulty with word-finding and short-term memory that some patients report during treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -130,7 +133,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "GI Disturbance", description: "Mild nausea and stomach discomfort that typically peaks in the first week and resolves within two weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 2100
+            halfLifeMinutes: 2100,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -162,7 +166,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Clarity", description: "A clearing of the depressive mental fog, allowing for more organized and less ruminative thinking."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1770
+            halfLifeMinutes: 1770,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -193,7 +198,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Vivid Dreams", description: "Intense, often bizarre dreams that can feel hyper-real and are frequently reported with this medication."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 960
+            halfLifeMinutes: 960,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         // MARK: - SNRIs
@@ -227,7 +233,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Blood Pressure Awareness", description: "Some patients report feeling their heartbeat more intensely or noticing subtle increases in blood pressure."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -259,7 +266,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Slowed bowel movements and difficulty passing stool that may require dietary adjustments."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -290,7 +298,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "GI Disturbance", description: "Nausea and constipation that tend to be most prominent during the first few weeks."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -321,7 +330,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "GI Disturbance", description: "Nausea and constipation that are common in the first weeks and may partially persist."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 720
+            halfLifeMinutes: 720,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -352,7 +362,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "GI Disturbance", description: "Nausea and constipation that tend to peak early in treatment and gradually improve."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         // MARK: - Other Antidepressants
@@ -386,7 +397,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Reduced Nicotine Cravings", description: "A diminished urge to smoke and reduced satisfaction from cigarettes, often noticeable within the first week."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -418,7 +430,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "A persistent oral dryness that can be particularly noticeable at night and upon waking."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 10, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -449,7 +462,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dry Mouth", description: "A dry, parched feeling in the mouth that develops early in treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 10, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -480,7 +494,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Minimal Sexual Dysfunction", description: "Notably less sexual side effects compared to SSRIs, which patients often find a significant relief."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -511,7 +526,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Reconnection", description: "A sense of re-engaging with emotions and life rather than feeling numbed or detached."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -542,7 +558,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A mild to moderate headache that is common in the first weeks and usually subsides."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 3960
+            halfLifeMinutes: 3960,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -573,7 +590,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Headache", description: "A dull headache that can occur in the early days of treatment and usually resolves."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "EMCDDA", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         // MARK: - TCAs
@@ -607,7 +625,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Blurred Vision", description: "Difficulty focusing the eyes, particularly on close objects, due to anticholinergic effects on the pupils."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -638,7 +657,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "Lightheadedness, particularly when standing up quickly, due to orthostatic blood pressure changes."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1860
+            halfLifeMinutes: 1860,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -670,7 +690,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Weight Gain", description: "An increase in appetite and body weight that can become significant over months."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -701,7 +722,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive Activation", description: "A mild sharpening of focus and mental energy that distinguishes it from more sedating TCAs."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1260
+            halfLifeMinutes: 1260,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -733,7 +755,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Relief", description: "A sense of release from the constant pressure of obsessive-compulsive symptoms that can feel profoundly liberating."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1920
+            halfLifeMinutes: 1920,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -765,7 +788,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Itch Relief", description: "A notable anti-itch effect due to potent antihistamine properties, sometimes prescribed specifically for pruritus."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 1020
+            halfLifeMinutes: 1020,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -796,7 +820,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Reduced bowel motility from anticholinergic effects, often requiring proactive management."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 1380,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -827,7 +852,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Slowed bowel function from anticholinergic effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 4740
+            halfLifeMinutes: 4740,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -858,7 +884,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "Lightheadedness and unsteadiness, particularly upon standing, due to orthostatic blood pressure changes."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 60, buildRate: "slow"),
-            halfLifeMinutes: 3060
+            halfLifeMinutes: 3060,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         // MARK: - MAOIs
@@ -892,7 +919,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Emotional Reconnection", description: "A sense of regaining emotional depth and the ability to feel pleasure, often after years of failed treatments."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 42, buildRate: "slow"),
-            halfLifeMinutes: 690
+            halfLifeMinutes: 690,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -923,7 +951,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sexual Dysfunction", description: "Difficulty with arousal and orgasm that may develop during treatment."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 42, buildRate: "slow"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -954,7 +983,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Mild stomach upset that may occur during initiation and usually settles."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 42, buildRate: "slow"),
-            halfLifeMinutes: 2160
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -995,7 +1025,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "Occasional lightheadedness, particularly during dose adjustments."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 42, buildRate: "slow"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -1026,7 +1057,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Restlessness", description: "A subtle inner agitation or inability to sit still that some patients notice."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 42, buildRate: "slow"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "EMCDDA", "StatPearls", "Stahl's Prescriber's Guide"]
         ),
 
         Substance(
@@ -1057,7 +1089,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective State", description: "A contemplative, inward-facing mental state that can facilitate self-reflection and emotional processing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
     ]
 }

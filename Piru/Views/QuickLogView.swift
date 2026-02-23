@@ -13,34 +13,34 @@ struct QuickLogView: View {
     @State private var showingDailyDose = false
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
-    @State private var showEntryForm = false
-    @State private var prefillSubstance = ""
-    @State private var prefillRoute: RouteOfAdministration = .oral
-    @State private var prefillUnit = "mg"
+    @State private var entryFormPrefill: EntryPrefill?
     @State private var pendingLogAction: (() -> Void)?
+
+    @State private var cachedGroups: [SubstanceGroup] = []
 
     // MARK: - Grouping
 
-    private var substanceGroups: [SubstanceGroup] {
+    private func rebuildGroups() {
+        // Pre-build color lookup: O(1) per substance instead of O(colors)
+        var colorLookup: [String: String] = [:]
+        for sc in substanceColors {
+            colorLookup[sc.substance.lowercased()] = sc.hexColor
+        }
+
         var groupMap: [String: SubstanceGroup] = [:]
 
         for entry in allEntries {
-            let key = "\(entry.substance.lowercased())|\(entry.route.rawValue)"
+            let nameLower = entry.substance.lowercased()
+            let key = "\(nameLower)|\(entry.route.rawValue)"
             if var group = groupMap[key] {
                 group.addEntry(entry)
                 groupMap[key] = group
             } else {
-                let colorHex = substanceColors.first {
-                    $0.substance.lowercased() == entry.substance.lowercased()
-                }?.hexColor
-                let libraryMatch = SubstanceLibrary.search(entry.substance).first {
-                    $0.name.lowercased() == entry.substance.lowercased()
-                }
                 var group = SubstanceGroup(
                     substanceName: entry.substance,
                     route: entry.route,
-                    colorHex: colorHex,
-                    librarySubstance: libraryMatch,
+                    colorHex: colorLookup[nameLower],
+                    librarySubstance: SubstanceLibrary.lookup(nameLower),
                     latestTimestamp: entry.timestamp
                 )
                 group.addEntry(entry)
@@ -48,20 +48,18 @@ struct QuickLogView: View {
             }
         }
 
-        var groups = Array(groupMap.values)
-        groups.sort { $0.latestTimestamp > $1.latestTimestamp }
-        return groups
+        cachedGroups = groupMap.values.sorted { $0.latestTimestamp > $1.latestTimestamp }
     }
 
     private var filteredGroups: [SubstanceGroup] {
-        guard !searchText.isEmpty else { return substanceGroups }
+        guard !searchText.isEmpty else { return cachedGroups }
         let query = searchText.lowercased()
-        return substanceGroups.filter { $0.substanceName.lowercased().contains(query) }
+        return cachedGroups.filter { $0.substanceName.lowercased().contains(query) }
     }
 
     private var libraryResults: [Substance] {
         guard !searchText.isEmpty else { return [] }
-        let historyNames = Set(substanceGroups.map { $0.substanceName.lowercased() })
+        let historyNames = Set(cachedGroups.map { $0.substanceName.lowercased() })
         return SubstanceLibrary.search(searchText).filter { !historyNames.contains($0.name.lowercased()) }
     }
 
@@ -75,7 +73,7 @@ struct QuickLogView: View {
                         dailyDoseButton
                     }
 
-                    if substanceGroups.isEmpty && searchText.isEmpty {
+                    if cachedGroups.isEmpty && searchText.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -109,12 +107,15 @@ struct QuickLogView: View {
                 }
                 .presentationDetents([.large])
             }
-            .sheet(isPresented: $showEntryForm) {
-                EntryFormView(prefillSubstance: prefillSubstance, prefillRoute: prefillRoute, prefillUnit: prefillUnit)
+            .sheet(item: $entryFormPrefill) { prefill in
+                EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
             }
             .sheet(isPresented: $showingDailyDose) {
                 LogDailyDoseView()
             }
+            .task { rebuildGroups() }
+            .onChange(of: allEntries.count) { rebuildGroups() }
+            .onChange(of: substanceColors.count) { rebuildGroups() }
         }
     }
 
@@ -294,17 +295,19 @@ struct QuickLogView: View {
     }
 
     private func openOtherDose(group: SubstanceGroup) {
-        prefillSubstance = group.substanceName
-        prefillRoute = group.route
-        prefillUnit = group.doses.first?.unit ?? "mg"
-        showEntryForm = true
+        entryFormPrefill = EntryPrefill(
+            substance: group.substanceName,
+            route: group.route,
+            unit: group.doses.first?.unit ?? "mg"
+        )
     }
 
     private func openLibrarySubstance(_ substance: Substance) {
-        prefillSubstance = substance.name
-        prefillRoute = substance.defaultRoute
-        prefillUnit = substance.defaultUnit
-        showEntryForm = true
+        entryFormPrefill = EntryPrefill(
+            substance: substance.name,
+            route: substance.defaultRoute,
+            unit: substance.defaultUnit
+        )
     }
 
     private func startLiveActivity(entry: DoseEntry, group: SubstanceGroup) {
@@ -378,6 +381,13 @@ struct SubstanceGroup: Identifiable {
             latestTimestamp = entry.timestamp
         }
     }
+}
+
+struct EntryPrefill: Identifiable {
+    let id = UUID()
+    let substance: String
+    let route: RouteOfAdministration
+    let unit: String
 }
 
 struct DoseChip: Identifiable {

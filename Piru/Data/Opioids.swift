@@ -74,7 +74,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Slowing", description: "A noticeable reduction in the urge to breathe, with breaths becoming shallow and infrequent, which can be dangerous at high doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Codeine
@@ -108,7 +109,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mental Fog", description: "A hazy, slightly clouded quality to thinking where concentration becomes difficult and thoughts drift easily."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Hydrocodone
@@ -142,7 +144,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Breathing becomes noticeably slower and shallower, with reduced awareness of the need to breathe, posing overdose risk at high doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 228
+            halfLifeMinutes: 228,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Oxycodone
@@ -186,7 +189,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nodding", description: "At higher doses, a dreamlike state of semi-consciousness where the user drifts in and out of a pleasant drowsiness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Hydromorphone
@@ -198,7 +202,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 1, light: 1...2, common: 2...4, strong: 4...8, heavy: 8, fatal: 32
+                    threshold: 1, light: 1...2, common: 2...4, strong: 4...8, heavy: 8, fatal: 24
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 15, max: 30),
@@ -208,7 +212,7 @@ extension SubstanceLibrary {
                     total: TimeRange(min: 240, max: 360)
                 )),
                 SubstanceRoute(route: .intravenous, unit: "mg", doses: DoseRange(
-                    threshold: 0.25, light: 0.5...1, common: 1...2, strong: 2...4, heavy: 4, fatal: 4
+                    threshold: 0.25, light: 0.5...1, common: 1...2, strong: 2...4, heavy: 4, fatal: 10
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.5, max: 1),
                     comeup: TimeRange(min: 1, max: 5),
@@ -240,7 +244,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Significantly depressed breathing rate and depth, posing serious overdose risk due to the substance's high potency."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Oxymorphone
@@ -284,7 +289,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Itching", description: "Pronounced histamine-driven itchiness across the body, especially the face and extremities, that can be both bothersome and oddly satisfying to scratch."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Heroin
@@ -296,7 +302,7 @@ extension SubstanceLibrary {
             defaultRoute: .intravenous,
             routes: [
                 SubstanceRoute(route: .intravenous, unit: "mg", doses: DoseRange(
-                    threshold: 2, light: 5...10, common: 10...25, strong: 25...50, heavy: 50, fatal: 75
+                    threshold: 2, light: 5...10, common: 10...25, strong: 25...50, heavy: 50, fatal: 40
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 0.5),
                     comeup: TimeRange(min: 1, max: 5),
@@ -339,7 +345,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Itching", description: "Intense, widespread histamine-mediated itching across the body, particularly the nose and face."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Fentanyl
@@ -351,7 +358,7 @@ extension SubstanceLibrary {
             defaultRoute: .transdermal,
             routes: [
                 SubstanceRoute(route: .transdermal, unit: "\u{00B5}g/hr", doses: DoseRange(
-                    threshold: 6, light: 12...25, common: 25...50, strong: 50...100, heavy: 100, fatal: 100
+                    threshold: 6, light: 12...25, common: 25...50, strong: 50...100, heavy: 100, fatal: 150
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 360, max: 720),
                     comeup: TimeRange(min: 120, max: 240),
@@ -361,7 +368,7 @@ extension SubstanceLibrary {
                     total: TimeRange(min: 4320, max: 4320)
                 )),
                 SubstanceRoute(route: .sublingual, unit: "\u{00B5}g", doses: DoseRange(
-                    threshold: 12, light: 12...25, common: 25...50, strong: 50...100, heavy: 100, fatal: 1000
+                    threshold: 12, light: 12...25, common: 25...50, strong: 50...100, heavy: 100, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 5, max: 15),
                     comeup: TimeRange(min: 5, max: 10),
@@ -371,7 +378,7 @@ extension SubstanceLibrary {
                     total: TimeRange(min: 60, max: 120)
                 )),
                 SubstanceRoute(route: .intravenous, unit: "\u{00B5}g", doses: DoseRange(
-                    threshold: 6, light: 12...25, common: 25...50, strong: 50...75, heavy: 75, fatal: 500
+                    threshold: 6, light: 12...25, common: 25...50, strong: 50...75, heavy: 75, fatal: 300
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 0.1, max: 0.5),
                     comeup: TimeRange(min: 0.5, max: 2),
@@ -393,7 +400,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Severe and rapid-onset respiratory depression that is the leading cause of fentanyl-related fatalities, often occurring before the user can react."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Methadone
@@ -405,14 +413,14 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 2.5, light: 5...10, common: 10...20, strong: 20...40, heavy: 40, fatal: 60
+                    threshold: 2.5, light: 5...10, common: 10...20, strong: 20...40, heavy: 40, fatal: 40
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 30, max: 60),
                     peak: TimeRange(min: 120, max: 360),
                     offset: TimeRange(min: 360, max: 720),
                     afterglow: nil,
-                    total: TimeRange(min: 1440, max: 2160)
+                    total: TimeRange(min: 540, max: 1200)
                 )),
             ],
             effects: ["Pain relief", "Euphoria", "Sedation", "Warmth", "Anxiolysis", "Nausea", "Constipation", "Sweating", "Respiratory depression", "Drowsiness"],
@@ -427,7 +435,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Accumulation Effects", description: "Due to the long half-life, effects can build over several days of regular dosing, making the first few days deceptively mild before full effects manifest."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 1500
+            halfLifeMinutes: 1500,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Buprenorphine
@@ -461,7 +470,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sweating", description: "Increased perspiration that is particularly noticeable at night and can persist as a chronic side effect."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 2160
+            halfLifeMinutes: 2160,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Tramadol
@@ -495,7 +505,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Frequent stomach upset and queasiness, partly from opioid effects and partly from serotonergic activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 390
+            halfLifeMinutes: 390,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Tapentadol
@@ -529,7 +540,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Respiratory Depression", description: "Dose-dependent reduction in breathing rate and depth that poses overdose risk, particularly when combined with other depressants."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Kratom
@@ -563,7 +575,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Anxiolysis", description: "A calming effect on anxiety that makes social situations and stressful tasks feel more manageable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 1380
+            halfLifeMinutes: 1380,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "WHO"]
         ),
 
         // MARK: - O-DSMT
@@ -597,7 +610,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "Lightheadedness and occasional unsteadiness, particularly noticeable when first standing up."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Tianeptine
@@ -631,7 +645,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Rapid Tolerance", description: "Effects diminish quickly with repeated use, driving dose escalation and creating a cycle of increasing consumption."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["PsychonautWiki", "PubMed", "DrugBank", "EMCDDA"]
         ),
 
         // MARK: - Meperidine
@@ -665,7 +680,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Short Duration", description: "Effects fade within 2-3 hours, notably shorter than most other opioids, necessitating frequent redosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Dihydrocodeine
@@ -699,7 +715,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Drowsiness", description: "A sleepy, heavy-eyed feeling that builds over the duration and makes napping feel inviting."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Poppy Seed Tea
@@ -733,7 +750,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Itching", description: "Diffuse skin itchiness from histamine release triggered by the morphine and codeine content."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: - Loperamide
@@ -765,7 +783,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Minimal Withdrawal Relief", description: "At very high doses, some users report mild relief from opioid withdrawal symptoms, though this comes with extreme cardiac danger."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 660
+            halfLifeMinutes: 660,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - U-47700
@@ -809,7 +828,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Pronounced nausea common at higher doses, sometimes severe enough to cause vomiting."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Mitragynine
@@ -843,7 +863,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Physical Energy", description: "At low doses, noticeable increase in physical stamina and motivation, traditionally used by laborers for sustained work."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 1380
+            halfLifeMinutes: 1380,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "WHO"]
         ),
 
         // MARK: - 2-Methyl-AP-237
@@ -887,7 +908,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Constipation", description: "Typical opioid-induced gut slowing that occurs with repeated use."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Brorphine
@@ -931,7 +953,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Itching", description: "Histamine-mediated skin itchiness common with opioid receptor activation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Etazene
@@ -975,7 +998,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Strong nausea and vomiting risk, particularly in those without significant opioid tolerance."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Isotonitazene
@@ -1019,7 +1043,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Naloxone Resistance", description: "May require higher or repeated doses of naloxone to reverse compared to other opioids due to extreme receptor binding affinity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - AP-237
@@ -1063,7 +1088,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort common at higher doses, consistent with opioid receptor activation in the brainstem."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 4, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Nalbuphine
@@ -1107,7 +1133,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach upset that is a common side effect, sometimes persistent throughout the duration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Pentazocine
@@ -1141,7 +1168,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Frequent stomach upset that can be persistent and bothersome throughout the duration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 270
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
 
         // MARK: - Butorphanol
@@ -1175,7 +1203,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sweating", description: "Increased perspiration related to kappa opioid receptor stimulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 200,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls", "PsychonautWiki"]
         ),
     ]
 }

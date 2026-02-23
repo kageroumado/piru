@@ -4,13 +4,15 @@ struct SubstanceSearchField: View {
     @Binding var text: String
     var onSelect: (Substance) -> Void
     var onCustom: (() -> Void)?
+    var locked: Bool
 
     @State private var results: [Substance] = []
     @State private var showResults = false
     @FocusState private var isFocused: Bool
 
-    init(text: Binding<String>, onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
+    init(text: Binding<String>, locked: Bool = false, onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
         _text = text
+        self.locked = locked
         self.onSelect = onSelect
         self.onCustom = onCustom
     }
@@ -25,11 +27,13 @@ struct SubstanceSearchField: View {
             TextField("Substance name", text: $text)
                 .autocorrectionDisabled()
                 .focused($isFocused)
+                .disabled(locked)
+                .foregroundStyle(locked ? .secondary : .primary)
                 .onChange(of: text) {
                     if text.isEmpty {
                         results = []
                         showResults = false
-                    } else if isFocused {
+                    } else if isFocused && !locked {
                         results = SubstanceLibrary.search(text)
                         showResults = true
                     }

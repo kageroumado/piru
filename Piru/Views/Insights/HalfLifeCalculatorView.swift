@@ -35,6 +35,7 @@ struct HalfLifeCalculatorView: View {
     @State private var timeTaken: Date = .now
     @State private var useCustomHalfLife = false
     @State private var customHalfLifeHours: String = ""
+    @State private var cachedActiveSubstances: [ActiveSubstance] = []
 
     private var effectiveHalfLife: Double? {
         if useCustomHalfLife {
@@ -48,18 +49,22 @@ struct HalfLifeCalculatorView: View {
         Double(doseAmount) ?? 0
     }
 
-    private var colorMap: [String: Color] {
-        substanceColors.colorMap
-    }
-
-    private var activeSubstances: [ActiveSubstance] {
+    private func computeActiveSubstances() -> [ActiveSubstance] {
         let now = Date.now
+        let colors = substanceColors.colorMap
+        // Build a lookup dictionary: lowercased name/alias -> Substance
+        var lookup: [String: Substance] = [:]
+        for substance in SubstanceLibrary.all {
+            lookup[substance.name.lowercased()] = substance
+            for alias in substance.aliases {
+                lookup[alias.lowercased()] = substance
+            }
+        }
+
         var grouped: [String: (substance: Substance, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
 
         for entry in allEntries {
-            guard let substance = SubstanceLibrary.search(entry.substance).first,
-                  substance.name.lowercased() == entry.substance.lowercased()
-                      || substance.aliases.contains(where: { $0.lowercased() == entry.substance.lowercased() }),
+            guard let substance = lookup[entry.substance.lowercased()],
                   let halfLife = substance.halfLifeMinutes,
                   halfLife > 0 else { continue }
 
@@ -68,7 +73,6 @@ struct HalfLifeCalculatorView: View {
             let remaining = entry.amount * pow(0.5, elapsed / halfLife)
             let fraction = remaining / entry.amount
 
-            // Skip if less than ~3% remains (past 5 half-lives)
             guard fraction > 0.03 else { continue }
 
             let doseInfo = ActiveSubstance.DoseInfo(
@@ -95,7 +99,7 @@ struct HalfLifeCalculatorView: View {
 
         return grouped.map { name, info in
             let unit = info.substance.defaultUnit
-            let color = colorMap[name.lowercased()] ?? Theme.accent
+            let color = colors[name.lowercased()] ?? Theme.accent
             return ActiveSubstance(
                 name: name,
                 unit: unit,
@@ -112,7 +116,7 @@ struct HalfLifeCalculatorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                if !activeSubstances.isEmpty {
+                if !cachedActiveSubstances.isEmpty {
                     inYourSystemSection
                 }
 
@@ -131,6 +135,9 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
+        .task(id: allEntries.count) {
+            cachedActiveSubstances = computeActiveSubstances()
+        }
     }
 
     // MARK: - In Your System
@@ -140,7 +147,7 @@ struct HalfLifeCalculatorView: View {
             Text("In Your System")
                 .font(.headline)
 
-            ForEach(activeSubstances) { active in
+            ForEach(cachedActiveSubstances) { active in
                 activeSubstanceCard(active)
             }
         }

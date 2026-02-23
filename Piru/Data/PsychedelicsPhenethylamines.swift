@@ -57,7 +57,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Manageable Headspace", description: "A relatively clear and lucid mental state compared to other psychedelics, with less thought confusion and a sense of being able to function."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-C
@@ -89,7 +90,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Color Enhancement", description: "Mild intensification of color saturation where the world appears slightly more vivid and appealing without dramatic distortion."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-D
@@ -122,7 +124,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Color Enhancement", description: "Gentle brightening and enrichment of colors that makes the visual environment appear slightly more vivid and defined."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-E
@@ -166,7 +169,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Time Distortion", description: "Significant warping of temporal perception where the long duration of the experience is further stretched by subjective time dilation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-I
@@ -210,7 +214,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Vasoconstriction", description: "Mild to moderate tightening of blood vessels that can cause cold fingers and toes, and an uncomfortable feeling of physical tension."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-P
@@ -244,7 +249,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Time Distortion", description: "Profound temporal distortion where the already long duration feels dramatically extended, with hours feeling like days at higher doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-T-2
@@ -278,7 +284,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Stimulation", description: "A mild to moderate physical energization that encourages activity and movement without the jittery quality of amphetamine stimulants."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-T-7
@@ -312,7 +319,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Euphoria", description: "Waves of intense well-being and bliss that can have a profound, spiritually-tinged quality distinct from simple pleasure."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-T-21
@@ -344,7 +352,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Introspection", description: "A mild tendency toward self-reflection that feels productive and non-threatening, without the intense psychological depth of stronger compounds."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-B-FLY
@@ -378,7 +387,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pattern Recognition", description: "Enhanced perception of patterns and visual detail in surfaces and textures, with ordinary objects becoming visually fascinating."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: 2C-H
@@ -410,7 +420,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "High Dose Requirement", description: "Doses of several hundred milligrams are needed for any perceptible effects, making it impractical and rarely used as a standalone psychedelic."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - DOx Series
@@ -446,7 +457,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Deep Introspection", description: "Extended periods of deep self-examination facilitated by the long duration, allowing thorough processing of psychological material over many hours."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 900
+            halfLifeMinutes: 900,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: DOC
@@ -480,7 +492,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Significant and persistent physical discomfort from vasoconstriction, muscle tension, and stimulant effects compounding over the long duration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: DOB
@@ -514,7 +527,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Severe and persistent physical discomfort that is a defining characteristic, with vasoconstriction, tension, and nausea compounding throughout."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: DOI
@@ -548,7 +562,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Insomnia", description: "Inability to sleep for 20-28 hours after dosing due to persistent stimulant activity, requiring careful scheduling and recovery time."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: DON
@@ -582,7 +597,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspection", description: "A moderate tendency toward self-examination and contemplation facilitated by the extended duration of the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 960
+            halfLifeMinutes: 960,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - NBOMe Series
@@ -596,7 +612,7 @@ extension SubstanceLibrary {
             defaultRoute: .sublingual,
             routes: [
                 SubstanceRoute(route: .sublingual, unit: "µg", doses: DoseRange(
-                    threshold: 50, light: 200...400, common: 400...700, strong: 700...1000, heavy: 1000, fatal: 2000
+                    threshold: 50, light: 200...400, common: 400...700, strong: 700...1000, heavy: 1000, fatal: 1000
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 15, max: 30),
@@ -618,7 +634,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Substantial physical discomfort from the combination of vasoconstriction, stimulation, and elevated heart rate, more severe than most psychedelics."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25C-NBOMe
@@ -630,7 +647,7 @@ extension SubstanceLibrary {
             defaultRoute: .sublingual,
             routes: [
                 SubstanceRoute(route: .sublingual, unit: "µg", doses: DoseRange(
-                    threshold: 50, light: 150...300, common: 300...500, strong: 500...800, heavy: 800, fatal: 2000
+                    threshold: 50, light: 150...300, common: 300...500, strong: 500...800, heavy: 800, fatal: 1000
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 15, max: 30),
@@ -652,7 +669,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Moderate to significant physical discomfort from the combined effects of vasoconstriction, stimulation, and cardiovascular strain."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25B-NBOMe
@@ -664,7 +682,7 @@ extension SubstanceLibrary {
             defaultRoute: .sublingual,
             routes: [
                 SubstanceRoute(route: .sublingual, unit: "µg", doses: DoseRange(
-                    threshold: 50, light: 100...250, common: 250...500, strong: 500...750, heavy: 750, fatal: 2000
+                    threshold: 50, light: 100...250, common: 250...500, strong: 500...750, heavy: 750, fatal: 1000
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 15, max: 30),
@@ -686,7 +704,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pattern Recognition", description: "Enhanced perception of patterns in textures and surfaces, with visual details becoming richly apparent and fascinating."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25D-NBOMe
@@ -720,7 +739,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Moderate physical discomfort from cardiovascular strain, vasoconstriction, and stimulant effects acting in combination."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25E-NBOMe
@@ -754,7 +774,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Tachycardia", description: "Elevated heart rate that can feel alarming and contribute to anxiety, a physiological burden characteristic of the NBOMe class."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: - NBOH Series
@@ -790,7 +811,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Lift", description: "A reliable improvement in mood and outlook that contributes to an overall positive and enjoyable experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25C-NBOH
@@ -824,7 +846,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Moderate physical discomfort that is noticeable but generally more tolerable than with the corresponding NBOMe compound."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: 25I-NBOH
@@ -858,7 +881,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body Load", description: "Substantial physical discomfort from the combination of stimulation, vasoconstriction, and cardiovascular effects acting simultaneously."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "PubMed", "EMCDDA"]
         ),
 
         // MARK: - Mescaline and Relatives
@@ -895,7 +919,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended Duration", description: "A long experience of 8-12 hours with a gradual, gentle trajectory that allows for sustained exploration and integration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Escaline
@@ -929,7 +954,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Stimulation", description: "A subtle increase in physical energy and engagement with the environment, encouraging gentle activity and social interaction."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Allylescaline
@@ -941,7 +967,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...15, common: 15...25, strong: 25...40, heavy: 40
+                    threshold: 10, light: 15...25, common: 25...40, strong: 40...60, heavy: 60
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 60),
                     comeup: TimeRange(min: 30, max: 60),
@@ -963,7 +989,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Stimulation", description: "A subtle increase in energy and motivation that encourages light activity without restlessness or agitation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Methallylescaline
@@ -997,7 +1024,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Introspective Warmth", description: "A contemplative, reflective quality that encourages gentle self-examination with the emotional warmth characteristic of the mescaline family."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Proscaline
@@ -1031,7 +1059,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Introspection", description: "A warm, contemplative pull toward self-reflection that feels nurturing and productive rather than challenging or confrontational."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - TMA Series
@@ -1067,7 +1096,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Lift", description: "A positive shift in emotional outlook that combines the mescaline family warmth with the confidence of amphetamine stimulation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: TMA-6
@@ -1101,7 +1131,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Lift", description: "A modest positive shift in emotional baseline that helps counterbalance the physical discomfort of the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - Other Phenethylamines
@@ -1137,7 +1168,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mood Lift", description: "An improvement in mood and emotional outlook that combines the warm positivity of the mescaline family with stimulant energy."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: 3C-P
@@ -1171,14 +1203,15 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Euphoria", description: "A warm, positive emotional quality that emerges at the peak and can sustain through portions of the extended experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: BOD
 
         Substance(
             name: "BOD",
-            aliases: ["2C-B-Dragonfly", "Beta-methoxy-2C-D"],
+            aliases: ["Beta-methoxy-2C-D"],
             category: .psychedelic,
             defaultRoute: .oral,
             routes: [
@@ -1205,7 +1238,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Mild gastrointestinal discomfort during onset that typically resolves as the experience progresses to the peak."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: BOH
@@ -1237,7 +1271,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "High Dose Requirement", description: "Very large doses are needed for any perceptible effects, reflecting the low inherent potency of the unsubstituted 2C-H parent structure."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Bk-2C-B
@@ -1271,31 +1306,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Body High", description: "A warm, pleasant physical sensation with a tactile quality that enhances the empathogenic and social aspects of the experience."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
-        ),
-
-        // MARK: βk-2C-B
-
-        Substance(
-            name: "βk-2C-B",
-            aliases: ["beta-keto 2C-B", "Bk-2C-B"],
-            category: .psychedelic,
-            defaultRoute: .oral,
-            routes: [
-                SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 20, light: 40...60, common: 60...100, strong: 100...150, heavy: 150
-                ), duration: DurationProfile(
-                    onset: TimeRange(min: 20, max: 45),
-                    comeup: TimeRange(min: 15, max: 30),
-                    peak: TimeRange(min: 90, max: 150),
-                    offset: TimeRange(min: 60, max: 120),
-                    afterglow: TimeRange(min: 60, max: 240),
-                    total: TimeRange(min: 240, max: 420)
-                )),
-            ],
-            effects: ["Mild visuals", "Empathogenic warmth", "Stimulation", "Euphoria", "Color enhancement", "Body high", "Nausea", "Mood lift", "Increased sociability"],
-            toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "PubMed"]
         ),
 
         // MARK: DESOXY
@@ -1319,7 +1331,8 @@ extension SubstanceLibrary {
             ],
             effects: ["Empathogenic warmth", "Mild visuals", "Mood lift", "Introspection", "Body high", "Nausea", "Stimulation", "Emotional openness"],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: - Natural Mescaline Sources
@@ -1355,7 +1368,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Gentle Body Load", description: "A moderate physical heaviness and mild gastrointestinal discomfort that persists after the initial nausea phase, less intense than peyote but still noticeable."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
 
         // MARK: Peyote
@@ -1389,7 +1403,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Bitter Taste", description: "An intensely bitter, unpleasant taste from the alkaloid-rich cactus flesh that many describe as one of the most difficult parts of the experience to endure."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "PiHKAL", "Erowid", "PubMed"]
         ),
     ]
 }

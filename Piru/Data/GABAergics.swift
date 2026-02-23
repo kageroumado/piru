@@ -34,7 +34,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive suppression", description: "Thinking becomes slower and less precise, with difficulty maintaining complex trains of thought."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 45
+            halfLifeMinutes: 25,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "StatPearls"]
         ),
 
         Substance(
@@ -66,7 +67,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Sedation", description: "A heavy, drowsy feeling that can progress rapidly to irresistible sleepiness at higher doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 45
+            halfLifeMinutes: 25,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         Substance(
@@ -98,7 +100,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor impairment", description: "Physical coordination deteriorates, making walking and fine motor tasks challenging."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 2, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 45
+            halfLifeMinutes: 25,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA"]
         ),
 
         // MARK: - Gabapentinoids
@@ -132,7 +135,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Staggered absorption", description: "Effects build slowly and unevenly due to dose-dependent absorption, requiring patience between doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -164,7 +168,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Drowsiness", description: "A creeping sleepiness that becomes more prominent as effects progress, especially at higher doses."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 378,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -196,13 +201,14 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Rebound anxiety", description: "When effects wear off, anxiety can return more intensely than baseline, especially with frequent use."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Examine.com", "PubMed"]
         ),
 
         Substance(
             name: "Baclofen",
             aliases: [],
-            category: .gabapentinoid,
+            category: .depressant,
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
@@ -226,7 +232,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Weakness", description: "Muscles may feel less responsive and weaker than usual, making physical exertion feel more effortful."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 210
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "FDA DailyMed", "StatPearls"]
         ),
 
         Substance(
@@ -257,7 +264,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Disinhibition", description: "Social hesitation diminishes, leading to more open and forthcoming behavior in interactions."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 240
+            halfLifeMinutes: 240,
+            sources: ["PsychonautWiki", "PubMed", "EMCDDA"]
         ),
 
         // MARK: - Z-drugs
@@ -291,7 +299,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor impairment", description: "Walking becomes uncoordinated and unstable, with a sensation of floating or disconnection from the body."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -322,7 +331,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Confusion", description: "Thinking becomes muddled and disorganized, with difficulty following logical trains of thought."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -353,7 +363,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "A sense of lightheadedness and spatial disorientation, particularly when standing or moving."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -383,7 +394,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "A spinning or floating sensation that accompanies the rapid onset of effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Barbiturates
@@ -415,7 +427,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild euphoria", description: "A subdued sense of contentment and well-being, less pronounced than shorter-acting barbiturates."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 30, buildRate: "moderate"),
-            halfLifeMinutes: 4800
+            halfLifeMinutes: 4800,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -447,7 +460,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Warmth", description: "A pleasant physical warmth that adds to the overall sense of comfort and relaxation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1680
+            halfLifeMinutes: 1680,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -478,7 +492,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive suppression", description: "Clear thinking becomes impossible at higher doses, with judgment and reasoning deeply impaired."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -509,7 +524,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor impairment", description: "Balance and coordination are noticeably impaired, with an ataxic, unsteady quality to movement."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 1320
+            halfLifeMinutes: 1320,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -539,7 +555,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cognitive dulling", description: "Mental sharpness decreases, with slower processing and reduced ability to concentrate."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 21, buildRate: "moderate"),
-            halfLifeMinutes: 2100
+            halfLifeMinutes: 2100,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Muscle Relaxants
@@ -573,7 +590,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pain relief", description: "Muscular and general pain is significantly dulled, providing welcome relief from physical discomfort."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -603,7 +621,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Pain relief", description: "Muscular pain and tension are reduced, providing functional improvement in movement and comfort."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -633,7 +652,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild mood lift", description: "A subtle improvement in mood, likely related to the relief of muscular pain and tension."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 1080
+            halfLifeMinutes: 1080,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -663,7 +683,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Fatigue", description: "An encompassing tiredness that affects both physical energy and mental alertness."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 150
+            halfLifeMinutes: 150,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -693,7 +714,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "A mild vertiginous feeling that accompanies the general central nervous system depression."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 60
+            halfLifeMinutes: 60,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -724,7 +746,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "A lightheaded, unsteady feeling that may worsen with positional changes."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 840
+            halfLifeMinutes: 840,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -754,7 +777,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort that occasionally accompanies the effects, particularly on an empty stomach."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 5, fullResetDays: 14, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Alcohol
@@ -788,7 +812,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Nausea", description: "Stomach discomfort and nausea increase with dose, sometimes progressing to vomiting at higher amounts."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 90,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Other GABAergics
@@ -820,7 +845,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor impairment", description: "Balance and coordination are substantially compromised during the active effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "rapid"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -852,7 +878,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild euphoria", description: "A subtle but pleasant sense of contentment and well-being that accompanies the relaxation."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 210,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -883,7 +910,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Dizziness", description: "A lightheaded, unsteady sensation that accompanies the sedative effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -915,7 +943,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Motor impairment", description: "Movement becomes clumsy and uncoordinated, with a characteristic staggering gait."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 14, buildRate: "rapid"),
-            halfLifeMinutes: 1200
+            halfLifeMinutes: 1200,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         Substance(
@@ -947,7 +976,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Micropsia and macropsia", description: "Objects may appear dramatically smaller or larger than they actually are, creating a disorienting Alice-in-Wonderland effect."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 10, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Intravenous Anesthetics
@@ -980,7 +1010,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Rapid Recovery", description: "Awakening occurs quickly after discontinuation with a clear-headed quality, though brief confusion and disorientation are common in the first moments."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 3, fullResetDays: 7, buildRate: "moderate"),
-            halfLifeMinutes: 40
+            halfLifeMinutes: 40,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
 
         // MARK: - Other Muscle Relaxants
@@ -1011,7 +1042,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hepatotoxicity Awareness", description: "Liver damage is a serious risk with chronic use, requiring regular blood monitoring; symptoms like jaundice or abdominal pain demand immediate medical attention."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 7, fullResetDays: 14, buildRate: "slow"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["Drugs.com", "PsychonautWiki", "StatPearls"]
         ),
     ]
 }

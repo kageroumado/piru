@@ -34,6 +34,15 @@ enum SubstanceLibrary {
         all.filter { $0.category == category }
     }
 
+    private static let nameLookup: [String: Substance] = {
+        Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
+    }()
+
+    /// O(1) exact-name lookup, used by QuickLogView grouping.
+    static func lookup(_ name: String) -> Substance? {
+        nameLookup[name]
+    }
+
     static func search(_ query: String) -> [Substance] {
         guard !query.isEmpty else { return [] }
         let q = query.lowercased()

@@ -4,6 +4,7 @@ import SwiftData
 struct ContentView: View {
     @State private var selectedTab = 0
     @State private var searchText = ""
+    @State private var librarySearchText = ""
     @State private var isSearching = false
     @FocusState private var searchFieldFocused: Bool
 
@@ -20,6 +21,7 @@ struct ContentView: View {
         }
         .onChange(of: selectedTab) {
             searchText = ""
+            librarySearchText = ""
             searchFieldFocused = false
             withAnimation(.snappy(duration: 0.25)) {
                 isSearching = false
@@ -59,8 +61,9 @@ struct ContentView: View {
             }
             Tab("Library", systemImage: "books.vertical", value: 1) {
                 NavigationStack {
-                    SubstanceLibraryView(searchText: $searchText)
+                    SubstanceLibraryView(searchText: $librarySearchText)
                         .toolbar { settingsToolbarItem }
+                        .searchable(text: $librarySearchText, prompt: "Search substances...")
                 }
             }
             Tab("Interactions", systemImage: "cross.case", value: 2) {
@@ -145,7 +148,7 @@ struct ContentView: View {
                     }
                 case 1:
                     NavigationStack {
-                        SubstanceLibraryView(searchText: $searchText)
+                        SubstanceLibraryView(searchText: $librarySearchText)
                             .toolbar { settingsToolbarItem }
                     }
                 case 2:
@@ -195,6 +198,10 @@ struct ContentView: View {
         selectedTab == 0 || selectedTab == 1
     }
 
+    private var activeSearchText: Binding<String> {
+        selectedTab == 1 ? $librarySearchText : $searchText
+    }
+
     @State private var tabBarHeight: CGFloat = 46
 
     @ViewBuilder
@@ -211,13 +218,13 @@ struct ContentView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
                 .font(.subheadline.weight(.medium))
-            TextField("Search", text: $searchText)
+            TextField("Search", text: activeSearchText)
                 .font(.subheadline)
                 .focused($searchFieldFocused)
                 .submitLabel(.search)
-            if !searchText.isEmpty {
+            if !activeSearchText.wrappedValue.isEmpty {
                 Button {
-                    searchText = ""
+                    activeSearchText.wrappedValue = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.tertiary)
@@ -303,6 +310,7 @@ struct ContentView: View {
     private func dismissSearch() {
         searchFieldFocused = false
         searchText = ""
+        librarySearchText = ""
         withAnimation(.snappy(duration: 0.25)) {
             isSearching = false
         }

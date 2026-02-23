@@ -56,7 +56,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Comedown", description: "A period of low mood, fatigue, and emotional sensitivity in the days following use due to serotonin depletion."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - MDA
@@ -90,7 +91,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended duration", description: "Effects last longer than MDMA, with a more gradual onset and extended plateau phase."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 600
+            halfLifeMinutes: 600,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - MDEA
@@ -124,7 +126,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Jaw tension", description: "Mild to moderate jaw clenching and teeth grinding, typically less severe than with MDMA."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 6-APB
@@ -158,7 +161,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Slow onset", description: "Effects take 1-2 hours to fully manifest, which can lead to premature redosing if one is not patient."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 5-APB
@@ -192,7 +196,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended duration", description: "Effects persist longer than MDMA, with a 5-7 hour experience from a single dose."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 5-MAPB
@@ -226,7 +231,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Jaw tension", description: "Involuntary clenching and grinding of the jaw that persists throughout the peak effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 6-MAPB
@@ -259,7 +265,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Jaw clenching", description: "Persistent jaw tension and bruxism, which can be managed with magnesium or a mouthguard."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 480
+            halfLifeMinutes: 480,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 4-FA
@@ -303,7 +310,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hyperthermia", description: "Body temperature rises, producing sweating and a feeling of warmth that requires attention to cooling."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Methylone
@@ -347,7 +355,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cardiovascular stimulation", description: "Elevated heart rate and blood pressure that can feel uncomfortable, especially during physical activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 90
+            halfLifeMinutes: 90,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Butylone
@@ -380,7 +389,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Short duration", description: "Effects are relatively brief, often lasting only 2-3 hours, which can encourage compulsive redosing."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Ethylone
@@ -413,7 +423,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Jaw tension", description: "Mild to moderate jaw clenching and teeth grinding during the peak effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Pentylone
@@ -425,7 +436,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 2, light: 5...10, common: 10...20, strong: 20...35, heavy: 35
+                    threshold: 50, light: 75...125, common: 125...200, strong: 200...300, heavy: 300, fatal: 500
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 15, max: 30),
@@ -447,7 +458,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Compulsive redosing urge", description: "The short duration creates a strong desire to take more, which can lead to excessive consumption."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - Mephedrone
@@ -491,7 +503,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hyperthermia", description: "Body temperature rises noticeably, with sweating and flushing that require attention to hydration and cooling."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 3-MMC
@@ -535,7 +548,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite suppression", description: "Hunger is effectively suppressed for the duration of effects and some time afterward."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 4-CMC
@@ -577,7 +591,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Restlessness", description: "Difficulty relaxing or sitting still, with a persistent need for movement or activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 3-CMC
@@ -620,7 +635,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Jaw tension", description: "Some jaw clenching and teeth grinding, typically milder than with more serotonergic compounds."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 4-EMC
@@ -653,7 +669,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite suppression", description: "Food becomes unappealing during the active effects, with normal appetite returning gradually."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 180
+            halfLifeMinutes: 180,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - MDAI
@@ -687,7 +704,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Minimal comedown", description: "The aftermath is typically gentler than MDMA, with less pronounced serotonergic depletion effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 5-EAPB
@@ -720,7 +738,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hyperthermia", description: "Body temperature rises, with sweating and warmth that require attention to cooling and hydration."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 5-IT
@@ -732,7 +751,7 @@ extension SubstanceLibrary {
             defaultRoute: .oral,
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
-                    threshold: 5, light: 10...20, common: 20...35, strong: 35...50, heavy: 50, fatal: 50
+                    threshold: 5, light: 10...20, common: 20...35, strong: 35...50, heavy: 50, fatal: 75
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 30, max: 90),
                     comeup: TimeRange(min: 30, max: 60),
@@ -753,7 +772,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Serotonin syndrome risk", description: "The potent serotonergic activity creates significant risk of serotonin toxicity, especially in combination with other serotonergic substances."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 4-MEC
@@ -796,7 +816,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cardiovascular stimulation", description: "Elevated heart rate and blood pressure that can be uncomfortable during physical activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 14, fullResetDays: 45, buildRate: "moderate"),
-            halfLifeMinutes: 120
+            halfLifeMinutes: 120,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - BDB
@@ -829,7 +850,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Euphoria", description: "A moderate, pleasant sense of well-being and happiness that accompanies the empathogenic effects."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - MBDB
@@ -862,7 +884,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Mild euphoria", description: "A gentle, understated pleasure that is more contemplative than the euphoria of MDMA."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - IAP
@@ -894,7 +917,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Appetite suppression", description: "Hunger is mildly reduced during the experience, returning to normal as effects subside."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 300
+            halfLifeMinutes: 300,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 5-Methyl-MDA
@@ -928,7 +952,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Extended duration", description: "Effects last longer than MDMA, with a slow build and sustained plateau."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 540
+            halfLifeMinutes: 540,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 6-APB-FURANYL
@@ -961,7 +986,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Hyperthermia", description: "Elevated body temperature requiring awareness of hydration and environmental cooling."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 420
+            halfLifeMinutes: 420,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
 
         // MARK: - 4-FMA
@@ -1005,7 +1031,8 @@ extension SubstanceLibrary {
                 SubjectiveEffect(name: "Cardiovascular stimulation", description: "Noticeable heart rate and blood pressure elevation that warrants caution during physical activity."),
             ],
             toleranceInfo: ToleranceInfo(halfLife: 30, fullResetDays: 90, buildRate: "slow"),
-            halfLifeMinutes: 360
+            halfLifeMinutes: 360,
+            sources: ["PsychonautWiki", "Erowid", "EMCDDA", "PubMed"]
         ),
     ]
 }
