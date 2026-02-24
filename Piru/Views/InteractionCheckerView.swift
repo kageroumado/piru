@@ -23,9 +23,9 @@ struct InteractionCheckerView: View {
                         }
                     }
                     .onDelete { offsets in
-                        guard entries.count > 2 else { return }
                         entries.remove(atOffsets: offsets)
                     }
+                    .deleteDisabled(entries.count <= 2)
 
                     if entries.count < 8 {
                         Button {
