@@ -32,11 +32,11 @@ Piru/
 │   ├── SubstanceColor.swift   # @Model — user-assigned substance colors
 │   ├── UserColor.swift        # @Model — custom color palette entries
 │   └── RouteOfAdministration.swift
-├── Data/                      # Static substance definitions (one file per category)
-│   ├── SubstanceLibrary.swift # Central registry, search, O(1) name lookup
+├── Data/                      # Substance data and lookup
+│   ├── substances.json        # 670+ substance definitions (bundled JSON)
+│   ├── SubstanceLibrary.swift # JSON loader, search, O(1) name lookup
 │   ├── Interactions.swift     # Drug interaction rules and checker
-│   ├── AppSources.swift       # Citation sources
-│   └── [17 category files]    # Stimulants.swift, Opioids.swift, etc.
+│   └── AppSources.swift       # Citation sources
 ├── Views/                     # SwiftUI views
 │   ├── ContentView.swift      # Tab navigation (Journal, Quick Log, Library, Insights, Settings)
 │   ├── Insights/              # Adherence, usage stats, half-life calculator
@@ -61,7 +61,7 @@ Tools/SubstanceValidator/      # SPM CLI tool for data validation
 - **Minimum deployment**: iOS 17
 - **Schema versioning**: `PiruSchemaV2` in PiruApp.swift; add new versions + lightweight migration stages there
 - **SwiftData models**: `DoseEntry`, `SubstanceColor`, `UserColor`, `DailyDoseItem`, `FavoriteSubstance` — all `@Model final class`
-- **Substance data**: Plain Swift structs defined statically in `Data/` files, aggregated by `SubstanceLibrary.all`
+- **Substance data**: Codable structs loaded from bundled `substances.json` via `SubstanceLibrary.all`
 - **Live Activities**: Managed by `LiveActivityManager.shared` singleton; auto-resumes on launch, auto-prunes completed entries
 
 ## Conventions
@@ -69,7 +69,7 @@ Tools/SubstanceValidator/      # SPM CLI tool for data validation
 - **4-space indentation**
 - **`// MARK: -` sections** to organize code within files
 - **Enums as namespaces** for static collections (`SubstanceLibrary`, `InteractionChecker`, `AdherenceCalculator`)
-- **Substance data files** are extensions on `SubstanceLibrary` exposing a static array (e.g., `static let stimulants: [Substance]`)
+- **Substance data** lives in `substances.json` — edit the JSON to add/modify substances
 - **Search ranking**: exact name > exact alias > prefix match > contains match
 - **Tests use Swift Testing** (`@Suite`, `@Test`, `#expect`) — not XCTest
 - Substances reference each other by name string, not by ID — `DoseEntry.substance` stores the display name
@@ -77,7 +77,7 @@ Tools/SubstanceValidator/      # SPM CLI tool for data validation
 
 ## Substance Data Format
 
-Each substance requires: `name`, `aliases`, `category`, `defaultRoute`, `routes` (with `DoseRange` + `DurationProfile`), `effects`. Optional: `subjectiveEffects`, `toleranceInfo`, `halfLifeMinutes`, `sources`. All dose/duration values use **milligrams** and **minutes** as base units. Data is verified against authoritative pharmacological sources (see RESEARCH.md).
+Substance data lives in `Piru/Data/substances.json`. Each substance requires: `name`, `aliases`, `category`, `defaultRoute`, `routes` (with `DoseRange` + `DurationProfile`), `effects`. Optional: `subjectiveEffects`, `toleranceInfo`, `halfLifeMinutes`, `sources`. All dose/duration values use **milligrams** and **minutes** as base units. Dose ranges use `{"lower": X, "upper": Y}` for `ClosedRange<Double>` fields. Data is verified against authoritative pharmacological sources (see RESEARCH.md).
 
 ## Interaction System
 
