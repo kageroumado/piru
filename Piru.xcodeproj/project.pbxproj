@@ -63,6 +63,11 @@
 		A10093 /* HalfLifeCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10093 /* HalfLifeCalculatorView.swift */; };
 		A10095 /* AdherenceCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10095 /* AdherenceCalculator.swift */; };
 		A10097 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10097 /* UsageStatsView.swift */; };
+		A10100 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10100 /* ChatMessage.swift */; };
+		A10101 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10101 /* KeychainHelper.swift */; };
+		A10102 /* AnthropicService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10102 /* AnthropicService.swift */; };
+		A10103 /* ChatContextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10103 /* ChatContextBuilder.swift */; };
+		A10104 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10104 /* ChatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +158,11 @@
 		B10093 /* HalfLifeCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfLifeCalculatorView.swift; sourceTree = "<group>"; };
 		B10095 /* AdherenceCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdherenceCalculator.swift; sourceTree = "<group>"; };
 		B10097 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
+		B10100 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		B10101 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		B10102 /* AnthropicService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicService.swift; sourceTree = "<group>"; };
+		B10103 /* ChatContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatContextBuilder.swift; sourceTree = "<group>"; };
+		B10104 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +213,7 @@
 				E10003 /* Models */,
 				E10004 /* Views */,
 				E10006 /* Data */,
+				E10011 /* Services */,
 				E10007 /* Utilities */,
 				B20001 /* Assets.xcassets */,
 			);
@@ -218,6 +229,7 @@
 				B10035 /* SubstanceColor.swift */,
 				B10038 /* UserColor.swift */,
 				B10099 /* FavoriteSubstance.swift */,
+				B10100 /* ChatMessage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -240,6 +252,7 @@
 				B10080 /* FlowLayout.swift */,
 				B10081 /* QuickLogView.swift */,
 				B10090 /* InsightsView.swift */,
+				B10104 /* ChatView.swift */,
 				E10009 /* Insights */,
 			);
 			path = Views;
@@ -320,6 +333,16 @@
 				B10097 /* UsageStatsView.swift */,
 			);
 			path = Insights;
+			sourceTree = "<group>";
+		};
+		E10011 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B10101 /* KeychainHelper.swift */,
+				B10102 /* AnthropicService.swift */,
+				B10103 /* ChatContextBuilder.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -471,6 +494,11 @@
 				A10093 /* HalfLifeCalculatorView.swift in Sources */,
 				A10095 /* AdherenceCalculator.swift in Sources */,
 				A10097 /* UsageStatsView.swift in Sources */,
+				A10100 /* ChatMessage.swift in Sources */,
+				A10101 /* KeychainHelper.swift in Sources */,
+				A10102 /* AnthropicService.swift in Sources */,
+				A10103 /* ChatContextBuilder.swift in Sources */,
+				A10104 /* ChatView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
