@@ -5,6 +5,8 @@ struct ChatView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ChatMessage.timestamp) private var allMessages: [ChatMessage]
 
+    var onOpenSettings: (() -> Void)? = nil
+
     @State private var inputText = ""
     @State private var isStreaming = false
     @State private var streamingText = ""
@@ -36,7 +38,6 @@ struct ChatView: View {
                 setupPrompt
             }
         }
-        .navigationTitle("Chat")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -60,7 +61,19 @@ struct ChatView: View {
         ContentUnavailableView {
             Label("AI Chat", systemImage: "brain")
         } description: {
-            Text("Add your Anthropic API key in Settings to start chatting with Claude about your medications and substances.")
+            Text("Chat with Claude about your medications, substances, and usage history.")
+        } actions: {
+            Button {
+                onOpenSettings?()
+            } label: {
+                Text("Set Up API Key")
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(Theme.accent)
+
+            Text("Add your Anthropic API key in Settings to get started.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 
