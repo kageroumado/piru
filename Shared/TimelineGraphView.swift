@@ -188,7 +188,7 @@ struct TimelineGraphView: View {
         inset: CGFloat
     ) -> Path {
         Path { path in
-            let steps = 120
+            let steps = compact ? 40 : 120
             for i in 0...steps {
                 let t = Double(i) / Double(steps) * substance.totalMinutes
                 let x = inset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
@@ -212,7 +212,7 @@ struct TimelineGraphView: View {
         inset: CGFloat
     ) -> Path {
         Path { path in
-            let steps = 120
+            let steps = compact ? 40 : 120
             let baseline = inset + graphHeight
 
             let startX = inset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
