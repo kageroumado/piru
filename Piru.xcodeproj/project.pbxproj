@@ -21,27 +21,8 @@
 		A10008 /* EntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10008 /* EntryDetailView.swift */; };
 		A10010 /* Substance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10010 /* Substance.swift */; };
 		A10011 /* SubstanceLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10011 /* SubstanceLibrary.swift */; };
-		A10012 /* Stimulants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10012 /* Stimulants.swift */; };
-		A10013 /* PsychedelicsTryptamines.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10013 /* PsychedelicsTryptamines.swift */; };
-		A10014 /* PsychedelicsLysergamides.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10014 /* PsychedelicsLysergamides.swift */; };
-		A10015 /* PsychedelicsPhenethylamines.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10015 /* PsychedelicsPhenethylamines.swift */; };
-		A10016 /* Dissociatives.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10016 /* Dissociatives.swift */; };
-		A10017 /* Opioids.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10017 /* Opioids.swift */; };
-		A10018 /* Benzodiazepines.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10018 /* Benzodiazepines.swift */; };
-		A10019 /* GABAergics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10019 /* GABAergics.swift */; };
-		A10020 /* Empathogens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10020 /* Empathogens.swift */; };
-		A10021 /* Cannabinoids.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10021 /* Cannabinoids.swift */; };
-		A10022 /* Nootropics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10022 /* Nootropics.swift */; };
-		A10023 /* Antidepressants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10023 /* Antidepressants.swift */; };
-		A10024 /* Antipsychotics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10024 /* Antipsychotics.swift */; };
-		A10025 /* CommonMedications.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10025 /* CommonMedications.swift */; };
-		A10026 /* ResearchChemicalsStimulants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10026 /* ResearchChemicalsStimulants.swift */; };
-		A10027 /* ResearchChemicalsPsychedelics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10027 /* ResearchChemicalsPsychedelics.swift */; };
-		A10028 /* ResearchChemicalsOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10028 /* ResearchChemicalsOther.swift */; };
-		A10029 /* Supplements.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10029 /* Supplements.swift */; };
 		A10030 /* DoseLevelIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10030 /* DoseLevelIndicator.swift */; };
 		A10031 /* SubstanceSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10031 /* SubstanceSearchField.swift */; };
-		A10032 /* HormonesAndMore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10032 /* HormonesAndMore.swift */; };
 		A10070 /* Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* Interactions.swift */; };
 		A10098 /* AppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* AppSources.swift */; };
 		A10099 /* FavoriteSubstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10099 /* FavoriteSubstance.swift */; };
@@ -129,27 +110,8 @@
 		B10008 /* EntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailView.swift; sourceTree = "<group>"; };
 		B10010 /* Substance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Substance.swift; sourceTree = "<group>"; };
 		B10011 /* SubstanceLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibrary.swift; sourceTree = "<group>"; };
-		B10012 /* Stimulants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stimulants.swift; sourceTree = "<group>"; };
-		B10013 /* PsychedelicsTryptamines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicsTryptamines.swift; sourceTree = "<group>"; };
-		B10014 /* PsychedelicsLysergamides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicsLysergamides.swift; sourceTree = "<group>"; };
-		B10015 /* PsychedelicsPhenethylamines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsychedelicsPhenethylamines.swift; sourceTree = "<group>"; };
-		B10016 /* Dissociatives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dissociatives.swift; sourceTree = "<group>"; };
-		B10017 /* Opioids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opioids.swift; sourceTree = "<group>"; };
-		B10018 /* Benzodiazepines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benzodiazepines.swift; sourceTree = "<group>"; };
-		B10019 /* GABAergics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GABAergics.swift; sourceTree = "<group>"; };
-		B10020 /* Empathogens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empathogens.swift; sourceTree = "<group>"; };
-		B10021 /* Cannabinoids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cannabinoids.swift; sourceTree = "<group>"; };
-		B10022 /* Nootropics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nootropics.swift; sourceTree = "<group>"; };
-		B10023 /* Antidepressants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Antidepressants.swift; sourceTree = "<group>"; };
-		B10024 /* Antipsychotics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Antipsychotics.swift; sourceTree = "<group>"; };
-		B10025 /* CommonMedications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMedications.swift; sourceTree = "<group>"; };
-		B10026 /* ResearchChemicalsStimulants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchChemicalsStimulants.swift; sourceTree = "<group>"; };
-		B10027 /* ResearchChemicalsPsychedelics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchChemicalsPsychedelics.swift; sourceTree = "<group>"; };
-		B10028 /* ResearchChemicalsOther.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchChemicalsOther.swift; sourceTree = "<group>"; };
-		B10029 /* Supplements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supplements.swift; sourceTree = "<group>"; };
 		B10030 /* DoseLevelIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseLevelIndicator.swift; sourceTree = "<group>"; };
 		B10031 /* SubstanceSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceSearchField.swift; sourceTree = "<group>"; };
-		B10032 /* HormonesAndMore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesAndMore.swift; sourceTree = "<group>"; };
 		B10055 /* Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactions.swift; sourceTree = "<group>"; };
 		B10098 /* AppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSources.swift; sourceTree = "<group>"; };
 		B10033 /* SubstanceLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibraryView.swift; sourceTree = "<group>"; };
@@ -298,25 +260,6 @@
 			children = (
 				B20002 /* substances.json */,
 				B10011 /* SubstanceLibrary.swift */,
-				B10012 /* Stimulants.swift */,
-				B10013 /* PsychedelicsTryptamines.swift */,
-				B10014 /* PsychedelicsLysergamides.swift */,
-				B10015 /* PsychedelicsPhenethylamines.swift */,
-				B10016 /* Dissociatives.swift */,
-				B10017 /* Opioids.swift */,
-				B10018 /* Benzodiazepines.swift */,
-				B10019 /* GABAergics.swift */,
-				B10020 /* Empathogens.swift */,
-				B10021 /* Cannabinoids.swift */,
-				B10022 /* Nootropics.swift */,
-				B10023 /* Antidepressants.swift */,
-				B10024 /* Antipsychotics.swift */,
-				B10025 /* CommonMedications.swift */,
-				B10026 /* ResearchChemicalsStimulants.swift */,
-				B10027 /* ResearchChemicalsPsychedelics.swift */,
-				B10028 /* ResearchChemicalsOther.swift */,
-				B10029 /* Supplements.swift */,
-				B10032 /* HormonesAndMore.swift */,
 				B10055 /* Interactions.swift */,
 				B10098 /* AppSources.swift */,
 			);
@@ -499,27 +442,8 @@
 				A10008 /* EntryDetailView.swift in Sources */,
 				A10010 /* Substance.swift in Sources */,
 				A10011 /* SubstanceLibrary.swift in Sources */,
-				A10012 /* Stimulants.swift in Sources */,
-				A10013 /* PsychedelicsTryptamines.swift in Sources */,
-				A10014 /* PsychedelicsLysergamides.swift in Sources */,
-				A10015 /* PsychedelicsPhenethylamines.swift in Sources */,
-				A10016 /* Dissociatives.swift in Sources */,
-				A10017 /* Opioids.swift in Sources */,
-				A10018 /* Benzodiazepines.swift in Sources */,
-				A10019 /* GABAergics.swift in Sources */,
-				A10020 /* Empathogens.swift in Sources */,
-				A10021 /* Cannabinoids.swift in Sources */,
-				A10022 /* Nootropics.swift in Sources */,
-				A10023 /* Antidepressants.swift in Sources */,
-				A10024 /* Antipsychotics.swift in Sources */,
-				A10025 /* CommonMedications.swift in Sources */,
-				A10026 /* ResearchChemicalsStimulants.swift in Sources */,
-				A10027 /* ResearchChemicalsPsychedelics.swift in Sources */,
-				A10028 /* ResearchChemicalsOther.swift in Sources */,
-				A10029 /* Supplements.swift in Sources */,
 				A10030 /* DoseLevelIndicator.swift in Sources */,
 				A10031 /* SubstanceSearchField.swift in Sources */,
-				A10032 /* HormonesAndMore.swift in Sources */,
 				A10070 /* Interactions.swift in Sources */,
 				A10098 /* AppSources.swift in Sources */,
 				A10033 /* SubstanceLibraryView.swift in Sources */,
