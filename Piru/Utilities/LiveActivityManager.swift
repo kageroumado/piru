@@ -24,7 +24,7 @@ final class LiveActivityManager {
     static let shared = LiveActivityManager()
 
     private var currentActivity: Activity<PiruActivityAttributes>?
-    private var activeEntries: [(snapshot: DoseSnapshot, substance: Substance?, colorHex: String)] = []
+    private var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
 
     private init() {
         // Resume any existing activity on app launch
@@ -42,7 +42,8 @@ final class LiveActivityManager {
         allColors: [SubstanceColor]
     ) {
         let snapshot = DoseSnapshot(entry: entry)
-        activeEntries.append((snapshot: snapshot, substance: substance, colorHex: colorHex))
+        let duration = substance?.duration(for: entry.route)
+        activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
 
         pruneCompleted()
         guard !activeEntries.isEmpty else { return }
@@ -71,7 +72,8 @@ final class LiveActivityManager {
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            activeEntries.append((snapshot: snapshot, substance: substance, colorHex: hex))
+            let duration = substance?.duration(for: entry.route)
+            activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
         }
 
         pruneCompleted()
@@ -135,8 +137,9 @@ final class LiveActivityManager {
             let matchedSubstance = SubstanceLibrary.search(snapshot.substance).first {
                 $0.name.lowercased() == snapshot.substance.lowercased()
             }
+            let duration = matchedSubstance?.duration(for: entry.route)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            return (snapshot: snapshot, substance: matchedSubstance, colorHex: hex)
+            return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
 
         pruneCompleted()
@@ -190,14 +193,7 @@ final class LiveActivityManager {
         )
 
         let substanceStates: [ActiveSubstanceState] = activeEntries.compactMap { item in
-            let duration: DurationProfile?
-            if let substance = item.substance {
-                duration = substance.duration(for: item.snapshot.route)
-            } else {
-                duration = nil
-            }
-
-            guard let duration else { return nil }
+            guard let duration = item.duration else { return nil }
 
             let boundaries = duration.phaseBoundaries
             let total = duration.estimatedTotalMinutes
@@ -227,20 +223,16 @@ final class LiveActivityManager {
     }
 
     private func staleDate() -> Date? {
-        let maxEnd = activeEntries.compactMap { item -> Date? in
-            guard let substance = item.substance,
-                  let duration = substance.duration(for: item.snapshot.route) else { return nil }
+        activeEntries.compactMap { item -> Date? in
+            guard let duration = item.duration else { return nil }
             return item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
         }.max()
-
-        return maxEnd
     }
 
     private func pruneCompleted() {
         let now = Date.now
         activeEntries.removeAll { item in
-            guard let substance = item.substance,
-                  let duration = substance.duration(for: item.snapshot.route) else {
+            guard let duration = item.duration else {
                 return true // Remove entries without duration data
             }
             let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
