@@ -84,7 +84,13 @@ struct ContentView: View {
                         }
                 }
             }
-            Tab("Search", systemImage: "magnifyingglass", value: 4, role: .search) {
+            Tab("Chat", systemImage: "bubble.left.and.text.bubble.right", value: 4) {
+                NavigationStack {
+                    ChatView()
+                        .toolbar { settingsToolbarItem }
+                }
+            }
+            Tab("Search", systemImage: "magnifyingglass", value: 5, role: .search) {
                 NavigationStack {
                     EntryListView(searchText: $searchText)
                         .navigationTitle("Search")
@@ -166,6 +172,11 @@ struct ContentView: View {
                                         EntryDetailView(entry: entry)
                                     }
                             }
+                    }
+                case 4:
+                    NavigationStack {
+                        ChatView()
+                            .toolbar { settingsToolbarItem }
                     }
                 default:
                     EmptyView()
@@ -250,6 +261,7 @@ struct ContentView: View {
                 legacyTabButton(icon: "books.vertical", label: "Library", tab: 1)
                 legacyTabButton(icon: "cross.case", label: "Interactions", tab: 2)
                 legacyTabButton(icon: "chart.line.uptrend.xyaxis", label: "Insights", tab: 3)
+                legacyTabButton(icon: "bubble.left.and.text.bubble.right", label: "Chat", tab: 4)
             }
             .padding(4)
             .background(.ultraThinMaterial, in: Capsule())
