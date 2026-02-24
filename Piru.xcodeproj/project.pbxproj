@@ -65,6 +65,7 @@
 		A10055 /* TimelineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10043 /* TimelineGraphView.swift */; };
 		A10060 /* PiruLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C10010 /* PiruLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A20001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* Assets.xcassets */; };
+		A20002 /* substances.json in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* substances.json */; };
 		AT0001 /* DoseRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0001 /* DoseRangeTests.swift */; };
 		AT0002 /* TimeRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0002 /* TimeRangeTests.swift */; };
 		AT0003 /* DurationProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0003 /* DurationProfileTests.swift */; };
@@ -169,6 +170,7 @@
 		B10051 /* PiruLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruLiveActivity.swift; sourceTree = "<group>"; };
 		B10052 /* LiveActivityViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityViews.swift; sourceTree = "<group>"; };
 		B20001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B20002 /* substances.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = substances.json; sourceTree = "<group>"; };
 		C10001 /* Piru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piru.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10010 /* PiruLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C42340CD8457CD0BE0EBD672 /* LogDailyDoseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogDailyDoseView.swift; path = Piru/Views/LogDailyDoseView.swift; sourceTree = SOURCE_ROOT; };
@@ -294,6 +296,7 @@
 		E10006 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B20002 /* substances.json */,
 				B10011 /* SubstanceLibrary.swift */,
 				B10012 /* Stimulants.swift */,
 				B10013 /* PsychedelicsTryptamines.swift */,
@@ -468,6 +471,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A20001 /* Assets.xcassets in Resources */,
+				A20002 /* substances.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
