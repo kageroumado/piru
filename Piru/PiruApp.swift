@@ -17,18 +17,30 @@ enum PiruSchemaV2: VersionedSchema {
     }
 }
 
+enum PiruSchemaV3: VersionedSchema {
+    static var versionIdentifier = Schema.Version(3, 0, 0)
+    static var models: [any PersistentModel.Type] {
+        [DoseEntry.self, SubstanceColor.self, UserColor.self, DailyDoseItem.self, FavoriteSubstance.self, ChatMessage.self]
+    }
+}
+
 enum PiruMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
-        [PiruSchemaV1.self, PiruSchemaV2.self]
+        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self]
     }
 
     static var stages: [MigrationStage] {
-        [migrateV1toV2]
+        [migrateV1toV2, migrateV2toV3]
     }
 
     static let migrateV1toV2 = MigrationStage.lightweight(
         fromVersion: PiruSchemaV1.self,
         toVersion: PiruSchemaV2.self
+    )
+
+    static let migrateV2toV3 = MigrationStage.lightweight(
+        fromVersion: PiruSchemaV2.self,
+        toVersion: PiruSchemaV3.self
     )
 }
 
@@ -40,7 +52,7 @@ struct PiruApp: App {
 
     init() {
         do {
-            let schema = Schema(versionedSchema: PiruSchemaV2.self)
+            let schema = Schema(versionedSchema: PiruSchemaV3.self)
             container = try ModelContainer(
                 for: schema,
                 migrationPlan: PiruMigrationPlan.self
