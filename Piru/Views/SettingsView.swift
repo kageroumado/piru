@@ -14,8 +14,54 @@ struct SettingsView: View {
     @State private var importMessage: String?
     @State private var showingImportMessage = false
 
+    @State private var hasAPIKey = false
+    @State private var apiKeyInput = ""
+    @State private var showingAPIKeyField = false
+    @State private var selectedModel: ClaudeModel = .sonnet
+
     var body: some View {
         List {
+            Section("AI Chat") {
+                if hasAPIKey {
+                    HStack {
+                        Label("API Key", systemImage: "key")
+                        Spacer()
+                        Text("Configured")
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Button {
+                        showingAPIKeyField = true
+                    } label: {
+                        Label("Change API Key", systemImage: "pencil")
+                            .foregroundStyle(Theme.accent)
+                    }
+
+                    Button(role: .destructive) {
+                        KeychainHelper.delete()
+                        hasAPIKey = false
+                    } label: {
+                        Label("Remove API Key", systemImage: "trash")
+                    }
+                } else {
+                    Button {
+                        showingAPIKeyField = true
+                    } label: {
+                        Label("Add Anthropic API Key", systemImage: "key")
+                            .foregroundStyle(Theme.accent)
+                    }
+                }
+
+                Picker("Model", selection: $selectedModel) {
+                    ForEach(ClaudeModel.allCases) { model in
+                        Text(model.displayName).tag(model)
+                    }
+                }
+                .onChange(of: selectedModel) {
+                    UserDefaults.standard.set(selectedModel.rawValue, forKey: "selectedClaudeModel")
+                }
+            }
+
             Section("Daily Dose") {
                 NavigationLink {
                     DailyDoseSettingsView()
@@ -152,6 +198,27 @@ struct SettingsView: View {
             Button("OK") {}
         } message: {
             Text(importMessage ?? "")
+        }
+        .alert("Anthropic API Key", isPresented: $showingAPIKeyField) {
+            SecureField("sk-ant-...", text: $apiKeyInput)
+            Button("Save") {
+                let key = apiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !key.isEmpty {
+                    try? KeychainHelper.save(apiKey: key)
+                    hasAPIKey = true
+                }
+                apiKeyInput = ""
+            }
+            Button("Cancel", role: .cancel) {
+                apiKeyInput = ""
+            }
+        } message: {
+            Text("Enter your Anthropic API key. It will be stored securely in the device Keychain.")
+        }
+        .onAppear {
+            hasAPIKey = KeychainHelper.load() != nil
+            let raw = UserDefaults.standard.string(forKey: "selectedClaudeModel") ?? ClaudeModel.sonnet.rawValue
+            selectedModel = ClaudeModel(rawValue: raw) ?? .sonnet
         }
     }
 
