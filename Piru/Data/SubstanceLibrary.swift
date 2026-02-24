@@ -1,30 +1,19 @@
 import Foundation
 
 enum SubstanceLibrary {
-    static let all: [Substance] =
-        stimulants
-        + psychedelicsTryptamines
-        + psychedelicsLysergamides
-        + psychedelicsPhenethylamines
-        + dissociatives
-        + opioids
-        + benzodiazepines
-        + gabaergics
-        + empathogens
-        + cannabinoids
-        + nootropics
-        + antidepressants
-        + antipsychotics
-        + commonMedications
-        + researchChemicalsStimulants
-        + researchChemicalsPsychedelics
-        + researchChemicalsDissociatives
-        + researchChemicalsOpioids
-        + researchChemicalsBenzodiazepines
-        + researchChemicalsEmpathogens
-        + supplements
-        + hormones
-        + additionalMedications
+    // MARK: - Data Loading
+
+    static let all: [Substance] = {
+        guard let url = Bundle.main.url(forResource: "substances", withExtension: "json") else {
+            fatalError("substances.json not found in app bundle")
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            return try JSONDecoder().decode([Substance].self, from: data)
+        } catch {
+            fatalError("Failed to decode substances.json: \(error)")
+        }
+    }()
 
     static var byCategory: [SubstanceCategory: [Substance]] {
         Dictionary(grouping: all, by: \.category)
