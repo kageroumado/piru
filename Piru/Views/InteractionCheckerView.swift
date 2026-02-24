@@ -20,6 +20,9 @@ struct InteractionCheckerView: View {
                     ForEach($entries) { $entry in
                         SubstanceSearchField(text: $entry.name) { selected in
                             entry.name = selected.name
+                            recheckInteractions()
+                        } onCustom: {
+                            recheckInteractions()
                         }
                     }
                     .onDelete { offsets in
@@ -27,6 +30,7 @@ struct InteractionCheckerView: View {
                         if entries.count < 2 {
                             entries.append(SubstanceEntry())
                         }
+                        recheckInteractions()
                     }
                     .deleteDisabled(entries.count <= 1)
 
@@ -73,9 +77,6 @@ struct InteractionCheckerView: View {
                 }
             }
             .navigationTitle("Interactions")
-            .onChange(of: entries) {
-                recheckInteractions()
-            }
     }
 
     private func recheckInteractions() {

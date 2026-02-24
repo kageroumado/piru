@@ -43,6 +43,11 @@ enum SubstanceLibrary {
         nameLookup[name.lowercased()]
     }
 
+    /// Precomputed lowercased names/aliases so `search()` never calls `.lowercased()` per item.
+    private static let searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = {
+        all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
+    }()
+
     static func search(_ query: String) -> [Substance] {
         guard !query.isEmpty else { return [] }
         let q = query.lowercased()
@@ -53,16 +58,15 @@ enum SubstanceLibrary {
         var prefix: [Substance] = []
         var contains: [Substance] = []
 
-        for substance in all {
-            let nameLower = substance.name.lowercased()
-            if nameLower == q {
-                exact.append(substance)
-            } else if substance.aliases.contains(where: { $0.lowercased() == q }) {
-                aliasExact.append(substance)
-            } else if nameLower.hasPrefix(q) || substance.aliases.contains(where: { $0.lowercased().hasPrefix(q) }) {
-                prefix.append(substance)
-            } else if substance.matches(q) {
-                contains.append(substance)
+        for item in searchIndex {
+            if item.nameLower == q {
+                exact.append(item.substance)
+            } else if item.aliasesLower.contains(q) {
+                aliasExact.append(item.substance)
+            } else if item.nameLower.hasPrefix(q) || item.aliasesLower.contains(where: { $0.hasPrefix(q) }) {
+                prefix.append(item.substance)
+            } else if item.nameLower.contains(q) || item.aliasesLower.contains(where: { $0.contains(q) }) {
+                contains.append(item.substance)
             }
         }
 
