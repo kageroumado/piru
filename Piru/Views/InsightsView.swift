@@ -5,12 +5,10 @@ struct InsightsView: View {
         case adherence = "Adherence"
         case usage = "Usage"
         case halfLife = "Half-Life"
-        case chat = "AI Chat"
         var id: String { rawValue }
     }
 
     @State private var selectedSection: Section = .adherence
-    var onOpenSettings: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -30,8 +28,6 @@ struct InsightsView: View {
                 UsageStatsView()
             case .halfLife:
                 HalfLifeCalculatorView()
-            case .chat:
-                ChatView(onOpenSettings: onOpenSettings)
             }
         }
         .navigationTitle("Insights")
