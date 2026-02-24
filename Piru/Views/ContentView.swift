@@ -74,7 +74,7 @@ struct ContentView: View {
             }
             Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: 3) {
                 NavigationStack {
-                    InsightsView(onOpenSettings: { showingSettings = true })
+                    InsightsView()
                         .toolbar { settingsToolbarItem }
                         .navigationDestination(for: Date.self) { date in
                             DayDetailView(date: date)
@@ -158,7 +158,7 @@ struct ContentView: View {
                     }
                 case 3:
                     NavigationStack {
-                        InsightsView(onOpenSettings: { showingSettings = true })
+                        InsightsView()
                             .toolbar { settingsToolbarItem }
                             .navigationDestination(for: Date.self) { date in
                                 DayDetailView(date: date)
