@@ -6,6 +6,7 @@ struct SubstanceLibraryView: View {
     @Binding var searchText: String
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var selectedCategory: SubstanceCategory?
+    @State private var showingFavorites = false
     @State private var selectedSubstance: Substance?
 
     private var categories: [SubstanceCategory] {
@@ -17,6 +18,9 @@ struct SubstanceLibraryView: View {
     private var displayedSubstances: [Substance] {
         if !searchText.isEmpty {
             return SubstanceLibrary.search(searchText)
+        }
+        if showingFavorites {
+            return favoriteSubstances
         }
         if let category = selectedCategory {
             return SubstanceLibrary.substances(in: category)
@@ -41,7 +45,7 @@ struct SubstanceLibraryView: View {
 
     var body: some View {
         List {
-            if searchText.isEmpty && selectedCategory == nil {
+            if searchText.isEmpty && selectedCategory == nil && !showingFavorites {
                 categoryGrid
             } else {
                 substanceList
@@ -51,13 +55,15 @@ struct SubstanceLibraryView: View {
         .onChange(of: searchText) {
             if !searchText.isEmpty {
                 selectedCategory = nil
+                showingFavorites = false
             }
         }
         .toolbar {
-            if selectedCategory != nil {
+            if selectedCategory != nil || showingFavorites {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("All Categories") {
                         selectedCategory = nil
+                        showingFavorites = false
                     }
                 }
             }
@@ -80,32 +86,33 @@ struct SubstanceLibraryView: View {
                 .listRowBackground(Color.clear)
         }
 
-        if !favoriteSubstances.isEmpty {
-            Section("Favorites") {
-                ForEach(favoriteSubstances) { substance in
-                    Button {
-                        selectedSubstance = substance
-                    } label: {
-                        HStack(spacing: 8) {
-                            Image(systemName: "star.fill")
+        Section("Categories") {
+            if !favoriteSubstances.isEmpty {
+                let count = favoriteSubstances.count
+                Button {
+                    showingFavorites = true
+                } label: {
+                    HStack {
+                        Image(systemName: "star.fill")
+                            .font(.title3)
+                            .foregroundStyle(.yellow)
+                            .frame(width: 30)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Favorites")
+                                .font(.body)
+                                .foregroundStyle(.primary)
+                            Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
-                                .foregroundStyle(.yellow)
-                            SubstanceRowView(substance: substance)
+                                .foregroundStyle(.secondary)
                         }
-                    }
-                    .swipeActions(edge: .trailing) {
-                        Button {
-                            toggleFavorite(substance.name)
-                        } label: {
-                            Label("Unfavorite", systemImage: "star.slash")
-                        }
-                        .tint(.orange)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
                     }
                 }
             }
-        }
 
-        Section("Categories") {
             ForEach(categories) { category in
                 let count = SubstanceLibrary.substances(in: category).count
                 Button {
@@ -145,7 +152,7 @@ struct SubstanceLibraryView: View {
                 description: Text("No substances match \"\(searchText)\"")
             )
         } else {
-            let header = selectedCategory?.rawValue ?? "\(displayedSubstances.count) results"
+            let header = showingFavorites ? "Favorites" : selectedCategory?.rawValue ?? "\(displayedSubstances.count) results"
             Section(header) {
                 ForEach(displayedSubstances) { substance in
                     Button {
