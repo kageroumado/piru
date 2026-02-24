@@ -5,6 +5,7 @@ struct InsightsView: View {
         case adherence = "Adherence"
         case usage = "Usage"
         case halfLife = "Half-Life"
+        case chat = "AI Chat"
         var id: String { rawValue }
     }
 
@@ -28,6 +29,8 @@ struct InsightsView: View {
                 UsageStatsView()
             case .halfLife:
                 HalfLifeCalculatorView()
+            case .chat:
+                ChatView()
             }
         }
         .navigationTitle("Insights")
