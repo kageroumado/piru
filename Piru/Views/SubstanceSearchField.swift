@@ -9,6 +9,7 @@ struct SubstanceSearchField: View {
 
     @State private var results: [Substance] = []
     @State private var showResults = false
+    @State private var suppressSearch = false
     @FocusState private var isFocused: Bool
 
     init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
@@ -32,6 +33,10 @@ struct SubstanceSearchField: View {
                 .disabled(locked)
                 .foregroundStyle(locked ? .secondary : .primary)
                 .onChange(of: text) {
+                    if suppressSearch {
+                        suppressSearch = false
+                        return
+                    }
                     if text.isEmpty {
                         results = []
                         showResults = false
@@ -60,6 +65,7 @@ struct SubstanceSearchField: View {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(results.prefix(12)) { substance in
                             Button {
+                                suppressSearch = true
                                 text = substance.name
                                 showResults = false
                                 isFocused = false
