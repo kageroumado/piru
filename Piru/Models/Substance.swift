@@ -1,5 +1,22 @@
 import Foundation
 
+// MARK: - Codable Helpers
+
+/// JSON-serializable representation of ClosedRange<Double>.
+struct CodableRange: Codable {
+    let lower: Double
+    let upper: Double
+
+    var closedRange: ClosedRange<Double> { lower...upper }
+
+    init(_ range: ClosedRange<Double>) {
+        self.lower = range.lowerBound
+        self.upper = range.upperBound
+    }
+}
+
+// MARK: - Dose
+
 struct DoseRange {
     let threshold: Double?
     let light: ClosedRange<Double>?
@@ -32,6 +49,32 @@ struct DoseRange {
         if let light, light.contains(dose) || dose > light.upperBound { return .light }
         if let threshold, dose >= threshold { return .threshold }
         return .sub
+    }
+}
+
+extension DoseRange: Codable {
+    enum CodingKeys: String, CodingKey {
+        case threshold, light, common, strong, heavy, fatal
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        threshold = try c.decodeIfPresent(Double.self, forKey: .threshold)
+        light = try c.decodeIfPresent(CodableRange.self, forKey: .light)?.closedRange
+        common = try c.decodeIfPresent(CodableRange.self, forKey: .common)?.closedRange
+        strong = try c.decodeIfPresent(CodableRange.self, forKey: .strong)?.closedRange
+        heavy = try c.decodeIfPresent(Double.self, forKey: .heavy)
+        fatal = try c.decodeIfPresent(Double.self, forKey: .fatal)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encodeIfPresent(threshold, forKey: .threshold)
+        try c.encodeIfPresent(light.map { CodableRange($0) }, forKey: .light)
+        try c.encodeIfPresent(common.map { CodableRange($0) }, forKey: .common)
+        try c.encodeIfPresent(strong.map { CodableRange($0) }, forKey: .strong)
+        try c.encodeIfPresent(heavy, forKey: .heavy)
+        try c.encodeIfPresent(fatal, forKey: .fatal)
     }
 }
 
@@ -69,7 +112,7 @@ extension Double {
 
 // MARK: - Duration
 
-struct TimeRange {
+struct TimeRange: Codable {
     let min: Double
     let max: Double
 
@@ -89,7 +132,7 @@ struct TimeRange {
     }
 }
 
-struct DurationProfile {
+struct DurationProfile: Codable {
     let onset: TimeRange?
     let comeup: TimeRange?
     let peak: TimeRange?
@@ -129,7 +172,7 @@ struct PhaseBoundaries {
 
 // MARK: - Route
 
-struct SubstanceRoute {
+struct SubstanceRoute: Codable {
     let route: RouteOfAdministration
     let unit: String
     let doses: DoseRange
@@ -148,7 +191,7 @@ struct SubstanceRoute {
     }
 }
 
-enum SubstanceCategory: String, CaseIterable, Identifiable {
+enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case stimulant = "Stimulant"
     case psychedelic = "Psychedelic"
     case dissociative = "Dissociative"
@@ -169,19 +212,19 @@ enum SubstanceCategory: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-struct SubjectiveEffect {
+struct SubjectiveEffect: Codable {
     let name: String
     let description: String
 }
 
-struct ToleranceInfo {
+struct ToleranceInfo: Codable {
     let halfLife: Double       // days for tolerance to halve
     let fullResetDays: Double  // days for full tolerance reset
     let buildRate: String      // "rapid" | "moderate" | "slow"
 }
 
 struct Substance: Identifiable {
-    let id = UUID()
+    let id: UUID
     let name: String
     let aliases: [String]
     let category: SubstanceCategory
@@ -205,6 +248,7 @@ struct Substance: Identifiable {
         halfLifeMinutes: Double? = nil,
         sources: [String] = []
     ) {
+        self.id = UUID()
         self.name = name
         self.aliases = aliases
         self.category = category
@@ -239,5 +283,47 @@ struct Substance: Identifiable {
         let q = query.lowercased()
         return name.lowercased().contains(q)
             || aliases.contains { $0.lowercased().contains(q) }
+    }
+}
+
+// MARK: - Substance Codable
+
+extension Substance: Codable {
+    enum CodingKeys: String, CodingKey {
+        case name, aliases, category, defaultRoute, routes, effects
+        case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = UUID()
+        name = try c.decode(String.self, forKey: .name)
+        aliases = try c.decode([String].self, forKey: .aliases)
+        category = try c.decode(SubstanceCategory.self, forKey: .category)
+        defaultRoute = try c.decode(RouteOfAdministration.self, forKey: .defaultRoute)
+        routes = try c.decode([SubstanceRoute].self, forKey: .routes)
+        effects = try c.decode([String].self, forKey: .effects)
+        subjectiveEffects = try c.decodeIfPresent([SubjectiveEffect].self, forKey: .subjectiveEffects) ?? []
+        toleranceInfo = try c.decodeIfPresent(ToleranceInfo.self, forKey: .toleranceInfo)
+        halfLifeMinutes = try c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
+        sources = try c.decodeIfPresent([String].self, forKey: .sources) ?? []
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(name, forKey: .name)
+        try c.encode(aliases, forKey: .aliases)
+        try c.encode(category, forKey: .category)
+        try c.encode(defaultRoute, forKey: .defaultRoute)
+        try c.encode(routes, forKey: .routes)
+        try c.encode(effects, forKey: .effects)
+        if !subjectiveEffects.isEmpty {
+            try c.encode(subjectiveEffects, forKey: .subjectiveEffects)
+        }
+        try c.encodeIfPresent(toleranceInfo, forKey: .toleranceInfo)
+        try c.encodeIfPresent(halfLifeMinutes, forKey: .halfLifeMinutes)
+        if !sources.isEmpty {
+            try c.encode(sources, forKey: .sources)
+        }
     }
 }
