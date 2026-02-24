@@ -1,6 +1,6 @@
 import SwiftUI
 
-private struct SubstanceEntry: Identifiable {
+private struct SubstanceEntry: Identifiable, Equatable {
     let id = UUID()
     var name: String = ""
 }
@@ -17,21 +17,14 @@ struct InteractionCheckerView: View {
     var body: some View {
             List {
                 Section {
-                    ForEach(entries) { entry in
-                        SubstanceSearchField(text: nameBinding(for: entry.id)) { selected in
-                            if let idx = entries.firstIndex(where: { $0.id == entry.id }) {
-                                entries[idx].name = selected.name
-                            }
-                            recheckInteractions()
-                        } onCustom: {
-                            recheckInteractions()
+                    ForEach($entries) { $entry in
+                        SubstanceSearchField(text: $entry.name) { selected in
+                            entry.name = selected.name
                         }
-                        .id(entry.id)
                     }
                     .onDelete { offsets in
                         guard entries.count > 2 else { return }
                         entries.remove(atOffsets: offsets)
-                        recheckInteractions()
                     }
 
                     if entries.count < 8 {
@@ -77,20 +70,9 @@ struct InteractionCheckerView: View {
                 }
             }
             .navigationTitle("Interactions")
-    }
-
-    private func nameBinding(for id: UUID) -> Binding<String> {
-        Binding(
-            get: {
-                entries.first { $0.id == id }?.name ?? ""
-            },
-            set: { newValue in
-                if let idx = entries.firstIndex(where: { $0.id == id }) {
-                    entries[idx].name = newValue
-                    recheckInteractions()
-                }
+            .onChange(of: entries) {
+                recheckInteractions()
             }
-        )
     }
 
     private func recheckInteractions() {
