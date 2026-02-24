@@ -7,11 +7,6 @@ struct SettingsView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Environment(\.modelContext) private var modelContext
 
-    @AppStorage("selectedClaudeModel") private var selectedModel = ClaudeModel.opus.rawValue
-    @State private var storedAPIKey: String?
-    @State private var showingAPIKeyAlert = false
-    @State private var apiKeyInput = ""
-
     @State private var showingExporter = false
     @State private var showingImporter = false
     @State private var showingDeleteConfirmation = false
@@ -48,41 +43,6 @@ struct SettingsView: View {
                             Spacer()
                             colorsPreview
                         }
-                    }
-                }
-            }
-
-            Section("AI Chat") {
-                if let key = storedAPIKey {
-                    LabeledContent("API Key") {
-                        Text("•••••\(String(key.suffix(4)))")
-                            .foregroundStyle(.secondary)
-                            .font(.subheadline.monospaced())
-                    }
-                    Button {
-                        showingAPIKeyAlert = true
-                    } label: {
-                        Label("Change API Key", systemImage: "key.horizontal")
-                            .foregroundStyle(Theme.accent)
-                    }
-                    Button(role: .destructive) {
-                        KeychainHelper.delete()
-                        storedAPIKey = nil
-                    } label: {
-                        Label("Remove API Key", systemImage: "trash")
-                    }
-                } else {
-                    Button {
-                        showingAPIKeyAlert = true
-                    } label: {
-                        Label("Add API Key", systemImage: "key")
-                            .foregroundStyle(Theme.accent)
-                    }
-                }
-
-                Picker("Model", selection: $selectedModel) {
-                    ForEach(ClaudeModel.allCases) { model in
-                        Text(model.displayName).tag(model.rawValue)
                     }
                 }
             }
@@ -192,24 +152,6 @@ struct SettingsView: View {
             Button("OK") {}
         } message: {
             Text(importMessage ?? "")
-        }
-        .alert("API Key", isPresented: $showingAPIKeyAlert) {
-            SecureField("sk-ant-...", text: $apiKeyInput)
-            Button("Save") {
-                let trimmed = apiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !trimmed.isEmpty else { return }
-                KeychainHelper.save(apiKey: trimmed)
-                storedAPIKey = trimmed
-                apiKeyInput = ""
-            }
-            Button("Cancel", role: .cancel) {
-                apiKeyInput = ""
-            }
-        } message: {
-            Text("Enter your Anthropic API key. Get one at console.anthropic.com")
-        }
-        .onAppear {
-            storedAPIKey = KeychainHelper.load()
         }
     }
 
