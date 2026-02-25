@@ -18,7 +18,6 @@ struct QuickLogView: View {
     @State private var pendingLogAction: (() -> Void)?
 
     @State private var cachedCards: [SubstanceCard] = []
-    @State private var expandedSubstances: Set<String> = []
 
     // MARK: - Grouping
 
@@ -279,11 +278,9 @@ struct QuickLogView: View {
     // MARK: - Substance Card
 
     private func substanceCard(_ card: SubstanceCard) -> some View {
-        let isExpanded = expandedSubstances.contains(card.id)
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
 
         return VStack(alignment: .leading, spacing: 8) {
-            // Header — tapping anywhere on the row toggles expand
             HStack(spacing: 8) {
                 Circle()
                     .fill(color)
@@ -301,27 +298,10 @@ struct QuickLogView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .rotationEffect(.degrees(isExpanded ? -180 : 0))
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    if isExpanded {
-                        expandedSubstances.remove(card.id)
-                    } else {
-                        expandedSubstances.insert(card.id)
-                    }
-                }
             }
 
-            // Expanded content
-            if isExpanded {
-                ForEach(card.routes) { group in
-                    routeSection(group, color: color)
-                }
+            ForEach(card.routes) { group in
+                routeSection(group, color: color)
             }
         }
         .padding(.vertical, 4)
