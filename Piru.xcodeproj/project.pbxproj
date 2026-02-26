@@ -101,6 +101,7 @@
 		30A84AED82E3742B9AC9D804 /* DailyDoseItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyDoseItemFormView.swift; path = Piru/Views/DailyDoseItemFormView.swift; sourceTree = SOURCE_ROOT; };
 		411F474B87B473A69B3D82BE /* DailyDoseSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyDoseSettingsView.swift; path = Piru/Views/DailyDoseSettingsView.swift; sourceTree = SOURCE_ROOT; };
 		B10001 /* PiruApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruApp.swift; sourceTree = "<group>"; };
+		B10100 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B10002 /* RouteOfAdministration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOfAdministration.swift; sourceTree = "<group>"; };
 		B10003 /* DoseEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseEntry.swift; sourceTree = "<group>"; };
 		B10004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 		E10002 /* Piru */ = {
 			isa = PBXGroup;
 			children = (
+				B10100 /* Info.plist */,
 				B10001 /* PiruApp.swift */,
 				B10082 /* Theme.swift */,
 				E10003 /* Models */,
@@ -632,6 +634,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Piru/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Piru;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -660,6 +663,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Piru/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Piru;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
