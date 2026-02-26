@@ -116,9 +116,11 @@ enum InteractionChecker {
     ) -> [InteractionResult] {
         var allResults: [InteractionResult] = []
 
-        // Check each substance against active entries
-        for substance in substances {
-            allResults.append(contentsOf: check(substance, against: activeEntries))
+        // Check each substance against active entries (skip if none)
+        if !activeEntries.isEmpty {
+            for substance in substances {
+                allResults.append(contentsOf: check(substance, against: activeEntries))
+            }
         }
 
         // Check substances within the batch against each other
@@ -404,11 +406,19 @@ enum InteractionChecker {
             description: "Risk of serotonin syndrome and lithium toxicity."),
     ]
 
-    private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {
-        rules.first { rule in
-            (rule.classA == a && rule.classB == b) ||
-            (rule.classA == b && rule.classB == a)
+    /// Precomputed rule lookup keyed by sorted class pairs for O(1) access.
+    private static let ruleLookup: [String: InteractionRule] = {
+        var dict: [String: InteractionRule] = [:]
+        for rule in rules {
+            let key = [rule.classA.rawValue, rule.classB.rawValue].sorted().joined(separator: "|")
+            dict[key] = rule
         }
+        return dict
+    }()
+
+    private static func findRule(_ a: DrugClass, _ b: DrugClass) -> InteractionRule? {
+        let key = [a.rawValue, b.rawValue].sorted().joined(separator: "|")
+        return ruleLookup[key]
     }
 
     // MARK: - Active Entry Detection
