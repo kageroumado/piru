@@ -51,6 +51,7 @@ struct SubstanceLibraryView: View {
                 substanceList
             }
         }
+        .listSectionSpacing(.compact)
         .navigationTitle("Substance Library")
         .onChange(of: searchText) {
             if !searchText.isEmpty {
@@ -80,13 +81,6 @@ struct SubstanceLibraryView: View {
     @ViewBuilder
     private var categoryGrid: some View {
         Section {
-            Text("\(SubstanceLibrary.all.count) substances across \(categories.count) categories")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .listRowBackground(Color.clear)
-        }
-
-        Section("Categories") {
             if !favoriteSubstances.isEmpty {
                 let count = favoriteSubstances.count
                 Button {
