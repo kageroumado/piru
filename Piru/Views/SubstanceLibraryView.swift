@@ -8,16 +8,11 @@ struct SubstanceLibraryView: View {
     @State private var selectedCategory: SubstanceCategory?
     @State private var showingFavorites = false
     @State private var selectedSubstance: Substance?
-
-    private var categories: [SubstanceCategory] {
-        SubstanceCategory.allCases.filter { category in
-            !SubstanceLibrary.substances(in: category).isEmpty
-        }
-    }
+    @State private var searchResults: [Substance] = []
 
     private var displayedSubstances: [Substance] {
         if !searchText.isEmpty {
-            return SubstanceLibrary.search(searchText)
+            return searchResults
         }
         if showingFavorites {
             return favoriteSubstances
@@ -32,6 +27,10 @@ struct SubstanceLibraryView: View {
         favorites.compactMap { fav in
             SubstanceLibrary.lookup(fav.substance.lowercased())
         }
+    }
+
+    private var favoriteNames: Set<String> {
+        Set(favorites.map { $0.substance.lowercased() })
     }
 
     private func toggleFavorite(_ name: String) {
@@ -58,6 +57,15 @@ struct SubstanceLibraryView: View {
                 selectedCategory = nil
                 showingFavorites = false
             }
+        }
+        .task(id: searchText) {
+            guard !searchText.isEmpty else {
+                searchResults = []
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(150))
+            guard !Task.isCancelled else { return }
+            searchResults = SubstanceLibrary.search(searchText)
         }
         .toolbar {
             if selectedCategory != nil || showingFavorites {
@@ -107,7 +115,7 @@ struct SubstanceLibraryView: View {
                 }
             }
 
-            ForEach(categories) { category in
+            ForEach(SubstanceLibrary.nonEmptyCategories) { category in
                 let count = SubstanceLibrary.substances(in: category).count
                 Button {
                     selectedCategory = category
@@ -155,7 +163,7 @@ struct SubstanceLibraryView: View {
                         SubstanceRowView(substance: substance)
                     }
                     .swipeActions(edge: .trailing) {
-                        let isFav = Array(favorites).isFavorite(substance.name)
+                        let isFav = favoriteNames.contains(substance.name.lowercased())
                         Button {
                             toggleFavorite(substance.name)
                         } label: {
