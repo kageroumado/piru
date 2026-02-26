@@ -31,7 +31,7 @@ struct LockScreenView: View {
     var body: some View {
         VStack(spacing: 6) {
             // Timeline Graph – periodic refresh so knobs track real time
-            TimelineView(.periodic(from: .now, by: 60)) { timeline in
+            TimelineView(.periodic(from: .now, by: 1)) { timeline in
                 TimelineGraphView(
                     substances: substances,
                     currentTime: timeline.date,
@@ -104,7 +104,7 @@ struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 60)) { timeline in
+        TimelineView(.periodic(from: .now, by: 1)) { timeline in
             TimelineGraphView(
                 substances: context.state.activeSubstances,
                 currentTime: timeline.date,
