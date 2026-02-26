@@ -10,8 +10,39 @@ struct DayDetailView: View {
     @State private var showingForm = false
     @State private var entryToEdit: DoseEntry?
     @State private var graphExpanded = true
-    @State private var substanceStates: [ActiveSubstanceState] = []
     @State private var dayInteractions: [InteractionResult] = []
+
+    private var substanceStates: [ActiveSubstanceState] {
+        let colorMap = Dictionary(
+            substanceColors.map { ($0.substance.lowercased(), $0.hexColor) },
+            uniquingKeysWith: { _, last in last }
+        )
+
+        var states: [ActiveSubstanceState] = []
+        for entry in entries {
+            guard let substance = SubstanceLibrary.lookup(entry.substance),
+                  let duration = substance.duration(for: entry.route) else { continue }
+
+            let boundaries = duration.phaseBoundaries
+            let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
+
+            states.append(ActiveSubstanceState(
+                substanceName: entry.substance,
+                colorHex: hex,
+                doseTimestamp: entry.timestamp,
+                amount: entry.amount,
+                unit: entry.unit,
+                route: entry.route.displayName,
+                onsetEndMinutes: boundaries.onsetEnd,
+                comeupEndMinutes: boundaries.comeupEnd,
+                peakEndMinutes: boundaries.peakEnd,
+                offsetEndMinutes: boundaries.offsetEnd,
+                afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
+                totalMinutes: duration.estimatedTotalMinutes
+            ))
+        }
+        return states
+    }
 
     let date: Date
 
@@ -108,7 +139,7 @@ struct DayDetailView: View {
         .navigationTitle("\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .task(id: entries.count) {
-            await loadAsyncData()
+            await loadInteractions()
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -136,46 +167,13 @@ struct DayDetailView: View {
         }
     }
 
-    private func loadAsyncData() async {
-        let colorMap = Dictionary(
-            substanceColors.map { ($0.substance.lowercased(), $0.hexColor) },
-            uniquingKeysWith: { _, last in last }
-        )
-
-        var states: [ActiveSubstanceState] = []
-        for entry in entries {
-            guard let substance = SubstanceLibrary.lookup(entry.substance),
-                  let duration = substance.duration(for: entry.route) else { continue }
-
-            let boundaries = duration.phaseBoundaries
-            let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
-
-            states.append(ActiveSubstanceState(
-                substanceName: entry.substance,
-                colorHex: hex,
-                doseTimestamp: entry.timestamp,
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route.displayName,
-                onsetEndMinutes: boundaries.onsetEnd,
-                comeupEndMinutes: boundaries.comeupEnd,
-                peakEndMinutes: boundaries.peakEnd,
-                offsetEndMinutes: boundaries.offsetEnd,
-                afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-                totalMinutes: duration.estimatedTotalMinutes
-            ))
-        }
-
+    private func loadInteractions() async {
         let names = Array(Set(entries.map(\.substance)))
-        let interactions: [InteractionResult]
         if names.count >= 2 {
-            interactions = InteractionChecker.checkBatch(names, against: [])
+            self.dayInteractions = InteractionChecker.checkBatch(names, against: [])
         } else {
-            interactions = []
+            self.dayInteractions = []
         }
-
-        self.substanceStates = states
-        self.dayInteractions = interactions
     }
 
     private func deleteEntry(_ entry: DoseEntry) {
