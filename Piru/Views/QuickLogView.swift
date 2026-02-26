@@ -18,6 +18,9 @@ struct QuickLogView: View {
     @State private var pendingLogAction: (() -> Void)?
 
     @State private var cachedCards: [SubstanceCard] = []
+    @State private var cachedFavoriteSet: Set<String> = []
+    @State private var cachedHistoryNames: Set<String> = []
+    @State private var cachedLibraryResults: [Substance] = []
 
     // MARK: - Grouping
 
@@ -51,7 +54,7 @@ struct QuickLogView: View {
         // Group route-level groups into per-substance cards
         var cardMap: [String: [SubstanceGroup]] = [:]
         for group in groupMap.values {
-            cardMap[group.substanceName.lowercased(), default: []].append(group)
+            cardMap[group.id.components(separatedBy: "|").first ?? "", default: []].append(group)
         }
 
         cachedCards = cardMap.values.map { routes in
@@ -64,51 +67,44 @@ struct QuickLogView: View {
                 latestTimestamp: sorted[0].latestTimestamp
             )
         }.sorted { $0.latestTimestamp > $1.latestTimestamp }
+
+        cachedHistoryNames = Set(cachedCards.map(\.id))
+        rebuildFavorites()
+    }
+
+    private func rebuildFavorites() {
+        cachedFavoriteSet = Set(favorites.map { $0.substance.lowercased() })
     }
 
     private var filteredCards: [SubstanceCard] {
         guard !searchText.isEmpty else { return cachedCards }
         let query = searchText.lowercased()
-        return cachedCards.filter { $0.substanceName.lowercased().contains(query) }
-    }
-
-    private var libraryResults: [Substance] {
-        guard !searchText.isEmpty else { return [] }
-        let historyNames = Set(cachedCards.map { $0.substanceName.lowercased() })
-        return SubstanceLibrary.search(searchText).filter { !historyNames.contains($0.name.lowercased()) }
+        return cachedCards.filter { $0.id.contains(query) }
     }
 
     // MARK: - Favorites
 
-    private var favoriteSet: Set<String> {
-        Set(favorites.map { $0.substance.lowercased() })
-    }
-
     private var favoriteCards: [SubstanceCard] {
         guard searchText.isEmpty else { return [] }
-        let favs = favoriteSet
-        return cachedCards.filter { favs.contains($0.substanceName.lowercased()) }
+        return cachedCards.filter { cachedFavoriteSet.contains($0.id) }
     }
 
     private var nonFavoriteCards: [SubstanceCard] {
-        let favs = favoriteSet
-        let cards = searchText.isEmpty ? cachedCards : filteredCards
         if searchText.isEmpty {
-            return cards.filter { !favs.contains($0.substanceName.lowercased()) }
+            return cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
         }
-        return cards
+        return filteredCards
     }
 
     private var favoriteLibrarySubstances: [Substance] {
         guard searchText.isEmpty else { return [] }
-        let historyNames = Set(cachedCards.map { $0.substanceName.lowercased() })
         return favorites
-            .filter { !historyNames.contains($0.substance.lowercased()) }
+            .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
             .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
     }
 
     private func isFavorite(_ name: String) -> Bool {
-        favoriteSet.contains(name.lowercased())
+        cachedFavoriteSet.contains(name.lowercased())
     }
 
     private func toggleFavorite(_ name: String) {
@@ -173,6 +169,17 @@ struct QuickLogView: View {
             .task { rebuildCards() }
             .onChange(of: allEntries.count) { rebuildCards() }
             .onChange(of: substanceColors.count) { rebuildCards() }
+            .onChange(of: favorites.count) { rebuildFavorites() }
+            .task(id: searchText) {
+                guard !searchText.isEmpty else {
+                    cachedLibraryResults = []
+                    return
+                }
+                try? await Task.sleep(for: .milliseconds(150))
+                guard !Task.isCancelled else { return }
+                cachedLibraryResults = SubstanceLibrary.search(searchText)
+                    .filter { !cachedHistoryNames.contains($0.name.lowercased()) }
+            }
         }
     }
 
@@ -227,13 +234,13 @@ struct QuickLogView: View {
             ForEach(nonFavoriteCards) { card in
                 substanceCard(card)
             }
-        } else if !searchText.isEmpty && libraryResults.isEmpty && favoriteCards.isEmpty {
+        } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
         }
 
-        if !libraryResults.isEmpty {
+        if !cachedLibraryResults.isEmpty {
             Section {
-                ForEach(libraryResults) { substance in
+                ForEach(cachedLibraryResults) { substance in
                     libraryRow(substance)
                 }
             } header: {
