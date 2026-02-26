@@ -8,6 +8,7 @@ struct UsageStatsView: View {
 
     @State private var timeRange: TimeRange = .thirtyDays
     @State private var selectedTrendSubstance: String?
+    @State private var filteredEntries: [DoseEntry] = []
 
     enum TimeRange: String, CaseIterable, Identifiable {
         case sevenDays = "7D"
@@ -26,10 +27,13 @@ struct UsageStatsView: View {
         }
     }
 
-    private var filteredEntries: [DoseEntry] {
-        guard let days = timeRange.days else { return allEntries }
+    private func rebuildFilteredEntries() {
+        guard let days = timeRange.days else {
+            filteredEntries = allEntries
+            return
+        }
         let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
-        return allEntries.filter { $0.timestamp >= cutoff }
+        filteredEntries = allEntries.filter { $0.timestamp >= cutoff }
     }
 
     private var colorMap: [String: Color] {
@@ -59,6 +63,9 @@ struct UsageStatsView: View {
             }
             .padding()
         }
+        .task { rebuildFilteredEntries() }
+        .onChange(of: timeRange) { rebuildFilteredEntries() }
+        .onChange(of: allEntries.count) { rebuildFilteredEntries() }
     }
 
     // MARK: - Time Range Picker
