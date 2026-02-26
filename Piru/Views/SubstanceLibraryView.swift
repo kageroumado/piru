@@ -260,9 +260,21 @@ struct SubstanceDetailSheet: View {
     let substance: Substance
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
     @State private var showAllHistory = false
+
+    init(substance: Substance) {
+        self.substance = substance
+        let name = substance.name
+        _historyEntries = Query(
+            filter: #Predicate<DoseEntry> { entry in
+                entry.substance == name
+            },
+            sort: \DoseEntry.timestamp,
+            order: .reverse
+        )
+    }
 
     private var isFavorite: Bool {
         Array(favorites).isFavorite(substance.name)
@@ -274,15 +286,6 @@ struct SubstanceDetailSheet: View {
             modelContext.delete(existing)
         } else {
             modelContext.insert(FavoriteSubstance(substance: substance.name))
-        }
-    }
-
-    private var historyEntries: [DoseEntry] {
-        let name = substance.name.lowercased()
-        let aliases = Set(substance.aliases.map { $0.lowercased() })
-        return allEntries.filter {
-            let e = $0.substance.lowercased()
-            return e == name || aliases.contains(e)
         }
     }
 
