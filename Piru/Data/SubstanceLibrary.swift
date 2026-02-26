@@ -23,6 +23,11 @@ enum SubstanceLibrary {
         byCategory[category] ?? []
     }
 
+    /// Non-empty categories, precomputed once (substance data is static).
+    static let nonEmptyCategories: [SubstanceCategory] = {
+        SubstanceCategory.allCases.filter { byCategory[$0] != nil }
+    }()
+
     private static let nameLookup: [String: Substance] = {
         Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
     }()
@@ -37,7 +42,7 @@ enum SubstanceLibrary {
         all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
     }()
 
-    static func search(_ query: String) -> [Substance] {
+    static func search(_ query: String, limit: Int = 50) -> [Substance] {
         guard !query.isEmpty else { return [] }
         let q = query.lowercased()
 
@@ -46,6 +51,7 @@ enum SubstanceLibrary {
         var aliasExact: [Substance] = []
         var prefix: [Substance] = []
         var contains: [Substance] = []
+        var total = 0
 
         for item in searchIndex {
             if item.nameLower == q {
@@ -56,7 +62,11 @@ enum SubstanceLibrary {
                 prefix.append(item.substance)
             } else if item.nameLower.contains(q) || item.aliasesLower.contains(where: { $0.contains(q) }) {
                 contains.append(item.substance)
+            } else {
+                continue
             }
+            total += 1
+            if total >= limit { break }
         }
 
         return exact + aliasExact + prefix + contains
