@@ -144,10 +144,7 @@ struct DayDetailView: View {
 
         var states: [ActiveSubstanceState] = []
         for entry in entries {
-            let matched = SubstanceLibrary.search(entry.substance).first {
-                $0.name.lowercased() == entry.substance.lowercased()
-            }
-            guard let substance = matched,
+            guard let substance = SubstanceLibrary.lookup(entry.substance),
                   let duration = substance.duration(for: entry.route) else { continue }
 
             let boundaries = duration.phaseBoundaries
