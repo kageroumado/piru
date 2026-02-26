@@ -10,7 +10,31 @@ struct EntryDetailView: View {
 
     @State private var showingEditForm = false
     @State private var showingDeleteConfirmation = false
-    @State private var substanceState: ActiveSubstanceState?
+
+    private var substanceState: ActiveSubstanceState? {
+        guard let matched = SubstanceLibrary.lookup(entry.substance),
+              let duration = matched.duration(for: entry.route) else { return nil }
+
+        let boundaries = duration.phaseBoundaries
+        let hex = substanceColors.first {
+            $0.substance.lowercased() == entry.substance.lowercased()
+        }?.hexColor ?? "007AFF"
+
+        return ActiveSubstanceState(
+            substanceName: entry.substance,
+            colorHex: hex,
+            doseTimestamp: entry.timestamp,
+            amount: entry.amount,
+            unit: entry.unit,
+            route: entry.route.displayName,
+            onsetEndMinutes: boundaries.onsetEnd,
+            comeupEndMinutes: boundaries.comeupEnd,
+            peakEndMinutes: boundaries.peakEnd,
+            offsetEndMinutes: boundaries.offsetEnd,
+            afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
+            totalMinutes: duration.estimatedTotalMinutes
+        )
+    }
 
     var body: some View {
         List {
@@ -54,9 +78,6 @@ struct EntryDetailView: View {
         }
         .navigationTitle(entry.substance)
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await buildSubstanceState()
-        }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 12) {
@@ -93,30 +114,4 @@ struct EntryDetailView: View {
         }
     }
 
-    private func buildSubstanceState() async {
-        guard let matched = SubstanceLibrary.search(entry.substance).first(where: {
-            $0.name.lowercased() == entry.substance.lowercased()
-        }),
-        let duration = matched.duration(for: entry.route) else { return }
-
-        let boundaries = duration.phaseBoundaries
-        let hex = substanceColors.first {
-            $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
-
-        self.substanceState = ActiveSubstanceState(
-            substanceName: entry.substance,
-            colorHex: hex,
-            doseTimestamp: entry.timestamp,
-            amount: entry.amount,
-            unit: entry.unit,
-            route: entry.route.displayName,
-            onsetEndMinutes: boundaries.onsetEnd,
-            comeupEndMinutes: boundaries.comeupEnd,
-            peakEndMinutes: boundaries.peakEnd,
-            offsetEndMinutes: boundaries.offsetEnd,
-            afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-            totalMinutes: duration.estimatedTotalMinutes
-        )
-    }
 }
