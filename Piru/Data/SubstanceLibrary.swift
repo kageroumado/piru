@@ -15,12 +15,12 @@ enum SubstanceLibrary {
         }
     }()
 
-    static var byCategory: [SubstanceCategory: [Substance]] {
+    static let byCategory: [SubstanceCategory: [Substance]] = {
         Dictionary(grouping: all, by: \.category)
-    }
+    }()
 
     static func substances(in category: SubstanceCategory) -> [Substance] {
-        all.filter { $0.category == category }
+        byCategory[category] ?? []
     }
 
     private static let nameLookup: [String: Substance] = {
