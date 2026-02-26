@@ -82,9 +82,16 @@ struct EntryFormView: View {
         selectedSubstance?.doseRange(for: route)
     }
 
+    /// The user's input converted to the substance's native unit for accurate dose level comparison.
+    private var normalizedAmount: Double? {
+        guard let parsedAmount, let sub = selectedSubstance else { return parsedAmount }
+        let substanceUnit = sub.unit(for: route)
+        return DoseUnit.convert(parsedAmount, from: unit, to: substanceUnit) ?? parsedAmount
+    }
+
     private var currentDoseLevel: DoseLevel? {
-        guard let parsedAmount, let currentDoseRange else { return nil }
-        return currentDoseRange.level(for: parsedAmount)
+        guard let normalizedAmount, let currentDoseRange else { return nil }
+        return currentDoseRange.level(for: normalizedAmount)
     }
 
     private var worstSeverity: InteractionSeverity? {
@@ -163,7 +170,7 @@ struct EntryFormView: View {
                         DoseInfoView(
                             substance: selectedSubstance,
                             route: route,
-                            currentDose: parsedAmount
+                            currentDose: normalizedAmount
                         )
                         .padding(.vertical, 4)
                     }

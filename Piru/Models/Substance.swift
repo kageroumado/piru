@@ -100,6 +100,21 @@ enum DoseLevel: String, CaseIterable {
     }
 }
 
+// MARK: - Unit Conversion
+
+enum DoseUnit {
+    /// Conversion factor from each mass unit to milligrams.
+    private static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1000]
+
+    /// Convert a dose amount between compatible mass units (µg, mg, g).
+    /// Returns `nil` if either unit is not a convertible mass unit (e.g. mL, IU).
+    static func convert(_ amount: Double, from: String, to: String) -> Double? {
+        guard from != to else { return amount }
+        guard let fromFactor = toMg[from], let toFactor = toMg[to] else { return nil }
+        return amount * fromFactor / toFactor
+    }
+}
+
 extension Double {
     /// Format a dose value: show integer for whole numbers under 10000, otherwise default formatting
     var doseFormatted: String {
