@@ -25,6 +25,8 @@ final class LiveActivityManager {
 
     private var currentActivity: Activity<PiruActivityAttributes>?
     private var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
+    private var updateTimer: Timer?
+    private var cachedColorMap: [String: String] = [:]
 
     private init() {
         // Resume any existing activity on app launch
@@ -49,9 +51,11 @@ final class LiveActivityManager {
         guard !activeEntries.isEmpty else { return }
 
         let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
         let state = buildContentState(colorMap: colorMap)
 
         if let currentActivity {
+            startUpdateTimer()
             Task {
                 await currentActivity.update(
                     ActivityContent(state: state, staleDate: staleDate())
@@ -67,6 +71,7 @@ final class LiveActivityManager {
         allColors: [SubstanceColor]
     ) {
         let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
 
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
@@ -81,6 +86,7 @@ final class LiveActivityManager {
         let state = buildContentState(colorMap: colorMap)
 
         if let currentActivity {
+            startUpdateTimer()
             Task {
                 await currentActivity.update(
                     ActivityContent(state: state, staleDate: staleDate())
@@ -108,6 +114,7 @@ final class LiveActivityManager {
         }
 
         let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
         let state = buildContentState(colorMap: colorMap)
         if let currentActivity {
             Task {
@@ -129,6 +136,7 @@ final class LiveActivityManager {
         }
 
         let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
 
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
@@ -147,6 +155,7 @@ final class LiveActivityManager {
 
     func endActivity() {
         guard let currentActivity else { return }
+        stopUpdateTimer()
         let state = buildContentState(colorMap: [:])
         Task {
             await currentActivity.end(
@@ -165,6 +174,34 @@ final class LiveActivityManager {
 
     // MARK: - Private
 
+    private func startUpdateTimer() {
+        updateTimer?.invalidate()
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 15 * 60, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.periodicUpdate()
+            }
+        }
+    }
+
+    private func stopUpdateTimer() {
+        updateTimer?.invalidate()
+        updateTimer = nil
+    }
+
+    private func periodicUpdate() {
+        pruneCompleted()
+        guard !activeEntries.isEmpty, let currentActivity else {
+            stopUpdateTimer()
+            return
+        }
+        let state = buildContentState(colorMap: cachedColorMap)
+        Task {
+            await currentActivity.update(
+                ActivityContent(state: state, staleDate: staleDate())
+            )
+        }
+    }
+
     private func startActivity(state: PiruActivityAttributes.ContentState) {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
@@ -178,6 +215,7 @@ final class LiveActivityManager {
                 content: content,
                 pushType: nil
             )
+            startUpdateTimer()
         } catch {
             print("Failed to start Live Activity: \(error)")
         }
