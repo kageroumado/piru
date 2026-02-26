@@ -63,7 +63,7 @@ struct ContentView: View {
                 NavigationStack {
                     SubstanceLibraryView(searchText: $librarySearchText)
                         .toolbar { settingsToolbarItem }
-                        .searchable(text: $librarySearchText, prompt: "Search substances...")
+                        .searchable(text: $librarySearchText, prompt: Text("Search \(SubstanceLibrary.all.count) substances..."))
                 }
             }
             Tab("Interactions", systemImage: "cross.case", value: 2) {
