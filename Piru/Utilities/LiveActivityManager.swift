@@ -48,7 +48,8 @@ final class LiveActivityManager {
         pruneCompleted()
         guard !activeEntries.isEmpty else { return }
 
-        let state = buildContentState(allColors: allColors)
+        let colorMap = Self.buildColorMap(from: allColors)
+        let state = buildContentState(colorMap: colorMap)
 
         if let currentActivity {
             Task {
@@ -65,9 +66,7 @@ final class LiveActivityManager {
         entries: [(entry: DoseEntry, substance: Substance?)],
         allColors: [SubstanceColor]
     ) {
-        let colorMap = Dictionary(
-            uniqueKeysWithValues: allColors.map { ($0.substance.lowercased(), $0.hexColor) }
-        )
+        let colorMap = Self.buildColorMap(from: allColors)
 
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
@@ -79,7 +78,7 @@ final class LiveActivityManager {
         pruneCompleted()
         guard !activeEntries.isEmpty else { return }
 
-        let state = buildContentState(allColors: allColors)
+        let state = buildContentState(colorMap: colorMap)
 
         if let currentActivity {
             Task {
@@ -108,7 +107,8 @@ final class LiveActivityManager {
             return
         }
 
-        let state = buildContentState(allColors: allColors)
+        let colorMap = Self.buildColorMap(from: allColors)
+        let state = buildContentState(colorMap: colorMap)
         if let currentActivity {
             Task {
                 await currentActivity.update(
@@ -128,15 +128,11 @@ final class LiveActivityManager {
             endActivity()
         }
 
-        let colorMap = Dictionary(
-            uniqueKeysWithValues: allColors.map { ($0.substance.lowercased(), $0.hexColor) }
-        )
+        let colorMap = Self.buildColorMap(from: allColors)
 
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.search(snapshot.substance).first {
-                $0.name.lowercased() == snapshot.substance.lowercased()
-            }
+            let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
             let duration = matchedSubstance?.duration(for: entry.route)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
             return (snapshot: snapshot, duration: duration, colorHex: hex)
@@ -145,13 +141,13 @@ final class LiveActivityManager {
         pruneCompleted()
         guard !activeEntries.isEmpty else { return }
 
-        let state = buildContentState(allColors: allColors)
+        let state = buildContentState(colorMap: colorMap)
         startActivity(state: state)
     }
 
     func endActivity() {
         guard let currentActivity else { return }
-        let state = buildContentState(allColors: [])
+        let state = buildContentState(colorMap: [:])
         Task {
             await currentActivity.end(
                 ActivityContent(state: state, staleDate: nil),
@@ -187,11 +183,13 @@ final class LiveActivityManager {
         }
     }
 
-    private func buildContentState(allColors: [SubstanceColor]) -> PiruActivityAttributes.ContentState {
-        let colorMap = Dictionary(
+    private static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {
+        Dictionary(
             uniqueKeysWithValues: allColors.map { ($0.substance.lowercased(), $0.hexColor) }
         )
+    }
 
+    private func buildContentState(colorMap: [String: String]) -> PiruActivityAttributes.ContentState {
         let substanceStates: [ActiveSubstanceState] = activeEntries.compactMap { item in
             guard let duration = item.duration else { return nil }
 
