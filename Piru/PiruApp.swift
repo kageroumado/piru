@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import BackgroundTasks
 
 // MARK: - App
 
@@ -15,6 +16,16 @@ struct PiruApp: App {
             )
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
+        }
+
+        BGTaskScheduler.shared.register(
+            forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
+            using: nil
+        ) { task in
+            guard let task = task as? BGAppRefreshTask else { return }
+            Task { @MainActor in
+                LiveActivityManager.shared.handleBackgroundRefresh(task)
+            }
         }
     }
 

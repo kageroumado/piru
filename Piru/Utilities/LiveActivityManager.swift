@@ -1,4 +1,5 @@
 import ActivityKit
+import BackgroundTasks
 import Foundation
 
 /// Lightweight value snapshot of a DoseEntry, decoupled from SwiftData.
@@ -22,6 +23,7 @@ struct DoseSnapshot {
 @Observable
 final class LiveActivityManager {
     static let shared = LiveActivityManager()
+    static let backgroundTaskIdentifier = "com.piru.app.live-activity-refresh"
 
     private var currentActivity: Activity<PiruActivityAttributes>?
     private var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
@@ -156,6 +158,7 @@ final class LiveActivityManager {
     func endActivity() {
         guard let currentActivity else { return }
         stopUpdateTimer()
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
         let state = buildContentState(colorMap: [:])
         Task {
             await currentActivity.end(
@@ -170,6 +173,42 @@ final class LiveActivityManager {
     /// Whether a live activity is currently running
     var isActive: Bool {
         currentActivity != nil && !activeEntries.isEmpty
+    }
+
+    // MARK: - Background Refresh
+
+    func handleBackgroundRefresh(_ task: BGAppRefreshTask) {
+        scheduleBackgroundRefresh()
+
+        task.expirationHandler = { }
+
+        if !activeEntries.isEmpty {
+            periodicUpdate()
+        } else if let currentActivity {
+            // App was relaunched — push a lightweight update to force widget re-render
+            var state = currentActivity.content.state
+            state.lastUpdated = .now
+            let stale = state.activeSubstances.map {
+                $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60)
+            }.max()
+            Task {
+                await currentActivity.update(
+                    ActivityContent(state: state, staleDate: stale)
+                )
+            }
+        }
+
+        task.setTaskCompleted(success: true)
+    }
+
+    func scheduleBackgroundRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: Self.backgroundTaskIdentifier)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print("Failed to schedule background refresh: \(error)")
+        }
     }
 
     // MARK: - Private
@@ -216,6 +255,7 @@ final class LiveActivityManager {
                 pushType: nil
             )
             startUpdateTimer()
+            scheduleBackgroundRefresh()
         } catch {
             print("Failed to start Live Activity: \(error)")
         }
