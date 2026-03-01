@@ -45,6 +45,7 @@ struct EntryDetailView: View {
                         currentTime: .now,
                         compact: false
                     )
+                    .frame(height: 160)
                 } header: {
                     Label("Timeline", systemImage: "chart.xyaxis.line")
                 }
