@@ -46,7 +46,7 @@ struct ActivityExpandedChart: View {
                         BarMark(
                             x: .value("Date", item.key.date, unit: .day),
                             y: .value("Count", item.count),
-                            width: .fixed(max(8, 20 * zoom))
+                            width: .fixed(max(6, 16 * zoom))
                         )
                         .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? .accentColor)
                         .cornerRadius(3)
