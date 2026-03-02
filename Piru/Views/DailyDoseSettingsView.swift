@@ -31,6 +31,7 @@ struct DailyDoseSettingsView: View {
     @AppStorage("dailyDoseReminderTimes") private var reminderTimesData = Data()
 
     @State private var reminderTimes: [ReminderTime] = []
+    @State private var isEditing = false
     @State private var showingAddSheet = false
     @State private var editingItem: DailyDoseItem?
     @State private var showingTimePicker = false
@@ -120,6 +121,7 @@ struct DailyDoseSettingsView: View {
                 }
             }
         }
+        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .navigationTitle("Daily Dose")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -131,8 +133,12 @@ struct DailyDoseSettingsView: View {
                 }
             }
             if !items.isEmpty {
-                ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        withAnimation { isEditing.toggle() }
+                    } label: {
+                        Image(systemName: isEditing ? "checkmark.circle.fill" : "pencil")
+                    }
                 }
             }
         }

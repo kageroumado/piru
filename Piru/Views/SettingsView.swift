@@ -9,6 +9,7 @@ struct SettingsView: View {
 
     @State private var showingExporter = false
     @State private var showingImporter = false
+    @Environment(\.dismiss) private var dismiss
     @State private var showingDeleteConfirmation = false
     @State private var exportDocument: PiruDocument?
     @State private var importMessage: String?
@@ -122,6 +123,17 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
         .fileExporter(
             isPresented: $showingExporter,
             document: exportDocument,
