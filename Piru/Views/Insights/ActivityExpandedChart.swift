@@ -57,19 +57,22 @@ struct ActivityExpandedChart: View {
                             .padding(.bottom, 4)
                     }
                     .chartXAxis {
-                        AxisMarks(values: .stride(by: .day, count: 1)) { _ in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [2, 2]))
-                                .foregroundStyle(.secondary.opacity(0.25))
-                        }
-                        AxisMarks(values: .stride(by: .day, count: xAxisStride)) { value in
-                            AxisValueLabel {
-                                if let date = value.as(Date.self) {
-                                    VStack(spacing: 1) {
-                                        Text(date.formatted(.dateTime.day()))
-                                            .font(.system(size: 9, weight: .semibold, design: .rounded))
-                                        Text(date.formatted(.dateTime.month(.abbreviated)))
-                                            .font(.system(size: 7, design: .rounded))
-                                            .foregroundStyle(.tertiary)
+                        AxisMarks(values: .stride(by: .day, count: 1)) { value in
+                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                                .foregroundStyle(.secondary.opacity(0.3))
+                            if let date = value.as(Date.self) {
+                                let calendar = Calendar.current
+                                let day = calendar.component(.day, from: date)
+                                let stride = xAxisStride
+                                if day % stride == 0 || day == 1 {
+                                    AxisValueLabel {
+                                        VStack(spacing: 1) {
+                                            Text(date.formatted(.dateTime.day()))
+                                                .font(.system(size: 9, weight: .semibold, design: .rounded))
+                                            Text(date.formatted(.dateTime.month(.abbreviated)))
+                                                .font(.system(size: 7, design: .rounded))
+                                                .foregroundStyle(.tertiary)
+                                        }
                                     }
                                 }
                             }
