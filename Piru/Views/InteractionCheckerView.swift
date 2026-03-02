@@ -28,33 +28,33 @@ struct InteractionCheckerView: View {
                     VStack(spacing: 0) {
                         ForEach(Array($entries.enumerated()), id: \.element.id) { index, $entry in
                             VStack(spacing: 0) {
-                                SubstanceSearchField(text: $entry.name) { selected in
-                                    entry.name = selected.name
-                                    recheckInteractions()
-                                } onCustom: {
-                                    recheckInteractions()
+                                HStack(spacing: 8) {
+                                    SubstanceSearchField(text: $entry.name) { selected in
+                                        entry.name = selected.name
+                                        recheckInteractions()
+                                    } onCustom: {
+                                        recheckInteractions()
+                                    }
+
+                                    if entries.count > 2 {
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.25)) {
+                                                entries.remove(at: index)
+                                                if entries.count < 2 {
+                                                    entries.append(SubstanceEntry())
+                                                }
+                                                recheckInteractions()
+                                            }
+                                        } label: {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .font(.title3)
+                                                .symbolRenderingMode(.hierarchical)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-
-                                if entries.count > 2 {
-                                    HStack {
-                                        Spacer()
-                                        Button(role: .destructive) {
-                                            entries.remove(at: index)
-                                            if entries.count < 2 {
-                                                entries.append(SubstanceEntry())
-                                            }
-                                            recheckInteractions()
-                                        } label: {
-                                            Image(systemName: "minus.circle.fill")
-                                                .foregroundStyle(.red)
-                                                .font(.body)
-                                        }
-                                    }
-                                    .padding(.trailing, 16)
-                                    .padding(.bottom, 4)
-                                }
 
                                 if index < entries.count - 1 {
                                     Divider()
@@ -67,7 +67,9 @@ struct InteractionCheckerView: View {
                             Divider()
                                 .padding(.leading, 16)
                             Button {
-                                entries.append(SubstanceEntry())
+                                withAnimation(.easeInOut(duration: 0.25)) {
+                                    entries.append(SubstanceEntry())
+                                }
                             } label: {
                                 Label("Add Substance", systemImage: "plus.circle")
                                     .padding(.horizontal, 16)
@@ -77,6 +79,7 @@ struct InteractionCheckerView: View {
                         }
                     }
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.horizontal)
 
                     Text("Enter 2 or more substances to check for interactions.")
@@ -103,15 +106,11 @@ struct InteractionCheckerView: View {
                         .padding(.horizontal)
                     } else {
                         VStack(alignment: .leading, spacing: 8) {
-                            Label(
-                                results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found",
-                                systemImage: results.first?.severity == .dangerous
-                                    ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
-                            )
-                            .font(.subheadline)
-                            .foregroundStyle((results.first?.severity ?? .caution).color)
-                            .textCase(.uppercase)
-                            .padding(.horizontal)
+                            Text(results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found")
+                                .font(.subheadline)
+                                .foregroundStyle((results.first?.severity ?? .caution).color)
+                                .textCase(.uppercase)
+                                .padding(.horizontal)
 
                             VStack(spacing: 0) {
                                 ForEach(Array(results.enumerated()), id: \.offset) { index, warning in
