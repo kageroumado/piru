@@ -36,13 +36,10 @@ struct InteractionCheckerView: View {
                                         recheckInteractions()
                                     }
 
-                                    if entries.count > 2 {
+                                    if !entry.name.isEmpty {
                                         Button {
-                                            withAnimation(.easeInOut(duration: 0.25)) {
-                                                entries.remove(at: index)
-                                                if entries.count < 2 {
-                                                    entries.append(SubstanceEntry())
-                                                }
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                entry.name = ""
                                                 recheckInteractions()
                                             }
                                         } label: {
@@ -55,6 +52,18 @@ struct InteractionCheckerView: View {
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    if entries.count > 2 {
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                entries.remove(at: index)
+                                                recheckInteractions()
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                }
 
                                 if index < entries.count - 1 {
                                     Divider()
