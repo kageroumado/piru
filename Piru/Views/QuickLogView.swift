@@ -170,7 +170,7 @@ struct QuickLogView: View {
                 }
                 .presentationDetents([.large])
             }
-            .sheet(item: $entryFormPrefill) { prefill in
+            .navigationDestination(item: $entryFormPrefill) { prefill in
                 EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
             }
             .sheet(isPresented: $showingDailyDose) {
@@ -513,7 +513,7 @@ struct SubstanceGroup: Identifiable {
     }
 }
 
-struct EntryPrefill: Identifiable {
+struct EntryPrefill: Identifiable, Hashable {
     let id = UUID()
     let substance: String
     let route: RouteOfAdministration

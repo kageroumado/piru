@@ -342,3 +342,14 @@ extension Substance: Codable {
         }
     }
 }
+
+
+// MARK: - Hashable
+extension Substance: Hashable {
+    static func == (lhs: Substance, rhs: Substance) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

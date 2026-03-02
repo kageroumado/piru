@@ -77,10 +77,8 @@ struct SubstanceLibraryView: View {
                 }
             }
         }
-        .sheet(item: $selectedSubstance) { substance in
-            NavigationStack {
-                SubstanceDetailSheet(substance: substance)
-            }
+        .navigationDestination(item: $selectedSubstance) { substance in
+            SubstanceDetailSheet(substance: substance)
         }
     }
 
