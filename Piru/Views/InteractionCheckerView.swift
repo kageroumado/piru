@@ -7,7 +7,6 @@ private struct SubstanceEntry: Identifiable, Equatable {
 
 struct InteractionCheckerView: View {
     @State private var entries: [SubstanceEntry] = [SubstanceEntry(), SubstanceEntry()]
-    @State private var swipeOffsets: [UUID: CGFloat] = [:]
     @State private var results: [InteractionResult] = []
     @State private var hasChecked = false
 
@@ -29,69 +28,30 @@ struct InteractionCheckerView: View {
                     VStack(spacing: 0) {
                         ForEach(Array($entries.enumerated()), id: \.element.id) { index, $entry in
                             VStack(spacing: 0) {
-                                ZStack(alignment: .trailing) {
-                                    // Delete background
-                                    if entries.count > 2 {
-                                        HStack {
-                                            Spacer()
-                                            Image(systemName: "trash.fill")
-                                                .foregroundStyle(.white)
-                                                .padding(.trailing, 20)
-                                        }
-                                        .frame(maxHeight: .infinity)
-                                        .background(Color.red)
+                                HStack(spacing: 8) {
+                                    SubstanceSearchField(text: $entry.name) { selected in
+                                        entry.name = selected.name
+                                        recheckInteractions()
+                                    } onCustom: {
+                                        recheckInteractions()
                                     }
 
-                                    HStack(spacing: 8) {
-                                        SubstanceSearchField(text: $entry.name) { selected in
-                                            entry.name = selected.name
-                                            recheckInteractions()
-                                        } onCustom: {
-                                            recheckInteractions()
-                                        }
-
-                                        if !entry.name.isEmpty {
-                                            Button {
-                                                withAnimation(.easeInOut(duration: 0.2)) {
-                                                    entry.name = ""
-                                                    recheckInteractions()
-                                                }
-                                            } label: {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .font(.title3)
-                                                    .symbolRenderingMode(.hierarchical)
-                                                    .foregroundStyle(.secondary)
+                                    if !entry.name.isEmpty {
+                                        Button {
+                                            withAnimation(.easeInOut(duration: 0.2)) {
+                                                entry.name = ""
+                                                recheckInteractions()
                                             }
+                                        } label: {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .font(.title3)
+                                                .symbolRenderingMode(.hierarchical)
+                                                .foregroundStyle(.secondary)
                                         }
                                     }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 10)
-                                    .background(Color(.systemBackground))
-                                    .offset(x: swipeOffsets[entry.id] ?? 0)
-                                    .gesture(
-                                        entries.count > 2 ?
-                                        DragGesture(minimumDistance: 20)
-                                            .onChanged { value in
-                                                let translation = min(0, value.translation.width)
-                                                swipeOffsets[entry.id] = translation
-                                            }
-                                            .onEnded { value in
-                                                if value.translation.width < -100 {
-                                                    swipeOffsets.removeValue(forKey: entry.id)
-                                                    withAnimation(.easeInOut(duration: 0.25)) {
-                                                        entries.remove(at: index)
-                                                        recheckInteractions()
-                                                    }
-                                                } else {
-                                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                                        swipeOffsets[entry.id] = 0
-                                                    }
-                                                }
-                                            }
-                                        : nil
-                                    )
                                 }
-
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
 
                                 if index < entries.count - 1 {
                                     Divider()
