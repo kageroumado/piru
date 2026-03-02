@@ -15,119 +15,81 @@ struct InteractionCheckerView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                // Substances section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Substances to check")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
-                        .padding(.horizontal)
-
-                    VStack(spacing: 0) {
-                        ForEach(Array($entries.enumerated()), id: \.element.id) { index, $entry in
-                            VStack(spacing: 0) {
-                                HStack(spacing: 8) {
-                                    SubstanceSearchField(text: $entry.name) { selected in
-                                        entry.name = selected.name
-                                        recheckInteractions()
-                                    } onCustom: {
-                                        recheckInteractions()
-                                    }
-
-                                    if !entry.name.isEmpty {
-                                        Button {
-                                            withAnimation(.easeInOut(duration: 0.2)) {
-                                                entry.name = ""
-                                                recheckInteractions()
-                                            }
-                                        } label: {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .font(.title3)
-                                                .symbolRenderingMode(.hierarchical)
-                                                .foregroundStyle(.secondary)
-                                        }
-                                    }
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-
-                                if index < entries.count - 1 {
-                                    Divider()
-                                        .padding(.leading, 16)
-                                }
-                            }
+        List {
+            Section {
+                ForEach(Array($entries.enumerated()), id: \.element.id) { index, $entry in
+                    HStack(spacing: 8) {
+                        SubstanceSearchField(text: $entry.name) { selected in
+                            entry.name = selected.name
+                            recheckInteractions()
+                        } onCustom: {
+                            recheckInteractions()
                         }
 
-                        if entries.count < 8 {
-                            Divider()
-                                .padding(.leading, 16)
+                        if !entry.name.isEmpty {
                             Button {
-                                withAnimation(.easeInOut(duration: 0.25)) {
-                                    entries.append(SubstanceEntry())
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    entry.name = ""
+                                    recheckInteractions()
                                 }
                             } label: {
-                                Label("Add Substance", systemImage: "plus.circle")
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 10)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.title3)
+                                    .symbolRenderingMode(.hierarchical)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal)
-
-                    Text("Enter 2 or more substances to check for interactions.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal)
                 }
+                .onDelete { offsets in
+                    entries.remove(atOffsets: offsets)
+                    if entries.count < 2 {
+                        entries.append(SubstanceEntry())
+                    }
+                    recheckInteractions()
+                }
+                .deleteDisabled(entries.count <= 2)
 
-                // Results section
-                if hasChecked {
-                    if results.isEmpty {
-                        VStack(spacing: 0) {
-                            HStack(spacing: 10) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                                    .font(.title3)
-                                Text("No known interactions found between these substances.")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .padding(16)
-                        }
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                        .padding(.horizontal)
-                    } else {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found")
+                if entries.count < 8 {
+                    Button {
+                        entries.append(SubstanceEntry())
+                    } label: {
+                        Label("Add Substance", systemImage: "plus.circle")
+                    }
+                }
+            } header: {
+                Text("Substances to check")
+            } footer: {
+                Text("Enter 2 or more substances to check for interactions.")
+            }
+
+            if hasChecked {
+                if results.isEmpty {
+                    Section {
+                        HStack(spacing: 10) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                                .font(.title3)
+                            Text("No known interactions found between these substances.")
                                 .font(.subheadline)
-                                .foregroundStyle((results.first?.severity ?? .caution).color)
-                                .textCase(.uppercase)
-                                .padding(.horizontal)
-
-                            VStack(spacing: 0) {
-                                ForEach(Array(results.enumerated()), id: \.offset) { index, warning in
-                                    InteractionWarningRow(warning: warning)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                    if index < results.count - 1 {
-                                        Divider()
-                                            .padding(.leading, 16)
-                                    }
-                                }
-                            }
-                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                            .padding(.horizontal)
+                                .foregroundStyle(.secondary)
                         }
+                        .padding(.vertical, 4)
+                    }
+                } else {
+                    Section {
+                        ForEach(Array(results.enumerated()), id: \.offset) { _, warning in
+                            InteractionWarningRow(warning: warning)
+                        }
+                    } header: {
+                        Text(results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found")
+                            .foregroundStyle((results.first?.severity ?? .caution).color)
                     }
                 }
             }
-            .padding(.top, 12)
         }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
         .background(Color(.systemBackground))
     }
 
