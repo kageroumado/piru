@@ -257,7 +257,7 @@ struct UsageStatsView: View {
                 .chartXAxis {
                     AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
                         AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                            .foregroundStyle(.secondary.opacity(0.3))
+                            .foregroundStyle(.secondary.opacity(0.5))
                         AxisValueLabel(format: dateFormat)
                             .font(.caption2)
                     }
@@ -377,7 +377,7 @@ struct UsageStatsView: View {
                         .chartXAxis {
                             AxisMarks { _ in
                                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(.secondary.opacity(0.3))
+                                    .foregroundStyle(.secondary.opacity(0.5))
                                 AxisValueLabel()
                                     .font(.caption2)
                             }
@@ -385,7 +385,7 @@ struct UsageStatsView: View {
                         .chartYAxis {
                             AxisMarks { _ in
                                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(.secondary.opacity(0.3))
+                                    .foregroundStyle(.secondary.opacity(0.5))
                                 AxisValueLabel()
                                     .font(.caption2)
                             }
@@ -468,7 +468,7 @@ struct UsageStatsView: View {
             .chartYAxis {
                 AxisMarks { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(.secondary.opacity(0.3))
+                        .foregroundStyle(.secondary.opacity(0.5))
                     AxisValueLabel()
                         .font(.caption2)
                 }
@@ -533,7 +533,7 @@ struct UsageStatsView: View {
                             if total > 0 {
                                 Text("(\(Int(round(Double(item.count) / Double(total) * 100)))%)")
                                     .font(.caption2)
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }

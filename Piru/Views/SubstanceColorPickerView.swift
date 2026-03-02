@@ -113,7 +113,7 @@ struct SubstanceColorPickerView: View {
             if userColors.isEmpty {
                 Text("Custom shades you create will appear here.")
                     .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
             } else {
