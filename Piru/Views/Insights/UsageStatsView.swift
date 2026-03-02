@@ -174,7 +174,7 @@ struct UsageStatsView: View {
     // MARK: - Timeline Chart
 
     private var timelineChart: some View {
-        let entries = filteredEntries
+        let entries = activityExpanded ? allEntries : filteredEntries
         let calendar = Calendar.current
 
         // Group entries by day and substance
