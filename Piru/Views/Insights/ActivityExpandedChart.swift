@@ -57,6 +57,10 @@ struct ActivityExpandedChart: View {
                             .padding(.bottom, 4)
                     }
                     .chartXAxis {
+                        AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [2, 2]))
+                                .foregroundStyle(.secondary.opacity(0.25))
+                        }
                         AxisMarks(values: .stride(by: .day, count: xAxisStride)) { value in
                             AxisValueLabel {
                                 if let date = value.as(Date.self) {
