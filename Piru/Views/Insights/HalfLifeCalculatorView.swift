@@ -32,6 +32,7 @@ struct HalfLifeCalculatorView: View {
     @State private var substanceName = ""
     @State private var selectedSubstance: Substance?
     @State private var doseAmount: String = "100"
+    @State private var doseUnit: String = "mg"
     @State private var timeTaken: Date = .now
     @State private var useCustomHalfLife = false
     @State private var customHalfLifeHours: String = ""
@@ -238,6 +239,7 @@ struct HalfLifeCalculatorView: View {
         if let latest = active.doses.first?.timestamp {
             timeTaken = latest
         }
+        doseUnit = SubstanceLibrary.lookup(active.name.lowercased())?.defaultUnit ?? "mg"
         useCustomHalfLife = false
         customHalfLifeHours = ""
     }
@@ -271,6 +273,7 @@ struct HalfLifeCalculatorView: View {
             SubstanceSearchField(text: $substanceName) { substance in
                 selectedSubstance = substance
                 substanceName = substance.name
+                doseUnit = substance.defaultUnit
             }
 
             HStack(spacing: 12) {
@@ -278,9 +281,21 @@ struct HalfLifeCalculatorView: View {
                     Text("Dose")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    TextField("Amount", text: $doseAmount)
-                        .keyboardType(.decimalPad)
-                        .textFieldStyle(.roundedBorder)
+                    HStack(spacing: 0) {
+                        TextField("Amount", text: $doseAmount)
+                            .keyboardType(.decimalPad)
+                            .padding(8)
+                        Divider()
+                            .frame(height: 20)
+                        Picker("", selection: $doseUnit) {
+                            ForEach(["mg", "g", "µg", "mL", "IU", "drops", "puffs"], id: \.self) { u in
+                                Text(u).tag(u)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .frame(width: 64)
+                    }
+                    .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 8))
                 }
 
                 VStack(alignment: .leading) {
@@ -409,7 +424,7 @@ struct HalfLifeCalculatorView: View {
     private func currentAmountCard(halfLife: Double) -> some View {
         let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
         let remaining = dose * pow(0.5, max(0, elapsed) / halfLife)
-        let unit = selectedSubstance?.defaultUnit ?? "mg"
+        let unit = doseUnit
 
         return HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -441,7 +456,7 @@ struct HalfLifeCalculatorView: View {
     // MARK: - Milestones
 
     private func milestonesSection(halfLife: Double) -> some View {
-        let unit = selectedSubstance?.defaultUnit ?? "mg"
+        let unit = doseUnit
         return VStack(alignment: .leading, spacing: 12) {
             Text("Milestones")
                 .font(.headline)

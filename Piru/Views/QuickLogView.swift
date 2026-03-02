@@ -25,14 +25,19 @@ struct QuickLogView: View {
     // MARK: - Grouping
 
     private func rebuildCards() {
+        let entries = allEntries
+        let colors = substanceColors
+        let newCards: [SubstanceCard]
+        let newHistoryNames: Set<String>
+
         var colorLookup: [String: String] = [:]
-        for sc in substanceColors {
+        for sc in colors {
             colorLookup[sc.substance.lowercased()] = sc.hexColor
         }
 
         var groupMap: [String: SubstanceGroup] = [:]
 
-        for entry in allEntries {
+        for entry in entries {
             let nameLower = entry.substance.lowercased()
             let key = "\(nameLower)|\(entry.route.rawValue)"
             if var group = groupMap[key] {
@@ -51,13 +56,12 @@ struct QuickLogView: View {
             }
         }
 
-        // Group route-level groups into per-substance cards
         var cardMap: [String: [SubstanceGroup]] = [:]
         for group in groupMap.values {
             cardMap[group.id.components(separatedBy: "|").first ?? "", default: []].append(group)
         }
 
-        cachedCards = cardMap.values.map { routes in
+        newCards = cardMap.values.map { routes in
             let sorted = routes.sorted { $0.latestTimestamp > $1.latestTimestamp }
             let first = sorted[0]
             return SubstanceCard(
@@ -68,7 +72,10 @@ struct QuickLogView: View {
             )
         }.sorted { $0.latestTimestamp > $1.latestTimestamp }
 
-        cachedHistoryNames = Set(cachedCards.map(\.id))
+        newHistoryNames = Set(newCards.map(\.id))
+
+        cachedCards = newCards
+        cachedHistoryNames = newHistoryNames
         rebuildFavorites()
     }
 
@@ -121,6 +128,10 @@ struct QuickLogView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                searchBar
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
                 LazyVStack(alignment: .leading, spacing: 16) {
                     if !dailyDoseItems.isEmpty && searchText.isEmpty {
                         dailyDoseButton
@@ -140,9 +151,8 @@ struct QuickLogView: View {
                 .padding(.top, 4)
                 .padding(.bottom, 32)
             }
-            .safeAreaInset(edge: .top) {
-                searchBar
-            }
+            
+            .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Quick Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -166,7 +176,11 @@ struct QuickLogView: View {
             .sheet(isPresented: $showingDailyDose) {
                 LogDailyDoseView()
             }
-            .task { rebuildCards() }
+            .task {
+                // Defer rebuild to next run loop so sheet presentation isn't blocked
+                try? await Task.sleep(for: .milliseconds(50))
+                rebuildCards()
+            }
             .onChange(of: allEntries.count) { rebuildCards() }
             .onChange(of: substanceColors.count) { rebuildCards() }
             .onChange(of: favorites.count) { rebuildFavorites() }
@@ -194,11 +208,7 @@ struct QuickLogView: View {
                 .autocorrectionDisabled()
         }
         .padding(10)
-        .background(.bar)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal)
-        .padding(.bottom, 8)
-        .background(.bar)
+        .background(.ultraThinMaterial, in: Capsule())
     }
 
     // MARK: - Scroll Content

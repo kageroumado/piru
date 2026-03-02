@@ -66,9 +66,9 @@ struct ContentView: View {
                         .searchable(text: $librarySearchText, prompt: Text("Search \(SubstanceLibrary.all.count) substances..."))
                 }
             }
-            Tab("Interactions", systemImage: "cross.case", value: 2) {
+            Tab("Tools", systemImage: "wrench.and.screwdriver", value: 2) {
                 NavigationStack {
-                    InteractionCheckerView()
+                    ToolsView()
                         .toolbar { settingsToolbarItem }
                 }
             }
@@ -110,7 +110,7 @@ struct ContentView: View {
             Image(systemName: "plus")
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(.white)
-                .frame(width: 48, height: 48)
+                .frame(width: 64, height: 64)
                 .background(Theme.accent, in: Circle())
                 .shadow(color: Theme.accent.opacity(0.3), radius: 8, y: 4)
         }
@@ -153,7 +153,7 @@ struct ContentView: View {
                     }
                 case 2:
                     NavigationStack {
-                        InteractionCheckerView()
+                        ToolsView()
                             .toolbar { settingsToolbarItem }
                     }
                 case 3:
@@ -248,7 +248,7 @@ struct ContentView: View {
             HStack(spacing: 0) {
                 legacyTabButton(icon: "book", label: "Journal", tab: 0)
                 legacyTabButton(icon: "books.vertical", label: "Library", tab: 1)
-                legacyTabButton(icon: "cross.case", label: "Interactions", tab: 2)
+                legacyTabButton(icon: "wrench.and.screwdriver", label: "Tools", tab: 2)
                 legacyTabButton(icon: "chart.line.uptrend.xyaxis", label: "Insights", tab: 3)
             }
             .padding(4)
@@ -265,7 +265,7 @@ struct ContentView: View {
                 } label: {
                     Image(systemName: "magnifyingglass")
                         .font(.body.weight(.medium))
-                        .frame(width: tabBarHeight, height: tabBarHeight)
+                        .frame(width: 64, height: 64)
                         .background(.ultraThinMaterial, in: Circle())
                 }
                 .transition(.opacity.combined(with: .scale(scale: 0.8)))

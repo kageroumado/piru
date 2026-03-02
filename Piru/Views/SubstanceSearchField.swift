@@ -41,7 +41,7 @@ struct SubstanceSearchField: View {
                         results = []
                         showResults = false
                     } else if isFocused && !locked {
-                        let raw = SubstanceLibrary.search(text)
+                        let raw = SubstanceLibrary.search(text, limit: 12)
                         if favoriteNames.isEmpty {
                             results = raw
                         } else {

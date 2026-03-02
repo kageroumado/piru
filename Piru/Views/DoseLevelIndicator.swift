@@ -185,14 +185,6 @@ struct DoseInfoView: View {
                                 .font(.caption.monospacedDigit())
                         }
                     }
-                    if let fatal = doseRange.fatal {
-                        GridRow {
-                            doseLabel("Fatal", level: DoseLevel.fatal)
-                            Text("\(fatal.doseFormatted)+ \(unit)")
-                                .font(.caption.monospacedDigit())
-                                .foregroundStyle(.primary)
-                        }
-                    }
                 }
             }
         }

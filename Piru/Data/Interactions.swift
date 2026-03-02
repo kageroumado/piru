@@ -99,7 +99,7 @@ enum InteractionChecker {
         var uniqueResults: [InteractionResult] = []
         var pairSeen = Set<String>()
         for result in results.sorted(by: { $0.severity > $1.severity }) {
-            let key = [result.substanceA, result.substanceB].sorted().joined(separator: "|")
+            let key = [result.substanceA.lowercased(), result.substanceB.lowercased()].sorted().joined(separator: "|")
             if !pairSeen.contains(key) {
                 pairSeen.insert(key)
                 uniqueResults.append(result)
@@ -147,7 +147,7 @@ enum InteractionChecker {
         // Deduplicate keeping highest severity per pair
         var best: [String: InteractionResult] = [:]
         for result in allResults {
-            let key = [result.substanceA, result.substanceB].sorted().joined(separator: "|")
+            let key = [result.substanceA.lowercased(), result.substanceB.lowercased()].sorted().joined(separator: "|")
             if let existing = best[key] {
                 if result.severity > existing.severity {
                     best[key] = result
