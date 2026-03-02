@@ -200,8 +200,9 @@ struct AdherenceCalendarCell: View {
             }
             VStack(spacing: 1) {
                 Text("\(day)")
-                    .font(.caption2.weight(isToday ? .bold : .medium))
+                    .font(.caption2.weight(isToday ? .bold : .medium).monospacedDigit())
                 statusIcon
+                    .frame(height: 10)
             }
         }
         .frame(height: 36)
@@ -223,7 +224,8 @@ struct AdherenceCalendarCell: View {
                 .font(.system(size: 8, weight: .bold))
                 .foregroundStyle(.red)
         case .noData:
-            EmptyView()
+            Color.clear
+                .frame(height: 8)
         }
     }
 

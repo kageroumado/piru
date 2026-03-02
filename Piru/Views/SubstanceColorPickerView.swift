@@ -104,7 +104,6 @@ struct SubstanceColorPickerView: View {
     private var userColorsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Divider()
-                .padding(.horizontal)
 
             Text("Your Colors")
                 .font(.subheadline.weight(.semibold))
@@ -180,7 +179,6 @@ struct SubstanceColorPickerView: View {
     private var customColorSection: some View {
         VStack(spacing: 12) {
             Divider()
-                .padding(.horizontal)
 
             if showCustomPicker {
                 customPickerExpanded

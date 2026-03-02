@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct InsightsView: View {
+struct ToolsView: View {
     enum Section: String, CaseIterable, Identifiable {
-        case adherence = "Adherence"
-        case usage = "Usage"
+        case interactions = "Interactions"
+        case calculator = "Calculator"
         var id: String { rawValue }
     }
 
-    @State private var selectedSection: Section = .adherence
+    @State private var selectedSection: Section = .interactions
 
     var body: some View {
         VStack(spacing: 0) {
@@ -21,12 +21,13 @@ struct InsightsView: View {
             .padding(.top, 8)
 
             switch selectedSection {
-            case .adherence:
-                AdherenceView()
-            case .usage:
-                UsageStatsView()
+            case .interactions:
+                InteractionCheckerView()
+            case .calculator:
+                HalfLifeCalculatorView()
             }
         }
-        .navigationTitle("Insights")
+        .background(Color(.systemBackground))
+        .navigationTitle("Tools")
     }
 }

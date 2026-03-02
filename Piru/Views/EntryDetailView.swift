@@ -89,7 +89,7 @@ struct EntryDetailView: View {
                                 allColors: Array(substanceColors)
                             )
                         } label: {
-                            Image(systemName: "bolt.heart.fill")
+                            Image(systemName: "timer")
                         }
                     }
                     Button("Edit") {

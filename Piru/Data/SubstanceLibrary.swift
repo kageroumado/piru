@@ -51,7 +51,6 @@ enum SubstanceLibrary {
         var aliasExact: [Substance] = []
         var prefix: [Substance] = []
         var contains: [Substance] = []
-        var total = 0
 
         for item in searchIndex {
             if item.nameLower == q {
@@ -62,13 +61,10 @@ enum SubstanceLibrary {
                 prefix.append(item.substance)
             } else if item.nameLower.contains(q) || item.aliasesLower.contains(where: { $0.contains(q) }) {
                 contains.append(item.substance)
-            } else {
-                continue
             }
-            total += 1
-            if total >= limit { break }
         }
 
-        return exact + aliasExact + prefix + contains
+        let combined = exact + aliasExact + prefix + contains
+        return Array(combined.prefix(limit))
     }
 }

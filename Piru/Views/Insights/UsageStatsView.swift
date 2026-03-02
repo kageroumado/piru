@@ -8,6 +8,7 @@ struct UsageStatsView: View {
 
     @State private var timeRange: TimeRange = .thirtyDays
     @State private var selectedTrendSubstance: String?
+    @State private var activityExpanded = false
     @State private var filteredEntries: [DoseEntry] = []
 
     enum TimeRange: String, CaseIterable, Identifiable {
@@ -134,31 +135,32 @@ struct UsageStatsView: View {
         let sorted = counts.sorted { $0.value > $1.value }
         let top = Array(sorted.prefix(10))
 
-        return VStack(alignment: .leading, spacing: 8) {
+        let maxCount = top.first?.value ?? 1
+
+        return VStack(alignment: .leading, spacing: 12) {
             Text("Frequency")
                 .font(.headline)
 
-            Chart(top, id: \.key) { item in
-                BarMark(
-                    x: .value("Count", item.value),
-                    y: .value("Substance", item.key)
-                )
-                .foregroundStyle(colorMap[item.key.lowercased()] ?? Theme.accent)
-                .cornerRadius(4)
-                .annotation(position: .trailing, spacing: 4) {
-                    Text("\(item.value)")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-            }
-            .chartXAxis(.hidden)
-            .chartYAxis {
-                AxisMarks { _ in
-                    AxisValueLabel()
+            ForEach(top, id: \.key) { item in
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.key)
                         .font(.caption)
+                        .foregroundStyle(.secondary)
+                    HStack(spacing: 6) {
+                        GeometryReader { geo in
+                            let fraction = CGFloat(item.value) / CGFloat(maxCount)
+                            Capsule()
+                                .fill(colorMap[item.key.lowercased()] ?? Theme.accent)
+                                .frame(width: max(fraction * geo.size.width, 8))
+                        }
+                        .frame(height: 12)
+                        Text("\(item.value)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .frame(width: 24, alignment: .leading)
+                    }
                 }
             }
-            .frame(height: CGFloat(max(top.count, 1)) * 36)
         }
         .padding()
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
@@ -186,8 +188,20 @@ struct UsageStatsView: View {
             .sorted { $0.key.date < $1.key.date }
 
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Activity")
-                .font(.headline)
+            HStack {
+                Text("Activity")
+                    .font(.headline)
+                Spacer()
+                Button {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        activityExpanded.toggle()
+                    }
+                } label: {
+                    Image(systemName: activityExpanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
 
             Chart(data, id: \.key) { item in
                 BarMark(
@@ -195,8 +209,12 @@ struct UsageStatsView: View {
                     y: .value("Count", item.count)
                 )
                 .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                .cornerRadius(4)
             }
-            .frame(height: 180)
+            .frame(height: activityExpanded ? 360 : 180)
+            .chartPlotStyle { plotArea in
+                plotArea.padding(.leading, 8)
+            }
             .chartXAxis {
                 AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
@@ -213,6 +231,7 @@ struct UsageStatsView: View {
                         .font(.caption2)
                 }
             }
+            .chartYScale(domain: .automatic(includesZero: true))
         }
         .padding()
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
@@ -314,6 +333,9 @@ struct UsageStatsView: View {
                             .symbolSize(30)
                         }
                         .frame(height: 180)
+            .chartPlotStyle { plotArea in
+                plotArea.padding(.leading, 8)
+            }
                         .chartYAxisLabel(data.first?.unit ?? "mg")
                         .chartXAxis {
                             AxisMarks { _ in
@@ -397,6 +419,9 @@ struct UsageStatsView: View {
                 }
             }
             .frame(height: 180)
+            .chartPlotStyle { plotArea in
+                plotArea.padding(.leading, 8)
+            }
             .chartXAxis {
                 AxisMarks { _ in
                     AxisValueLabel()

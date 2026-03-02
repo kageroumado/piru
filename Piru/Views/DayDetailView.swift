@@ -126,12 +126,8 @@ struct DayDetailView: View {
                             InteractionWarningRow(warning: warning)
                         }
                     } header: {
-                        Label(
-                            dayInteractions.count == 1 ? "Interaction Warning" : "\(dayInteractions.count) Interaction Warnings",
-                            systemImage: dayInteractions.first?.severity == .dangerous
-                                ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
-                        )
-                        .foregroundStyle((dayInteractions.first?.severity ?? .caution).color)
+                        Text(dayInteractions.count == 1 ? "Interaction Warning" : "\(dayInteractions.count) Interaction Warnings")
+                            .foregroundStyle((dayInteractions.first?.severity ?? .caution).color)
                     }
                 }
             }
@@ -148,7 +144,7 @@ struct DayDetailView: View {
                         Button {
                             restartLiveActivity()
                         } label: {
-                            Image(systemName: "bolt.heart.fill")
+                            Image(systemName: "timer")
                         }
                     }
                     Button {

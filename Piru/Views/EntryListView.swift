@@ -62,7 +62,7 @@ struct DayCardView: View {
     }
 
     private var subtitle: String {
-        date.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated).year())
+        date.formatted(.dateTime.weekday(.wide))
     }
 
     private var substanceSummary: String {

@@ -340,9 +340,6 @@ struct SubstanceDetailSheet: View {
                     if let heavy = doses.heavy {
                         doseRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
                     }
-                    if let fatal = doses.fatal {
-                        doseRow("Fatal", value: "\(fatal.doseFormatted)+ \(unit)", level: .fatal)
-                    }
                 }
 
                 if let duration = substanceRoute.duration {
