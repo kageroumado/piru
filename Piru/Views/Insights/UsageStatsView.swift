@@ -11,6 +11,11 @@ struct UsageStatsView: View {
     @State private var activityExpanded = false
     @State private var filteredEntries: [DoseEntry] = []
 
+    struct DaySubstance: Hashable {
+        let date: Date
+        let substance: String
+    }
+
     enum TimeRange: String, CaseIterable, Identifiable {
         case sevenDays = "7D"
         case thirtyDays = "30D"
@@ -173,11 +178,6 @@ struct UsageStatsView: View {
         let calendar = Calendar.current
 
         // Group entries by day and substance
-        struct DaySubstance: Hashable {
-            let date: Date
-            let substance: String
-        }
-
         var buckets: [DaySubstance: Int] = [:]
         for entry in entries {
             let day = calendar.startOfDay(for: entry.timestamp)
@@ -186,6 +186,20 @@ struct UsageStatsView: View {
 
         let data = buckets.map { (key: $0.key, count: $0.value) }
             .sorted { $0.key.date < $1.key.date }
+
+        let uniqueSubstances: [(name: String, color: Color)] = {
+            var seen = Set<String>()
+            var result: [(String, Color)] = []
+            for item in data {
+                let name = item.key.substance
+                if seen.insert(name.lowercased()).inserted {
+                    result.append((name, colorMap[name.lowercased()] ?? Theme.accent))
+                }
+            }
+            return result.sorted { $0.0 < $1.0 }
+        }()
+
+        let maxCount = data.map(\.count).max() ?? 1
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -203,48 +217,16 @@ struct UsageStatsView: View {
                 }
             }
 
-            Chart(data, id: \.key) { item in
-                BarMark(
-                    x: .value("Date", item.key.date, unit: .day),
-                    y: .value("Count", item.count)
-                )
-                .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? Theme.accent)
-                .cornerRadius(4)
-            }
-            .frame(height: activityExpanded ? 360 : 180)
-            .chartPlotStyle { plotArea in
-                plotArea.padding(.leading, 8)
-            }
-            .chartXAxis {
-                AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(.secondary.opacity(0.3))
-                    AxisValueLabel(format: dateFormat)
-                        .font(.caption2)
-                }
-            }
-            .chartYAxis {
-                AxisMarks(preset: .aligned) { value in
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(.secondary.opacity(0.3))
-                    AxisValueLabel()
-                        .font(.caption2)
-                }
-            }
-            .chartYScale(domain: .automatic(includesZero: true))
-
             if activityExpanded {
-                let uniqueSubstances: [(name: String, color: Color)] = {
-                    var seen = Set<String>()
-                    var result: [(String, Color)] = []
-                    for item in data {
-                        let name = item.key.substance
-                        if seen.insert(name.lowercased()).inserted {
-                            result.append((name, colorMap[name.lowercased()] ?? Theme.accent))
-                        }
-                    }
-                    return result.sorted { $0.0 < $1.0 }
-                }()
+                // Expanded: scrollable + zoomable chart
+                ActivityExpandedChart(
+                    data: data,
+                    colorMap: colorMap,
+                    maxCount: maxCount,
+                    strideComponent: strideComponent,
+                    strideCount: strideCount,
+                    dateFormat: dateFormat
+                )
 
                 FlowLayout(spacing: 8) {
                     ForEach(uniqueSubstances, id: \.name) { sub in
@@ -258,6 +240,34 @@ struct UsageStatsView: View {
                     }
                 }
                 .padding(.top, 4)
+            } else {
+                // Compact: fixed chart
+                Chart(data, id: \.key) { item in
+                    BarMark(
+                        x: .value("Date", item.key.date, unit: .day),
+                        y: .value("Count", item.count)
+                    )
+                    .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                    .cornerRadius(4)
+                }
+                .frame(height: 180)
+                .chartPlotStyle { plotArea in
+                    plotArea.padding(.leading, 4)
+                }
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
+                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                            .foregroundStyle(.secondary.opacity(0.3))
+                        AxisValueLabel(format: dateFormat)
+                            .font(.caption2)
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks(position: .trailing) { _ in
+                        AxisValueLabel()
+                            .font(.caption2)
+                    }
+                }
             }
         }
         .padding()
