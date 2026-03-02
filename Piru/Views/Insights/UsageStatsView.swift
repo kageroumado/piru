@@ -224,7 +224,7 @@ struct UsageStatsView: View {
                 }
             }
             .chartYAxis {
-                AxisMarks { _ in
+                AxisMarks(preset: .aligned) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                         .foregroundStyle(.secondary.opacity(0.3))
                     AxisValueLabel()
@@ -232,6 +232,33 @@ struct UsageStatsView: View {
                 }
             }
             .chartYScale(domain: .automatic(includesZero: true))
+
+            if activityExpanded {
+                let uniqueSubstances: [(name: String, color: Color)] = {
+                    var seen = Set<String>()
+                    var result: [(String, Color)] = []
+                    for item in data {
+                        let name = item.key.substance
+                        if seen.insert(name.lowercased()).inserted {
+                            result.append((name, colorMap[name.lowercased()] ?? Theme.accent))
+                        }
+                    }
+                    return result.sorted { $0.0 < $1.0 }
+                }()
+
+                FlowLayout(spacing: 8) {
+                    ForEach(uniqueSubstances, id: \.name) { sub in
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(sub.color)
+                                .frame(width: 8, height: 8)
+                            Text(sub.name)
+                                .font(.caption2)
+                        }
+                    }
+                }
+                .padding(.top, 4)
+            }
         }
         .padding()
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
