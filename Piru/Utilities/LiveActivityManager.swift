@@ -182,7 +182,7 @@ final class LiveActivityManager {
 
     func scheduleBackgroundRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: Self.backgroundTaskIdentifier)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
@@ -210,7 +210,7 @@ final class LiveActivityManager {
 
     private func startUpdateTimer() {
         updateTimer?.invalidate()
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 15 * 60, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 5 * 60, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.periodicUpdate()
             }
