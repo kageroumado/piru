@@ -26,87 +26,55 @@ struct PresetColor: Identifiable, Hashable {
     var id: String { hex }
     var color: Color { Color(hex: hex) }
 
-    // 64 colors: 8 hue families × 8 shades each
     static let all: [PresetColor] = [
-        // Reds
-        PresetColor(hex: "FF3B30", name: "Red"),
-        PresetColor(hex: "FF6B6B", name: "Coral"),
-        PresetColor(hex: "D32F2F", name: "Crimson"),
-        PresetColor(hex: "FF8A80", name: "Salmon"),
-        PresetColor(hex: "C62828", name: "Scarlet"),
-        PresetColor(hex: "E57373", name: "Rose Red"),
-        PresetColor(hex: "B71C1C", name: "Maroon"),
-        PresetColor(hex: "EF9A9A", name: "Blush Red"),
-
-        // Oranges
-        PresetColor(hex: "FF9500", name: "Orange"),
-        PresetColor(hex: "FFBF00", name: "Amber"),
-        PresetColor(hex: "FF6D00", name: "Tangerine"),
-        PresetColor(hex: "FFAB40", name: "Apricot"),
-        PresetColor(hex: "E65100", name: "Burnt Orange"),
-        PresetColor(hex: "FFCC80", name: "Peach"),
-        PresetColor(hex: "FF7043", name: "Papaya"),
-        PresetColor(hex: "BF360C", name: "Rust"),
-
-        // Yellows
-        PresetColor(hex: "FFCC00", name: "Yellow"),
-        PresetColor(hex: "FFD600", name: "Gold"),
-        PresetColor(hex: "FDD835", name: "Sunflower"),
-        PresetColor(hex: "F9A825", name: "Honey"),
-        PresetColor(hex: "FFF176", name: "Lemon"),
-        PresetColor(hex: "FFE082", name: "Butter"),
-        PresetColor(hex: "F57F17", name: "Marigold"),
-        PresetColor(hex: "FFF9C4", name: "Cream"),
-
-        // Greens
-        PresetColor(hex: "34C759", name: "Green"),
-        PresetColor(hex: "A8D800", name: "Lime"),
-        PresetColor(hex: "2E7D32", name: "Forest"),
-        PresetColor(hex: "66BB6A", name: "Sage"),
-        PresetColor(hex: "00C853", name: "Emerald"),
-        PresetColor(hex: "81C784", name: "Fern"),
-        PresetColor(hex: "1B5E20", name: "Pine"),
-        PresetColor(hex: "C5E1A5", name: "Pistachio"),
-
-        // Teals & Cyans
-        PresetColor(hex: "00C7BE", name: "Mint"),
-        PresetColor(hex: "30B0C7", name: "Teal"),
-        PresetColor(hex: "00BCD4", name: "Cyan"),
-        PresetColor(hex: "4DD0E1", name: "Aqua"),
-        PresetColor(hex: "00838F", name: "Deep Teal"),
-        PresetColor(hex: "80DEEA", name: "Sky"),
-        PresetColor(hex: "006064", name: "Ocean"),
-        PresetColor(hex: "B2EBF2", name: "Ice"),
-
-        // Blues
-        PresetColor(hex: "007AFF", name: "Blue"),
-        PresetColor(hex: "32ADE6", name: "Azure"),
-        PresetColor(hex: "1565C0", name: "Navy"),
-        PresetColor(hex: "42A5F5", name: "Cornflower"),
-        PresetColor(hex: "0D47A1", name: "Cobalt"),
-        PresetColor(hex: "90CAF9", name: "Periwinkle"),
-        PresetColor(hex: "1A237E", name: "Midnight"),
-        PresetColor(hex: "64B5F6", name: "Baby Blue"),
-
-        // Purples
-        PresetColor(hex: "5856D6", name: "Indigo"),
-        PresetColor(hex: "AF52DE", name: "Purple"),
-        PresetColor(hex: "8944AB", name: "Violet"),
-        PresetColor(hex: "7E57C2", name: "Amethyst"),
-        PresetColor(hex: "4A148C", name: "Deep Purple"),
-        PresetColor(hex: "CE93D8", name: "Lavender"),
-        PresetColor(hex: "6A1B9A", name: "Plum"),
-        PresetColor(hex: "B39DDB", name: "Lilac"),
-
-        // Pinks & Neutrals
-        PresetColor(hex: "FF2D55", name: "Pink"),
-        PresetColor(hex: "FF6FA3", name: "Blush"),
-        PresetColor(hex: "E91E63", name: "Magenta"),
-        PresetColor(hex: "F48FB1", name: "Flamingo"),
-        PresetColor(hex: "AD1457", name: "Fuchsia"),
-        PresetColor(hex: "F8BBD0", name: "Cotton Candy"),
-        PresetColor(hex: "A2845E", name: "Brown"),
-        PresetColor(hex: "8E8E93", name: "Gray"),
+        // Sky
+        PresetColor(hex: "00add3", name: "Sky"),
+        PresetColor(hex: "41c6e2", name: "Light Sky"),
+        PresetColor(hex: "009ec1", name: "Dark Sky"),
+        // Iris
+        PresetColor(hex: "2ca2f5", name: "Iris"),
+        PresetColor(hex: "71befd", name: "Light Iris"),
+        PresetColor(hex: "2695e1", name: "Dark Iris"),
+        // Lavender
+        PresetColor(hex: "8394ff", name: "Lavender"),
+        PresetColor(hex: "a2b2ff", name: "Light Lavender"),
+        PresetColor(hex: "7887eb", name: "Dark Lavender"),
+        // Red
+        PresetColor(hex: "b885ef", name: "Red"),
+        PresetColor(hex: "cda7f8", name: "Light Red"),
+        PresetColor(hex: "a979dc", name: "Dark Red"),
+        // Turquoise
+        PresetColor(hex: "dd79c9", name: "Turquoise"),
+        PresetColor(hex: "eb9eda", name: "Light Turquoise"),
+        PresetColor(hex: "cb6eb8", name: "Dark Turquoise"),
+        // Azure
+        PresetColor(hex: "f17395", name: "Azure"),
+        PresetColor(hex: "fc9bb1", name: "Light Azure"),
+        PresetColor(hex: "dd6988", name: "Dark Azure"),
+        // Mulberry
+        PresetColor(hex: "f27859", name: "Mulberry"),
+        PresetColor(hex: "fd9e86", name: "Light Mulberry"),
+        PresetColor(hex: "de6d51", name: "Dark Mulberry"),
+        // Flamingo
+        PresetColor(hex: "e08600", name: "Flamingo"),
+        PresetColor(hex: "eda963", name: "Light Flamingo"),
+        PresetColor(hex: "ce7b00", name: "Dark Flamingo"),
+        // Mustard
+        PresetColor(hex: "bb9900", name: "Mustard"),
+        PresetColor(hex: "cfb657", name: "Light Mustard"),
+        PresetColor(hex: "ab8c00", name: "Dark Mustard"),
+        // Pear
+        PresetColor(hex: "83a926", name: "Pear"),
+        PresetColor(hex: "a3c26b", name: "Light Pear"),
+        PresetColor(hex: "779a20", name: "Dark Pear"),
+        // Green
+        PresetColor(hex: "21b26a", name: "Green"),
+        PresetColor(hex: "6fc991", name: "Light Green"),
+        PresetColor(hex: "1ca360", name: "Dark Green"),
+        // Cyan
+        PresetColor(hex: "00b3a2", name: "Cyan"),
+        PresetColor(hex: "3fcabc", name: "Light Cyan"),
+        PresetColor(hex: "00a494", name: "Dark Cyan"),
     ]
 }
 
