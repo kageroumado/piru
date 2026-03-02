@@ -3,537 +3,327 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		35A64EA4AA44B422AD89FC55 /* DailyDoseSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411F474B87B473A69B3D82BE /* DailyDoseSettingsView.swift */; };
-		50D644FBB760106BEDCD7147 /* DailyDoseItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A84AED82E3742B9AC9D804 /* DailyDoseItemFormView.swift */; };
-		5FA14CFB8372DBE8A894D617 /* LogDailyDoseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42340CD8457CD0BE0EBD672 /* LogDailyDoseView.swift */; };
-		94EA4991AA17D6A2869442DA /* DailyDoseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A054C58A4C77053BDF50912 /* DailyDoseItem.swift */; };
-		A10001 /* PiruApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10001 /* PiruApp.swift */; };
-		A10002 /* RouteOfAdministration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10002 /* RouteOfAdministration.swift */; };
-		A10003 /* DoseEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10003 /* DoseEntry.swift */; };
-		A10004 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10004 /* ContentView.swift */; };
-		A10005 /* EntryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10005 /* EntryFormView.swift */; };
-		A10006 /* EntryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10006 /* EntryListView.swift */; };
-		A10007 /* EntryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10007 /* EntryRowView.swift */; };
-		A10008 /* EntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10008 /* EntryDetailView.swift */; };
-		A10010 /* Substance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10010 /* Substance.swift */; };
-		A10011 /* SubstanceLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10011 /* SubstanceLibrary.swift */; };
-		A10030 /* DoseLevelIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10030 /* DoseLevelIndicator.swift */; };
-		A10031 /* SubstanceSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10031 /* SubstanceSearchField.swift */; };
-		A10070 /* Interactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10055 /* Interactions.swift */; };
-		A10098 /* AppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10098 /* AppSources.swift */; };
-		A10099 /* FavoriteSubstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10099 /* FavoriteSubstance.swift */; };
-		A10033 /* SubstanceLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10033 /* SubstanceLibraryView.swift */; };
-		A10075 /* InteractionCheckerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10075 /* InteractionCheckerView.swift */; };
-		A10034 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10034 /* DayDetailView.swift */; };
-		A10035 /* SubstanceColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10035 /* SubstanceColor.swift */; };
-		A10036 /* SubstanceColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10036 /* SubstanceColorPickerView.swift */; };
-		A10037 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10037 /* SettingsView.swift */; };
-		A10038 /* UserColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10038 /* UserColor.swift */; };
-		A10040 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10040 /* LiveActivityManager.swift */; };
-		A10044 /* DataExportImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10044 /* DataExportImport.swift */; };
-		A10041 /* PiruActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10041 /* PiruActivityAttributes.swift */; };
-		A10042 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10042 /* ColorHex.swift */; };
-		A10043 /* TimelineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10043 /* TimelineGraphView.swift */; };
-		A10050 /* PiruLiveActivityBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10050 /* PiruLiveActivityBundle.swift */; };
-		A10051 /* PiruLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10051 /* PiruLiveActivity.swift */; };
-		A10052 /* LiveActivityViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10052 /* LiveActivityViews.swift */; };
-		A10053 /* PiruActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10041 /* PiruActivityAttributes.swift */; };
-		A10054 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10042 /* ColorHex.swift */; };
-		A10055 /* TimelineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10043 /* TimelineGraphView.swift */; };
-		A10060 /* PiruLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C10010 /* PiruLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A20001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20001 /* Assets.xcassets */; };
-		A20002 /* substances.json in Resources */ = {isa = PBXBuildFile; fileRef = B20002 /* substances.json */; };
-		AT0001 /* DoseRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0001 /* DoseRangeTests.swift */; };
-		AT0002 /* TimeRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0002 /* TimeRangeTests.swift */; };
-		AT0003 /* DurationProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0003 /* DurationProfileTests.swift */; };
-		AT0004 /* SubstanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0004 /* SubstanceTests.swift */; };
-		AT0005 /* RouteOfAdministrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0005 /* RouteOfAdministrationTests.swift */; };
-		AT0006 /* SubstanceLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0006 /* SubstanceLibraryTests.swift */; };
-		AT0007 /* InteractionCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0007 /* InteractionCheckerTests.swift */; };
-		AT0008 /* ColorHexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BT0008 /* ColorHexTests.swift */; };
-		A10080 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10080 /* FlowLayout.swift */; };
-		A10081 /* QuickLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10081 /* QuickLogView.swift */; };
-		A10082 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10082 /* Theme.swift */; };
-		A10090 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10090 /* InsightsView.swift */; };
-		A10091 /* AdherenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10091 /* AdherenceView.swift */; };
-		A10093 /* HalfLifeCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10093 /* HalfLifeCalculatorView.swift */; };
-		A10095 /* AdherenceCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10095 /* AdherenceCalculator.swift */; };
-		A10097 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10097 /* UsageStatsView.swift */; };
+		0B793F102F55446700FB3EE1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
+		0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
+		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CP10001 /* PBXContainerItemProxy */ = {
+		0B793F1D2F55446900FB3EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F10003 /* Project object */;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F10010;
-			remoteInfo = PiruLiveActivityExtension;
+			remoteGlobalIDString = 0B793F0C2F55446700FB3EE1;
+			remoteInfo = PiruLiveActivityExtensionExtension;
 		};
-		CPT001 /* PBXContainerItemProxy */ = {
+		0B793F2D2F55448700FB3EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F10003 /* Project object */;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F10001;
+			remoteGlobalIDString = 0B793EFA2F55434700FB3EE1;
 			remoteInfo = Piru;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EMBED10001 /* Embed Foundation Extensions */ = {
+		0B793F242F55446900FB3EE1 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
-				A10060 /* PiruLiveActivityExtension.appex in Embed Foundation Extensions */,
+				0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A054C58A4C77053BDF50912 /* DailyDoseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyDoseItem.swift; path = Piru/Models/DailyDoseItem.swift; sourceTree = SOURCE_ROOT; };
-		30A84AED82E3742B9AC9D804 /* DailyDoseItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyDoseItemFormView.swift; path = Piru/Views/DailyDoseItemFormView.swift; sourceTree = SOURCE_ROOT; };
-		411F474B87B473A69B3D82BE /* DailyDoseSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyDoseSettingsView.swift; path = Piru/Views/DailyDoseSettingsView.swift; sourceTree = SOURCE_ROOT; };
-		B10001 /* PiruApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruApp.swift; sourceTree = "<group>"; };
-		B10100 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B10002 /* RouteOfAdministration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOfAdministration.swift; sourceTree = "<group>"; };
-		B10003 /* DoseEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseEntry.swift; sourceTree = "<group>"; };
-		B10004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		B10005 /* EntryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryFormView.swift; sourceTree = "<group>"; };
-		B10006 /* EntryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListView.swift; sourceTree = "<group>"; };
-		B10007 /* EntryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRowView.swift; sourceTree = "<group>"; };
-		B10008 /* EntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailView.swift; sourceTree = "<group>"; };
-		B10010 /* Substance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Substance.swift; sourceTree = "<group>"; };
-		B10011 /* SubstanceLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibrary.swift; sourceTree = "<group>"; };
-		B10030 /* DoseLevelIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseLevelIndicator.swift; sourceTree = "<group>"; };
-		B10031 /* SubstanceSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceSearchField.swift; sourceTree = "<group>"; };
-		B10055 /* Interactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactions.swift; sourceTree = "<group>"; };
-		B10098 /* AppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSources.swift; sourceTree = "<group>"; };
-		B10033 /* SubstanceLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibraryView.swift; sourceTree = "<group>"; };
-		B10075 /* InteractionCheckerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionCheckerView.swift; sourceTree = "<group>"; };
-		B10034 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
-		B10035 /* SubstanceColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceColor.swift; sourceTree = "<group>"; };
-		B10036 /* SubstanceColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceColorPickerView.swift; sourceTree = "<group>"; };
-		B10037 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		B10038 /* UserColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserColor.swift; sourceTree = "<group>"; };
-		B10099 /* FavoriteSubstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSubstance.swift; sourceTree = "<group>"; };
-		B10040 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
-		B10044 /* DataExportImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportImport.swift; sourceTree = "<group>"; };
-		B10041 /* PiruActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruActivityAttributes.swift; sourceTree = "<group>"; };
-		B10042 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
-		B10043 /* TimelineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineGraphView.swift; sourceTree = "<group>"; };
-		B10049 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B10050 /* PiruLiveActivityBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruLiveActivityBundle.swift; sourceTree = "<group>"; };
-		B10051 /* PiruLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiruLiveActivity.swift; sourceTree = "<group>"; };
-		B10052 /* LiveActivityViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityViews.swift; sourceTree = "<group>"; };
-		B20001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B20002 /* substances.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = substances.json; sourceTree = "<group>"; };
-		C10001 /* Piru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piru.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C10010 /* PiruLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		C42340CD8457CD0BE0EBD672 /* LogDailyDoseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogDailyDoseView.swift; path = Piru/Views/LogDailyDoseView.swift; sourceTree = SOURCE_ROOT; };
-		CT0001 /* PiruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BT0001 /* DoseRangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoseRangeTests.swift; sourceTree = "<group>"; };
-		BT0002 /* TimeRangeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRangeTests.swift; sourceTree = "<group>"; };
-		BT0003 /* DurationProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationProfileTests.swift; sourceTree = "<group>"; };
-		BT0004 /* SubstanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceTests.swift; sourceTree = "<group>"; };
-		BT0005 /* RouteOfAdministrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOfAdministrationTests.swift; sourceTree = "<group>"; };
-		BT0006 /* SubstanceLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstanceLibraryTests.swift; sourceTree = "<group>"; };
-		BT0007 /* InteractionCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionCheckerTests.swift; sourceTree = "<group>"; };
-		BT0008 /* ColorHexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHexTests.swift; sourceTree = "<group>"; };
-		B10080 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
-		B10081 /* QuickLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLogView.swift; sourceTree = "<group>"; };
-		B10082 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		B10090 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
-		B10091 /* AdherenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdherenceView.swift; sourceTree = "<group>"; };
-		B10093 /* HalfLifeCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfLifeCalculatorView.swift; sourceTree = "<group>"; };
-		B10095 /* AdherenceCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdherenceCalculator.swift; sourceTree = "<group>"; };
-		B10097 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
+		0B793EFB2F55434700FB3EE1 /* Piru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piru.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruLiveActivityExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		0B793F112F55446700FB3EE1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		0B793F292F55448700FB3EE1 /* PiruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		D10001 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B793F202F55446900FB3EE1 /* Exceptions for "PiruLiveActivityExtension" folder in "PiruLiveActivityExtensionExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			target = 0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */;
 		};
-		D10010 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+		0B793F322F55449000FB3EE1 /* Exceptions for "Piru" folder in "Piru" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
 		};
-		DT0001 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXGroup section */
-		E10001 = {
-			isa = PBXGroup;
-			children = (
-				E10002 /* Piru */,
-				E10008 /* Shared */,
-				E10010 /* PiruLiveActivity */,
-				ET0001 /* PiruTests */,
-				E10005 /* Products */,
-				0A054C58A4C77053BDF50912 /* DailyDoseItem.swift */,
-				411F474B87B473A69B3D82BE /* DailyDoseSettingsView.swift */,
-				30A84AED82E3742B9AC9D804 /* DailyDoseItemFormView.swift */,
-				C42340CD8457CD0BE0EBD672 /* LogDailyDoseView.swift */,
-			);
-			sourceTree = "<group>";
-		};
-		E10002 /* Piru */ = {
-			isa = PBXGroup;
-			children = (
-				B10100 /* Info.plist */,
-				B10001 /* PiruApp.swift */,
-				B10082 /* Theme.swift */,
-				E10003 /* Models */,
-				E10004 /* Views */,
-				E10006 /* Data */,
-				E10007 /* Utilities */,
-				B20001 /* Assets.xcassets */,
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0B793EFD2F55434700FB3EE1 /* Piru */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B793F322F55449000FB3EE1 /* Exceptions for "Piru" folder in "Piru" target */,
 			);
 			path = Piru;
 			sourceTree = "<group>";
 		};
-		E10003 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				B10002 /* RouteOfAdministration.swift */,
-				B10003 /* DoseEntry.swift */,
-				B10010 /* Substance.swift */,
-				B10035 /* SubstanceColor.swift */,
-				B10038 /* UserColor.swift */,
-				B10099 /* FavoriteSubstance.swift */,
+		0B793F132F55446700FB3EE1 /* PiruLiveActivityExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0B793F202F55446900FB3EE1 /* Exceptions for "PiruLiveActivityExtension" folder in "PiruLiveActivityExtensionExtension" target */,
 			);
-			path = Models;
+			path = PiruLiveActivityExtension;
 			sourceTree = "<group>";
 		};
-		E10004 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				B10004 /* ContentView.swift */,
-				B10005 /* EntryFormView.swift */,
-				B10006 /* EntryListView.swift */,
-				B10007 /* EntryRowView.swift */,
-				B10008 /* EntryDetailView.swift */,
-				B10030 /* DoseLevelIndicator.swift */,
-				B10031 /* SubstanceSearchField.swift */,
-				B10033 /* SubstanceLibraryView.swift */,
-				B10034 /* DayDetailView.swift */,
-				B10036 /* SubstanceColorPickerView.swift */,
-				B10037 /* SettingsView.swift */,
-				B10075 /* InteractionCheckerView.swift */,
-				B10080 /* FlowLayout.swift */,
-				B10081 /* QuickLogView.swift */,
-				B10090 /* InsightsView.swift */,
-				E10009 /* Insights */,
-			);
-			path = Views;
+		0B793F2A2F55448700FB3EE1 /* PiruTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PiruTests;
 			sourceTree = "<group>";
 		};
-		E10005 /* Products */ = {
+		0B793F332F55449100FB3EE1 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0B793EF82F55434700FB3EE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		0B793F0A2F55446700FB3EE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */,
+				0B793F102F55446700FB3EE1 /* WidgetKit.framework in Frameworks */,
+			);
+		};
+		0B793F262F55448700FB3EE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B793EF22F55434700FB3EE1 = {
 			isa = PBXGroup;
 			children = (
-				C10001 /* Piru.app */,
-				C10010 /* PiruLiveActivityExtension.appex */,
-				CT0001 /* PiruTests.xctest */,
+				0B793EFD2F55434700FB3EE1 /* Piru */,
+				0B793F332F55449100FB3EE1 /* Shared */,
+				0B793F132F55446700FB3EE1 /* PiruLiveActivityExtension */,
+				0B793F2A2F55448700FB3EE1 /* PiruTests */,
+				0B793F0E2F55446700FB3EE1 /* Frameworks */,
+				0B793EFC2F55434700FB3EE1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0B793EFC2F55434700FB3EE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B793EFB2F55434700FB3EE1 /* Piru.app */,
+				0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */,
+				0B793F292F55448700FB3EE1 /* PiruTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E10006 /* Data */ = {
+		0B793F0E2F55446700FB3EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B20002 /* substances.json */,
-				B10011 /* SubstanceLibrary.swift */,
-				B10055 /* Interactions.swift */,
-				B10098 /* AppSources.swift */,
+				0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */,
+				0B793F112F55446700FB3EE1 /* SwiftUI.framework */,
 			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		E10007 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				B10040 /* LiveActivityManager.swift */,
-				B10044 /* DataExportImport.swift */,
-				B10095 /* AdherenceCalculator.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
-		E10008 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				B10041 /* PiruActivityAttributes.swift */,
-				B10042 /* ColorHex.swift */,
-				B10043 /* TimelineGraphView.swift */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		E10010 /* PiruLiveActivity */ = {
-			isa = PBXGroup;
-			children = (
-				B10049 /* Info.plist */,
-				B10050 /* PiruLiveActivityBundle.swift */,
-				B10051 /* PiruLiveActivity.swift */,
-				B10052 /* LiveActivityViews.swift */,
-			);
-			path = PiruLiveActivity;
-			sourceTree = "<group>";
-		};
-		ET0001 /* PiruTests */ = {
-			isa = PBXGroup;
-			children = (
-				BT0001 /* DoseRangeTests.swift */,
-				BT0002 /* TimeRangeTests.swift */,
-				BT0003 /* DurationProfileTests.swift */,
-				BT0004 /* SubstanceTests.swift */,
-				BT0005 /* RouteOfAdministrationTests.swift */,
-				BT0006 /* SubstanceLibraryTests.swift */,
-				BT0007 /* InteractionCheckerTests.swift */,
-				BT0008 /* ColorHexTests.swift */,
-			);
-			path = PiruTests;
-			sourceTree = "<group>";
-		};
-		E10009 /* Insights */ = {
-			isa = PBXGroup;
-			children = (
-				B10091 /* AdherenceView.swift */,
-				B10093 /* HalfLifeCalculatorView.swift */,
-				B10097 /* UsageStatsView.swift */,
-			);
-			path = Insights;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F10001 /* Piru */ = {
+		0B793EFA2F55434700FB3EE1 /* Piru */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = G10003 /* Build configuration list for PBXNativeTarget "Piru" */;
+			buildConfigurationList = 0B793F062F55434900FB3EE1 /* Build configuration list for PBXNativeTarget "Piru" */;
 			buildPhases = (
-				F10002 /* Sources */,
-				D10001 /* Frameworks */,
-				R10001 /* Resources */,
-				EMBED10001 /* Embed Foundation Extensions */,
+				0B793EF72F55434700FB3EE1 /* Sources */,
+				0B793EF82F55434700FB3EE1 /* Frameworks */,
+				0B793EF92F55434700FB3EE1 /* Resources */,
+				0B793F242F55446900FB3EE1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				TD10001 /* PBXTargetDependency */,
+				0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0B793EFD2F55434700FB3EE1 /* Piru */,
+				0B793F332F55449100FB3EE1 /* Shared */,
 			);
 			name = Piru;
 			productName = Piru;
-			productReference = C10001 /* Piru.app */;
+			productReference = 0B793EFB2F55434700FB3EE1 /* Piru.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F10010 /* PiruLiveActivityExtension */ = {
+		0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = G10010 /* Build configuration list for PBXNativeTarget "PiruLiveActivityExtension" */;
+			buildConfigurationList = 0B793F212F55446900FB3EE1 /* Build configuration list for PBXNativeTarget "PiruLiveActivityExtensionExtension" */;
 			buildPhases = (
-				F10011 /* Sources */,
-				D10010 /* Frameworks */,
-				R10010 /* Resources */,
+				0B793F092F55446700FB3EE1 /* Sources */,
+				0B793F0A2F55446700FB3EE1 /* Frameworks */,
+				0B793F0B2F55446700FB3EE1 /* Resources */,
 			);
 			buildRules = (
 			);
-			dependencies = (
+			fileSystemSynchronizedGroups = (
+				0B793F132F55446700FB3EE1 /* PiruLiveActivityExtension */,
+				0B793F332F55449100FB3EE1 /* Shared */,
 			);
-			name = PiruLiveActivityExtension;
-			productName = PiruLiveActivityExtension;
-			productReference = C10010 /* PiruLiveActivityExtension.appex */;
+			name = PiruLiveActivityExtensionExtension;
+			productName = PiruLiveActivityExtensionExtension;
+			productReference = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		FT0001 /* PiruTests */ = {
+		0B793F282F55448700FB3EE1 /* PiruTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = GT0001 /* Build configuration list for PBXNativeTarget "PiruTests" */;
+			buildConfigurationList = 0B793F2F2F55448700FB3EE1 /* Build configuration list for PBXNativeTarget "PiruTests" */;
 			buildPhases = (
-				FT0002 /* Sources */,
-				DT0001 /* Frameworks */,
+				0B793F252F55448700FB3EE1 /* Sources */,
+				0B793F262F55448700FB3EE1 /* Frameworks */,
+				0B793F272F55448700FB3EE1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				TDT001 /* PBXTargetDependency */,
+				0B793F2E2F55448700FB3EE1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0B793F2A2F55448700FB3EE1 /* PiruTests */,
 			);
 			name = PiruTests;
 			productName = PiruTests;
-			productReference = CT0001 /* PiruTests.xctest */;
+			productReference = 0B793F292F55448700FB3EE1 /* PiruTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F10003 /* Project object */ = {
+		0B793EF32F55434700FB3EE1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 2620;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					0B793EFA2F55434700FB3EE1 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					0B793F0C2F55446700FB3EE1 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					0B793F282F55448700FB3EE1 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 0B793EFA2F55434700FB3EE1;
+					};
+				};
 			};
-			buildConfigurationList = G10001 /* Build configuration list for PBXProject "Piru" */;
-			compatibilityVersion = "Xcode 14.0";
+			buildConfigurationList = 0B793EF62F55434700FB3EE1 /* Build configuration list for PBXProject "Piru" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = E10001;
-			productRefGroup = E10005 /* Products */;
+			mainGroup = 0B793EF22F55434700FB3EE1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 90;
+			productRefGroup = 0B793EFC2F55434700FB3EE1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F10001 /* Piru */,
-				F10010 /* PiruLiveActivityExtension */,
-				FT0001 /* PiruTests */,
+				0B793EFA2F55434700FB3EE1 /* Piru */,
+				0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */,
+				0B793F282F55448700FB3EE1 /* PiruTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		R10001 /* Resources */ = {
+		0B793EF92F55434700FB3EE1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
-				A20001 /* Assets.xcassets in Resources */,
-				A20002 /* substances.json in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		R10010 /* Resources */ = {
+		0B793F0B2F55446700FB3EE1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B793F272F55448700FB3EE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F10002 /* Sources */ = {
+		0B793EF72F55434700FB3EE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
-				A10001 /* PiruApp.swift in Sources */,
-				A10002 /* RouteOfAdministration.swift in Sources */,
-				A10003 /* DoseEntry.swift in Sources */,
-				A10004 /* ContentView.swift in Sources */,
-				A10005 /* EntryFormView.swift in Sources */,
-				A10006 /* EntryListView.swift in Sources */,
-				A10007 /* EntryRowView.swift in Sources */,
-				A10008 /* EntryDetailView.swift in Sources */,
-				A10010 /* Substance.swift in Sources */,
-				A10011 /* SubstanceLibrary.swift in Sources */,
-				A10030 /* DoseLevelIndicator.swift in Sources */,
-				A10031 /* SubstanceSearchField.swift in Sources */,
-				A10070 /* Interactions.swift in Sources */,
-				A10098 /* AppSources.swift in Sources */,
-				A10033 /* SubstanceLibraryView.swift in Sources */,
-				A10034 /* DayDetailView.swift in Sources */,
-				A10035 /* SubstanceColor.swift in Sources */,
-				A10036 /* SubstanceColorPickerView.swift in Sources */,
-				A10037 /* SettingsView.swift in Sources */,
-				A10075 /* InteractionCheckerView.swift in Sources */,
-				A10038 /* UserColor.swift in Sources */,
-				A10099 /* FavoriteSubstance.swift in Sources */,
-				94EA4991AA17D6A2869442DA /* DailyDoseItem.swift in Sources */,
-				35A64EA4AA44B422AD89FC55 /* DailyDoseSettingsView.swift in Sources */,
-				50D644FBB760106BEDCD7147 /* DailyDoseItemFormView.swift in Sources */,
-				5FA14CFB8372DBE8A894D617 /* LogDailyDoseView.swift in Sources */,
-				A10040 /* LiveActivityManager.swift in Sources */,
-				A10044 /* DataExportImport.swift in Sources */,
-				A10041 /* PiruActivityAttributes.swift in Sources */,
-				A10042 /* ColorHex.swift in Sources */,
-				A10043 /* TimelineGraphView.swift in Sources */,
-				A10080 /* FlowLayout.swift in Sources */,
-				A10081 /* QuickLogView.swift in Sources */,
-				A10082 /* Theme.swift in Sources */,
-				A10090 /* InsightsView.swift in Sources */,
-				A10091 /* AdherenceView.swift in Sources */,
-				A10093 /* HalfLifeCalculatorView.swift in Sources */,
-				A10095 /* AdherenceCalculator.swift in Sources */,
-				A10097 /* UsageStatsView.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F10011 /* Sources */ = {
+		0B793F092F55446700FB3EE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
-				A10050 /* PiruLiveActivityBundle.swift in Sources */,
-				A10051 /* PiruLiveActivity.swift in Sources */,
-				A10052 /* LiveActivityViews.swift in Sources */,
-				A10053 /* PiruActivityAttributes.swift in Sources */,
-				A10054 /* ColorHex.swift in Sources */,
-				A10055 /* TimelineGraphView.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FT0002 /* Sources */ = {
+		0B793F252F55448700FB3EE1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
-				AT0001 /* DoseRangeTests.swift in Sources */,
-				AT0002 /* TimeRangeTests.swift in Sources */,
-				AT0003 /* DurationProfileTests.swift in Sources */,
-				AT0004 /* SubstanceTests.swift in Sources */,
-				AT0005 /* RouteOfAdministrationTests.swift in Sources */,
-				AT0006 /* SubstanceLibraryTests.swift in Sources */,
-				AT0007 /* InteractionCheckerTests.swift in Sources */,
-				AT0008 /* ColorHexTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		TD10001 /* PBXTargetDependency */ = {
+		0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F10010 /* PiruLiveActivityExtension */;
-			targetProxy = CP10001 /* PBXContainerItemProxy */;
+			target = 0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */;
+			targetProxy = 0B793F1D2F55446900FB3EE1 /* PBXContainerItemProxy */;
 		};
-		TDT001 /* PBXTargetDependency */ = {
+		0B793F2E2F55448700FB3EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F10001 /* Piru */;
-			targetProxy = CPT001 /* PBXContainerItemProxy */;
+			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
+			targetProxy = 0B793F2D2F55448700FB3EE1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		G10002 /* Debug */ = {
+		0B793F042F55434900FB3EE1 /* Debug configuration for PBXProject "Piru" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -541,18 +331,20 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -566,31 +358,36 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_FILE = Piru/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		G10004 /* Release */ = {
+		0B793F052F55434900FB3EE1 /* Release configuration for PBXProject "Piru" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -598,18 +395,20 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 52K336H235;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -617,148 +416,186 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_FILE = Piru/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		G10005 /* Debug */ = {
+		0B793F072F55434900FB3EE1 /* Debug configuration for PBXNativeTarget "Piru" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Piru/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Piru;
-				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.app;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		G10006 /* Release */ = {
+		0B793F082F55434900FB3EE1 /* Release configuration for PBXNativeTarget "Piru" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Piru/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Piru;
-				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.app;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		G10011 /* Debug */ = {
+		0B793F222F55446900FB3EE1 /* Debug configuration for PBXNativeTarget "PiruLiveActivityExtensionExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PiruLiveActivity/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivity;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.app.PiruLiveActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.yumeji.piru.live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		G10012 /* Release */ = {
+		0B793F232F55446900FB3EE1 /* Release configuration for PBXNativeTarget "PiruLiveActivityExtensionExtension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PiruLiveActivity/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivity;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiruLiveActivityExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruLiveActivityExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.app.PiruLiveActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.yumeji.piru.live-activity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		GT0002 /* Debug */ = {
+		0B793F302F55448700FB3EE1 /* Debug configuration for PBXNativeTarget "PiruTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.appTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Piru.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Piru";
 			};
 			name = Debug;
 		};
-		GT0003 /* Release */ = {
+		0B793F312F55448700FB3EE1 /* Release configuration for PBXNativeTarget "PiruTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.piru.appTests;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Piru.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Piru";
 			};
@@ -767,43 +604,39 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		G10001 /* Build configuration list for PBXProject "Piru" */ = {
+		0B793EF62F55434700FB3EE1 /* Build configuration list for PBXProject "Piru" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				G10002 /* Debug */,
-				G10004 /* Release */,
+				0B793F042F55434900FB3EE1 /* Debug configuration for PBXProject "Piru" */,
+				0B793F052F55434900FB3EE1 /* Release configuration for PBXProject "Piru" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		G10003 /* Build configuration list for PBXNativeTarget "Piru" */ = {
+		0B793F062F55434900FB3EE1 /* Build configuration list for PBXNativeTarget "Piru" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				G10005 /* Debug */,
-				G10006 /* Release */,
+				0B793F072F55434900FB3EE1 /* Debug configuration for PBXNativeTarget "Piru" */,
+				0B793F082F55434900FB3EE1 /* Release configuration for PBXNativeTarget "Piru" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		G10010 /* Build configuration list for PBXNativeTarget "PiruLiveActivityExtension" */ = {
+		0B793F212F55446900FB3EE1 /* Build configuration list for PBXNativeTarget "PiruLiveActivityExtensionExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				G10011 /* Debug */,
-				G10012 /* Release */,
+				0B793F222F55446900FB3EE1 /* Debug configuration for PBXNativeTarget "PiruLiveActivityExtensionExtension" */,
+				0B793F232F55446900FB3EE1 /* Release configuration for PBXNativeTarget "PiruLiveActivityExtensionExtension" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		GT0001 /* Build configuration list for PBXNativeTarget "PiruTests" */ = {
+		0B793F2F2F55448700FB3EE1 /* Build configuration list for PBXNativeTarget "PiruTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				GT0002 /* Debug */,
-				GT0003 /* Release */,
+				0B793F302F55448700FB3EE1 /* Debug configuration for PBXNativeTarget "PiruTests" */,
+				0B793F312F55448700FB3EE1 /* Release configuration for PBXNativeTarget "PiruTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F10003 /* Project object */;
+	rootObject = 0B793EF32F55434700FB3EE1 /* Project object */;
 }

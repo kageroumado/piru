@@ -56,13 +56,9 @@ final class LiveActivityManager {
         cachedColorMap = colorMap
         let state = buildContentState(colorMap: colorMap)
 
-        if let currentActivity {
+        if currentActivity != nil {
             startUpdateTimer()
-            Task {
-                await currentActivity.update(
-                    ActivityContent(state: state, staleDate: staleDate())
-                )
-            }
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         } else {
             startActivity(state: state)
         }
@@ -87,13 +83,9 @@ final class LiveActivityManager {
 
         let state = buildContentState(colorMap: colorMap)
 
-        if let currentActivity {
+        if currentActivity != nil {
             startUpdateTimer()
-            Task {
-                await currentActivity.update(
-                    ActivityContent(state: state, staleDate: staleDate())
-                )
-            }
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         } else {
             startActivity(state: state)
         }
@@ -118,12 +110,8 @@ final class LiveActivityManager {
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
         let state = buildContentState(colorMap: colorMap)
-        if let currentActivity {
-            Task {
-                await currentActivity.update(
-                    ActivityContent(state: state, staleDate: staleDate())
-                )
-            }
+        if currentActivity != nil {
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         }
     }
 
@@ -156,16 +144,11 @@ final class LiveActivityManager {
     }
 
     func endActivity() {
-        guard let currentActivity else { return }
+        guard currentActivity != nil else { return }
         stopUpdateTimer()
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
         let state = buildContentState(colorMap: [:])
-        Task {
-            await currentActivity.end(
-                ActivityContent(state: state, staleDate: nil),
-                dismissalPolicy: .immediate
-            )
-        }
+        pushEnd(ActivityContent(state: state, staleDate: nil))
         self.currentActivity = nil
         activeEntries.removeAll()
     }
@@ -191,11 +174,7 @@ final class LiveActivityManager {
             let stale = state.activeSubstances.map {
                 $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60)
             }.max()
-            Task {
-                await currentActivity.update(
-                    ActivityContent(state: state, staleDate: stale)
-                )
-            }
+            pushUpdate(ActivityContent(state: state, staleDate: stale))
         }
 
         task.setTaskCompleted(success: true)
@@ -209,6 +188,22 @@ final class LiveActivityManager {
         } catch {
             print("Failed to schedule background refresh: \(error)")
         }
+    }
+
+    // MARK: - Activity Updates
+
+    /// Push a state update to the current live activity.
+    /// Centralises the `nonisolated(unsafe)` workaround for `Activity` not being `Sendable`.
+    private func pushUpdate(_ content: ActivityContent<PiruActivityAttributes.ContentState>) {
+        guard let currentActivity else { return }
+        nonisolated(unsafe) let activity = currentActivity
+        Task { await activity.update(content) }
+    }
+
+    private func pushEnd(_ content: ActivityContent<PiruActivityAttributes.ContentState>) {
+        guard let currentActivity else { return }
+        nonisolated(unsafe) let activity = currentActivity
+        Task { await activity.end(content, dismissalPolicy: .immediate) }
     }
 
     // MARK: - Private
@@ -229,16 +224,12 @@ final class LiveActivityManager {
 
     private func periodicUpdate() {
         pruneCompleted()
-        guard !activeEntries.isEmpty, let currentActivity else {
+        guard !activeEntries.isEmpty, currentActivity != nil else {
             stopUpdateTimer()
             return
         }
         let state = buildContentState(colorMap: cachedColorMap)
-        Task {
-            await currentActivity.update(
-                ActivityContent(state: state, staleDate: staleDate())
-            )
-        }
+        pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
     }
 
     private func startActivity(state: PiruActivityAttributes.ContentState) {
