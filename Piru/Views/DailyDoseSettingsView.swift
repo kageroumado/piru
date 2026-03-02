@@ -111,7 +111,7 @@ struct DailyDoseSettingsView: View {
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .font(.caption)
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundStyle(.secondary)
                             }
                             .contentShape(Rectangle())
                         }

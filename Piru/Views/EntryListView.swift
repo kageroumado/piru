@@ -116,7 +116,7 @@ struct DayCardView: View {
                     .lineLimit(2)
                 Text(subtitle)
                     .font(.caption)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.secondary)
             }
             .padding(.vertical, 4)
         }

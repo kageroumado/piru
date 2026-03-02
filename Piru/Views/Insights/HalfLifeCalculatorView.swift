@@ -215,7 +215,7 @@ struct HalfLifeCalculatorView: View {
                                 Spacer()
                                 Text(d.timestamp.formatted(date: .omitted, time: .shortened))
                                     .font(.caption2)
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundStyle(.secondary)
                                 Text("\(d.remaining.doseFormatted) \(active.unit) left")
                                     .font(.caption2)
                                     .foregroundStyle(active.color.opacity(0.8))
@@ -374,7 +374,7 @@ struct HalfLifeCalculatorView: View {
                     var dashPath = Path()
                     dashPath.move(to: CGPoint(x: inset, y: y))
                     dashPath.addLine(to: CGPoint(x: inset + graphWidth, y: y))
-                    context.stroke(dashPath, with: .color(.secondary.opacity(0.3)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                    context.stroke(dashPath, with: .color(.secondary.opacity(0.5)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
                 }
 
                 // Current time dot
@@ -495,7 +495,7 @@ struct HalfLifeCalculatorView: View {
                 .multilineTextAlignment(.center)
             Text("Toggle \"Custom half-life\" to enter a value manually.")
                 .font(.caption)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -512,7 +512,7 @@ struct HalfLifeCalculatorView: View {
 
             Text("This calculator uses a simple single-compartment model with population-average half-lives. Real pharmacokinetics vary based on individual metabolism, genetics, liver and kidney function, body composition, drug interactions, and route of administration. Absorption phases, bioavailability, and active metabolites are not accounted for. These figures are approximate — not a substitute for clinical monitoring.")
                 .font(.caption)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -227,7 +227,7 @@ struct ContentView: View {
                     activeSearchText.wrappedValue = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.tertiary)
+                        .foregroundStyle(.secondary)
                 }
             }
             Button {
