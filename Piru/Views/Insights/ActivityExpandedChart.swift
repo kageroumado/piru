@@ -82,7 +82,7 @@ struct ActivityExpandedChart: View {
                     .chartYAxis {
                         AxisMarks(position: .trailing) { _ in
                             AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
-                                .foregroundStyle(.secondary.opacity(0.4))
+                                .foregroundStyle(.secondary.opacity(0.55))
                             AxisValueLabel()
                                 .font(.system(size: 9, design: .rounded))
                         }
