@@ -353,7 +353,7 @@ struct HalfLifeCalculatorView: View {
                 }
                 fillPath.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
                 fillPath.closeSubpath()
-                context.fill(fillPath, with: .color(Theme.accent.opacity(0.15)))
+                context.fill(fillPath, with: .color(Theme.accent.opacity(0.25)))
 
                 // Stroke path
                 var strokePath = Path()
@@ -374,7 +374,7 @@ struct HalfLifeCalculatorView: View {
                     var dashPath = Path()
                     dashPath.move(to: CGPoint(x: inset, y: y))
                     dashPath.addLine(to: CGPoint(x: inset + graphWidth, y: y))
-                    context.stroke(dashPath, with: .color(.secondary.opacity(0.5)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                    context.stroke(dashPath, with: .color(.secondary.opacity(0.6)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
                 }
 
                 // Current time dot

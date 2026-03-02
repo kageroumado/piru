@@ -310,7 +310,7 @@ struct QuickLogView: View {
                 } label: {
                     Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
                         .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.5))
+                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.6))
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
                 }

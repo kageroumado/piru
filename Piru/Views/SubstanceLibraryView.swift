@@ -244,7 +244,7 @@ struct SubstanceRowView: View {
                     .font(.caption2)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(.fill.tertiary, in: Capsule())
+                    .background(.fill.secondary, in: Capsule())
                 Text(substance.defaultUnit)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
