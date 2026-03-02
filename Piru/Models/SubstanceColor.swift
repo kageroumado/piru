@@ -75,6 +75,22 @@ struct PresetColor: Identifiable, Hashable {
         PresetColor(hex: "00b3a2", name: "Cyan"),
         PresetColor(hex: "3fcabc", name: "Light Cyan"),
         PresetColor(hex: "00a494", name: "Dark Cyan"),
+        // Aqua
+        PresetColor(hex: "00BFC8", name: "Aqua"),
+        PresetColor(hex: "2ECDD4", name: "Light Aqua"),
+        PresetColor(hex: "00B0B8", name: "Dark Aqua"),
+        // Ocean
+        PresetColor(hex: "00A4E8", name: "Ocean"),
+        PresetColor(hex: "55B8F0", name: "Light Ocean"),
+        PresetColor(hex: "0097D5", name: "Dark Ocean"),
+        // Violet
+        PresetColor(hex: "9B8DF7", name: "Violet"),
+        PresetColor(hex: "B5A5FF", name: "Light Violet"),
+        PresetColor(hex: "8E80E3", name: "Dark Violet"),
+        // Orchid
+        PresetColor(hex: "CB7FDD", name: "Orchid"),
+        PresetColor(hex: "DC9CEB", name: "Light Orchid"),
+        PresetColor(hex: "BA73CA", name: "Dark Orchid"),
     ]
 }
 
