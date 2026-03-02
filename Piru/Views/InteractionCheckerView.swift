@@ -77,15 +77,10 @@ struct InteractionCheckerView: View {
                                             }
                                             .onEnded { value in
                                                 if value.translation.width < -100 {
+                                                    swipeOffsets.removeValue(forKey: entry.id)
                                                     withAnimation(.easeInOut(duration: 0.25)) {
-                                                        swipeOffsets[entry.id] = -400
-                                                    }
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                                        withAnimation {
-                                                            entries.remove(at: index)
-                                                            swipeOffsets.removeValue(forKey: entry.id)
-                                                            recheckInteractions()
-                                                        }
+                                                        entries.remove(at: index)
+                                                        recheckInteractions()
                                                     }
                                                 } else {
                                                     withAnimation(.easeInOut(duration: 0.2)) {
