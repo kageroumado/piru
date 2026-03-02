@@ -110,7 +110,7 @@ struct EntryDetailView: View {
         } message: {
             Text("\(entry.amount.formatted()) \(entry.unit) \(entry.substance) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
         }
-        .sheet(isPresented: $showingEditForm) {
+        .navigationDestination(isPresented: $showingEditForm) {
             EntryFormView(entry: entry)
         }
     }

@@ -155,10 +155,10 @@ struct DayDetailView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingForm) {
+        .navigationDestination(isPresented: $showingForm) {
             EntryFormView()
         }
-        .sheet(item: $entryToEdit) { entry in
+        .navigationDestination(item: $entryToEdit) { entry in
             EntryFormView(entry: entry)
         }
     }
