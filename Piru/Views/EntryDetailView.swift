@@ -12,7 +12,7 @@ struct EntryDetailView: View {
     @State private var showingDeleteConfirmation = false
 
     private var substanceState: ActiveSubstanceState? {
-        guard let matched = SubstanceLibrary.shared.lookup(entry.substance),
+        guard let matched = SubstanceLibrary.lookup(entry.substance),
               let duration = matched.duration(for: entry.route) else { return nil }
 
         let boundaries = duration.phaseBoundaries

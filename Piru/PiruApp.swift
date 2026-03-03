@@ -33,9 +33,7 @@ struct PiruApp: App {
         WindowGroup {
             ContentView()
                 .tint(Theme.accent)
-                .task {
-                    await SubstanceLibrary.shared.load()
-                }
+
         }
         .modelContainer(container)
     }
