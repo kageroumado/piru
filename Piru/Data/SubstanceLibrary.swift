@@ -37,7 +37,9 @@ enum SubstanceLibrary {
     // MARK: - API Fetch
 
     @MainActor static func fetchFromAPIs() {
+        print("[SubstanceLibrary] fetchFromAPIs called, starting Task...")
         Task {
+            print("[SubstanceLibrary] Task started")
             let tripSitDrugs: [String: TripSitAPI.TripSitDrug]
             do {
                 tripSitDrugs = try await TripSitAPI.fetchAll()
@@ -56,41 +58,45 @@ enum SubstanceLibrary {
                 fdaDrugs = []
             }
 
-            // Load TripSit first (single request, fast)
             let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
-            print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit substances")
+            let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
+            print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit + \(fdaSubstances.count) FDA")
 
-            if !tripSitSubstances.isEmpty {
-                let sorted = tripSitSubstances.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-                updateAll(sorted)
-                isLoading = false
-                saveCache(sorted)
+            // Merge: bundled (highest priority) -> TripSit -> FDA
+            var byName: [String: Substance] = [:]
+            var allNames: Set<String> = []
+
+            // Bundled data first (our curated data takes priority)
+            for s in all {
+                let key = s.name.lowercased()
+                byName[key] = s
+                allNames.insert(key)
+                for a in s.aliases { allNames.insert(a.lowercased()) }
             }
 
-            // Then augment with FDA (slower, many requests)
-            let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
-            print("[SubstanceLibrary] Converted: \(fdaSubstances.count) FDA substances")
-
-            if !fdaSubstances.isEmpty {
-                var byName: [String: Substance] = [:]
-                var allNames: Set<String> = []
-
-                for s in all {
-                    let key = s.name.lowercased()
+            // TripSit fills gaps
+            for s in tripSitSubstances {
+                let key = s.name.lowercased()
+                if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
                     byName[key] = s
                     allNames.insert(key)
                     for a in s.aliases { allNames.insert(a.lowercased()) }
                 }
+            }
 
-                for s in fdaSubstances {
-                    let key = s.name.lowercased()
-                    if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
-                        byName[key] = s
-                        allNames.insert(key)
-                    }
+            // FDA fills remaining gaps
+            for s in fdaSubstances {
+                let key = s.name.lowercased()
+                if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
+                    byName[key] = s
+                    allNames.insert(key)
                 }
+            }
 
-                let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+            let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+            print("[SubstanceLibrary] Merged: \(merged.count) total (was \(all.count))")
+
+            if merged.count > all.count {
                 updateAll(merged)
                 saveCache(merged)
             }
