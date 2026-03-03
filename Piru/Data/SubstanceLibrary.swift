@@ -22,49 +22,70 @@ enum SubstanceLibrary {
 
     @MainActor private static var searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
 
+    @MainActor private(set) static var isLoading = true
+
     // MARK: - API Fetch
 
     @MainActor static func fetchFromAPIs() {
         Task {
-            let tripSitDrugs = (try? await TripSitAPI.fetchAll()) ?? [:]
-            let fdaDrugs = (try? await OpenFDAAPI.fetchCommonDrugs()) ?? []
-
-            let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
-            let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
-
-            // Merge: TripSit primary, FDA fills gaps
-            var byName: [String: Substance] = [:]
-            var allNames: Set<String> = []
-
-            for s in tripSitSubstances {
-                let key = s.name.lowercased()
-                byName[key] = s
-                allNames.insert(key)
-                for a in s.aliases { allNames.insert(a.lowercased()) }
+            let tripSitDrugs: [String: TripSitAPI.TripSitDrug]
+            do {
+                tripSitDrugs = try await TripSitAPI.fetchAll()
+                print("[SubstanceLibrary] TripSit: \(tripSitDrugs.count) drugs fetched")
+            } catch {
+                print("[SubstanceLibrary] TripSit fetch failed: \(error)")
+                tripSitDrugs = [:]
             }
 
-            for s in fdaSubstances {
-                let key = s.name.lowercased()
-                if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
+            let fdaDrugs: [OpenFDAAPI.FDADrug]
+            do {
+                fdaDrugs = try await OpenFDAAPI.fetchCommonDrugs()
+                print("[SubstanceLibrary] OpenFDA: \(fdaDrugs.count) drugs fetched")
+            } catch {
+                print("[SubstanceLibrary] OpenFDA fetch failed: \(error)")
+                fdaDrugs = []
+            }
+
+            // Load TripSit first (single request, fast)
+            let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
+            print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit substances")
+
+            if !tripSitSubstances.isEmpty {
+                let sorted = tripSitSubstances.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+                updateAll(sorted)
+                isLoading = false
+                saveCache(sorted)
+            }
+
+            // Then augment with FDA (slower, many requests)
+            let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
+            print("[SubstanceLibrary] Converted: \(fdaSubstances.count) FDA substances")
+
+            if !fdaSubstances.isEmpty {
+                var byName: [String: Substance] = [:]
+                var allNames: Set<String> = []
+
+                for s in all {
+                    let key = s.name.lowercased()
                     byName[key] = s
                     allNames.insert(key)
+                    for a in s.aliases { allNames.insert(a.lowercased()) }
                 }
-            }
 
-            let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+                for s in fdaSubstances {
+                    let key = s.name.lowercased()
+                    if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
+                        byName[key] = s
+                        allNames.insert(key)
+                    }
+                }
 
-            guard !merged.isEmpty else { return }
-
-            // Save cache in background
-            if let data = try? JSONEncoder().encode(merged) {
-                let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                let url = dir.appendingPathComponent("substances_cache.json")
-                try? data.write(to: url)
-            }
-
-            await MainActor.run {
+                let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
                 updateAll(merged)
+                saveCache(merged)
             }
+
+            isLoading = false
         }
     }
 
@@ -84,6 +105,15 @@ enum SubstanceLibrary {
     }
 
     // MARK: - Cache
+
+    @MainActor private static func saveCache(_ substances: [Substance]) {
+        Task.detached(priority: .utility) {
+            guard let data = try? JSONEncoder().encode(substances) else { return }
+            let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let url = dir.appendingPathComponent("substances_cache.json")
+            try? data.write(to: url)
+        }
+    }
 
     private static func loadCache() -> [Substance]? {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
