@@ -66,6 +66,8 @@ struct SubstanceLibraryView: View {
             }
         }
         .listSectionSpacing(.compact)
+        .scrollContentBackground(.hidden)
+        .background(Color(.systemBackground))
         .navigationTitle("Substance Library")
         .onChange(of: searchText) {
             if !searchText.isEmpty {
@@ -175,6 +177,7 @@ struct SubstanceLibraryView: View {
                     } label: {
                         SubstanceRowView(substance: substance)
                     }
+                    .listRowBackground(Color(.secondarySystemGroupedBackground))
                     .swipeActions(edge: .trailing) {
                         let isFav = favoriteNames.contains(substance.name.lowercased())
                         Button {
