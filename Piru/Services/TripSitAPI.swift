@@ -38,7 +38,9 @@ struct TripSitAPI {
 
     /// Fetch all drugs from TripSit. Returns dictionary keyed by drug name.
     static func fetchAll() async throws -> [String: TripSitDrug] {
-        let (data, response) = try await URLSession.shared.data(from: allDrugsURL)
+        var request = URLRequest(url: allDrugsURL)
+        request.setValue("Piru/1.0", forHTTPHeaderField: "User-Agent")
+        let (data, response) = try await URLSession.shared.data(for: request)
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
             throw APIError.badResponse
         }
