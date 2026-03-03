@@ -52,12 +52,6 @@ enum AppSources {
             description: "Comprehensive pharmaceutical knowledge base combining detailed drug data with drug target information. Used for pharmacokinetic parameters and drug properties."
         ),
         SourceInfo(
-            name: "PsychonautWiki",
-            url: "https://psychonautwiki.org",
-            detail: "psychonautwiki.org",
-            description: "Community-driven encyclopedia documenting the encyclopedic cataloging of psychoactive substances, including dosage ranges, duration profiles, and subjective effects based on user reports and available research."
-        ),
-        SourceInfo(
             name: "Erowid",
             url: "https://www.erowid.org",
             detail: "erowid.org",

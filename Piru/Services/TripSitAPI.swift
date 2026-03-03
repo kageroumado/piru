@@ -78,12 +78,60 @@ struct TripSitAPI {
         return result
     }
 
+    /// Name-based overrides for substances TripSit doesn't categorize well
+    private static let categoryOverrides: [String: SubstanceCategory] = [
+        // Analgesics tagged only as "common"
+        "aspirin": .analgesic,
+        "ibuprofen": .analgesic,
+        "naproxen": .analgesic,
+        "paracetamol": .analgesic,
+        // Antihistamines
+        "promethazine": .antihistamine,
+        // Antidepressants / mood stabilizers
+        "lithium": .antidepressant,
+        "moclobemide": .antidepressant,
+        // Nootropics
+        "oxiracetam": .nootropic,
+        // Stimulants
+        "theobromine": .stimulant,
+        "4-fpm": .stimulant,
+        "mephtetramine": .stimulant,
+        "2-nmc": .stimulant,
+        "4-cic": .stimulant,
+        "db-mdbp": .stimulant,
+        "pv-9": .stimulant,
+        "pv-10": .stimulant,
+        // Empathogens
+        "4-cma": .empathogen,
+        "dibutylone": .empathogen,
+        "dimethylone": .empathogen,
+        // Synthetic cannabinoids
+        "5f-akb48": .cannabinoid,
+        "5f-pb-22": .cannabinoid,
+        "ab-chminaca": .cannabinoid,
+        "ab-fubinaca": .cannabinoid,
+        "am-2201": .cannabinoid,
+        // Benzodiazepines
+        "4-chlorodiazepam": .benzodiazepine,
+        // Opioids
+        "etodesnitazene": .opioid,
+        // Psychedelics
+        "c30-nbome": .psychedelic,
+        // Depressants
+        "methoxypiperamide": .depressant,
+    ]
+
     /// Convert a TripSit drug to our Substance model
     static func toSubstance(_ drug: TripSitDrug) -> Substance {
         let name = drug.pretty_name ?? drug.name
         let aliases = drug.aliases ?? drug.properties?.aliases ?? []
-        let categoryStr = drug.categories?.first ?? drug.properties?.categories?.first ?? ""
-        let category = SubstanceCategory.from(tripSitCategory: categoryStr)
+        let allCategories = drug.categories ?? drug.properties?.categories ?? []
+        // Skip modifier categories (common, habit-forming, etc.) and pick the first substantive one
+        let categoryStr = allCategories.first { !SubstanceCategory.modifierCategories.contains($0.lowercased()) }
+            ?? allCategories.first ?? ""
+        let category = categoryOverrides[name.lowercased()]
+            ?? categoryOverrides[drug.name.lowercased()]
+            ?? SubstanceCategory.from(tripSitCategory: categoryStr)
 
         var routes: [SubstanceRoute] = []
         if let doseInfo = drug.formatted_dose {

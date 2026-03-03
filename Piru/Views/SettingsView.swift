@@ -73,7 +73,14 @@ struct SettingsView: View {
             }
 
             Section("About") {
-                LabeledContent("Substances in Library", value: "\(SubstanceLibrary.count)")
+                LabeledContent("Substances in Library", value: "\(LibraryLoadingState.shared.substanceCount)")
+                Button {
+                    SubstanceLibrary.fetchFromAPIs(forceRefresh: true)
+                } label: {
+                    Label("Refresh Substance Data", systemImage: "arrow.clockwise")
+                        .foregroundStyle(LibraryLoadingState.shared.isLoading ? .secondary : Theme.accent)
+                }
+                .disabled(LibraryLoadingState.shared.isLoading)
                 LabeledContent("Version", value: "1.0")
             }
 

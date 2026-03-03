@@ -295,6 +295,12 @@ enum InteractionChecker {
         case .depressant: .other
         case .analgesic: .other
         case .antihistamine: .antihistamine
+        case .cardiovascular: .other
+        case .antimicrobial: .other
+        case .gastrointestinal: .other
+        case .respiratory: .other
+        case .endocrine: .other
+        case .immunological: .other
         case .other: .other
         }
     }

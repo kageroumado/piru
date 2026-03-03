@@ -139,15 +139,17 @@ private struct PsyLogFile: Codable {
     var experiences: [PsyLogExperience]
     var substanceCompanions: [PsyLogCompanion]
     var customUnits: [PsyLogCustomUnit]
+    var dailyDoseItems: [PsyLogDailyDoseItem]
 
     private enum CodingKeys: String, CodingKey {
-        case experiences, substanceCompanions, customUnits, customSubstances
+        case experiences, substanceCompanions, customUnits, customSubstances, dailyDoseItems
     }
 
-    init(experiences: [PsyLogExperience], companions: [PsyLogCompanion]) {
+    init(experiences: [PsyLogExperience], companions: [PsyLogCompanion], dailyDoseItems: [PsyLogDailyDoseItem] = []) {
         self.experiences = experiences
         self.substanceCompanions = companions
         self.customUnits = []
+        self.dailyDoseItems = dailyDoseItems
     }
 
     init(from decoder: Decoder) throws {
@@ -155,6 +157,7 @@ private struct PsyLogFile: Codable {
         experiences = try c.decode([PsyLogExperience].self, forKey: .experiences)
         substanceCompanions = try c.decodeIfPresent([PsyLogCompanion].self, forKey: .substanceCompanions) ?? []
         customUnits = try c.decodeIfPresent([PsyLogCustomUnit].self, forKey: .customUnits) ?? []
+        dailyDoseItems = try c.decodeIfPresent([PsyLogDailyDoseItem].self, forKey: .dailyDoseItems) ?? []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -163,6 +166,7 @@ private struct PsyLogFile: Codable {
         try c.encode(substanceCompanions, forKey: .substanceCompanions)
         try c.encode([String](), forKey: .customUnits)
         try c.encode([String](), forKey: .customSubstances)
+        try c.encode(dailyDoseItems, forKey: .dailyDoseItems)
     }
 }
 
@@ -272,6 +276,14 @@ private struct PsyLogCompanion: Codable {
     var substanceName: String
 }
 
+private struct PsyLogDailyDoseItem: Codable {
+    var substance: String
+    var amount: Double
+    var unit: String
+    var route: String
+    var sortOrder: Int
+}
+
 private struct PsyLogCustomUnit: Codable {
     var id: Int
     var name: String
@@ -342,6 +354,7 @@ enum DataExportImport {
     static func exportJSON(context: ModelContext) throws -> Data {
         let entries = try context.fetch(FetchDescriptor<DoseEntry>())
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
+        let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
 
         let calendar = Calendar.current
         let grouped = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
@@ -375,7 +388,17 @@ enum DataExportImport {
             PsyLogCompanion(color: PsyLogColorMap.name(from: $0.hexColor), substanceName: $0.substance)
         }
 
-        let file = PsyLogFile(experiences: experiences, companions: companions)
+        let exportedDailyDoses = dailyDoses.map {
+            PsyLogDailyDoseItem(
+                substance: $0.substance,
+                amount: $0.amount,
+                unit: $0.unit,
+                route: $0.route.psylogName,
+                sortOrder: $0.sortOrder
+            )
+        }
+
+        let file = PsyLogFile(experiences: experiences, companions: companions, dailyDoseItems: exportedDailyDoses)
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         return try encoder.encode(file)
@@ -444,6 +467,23 @@ enum DataExportImport {
                 substance: cu.name,
                 hexColor: PsyLogColorMap.hex(from: colorName)
             ))
+        }
+
+        // Import daily dose items, skip duplicates by substance name
+        if !file.dailyDoseItems.isEmpty {
+            let existing = (try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []
+            let existingNames = Set(existing.map { $0.substance.lowercased() })
+
+            for item in file.dailyDoseItems {
+                guard !existingNames.contains(item.substance.lowercased()) else { continue }
+                context.insert(DailyDoseItem(
+                    substance: item.substance,
+                    amount: item.amount,
+                    unit: item.unit,
+                    route: RouteOfAdministration(psylogName: item.route),
+                    sortOrder: item.sortOrder
+                ))
+            }
         }
     }
 

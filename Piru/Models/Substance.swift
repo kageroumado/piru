@@ -213,24 +213,38 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case antipsychotic = "Antipsychotic"
     case analgesic = "Analgesic"
     case antihistamine = "Antihistamine"
+    case cardiovascular = "Cardiovascular"
+    case antimicrobial = "Antimicrobial"
+    case gastrointestinal = "Gastrointestinal"
+    case respiratory = "Respiratory"
+    case endocrine = "Endocrine"
+    case immunological = "Immunological"
     case supplement = "Supplement"
     case other = "Other"
+
+    /// Modifier categories that are flags, not substantive classifications
+    static let modifierCategories: Set<String> = [
+        "common", "habit-forming", "research-chemical", "tentative", "inactive",
+    ]
 
     /// Map TripSit lowercase categories to our enum
     static func from(tripSitCategory: String) -> SubstanceCategory {
         switch tripSitCategory.lowercased() {
         case "stimulant": return .stimulant
-        case "psychedelic": return .psychedelic
+        case "psychedelic", "hallucinogen": return .psychedelic
         case "dissociative": return .dissociative
-        case "opioid": return .opioid
+        case "opioid", "opiate": return .opioid
         case "benzodiazepine": return .benzodiazepine
-        case "depressant", "barbiturate": return .depressant
-        case "empathogen": return .empathogen
+        case "depressant", "barbiturate", "sedative": return .depressant
+        case "empathogen", "entactogen": return .empathogen
+        case "cannabinoid": return .cannabinoid
         case "nootropic": return .nootropic
-        case "ssri", "antidepressant": return .antidepressant
-        case "supplement": return .supplement
-        case "common": return .other
-        case "habit-forming", "research-chemical", "tentative", "inactive": return .other
+        case "ssri", "snri", "maoi", "antidepressant": return .antidepressant
+        case "antipsychotic": return .antipsychotic
+        case "antihistamine", "deliriant": return .antihistamine
+        case "analgesic": return .analgesic
+        case "supplement", "vitamin", "steroid": return .supplement
+        case "gabapentinoid", "gabaergic": return .gabapentinoid
         default: return .other
         }
     }

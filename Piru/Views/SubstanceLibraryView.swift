@@ -45,14 +45,14 @@ struct SubstanceLibraryView: View {
     var body: some View {
         List {
             if searchText.isEmpty && selectedCategory == nil && !showingFavorites {
-                if SubstanceLibrary.isLoading {
+                if LibraryLoadingState.shared.isLoading {
                     Section {
                         HStack(spacing: 12) {
                             ProgressView()
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Fetching substances...")
+                                Text(LibraryLoadingState.shared.statusText)
                                     .font(.subheadline)
-                                Text("\(SubstanceLibrary.count) loaded so far")
+                                Text("\(LibraryLoadingState.shared.substanceCount) loaded so far")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -210,6 +210,12 @@ struct SubstanceLibraryView: View {
         case .antipsychotic: "shield.fill"
         case .analgesic: "bandage.fill"
         case .antihistamine: "allergens.fill"
+        case .cardiovascular: "heart.text.square.fill"
+        case .antimicrobial: "microbe.fill"
+        case .gastrointestinal: "stomach.fill"
+        case .respiratory: "lungs.fill"
+        case .endocrine: "atom"
+        case .immunological: "shield.lefthalf.filled"
         case .supplement: "pill.fill"
         case .other: "pills.fill"
         }
@@ -231,6 +237,12 @@ struct SubstanceLibraryView: View {
         case .antipsychotic: .mint
         case .analgesic: .brown
         case .antihistamine: .secondary
+        case .cardiovascular: .red.opacity(0.7)
+        case .antimicrobial: .teal.opacity(0.7)
+        case .gastrointestinal: .orange.opacity(0.7)
+        case .respiratory: .cyan.opacity(0.7)
+        case .endocrine: .purple.opacity(0.7)
+        case .immunological: .blue.opacity(0.7)
         case .supplement: .green.opacity(0.7)
         case .other: .secondary
         }
