@@ -39,9 +39,6 @@ struct DoseLevelIndicator: View {
                 }
             }
 
-            if level == .fatal {
-                FatalDoseWarning()
-            }
         }
     }
 
@@ -66,12 +63,8 @@ struct DoseLevelIndicator: View {
             segs.append(Segment(label: "\(strong.lowerBound.doseFormatted)", level: .strong, range: strong))
         }
         if let heavy = doseRange.heavy {
-            let upper = doseRange.fatal ?? heavy * 1.5
+            let upper = heavy * 1.5
             segs.append(Segment(label: "\(heavy.doseFormatted)+", level: .heavy, range: heavy...upper))
-        }
-        if let fatal = doseRange.fatal {
-            let upper = fatal * 1.5
-            segs.append(Segment(label: "\(fatal.doseFormatted)+ FATAL", level: .fatal, range: fatal...upper))
         }
         return segs
     }
@@ -97,28 +90,6 @@ struct DoseLevelIndicator: View {
 
 }
 
-// MARK: - Fatal Dose Warning
-
-struct FatalDoseWarning: View {
-    var body: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "exclamationmark.octagon.fill")
-                .font(.title2)
-                .foregroundStyle(.white)
-            VStack(alignment: .leading, spacing: 2) {
-                Text("FATAL OVERDOSE RISK")
-                    .font(.caption.weight(.black))
-                    .foregroundStyle(.white)
-                Text("This dose may be life-threatening. Do not consume.")
-                    .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.9))
-            }
-        }
-        .padding(10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.black, in: RoundedRectangle(cornerRadius: 8))
-    }
-}
 
 // MARK: - Inline Dose Level Badge (for amount field)
 
@@ -351,6 +322,5 @@ func colorFor(_ level: DoseLevel) -> Color {
     case .common: .yellow
     case .strong: .orange
     case .heavy: .red
-    case .fatal: .black
     }
 }

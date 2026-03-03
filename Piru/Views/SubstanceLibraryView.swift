@@ -521,7 +521,7 @@ struct SubstanceDetailSheet: View {
             Spacer()
             Text(value)
                 .monospacedDigit()
-                .foregroundStyle(level == .fatal ? .red : .primary)
+                .foregroundStyle(.primary)
         }
         .font(.subheadline)
     }

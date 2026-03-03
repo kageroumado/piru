@@ -23,7 +23,6 @@ struct DoseRange {
     let common: ClosedRange<Double>?
     let strong: ClosedRange<Double>?
     let heavy: Double?
-    let fatal: Double?
 
     init(
         threshold: Double?,
@@ -31,18 +30,15 @@ struct DoseRange {
         common: ClosedRange<Double>?,
         strong: ClosedRange<Double>?,
         heavy: Double?,
-        fatal: Double? = nil
     ) {
         self.threshold = threshold
         self.light = light
         self.common = common
         self.strong = strong
         self.heavy = heavy
-        self.fatal = fatal
     }
 
     func level(for dose: Double) -> DoseLevel {
-        if let fatal, dose >= fatal { return .fatal }
         if let heavy, dose >= heavy { return .heavy }
         if let strong, strong.contains(dose) || dose > strong.upperBound { return .strong }
         if let common, common.contains(dose) || dose > common.upperBound { return .common }
@@ -54,7 +50,7 @@ struct DoseRange {
 
 extension DoseRange: Codable {
     enum CodingKeys: String, CodingKey {
-        case threshold, light, common, strong, heavy, fatal
+        case threshold, light, common, strong, heavy
     }
 
     init(from decoder: Decoder) throws {
@@ -64,7 +60,6 @@ extension DoseRange: Codable {
         common = try c.decodeIfPresent(CodableRange.self, forKey: .common)?.closedRange
         strong = try c.decodeIfPresent(CodableRange.self, forKey: .strong)?.closedRange
         heavy = try c.decodeIfPresent(Double.self, forKey: .heavy)
-        fatal = try c.decodeIfPresent(Double.self, forKey: .fatal)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -74,7 +69,6 @@ extension DoseRange: Codable {
         try c.encodeIfPresent(common.map { CodableRange($0) }, forKey: .common)
         try c.encodeIfPresent(strong.map { CodableRange($0) }, forKey: .strong)
         try c.encodeIfPresent(heavy, forKey: .heavy)
-        try c.encodeIfPresent(fatal, forKey: .fatal)
     }
 }
 
@@ -85,7 +79,6 @@ enum DoseLevel: String, CaseIterable {
     case common = "Common"
     case strong = "Strong"
     case heavy = "Heavy"
-    case fatal = "Fatal Overdose"
 
     var color: String {
         switch self {
@@ -95,7 +88,6 @@ enum DoseLevel: String, CaseIterable {
         case .common: "yellow"
         case .strong: "orange"
         case .heavy: "red"
-        case .fatal: "black"
         }
     }
 }
