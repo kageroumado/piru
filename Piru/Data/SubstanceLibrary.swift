@@ -133,14 +133,6 @@ enum SubstanceLibrary {
                 print("[SubstanceLibrary] Stage 1: \(all.count) substances (TripSit)")
             }
 
-            // Stage 1.5: Merge built-in supplements (bundled JSON, no network needed)
-            let builtInSupplements = loadBuiltInSupplements()
-            if !builtInSupplements.isEmpty {
-                let merged = deduplicatedMerge(existing: all, incoming: builtInSupplements)
-                updateAll(merged)
-                print("[SubstanceLibrary] Stage 1.5: \(all.count) substances (+\(builtInSupplements.count) built-in supplements)")
-            }
-
             // Stage 2: Merge FDA (with incremental UI updates)
             LibraryLoadingState.shared.statusText = "Fetching FDA data..."
             let fdaDrugs: [OpenFDAAPI.FDADrug]
@@ -386,17 +378,6 @@ enum SubstanceLibrary {
     private static func clearCache() {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         try? FileManager.default.removeItem(at: dir.appendingPathComponent("substances_cache.json"))
-    }
-
-    /// Load built-in supplements from the bundled JSON file
-    private static func loadBuiltInSupplements() -> [Substance] {
-        guard let url = Bundle.main.url(forResource: "BuiltInSupplements", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let substances = try? JSONDecoder().decode([Substance].self, from: data) else {
-            print("[SubstanceLibrary] Failed to load built-in supplements")
-            return []
-        }
-        return substances
     }
 
     // MARK: - Lookup
