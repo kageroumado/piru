@@ -40,6 +40,7 @@ struct InteractionCheckerView: View {
                             }
                         }
                     }
+                    .listRowBackground(Rectangle().fill(.ultraThinMaterial))
                 }
                 .onDelete { offsets in
                     entries.remove(atOffsets: offsets)
