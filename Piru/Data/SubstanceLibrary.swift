@@ -123,11 +123,17 @@ enum SubstanceLibrary {
     // MARK: - Cache
 
     @MainActor private static func saveCache(_ substances: [Substance]) {
+        // Encode on main thread (substances are MainActor-isolated)
+        guard let data = try? JSONEncoder().encode(substances) else {
+            print("[SubstanceLibrary] Failed to encode cache")
+            return
+        }
+        // Write to disk on background
         Task.detached(priority: .utility) {
-            guard let data = try? JSONEncoder().encode(substances) else { return }
             let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = dir.appendingPathComponent("substances_cache.json")
             try? data.write(to: url)
+            print("[SubstanceLibrary] Cache saved (\(data.count) bytes)")
         }
     }
 
