@@ -51,6 +51,7 @@ enum SubstanceLibrary {
             let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
             let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
             print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit + \(fdaSubstances.count) FDA")
+            print("[SubstanceLibrary] Current all.count before merge: \(all.count)")
 
             // Merge: bundled (highest priority) -> TripSit -> FDA
             var byName: [String: Substance] = [:]
@@ -86,9 +87,11 @@ enum SubstanceLibrary {
             let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
             print("[SubstanceLibrary] Merged: \(merged.count) total (was \(all.count))")
 
+            print("[SubstanceLibrary] Merged total: \(merged.count)")
             if !merged.isEmpty {
                 updateAll(merged)
                 saveCache(merged)
+                print("[SubstanceLibrary] Updated! New count: \(all.count)")
             }
 
             isLoading = false
