@@ -41,15 +41,19 @@ struct SubstanceSearchField: View {
                         results = []
                         showResults = false
                     } else if isFocused && !locked {
-                        let raw = SubstanceLibrary.search(text, limit: 12)
-                        if favoriteNames.isEmpty {
-                            results = raw
-                        } else {
-                            let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
-                            let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
-                            results = favs + rest
+                        Task { @MainActor in
+                            try? await Task.sleep(for: .milliseconds(50))
+                            guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
+                            let raw = SubstanceLibrary.search(text, limit: 12)
+                            if favoriteNames.isEmpty {
+                                results = raw
+                            } else {
+                                let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
+                                let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
+                                results = favs + rest
+                            }
+                            showResults = true
                         }
-                        showResults = true
                     }
                 }
                 .onChange(of: isFocused) {
