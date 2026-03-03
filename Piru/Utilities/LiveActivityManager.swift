@@ -46,7 +46,7 @@ final class LiveActivityManager {
         allColors: [SubstanceColor]
     ) {
         let snapshot = DoseSnapshot(entry: entry)
-        let duration = substance?.duration(for: entry.route)
+        let duration = Self.resolveDuration(substance: substance, route: entry.route)
         activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
 
         pruneCompleted()
@@ -74,7 +74,7 @@ final class LiveActivityManager {
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            let duration = substance?.duration(for: entry.route)
+            let duration = Self.resolveDuration(substance: substance, route: entry.route)
             activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
         }
 
@@ -130,8 +130,8 @@ final class LiveActivityManager {
 
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
-            let duration = matchedSubstance?.duration(for: entry.route)
+            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
+            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
             return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
@@ -250,6 +250,12 @@ final class LiveActivityManager {
         } catch {
             print("Failed to start Live Activity: \(error)")
         }
+    }
+
+    /// Resolve the best available duration for a substance and route.
+    /// Tries: exact route → any route → half-life estimate. Returns nil if no data available.
+    private static func resolveDuration(substance: Substance?, route: RouteOfAdministration) -> DurationProfile? {
+        substance?.resolveDuration(for: route)
     }
 
     private static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {

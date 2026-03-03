@@ -43,7 +43,8 @@ struct HalfLifeCalculatorView: View {
             guard let hours = Double(customHalfLifeHours), hours > 0 else { return nil }
             return hours * 60
         }
-        return selectedSubstance?.halfLifeMinutes
+        if let hl = selectedSubstance?.halfLifeMinutes { return hl }
+        return HalfLifeDatabase.halfLife(for: substanceName)
     }
 
     private var dose: Double {
@@ -54,12 +55,39 @@ struct HalfLifeCalculatorView: View {
         let now = Date.now
         let colors = substanceColors.colorMap
 
-        var grouped: [String: (substance: Substance, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
+        // Batch lookups: cache substance resolution so each unique name is looked up once
+        var substanceCache: [String: Substance?] = [:]
+        func cachedLookup(_ name: String) -> Substance? {
+            let key = name.lowercased()
+            if let cached = substanceCache[key] { return cached }
+            let result = SubstanceLibrary.lookupByNameOrAlias(name)
+            substanceCache[key] = result
+            return result
+        }
+
+        // Resolve half-life with fallback: substance model → HalfLifeDatabase by name → HalfLifeDatabase by aliases
+        var halfLifeCache: [String: Double] = [:]
+        func resolveHalfLife(substance: Substance?, entryName: String) -> Double? {
+            let key = entryName.lowercased()
+            if let cached = halfLifeCache[key] { return cached }
+            // 1. From library substance model
+            if let hl = substance?.halfLifeMinutes, hl > 0 { halfLifeCache[key] = hl; return hl }
+            // 2. From HalfLifeDatabase using entry name
+            if let hl = HalfLifeDatabase.halfLife(for: entryName), hl > 0 { halfLifeCache[key] = hl; return hl }
+            // 3. From HalfLifeDatabase using substance aliases
+            if let substance {
+                for alias in substance.aliases {
+                    if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { halfLifeCache[key] = hl; return hl }
+                }
+            }
+            return nil
+        }
+
+        var grouped: [String: (name: String, unit: String, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
 
         for entry in allEntries {
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-                  let halfLife = substance.halfLifeMinutes,
-                  halfLife > 0 else { continue }
+            let substance = cachedLookup(entry.substance)
+            guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0 else { continue }
@@ -74,7 +102,7 @@ struct HalfLifeCalculatorView: View {
                 timestamp: entry.timestamp
             )
 
-            let key = substance.name
+            let key = substance?.name ?? entry.substance
             if var existing = grouped[key] {
                 existing.doses.append(doseInfo)
                 existing.totalDosed += entry.amount
@@ -82,7 +110,9 @@ struct HalfLifeCalculatorView: View {
                 grouped[key] = existing
             } else {
                 grouped[key] = (
-                    substance: substance,
+                    name: key,
+                    unit: substance?.defaultUnit ?? "mg",
+                    halfLife: halfLife,
                     doses: [doseInfo],
                     totalDosed: entry.amount,
                     totalRemaining: remaining
@@ -91,13 +121,12 @@ struct HalfLifeCalculatorView: View {
         }
 
         return grouped.map { name, info in
-            let unit = info.substance.defaultUnit
             let color = colors[name.lowercased()] ?? Theme.accent
             return ActiveSubstance(
                 name: name,
-                unit: unit,
+                unit: info.unit,
                 color: color,
-                halfLifeMinutes: info.substance.halfLifeMinutes!,
+                halfLifeMinutes: info.halfLife,
                 totalDosed: info.totalDosed,
                 totalRemaining: info.totalRemaining,
                 doses: info.doses.sorted { $0.timestamp > $1.timestamp }
@@ -129,6 +158,8 @@ struct HalfLifeCalculatorView: View {
             .padding()
         }
         .task(id: allEntries.count) {
+            try? await Task.sleep(for: .milliseconds(200))
+            guard !Task.isCancelled else { return }
             cachedActiveSubstances = computeActiveSubstances()
         }
     }
@@ -250,11 +281,18 @@ struct HalfLifeCalculatorView: View {
 
     // MARK: - Calculator Header
 
+    private var halfLifeCount: Int {
+        SubstanceLibrary.all.filter { $0.halfLifeMinutes != nil }.count
+    }
+
     private var calculatorHeader: some View {
         HStack {
             Text("Calculator")
                 .font(.headline)
             Spacer()
+            Text("\(halfLifeCount) with half-life data")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 
@@ -479,17 +517,23 @@ struct HalfLifeCalculatorView: View {
     }
 
     private var noDataCard: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "info.circle")
+        VStack(spacing: 10) {
+            Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
                 .foregroundStyle(.secondary)
-            Text("Half-life data not available for this substance.")
+            Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            Text("Toggle \"Custom half-life\" to enter a value manually.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Button {
+                useCustomHalfLife = true
+            } label: {
+                Label("Use Custom Half-Life", systemImage: "slider.horizontal.3")
+                    .font(.subheadline.weight(.medium))
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(Theme.accent)
+            .controlSize(.small)
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -504,7 +548,7 @@ struct HalfLifeCalculatorView: View {
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
 
-            Text("This calculator uses a simple single-compartment model with population-average half-lives. Real pharmacokinetics vary based on individual metabolism, genetics, liver and kidney function, body composition, drug interactions, and route of administration. Absorption phases, bioavailability, and active metabolites are not accounted for. These figures are approximate — not a substitute for clinical monitoring.")
+            Text("This calculator uses a simple single-compartment model with population-average elimination half-lives sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), DrugBank, and established pharmacology references (Goodman & Gilman's, Stahl's Essential Psychopharmacology). Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Absorption phases, bioavailability, first-pass metabolism, active metabolites, and multi-compartment distribution are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

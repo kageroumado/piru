@@ -26,6 +26,9 @@ struct EntryListView: View {
         }
         cachedDayGroups = grouped.sorted { $0.key > $1.key }
             .map { (date: $0.key, entries: $0.value) }
+    }
+
+    private func rebuildColorMap() {
         cachedColorMap = Array(substanceColors).colorMap
     }
 
@@ -47,9 +50,17 @@ struct EntryListView: View {
             }
         }
         .listStyle(.plain)
-        .task { rebuildDayGroups() }
-        .onChange(of: entries.count) { rebuildDayGroups() }
+        .task {
+            rebuildColorMap()
+            rebuildDayGroups()
+        }
+        .task(id: entries.count) {
+            try? await Task.sleep(for: .milliseconds(100))
+            guard !Task.isCancelled else { return }
+            rebuildDayGroups()
+        }
         .onChange(of: searchText) { rebuildDayGroups() }
+        .onChange(of: substanceColors.count) { rebuildColorMap() }
     }
 }
 

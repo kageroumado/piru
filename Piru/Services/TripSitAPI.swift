@@ -133,13 +133,19 @@ struct TripSitAPI {
             ?? categoryOverrides[drug.name.lowercased()]
             ?? SubstanceCategory.from(tripSitCategory: categoryStr)
 
+        // Parse duration data from properties (applies to all routes)
+        let durationProfile = buildDurationProfile(
+            onset: drug.properties?.onset,
+            total: drug.properties?.duration
+        )
+
         var routes: [SubstanceRoute] = []
         if let doseInfo = drug.formatted_dose {
             for (routeName, levels) in doseInfo {
                 let route = RouteOfAdministration.from(string: routeName)
                 let doseRange = parseDoseRange(levels)
                 let unit = extractUnit(from: levels) ?? "mg"
-                routes.append(SubstanceRoute(route: route, unit: unit, doses: doseRange))
+                routes.append(SubstanceRoute(route: route, unit: unit, doses: doseRange, duration: durationProfile))
             }
         }
 
@@ -220,6 +226,49 @@ struct TripSitAPI {
             if cleaned.hasSuffix("g") { return "g" }
         }
         return nil
+    }
+
+    /// Parse a TripSit duration/onset string like "4-8 hours" or "30-60 minutes" into a TimeRange in minutes.
+    private static func parseTimeRange(_ str: String) -> TimeRange? {
+        let first = str.components(separatedBy: "|").first?
+            .trimmingCharacters(in: .whitespaces) ?? str
+
+        let lower = first.lowercased()
+        let isHours = lower.contains("hour")
+        let isMinutes = lower.contains("min")
+        let multiplier: Double = isHours ? 60 : (isMinutes ? 1 : 60)
+
+        let nums = first.replacingOccurrences(of: "[^0-9.]", with: " ", options: .regularExpression)
+            .split(separator: " ").compactMap { Double($0) }
+        guard let lo = nums.first else { return nil }
+        let hi = nums.count > 1 ? nums[1] : lo
+        guard lo > 0 else { return nil }
+        return TimeRange(min: lo * multiplier, max: hi * multiplier)
+    }
+
+    /// Build a DurationProfile from TripSit onset/total duration strings, estimating intermediate phases.
+    private static func buildDurationProfile(onset: String?, total: String?) -> DurationProfile? {
+        let totalRange = total.flatMap { parseTimeRange($0) }
+        let onsetRange = onset.flatMap { parseTimeRange($0) }
+        guard totalRange != nil || onsetRange != nil else { return nil }
+
+        let totalMid = totalRange?.midpoint ?? 240
+        let onsetMid = min(onsetRange?.midpoint ?? totalMid * 0.10, totalMid * 0.25)
+        let remaining = max(totalMid - onsetMid, totalMid * 0.5)
+
+        let comeup = remaining * 0.15
+        let peak = remaining * 0.40
+        let offset = remaining * 0.30
+        let afterglow = remaining * 0.15
+
+        return DurationProfile(
+            onset: onsetRange ?? TimeRange(min: onsetMid * 0.7, max: onsetMid * 1.3),
+            comeup: TimeRange(min: comeup * 0.7, max: comeup * 1.3),
+            peak: TimeRange(min: peak * 0.7, max: peak * 1.3),
+            offset: TimeRange(min: offset * 0.7, max: offset * 1.3),
+            afterglow: TimeRange(min: afterglow * 0.7, max: afterglow * 1.3),
+            total: totalRange ?? TimeRange(min: totalMid * 0.8, max: totalMid * 1.2)
+        )
     }
 
     private static func parseHalfLifeMinutes(_ str: String) -> Double? {

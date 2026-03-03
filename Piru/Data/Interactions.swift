@@ -243,8 +243,11 @@ enum InteractionChecker {
         return map
     }()
 
-    /// Precomputed cache mapping lowercased substance names to their drug classes
-    private static let drugClassCache: [String: [DrugClass]] = {
+    /// Precomputed cache mapping lowercased substance names to their drug classes.
+    /// Rebuilt via `rebuildCache()` after the substance library finishes loading.
+    private static var drugClassCache: [String: [DrugClass]] = [:]
+
+    @MainActor static func rebuildCache() {
         var cache: [String: [DrugClass]] = [:]
         for substance in SubstanceLibrary.all {
             let key = substance.name.lowercased()
@@ -258,8 +261,8 @@ enum InteractionChecker {
                 }
             }
         }
-        return cache
-    }()
+        drugClassCache = cache
+    }
 
     /// Get drug classes for a substance name
     static func drugClasses(for substanceName: String) -> [DrugClass] {
@@ -433,12 +436,19 @@ enum InteractionChecker {
     static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
         let now = Date.now
         return entries.filter { entry in
-            guard let substance = SubstanceLibrary.lookup(entry.substance),
-                  let duration = substance.duration(for: entry.route) else {
-                // No duration data — assume active for 24h as safety fallback
+            guard let substance = SubstanceLibrary.lookup(entry.substance) else {
+                // Unknown substance — assume active for 24h as safety fallback
                 return entry.timestamp.addingTimeInterval(86400) > now
             }
-            return entry.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60) > now
+            if let duration = substance.duration(for: entry.route) {
+                return entry.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60) > now
+            }
+            if let halfLife = substance.halfLifeMinutes {
+                // 5 half-lives ≈ 97% eliminated
+                return entry.timestamp.addingTimeInterval(halfLife * 5 * 60) > now
+            }
+            // No duration or half-life data — assume active for 24h
+            return entry.timestamp.addingTimeInterval(86400) > now
         }
     }
 }

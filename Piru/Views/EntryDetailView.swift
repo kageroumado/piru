@@ -12,8 +12,8 @@ struct EntryDetailView: View {
     @State private var showingDeleteConfirmation = false
 
     private var substanceState: ActiveSubstanceState? {
-        guard let matched = SubstanceLibrary.lookup(entry.substance),
-              let duration = matched.duration(for: entry.route) else { return nil }
+        guard let matched = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+              let duration = matched.resolveDuration(for: entry.route) else { return nil }
 
         let boundaries = duration.phaseBoundaries
         let hex = substanceColors.first {

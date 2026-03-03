@@ -103,6 +103,7 @@ enum SubstanceLibrary {
             if !forceRefresh && !all.isEmpty && cacheIsFresh() {
                 print("[SubstanceLibrary] Cache is fresh, skipping API fetch (\(all.count) substances)")
                 isLoading = false
+                InteractionChecker.rebuildCache()
                 LibraryLoadingState.shared.isLoading = false
                 LibraryLoadingState.shared.statusText = "Done"
                 return
@@ -184,11 +185,62 @@ enum SubstanceLibrary {
                 }
             }
 
+            // Stage 4: Enrich half-life data from HalfLifeDatabase + duration heuristic
+            LibraryLoadingState.shared.statusText = "Enriching half-life data..."
+            let enriched = enrichHalfLifeData(all)
+            updateAll(enriched)
+            let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
+            print("[SubstanceLibrary] Stage 4: \(hlCount)/\(enriched.count) substances have half-life data")
+
             saveCache(all)
             isLoading = false
+            InteractionChecker.rebuildCache()
             LibraryLoadingState.shared.isLoading = false
             LibraryLoadingState.shared.statusText = "Done"
             print("[SubstanceLibrary] Done! \(all.count) total substances")
+        }
+    }
+
+    // MARK: - Half-Life Enrichment
+
+    /// Fill in missing halfLifeMinutes from HalfLifeDatabase, then fall back to duration heuristic.
+    private static func enrichHalfLifeData(_ substances: [Substance]) -> [Substance] {
+        substances.map { s in
+            guard s.halfLifeMinutes == nil else { return s }
+
+            // Try HalfLifeDatabase by name, then aliases
+            var hl = HalfLifeDatabase.halfLife(for: s.name)
+            if hl == nil {
+                for alias in s.aliases {
+                    if let found = HalfLifeDatabase.halfLife(for: alias) {
+                        hl = found
+                        break
+                    }
+                }
+            }
+
+            // Fall back: estimate from total duration (totalDuration / 4)
+            if hl == nil {
+                let totalMid = s.routes.lazy.compactMap { $0.duration?.total?.midpoint }.first
+                if let total = totalMid, total > 0 {
+                    hl = total / 4
+                }
+            }
+
+            guard let halfLife = hl else { return s }
+
+            return Substance(
+                name: s.name,
+                aliases: s.aliases,
+                category: s.category,
+                defaultRoute: s.defaultRoute,
+                routes: s.routes,
+                effects: s.effects,
+                subjectiveEffects: s.subjectiveEffects,
+                toleranceInfo: s.toleranceInfo,
+                halfLifeMinutes: halfLife,
+                sources: s.sources
+            )
         }
     }
 

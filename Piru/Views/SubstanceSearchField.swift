@@ -10,6 +10,7 @@ struct SubstanceSearchField: View {
     @State private var results: [Substance] = []
     @State private var showResults = false
     @State private var suppressSearch = false
+    @State private var searchTrigger = 0
     @FocusState private var isFocused: Bool
 
     init(text: Binding<String>, locked: Bool = false, favoriteNames: Set<String> = [], onSelect: @escaping (Substance) -> Void, onCustom: (() -> Void)? = nil) {
@@ -41,20 +42,22 @@ struct SubstanceSearchField: View {
                         results = []
                         showResults = false
                     } else if isFocused && !locked {
-                        Task { @MainActor in
-                            try? await Task.sleep(for: .milliseconds(50))
-                            guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
-                            let raw = SubstanceLibrary.search(text, limit: 12)
-                            if favoriteNames.isEmpty {
-                                results = raw
-                            } else {
-                                let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
-                                let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
-                                results = favs + rest
-                            }
-                            showResults = true
-                        }
+                        searchTrigger += 1
                     }
+                }
+                .task(id: searchTrigger) {
+                    guard searchTrigger > 0 else { return }
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
+                    let raw = SubstanceLibrary.search(text, limit: 12)
+                    if favoriteNames.isEmpty {
+                        results = raw
+                    } else {
+                        let favs = raw.filter { favoriteNames.contains($0.name.lowercased()) }
+                        let rest = raw.filter { !favoriteNames.contains($0.name.lowercased()) }
+                        results = favs + rest
+                    }
+                    showResults = true
                 }
                 .onChange(of: isFocused) {
                     if !isFocused {

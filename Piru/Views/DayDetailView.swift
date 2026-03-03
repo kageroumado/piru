@@ -20,8 +20,8 @@ struct DayDetailView: View {
 
         var states: [ActiveSubstanceState] = []
         for entry in entries {
-            guard let substance = SubstanceLibrary.lookup(entry.substance),
-                  let duration = substance.duration(for: entry.route) else { continue }
+            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+                  let duration = substance.resolveDuration(for: entry.route) else { continue }
 
             let boundaries = duration.phaseBoundaries
             let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
