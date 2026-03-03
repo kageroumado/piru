@@ -40,11 +40,10 @@ struct UsageStatsView: View {
         }
         let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
         filteredEntries = allEntries.filter { $0.timestamp >= cutoff }
+        cachedColorMap = substanceColors.colorMap
     }
 
-    private var colorMap: [String: Color] {
-        substanceColors.colorMap
-    }
+    @State private var cachedColorMap: [String: Color] = [:]
 
     var body: some View {
         ScrollView {
@@ -155,7 +154,7 @@ struct UsageStatsView: View {
                         GeometryReader { geo in
                             let fraction = CGFloat(item.value) / CGFloat(maxCount)
                             Capsule()
-                                .fill(colorMap[item.key.lowercased()] ?? Theme.accent)
+                                .fill(cachedColorMap[item.key.lowercased()] ?? Theme.accent)
                                 .frame(width: max(fraction * geo.size.width, 8))
                         }
                         .frame(height: 12)
@@ -193,7 +192,7 @@ struct UsageStatsView: View {
             for item in data {
                 let name = item.key.substance
                 if seen.insert(name.lowercased()).inserted {
-                    result.append((name, colorMap[name.lowercased()] ?? Theme.accent))
+                    result.append((name, cachedColorMap[name.lowercased()] ?? Theme.accent))
                 }
             }
             return result.sorted { $0.0 < $1.0 }
@@ -221,7 +220,7 @@ struct UsageStatsView: View {
                 // Expanded: scrollable + zoomable chart
                 ActivityExpandedChart(
                     data: data,
-                    colorMap: colorMap,
+                    colorMap: cachedColorMap,
                     maxCount: maxCount,
                     strideComponent: strideComponent,
                     strideCount: strideCount,
@@ -247,7 +246,7 @@ struct UsageStatsView: View {
                         x: .value("Date", item.key.date, unit: .day),
                         y: .value("Count", item.count)
                     )
-                    .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                    .foregroundStyle(cachedColorMap[item.key.substance.lowercased()] ?? Theme.accent)
                     .cornerRadius(4)
                 }
                 .frame(height: 180)
@@ -332,7 +331,7 @@ struct UsageStatsView: View {
                                     .padding(.vertical, 5)
                                     .background(
                                         isSelected
-                                            ? (colorMap[name.lowercased()] ?? Theme.accent)
+                                            ? (cachedColorMap[name.lowercased()] ?? Theme.accent)
                                             : Color.clear
                                     )
                                     .foregroundStyle(isSelected ? .white : .primary)
@@ -347,7 +346,7 @@ struct UsageStatsView: View {
                     let data = filteredEntries
                         .filter { $0.substance == selected }
                         .sorted { $0.timestamp < $1.timestamp }
-                    let color = colorMap[selected.lowercased()] ?? Theme.accent
+                    let color = cachedColorMap[selected.lowercased()] ?? Theme.accent
 
                     if data.isEmpty {
                         Text("No entries for \(selected)")

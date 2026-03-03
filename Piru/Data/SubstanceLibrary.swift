@@ -32,9 +32,29 @@ enum SubstanceLibrary {
         Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
     }()
 
+    /// Includes aliases for O(1) lookup by name or alias
+    private static let fullLookup: [String: Substance] = {
+        var map: [String: Substance] = [:]
+        for substance in all {
+            map[substance.name.lowercased()] = substance
+            for alias in substance.aliases {
+                // Don't overwrite if already mapped (name takes priority)
+                if map[alias.lowercased()] == nil {
+                    map[alias.lowercased()] = substance
+                }
+            }
+        }
+        return map
+    }()
+
     /// O(1) exact-name lookup, used by QuickLogView grouping.
     static func lookup(_ name: String) -> Substance? {
         nameLookup[name.lowercased()]
+    }
+
+    /// O(1) lookup by name or alias
+    static func lookupByNameOrAlias(_ name: String) -> Substance? {
+        fullLookup[name.lowercased()]
     }
 
     /// Precomputed lowercased names/aliases so `search()` never calls `.lowercased()` per item.

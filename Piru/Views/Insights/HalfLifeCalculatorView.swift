@@ -53,19 +53,11 @@ struct HalfLifeCalculatorView: View {
     private func computeActiveSubstances() -> [ActiveSubstance] {
         let now = Date.now
         let colors = substanceColors.colorMap
-        // Build a lookup dictionary: lowercased name/alias -> Substance
-        var lookup: [String: Substance] = [:]
-        for substance in SubstanceLibrary.all {
-            lookup[substance.name.lowercased()] = substance
-            for alias in substance.aliases {
-                lookup[alias.lowercased()] = substance
-            }
-        }
 
         var grouped: [String: (substance: Substance, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
 
         for entry in allEntries {
-            guard let substance = lookup[entry.substance.lowercased()],
+            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
                   let halfLife = substance.halfLifeMinutes,
                   halfLife > 0 else { continue }
 
