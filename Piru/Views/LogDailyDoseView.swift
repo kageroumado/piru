@@ -153,7 +153,7 @@ struct LogDailyDoseView: View {
             )
             modelContext.insert(entry)
 
-            let matchedSubstance = SubstanceLibrary.search(item.substance).first {
+            let matchedSubstance = SubstanceLibrary.shared.search(item.substance).first {
                 $0.name.lowercased() == item.substance.lowercased()
             }
             loggedDoseEntries.append(entry)

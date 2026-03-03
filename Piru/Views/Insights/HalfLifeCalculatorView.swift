@@ -57,7 +57,7 @@ struct HalfLifeCalculatorView: View {
         var grouped: [String: (substance: Substance, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
 
         for entry in allEntries {
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+            guard let substance = SubstanceLibrary.shared.lookupByNameOrAlias(entry.substance),
                   let halfLife = substance.halfLifeMinutes,
                   halfLife > 0 else { continue }
 
@@ -225,13 +225,13 @@ struct HalfLifeCalculatorView: View {
 
     private func populateCalculator(from active: ActiveSubstance) {
         substanceName = active.name
-        selectedSubstance = SubstanceLibrary.search(active.name).first
+        selectedSubstance = SubstanceLibrary.shared.search(active.name).first
         doseAmount = active.totalDosed.doseFormatted
         // Use the most recent dose timestamp
         if let latest = active.doses.first?.timestamp {
             timeTaken = latest
         }
-        doseUnit = SubstanceLibrary.lookup(active.name.lowercased())?.defaultUnit ?? "mg"
+        doseUnit = SubstanceLibrary.shared.lookup(active.name.lowercased())?.defaultUnit ?? "mg"
         useCustomHalfLife = false
         customHalfLifeHours = ""
     }
