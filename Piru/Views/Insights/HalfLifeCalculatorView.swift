@@ -285,7 +285,7 @@ struct HalfLifeCalculatorView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        .frame(width: 64)
+                        .fixedSize()
                     }
                     .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 8))
                 }
