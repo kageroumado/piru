@@ -52,7 +52,7 @@ struct OpenFDAAPI {
 
         print("[OpenFDAAPI] Found \(allClasses.count) pharmacologic classes to query")
 
-        // Step 2: Query each class for drugs (batch of 100 per class)
+        // Step 2: Query each class for drugs
         var allDrugs: [FDADrug] = []
         var seenNames: Set<String> = []
 
@@ -69,8 +69,6 @@ struct OpenFDAAPI {
                         allDrugs.append(drug)
                     }
                 }
-                // Rate limit: 240 req/min without key = 250ms minimum
-                try await Task.sleep(for: .milliseconds(260))
             } catch {
                 continue
             }
