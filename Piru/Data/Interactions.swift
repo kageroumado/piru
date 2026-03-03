@@ -246,7 +246,7 @@ enum InteractionChecker {
     /// Precomputed cache mapping lowercased substance names to their drug classes
     private static let drugClassCache: [String: [DrugClass]] = {
         var cache: [String: [DrugClass]] = [:]
-        for substance in SubstanceLibrary.shared.all {
+        for substance in SubstanceLibrary.all {
             let key = substance.name.lowercased()
             if cache[key] == nil {
                 cache[key] = [categoryToDrugClass(substance.category)]
@@ -427,7 +427,7 @@ enum InteractionChecker {
     static func activeEntries(from entries: [DoseEntry]) -> [DoseEntry] {
         let now = Date.now
         return entries.filter { entry in
-            guard let substance = SubstanceLibrary.shared.lookup(entry.substance),
+            guard let substance = SubstanceLibrary.lookup(entry.substance),
                   let duration = substance.duration(for: entry.route) else {
                 // No duration data — assume active for 24h as safety fallback
                 return entry.timestamp.addingTimeInterval(86400) > now

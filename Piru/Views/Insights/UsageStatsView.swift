@@ -484,7 +484,7 @@ struct UsageStatsView: View {
 
         var categoryCounts: [SubstanceCategory: Int] = [:]
         for entry in entries {
-            if let substance = SubstanceLibrary.shared.lookup(entry.substance.lowercased()) {
+            if let substance = SubstanceLibrary.lookup(entry.substance.lowercased()) {
                 categoryCounts[substance.category, default: 0] += 1
             } else {
                 categoryCounts[.other, default: 0] += 1

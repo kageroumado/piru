@@ -18,14 +18,14 @@ struct SubstanceLibraryView: View {
             return favoriteSubstances
         }
         if let category = selectedCategory {
-            return SubstanceLibrary.shared.substances(in: category)
+            return SubstanceLibrary.substances(in: category)
         }
         return []
     }
 
     private var favoriteSubstances: [Substance] {
         favorites.compactMap { fav in
-            SubstanceLibrary.shared.lookup(fav.substance.lowercased())
+            SubstanceLibrary.lookup(fav.substance.lowercased())
         }
     }
 
@@ -65,7 +65,7 @@ struct SubstanceLibraryView: View {
             }
             try? await Task.sleep(for: .milliseconds(150))
             guard !Task.isCancelled else { return }
-            searchResults = SubstanceLibrary.shared.search(searchText)
+            searchResults = SubstanceLibrary.search(searchText)
         }
         .toolbar {
             if selectedCategory != nil || showingFavorites {
@@ -113,8 +113,8 @@ struct SubstanceLibraryView: View {
                 }
             }
 
-            ForEach(SubstanceLibrary.shared.nonEmptyCategories) { category in
-                let count = SubstanceLibrary.shared.substances(in: category).count
+            ForEach(SubstanceLibrary.nonEmptyCategories) { category in
+                let count = SubstanceLibrary.substances(in: category).count
                 Button {
                     selectedCategory = category
                 } label: {

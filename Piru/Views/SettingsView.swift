@@ -73,7 +73,7 @@ struct SettingsView: View {
             }
 
             Section("About") {
-                LabeledContent("Substances in Library", value: "\(SubstanceLibrary.shared.all.count)")
+                LabeledContent("Substances in Library", value: "\(SubstanceLibrary.count)")
                 LabeledContent("Version", value: "1.0")
             }
 

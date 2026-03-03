@@ -99,7 +99,7 @@ struct DailyDoseItemFormView: View {
         unit = item.unit
         route = item.route
 
-        if let match = SubstanceLibrary.shared.search(item.substance).first,
+        if let match = SubstanceLibrary.search(item.substance).first,
            match.name.lowercased() == item.substance.lowercased() {
             selectedSubstance = match
             let subRoutes = match.routes.map(\.route)

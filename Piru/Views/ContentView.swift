@@ -63,7 +63,7 @@ struct ContentView: View {
                 NavigationStack {
                     SubstanceLibraryView(searchText: $librarySearchText)
                         .toolbar { settingsToolbarItem }
-                        .searchable(text: $librarySearchText, prompt: Text("Search \(SubstanceLibrary.shared.all.count) substances..."))
+                        .searchable(text: $librarySearchText, prompt: Text("Search \(SubstanceLibrary.all.count) substances..."))
                 }
             }
             Tab("Tools", systemImage: "wrench.and.screwdriver", value: 2) {

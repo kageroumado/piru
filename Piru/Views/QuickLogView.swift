@@ -48,7 +48,7 @@ struct QuickLogView: View {
                     substanceName: entry.substance,
                     route: entry.route,
                     colorHex: colorLookup[nameLower],
-                    librarySubstance: SubstanceLibrary.shared.lookup(nameLower),
+                    librarySubstance: SubstanceLibrary.lookup(nameLower),
                     latestTimestamp: entry.timestamp
                 )
                 group.addEntry(entry)
@@ -107,7 +107,7 @@ struct QuickLogView: View {
         guard searchText.isEmpty else { return [] }
         return favorites
             .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
-            .compactMap { SubstanceLibrary.shared.lookup($0.substance.lowercased()) }
+            .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
     }
 
     private func isFavorite(_ name: String) -> Bool {
@@ -191,7 +191,7 @@ struct QuickLogView: View {
                 }
                 try? await Task.sleep(for: .milliseconds(150))
                 guard !Task.isCancelled else { return }
-                cachedLibraryResults = SubstanceLibrary.shared.search(searchText)
+                cachedLibraryResults = SubstanceLibrary.search(searchText)
                     .filter { !cachedHistoryNames.contains($0.name.lowercased()) }
             }
         }

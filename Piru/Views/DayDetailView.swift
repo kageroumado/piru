@@ -20,7 +20,7 @@ struct DayDetailView: View {
 
         var states: [ActiveSubstanceState] = []
         for entry in entries {
-            guard let substance = SubstanceLibrary.shared.lookup(entry.substance),
+            guard let substance = SubstanceLibrary.lookup(entry.substance),
                   let duration = substance.duration(for: entry.route) else { continue }
 
             let boundaries = duration.phaseBoundaries

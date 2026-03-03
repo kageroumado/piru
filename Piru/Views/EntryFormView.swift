@@ -246,7 +246,7 @@ struct EntryFormView: View {
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
 
-            if let match = SubstanceLibrary.shared.search(entry.substance).first,
+            if let match = SubstanceLibrary.search(entry.substance).first,
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
                 let subRoutes = match.routes.map(\.route)
@@ -258,7 +258,7 @@ struct EntryFormView: View {
 
         if let prefillName = prefillSubstanceName, !prefillName.isEmpty {
             substance = prefillName
-            if let match = SubstanceLibrary.shared.search(prefillName).first,
+            if let match = SubstanceLibrary.search(prefillName).first,
                match.name.lowercased() == prefillName.lowercased() {
                 selectSubstance(match)
             }
