@@ -49,10 +49,16 @@ enum CategoryMapper {
         "maoi": "antidepressant",
         "antipsychotic": "antipsychotic",
         "antipsychotics": "antipsychotic",
-        "deliriant": "other",
-        "deliriants": "other",
+        "deliriant": "antihistamine",
+        "deliriants": "antihistamine",
         "antihistamine": "antihistamine",
         "analgesic": "analgesic",
+        "cardiovascular": "cardiovascular",
+        "antimicrobial": "antimicrobial",
+        "gastrointestinal": "gastrointestinal",
+        "respiratory": "respiratory",
+        "endocrine": "endocrine",
+        "immunological": "immunological",
     ]
 
     /// Priority order: when multiple substantive categories exist, pick the highest-priority one.
@@ -61,6 +67,8 @@ enum CategoryMapper {
         "psychedelic", "stimulant", "cannabinoid", "depressant",
         "antidepressant", "antipsychotic", "gabapentinoid",
         "nootropic", "supplement", "antihistamine", "analgesic",
+        "cardiovascular", "antimicrobial", "gastrointestinal",
+        "respiratory", "endocrine", "immunological",
     ]
 
     /// Map an array of API categories to a single local SubstanceCategory enum case name.
