@@ -1,114 +1,62 @@
 import Foundation
 
-/// OpenFDA API client — fetches prescription drug data
+/// OpenFDA API client — fetches prescription drug data from all pharmacologic classes
 struct OpenFDAAPI {
     private static let baseURL = "https://api.fda.gov/drug/label.json"
 
     struct FDADrug: Decodable {
         let openfda: OpenFDA?
-        let dosage_and_administration: [String]?
-        let warnings: [String]?
-        let drug_interactions: [String]?
 
         struct OpenFDA: Decodable {
             let brand_name: [String]?
             let generic_name: [String]?
             let route: [String]?
-            let substance_name: [String]?
             let pharm_class_epc: [String]?
         }
     }
 
-    /// Pharmacologic classes to fetch — covers major drug categories
-    private static let pharmClasses: [String] = [
-        // Psychiatric
-        "Selective Serotonin Reuptake Inhibitor",
-        "Serotonin and Norepinephrine Reuptake Inhibitor",
-        "Tricyclic Antidepressant",
-        "Monoamine Oxidase Inhibitor",
-        "Atypical Antipsychotic",
-        "Typical Antipsychotic",
-        "Central Nervous System Stimulant",
-        // Sedatives/Anxiolytics
-        "Benzodiazepine",
-        "Barbiturate",
-        "Central Nervous System Depressant",
-        // Pain
-        "Opioid Agonist",
-        "Opioid Antagonist",
-        "Partial Opioid Agonist",
-        "Nonsteroidal Anti-inflammatory Drug",
-        "Local Anesthetic",
-        // Cardiovascular
-        "Beta-Adrenergic Blocker",
-        "Alpha-1 Adrenergic Blocker",
-        "Alpha-2 Adrenergic Agonist",
-        "Calcium Channel Blocker",
-        "Angiotensin Converting Enzyme Inhibitor",
-        "Angiotensin 2 Receptor Blocker",
-        "Thiazide Diuretic",
-        "Loop Diuretic",
-        "Potassium-sparing Diuretic",
-        "HMG-CoA Reductase Inhibitor",
-        "Anticoagulant",
-        "Sodium Channel Blocker",
-        "Potassium Channel Blocker",
-        // GI
-        "Proton Pump Inhibitor",
-        "Histamine H2 Receptor Antagonist",
-        // Allergy
-        "Histamine H1 Receptor Antagonist",
-        // Neuro
-        "Anticonvulsant",
-        "Dopamine Agonist",
-        "Dopamine Antagonist",
-        "Cholinesterase Inhibitor",
-        "NMDA Receptor Antagonist",
-        "Muscle Relaxant",
-        "Anticholinergic",
-        // Endocrine
-        "Thyroid Hormone",
-        "Estrogen",
-        "Progestin",
-        "Androgen",
-        "Corticosteroid",
-        "GLP-1 Receptor Agonist",
-        "SGLT2 Inhibitor",
-        "DPP-4 Inhibitor",
-        "5-alpha Reductase Inhibitor",
-        // Urological
-        "Phosphodiesterase 5 Inhibitor",
-        // Immune
-        "Immunosuppressant",
-        "Calcineurin Inhibitor",
-        "Tumor Necrosis Factor Blocker",
-        "Janus Kinase Inhibitor",
-        // Antimicrobial
-        "Fluoroquinolone Antimicrobial",
-        "Penicillin-class Antimicrobial",
-        "Cephalosporin Antimicrobial",
-        "Macrolide Antimicrobial",
-        "Tetracycline Antimicrobial",
-        "Aminoglycoside Antimicrobial",
-        "Antifungal",
-        // Respiratory
-        "Leukotriene Receptor Antagonist",
-        "Beta2-Adrenergic Agonist",
-        // Other
-        "Retinoid",
-        "Vitamin D Analog",
-        "Xanthine Oxidase Inhibitor",
-        "Uricosuric",
-        "Nucleoside Reverse Transcriptase Inhibitor",
-        "Protease Inhibitor",
+    private struct FDAResult: Decodable {
+        let results: [FDADrug]?
+    }
+
+    private struct CountResult: Decodable {
+        let results: [CountTerm]?
+        struct CountTerm: Decodable {
+            let term: String
+            let count: Int
+        }
+    }
+
+    /// Junk class keywords to skip
+    private static let skipKeywords = [
+        "Allergen", "Allergenic", "Antiseptic", "Non-Standardized", "Standardized",
+        "Bismuth", "Vehicle", "Solvent", "Emollient", "Surfactant", "Preservative",
+        "Intrauterine", "Sunscreen", "Keratolytic", "Laxative", "Antacid",
+        "Astringent", "Counterirritant"
     ]
 
-    /// Fetch drugs from all pharmacologic classes
+    /// Fetch all pharmacologic classes from FDA, then query each for drugs
     static func fetchCommonDrugs() async throws -> [FDADrug] {
+        // Step 1: Get all pharmacologic classes
+        guard let classURL = URL(string: "\(baseURL)?count=openfda.pharm_class_epc.exact&limit=500") else {
+            throw APIError.badURL
+        }
+        let (classData, classResp) = try await URLSession.shared.data(from: classURL)
+        guard let http = classResp as? HTTPURLResponse, http.statusCode == 200 else {
+            throw APIError.badResponse
+        }
+        let classResult = try JSONDecoder().decode(CountResult.self, from: classData)
+        let allClasses = (classResult.results ?? [])
+            .filter { term in !skipKeywords.contains(where: { term.term.contains($0) }) }
+            .map { $0.term.replacingOccurrences(of: " [EPC]", with: "") }
+
+        print("[OpenFDAAPI] Found \(allClasses.count) pharmacologic classes to query")
+
+        // Step 2: Query each class for drugs (batch of 100 per class)
         var allDrugs: [FDADrug] = []
         var seenNames: Set<String> = []
 
-        for cls in pharmClasses {
+        for cls in allClasses {
             guard let encoded = cls.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                   let url = URL(string: "\(baseURL)?search=openfda.pharm_class_epc:\"\(encoded)\"&limit=100") else { continue }
             do {
@@ -116,20 +64,19 @@ struct OpenFDAAPI {
                 guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { continue }
                 let result = try JSONDecoder().decode(FDAResult.self, from: data)
                 for drug in result.results ?? [] {
-                    // Dedup by generic name
                     if let name = drug.openfda?.generic_name?.first?.uppercased(), !seenNames.contains(name) {
                         seenNames.insert(name)
                         allDrugs.append(drug)
                     }
                 }
-                // Rate limit
+                // Rate limit: 240 req/min without key = 250ms minimum
                 try await Task.sleep(for: .milliseconds(260))
             } catch {
                 continue
             }
         }
 
-        print("[OpenFDAAPI] Fetched \(allDrugs.count) unique drugs from \(pharmClasses.count) classes")
+        print("[OpenFDAAPI] Fetched \(allDrugs.count) unique drugs from \(allClasses.count) classes")
         return allDrugs
     }
 
@@ -137,23 +84,25 @@ struct OpenFDAAPI {
     static func toSubstance(_ drug: FDADrug) -> Substance? {
         guard let genericName = drug.openfda?.generic_name?.first else { return nil }
 
-        // Skip combo drugs and junk
         let name = genericName.capitalized
-        if name.contains(",") || name.contains(" And ") { return nil }
-        if name.count < 3 { return nil }
+        // Skip combos, junk, too-short names
+        if name.contains(",") || name.uppercased().contains(" AND ") { return nil }
+        if name.count < 4 { return nil }
+        // Skip obvious non-drugs
+        let junk = ["Hand Sanitizer", "Sunscreen", "Toothpaste", "Deodorant",
+                     "Shampoo", "Soap", "Lotion", "Oxygen", "Air ", "Water"]
+        if junk.contains(where: { name.contains($0) }) { return nil }
 
         var aliases: [String] = []
         if let brands = drug.openfda?.brand_name {
-            // Only keep unique, clean brand names
             let seen = Set([name.uppercased()])
-            for brand in brands {
+            for brand in brands.prefix(8) {
                 let clean = brand.capitalized
-                if !seen.contains(clean.uppercased()) && !clean.contains(",") {
+                if !seen.contains(clean.uppercased()) && !clean.contains(",") && clean.count > 2 {
                     aliases.append(clean)
                 }
             }
-            // Limit to 5 aliases
-            aliases = Array(aliases.prefix(5))
+            aliases = Array(Set(aliases)).sorted().prefix(5).map { $0 }
         }
 
         let category = mapCategory(drug.openfda?.pharm_class_epc)
@@ -164,13 +113,12 @@ struct OpenFDAAPI {
                 doses: DoseRange()
             )
         }
-        let defaultRoute = routes.first?.route ?? .oral
 
         return Substance(
             name: name,
             aliases: aliases,
             category: category,
-            defaultRoute: defaultRoute,
+            defaultRoute: routes.first?.route ?? .oral,
             routes: routes,
             effects: [],
             subjectiveEffects: [],
@@ -186,21 +134,16 @@ struct OpenFDAAPI {
 
         if joined.contains("opioid") { return .opioid }
         if joined.contains("benzodiazepine") { return .benzodiazepine }
-        if joined.contains("barbiturate") { return .depressant }
+        if joined.contains("barbiturate") || joined.contains("depressant") || joined.contains("muscle relaxant") { return .depressant }
         if joined.contains("stimulant") { return .stimulant }
-        if joined.contains("serotonin reuptake") || joined.contains("antidepressant") || joined.contains("monoamine oxidase") { return .antidepressant }
+        if joined.contains("serotonin reuptake") || joined.contains("antidepressant") || joined.contains("monoamine oxidase") || joined.contains("mood stabilizer") { return .antidepressant }
         if joined.contains("antipsychotic") { return .antipsychotic }
         if joined.contains("antihistamine") || joined.contains("histamine") { return .antihistamine }
         if joined.contains("anti-inflammatory") || joined.contains("analgesic") { return .analgesic }
-        if joined.contains("anticonvulsant") { return .gabapentinoid }
-        if joined.contains("muscle relaxant") || joined.contains("depressant") { return .depressant }
+        if joined.contains("anti-epileptic") || joined.contains("anticonvulsant") { return .gabapentinoid }
+        if joined.contains("cholinesterase") || joined.contains("nmda") || joined.contains("nootropic") { return .nootropic }
         if joined.contains("corticosteroid") || joined.contains("vitamin") { return .supplement }
-        if joined.contains("cholinesterase") || joined.contains("nmda") { return .nootropic }
         return .other
-    }
-
-    private struct FDAResult: Decodable {
-        let results: [FDADrug]?
     }
 
     enum APIError: Error {
