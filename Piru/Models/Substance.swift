@@ -319,6 +319,11 @@ struct Substance: Identifiable {
         routes.first { $0.route == route }?.duration
     }
 
+    /// Best available duration: exact route → any route with duration data.
+    func resolveDuration(for route: RouteOfAdministration) -> DurationProfile? {
+        duration(for: route) ?? routes.lazy.compactMap(\.duration).first
+    }
+
     func matches(_ query: String) -> Bool {
         let q = query.lowercased()
         return name.lowercased().contains(q)

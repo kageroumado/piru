@@ -21,19 +21,24 @@ struct QuickLogView: View {
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedHistoryNames: Set<String> = []
     @State private var cachedLibraryResults: [Substance] = []
+    @State private var cachedColorLookup: [String: String] = [:]
 
     // MARK: - Grouping
 
+    private func rebuildColorLookup() {
+        var lookup: [String: String] = [:]
+        for sc in substanceColors {
+            lookup[sc.substance.lowercased()] = sc.hexColor
+        }
+        cachedColorLookup = lookup
+    }
+
     private func rebuildCards() {
         let entries = allEntries
-        let colors = substanceColors
         let newCards: [SubstanceCard]
         let newHistoryNames: Set<String>
 
-        var colorLookup: [String: String] = [:]
-        for sc in colors {
-            colorLookup[sc.substance.lowercased()] = sc.hexColor
-        }
+        let colorLookup = cachedColorLookup
 
         var groupMap: [String: SubstanceGroup] = [:]
 
@@ -48,7 +53,7 @@ struct QuickLogView: View {
                     substanceName: entry.substance,
                     route: entry.route,
                     colorHex: colorLookup[nameLower],
-                    librarySubstance: SubstanceLibrary.lookup(nameLower),
+                    librarySubstance: SubstanceLibrary.lookupByNameOrAlias(nameLower),
                     latestTimestamp: entry.timestamp
                 )
                 group.addEntry(entry)
@@ -107,7 +112,7 @@ struct QuickLogView: View {
         guard searchText.isEmpty else { return [] }
         return favorites
             .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
-            .compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
+            .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
     }
 
     private func isFavorite(_ name: String) -> Bool {
@@ -179,10 +184,18 @@ struct QuickLogView: View {
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
                 try? await Task.sleep(for: .milliseconds(50))
+                rebuildColorLookup()
                 rebuildCards()
             }
-            .onChange(of: allEntries.count) { rebuildCards() }
-            .onChange(of: substanceColors.count) { rebuildCards() }
+            .task(id: allEntries.count) {
+                try? await Task.sleep(for: .milliseconds(200))
+                guard !Task.isCancelled else { return }
+                rebuildCards()
+            }
+            .onChange(of: substanceColors.count) {
+                rebuildColorLookup()
+                rebuildCards()
+            }
             .onChange(of: favorites.count) { rebuildFavorites() }
             .task(id: searchText) {
                 guard !searchText.isEmpty else {
