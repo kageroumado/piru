@@ -59,13 +59,20 @@ struct TripSitAPI {
         }
 
         var result: [String: TripSitDrug] = [:]
+        var decodeFailures = 0
         let decoder = JSONDecoder()
         for (key, value) in drugDict {
             guard let valueDict = value as? [String: Any] else { continue }
-            if let encoded = try? JSONSerialization.data(withJSONObject: valueDict),
-               let drug = try? decoder.decode(TripSitDrug.self, from: encoded) {
+            do {
+                let encoded = try JSONSerialization.data(withJSONObject: valueDict)
+                let drug = try decoder.decode(TripSitDrug.self, from: encoded)
                 result[key] = drug
+            } catch {
+                decodeFailures += 1
             }
+        }
+        if decodeFailures > 0 {
+            print("[TripSitAPI] \(decodeFailures) drugs failed to decode")
         }
 
         return result
