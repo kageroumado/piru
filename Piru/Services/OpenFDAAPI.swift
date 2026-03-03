@@ -56,9 +56,18 @@ struct OpenFDAAPI {
         var allDrugs: [FDADrug] = []
         var seenNames: Set<String> = []
 
+        var classIndex = 0
         for cls in allClasses {
-            guard let encoded = cls.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                  let url = URL(string: "\(baseURL)?search=openfda.pharm_class_epc:\"\(encoded)\"&limit=100") else { continue }
+            classIndex += 1
+            if classIndex % 50 == 0 {
+                print("[OpenFDAAPI] Progress: \(classIndex)/\(allClasses.count) classes, \(allDrugs.count) drugs so far")
+            }
+            var components = URLComponents(string: baseURL)!
+            components.queryItems = [
+                URLQueryItem(name: "search", value: "openfda.pharm_class_epc:\"\(cls)\""),
+                URLQueryItem(name: "limit", value: "100")
+            ]
+            guard let url = components.url else { continue }
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { continue }
