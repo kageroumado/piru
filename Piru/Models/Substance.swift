@@ -65,9 +65,9 @@ extension DoseRange: Codable {
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encodeIfPresent(threshold, forKey: .threshold)
-        try c.encodeIfPresent(light.map { CodableRange($0) }, forKey: .light)
-        try c.encodeIfPresent(common.map { CodableRange($0) }, forKey: .common)
-        try c.encodeIfPresent(strong.map { CodableRange($0) }, forKey: .strong)
+        if let r = light, r.lowerBound <= r.upperBound { try c.encode(CodableRange(r), forKey: .light) }
+        if let r = common, r.lowerBound <= r.upperBound { try c.encode(CodableRange(r), forKey: .common) }
+        if let r = strong, r.lowerBound <= r.upperBound { try c.encode(CodableRange(r), forKey: .strong) }
         try c.encodeIfPresent(heavy, forKey: .heavy)
     }
 }
