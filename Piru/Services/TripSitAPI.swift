@@ -131,16 +131,19 @@ struct TripSitAPI {
         let lightRange: ClosedRange<Double>? = {
             guard let l = light else { return nil }
             let lower = threshold ?? l * 0.5
+            guard lower <= l else { return nil }
             return lower...l
         }()
         let commonRange: ClosedRange<Double>? = {
             guard let c = common else { return nil }
             let lower = light ?? c * 0.5
+            guard lower <= c else { return nil }
             return lower...c
         }()
         let strongRange: ClosedRange<Double>? = {
             guard let s = strong else { return nil }
             let lower = common ?? s * 0.5
+            guard lower <= s else { return nil }
             return lower...s
         }()
 
