@@ -53,34 +53,25 @@ enum SubstanceLibrary {
             print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit + \(fdaSubstances.count) FDA")
             print("[SubstanceLibrary] Current all.count before merge: \(all.count)")
 
-            // Merge: bundled (highest priority) -> TripSit -> FDA
+            // Merge: TripSit (primary) + FDA (fills gaps) — pure API data
             var byName: [String: Substance] = [:]
             var allNames: Set<String> = []
 
-            // Bundled data first (our curated data takes priority)
-            for s in all {
+            // TripSit is primary source (has dosage, effects, interactions)
+            for s in tripSitSubstances {
                 let key = s.name.lowercased()
                 byName[key] = s
                 allNames.insert(key)
                 for a in s.aliases { allNames.insert(a.lowercased()) }
             }
 
-            // TripSit fills gaps
-            for s in tripSitSubstances {
-                let key = s.name.lowercased()
-                if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
-                    byName[key] = s
-                    allNames.insert(key)
-                    for a in s.aliases { allNames.insert(a.lowercased()) }
-                }
-            }
-
-            // FDA fills remaining gaps
+            // FDA fills remaining gaps (prescription drugs not in TripSit)
             for s in fdaSubstances {
                 let key = s.name.lowercased()
                 if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
                     byName[key] = s
                     allNames.insert(key)
+                    for a in s.aliases { allNames.insert(a.lowercased()) }
                 }
             }
 
