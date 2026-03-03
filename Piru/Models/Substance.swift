@@ -25,11 +25,11 @@ struct DoseRange {
     let heavy: Double?
 
     init(
-        threshold: Double?,
-        light: ClosedRange<Double>?,
-        common: ClosedRange<Double>?,
-        strong: ClosedRange<Double>?,
-        heavy: Double?,
+        threshold: Double? = nil,
+        light: ClosedRange<Double>? = nil,
+        common: ClosedRange<Double>? = nil,
+        strong: ClosedRange<Double>? = nil,
+        heavy: Double? = nil
     ) {
         self.threshold = threshold
         self.light = light
@@ -215,6 +215,25 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case antihistamine = "Antihistamine"
     case supplement = "Supplement"
     case other = "Other"
+
+    /// Map TripSit lowercase categories to our enum
+    static func from(tripSitCategory: String) -> SubstanceCategory {
+        switch tripSitCategory.lowercased() {
+        case "stimulant": return .stimulant
+        case "psychedelic": return .psychedelic
+        case "dissociative": return .dissociative
+        case "opioid": return .opioid
+        case "benzodiazepine": return .benzodiazepine
+        case "depressant", "barbiturate": return .depressant
+        case "empathogen": return .empathogen
+        case "nootropic": return .nootropic
+        case "ssri", "antidepressant": return .antidepressant
+        case "supplement": return .supplement
+        case "common": return .other
+        case "habit-forming", "research-chemical", "tentative", "inactive": return .other
+        default: return .other
+        }
+    }
 
     var id: String { rawValue }
 }

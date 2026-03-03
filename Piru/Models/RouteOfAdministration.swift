@@ -29,3 +29,21 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
         }
     }
 }
+
+extension RouteOfAdministration {
+    /// Parse a route string from TripSit/OpenFDA into our enum
+    static func from(string: String) -> RouteOfAdministration {
+        switch string.lowercased().trimmingCharacters(in: .whitespaces) {
+        case "oral", "oral_ir", "oral_er", "oral(benzedrex)", "oral(pure)": return .oral
+        case "sublingual": return .sublingual
+        case "insufflated", "insufflation", "insufflated(pure)", "intranasal", "nasal": return .insufflation
+        case "inhaled", "inhalation", "smoked", "vapourized", "vaporized": return .inhalation
+        case "intravenous", "iv": return .intravenous
+        case "intramuscular", "im": return .intramuscular
+        case "subcutaneous": return .subcutaneous
+        case "transdermal", "topical": return .transdermal
+        case "rectal", "plugged": return .rectal
+        default: return .other
+        }
+    }
+}
