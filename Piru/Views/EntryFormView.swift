@@ -20,7 +20,6 @@ struct EntryFormView: View {
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
-    @State private var showFatalAlert = false
     @State private var showColorPicker = false
     @State private var savedSubstanceName = ""
     @State private var savedEntry: DoseEntry?
@@ -149,9 +148,6 @@ struct EntryFormView: View {
                         .labelsHidden()
                     }
                     .onChange(of: amount) {
-                        if currentDoseLevel == .fatal {
-                            showFatalAlert = true
-                        }
                     }
                     Picker("Route", selection: $route) {
                         ForEach(availableRoutes) { r in
@@ -198,12 +194,6 @@ struct EntryFormView: View {
                 }
             }
             .onAppear(perform: loadEntry)
-            .alert("Fatal Overdose Warning", isPresented: $showFatalAlert) {
-                Button("I understand the risk", role: .destructive) { }
-                Button("Clear dose", role: .cancel) { amount = "" }
-            } message: {
-                Text("The dose you entered is in the potentially fatal range for \(substance). This amount may be life-threatening. Please do not consume this dose.")
-            }
             .sheet(isPresented: $showColorPicker, onDismiss: {
                 startLiveActivityIfNeeded()
                 dismiss()
