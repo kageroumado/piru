@@ -277,6 +277,7 @@ struct HalfLifeCalculatorView: View {
                         TextField("Amount", text: $doseAmount)
                             .keyboardType(.decimalPad)
                             .padding(8)
+                            .layoutPriority(1)
                         Divider()
                             .frame(height: 20)
                         Picker("", selection: $doseUnit) {
@@ -285,7 +286,7 @@ struct HalfLifeCalculatorView: View {
                             }
                         }
                         .pickerStyle(.menu)
-                        .fixedSize()
+                        .frame(minWidth: 80)
                     }
                     .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 8))
                 }
