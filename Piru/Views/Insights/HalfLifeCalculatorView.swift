@@ -277,16 +277,17 @@ struct HalfLifeCalculatorView: View {
                         TextField("Amount", text: $doseAmount)
                             .keyboardType(.decimalPad)
                             .padding(8)
-                            .layoutPriority(1)
                         Divider()
                             .frame(height: 20)
-                        Picker("", selection: $doseUnit) {
+                        Menu {
                             ForEach(["mg", "g", "µg", "mL", "IU", "drops", "puffs"], id: \.self) { u in
-                                Text(u).tag(u)
+                                Button(u) { doseUnit = u }
                             }
+                        } label: {
+                            Text(doseUnit)
+                                .padding(8)
+                                .foregroundStyle(.primary)
                         }
-                        .pickerStyle(.menu)
-                        .frame(minWidth: 80)
                     }
                     .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 8))
                 }
