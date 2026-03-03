@@ -3,17 +3,7 @@ import Foundation
 enum SubstanceLibrary {
     // MARK: - Data
 
-    @MainActor private(set) static var all: [Substance] = loadCache() ?? loadBundled()
-
-    /// Bundled substances.json as offline fallback
-    private static func loadBundled() -> [Substance] {
-        guard let url = Bundle.main.url(forResource: "substances", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let substances = try? JSONDecoder().decode([Substance].self, from: data) else {
-            return []
-        }
-        return substances
-    }
+    @MainActor private(set) static var all: [Substance] = loadCache() ?? []
 
     @MainActor private(set) static var byCategory: [SubstanceCategory: [Substance]] = Dictionary(grouping: all, by: \.category)
 
@@ -96,7 +86,7 @@ enum SubstanceLibrary {
             let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
             print("[SubstanceLibrary] Merged: \(merged.count) total (was \(all.count))")
 
-            if merged.count > all.count {
+            if !merged.isEmpty {
                 updateAll(merged)
                 saveCache(merged)
             }

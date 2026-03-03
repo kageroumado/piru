@@ -10,6 +10,18 @@ struct SourceInfo {
 enum AppSources {
     static let all: [SourceInfo] = [
         SourceInfo(
+            name: "TripSit",
+            url: "https://tripsit.me",
+            detail: "tripsit.me",
+            description: "Harm reduction community providing factsheets on psychoactive substances, including dosage ranges, duration, interactions, and safety information."
+        ),
+        SourceInfo(
+            name: "OpenFDA",
+            url: "https://open.fda.gov",
+            detail: "open.fda.gov — FDA Drug Labels API",
+            description: "U.S. Food and Drug Administration open data API providing drug labeling information, pharmacologic classes, routes of administration, and brand/generic names."
+        ),
+        SourceInfo(
             name: "Drugs.com",
             url: "https://www.drugs.com",
             detail: "drugs.com",
