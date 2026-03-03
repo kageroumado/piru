@@ -1,9 +1,14 @@
 import Foundation
 
+@MainActor
 enum SubstanceLibrary {
-    // MARK: - Data Loading
+    // MARK: - Data
 
-    static let all: [Substance] = {
+    /// All substances — starts with bundled, updated by API fetch
+    private(set) static var all: [Substance] = bundledSubstances
+
+    /// Bundled fallback data
+    static let bundledSubstances: [Substance] = {
         guard let url = Bundle.main.url(forResource: "substances", withExtension: "json") else {
             fatalError("substances.json not found in app bundle")
         }
@@ -15,30 +20,25 @@ enum SubstanceLibrary {
         }
     }()
 
-    static let byCategory: [SubstanceCategory: [Substance]] = {
-        Dictionary(grouping: all, by: \.category)
+    // MARK: - Derived Data (rebuilt when `all` changes)
+
+    private(set) static var byCategory: [SubstanceCategory: [Substance]] = {
+        Dictionary(grouping: bundledSubstances, by: \.category)
     }()
 
-    static func substances(in category: SubstanceCategory) -> [Substance] {
-        byCategory[category] ?? []
-    }
-
-    /// Non-empty categories, precomputed once (substance data is static).
-    static let nonEmptyCategories: [SubstanceCategory] = {
+    private(set) static var nonEmptyCategories: [SubstanceCategory] = {
         SubstanceCategory.allCases.filter { byCategory[$0] != nil }
     }()
 
-    private static let nameLookup: [String: Substance] = {
-        Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
+    private static var nameLookup: [String: Substance] = {
+        Dictionary(bundledSubstances.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
     }()
 
-    /// Includes aliases for O(1) lookup by name or alias
-    private static let fullLookup: [String: Substance] = {
+    private static var fullLookup: [String: Substance] = {
         var map: [String: Substance] = [:]
-        for substance in all {
+        for substance in bundledSubstances {
             map[substance.name.lowercased()] = substance
             for alias in substance.aliases {
-                // Don't overwrite if already mapped (name takes priority)
                 if map[alias.lowercased()] == nil {
                     map[alias.lowercased()] = substance
                 }
@@ -47,26 +47,68 @@ enum SubstanceLibrary {
         return map
     }()
 
-    /// O(1) exact-name lookup, used by QuickLogView grouping.
+    private static var searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = {
+        bundledSubstances.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
+    }()
+
+    // MARK: - Update from API
+
+    /// Replace the substance list with API-fetched data and rebuild all indexes
+    static func updateAll(_ substances: [Substance]) {
+        all = substances
+        rebuildIndexes()
+    }
+
+    /// Fetch from APIs and update. Call on app launch.
+    static func fetchFromAPIs() {
+        Task.detached {
+            let substances = await SubstanceService.shared.loadAll()
+            guard !substances.isEmpty else { return }
+            await MainActor.run {
+                updateAll(substances)
+            }
+        }
+    }
+
+    private static func rebuildIndexes() {
+        byCategory = Dictionary(grouping: all, by: \.category)
+        nonEmptyCategories = SubstanceCategory.allCases.filter { byCategory[$0] != nil }
+        nameLookup = Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
+
+        var newFullLookup: [String: Substance] = [:]
+        for substance in all {
+            newFullLookup[substance.name.lowercased()] = substance
+            for alias in substance.aliases {
+                if newFullLookup[alias.lowercased()] == nil {
+                    newFullLookup[alias.lowercased()] = substance
+                }
+            }
+        }
+        fullLookup = newFullLookup
+
+        searchIndex = all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
+    }
+
+    // MARK: - Lookup
+
+    static func substances(in category: SubstanceCategory) -> [Substance] {
+        byCategory[category] ?? []
+    }
+
     static func lookup(_ name: String) -> Substance? {
         nameLookup[name.lowercased()]
     }
 
-    /// O(1) lookup by name or alias
     static func lookupByNameOrAlias(_ name: String) -> Substance? {
         fullLookup[name.lowercased()]
     }
 
-    /// Precomputed lowercased names/aliases so `search()` never calls `.lowercased()` per item.
-    private static let searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = {
-        all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
-    }()
+    // MARK: - Search
 
     static func search(_ query: String, limit: Int = 50) -> [Substance] {
         guard !query.isEmpty else { return [] }
         let q = query.lowercased()
 
-        // Exact name match first, then alias match, then prefix, then contains
         var exact: [Substance] = []
         var aliasExact: [Substance] = []
         var prefix: [Substance] = []
@@ -86,5 +128,18 @@ enum SubstanceLibrary {
 
         let combined = exact + aliasExact + prefix + contains
         return Array(combined.prefix(limit))
+    }
+
+    /// Total substance count — useful for UI display
+    static var count: Int { all.count }
+
+    /// Source breakdown
+    static var sourceBreakdown: [String: Int] {
+        var counts: [String: Int] = [:]
+        for s in all {
+            let source = s.sources.first ?? "Bundled"
+            counts[source, default: 0] += 1
+        }
+        return counts
     }
 }
