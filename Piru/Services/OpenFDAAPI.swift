@@ -67,7 +67,8 @@ struct OpenFDAAPI {
                 URLQueryItem(name: "search", value: "openfda.pharm_class_epc:\"\(cls)\""),
                 URLQueryItem(name: "limit", value: "100")
             ]
-            guard let url = components.url else { continue }
+            guard let url = components.url else { print("[OpenFDAAPI] Failed to create URL for class: \(cls)"); continue }
+            if classIndex == 1 { print("[OpenFDAAPI] First URL: \(url.absoluteString)") }
             do {
                 let (data, response) = try await URLSession.shared.data(from: url)
                 guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { continue }
