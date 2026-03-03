@@ -45,6 +45,21 @@ struct SubstanceLibraryView: View {
     var body: some View {
         List {
             if searchText.isEmpty && selectedCategory == nil && !showingFavorites {
+                if SubstanceLibrary.isLoading {
+                    Section {
+                        HStack(spacing: 12) {
+                            ProgressView()
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Fetching substances...")
+                                    .font(.subheadline)
+                                Text("\(SubstanceLibrary.count) loaded so far")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
                 categoryGrid
             } else {
                 substanceList
