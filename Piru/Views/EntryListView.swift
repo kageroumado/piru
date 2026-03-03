@@ -3,7 +3,7 @@ import SwiftData
 
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
     @Binding var searchText: String
@@ -16,37 +16,40 @@ struct EntryListView: View {
         }
     }
 
-    private var dayGroups: [(date: Date, entries: [DoseEntry])] {
+    @State private var cachedDayGroups: [(date: Date, entries: [DoseEntry])] = []
+    @State private var cachedColorMap: [String: Color] = [:]
+
+    private func rebuildDayGroups() {
         let calendar = Calendar.current
         let grouped = Dictionary(grouping: filteredEntries) { entry in
             calendar.startOfDay(for: entry.timestamp)
         }
-        return grouped.sorted { $0.key > $1.key }
+        cachedDayGroups = grouped.sorted { $0.key > $1.key }
             .map { (date: $0.key, entries: $0.value) }
-    }
-
-    private var colorMap: [String: Color] {
-        Array(substanceColors).colorMap
+        cachedColorMap = Array(substanceColors).colorMap
     }
 
     var body: some View {
         List {
-            if dayGroups.isEmpty {
+            if cachedDayGroups.isEmpty {
                 ContentUnavailableView(
                     searchText.isEmpty ? "No Entries" : "No Results",
                     systemImage: searchText.isEmpty ? "pill" : "magnifyingglass",
                     description: Text(searchText.isEmpty ? "Tap + to log your first entry." : "Try a different search term.")
                 )
             } else {
-                ForEach(dayGroups, id: \.date) { day in
+                ForEach(cachedDayGroups, id: \.date) { day in
                     NavigationLink(value: day.date) {
-                        DayCardView(date: day.date, entries: day.entries, colorMap: colorMap)
+                        DayCardView(date: day.date, entries: day.entries, colorMap: cachedColorMap)
                     }
                     .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                 }
             }
         }
         .listStyle(.plain)
+        .task { rebuildDayGroups() }
+        .onChange(of: entries.count) { rebuildDayGroups() }
+        .onChange(of: searchText) { rebuildDayGroups() }
     }
 }
 
