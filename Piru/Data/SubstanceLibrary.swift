@@ -39,6 +39,14 @@ enum SubstanceLibrary {
                 tripSitDrugs = [:]
             }
 
+            // Stage 1: Show TripSit data immediately
+            let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
+            if !tripSitSubstances.isEmpty {
+                let sorted = tripSitSubstances.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+                updateAll(sorted)
+                print("[SubstanceLibrary] Stage 1: \(all.count) substances (TripSit)")
+            }
+
             let fdaDrugs: [OpenFDAAPI.FDADrug]
             do {
                 fdaDrugs = try await OpenFDAAPI.fetchCommonDrugs()
@@ -48,43 +56,36 @@ enum SubstanceLibrary {
                 fdaDrugs = []
             }
 
-            let tripSitSubstances = tripSitDrugs.values.map { TripSitAPI.toSubstance($0) }
+            // Stage 2: Merge FDA on top
             let fdaSubstances = fdaDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
-            print("[SubstanceLibrary] Converted: \(tripSitSubstances.count) TripSit + \(fdaSubstances.count) FDA")
-            print("[SubstanceLibrary] Current all.count before merge: \(all.count)")
+            print("[SubstanceLibrary] FDA converted: \(fdaSubstances.count)")
 
-            // Merge: TripSit (primary) + FDA (fills gaps) — pure API data
-            var byName: [String: Substance] = [:]
-            var allNames: Set<String> = []
+            if !fdaSubstances.isEmpty {
+                var byName: [String: Substance] = [:]
+                var allNames: Set<String> = []
 
-            // TripSit is primary source (has dosage, effects, interactions)
-            for s in tripSitSubstances {
-                let key = s.name.lowercased()
-                byName[key] = s
-                allNames.insert(key)
-                for a in s.aliases { allNames.insert(a.lowercased()) }
-            }
-
-            // FDA fills remaining gaps (prescription drugs not in TripSit)
-            for s in fdaSubstances {
-                let key = s.name.lowercased()
-                if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
+                for s in all {
+                    let key = s.name.lowercased()
                     byName[key] = s
                     allNames.insert(key)
                     for a in s.aliases { allNames.insert(a.lowercased()) }
                 }
-            }
 
-            let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-            print("[SubstanceLibrary] Merged: \(merged.count) total (was \(all.count))")
+                for s in fdaSubstances {
+                    let key = s.name.lowercased()
+                    if !allNames.contains(key) && !s.aliases.contains(where: { allNames.contains($0.lowercased()) }) {
+                        byName[key] = s
+                        allNames.insert(key)
+                        for a in s.aliases { allNames.insert(a.lowercased()) }
+                    }
+                }
 
-            print("[SubstanceLibrary] Merged total: \(merged.count)")
-            if !merged.isEmpty {
+                let merged = Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
                 updateAll(merged)
-                saveCache(merged)
-                print("[SubstanceLibrary] Updated! New count: \(all.count)")
+                print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + FDA)")
             }
 
+            saveCache(all)
             isLoading = false
         }
     }
