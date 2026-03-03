@@ -130,7 +130,7 @@ final class LiveActivityManager {
 
         activeEntries = doseEntries.map { entry in
             let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookup(snapshot.substance)
+            let matchedSubstance = SubstanceLibrary.shared.lookup(snapshot.substance)
             let duration = matchedSubstance?.duration(for: entry.route)
             let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
             return (snapshot: snapshot, duration: duration, colorHex: hex)

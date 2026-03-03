@@ -44,7 +44,7 @@ struct SubstanceSearchField: View {
                         Task { @MainActor in
                             try? await Task.sleep(for: .milliseconds(50))
                             guard !Task.isCancelled, !text.isEmpty, isFocused else { return }
-                            let raw = SubstanceLibrary.search(text, limit: 12)
+                            let raw = SubstanceLibrary.shared.search(text, limit: 12)
                             if favoriteNames.isEmpty {
                                 results = raw
                             } else {

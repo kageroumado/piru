@@ -34,7 +34,7 @@ struct PiruApp: App {
             ContentView()
                 .tint(Theme.accent)
                 .task {
-                    SubstanceLibrary.fetchFromAPIs()
+                    await SubstanceLibrary.shared.load()
                 }
         }
         .modelContainer(container)

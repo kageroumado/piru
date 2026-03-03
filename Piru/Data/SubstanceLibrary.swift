@@ -1,111 +1,198 @@
 import Foundation
+import Observation
 
 @MainActor
-enum SubstanceLibrary {
-    // MARK: - Data
+@Observable
+final class SubstanceLibrary {
+    static let shared = SubstanceLibrary()
 
-    /// All substances — starts with bundled, updated by API fetch
-    private(set) static var all: [Substance] = bundledSubstances
+    private(set) var all: [Substance] = []
+    private(set) var isLoading = true
+    private(set) var error: String?
 
-    /// Bundled fallback data
-    static let bundledSubstances: [Substance] = {
-        guard let url = Bundle.main.url(forResource: "substances", withExtension: "json") else {
-            fatalError("substances.json not found in app bundle")
+    // MARK: - Derived Data
+
+    private(set) var byCategory: [SubstanceCategory: [Substance]] = [:]
+    private(set) var nonEmptyCategories: [SubstanceCategory] = []
+    private var nameLookup: [String: Substance] = [:]
+    private var fullLookup: [String: Substance] = [:]
+    private var searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = []
+
+    // MARK: - Cache
+
+    private let cacheURL: URL = {
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return dir.appendingPathComponent("substances_cache.json")
+    }()
+    private let cacheMaxAge: TimeInterval = 7 * 24 * 3600 // 1 week
+
+    private init() {}
+
+    // MARK: - Loading
+
+    /// Call on app launch. Loads from cache immediately, then refreshes from APIs.
+    func load() async {
+        isLoading = true
+        error = nil
+
+        // 1. Try cache first for instant display
+        if let cached = loadCache(), !cached.isEmpty {
+            updateAll(cached)
+            isLoading = false
+
+            // Refresh in background if cache is stale
+            if !isCacheFresh() {
+                Task { await refreshFromAPIs() }
+            }
+            return
         }
+
+        // 2. No cache — fetch from APIs
+        await refreshFromAPIs()
+    }
+
+    /// Force refresh from APIs
+    func refreshFromAPIs() async {
+        if all.isEmpty { isLoading = true }
+
+        async let tripSitTask = fetchTripSit()
+        async let fdaTask = fetchFDA()
+
+        let tripSit = await tripSitTask
+        let fda = await fdaTask
+
+        let merged = mergeSubstances(tripSit: tripSit, fda: fda)
+
+        if merged.isEmpty {
+            error = "Could not load substances. Check your internet connection."
+            isLoading = false
+            return
+        }
+
+        updateAll(merged)
+        saveCache(merged)
+        isLoading = false
+        error = nil
+    }
+
+    // MARK: - API Fetching
+
+    private func fetchTripSit() async -> [Substance] {
         do {
-            let data = try Data(contentsOf: url)
-            return try JSONDecoder().decode([Substance].self, from: data)
+            let drugs = try await TripSitAPI.fetchAll()
+            return drugs.values.map { TripSitAPI.toSubstance($0) }
         } catch {
-            fatalError("Failed to decode substances.json: \(error)")
+            return []
         }
-    }()
+    }
 
-    // MARK: - Derived Data (rebuilt when `all` changes)
+    private func fetchFDA() async -> [Substance] {
+        do {
+            let drugs = try await OpenFDAAPI.fetchCommonDrugs()
+            return drugs.compactMap { OpenFDAAPI.toSubstance($0) }
+        } catch {
+            return []
+        }
+    }
 
-    private(set) static var byCategory: [SubstanceCategory: [Substance]] = {
-        Dictionary(grouping: bundledSubstances, by: \.category)
-    }()
+    // MARK: - Merging
 
-    private(set) static var nonEmptyCategories: [SubstanceCategory] = {
-        SubstanceCategory.allCases.filter { byCategory[$0] != nil }
-    }()
+    private func mergeSubstances(tripSit: [Substance], fda: [Substance]) -> [Substance] {
+        var byName: [String: Substance] = [:]
+        var allNames: Set<String> = []
 
-    private static var nameLookup: [String: Substance] = {
-        Dictionary(bundledSubstances.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
-    }()
+        // TripSit is primary for recreational substances
+        for s in tripSit {
+            let key = s.name.lowercased()
+            byName[key] = s
+            allNames.insert(key)
+            for alias in s.aliases {
+                allNames.insert(alias.lowercased())
+            }
+        }
 
-    private static var fullLookup: [String: Substance] = {
-        var map: [String: Substance] = [:]
-        for substance in bundledSubstances {
-            map[substance.name.lowercased()] = substance
-            for alias in substance.aliases {
-                if map[alias.lowercased()] == nil {
-                    map[alias.lowercased()] = substance
+        // FDA fills in prescription meds
+        for s in fda {
+            let key = s.name.lowercased()
+            if byName[key] == nil {
+                let aliasMatch = s.aliases.contains { allNames.contains($0.lowercased()) }
+                if !aliasMatch {
+                    byName[key] = s
+                    allNames.insert(key)
+                    for alias in s.aliases {
+                        allNames.insert(alias.lowercased())
+                    }
                 }
             }
         }
-        return map
-    }()
 
-    private static var searchIndex: [(substance: Substance, nameLower: String, aliasesLower: [String])] = {
-        bundledSubstances.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
-    }()
+        return Array(byName.values).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
 
-    // MARK: - Update from API
+    // MARK: - Update & Index
 
-    /// Replace the substance list with API-fetched data and rebuild all indexes
-    static func updateAll(_ substances: [Substance]) {
+    private func updateAll(_ substances: [Substance]) {
         all = substances
-        rebuildIndexes()
-    }
-
-    /// Fetch from APIs and update. Call on app launch.
-    static func fetchFromAPIs() {
-        Task.detached {
-            let substances = await SubstanceService.shared.loadAll()
-            guard !substances.isEmpty else { return }
-            await MainActor.run {
-                updateAll(substances)
-            }
-        }
-    }
-
-    private static func rebuildIndexes() {
-        byCategory = Dictionary(grouping: all, by: \.category)
+        byCategory = Dictionary(grouping: substances, by: \.category)
         nonEmptyCategories = SubstanceCategory.allCases.filter { byCategory[$0] != nil }
-        nameLookup = Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
 
-        var newFullLookup: [String: Substance] = [:]
-        for substance in all {
-            newFullLookup[substance.name.lowercased()] = substance
-            for alias in substance.aliases {
-                if newFullLookup[alias.lowercased()] == nil {
-                    newFullLookup[alias.lowercased()] = substance
+        nameLookup = Dictionary(substances.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
+
+        var newFull: [String: Substance] = [:]
+        for s in substances {
+            newFull[s.name.lowercased()] = s
+            for alias in s.aliases {
+                if newFull[alias.lowercased()] == nil {
+                    newFull[alias.lowercased()] = s
                 }
             }
         }
-        fullLookup = newFullLookup
+        fullLookup = newFull
 
-        searchIndex = all.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
+        searchIndex = substances.map { ($0, $0.name.lowercased(), $0.aliases.map { $0.lowercased() }) }
+
+        
+    }
+
+    // MARK: - Cache
+
+    private func saveCache(_ substances: [Substance]) {
+        do {
+            let data = try JSONEncoder().encode(substances)
+            try data.write(to: cacheURL)
+        } catch {
+            print("SubstanceLibrary: cache write failed: \(error)")
+        }
+    }
+
+    private func loadCache() -> [Substance]? {
+        guard let data = try? Data(contentsOf: cacheURL) else { return nil }
+        return try? JSONDecoder().decode([Substance].self, from: data)
+    }
+
+    private func isCacheFresh() -> Bool {
+        guard let attrs = try? FileManager.default.attributesOfItem(atPath: cacheURL.path),
+              let modified = attrs[.modificationDate] as? Date else { return false }
+        return Date().timeIntervalSince(modified) < cacheMaxAge
     }
 
     // MARK: - Lookup
 
-    static func substances(in category: SubstanceCategory) -> [Substance] {
+    func substances(in category: SubstanceCategory) -> [Substance] {
         byCategory[category] ?? []
     }
 
-    static func lookup(_ name: String) -> Substance? {
+    func lookup(_ name: String) -> Substance? {
         nameLookup[name.lowercased()]
     }
 
-    static func lookupByNameOrAlias(_ name: String) -> Substance? {
+    func lookupByNameOrAlias(_ name: String) -> Substance? {
         fullLookup[name.lowercased()]
     }
 
     // MARK: - Search
 
-    static func search(_ query: String, limit: Int = 50) -> [Substance] {
+    func search(_ query: String, limit: Int = 50) -> [Substance] {
         guard !query.isEmpty else { return [] }
         let q = query.lowercased()
 
@@ -126,20 +213,8 @@ enum SubstanceLibrary {
             }
         }
 
-        let combined = exact + aliasExact + prefix + contains
-        return Array(combined.prefix(limit))
+        return Array((exact + aliasExact + prefix + contains).prefix(limit))
     }
 
-    /// Total substance count — useful for UI display
-    static var count: Int { all.count }
-
-    /// Source breakdown
-    static var sourceBreakdown: [String: Int] {
-        var counts: [String: Int] = [:]
-        for s in all {
-            let source = s.sources.first ?? "Bundled"
-            counts[source, default: 0] += 1
-        }
-        return counts
-    }
+    var count: Int { all.count }
 }
