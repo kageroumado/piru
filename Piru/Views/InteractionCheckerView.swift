@@ -56,6 +56,9 @@ struct InteractionCheckerView: View {
                     } label: {
                         Label("Add Substance", systemImage: "plus.circle")
                     }
+                    .listRowBackground(
+                        Rectangle().fill(.ultraThinMaterial)
+                    )
                 }
             } header: {
                 Text("Substances to check")
@@ -75,11 +78,17 @@ struct InteractionCheckerView: View {
                                 .foregroundStyle(.secondary)
                         }
                         .padding(.vertical, 4)
+                        .listRowBackground(
+                            Rectangle().fill(.ultraThinMaterial)
+                        )
                     }
                 } else {
                     Section {
                         ForEach(Array(results.enumerated()), id: \.offset) { _, warning in
                             InteractionWarningRow(warning: warning)
+                                .listRowBackground(
+                                    Rectangle().fill(.ultraThinMaterial)
+                                )
                         }
                     } header: {
                         Text(results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found")
