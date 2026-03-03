@@ -3,7 +3,17 @@ import Foundation
 enum SubstanceLibrary {
     // MARK: - Data
 
-    @MainActor private(set) static var all: [Substance] = loadCache() ?? []
+    @MainActor private(set) static var all: [Substance] = loadCache() ?? loadBundled()
+
+    /// Bundled substances.json as offline fallback
+    private static func loadBundled() -> [Substance] {
+        guard let url = Bundle.main.url(forResource: "substances", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let substances = try? JSONDecoder().decode([Substance].self, from: data) else {
+            return []
+        }
+        return substances
+    }
 
     @MainActor private(set) static var byCategory: [SubstanceCategory: [Substance]] = Dictionary(grouping: all, by: \.category)
 
