@@ -9,6 +9,17 @@ final class DoseEntry {
     var route: RouteOfAdministration
     var timestamp: Date
     var notes: String?
+    var tagsRaw: String?
+
+    var tags: [String] {
+        get {
+            guard let raw = tagsRaw, !raw.isEmpty else { return [] }
+            return raw.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+        }
+        set {
+            tagsRaw = newValue.isEmpty ? nil : newValue.joined(separator: ",")
+        }
+    }
 
     init(
         substance: String,
@@ -16,7 +27,8 @@ final class DoseEntry {
         unit: String = "mg",
         route: RouteOfAdministration = .oral,
         timestamp: Date = .now,
-        notes: String? = nil
+        notes: String? = nil,
+        tags: [String] = []
     ) {
         self.substance = substance
         self.amount = max(0, amount)
@@ -24,5 +36,6 @@ final class DoseEntry {
         self.route = route
         self.timestamp = timestamp
         self.notes = notes
+        self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")
     }
 }

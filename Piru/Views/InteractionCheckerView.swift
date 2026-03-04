@@ -36,11 +36,11 @@ struct InteractionCheckerView: View {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.title3)
                                     .symbolRenderingMode(.hierarchical)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
                     }
-                    .listRowBackground(Rectangle().fill(.ultraThinMaterial))
+                    .listRowBackground(Rectangle().fill(Theme.cardBackground))
                 }
                 .onDelete { offsets in
                     entries.remove(atOffsets: offsets)
@@ -58,7 +58,7 @@ struct InteractionCheckerView: View {
                         Label("Add Substance", systemImage: "plus.circle")
                     }
                     .listRowBackground(
-                        Rectangle().fill(.ultraThinMaterial)
+                        Rectangle().fill(Theme.cardBackground)
                     )
                 }
             } header: {
@@ -76,11 +76,11 @@ struct InteractionCheckerView: View {
                                 .font(.title3)
                             Text("No known interactions found between these substances.")
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                         .padding(.vertical, 4)
                         .listRowBackground(
-                            Rectangle().fill(.ultraThinMaterial)
+                            Rectangle().fill(Theme.cardBackground)
                         )
                     }
                 } else {
@@ -88,7 +88,7 @@ struct InteractionCheckerView: View {
                         ForEach(Array(results.enumerated()), id: \.offset) { _, warning in
                             InteractionWarningRow(warning: warning)
                                 .listRowBackground(
-                                    Rectangle().fill(.ultraThinMaterial)
+                                    Rectangle().fill(Theme.cardBackground)
                                 )
                         }
                     } header: {
@@ -100,7 +100,7 @@ struct InteractionCheckerView: View {
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        .background(Color(.systemBackground))
+        .background(Theme.background)
     }
 
     private func recheckInteractions() {

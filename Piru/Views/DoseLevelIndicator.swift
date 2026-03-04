@@ -34,7 +34,7 @@ struct DoseLevelIndicator: View {
                 ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
                     Text(segment.label)
                         .font(.system(size: 9))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                         .frame(maxWidth: .infinity, alignment: index == 0 ? .leading : (index == segments.count - 1 ? .trailing : .center))
                 }
             }
@@ -169,7 +169,7 @@ struct DoseInfoView: View {
                 .frame(width: 6, height: 6)
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
@@ -234,7 +234,7 @@ struct DurationTimelineBar: View {
                                 .frame(width: 5, height: 5)
                             Text(phase.label)
                                 .font(.system(size: 8))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
                 }
@@ -307,7 +307,7 @@ struct DurationInfoView: View {
                 .frame(width: 6, height: 6)
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 }

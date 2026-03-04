@@ -78,7 +78,7 @@ struct SubstanceColorPickerView: View {
                     .font(.title3.weight(.semibold))
                 Text("Pick a color for this substance")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
         }
@@ -107,13 +107,13 @@ struct SubstanceColorPickerView: View {
 
             Text("Your Colors")
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .padding(.horizontal)
 
             if userColors.isEmpty {
                 Text("Custom shades you create will appear here.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
             } else {
@@ -262,7 +262,7 @@ struct SubstanceColorPickerView: View {
         HStack(spacing: 8) {
             Text("#")
                 .font(.system(.body, design: .monospaced))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             TextField("FFAACC", text: $hexInput)
                 .font(.system(.body, design: .monospaced))
                 .textInputAutocapitalization(.characters)
@@ -297,7 +297,7 @@ struct SubstanceColorPickerView: View {
                     .frame(width: 32, height: 32)
                 Text("#\(sanitizedHex)")
                     .font(.system(.body, design: .monospaced))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                 Spacer()
             }
             .padding(.horizontal)

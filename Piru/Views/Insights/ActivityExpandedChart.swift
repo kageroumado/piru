@@ -60,12 +60,12 @@ struct ActivityExpandedChart: View {
                         // Tick marks on every day (small notches)
                         AxisMarks(values: .stride(by: .day, count: 1)) { _ in
                             AxisTick(length: 4, stroke: StrokeStyle(lineWidth: 0.8))
-                                .foregroundStyle(.secondary.opacity(0.6))
+                                .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                         }
                         // Labels on stride days
                         AxisMarks(values: .stride(by: .day, count: xAxisStride)) { value in
                             AxisTick(length: 6, stroke: StrokeStyle(lineWidth: 1))
-                                .foregroundStyle(.secondary.opacity(0.8))
+                                .foregroundStyle(Theme.secondaryLabel.opacity(0.8))
                             AxisValueLabel {
                                 if let date = value.as(Date.self) {
                                     VStack(spacing: 1) {
@@ -73,7 +73,7 @@ struct ActivityExpandedChart: View {
                                             .font(.system(size: 9, weight: .semibold, design: .rounded))
                                         Text(date.formatted(.dateTime.month(.abbreviated)))
                                             .font(.system(size: 7, design: .rounded))
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(Theme.secondaryLabel)
                                     }
                                 }
                             }
@@ -82,7 +82,7 @@ struct ActivityExpandedChart: View {
                     .chartYAxis {
                         AxisMarks(position: .trailing) { _ in
                             AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
-                                .foregroundStyle(.secondary.opacity(0.55))
+                                .foregroundStyle(Theme.secondaryLabel.opacity(0.55))
                             AxisValueLabel()
                                 .font(.system(size: 9, design: .rounded))
                         }
@@ -111,7 +111,7 @@ struct ActivityExpandedChart: View {
                     }
                     Text("· \(match.total) total")
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
                 .padding(.horizontal, 4)
                 .transition(.opacity)

@@ -245,6 +245,15 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "analgesic": return .analgesic
         case "supplement", "vitamin", "steroid": return .supplement
         case "gabapentinoid", "gabaergic": return .gabapentinoid
+        case "anxiolytic", "hypnotic": return .depressant
+        case "anticonvulsant", "mood-stabilizer", "mood stabilizer": return .antidepressant
+        case "sympathomimetic": return .stimulant
+        case "cardiovascular": return .cardiovascular
+        case "antimicrobial", "antibiotic", "antifungal", "antiviral": return .antimicrobial
+        case "gastrointestinal": return .gastrointestinal
+        case "respiratory": return .respiratory
+        case "endocrine": return .endocrine
+        case "immunological": return .immunological
         default: return .other
         }
     }

@@ -54,7 +54,7 @@ struct SubstanceLibraryView: View {
                                     .font(.subheadline)
                                 Text("\(LibraryLoadingState.shared.substanceCount) loaded so far")
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
                         .padding(.vertical, 4)
@@ -67,7 +67,7 @@ struct SubstanceLibraryView: View {
         }
         .listSectionSpacing(.compact)
         .scrollContentBackground(.hidden)
-        .background(Color(.systemBackground))
+        .background(Theme.background)
         .navigationTitle("Substance Library")
         .onChange(of: searchText) {
             if !searchText.isEmpty {
@@ -120,12 +120,12 @@ struct SubstanceLibraryView: View {
                                 .foregroundStyle(.primary)
                             Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
@@ -146,12 +146,12 @@ struct SubstanceLibraryView: View {
                                 .foregroundStyle(.primary)
                             Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
@@ -212,7 +212,7 @@ struct SubstanceLibraryView: View {
         case .antihistamine: "allergens.fill"
         case .cardiovascular: "heart.text.square.fill"
         case .antimicrobial: "microbe.fill"
-        case .gastrointestinal: "stomach.fill"
+        case .gastrointestinal: "fork.knife"
         case .respiratory: "lungs.fill"
         case .endocrine: "atom"
         case .immunological: "shield.lefthalf.filled"
@@ -236,7 +236,7 @@ struct SubstanceLibraryView: View {
         case .antidepressant: .yellow
         case .antipsychotic: .mint
         case .analgesic: .brown
-        case .antihistamine: .secondary
+        case .antihistamine: Theme.secondaryLabel
         case .cardiovascular: .red.opacity(0.7)
         case .antimicrobial: .teal.opacity(0.7)
         case .gastrointestinal: .orange.opacity(0.7)
@@ -244,7 +244,7 @@ struct SubstanceLibraryView: View {
         case .endocrine: .purple.opacity(0.7)
         case .immunological: .blue.opacity(0.7)
         case .supplement: .green.opacity(0.7)
-        case .other: .secondary
+        case .other: Theme.secondaryLabel
         }
     }
 }
@@ -263,7 +263,7 @@ struct SubstanceRowView: View {
                 if !substance.aliases.isEmpty {
                     Text(substance.aliases.prefix(3).joined(separator: ", "))
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
             Spacer()
@@ -275,7 +275,7 @@ struct SubstanceRowView: View {
                     .background(.fill.secondary, in: Capsule())
                 Text(substance.defaultUnit)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
         .contentShape(Rectangle())
@@ -291,6 +291,7 @@ struct SubstanceDetailSheet: View {
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
     @State private var showAllHistory = false
+    @State private var showEntries = false
 
     init(substance: Substance) {
         self.substance = substance
@@ -387,7 +388,7 @@ struct SubstanceDetailSheet: View {
                                 .fontWeight(.medium)
                             Text(effect.description)
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                         .padding(.vertical, 2)
@@ -408,12 +409,12 @@ struct SubstanceDetailSheet: View {
                                                 .foregroundStyle(.primary)
                                             Text(info.detail)
                                                 .font(.caption2)
-                                                .foregroundStyle(.secondary)
+                                                .foregroundStyle(Theme.secondaryLabel)
                                         }
                                         Spacer()
                                         Image(systemName: "arrow.up.right.square")
                                             .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(Theme.secondaryLabel)
                                     }
                                 }
                             } else {
@@ -422,13 +423,13 @@ struct SubstanceDetailSheet: View {
                                         .font(.subheadline)
                                     Text(info.detail)
                                         .font(.caption2)
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(Theme.secondaryLabel)
                                 }
                             }
                         } else {
                             Text(source)
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
                 } header: {
@@ -446,7 +447,7 @@ struct SubstanceDetailSheet: View {
                     toggleFavorite()
                 } label: {
                     Image(systemName: isFavorite ? "star.fill" : "star")
-                        .foregroundStyle(isFavorite ? .yellow : .secondary)
+                        .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
@@ -478,61 +479,62 @@ struct SubstanceDetailSheet: View {
         let latest = entries.first?.timestamp
 
         Section("Your History") {
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("\(count) entr\(count == 1 ? "y" : "ies")")
-                        .font(.subheadline.weight(.medium))
-                    if let earliest, let latest {
-                        if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
-                            Text(earliest.formatted(.dateTime.month(.wide).year()))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        } else {
-                            Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+            DisclosureGroup(isExpanded: $showEntries) {
+                let displayEntries = showAllHistory ? entries : Array(entries.prefix(10))
+                ForEach(displayEntries) { entry in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                                .font(.subheadline)
+                            Text(entry.route.displayName)
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
+                        Spacer()
+                        Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
-                Spacer()
-                VStack(alignment: .trailing, spacing: 2) {
-                    if minDose == maxDose {
-                        Text("\(minDose.doseFormatted) \(unit)")
-                            .font(.subheadline.weight(.medium))
-                    } else {
-                        Text("\(minDose.doseFormatted) – \(maxDose.doseFormatted) \(unit)")
-                            .font(.subheadline.weight(.medium))
+                if entries.count > 10 && !showAllHistory {
+                    Button {
+                        showAllHistory = true
+                    } label: {
+                        Text("Show all \(entries.count) entries")
+                            .font(.subheadline)
+                            .frame(maxWidth: .infinity)
                     }
-                    Text("Most common: \(mostCommon.doseFormatted) \(unit)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                 }
-            }
-
-            let displayEntries = showAllHistory ? entries : Array(entries.prefix(10))
-            ForEach(displayEntries) { entry in
+            } label: {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("\(entry.amount.doseFormatted) \(entry.unit)")
-                            .font(.subheadline)
-                        Text(entry.route.displayName)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                        Text("\(count) entr\(count == 1 ? "y" : "ies")")
+                            .font(.subheadline.weight(.medium))
+                        if let earliest, let latest {
+                            if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
+                                Text(earliest.formatted(.dateTime.month(.wide).year()))
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            } else {
+                                Text("\(earliest.formatted(.dateTime.month(.abbreviated).year())) – \(latest.formatted(.dateTime.month(.abbreviated).year()))")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
+                        }
                     }
                     Spacer()
-                    Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
-            if entries.count > 10 && !showAllHistory {
-                Button {
-                    showAllHistory = true
-                } label: {
-                    Text("Show all \(entries.count) entries")
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        if minDose == maxDose {
+                            Text("\(minDose.doseFormatted) \(unit)")
+                                .font(.subheadline.weight(.medium))
+                        } else {
+                            Text("\(minDose.doseFormatted) – \(maxDose.doseFormatted) \(unit)")
+                                .font(.subheadline.weight(.medium))
+                        }
+                        Text("Most common: \(mostCommon.doseFormatted) \(unit)")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
             }
         }
@@ -546,7 +548,7 @@ struct SubstanceDetailSheet: View {
                     .fill(colorFor(level))
                     .frame(width: 8, height: 8)
                 Text(label)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
             Text(value)
@@ -565,7 +567,7 @@ struct EffectLabelStyle: LabelStyle {
         HStack(spacing: 8) {
             configuration.icon
                 .font(.system(size: 5))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             configuration.title
         }
     }

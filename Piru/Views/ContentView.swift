@@ -216,7 +216,7 @@ struct ContentView: View {
     private var legacySearchBar: some View {
         HStack(spacing: 10) {
             Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .font(.subheadline.weight(.medium))
             TextField("Search", text: activeSearchText)
                 .font(.subheadline)
@@ -227,7 +227,7 @@ struct ContentView: View {
                     activeSearchText.wrappedValue = ""
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
             Button {
@@ -239,7 +239,7 @@ struct ContentView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(.ultraThinMaterial, in: Capsule())
+        .themeCapsule()
         .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .trailing)))
     }
 
@@ -252,7 +252,7 @@ struct ContentView: View {
                 legacyTabButton(icon: "chart.line.uptrend.xyaxis", label: "Insights", tab: 3)
             }
             .padding(4)
-            .background(.ultraThinMaterial, in: Capsule())
+            .themeCapsule()
 
             if showSearchButton {
                 Button {
@@ -266,7 +266,7 @@ struct ContentView: View {
                     Image(systemName: "magnifyingglass")
                         .font(.body.weight(.medium))
                         .frame(width: 64, height: 64)
-                        .background(.ultraThinMaterial, in: Circle())
+                        .themeCircle()
                 }
                 .transition(.opacity.combined(with: .scale(scale: 0.8)))
             }
@@ -291,7 +291,7 @@ struct ContentView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
             }
-            .foregroundStyle(isSelected ? Theme.accent : .secondary)
+            .foregroundStyle(isSelected ? Theme.accent : Theme.secondaryLabel)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 5)
             .padding(.horizontal, 6)

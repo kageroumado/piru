@@ -45,7 +45,7 @@ struct AdherenceView: View {
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                 Text(streak == 1 ? "day streak" : "days streak")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
@@ -55,11 +55,11 @@ struct AdherenceView: View {
                     .foregroundStyle(rate >= 0.8 ? .green : rate >= 0.5 ? .orange : .red)
                 Text("this month")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Calendar
@@ -71,7 +71,7 @@ struct AdherenceView: View {
             calendarGrid
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     private var monthHeader: some View {
@@ -105,7 +105,7 @@ struct AdherenceView: View {
             ForEach(calendar.shortWeekdaySymbols, id: \.self) { symbol in
                 Text(symbol)
                     .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .frame(maxWidth: .infinity)
             }
         }

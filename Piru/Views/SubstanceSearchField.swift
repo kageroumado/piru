@@ -32,7 +32,7 @@ struct SubstanceSearchField: View {
                 .autocorrectionDisabled()
                 .focused($isFocused)
                 .disabled(locked)
-                .foregroundStyle(locked ? .secondary : .primary)
+                .foregroundStyle(locked ? Theme.secondaryLabel : Color.primary)
                 .onChange(of: text) {
                     if suppressSearch {
                         suppressSearch = false
@@ -93,7 +93,7 @@ struct SubstanceSearchField: View {
                                         if !substance.aliases.isEmpty {
                                             Text(substance.aliases.prefix(3).joined(separator: ", "))
                                                 .font(.caption)
-                                                .foregroundStyle(.secondary)
+                                                .foregroundStyle(Theme.secondaryLabel)
                                         }
                                     }
                                     Spacer()
@@ -128,7 +128,7 @@ struct SubstanceSearchField: View {
                                             .foregroundStyle(.primary)
                                         Text("Custom substance (no dose data)")
                                             .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                            .foregroundStyle(Theme.secondaryLabel)
                                     }
                                     Spacer()
                                     Text("Custom")
@@ -147,7 +147,7 @@ struct SubstanceSearchField: View {
                     }
                 }
                 .frame(maxHeight: 280)
-                .background(.ultraThinMaterial)
+                .background(Theme.cardBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
             }

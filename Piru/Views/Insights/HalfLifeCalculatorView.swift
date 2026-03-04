@@ -37,6 +37,7 @@ struct HalfLifeCalculatorView: View {
     @State private var useCustomHalfLife = false
     @State private var customHalfLifeHours: String = ""
     @State private var cachedActiveSubstances: [ActiveSubstance] = []
+    @State private var selectedRoute: RouteOfAdministration = .oral
 
     private var effectiveHalfLife: Double? {
         if useCustomHalfLife {
@@ -45,6 +46,20 @@ struct HalfLifeCalculatorView: View {
         }
         if let hl = selectedSubstance?.halfLifeMinutes { return hl }
         return HalfLifeDatabase.halfLife(for: substanceName)
+    }
+
+    private var pkParameters: (ke: Double, ka: Double)? {
+        guard let halfLife = effectiveHalfLife, halfLife > 0 else { return nil }
+        let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
+        if let substance = selectedSubstance,
+           let duration = substance.resolveDuration(for: selectedRoute) {
+            let timeToPeak = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
+            if timeToPeak > 0 {
+                let ka = PKModel.estimateKa(timeToPeak: timeToPeak, ke: ke)
+                return (ke, ka)
+            }
+        }
+        return (ke, PKModel.defaultKa(ke: ke))
     }
 
     private var dose: Double {
@@ -91,7 +106,18 @@ struct HalfLifeCalculatorView: View {
 
             let elapsed = now.timeIntervalSince(entry.timestamp) / 60
             guard elapsed >= 0 else { continue }
-            let remaining = entry.amount * pow(0.5, elapsed / halfLife)
+
+            let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
+            let ka: Double
+            if let sub = substance,
+               let duration = sub.resolveDuration(for: entry.route) {
+                let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
+                ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
+            } else {
+                ka = PKModel.defaultKa(ke: ke)
+            }
+            let peakConc = PKModel.cmax(ke: ke, ka: ka)
+            let remaining = peakConc > 0 ? entry.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc : 0
             let fraction = remaining / entry.amount
 
             guard fraction > 0.03 else { continue }
@@ -193,7 +219,7 @@ struct HalfLifeCalculatorView: View {
                             .foregroundStyle(.primary)
                         Text(timeAgoText(active.doses.first?.timestamp))
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
 
                     Spacer()
@@ -205,11 +231,11 @@ struct HalfLifeCalculatorView: View {
                                 .foregroundStyle(active.color)
                             Text(active.unit)
                                 .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                         Text("\(Int(active.eliminatedFraction * 100))% eliminated")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
 
@@ -234,11 +260,11 @@ struct HalfLifeCalculatorView: View {
                             HStack {
                                 Text("\(d.amount.doseFormatted) \(active.unit)")
                                     .font(.caption2)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                                 Spacer()
                                 Text(d.timestamp.formatted(date: .omitted, time: .shortened))
                                     .font(.caption2)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                                 Text("\(d.remaining.doseFormatted) \(active.unit) left")
                                     .font(.caption2)
                                     .foregroundStyle(active.color.opacity(0.8))
@@ -249,7 +275,7 @@ struct HalfLifeCalculatorView: View {
                 }
             }
             .padding()
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+            .themeCard()
         }
         .buttonStyle(.plain)
     }
@@ -292,7 +318,7 @@ struct HalfLifeCalculatorView: View {
             Spacer()
             Text("\(halfLifeCount) with half-life data")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
@@ -304,13 +330,22 @@ struct HalfLifeCalculatorView: View {
                 selectedSubstance = substance
                 substanceName = substance.name
                 doseUnit = substance.defaultUnit
+                selectedRoute = substance.defaultRoute
+            }
+
+            if let sub = selectedSubstance, sub.routes.count > 1 {
+                Picker("Route", selection: $selectedRoute) {
+                    ForEach(sub.routes.map(\.route)) { r in
+                        Text(r.displayName).tag(r)
+                    }
+                }
             }
 
             HStack(spacing: 12) {
                 VStack(alignment: .leading) {
                     Text("Dose")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                     HStack(spacing: 0) {
                         TextField("Amount", text: $doseAmount)
                             .keyboardType(.decimalPad)
@@ -327,13 +362,13 @@ struct HalfLifeCalculatorView: View {
                                 .foregroundStyle(.primary)
                         }
                     }
-                    .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 8))
+                    .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 8))
                 }
 
                 VStack(alignment: .leading) {
                     Text("Time Taken")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                     DatePicker("", selection: $timeTaken)
                         .labelsHidden()
                 }
@@ -346,29 +381,34 @@ struct HalfLifeCalculatorView: View {
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
                     Text("hours")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Decay Chart
 
     private func decayChart(halfLife: Double) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Elimination Curve")
+            Text("Concentration Curve")
                 .font(.headline)
 
             Canvas { context, size in
+                guard let params = pkParameters else { return }
+                let ke = params.ke
+                let ka = params.ka
+
                 let inset: CGFloat = 4
                 let graphWidth = size.width - inset * 2
                 let labelAreaHeight: CGFloat = 22
                 let graphHeight = size.height - labelAreaHeight
 
-                let totalMinutes = halfLife * 5
-                guard totalMinutes > 0, graphHeight > 0 else { return }
+                let peakConc = PKModel.cmax(ke: ke, ka: ka)
+                let totalMinutes = PKModel.timeToFraction(0.03, ke: ke, ka: ka, maxMinutes: halfLife * 8)
+                guard totalMinutes > 0, graphHeight > 0, peakConc > 0 else { return }
 
                 // Fill path
                 var fillPath = Path()
@@ -378,9 +418,9 @@ struct HalfLifeCalculatorView: View {
 
                 for i in 0...steps {
                     let t = Double(i) / Double(steps) * totalMinutes
-                    let remaining = pow(0.5, t / halfLife)
+                    let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
-                    let y = inset + graphHeight - CGFloat(remaining) * graphHeight * 0.9
+                    let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
                     fillPath.addLine(to: CGPoint(x: x, y: y))
                 }
                 fillPath.addLine(to: CGPoint(x: inset + graphWidth, y: baseline))
@@ -391,30 +431,38 @@ struct HalfLifeCalculatorView: View {
                 var strokePath = Path()
                 for i in 0...steps {
                     let t = Double(i) / Double(steps) * totalMinutes
-                    let remaining = pow(0.5, t / halfLife)
+                    let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
-                    let y = inset + graphHeight - CGFloat(remaining) * graphHeight * 0.9
+                    let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
                     if i == 0 { strokePath.move(to: CGPoint(x: x, y: y)) }
                     else { strokePath.addLine(to: CGPoint(x: x, y: y)) }
                 }
                 context.stroke(strokePath, with: .color(Theme.accent), lineWidth: 2)
 
+                // Peak line (Tmax)
+                let peakTime = PKModel.tmax(ke: ke, ka: ka)
+                let peakX = inset + CGFloat(peakTime / totalMinutes) * graphWidth
+                var peakLine = Path()
+                peakLine.move(to: CGPoint(x: peakX, y: inset + graphHeight * 0.1))
+                peakLine.addLine(to: CGPoint(x: peakX, y: baseline))
+                context.stroke(peakLine, with: .color(Theme.accent.opacity(0.4)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+
                 // Half-life milestone lines
-                for n in 1...4 {
+                for n in 1...3 {
                     let fraction = pow(0.5, Double(n))
                     let y = inset + graphHeight - CGFloat(fraction) * graphHeight * 0.9
                     var dashPath = Path()
                     dashPath.move(to: CGPoint(x: inset, y: y))
                     dashPath.addLine(to: CGPoint(x: inset + graphWidth, y: y))
-                    context.stroke(dashPath, with: .color(.secondary.opacity(0.6)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                    context.stroke(dashPath, with: .color(Theme.secondaryLabel.opacity(0.4)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
                 }
 
                 // Current time dot
                 let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
                 if elapsed >= 0 && elapsed <= totalMinutes {
-                    let remaining = pow(0.5, elapsed / halfLife)
+                    let c = PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(elapsed / totalMinutes) * graphWidth
-                    let y = inset + graphHeight - CGFloat(remaining) * graphHeight * 0.9
+                    let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
                     let dotSize: CGFloat = 7
                     let dot = Path(ellipseIn: CGRect(x: x - dotSize / 2, y: y - dotSize / 2, width: dotSize, height: dotSize))
                     context.fill(dot, with: .color(Theme.accent))
@@ -448,55 +496,78 @@ struct HalfLifeCalculatorView: View {
             .frame(height: 200)
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Current Amount
 
     private func currentAmountCard(halfLife: Double) -> some View {
         let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
-        let remaining = dose * pow(0.5, max(0, elapsed) / halfLife)
+        let remaining: Double
+        if let params = pkParameters {
+            let peakConc = PKModel.cmax(ke: params.ke, ka: params.ka)
+            remaining = peakConc > 0 ? dose * PKModel.concentration(at: max(0, elapsed), ke: params.ke, ka: params.ka) / peakConc : 0
+        } else {
+            remaining = dose * pow(0.5, max(0, elapsed) / halfLife)
+        }
         let unit = doseUnit
 
         return HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Current Estimated Amount")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(remaining.doseFormatted)
                         .font(.system(.title, design: .rounded, weight: .bold))
                         .foregroundStyle(Theme.accent)
                     Text(unit)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text("\(Int((1 - remaining / dose) * 100))%")
+                Text("\(Int(max(0, min(100, (1 - remaining / dose) * 100))))%")
                     .font(.system(.title2, design: .rounded, weight: .semibold))
                 Text("eliminated")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Milestones
 
     private func milestonesSection(halfLife: Double) -> some View {
         let unit = doseUnit
+        let peakTime = pkParameters.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+
         return VStack(alignment: .leading, spacing: 12) {
             Text("Milestones")
                 .font(.headline)
 
+            if peakTime > 0 {
+                HStack {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .foregroundStyle(Theme.accent)
+                    VStack(alignment: .leading) {
+                        Text("Peak concentration")
+                            .font(.subheadline.weight(.medium))
+                        Text("Reached after \(formatDuration(peakTime))")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    Spacer()
+                }
+            }
+
             ForEach(1...4, id: \.self) { n in
                 let eliminatedPct = (1 - pow(0.5, Double(n))) * 100
                 let remaining = dose * pow(0.5, Double(n))
-                let timeMinutes = halfLife * Double(n)
+                let timeMinutes = peakTime + halfLife * Double(n)
 
                 HStack {
                     Image(systemName: "\(n).circle.fill")
@@ -506,24 +577,24 @@ struct HalfLifeCalculatorView: View {
                             .font(.subheadline.weight(.medium))
                         Text("\(remaining.doseFormatted) \(unit) remaining after \(formatDuration(timeMinutes))")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                     Spacer()
                 }
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     private var noDataCard: some View {
         VStack(spacing: 10) {
             Image(systemName: "clock.badge.questionmark")
                 .font(.title2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             Text("Half-life data not available for \(selectedSubstance?.name ?? "this substance").")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .multilineTextAlignment(.center)
             Button {
                 useCustomHalfLife = true
@@ -537,7 +608,7 @@ struct HalfLifeCalculatorView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Disclaimer
@@ -546,15 +617,15 @@ struct HalfLifeCalculatorView: View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Estimate Only", systemImage: "info.circle")
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
 
-            Text("This calculator uses a simple single-compartment model with population-average elimination half-lives sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), DrugBank, and established pharmacology references (Goodman & Gilman's, Stahl's Essential Psychopharmacology). Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Absorption phases, bioavailability, first-pass metabolism, active metabolites, and multi-compartment distribution are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.")
+            Text("This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4\u{00D7} elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), DrugBank, and established pharmacology references (Goodman & Gilman's, Stahl's Essential Psychopharmacology). Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     private func formatDuration(_ minutes: Double) -> String {

@@ -633,7 +633,8 @@ struct OpenFDAAPI {
         if joined.contains("sphingosine") || joined.contains("complement inhibitor") { return .immunological }
         if joined.contains("t cell") || joined.contains("b lymphocyte") { return .immunological }
         // Supplements
-        if joined.contains("corticosteroid") || joined.contains("vitamin") { return .supplement }
+        if joined.contains("corticosteroid") { return .endocrine }
+        if joined.contains("vitamin") { return .supplement }
         if joined.contains("amino acid") || joined.contains("omega-3") || joined.contains("nicotinic acid") { return .supplement }
         if joined.contains("folate") || joined.contains("carnitine") { return .supplement }
         // Adrenergic agonists (after cardiovascular blocker check)

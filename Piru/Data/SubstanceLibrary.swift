@@ -52,6 +52,29 @@ enum SubstanceLibrary {
         return n
     }
 
+    /// Pharmaceutical salt/form suffixes that don't change the active molecule
+    private static let saltSuffixes: [String] = [
+        "hydrochloride", "hcl", "sodium", "potassium", "calcium", "magnesium",
+        "sulfate", "sulphate", "maleate", "tartrate", "fumarate", "hemifumarate",
+        "mesylate", "besylate", "tosylate", "bromide", "chloride", "iodide",
+        "acetate", "phosphate", "citrate", "succinate", "oxalate", "gluconate",
+        "pamoate", "embonate", "valerate", "decanoate", "enanthate", "propionate",
+        "monohydrate", "dihydrate", "trihydrate", "anhydrous",
+    ]
+
+    /// Strip trailing pharmaceutical salt suffixes from an already-normalized name.
+    /// Used only for dedup key generation — the stored name is unchanged.
+    private static func saltStripped(_ normalized: String) -> String {
+        // TODO(human): strip suffixes repeatedly until none remain (handles stacked suffixes
+        // like "sertralinehydrochloridemonohydrate")
+        for suffix in saltSuffixes {
+            if normalized.hasSuffix(suffix), normalized.count > suffix.count {
+                return String(normalized.dropLast(suffix.count))
+            }
+        }
+        return normalized
+    }
+
     /// Well-known name mappings for cross-source dedup
     private static let knownAliases: [String: String] = [
         "mdma": "34methylenedioxymethamphetamine",
@@ -136,10 +159,8 @@ enum SubstanceLibrary {
 
             // Stage 2: Merge FDA (with incremental UI updates)
             LibraryLoadingState.shared.statusText = "Fetching FDA data..."
-            let fdaDrugs: [OpenFDAAPI.FDADrug]
             do {
-                fdaDrugs = try await OpenFDAAPI.fetchCommonDrugs { newDrugs, processed, total in
-                    // Incrementally merge new FDA drugs so the count updates live
+                try await OpenFDAAPI.fetchCommonDrugs { newDrugs, processed, total in
                     await MainActor.run {
                         LibraryLoadingState.shared.statusText = "Fetching FDA data (\(processed)/\(total) classes)..."
                         let newSubstances = newDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
@@ -149,28 +170,16 @@ enum SubstanceLibrary {
                         }
                     }
                 }
-                print("[SubstanceLibrary] OpenFDA: \(fdaDrugs.count) drugs fetched")
+                print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + FDA)")
             } catch {
                 print("[SubstanceLibrary] OpenFDA fetch failed: \(error)")
-                fdaDrugs = []
-            }
-
-            // Final merge with full stats logging
-            let fdaSubstances = OpenFDAAPI.convertAllWithStats(fdaDrugs)
-            if !fdaSubstances.isEmpty {
-                let merged = deduplicatedMerge(existing: all, incoming: fdaSubstances)
-                updateAll(merged)
-                print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + FDA)")
             }
 
             // Stage 3: Fetch whitelisted drugs missing from class-based results
+            // Whitelisted drugs that passed toSubstance are already in `all`, so build
+            // alreadyFound from the merged substance list rather than the raw FDA response.
             LibraryLoadingState.shared.statusText = "Fetching missing drugs..."
             var alreadyFound = Set<String>()
-            for drug in fdaDrugs {
-                if let names = drug.openfda?.generic_name {
-                    for n in names { alreadyFound.insert(n.uppercased()) }
-                }
-            }
             for s in all {
                 alreadyFound.insert(s.name.uppercased())
                 for a in s.aliases { alreadyFound.insert(a.uppercased()) }
@@ -275,12 +284,15 @@ enum SubstanceLibrary {
         // Index existing
         for (i, s) in result.enumerated() {
             byNormalized[s.name.lowercased()] = i
-            byNormalized[normalizeName(s.name)] = i
-            for a in s.aliases {
-                byNormalized[a.lowercased()] = i
-                byNormalized[normalizeName(a)] = i
-            }
             let norm = normalizeName(s.name)
+            byNormalized[norm] = i
+            byNormalized[saltStripped(norm)] = i
+            for a in s.aliases {
+                let aNorm = normalizeName(a)
+                byNormalized[a.lowercased()] = i
+                byNormalized[aNorm] = i
+                byNormalized[saltStripped(aNorm)] = i
+            }
             if let mapped = knownAliases[norm] { byNormalized[mapped] = i }
         }
 
@@ -288,8 +300,10 @@ enum SubstanceLibrary {
             let nameNorm = normalizeName(s.name)
             let nameLower = s.name.lowercased()
 
-            // Check if any name/alias matches existing
-            var matchIdx: Int? = byNormalized[nameLower] ?? byNormalized[nameNorm]
+            // Check if any name/alias matches existing (including salt-stripped forms)
+            var matchIdx: Int? = byNormalized[nameLower]
+                ?? byNormalized[nameNorm]
+                ?? byNormalized[saltStripped(nameNorm)]
 
             if matchIdx == nil {
                 if let mapped = knownAliases[nameNorm] { matchIdx = byNormalized[mapped] }
@@ -297,7 +311,8 @@ enum SubstanceLibrary {
 
             if matchIdx == nil {
                 for a in s.aliases {
-                    if let idx = byNormalized[a.lowercased()] ?? byNormalized[normalizeName(a)] {
+                    let aNorm = normalizeName(a)
+                    if let idx = byNormalized[a.lowercased()] ?? byNormalized[aNorm] ?? byNormalized[saltStripped(aNorm)] {
                         matchIdx = idx
                         break
                     }
@@ -323,9 +338,12 @@ enum SubstanceLibrary {
                 result.append(s)
                 byNormalized[nameLower] = newIdx
                 byNormalized[nameNorm] = newIdx
+                byNormalized[saltStripped(nameNorm)] = newIdx
                 for a in s.aliases {
+                    let aNorm = normalizeName(a)
                     byNormalized[a.lowercased()] = newIdx
-                    byNormalized[normalizeName(a)] = newIdx
+                    byNormalized[aNorm] = newIdx
+                    byNormalized[saltStripped(aNorm)] = newIdx
                 }
             }
         }

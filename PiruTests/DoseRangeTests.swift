@@ -9,8 +9,7 @@ struct DoseRangeTests {
         light: 15...30,
         common: 30...60,
         strong: 60...100,
-        heavy: 100,
-        fatal: 200
+        heavy: 100
     )
 
     // MARK: - Level classification
@@ -45,9 +44,9 @@ struct DoseRangeTests {
         #expect(range.level(for: 120) == .heavy)
     }
 
-    @Test("Fatal dose")
-    func fatal() {
-        #expect(range.level(for: 250) == .fatal)
+    @Test("Very heavy dose still classifies as heavy")
+    func veryHeavy() {
+        #expect(range.level(for: 250) == .heavy)
     }
 
     // MARK: - Boundary values
@@ -62,9 +61,9 @@ struct DoseRangeTests {
         #expect(range.level(for: 100) == .heavy)
     }
 
-    @Test("Exact fatal boundary")
-    func exactFatal() {
-        #expect(range.level(for: 200) == .fatal)
+    @Test("Well above heavy is still heavy")
+    func wellAboveHeavy() {
+        #expect(range.level(for: 200) == .heavy)
     }
 
     @Test("Just below threshold")
@@ -136,12 +135,11 @@ struct DoseLevelTests {
         #expect(DoseLevel.common.color == "yellow")
         #expect(DoseLevel.strong.color == "orange")
         #expect(DoseLevel.heavy.color == "red")
-        #expect(DoseLevel.fatal.color == "black")
     }
 
     @Test("Raw values are display strings")
     func rawValues() {
         #expect(DoseLevel.sub.rawValue == "Sub-threshold")
-        #expect(DoseLevel.fatal.rawValue == "Fatal Overdose")
+        #expect(DoseLevel.heavy.rawValue == "Heavy")
     }
 }

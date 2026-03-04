@@ -70,6 +70,12 @@ struct EntryDetailView: View {
                 }
             }
 
+            if !entry.tags.isEmpty {
+                Section("Tags") {
+                    TagChipsView(tags: entry.tags)
+                }
+            }
+
             Section {
                 Button("Delete Entry", role: .destructive) {
                     showingDeleteConfirmation = true
