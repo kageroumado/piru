@@ -49,7 +49,7 @@ struct LogDailyDoseView: View {
                                     .font(.body)
                                 Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
                                     .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
                     }

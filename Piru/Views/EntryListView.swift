@@ -7,17 +7,40 @@ struct EntryListView: View {
     @Query private var substanceColors: [SubstanceColor]
 
     @Binding var searchText: String
+    @State private var selectedTag: String? = nil
 
     private var filteredEntries: [DoseEntry] {
-        guard !searchText.isEmpty else { return entries }
+        guard !searchText.isEmpty else {
+            if let selectedTag {
+                return entries.filter { $0.tags.contains(selectedTag) }
+            }
+            return entries
+        }
+        let query = searchText
+        if query.hasPrefix("#") {
+            let tagQuery = String(query.dropFirst()).lowercased()
+            guard !tagQuery.isEmpty else { return entries }
+            return entries.filter { entry in
+                entry.tags.contains { $0.localizedCaseInsensitiveContains(tagQuery) }
+            }
+        }
         return entries.filter {
-            $0.substance.localizedCaseInsensitiveContains(searchText) ||
-            ($0.notes?.localizedCaseInsensitiveContains(searchText) ?? false)
+            $0.substance.localizedCaseInsensitiveContains(query) ||
+            ($0.notes?.localizedCaseInsensitiveContains(query) ?? false) ||
+            $0.tags.contains { $0.localizedCaseInsensitiveContains(query) }
         }
     }
 
     @State private var cachedDayGroups: [(date: Date, entries: [DoseEntry])] = []
     @State private var cachedColorMap: [String: Color] = [:]
+
+    private var allUsedTags: [String] {
+        var counts: [String: Int] = [:]
+        for entry in entries {
+            for tag in entry.tags { counts[tag, default: 0] += 1 }
+        }
+        return counts.sorted { $0.value > $1.value }.map(\.key)
+    }
 
     private func rebuildDayGroups() {
         let calendar = Calendar.current
@@ -33,7 +56,32 @@ struct EntryListView: View {
     }
 
     var body: some View {
-        List {
+        VStack(spacing: 0) {
+            if !allUsedTags.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        ForEach(allUsedTags, id: \.self) { tag in
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    selectedTag = selectedTag == tag ? nil : tag
+                                }
+                                rebuildDayGroups()
+                            } label: {
+                                Text("#\(tag)")
+                                    .font(.caption)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(selectedTag == tag ? Theme.accent : Color(.secondarySystemFill))
+                                    .foregroundStyle(selectedTag == tag ? .white : .secondary)
+                                    .clipShape(Capsule())
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                }
+            }
+            List {
             if cachedDayGroups.isEmpty {
                 ContentUnavailableView(
                     searchText.isEmpty ? "No Entries" : "No Results",
@@ -60,7 +108,9 @@ struct EntryListView: View {
             rebuildDayGroups()
         }
         .onChange(of: searchText) { rebuildDayGroups() }
+        .onChange(of: selectedTag) { rebuildDayGroups() }
         .onChange(of: substanceColors.count) { rebuildColorMap() }
+        }
     }
 }
 
@@ -126,11 +176,11 @@ struct DayCardView: View {
                     .font(.headline)
                 Text(substanceSummary)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .lineLimit(2)
                 Text(subtitle)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(.vertical, 4)
         }

@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 @testable import Piru
 
 @Suite("Substance Codable")
@@ -23,8 +24,7 @@ struct SubstanceCodableTests {
             light: 10...20,
             common: 20...40,
             strong: 40...80,
-            heavy: 80,
-            fatal: 200
+            heavy: 80
         )
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(DoseRange.self, from: data)
@@ -33,7 +33,6 @@ struct SubstanceCodableTests {
         #expect(decoded.common == 20...40)
         #expect(decoded.strong == 40...80)
         #expect(decoded.heavy == 80)
-        #expect(decoded.fatal == 200)
     }
 
     @Test("DoseRange with nil ranges round-trips")
@@ -62,7 +61,7 @@ struct SubstanceCodableTests {
             routes: [
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange(
                     threshold: 5, light: 10...20, common: 20...40,
-                    strong: 40...80, heavy: 80, fatal: 200
+                    strong: 40...80, heavy: 80
                 ), duration: DurationProfile(
                     onset: TimeRange(min: 15, max: 30),
                     comeup: TimeRange(min: 10, max: 20),

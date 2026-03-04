@@ -53,7 +53,7 @@ struct DailyDoseSettingsView: View {
                     ForEach(reminderTimes.sorted { $0.id < $1.id }) { time in
                         HStack {
                             Image(systemName: "bell.fill")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                                 .font(.caption)
                             Text(time.formatted)
                         }
@@ -106,12 +106,12 @@ struct DailyDoseSettingsView: View {
                                         .foregroundStyle(.primary)
                                     Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
                                         .font(.subheadline)
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(Theme.secondaryLabel)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                             .contentShape(Rectangle())
                         }

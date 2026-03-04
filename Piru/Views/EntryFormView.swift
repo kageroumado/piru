@@ -17,6 +17,7 @@ struct EntryFormView: View {
     @State private var route: RouteOfAdministration = .oral
     @State private var timestamp = Date.now
     @State private var notes = ""
+    @State private var entryTags: [String] = []
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
@@ -127,7 +128,7 @@ struct EntryFormView: View {
                             Text("Custom substance - enter dose details manually")
                         }
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
 
@@ -180,8 +181,18 @@ struct EntryFormView: View {
                     TextField("Notes", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
                 }
+
+                Section("Tags") {
+                    TagEditorView(tags: $entryTags)
+                }
             }
             .onChange(of: substance) { checkInteractions() }
+            .onChange(of: notes) {
+                let extracted = TagExtractor.extractTags(from: notes)
+                for tag in extracted where !entryTags.contains(tag) {
+                    entryTags.append(tag)
+                }
+            }
             .navigationTitle(isEditing ? "Edit Entry" : "New Entry")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -245,6 +256,7 @@ struct EntryFormView: View {
             route = entry.route
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
+            entryTags = entry.tags
 
             if let match = SubstanceLibrary.search(entry.substance).first,
                match.name.lowercased() == entry.substance.lowercased() {
@@ -290,14 +302,18 @@ struct EntryFormView: View {
             entry.route = route
             entry.timestamp = timestamp
             entry.notes = notes.isEmpty ? nil : notes
+            let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
+            entry.tags = allTags
         } else {
+            let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             let newEntry = DoseEntry(
                 substance: substance,
                 amount: parsedAmount,
                 unit: unit,
                 route: route,
                 timestamp: timestamp,
-                notes: notes.isEmpty ? nil : notes
+                notes: notes.isEmpty ? nil : notes,
+                tags: allTags
             )
             modelContext.insert(newEntry)
             savedEntry = newEntry
@@ -345,7 +361,7 @@ struct InteractionWarningRow: View {
                     .foregroundStyle(warning.severity.color)
                 Text(warning.description)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
         .padding(.vertical, 2)

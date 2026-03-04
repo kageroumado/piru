@@ -27,7 +27,7 @@ struct ToolsView: View {
                 HalfLifeCalculatorView()
             }
         }
-        .background(Color(.systemBackground))
+        .background(Theme.background)
         .navigationTitle("Tools")
     }
 }

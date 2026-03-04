@@ -327,6 +327,7 @@ private struct LegacyDoseEntry: Decodable {
     var route: RouteOfAdministration
     var timestamp: Date
     var notes: String?
+    var tags: [String]?
 }
 
 private struct LegacyDailyDoseItem: Decodable {
@@ -366,12 +367,17 @@ enum DataExportImport {
         let experiences: [PsyLogExperience] = grouped.keys.sorted().map { day in
             let dayEntries = grouped[day]!.sorted { $0.timestamp < $1.timestamp }
             let ingestions = dayEntries.map { entry in
-                PsyLogIngestion(
+                var noteText = entry.notes ?? ""
+                if !entry.tags.isEmpty {
+                    let tagStr = entry.tags.map { "#\($0)" }.joined(separator: " ")
+                    noteText = noteText.isEmpty ? tagStr : "\(noteText) \(tagStr)"
+                }
+                return PsyLogIngestion(
                     substanceName: entry.substance,
                     dose: entry.amount,
                     time: entry.timestamp.msSince1970,
                     route: entry.route.psylogName,
-                    notes: entry.notes ?? "",
+                    notes: noteText,
                     units: entry.unit
                 )
             }
@@ -434,13 +440,15 @@ enum DataExportImport {
                 // Skip entries with missing or zero dose
                 guard let dose = ingestion.dose, dose > 0 else { continue }
 
+                let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
                 context.insert(DoseEntry(
                     substance: name,
                     amount: dose,
                     unit: ingestion.units,
                     route: RouteOfAdministration(psylogName: ingestion.administrationRoute),
                     timestamp: Date(ms: ingestion.time),
-                    notes: ingestion.notes.isEmpty ? nil : ingestion.notes
+                    notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
+                    tags: extractedTags
                 ))
             }
         }
@@ -499,7 +507,8 @@ enum DataExportImport {
                 unit: entry.unit,
                 route: entry.route,
                 timestamp: entry.timestamp,
-                notes: entry.notes
+                notes: entry.notes,
+                tags: entry.tags ?? []
             ))
         }
 

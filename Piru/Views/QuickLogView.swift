@@ -215,13 +215,13 @@ struct QuickLogView: View {
     private var searchBar: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
             TextField("Search substances...", text: $searchText)
                 .textFieldStyle(.plain)
                 .autocorrectionDisabled()
         }
         .padding(10)
-        .background(.ultraThinMaterial, in: Capsule())
+        .themeCapsule()
     }
 
     // MARK: - Scroll Content
@@ -240,7 +240,7 @@ struct QuickLogView: View {
             } header: {
                 Label("Favorites", systemImage: "star.fill")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
             }
         }
@@ -250,7 +250,7 @@ struct QuickLogView: View {
             if !favoriteCards.isEmpty && searchText.isEmpty {
                 Text("Recent")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
                     .padding(.top, 8)
             }
@@ -269,7 +269,7 @@ struct QuickLogView: View {
             } header: {
                 Text("From Library")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .textCase(.uppercase)
                     .padding(.top, 8)
             }
@@ -292,12 +292,12 @@ struct QuickLogView: View {
                         .foregroundStyle(.primary)
                     Text("\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s") configured")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(12)
             .background(Theme.accent.opacity(0.08))
@@ -323,7 +323,7 @@ struct QuickLogView: View {
                 } label: {
                     Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
                         .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Color.secondary.opacity(0.6))
+                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Theme.secondaryLabel.opacity(0.6))
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
                 }
@@ -341,7 +341,7 @@ struct QuickLogView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(group.route.displayName)
                 .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, 4)
 
             doseChips(for: group, color: color)
@@ -386,19 +386,19 @@ struct QuickLogView: View {
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: "pill")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(substance.name)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
                     Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(.vertical, 4)
         }

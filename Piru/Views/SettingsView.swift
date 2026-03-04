@@ -25,7 +25,7 @@ struct SettingsView: View {
                         Label("Manage Daily Dose", systemImage: "pills")
                         Spacer()
                         Text("\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s")")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
@@ -34,7 +34,7 @@ struct SettingsView: View {
                 if substanceColors.isEmpty {
                     Text("No substances logged yet. Colors will appear here after you log your first entry.")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 } else {
                     NavigationLink {
                         SubstanceColorsListView()
@@ -78,7 +78,7 @@ struct SettingsView: View {
                     SubstanceLibrary.fetchFromAPIs(forceRefresh: true)
                 } label: {
                     Label("Refresh Substance Data", systemImage: "arrow.clockwise")
-                        .foregroundStyle(LibraryLoadingState.shared.isLoading ? .secondary : Theme.accent)
+                        .foregroundStyle(LibraryLoadingState.shared.isLoading ? Theme.secondaryLabel : Theme.accent)
                 }
                 .disabled(LibraryLoadingState.shared.isLoading)
                 LabeledContent("Version", value: "1.0")
@@ -96,14 +96,14 @@ struct SettingsView: View {
                                     Spacer()
                                     Image(systemName: "arrow.up.right.square")
                                         .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(Theme.secondaryLabel)
                                 }
                                 Text(source.detail)
                                     .font(.caption2)
                                     .foregroundStyle(Theme.accent)
                                 Text(source.description)
                                     .font(.caption2)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
                             .padding(.vertical, 2)
@@ -114,10 +114,10 @@ struct SettingsView: View {
                                 .font(.subheadline.weight(.medium))
                             Text(source.detail)
                                 .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                             Text(source.description)
                                 .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                         .padding(.vertical, 2)
@@ -186,7 +186,7 @@ struct SettingsView: View {
             if substanceColors.count > 5 {
                 Text("+\(substanceColors.count - 5)")
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
                     .padding(.leading, 6)
             }
         }
@@ -270,7 +270,7 @@ struct SubstanceColorsListView: View {
                         Spacer()
                         Text("Change")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }

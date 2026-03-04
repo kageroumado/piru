@@ -99,7 +99,7 @@ struct DayDetailView: View {
                 Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
                     ForEach(entries) { entry in
                         NavigationLink(value: entry) {
-                            EntryRowView(entry: entry)
+                            EntryRowView(entry: entry, color: colorFor(entry))
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(role: .destructive) {
@@ -184,6 +184,13 @@ struct DayDetailView: View {
             timestamp: timestamp,
             allColors: Array(substanceColors)
         )
+    }
+
+    private func colorFor(_ entry: DoseEntry) -> Color {
+        if let sc = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
+            return Color(hex: sc.hexColor)
+        }
+        return Theme.accent
     }
 
     private func restartLiveActivity() {

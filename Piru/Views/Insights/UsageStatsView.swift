@@ -8,6 +8,7 @@ struct UsageStatsView: View {
 
     @State private var timeRange: TimeRange = .thirtyDays
     @State private var selectedTrendSubstance: String?
+    @State private var trendSearch = ""
     @State private var activityExpanded = false
     @State private var filteredEntries: [DoseEntry] = []
 
@@ -123,11 +124,11 @@ struct UsageStatsView: View {
                 .minimumScaleFactor(0.6)
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.secondaryLabel)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .themeCard(cornerRadius: 12)
     }
 
     // MARK: - Frequency Chart
@@ -149,7 +150,7 @@ struct UsageStatsView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(item.key)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                     HStack(spacing: 6) {
                         GeometryReader { geo in
                             let fraction = CGFloat(item.value) / CGFloat(maxCount)
@@ -160,14 +161,14 @@ struct UsageStatsView: View {
                         .frame(height: 12)
                         Text("\(item.value)")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                             .frame(width: 24, alignment: .leading)
                     }
                 }
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Timeline Chart
@@ -212,7 +213,7 @@ struct UsageStatsView: View {
                 } label: {
                     Image(systemName: activityExpanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
 
@@ -256,7 +257,7 @@ struct UsageStatsView: View {
                 .chartXAxis {
                     AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
                         AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                            .foregroundStyle(.secondary.opacity(0.6))
+                            .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                         AxisValueLabel(format: dateFormat)
                             .font(.caption2)
                     }
@@ -270,7 +271,7 @@ struct UsageStatsView: View {
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     private var strideComponent: Calendar.Component {
@@ -318,9 +319,23 @@ struct UsageStatsView: View {
                 Text("Dose Trends")
                     .font(.headline)
 
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .font(.subheadline)
+                    TextField("Search substances...", text: $trendSearch)
+                        .textFieldStyle(.plain)
+                        .font(.subheadline)
+                        .autocorrectionDisabled()
+                }
+                .padding(8)
+                .themeCapsule()
+
+                let filtered = trendSearch.isEmpty ? substances : substances.filter { $0.localizedCaseInsensitiveContains(trendSearch) }
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        ForEach(substances, id: \.self) { name in
+                        ForEach(filtered, id: \.self) { name in
                             let isSelected = selectedTrendSubstance == name
                             Button {
                                 selectedTrendSubstance = isSelected ? nil : name
@@ -351,7 +366,7 @@ struct UsageStatsView: View {
                     if data.isEmpty {
                         Text("No entries for \(selected)")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     } else {
                         Chart(data) { entry in
                             LineMark(
@@ -376,7 +391,7 @@ struct UsageStatsView: View {
                         .chartXAxis {
                             AxisMarks { _ in
                                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(.secondary.opacity(0.6))
+                                    .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                                 AxisValueLabel()
                                     .font(.caption2)
                             }
@@ -384,7 +399,7 @@ struct UsageStatsView: View {
                         .chartYAxis {
                             AxisMarks { _ in
                                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(.secondary.opacity(0.6))
+                                    .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                                 AxisValueLabel()
                                     .font(.caption2)
                             }
@@ -393,13 +408,13 @@ struct UsageStatsView: View {
                 } else {
                     Text("Select a substance to see dose trends")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Theme.secondaryLabel)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.vertical, 20)
                 }
             }
             .padding()
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+            .themeCard()
         }
     }
 
@@ -450,7 +465,7 @@ struct UsageStatsView: View {
                     if bucket.count > 0 {
                         Text("\(bucket.count)")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
@@ -467,14 +482,14 @@ struct UsageStatsView: View {
             .chartYAxis {
                 AxisMarks { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                        .foregroundStyle(.secondary.opacity(0.6))
+                        .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                     AxisValueLabel()
                         .font(.caption2)
                 }
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     // MARK: - Category Breakdown
@@ -504,7 +519,7 @@ struct UsageStatsView: View {
             if sorted.isEmpty {
                 Text("No data")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Theme.secondaryLabel)
             } else {
                 Chart(sorted, id: \.category) { item in
                     SectorMark(
@@ -528,11 +543,11 @@ struct UsageStatsView: View {
                                 .font(.caption2)
                             Text("\(item.count)")
                                 .font(.caption2.weight(.semibold))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.secondaryLabel)
                             if total > 0 {
                                 Text("(\(Int(round(Double(item.count) / Double(total) * 100)))%)")
                                     .font(.caption2)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
                     }
@@ -540,7 +555,7 @@ struct UsageStatsView: View {
             }
         }
         .padding()
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .themeCard()
     }
 
     private func colorForCategory(_ category: SubstanceCategory) -> Color {
@@ -558,7 +573,7 @@ struct UsageStatsView: View {
         case .antidepressant: .yellow
         case .antipsychotic: .mint
         case .analgesic: .brown
-        case .antihistamine: .secondary
+        case .antihistamine: Theme.secondaryLabel
         case .cardiovascular: .red.opacity(0.7)
         case .antimicrobial: .teal.opacity(0.7)
         case .gastrointestinal: .orange.opacity(0.7)
@@ -566,7 +581,7 @@ struct UsageStatsView: View {
         case .endocrine: .purple.opacity(0.7)
         case .immunological: .blue.opacity(0.7)
         case .supplement: .green.opacity(0.7)
-        case .other: .secondary
+        case .other: Theme.secondaryLabel
         }
     }
 }
