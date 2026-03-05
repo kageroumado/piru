@@ -11,7 +11,10 @@ struct QuickLogView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
 
     @State private var searchText = ""
+    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
+
     @State private var showingDailyDose = false
+    @State private var dailyDoseCategory: String?
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
     @State private var entryFormPrefill: EntryPrefill?
@@ -23,14 +26,14 @@ struct QuickLogView: View {
     @State private var cachedLibraryResults: [Substance] = []
     @State private var cachedColorLookup: [String: String] = [:]
 
+    private var dailyDoseCategories: [String] {
+        (try? JSONDecoder().decode([String].self, from: categoriesData)) ?? []
+    }
+
     // MARK: - Grouping
 
     private func rebuildColorLookup() {
-        var lookup: [String: String] = [:]
-        for sc in substanceColors {
-            lookup[sc.substance.lowercased()] = sc.hexColor
-        }
-        cachedColorLookup = lookup
+        cachedColorLookup = Array(substanceColors).hexColorMap
     }
 
     private func rebuildCards() {
@@ -179,7 +182,7 @@ struct QuickLogView: View {
                 EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
             }
             .sheet(isPresented: $showingDailyDose) {
-                LogDailyDoseView()
+                LogDailyDoseView(category: dailyDoseCategory)
             }
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
@@ -279,18 +282,48 @@ struct QuickLogView: View {
     // MARK: - Daily Dose Button
 
     private var dailyDoseButton: some View {
+        let activeCategories = dailyDoseCategories.filter { cat in
+            dailyDoseItems.contains { $0.category == cat }
+        }
+
+        return VStack(spacing: 6) {
+            // Main "Log All" button
+            dailyDoseRow(
+                title: "Log Daily Dose",
+                icon: "pills",
+                count: dailyDoseItems.count,
+                category: nil
+            )
+
+            // Per-category buttons
+            if !activeCategories.isEmpty {
+                ForEach(activeCategories, id: \.self) { cat in
+                    let catCount = dailyDoseItems.filter { $0.category == cat }.count
+                    dailyDoseRow(
+                        title: cat,
+                        icon: iconForCategory(cat),
+                        count: catCount,
+                        category: cat
+                    )
+                }
+            }
+        }
+    }
+
+    private func dailyDoseRow(title: String, icon: String, count: Int, category: String?) -> some View {
         Button {
+            dailyDoseCategory = category
             showingDailyDose = true
         } label: {
             HStack(spacing: 10) {
-                Image(systemName: "pills")
+                Image(systemName: icon)
                     .font(.body.weight(.medium))
                     .foregroundStyle(Theme.accent)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Log Daily Dose")
+                    Text(title)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
-                    Text("\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s") configured")
+                    Text("\(count) item\(count == 1 ? "" : "s")")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -300,8 +333,19 @@ struct QuickLogView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(12)
-            .background(Theme.accent.opacity(0.08))
+            .background(Theme.accent.opacity(category == nil ? 0.08 : 0.04))
             .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func iconForCategory(_ category: String) -> String {
+        switch category.lowercased() {
+        case "morning": return "sunrise"
+        case "afternoon": return "sun.max"
+        case "noon", "midday": return "sun.max"
+        case "evening": return "sunset"
+        case "night", "bedtime": return "moon"
+        default: return "tag"
         }
     }
 

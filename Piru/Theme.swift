@@ -47,53 +47,29 @@ enum Theme {
 
 // MARK: - Theme View Modifiers
 
-struct ThemeCardBackground: ViewModifier {
+struct ThemedBackground<S: Shape>: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
-    let cornerRadius: CGFloat
+    let shape: S
 
     func body(content: Content) -> some View {
         if colorScheme == .dark {
-            content.background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: cornerRadius))
+            content.background(Theme.cardBackground, in: shape)
         } else {
-            content.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius))
-        }
-    }
-}
-
-struct ThemeCapsuleBackground: ViewModifier {
-    @Environment(\.colorScheme) var colorScheme
-
-    func body(content: Content) -> some View {
-        if colorScheme == .dark {
-            content.background(Theme.cardBackground, in: Capsule())
-        } else {
-            content.background(.ultraThinMaterial, in: Capsule())
-        }
-    }
-}
-
-struct ThemeCircleBackground: ViewModifier {
-    @Environment(\.colorScheme) var colorScheme
-
-    func body(content: Content) -> some View {
-        if colorScheme == .dark {
-            content.background(Theme.cardBackground, in: Circle())
-        } else {
-            content.background(.ultraThinMaterial, in: Circle())
+            content.background(.ultraThinMaterial, in: shape)
         }
     }
 }
 
 extension View {
     func themeCard(cornerRadius: CGFloat = 16) -> some View {
-        modifier(ThemeCardBackground(cornerRadius: cornerRadius))
+        modifier(ThemedBackground(shape: RoundedRectangle(cornerRadius: cornerRadius)))
     }
 
     func themeCapsule() -> some View {
-        modifier(ThemeCapsuleBackground())
+        modifier(ThemedBackground(shape: Capsule()))
     }
 
     func themeCircle() -> some View {
-        modifier(ThemeCircleBackground())
+        modifier(ThemedBackground(shape: Circle()))
     }
 }

@@ -14,11 +14,11 @@ struct DoseLevelIndicator: View {
             if let level {
                 HStack(spacing: 6) {
                     Circle()
-                        .fill(colorFor(level))
+                        .fill(level.swiftUIColor)
                         .frame(width: 10, height: 10)
                     Text(level.rawValue)
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(colorFor(level))
+                        .foregroundStyle(level.swiftUIColor)
                 }
             }
 
@@ -73,7 +73,7 @@ struct DoseLevelIndicator: View {
     private func segmentView(_ segment: Segment, index: Int) -> some View {
         let isActive = level == segment.level
         Rectangle()
-            .fill(colorFor(segment.level).opacity(isActive ? 1.0 : 0.3))
+            .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))
             .overlay {
                 if isActive, let currentDose, let range = segment.range {
                     GeometryReader { geo in
@@ -99,7 +99,7 @@ struct DoseLevelBadge: View {
     var body: some View {
         Text("(\(level.rawValue))")
             .font(.caption.weight(.semibold))
-            .foregroundStyle(colorFor(level))
+            .foregroundStyle(level.swiftUIColor)
     }
 }
 
@@ -165,7 +165,7 @@ struct DoseInfoView: View {
     private func doseLabel(_ label: String, level: DoseLevel) -> some View {
         HStack(spacing: 4) {
             Circle()
-                .fill(colorFor(level))
+                .fill(level.swiftUIColor)
                 .frame(width: 6, height: 6)
             Text(label)
                 .font(.caption)
@@ -312,15 +312,17 @@ struct DurationInfoView: View {
     }
 }
 
-// MARK: - Shared Color Helper
+// MARK: - Dose Level Color
 
-func colorFor(_ level: DoseLevel) -> Color {
-    switch level {
-    case .sub: .gray
-    case .threshold: .blue
-    case .light: .green
-    case .common: .yellow
-    case .strong: .orange
-    case .heavy: .red
+extension DoseLevel {
+    var swiftUIColor: Color {
+        switch self {
+        case .sub: .gray
+        case .threshold: .blue
+        case .light: .green
+        case .common: .yellow
+        case .strong: .orange
+        case .heavy: .red
+        }
     }
 }

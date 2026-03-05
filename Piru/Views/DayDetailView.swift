@@ -13,35 +13,11 @@ struct DayDetailView: View {
     @State private var dayInteractions: [InteractionResult] = []
 
     private var substanceStates: [ActiveSubstanceState] {
-        let colorMap = Dictionary(
-            substanceColors.map { ($0.substance.lowercased(), $0.hexColor) },
-            uniquingKeysWith: { _, last in last }
-        )
-
-        var states: [ActiveSubstanceState] = []
-        for entry in entries {
-            guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-                  let duration = substance.resolveDuration(for: entry.route) else { continue }
-
-            let boundaries = duration.phaseBoundaries
+        let colorMap = Array(substanceColors).hexColorMap
+        return entries.compactMap { entry in
             let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
-
-            states.append(ActiveSubstanceState(
-                substanceName: entry.substance,
-                colorHex: hex,
-                doseTimestamp: entry.timestamp,
-                amount: entry.amount,
-                unit: entry.unit,
-                route: entry.route.displayName,
-                onsetEndMinutes: boundaries.onsetEnd,
-                comeupEndMinutes: boundaries.comeupEnd,
-                peakEndMinutes: boundaries.peakEnd,
-                offsetEndMinutes: boundaries.offsetEnd,
-                afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-                totalMinutes: duration.estimatedTotalMinutes
-            ))
+            return ActiveSubstanceState.from(entry: entry, colorHex: hex)
         }
-        return states
     }
 
     let date: Date
@@ -187,10 +163,7 @@ struct DayDetailView: View {
     }
 
     private func colorFor(_ entry: DoseEntry) -> Color {
-        if let sc = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
-            return Color(hex: sc.hexColor)
-        }
-        return Theme.accent
+        Array(substanceColors).colorMap[entry.substance.lowercased()] ?? Theme.accent
     }
 
     private func restartLiveActivity() {

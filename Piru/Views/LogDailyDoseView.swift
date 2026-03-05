@@ -6,9 +6,11 @@ struct LogDailyDoseView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
+    @Query(sort: \DailyDoseItem.sortOrder) private var allItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
+
+    let category: String?
 
     @State private var toggleStates: [String: Bool] = [:]
     @State private var showColorPicker = false
@@ -20,7 +22,8 @@ struct LogDailyDoseView: View {
     @State private var showInteractionSheet = false
     @State private var proceedAfterWarning = false
 
-    init() {
+    init(category: String? = nil) {
+        self.category = category
         let cutoff = Date.now.addingTimeInterval(-48 * 3600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { e in
@@ -28,6 +31,11 @@ struct LogDailyDoseView: View {
             },
             sort: \DoseEntry.timestamp
         )
+    }
+
+    private var items: [DailyDoseItem] {
+        guard let category else { return allItems }
+        return allItems.filter { $0.category == category }
     }
 
     private var selectedCount: Int {
@@ -71,7 +79,7 @@ struct LogDailyDoseView: View {
                     .disabled(selectedCount == 0)
                 }
             }
-            .navigationTitle("Log Daily Dose")
+            .navigationTitle(category.map { "Log \($0)" } ?? "Log Daily Dose")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

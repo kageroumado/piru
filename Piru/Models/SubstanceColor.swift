@@ -107,6 +107,11 @@ extension [SubstanceColor] {
         Dictionary(map { ($0.substance.lowercased(), $0.color) }, uniquingKeysWith: { _, last in last })
     }
 
+    /// Map of lowercased substance name -> hex string
+    var hexColorMap: [String: String] {
+        Dictionary(map { ($0.substance.lowercased(), $0.hexColor) }, uniquingKeysWith: { _, last in last })
+    }
+
     /// Whether a color has been assigned to the given substance name
     func hasColor(for name: String) -> Bool {
         contains { $0.substance.lowercased() == name.lowercased() }

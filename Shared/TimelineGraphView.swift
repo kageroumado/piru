@@ -107,7 +107,7 @@ struct TimelineGraphView: View {
         Canvas { context, size in
             let graphInset: CGFloat = 4
             let graphWidth = size.width - graphInset * 2
-            let graphHeight = size.height - labelAreaHeight
+            let graphHeight = size.height - labelAreaHeight - graphInset * 2
 
             let vStart = visibleStart
             let vSpan = visibleSpan
@@ -240,11 +240,11 @@ struct TimelineGraphView: View {
 
         if minutes <= substance.onsetEndMinutes {
             let t = substance.onsetEndMinutes > 0 ? minutes / substance.onsetEndMinutes : 0
-            return 0.05 * smoothStep(t)
+            return 0.15 * smoothStep(t)
         } else if minutes <= substance.comeupEndMinutes {
             let phaseLength = substance.comeupEndMinutes - substance.onsetEndMinutes
             let t = phaseLength > 0 ? (minutes - substance.onsetEndMinutes) / phaseLength : 1
-            return 0.05 + 0.95 * smoothStep(t)
+            return 0.15 + 0.85 * smoothStep(t)
         } else if minutes <= substance.peakEndMinutes {
             return 1.0
         } else if minutes <= substance.offsetEndMinutes {

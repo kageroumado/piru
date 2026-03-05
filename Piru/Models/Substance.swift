@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - Codable Helpers
 
@@ -165,6 +165,26 @@ struct DurationProfile: Codable {
             peakEnd: peakEnd,
             offsetEnd: offsetEnd,
             afterglowEnd: afterglowEnd
+        )
+    }
+}
+
+extension DurationProfile {
+    /// Reconstruct a duration profile from phase boundaries stored in an ActiveSubstanceState.
+    init(fromState state: ActiveSubstanceState) {
+        let onsetLen = state.onsetEndMinutes
+        let comeupLen = state.comeupEndMinutes - state.onsetEndMinutes
+        let peakLen = state.peakEndMinutes - state.comeupEndMinutes
+        let offsetLen = state.offsetEndMinutes - state.peakEndMinutes
+        let afterglowLen: Double? = state.afterglowEndMinutes.map { $0 - state.offsetEndMinutes }
+
+        self.init(
+            onset: onsetLen > 0 ? TimeRange(min: onsetLen, max: onsetLen) : nil,
+            comeup: comeupLen > 0 ? TimeRange(min: comeupLen, max: comeupLen) : nil,
+            peak: peakLen > 0 ? TimeRange(min: peakLen, max: peakLen) : nil,
+            offset: offsetLen > 0 ? TimeRange(min: offsetLen, max: offsetLen) : nil,
+            afterglow: afterglowLen.flatMap { $0 > 0 ? TimeRange(min: $0, max: $0) : nil },
+            total: TimeRange(min: state.totalMinutes, max: state.totalMinutes)
         )
     }
 }
@@ -338,6 +358,13 @@ struct Substance: Identifiable {
         return name.lowercased().contains(q)
             || aliases.contains { $0.lowercased().contains(q) }
     }
+
+    /// All routes ordered: substance-specific first, then remaining system routes.
+    var orderedRoutes: [RouteOfAdministration] {
+        let subRoutes = routes.map(\.route)
+        let otherRoutes = RouteOfAdministration.allCases.filter { !subRoutes.contains($0) }
+        return subRoutes + otherRoutes
+    }
 }
 
 // MARK: - Substance Codable
@@ -390,5 +417,63 @@ extension Substance: Hashable {
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+}
+
+// MARK: - Category Display Metadata
+
+extension SubstanceCategory {
+    var icon: String {
+        switch self {
+        case .stimulant: "bolt.fill"
+        case .psychedelic: "eye.fill"
+        case .dissociative: "waveform.path"
+        case .opioid: "cross.fill"
+        case .benzodiazepine: "moon.fill"
+        case .gabapentinoid: "waveform"
+        case .empathogen: "heart.fill"
+        case .cannabinoid: "leaf.fill"
+        case .nootropic: "brain.fill"
+        case .depressant: "arrow.down.circle.fill"
+        case .antidepressant: "sun.max.fill"
+        case .antipsychotic: "shield.fill"
+        case .analgesic: "bandage.fill"
+        case .antihistamine: "allergens.fill"
+        case .cardiovascular: "heart.text.square.fill"
+        case .antimicrobial: "microbe.fill"
+        case .gastrointestinal: "fork.knife"
+        case .respiratory: "lungs.fill"
+        case .endocrine: "atom"
+        case .immunological: "shield.lefthalf.filled"
+        case .supplement: "pill.fill"
+        case .other: "pills.fill"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .stimulant: .orange
+        case .psychedelic: .purple
+        case .dissociative: .cyan
+        case .opioid: .red
+        case .benzodiazepine: .blue
+        case .gabapentinoid: .indigo
+        case .empathogen: .pink
+        case .cannabinoid: .green
+        case .nootropic: .teal
+        case .depressant: .gray
+        case .antidepressant: .yellow
+        case .antipsychotic: .mint
+        case .analgesic: .brown
+        case .antihistamine: Theme.secondaryLabel
+        case .cardiovascular: .red.opacity(0.7)
+        case .antimicrobial: .teal.opacity(0.7)
+        case .gastrointestinal: .orange.opacity(0.7)
+        case .respiratory: .cyan.opacity(0.7)
+        case .endocrine: .purple.opacity(0.7)
+        case .immunological: .blue.opacity(0.7)
+        case .supplement: .green.opacity(0.7)
+        case .other: Theme.secondaryLabel
+        }
     }
 }

@@ -8,6 +8,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State private var showingExporter = false
+    @State private var showingReport = false
     @State private var showingImporter = false
     @Environment(\.dismiss) private var dismiss
     @State private var showingDeleteConfirmation = false
@@ -49,6 +50,13 @@ struct SettingsView: View {
             }
 
             Section {
+                Button {
+                    showingReport = true
+                } label: {
+                    Label("Generate Medical Report", systemImage: "doc.richtext")
+                        .foregroundStyle(Theme.accent)
+                }
+
                 Button {
                     exportData()
                 } label: {
@@ -139,6 +147,9 @@ struct SettingsView: View {
                         .font(.body.weight(.semibold))
                 }
             }
+        }
+        .sheet(isPresented: $showingReport) {
+            ReportView()
         }
         .fileExporter(
             isPresented: $showingExporter,

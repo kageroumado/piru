@@ -1,30 +1,6 @@
 import SwiftData
 import SwiftUI
 
-// MARK: - Active Substance Model
-
-private struct ActiveSubstance: Identifiable {
-    let name: String
-    let unit: String
-    let color: Color
-    let halfLifeMinutes: Double
-    let totalDosed: Double
-    let totalRemaining: Double
-    let doses: [DoseInfo]
-
-    var id: String { name }
-    var eliminatedFraction: Double { 1 - totalRemaining / totalDosed }
-
-    struct DoseInfo: Identifiable {
-        let id = UUID()
-        let amount: Double
-        let remaining: Double
-        let timestamp: Date
-    }
-}
-
-// MARK: - View
-
 struct HalfLifeCalculatorView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
@@ -66,101 +42,6 @@ struct HalfLifeCalculatorView: View {
         Double(doseAmount) ?? 0
     }
 
-    private func computeActiveSubstances() -> [ActiveSubstance] {
-        let now = Date.now
-        let colors = substanceColors.colorMap
-
-        // Batch lookups: cache substance resolution so each unique name is looked up once
-        var substanceCache: [String: Substance?] = [:]
-        func cachedLookup(_ name: String) -> Substance? {
-            let key = name.lowercased()
-            if let cached = substanceCache[key] { return cached }
-            let result = SubstanceLibrary.lookupByNameOrAlias(name)
-            substanceCache[key] = result
-            return result
-        }
-
-        // Resolve half-life with fallback: substance model → HalfLifeDatabase by name → HalfLifeDatabase by aliases
-        var halfLifeCache: [String: Double] = [:]
-        func resolveHalfLife(substance: Substance?, entryName: String) -> Double? {
-            let key = entryName.lowercased()
-            if let cached = halfLifeCache[key] { return cached }
-            // 1. From library substance model
-            if let hl = substance?.halfLifeMinutes, hl > 0 { halfLifeCache[key] = hl; return hl }
-            // 2. From HalfLifeDatabase using entry name
-            if let hl = HalfLifeDatabase.halfLife(for: entryName), hl > 0 { halfLifeCache[key] = hl; return hl }
-            // 3. From HalfLifeDatabase using substance aliases
-            if let substance {
-                for alias in substance.aliases {
-                    if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { halfLifeCache[key] = hl; return hl }
-                }
-            }
-            return nil
-        }
-
-        var grouped: [String: (name: String, unit: String, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
-
-        for entry in allEntries {
-            let substance = cachedLookup(entry.substance)
-            guard let halfLife = resolveHalfLife(substance: substance, entryName: entry.substance) else { continue }
-
-            let elapsed = now.timeIntervalSince(entry.timestamp) / 60
-            guard elapsed >= 0 else { continue }
-
-            let ke = PKModel.ke(fromHalfLifeMinutes: halfLife)
-            let ka: Double
-            if let sub = substance,
-               let duration = sub.resolveDuration(for: entry.route) {
-                let ttp = (duration.onset?.midpoint ?? 0) + (duration.comeup?.midpoint ?? 0)
-                ka = ttp > 0 ? PKModel.estimateKa(timeToPeak: ttp, ke: ke) : PKModel.defaultKa(ke: ke)
-            } else {
-                ka = PKModel.defaultKa(ke: ke)
-            }
-            let peakConc = PKModel.cmax(ke: ke, ka: ka)
-            let remaining = peakConc > 0 ? entry.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc : 0
-            let fraction = remaining / entry.amount
-
-            guard fraction > 0.03 else { continue }
-
-            let doseInfo = ActiveSubstance.DoseInfo(
-                amount: entry.amount,
-                remaining: remaining,
-                timestamp: entry.timestamp
-            )
-
-            let key = substance?.name ?? entry.substance
-            if var existing = grouped[key] {
-                existing.doses.append(doseInfo)
-                existing.totalDosed += entry.amount
-                existing.totalRemaining += remaining
-                grouped[key] = existing
-            } else {
-                grouped[key] = (
-                    name: key,
-                    unit: substance?.defaultUnit ?? "mg",
-                    halfLife: halfLife,
-                    doses: [doseInfo],
-                    totalDosed: entry.amount,
-                    totalRemaining: remaining
-                )
-            }
-        }
-
-        return grouped.map { name, info in
-            let color = colors[name.lowercased()] ?? Theme.accent
-            return ActiveSubstance(
-                name: name,
-                unit: info.unit,
-                color: color,
-                halfLifeMinutes: info.halfLife,
-                totalDosed: info.totalDosed,
-                totalRemaining: info.totalRemaining,
-                doses: info.doses.sorted { $0.timestamp > $1.timestamp }
-            )
-        }
-        .sorted { $0.eliminatedFraction < $1.eliminatedFraction }
-    }
-
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -186,7 +67,7 @@ struct HalfLifeCalculatorView: View {
         .task(id: allEntries.count) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }
-            cachedActiveSubstances = computeActiveSubstances()
+            cachedActiveSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
         }
     }
 

@@ -12,28 +12,10 @@ struct EntryDetailView: View {
     @State private var showingDeleteConfirmation = false
 
     private var substanceState: ActiveSubstanceState? {
-        guard let matched = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-              let duration = matched.resolveDuration(for: entry.route) else { return nil }
-
-        let boundaries = duration.phaseBoundaries
         let hex = substanceColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
         }?.hexColor ?? "007AFF"
-
-        return ActiveSubstanceState(
-            substanceName: entry.substance,
-            colorHex: hex,
-            doseTimestamp: entry.timestamp,
-            amount: entry.amount,
-            unit: entry.unit,
-            route: entry.route.displayName,
-            onsetEndMinutes: boundaries.onsetEnd,
-            comeupEndMinutes: boundaries.comeupEnd,
-            peakEndMinutes: boundaries.peakEnd,
-            offsetEndMinutes: boundaries.offsetEnd,
-            afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-            totalMinutes: duration.estimatedTotalMinutes
-        )
+        return ActiveSubstanceState.from(entry: entry, colorHex: hex)
     }
 
     var body: some View {

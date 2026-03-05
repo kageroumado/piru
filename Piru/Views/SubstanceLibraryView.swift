@@ -136,9 +136,9 @@ struct SubstanceLibraryView: View {
                     selectedCategory = category
                 } label: {
                     HStack {
-                        Image(systemName: iconFor(category))
+                        Image(systemName: category.icon)
                             .font(.title3)
-                            .foregroundStyle(colorForCategory(category))
+                            .foregroundStyle(category.color)
                             .frame(width: 30)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(category.rawValue)
@@ -192,61 +192,6 @@ struct SubstanceLibraryView: View {
         }
     }
 
-    // MARK: - Helpers
-
-    private func iconFor(_ category: SubstanceCategory) -> String {
-        switch category {
-        case .stimulant: "bolt.fill"
-        case .psychedelic: "eye.fill"
-        case .dissociative: "waveform.path"
-        case .opioid: "cross.fill"
-        case .benzodiazepine: "moon.fill"
-        case .gabapentinoid: "waveform"
-        case .empathogen: "heart.fill"
-        case .cannabinoid: "leaf.fill"
-        case .nootropic: "brain.fill"
-        case .depressant: "arrow.down.circle.fill"
-        case .antidepressant: "sun.max.fill"
-        case .antipsychotic: "shield.fill"
-        case .analgesic: "bandage.fill"
-        case .antihistamine: "allergens.fill"
-        case .cardiovascular: "heart.text.square.fill"
-        case .antimicrobial: "microbe.fill"
-        case .gastrointestinal: "fork.knife"
-        case .respiratory: "lungs.fill"
-        case .endocrine: "atom"
-        case .immunological: "shield.lefthalf.filled"
-        case .supplement: "pill.fill"
-        case .other: "pills.fill"
-        }
-    }
-
-    private func colorForCategory(_ category: SubstanceCategory) -> Color {
-        switch category {
-        case .stimulant: .orange
-        case .psychedelic: .purple
-        case .dissociative: .cyan
-        case .opioid: .red
-        case .benzodiazepine: .blue
-        case .gabapentinoid: .indigo
-        case .empathogen: .pink
-        case .cannabinoid: .green
-        case .nootropic: .teal
-        case .depressant: .gray
-        case .antidepressant: .yellow
-        case .antipsychotic: .mint
-        case .analgesic: .brown
-        case .antihistamine: Theme.secondaryLabel
-        case .cardiovascular: .red.opacity(0.7)
-        case .antimicrobial: .teal.opacity(0.7)
-        case .gastrointestinal: .orange.opacity(0.7)
-        case .respiratory: .cyan.opacity(0.7)
-        case .endocrine: .purple.opacity(0.7)
-        case .immunological: .blue.opacity(0.7)
-        case .supplement: .green.opacity(0.7)
-        case .other: Theme.secondaryLabel
-        }
-    }
 }
 
 // MARK: - Substance Row
@@ -400,30 +345,17 @@ struct SubstanceDetailSheet: View {
                 Section {
                     ForEach(substance.sources, id: \.self) { source in
                         if let info = AppSources.info(for: source) {
-                            if let url = URL(string: info.url) {
+                            if let url = URL(string: info.url), !info.url.isEmpty {
                                 Link(destination: url) {
-                                    HStack {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(source)
-                                                .font(.subheadline)
-                                                .foregroundStyle(.primary)
-                                            Text(info.detail)
-                                                .font(.caption2)
-                                                .foregroundStyle(Theme.secondaryLabel)
-                                        }
-                                        Spacer()
-                                        Image(systemName: "arrow.up.right.square")
-                                            .font(.caption)
-                                            .foregroundStyle(Theme.secondaryLabel)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(source).font(.subheadline.weight(.medium))
+                                        Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
                                     }
                                 }
                             } else {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(source)
-                                        .font(.subheadline)
-                                    Text(info.detail)
-                                        .font(.caption2)
-                                        .foregroundStyle(Theme.secondaryLabel)
+                                    Text(source).font(.subheadline.weight(.medium))
+                                    Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
                                 }
                             }
                         } else {
@@ -545,7 +477,7 @@ struct SubstanceDetailSheet: View {
         HStack {
             HStack(spacing: 6) {
                 Circle()
-                    .fill(colorFor(level))
+                    .fill(level.swiftUIColor)
                     .frame(width: 8, height: 8)
                 Text(label)
                     .foregroundStyle(Theme.secondaryLabel)
@@ -572,3 +504,4 @@ struct EffectLabelStyle: LabelStyle {
         }
     }
 }
+

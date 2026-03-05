@@ -6,14 +6,18 @@ struct DailyDoseItemFormView: View {
     @Environment(\.dismiss) private var dismiss
 
     var item: DailyDoseItem?
+    var initialCategory: String = ""
 
     @State private var substance = ""
     @State private var amount = ""
     @State private var unit = "mg"
     @State private var route: RouteOfAdministration = .oral
+    @State private var category = ""
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
+
+    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
     @Query(sort: \DailyDoseItem.sortOrder) private var existingItems: [DailyDoseItem]
 
@@ -62,6 +66,17 @@ struct DailyDoseItemFormView: View {
                         }
                     }
                 }
+
+                if !categories.isEmpty {
+                    Section("Category") {
+                        Picker("Category", selection: $category) {
+                            Text("None").tag("")
+                            ForEach(categories, id: \.self) { cat in
+                                Text(cat).tag(cat)
+                            }
+                        }
+                    }
+                }
             }
             .navigationTitle(isEditing ? "Edit Item" : "Add Item")
             .navigationBarTitleDisplayMode(.inline)
@@ -82,9 +97,7 @@ struct DailyDoseItemFormView: View {
         selectedSubstance = sub
         route = sub.defaultRoute
         unit = sub.unit(for: sub.defaultRoute)
-        let subRoutes = sub.routes.map(\.route)
-        let otherRoutes = RouteOfAdministration.allCases.filter { !subRoutes.contains($0) }
-        availableRoutes = subRoutes + otherRoutes
+        availableRoutes = sub.orderedRoutes
     }
 
     private func useCustomSubstance() {
@@ -92,19 +105,25 @@ struct DailyDoseItemFormView: View {
         availableRoutes = RouteOfAdministration.allCases
     }
 
-    private func loadItem() {
-        guard let item else { return }
-        substance = item.substance
-        amount = String(item.amount)
-        unit = item.unit
-        route = item.route
+    private var categories: [String] {
+        (try? JSONDecoder().decode([String].self, from: categoriesData)) ?? []
+    }
 
-        if let match = SubstanceLibrary.search(item.substance).first,
-           match.name.lowercased() == item.substance.lowercased() {
-            selectedSubstance = match
-            let subRoutes = match.routes.map(\.route)
-            let otherRoutes = RouteOfAdministration.allCases.filter { !subRoutes.contains($0) }
-            availableRoutes = subRoutes + otherRoutes
+    private func loadItem() {
+        if let item {
+            substance = item.substance
+            amount = String(item.amount)
+            unit = item.unit
+            route = item.route
+            category = item.category
+
+            if let match = SubstanceLibrary.search(item.substance).first,
+               match.name.lowercased() == item.substance.lowercased() {
+                selectedSubstance = match
+                availableRoutes = match.orderedRoutes
+            }
+        } else {
+            category = initialCategory
         }
     }
 
@@ -116,13 +135,15 @@ struct DailyDoseItemFormView: View {
             item.amount = parsedAmount
             item.unit = unit
             item.route = route
+            item.category = category
         } else {
             let newItem = DailyDoseItem(
                 substance: substance,
                 amount: parsedAmount,
                 unit: unit,
                 route: route,
-                sortOrder: existingItems.count
+                sortOrder: existingItems.count,
+                category: category
             )
             modelContext.insert(newItem)
         }
