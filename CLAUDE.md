@@ -1,6 +1,6 @@
 # Piru
 
-Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1100+ substances from TripSit/OpenFDA/PsychonautWiki APIs, checks interactions, and provides pharmacokinetic insights.
+Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1100+ substances from TripSit/PsychonautWiki/DailyMed APIs, checks interactions, and provides pharmacokinetic insights.
 
 ## Working Style
 
@@ -35,7 +35,7 @@ Piru/
 │   ├── Insights/    # Adherence, half-life calc, activity charts, usage stats
 │   └── Components/
 ├── Data/            # SubstanceLibrary (singleton), HalfLifeDatabase, Interactions, AppSources
-├── Services/        # TripSitAPI, OpenFDAAPI
+├── Services/        # TripSitAPI, PsychonautWikiAPI, DailyMedAPI
 ├── Utilities/       # AdherenceCalculator, DataExportImport, LiveActivityManager
 Shared/              # Code shared with Live Activity widget (ColorHex, timeline graph)
 PiruLiveActivityExtension/  # iOS 18 Lock Screen widget
@@ -62,7 +62,7 @@ Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against
 ## Data Layer
 
 - **Persistence**: SwiftData for user data (DoseEntry, DailyDoseItem, SubstanceColor, FavoriteSubstance, UserColor)
-- **Substance data**: Fetched from 3 APIs (TripSit, OpenFDA, PsychonautWiki), merged with deduplication, cached to `substances_cache.json` with 7-day TTL
+- **Substance data**: Fetched from 3 APIs (TripSit, PsychonautWiki, DailyMed), merged with deduplication, cached to `substances_cache.json` with 7-day TTL
 - **Queries**: Use `@Query` macro in views for SwiftData, `SubstanceLibrary.all` for substance lookups
 - **Export**: PsyLog-compatible JSON format via `DataExportImport`
 

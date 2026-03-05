@@ -65,14 +65,17 @@ enum SubstanceLibrary {
     /// Strip trailing pharmaceutical salt suffixes from an already-normalized name.
     /// Used only for dedup key generation — the stored name is unchanged.
     private static func saltStripped(_ normalized: String) -> String {
-        // TODO(human): strip suffixes repeatedly until none remain (handles stacked suffixes
-        // like "sertralinehydrochloridemonohydrate")
-        for suffix in saltSuffixes {
-            if normalized.hasSuffix(suffix), normalized.count > suffix.count {
-                return String(normalized.dropLast(suffix.count))
+        var result = normalized
+        var changed = true
+        while changed {
+            changed = false
+            for suffix in saltSuffixes where result.hasSuffix(suffix) && result.count > suffix.count {
+                result = String(result.dropLast(suffix.count))
+                changed = true
+                break
             }
         }
-        return normalized
+        return result
     }
 
     /// Well-known name mappings for cross-source dedup
@@ -97,6 +100,13 @@ enum SubstanceLibrary {
         "2cb": "4bromo25dimethoxyphenethylamine",
         "nac": "nacetylcysteine",
         "nacetylcysteine": "nac",
+        // UK name (TripSit) ↔ US FDA name (OpenFDA) cross-source pairs
+        "paracetamol": "acetaminophen",
+        "acetaminophen": "paracetamol",
+        "adrenaline": "epinephrine",
+        "epinephrine": "adrenaline",
+        "noradrenaline": "norepinephrine",
+        "norepinephrine": "noradrenaline",
     ]
 
     // MARK: - API Fetch
@@ -157,49 +167,29 @@ enum SubstanceLibrary {
                 print("[SubstanceLibrary] Stage 1: \(all.count) substances (TripSit)")
             }
 
-            // Stage 2: Merge FDA (with incremental UI updates)
-            LibraryLoadingState.shared.statusText = "Fetching FDA data..."
-            do {
-                try await OpenFDAAPI.fetchCommonDrugs { newDrugs, processed, total in
-                    await MainActor.run {
-                        LibraryLoadingState.shared.statusText = "Fetching FDA data (\(processed)/\(total) classes)..."
-                        let newSubstances = newDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
-                        if !newSubstances.isEmpty {
-                            let merged = deduplicatedMerge(existing: all, incoming: newSubstances)
-                            updateAll(merged)
-                        }
-                    }
-                }
-                print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + FDA)")
-            } catch {
-                print("[SubstanceLibrary] OpenFDA fetch failed: \(error)")
+            // Stage 2: Fetch DailyMed clinical drugs by direct name lookup.
+            LibraryLoadingState.shared.statusText = "Fetching clinical drug data..."
+            let clinicalDrugs = await DailyMedAPI.fetchClinicalDrugs()
+            if !clinicalDrugs.isEmpty {
+                let merged = deduplicatedMerge(existing: all, incoming: clinicalDrugs)
+                updateAll(merged)
             }
+            print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + DailyMed)")
 
-            // Stage 3: Fetch whitelisted drugs missing from class-based results
-            // Whitelisted drugs that passed toSubstance are already in `all`, so build
-            // alreadyFound from the merged substance list rather than the raw FDA response.
-            LibraryLoadingState.shared.statusText = "Fetching missing drugs..."
-            var alreadyFound = Set<String>()
-            for s in all {
-                alreadyFound.insert(s.name.uppercased())
-                for a in s.aliases { alreadyFound.insert(a.uppercased()) }
-            }
-            let supplementalDrugs = await OpenFDAAPI.fetchMissingWhitelisted(alreadyFound: alreadyFound)
-            if !supplementalDrugs.isEmpty {
-                let supplementalSubstances = supplementalDrugs.compactMap { OpenFDAAPI.toSubstance($0) }
-                if !supplementalSubstances.isEmpty {
-                    let merged = deduplicatedMerge(existing: all, incoming: supplementalSubstances)
-                    updateAll(merged)
-                    print("[SubstanceLibrary] Stage 3: \(all.count) substances (+\(supplementalSubstances.count) missing whitelisted)")
-                }
-            }
-
-            // Stage 4: Enrich half-life data from HalfLifeDatabase + duration heuristic
+            // Stage 3: Enrich half-life data from HalfLifeDatabase + duration heuristic
             LibraryLoadingState.shared.statusText = "Enriching half-life data..."
             let enriched = enrichHalfLifeData(all)
             updateAll(enriched)
             let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
-            print("[SubstanceLibrary] Stage 4: \(hlCount)/\(enriched.count) substances have half-life data")
+            print("[SubstanceLibrary] Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
+
+            // Stage 4: Fetch drug interaction data from FDA label drug_interactions sections
+            LibraryLoadingState.shared.statusText = "Fetching interaction data..."
+            let fdaInteractionData = await DailyMedAPI.fetchInteractions(for: all)
+            if !fdaInteractionData.isEmpty {
+                InteractionChecker.setFDAInteractions(fdaInteractionData)
+                print("[SubstanceLibrary] Stage 4: \(fdaInteractionData.count) FDA-sourced interactions loaded")
+            }
 
             saveCache(all)
             isLoading = false
@@ -207,7 +197,40 @@ enum SubstanceLibrary {
             LibraryLoadingState.shared.isLoading = false
             LibraryLoadingState.shared.statusText = "Done"
             print("[SubstanceLibrary] Done! \(all.count) total substances")
+
+            // Background enrichment: PsychonautWiki fetches per-route dose ranges,
+            // full duration profiles, subjective effects, and tolerance info.
+            // Runs without blocking the UI — results merge in and re-save the cache.
+            await enrichFromPsychonautWiki()
         }
+    }
+
+    // MARK: - PsychonautWiki Background Enrichment
+
+    /// Fetch PsychonautWiki data for psychoactive substances in the background.
+    /// Merges results into the library and re-saves the cache without blocking the UI.
+    @MainActor private static func enrichFromPsychonautWiki() async {
+        let psychoactiveCategories: Set<SubstanceCategory> = [
+            .psychedelic, .dissociative, .empathogen, .cannabinoid,
+            .stimulant, .opioid, .benzodiazepine, .depressant,
+            .gabapentinoid, .nootropic, .other,
+        ]
+        let pwNames = all
+            .filter { psychoactiveCategories.contains($0.category) }
+            .map(\.name)
+        guard !pwNames.isEmpty else { return }
+
+        print("[SubstanceLibrary] Background PW enrichment: querying \(pwNames.count) substances...")
+        let pwSubstances = await PsychonautWikiAPI.fetchSubstances(names: pwNames)
+        guard !pwSubstances.isEmpty else {
+            print("[SubstanceLibrary] Background PW enrichment: no results")
+            return
+        }
+
+        let merged = deduplicatedMerge(existing: all, incoming: pwSubstances)
+        updateAll(merged)
+        saveCache(all)
+        print("[SubstanceLibrary] Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
     }
 
     // MARK: - Half-Life Enrichment
@@ -360,9 +383,18 @@ enum SubstanceLibrary {
         let primary = aScore >= bScore ? a : b
         let secondary = aScore >= bScore ? b : a
 
+        // Prefer the shorter, non-salt name when both normalize to the same base
+        let finalName: String
+        if primary.name.count > secondary.name.count,
+           saltStripped(normalizeName(primary.name)) == saltStripped(normalizeName(secondary.name)) {
+            finalName = secondary.name
+        } else {
+            finalName = primary.name
+        }
+
         // Merge aliases (unique)
-        let allAliases = Set(primary.aliases + secondary.aliases + [secondary.name])
-            .filter { $0.lowercased() != primary.name.lowercased() }
+        let allAliases = Set(primary.aliases + secondary.aliases + [secondary.name, primary.name])
+            .filter { $0.lowercased() != finalName.lowercased() }
         let mergedAliases = Array(allAliases).sorted()
 
         // Merge sources
@@ -380,7 +412,7 @@ enum SubstanceLibrary {
         let newEffects = secondary.effects.filter { !primaryEffects.contains($0.lowercased()) }
 
         return Substance(
-            name: primary.name,
+            name: finalName,
             aliases: mergedAliases,
             category: primary.category,
             defaultRoute: primary.defaultRoute,
@@ -403,6 +435,7 @@ enum SubstanceLibrary {
             if r.duration != nil { score += 2 }
         }
         score += s.effects.count > 0 ? 2 : 0
+        if !s.subjectiveEffects.isEmpty { score += 2 }
         score += s.aliases.count
         return score
     }
