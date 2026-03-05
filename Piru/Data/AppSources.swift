@@ -64,9 +64,9 @@ enum AppSources {
             description: "Pharmacological reference text by Alexander and Ann Shulgin documenting the synthesis, dosage, duration, and qualitative effects of tryptamine compounds."
         ),
         SourceInfo(
-            name: "FDA DailyMed",
+            name: "DailyMed",
             url: "https://dailymed.nlm.nih.gov",
-            detail: "dailymed.nlm.nih.gov",
+            detail: "dailymed.nlm.nih.gov — NLM/FDA Drug Label Database",
             description: "Official FDA drug labeling database maintained by the National Library of Medicine, containing approved product labeling (package inserts) for prescription and OTC drugs."
         ),
         SourceInfo(

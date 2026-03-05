@@ -3,7 +3,7 @@ import SwiftUI
 
 // MARK: - Interaction Severity
 
-enum InteractionSeverity: Int, Comparable {
+enum InteractionSeverity: Int, Comparable, Codable {
     case caution = 0
     case unsafe = 1
     case dangerous = 2
@@ -31,7 +31,7 @@ enum InteractionSeverity: Int, Comparable {
 
 // MARK: - Drug Class (for interaction matching)
 
-enum DrugClass: String {
+enum DrugClass: String, Codable {
     case opioid, benzodiazepine, stimulant, psychedelic, dissociative
     case empathogen, cannabinoid, gabapentinoid
     case alcohol, ghb, antihistamine
@@ -46,6 +46,19 @@ struct InteractionResult {
     let substanceA: String
     let substanceB: String
     let description: String
+}
+
+// MARK: - FDA Label-Sourced Interaction
+
+/// A drug interaction extracted from an FDA Structured Product Label.
+/// Supplements the class-based interaction rules with substance-specific data parsed from
+/// the `drug_interactions` section of a drug's prescribing information.
+struct SubstanceInteraction: Codable, Equatable {
+    let sourceDrug: String           // Lowercased name of the drug whose label was parsed
+    let targetClass: DrugClass       // Drug class it interacts with
+    let targetKeyword: String        // Label keyword that triggered detection
+    let severity: InteractionSeverity
+    let snippet: String              // Excerpt from the FDA label describing the interaction
 }
 
 // MARK: - Interaction Rule
@@ -91,6 +104,30 @@ enum InteractionChecker {
                             description: rule.description
                         ))
                     }
+                }
+            }
+
+            // FDA label-sourced interactions (bidirectional)
+            // Check if substanceName's label warns about entry's drug class
+            if let sourceInteractions = fdaInteractions[substanceName.lowercased()] {
+                for fi in sourceInteractions where activeClasses.contains(fi.targetClass) {
+                    results.append(InteractionResult(
+                        severity: fi.severity,
+                        substanceA: substanceName,
+                        substanceB: entry.substance,
+                        description: fi.snippet
+                    ))
+                }
+            }
+            // Check if entry's label warns about substanceName's drug class
+            if let entryInteractions = fdaInteractions[entry.substance.lowercased()] {
+                for fi in entryInteractions where newClasses.contains(fi.targetClass) {
+                    results.append(InteractionResult(
+                        severity: fi.severity,
+                        substanceA: substanceName,
+                        substanceB: entry.substance,
+                        description: fi.snippet
+                    ))
                 }
             }
         }
@@ -139,6 +176,30 @@ enum InteractionChecker {
                                 description: rule.description
                             ))
                         }
+                    }
+                }
+
+                // FDA label-sourced batch interactions
+                let aLower = substances[i].lowercased()
+                let bLower = substances[j].lowercased()
+                if let fdaA = fdaInteractions[aLower] {
+                    for fi in fdaA where classesB.contains(fi.targetClass) {
+                        allResults.append(InteractionResult(
+                            severity: fi.severity,
+                            substanceA: substances[i],
+                            substanceB: substances[j],
+                            description: fi.snippet
+                        ))
+                    }
+                }
+                if let fdaB = fdaInteractions[bLower] {
+                    for fi in fdaB where classesA.contains(fi.targetClass) {
+                        allResults.append(InteractionResult(
+                            severity: fi.severity,
+                            substanceA: substances[i],
+                            substanceB: substances[j],
+                            description: fi.snippet
+                        ))
                     }
                 }
             }
@@ -255,6 +316,29 @@ enum InteractionChecker {
     /// Precomputed cache mapping lowercased substance names to their drug classes.
     /// Rebuilt via `rebuildCache()` after the substance library finishes loading.
     private static var drugClassCache: [String: [DrugClass]] = [:]
+
+    /// FDA label-sourced interactions keyed by lowercased source drug name.
+    /// Loaded lazily from disk on first access; replaced when `setFDAInteractions` is called.
+    private static var fdaInteractions: [String: [SubstanceInteraction]] = {
+        guard let data = try? Data(contentsOf: fdaInteractionCacheURL),
+              let list = try? JSONDecoder().decode([SubstanceInteraction].self, from: data)
+        else { return [:] }
+        return Dictionary(grouping: list, by: \.sourceDrug)
+    }()
+
+    private static var fdaInteractionCacheURL: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("interactions_cache.json")
+    }
+
+    /// Replace the in-memory FDA interaction cache and persist it to disk.
+    static func setFDAInteractions(_ interactions: [SubstanceInteraction]) {
+        fdaInteractions = Dictionary(grouping: interactions, by: \.sourceDrug)
+        if let data = try? JSONEncoder().encode(interactions) {
+            try? data.write(to: fdaInteractionCacheURL, options: .atomic)
+        }
+        print("[InteractionChecker] Loaded \(interactions.count) FDA-sourced interactions for \(fdaInteractions.count) substances")
+    }
 
     @MainActor static func rebuildCache() {
         var cache: [String: [DrugClass]] = [:]
