@@ -37,6 +37,31 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Shared Tab Content
+
+    private var journalContent: some View {
+        EntryListView(searchText: $searchText)
+            .navigationTitle("Piru")
+            .toolbar { settingsToolbarItem }
+            .withDayDetailDestination()
+    }
+
+    private var libraryContent: some View {
+        SubstanceLibraryView(searchText: $librarySearchText)
+            .toolbar { settingsToolbarItem }
+    }
+
+    private var toolsContent: some View {
+        ToolsView()
+            .toolbar { settingsToolbarItem }
+    }
+
+    private var insightsContent: some View {
+        InsightsView()
+            .toolbar { settingsToolbarItem }
+            .withDayDetailDestination()
+    }
+
     // MARK: - Liquid Glass (iOS 26+)
 
     @available(iOS 26, *)
@@ -44,15 +69,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             Tab("Journal", systemImage: "book", value: 0) {
                 NavigationStack {
-                    EntryListView(searchText: $searchText)
-                        .navigationTitle("Piru")
-                        .toolbar { settingsToolbarItem }
-                        .navigationDestination(for: Date.self) { date in
-                            DayDetailView(date: date)
-                                .navigationDestination(for: DoseEntry.self) { entry in
-                                    EntryDetailView(entry: entry)
-                                }
-                        }
+                    journalContent
                         .overlay(alignment: .bottom) {
                             addMenu
                                 .padding(.bottom, 16)
@@ -61,28 +78,15 @@ struct ContentView: View {
             }
             Tab("Library", systemImage: "books.vertical", value: 1) {
                 NavigationStack {
-                    SubstanceLibraryView(searchText: $librarySearchText)
-                        .toolbar { settingsToolbarItem }
+                    libraryContent
                         .searchable(text: $librarySearchText, prompt: Text("Search \(LibraryLoadingState.shared.substanceCount) substances..."))
                 }
             }
             Tab("Tools", systemImage: "wrench.and.screwdriver", value: 2) {
-                NavigationStack {
-                    ToolsView()
-                        .toolbar { settingsToolbarItem }
-                }
+                NavigationStack { toolsContent }
             }
             Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: 3) {
-                NavigationStack {
-                    InsightsView()
-                        .toolbar { settingsToolbarItem }
-                        .navigationDestination(for: Date.self) { date in
-                            DayDetailView(date: date)
-                                .navigationDestination(for: DoseEntry.self) { entry in
-                                    EntryDetailView(entry: entry)
-                                }
-                        }
-                }
+                NavigationStack { insightsContent }
             }
             Tab("Search", systemImage: "magnifyingglass", value: 5, role: .search) {
                 NavigationStack {
@@ -90,12 +94,7 @@ struct ContentView: View {
                         .navigationTitle("Search")
                         .toolbar { settingsToolbarItem }
                         .searchable(text: $searchText)
-                        .navigationDestination(for: Date.self) { date in
-                            DayDetailView(date: date)
-                                .navigationDestination(for: DoseEntry.self) { entry in
-                                    EntryDetailView(entry: entry)
-                                }
-                        }
+                        .withDayDetailDestination()
                 }
             }
         }
@@ -134,41 +133,11 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             Group {
                 switch selectedTab {
-                case 0:
-                    NavigationStack {
-                        EntryListView(searchText: $searchText)
-                            .navigationTitle("Piru")
-                            .toolbar { settingsToolbarItem }
-                            .navigationDestination(for: Date.self) { date in
-                                DayDetailView(date: date)
-                                    .navigationDestination(for: DoseEntry.self) { entry in
-                                        EntryDetailView(entry: entry)
-                                    }
-                            }
-                    }
-                case 1:
-                    NavigationStack {
-                        SubstanceLibraryView(searchText: $librarySearchText)
-                            .toolbar { settingsToolbarItem }
-                    }
-                case 2:
-                    NavigationStack {
-                        ToolsView()
-                            .toolbar { settingsToolbarItem }
-                    }
-                case 3:
-                    NavigationStack {
-                        InsightsView()
-                            .toolbar { settingsToolbarItem }
-                            .navigationDestination(for: Date.self) { date in
-                                DayDetailView(date: date)
-                                    .navigationDestination(for: DoseEntry.self) { entry in
-                                        EntryDetailView(entry: entry)
-                                    }
-                            }
-                    }
-                default:
-                    EmptyView()
+                case 0: NavigationStack { journalContent }
+                case 1: NavigationStack { libraryContent }
+                case 2: NavigationStack { toolsContent }
+                case 3: NavigationStack { insightsContent }
+                default: EmptyView()
                 }
             }
 
@@ -201,8 +170,6 @@ struct ContentView: View {
     private var activeSearchText: Binding<String> {
         selectedTab == 1 ? $librarySearchText : $searchText
     }
-
-    @State private var tabBarHeight: CGFloat = 46
 
     @ViewBuilder
     private var legacyBottomBar: some View {
@@ -313,6 +280,19 @@ struct ContentView: View {
         librarySearchText = ""
         withAnimation(.snappy(duration: 0.25)) {
             isSearching = false
+        }
+    }
+}
+
+// MARK: - Day Detail Navigation Destination
+
+private extension View {
+    func withDayDetailDestination() -> some View {
+        self.navigationDestination(for: Date.self) { date in
+            DayDetailView(date: date)
+                .navigationDestination(for: DoseEntry.self) { entry in
+                    EntryDetailView(entry: entry)
+                }
         }
     }
 }

@@ -137,7 +137,7 @@ struct EntryFormView: View {
                         TextField("Amount", text: $amount)
                             .keyboardType(.decimalPad)
                             .focused($amountFocused)
-                            .foregroundStyle(currentDoseLevel.map { colorFor($0) } ?? .primary)
+                            .foregroundStyle(currentDoseLevel?.swiftUIColor ?? .primary)
                         if let level = currentDoseLevel {
                             DoseLevelBadge(level: level)
                                 .transition(.opacity.combined(with: .scale))
@@ -147,8 +147,6 @@ struct EntryFormView: View {
                             ForEach(currentUnits, id: \.self) { Text($0) }
                         }
                         .labelsHidden()
-                    }
-                    .onChange(of: amount) {
                     }
                     Picker("Route", selection: $route) {
                         ForEach(availableRoutes) { r in
@@ -231,11 +229,7 @@ struct EntryFormView: View {
         selectedSubstance = sub
         route = sub.defaultRoute
         unit = sub.unit(for: sub.defaultRoute)
-
-        let subRoutes = sub.routes.map(\.route)
-        let otherRoutes = RouteOfAdministration.allCases.filter { !subRoutes.contains($0) }
-        availableRoutes = subRoutes + otherRoutes
-
+        availableRoutes = sub.orderedRoutes
         checkInteractions()
     }
 
@@ -261,9 +255,7 @@ struct EntryFormView: View {
             if let match = SubstanceLibrary.search(entry.substance).first,
                match.name.lowercased() == entry.substance.lowercased() {
                 selectedSubstance = match
-                let subRoutes = match.routes.map(\.route)
-                let otherRoutes = RouteOfAdministration.allCases.filter { !subRoutes.contains($0) }
-                availableRoutes = subRoutes + otherRoutes
+                availableRoutes = match.orderedRoutes
             }
             return
         }

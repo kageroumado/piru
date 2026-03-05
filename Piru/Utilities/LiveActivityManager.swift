@@ -17,6 +17,14 @@ struct DoseSnapshot {
         self.route = entry.route
         self.timestamp = entry.timestamp
     }
+
+    init(substance: String, amount: Double, unit: String, route: RouteOfAdministration, timestamp: Date) {
+        self.substance = substance
+        self.amount = amount
+        self.unit = unit
+        self.route = route
+        self.timestamp = timestamp
+    }
 }
 
 @MainActor
@@ -31,9 +39,20 @@ final class LiveActivityManager {
     private var cachedColorMap: [String: String] = [:]
 
     private init() {
-        // Resume any existing activity on app launch
+        // Resume any existing activity on app launch and recover tracked entries
         if let existing = Activity<PiruActivityAttributes>.activities.first {
             currentActivity = existing
+            activeEntries = existing.content.state.activeSubstances.map { state in
+                let snapshot = DoseSnapshot(
+                    substance: state.substanceName,
+                    amount: state.amount,
+                    unit: state.unit,
+                    route: RouteOfAdministration.from(string: state.route),
+                    timestamp: state.doseTimestamp
+                )
+                let duration = DurationProfile(fromState: state)
+                return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
+            }
         }
     }
 
@@ -253,39 +272,26 @@ final class LiveActivityManager {
     }
 
     /// Resolve the best available duration for a substance and route.
-    /// Tries: exact route → any route → half-life estimate. Returns nil if no data available.
+    /// Tries: exact route → any route. Returns nil if no duration data available.
     private static func resolveDuration(substance: Substance?, route: RouteOfAdministration) -> DurationProfile? {
         substance?.resolveDuration(for: route)
     }
 
     private static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {
-        Dictionary(
-            uniqueKeysWithValues: allColors.map { ($0.substance.lowercased(), $0.hexColor) }
-        )
+        allColors.hexColorMap
     }
 
     private func buildContentState(colorMap: [String: String]) -> PiruActivityAttributes.ContentState {
         let substanceStates: [ActiveSubstanceState] = activeEntries.compactMap { item in
-            guard let duration = item.duration else { return nil }
-
-            let boundaries = duration.phaseBoundaries
-            let total = duration.estimatedTotalMinutes
-
             let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
-
             return ActiveSubstanceState(
-                substanceName: item.snapshot.substance,
+                name: item.snapshot.substance,
                 colorHex: hex,
-                doseTimestamp: item.snapshot.timestamp,
+                timestamp: item.snapshot.timestamp,
                 amount: item.snapshot.amount,
                 unit: item.snapshot.unit,
-                route: item.snapshot.route.displayName,
-                onsetEndMinutes: boundaries.onsetEnd,
-                comeupEndMinutes: boundaries.comeupEnd,
-                peakEndMinutes: boundaries.peakEnd,
-                offsetEndMinutes: boundaries.offsetEnd,
-                afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-                totalMinutes: total
+                routeDisplayName: item.snapshot.route.displayName,
+                duration: item.duration
             )
         }
 

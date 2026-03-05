@@ -29,16 +29,24 @@ struct DailyDoseSettingsView: View {
 
     @AppStorage("dailyDoseReminderEnabled") private var reminderEnabled = false
     @AppStorage("dailyDoseReminderTimes") private var reminderTimesData = Data()
+    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
     @State private var reminderTimes: [ReminderTime] = []
+    @State private var categories: [String] = []
     @State private var isEditing = false
     @State private var showingAddSheet = false
+    @State private var showingAddSheetCategory = ""
     @State private var editingItem: DailyDoseItem?
     @State private var showingTimePicker = false
     @State private var newReminderDate = Date.now
+    @State private var showingAddCategory = false
+    @State private var newCategoryName = ""
+    @State private var editingCategory: String?
+    @State private var editedCategoryName = ""
 
     var body: some View {
         List {
+            // MARK: - Reminders
             Section {
                 Toggle("Daily Reminders", isOn: $reminderEnabled)
                     .onChange(of: reminderEnabled) { _, enabled in
@@ -75,6 +83,50 @@ struct DailyDoseSettingsView: View {
                 }
             }
 
+            // MARK: - Categories
+            Section {
+                ForEach(categories, id: \.self) { cat in
+                    HStack {
+                        Label(cat, systemImage: iconForCategory(cat))
+                        Spacer()
+                        Text("\(items.filter { $0.category == cat }.count)")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    .contentShape(Rectangle())
+                    .dropDestination(for: String.self) { droppedKeys, _ in
+                        assignItems(keys: droppedKeys, toCategory: cat)
+                        return true
+                    }
+                    .contextMenu {
+                        Button {
+                            editingCategory = cat
+                            editedCategoryName = cat
+                        } label: {
+                            Label("Rename", systemImage: "pencil")
+                        }
+                        Button(role: .destructive) {
+                            deleteCategory(cat)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                }
+                .onDelete(perform: deleteCategories)
+                .onMove(perform: moveCategories)
+
+                Button {
+                    newCategoryName = ""
+                    showingAddCategory = true
+                } label: {
+                    Label("Add Category", systemImage: "plus.circle")
+                }
+            } header: {
+                Text("Categories")
+            } footer: {
+                Text("Organize medications by time of day or purpose. Drag items onto a category to assign them.")
+            }
+
+            // MARK: - Items
             if items.isEmpty {
                 Section {
                     VStack(spacing: 16) {
@@ -84,6 +136,7 @@ struct DailyDoseSettingsView: View {
                             description: Text("Add substances you take every day.")
                         )
                         Button {
+                            showingAddSheetCategory = ""
                             showingAddSheet = true
                         } label: {
                             Text("Add Item")
@@ -94,30 +147,40 @@ struct DailyDoseSettingsView: View {
                     }
                 }
             } else {
-                Section("\(items.count) item\(items.count == 1 ? "" : "s")") {
-                    ForEach(items) { item in
+                // Categorized items
+                ForEach(categories, id: \.self) { cat in
+                    let catItems = items.filter { $0.category == cat }
+                    Section("\(cat) \u{2014} \(catItems.count) item\(catItems.count == 1 ? "" : "s")") {
+                        ForEach(catItems) { item in
+                            itemRow(item)
+                                .draggable(itemKey(for: item))
+                        }
+                        .onDelete { offsets in
+                            deleteItems(catItems, at: offsets)
+                        }
+
                         Button {
-                            editingItem = item
+                            showingAddSheetCategory = cat
+                            showingAddSheet = true
                         } label: {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 3) {
-                                    Text(item.substance)
-                                        .font(.body)
-                                        .foregroundStyle(.primary)
-                                    Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
-                                        .font(.subheadline)
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                            }
-                            .contentShape(Rectangle())
+                            Label("Add to \(cat)", systemImage: "plus.circle")
+                                .font(.subheadline)
                         }
                     }
-                    .onDelete(perform: deleteItems)
-                    .onMove(perform: moveItems)
+                }
+
+                // Uncategorized items
+                let uncategorized = items.filter { $0.category.isEmpty }
+                if !uncategorized.isEmpty {
+                    Section(categories.isEmpty ? "\(items.count) item\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) item\(uncategorized.count == 1 ? "" : "s")") {
+                        ForEach(uncategorized) { item in
+                            itemRow(item)
+                                .draggable(itemKey(for: item))
+                        }
+                        .onDelete { offsets in
+                            deleteItems(uncategorized, at: offsets)
+                        }
+                    }
                 }
             }
         }
@@ -127,12 +190,13 @@ struct DailyDoseSettingsView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
+                    showingAddSheetCategory = ""
                     showingAddSheet = true
                 } label: {
                     Image(systemName: "plus")
                 }
             }
-            if !items.isEmpty {
+            if !items.isEmpty || !categories.isEmpty {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         withAnimation { isEditing.toggle() }
@@ -143,7 +207,7 @@ struct DailyDoseSettingsView: View {
             }
         }
         .sheet(isPresented: $showingAddSheet) {
-            DailyDoseItemFormView()
+            DailyDoseItemFormView(initialCategory: showingAddSheetCategory)
         }
         .sheet(item: $editingItem) { item in
             DailyDoseItemFormView(item: item)
@@ -168,22 +232,151 @@ struct DailyDoseSettingsView: View {
             }
             .presentationDetents([.medium])
         }
-        .onAppear { loadReminderTimes() }
+        .alert("Add Category", isPresented: $showingAddCategory) {
+            TextField("Category name", text: $newCategoryName)
+            Button("Add") { addCategory() }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("e.g. Morning, Noon, Night")
+        }
+        .alert("Rename Category", isPresented: Binding(
+            get: { editingCategory != nil },
+            set: { if !$0 { editingCategory = nil } }
+        )) {
+            TextField("Category name", text: $editedCategoryName)
+            Button("Save") { renameCategory() }
+            Button("Cancel", role: .cancel) { editingCategory = nil }
+        }
+        .onAppear {
+            loadReminderTimes()
+            loadCategories()
+        }
+    }
+
+    // MARK: - Item Row
+
+    private func itemRow(_ item: DailyDoseItem) -> some View {
+        Button {
+            editingItem = item
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(item.substance)
+                        .font(.body)
+                        .foregroundStyle(.primary)
+                    Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .contentShape(Rectangle())
+        }
+    }
+
+    // MARK: - Category Helpers
+
+    private func iconForCategory(_ category: String) -> String {
+        switch category.lowercased() {
+        case "morning": return "sunrise"
+        case "afternoon": return "sun.max"
+        case "noon", "midday": return "sun.max"
+        case "evening": return "sunset"
+        case "night", "bedtime": return "moon"
+        default: return "tag"
+        }
+    }
+
+    // MARK: - Drag & Drop
+
+    private func itemKey(for item: DailyDoseItem) -> String {
+        item.substance + "|" + String(item.sortOrder)
+    }
+
+    private func findItem(byKey key: String) -> DailyDoseItem? {
+        let parts = key.split(separator: "|", maxSplits: 1)
+        guard parts.count == 2,
+              let order = Int(parts[1]) else { return nil }
+        let name = String(parts[0])
+        return items.first { $0.substance == name && $0.sortOrder == order }
+    }
+
+    private func assignItems(keys: [String], toCategory category: String) {
+        for key in keys {
+            if let item = findItem(byKey: key) {
+                item.category = category
+            }
+        }
+    }
+
+    private func deleteCategories(at offsets: IndexSet) {
+        for index in offsets {
+            deleteCategory(categories[index])
+        }
+    }
+
+    // MARK: - Categories Management
+
+    private func loadCategories() {
+        guard !categoriesData.isEmpty,
+              let decoded = try? JSONDecoder().decode([String].self, from: categoriesData) else {
+            categories = []
+            return
+        }
+        categories = decoded
+    }
+
+    private func saveCategories() {
+        categoriesData = (try? JSONEncoder().encode(categories)) ?? Data()
+    }
+
+    private func addCategory() {
+        let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !categories.contains(trimmed) else { return }
+        categories.append(trimmed)
+        saveCategories()
+    }
+
+    private func deleteCategory(_ category: String) {
+        // Reset items in this category to uncategorized
+        for item in items where item.category == category {
+            item.category = ""
+        }
+        categories.removeAll { $0 == category }
+        saveCategories()
+    }
+
+    private func renameCategory() {
+        guard let old = editingCategory else { return }
+        let trimmed = editedCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !categories.contains(trimmed) else {
+            editingCategory = nil
+            return
+        }
+        // Update items with the old category name
+        for item in items where item.category == old {
+            item.category = trimmed
+        }
+        if let idx = categories.firstIndex(of: old) {
+            categories[idx] = trimmed
+        }
+        saveCategories()
+        editingCategory = nil
+    }
+
+    private func moveCategories(from source: IndexSet, to destination: Int) {
+        categories.move(fromOffsets: source, toOffset: destination)
+        saveCategories()
     }
 
     // MARK: - Daily Dose Items
 
-    private func deleteItems(at offsets: IndexSet) {
+    private func deleteItems(_ subset: [DailyDoseItem], at offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(items[index])
-        }
-    }
-
-    private func moveItems(from source: IndexSet, to destination: Int) {
-        var reordered = items
-        reordered.move(fromOffsets: source, toOffset: destination)
-        for (index, item) in reordered.enumerated() {
-            item.sortOrder = index
+            modelContext.delete(subset[index])
         }
     }
 

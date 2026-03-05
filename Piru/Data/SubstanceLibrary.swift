@@ -34,81 +34,6 @@ enum SubstanceLibrary {
 
     @MainActor private(set) static var isLoading = true
 
-    // MARK: - Name Normalization (for dedup)
-
-    /// Normalize a substance name for deduplication comparison
-    private static func normalizeName(_ name: String) -> String {
-        var n = name.lowercased()
-            .replacingOccurrences(of: "-", with: "")
-            .replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: "(", with: "")
-            .replacingOccurrences(of: ")", with: "")
-            .replacingOccurrences(of: "'", with: "")
-            .replacingOccurrences(of: "α", with: "alpha")
-            .replacingOccurrences(of: "β", with: "beta")
-            .replacingOccurrences(of: "γ", with: "gamma")
-            .replacingOccurrences(of: "δ", with: "delta")
-        return n
-    }
-
-    /// Pharmaceutical salt/form suffixes that don't change the active molecule
-    private static let saltSuffixes: [String] = [
-        "hydrochloride", "hcl", "sodium", "potassium", "calcium", "magnesium",
-        "sulfate", "sulphate", "maleate", "tartrate", "fumarate", "hemifumarate",
-        "mesylate", "besylate", "tosylate", "bromide", "chloride", "iodide",
-        "acetate", "phosphate", "citrate", "succinate", "oxalate", "gluconate",
-        "pamoate", "embonate", "valerate", "decanoate", "enanthate", "propionate",
-        "monohydrate", "dihydrate", "trihydrate", "anhydrous",
-    ]
-
-    /// Strip trailing pharmaceutical salt suffixes from an already-normalized name.
-    /// Used only for dedup key generation — the stored name is unchanged.
-    private static func saltStripped(_ normalized: String) -> String {
-        var result = normalized
-        var changed = true
-        while changed {
-            changed = false
-            for suffix in saltSuffixes where result.hasSuffix(suffix) && result.count > suffix.count {
-                result = String(result.dropLast(suffix.count))
-                changed = true
-                break
-            }
-        }
-        return result
-    }
-
-    /// Well-known name mappings for cross-source dedup
-    private static let knownAliases: [String: String] = [
-        "mdma": "34methylenedioxymethamphetamine",
-        "34methylenedioxymethamphetamine": "mdma",
-        "lsd": "lysergicaciddiethylamide",
-        "lysergicaciddiethylamide": "lsd",
-        "thc": "delta9tetrahydrocannabinol",
-        "delta9tetrahydrocannabinol": "thc",
-        "ghb": "gammahydroxybutyricacid",
-        "gammahydroxybutyricacid": "ghb",
-        "gbl": "gammabutyrolactone",
-        "gammabutyrolactone": "gbl",
-        "pcp": "phencyclidine",
-        "phencyclidine": "pcp",
-        "dmt": "nn dimethyltryptamine",
-        "dxm": "dextromethorphan",
-        "dextromethorphan": "dxm",
-        "mda": "34methylenedioxyamphetamine",
-        "34methylenedioxyamphetamine": "mda",
-        "2cb": "4bromo25dimethoxyphenethylamine",
-        "nac": "nacetylcysteine",
-        "nacetylcysteine": "nac",
-        // UK name (TripSit) ↔ US FDA name (OpenFDA) cross-source pairs
-        "paracetamol": "acetaminophen",
-        "acetaminophen": "paracetamol",
-        "adrenaline": "epinephrine",
-        "epinephrine": "adrenaline",
-        "noradrenaline": "norepinephrine",
-        "norepinephrine": "noradrenaline",
-    ]
-
     // MARK: - API Fetch
 
     /// Maximum age for the substance cache before re-fetching (7 days)
@@ -171,7 +96,7 @@ enum SubstanceLibrary {
             LibraryLoadingState.shared.statusText = "Fetching clinical drug data..."
             let clinicalDrugs = await DailyMedAPI.fetchClinicalDrugs()
             if !clinicalDrugs.isEmpty {
-                let merged = deduplicatedMerge(existing: all, incoming: clinicalDrugs)
+                let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: clinicalDrugs)
                 updateAll(merged)
             }
             print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + DailyMed)")
@@ -227,7 +152,7 @@ enum SubstanceLibrary {
             return
         }
 
-        let merged = deduplicatedMerge(existing: all, incoming: pwSubstances)
+        let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: pwSubstances)
         updateAll(merged)
         saveCache(all)
         print("[SubstanceLibrary] Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
@@ -274,170 +199,6 @@ enum SubstanceLibrary {
                 sources: s.sources
             )
         }
-    }
-
-    // MARK: - Deduplication
-
-    /// Build a set of all normalized names + aliases for an array of substances
-    private static func buildNameIndex(_ substances: [Substance]) -> Set<String> {
-        var index: Set<String> = []
-        for s in substances {
-            index.insert(s.name.lowercased())
-            index.insert(normalizeName(s.name))
-            for a in s.aliases {
-                index.insert(a.lowercased())
-                index.insert(normalizeName(a))
-            }
-            // Add known alias mappings
-            let norm = normalizeName(s.name)
-            if let mapped = knownAliases[norm] {
-                index.insert(mapped)
-            }
-        }
-        return index
-    }
-
-    /// Merge incoming substances into existing, deduplicating by normalized name + aliases
-    private static func deduplicatedMerge(existing: [Substance], incoming: [Substance]) -> [Substance] {
-        var byNormalized: [String: Int] = [:] // normalized name -> index in result
-        var result = existing
-        var dupeCount = 0
-        var newCount = 0
-
-        // Index existing
-        for (i, s) in result.enumerated() {
-            byNormalized[s.name.lowercased()] = i
-            let norm = normalizeName(s.name)
-            byNormalized[norm] = i
-            byNormalized[saltStripped(norm)] = i
-            for a in s.aliases {
-                let aNorm = normalizeName(a)
-                byNormalized[a.lowercased()] = i
-                byNormalized[aNorm] = i
-                byNormalized[saltStripped(aNorm)] = i
-            }
-            if let mapped = knownAliases[norm] { byNormalized[mapped] = i }
-        }
-
-        for s in incoming {
-            let nameNorm = normalizeName(s.name)
-            let nameLower = s.name.lowercased()
-
-            // Check if any name/alias matches existing (including salt-stripped forms)
-            var matchIdx: Int? = byNormalized[nameLower]
-                ?? byNormalized[nameNorm]
-                ?? byNormalized[saltStripped(nameNorm)]
-
-            if matchIdx == nil {
-                if let mapped = knownAliases[nameNorm] { matchIdx = byNormalized[mapped] }
-            }
-
-            if matchIdx == nil {
-                for a in s.aliases {
-                    let aNorm = normalizeName(a)
-                    if let idx = byNormalized[a.lowercased()] ?? byNormalized[aNorm] ?? byNormalized[saltStripped(aNorm)] {
-                        matchIdx = idx
-                        break
-                    }
-                }
-            }
-
-            if let idx = matchIdx {
-                // Merge: prefer the one with more data, combine sources
-                dupeCount += 1
-                let existing = result[idx]
-                let merged = mergeSubstances(existing, s)
-                result[idx] = merged
-
-                // Update index for new aliases
-                for a in merged.aliases {
-                    byNormalized[a.lowercased()] = idx
-                    byNormalized[normalizeName(a)] = idx
-                }
-            } else {
-                // New substance
-                newCount += 1
-                let newIdx = result.count
-                result.append(s)
-                byNormalized[nameLower] = newIdx
-                byNormalized[nameNorm] = newIdx
-                byNormalized[saltStripped(nameNorm)] = newIdx
-                for a in s.aliases {
-                    let aNorm = normalizeName(a)
-                    byNormalized[a.lowercased()] = newIdx
-                    byNormalized[aNorm] = newIdx
-                    byNormalized[saltStripped(aNorm)] = newIdx
-                }
-            }
-        }
-
-        print("[SubstanceLibrary] Dedup: \(incoming.count) incoming → \(dupeCount) matched existing, \(newCount) added as new")
-        return result.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-    }
-
-    /// Merge two substances: prefer the one with more complete data, combine sources + aliases
-    private static func mergeSubstances(_ a: Substance, _ b: Substance) -> Substance {
-        // Determine which has better data
-        let aScore = dataScore(a)
-        let bScore = dataScore(b)
-        let primary = aScore >= bScore ? a : b
-        let secondary = aScore >= bScore ? b : a
-
-        // Prefer the shorter, non-salt name when both normalize to the same base
-        let finalName: String
-        if primary.name.count > secondary.name.count,
-           saltStripped(normalizeName(primary.name)) == saltStripped(normalizeName(secondary.name)) {
-            finalName = secondary.name
-        } else {
-            finalName = primary.name
-        }
-
-        // Merge aliases (unique)
-        let allAliases = Set(primary.aliases + secondary.aliases + [secondary.name, primary.name])
-            .filter { $0.lowercased() != finalName.lowercased() }
-        let mergedAliases = Array(allAliases).sorted()
-
-        // Merge sources
-        let mergedSources = Array(Set(primary.sources + secondary.sources)).sorted()
-
-        // Use primary's routes but add any missing routes from secondary
-        var routes = primary.routes
-        let primaryRoutes = Set(primary.routes.map { $0.route })
-        for r in secondary.routes where !primaryRoutes.contains(r.route) {
-            routes.append(r)
-        }
-
-        // Merge effects
-        let primaryEffects = Set(primary.effects.map { $0.lowercased() })
-        let newEffects = secondary.effects.filter { !primaryEffects.contains($0.lowercased()) }
-
-        return Substance(
-            name: finalName,
-            aliases: mergedAliases,
-            category: primary.category,
-            defaultRoute: primary.defaultRoute,
-            routes: routes,
-            effects: primary.effects + newEffects,
-            subjectiveEffects: primary.subjectiveEffects.isEmpty ? secondary.subjectiveEffects : primary.subjectiveEffects,
-            toleranceInfo: primary.toleranceInfo ?? secondary.toleranceInfo,
-            halfLifeMinutes: primary.halfLifeMinutes ?? secondary.halfLifeMinutes,
-            sources: mergedSources
-        )
-    }
-
-    /// Score how complete a substance's data is (higher = more data)
-    private static func dataScore(_ s: Substance) -> Int {
-        var score = 0
-        if s.halfLifeMinutes != nil { score += 3 }
-        if s.toleranceInfo != nil { score += 2 }
-        for r in s.routes {
-            if r.doses.threshold != nil || r.doses.light != nil || r.doses.common != nil { score += 3 }
-            if r.duration != nil { score += 2 }
-        }
-        score += s.effects.count > 0 ? 2 : 0
-        if !s.subjectiveEffects.isEmpty { score += 2 }
-        score += s.aliases.count
-        return score
     }
 
     @MainActor private static func updateAll(_ substances: [Substance]) {

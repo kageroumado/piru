@@ -1,14 +1,4 @@
 import Foundation
-
-/// Clinical drug discovery and dose extraction service.
-///
-/// Replaces the OpenFDA class-enumeration approach (~350 queries) with ~55 curated
-/// pharmacologic class queries. Each response from the FDA drug/label endpoint includes
-/// `dosage_and_administration` text — the same DailyMed SPL label content, just served
-/// as JSON via OpenFDA's search interface rather than DailyMed's XML/ZIP format.
-///
-/// Result: fewer requests, faster load, and every clinical substance comes with real
-/// dose ranges parsed from its FDA-approved label.
 struct DailyMedAPI {
     private static let baseURL = "https://api.fda.gov/drug/label.json"
 

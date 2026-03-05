@@ -527,7 +527,7 @@ struct UsageStatsView: View {
                         innerRadius: .ratio(0.618),
                         angularInset: 1.5
                     )
-                    .foregroundStyle(colorForCategory(item.category))
+                    .foregroundStyle(item.category.color)
                     .cornerRadius(4)
                 }
                 .frame(height: 200)
@@ -537,7 +537,7 @@ struct UsageStatsView: View {
                     ForEach(sorted, id: \.category) { item in
                         HStack(spacing: 4) {
                             Circle()
-                                .fill(colorForCategory(item.category))
+                                .fill(item.category.color)
                                 .frame(width: 8, height: 8)
                             Text(item.category.rawValue)
                                 .font(.caption2)
@@ -558,30 +558,4 @@ struct UsageStatsView: View {
         .themeCard()
     }
 
-    private func colorForCategory(_ category: SubstanceCategory) -> Color {
-        switch category {
-        case .stimulant: .orange
-        case .psychedelic: .purple
-        case .dissociative: .cyan
-        case .opioid: .red
-        case .benzodiazepine: .blue
-        case .gabapentinoid: .indigo
-        case .empathogen: .pink
-        case .cannabinoid: .green
-        case .nootropic: .teal
-        case .depressant: .gray
-        case .antidepressant: .yellow
-        case .antipsychotic: .mint
-        case .analgesic: .brown
-        case .antihistamine: Theme.secondaryLabel
-        case .cardiovascular: .red.opacity(0.7)
-        case .antimicrobial: .teal.opacity(0.7)
-        case .gastrointestinal: .orange.opacity(0.7)
-        case .respiratory: .cyan.opacity(0.7)
-        case .endocrine: .purple.opacity(0.7)
-        case .immunological: .blue.opacity(0.7)
-        case .supplement: .green.opacity(0.7)
-        case .other: Theme.secondaryLabel
-        }
-    }
 }
