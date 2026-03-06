@@ -10,6 +10,7 @@ struct ContentView: View {
 
     @State private var showingForm = false
     @State private var showingSettings = false
+    @State private var showingSessionDetail = false
 
     var body: some View {
         Group {
@@ -33,6 +34,21 @@ struct ContentView: View {
         .sheet(isPresented: $showingSettings) {
             NavigationStack {
                 SettingsView()
+            }
+        }
+        .sheet(isPresented: $showingSessionDetail) {
+            NavigationStack {
+                DayDetailView(date: .now)
+                    .navigationDestination(for: DoseEntry.self) { entry in
+                        EntryDetailView(entry: entry)
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") {
+                                showingSessionDetail = false
+                            }
+                        }
+                    }
             }
         }
     }
@@ -71,8 +87,10 @@ struct ContentView: View {
                 NavigationStack {
                     journalContent
                         .overlay(alignment: .bottom) {
-                            addMenu
-                                .padding(.bottom, 16)
+                            if !LiveActivityManager.shared.hasActiveSession {
+                                addMenu
+                                    .padding(.bottom, 16)
+                            }
                         }
                 }
             }
@@ -98,6 +116,11 @@ struct ContentView: View {
                 }
             }
         }
+        .withSessionAccessory(
+            isActive: LiveActivityManager.shared.hasActiveSession,
+            showingSessionDetail: $showingSessionDetail,
+            showingForm: $showingForm
+        )
     }
 
     // MARK: - Add Menu
@@ -293,6 +316,136 @@ private extension View {
                 .navigationDestination(for: DoseEntry.self) { entry in
                     EntryDetailView(entry: entry)
                 }
+        }
+    }
+}
+
+// MARK: - Session Bottom Accessory
+
+private extension View {
+    @ViewBuilder
+    func withSessionAccessory(
+        isActive: Bool,
+        showingSessionDetail: Binding<Bool>,
+        showingForm: Binding<Bool>
+    ) -> some View {
+        if #available(iOS 26.1, *) {
+            self.tabViewBottomAccessory(isEnabled: isActive) {
+                TimelineView(.periodic(from: .now, by: 60)) { context in
+                    SessionAccessoryView(
+                        states: LiveActivityManager.shared.activeSubstanceStates,
+                        isLiveActivityRunning: LiveActivityManager.shared.isLiveActivityRunning,
+                        currentTime: context.date,
+                        onTapSession: { showingSessionDetail.wrappedValue = true },
+                        onToggleActivity: {
+                            let manager = LiveActivityManager.shared
+                            if manager.isLiveActivityRunning {
+                                manager.stopLiveActivity()
+                            } else {
+                                manager.restartLiveActivity()
+                            }
+                        },
+                        onAdd: { showingForm.wrappedValue = true }
+                    )
+                }
+            }
+        } else {
+            self
+        }
+    }
+}
+
+// MARK: - Session Accessory View
+
+private struct SessionAccessoryView: View {
+    @Environment(\.tabViewBottomAccessoryPlacement) private var placement
+
+    let states: [ActiveSubstanceState]
+    let isLiveActivityRunning: Bool
+    let currentTime: Date
+    var onTapSession: () -> Void
+    var onToggleActivity: () -> Void
+    var onAdd: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Button(action: onTapSession) {
+                HStack(spacing: 10) {
+                    if placement != .inline {
+                        TimelineGraphView(
+                            substances: states,
+                            currentTime: currentTime,
+                            compact: true
+                        )
+                        .frame(width: 60, height: 36)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .allowsHitTesting(false)
+                    }
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(uniqueNames)
+                            .font(.subheadline.weight(.semibold))
+                            .lineLimit(1)
+
+                        if placement != .inline {
+                            Text("\(elapsedText) in \u{00B7} \(remainingText) left")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+
+            Spacer(minLength: 0)
+
+            HStack(spacing: 20) {
+                Button(action: onToggleActivity) {
+                    Image(systemName: isLiveActivityRunning ? "stop.fill" : "play.fill")
+                        .font(.body)
+                }
+
+                Button(action: onAdd) {
+                    Image(systemName: "plus")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(Theme.accent)
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+    }
+
+    private var uniqueNames: String {
+        var seen = Set<String>()
+        return states.compactMap { state in
+            let key = state.substanceName.lowercased()
+            guard !seen.contains(key) else { return nil }
+            seen.insert(key)
+            return state.substanceName
+        }.joined(separator: ", ")
+    }
+
+    private var elapsedText: String {
+        guard let start = states.map(\.doseTimestamp).min() else { return "0m" }
+        return Self.formatDuration(currentTime.timeIntervalSince(start))
+    }
+
+    private var remainingText: String {
+        let end = states.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }.max() ?? currentTime
+        return Self.formatDuration(max(0, end.timeIntervalSince(currentTime)))
+    }
+
+    private static func formatDuration(_ interval: TimeInterval) -> String {
+        let totalMinutes = max(0, Int(interval / 60))
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+
+        if hours > 0 && minutes > 0 {
+            return "\(hours)h \(minutes)m"
+        } else if hours > 0 {
+            return "\(hours)h"
+        } else {
+            return "\(minutes)m"
         }
     }
 }
