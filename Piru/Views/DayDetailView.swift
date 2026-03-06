@@ -34,6 +34,23 @@ struct DayDetailView: View {
         )
     }
 
+
+    private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
+        var grouped: [String: (total: Double, unit: String, count: Int)] = [:]
+        for entry in entries {
+            let key = entry.substance.lowercased()
+            if let existing = grouped[key] {
+                grouped[key] = (total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
+            } else {
+                grouped[key] = (total: entry.amount, unit: entry.unit, count: 1)
+            }
+        }
+        return grouped
+            .filter { $0.value.count > 1 }
+            .map { (substance: $0.key.capitalized, total: $0.value.total, unit: $0.value.unit, count: $0.value.count) }
+            .sorted { $0.substance < $1.substance }
+    }
+
     private var dateTitle: String {
         date.formatted(.dateTime.day().month(.wide).year())
     }
@@ -91,6 +108,25 @@ struct DayDetailView: View {
                                 Label("Edit", systemImage: "pencil")
                             }
                             .tint(.orange)
+                        }
+                    }
+                }
+
+                // Cumulative doses
+                if !cumulativeDoses.isEmpty {
+                    Section("Cumulative Doses") {
+                        ForEach(cumulativeDoses, id: \.substance) { item in
+                            HStack {
+                                Text(item.substance)
+                                    .font(.subheadline)
+                                Spacer()
+                                Text("\(item.total.doseFormatted) \(item.unit)")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(Theme.accent)
+                                Text("(\(item.count)x)")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
                         }
                     }
                 }
