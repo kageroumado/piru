@@ -137,6 +137,19 @@ enum RampDownScheduler {
             let granted = await requestPermissionIfNeeded()
             guard granted else { return }
 
+            // Deduplicate: skip if a wellness notification of the same type is already pending within 30 min
+            let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
+            let now = Date.now
+
+            func hasPendingWithin30Min(prefix: String) -> Bool {
+                pending.contains { req in
+                    guard req.identifier.hasPrefix(prefix),
+                          let trigger = req.trigger as? UNTimeIntervalNotificationTrigger else { return false }
+                    let fireDate = now.addingTimeInterval(trigger.timeInterval)
+                    return abs(fireDate.timeIntervalSince(now)) < 1800
+                }
+            }
+
             // Hydration reminder at ~1 hour or peak start, whichever is sooner
             let hydrationDelay: TimeInterval
             if let duration {
@@ -147,7 +160,7 @@ enum RampDownScheduler {
             }
 
             let hydrationInterval = doseTime.addingTimeInterval(hydrationDelay).timeIntervalSince(.now)
-            if hydrationInterval > 10 {
+            if hydrationInterval > 10 && !hasPendingWithin30Min(prefix: hydrationCategory) {
                 scheduleSimpleNotification(
                     id: "\(hydrationCategory)_\(Int(doseTime.timeIntervalSince1970))",
                     title: "Stay hydrated",
@@ -161,7 +174,7 @@ enum RampDownScheduler {
             if let duration {
                 let offsetStart = duration.phaseBoundaries.peakEnd * 60
                 let secondInterval = doseTime.addingTimeInterval(offsetStart).timeIntervalSince(.now)
-                if secondInterval > hydrationInterval + 1800 { // at least 30 min after first
+                if secondInterval > hydrationInterval + 1800 && !hasPendingWithin30Min(prefix: "\(hydrationCategory)2") { // at least 30 min after first
                     scheduleSimpleNotification(
                         id: "\(hydrationCategory)2_\(Int(doseTime.timeIntervalSince1970))",
                         title: "Hydration check",
