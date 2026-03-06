@@ -35,6 +35,7 @@ struct PiruApp: App {
                 .tint(Theme.accent)
                 .task {
                     SubstanceLibrary.fetchFromAPIs()
+                    LiveActivityManager.shared.recoverSession(container: container)
                 }
         }
         .modelContainer(container)

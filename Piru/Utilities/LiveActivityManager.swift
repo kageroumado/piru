@@ -1,6 +1,7 @@
 import ActivityKit
 import BackgroundTasks
 import Foundation
+import SwiftData
 
 /// Lightweight value snapshot of a DoseEntry, decoupled from SwiftData.
 struct DoseSnapshot {
@@ -53,6 +54,44 @@ final class LiveActivityManager {
                 let duration = DurationProfile(fromState: state)
                 return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
             }
+        }
+    }
+
+    /// Recover an active session from today's SwiftData entries on app launch.
+    /// Only runs if no entries were already recovered from a running Live Activity.
+    func recoverSession(container: ModelContainer) {
+        guard activeEntries.isEmpty else { return }
+
+        let context = ModelContext(container)
+        let startOfDay = Calendar.current.startOfDay(for: .now)
+        let endOfDay = startOfDay.addingTimeInterval(86400)
+
+        let descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { entry in
+                entry.timestamp >= startOfDay && entry.timestamp < endOfDay
+            },
+            sortBy: [SortDescriptor(\.timestamp)]
+        )
+
+        guard let entries = try? context.fetch(descriptor), !entries.isEmpty else { return }
+
+        let colorDescriptor = FetchDescriptor<SubstanceColor>()
+        let colors = (try? context.fetch(colorDescriptor)) ?? []
+        let colorMap = Self.buildColorMap(from: colors)
+        cachedColorMap = colorMap
+
+        activeEntries = entries.map { entry in
+            let snapshot = DoseSnapshot(entry: entry)
+            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
+            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
+            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
+            return (snapshot: snapshot, duration: duration, colorHex: hex)
+        }
+
+        pruneCompleted()
+
+        if !activeEntries.isEmpty {
+            startUpdateTimer()
         }
     }
 
@@ -172,9 +211,42 @@ final class LiveActivityManager {
         activeEntries.removeAll()
     }
 
+    /// Stop the iOS Live Activity widget but keep tracking active substances
+    func stopLiveActivity() {
+        guard currentActivity != nil else { return }
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
+        let state = buildContentState(colorMap: cachedColorMap)
+        pushEnd(ActivityContent(state: state, staleDate: nil))
+        self.currentActivity = nil
+        // Keep updateTimer running for pruning; keep activeEntries for UI
+    }
+
+    /// Restart the iOS Live Activity from currently tracked entries
+    func restartLiveActivity() {
+        pruneCompleted()
+        guard !activeEntries.isEmpty, currentActivity == nil else { return }
+        let state = buildContentState(colorMap: cachedColorMap)
+        startActivity(state: state)
+    }
+
     /// Whether a live activity is currently running
     var isActive: Bool {
         currentActivity != nil && !activeEntries.isEmpty
+    }
+
+    /// Whether there are any tracked active substances (regardless of live activity state)
+    var hasActiveSession: Bool {
+        !activeEntries.isEmpty
+    }
+
+    /// Whether the iOS Live Activity (Lock Screen widget) is currently running
+    var isLiveActivityRunning: Bool {
+        currentActivity != nil
+    }
+
+    /// Active substance states for UI display (e.g. session accessory view)
+    var activeSubstanceStates: [ActiveSubstanceState] {
+        buildContentState(colorMap: cachedColorMap).activeSubstances
     }
 
     // MARK: - Background Refresh
@@ -243,12 +315,15 @@ final class LiveActivityManager {
 
     private func periodicUpdate() {
         pruneCompleted()
-        guard !activeEntries.isEmpty, currentActivity != nil else {
+        guard !activeEntries.isEmpty else {
             stopUpdateTimer()
             return
         }
-        let state = buildContentState(colorMap: cachedColorMap)
-        pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
+        // Only push update if the iOS activity is running
+        if currentActivity != nil {
+            let state = buildContentState(colorMap: cachedColorMap)
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
+        }
     }
 
     private func startActivity(state: PiruActivityAttributes.ContentState) {
