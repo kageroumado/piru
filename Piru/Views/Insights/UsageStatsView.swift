@@ -554,7 +554,7 @@ struct UsageStatsView: View {
                             }
                             .chartXAxis {
                                 let comp: Calendar.Component = weekly ? .weekOfYear : .day
-                                let strideN = weekly ? 2 : max(1, data.count / 15)
+                                let strideN = weekly ? 2 : max(2, data.count / 8)
                                 AxisMarks(values: .stride(by: comp, count: strideN)) { _ in
                                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                                         .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
