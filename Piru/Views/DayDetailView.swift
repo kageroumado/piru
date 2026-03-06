@@ -20,6 +20,16 @@ struct DayDetailView: View {
         }
     }
 
+    private var doseMarkers: [DoseMarker] {
+        let colorMap = Array(substanceColors).hexColorMap
+        return entries.compactMap { entry in
+            // Only include entries that have no duration data (no curve on graph)
+            guard ActiveSubstanceState.from(entry: entry, colorHex: "000000") == nil else { return nil }
+            let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
+            return DoseMarker(substanceName: entry.substance, timestamp: entry.timestamp, colorHex: hex, amount: entry.amount, unit: entry.unit)
+        }
+    }
+
     let date: Date
 
     init(date: Date) {
@@ -73,19 +83,31 @@ struct DayDetailView: View {
                 )
             } else {
                 // Timeline graph
-                if !substanceStates.isEmpty {
+                if !substanceStates.isEmpty || !doseMarkers.isEmpty {
                     Section {
                         DisclosureGroup(isExpanded: $graphExpanded) {
                             TimelineGraphView(
                                 substances: substanceStates,
                                 currentTime: .now,
-                                compact: false
+                                compact: false,
+                                markers: doseMarkers
                             )
                             .frame(height: 160)
+                            .overlay(alignment: .topTrailing) {
+                                if isToday {
+                                    Button("Live Activity") {
+                                        restartLiveActivity()
+                                    }
+                                    .font(.caption)
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(Theme.accent)
+                                }
+                            }
                         } label: {
                             Label("Timeline", systemImage: "chart.xyaxis.line")
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                 }
 
                 // Entries
@@ -151,19 +173,10 @@ struct DayDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                HStack(spacing: 12) {
-                    if isToday && !entries.isEmpty {
-                        Button {
-                            restartLiveActivity()
-                        } label: {
-                            Image(systemName: "timer")
-                        }
-                    }
-                    Button {
-                        showingForm = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
+                Button {
+                    showingForm = true
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }
