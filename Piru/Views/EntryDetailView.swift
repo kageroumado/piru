@@ -8,8 +8,18 @@ struct EntryDetailView: View {
 
     let entry: DoseEntry
 
+    @AppStorage("rampDownEnabled") private var rampDownEnabled = true
     @State private var showingEditForm = false
     @State private var showingDeleteConfirmation = false
+
+    private var resolvedDuration: DurationProfile? {
+        SubstanceLibrary.lookupByNameOrAlias(entry.substance)?
+            .resolveDuration(for: entry.route)
+    }
+
+    private var hasActiveRampDown: Bool {
+        RampDownScheduler.isActive(for: entry.persistentModelID.hashValue)
+    }
 
     private var substanceState: ActiveSubstanceState? {
         let hex = substanceColors.first {
@@ -55,6 +65,26 @@ struct EntryDetailView: View {
             if !entry.tags.isEmpty {
                 Section("Tags") {
                     TagChipsView(tags: entry.tags)
+                }
+            }
+
+            if rampDownEnabled, let duration = resolvedDuration {
+                Section {
+                    NavigationLink {
+                        RampDownView(entry: entry, duration: duration)
+                    } label: {
+                        HStack {
+                            Label("Comedown Alert", systemImage: "bell.badge")
+                            Spacer()
+                            if hasActiveRampDown {
+                                Text("Active")
+                                    .font(.caption)
+                                    .foregroundStyle(.green)
+                            }
+                        }
+                    }
+                } footer: {
+                    Text("Get notified before the comedown to soften the landing.")
                 }
             }
 

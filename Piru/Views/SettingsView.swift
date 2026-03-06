@@ -7,6 +7,8 @@ struct SettingsView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Environment(\.modelContext) private var modelContext
 
+    @AppStorage("rampDownEnabled") private var rampDownEnabled = true
+
     @State private var showingExporter = false
     @State private var showingReport = false
     @State private var showingImporter = false
@@ -29,6 +31,17 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
+            }
+
+            Section {
+                Toggle(isOn: $rampDownEnabled) {
+                    Label("Ramp Down", systemImage: "arrow.down.right.circle")
+                }
+                .tint(Theme.accent)
+            } header: {
+                Text("Harm Reduction")
+            } footer: {
+                Text("Show ramp-down scheduling on dose entries to gradually reduce redose amounts.")
             }
 
             Section("Substance Colors") {
