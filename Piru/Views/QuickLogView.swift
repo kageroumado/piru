@@ -178,7 +178,7 @@ struct QuickLogView: View {
                 }
                 .presentationDetents([.large])
             }
-            .navigationDestination(item: $entryFormPrefill) { prefill in
+            .sheet(item: $entryFormPrefill) { prefill in
                 EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
             }
             .sheet(isPresented: $showingDailyDose) {

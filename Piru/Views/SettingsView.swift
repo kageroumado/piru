@@ -8,6 +8,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
 
     @AppStorage("rampDownEnabled") private var rampDownEnabled = true
+    @AppStorage("liveActivityEnabled") private var liveActivityEnabled = true
 
     @State private var showingExporter = false
     @State private var showingReport = false
@@ -31,6 +32,22 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
+            }
+
+            Section {
+                Toggle(isOn: $liveActivityEnabled) {
+                    Label("Live Activity", systemImage: "bolt.heart")
+                }
+                .tint(Theme.accent)
+                .onChange(of: liveActivityEnabled) {
+                    if !liveActivityEnabled {
+                        LiveActivityManager.shared.endActivity()
+                    }
+                }
+            } header: {
+                Text("Live Activity")
+            } footer: {
+                Text("Show a Live Activity on the Lock Screen and Dynamic Island when tracking active substances.")
             }
 
             Section {

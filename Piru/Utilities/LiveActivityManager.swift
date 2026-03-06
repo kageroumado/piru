@@ -39,6 +39,11 @@ final class LiveActivityManager {
     private var updateTimer: Timer?
     private var cachedColorMap: [String: String] = [:]
 
+    /// Whether live activities are enabled by the user in Settings.
+    var isEnabled: Bool {
+        UserDefaults.standard.object(forKey: "liveActivityEnabled") as? Bool ?? true
+    }
+
     private init() {
         // Resume any existing activity on app launch and recover tracked entries
         if let existing = Activity<PiruActivityAttributes>.activities.first {
@@ -54,6 +59,11 @@ final class LiveActivityManager {
                 let duration = DurationProfile(fromState: state)
                 return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
             }
+        }
+
+        // If live activities are disabled, end any recovered activity
+        if !isEnabled {
+            endActivity()
         }
     }
 
@@ -103,6 +113,7 @@ final class LiveActivityManager {
         colorHex: String,
         allColors: [SubstanceColor]
     ) {
+        guard isEnabled else { return }
         let snapshot = DoseSnapshot(entry: entry)
         let duration = Self.resolveDuration(substance: substance, route: entry.route)
         activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
@@ -126,6 +137,7 @@ final class LiveActivityManager {
         entries: [(entry: DoseEntry, substance: Substance?)],
         allColors: [SubstanceColor]
     ) {
+        guard isEnabled else { return }
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
 
@@ -178,6 +190,7 @@ final class LiveActivityManager {
         _ doseEntries: [DoseEntry],
         allColors: [SubstanceColor]
     ) {
+        guard isEnabled else { return }
         // End any existing activity first
         if currentActivity != nil {
             endActivity()
@@ -252,6 +265,10 @@ final class LiveActivityManager {
     // MARK: - Background Refresh
 
     func handleBackgroundRefresh(_ task: BGAppRefreshTask) {
+        guard isEnabled else {
+            task.setTaskCompleted(success: true)
+            return
+        }
         scheduleBackgroundRefresh()
 
         task.expirationHandler = { }
