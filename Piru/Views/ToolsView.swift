@@ -4,6 +4,8 @@ struct ToolsView: View {
     enum Section: String, CaseIterable, Identifiable {
         case interactions = "Interactions"
         case calculator = "Calculator"
+        case volumetric = "Volumetric"
+        case recovery = "Recovery"
         var id: String { rawValue }
     }
 
@@ -25,6 +27,10 @@ struct ToolsView: View {
                 InteractionCheckerView()
             case .calculator:
                 HalfLifeCalculatorView()
+            case .volumetric:
+                VolumetricDosingView()
+            case .recovery:
+                ComedownGuideView()
             }
         }
         .background(Theme.background)

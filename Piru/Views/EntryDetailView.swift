@@ -41,6 +41,15 @@ struct EntryDetailView: View {
                 } header: {
                     Label("Timeline", systemImage: "chart.xyaxis.line")
                 }
+            } else {
+                Section {
+                    Label("No pharmacokinetic data available for this substance and route.", systemImage: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .padding(.vertical, 4)
+                } header: {
+                    Label("Timeline", systemImage: "chart.xyaxis.line")
+                }
             }
 
             Section("Substance") {
@@ -48,7 +57,7 @@ struct EntryDetailView: View {
             }
 
             Section("Dosage") {
-                LabeledContent("Amount", value: "\(entry.amount.formatted()) \(entry.unit)")
+                LabeledContent("Amount", value: "\(entry.amount.doseFormatted) \(entry.unit)")
                 LabeledContent("Route", value: entry.route.displayName)
             }
 
@@ -84,7 +93,7 @@ struct EntryDetailView: View {
                         }
                     }
                 } footer: {
-                    Text("Get notified before the comedown to soften the landing.")
+                    Text("Get care reminders as effects fade — hydration, rest, and recovery tips.")
                 }
             }
 
@@ -126,7 +135,7 @@ struct EntryDetailView: View {
                 dismiss()
             }
         } message: {
-            Text("\(entry.amount.formatted()) \(entry.unit) \(entry.substance) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
+            Text("\(entry.amount.doseFormatted) \(entry.unit) \(entry.substance) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
         }
         .sheet(isPresented: $showingEditForm) {
             EntryFormView(entry: entry)

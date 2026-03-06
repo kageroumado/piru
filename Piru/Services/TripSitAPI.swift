@@ -133,11 +133,9 @@ struct TripSitAPI {
             ?? categoryOverrides[drug.name.lowercased()]
             ?? SubstanceCategory.from(tripSitCategory: categoryStr)
 
-        // Parse duration data from properties (applies to all routes)
-        let durationProfile = buildDurationProfile(
-            onset: drug.properties?.onset,
-            total: drug.properties?.duration
-        )
+        // Parse per-route timing data from properties
+        let (onsetByRoute, fallbackOnset) = parseRouteTimings(drug.properties?.onset)
+        let (durationByRoute, fallbackDuration) = parseRouteTimings(drug.properties?.duration)
 
         var routes: [SubstanceRoute] = []
         if let doseInfo = drug.formatted_dose {
@@ -145,6 +143,9 @@ struct TripSitAPI {
                 let route = RouteOfAdministration.from(string: routeName)
                 let doseRange = parseDoseRange(levels)
                 let unit = extractUnit(from: levels) ?? "mg"
+                let routeOnset = onsetByRoute[route] ?? fallbackOnset
+                let routeTotal = durationByRoute[route] ?? fallbackDuration
+                let durationProfile = buildDurationProfile(onsetRange: routeOnset, totalRange: routeTotal)
                 routes.append(SubstanceRoute(route: route, unit: unit, doses: doseRange, duration: durationProfile))
             }
         }
@@ -246,10 +247,49 @@ struct TripSitAPI {
         return TimeRange(min: lo * multiplier, max: hi * multiplier)
     }
 
-    /// Build a DurationProfile from TripSit onset/total duration strings, estimating intermediate phases.
-    private static func buildDurationProfile(onset: String?, total: String?) -> DurationProfile? {
-        let totalRange = total.flatMap { parseTimeRange($0) }
-        let onsetRange = onset.flatMap { parseTimeRange($0) }
+    /// Parse pipe-separated route timings like "Oral: 20-75 minutes | Insufflated: 1-10 minutes"
+    /// into per-route TimeRanges plus a fallback for unkeyed values.
+    private static func parseRouteTimings(_ str: String?) -> (byRoute: [RouteOfAdministration: TimeRange], fallback: TimeRange?) {
+        guard let str else { return ([:], nil) }
+        var byRoute: [RouteOfAdministration: TimeRange] = [:]
+        var fallback: TimeRange?
+
+        let segments = str.components(separatedBy: "|")
+        for segment in segments {
+            let trimmed = segment.trimmingCharacters(in: .whitespacesAndNewlines)
+                .trimmingCharacters(in: CharacterSet(charactersIn: "."))
+
+            var routeName: String?
+            var timePortion: String = trimmed
+
+            if let colonIdx = trimmed.firstIndex(of: ":") {
+                // "Oral: 20-75 minutes" format
+                routeName = String(trimmed[..<colonIdx]).trimmingCharacters(in: .whitespaces)
+                timePortion = String(trimmed[trimmed.index(after: colonIdx)...]).trimmingCharacters(in: .whitespaces)
+            } else {
+                // Try "Insufflated 2-5 hours" format (no colon)
+                let words = trimmed.split(separator: " ", maxSplits: 1).map(String.init)
+                if words.count >= 2 {
+                    let candidate = RouteOfAdministration.from(string: words[0])
+                    if candidate != .other {
+                        routeName = words[0]
+                        timePortion = words[1]
+                    }
+                }
+            }
+
+            if let routeName, let range = parseTimeRange(timePortion) {
+                byRoute[RouteOfAdministration.from(string: routeName)] = range
+            } else if let range = parseTimeRange(timePortion) {
+                fallback = fallback ?? range
+            }
+        }
+
+        return (byRoute, fallback)
+    }
+
+    /// Build a DurationProfile from onset/total TimeRanges, estimating intermediate phases.
+    private static func buildDurationProfile(onsetRange: TimeRange?, totalRange: TimeRange?) -> DurationProfile? {
         guard totalRange != nil || onsetRange != nil else { return nil }
 
         let totalMid = totalRange?.midpoint ?? 240

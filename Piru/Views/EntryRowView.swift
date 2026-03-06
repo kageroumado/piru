@@ -4,6 +4,27 @@ struct EntryRowView: View {
     let entry: DoseEntry
     var color: Color? = nil
 
+    private var doseLevel: DoseLevel? {
+        guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+              let doseRange = substance.doseRange(for: entry.route) else { return nil }
+        return doseRange.level(for: entry.amount)
+    }
+
+    private var relativeTime: String {
+        let elapsed = Date.now.timeIntervalSince(entry.timestamp)
+        guard elapsed > 0 else { return "just now" }
+        let totalMinutes = Int(elapsed / 60)
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        if hours > 0 && minutes > 0 {
+            return "\(hours)h \(minutes)m ago"
+        } else if hours > 0 {
+            return "\(hours)h ago"
+        } else {
+            return "\(minutes)m ago"
+        }
+    }
+
     var body: some View {
         HStack(spacing: 12) {
             if let color {
@@ -14,9 +35,15 @@ struct EntryRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(entry.substance)
                     .font(.headline)
-                Text("\(entry.amount.formatted()) \(entry.unit) — \(entry.route.displayName)")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
+                HStack(spacing: 4) {
+                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(entry.route.displayName)")
+                    if let doseLevel {
+                        Text("(\(doseLevel.rawValue))")
+                            .foregroundStyle(doseLevel.swiftUIColor)
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
                 if !entry.tags.isEmpty {
                     TagChipsView(tags: entry.tags, compact: true)
                 }
@@ -24,9 +51,13 @@ struct EntryRowView: View {
 
             Spacer()
 
-            Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
+                    .font(.subheadline)
+                Text(relativeTime)
+                    .font(.caption)
+            }
+            .foregroundStyle(Theme.secondaryLabel)
         }
         .padding(.vertical, 2)
     }

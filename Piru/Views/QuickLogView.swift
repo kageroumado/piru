@@ -229,8 +229,25 @@ struct QuickLogView: View {
 
     // MARK: - Scroll Content
 
+    private static let helpKeywords: Set<String> = [
+        "help", "emergency", "overdose", "bad trip", "dying", "scared",
+        "panic", "ambulance", "hospital", "not okay", "freaking out",
+        "call 911", "911", "poisoning", "too much", "od", "can't breathe"
+    ]
+
+    private var isHelpSearch: Bool {
+        guard !searchText.isEmpty else { return false }
+        let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
+        return Self.helpKeywords.contains(where: { query.contains($0) })
+    }
+
     @ViewBuilder
     private var scrollContentInner: some View {
+        // Help resources — shown when user searches for help
+        if isHelpSearch {
+            quickLogHelpBanner
+        }
+
         // Favorites section (only when not searching)
         if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
             Section {
@@ -459,6 +476,9 @@ struct QuickLogView: View {
         )
         modelContext.insert(entry)
 
+        // Schedule wellness notifications & check cumulative dose
+        scheduleWellnessIfNeeded(entry: entry, substance: group.librarySubstance)
+
         if hasColor(for: group.substanceName) {
             startLiveActivity(entry: entry, group: group)
             dismiss()
@@ -518,6 +538,87 @@ struct QuickLogView: View {
 
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
+    }
+
+    // MARK: - Help Banner
+
+    private var quickLogHelpBanner: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: "hand.raised.fill")
+                    .font(.title2)
+                    .foregroundStyle(.blue)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Take a breath.")
+                        .font(.headline)
+                    Text("You're going to be okay. This feeling is temporary.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 6) {
+                helpBannerLink(title: "Emergency: 911", url: "tel:911")
+                helpBannerLink(title: "Poison Control: 1-800-222-1222", url: "tel:18002221222")
+                helpBannerLink(title: "Crisis Lifeline: 988", url: "tel:988")
+                helpBannerLink(title: "Crisis Text: HOME to 741741", url: "sms:741741&body=HOME")
+            }
+
+            Text("Breathe slowly. 4 seconds in, hold for 4, out for 4. You are safe.")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+        .padding(14)
+        .background(Color.blue.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func helpBannerLink(title: String, url: String) -> some View {
+        Link(destination: URL(string: url)!) {
+            HStack(spacing: 6) {
+                Image(systemName: "phone.fill")
+                    .font(.caption)
+                    .foregroundStyle(.blue)
+                Text(title)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.primary)
+            }
+        }
+    }
+
+    // MARK: - Wellness Notifications
+
+    private func scheduleWellnessIfNeeded(entry: DoseEntry, substance: Substance?) {
+        let category = substance?.category
+        let duration = substance?.resolveDuration(for: entry.route)
+        let stimHours = RampDownScheduler.stimulantSessionHours(from: Array(allEntries))
+
+        RampDownScheduler.scheduleWellnessNotifications(
+            substanceName: entry.substance,
+            category: category,
+            doseTime: entry.timestamp,
+            duration: duration,
+            recentStimHours: stimHours
+        )
+
+        // Check cumulative dose
+        let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+            substanceName: entry.substance,
+            newAmount: entry.amount,
+            unit: entry.unit,
+            route: entry.route,
+            existingEntries: Array(allEntries)
+        )
+        if shouldAlert {
+            RampDownScheduler.scheduleCumulativeDoseNotification(
+                substanceName: entry.substance,
+                totalAmount: total,
+                unit: entry.unit,
+                category: category
+            )
+        }
     }
 }
 

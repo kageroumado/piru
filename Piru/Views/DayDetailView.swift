@@ -150,6 +150,14 @@ struct DayDetailView: View {
                                     .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
+
+                        NavigationLink {
+                            ComedownGuideView()
+                        } label: {
+                            Label("Recovery tips", systemImage: "heart.text.clipboard")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.accent)
+                        }
                     }
                 }
 

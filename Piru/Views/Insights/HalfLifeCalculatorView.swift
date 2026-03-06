@@ -454,7 +454,7 @@ struct HalfLifeCalculatorView: View {
                     Image(systemName: "\(n).circle.fill")
                         .foregroundStyle(Theme.accent)
                     VStack(alignment: .leading) {
-                        Text("\(String(format: "%.1f", eliminatedPct))% eliminated")
+                        Text("\(Int(eliminatedPct))% eliminated")
                             .font(.subheadline.weight(.medium))
                         Text("\(remaining.doseFormatted) \(unit) remaining after \(formatDuration(timeMinutes))")
                             .font(.caption)
@@ -511,11 +511,9 @@ struct HalfLifeCalculatorView: View {
 
     private func formatDuration(_ minutes: Double) -> String {
         if minutes < 60 { return "\(Int(minutes)) min" }
-        let hours = minutes / 60
-        if hours < 24 {
-            return hours == hours.rounded() ? "\(Int(hours)) hours" : String(format: "%.1f hours", hours)
-        }
-        let days = hours / 24
-        return days == days.rounded() ? "\(Int(days)) days" : String(format: "%.1f days", days)
+        let hours = Int(round(minutes / 60))
+        if hours < 24 { return "\(hours) hours" }
+        let days = Int(round(minutes / 1440))
+        return "\(days) days"
     }
 }

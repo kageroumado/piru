@@ -9,6 +9,7 @@ struct SettingsView: View {
 
     @AppStorage("rampDownEnabled") private var rampDownEnabled = true
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = true
+    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = true
 
     @State private var showingExporter = false
     @State private var showingReport = false
@@ -52,13 +53,18 @@ struct SettingsView: View {
 
             Section {
                 Toggle(isOn: $rampDownEnabled) {
-                    Label("Ramp Down", systemImage: "arrow.down.right.circle")
+                    Label("Comedown Alerts", systemImage: "bell.badge")
+                }
+                .tint(Theme.accent)
+
+                Toggle(isOn: $wellnessNotificationsEnabled) {
+                    Label("Wellness Reminders", systemImage: "heart.text.clipboard")
                 }
                 .tint(Theme.accent)
             } header: {
                 Text("Harm Reduction")
             } footer: {
-                Text("Show ramp-down scheduling on dose entries to gradually reduce redose amounts.")
+                Text("Comedown alerts notify you as effects fade with recovery tips. Wellness reminders send hydration and sleep nudges automatically when you log a dose.")
             }
 
             Section("Substance Colors") {

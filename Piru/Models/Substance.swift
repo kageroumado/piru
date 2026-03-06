@@ -46,6 +46,21 @@ struct DoseRange {
         if let threshold, dose >= threshold { return .threshold }
         return .sub
     }
+
+    /// Returns `true` when the average reference dose (converted to mg) is below 5 mg,
+    /// indicating the substance is extremely potent and requires volumetric dosing.
+    func requiresVolumetricDosing(unit: String) -> Bool {
+        var values: [Double] = []
+        if let threshold { values.append(threshold) }
+        if let light { values.append((light.lowerBound + light.upperBound) / 2) }
+        if let common { values.append((common.lowerBound + common.upperBound) / 2) }
+        if let strong { values.append((strong.lowerBound + strong.upperBound) / 2) }
+        if let heavy { values.append(heavy) }
+        guard !values.isEmpty else { return false }
+        let average = values.reduce(0, +) / Double(values.count)
+        let averageInMg = DoseUnit.convert(average, from: unit, to: "mg") ?? average
+        return averageInMg < 5
+    }
 }
 
 extension DoseRange: Codable {
@@ -108,12 +123,23 @@ enum DoseUnit {
 }
 
 extension Double {
-    /// Format a dose value: show integer for whole numbers under 10000, otherwise default formatting
+    /// Format a dose value with sensible rounding — no false precision
     var doseFormatted: String {
-        if self == rounded() && self < 10000 {
-            return String(format: "%.0f", self)
+        let abs = Swift.abs(self)
+        if abs == 0 { return "0" }
+        if abs >= 100 { return String(format: "%.0f", self) }       // 100+ → "250"
+        if abs >= 10 { return trimZeros(format: "%.1f") }           // 10–99 → "44.7"
+        if abs >= 1 { return trimZeros(format: "%.2f") }            // 1–9 → "3.34"
+        return trimZeros(format: "%.2f")                            // <1 → "0.68"
+    }
+
+    private func trimZeros(format: String) -> String {
+        let s = String(format: format, self)
+        if s.contains(".") {
+            let trimmed = s.replacingOccurrences(of: "0+$", with: "", options: .regularExpression)
+            return trimmed.hasSuffix(".") ? String(trimmed.dropLast()) : trimmed
         }
-        return formatted()
+        return s
     }
 }
 
@@ -127,14 +153,27 @@ struct TimeRange: Codable {
 
     var displayString: String {
         if max >= 120 {
-            let minH = min / 60
-            let maxH = max / 60
-            return "~\(Self.fmt(minH))-\(Self.fmt(maxH)) hours"
+            let minH = Self.roundHours(min / 60)
+            let maxH = Self.roundHours(max / 60)
+            if minH == maxH {
+                return "~\(Self.fmtHours(minH)) hours"
+            }
+            return "~\(Self.fmtHours(minH))-\(Self.fmtHours(maxH)) hours"
         }
-        return "~\(Self.fmt(min))-\(Self.fmt(max)) minutes"
+        let minR = Int(min.rounded())
+        let maxR = Int(max.rounded())
+        if minR == maxR {
+            return "~\(minR) minutes"
+        }
+        return "~\(minR)-\(maxR) minutes"
     }
 
-    private static func fmt(_ v: Double) -> String {
+    /// Rounds hours to the nearest 0.5
+    private static func roundHours(_ v: Double) -> Double {
+        (v * 2).rounded() / 2
+    }
+
+    private static func fmtHours(_ v: Double) -> String {
         v == v.rounded(.toNearestOrEven) ? String(format: "%.0f", v) : String(format: "%.1f", v)
     }
 }

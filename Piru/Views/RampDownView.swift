@@ -13,8 +13,8 @@ struct RampDownView: View {
         RampDownScheduler.calculateRedoseTime(doseTime: entry.timestamp, duration: duration)
     }
 
-    private var suggestedAmount: Double {
-        RampDownScheduler.suggestedRedoseAmount(entry.amount)
+    private var category: SubstanceCategory? {
+        SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category
     }
 
     private var isRedoseTimePast: Bool {
@@ -26,6 +26,7 @@ struct RampDownView: View {
             infoSection
             timingSection
             actionSection
+            recoveryTipsSection
         }
         .navigationTitle("Ramp Down")
         .navigationBarTitleDisplayMode(.inline)
@@ -58,7 +59,7 @@ struct RampDownView: View {
                 Label("How it works", systemImage: "info.circle")
                     .font(.subheadline.weight(.semibold))
 
-                Text("When you're approaching the comedown, Piru will notify you. Taking a small redose at that moment lets the comeup of the new dose overlap with the fadeout of the current one — no crash gap.")
+                Text("Piru will notify you as the comedown approaches with practical care reminders — hydration, nutrition, and rest tips tailored to what you took.")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -75,7 +76,7 @@ struct RampDownView: View {
             LabeledContent("Peak ends ~", value: peakEndTime.formatted(date: .omitted, time: .shortened))
 
             HStack {
-                Text("Redose alert")
+                Text("Comedown alert")
                 Spacer()
                 if isRedoseTimePast {
                     Text(redoseTime.formatted(date: .omitted, time: .shortened))
@@ -89,12 +90,6 @@ struct RampDownView: View {
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
-            }
-
-            LabeledContent("Suggested redose") {
-                Text("~\(suggestedAmount.doseFormatted) \(entry.unit)")
-                    .foregroundStyle(Theme.accent)
-                    .fontWeight(.semibold)
             }
         }
     }
@@ -127,7 +122,7 @@ struct RampDownView: View {
                 HStack {
                     Image(systemName: "clock.badge.exclamationmark")
                         .foregroundStyle(.orange)
-                    Text("Redose window has passed")
+                    Text("Comedown window has passed")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -143,7 +138,31 @@ struct RampDownView: View {
             }
         } footer: {
             if !isActive && !isRedoseTimePast {
-                Text("You'll get a notification when it's time to consider a small redose to soften the comedown.")
+                Text("You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.")
+            }
+        }
+    }
+
+    // MARK: - Recovery Tips
+
+    private var recoveryTipsSection: some View {
+        Section("Recovery tips") {
+            let guide = ComedownGuideView.guide(for: category ?? .other)
+            ForEach(guide.rightNow.prefix(3), id: \.self) { tip in
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "leaf.fill")
+                        .font(.caption)
+                        .foregroundStyle(.green)
+                    Text(tip)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            NavigationLink {
+                ComedownGuideView()
+            } label: {
+                Label("Full recovery guide", systemImage: "heart.text.clipboard")
+                    .font(.subheadline)
             }
         }
     }
@@ -163,7 +182,8 @@ struct RampDownView: View {
                 unit: entry.unit,
                 doseTime: entry.timestamp,
                 duration: duration,
-                entryID: entry.persistentModelID.hashValue
+                entryID: entry.persistentModelID.hashValue,
+                category: category
             )
             RampDownScheduler.saveActiveEntry(entry.persistentModelID.hashValue)
             isActive = true
