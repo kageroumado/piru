@@ -115,6 +115,61 @@ struct ExpandedBottomView: View {
     }
 }
 
+// MARK: - Dynamic Island Compact Icons
+
+/// Pill icon with a small clock badge overlaid on the top-right corner.
+struct PillClockIcon: View {
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Image(systemName: "pill.fill")
+                .font(.system(size: 12))
+            Circle()
+                .fill(.black)
+                .frame(width: 9, height: 9)
+                .overlay(
+                    Image(systemName: "clock")
+                        .font(.system(size: 6, weight: .medium))
+                )
+                .offset(x: 3, y: -1)
+        }
+        .foregroundStyle(.white)
+    }
+}
+
+/// Small declining graph icon indicating substance levels are decreasing.
+struct GraphDeclineIcon: View {
+    var body: some View {
+        DeclineCurveShape()
+            .stroke(.secondary, style: StrokeStyle(lineWidth: 1.2, lineCap: .round))
+            .frame(width: 10, height: 10)
+    }
+}
+
+/// Custom shape drawing an exponential decay curve with L-shaped axes.
+private struct DeclineCurveShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        // Y axis
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: h))
+        // X axis
+        path.addLine(to: CGPoint(x: w, y: h))
+
+        // Declining curve (exponential decay)
+        path.move(to: CGPoint(x: w * 0.08, y: h * 0.08))
+        path.addCurve(
+            to: CGPoint(x: w * 0.92, y: h * 0.88),
+            control1: CGPoint(x: w * 0.2, y: h * 0.15),
+            control2: CGPoint(x: w * 0.55, y: h * 0.85)
+        )
+
+        return path
+    }
+}
+
 // MARK: - Dynamic Island Compact Views
 
 struct CompactLeadingView: View {
@@ -125,9 +180,14 @@ struct CompactLeadingView: View {
     }
 
     var body: some View {
-        Text(earliestDose, style: .timer)
-            .font(.caption2.monospacedDigit().weight(.medium))
-            .frame(minWidth: 32)
+        HStack(spacing: 3) {
+            PillClockIcon()
+            TimelineView(.periodic(from: .now, by: 60)) { timeline in
+                Text(elapsedString(from: earliestDose, to: timeline.date))
+                    .font(.caption2.monospacedDigit().weight(.medium))
+            }
+        }
+        .frame(minWidth: 32)
     }
 }
 
@@ -141,11 +201,31 @@ struct CompactTrailingView: View {
     }
 
     var body: some View {
-        Text(latestEnd, style: .timer)
-            .font(.caption2.monospacedDigit())
-            .frame(minWidth: 32)
-            .multilineTextAlignment(.trailing)
+        HStack(spacing: 3) {
+            TimelineView(.periodic(from: .now, by: 60)) { timeline in
+                Text(remainingString(from: timeline.date, to: latestEnd))
+                    .font(.caption2.monospacedDigit())
+            }
+            GraphDeclineIcon()
+        }
+        .frame(minWidth: 32)
     }
+}
+
+// MARK: - Formatting Helpers
+
+private func elapsedString(from start: Date, to now: Date) -> String {
+    let seconds = max(0, Int(now.timeIntervalSince(start)))
+    let hours = seconds / 3600
+    let minutes = (seconds % 3600) / 60
+    return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
+}
+
+private func remainingString(from now: Date, to end: Date) -> String {
+    let seconds = max(0, Int(end.timeIntervalSince(now)))
+    let hours = seconds / 3600
+    let minutes = (seconds % 3600) / 60
+    return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
 }
 
 // MARK: - Minimal View
