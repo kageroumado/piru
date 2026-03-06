@@ -66,9 +66,9 @@ struct TimeRangeTests {
         #expect(range.displayString == "~30-60 minutes")
     }
 
-    @Test("Decimal numbers formatted with one decimal place")
+    @Test("Decimal numbers rounded to whole minutes")
     func decimalFormat() {
         let range = TimeRange(min: 15.5, max: 45.5)
-        #expect(range.displayString == "~15.5-45.5 minutes")
+        #expect(range.displayString == "~16-46 minutes")
     }
 }

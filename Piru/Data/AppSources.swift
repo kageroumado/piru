@@ -86,4 +86,32 @@ enum AppSources {
     static func info(for name: String) -> SourceInfo? {
         all.first { $0.name == name }
     }
+
+    static func substanceURL(for source: String, substance: String) -> URL? {
+        switch source {
+        case "PsychonautWiki":
+            let slug = substance.replacingOccurrences(of: " ", with: "_")
+            return URL(string: "https://psychonautwiki.org/wiki/\(slug)")
+        case "TripSit":
+            let slug = substance.lowercased()
+                .addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? substance.lowercased()
+            return URL(string: "https://drugs.tripsit.me/\(slug)")
+        case "DailyMed":
+            let query = substance
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
+            return URL(string: "https://dailymed.nlm.nih.gov/dailymed/search.cfm?labeltype=all&query=\(query)")
+        case "PubMed":
+            let query = substance
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
+            return URL(string: "https://pubmed.ncbi.nlm.nih.gov/?term=\(query)+pharmacology")
+        case "EMCDDA":
+            let query = substance
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
+            return URL(string: "https://www.emcdda.europa.eu/publications/drug-profiles_en?search=\(query)")
+        default:
+            guard let sourceInfo = info(for: source),
+                  !sourceInfo.url.isEmpty else { return nil }
+            return URL(string: sourceInfo.url)
+        }
+    }
 }

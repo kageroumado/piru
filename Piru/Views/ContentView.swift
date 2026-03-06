@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var lastContentTab = 0
     @State private var showingForm = false
     @State private var showingSettings = false
+    @State private var showingHelp = false
     @State private var showingSessionDetail = false
 
     var body: some View {
@@ -40,6 +41,9 @@ struct ContentView: View {
                 SettingsView()
             }
         }
+        .sheet(isPresented: $showingHelp) {
+            HelpView()
+        }
         .sheet(isPresented: $showingSessionDetail) {
             NavigationStack {
                 DayDetailView(date: .now)
@@ -62,23 +66,23 @@ struct ContentView: View {
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
             .navigationTitle("Piru")
-            .toolbar { settingsToolbarItem }
+            .toolbar { sharedToolbar }
             .withDayDetailDestination()
     }
 
     private var libraryContent: some View {
         SubstanceLibraryView(searchText: $librarySearchText)
-            .toolbar { settingsToolbarItem }
+            .toolbar { sharedToolbar }
     }
 
     private var toolsContent: some View {
         ToolsView()
-            .toolbar { settingsToolbarItem }
+            .toolbar { sharedToolbar }
     }
 
     private var insightsContent: some View {
         InsightsView()
-            .toolbar { settingsToolbarItem }
+            .toolbar { sharedToolbar }
             .withDayDetailDestination()
     }
 
@@ -111,17 +115,18 @@ struct ContentView: View {
             }
             Tab("Search", systemImage: "magnifyingglass", value: 5, role: .search) {
                 NavigationStack {
-                    Group {
-                        if lastContentTab == 1 {
-                            SubstanceLibraryView(searchText: $searchText)
-                        } else {
-                            EntryListView(searchText: $searchText)
-                                .withDayDetailDestination()
-                        }
+                    if lastContentTab == 1 {
+                        SubstanceLibraryView(searchText: $librarySearchText)
+                            .navigationTitle("Search Library")
+                            .toolbar { sharedToolbar }
+                            .searchable(text: $librarySearchText, prompt: "Search substances...")
+                    } else {
+                        EntryListView(searchText: $searchText)
+                            .withDayDetailDestination()
+                            .navigationTitle("Search Journal")
+                            .toolbar { sharedToolbar }
+                            .searchable(text: $searchText, prompt: "Search entries...")
                     }
-                    .navigationTitle("Search")
-                    .toolbar { settingsToolbarItem }
-                    .searchable(text: $searchText, prompt: lastContentTab == 1 ? "Search substances..." : "Search entries...")
                 }
             }
         }
@@ -147,14 +152,22 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Settings Toolbar
+    // MARK: - Toolbar
 
-    private var settingsToolbarItem: some ToolbarContent {
+    @ToolbarContentBuilder
+    private var sharedToolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 showingSettings = true
             } label: {
                 Image(systemName: "gearshape")
+            }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                showingHelp = true
+            } label: {
+                Image(systemName: "heart.circle")
             }
         }
     }
@@ -217,7 +230,7 @@ struct ContentView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
                 .font(.subheadline.weight(.medium))
-            TextField("Search", text: activeSearchText)
+            TextField(selectedTab == 1 ? "Search substances..." : "Search entries...", text: activeSearchText)
                 .font(.subheadline)
                 .focused($searchFieldFocused)
                 .submitLabel(.search)
@@ -325,6 +338,9 @@ private extension View {
                 .navigationDestination(for: DoseEntry.self) { entry in
                     EntryDetailView(entry: entry)
                 }
+        }
+        .navigationDestination(for: DoseEntry.self) { entry in
+            EntryDetailView(entry: entry)
         }
     }
 }

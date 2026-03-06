@@ -10,11 +10,24 @@ struct UsageStatsView: View {
     @State private var selectedTrendSubstance: String?
     @State private var trendSearch = ""
     @State private var activityExpanded = false
+    @State private var selectedCategory: SubstanceCategory?
+    @State private var activityCategoryFilter: SubstanceCategory?
+    @State private var categoryAngleValue: Int?
     @State private var filteredEntries: [DoseEntry] = []
+    @State private var selectedActivityDay: Date?
+    @State private var selectedTrendDay: Date?
+    @State private var trendZoom: CGFloat = 1.0
+    @State private var trendGestureStartZoom: CGFloat = 1.0
 
     struct DaySubstance: Hashable {
         let date: Date
         let substance: String
+    }
+
+    struct TrendDataPoint: Identifiable {
+        let id = UUID()
+        let date: Date
+        let total: Double
     }
 
     enum TimeRange: String, CaseIterable, Identifiable {
@@ -47,18 +60,22 @@ struct UsageStatsView: View {
     @State private var cachedColorMap: [String: Color] = [:]
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                if allEntries.isEmpty {
-                    ContentUnavailableView(
-                        "No Logged Entries",
-                        systemImage: "chart.bar",
-                        description: Text("Log some entries to see usage stats.")
-                    )
-                } else {
-                    timeRangePicker
-                    summaryRow
-                    if !filteredEntries.isEmpty {
+        VStack(spacing: 0) {
+            if !allEntries.isEmpty {
+                timeRangePicker
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+            }
+            ScrollView {
+                VStack(spacing: 20) {
+                    if allEntries.isEmpty {
+                        ContentUnavailableView(
+                            "No Logged Entries",
+                            systemImage: "chart.bar",
+                            description: Text("Log some entries to see usage stats.")
+                        )
+                    } else if !filteredEntries.isEmpty {
+                        summaryRow
                         frequencyChart
                         timelineChart
                         doseTrendChart
@@ -66,8 +83,8 @@ struct UsageStatsView: View {
                         categoryBreakdownChart
                     }
                 }
+                .padding()
             }
-            .padding()
         }
         .task { rebuildFilteredEntries() }
         .onChange(of: timeRange) { rebuildFilteredEntries() }
@@ -199,7 +216,7 @@ struct UsageStatsView: View {
             return result.sorted { $0.0 < $1.0 }
         }()
 
-        let maxCount = data.map(\.count).max() ?? 1
+        _ = data.map(\.count).max() ?? 1
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -218,18 +235,82 @@ struct UsageStatsView: View {
             }
 
             if activityExpanded {
+                // Category filter chips
+                let activityCategories: [(category: SubstanceCategory, count: Int)] = {
+                    var counts: [SubstanceCategory: Int] = [:]
+                    for item in data {
+                        let cat = SubstanceLibrary.lookup(item.key.substance.lowercased())?.category ?? .other
+                        counts[cat, default: 0] += item.count
+                    }
+                    return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
+                }()
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                activityCategoryFilter = nil
+                            }
+                        } label: {
+                            Text("All")
+                                .font(.caption2.weight(.medium))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(activityCategoryFilter == nil ? Theme.accent : Color.clear)
+                                .foregroundStyle(activityCategoryFilter == nil ? .white : .primary)
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(.quaternary))
+                        }
+                        ForEach(activityCategories, id: \.category) { item in
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    activityCategoryFilter = activityCategoryFilter == item.category ? nil : item.category
+                                }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Circle()
+                                        .fill(item.category.color)
+                                        .frame(width: 6, height: 6)
+                                    Text(item.category.rawValue)
+                                        .font(.caption2.weight(.medium))
+                                }
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(activityCategoryFilter == item.category ? item.category.color.opacity(0.3) : Color.clear)
+                                .foregroundStyle(activityCategoryFilter == item.category ? .white : .primary)
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(.quaternary))
+                            }
+                        }
+                    }
+                }
+
+                // Filter chart data and legend by selected category
+                let chartData = if let catFilter = activityCategoryFilter {
+                    data.filter { (SubstanceLibrary.lookup($0.key.substance.lowercased())?.category ?? .other) == catFilter }
+                } else {
+                    data
+                }
+                let chartMax = chartData.map(\.count).max() ?? 1
+
                 // Expanded: scrollable + zoomable chart
                 ActivityExpandedChart(
-                    data: data,
+                    data: chartData,
                     colorMap: cachedColorMap,
-                    maxCount: maxCount,
+                    maxCount: chartMax,
                     strideComponent: strideComponent,
                     strideCount: strideCount,
                     dateFormat: dateFormat
                 )
 
+                let legendSubstances = if let catFilter = activityCategoryFilter {
+                    uniqueSubstances.filter { (SubstanceLibrary.lookup($0.name.lowercased())?.category ?? .other) == catFilter }
+                } else {
+                    uniqueSubstances
+                }
+
                 FlowLayout(spacing: 8) {
-                    ForEach(uniqueSubstances, id: \.name) { sub in
+                    ForEach(legendSubstances, id: \.name) { sub in
                         HStack(spacing: 4) {
                             Circle()
                                 .fill(sub.color)
@@ -252,7 +333,7 @@ struct UsageStatsView: View {
                 }
                 .frame(height: 180)
                 .chartPlotStyle { plotArea in
-                    plotArea.padding(.leading, 4)
+                    plotArea.padding(.horizontal, 12)
                 }
                 .chartXAxis {
                     AxisMarks(values: .stride(by: strideComponent, count: strideCount)) { _ in
@@ -263,9 +344,37 @@ struct UsageStatsView: View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks(position: .trailing) { _ in
+                    AxisMarks(position: .leading) { _ in
                         AxisValueLabel()
                             .font(.caption2)
+                    }
+                }
+                .chartXSelection(value: $selectedActivityDay)
+
+                // Selected day detail
+                if let day = selectedActivityDay {
+                    let calendar = Calendar.current
+                    let dayEntries = data.filter { calendar.isDate($0.key.date, inSameDayAs: day) }
+                    if !dayEntries.isEmpty {
+                        HStack {
+                            Text(day.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated)))
+                                .font(.caption.weight(.semibold))
+                            Spacer()
+                            ForEach(dayEntries, id: \.key) { item in
+                                HStack(spacing: 3) {
+                                    Circle()
+                                        .fill(cachedColorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                                        .frame(width: 6, height: 6)
+                                    Text("\(item.count)")
+                                        .font(.caption2.weight(.medium))
+                                }
+                            }
+                            Text("· \(dayEntries.map(\.count).reduce(0, +)) total")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        .padding(.horizontal, 4)
+                        .transition(.opacity)
                     }
                 }
             }
@@ -298,22 +407,61 @@ struct UsageStatsView: View {
 
     // MARK: - Dose Trends
 
-    private var uniqueSubstances: [String] {
-        let entries = filteredEntries
-        var seen = Set<String>()
-        var result: [String] = []
-        for entry in entries {
-            let key = entry.substance.lowercased()
-            if seen.insert(key).inserted {
-                result.append(entry.substance)
-            }
+    /// All substances with 2+ entries on 2+ different days — uses ALL entries, ignoring time range
+    private var trendSubstances: [(name: String, count: Int)] {
+        let calendar = Calendar.current
+
+        var substanceEntries: [String: [DoseEntry]] = [:]
+        for entry in allEntries {
+            substanceEntries[entry.substance, default: []].append(entry)
         }
-        return result.sorted()
+
+        var result: [(name: String, count: Int)] = []
+        for (name, sEntries) in substanceEntries {
+            guard sEntries.count >= 2 else { continue }
+            let days = Set(sEntries.map { calendar.startOfDay(for: $0.timestamp) })
+            guard days.count >= 2 else { continue }
+            result.append((name: name, count: sEntries.count))
+        }
+
+        return result.sorted { $0.count > $1.count }
+    }
+
+    /// Build trend data from ALL entries for a substance, auto-aggregating weekly if span > 90 days
+    private func trendData(for substance: String) -> (points: [TrendDataPoint], unit: String, weekly: Bool) {
+        let entries = allEntries
+            .filter { $0.substance == substance }
+            .sorted { $0.timestamp < $1.timestamp }
+
+        guard !entries.isEmpty else { return ([], "mg", false) }
+
+        let calendar = Calendar.current
+        let unit = entries.first?.unit ?? "mg"
+
+        let span = (entries.last?.timestamp.timeIntervalSince(entries.first!.timestamp) ?? 0) / 86400
+        let weekly = span > 90
+
+        var buckets: [Date: Double] = [:]
+        for entry in entries {
+            let key: Date
+            if weekly {
+                key = calendar.dateInterval(of: .weekOfYear, for: entry.timestamp)?.start
+                    ?? calendar.startOfDay(for: entry.timestamp)
+            } else {
+                key = calendar.startOfDay(for: entry.timestamp)
+            }
+            buckets[key, default: 0] += entry.amount
+        }
+
+        let points = buckets.map { TrendDataPoint(date: $0.key, total: $0.value) }
+            .sorted { $0.date < $1.date }
+
+        return (points, unit, weekly)
     }
 
     @ViewBuilder
     private var doseTrendChart: some View {
-        let substances = uniqueSubstances
+        let substances = trendSubstances
         if !substances.isEmpty {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Dose Trends")
@@ -331,7 +479,10 @@ struct UsageStatsView: View {
                 .padding(8)
                 .themeCapsule()
 
-                let filtered = trendSearch.isEmpty ? substances : substances.filter { $0.localizedCaseInsensitiveContains(trendSearch) }
+                let names = substances.map(\.name)
+                let filtered = trendSearch.isEmpty
+                    ? names
+                    : names.filter { $0.localizedCaseInsensitiveContains(trendSearch) }
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
@@ -339,6 +490,7 @@ struct UsageStatsView: View {
                             let isSelected = selectedTrendSubstance == name
                             Button {
                                 selectedTrendSubstance = isSelected ? nil : name
+                                selectedTrendDay = nil
                             } label: {
                                 Text(name)
                                     .font(.caption.weight(.medium))
@@ -357,10 +509,9 @@ struct UsageStatsView: View {
                     }
                 }
 
-                if let selected = selectedTrendSubstance {
-                    let data = filteredEntries
-                        .filter { $0.substance == selected }
-                        .sorted { $0.timestamp < $1.timestamp }
+                if let selected = selectedTrendSubstance,
+                   names.contains(selected) {
+                    let (data, unit, weekly) = trendData(for: selected)
                     let color = cachedColorMap[selected.lowercased()] ?? Theme.accent
 
                     if data.isEmpty {
@@ -368,41 +519,80 @@ struct UsageStatsView: View {
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     } else {
-                        Chart(data) { entry in
-                            LineMark(
-                                x: .value("Date", entry.timestamp),
-                                y: .value("Dose", entry.amount)
-                            )
-                            .foregroundStyle(color)
-                            .interpolationMethod(.catmullRom)
+                        let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, UIScreen.main.bounds.width - 64)
+                        let trendChartHeight = max(220 * trendZoom, 220)
 
-                            PointMark(
-                                x: .value("Date", entry.timestamp),
-                                y: .value("Dose", entry.amount)
-                            )
-                            .foregroundStyle(color)
-                            .symbolSize(30)
-                        }
-                        .frame(height: 180)
-            .chartPlotStyle { plotArea in
-                plotArea.padding(.leading, 8)
-            }
-                        .chartYAxisLabel(data.first?.unit ?? "mg")
-                        .chartXAxis {
-                            AxisMarks { _ in
-                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
-                                AxisValueLabel()
+                        ScrollView([.horizontal, .vertical], showsIndicators: false) {
+                            Chart(data) { point in
+                                BarMark(
+                                    x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
+                                    y: .value("Dose", point.total),
+                                    width: .fixed(max(4, 8 * trendZoom))
+                                )
+                                .foregroundStyle(color.opacity(0.6))
+                                .cornerRadius(4)
+
+                                LineMark(
+                                    x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
+                                    y: .value("Dose", point.total)
+                                )
+                                .foregroundStyle(color.opacity(0.4))
+                                .lineStyle(StrokeStyle(lineWidth: 2))
+                                .interpolationMethod(.monotone)
+
+                                PointMark(
+                                    x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
+                                    y: .value("Dose", point.total)
+                                )
+                                .foregroundStyle(color)
+                                .symbolSize(20)
+
+                            }
+                            .frame(width: trendChartWidth, height: trendChartHeight)
+                            .chartPlotStyle { plotArea in
+                                plotArea.padding(.leading, 4).padding(.trailing, 24)
+                            }
+                            .chartXAxis {
+                                let comp: Calendar.Component = weekly ? .weekOfYear : .day
+                                let strideN = weekly ? 2 : max(1, data.count / 15)
+                                AxisMarks(values: .stride(by: comp, count: strideN)) { _ in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                                        .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
+                                    AxisValueLabel(format: .dateTime.month(.abbreviated).day())
+                                        .font(.caption2)
+                                }
+                            }
+                            .chartYAxis {
+                                AxisMarks(position: .trailing) { _ in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
+                                        .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
+                                    AxisValueLabel()
+                                        .font(.caption2)
+                                }
+                            }
+                            .chartYAxisLabel(position: .trailing) {
+                                Text(unit)
                                     .font(.caption2)
+                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
-                        .chartYAxis {
-                            AxisMarks { _ in
-                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
-                                    .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
-                                AxisValueLabel()
-                                    .font(.caption2)
-                            }
+                        .defaultScrollAnchor(.trailing)
+                        .contentShape(Rectangle())
+                        .gesture(
+                            MagnifyGesture()
+                                .onChanged { value in
+                                    trendZoom = max(0.5, min(4.0, trendGestureStartZoom * value.magnification))
+                                }
+                                .onEnded { _ in
+                                    trendGestureStartZoom = trendZoom
+                                }
+                        )
+
+
+                        if weekly {
+                            Text("Aggregated weekly")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
                 } else {
@@ -416,6 +606,53 @@ struct UsageStatsView: View {
             .padding()
             .themeCard()
         }
+    }
+
+
+    @ViewBuilder
+    private func trendDayDetail(substance: String, date: Date, total: Double, unit: String, color: Color) -> some View {
+        let dayEntries = allEntries
+            .filter { $0.substance == substance && Calendar.current.isDate($0.timestamp, inSameDayAs: date) }
+            .sorted { $0.timestamp < $1.timestamp }
+
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(date.formatted(.dateTime.weekday(.wide).day().month(.wide)))
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                Text(String(format: "%.1f %@ total", total, unit))
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(color)
+            }
+
+            if !dayEntries.isEmpty {
+                Divider()
+                ForEach(dayEntries) { entry in
+                    HStack(spacing: 8) {
+                        Text(entry.timestamp.formatted(.dateTime.hour().minute()))
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .frame(width: 52, alignment: .leading)
+                        Text(String(format: "%.1f %@", entry.amount, entry.unit))
+                            .font(.caption.weight(.semibold))
+                        Text("\u{00B7} \(entry.route.rawValue)")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                        if let notes = entry.notes, !notes.isEmpty {
+                            Spacer()
+                            Text(notes)
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                                .lineLimit(1)
+                        }
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+        }
+        .padding(10)
+        .themeCard(cornerRadius: 10)
+        .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
     // MARK: - Time of Day
@@ -471,7 +708,7 @@ struct UsageStatsView: View {
             }
             .frame(height: 180)
             .chartPlotStyle { plotArea in
-                plotArea.padding(.leading, 8)
+                plotArea.padding(.horizontal, 12)
             }
             .chartXAxis {
                 AxisMarks { _ in
@@ -513,13 +750,32 @@ struct UsageStatsView: View {
         let total = sorted.reduce(0) { $0 + $1.count }
 
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Categories")
-                .font(.headline)
+            if let selected = selectedCategory {
+                HStack(spacing: 8) {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            selectedCategory = nil
+                            categoryAngleValue = nil
+                        }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                    }
+                    Text(selected.rawValue)
+                        .font(.headline)
+                }
+            } else {
+                Text("Categories")
+                    .font(.headline)
+            }
 
             if sorted.isEmpty {
                 Text("No data")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
+            } else if let selected = selectedCategory {
+                categoryDrillDownContent(category: selected, entries: entries)
             } else {
                 Chart(sorted, id: \.category) { item in
                     SectorMark(
@@ -532,30 +788,105 @@ struct UsageStatsView: View {
                 }
                 .frame(height: 200)
                 .chartLegend(.hidden)
+                .chartAngleSelection(value: $categoryAngleValue)
+                .onChange(of: categoryAngleValue) { _, newValue in
+                    if let newValue {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            selectedCategory = findCategory(for: newValue, in: sorted)
+                        }
+                    }
+                }
 
                 FlowLayout(spacing: 8) {
                     ForEach(sorted, id: \.category) { item in
-                        HStack(spacing: 4) {
-                            Circle()
-                                .fill(item.category.color)
-                                .frame(width: 8, height: 8)
-                            Text(item.category.rawValue)
-                                .font(.caption2)
-                            Text("\(item.count)")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(Theme.secondaryLabel)
-                            if total > 0 {
-                                Text("(\(Int(round(Double(item.count) / Double(total) * 100)))%)")
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                selectedCategory = item.category
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Circle()
+                                    .fill(item.category.color)
+                                    .frame(width: 8, height: 8)
+                                Text(item.category.rawValue)
                                     .font(.caption2)
+                                Text("\(item.count)")
+                                    .font(.caption2.weight(.semibold))
                                     .foregroundStyle(Theme.secondaryLabel)
+                                if total > 0 {
+                                    Text("(\(Int(round(Double(item.count) / Double(total) * 100)))%)")
+                                        .font(.caption2)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                }
                             }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }
         }
         .padding()
         .themeCard()
+    }
+
+    @ViewBuilder
+    private func categoryDrillDownContent(category: SubstanceCategory, entries: [DoseEntry]) -> some View {
+        let substanceCounts: [(substance: String, count: Int)] = {
+            var counts: [String: Int] = [:]
+            for entry in entries {
+                let sub = SubstanceLibrary.lookup(entry.substance.lowercased())
+                let cat = sub?.category ?? .other
+                if cat == category {
+                    counts[entry.substance, default: 0] += 1
+                }
+            }
+            return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
+        }()
+
+        let drillTotal = substanceCounts.reduce(0) { $0 + $1.count }
+
+        Chart(substanceCounts, id: \.substance) { item in
+            SectorMark(
+                angle: .value("Count", item.count),
+                innerRadius: .ratio(0.618),
+                angularInset: 1.5
+            )
+            .foregroundStyle(cachedColorMap[item.substance.lowercased()] ?? category.color)
+            .cornerRadius(4)
+        }
+        .frame(height: 200)
+        .chartLegend(.hidden)
+
+        FlowLayout(spacing: 8) {
+            ForEach(substanceCounts, id: \.substance) { item in
+                HStack(spacing: 4) {
+                    Circle()
+                        .fill(cachedColorMap[item.substance.lowercased()] ?? category.color)
+                        .frame(width: 8, height: 8)
+                    Text(item.substance)
+                        .font(.caption2)
+                    Text("\(item.count)")
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                    if drillTotal > 0 {
+                        Text("(\(Int(round(Double(item.count) / Double(drillTotal) * 100)))%)")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            }
+        }
+    }
+
+    private func findCategory(for value: Int, in data: [(category: SubstanceCategory, count: Int)]) -> SubstanceCategory? {
+        var cumulative = 0
+        for item in data {
+            cumulative += item.count
+            if value <= cumulative {
+                return item.category
+            }
+        }
+        return data.last?.category
     }
 
 }

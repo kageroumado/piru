@@ -157,6 +157,10 @@ struct DoseInfoView: View {
                         }
                     }
                 }
+
+                if doseRange.requiresVolumetricDosing(unit: unit) {
+                    VolumetricDosingDisclaimer()
+                }
             }
         }
     }
@@ -173,6 +177,26 @@ struct DoseInfoView: View {
         }
     }
 
+}
+
+// MARK: - Volumetric Dosing Disclaimer
+
+struct VolumetricDosingDisclaimer: View {
+    var body: some View {
+        Label {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Extremely Potent Substance")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.red)
+                Text("Active in microgram (µg) quantities — 1/1000th of a milligram. Volumetric dosing is required at all times for safe and accurate measurement. Never attempt to measure doses by eye or with standard scales.")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        } icon: {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.red)
+        }
+    }
 }
 
 // MARK: - Duration Timeline Bar
@@ -213,14 +237,14 @@ struct DurationTimelineBar: View {
     var body: some View {
         if !phases.isEmpty {
             VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 0) {
-                    ForEach(Array(phases.enumerated()), id: \.offset) { _, phase in
-                        let fraction = totalMinutes > 0 ? phase.minutes / totalMinutes : 0
-                        Rectangle()
-                            .fill(phase.color)
-                            .frame(maxWidth: .infinity)
-                            .frame(width: nil)
-                            .layoutPriority(fraction)
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        ForEach(Array(phases.enumerated()), id: \.offset) { _, phase in
+                            let fraction = totalMinutes > 0 ? phase.minutes / totalMinutes : 1.0 / Double(phases.count)
+                            Rectangle()
+                                .fill(phase.color)
+                                .frame(width: geo.size.width * fraction)
+                        }
                     }
                 }
                 .frame(height: 6)

@@ -1,27 +1,16 @@
 import SwiftData
 import SwiftUI
 
+enum LibraryDestination: Hashable {
+    case category(SubstanceCategory)
+    case favorites
+}
+
 struct SubstanceLibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var searchText: String
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
-    @State private var selectedCategory: SubstanceCategory?
-    @State private var showingFavorites = false
-    @State private var selectedSubstance: Substance?
     @State private var searchResults: [Substance] = []
-
-    private var displayedSubstances: [Substance] {
-        if !searchText.isEmpty {
-            return searchResults
-        }
-        if showingFavorites {
-            return favoriteSubstances
-        }
-        if let category = selectedCategory {
-            return SubstanceLibrary.substances(in: category)
-        }
-        return []
-    }
 
     private var favoriteSubstances: [Substance] {
         favorites.compactMap { fav in
@@ -44,7 +33,7 @@ struct SubstanceLibraryView: View {
 
     var body: some View {
         List {
-            if searchText.isEmpty && selectedCategory == nil && !showingFavorites {
+            if searchText.isEmpty {
                 if LibraryLoadingState.shared.isLoading {
                     Section {
                         HStack(spacing: 12) {
@@ -62,18 +51,23 @@ struct SubstanceLibraryView: View {
                 }
                 categoryGrid
             } else {
-                substanceList
+                searchResultsList
             }
         }
         .listSectionSpacing(.compact)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("Substance Library")
-        .onChange(of: searchText) {
-            if !searchText.isEmpty {
-                selectedCategory = nil
-                showingFavorites = false
+        .navigationDestination(for: LibraryDestination.self) { destination in
+            switch destination {
+            case .category(let cat):
+                SubstanceCategoryListView(title: cat.rawValue, category: cat)
+            case .favorites:
+                SubstanceCategoryListView(title: "Favorites", category: nil)
             }
+        }
+        .navigationDestination(for: Substance.self) { substance in
+            SubstanceDetailView(substance: substance)
         }
         .task(id: searchText) {
             guard !searchText.isEmpty else {
@@ -84,19 +78,6 @@ struct SubstanceLibraryView: View {
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
         }
-        .toolbar {
-            if selectedCategory != nil || showingFavorites {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("All Categories") {
-                        selectedCategory = nil
-                        showingFavorites = false
-                    }
-                }
-            }
-        }
-        .navigationDestination(item: $selectedSubstance) { substance in
-            SubstanceDetailSheet(substance: substance)
-        }
     }
 
     // MARK: - Category Grid
@@ -106,9 +87,7 @@ struct SubstanceLibraryView: View {
         Section {
             if !favoriteSubstances.isEmpty {
                 let count = favoriteSubstances.count
-                Button {
-                    showingFavorites = true
-                } label: {
+                NavigationLink(value: LibraryDestination.favorites) {
                     HStack {
                         Image(systemName: "star.fill")
                             .font(.title3)
@@ -117,24 +96,18 @@ struct SubstanceLibraryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Favorites")
                                 .font(.body)
-                                .foregroundStyle(.primary)
                             Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
 
             ForEach(SubstanceLibrary.nonEmptyCategories) { category in
                 let count = SubstanceLibrary.substances(in: category).count
-                Button {
-                    selectedCategory = category
-                } label: {
+                NavigationLink(value: LibraryDestination.category(category)) {
                     HStack {
                         Image(systemName: category.icon)
                             .font(.title3)
@@ -143,41 +116,48 @@ struct SubstanceLibraryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(category.rawValue)
                                 .font(.body)
-                                .foregroundStyle(.primary)
                             Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
             }
         }
     }
 
-    // MARK: - Substance List
+    // MARK: - Search Results
+
+    private static let helpKeywords: Set<String> = [
+        "help", "emergency", "overdose", "bad trip", "dying", "scared",
+        "panic", "ambulance", "hospital", "not okay", "freaking out",
+        "call 911", "911", "poisoning", "too much", "od", "can't breathe"
+    ]
+
+    private var isHelpSearch: Bool {
+        let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
+        return Self.helpKeywords.contains(where: { query.contains($0) })
+    }
 
     @ViewBuilder
-    private var substanceList: some View {
-        if displayedSubstances.isEmpty {
+    private var searchResultsList: some View {
+        if isHelpSearch {
+            helpResourcesSection
+        }
+
+        if searchResults.isEmpty && !isHelpSearch {
             ContentUnavailableView(
                 "No Results",
                 systemImage: "magnifyingglass",
                 description: Text("No substances match \"\(searchText)\"")
             )
-        } else {
-            let header = showingFavorites ? "Favorites" : selectedCategory?.rawValue ?? "\(displayedSubstances.count) results"
-            Section(header) {
-                ForEach(displayedSubstances) { substance in
-                    Button {
-                        selectedSubstance = substance
-                    } label: {
+        } else if !searchResults.isEmpty {
+            Section("\(searchResults.count) results") {
+                ForEach(searchResults) { substance in
+                    NavigationLink(value: substance) {
                         SubstanceRowView(substance: substance)
                     }
-                    .listRowBackground(Color(.secondarySystemGroupedBackground))
                     .swipeActions(edge: .trailing) {
                         let isFav = favoriteNames.contains(substance.name.lowercased())
                         Button {
@@ -192,6 +172,164 @@ struct SubstanceLibraryView: View {
         }
     }
 
+    // MARK: - Help Resources
+
+    private var helpResourcesSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(spacing: 12) {
+                    Image(systemName: "hand.raised.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.blue)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Take a breath.")
+                            .font(.title3.weight(.semibold))
+                        Text("You're going to be okay. Whatever you're feeling right now is temporary.")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("If you need help right now:")
+                        .font(.subheadline.weight(.semibold))
+
+                    helpLink(
+                        icon: "phone.fill",
+                        color: .red,
+                        title: "Emergency Services",
+                        detail: "Call 911 (US) or your local emergency number",
+                        url: "tel:911"
+                    )
+                    helpLink(
+                        icon: "cross.case.fill",
+                        color: .orange,
+                        title: "Poison Control",
+                        detail: "1-800-222-1222 (US)",
+                        url: "tel:18002221222"
+                    )
+                    helpLink(
+                        icon: "phone.badge.waveform.fill",
+                        color: .purple,
+                        title: "988 Suicide & Crisis Lifeline",
+                        detail: "Call or text 988",
+                        url: "tel:988"
+                    )
+                    helpLink(
+                        icon: "message.fill",
+                        color: .green,
+                        title: "Crisis Text Line",
+                        detail: "Text HOME to 741741",
+                        url: "sms:741741&body=HOME"
+                    )
+                    helpLink(
+                        icon: "heart.fill",
+                        color: .pink,
+                        title: "SAMHSA Helpline",
+                        detail: "1-800-662-4357 — Free, confidential, 24/7",
+                        url: "tel:18006624357"
+                    )
+                }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("While you wait or if you just need to calm down:")
+                        .font(.subheadline.weight(.semibold))
+                    Text("Breathe slowly: 4 seconds in, hold for 4, out for 4.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Text("Put your feet flat on the floor. Feel the ground beneath you.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Text("Name 5 things you can see. 4 you can touch. 3 you can hear.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Text("You are not alone. People care about you and help is available.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+            .padding(.vertical, 8)
+        }
+    }
+
+    private func helpLink(icon: String, color: Color, title: String, detail: String, url: String) -> some View {
+        Link(destination: URL(string: url)!) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .foregroundStyle(color)
+                    .frame(width: 24)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(title)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.primary)
+                    Text(detail)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+    }
+}
+
+// MARK: - Category Substance List
+
+struct SubstanceCategoryListView: View {
+    let title: String
+    let category: SubstanceCategory?
+    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @Environment(\.modelContext) private var modelContext
+
+    private var substances: [Substance] {
+        if let category {
+            return SubstanceLibrary.substances(in: category)
+        }
+        return favorites.compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
+    }
+
+    private var favoriteNames: Set<String> {
+        Set(favorites.map { $0.substance.lowercased() })
+    }
+
+    private func toggleFavorite(_ name: String) {
+        let lowered = name.lowercased()
+        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            modelContext.delete(existing)
+        } else {
+            modelContext.insert(FavoriteSubstance(substance: name))
+        }
+    }
+
+    var body: some View {
+        List {
+            ForEach(substances) { substance in
+                NavigationLink(value: substance) {
+                    SubstanceRowView(substance: substance)
+                }
+                .swipeActions(edge: .trailing) {
+                    let isFav = favoriteNames.contains(substance.name.lowercased())
+                    Button {
+                        toggleFavorite(substance.name)
+                    } label: {
+                        Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
+                    }
+                    .tint(.yellow)
+                }
+            }
+        }
+        .listSectionSpacing(.compact)
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.large)
+    }
 }
 
 // MARK: - Substance Row
@@ -227,11 +365,10 @@ struct SubstanceRowView: View {
     }
 }
 
-// MARK: - Substance Detail Sheet
+// MARK: - Substance Detail
 
-struct SubstanceDetailSheet: View {
+struct SubstanceDetailView: View {
     let substance: Substance
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
@@ -314,6 +451,11 @@ struct SubstanceDetailSheet: View {
                     if let heavy = doses.heavy {
                         doseRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
                     }
+
+                    if doses.requiresVolumetricDosing(unit: unit) {
+                        VolumetricDosingDisclaimer()
+                            .padding(.vertical, 4)
+                    }
                 }
 
                 if let duration = substanceRoute.duration {
@@ -345,7 +487,8 @@ struct SubstanceDetailSheet: View {
                 Section {
                     ForEach(substance.sources, id: \.self) { source in
                         if let info = AppSources.info(for: source) {
-                            if let url = URL(string: info.url), !info.url.isEmpty {
+                            let deepURL = AppSources.substanceURL(for: source, substance: substance.name)
+                            if let url = deepURL {
                                 Link(destination: url) {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(source).font(.subheadline.weight(.medium))
@@ -374,16 +517,13 @@ struct SubstanceDetailSheet: View {
         .navigationTitle(substance.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     toggleFavorite()
                 } label: {
                     Image(systemName: isFavorite ? "star.fill" : "star")
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                 }
-            }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Done") { dismiss() }
             }
         }
     }
@@ -504,4 +644,3 @@ struct EffectLabelStyle: LabelStyle {
         }
     }
 }
-

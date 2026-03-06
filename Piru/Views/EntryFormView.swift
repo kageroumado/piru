@@ -309,6 +309,35 @@ struct EntryFormView: View {
             )
             modelContext.insert(newEntry)
             savedEntry = newEntry
+
+            // Schedule wellness notifications & check cumulative dose
+            let category = selectedSubstance?.category
+            let duration = selectedSubstance?.resolveDuration(for: route)
+            let stimHours = RampDownScheduler.stimulantSessionHours(from: Array(recentEntries))
+
+            RampDownScheduler.scheduleWellnessNotifications(
+                substanceName: substance,
+                category: category,
+                doseTime: timestamp,
+                duration: duration,
+                recentStimHours: stimHours
+            )
+
+            let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
+                substanceName: substance,
+                newAmount: parsedAmount,
+                unit: unit,
+                route: route,
+                existingEntries: Array(recentEntries)
+            )
+            if shouldAlert {
+                RampDownScheduler.scheduleCumulativeDoseNotification(
+                    substanceName: substance,
+                    totalAmount: total,
+                    unit: unit,
+                    category: category
+                )
+            }
         }
 
         if !hasColor(for: substance) {

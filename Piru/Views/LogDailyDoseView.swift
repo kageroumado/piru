@@ -55,7 +55,7 @@ struct LogDailyDoseView: View {
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(item.substance)
                                     .font(.body)
-                                Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
+                                Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(item.route.displayName)")
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.secondaryLabel)
                             }

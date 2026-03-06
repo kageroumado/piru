@@ -264,7 +264,7 @@ struct DailyDoseSettingsView: View {
                     Text(item.substance)
                         .font(.body)
                         .foregroundStyle(.primary)
-                    Text("\(item.amount.formatted()) \(item.unit) \u{2014} \(item.route.displayName)")
+                    Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(item.route.displayName)")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
