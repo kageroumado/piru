@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var isSearching = false
     @FocusState private var searchFieldFocused: Bool
 
+    @State private var lastContentTab = 0
     @State private var showingForm = false
     @State private var showingSettings = false
     @State private var showingSessionDetail = false
@@ -20,7 +21,10 @@ struct ContentView: View {
                 legacyBody
             }
         }
-        .onChange(of: selectedTab) {
+        .onChange(of: selectedTab) { oldValue, newValue in
+            if newValue == 5 {
+                lastContentTab = oldValue
+            }
             searchText = ""
             librarySearchText = ""
             searchFieldFocused = false
@@ -97,7 +101,6 @@ struct ContentView: View {
             Tab("Library", systemImage: "books.vertical", value: 1) {
                 NavigationStack {
                     libraryContent
-                        .searchable(text: $librarySearchText, prompt: Text("Search \(LibraryLoadingState.shared.substanceCount) substances..."))
                 }
             }
             Tab("Tools", systemImage: "wrench.and.screwdriver", value: 2) {
@@ -108,11 +111,17 @@ struct ContentView: View {
             }
             Tab("Search", systemImage: "magnifyingglass", value: 5, role: .search) {
                 NavigationStack {
-                    EntryListView(searchText: $searchText)
-                        .navigationTitle("Search")
-                        .toolbar { settingsToolbarItem }
-                        .searchable(text: $searchText)
-                        .withDayDetailDestination()
+                    Group {
+                        if lastContentTab == 1 {
+                            SubstanceLibraryView(searchText: $searchText)
+                        } else {
+                            EntryListView(searchText: $searchText)
+                                .withDayDetailDestination()
+                        }
+                    }
+                    .navigationTitle("Search")
+                    .toolbar { settingsToolbarItem }
+                    .searchable(text: $searchText, prompt: lastContentTab == 1 ? "Search substances..." : "Search entries...")
                 }
             }
         }
