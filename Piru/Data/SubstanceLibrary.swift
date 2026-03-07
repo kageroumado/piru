@@ -123,7 +123,66 @@ enum SubstanceLibrary {
             LibraryLoadingState.shared.statusText = "Done"
             print("[SubstanceLibrary] Done! \(all.count) total substances")
 
+            // Background enrichment: PsychonautWiki fetches per-route dose ranges,
+            // full duration profiles, subjective effects, and tolerance info.
+            // Runs without blocking the UI — results merge in and re-save the cache.
+            await enrichFromPsychonautWiki()
         }
+    }
+
+    // MARK: - PsychonautWiki Background Enrichment
+
+    /// Fetch PsychonautWiki data for psychoactive substances in the background.
+    /// Merges results into the library and re-saves the cache without blocking the UI.
+    @MainActor private static func enrichFromPsychonautWiki() async {
+        let psychoactiveCategories: Set<SubstanceCategory> = [
+            .psychedelic, .dissociative, .empathogen, .cannabinoid,
+            .stimulant, .opioid, .benzodiazepine, .depressant,
+            .gabapentinoid, .nootropic, .other,
+        ]
+        var pwNames = all
+            .filter { psychoactiveCategories.contains($0.category) }
+            .map(\.name)
+
+        // Extra nootropics/research chems not in TripSit or DailyMed
+        let extraNames = [
+            // Racetams
+            "IDRA-21", "Sunifiram", "Unifiram", "Oxiracetam", "Nebracetam",
+            "Phenylpiracetam hydrazide",
+            // Peptides
+            "NSI-189", "Dihexa", "Semax", "Selank", "Cerebrolysin", "P21", "BPC-157",
+            // Cholinergics & precursors
+            "Alpha-GPC", "CDP-Choline", "Uridine", "Phosphatidylserine",
+            // Herbals & naturals
+            "Lion\'s Mane", "Bacopa monnieri", "Ginkgo biloba", "Rhodiola rosea",
+            "Polygala tenuifolia", "Magnolia bark", "Sabroxy",
+            // Stimulant-adjacent
+            "Sulbutiamine", "Vinpocetine", "Centrophenoxine", "Emoxypine", "Cortexin",
+            "RGPU-95", "Dynamine", "Methylliberine",
+            // Afinils
+            "Adrafinil", "Flmodafinil", "Hydrafinil",
+            // Others
+            "SAM-e", "Agmatine", "NALT", "Tyrosine", "DMAE",
+            "9-Me-BC", "Tianeptine", "Memantine", "Tasimelteon",
+        ]
+        let existingLower = Set(pwNames.map { $0.lowercased() })
+        for name in extraNames where !existingLower.contains(name.lowercased()) {
+            pwNames.append(name)
+        }
+
+        guard !pwNames.isEmpty else { return }
+
+        print("[SubstanceLibrary] Background PW enrichment: querying \(pwNames.count) substances...")
+        let pwSubstances = await PsychonautWikiAPI.fetchSubstances(names: pwNames)
+        guard !pwSubstances.isEmpty else {
+            print("[SubstanceLibrary] Background PW enrichment: no results")
+            return
+        }
+
+        let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: pwSubstances)
+        updateAll(merged)
+        saveCache(all)
+        print("[SubstanceLibrary] Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
     }
 
     // MARK: - Half-Life Enrichment
