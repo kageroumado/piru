@@ -108,13 +108,7 @@ enum SubstanceLibrary {
             let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
             print("[SubstanceLibrary] Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
 
-            // Stage 4: Fetch drug interaction data from FDA label drug_interactions sections
-            LibraryLoadingState.shared.statusText = "Fetching interaction data..."
-            let fdaInteractionData = await DailyMedAPI.fetchInteractions(for: all)
-            if !fdaInteractionData.isEmpty {
-                InteractionChecker.setFDAInteractions(fdaInteractionData)
-                print("[SubstanceLibrary] Stage 4: \(fdaInteractionData.count) FDA-sourced interactions loaded")
-            }
+
 
             saveCache(all)
             isLoading = false
@@ -269,6 +263,7 @@ enum SubstanceLibrary {
     private static func clearCache() {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         try? FileManager.default.removeItem(at: dir.appendingPathComponent("substances_cache.json"))
+        try? FileManager.default.removeItem(at: dir.appendingPathComponent("interactions_cache.json"))
     }
 
     // MARK: - Lookup
