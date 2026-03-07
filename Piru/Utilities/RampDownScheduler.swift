@@ -141,12 +141,13 @@ enum RampDownScheduler {
             let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
             let now = Date.now
 
-            func hasPendingWithin30Min(prefix: String) -> Bool {
-                pending.contains { req in
+            func hasPendingWithin(minutes: Double = 30, of targetFireDate: Date, prefix: String) -> Bool {
+                let window = minutes * 60
+                return pending.contains { req in
                     guard req.identifier.hasPrefix(prefix),
                           let trigger = req.trigger as? UNTimeIntervalNotificationTrigger else { return false }
                     let fireDate = now.addingTimeInterval(trigger.timeInterval)
-                    return abs(fireDate.timeIntervalSince(now)) < 1800
+                    return abs(fireDate.timeIntervalSince(targetFireDate)) < window
                 }
             }
 
@@ -160,7 +161,8 @@ enum RampDownScheduler {
             }
 
             let hydrationInterval = doseTime.addingTimeInterval(hydrationDelay).timeIntervalSince(.now)
-            if hydrationInterval > 10 && !hasPendingWithin30Min(prefix: hydrationCategory) {
+            let hydrationFireDate = doseTime.addingTimeInterval(hydrationDelay)
+            if hydrationInterval > 10 && !hasPendingWithin(of: hydrationFireDate, prefix: hydrationCategory) {
                 scheduleSimpleNotification(
                     id: "\(hydrationCategory)_\(Int(doseTime.timeIntervalSince1970))",
                     title: "Stay hydrated",
@@ -174,7 +176,8 @@ enum RampDownScheduler {
             if let duration {
                 let offsetStart = duration.phaseBoundaries.peakEnd * 60
                 let secondInterval = doseTime.addingTimeInterval(offsetStart).timeIntervalSince(.now)
-                if secondInterval > hydrationInterval + 1800 && !hasPendingWithin30Min(prefix: "\(hydrationCategory)2") { // at least 30 min after first
+                let secondFireDate = doseTime.addingTimeInterval(offsetStart)
+                    if secondInterval > hydrationInterval + 1800 && !hasPendingWithin(of: secondFireDate, prefix: hydrationCategory) { // at least 30 min after first
                     scheduleSimpleNotification(
                         id: "\(hydrationCategory)2_\(Int(doseTime.timeIntervalSince1970))",
                         title: "Hydration check",
