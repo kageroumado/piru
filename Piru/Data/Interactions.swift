@@ -107,29 +107,6 @@ enum InteractionChecker {
                 }
             }
 
-            // FDA label-sourced interactions (bidirectional)
-            // Check if substanceName's label warns about entry's drug class
-            if let sourceInteractions = fdaInteractions[substanceName.lowercased()] {
-                for fi in sourceInteractions where activeClasses.contains(fi.targetClass) {
-                    results.append(InteractionResult(
-                        severity: fi.severity,
-                        substanceA: substanceName,
-                        substanceB: entry.substance,
-                        description: fi.snippet
-                    ))
-                }
-            }
-            // Check if entry's label warns about substanceName's drug class
-            if let entryInteractions = fdaInteractions[entry.substance.lowercased()] {
-                for fi in entryInteractions where newClasses.contains(fi.targetClass) {
-                    results.append(InteractionResult(
-                        severity: fi.severity,
-                        substanceA: substanceName,
-                        substanceB: entry.substance,
-                        description: fi.snippet
-                    ))
-                }
-            }
         }
 
         // Sort by severity (dangerous first), deduplicate by substance pair
@@ -179,29 +156,6 @@ enum InteractionChecker {
                     }
                 }
 
-                // FDA label-sourced batch interactions
-                let aLower = substances[i].lowercased()
-                let bLower = substances[j].lowercased()
-                if let fdaA = fdaInteractions[aLower] {
-                    for fi in fdaA where classesB.contains(fi.targetClass) {
-                        allResults.append(InteractionResult(
-                            severity: fi.severity,
-                            substanceA: substances[i],
-                            substanceB: substances[j],
-                            description: fi.snippet
-                        ))
-                    }
-                }
-                if let fdaB = fdaInteractions[bLower] {
-                    for fi in fdaB where classesA.contains(fi.targetClass) {
-                        allResults.append(InteractionResult(
-                            severity: fi.severity,
-                            substanceA: substances[i],
-                            substanceB: substances[j],
-                            description: fi.snippet
-                        ))
-                    }
-                }
             }
         }
 
@@ -284,10 +238,11 @@ enum InteractionChecker {
         map["baclofen"] = [.ghb]
 
         // Stimulants (common names)
-        map["caffeine"] = [.stimulant]
-        map["nicotine"] = [.stimulant]
-        map["methamphetamine"] = [.stimulant]
-        map["cocaine"] = [.stimulant]
+        for name in ["Caffeine", "Nicotine", "Methamphetamine", "Cocaine",
+                     "Amphetamine", "Dextroamphetamine", "Lisdexamfetamine",
+                     "Methylphenidate", "Modafinil", "Armodafinil", "DMAA"] {
+            map[name.lowercased()] = [.stimulant]
+        }
 
         // Opioids (common names/variants)
         map["kratom"] = [.opioid]
@@ -334,28 +289,6 @@ enum InteractionChecker {
     /// Rebuilt via `rebuildCache()` after the substance library finishes loading.
     private static var drugClassCache: [String: [DrugClass]] = [:]
 
-    /// FDA label-sourced interactions keyed by lowercased source drug name.
-    /// Loaded lazily from disk on first access; replaced when `setFDAInteractions` is called.
-    private static var fdaInteractions: [String: [SubstanceInteraction]] = {
-        guard let data = try? Data(contentsOf: fdaInteractionCacheURL),
-              let list = try? JSONDecoder().decode([SubstanceInteraction].self, from: data)
-        else { return [:] }
-        return Dictionary(grouping: list, by: \.sourceDrug)
-    }()
-
-    private static var fdaInteractionCacheURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("interactions_cache.json")
-    }
-
-    /// Replace the in-memory FDA interaction cache and persist it to disk.
-    static func setFDAInteractions(_ interactions: [SubstanceInteraction]) {
-        fdaInteractions = Dictionary(grouping: interactions, by: \.sourceDrug)
-        if let data = try? JSONEncoder().encode(interactions) {
-            try? data.write(to: fdaInteractionCacheURL, options: .atomic)
-        }
-        print("[InteractionChecker] Loaded \(interactions.count) FDA-sourced interactions for \(fdaInteractions.count) substances")
-    }
 
     @MainActor static func rebuildCache() {
         var cache: [String: [DrugClass]] = [:]

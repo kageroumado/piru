@@ -540,6 +540,20 @@ struct DailyMedAPI {
                 let ctxStart = lower.index(kwRange.lowerBound, offsetBy: -300, limitedBy: lower.startIndex) ?? lower.startIndex
                 let ctxEnd   = lower.index(kwRange.upperBound, offsetBy: 400,  limitedBy: lower.endIndex)   ?? lower.endIndex
                 let context  = String(lower[ctxStart..<ctxEnd])
+
+                // Skip matches in "no interaction" / "no dosage adjustment" context
+                let noInteractionPhrases = [
+                    "no clinically important interaction",
+                    "no dosage adjustment is necessary",
+                    "no dosage adjustment is required",
+                    "no clinically significant interaction",
+                    "no dose adjustment",
+                    "does not affect",
+                    "no significant effect",
+                    "having no clinically important",
+                ]
+                if noInteractionPhrases.contains(where: { context.contains($0) }) { continue }
+
                 seenClasses.insert(drugClass.rawValue)
                 interactions.append(SubstanceInteraction(
                     sourceDrug: sourceDrug,
