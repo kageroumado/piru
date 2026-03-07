@@ -173,58 +173,6 @@ struct DailyMedAPI {
         // Supplements with clinical dosing
         "folic acid", "cholecalciferol", "cyanocobalamin", "ferrous sulfate",
         "magnesium oxide", "potassium chloride",
-        // Parkinson's / movement disorders
-        "levodopa", "carbidopa", "pramipexole", "ropinirole",
-        "entacapone", "amantadine", "benztropine", "trihexyphenidyl",
-        // Epilepsy extras
-        "eslicarbazepine", "rufinamide", "cannabidiol", "felbamate", "ethosuximide",
-        // ADHD extras
-        "guanfacine", "viloxazine",
-        // GI extras
-        "dicyclomine", "hyoscyamine", "linaclotide", "lubiprostone",
-        // Laxatives
-        "polyethylene glycol", "lactulose", "docusate", "senna", "bisacodyl",
-        // Women's health / contraceptives
-        "norgestimate", "drospirenone", "etonogestrel", "desogestrel",
-        "ulipristal", "mifepristone",
-        // Ophthalmology
-        "latanoprost", "brimonidine", "dorzolamide",
-        // Gout / bone / joints
-        "colchicine", "allopurinol", "febuxostat", "probenecid",
-        "alendronate", "risedronate", "raloxifene",
-        // Diabetes / weight loss extras
-        "tirzepatide", "ertugliflozin", "phentermine", "orlistat",
-        // Cardiac extras
-        "dronedarone", "dofetilide", "propafenone", "sacubitril", "fondaparinux",
-        // Dermatology
-        "isotretinoin", "dapsone", "tretinoin", "adapalene",
-        // Antinausea / antiemetic extras
-        "scopolamine", "dimenhydrinate", "meclizine", "dronabinol", "nabilone",
-        // Cough suppressant
-        "benzonatate",
-        // Migraine — CGRP inhibitors
-        "erenumab", "galcanezumab", "fremanezumab", "ubrogepant", "rimegepant",
-        "ergotamine", "dihydroergotamine",
-        // Decongestants
-        "pseudoephedrine", "phenylephrine",
-        // Hair loss
-        "minoxidil",
-        // Antifungals extras
-        "nystatin", "griseofulvin",
-        // ED extras
-        "avanafil",
-        // Anesthetics
-        "nitrous oxide", "propofol",
-        // Smoking cessation
-        "nicotine", "cytisine",
-        // Steroids (anabolic)
-        "nandrolone", "oxandrolone", "stanozolol",
-        // Recreational-adjacent / grey market
-        "phenibut", "tianeptine", "kratom",
-        // Supplements people commonly track
-        "magnesium citrate", "magnesium glycinate", "l-theanine", "ashwagandha",
-        "coenzyme q10", "creatine", "turmeric", "fish oil", "biotin",
-        "collagen", "zinc",
     ]
 
     // MARK: - Fetch
