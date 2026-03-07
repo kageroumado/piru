@@ -310,6 +310,23 @@ enum InteractionChecker {
             map[name.lowercased()] = [.antihistamine]
         }
 
+        // Z-drugs (GABA-A agonists — interact like benzos)
+        for name in ["Zolpidem", "Zopiclone", "Eszopiclone", "Zaleplon"] {
+            map[name.lowercased()] = [.benzodiazepine]
+        }
+
+        // Buspirone (5-HT1A partial agonist — serotonin syndrome risk)
+        map["buspirone"] = [.ssri]  // Serotonergic proxy for interaction matching
+
+        // Quetiapine (sedating antipsychotic — also acts as antihistamine at low doses)
+        map["quetiapine"] = [.antipsychotic, .antihistamine]
+
+        // Clonidine (alpha-2 agonist — additive with CNS depressants)
+        map["clonidine"] = [.other]
+
+        // Mirtazapine (NaSSA — both antihistamine AND serotonergic)
+        map["mirtazapine"] = [.antihistamine, .ssri]
+
         return map
     }()
 
@@ -506,6 +523,26 @@ enum InteractionChecker {
             description: "Risk of seizures and serotonin toxicity — potentially fatal combination."),
         InteractionRule(classA: .lithium, classB: .maoi, severity: .unsafe,
             description: "Risk of serotonin syndrome and lithium toxicity."),
+
+        // Additional rules from audit
+        InteractionRule(classA: .stimulant, classB: .ssri, severity: .caution,
+            description: "Some combinations increase serotonin or seizure risk — monitor for symptoms."),
+        InteractionRule(classA: .stimulant, classB: .snri, severity: .caution,
+            description: "Cardiovascular strain and potential serotonin interaction — monitor heart rate and blood pressure."),
+        InteractionRule(classA: .antipsychotic, classB: .antipsychotic, severity: .caution,
+            description: "Combined QTc prolongation risk — monitor cardiac rhythm."),
+        InteractionRule(classA: .gabapentinoid, classB: .antihistamine, severity: .caution,
+            description: "Additive CNS depression — increased sedation and impaired coordination."),
+        InteractionRule(classA: .cannabinoid, classB: .benzodiazepine, severity: .caution,
+            description: "Additive sedation — may increase drowsiness and impaired coordination."),
+        InteractionRule(classA: .cannabinoid, classB: .opioid, severity: .caution,
+            description: "Additive CNS depression — may increase sedation and respiratory depression risk."),
+        InteractionRule(classA: .opioid, classB: .ssri, severity: .caution,
+            description: "Serotonin syndrome risk with some opioids (tramadol, meperidine, fentanyl) — monitor for symptoms."),
+        InteractionRule(classA: .cannabinoid, classB: .alcohol, severity: .caution,
+            description: "Additive impairment — increased dizziness, drowsiness, and slowed reaction time."),
+        InteractionRule(classA: .antipsychotic, classB: .alcohol, severity: .caution,
+            description: "Additive CNS depression — increased sedation and impairment."),
     ]
 
     /// Precomputed rule lookup keyed by sorted class pairs for O(1) access.

@@ -526,8 +526,14 @@ struct DailyMedAPI {
         var interactions: [SubstanceInteraction] = []
         var seenClasses = Set<String>()
 
+        // Get the source drug's own classes so we can skip self-referential matches
+        // (e.g., amphetamine's label mentioning "amphetamine" shouldn't create a stimulant interaction)
+        let ownClasses = InteractionChecker.drugClasses(for: sourceDrug)
+
         for (drugClass, keywords) in interactionClassKeywords {
             guard !seenClasses.contains(drugClass.rawValue) else { continue }
+            // Skip if the target class is the same as the source drug's own class
+            guard !ownClasses.contains(drugClass) else { continue }
             for keyword in keywords {
                 guard lower.contains(keyword) else { continue }
                 let kwRange = lower.range(of: keyword)!
