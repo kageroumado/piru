@@ -468,6 +468,7 @@ struct QuickLogView: View {
     // MARK: - Actions
 
     private func instantLog(group: SubstanceGroup, chip: DoseChip) {
+        guard chip.amount > 0 else { return }
         let entry = DoseEntry(
             substance: group.substanceName,
             amount: chip.amount,
