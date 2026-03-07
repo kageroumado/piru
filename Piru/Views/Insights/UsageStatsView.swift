@@ -48,12 +48,12 @@ struct UsageStatsView: View {
     }
 
     private func rebuildFilteredEntries() {
-        guard let days = timeRange.days else {
+        if let days = timeRange.days {
+            let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
+            filteredEntries = allEntries.filter { $0.timestamp >= cutoff }
+        } else {
             filteredEntries = allEntries
-            return
         }
-        let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
-        filteredEntries = allEntries.filter { $0.timestamp >= cutoff }
         cachedColorMap = substanceColors.colorMap
     }
 

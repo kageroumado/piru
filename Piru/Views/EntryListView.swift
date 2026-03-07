@@ -4,12 +4,14 @@ import SwiftData
 // MARK: - Journal Grouping
 
 enum JournalGrouping: String, CaseIterable {
+    case recent = "Recent"
     case byDay = "Days"
     case bySubstance = "Substance"
     case byCategory = "Category"
 
     var icon: String {
         switch self {
+        case .recent: "clock"
         case .byDay: "calendar"
         case .bySubstance: "pill"
         case .byCategory: "square.grid.2x2"
@@ -29,6 +31,8 @@ struct EntryListView: View {
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingFilters = false
     @State private var showingCalendar = false
+    @State private var filterBarVisible = true
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // Filter state
     @State private var filterStartDate: Date? = nil
@@ -136,6 +140,9 @@ struct EntryListView: View {
         let filtered = filteredEntries
 
         switch grouping {
+        case .recent:
+            break // Uses filteredEntries directly, no grouping needed
+
         case .byDay:
             let grouped = Dictionary(grouping: filtered) { entry in
                 calendar.startOfDay(for: entry.timestamp)
@@ -167,23 +174,36 @@ struct EntryListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Toolbar: grouping picker + filter button + calendar button
-            filterBar
+            if filterBarVisible {
+                VStack(spacing: 0) {
+                    // Toolbar: grouping picker + filter button + calendar button
+                    filterBar
 
-            // Tag chips
-            if !allUsedTags.isEmpty && grouping == .byDay {
-                tagChipBar
+                    // Tag chips
+                    if !allUsedTags.isEmpty && grouping == .byDay {
+                        tagChipBar
+                    }
+                }
+                .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
             }
 
             // Main list
             List {
                 switch grouping {
+                case .recent: recentContent
                 case .byDay: dayGroupedContent
                 case .bySubstance: substanceGroupedContent
                 case .byCategory: categoryGroupedContent
                 }
             }
             .listStyle(.plain)
+            .onScrollGeometryChange(for: Bool.self) { geo in
+                geo.contentOffset.y < 20
+            } action: { _, atTop in
+                withAnimation(.snappy(duration: 0.25)) {
+                    filterBarVisible = atTop
+                }
+            }
             .overlay {
                 if filteredEntries.isEmpty {
                     emptyState
@@ -243,6 +263,18 @@ struct EntryListView: View {
                     .clipShape(Capsule())
             }
 
+            // Calendar button
+            Button {
+                showingCalendar = true
+            } label: {
+                Image(systemName: "calendar")
+                    .font(.subheadline.weight(.medium))
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color(.secondarySystemFill))
+                    .clipShape(Capsule())
+            }
+
             // Filter button
             Button {
                 showingFilters = true
@@ -259,18 +291,6 @@ struct EntryListView: View {
                 .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
                 .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
                 .clipShape(Capsule())
-            }
-
-            // Calendar button
-            Button {
-                showingCalendar = true
-            } label: {
-                Image(systemName: "calendar")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(.secondarySystemFill))
-                    .clipShape(Capsule())
             }
 
             Spacer()
@@ -303,6 +323,18 @@ struct EntryListView: View {
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
+        }
+    }
+
+    // MARK: - Recent (Flat) Content
+
+    @ViewBuilder
+    private var recentContent: some View {
+        ForEach(filteredEntries) { entry in
+            NavigationLink(value: entry) {
+                SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+            }
+            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
         }
     }
 
