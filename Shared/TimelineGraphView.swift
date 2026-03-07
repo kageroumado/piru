@@ -53,11 +53,14 @@ struct TimelineGraphView: View {
 
     /// Choose a tick interval (minutes) for a given visible span
     private static func intervalForSpan(_ span: Double) -> Double {
-        if span <= 60 { return 15 }
-        else if span <= 180 { return 30 }
-        else if span <= 420 { return 60 }
-        else if span <= 720 { return 120 }
-        else { return 240 }
+        if span <= 60 { return 15 }          // ≤1h: every 15min
+        else if span <= 180 { return 30 }    // ≤3h: every 30min
+        else if span <= 420 { return 60 }    // ≤7h: every 1h
+        else if span <= 720 { return 120 }   // ≤12h: every 2h
+        else if span <= 1440 { return 240 }  // ≤24h: every 4h
+        else if span <= 2880 { return 480 }  // ≤48h: every 8h
+        else if span <= 4320 { return 720 }  // ≤72h: every 12h
+        else { return 1440 }                 // >72h: every 24h
     }
 
     /// Minutes of left padding to extend graph to the previous clock boundary.
@@ -68,7 +71,9 @@ struct TimelineGraphView: View {
         let hour = calendar.component(.hour, from: earliestDose)
         let minute = calendar.component(.minute, from: earliestDose)
         let totalMinutes = Double(hour * 60 + minute)
-        let flooredMinutes = floor(totalMinutes / baseLabelInterval) * baseLabelInterval
+        // Use a capped interval for left padding — never more than 60 min of dead space
+        let paddingInterval = min(baseLabelInterval, 60.0)
+        let flooredMinutes = floor(totalMinutes / paddingInterval) * paddingInterval
         return totalMinutes - flooredMinutes
     }
 
@@ -463,8 +468,12 @@ struct TimelineGraphView: View {
 
             if x >= 0 && x <= size.width {
                 let minute = calendar.component(.minute, from: tickDate)
+                let hour = calendar.component(.hour, from: tickDate)
                 let label: String
-                if minute == 0 {
+                if minute == 0 && hour == 0 {
+                    // Midnight — show as day separator only (no date text, just the time)
+                    label = "12 AM"
+                } else if minute == 0 {
                     label = Self.timeHourFormatter.string(from: tickDate)
                 } else {
                     label = Self.timeLabelFormatter.string(from: tickDate)

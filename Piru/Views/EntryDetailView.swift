@@ -38,6 +38,17 @@ struct EntryDetailView: View {
                         compact: false
                     )
                     .frame(height: 160)
+                    .overlay(alignment: .topTrailing) {
+                        Button("Live Activity") {
+                            LiveActivityManager.shared.restartFromEntries(
+                                [entry],
+                                allColors: Array(substanceColors)
+                            )
+                        }
+                        .font(.caption)
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Theme.accent)
+                    }
                 } header: {
                     Label("Timeline", systemImage: "chart.xyaxis.line")
                 }
@@ -108,20 +119,8 @@ struct EntryDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                HStack(spacing: 12) {
-                    if substanceState != nil {
-                        Button {
-                            LiveActivityManager.shared.restartFromEntries(
-                                [entry],
-                                allColors: Array(substanceColors)
-                            )
-                        } label: {
-                            Image(systemName: "timer")
-                        }
-                    }
-                    Button("Edit") {
-                        showingEditForm = true
-                    }
+                Button("Edit") {
+                    showingEditForm = true
                 }
             }
         }
