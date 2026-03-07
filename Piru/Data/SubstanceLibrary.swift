@@ -123,39 +123,7 @@ enum SubstanceLibrary {
             LibraryLoadingState.shared.statusText = "Done"
             print("[SubstanceLibrary] Done! \(all.count) total substances")
 
-            // Background enrichment: PsychonautWiki fetches per-route dose ranges,
-            // full duration profiles, subjective effects, and tolerance info.
-            // Runs without blocking the UI — results merge in and re-save the cache.
-            await enrichFromPsychonautWiki()
         }
-    }
-
-    // MARK: - PsychonautWiki Background Enrichment
-
-    /// Fetch PsychonautWiki data for psychoactive substances in the background.
-    /// Merges results into the library and re-saves the cache without blocking the UI.
-    @MainActor private static func enrichFromPsychonautWiki() async {
-        let psychoactiveCategories: Set<SubstanceCategory> = [
-            .psychedelic, .dissociative, .empathogen, .cannabinoid,
-            .stimulant, .opioid, .benzodiazepine, .depressant,
-            .gabapentinoid, .nootropic, .other,
-        ]
-        let pwNames = all
-            .filter { psychoactiveCategories.contains($0.category) }
-            .map(\.name)
-        guard !pwNames.isEmpty else { return }
-
-        print("[SubstanceLibrary] Background PW enrichment: querying \(pwNames.count) substances...")
-        let pwSubstances = await PsychonautWikiAPI.fetchSubstances(names: pwNames)
-        guard !pwSubstances.isEmpty else {
-            print("[SubstanceLibrary] Background PW enrichment: no results")
-            return
-        }
-
-        let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: pwSubstances)
-        updateAll(merged)
-        saveCache(all)
-        print("[SubstanceLibrary] Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
     }
 
     // MARK: - Half-Life Enrichment
