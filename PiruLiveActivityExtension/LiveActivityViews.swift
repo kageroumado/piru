@@ -120,7 +120,7 @@ struct ExpandedBottomView: View {
 /// Pill icon with a small clock badge overlaid on the top-right corner.
 struct PillClockIcon: View {
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .bottomTrailing) {
             Image(systemName: "pill.fill")
                 .font(.system(size: 12))
             Circle()
@@ -130,7 +130,7 @@ struct PillClockIcon: View {
                     Image(systemName: "clock")
                         .font(.system(size: 6, weight: .medium))
                 )
-                .offset(x: 3, y: -1)
+                .offset(x: 3, y: 1)
         }
         .foregroundStyle(.white)
     }
@@ -139,9 +139,9 @@ struct PillClockIcon: View {
 /// Small declining graph icon indicating substance levels are decreasing.
 struct GraphDeclineIcon: View {
     var body: some View {
-        DeclineCurveShape()
-            .stroke(.secondary, style: StrokeStyle(lineWidth: 1.2, lineCap: .round))
-            .frame(width: 10, height: 10)
+        Image(systemName: "chart.line.downtrend.xyaxis")
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(.white)
     }
 }
 
@@ -202,11 +202,11 @@ struct CompactTrailingView: View {
 
     var body: some View {
         HStack(spacing: 3) {
+            GraphDeclineIcon()
             TimelineView(.periodic(from: .now, by: 60)) { timeline in
                 Text(remainingString(from: timeline.date, to: latestEnd))
                     .font(.caption2.monospacedDigit())
             }
-            GraphDeclineIcon()
         }
         .frame(minWidth: 32)
     }
