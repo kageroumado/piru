@@ -7,7 +7,10 @@ struct CodableRange: Codable {
     let lower: Double
     let upper: Double
 
-    var closedRange: ClosedRange<Double> { lower...upper }
+    var closedRange: ClosedRange<Double>? {
+        guard lower <= upper else { return nil }
+        return lower...upper
+    }
 
     init(_ range: ClosedRange<Double>) {
         self.lower = range.lowerBound
