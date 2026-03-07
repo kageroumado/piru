@@ -75,7 +75,9 @@ struct EntryFormView: View {
     }
 
     private var parsedAmount: Double? {
-        Double(amount.replacingOccurrences(of: ",", with: "."))
+        guard let value = Double(amount.replacingOccurrences(of: ",", with: ".")),
+              value > 0 else { return nil }
+        return value
     }
 
     private var currentDoseRange: DoseRange? {
