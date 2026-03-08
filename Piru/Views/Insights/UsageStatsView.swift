@@ -191,7 +191,7 @@ struct UsageStatsView: View {
     // MARK: - Timeline Chart
 
     private var timelineChart: some View {
-        let entries = activityExpanded ? allEntries : filteredEntries
+        let entries = filteredEntries
         let calendar = Calendar.current
 
         // Group entries by day and substance
@@ -407,12 +407,12 @@ struct UsageStatsView: View {
 
     // MARK: - Dose Trends
 
-    /// All substances with 2+ entries on 2+ different days — uses ALL entries, ignoring time range
+    /// Substances with 2+ entries on 2+ different days within the selected time range
     private var trendSubstances: [(name: String, count: Int)] {
         let calendar = Calendar.current
 
         var substanceEntries: [String: [DoseEntry]] = [:]
-        for entry in allEntries {
+        for entry in filteredEntries {
             substanceEntries[entry.substance, default: []].append(entry)
         }
 
@@ -427,9 +427,10 @@ struct UsageStatsView: View {
         return result.sorted { $0.count > $1.count }
     }
 
-    /// Build trend data from ALL entries for a substance, auto-aggregating weekly if span > 90 days
+    /// Build trend data from filtered entries for a substance, auto-aggregating to daily averages per week if span exceeds threshold.
+    /// The threshold scales with zoom — zooming in deep enough reveals individual daily data points.
     private func trendData(for substance: String) -> (points: [TrendDataPoint], unit: String, weekly: Bool) {
-        let entries = allEntries
+        let entries = filteredEntries
             .filter { $0.substance == substance }
             .sorted { $0.timestamp < $1.timestamp }
 
@@ -438,8 +439,8 @@ struct UsageStatsView: View {
         let calendar = Calendar.current
         let unit = entries.first?.unit ?? "mg"
 
-        let span = (entries.last?.timestamp.timeIntervalSince(entries.first!.timestamp) ?? 0) / 86400
-        let weekly = span > 90
+        let span = (entries.last?.timestamp.timeIntervalSince(entries.first?.timestamp ?? .now) ?? 0) / 86400
+        let weekly = span > 90 * Double(trendZoom)
 
         var buckets: [Date: Double] = [:]
         for entry in entries {
@@ -451,6 +452,17 @@ struct UsageStatsView: View {
                 key = calendar.startOfDay(for: entry.timestamp)
             }
             buckets[key, default: 0] += entry.amount
+        }
+
+        // When aggregating weekly, convert totals to daily averages
+        if weekly {
+            let now = Date.now
+            for (weekStart, total) in buckets {
+                let weekEnd = calendar.date(byAdding: .day, value: 7, to: weekStart) ?? weekStart
+                // Partial weeks at the edges get fewer days
+                let days = max(1, calendar.dateComponents([.day], from: weekStart, to: min(weekEnd, now)).day ?? 7)
+                buckets[weekStart] = total / Double(days)
+            }
         }
 
         let points = buckets.map { TrendDataPoint(date: $0.key, total: $0.value) }
@@ -520,9 +532,10 @@ struct UsageStatsView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     } else {
                         let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, UIScreen.main.bounds.width - 64)
-                        let trendChartHeight = max(220 * trendZoom, 220)
+                        let visibleLabelCount = max(3, Int(8 / trendZoom))
+                        let strideN = weekly ? max(1, visibleLabelCount / 4) : max(1, data.count / visibleLabelCount)
 
-                        ScrollView([.horizontal, .vertical], showsIndicators: false) {
+                        ScrollView(.horizontal, showsIndicators: false) {
                             Chart(data) { point in
                                 BarMark(
                                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
@@ -546,15 +559,17 @@ struct UsageStatsView: View {
                                 )
                                 .foregroundStyle(color)
                                 .symbolSize(20)
-
                             }
-                            .frame(width: trendChartWidth, height: trendChartHeight)
+                            .frame(width: trendChartWidth, height: 280)
                             .chartPlotStyle { plotArea in
-                                plotArea.padding(.leading, 4).padding(.trailing, 24)
+                                plotArea
+                                    .padding(.top, 16)
+                                    .padding(.bottom, 24)
+                                    .padding(.leading, 4)
+                                    .padding(.trailing, 24)
                             }
                             .chartXAxis {
                                 let comp: Calendar.Component = weekly ? .weekOfYear : .day
-                                let strideN = weekly ? 2 : max(2, data.count / 8)
                                 AxisMarks(values: .stride(by: comp, count: strideN)) { _ in
                                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                                         .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
@@ -575,22 +590,22 @@ struct UsageStatsView: View {
                                     .font(.caption2)
                                     .foregroundStyle(Theme.secondaryLabel)
                             }
+                            .simultaneousGesture(
+                                MagnifyGesture()
+                                    .onChanged { value in
+                                        trendZoom = max(0.5, min(6.0, trendGestureStartZoom * value.magnification))
+                                    }
+                                    .onEnded { _ in
+                                        trendGestureStartZoom = trendZoom
+                                    }
+                            )
                         }
+                        .scrollBounceBehavior(.basedOnSize)
                         .defaultScrollAnchor(.trailing)
-                        .contentShape(Rectangle())
-                        .gesture(
-                            MagnifyGesture()
-                                .onChanged { value in
-                                    trendZoom = max(0.5, min(4.0, trendGestureStartZoom * value.magnification))
-                                }
-                                .onEnded { _ in
-                                    trendGestureStartZoom = trendZoom
-                                }
-                        )
-
+                        .frame(height: 280)
 
                         if weekly {
-                            Text("Aggregated weekly")
+                            Text("Daily average per week")
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }

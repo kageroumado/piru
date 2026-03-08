@@ -279,18 +279,14 @@ struct EntryListView: View {
             Button {
                 showingFilters = true
             } label: {
-                HStack(spacing: 4) {
-                    Image(systemName: "line.3.horizontal.decrease")
-                    if hasActiveFilters {
-                        Text("Filtered")
-                    }
-                }
-                .font(.subheadline.weight(.medium))
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
-                .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
-                .clipShape(Capsule())
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.subheadline.weight(.medium))
+                    .frame(height: 16)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
+                    .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
+                    .clipShape(Capsule())
             }
 
             Spacer()

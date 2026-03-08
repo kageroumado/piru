@@ -398,6 +398,7 @@ struct SubstanceDetailView: View {
         } else {
             modelContext.insert(FavoriteSubstance(substance: substance.name))
         }
+        try? modelContext.save()
     }
 
     var body: some View {

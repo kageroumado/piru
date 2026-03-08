@@ -2,6 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     @State private var selectedTab = 0
     @State private var searchText = ""
     @State private var librarySearchText = ""
@@ -13,6 +15,7 @@ struct ContentView: View {
     @State private var showingSettings = false
     @State private var showingHelp = false
     @State private var showingSessionDetail = false
+    @State private var deepLinkEntry: DoseEntry?
 
     var body: some View {
         Group {
@@ -58,6 +61,21 @@ struct ContentView: View {
                         }
                     }
             }
+        }
+        .sheet(item: $deepLinkEntry) { entry in
+            NavigationStack {
+                EntryDetailView(entry: entry)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") {
+                                deepLinkEntry = nil
+                            }
+                        }
+                    }
+            }
+        }
+        .onOpenURL { url in
+            handleDeepLink(url)
         }
     }
 
@@ -325,6 +343,43 @@ struct ContentView: View {
         librarySearchText = ""
         withAnimation(.snappy(duration: 0.25)) {
             isSearching = false
+        }
+    }
+
+    // MARK: - Deep Linking
+
+    private func handleDeepLink(_ url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              components.scheme == "piru" else { return }
+
+        switch components.host {
+        case "day":
+            selectedTab = 0
+            showingSessionDetail = true
+
+        case "entry":
+            if let tsString = components.path.split(separator: "/").first,
+               let ts = TimeInterval(tsString) {
+                let target = Date(timeIntervalSince1970: ts)
+                let lower = target.addingTimeInterval(-2)
+                let upper = target.addingTimeInterval(2)
+                let descriptor = FetchDescriptor<DoseEntry>(
+                    predicate: #Predicate { entry in
+                        entry.timestamp >= lower && entry.timestamp <= upper
+                    }
+                )
+                if let entry = try? modelContext.fetch(descriptor).first {
+                    selectedTab = 0
+                    deepLinkEntry = entry
+                } else {
+                    // Entry not found — fall back to day view
+                    selectedTab = 0
+                    showingSessionDetail = true
+                }
+            }
+
+        default:
+            break
         }
     }
 }

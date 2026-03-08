@@ -20,6 +20,9 @@ struct QuickLogView: View {
     @State private var entryFormPrefill: EntryPrefill?
     @State private var pendingLogAction: (() -> Void)?
 
+    @State private var multiSelectEnabled = false
+    @State private var selectedDoses: [DoseSelection] = []
+
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedHistoryNames: Set<String> = []
@@ -167,6 +170,22 @@ struct QuickLogView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button {
+                        withAnimation {
+                            multiSelectEnabled.toggle()
+                            if !multiSelectEnabled { selectedDoses.removeAll() }
+                        }
+                    } label: {
+                        Image(systemName: multiSelectEnabled ? "checkmark.circle.fill" : "checkmark.circle")
+                    }
+                    if multiSelectEnabled && !selectedDoses.isEmpty {
+                        Button("Add (\(selectedDoses.count))") {
+                            batchLog()
+                        }
+                        .fontWeight(.semibold)
+                    }
+                }
             }
             .sheet(isPresented: $showColorPicker, onDismiss: onColorPickerDismiss) {
                 SubstanceColorPickerView(
@@ -243,6 +262,24 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
+        // Multi-select hint
+        if !multiSelectEnabled {
+            HStack(spacing: 4) {
+                Text("Press the")
+                Image(systemName: "checkmark.circle")
+                    .imageScale(.small)
+                Text("icon or long press doses to select multiple at once")
+            }
+            .font(.caption2)
+            .foregroundStyle(Theme.secondaryLabel)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+
+        // Selected doses section
+        if multiSelectEnabled {
+            selectedDosesSection
+        }
+
         // Help resources — shown when user searches for help
         if isHelpSearch {
             quickLogHelpBanner
@@ -412,29 +449,50 @@ struct QuickLogView: View {
     private func doseChips(for group: SubstanceGroup, color: Color) -> some View {
         FlowLayout(spacing: 6) {
             ForEach(group.doses) { chip in
-                Button {
-                    instantLog(group: group, chip: chip)
-                } label: {
+                let selected = multiSelectEnabled && isSelected(group: group, chip: chip)
+                HStack(spacing: 4) {
+                    if selected {
+                        Image(systemName: "checkmark")
+                            .font(.caption2.weight(.bold))
+                    }
                     Text("\(chip.formattedAmount) \(chip.unit)")
-                        .font(.subheadline.weight(.medium))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(color.opacity(0.15))
-                        .foregroundStyle(color)
-                        .clipShape(Capsule())
+                }
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(selected ? color : color.opacity(0.15))
+                .foregroundStyle(selected ? .white : color)
+                .clipShape(Capsule())
+                .contentShape(Capsule())
+                .onTapGesture {
+                    if multiSelectEnabled {
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            toggleSelection(group: group, chip: chip)
+                        }
+                    } else {
+                        instantLog(group: group, chip: chip)
+                    }
+                }
+                .onLongPressGesture {
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        if !multiSelectEnabled { multiSelectEnabled = true }
+                        toggleSelection(group: group, chip: chip)
+                    }
                 }
             }
 
-            Button {
-                openOtherDose(group: group)
-            } label: {
-                Label("Other dose", systemImage: "slider.horizontal.3")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(.tint.opacity(0.12))
-                    .foregroundStyle(.tint)
-                    .clipShape(Capsule())
+            if !multiSelectEnabled {
+                Button {
+                    openOtherDose(group: group)
+                } label: {
+                    Label("Other dose", systemImage: "slider.horizontal.3")
+                        .font(.subheadline.weight(.medium))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.tint.opacity(0.12))
+                        .foregroundStyle(.tint)
+                        .clipShape(Capsule())
+                }
             }
         }
     }
@@ -529,6 +587,103 @@ struct QuickLogView: View {
         } else {
             dismiss()
         }
+    }
+
+    // MARK: - Multi-Select
+
+    @ViewBuilder
+    private var selectedDosesSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if selectedDoses.isEmpty {
+                Text("Tap doses to select them, then tap Add to log together.")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            } else {
+                ForEach(selectedDoses) { dose in
+                    HStack(spacing: 8) {
+                        if let hex = dose.colorHex {
+                            Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
+                        }
+                        Text(dose.substanceName)
+                            .font(.subheadline.weight(.medium))
+                        Spacer()
+                        Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                        Button {
+                            withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+
+                let interactions = selectedInteractions
+                if !interactions.isEmpty {
+                    Divider()
+                    ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
+                        InteractionWarningRow(warning: warning)
+                    }
+                }
+            }
+        }
+        .padding(12)
+        .background(Theme.accent.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var selectedInteractions: [InteractionResult] {
+        let names = Array(Set(selectedDoses.map(\.substanceName)))
+        guard names.count >= 2 else { return [] }
+        return InteractionChecker.checkBatch(names, against: [])
+    }
+
+    private func isSelected(group: SubstanceGroup, chip: DoseChip) -> Bool {
+        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)|\(chip.amount)|\(chip.unit)"
+        return selectedDoses.contains { $0.id == key }
+    }
+
+    private func toggleSelection(group: SubstanceGroup, chip: DoseChip) {
+        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)|\(chip.amount)|\(chip.unit)"
+        if let index = selectedDoses.firstIndex(where: { $0.id == key }) {
+            selectedDoses.remove(at: index)
+        } else {
+            selectedDoses.append(DoseSelection(
+                substanceName: group.substanceName,
+                amount: chip.amount,
+                unit: chip.unit,
+                route: group.route,
+                colorHex: group.colorHex,
+                librarySubstance: group.librarySubstance
+            ))
+        }
+    }
+
+    private func batchLog() {
+        for dose in selectedDoses {
+            let entry = DoseEntry(
+                substance: dose.substanceName,
+                amount: dose.amount,
+                unit: dose.unit,
+                route: dose.route
+            )
+            modelContext.insert(entry)
+            scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
+
+            let colorHex = substanceColors.first {
+                $0.substance.lowercased() == dose.substanceName.lowercased()
+            }?.hexColor ?? "007AFF"
+
+            LiveActivityManager.shared.addDose(
+                entry: entry,
+                substance: dose.librarySubstance,
+                colorHex: colorHex,
+                allColors: Array(substanceColors)
+            )
+        }
+        dismiss()
     }
 
     // MARK: - Helpers
@@ -677,6 +832,17 @@ struct EntryPrefill: Identifiable, Hashable {
     let substance: String
     let route: RouteOfAdministration
     let unit: String
+}
+
+struct DoseSelection: Identifiable {
+    let substanceName: String
+    let amount: Double
+    let unit: String
+    let route: RouteOfAdministration
+    let colorHex: String?
+    let librarySubstance: Substance?
+
+    var id: String { "\(substanceName.lowercased())|\(route.rawValue)|\(amount)|\(unit)" }
 }
 
 struct DoseChip: Identifiable {
