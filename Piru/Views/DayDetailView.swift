@@ -9,6 +9,9 @@ struct DayDetailView: View {
 
     @State private var showingForm = false
     @State private var entryToEdit: DoseEntry?
+    @State private var entryToAdjustTime: DoseEntry?
+    @State private var showColorPicker = false
+    @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
     @State private var dayInteractions: [InteractionResult] = []
 
@@ -86,25 +89,32 @@ struct DayDetailView: View {
                 if !substanceStates.isEmpty || !doseMarkers.isEmpty {
                     Section {
                         DisclosureGroup(isExpanded: $graphExpanded) {
-                            TimelineGraphView(
-                                substances: substanceStates,
-                                currentTime: .now,
-                                compact: false,
-                                markers: doseMarkers
-                            )
-                            .frame(height: 160)
-                            .overlay(alignment: .topTrailing) {
+                            VStack(spacing: 8) {
                                 if isToday {
-                                    Button("Live Activity") {
-                                        restartLiveActivity()
+                                    HStack {
+                                        Spacer()
+                                        Button("Live Activity") {
+                                            restartLiveActivity()
+                                        }
+                                        .font(.caption)
+                                        .buttonStyle(.plain)
+                                        .foregroundStyle(Theme.accent)
                                     }
-                                    .font(.caption)
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(Theme.accent)
                                 }
+                                TimelineGraphView(
+                                    substances: substanceStates,
+                                    currentTime: .now,
+                                    compact: false,
+                                    markers: doseMarkers
+                                )
+                                .frame(height: 130)
                             }
                         } label: {
                             Label("Timeline", systemImage: "chart.xyaxis.line")
+                        }
+                    } footer: {
+                        if graphExpanded {
+                            Text("Pinch to zoom in or out")
                         }
                     }
                     .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
@@ -130,6 +140,30 @@ struct DayDetailView: View {
                                 Label("Edit", systemImage: "pencil")
                             }
                             .tint(.orange)
+                        }
+                        .contextMenu {
+                            Button {
+                                entryToAdjustTime = entry
+                            } label: {
+                                Label("Adjust Time", systemImage: "clock")
+                            }
+                            Button {
+                                colorPickerSubstance = entry.substance
+                                showColorPicker = true
+                            } label: {
+                                Label("Change Color", systemImage: "paintbrush")
+                            }
+                            Button {
+                                entryToEdit = entry
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            Divider()
+                            Button(role: .destructive) {
+                                deleteEntry(entry)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
@@ -194,6 +228,25 @@ struct DayDetailView: View {
         .sheet(item: $entryToEdit) { entry in
             EntryFormView(entry: entry)
         }
+        .sheet(item: $entryToAdjustTime) { entry in
+            NavigationStack {
+                TimeAdjustSheet(entry: entry)
+            }
+            .presentationDetents([.medium])
+        }
+        .sheet(isPresented: $showColorPicker) {
+            SubstanceColorPickerView(
+                substanceName: colorPickerSubstance,
+                takenColors: Array(substanceColors).takenColorMap
+            ) { hex in
+                if let existing = substanceColors.first(where: { $0.substance.lowercased() == colorPickerSubstance.lowercased() }) {
+                    existing.hexColor = hex
+                } else {
+                    modelContext.insert(SubstanceColor(substance: colorPickerSubstance, hexColor: hex))
+                }
+            }
+            .presentationDetents([.large])
+        }
     }
 
     private func loadInteractions() async {
@@ -230,4 +283,22 @@ struct DayDetailView: View {
         )
     }
 
+}
+
+private struct TimeAdjustSheet: View {
+    @Bindable var entry: DoseEntry
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        Form {
+            DatePicker("Date & Time", selection: $entry.timestamp)
+        }
+        .navigationTitle("Adjust Time")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Done") { dismiss() }
+            }
+        }
+    }
 }

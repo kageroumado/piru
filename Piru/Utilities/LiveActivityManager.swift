@@ -290,7 +290,7 @@ final class LiveActivityManager {
 
     func scheduleBackgroundRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: Self.backgroundTaskIdentifier)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 2 * 60)
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
@@ -318,7 +318,7 @@ final class LiveActivityManager {
 
     private func startUpdateTimer() {
         updateTimer?.invalidate()
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 5 * 60, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.periodicUpdate()
             }
@@ -394,10 +394,15 @@ final class LiveActivityManager {
     }
 
     private func staleDate() -> Date? {
-        activeEntries.compactMap { item -> Date? in
+        // Use a short stale date (5 min) so iOS refreshes the Live Activity frequently.
+        // Fall back to substance end time if all entries finish sooner.
+        let shortStale = Date.now.addingTimeInterval(5 * 60)
+        let substanceEnd = activeEntries.compactMap { item -> Date? in
             guard let duration = item.duration else { return nil }
             return item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
         }.max()
+        guard let end = substanceEnd else { return shortStale }
+        return min(shortStale, end)
     }
 
     private func pruneCompleted() {

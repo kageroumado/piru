@@ -28,7 +28,10 @@ struct TimelineGraphView: View {
     }
 
     /// Height reserved for time labels below the graph
-    private var labelAreaHeight: CGFloat { compact ? 0 : 22 }
+    private var labelAreaHeight: CGFloat { compact ? 0 : 16 }
+
+    /// Height reserved for relative time labels above the graph
+    private var topLabelAreaHeight: CGFloat { compact ? 0 : 12 }
 
     /// Duration of actual substance activity (earliest dose to latest end)
     private var dataSpan: Double {
@@ -46,39 +49,20 @@ struct TimelineGraphView: View {
         return max(maxEnd, 1)
     }
 
-    /// Base label interval from the full data span — used only for stable left padding.
-    private var baseLabelInterval: Double {
-        Self.intervalForSpan(dataSpan)
-    }
+    /// Target number of time labels on the x-axis for consistency.
+    private static let targetTickCount: Int = 8
 
-    /// Choose a tick interval (minutes) for a given visible span
+    /// Choose a clean tick interval that yields ~8 labels for the given span.
     private static func intervalForSpan(_ span: Double) -> Double {
-        if span <= 60 { return 15 }          // ≤1h: every 15min
-        else if span <= 180 { return 30 }    // ≤3h: every 30min
-        else if span <= 420 { return 60 }    // ≤7h: every 1h
-        else if span <= 720 { return 120 }   // ≤12h: every 2h
-        else if span <= 1440 { return 240 }  // ≤24h: every 4h
-        else if span <= 2880 { return 480 }  // ≤48h: every 8h
-        else if span <= 4320 { return 720 }  // ≤72h: every 12h
-        else { return 1440 }                 // >72h: every 24h
-    }
-
-    /// Minutes of left padding to extend graph to the previous clock boundary.
-    /// Only applies in non-compact mode where time labels are shown.
-    private var leftPaddingMinutes: Double {
-        guard !compact else { return 0 }
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: earliestDose)
-        let minute = calendar.component(.minute, from: earliestDose)
-        let totalMinutes = Double(hour * 60 + minute)
-        // Use a capped interval for left padding — never more than 60 min of dead space
-        let paddingInterval = min(baseLabelInterval, 60.0)
-        let flooredMinutes = floor(totalMinutes / paddingInterval) * paddingInterval
-        return totalMinutes - flooredMinutes
+        let candidates: [Double] = [15, 30, 60, 120, 240, 480, 720, 1440]
+        let ideal = span / Double(targetTickCount)
+        return candidates.first { $0 >= ideal } ?? 1440
     }
 
     private var totalSpan: Double {
-        dataSpan + leftPaddingMinutes
+        guard !compact else { return dataSpan }
+        let interval = Self.intervalForSpan(dataSpan)
+        return ceil(dataSpan / interval) * interval
     }
 
     /// Max dose amount per substance name, used to scale curve heights proportionally.
@@ -112,9 +96,7 @@ struct TimelineGraphView: View {
     private var visibleStart: Double {
         guard !compact else { return 0 }
         let maxPan = max(0, totalSpan - visibleSpan)
-        // When zoomed, skip past the left padding so it doesn't waste space
-        let minPan = zoom > 1.01 ? leftPaddingMinutes : 0.0
-        return min(max(minPan, panOffset), maxPan)
+        return min(max(0, panOffset), maxPan)
     }
 
     private var maxPanOffset: Double {
@@ -179,21 +161,20 @@ struct TimelineGraphView: View {
 
     private var graphCanvas: some View {
         Canvas { context, size in
-            let graphInset: CGFloat = 4
+            let graphInset: CGFloat = 2
+            let graphTop = graphInset + topLabelAreaHeight
             let graphWidth = size.width - graphInset * 2
-            let graphHeight = size.height - labelAreaHeight - graphInset * 2
+            let graphHeight = size.height - labelAreaHeight - topLabelAreaHeight - graphInset * 2
 
             let vStart = visibleStart
             let vSpan = visibleSpan
             guard vSpan > 0, graphHeight > 0 else { return }
 
-            let padding = leftPaddingMinutes
-            let diamondSize: CGFloat = compact ? 5 : 7
+            let diamondSize: CGFloat = 3
 
             // Pre-compute marker positions for two-pass rendering (lines behind, diamonds on top)
             let markerSlots: [(marker: DoseMarker, x: CGFloat, cy: CGFloat)]
             if !markers.isEmpty {
-                let slotSpacing: CGFloat = diamondSize * 2.8
                 var slots: [(marker: DoseMarker, slot: Int)] = []
                 var groups: [[Int]] = []
                 for (i, marker) in markers.enumerated() {
@@ -212,45 +193,70 @@ struct TimelineGraphView: View {
                     }
                 }
 
-                let midY = graphInset + graphHeight * 0.5
+                // Group slots by their x position for even vertical distribution
+                let groupedSlots: [[Int]] = groups
                 markerSlots = slots.compactMap { item in
-                    let markerOffset = item.marker.timestamp.timeIntervalSince(earliestDose) / 60 + padding
+                    let markerOffset = item.marker.timestamp.timeIntervalSince(earliestDose) / 60
                     let rawX = graphInset + CGFloat((markerOffset - vStart) / vSpan) * graphWidth
                     guard rawX >= -5 && rawX <= size.width + 5 else { return nil }
-                    let x = max(graphInset + diamondSize * 0.7 + 1, rawX)
+                    let x = max(graphInset + diamondSize + 1, rawX)
 
-                    let cy: CGFloat
-                    if item.slot == 0 {
-                        cy = midY
-                    } else if item.slot % 2 == 1 {
-                        cy = midY - CGFloat((item.slot + 1) / 2) * slotSpacing
-                    } else {
-                        cy = midY + CGFloat(item.slot / 2) * slotSpacing
-                    }
-                    let clampedCy = min(max(cy, graphInset + diamondSize + 2), graphInset + graphHeight - diamondSize - 2)
-                    return (marker: item.marker, x: x, cy: clampedCy)
+                    // Find which group this marker belongs to
+                    let groupIndex = groupedSlots.firstIndex { group in
+                        group.contains { j in
+                            abs(markers[j].timestamp.timeIntervalSince(item.marker.timestamp)) < 120
+                        }
+                    } ?? 0
+                    let groupSize = groupedSlots[groupIndex].count
+
+                    // Stack diamonds from the bottom of the graph upward, clamped to graph area
+                    let usableBottom = graphTop + graphHeight - diamondSize - 2
+                    let usableTop = graphTop + diamondSize + 2
+                    let spacing = diamondSize * 2 + 4
+                    let cy = max(usableTop, usableBottom - CGFloat(item.slot) * spacing)
+                    return (marker: item.marker, x: x, cy: cy)
                 }
             } else {
                 markerSlots = []
             }
 
-            // Pass 1: Marker dashed lines (drawn behind substance curves)
+            // Tick marks & gridlines (behind everything)
+            if !compact {
+                drawTickMarks(
+                    context: context,
+                    size: size,
+                    visibleStart: vStart,
+                    visibleSpan: vSpan,
+                    graphTop: graphTop,
+                    graphHeight: graphHeight,
+                    graphInset: graphInset
+                )
+            }
+
+            // Pass 1: Marker lines (subtle pink gradient behind diamonds)
+            let markerLineColor = Color(hex: "FFAACC")
             for item in markerSlots {
-                let color = Color(hex: item.marker.colorHex)
-                var dashPath = Path()
-                dashPath.move(to: CGPoint(x: item.x, y: graphInset + graphHeight))
-                dashPath.addLine(to: CGPoint(x: item.x, y: item.cy + diamondSize))
+                let topY = item.cy + diamondSize
+                let bottomY = graphTop + graphHeight
+
+                var linePath = Path()
+                linePath.move(to: CGPoint(x: item.x, y: topY))
+                linePath.addLine(to: CGPoint(x: item.x, y: bottomY))
                 context.stroke(
-                    dashPath,
-                    with: .color(color.opacity(0.3)),
-                    style: StrokeStyle(lineWidth: 1, dash: [4, 3])
+                    linePath,
+                    with: .linearGradient(
+                        Gradient(colors: [markerLineColor.opacity(0.35), markerLineColor.opacity(0.05)]),
+                        startPoint: CGPoint(x: item.x, y: topY),
+                        endPoint: CGPoint(x: item.x, y: bottomY)
+                    ),
+                    lineWidth: 0.75
                 )
             }
 
             // Substance curves
             for substance in substances {
                 let color = Color(hex: substance.colorHex)
-                let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60 + padding
+                let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
                 let scale = heightScale(for: substance)
 
                 let fillPath = intensityFillPath(
@@ -260,7 +266,8 @@ struct TimelineGraphView: View {
                     visibleSpan: vSpan,
                     graphWidth: graphWidth,
                     graphHeight: graphHeight,
-                    inset: graphInset,
+                    graphInset: graphInset,
+                    graphTop: graphTop,
                     scale: scale
                 )
                 context.fill(fillPath, with: .color(color.opacity(0.15)))
@@ -272,7 +279,8 @@ struct TimelineGraphView: View {
                     visibleSpan: vSpan,
                     graphWidth: graphWidth,
                     graphHeight: graphHeight,
-                    inset: graphInset,
+                    graphInset: graphInset,
+                    graphTop: graphTop,
                     scale: scale
                 )
                 context.stroke(
@@ -285,7 +293,7 @@ struct TimelineGraphView: View {
                 if elapsed >= 0 && elapsed <= substance.totalMinutes {
                     let minutePos = substanceOffset + elapsed
                     let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
-                    let y = graphInset + graphHeight - CGFloat(intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.9
+                    let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.93
                     if x >= -5 && x <= graphWidth + 5 {
                         let dotSize: CGFloat = compact ? 5 : 7
                         let dot = Path(ellipseIn: CGRect(
@@ -300,17 +308,17 @@ struct TimelineGraphView: View {
                 }
             }
 
-            // Pass 2: Marker diamonds (drawn on top of substance curves)
+            // Pass 2: Marker circles (drawn on top of substance curves)
             for item in markerSlots {
                 let color = Color(hex: item.marker.colorHex)
-                var diamond = Path()
-                diamond.move(to: CGPoint(x: item.x, y: item.cy - diamondSize))
-                diamond.addLine(to: CGPoint(x: item.x + diamondSize * 0.7, y: item.cy))
-                diamond.addLine(to: CGPoint(x: item.x, y: item.cy + diamondSize))
-                diamond.addLine(to: CGPoint(x: item.x - diamondSize * 0.7, y: item.cy))
-                diamond.closeSubpath()
-                context.fill(diamond, with: .color(color))
-                context.stroke(diamond, with: .color(.white.opacity(0.6)), lineWidth: 0.8)
+                let circle = Path(ellipseIn: CGRect(
+                    x: item.x - diamondSize,
+                    y: item.cy - diamondSize,
+                    width: diamondSize * 2,
+                    height: diamondSize * 2
+                ))
+                context.fill(circle, with: .color(color))
+                context.stroke(circle, with: .color(.white.opacity(0.6)), lineWidth: 0.8)
             }
 
             if !compact {
@@ -319,8 +327,16 @@ struct TimelineGraphView: View {
                     size: size,
                     visibleStart: vStart,
                     visibleSpan: vSpan,
-                    inset: graphInset,
+                    inset: graphTop,
                     graphHeight: graphHeight
+                )
+                drawRelativeTimeLabels(
+                    context: context,
+                    size: size,
+                    visibleStart: vStart,
+                    visibleSpan: vSpan,
+                    inset: graphInset,
+                    graphTop: graphTop
                 )
             }
         }
@@ -336,15 +352,16 @@ struct TimelineGraphView: View {
         visibleSpan: Double,
         graphWidth: CGFloat,
         graphHeight: CGFloat,
-        inset: CGFloat,
+        graphInset: CGFloat,
+        graphTop: CGFloat,
         scale: Double = 1.0
     ) -> Path {
         Path { path in
             let steps = compact ? 40 : 120
             for i in 0...steps {
                 let t = Double(i) / Double(steps) * substance.totalMinutes
-                let x = inset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = inset + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.9
+                let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
+                let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 if i == 0 {
                     path.move(to: CGPoint(x: x, y: y))
                 } else {
@@ -361,24 +378,25 @@ struct TimelineGraphView: View {
         visibleSpan: Double,
         graphWidth: CGFloat,
         graphHeight: CGFloat,
-        inset: CGFloat,
+        graphInset: CGFloat,
+        graphTop: CGFloat,
         scale: Double = 1.0
     ) -> Path {
         Path { path in
             let steps = compact ? 40 : 120
-            let baseline = inset + graphHeight
+            let baseline = graphTop + graphHeight
 
-            let startX = inset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
+            let startX = graphInset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
             path.move(to: CGPoint(x: startX, y: baseline))
 
             for i in 0...steps {
                 let t = Double(i) / Double(steps) * substance.totalMinutes
-                let x = inset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = inset + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.9
+                let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
+                let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 path.addLine(to: CGPoint(x: x, y: y))
             }
 
-            let endX = inset + CGFloat((substanceOffset + substance.totalMinutes - visibleStart) / visibleSpan) * graphWidth
+            let endX = graphInset + CGFloat((substanceOffset + substance.totalMinutes - visibleStart) / visibleSpan) * graphWidth
             path.addLine(to: CGPoint(x: endX, y: baseline))
             path.closeSubpath()
         }
@@ -418,6 +436,61 @@ struct TimelineGraphView: View {
         return clamped * clamped * (3 - 2 * clamped)
     }
 
+    // MARK: - Tick Marks
+
+    private func drawTickMarks(
+        context: GraphicsContext,
+        size: CGSize,
+        visibleStart: Double,
+        visibleSpan: Double,
+        graphTop: CGFloat,
+        graphHeight: CGFloat,
+        graphInset: CGFloat
+    ) {
+        let graphWidth = size.width - graphInset * 2
+        let calendar = Calendar.current
+        let interval = Self.intervalForSpan(visibleSpan)
+
+        let graphOrigin = earliestDose
+        let windowStart = graphOrigin.addingTimeInterval(visibleStart * 60)
+        let windowEnd = graphOrigin.addingTimeInterval((visibleStart + visibleSpan) * 60)
+
+        let startHour = calendar.component(.hour, from: windowStart)
+        let startMinute = calendar.component(.minute, from: windowStart)
+        let totalStartMinutes = Double(startHour * 60 + startMinute)
+        let firstTickMinutes = ceil(totalStartMinutes / interval) * interval
+        let firstTickDate = calendar.startOfDay(for: windowStart)
+            .addingTimeInterval(firstTickMinutes * 60)
+
+        var tickDate = firstTickDate
+
+        while tickDate <= windowEnd {
+            let minuteOffset = tickDate.timeIntervalSince(graphOrigin) / 60
+            let x = graphInset + CGFloat((minuteOffset - visibleStart) / visibleSpan) * graphWidth
+
+            if x >= graphInset && x <= size.width - graphInset {
+                // Subtle full-height gridline
+                var gridLine = Path()
+                gridLine.move(to: CGPoint(x: x, y: graphTop))
+                gridLine.addLine(to: CGPoint(x: x, y: graphTop + graphHeight))
+                context.stroke(gridLine, with: .color(.primary.opacity(0.08)), lineWidth: 0.5)
+
+                // Small tick mark at bottom edge
+                var bottomTick = Path()
+                bottomTick.move(to: CGPoint(x: x, y: graphTop + graphHeight))
+                bottomTick.addLine(to: CGPoint(x: x, y: graphTop + graphHeight + 4))
+                context.stroke(bottomTick, with: .color(.primary.opacity(0.25)), lineWidth: 0.75)
+
+                // Small tick mark at top edge
+                var topTick = Path()
+                topTick.move(to: CGPoint(x: x, y: graphTop))
+                topTick.addLine(to: CGPoint(x: x, y: graphTop - 3))
+                context.stroke(topTick, with: .color(.primary.opacity(0.2)), lineWidth: 0.5)
+            }
+            tickDate = tickDate.addingTimeInterval(interval * 60)
+        }
+    }
+
     // MARK: - Time Labels
 
     private static let timeLabelFormatter: DateFormatter = {
@@ -449,7 +522,7 @@ struct TimelineGraphView: View {
         let interval = Self.intervalForSpan(visibleSpan)
 
         // Graph origin is earliestDose shifted left by padding
-        let graphOrigin = earliestDose.addingTimeInterval(-leftPaddingMinutes * 60)
+        let graphOrigin = earliestDose
         let windowStart = graphOrigin.addingTimeInterval(visibleStart * 60)
         let windowEnd = graphOrigin.addingTimeInterval((visibleStart + visibleSpan) * 60)
 
@@ -462,6 +535,9 @@ struct TimelineGraphView: View {
             .addingTimeInterval(firstTickMinutes * 60)
 
         var tickDate = firstTickDate
+        let minLabelSpacing: CGFloat = 8
+        var lastLabelRight: CGFloat = -.infinity
+
         while tickDate <= windowEnd {
             let minuteOffset = tickDate.timeIntervalSince(graphOrigin) / 60
             let x = inset + CGFloat((minuteOffset - visibleStart) / visibleSpan) * graphWidth
@@ -471,7 +547,6 @@ struct TimelineGraphView: View {
                 let hour = calendar.component(.hour, from: tickDate)
                 let label: String
                 if minute == 0 && hour == 0 {
-                    // Midnight — show as day separator only (no date text, just the time)
                     label = "12 AM"
                 } else if minute == 0 {
                     label = Self.timeHourFormatter.string(from: tickDate)
@@ -481,18 +556,97 @@ struct TimelineGraphView: View {
 
                 let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
                 let resolved = context.resolve(text)
-                // Use leading/trailing anchor near edges to prevent clipping
-                let anchor: UnitPoint
+                let labelWidth = resolved.measure(in: size).width
+
+                let labelLeft: CGFloat
                 if x < 20 {
-                    anchor = .leading
+                    labelLeft = x
                 } else if x > size.width - 20 {
-                    anchor = .trailing
+                    labelLeft = x - labelWidth
                 } else {
-                    anchor = .center
+                    labelLeft = x - labelWidth / 2
                 }
-                context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: anchor)
+
+                if labelLeft >= lastLabelRight + minLabelSpacing {
+                    let anchor: UnitPoint
+                    if x < 20 {
+                        anchor = .leading
+                    } else if x > size.width - 20 {
+                        anchor = .trailing
+                    } else {
+                        anchor = .center
+                    }
+                    context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: anchor)
+                    lastLabelRight = labelLeft + labelWidth
+                }
             }
             tickDate = tickDate.addingTimeInterval(interval * 60)
         }
     }
+
+    // MARK: - Relative Time Labels
+
+    private func drawRelativeTimeLabels(
+        context: GraphicsContext,
+        size: CGSize,
+        visibleStart: Double,
+        visibleSpan: Double,
+        inset: CGFloat,
+        graphTop: CGFloat
+    ) {
+        let graphWidth = size.width - inset * 2
+        let labelY = inset + 4
+        // Determine hour step based on visible span
+        let hourStep: Int
+        let visibleHours = visibleSpan / 60
+        if visibleHours <= 4 { hourStep = 1 }
+        else if visibleHours <= 12 { hourStep = 2 }
+        else if visibleHours <= 24 { hourStep = 4 }
+        else { hourStep = 6 }
+
+        // Always step in whole hours to avoid duplicates
+        var hour: Int = 0
+        let maxHours = Int(ceil(dataSpan / 60))
+        var lastLabelRight: CGFloat = -.infinity
+        let minSpacing: CGFloat = 8
+
+        while hour <= maxHours {
+            let minutePos = Double(hour) * 60
+            let x = inset + CGFloat((minutePos - visibleStart) / visibleSpan) * graphWidth
+
+            if x >= -10 && x <= size.width + 10 {
+                let label = "\(hour)h"
+
+                let text = Text(label)
+                    .font(.system(size: 9, weight: .medium, design: .rounded))
+                    .foregroundStyle(.secondary.opacity(0.5))
+                let resolved = context.resolve(text)
+                let labelWidth = resolved.measure(in: size).width
+
+                let labelLeft: CGFloat
+                if x < 15 {
+                    labelLeft = x
+                } else if x > size.width - 15 {
+                    labelLeft = x - labelWidth
+                } else {
+                    labelLeft = x - labelWidth / 2
+                }
+
+                if labelLeft >= lastLabelRight + minSpacing {
+                    let anchor: UnitPoint
+                    if x < 15 {
+                        anchor = .leading
+                    } else if x > size.width - 15 {
+                        anchor = .trailing
+                    } else {
+                        anchor = .center
+                    }
+                    context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: anchor)
+                    lastLabelRight = labelLeft + labelWidth
+                }
+            }
+            hour += hourStep
+        }
+    }
+
 }

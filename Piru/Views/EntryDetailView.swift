@@ -11,6 +11,7 @@ struct EntryDetailView: View {
     @AppStorage("rampDownEnabled") private var rampDownEnabled = true
     @State private var showingEditForm = false
     @State private var showingDeleteConfirmation = false
+    @State private var showColorPicker = false
 
     private var resolvedDuration: DurationProfile? {
         SubstanceLibrary.lookupByNameOrAlias(entry.substance)?
@@ -21,36 +22,44 @@ struct EntryDetailView: View {
         RampDownScheduler.isActive(for: entry.persistentModelID.hashValue)
     }
 
-    private var substanceState: ActiveSubstanceState? {
-        let hex = substanceColors.first {
+    private var currentColorHex: String {
+        substanceColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
         }?.hexColor ?? "007AFF"
-        return ActiveSubstanceState.from(entry: entry, colorHex: hex)
+    }
+
+    private var substanceState: ActiveSubstanceState? {
+        ActiveSubstanceState.from(entry: entry, colorHex: currentColorHex)
     }
 
     var body: some View {
         List {
             if let state = substanceState {
                 Section {
-                    TimelineGraphView(
-                        substances: [state],
-                        currentTime: .now,
-                        compact: false
-                    )
-                    .frame(height: 160)
-                    .overlay(alignment: .topTrailing) {
-                        Button("Live Activity") {
-                            LiveActivityManager.shared.restartFromEntries(
-                                [entry],
-                                allColors: Array(substanceColors)
-                            )
+                    VStack(spacing: 8) {
+                        HStack {
+                            Spacer()
+                            Button("Live Activity") {
+                                LiveActivityManager.shared.restartFromEntries(
+                                    [entry],
+                                    allColors: Array(substanceColors)
+                                )
+                            }
+                            .font(.caption)
+                            .buttonStyle(.plain)
+                            .foregroundStyle(Theme.accent)
                         }
-                        .font(.caption)
-                        .buttonStyle(.plain)
-                        .foregroundStyle(Theme.accent)
+                        TimelineGraphView(
+                            substances: [state],
+                            currentTime: .now,
+                            compact: false
+                        )
+                        .frame(height: 130)
                     }
                 } header: {
                     Label("Timeline", systemImage: "chart.xyaxis.line")
+                } footer: {
+                    Text("Pinch to zoom in or out")
                 }
             } else {
                 Section {
@@ -65,6 +74,21 @@ struct EntryDetailView: View {
 
             Section("Substance") {
                 LabeledContent("Name", value: entry.substance)
+                Button {
+                    showColorPicker = true
+                } label: {
+                    HStack {
+                        Text("Color")
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Circle()
+                            .fill(Color(hex: currentColorHex))
+                            .frame(width: 16, height: 16)
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
             }
 
             Section("Dosage") {
@@ -138,6 +162,19 @@ struct EntryDetailView: View {
         }
         .sheet(isPresented: $showingEditForm) {
             EntryFormView(entry: entry)
+        }
+        .sheet(isPresented: $showColorPicker) {
+            SubstanceColorPickerView(
+                substanceName: entry.substance,
+                takenColors: Array(substanceColors).takenColorMap
+            ) { hex in
+                if let existing = substanceColors.first(where: { $0.substance.lowercased() == entry.substance.lowercased() }) {
+                    existing.hexColor = hex
+                } else {
+                    modelContext.insert(SubstanceColor(substance: entry.substance, hexColor: hex))
+                }
+            }
+            .presentationDetents([.large])
         }
     }
 

@@ -122,7 +122,7 @@ struct AdherenceView: View {
 
                     NavigationLink(value: date) {
                         AdherenceCalendarCell(
-                            day: Int(date.formatted(.dateTime.day()))!,
+                            day: calendar.component(.day, from: date),
                             status: isFuture ? .noData : (adherence?.status ?? .missed),
                             isToday: isToday
                         )
