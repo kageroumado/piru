@@ -14,7 +14,7 @@ enum RampDownScheduler {
 
     /// Whether automatic wellness notifications (hydration, sleep) are enabled.
     static var wellnessNotificationsEnabled: Bool {
-        UserDefaults.standard.object(forKey: "wellnessNotificationsEnabled") as? Bool ?? true
+        UserDefaults.standard.object(forKey: "wellnessNotificationsEnabled") as? Bool ?? false
     }
 
     // MARK: - Calculate Comedown Time

@@ -13,11 +13,20 @@ struct UsageStatsView: View {
     @State private var selectedCategory: SubstanceCategory?
     @State private var activityCategoryFilter: SubstanceCategory?
     @State private var categoryAngleValue: Int?
-    @State private var filteredEntries: [DoseEntry] = []
+    @State private var filteredEntries: [CachedEntry] = []
     @State private var selectedActivityDay: Date?
     @State private var selectedTrendDay: Date?
     @State private var trendZoom: CGFloat = 1.0
     @State private var trendGestureStartZoom: CGFloat = 1.0
+    @State private var availableWidth: CGFloat = 350
+
+    /// Lightweight copy of DoseEntry fields — avoids SwiftData model accessor overhead in chart views.
+    struct CachedEntry {
+        let substance: String
+        let amount: Double
+        let unit: String
+        let timestamp: Date
+    }
 
     struct DaySubstance: Hashable {
         let date: Date
@@ -48,16 +57,125 @@ struct UsageStatsView: View {
     }
 
     private func rebuildFilteredEntries() {
+        let filtered: [DoseEntry]
         if let days = timeRange.days {
             let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
-            filteredEntries = allEntries.filter { $0.timestamp >= cutoff }
+            filtered = allEntries.filter { $0.timestamp >= cutoff }
         } else {
-            filteredEntries = allEntries
+            filtered = Array(allEntries)
         }
+
+        // Single pass: snapshot SwiftData fields into lightweight structs
+        // and pre-compute timeline + trend data (avoids repeated Calendar work in chart views)
+        let calendar = Calendar.current
+        var entries: [CachedEntry] = []
+        entries.reserveCapacity(filtered.count)
+        var dayBuckets: [DaySubstance: Int] = [:]
+        var substanceDays: [String: Set<Date>] = [:]
+        var substanceCounts: [String: Int] = [:]
+        var uniqueNames = Set<String>()
+        var morning = 0, afternoon = 0, evening = 0, night = 0
+
+        for e in filtered {
+            let ce = CachedEntry(substance: e.substance, amount: e.amount, unit: e.unit, timestamp: e.timestamp)
+            entries.append(ce)
+            let day = calendar.startOfDay(for: ce.timestamp)
+            dayBuckets[DaySubstance(date: day, substance: ce.substance), default: 0] += 1
+            substanceDays[ce.substance, default: []].insert(day)
+            substanceCounts[ce.substance, default: 0] += 1
+            uniqueNames.insert(ce.substance.lowercased())
+
+            let hour = calendar.component(.hour, from: ce.timestamp)
+            switch hour {
+            case 6..<12: morning += 1
+            case 12..<18: afternoon += 1
+            case 18..<24: evening += 1
+            default: night += 1
+            }
+        }
+
+        filteredEntries = entries
         cachedColorMap = substanceColors.colorMap
+
+        // Frequency (top 10)
+        cachedFrequencyData = substanceCounts.sorted { $0.value > $1.value }
+            .prefix(10).map { (substance: $0.key, count: $0.value) }
+
+        // Time of day
+        cachedTimeOfDayBuckets = [morning, afternoon, evening, night]
+
+        // Summary
+        cachedUniqueSubstances = uniqueNames.count
+        cachedMostLogged = substanceCounts.max(by: { $0.value < $1.value })?.key ?? "—"
+
+        // Timeline data (per-substance for expanded chart)
+        cachedTimelineData = dayBuckets.map { (key: $0.key, count: $0.value) }
+            .sorted { $0.key.date < $1.key.date }
+
+        // Daily totals (aggregated for compact chart — 1 bar per day)
+        var dailyAgg: [Date: Int] = [:]
+        for (key, count) in dayBuckets { dailyAgg[key.date, default: 0] += count }
+        cachedDailyTotals = dailyAgg.sorted { $0.key < $1.key }
+            .map { (date: $0.key, count: $0.value) }
+
+        var seen = Set<String>()
+        var legend: [(name: String, color: Color)] = []
+        for item in cachedTimelineData {
+            let name = item.key.substance
+            if seen.insert(name.lowercased()).inserted {
+                legend.append((name: name, color: cachedColorMap[name.lowercased()] ?? Theme.accent))
+            }
+        }
+        cachedTimelineLegend = legend.sorted { $0.name < $1.name }
+
+        // Trend substances (2+ entries on 2+ distinct days)
+        var trends: [(name: String, count: Int)] = []
+        for (name, days) in substanceDays {
+            let count = substanceCounts[name] ?? 0
+            guard count >= 2, days.count >= 2 else { continue }
+            trends.append((name: name, count: count))
+        }
+        cachedTrendSubstances = trends.sorted { $0.count > $1.count }
+
+        rebuildCategoryData()
+    }
+
+    private func rebuildCategoryData() {
+        var categoryCounts: [SubstanceCategory: Int] = [:]
+        var substanceByCat: [SubstanceCategory: [String: Int]] = [:]
+
+        for entry in filteredEntries {
+            let cat = SubstanceLibrary.lookup(entry.substance.lowercased())?.category ?? .other
+            categoryCounts[cat, default: 0] += 1
+            substanceByCat[cat, default: [:]][entry.substance, default: 0] += 1
+        }
+
+        cachedCategoryCounts = categoryCounts
+            .sorted { $0.value > $1.value }
+            .map { (category: $0.key, count: $0.value) }
+
+        cachedCategorySubstanceCounts = substanceByCat.mapValues { counts in
+            counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
+        }
+
+        // Reset stale category selection if it no longer exists in the data
+        if let selected = selectedCategory, categoryCounts[selected] == nil {
+            selectedCategory = nil
+            categoryAngleValue = nil
+        }
     }
 
     @State private var cachedColorMap: [String: Color] = [:]
+    @State private var cachedTimelineData: [(key: DaySubstance, count: Int)] = []
+    @State private var cachedTimelineLegend: [(name: String, color: Color)] = []
+    @State private var cachedTrendSubstances: [(name: String, count: Int)] = []
+    @State private var cachedCategoryCounts: [(category: SubstanceCategory, count: Int)] = []
+    @State private var cachedCategorySubstanceCounts: [SubstanceCategory: [(substance: String, count: Int)]] = [:]
+    @State private var cachedFrequencyData: [(substance: String, count: Int)] = []
+    @State private var cachedDailyTotals: [(date: Date, count: Int)] = []
+    @State private var cachedTimeOfDayBuckets: [Int] = [0, 0, 0, 0]
+    @State private var cachedUniqueSubstances = 0
+    @State private var cachedMostLogged = "—"
 
     var body: some View {
         VStack(spacing: 0) {
@@ -67,7 +185,7 @@ struct UsageStatsView: View {
                     .padding(.vertical, 8)
             }
             ScrollView {
-                VStack(spacing: 20) {
+                LazyVStack(spacing: 20) {
                     if allEntries.isEmpty {
                         ContentUnavailableView(
                             "No Logged Entries",
@@ -85,10 +203,17 @@ struct UsageStatsView: View {
                 }
                 .padding()
             }
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.size.width
+            } action: { width in
+                availableWidth = width
+            }
         }
-        .task { rebuildFilteredEntries() }
+        .task(id: allEntries.count) {
+            await Task.yield()
+            rebuildFilteredEntries()
+        }
         .onChange(of: timeRange) { rebuildFilteredEntries() }
-        .onChange(of: allEntries.count) { rebuildFilteredEntries() }
     }
 
     // MARK: - Time Range Picker
@@ -106,7 +231,6 @@ struct UsageStatsView: View {
 
     private var summaryRow: some View {
         let entries = filteredEntries
-        let uniqueCount = Set(entries.map { $0.substance.lowercased() }).count
         let totalDays: Double = {
             guard let days = timeRange.days else {
                 guard let first = entries.last?.timestamp else { return 1 }
@@ -115,20 +239,15 @@ struct UsageStatsView: View {
             return Double(days)
         }()
         let avgPerDay = Double(entries.count) / totalDays
-        let mostLogged: String = {
-            var counts: [String: Int] = [:]
-            for entry in entries { counts[entry.substance, default: 0] += 1 }
-            return counts.max(by: { $0.value < $1.value })?.key ?? "—"
-        }()
 
         return VStack(spacing: 12) {
             HStack {
                 statCard(value: "\(entries.count)", label: "Entries")
-                statCard(value: "\(uniqueCount)", label: "Substances")
+                statCard(value: "\(cachedUniqueSubstances)", label: "Substances")
             }
             HStack {
                 statCard(value: String(format: "%.1f", avgPerDay), label: "Per day")
-                statCard(value: mostLogged, label: "Most logged")
+                statCard(value: cachedMostLogged, label: "Most logged")
             }
         }
     }
@@ -151,32 +270,27 @@ struct UsageStatsView: View {
     // MARK: - Frequency Chart
 
     private var frequencyChart: some View {
-        let entries = filteredEntries
-        var counts: [String: Int] = [:]
-        for entry in entries { counts[entry.substance, default: 0] += 1 }
-        let sorted = counts.sorted { $0.value > $1.value }
-        let top = Array(sorted.prefix(10))
-
-        let maxCount = top.first?.value ?? 1
+        let top = cachedFrequencyData
+        let maxCount = top.first?.count ?? 1
 
         return VStack(alignment: .leading, spacing: 12) {
             Text("Frequency")
                 .font(.headline)
 
-            ForEach(top, id: \.key) { item in
+            ForEach(top, id: \.substance) { item in
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(item.key)
+                    Text(item.substance)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                     HStack(spacing: 6) {
                         GeometryReader { geo in
-                            let fraction = CGFloat(item.value) / CGFloat(maxCount)
+                            let fraction = CGFloat(item.count) / CGFloat(maxCount)
                             Capsule()
-                                .fill(cachedColorMap[item.key.lowercased()] ?? Theme.accent)
+                                .fill(cachedColorMap[item.substance.lowercased()] ?? Theme.accent)
                                 .frame(width: max(fraction * geo.size.width, 8))
                         }
                         .frame(height: 12)
-                        Text("\(item.value)")
+                        Text("\(item.count)")
                             .font(.caption2)
                             .foregroundStyle(Theme.secondaryLabel)
                             .frame(width: 24, alignment: .leading)
@@ -191,32 +305,8 @@ struct UsageStatsView: View {
     // MARK: - Timeline Chart
 
     private var timelineChart: some View {
-        let entries = filteredEntries
-        let calendar = Calendar.current
-
-        // Group entries by day and substance
-        var buckets: [DaySubstance: Int] = [:]
-        for entry in entries {
-            let day = calendar.startOfDay(for: entry.timestamp)
-            buckets[DaySubstance(date: day, substance: entry.substance), default: 0] += 1
-        }
-
-        let data = buckets.map { (key: $0.key, count: $0.value) }
-            .sorted { $0.key.date < $1.key.date }
-
-        let uniqueSubstances: [(name: String, color: Color)] = {
-            var seen = Set<String>()
-            var result: [(String, Color)] = []
-            for item in data {
-                let name = item.key.substance
-                if seen.insert(name.lowercased()).inserted {
-                    result.append((name, cachedColorMap[name.lowercased()] ?? Theme.accent))
-                }
-            }
-            return result.sorted { $0.0 < $1.0 }
-        }()
-
-        _ = data.map(\.count).max() ?? 1
+        let data = cachedTimelineData
+        let uniqueSubstances = cachedTimelineLegend
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -322,13 +412,13 @@ struct UsageStatsView: View {
                 }
                 .padding(.top, 4)
             } else {
-                // Compact: fixed chart
-                Chart(data, id: \.key) { item in
+                // Compact: aggregated daily totals (1 bar per day for performance)
+                Chart(cachedDailyTotals, id: \.date) { item in
                     BarMark(
-                        x: .value("Date", item.key.date, unit: .day),
+                        x: .value("Date", item.date, unit: .day),
                         y: .value("Count", item.count)
                     )
-                    .foregroundStyle(cachedColorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                    .foregroundStyle(Theme.accent)
                     .cornerRadius(4)
                 }
                 .frame(height: 180)
@@ -407,26 +497,6 @@ struct UsageStatsView: View {
 
     // MARK: - Dose Trends
 
-    /// Substances with 2+ entries on 2+ different days within the selected time range
-    private var trendSubstances: [(name: String, count: Int)] {
-        let calendar = Calendar.current
-
-        var substanceEntries: [String: [DoseEntry]] = [:]
-        for entry in filteredEntries {
-            substanceEntries[entry.substance, default: []].append(entry)
-        }
-
-        var result: [(name: String, count: Int)] = []
-        for (name, sEntries) in substanceEntries {
-            guard sEntries.count >= 2 else { continue }
-            let days = Set(sEntries.map { calendar.startOfDay(for: $0.timestamp) })
-            guard days.count >= 2 else { continue }
-            result.append((name: name, count: sEntries.count))
-        }
-
-        return result.sorted { $0.count > $1.count }
-    }
-
     /// Build trend data from filtered entries for a substance, auto-aggregating to daily averages per week if span exceeds threshold.
     /// The threshold scales with zoom — zooming in deep enough reveals individual daily data points.
     private func trendData(for substance: String) -> (points: [TrendDataPoint], unit: String, weekly: Bool) {
@@ -473,7 +543,7 @@ struct UsageStatsView: View {
 
     @ViewBuilder
     private var doseTrendChart: some View {
-        let substances = trendSubstances
+        let substances = cachedTrendSubstances
         if !substances.isEmpty {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Dose Trends")
@@ -531,7 +601,7 @@ struct UsageStatsView: View {
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     } else {
-                        let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, UIScreen.main.bounds.width - 64)
+                        let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, availableWidth - 64)
                         let visibleLabelCount = max(3, Int(8 / trendZoom))
                         let strideN = weekly ? max(1, visibleLabelCount / 4) : max(1, data.count / visibleLabelCount)
 
@@ -560,13 +630,9 @@ struct UsageStatsView: View {
                                 .foregroundStyle(color)
                                 .symbolSize(20)
                             }
-                            .frame(width: trendChartWidth, height: 280)
+                            .frame(width: trendChartWidth)
                             .chartPlotStyle { plotArea in
-                                plotArea
-                                    .padding(.top, 16)
-                                    .padding(.bottom, 24)
-                                    .padding(.leading, 4)
-                                    .padding(.trailing, 24)
+                                plotArea.frame(height: 220).padding(.top, 12)
                             }
                             .chartXAxis {
                                 let comp: Calendar.Component = weekly ? .weekOfYear : .day
@@ -602,7 +668,6 @@ struct UsageStatsView: View {
                         }
                         .scrollBounceBehavior(.basedOnSize)
                         .defaultScrollAnchor(.trailing)
-                        .frame(height: 280)
 
                         if weekly {
                             Text("Daily average per week")
@@ -673,21 +738,6 @@ struct UsageStatsView: View {
     // MARK: - Time of Day
 
     private var timeOfDayChart: some View {
-        let entries = filteredEntries
-        let calendar = Calendar.current
-
-        var morning = 0, afternoon = 0, evening = 0, night = 0
-
-        for entry in entries {
-            let hour = calendar.component(.hour, from: entry.timestamp)
-            switch hour {
-            case 6..<12: morning += 1
-            case 12..<18: afternoon += 1
-            case 18..<24: evening += 1
-            default: night += 1
-            }
-        }
-
         struct TimeBucket: Identifiable {
             let name: String
             let count: Int
@@ -696,10 +746,10 @@ struct UsageStatsView: View {
         }
 
         let buckets = [
-            TimeBucket(name: "Morning\n6–12", count: morning, color: .orange),
-            TimeBucket(name: "Afternoon\n12–18", count: afternoon, color: .yellow),
-            TimeBucket(name: "Evening\n18–0", count: evening, color: .indigo),
-            TimeBucket(name: "Night\n0–6", count: night, color: .blue),
+            TimeBucket(name: "Morning\n6–12", count: cachedTimeOfDayBuckets[0], color: .orange),
+            TimeBucket(name: "Afternoon\n12–18", count: cachedTimeOfDayBuckets[1], color: .yellow),
+            TimeBucket(name: "Evening\n18–0", count: cachedTimeOfDayBuckets[2], color: .indigo),
+            TimeBucket(name: "Night\n0–6", count: cachedTimeOfDayBuckets[3], color: .blue),
         ]
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -747,21 +797,7 @@ struct UsageStatsView: View {
     // MARK: - Category Breakdown
 
     private var categoryBreakdownChart: some View {
-        let entries = filteredEntries
-
-        var categoryCounts: [SubstanceCategory: Int] = [:]
-        for entry in entries {
-            if let substance = SubstanceLibrary.lookup(entry.substance.lowercased()) {
-                categoryCounts[substance.category, default: 0] += 1
-            } else {
-                categoryCounts[.other, default: 0] += 1
-            }
-        }
-
-        let sorted = categoryCounts
-            .sorted { $0.value > $1.value }
-            .map { (category: $0.key, count: $0.value) }
-
+        let sorted = cachedCategoryCounts
         let total = sorted.reduce(0) { $0 + $1.count }
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -790,7 +826,7 @@ struct UsageStatsView: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             } else if let selected = selectedCategory {
-                categoryDrillDownContent(category: selected, entries: entries)
+                categoryDrillDownContent(category: selected)
             } else {
                 Chart(sorted, id: \.category) { item in
                     SectorMark(
@@ -845,48 +881,45 @@ struct UsageStatsView: View {
     }
 
     @ViewBuilder
-    private func categoryDrillDownContent(category: SubstanceCategory, entries: [DoseEntry]) -> some View {
-        let substanceCounts: [(substance: String, count: Int)] = {
-            var counts: [String: Int] = [:]
-            for entry in entries {
-                let sub = SubstanceLibrary.lookup(entry.substance.lowercased())
-                let cat = sub?.category ?? .other
-                if cat == category {
-                    counts[entry.substance, default: 0] += 1
-                }
-            }
-            return counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
-        }()
-
+    private func categoryDrillDownContent(category: SubstanceCategory) -> some View {
+        let substanceCounts = cachedCategorySubstanceCounts[category] ?? []
         let drillTotal = substanceCounts.reduce(0) { $0 + $1.count }
 
-        Chart(substanceCounts, id: \.substance) { item in
-            SectorMark(
-                angle: .value("Count", item.count),
-                innerRadius: .ratio(0.618),
-                angularInset: 1.5
-            )
-            .foregroundStyle(cachedColorMap[item.substance.lowercased()] ?? category.color)
-            .cornerRadius(4)
-        }
-        .frame(height: 200)
-        .chartLegend(.hidden)
+        if substanceCounts.isEmpty {
+            Text("No data for \(category.rawValue)")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 20)
+        } else {
+            Chart(substanceCounts, id: \.substance) { item in
+                SectorMark(
+                    angle: .value("Count", item.count),
+                    innerRadius: .ratio(0.618),
+                    angularInset: 1.5
+                )
+                .foregroundStyle(cachedColorMap[item.substance.lowercased()] ?? category.color)
+                .cornerRadius(4)
+            }
+            .frame(height: 200)
+            .chartLegend(.hidden)
 
-        FlowLayout(spacing: 8) {
-            ForEach(substanceCounts, id: \.substance) { item in
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(cachedColorMap[item.substance.lowercased()] ?? category.color)
-                        .frame(width: 8, height: 8)
-                    Text(item.substance)
-                        .font(.caption2)
-                    Text("\(item.count)")
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(Theme.secondaryLabel)
-                    if drillTotal > 0 {
-                        Text("(\(Int(round(Double(item.count) / Double(drillTotal) * 100)))%)")
+            FlowLayout(spacing: 8) {
+                ForEach(substanceCounts, id: \.substance) { item in
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(cachedColorMap[item.substance.lowercased()] ?? category.color)
+                            .frame(width: 8, height: 8)
+                        Text(item.substance)
                             .font(.caption2)
+                        Text("\(item.count)")
+                            .font(.caption2.weight(.semibold))
                             .foregroundStyle(Theme.secondaryLabel)
+                        if drillTotal > 0 {
+                            Text("(\(Int(round(Double(item.count) / Double(drillTotal) * 100)))%)")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                     }
                 }
             }

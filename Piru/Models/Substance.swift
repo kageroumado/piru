@@ -503,11 +503,11 @@ extension SubstanceCategory {
         case .empathogen: .pink
         case .cannabinoid: .green
         case .nootropic: .teal
-        case .depressant: .gray
+        case .depressant: Color(red: 0.45, green: 0.55, blue: 0.72)
         case .antidepressant: .yellow
         case .antipsychotic: .mint
         case .analgesic: .brown
-        case .antihistamine: Theme.secondaryLabel
+        case .antihistamine: Color(red: 0.72, green: 0.45, blue: 0.55)
         case .cardiovascular: .red.opacity(0.7)
         case .antimicrobial: .teal.opacity(0.7)
         case .gastrointestinal: .orange.opacity(0.7)

@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-struct DailyDoseItemFormView: View {
+struct MedicationItemFormView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -13,6 +13,11 @@ struct DailyDoseItemFormView: View {
     @State private var unit = "mg"
     @State private var route: RouteOfAdministration = .oral
     @State private var category = ""
+
+    // Schedule
+    @State private var frequency: DoseFrequency = .daily
+    @State private var selectedWeekdays: Set<Int> = []
+    @State private var startDate: Date = .now
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
@@ -34,6 +39,12 @@ struct DailyDoseItemFormView: View {
         }
         return defaultUnits
     }
+
+    private static let weekdaySymbols: [(index: Int, short: String)] = {
+        let cal = Calendar.current
+        // 1=Sunday .. 7=Saturday
+        return (1...7).map { ($0, cal.shortWeekdaySymbols[$0 - 1]) }
+    }()
 
     var body: some View {
         NavigationStack {
@@ -67,6 +78,51 @@ struct DailyDoseItemFormView: View {
                     }
                 }
 
+                Section {
+                    Picker("Frequency", selection: $frequency) {
+                        ForEach(DoseFrequency.allCases) { freq in
+                            Text(freq.displayName).tag(freq)
+                        }
+                    }
+
+                    if frequency == .specificDays {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Days")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            HStack(spacing: 6) {
+                                ForEach(Self.weekdaySymbols, id: \.index) { day in
+                                    let isSelected = selectedWeekdays.contains(day.index)
+                                    Button {
+                                        if isSelected {
+                                            selectedWeekdays.remove(day.index)
+                                        } else {
+                                            selectedWeekdays.insert(day.index)
+                                        }
+                                    } label: {
+                                        Text(String(day.short.prefix(2)))
+                                            .font(.caption.weight(.semibold))
+                                            .frame(width: 34, height: 34)
+                                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
+                                            .foregroundStyle(isSelected ? .white : .primary)
+                                            .clipShape(Circle())
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+
+                    if frequency != .daily && frequency != .specificDays {
+                        DatePicker("Starting from", selection: $startDate, displayedComponents: .date)
+                    }
+                } header: {
+                    Text("Schedule")
+                } footer: {
+                    scheduleFooter
+                }
+
                 if !categories.isEmpty {
                     Section("Category") {
                         Picker("Category", selection: $category) {
@@ -78,7 +134,7 @@ struct DailyDoseItemFormView: View {
                     }
                 }
             }
-            .navigationTitle(isEditing ? "Edit Item" : "Add Item")
+            .navigationTitle(isEditing ? "Edit Prescription" : "Add Prescription")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -86,10 +142,35 @@ struct DailyDoseItemFormView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { save() }
-                        .disabled(substance.isEmpty || amount.isEmpty)
+                        .disabled(substance.isEmpty || amount.isEmpty || (frequency == .specificDays && selectedWeekdays.isEmpty))
                 }
             }
             .onAppear(perform: loadItem)
+        }
+    }
+
+    @ViewBuilder
+    private var scheduleFooter: some View {
+        switch frequency {
+        case .daily:
+            Text("Checked every day.")
+        case .everyOtherDay:
+            Text("Checked every 2 days starting from the start date.")
+        case .weekly:
+            Text("Checked once per week on the same day as the start date.")
+        case .biweekly:
+            Text("Checked every 2 weeks on the same day as the start date.")
+        case .monthly:
+            Text("Checked once per month on the same day-of-month as the start date.")
+        case .specificDays:
+            if selectedWeekdays.isEmpty {
+                Text("Select at least one day.")
+            } else {
+                let names = selectedWeekdays.sorted().compactMap { idx in
+                    Self.weekdaySymbols.first { $0.index == idx }?.short
+                }
+                Text("Checked every \(names.joined(separator: ", ")).")
+            }
         }
     }
 
@@ -116,6 +197,9 @@ struct DailyDoseItemFormView: View {
             unit = item.unit
             route = item.route
             category = item.category
+            frequency = item.frequency
+            selectedWeekdays = Set(item.frequencyDays)
+            startDate = item.startDate
 
             if let match = SubstanceLibrary.search(item.substance).first,
                match.name.lowercased() == item.substance.lowercased() {
@@ -136,6 +220,9 @@ struct DailyDoseItemFormView: View {
             item.unit = unit
             item.route = route
             item.category = category
+            item.frequency = frequency
+            item.frequencyDays = Array(selectedWeekdays)
+            item.startDate = startDate
         } else {
             let newItem = DailyDoseItem(
                 substance: substance,
@@ -143,7 +230,10 @@ struct DailyDoseItemFormView: View {
                 unit: unit,
                 route: route,
                 sortOrder: existingItems.count,
-                category: category
+                category: category,
+                frequency: frequency,
+                frequencyDays: Array(selectedWeekdays),
+                startDate: startDate
             )
             modelContext.insert(newItem)
         }

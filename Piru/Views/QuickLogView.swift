@@ -13,8 +13,7 @@ struct QuickLogView: View {
     @State private var searchText = ""
     @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
-    @State private var showingDailyDose = false
-    @State private var dailyDoseCategory: String?
+    @State private var medicationCategory: MedicationCategoryItem?
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
     @State private var entryFormPrefill: EntryPrefill?
@@ -145,7 +144,7 @@ struct QuickLogView: View {
                     .padding(.bottom, 4)
                 LazyVStack(alignment: .leading, spacing: 16) {
                     if !dailyDoseItems.isEmpty && searchText.isEmpty {
-                        dailyDoseButton
+                        medicationsButton
                     }
 
                     if cachedCards.isEmpty && searchText.isEmpty {
@@ -200,8 +199,8 @@ struct QuickLogView: View {
             .sheet(item: $entryFormPrefill) { prefill in
                 EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
             }
-            .sheet(isPresented: $showingDailyDose) {
-                LogDailyDoseView(category: dailyDoseCategory)
+            .sheet(item: $medicationCategory) { item in
+                LogMedicationsView(category: item.category)
             }
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
@@ -333,41 +332,39 @@ struct QuickLogView: View {
         }
     }
 
-    // MARK: - Daily Dose Button
+    // MARK: - Medications
 
-    private var dailyDoseButton: some View {
+    private var medicationsButton: some View {
         let activeCategories = dailyDoseCategories.filter { cat in
             dailyDoseItems.contains { $0.category == cat }
         }
+        let uncategorized = dailyDoseItems.filter { $0.category.isEmpty }
 
         return VStack(spacing: 6) {
-            // Main "Log All" button
-            dailyDoseRow(
-                title: "Log Daily Dose",
-                icon: "pills",
-                count: dailyDoseItems.count,
-                category: nil
-            )
+            ForEach(activeCategories, id: \.self) { cat in
+                let catCount = dailyDoseItems.filter { $0.category == cat }.count
+                medicationRow(
+                    title: cat,
+                    icon: iconForCategory(cat),
+                    count: catCount,
+                    category: cat
+                )
+            }
 
-            // Per-category buttons
-            if !activeCategories.isEmpty {
-                ForEach(activeCategories, id: \.self) { cat in
-                    let catCount = dailyDoseItems.filter { $0.category == cat }.count
-                    dailyDoseRow(
-                        title: cat,
-                        icon: iconForCategory(cat),
-                        count: catCount,
-                        category: cat
-                    )
-                }
+            if !uncategorized.isEmpty {
+                medicationRow(
+                    title: activeCategories.isEmpty ? "Prescriptions" : "Other",
+                    icon: "pills",
+                    count: uncategorized.count,
+                    category: ""
+                )
             }
         }
     }
 
-    private func dailyDoseRow(title: String, icon: String, count: Int, category: String?) -> some View {
+    private func medicationRow(title: String, icon: String, count: Int, category: String) -> some View {
         Button {
-            dailyDoseCategory = category
-            showingDailyDose = true
+            medicationCategory = MedicationCategoryItem(category: category)
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: icon)
@@ -377,7 +374,7 @@ struct QuickLogView: View {
                     Text(title)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
-                    Text("\(count) item\(count == 1 ? "" : "s")")
+                    Text("\(count) prescription\(count == 1 ? "" : "s")")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -387,7 +384,7 @@ struct QuickLogView: View {
                     .foregroundStyle(Theme.secondaryLabel)
             }
             .padding(12)
-            .background(Theme.accent.opacity(category == nil ? 0.08 : 0.04))
+            .background(Theme.accent.opacity(0.06))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
@@ -825,6 +822,11 @@ struct SubstanceGroup: Identifiable {
             latestTimestamp = entry.timestamp
         }
     }
+}
+
+struct MedicationCategoryItem: Identifiable {
+    let id = UUID()
+    let category: String
 }
 
 struct EntryPrefill: Identifiable, Hashable {

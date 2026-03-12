@@ -7,9 +7,8 @@ struct SettingsView: View {
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Environment(\.modelContext) private var modelContext
 
-    @AppStorage("rampDownEnabled") private var rampDownEnabled = true
-    @AppStorage("liveActivityEnabled") private var liveActivityEnabled = true
-    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = true
+    @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
+    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
 
     @State private var showingExporter = false
     @State private var showingReport = false
@@ -22,14 +21,14 @@ struct SettingsView: View {
 
     var body: some View {
         List {
-            Section("Daily Dose") {
+            Section("Prescriptions") {
                 NavigationLink {
-                    DailyDoseSettingsView()
+                    MedicationsSettingsView()
                 } label: {
                     HStack {
-                        Label("Manage Daily Dose", systemImage: "pills")
+                        Label("Prescriptions", systemImage: "pills")
                         Spacer()
-                        Text("\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s")")
+                        Text("\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
@@ -52,11 +51,6 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle(isOn: $rampDownEnabled) {
-                    Label("Comedown Alerts", systemImage: "bell.badge")
-                }
-                .tint(Theme.accent)
-
                 Toggle(isOn: $wellnessNotificationsEnabled) {
                     Label("Wellness Reminders", systemImage: "heart.text.clipboard")
                 }
@@ -64,7 +58,7 @@ struct SettingsView: View {
             } header: {
                 Text("Harm Reduction")
             } footer: {
-                Text("Comedown alerts notify you as effects fade with recovery tips. Wellness reminders send hydration and sleep nudges automatically when you log a dose.")
+                Text("Wellness reminders send hydration and sleep nudges automatically when you log a dose.")
             }
 
             Section("Substance Colors") {
