@@ -28,6 +28,8 @@ enum PDFReportGenerator {
         static let secondaryText = UIColor.darkGray
         static let lightGray = UIColor(white: 0.92, alpha: 1)
         static let zebraStripe = UIColor(white: 0.96, alpha: 1)
+        static let tableHeaderBg = UIColor(white: 0.94, alpha: 1)
+        static let accentLight = UIColor(red: 0.93, green: 0.34, blue: 0.53, alpha: 0.08)
         static let dangerousBg = UIColor(red: 1.0, green: 0.90, blue: 0.90, alpha: 1)
         static let unsafeBg = UIColor(red: 1.0, green: 0.95, blue: 0.88, alpha: 1)
         static let cautionBg = UIColor(red: 1.0, green: 0.98, blue: 0.88, alpha: 1)
@@ -213,7 +215,7 @@ enum PDFReportGenerator {
             at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr)
         cursor.y += 10
 
-        // Quick stats line
+        // Quick stats badges
         let substanceCount = Set(data.entries.map(\.substance)).count
         let entryCount = data.entries.count
         let unsafeCount = data.interactions.filter { $0.severity == .unsafe || $0.severity == .dangerous }.count
@@ -221,21 +223,38 @@ enum PDFReportGenerator {
         let statsAttr: [NSAttributedString.Key: Any] = [
             .font: Fonts.bodyBold, .foregroundColor: Colors.text
         ]
-        let statsLine = "\(substanceCount) substances · \(entryCount) entries · \(unsafeCount) interaction alert\(unsafeCount == 1 ? "" : "s")"
-        statsLine.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: statsAttr)
+        let stats = [
+            "\(substanceCount) substances",
+            "\(entryCount) entries",
+            "\(unsafeCount) alert\(unsafeCount == 1 ? "" : "s")"
+        ]
+        var badgeX = Layout.margin
+        for stat in stats {
+            let size = (stat as NSString).size(withAttributes: statsAttr)
+            let pillRect = CGRect(x: badgeX - 6, y: cursor.y - 2, width: size.width + 12, height: size.height + 4)
+            Colors.zebraStripe.setFill()
+            UIBezierPath(roundedRect: pillRect, cornerRadius: 8).fill()
+            stat.draw(at: CGPoint(x: badgeX, y: cursor.y), withAttributes: statsAttr)
+            badgeX += size.width + 20
+        }
         cursor.y += Layout.sectionSpacing
     }
 
     // MARK: - Section Header
 
     private static func drawSectionHeader(_ cursor: inout Cursor, title: String) {
-        // Ensure enough space for header + at least one row of content
         cursor.ensureSpace(80)
-        cursor.y += 8
+        cursor.y += 12
 
-        let attr: [NSAttributedString.Key: Any] = [.font: Fonts.sectionHeader, .foregroundColor: Colors.accent]
-        title.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: attr)
-        cursor.y += 20
+        // Left accent bar
+        let attr: [NSAttributedString.Key: Any] = [.font: Fonts.sectionHeader, .foregroundColor: Colors.text]
+        let titleSize = (title as NSString).size(withAttributes: attr)
+        let barRect = CGRect(x: Layout.margin, y: cursor.y + 1, width: 3, height: titleSize.height - 2)
+        Colors.accent.setFill()
+        UIBezierPath(roundedRect: barRect, cornerRadius: 1.5).fill()
+
+        title.draw(at: CGPoint(x: Layout.margin + 10, y: cursor.y), withAttributes: attr)
+        cursor.y += titleSize.height + 6
 
         let path = UIBezierPath()
         path.move(to: CGPoint(x: Layout.margin, y: cursor.y))
@@ -256,6 +275,22 @@ enum PDFReportGenerator {
         }
     }
 
+    private static func drawTableHeaderRow(_ cursor: inout Cursor) {
+        let rect = CGRect(x: Layout.margin - 4, y: cursor.y - 2, width: Layout.contentWidth + 8, height: Layout.rowHeight)
+        Colors.tableHeaderBg.setFill()
+        UIBezierPath(roundedRect: rect, cornerRadius: 2).fill()
+    }
+
+    private static func drawTableHeaderSeparator(_ cursor: inout Cursor) {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: Layout.margin, y: cursor.y))
+        path.addLine(to: CGPoint(x: Layout.margin + Layout.contentWidth, y: cursor.y))
+        Colors.secondaryText.withAlphaComponent(0.3).setStroke()
+        path.lineWidth = 0.5
+        path.stroke()
+        cursor.y += 4
+    }
+
     // MARK: - Medications Table
 
     private static func drawMedicationsTable(_ cursor: inout Cursor, items: [DailyDoseSnapshot]) {
@@ -265,12 +300,14 @@ enum PDFReportGenerator {
         let nameAttr: [NSAttributedString.Key: Any] = [.font: Fonts.bodyBold, .foregroundColor: Colors.text]
         let rowAttr: [NSAttributedString.Key: Any] = [.font: Fonts.body, .foregroundColor: Colors.text]
 
+        drawTableHeaderRow(&cursor)
         var x = Layout.margin
         for (i, header) in ["Substance", "Dose", "Route"].enumerated() {
             header.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: headerAttr)
             x += colWidths[i]
         }
         cursor.y += Layout.rowHeight
+        drawTableHeaderSeparator(&cursor)
 
         for (idx, item) in sorted.enumerated() {
             cursor.ensureSpace(Layout.rowHeight)
@@ -302,12 +339,14 @@ enum PDFReportGenerator {
 
         let colWidths: [CGFloat] = [Layout.contentWidth * 0.40, Layout.contentWidth * 0.20, Layout.contentWidth * 0.20, Layout.contentWidth * 0.20]
 
+        drawTableHeaderRow(&cursor)
         var x = Layout.margin
         for (i, h) in ["Medication", "Days Taken", "Days Total", "Adherence"].enumerated() {
             h.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: headerAttr)
             x += colWidths[i]
         }
         cursor.y += Layout.rowHeight
+        drawTableHeaderSeparator(&cursor)
 
         for (idx, dose) in dailyDoses.sorted(by: { $0.sortOrder < $1.sortOrder }).enumerated() {
             cursor.ensureSpace(Layout.rowHeight)
@@ -386,6 +425,11 @@ enum PDFReportGenerator {
             let cardRect = CGRect(x: Layout.margin - 4, y: cursor.y - 2, width: Layout.contentWidth + 8, height: totalHeight)
             bgColor.setFill()
             UIBezierPath(roundedRect: cardRect, cornerRadius: 4).fill()
+
+            // Left severity accent border
+            let leftBar = CGRect(x: Layout.margin - 4, y: cursor.y - 2, width: 3, height: totalHeight)
+            severityColor.setFill()
+            UIBezierPath(roundedRect: leftBar, cornerRadius: 1.5).fill()
 
             // Severity + pair
             let badgeAttr: [NSAttributedString.Key: Any] = [.font: Fonts.bodyBold, .foregroundColor: severityColor]
@@ -551,12 +595,14 @@ enum PDFReportGenerator {
             Layout.contentWidth * 0.25
         ]
 
+        drawTableHeaderRow(&cursor)
         var x = Layout.margin
         for (i, h) in ["Substance", "Doses", "Avg Dose", "Route", "Period"].enumerated() {
             h.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: headerAttr)
             x += colWidths[i]
         }
         cursor.y += Layout.rowHeight
+        drawTableHeaderSeparator(&cursor)
 
         for (idx, stat) in summary.enumerated() {
             cursor.ensureSpace(Layout.rowHeight)
@@ -601,8 +647,13 @@ enum PDFReportGenerator {
             let dayEntries = grouped[day]!.sorted { $0.timestamp < $1.timestamp }
             cursor.ensureSpace(CGFloat(24 + dayEntries.count * 16))
 
-            dayFormatter.string(from: day).draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: dayAttr)
-            cursor.y += 18
+            let dayText = dayFormatter.string(from: day)
+            let daySize = (dayText as NSString).size(withAttributes: dayAttr)
+            let dayBgRect = CGRect(x: Layout.margin - 4, y: cursor.y - 2, width: daySize.width + 12, height: daySize.height + 4)
+            Colors.accentLight.setFill()
+            UIBezierPath(roundedRect: dayBgRect, cornerRadius: 3).fill()
+            dayText.draw(at: CGPoint(x: Layout.margin + 2, y: cursor.y), withAttributes: dayAttr)
+            cursor.y += 20
 
             for (idx, entry) in dayEntries.enumerated() {
                 cursor.ensureSpace(18)
@@ -641,18 +692,30 @@ enum PDFReportGenerator {
     // MARK: - Footer
 
     private static func drawFooter(_ cursor: inout Cursor) {
-        cursor.ensureSpace(60)
+        let disclaimerText = "This report was generated by Piru for informational and harm reduction purposes. It is not medical advice. Always consult a qualified healthcare provider regarding substance use and medication management."
+        let attr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+        let textHeight = (disclaimerText as NSString).boundingRect(
+            with: CGSize(width: Layout.contentWidth - 16, height: .greatestFiniteMagnitude),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attr, context: nil
+        ).height
+
+        cursor.ensureSpace(textHeight + 36)
         cursor.y += 16
 
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: Layout.margin, y: cursor.y))
-        path.addLine(to: CGPoint(x: Layout.margin + Layout.contentWidth, y: cursor.y))
+        // Disclaimer box
+        let boxRect = CGRect(x: Layout.margin - 4, y: cursor.y, width: Layout.contentWidth + 8, height: textHeight + 16)
+        Colors.zebraStripe.setFill()
+        UIBezierPath(roundedRect: boxRect, cornerRadius: 4).fill()
         Colors.lightGray.setStroke()
-        path.lineWidth = 0.5
-        path.stroke()
-        cursor.y += 10
+        UIBezierPath(roundedRect: boxRect, cornerRadius: 4).stroke()
 
-        drawWrappedText(&cursor, text: "This report was generated by Piru for informational and harm reduction purposes. It is not medical advice. Always consult a qualified healthcare provider regarding substance use and medication management.", font: Fonts.caption, color: Colors.secondaryText)
+        cursor.y += 8
+        (disclaimerText as NSString).draw(
+            in: CGRect(x: Layout.margin + 4, y: cursor.y, width: Layout.contentWidth - 16, height: textHeight + 4),
+            withAttributes: attr
+        )
+        cursor.y += textHeight + 12
     }
 
     // MARK: - Utilities

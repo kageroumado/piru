@@ -8,7 +8,6 @@ struct EntryDetailView: View {
 
     let entry: DoseEntry
 
-    @AppStorage("rampDownEnabled") private var rampDownEnabled = true
     @State private var showingEditForm = false
     @State private var showingDeleteConfirmation = false
     @State private var showColorPicker = false
@@ -49,18 +48,20 @@ struct EntryDetailView: View {
                             .buttonStyle(.plain)
                             .foregroundStyle(Theme.accent)
                         }
+                        .padding(.horizontal, 12)
                         TimelineGraphView(
                             substances: [state],
                             currentTime: .now,
                             compact: false
                         )
-                        .frame(height: 130)
+                        .frame(height: 160)
                     }
                 } header: {
                     Label("Timeline", systemImage: "chart.xyaxis.line")
                 } footer: {
                     Text("Pinch to zoom in or out")
                 }
+                .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
             } else {
                 Section {
                     Label("No pharmacokinetic data available for this substance and route.", systemImage: "info.circle")
@@ -112,7 +113,7 @@ struct EntryDetailView: View {
                 }
             }
 
-            if rampDownEnabled, let duration = resolvedDuration {
+            if let duration = resolvedDuration {
                 Section {
                     NavigationLink {
                         RampDownView(entry: entry, duration: duration)

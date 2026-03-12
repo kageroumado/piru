@@ -8,6 +8,7 @@ struct AdherenceView: View {
     @State private var displayedMonth: Date = .now
     @State private var monthAdherence: [DayAdherence] = []
     @State private var streak: Int = 0
+    @State private var selectedDay: DayAdherence?
 
     private let calendar = Calendar.current
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
@@ -15,9 +16,9 @@ struct AdherenceView: View {
     var body: some View {
         if dailyItems.isEmpty {
             ContentUnavailableView(
-                "No Daily Medications",
+                "No Prescriptions",
                 systemImage: "pills",
-                description: Text("Set up your daily dose items in Settings to start tracking adherence.")
+                description: Text("Add prescriptions in Settings to start tracking adherence.")
             )
         } else {
             ScrollView {
@@ -30,6 +31,10 @@ struct AdherenceView: View {
             .task { recompute() }
             .onChange(of: allEntries.count) { recompute() }
             .onChange(of: displayedMonth) { recompute() }
+            .sheet(item: $selectedDay) { day in
+                AdherenceDayDetailSheet(day: day)
+                    .presentationDetents([.medium])
+            }
         }
     }
 
@@ -120,7 +125,11 @@ struct AdherenceView: View {
                     let isToday = calendar.isDateInToday(date)
                     let isFuture = date > .now
 
-                    NavigationLink(value: date) {
+                    Button {
+                        if !isFuture, let adherence, adherence.status != .noData {
+                            selectedDay = adherence
+                        }
+                    } label: {
                         AdherenceCalendarCell(
                             day: calendar.component(.day, from: date),
                             status: isFuture ? .noData : (adherence?.status ?? .missed),
@@ -146,13 +155,21 @@ struct AdherenceView: View {
     }
 
     private func recompute() {
+        // Pre-group entries by day — O(N) once instead of O(N) per day
+        var entriesByDay: [Date: [DoseEntry]] = [:]
+        for entry in allEntries {
+            let day = calendar.startOfDay(for: entry.timestamp)
+            entriesByDay[day, default: []].append(entry)
+        }
+
         let start = calendar.date(from: calendar.dateComponents([.year, .month], from: displayedMonth))!
         let range = calendar.range(of: .day, in: .month, for: start)!
 
         var data: [DayAdherence] = []
         for dayOffset in range {
             let date = calendar.date(byAdding: .day, value: dayOffset - 1, to: start)!
-            data.append(AdherenceCalculator.adherence(for: date, entries: allEntries, dailyItems: dailyItems))
+            let dayEntries = entriesByDay[calendar.startOfDay(for: date)] ?? []
+            data.append(AdherenceCalculator.adherence(for: date, entries: dayEntries, dailyItems: dailyItems))
         }
 
         monthAdherence = data
@@ -162,7 +179,8 @@ struct AdherenceView: View {
         var allData: [DayAdherence] = []
         var d = yearAgo
         while d <= .now {
-            allData.append(AdherenceCalculator.adherence(for: d, entries: allEntries, dailyItems: dailyItems))
+            let dayEntries = entriesByDay[calendar.startOfDay(for: d)] ?? []
+            allData.append(AdherenceCalculator.adherence(for: d, entries: dayEntries, dailyItems: dailyItems))
             d = calendar.date(byAdding: .day, value: 1, to: d)!
         }
         streak = AdherenceCalculator.currentStreak(adherenceData: allData)
@@ -235,6 +253,94 @@ struct AdherenceCalendarCell: View {
         case .partial: .orange.opacity(0.1)
         case .missed: .red.opacity(0.1)
         case .noData: Color(.secondarySystemBackground).opacity(0.5)
+        }
+    }
+}
+
+// MARK: - Day Detail Sheet
+
+struct AdherenceDayDetailSheet: View {
+    let day: DayAdherence
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    HStack {
+                        statusBadge
+                        Spacer()
+                        Text("\(day.takenCount)/\(day.totalCount) taken")
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+
+                Section("Prescriptions due") {
+                    ForEach(day.items) { itemAdherence in
+                        HStack(spacing: 12) {
+                            Image(systemName: itemAdherence.taken ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundStyle(itemAdherence.taken ? .green : .red)
+                                .font(.title3)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(itemAdherence.taken
+                                     ? "Taken \(itemAdherence.item.substance)"
+                                     : "Missed \(itemAdherence.item.route.displayName.lowercased()) of \(itemAdherence.item.substance)")
+                                    .font(.body)
+
+                                Text("\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit) \u{2014} \(itemAdherence.item.frequency.shortLabel)")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
+                        }
+                        .padding(.vertical, 2)
+                    }
+                }
+            }
+            .navigationTitle(day.date.formatted(.dateTime.weekday(.wide).month(.abbreviated).day()))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+    }
+
+    private var statusBadge: some View {
+        HStack(spacing: 6) {
+            Image(systemName: statusIcon)
+                .foregroundStyle(statusColor)
+            Text(statusLabel)
+                .font(.headline)
+        }
+    }
+
+    private var statusIcon: String {
+        switch day.status {
+        case .complete: "checkmark.circle.fill"
+        case .partial: "circle.lefthalf.filled"
+        case .missed: "xmark.circle.fill"
+        case .noData: "minus.circle"
+        }
+    }
+
+    private var statusColor: Color {
+        switch day.status {
+        case .complete: .green
+        case .partial: .orange
+        case .missed: .red
+        case .noData: .secondary
+        }
+    }
+
+    private var statusLabel: String {
+        switch day.status {
+        case .complete: "All taken"
+        case .partial: "Partially taken"
+        case .missed: "All missed"
+        case .noData: "Nothing due"
         }
     }
 }

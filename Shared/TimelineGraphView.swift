@@ -207,7 +207,7 @@ struct TimelineGraphView: View {
                             abs(markers[j].timestamp.timeIntervalSince(item.marker.timestamp)) < 120
                         }
                     } ?? 0
-                    let groupSize = groupedSlots[groupIndex].count
+                    _ = groupedSlots[groupIndex].count
 
                     // Stack diamonds from the bottom of the graph upward, clamped to graph area
                     let usableBottom = graphTop + graphHeight - diamondSize - 2

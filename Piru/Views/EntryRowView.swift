@@ -51,13 +51,15 @@ struct EntryRowView: View {
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
-                    .font(.subheadline)
-                Text(relativeTime)
-                    .font(.caption)
+            TimelineView(.periodic(from: .now, by: 60)) { _ in
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
+                        .font(.subheadline)
+                    Text(relativeTime)
+                        .font(.caption)
+                }
+                .foregroundStyle(Theme.secondaryLabel)
             }
-            .foregroundStyle(Theme.secondaryLabel)
         }
         .padding(.vertical, 2)
     }

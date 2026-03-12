@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var showingForm = false
     @State private var showingSettings = false
     @State private var showingHelp = false
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var showingSessionDetail = false
     @State private var deepLinkEntry: DoseEntry?
 
@@ -73,6 +74,12 @@ struct ContentView: View {
                         }
                     }
             }
+        }
+        .fullScreenCover(isPresented: .init(
+            get: { !hasCompletedOnboarding },
+            set: { if !$0 { hasCompletedOnboarding = true } }
+        )) {
+            OnboardingView()
         }
         .onOpenURL { url in
             handleDeepLink(url)
@@ -437,6 +444,7 @@ private extension View {
 
 // MARK: - Session Accessory View
 
+@available(iOS 26, *)
 private struct SessionAccessoryView: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
 

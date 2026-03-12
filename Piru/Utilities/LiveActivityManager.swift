@@ -41,7 +41,7 @@ final class LiveActivityManager {
 
     /// Whether live activities are enabled by the user in Settings.
     var isEnabled: Bool {
-        UserDefaults.standard.object(forKey: "liveActivityEnabled") as? Bool ?? true
+        UserDefaults.standard.object(forKey: "liveActivityEnabled") as? Bool ?? false
     }
 
     private init() {

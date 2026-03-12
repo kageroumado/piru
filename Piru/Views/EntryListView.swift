@@ -31,8 +31,7 @@ struct EntryListView: View {
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingFilters = false
     @State private var showingCalendar = false
-    @State private var filterBarVisible = true
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
 
     // Filter state
     @State private var filterStartDate: Date? = nil
@@ -108,6 +107,8 @@ struct EntryListView: View {
     @State private var cachedSubstanceGroups: [(name: String, entries: [DoseEntry])] = []
     @State private var cachedCategoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
     @State private var cachedColorMap: [String: Color] = [:]
+    @State private var collapsedSubstances: Set<String> = []
+    @State private var collapsedCategories: Set<SubstanceCategory> = []
 
     private var allUsedTags: [String] {
         var counts: [String: Int] = [:]
@@ -174,18 +175,17 @@ struct EntryListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if filterBarVisible {
-                VStack(spacing: 0) {
-                    // Toolbar: grouping picker + filter button + calendar button
-                    filterBar
+            VStack(spacing: 0) {
+                // Toolbar: grouping picker + filter button + calendar button
+                filterBar
 
-                    // Tag chips
-                    if !allUsedTags.isEmpty && grouping == .byDay {
-                        tagChipBar
-                    }
+                // Tag chips
+                if !allUsedTags.isEmpty && grouping == .byDay {
+                    tagChipBar
+                        .transition(.opacity)
                 }
-                .transition(reduceMotion ? .opacity : .move(edge: .top).combined(with: .opacity))
             }
+            .animation(.easeInOut(duration: 0.2), value: grouping == .byDay)
 
             // Main list
             List {
@@ -196,14 +196,9 @@ struct EntryListView: View {
                 case .byCategory: categoryGroupedContent
                 }
             }
+            .id(grouping)
             .listStyle(.plain)
-            .onScrollGeometryChange(for: Bool.self) { geo in
-                geo.contentOffset.y < 20
-            } action: { _, atTop in
-                withAnimation(.snappy(duration: 0.25)) {
-                    filterBarVisible = atTop
-                }
-            }
+
             .overlay {
                 if filteredEntries.isEmpty {
                     emptyState
@@ -249,7 +244,7 @@ struct EntryListView: View {
             Menu {
                 ForEach(JournalGrouping.allCases, id: \.self) { mode in
                     Button {
-                        withAnimation(.easeInOut(duration: 0.2)) { grouping = mode }
+                        grouping = mode
                     } label: {
                         Label(mode.rawValue, systemImage: mode.icon)
                     }
@@ -264,30 +259,29 @@ struct EntryListView: View {
             }
 
             // Calendar button
-            Button {
+            Button("Calendar", systemImage: "calendar") {
                 showingCalendar = true
-            } label: {
-                Image(systemName: "calendar")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(.secondarySystemFill))
-                    .clipShape(Capsule())
             }
+            .labelStyle(.iconOnly)
+            .font(.subheadline.weight(.medium))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color(.secondarySystemFill))
+            .clipShape(Capsule())
 
             // Filter button
-            Button {
+            Button("Filter", systemImage: "line.3.horizontal.decrease") {
                 showingFilters = true
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.subheadline.weight(.medium))
-                    .frame(height: 16)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
-                    .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
-                    .clipShape(Capsule())
             }
+            .labelStyle(.iconOnly)
+            .font(.subheadline.weight(.medium))
+            .frame(height: 16)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
+            .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
+            .clipShape(Capsule())
+            .animation(.snappy, value: hasActiveFilters)
 
             Spacer()
         }
@@ -298,14 +292,14 @@ struct EntryListView: View {
     // MARK: - Tag Chip Bar
 
     private var tagChipBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 6) {
                 ForEach(allUsedTags, id: \.self) { tag in
                     Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
+                        withAnimation(.snappy) {
                             selectedTag = selectedTag == tag ? nil : tag
+                            rebuildGroups()
                         }
-                        rebuildGroups()
                     } label: {
                         Text("#\(tag)")
                             .font(.caption)
@@ -320,6 +314,7 @@ struct EntryListView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
         }
+        .scrollIndicators(.hidden)
     }
 
     // MARK: - Recent (Flat) Content
@@ -351,15 +346,35 @@ struct EntryListView: View {
     @ViewBuilder
     private var substanceGroupedContent: some View {
         ForEach(cachedSubstanceGroups, id: \.name) { group in
+            let isCollapsed = collapsedSubstances.contains(group.name)
             Section {
-                ForEach(group.entries) { entry in
-                    NavigationLink(value: entry) {
-                        SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+                if !isCollapsed {
+                    ForEach(group.entries) { entry in
+                        NavigationLink(value: entry) {
+                            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+                        }
+                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                     }
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 }
             } header: {
-                SubstanceGroupHeader(name: group.name, count: group.entries.count, colorMap: cachedColorMap)
+                Button {
+                    withAnimation(.snappy) {
+                        if isCollapsed {
+                            collapsedSubstances.remove(group.name)
+                        } else {
+                            collapsedSubstances.insert(group.name)
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 8) {
+                        SubstanceGroupHeader(name: group.name, count: group.entries.count, colorMap: cachedColorMap)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(.tertiary)
+                            .rotationEffect(.degrees(isCollapsed ? 0 : 90))
+                    }
+                }
             }
         }
     }
@@ -369,21 +384,41 @@ struct EntryListView: View {
     @ViewBuilder
     private var categoryGroupedContent: some View {
         ForEach(cachedCategoryGroups, id: \.category) { group in
+            let isCollapsed = collapsedCategories.contains(group.category)
             Section {
-                ForEach(group.entries) { entry in
-                    NavigationLink(value: entry) {
-                        SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+                if !isCollapsed {
+                    ForEach(group.entries) { entry in
+                        NavigationLink(value: entry) {
+                            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+                        }
+                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                     }
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 }
             } header: {
-                Label {
-                    Text("\(group.category.rawValue) (\(group.entries.count))")
-                } icon: {
-                    Image(systemName: group.category.icon)
-                        .foregroundStyle(group.category.color)
+                Button {
+                    withAnimation(.snappy) {
+                        if isCollapsed {
+                            collapsedCategories.remove(group.category)
+                        } else {
+                            collapsedCategories.insert(group.category)
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 8) {
+                        Label {
+                            Text("\(group.category.rawValue) (\(group.entries.count))")
+                        } icon: {
+                            Image(systemName: group.category.icon)
+                                .foregroundStyle(group.category.color)
+                        }
+                        .font(.subheadline.weight(.semibold))
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(.tertiary)
+                            .rotationEffect(.degrees(isCollapsed ? 0 : 90))
+                    }
                 }
-                .font(.subheadline.weight(.semibold))
             }
         }
     }

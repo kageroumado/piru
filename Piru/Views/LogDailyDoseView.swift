@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 import ActivityKit
 
-struct LogDailyDoseView: View {
+struct LogMedicationsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -10,7 +10,7 @@ struct LogDailyDoseView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
 
-    let category: String?
+    let category: String
 
     @State private var toggleStates: [String: Bool] = [:]
     @State private var showColorPicker = false
@@ -22,7 +22,7 @@ struct LogDailyDoseView: View {
     @State private var showInteractionSheet = false
     @State private var proceedAfterWarning = false
 
-    init(category: String? = nil) {
+    init(category: String) {
         self.category = category
         let cutoff = Date.now.addingTimeInterval(-48 * 3600)
         _recentEntries = Query(
@@ -34,8 +34,7 @@ struct LogDailyDoseView: View {
     }
 
     private var items: [DailyDoseItem] {
-        guard let category else { return allItems }
-        return allItems.filter { $0.category == category }
+        allItems.filter { $0.category == category }
     }
 
     private var selectedCount: Int {
@@ -79,7 +78,7 @@ struct LogDailyDoseView: View {
                     .disabled(selectedCount == 0)
                 }
             }
-            .navigationTitle(category.map { "Log \($0)" } ?? "Log Daily Dose")
+            .navigationTitle(category.isEmpty ? "Log Prescriptions" : "Log \(category)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

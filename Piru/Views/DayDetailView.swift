@@ -88,7 +88,7 @@ struct DayDetailView: View {
                 // Timeline graph
                 if !substanceStates.isEmpty || !doseMarkers.isEmpty {
                     Section {
-                        DisclosureGroup(isExpanded: $graphExpanded) {
+                        if graphExpanded {
                             VStack(spacing: 8) {
                                 if isToday {
                                     HStack {
@@ -100,6 +100,7 @@ struct DayDetailView: View {
                                         .buttonStyle(.plain)
                                         .foregroundStyle(Theme.accent)
                                     }
+                                    .padding(.horizontal, 12)
                                 }
                                 TimelineGraphView(
                                     substances: substanceStates,
@@ -107,17 +108,29 @@ struct DayDetailView: View {
                                     compact: false,
                                     markers: doseMarkers
                                 )
-                                .frame(height: 130)
+                                .frame(height: 160)
                             }
-                        } label: {
-                            Label("Timeline", systemImage: "chart.xyaxis.line")
                         }
+                    } header: {
+                        Button {
+                            withAnimation { graphExpanded.toggle() }
+                        } label: {
+                            HStack {
+                                Label("Timeline", systemImage: "chart.xyaxis.line")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption2.weight(.semibold))
+                                    .rotationEffect(.degrees(graphExpanded ? 90 : 0))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .buttonStyle(.plain)
                     } footer: {
                         if graphExpanded {
                             Text("Pinch to zoom in or out")
                         }
                     }
-                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+                    .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
                 }
 
                 // Entries
