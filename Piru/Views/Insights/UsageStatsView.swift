@@ -602,24 +602,41 @@ struct UsageStatsView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     } else {
                         let trendChartWidth = max(CGFloat(data.count) * 56 * trendZoom, availableWidth - 64)
-                        let visibleLabelCount = max(3, Int(8 / trendZoom))
-                        let strideN = weekly ? max(1, visibleLabelCount / 4) : max(1, data.count / visibleLabelCount)
+                        let pointSpacing = data.count > 1 ? trendChartWidth / CGFloat(data.count - 1) : trendChartWidth
+                        let strideN = max(1, Int(ceil(90 / pointSpacing)))
 
                         ScrollView(.horizontal, showsIndicators: false) {
+                            let yMax = data.map(\.total).max() ?? 1
+                            let yStep: Double = {
+                                guard yMax > 0 else { return 1 }
+                                let rough = yMax / 4
+                                let mag = pow(10, floor(log10(rough)))
+                                let norm = rough / mag
+                                if norm <= 1 { return mag }
+                                if norm <= 2 { return 2 * mag }
+                                if norm <= 5 { return 5 * mag }
+                                return 10 * mag
+                            }()
                             Chart(data) { point in
-                                BarMark(
+                                AreaMark(
                                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
-                                    y: .value("Dose", point.total),
-                                    width: .fixed(max(4, 8 * trendZoom))
+                                    yStart: .value("Baseline", 0),
+                                    yEnd: .value("Dose", point.total)
                                 )
-                                .foregroundStyle(color.opacity(0.6))
-                                .cornerRadius(4)
+                                .foregroundStyle(
+                                    .linearGradient(
+                                        colors: [color.opacity(0.25), color.opacity(0.0)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .interpolationMethod(.monotone)
 
                                 LineMark(
                                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
                                     y: .value("Dose", point.total)
                                 )
-                                .foregroundStyle(color.opacity(0.4))
+                                .foregroundStyle(color.opacity(0.6))
                                 .lineStyle(StrokeStyle(lineWidth: 2))
                                 .interpolationMethod(.monotone)
 
@@ -628,11 +645,12 @@ struct UsageStatsView: View {
                                     y: .value("Dose", point.total)
                                 )
                                 .foregroundStyle(color)
-                                .symbolSize(20)
+                                .symbolSize(30)
                             }
                             .frame(width: trendChartWidth)
+                            .chartYScale(domain: 0 ... yMax * 1.08)
                             .chartPlotStyle { plotArea in
-                                plotArea.frame(height: 220).padding(.top, 12)
+                                plotArea.frame(height: 220)
                             }
                             .chartXAxis {
                                 let comp: Calendar.Component = weekly ? .weekOfYear : .day
@@ -644,7 +662,7 @@ struct UsageStatsView: View {
                                 }
                             }
                             .chartYAxis {
-                                AxisMarks(position: .trailing) { _ in
+                                AxisMarks(position: .trailing, values: .stride(by: yStep)) { _ in
                                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [3, 3]))
                                         .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                                     AxisValueLabel()
