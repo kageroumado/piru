@@ -158,6 +158,19 @@ enum PDFReportGenerator {
                 let summary = buildSubstanceSummary(from: sortedEntries)
                 drawSectionHeader(&cursor, title: "Substance Summary")
                 drawSubstanceSummary(&cursor, summary: summary)
+
+                // PK concentration charts for top substances with half-life data
+                let topForPK = summary.prefix(5)
+                let pkSubstances = topForPK.compactMap { stat -> (name: String, halfLife: Double, doseCount: Int)? in
+                    guard let hl = HalfLifeDatabase.halfLife(for: stat.name) else { return nil }
+                    return (name: stat.name, halfLife: hl, doseCount: stat.totalDoses)
+                }
+                if !pkSubstances.isEmpty {
+                    drawSectionHeader(&cursor, title: "Pharmacokinetic Profiles")
+                    for pk in pkSubstances {
+                        drawPKChart(&cursor, substanceName: pk.name, halfLifeMinutes: pk.halfLife)
+                    }
+                }
             }
 
             if !sortedEntries.isEmpty {
@@ -396,7 +409,11 @@ enum PDFReportGenerator {
                 attributes: descAttr, context: nil
             ).height
 
-            let totalHeight = 16 + descHeight + 10
+            // Check if drug classes are available to account for extra line height
+            let classesAPrecheck = InteractionChecker.drugClasses(for: interaction.substanceA)
+            let classesBPrecheck = InteractionChecker.drugClasses(for: interaction.substanceB)
+            let classLineHeight: CGFloat = (!classesAPrecheck.isEmpty || !classesBPrecheck.isEmpty) ? 12 : 0
+            let totalHeight = 16 + classLineHeight + descHeight + 10
             cursor.ensureSpace(totalHeight)
 
             let bgColor: UIColor
@@ -439,6 +456,18 @@ enum PDFReportGenerator {
             let pairText = "\(interaction.substanceA) + \(interaction.substanceB)"
             pairText.draw(at: CGPoint(x: Layout.margin + 110, y: cursor.y), withAttributes: pairAttr)
             cursor.y += 16
+
+            // Drug class labels
+            let classesA = InteractionChecker.drugClasses(for: interaction.substanceA)
+            let classesB = InteractionChecker.drugClasses(for: interaction.substanceB)
+            if !classesA.isEmpty || !classesB.isEmpty {
+                let classAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+                let classLabelA = classesA.map(\.rawValue.capitalized).joined(separator: ", ")
+                let classLabelB = classesB.map(\.rawValue.capitalized).joined(separator: ", ")
+                let classText = "\(classLabelA.isEmpty ? "Unknown" : classLabelA)  +  \(classLabelB.isEmpty ? "Unknown" : classLabelB)"
+                classText.draw(at: CGPoint(x: Layout.margin + 4, y: cursor.y), withAttributes: classAttr)
+                cursor.y += 12
+            }
 
             // Description (cleaned)
             (descText as NSString).draw(
@@ -621,6 +650,173 @@ enum PDFReportGenerator {
             cursor.y += Layout.rowHeight
         }
         cursor.y += Layout.lineSpacing
+    }
+
+    // MARK: - PK Concentration Chart
+
+    private static func drawPKChart(_ cursor: inout Cursor, substanceName: String, halfLifeMinutes: Double) {
+        let chartWidth = Layout.contentWidth
+        let chartHeight: CGFloat = 80
+        let totalHeight: CGFloat = chartHeight + 30 // title + chart + bottom margin
+        cursor.ensureSpace(totalHeight)
+
+        // Title
+        let titleAttr: [NSAttributedString.Key: Any] = [.font: Fonts.bodyBold, .foregroundColor: Colors.text]
+        substanceName.draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: titleAttr)
+
+        // Half-life label
+        let hlText = formatHalfLifeLabel(halfLifeMinutes)
+        let hlAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+        let hlSize = (hlText as NSString).size(withAttributes: hlAttr)
+        hlText.draw(at: CGPoint(x: Layout.margin + chartWidth - hlSize.width, y: cursor.y + 2), withAttributes: hlAttr)
+        cursor.y += 16
+
+        let chartOriginX = Layout.margin
+        let chartOriginY = cursor.y
+
+        // PK model parameters
+        let ke = PKModel.ke(fromHalfLifeMinutes: halfLifeMinutes)
+        let ka = PKModel.defaultKa(ke: ke)
+        let cmaxVal = PKModel.cmax(ke: ke, ka: ka)
+        guard cmaxVal > 0 else {
+            cursor.y += chartHeight + 10
+            return
+        }
+
+        // Determine time range: out to 5% of Cmax on descending side
+        let totalMinutes = PKModel.timeToFraction(0.05, ke: ke, ka: ka)
+        guard totalMinutes > 0 else {
+            cursor.y += chartHeight + 10
+            return
+        }
+
+        // Grid background
+        let gridRect = CGRect(x: chartOriginX, y: chartOriginY, width: chartWidth, height: chartHeight)
+        Colors.zebraStripe.setFill()
+        UIBezierPath(roundedRect: gridRect, cornerRadius: 3).fill()
+
+        // Horizontal grid lines (25%, 50%, 75%, 100%)
+        let gridPath = UIBezierPath()
+        Colors.lightGray.setStroke()
+        gridPath.lineWidth = 0.5
+        for fraction in [0.25, 0.5, 0.75, 1.0] {
+            let gy = chartOriginY + chartHeight - (CGFloat(fraction) * chartHeight)
+            gridPath.move(to: CGPoint(x: chartOriginX, y: gy))
+            gridPath.addLine(to: CGPoint(x: chartOriginX + chartWidth, y: gy))
+        }
+        gridPath.stroke()
+
+        // Y-axis percentage labels
+        let yLabelAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
+        for (fraction, label) in [(1.0, "100%"), (0.5, "50%")] as [(Double, String)] {
+            let gy = chartOriginY + chartHeight - (CGFloat(fraction) * chartHeight)
+            label.draw(at: CGPoint(x: chartOriginX + 2, y: gy), withAttributes: yLabelAttr)
+        }
+
+        // Vertical grid lines and hour labels
+        let hourIntervalMinutes = bestHourInterval(totalMinutes: totalMinutes)
+        var gridMinutes = hourIntervalMinutes
+        while gridMinutes < totalMinutes {
+            let gx = chartOriginX + CGFloat(gridMinutes / totalMinutes) * chartWidth
+            let vLine = UIBezierPath()
+            Colors.lightGray.setStroke()
+            vLine.lineWidth = 0.5
+            vLine.move(to: CGPoint(x: gx, y: chartOriginY))
+            vLine.addLine(to: CGPoint(x: gx, y: chartOriginY + chartHeight))
+            vLine.stroke()
+
+            let hourLabel = formatTimeLabel(gridMinutes)
+            let labelSize = (hourLabel as NSString).size(withAttributes: yLabelAttr)
+            hourLabel.draw(
+                at: CGPoint(x: gx - labelSize.width / 2, y: chartOriginY + chartHeight + 1),
+                withAttributes: yLabelAttr
+            )
+            gridMinutes += hourIntervalMinutes
+        }
+
+        // Draw PK curve
+        let curvePath = UIBezierPath()
+        let steps = 200
+        for i in 0...steps {
+            let t = totalMinutes * Double(i) / Double(steps)
+            let c = PKModel.concentration(at: t, ke: ke, ka: ka) / cmaxVal
+            let px = chartOriginX + CGFloat(t / totalMinutes) * chartWidth
+            let py = chartOriginY + chartHeight - CGFloat(c) * chartHeight
+            if i == 0 {
+                curvePath.move(to: CGPoint(x: px, y: py))
+            } else {
+                curvePath.addLine(to: CGPoint(x: px, y: py))
+            }
+        }
+        Colors.accent.setStroke()
+        curvePath.lineWidth = 1.5
+        curvePath.lineCapStyle = .round
+        curvePath.lineJoinStyle = .round
+        curvePath.stroke()
+
+        // Filled area under curve
+        let fillPath = UIBezierPath()
+        fillPath.move(to: CGPoint(x: chartOriginX, y: chartOriginY + chartHeight))
+        for i in 0...steps {
+            let t = totalMinutes * Double(i) / Double(steps)
+            let c = PKModel.concentration(at: t, ke: ke, ka: ka) / cmaxVal
+            let px = chartOriginX + CGFloat(t / totalMinutes) * chartWidth
+            let py = chartOriginY + chartHeight - CGFloat(c) * chartHeight
+            fillPath.addLine(to: CGPoint(x: px, y: py))
+        }
+        fillPath.addLine(to: CGPoint(x: chartOriginX + chartWidth, y: chartOriginY + chartHeight))
+        fillPath.close()
+        Colors.accentLight.setFill()
+        fillPath.fill()
+
+        // Border around chart
+        let borderPath = UIBezierPath(roundedRect: gridRect, cornerRadius: 3)
+        Colors.lightGray.setStroke()
+        borderPath.lineWidth = 0.5
+        borderPath.stroke()
+
+        cursor.y += chartHeight + 18
+    }
+
+    /// Choose a sensible hour-grid interval based on the total time range.
+    private static func bestHourInterval(totalMinutes: Double) -> Double {
+        let totalHours = totalMinutes / 60
+        if totalHours <= 6 { return 60 }        // every 1h
+        if totalHours <= 24 { return 120 }       // every 2h
+        if totalHours <= 48 { return 360 }       // every 6h
+        if totalHours <= 168 { return 1440 }     // every 24h
+        return 2880                               // every 48h
+    }
+
+    /// Format a time in minutes as a concise label (e.g. "2h", "12h", "2d").
+    private static func formatTimeLabel(_ minutes: Double) -> String {
+        let hours = minutes / 60
+        if hours < 24 {
+            return hours.truncatingRemainder(dividingBy: 1) == 0
+                ? "\(Int(hours))h"
+                : String(format: "%.1fh", hours)
+        }
+        let days = hours / 24
+        return days.truncatingRemainder(dividingBy: 1) == 0
+            ? "\(Int(days))d"
+            : String(format: "%.1fd", days)
+    }
+
+    /// Format half-life as a human-readable string.
+    private static func formatHalfLifeLabel(_ minutes: Double) -> String {
+        if minutes < 60 {
+            return "t\u{00BD} = \(Int(minutes)) min"
+        }
+        let hours = minutes / 60
+        if hours < 24 {
+            return hours.truncatingRemainder(dividingBy: 1) == 0
+                ? "t\u{00BD} = \(Int(hours))h"
+                : String(format: "t\u{00BD} = %.1fh", hours)
+        }
+        let days = hours / 24
+        return days.truncatingRemainder(dividingBy: 1) == 0
+            ? "t\u{00BD} = \(Int(days))d"
+            : String(format: "t\u{00BD} = %.1fd", days)
     }
 
     // MARK: - Usage Log (bold substance names)

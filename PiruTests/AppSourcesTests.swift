@@ -6,7 +6,7 @@ struct AppSourcesTests {
 
     @Test("Has expected number of sources")
     func sourceCount() {
-        #expect(AppSources.all.count == 12)
+        #expect(AppSources.all.count == 14)
     }
 
     @Test("All sources have name and description")

@@ -419,6 +419,80 @@ struct SubstanceDetailView: View {
                 LabeledContent("Default Route", value: substance.defaultRoute.displayName)
             }
 
+            if let moa = substance.mechanismOfAction
+                ?? MechanismOfActionDatabase.categoryFallback(for: substance.category) {
+                Section("Mechanism of Action") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(moa.summary)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(substance.category.color)
+
+                        Text(moa.description)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        if !moa.bindings.isEmpty {
+                            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
+                                GridRow {
+                                    Text("Target")
+                                    Text("Action")
+                                    Text("")
+                                }
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(Theme.secondaryLabel)
+
+                                ForEach(moa.bindings) { binding in
+                                    GridRow {
+                                        Text(binding.target)
+                                            .fontWeight(.medium)
+                                        Text(binding.action.displayName)
+                                            .foregroundStyle(.secondary)
+                                        HStack(spacing: 2) {
+                                            ForEach(0..<3, id: \.self) { i in
+                                                Circle()
+                                                    .fill(i < binding.affinity.rawValue ? substance.category.color : substance.category.color.opacity(0.15))
+                                                    .frame(width: 6, height: 6)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .font(.caption)
+                        } else if !moa.primaryTargets.isEmpty {
+                            HStack(spacing: 0) {
+                                Text("Primary Targets: ")
+                                    .font(.caption.weight(.medium))
+                                Text(moa.primaryTargets.joined(separator: " · "))
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                    .padding(.vertical, 2)
+
+                    ForEach(moa.references, id: \.self) { ref in
+                        if let info = AppSources.info(for: ref) {
+                            if let url = URL(string: info.url), !info.url.isEmpty {
+                                Link(destination: url) {
+                                    Label(ref, systemImage: "book.closed")
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                }
+                            } else {
+                                Label(ref, systemImage: "book.closed")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
+                        } else {
+                            Label(ref, systemImage: "book.closed")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                }
+            }
+
             if !substance.effects.isEmpty {
                 Section("Subjective Effects") {
                     ForEach(substance.effects, id: \.self) { effect in

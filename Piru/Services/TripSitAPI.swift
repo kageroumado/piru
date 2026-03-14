@@ -289,6 +289,7 @@ struct TripSitAPI {
     }
 
     /// Build a DurationProfile from onset/total TimeRanges, estimating intermediate phases.
+    /// Estimated values are rounded to the nearest 5 minutes (or 15 minutes above 60 min).
     private static func buildDurationProfile(onsetRange: TimeRange?, totalRange: TimeRange?) -> DurationProfile? {
         guard totalRange != nil || onsetRange != nil else { return nil }
 
@@ -302,13 +303,26 @@ struct TripSitAPI {
         let afterglow = remaining * 0.15
 
         return DurationProfile(
-            onset: onsetRange ?? TimeRange(min: onsetMid * 0.7, max: onsetMid * 1.3),
-            comeup: TimeRange(min: comeup * 0.7, max: comeup * 1.3),
-            peak: TimeRange(min: peak * 0.7, max: peak * 1.3),
-            offset: TimeRange(min: offset * 0.7, max: offset * 1.3),
-            afterglow: TimeRange(min: afterglow * 0.7, max: afterglow * 1.3),
-            total: totalRange ?? TimeRange(min: totalMid * 0.8, max: totalMid * 1.2)
+            onset: onsetRange ?? roundedRange(midpoint: onsetMid),
+            comeup: roundedRange(midpoint: comeup),
+            peak: roundedRange(midpoint: peak),
+            offset: roundedRange(midpoint: offset),
+            afterglow: roundedRange(midpoint: afterglow),
+            total: totalRange ?? roundedRange(midpoint: totalMid)
         )
+    }
+
+    /// Create a TimeRange with ±30% variance, rounded to friendly intervals.
+    private static func roundedRange(midpoint: Double) -> TimeRange {
+        let lo = midpoint * 0.7
+        let hi = midpoint * 1.3
+        return TimeRange(min: roundMinutes(lo), max: roundMinutes(hi))
+    }
+
+    /// Round minutes to the nearest 5 (under 60 min) or nearest 15 (60 min and above), no decimals.
+    private static func roundMinutes(_ value: Double) -> Double {
+        let step: Double = value < 60 ? 5 : 15
+        return max(step, (value / step).rounded() * step).rounded()
     }
 
     private static func parseHalfLifeMinutes(_ str: String) -> Double? {

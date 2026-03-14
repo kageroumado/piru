@@ -257,6 +257,7 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
+				0B793F332F55449100FB3EE1 /* Shared */,
 				E37779A4C7B34538AC590549 /* PiruWidget */,
 			);
 			name = PiruWidget;

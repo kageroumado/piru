@@ -108,7 +108,12 @@ enum SubstanceLibrary {
             let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
             print("[SubstanceLibrary] Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
 
-
+            // Stage 4: Enrich mechanism of action data from MechanismOfActionDatabase
+            LibraryLoadingState.shared.statusText = "Adding mechanism data..."
+            let withMOA = enrichMechanismOfAction(enriched)
+            updateAll(withMOA)
+            let moaCount = withMOA.filter { $0.mechanismOfAction != nil }.count
+            print("[SubstanceLibrary] Stage 4: \(moaCount)/\(withMOA.count) substances have mechanism of action data")
 
             saveCache(all)
             isLoading = false
@@ -217,7 +222,45 @@ enum SubstanceLibrary {
                 subjectiveEffects: s.subjectiveEffects,
                 toleranceInfo: s.toleranceInfo,
                 halfLifeMinutes: halfLife,
-                sources: s.sources
+                sources: s.sources,
+                mechanismOfAction: s.mechanismOfAction
+            )
+        }
+    }
+
+    // MARK: - Mechanism of Action Enrichment
+
+    /// Fill in missing mechanismOfAction from MechanismOfActionDatabase (specific matches only).
+    /// Category-level fallbacks are resolved at display time in SubstanceDetailView.
+    private static func enrichMechanismOfAction(_ substances: [Substance]) -> [Substance] {
+        substances.map { s in
+            guard s.mechanismOfAction == nil else { return s }
+
+            // Try specific substance lookup by name, then aliases
+            var moa = MechanismOfActionDatabase.mechanism(for: s.name)
+            if moa == nil {
+                for alias in s.aliases {
+                    if let found = MechanismOfActionDatabase.mechanism(for: alias) {
+                        moa = found
+                        break
+                    }
+                }
+            }
+
+            guard let mechanism = moa else { return s }
+
+            return Substance(
+                name: s.name,
+                aliases: s.aliases,
+                category: s.category,
+                defaultRoute: s.defaultRoute,
+                routes: s.routes,
+                effects: s.effects,
+                subjectiveEffects: s.subjectiveEffects,
+                toleranceInfo: s.toleranceInfo,
+                halfLifeMinutes: s.halfLifeMinutes,
+                sources: s.sources,
+                mechanismOfAction: mechanism
             )
         }
     }
@@ -292,20 +335,70 @@ enum SubstanceLibrary {
         var aliasExact: [Substance] = []
         var prefix: [Substance] = []
         var contains: [Substance] = []
+        var seen = Set<UUID>()
 
         for item in searchIndex {
             if item.nameLower == q {
                 exact.append(item.substance)
+                seen.insert(item.substance.id)
             } else if item.aliasesLower.contains(q) {
                 aliasExact.append(item.substance)
+                seen.insert(item.substance.id)
             } else if item.nameLower.hasPrefix(q) || item.aliasesLower.contains(where: { $0.hasPrefix(q) }) {
                 prefix.append(item.substance)
+                seen.insert(item.substance.id)
             } else if item.nameLower.contains(q) || item.aliasesLower.contains(where: { $0.contains(q) }) {
                 contains.append(item.substance)
+                seen.insert(item.substance.id)
             }
         }
 
-        return Array((exact + aliasExact + prefix + contains).prefix(limit))
+        var results = exact + aliasExact + prefix + contains
+        if results.count < limit && q.count >= 4 {
+            results += fuzzyMatch(q, excluding: seen, limit: limit - results.count)
+        }
+        return Array(results.prefix(limit))
+    }
+
+    // MARK: - Fuzzy Search
+
+    @MainActor private static func fuzzyMatch(_ query: String, excluding seen: Set<UUID>, limit: Int) -> [Substance] {
+        let maxDistance = max(1, Int(Double(query.count) * 0.3))
+        var matches: [(substance: Substance, distance: Int)] = []
+
+        for item in searchIndex {
+            guard !seen.contains(item.substance.id) else { continue }
+            var bestDist = Int.max
+            bestDist = min(bestDist, levenshtein(query, item.nameLower))
+            if bestDist > maxDistance {
+                for alias in item.aliasesLower {
+                    bestDist = min(bestDist, levenshtein(query, alias))
+                    if bestDist <= maxDistance { break }
+                }
+            }
+            if bestDist <= maxDistance {
+                matches.append((item.substance, bestDist))
+            }
+        }
+
+        return matches.sorted { $0.distance < $1.distance }.prefix(limit).map(\.substance)
+    }
+
+    private static func levenshtein(_ a: String, _ b: String) -> Int {
+        let a = Array(a), b = Array(b)
+        if a.isEmpty { return b.count }
+        if b.isEmpty { return a.count }
+        var prev = Array(0...b.count)
+        var curr = [Int](repeating: 0, count: b.count + 1)
+        for i in 1...a.count {
+            curr[0] = i
+            for j in 1...b.count {
+                let cost = a[i - 1] == b[j - 1] ? 0 : 1
+                curr[j] = min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost)
+            }
+            swap(&prev, &curr)
+        }
+        return prev[b.count]
     }
 
 }
