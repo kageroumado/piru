@@ -635,9 +635,14 @@ struct HalfLifeCalculatorView: View {
             }
 
             ForEach(1...4, id: \.self) { n in
-                let eliminatedPct = (1 - pow(0.5, Double(n))) * 100
-                let remaining = dose * pow(0.5, Double(n))
-                let timeMinutes = peakTime + halfLife * Double(n)
+                let fraction = pow(0.5, Double(n))
+                let eliminatedPct = (1 - fraction) * 100
+                let remaining = dose * fraction
+                let timeMinutes: Double = if let params = pkParameters {
+                    PKModel.timeToFraction(fraction, ke: params.ke, ka: params.ka, maxMinutes: halfLife * 8)
+                } else {
+                    peakTime + halfLife * Double(n)
+                }
 
                 HStack {
                     Image(systemName: "\(n).circle.fill")
