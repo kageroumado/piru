@@ -191,7 +191,8 @@ enum SubstanceDeduplicator {
             subjectiveEffects: primary.subjectiveEffects.isEmpty ? secondary.subjectiveEffects : primary.subjectiveEffects,
             toleranceInfo: primary.toleranceInfo ?? secondary.toleranceInfo,
             halfLifeMinutes: primary.halfLifeMinutes ?? secondary.halfLifeMinutes,
-            sources: mergedSources
+            sources: mergedSources,
+            mechanismOfAction: primary.mechanismOfAction ?? secondary.mechanismOfAction
         )
     }
 

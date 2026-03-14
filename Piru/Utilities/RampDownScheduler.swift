@@ -12,6 +12,13 @@ enum RampDownScheduler {
     private static let sleepCategory = "sleepReminder"
     private static let cumulativeCategory = "cumulativeDose"
 
+    /// Groups doses within 6-hour windows into the same notification thread.
+    static func sessionIdentifier(for doseTime: Date) -> String {
+        let startOfDay = Calendar.current.startOfDay(for: doseTime)
+        let window = Int(doseTime.timeIntervalSince(startOfDay) / 21600) // 6-hour blocks
+        return "session_\(Int(startOfDay.timeIntervalSince1970))_\(window)"
+    }
+
     /// Whether automatic wellness notifications (hydration, sleep) are enabled.
     static var wellnessNotificationsEnabled: Bool {
         UserDefaults.standard.object(forKey: "wellnessNotificationsEnabled") as? Bool ?? false
@@ -88,6 +95,7 @@ enum RampDownScheduler {
         content.body = message.body
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = notificationCategory
+        content.threadIdentifier = sessionIdentifier(for: doseTime)
 
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: timeInterval,
@@ -132,16 +140,17 @@ enum RampDownScheduler {
         recentStimHours: Double? = nil
     ) {
         guard wellnessNotificationsEnabled else { return }
+        let threadId = sessionIdentifier(for: doseTime)
 
         Task {
             let granted = await requestPermissionIfNeeded()
             guard granted else { return }
 
-            // Deduplicate: skip if a wellness notification of the same type is already pending within 30 min
+            // Deduplicate: skip if a wellness notification of the same type is already pending within 90 min
             let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
             let now = Date.now
 
-            func hasPendingWithin(minutes: Double = 30, of targetFireDate: Date, prefix: String) -> Bool {
+            func hasPendingWithin(minutes: Double = 90, of targetFireDate: Date, prefix: String) -> Bool {
                 let window = minutes * 60
                 return pending.contains { req in
                     guard req.identifier.hasPrefix(prefix),
@@ -168,7 +177,8 @@ enum RampDownScheduler {
                     title: "Stay hydrated",
                     body: hydrationMessage(for: category),
                     timeInterval: hydrationInterval,
-                    category: hydrationCategory
+                    category: hydrationCategory,
+                    threadId: threadId
                 )
             }
 
@@ -177,13 +187,14 @@ enum RampDownScheduler {
                 let offsetStart = duration.phaseBoundaries.peakEnd * 60
                 let secondInterval = doseTime.addingTimeInterval(offsetStart).timeIntervalSince(.now)
                 let secondFireDate = doseTime.addingTimeInterval(offsetStart)
-                    if secondInterval > hydrationInterval + 1800 && !hasPendingWithin(of: secondFireDate, prefix: hydrationCategory) { // at least 30 min after first
+                if secondInterval > hydrationInterval + 1800 && !hasPendingWithin(of: secondFireDate, prefix: hydrationCategory) {
                     scheduleSimpleNotification(
                         id: "\(hydrationCategory)2_\(Int(doseTime.timeIntervalSince1970))",
                         title: "Hydration check",
                         body: "Have some water and a snack if you haven't recently. Your body will thank you.",
                         timeInterval: secondInterval,
-                        category: hydrationCategory
+                        category: hydrationCategory,
+                        threadId: threadId
                     )
                 }
             }
@@ -191,24 +202,28 @@ enum RampDownScheduler {
             // Sleep reminder for stimulants — if session has been going 12+ hours
             if category == .stimulant || category == .empathogen {
                 if let stimHours = recentStimHours, stimHours >= 10 {
-                    // Already been at it a while — send sleep reminder in 2 hours
-                    scheduleSimpleNotification(
-                        id: "\(sleepCategory)_\(Int(doseTime.timeIntervalSince1970))",
-                        title: "Time to rest",
-                        body: "You've been going for over \(Int(stimHours)) hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep.",
-                        timeInterval: 7200,
-                        category: sleepCategory
-                    )
+                    let sleepFireDate = Date.now.addingTimeInterval(7200)
+                    if !hasPendingWithin(of: sleepFireDate, prefix: sleepCategory) {
+                        scheduleSimpleNotification(
+                            id: "\(sleepCategory)_\(Int(doseTime.timeIntervalSince1970))",
+                            title: "Time to rest",
+                            body: "You've been going for over \(Int(stimHours)) hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep.",
+                            timeInterval: 7200,
+                            category: sleepCategory,
+                            threadId: threadId
+                        )
+                    }
                 } else {
-                    // Schedule for 12h from first dose today (approximated as current dose time)
                     let sleepInterval = doseTime.addingTimeInterval(12 * 3600).timeIntervalSince(.now)
-                    if sleepInterval > 3600 {
+                    let sleepFireDate = doseTime.addingTimeInterval(12 * 3600)
+                    if sleepInterval > 3600 && !hasPendingWithin(of: sleepFireDate, prefix: sleepCategory) {
                         scheduleSimpleNotification(
                             id: "\(sleepCategory)_\(Int(doseTime.timeIntervalSince1970))",
                             title: "Time to rest",
                             body: "It's been a long session. Your body and brain need sleep to recover. Try to wind down.",
                             timeInterval: sleepInterval,
-                            category: sleepCategory
+                            category: sleepCategory,
+                            threadId: threadId
                         )
                     }
                 }
@@ -221,9 +236,11 @@ enum RampDownScheduler {
         substanceName: String,
         totalAmount: Double,
         unit: String,
-        category: SubstanceCategory?
+        category: SubstanceCategory?,
+        doseTime: Date = .now
     ) {
         guard wellnessNotificationsEnabled else { return }
+        let threadId = sessionIdentifier(for: doseTime)
 
         Task {
             let granted = await requestPermissionIfNeeded()
@@ -235,8 +252,9 @@ enum RampDownScheduler {
                 id: "\(cumulativeCategory)_\(substanceName.lowercased())_\(Int(Date.now.timeIntervalSince1970))",
                 title: "Heads up — \(totalAmount.doseFormatted)\(unit) \(substanceName) today",
                 body: "That's a high cumulative dose. \(tip)",
-                timeInterval: 5, // Near-immediate
-                category: cumulativeCategory
+                timeInterval: 5,
+                category: cumulativeCategory,
+                threadId: threadId
             )
         }
     }
@@ -259,13 +277,15 @@ enum RampDownScheduler {
         title: String,
         body: String,
         timeInterval: TimeInterval,
-        category: String
+        category: String,
+        threadId: String? = nil
     ) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = category
+        if let threadId { content.threadIdentifier = threadId }
 
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: max(5, timeInterval),

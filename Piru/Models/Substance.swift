@@ -125,27 +125,6 @@ enum DoseUnit {
     }
 }
 
-extension Double {
-    /// Format a dose value with sensible rounding — no false precision
-    var doseFormatted: String {
-        let abs = Swift.abs(self)
-        if abs == 0 { return "0" }
-        if abs >= 100 { return String(format: "%.0f", self) }       // 100+ → "250"
-        if abs >= 10 { return trimZeros(format: "%.1f") }           // 10–99 → "44.7"
-        if abs >= 1 { return trimZeros(format: "%.2f") }            // 1–9 → "3.34"
-        return trimZeros(format: "%.2f")                            // <1 → "0.68"
-    }
-
-    private func trimZeros(format: String) -> String {
-        let s = String(format: format, self)
-        if s.contains(".") {
-            let trimmed = s.replacingOccurrences(of: "0+$", with: "", options: .regularExpression)
-            return trimmed.hasSuffix(".") ? String(trimmed.dropLast()) : trimmed
-        }
-        return s
-    }
-}
-
 // MARK: - Duration
 
 struct TimeRange: Codable {
@@ -334,6 +313,82 @@ struct ToleranceInfo: Codable {
     let buildRate: String      // "rapid" | "moderate" | "slow"
 }
 
+enum BindingAction: String, Codable {
+    case agonist
+    case partialAgonist
+    case antagonist
+    case inverseAgonist
+    case positiveAllostericModulator
+    case negativeAllostericModulator
+    case reuptakeInhibitor
+    case releasingAgent
+    case enzymeInhibitor
+    case channelBlocker
+    case modulator
+
+    var displayName: String {
+        switch self {
+        case .agonist: "Agonist"
+        case .partialAgonist: "Partial Agonist"
+        case .antagonist: "Antagonist"
+        case .inverseAgonist: "Inverse Agonist"
+        case .positiveAllostericModulator: "PAM"
+        case .negativeAllostericModulator: "NAM"
+        case .reuptakeInhibitor: "Reuptake Inhibitor"
+        case .releasingAgent: "Releasing Agent"
+        case .enzymeInhibitor: "Enzyme Inhibitor"
+        case .channelBlocker: "Channel Blocker"
+        case .modulator: "Modulator"
+        }
+    }
+}
+
+enum BindingAffinity: Int, Codable, Comparable {
+    case weak = 1
+    case significant = 2
+    case primary = 3
+
+    static func < (lhs: BindingAffinity, rhs: BindingAffinity) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+struct ReceptorBinding: Codable, Identifiable {
+    let target: String
+    let action: BindingAction
+    let affinity: BindingAffinity
+    var id: String { "\(target)-\(action.rawValue)" }
+}
+
+struct MechanismOfAction: Codable {
+    let summary: String
+    let description: String
+    let primaryTargets: [String]
+    let bindings: [ReceptorBinding]
+    let references: [String]
+
+    private enum CodingKeys: String, CodingKey {
+        case summary, description, primaryTargets, bindings, references
+    }
+
+    init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = [], references: [String]) {
+        self.summary = summary
+        self.description = description
+        self.primaryTargets = primaryTargets.isEmpty ? bindings.map(\.target) : primaryTargets
+        self.bindings = bindings
+        self.references = references
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        summary = try container.decode(String.self, forKey: .summary)
+        description = try container.decode(String.self, forKey: .description)
+        primaryTargets = try container.decodeIfPresent([String].self, forKey: .primaryTargets) ?? []
+        bindings = try container.decodeIfPresent([ReceptorBinding].self, forKey: .bindings) ?? []
+        references = try container.decode([String].self, forKey: .references)
+    }
+}
+
 struct Substance: Identifiable {
     let id: UUID
     let name: String
@@ -346,6 +401,7 @@ struct Substance: Identifiable {
     let toleranceInfo: ToleranceInfo?
     let halfLifeMinutes: Double?
     let sources: [String]
+    let mechanismOfAction: MechanismOfAction?
 
     init(
         name: String,
@@ -357,7 +413,8 @@ struct Substance: Identifiable {
         subjectiveEffects: [SubjectiveEffect] = [],
         toleranceInfo: ToleranceInfo? = nil,
         halfLifeMinutes: Double? = nil,
-        sources: [String] = []
+        sources: [String] = [],
+        mechanismOfAction: MechanismOfAction? = nil
     ) {
         self.id = UUID()
         self.name = name
@@ -370,6 +427,7 @@ struct Substance: Identifiable {
         self.toleranceInfo = toleranceInfo
         self.halfLifeMinutes = halfLifeMinutes
         self.sources = sources
+        self.mechanismOfAction = mechanismOfAction
     }
 
     var defaultUnit: String {
@@ -415,6 +473,7 @@ extension Substance: Codable {
     enum CodingKeys: String, CodingKey {
         case name, aliases, category, defaultRoute, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
+        case mechanismOfAction
     }
 
     init(from decoder: Decoder) throws {
@@ -430,6 +489,7 @@ extension Substance: Codable {
         toleranceInfo = try c.decodeIfPresent(ToleranceInfo.self, forKey: .toleranceInfo)
         halfLifeMinutes = try c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
         sources = try c.decodeIfPresent([String].self, forKey: .sources) ?? []
+        mechanismOfAction = try c.decodeIfPresent(MechanismOfAction.self, forKey: .mechanismOfAction)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -448,6 +508,7 @@ extension Substance: Codable {
         if !sources.isEmpty {
             try c.encode(sources, forKey: .sources)
         }
+        try c.encodeIfPresent(mechanismOfAction, forKey: .mechanismOfAction)
     }
 }
 

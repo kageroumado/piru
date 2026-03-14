@@ -52,6 +52,18 @@ enum AppSources {
             description: "Clinical psychopharmacology reference covering dosing, pharmacokinetics, mechanisms of action, and side effects of psychiatric medications."
         ),
         SourceInfo(
+            name: "Stahl's Essential Psychopharmacology",
+            url: "",
+            detail: "Stahl's Essential Psychopharmacology — Neuroscientific Basis and Practical Applications (5th ed.)",
+            description: "Comprehensive psychopharmacology textbook covering the neuroscientific basis of drug action, mechanisms of action of psychotropic medications, and receptor pharmacology."
+        ),
+        SourceInfo(
+            name: "Katzung Basic & Clinical Pharmacology",
+            url: "",
+            detail: "Basic & Clinical Pharmacology — Katzung, Masters & Trevor (15th ed.)",
+            description: "Comprehensive pharmacology textbook covering mechanisms of action, pharmacokinetics, and clinical applications across all drug classes including cardiovascular, endocrine, antimicrobial, and CNS agents."
+        ),
+        SourceInfo(
             name: "PiHKAL",
             url: "https://isomerdesign.com/PiHKAL/PiHKAL/",
             detail: "Phenethylamines I Have Known and Loved — Shulgin & Shulgin (1991)",

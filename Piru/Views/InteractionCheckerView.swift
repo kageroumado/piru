@@ -117,9 +117,25 @@ struct InteractionCheckerView: View {
                         if index > 0 {
                             Divider().padding(.leading, 46)
                         }
-                        InteractionWarningRow(warning: warning)
+                        NavigationLink {
+                            InteractionTimelineView(
+                                substanceA: warning.substanceA,
+                                substanceB: warning.substanceB,
+                                severity: warning.severity
+                            )
+                        } label: {
+                            HStack {
+                                InteractionWarningRow(warning: warning)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
                     }
                     .padding(.bottom, 4)
                 }

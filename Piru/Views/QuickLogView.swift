@@ -426,6 +426,16 @@ struct QuickLogView: View {
                 .buttonStyle(.plain)
             }
 
+            if let lastEntry = mostRecentEntry(for: card.substanceName) {
+                DoseSuggestionCard(
+                    substanceName: card.substanceName,
+                    lastDoseAmount: lastEntry.amount,
+                    lastDoseTimestamp: lastEntry.timestamp,
+                    unit: lastEntry.unit,
+                    route: lastEntry.route
+                )
+            }
+
             ForEach(card.routes) { group in
                 routeSection(group, color: color)
             }
@@ -694,6 +704,11 @@ struct QuickLogView: View {
 
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
+    }
+
+    private func mostRecentEntry(for substanceName: String) -> DoseEntry? {
+        let lowered = substanceName.lowercased()
+        return allEntries.first { $0.substance.lowercased() == lowered }
     }
 
     // MARK: - Help Banner

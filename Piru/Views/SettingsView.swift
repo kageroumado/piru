@@ -164,7 +164,7 @@ struct SettingsView: View {
             } header: {
                 Label("Sources & References", systemImage: "book.closed")
             } footer: {
-                Text("Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use.")
+                Text("Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, mechanisms of action, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. Mechanism of action descriptions are based on human pharmacological research only. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use.")
             }
         }
         .navigationTitle("Settings")
