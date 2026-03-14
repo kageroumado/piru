@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 51DE9CFA11C848FCA878214C /* PiruWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0B793F102F55446700FB3EE1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */; };
 		0B793F122F55446700FB3EE1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B793F112F55446700FB3EE1 /* SwiftUI.framework */; };
 		0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -27,6 +28,13 @@
 			remoteGlobalIDString = 0B793EFA2F55434700FB3EE1;
 			remoteInfo = Piru;
 		};
+		CE814B69A2584184B107983E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B793EF32F55434700FB3EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 40905C6634D1463ABA5AADE3;
+			remoteInfo = PiruWidget;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +44,7 @@
 			dstSubfolder = PlugIns;
 			files = (
 				0B793F1F2F55446900FB3EE1 /* PiruLiveActivityExtensionExtension.appex in Embed Foundation Extensions */,
+				06C3E897629B462490951D1C /* PiruWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
@@ -47,6 +56,7 @@
 		0B793F0F2F55446700FB3EE1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		0B793F112F55446700FB3EE1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0B793F292F55448700FB3EE1 /* PiruTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiruTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		51DE9CFA11C848FCA878214C /* PiruWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PiruWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -63,6 +73,13 @@
 				Info.plist,
 			);
 			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
+		};
+		8B60329FAFD54E779AA40D87 /* Exceptions for "PiruWidget" folder in "PiruWidget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 40905C6634D1463ABA5AADE3 /* PiruWidget */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -93,6 +110,14 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		E37779A4C7B34538AC590549 /* PiruWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8B60329FAFD54E779AA40D87 /* Exceptions for "PiruWidget" folder in "PiruWidget" target */,
+			);
+			path = PiruWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +138,11 @@
 			files = (
 			);
 		};
+		AC10B40E159E4DDA992B8E03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -122,6 +152,7 @@
 				0B793EFD2F55434700FB3EE1 /* Piru */,
 				0B793F332F55449100FB3EE1 /* Shared */,
 				0B793F132F55446700FB3EE1 /* PiruLiveActivityExtension */,
+				E37779A4C7B34538AC590549 /* PiruWidget */,
 				0B793F2A2F55448700FB3EE1 /* PiruTests */,
 				0B793F0E2F55446700FB3EE1 /* Frameworks */,
 				0B793EFC2F55434700FB3EE1 /* Products */,
@@ -134,6 +165,7 @@
 				0B793EFB2F55434700FB3EE1 /* Piru.app */,
 				0B793F0D2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension.appex */,
 				0B793F292F55448700FB3EE1 /* PiruTests.xctest */,
+				51DE9CFA11C848FCA878214C /* PiruWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +195,7 @@
 			);
 			dependencies = (
 				0B793F1E2F55446900FB3EE1 /* PBXTargetDependency */,
+				EBC3FB5B0B3342D8934D5D30 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				0B793EFD2F55434700FB3EE1 /* Piru */,
@@ -213,6 +246,24 @@
 			productReference = 0B793F292F55448700FB3EE1 /* PiruTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		40905C6634D1463ABA5AADE3 /* PiruWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3EEA5D34D787431BB7B68B80 /* Build configuration list for PBXNativeTarget "PiruWidget" */;
+			buildPhases = (
+				DAD179725B5440F080AAFA5A /* Sources */,
+				AC10B40E159E4DDA992B8E03 /* Frameworks */,
+				6126DE8D8DF84847A434B9DA /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				E37779A4C7B34538AC590549 /* PiruWidget */,
+			);
+			name = PiruWidget;
+			productName = PiruWidget;
+			productReference = 51DE9CFA11C848FCA878214C /* PiruWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -252,6 +303,7 @@
 				0B793EFA2F55434700FB3EE1 /* Piru */,
 				0B793F0C2F55446700FB3EE1 /* PiruLiveActivityExtensionExtension */,
 				0B793F282F55448700FB3EE1 /* PiruTests */,
+				40905C6634D1463ABA5AADE3 /* PiruWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -268,6 +320,11 @@
 			);
 		};
 		0B793F272F55448700FB3EE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		6126DE8D8DF84847A434B9DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -290,6 +347,11 @@
 			files = (
 			);
 		};
+		DAD179725B5440F080AAFA5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -302,6 +364,11 @@
 			isa = PBXTargetDependency;
 			target = 0B793EFA2F55434700FB3EE1 /* Piru */;
 			targetProxy = 0B793F2D2F55448700FB3EE1 /* PBXContainerItemProxy */;
+		};
+		EBC3FB5B0B3342D8934D5D30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 40905C6634D1463ABA5AADE3 /* PiruWidget */;
+			targetProxy = CE814B69A2584184B107983E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -432,6 +499,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 52K336H235;
@@ -468,6 +536,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Piru/Piru.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 52K336H235;
@@ -609,6 +678,66 @@
 			};
 			name = Release;
 		};
+		6699DAB55C4F4A8C9FCA980F /* Release configuration for PBXNativeTarget "PiruWidget" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiruWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B31F1C8012694D7A8C63F79B /* Debug configuration for PBXNativeTarget "PiruWidget" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSTCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PiruWidget/PiruWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 52K336H235;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PiruWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PiruWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.yumeji.piru.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -641,6 +770,14 @@
 			buildConfigurations = (
 				0B793F302F55448700FB3EE1 /* Debug configuration for PBXNativeTarget "PiruTests" */,
 				0B793F312F55448700FB3EE1 /* Release configuration for PBXNativeTarget "PiruTests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		3EEA5D34D787431BB7B68B80 /* Build configuration list for PBXNativeTarget "PiruWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B31F1C8012694D7A8C63F79B /* Debug configuration for PBXNativeTarget "PiruWidget" */,
+				6699DAB55C4F4A8C9FCA980F /* Release configuration for PBXNativeTarget "PiruWidget" */,
 			);
 			defaultConfigurationName = Release;
 		};

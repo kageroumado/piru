@@ -313,7 +313,10 @@ struct HalfLifeCalculatorView: View {
                 else if endMinutes <= 360 { interval = 60 }
                 else if endMinutes <= 720 { interval = 120 }
                 else if endMinutes <= 2880 { interval = 360 }
-                else { interval = 1440 }
+                else if endMinutes <= 14400 { interval = 1440 }
+                else if endMinutes <= 43200 { interval = 4320 }
+                else if endMinutes <= 100800 { interval = 10080 }
+                else { interval = 20160 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 1
                 var t = 0.0

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
@@ -156,6 +157,7 @@ struct EntryDetailView: View {
         ) {
             Button("Delete", role: .destructive) {
                 modelContext.delete(entry)
+                WidgetCenter.shared.reloadAllTimelines()
                 dismiss()
             }
         } message: {
