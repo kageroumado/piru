@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import ActivityKit
+import WidgetKit
 
 struct EntryFormView: View {
     @Environment(\.modelContext) private var modelContext
@@ -341,6 +342,8 @@ struct EntryFormView: View {
                 )
             }
         }
+
+        WidgetCenter.shared.reloadAllTimelines()
 
         if !hasColor(for: substance) {
             savedSubstanceName = substance

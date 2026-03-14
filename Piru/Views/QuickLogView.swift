@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct QuickLogView: View {
     @Environment(\.modelContext) private var modelContext
@@ -531,6 +532,7 @@ struct QuickLogView: View {
             route: group.route
         )
         modelContext.insert(entry)
+        WidgetCenter.shared.reloadAllTimelines()
 
         // Schedule wellness notifications & check cumulative dose
         scheduleWellnessIfNeeded(entry: entry, substance: group.librarySubstance)
@@ -680,6 +682,7 @@ struct QuickLogView: View {
                 allColors: Array(substanceColors)
             )
         }
+        WidgetCenter.shared.reloadAllTimelines()
         dismiss()
     }
 
