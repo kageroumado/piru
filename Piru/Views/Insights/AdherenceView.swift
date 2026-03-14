@@ -148,10 +148,11 @@ struct AdherenceView: View {
     // MARK: - Computation
 
     private var adherenceRate: Double {
-        let completed = monthAdherence.filter { $0.status == .complete }.count
-        let total = monthAdherence.filter { $0.status != .noData && $0.date <= .now }.count
-        guard total > 0 else { return 0 }
-        return Double(completed) / Double(total)
+        let actionable = monthAdherence.filter { $0.status != .noData && $0.date <= .now }
+        let totalDue = actionable.reduce(0) { $0 + $1.totalCount }
+        guard totalDue > 0 else { return 0 }
+        let totalTaken = actionable.reduce(0) { $0 + $1.takenCount }
+        return Double(totalTaken) / Double(totalDue)
     }
 
     private func recompute() {

@@ -75,7 +75,7 @@ struct DoseLevelIndicator: View {
         Rectangle()
             .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))
             .overlay {
-                if isActive, let currentDose, let range = segment.range {
+                if isActive, segment.level != .heavy, let currentDose, let range = segment.range {
                     GeometryReader { geo in
                         let pct = min(max((currentDose - range.lowerBound) / (range.upperBound - range.lowerBound), 0), 1)
                         Circle()
