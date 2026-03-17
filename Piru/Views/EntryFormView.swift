@@ -382,9 +382,19 @@ struct InteractionWarningRow: View {
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text("\(warning.severity.label): \(warning.substanceA) + \(warning.substanceB)")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(warning.severity.color)
+                HStack(spacing: 6) {
+                    Text("\(warning.severity.label): \(warning.substanceA) + \(warning.substanceB)")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(warning.severity.color)
+                    if warning.source != .classRule {
+                        Text(warning.source.label)
+                            .font(.caption2.weight(.medium))
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 1)
+                            .background(warning.severity.color.opacity(0.15), in: Capsule())
+                            .foregroundStyle(warning.severity.color)
+                    }
+                }
                 Text(warning.description)
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)

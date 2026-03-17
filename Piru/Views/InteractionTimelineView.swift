@@ -1,4 +1,5 @@
 import Charts
+import SwiftData
 import SwiftUI
 
 struct InteractionTimelineView: View {
@@ -6,7 +7,11 @@ struct InteractionTimelineView: View {
     let substanceB: String
     let severity: InteractionSeverity
 
-    @State private var timeOffsetHours: Double = 0
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+
+    @State private var ingestTimeA: Date = .now
+    @State private var ingestTimeB: Date = .now
+    @State private var didAutoDetect = false
 
     private struct PKParams {
         let ke: Double
@@ -57,7 +62,7 @@ struct InteractionTimelineView: View {
 
                 if let pA = paramsA, let pB = paramsB {
                     chartSection(pA: pA, pB: pB)
-                    offsetSlider
+                    timeControlsSection
                     overlapCard(pA: pA, pB: pB)
                 }
 
@@ -73,6 +78,39 @@ struct InteractionTimelineView: View {
         .background(Theme.background)
         .navigationTitle("Interaction Timeline")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { autoDetectTimes() }
+    }
+
+    // MARK: - Auto-Detection
+
+    private func autoDetectTimes() {
+        guard !didAutoDetect else { return }
+        didAutoDetect = true
+        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        if let entry = allEntries.first(where: {
+            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
+        }) {
+            ingestTimeA = entry.timestamp
+        }
+        if let entry = allEntries.first(where: {
+            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
+        }) {
+            ingestTimeB = entry.timestamp
+        }
+    }
+
+    private var hasRecentEntryA: Bool {
+        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        return allEntries.contains {
+            $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
+        }
+    }
+
+    private var hasRecentEntryB: Bool {
+        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        return allEntries.contains {
+            $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
+        }
     }
 
     // MARK: - Missing Data
@@ -109,11 +147,18 @@ struct InteractionTimelineView: View {
         let minConcentration: Double
     }
 
+    /// Reference time for the chart x-axis (the earlier of the two ingestion times).
+    private var referenceTime: Date {
+        min(ingestTimeA, ingestTimeB)
+    }
+
     private func generateCurveData(pA: PKParams, pB: PKParams) -> (pointsA: [CurvePoint], pointsB: [CurvePoint], overlap: [OverlapPoint], totalHours: Double) {
-        let offsetMinutes = timeOffsetHours * 60
+        let offsetAMinutes = ingestTimeA.timeIntervalSince(referenceTime) / 60
+        let offsetBMinutes = ingestTimeB.timeIntervalSince(referenceTime) / 60
+
         let tailA = PKModel.timeToFraction(0.03, ke: pA.ke, ka: pA.ka, maxMinutes: pA.halfLifeMinutes * 8)
         let tailB = PKModel.timeToFraction(0.03, ke: pB.ke, ka: pB.ka, maxMinutes: pB.halfLifeMinutes * 8)
-        let totalMinutes = max(tailA, offsetMinutes + tailB)
+        let totalMinutes = max(offsetAMinutes + tailA, offsetBMinutes + tailB)
         let totalHours = totalMinutes / 60
 
         let cmaxA = PKModel.cmax(ke: pA.ke, ka: pA.ka)
@@ -128,11 +173,18 @@ struct InteractionTimelineView: View {
             let t = Double(i) / Double(steps) * totalMinutes
             let hours = t / 60
 
-            let concA = cmaxA > 0 ? PKModel.concentration(at: t, ke: pA.ke, ka: pA.ka) / cmaxA * 100 : 0
+            let elapsedA = t - offsetAMinutes
+            let concA: Double
+            if elapsedA >= 0 && cmaxA > 0 {
+                concA = max(0, PKModel.concentration(at: elapsedA, ke: pA.ke, ka: pA.ka) / cmaxA * 100)
+            } else {
+                concA = 0
+            }
+
+            let elapsedB = t - offsetBMinutes
             let concB: Double
-            let elapsed = t - offsetMinutes
-            if elapsed >= 0 && cmaxB > 0 {
-                concB = PKModel.concentration(at: elapsed, ke: pB.ke, ka: pB.ka) / cmaxB * 100
+            if elapsedB >= 0 && cmaxB > 0 {
+                concB = max(0, PKModel.concentration(at: elapsedB, ke: pB.ke, ka: pB.ka) / cmaxB * 100)
             } else {
                 concB = 0
             }
@@ -154,6 +206,8 @@ struct InteractionTimelineView: View {
 
     private func chartSection(pA: PKParams, pB: PKParams) -> some View {
         let data = generateCurveData(pA: pA, pB: pB)
+        let nowHours = Date.now.timeIntervalSince(referenceTime) / 3600
+        let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
 
         return VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curves")
@@ -166,7 +220,7 @@ struct InteractionTimelineView: View {
                         y: .value("Conc", point.minConcentration)
                     )
                     .foregroundStyle(severity.color.opacity(0.2))
-                    .interpolationMethod(.catmullRom)
+                    .interpolationMethod(.monotone)
                 }
 
                 ForEach(data.pointsA) { point in
@@ -175,7 +229,7 @@ struct InteractionTimelineView: View {
                         y: .value("Conc", point.concentration)
                     )
                     .foregroundStyle(colorA)
-                    .interpolationMethod(.catmullRom)
+                    .interpolationMethod(.monotone)
                     .lineStyle(StrokeStyle(lineWidth: 2))
                 }
 
@@ -185,8 +239,19 @@ struct InteractionTimelineView: View {
                         y: .value("Conc", point.concentration)
                     )
                     .foregroundStyle(colorB)
-                    .interpolationMethod(.catmullRom)
+                    .interpolationMethod(.monotone)
                     .lineStyle(StrokeStyle(lineWidth: 2))
+                }
+
+                if showNowMarker {
+                    RuleMark(x: .value("Now", nowHours))
+                        .foregroundStyle(.white.opacity(0.4))
+                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 3]))
+                        .annotation(position: .top, alignment: .leading, spacing: 2) {
+                            Text("Now")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                 }
             }
             .chartXAxis {
@@ -243,34 +308,62 @@ struct InteractionTimelineView: View {
         }
     }
 
-    // MARK: - Offset Slider
+    // MARK: - Time Controls
 
-    private var maxOffset: Double {
-        guard let pA = paramsA else { return 24 }
-        let tailHours = PKModel.timeToFraction(0.03, ke: pA.ke, ka: pA.ka, maxMinutes: pA.halfLifeMinutes * 8) / 60
-        return min(max(tailHours, 4), 72)
+    private var timePickerRange: ClosedRange<Date> {
+        Date.now.addingTimeInterval(-48 * 3600)...Date.now.addingTimeInterval(12 * 3600)
     }
 
-    private var offsetSlider: some View {
+    private var timeControlsSection: some View {
+        VStack(spacing: 12) {
+            substanceTimeRow(name: substanceA, color: colorA, time: $ingestTimeA, hasRecentEntry: hasRecentEntryA)
+            substanceTimeRow(name: substanceB, color: colorB, time: $ingestTimeB, hasRecentEntry: hasRecentEntryB)
+        }
+    }
+
+    private func substanceTimeRow(name: String, color: Color, time: Binding<Date>, hasRecentEntry: Bool) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Stagger \(substanceB)")
+                Circle().fill(color).frame(width: 10, height: 10)
+                Text(name)
                     .font(.subheadline.weight(.medium))
                 Spacer()
-                Text(timeOffsetHours == 0 ? "Simultaneous" : "+\(formatHours(timeOffsetHours))")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Theme.accent)
+                if hasRecentEntry {
+                    Text("From journal")
+                        .font(.caption2.weight(.medium))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(color.opacity(0.15), in: Capsule())
+                        .foregroundStyle(color)
+                }
             }
 
-            Slider(value: $timeOffsetHours, in: 0...maxOffset, step: 0.5)
-                .tint(Theme.accent)
+            HStack {
+                Text("Ingestion time")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                Spacer()
+                DatePicker("", selection: time, in: timePickerRange)
+                    .labelsHidden()
+                    .datePickerStyle(.compact)
+            }
 
-            Text("Slide to see how delaying \(substanceB) affects the overlap window.")
+            Text(relativeTimeDescription(time.wrappedValue))
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
         }
         .padding()
         .themeCard()
+    }
+
+    private func relativeTimeDescription(_ date: Date) -> String {
+        let interval = Date.now.timeIntervalSince(date)
+        if abs(interval) < 60 { return "Right now" }
+        if interval > 0 {
+            return "\(formatDuration(interval / 60)) ago"
+        } else {
+            return "In \(formatDuration(-interval / 60))"
+        }
     }
 
     // MARK: - Overlap Window
@@ -306,7 +399,7 @@ struct InteractionTimelineView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("No active overlap")
                             .font(.subheadline.weight(.semibold))
-                        Text("At this offset, the substances are not simultaneously active above threshold.")
+                        Text("At this timing, the substances are not simultaneously active above threshold.")
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }

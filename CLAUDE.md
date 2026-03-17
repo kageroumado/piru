@@ -38,7 +38,7 @@ Piru/
 ├── Services/        # TripSitAPI, PsychonautWikiAPI, DailyMedAPI
 ├── Utilities/       # ActiveSubstanceCalculator, PKModel, RampDownScheduler, etc.
 Shared/              # Code shared across all targets: models, ColorHex, DoseFormatting, timeline graph
-PiruLiveActivityExtension/  # iOS 18 Lock Screen widget
+PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
 PiruTests/           # 31 test files, 387 tests using Apple Testing framework (@Suite, @Test)
 Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against APIs
@@ -89,7 +89,7 @@ struct DoseEntryTests {
 
 ## Conventions
 
-- **iOS 18+** target with `iOS 26` feature gates (`.liquidGlassBody`, etc.)
+- **iOS 26+** minimum deployment target (Liquid Glass UI throughout)
 - **Swift 6** strict concurrency (`default-isolation=MainActor`)
 - Colors: accent from `Assets.xcassets` (soft pink light / hot pink dark), substances get user-assignable `PresetColor`s
 - All singleton managers use `@Observable @MainActor`

@@ -92,6 +92,11 @@ enum SubstanceLibrary {
                 print("[SubstanceLibrary] Stage 1: \(all.count) substances (TripSit)")
             }
 
+            // Load TripSit combo data into the interaction checker
+            if !tripSitDrugs.isEmpty {
+                InteractionChecker.loadTripSitCombos(from: tripSitDrugs)
+            }
+
             // Stage 2: Fetch DailyMed clinical drugs by direct name lookup.
             LibraryLoadingState.shared.statusText = "Fetching clinical drug data..."
             let clinicalDrugs = await DailyMedAPI.fetchClinicalDrugs()

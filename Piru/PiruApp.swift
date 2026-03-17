@@ -46,6 +46,9 @@ struct PiruApp: App {
                     WidgetCenter.shared.reloadAllTimelines()
                     SubstanceLibrary.fetchFromAPIs()
                     LiveActivityManager.shared.recoverSession(container: container)
+                    #if DEBUG
+                    DemoData.insertShowcaseData(container: container)
+                    #endif
                 }
         }
         .modelContainer(container)
