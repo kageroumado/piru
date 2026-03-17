@@ -68,8 +68,4 @@ extension View {
     func themeCapsule() -> some View {
         modifier(ThemedBackground(shape: Capsule()))
     }
-
-    func themeCircle() -> some View {
-        modifier(ThemedBackground(shape: Circle()))
-    }
 }

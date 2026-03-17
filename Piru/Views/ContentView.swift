@@ -7,8 +7,6 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @State private var searchText = ""
     @State private var librarySearchText = ""
-    @State private var isSearching = false
-    @FocusState private var searchFieldFocused: Bool
 
     @State private var lastContentTab = 0
     @State private var showingForm = false
@@ -19,23 +17,13 @@ struct ContentView: View {
     @State private var deepLinkEntry: DoseEntry?
 
     var body: some View {
-        Group {
-            if #available(iOS 26, *) {
-                liquidGlassBody
-            } else {
-                legacyBody
-            }
-        }
+        liquidGlassBody
         .onChange(of: selectedTab) { oldValue, newValue in
             if newValue == 5 {
                 lastContentTab = oldValue
             }
             searchText = ""
             librarySearchText = ""
-            searchFieldFocused = false
-            withAnimation(.snappy(duration: 0.25)) {
-                isSearching = false
-            }
         }
         .sheet(isPresented: $showingForm) {
             QuickLogView()
@@ -111,9 +99,8 @@ struct ContentView: View {
             .withDayDetailDestination()
     }
 
-    // MARK: - Liquid Glass (iOS 26+)
+    // MARK: - Tab View
 
-    @available(iOS 26, *)
     private var liquidGlassBody: some View {
         TabView(selection: $selectedTab) {
             Tab("Journal", systemImage: "book", value: 0) {
@@ -194,162 +181,6 @@ struct ContentView: View {
             } label: {
                 Image(systemName: "heart.circle")
             }
-        }
-    }
-
-    // MARK: - Legacy Body (pre-iOS 26)
-
-    private var legacyBody: some View {
-        ZStack(alignment: .bottom) {
-            Group {
-                switch selectedTab {
-                case 0: NavigationStack { journalContent }
-                case 1: NavigationStack { libraryContent }
-                case 2: NavigationStack { toolsContent }
-                case 3: NavigationStack { insightsContent }
-                default: EmptyView()
-                }
-            }
-
-            if isSearching {
-                Color.clear
-                    .contentShape(Rectangle())
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        dismissSearch()
-                    }
-            }
-
-            VStack(spacing: 12) {
-                if selectedTab == 0 && !isSearching {
-                    addMenu
-                }
-                legacyBottomBar
-            }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 8)
-        }
-    }
-
-    // MARK: - Legacy Bottom Bar
-
-    private var showSearchButton: Bool {
-        selectedTab == 0 || selectedTab == 1
-    }
-
-    private var activeSearchText: Binding<String> {
-        selectedTab == 1 ? $librarySearchText : $searchText
-    }
-
-    @ViewBuilder
-    private var legacyBottomBar: some View {
-        if isSearching {
-            legacySearchBar
-        } else {
-            legacyTabBar
-        }
-    }
-
-    private var legacySearchBar: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(Theme.secondaryLabel)
-                .font(.subheadline.weight(.medium))
-            TextField(selectedTab == 1 ? "Search substances..." : "Search entries...", text: activeSearchText)
-                .font(.subheadline)
-                .focused($searchFieldFocused)
-                .submitLabel(.search)
-            if !activeSearchText.wrappedValue.isEmpty {
-                Button {
-                    activeSearchText.wrappedValue = ""
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-            Button {
-                dismissSearch()
-            } label: {
-                Text("Cancel")
-                    .font(.subheadline.weight(.medium))
-            }
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .themeCapsule()
-        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .trailing)))
-    }
-
-    private var legacyTabBar: some View {
-        HStack(spacing: 10) {
-            HStack(spacing: 0) {
-                legacyTabButton(icon: "book", label: "Journal", tab: 0)
-                legacyTabButton(icon: "books.vertical", label: "Library", tab: 1)
-                legacyTabButton(icon: "wrench.and.screwdriver", label: "Tools", tab: 2)
-                legacyTabButton(icon: "chart.line.uptrend.xyaxis", label: "Insights", tab: 3)
-            }
-            .padding(4)
-            .themeCapsule()
-
-            if showSearchButton {
-                Button {
-                    withAnimation(.snappy(duration: 0.25)) {
-                        isSearching = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        searchFieldFocused = true
-                    }
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .font(.body.weight(.medium))
-                        .frame(width: 64, height: 64)
-                        .themeCircle()
-                }
-                .transition(.opacity.combined(with: .scale(scale: 0.8)))
-            }
-        }
-        .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .leading)))
-    }
-
-    @ViewBuilder
-    private func legacyTabButton(icon: String, label: String, tab: Int) -> some View {
-        let isSelected = selectedTab == tab
-        Button {
-            withAnimation(.snappy(duration: 0.2)) {
-                selectedTab = tab
-            }
-        } label: {
-            VStack(spacing: 1) {
-                Image(systemName: icon)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                Text(label)
-                    .font(.system(size: 9, weight: .semibold))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-            }
-            .foregroundStyle(isSelected ? Theme.accent : Theme.secondaryLabel)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 5)
-            .padding(.horizontal, 6)
-            .background {
-                if isSelected {
-                    Capsule()
-                        .fill(Theme.accent.opacity(0.1))
-                }
-            }
-        }
-        .animation(.snappy(duration: 0.2), value: isSelected)
-    }
-
-    // MARK: - Dismiss Search
-
-    private func dismissSearch() {
-        searchFieldFocused = false
-        searchText = ""
-        librarySearchText = ""
-        withAnimation(.snappy(duration: 0.25)) {
-            isSearching = false
         }
     }
 
@@ -444,7 +275,6 @@ private extension View {
 
 // MARK: - Session Accessory View
 
-@available(iOS 26, *)
 private struct SessionAccessoryView: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
 

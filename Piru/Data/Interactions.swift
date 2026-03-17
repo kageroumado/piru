@@ -29,6 +29,22 @@ enum InteractionSeverity: Int, Comparable, Codable {
     }
 }
 
+// MARK: - Interaction Source
+
+enum InteractionSource {
+    case classRule
+    case tripSitCombo
+    case fdaLabel
+
+    var label: String {
+        switch self {
+        case .classRule: "Pharmacological"
+        case .tripSitCombo: "TripSit"
+        case .fdaLabel: "FDA"
+        }
+    }
+}
+
 // MARK: - Drug Class (for interaction matching)
 
 enum DrugClass: String, Codable {
@@ -46,6 +62,15 @@ struct InteractionResult {
     let substanceA: String
     let substanceB: String
     let description: String
+    let source: InteractionSource
+
+    init(severity: InteractionSeverity, substanceA: String, substanceB: String, description: String, source: InteractionSource = .classRule) {
+        self.severity = severity
+        self.substanceA = substanceA
+        self.substanceB = substanceB
+        self.description = description
+        self.source = source
+    }
 }
 
 // MARK: - FDA Label-Sourced Interaction
@@ -79,7 +104,6 @@ enum InteractionChecker {
     /// Check a substance against a list of active dose entries
     static func check(_ substanceName: String, against activeEntries: [DoseEntry]) -> [InteractionResult] {
         let newClasses = drugClasses(for: substanceName)
-        guard !newClasses.isEmpty else { return [] }
 
         var results: [InteractionResult] = []
         var seen = Set<String>() // Avoid duplicate warnings for same substance
@@ -91,7 +115,7 @@ enum InteractionChecker {
             seen.insert(entry.substance.lowercased())
 
             let activeClasses = drugClasses(for: entry.substance)
-            guard !activeClasses.isEmpty else { continue }
+            var foundClassRule = false
 
             // Check all class pair combinations
             for newClass in newClasses {
@@ -101,12 +125,24 @@ enum InteractionChecker {
                             severity: rule.severity,
                             substanceA: substanceName,
                             substanceB: entry.substance,
-                            description: rule.description
+                            description: rule.description,
+                            source: .classRule
                         ))
+                        foundClassRule = true
                     }
                 }
             }
 
+            // Fallback: check TripSit combo data if no class rule matched
+            if !foundClassRule, let combo = findCombo(for: substanceName, and: entry.substance) {
+                results.append(InteractionResult(
+                    severity: combo.severity,
+                    substanceA: substanceName,
+                    substanceB: entry.substance,
+                    description: combo.note,
+                    source: .tripSitCombo
+                ))
+            }
         }
 
         // Sort by severity (dangerous first), deduplicate by substance pair
@@ -142,6 +178,7 @@ enum InteractionChecker {
             for j in (i + 1)..<substances.count {
                 let classesA = drugClasses(for: substances[i])
                 let classesB = drugClasses(for: substances[j])
+                var foundClassRule = false
 
                 for classA in classesA {
                     for classB in classesB {
@@ -150,12 +187,24 @@ enum InteractionChecker {
                                 severity: rule.severity,
                                 substanceA: substances[i],
                                 substanceB: substances[j],
-                                description: rule.description
+                                description: rule.description,
+                                source: .classRule
                             ))
+                            foundClassRule = true
                         }
                     }
                 }
 
+                // Fallback: check TripSit combo data if no class rule matched
+                if !foundClassRule, let combo = findCombo(for: substances[i], and: substances[j]) {
+                    allResults.append(InteractionResult(
+                        severity: combo.severity,
+                        substanceA: substances[i],
+                        substanceB: substances[j],
+                        description: combo.note,
+                        source: .tripSitCombo
+                    ))
+                }
             }
         }
 
@@ -305,6 +354,31 @@ enum InteractionChecker {
             }
         }
         drugClassCache = cache
+
+        // Extend combo name resolution with SubstanceLibrary aliases
+        // (e.g., brand names from DailyMed that map to the same TripSit substance)
+        for substance in SubstanceLibrary.all {
+            let nameLower = substance.name.lowercased()
+            if let tripSitKey = comboNameResolution[nameLower] {
+                for alias in substance.aliases {
+                    if comboNameResolution[alias.lowercased()] == nil {
+                        comboNameResolution[alias.lowercased()] = tripSitKey
+                    }
+                }
+            } else {
+                for alias in substance.aliases {
+                    if let tripSitKey = comboNameResolution[alias.lowercased()] {
+                        comboNameResolution[nameLower] = tripSitKey
+                        for otherAlias in substance.aliases where otherAlias != alias {
+                            if comboNameResolution[otherAlias.lowercased()] == nil {
+                                comboNameResolution[otherAlias.lowercased()] = tripSitKey
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+        }
     }
 
     /// Get drug classes for a substance name
@@ -349,6 +423,90 @@ enum InteractionChecker {
         case .immunological: .other
         case .other: .other
         }
+    }
+
+    // MARK: - TripSit Combo Data
+
+    /// Combo lookup: [tripSitKey: [targetTripSitKey: (severity, note)]]
+    private static var comboLookup: [String: [String: (severity: InteractionSeverity, note: String)]] = [:]
+
+    /// Maps any known name (pretty name, TripSit key, alias) → TripSit internal key
+    private static var comboNameResolution: [String: String] = [:]
+
+    /// Load TripSit combo data from the raw API response into the interaction checker.
+    @MainActor static func loadTripSitCombos(from drugs: [String: TripSitAPI.TripSitDrug]) {
+        // Step 1: Build name → TripSit key resolution
+        var nameToKey: [String: String] = [:]
+        for (key, drug) in drugs {
+            let keyLower = key.lowercased()
+            nameToKey[keyLower] = keyLower
+            if let pretty = drug.pretty_name {
+                nameToKey[pretty.lowercased()] = keyLower
+            }
+            for alias in (drug.aliases ?? drug.properties?.aliases ?? []) {
+                nameToKey[alias.lowercased()] = keyLower
+            }
+        }
+
+        // Step 2: Build combo lookup keyed by TripSit internal names
+        var lookup: [String: [String: (severity: InteractionSeverity, note: String)]] = [:]
+        var totalCombos = 0
+
+        for (key, drug) in drugs {
+            guard let combos = drug.combos, !combos.isEmpty else { continue }
+            let sourceKey = key.lowercased()
+
+            var resolved: [String: (severity: InteractionSeverity, note: String)] = [:]
+            for (targetKey, combo) in combos {
+                guard let statusStr = combo.status,
+                      let severity = mapComboStatus(statusStr) else { continue }
+                let note = (combo.note?.isEmpty == false) ? combo.note! : comboFallbackNote(statusStr)
+                resolved[targetKey.lowercased()] = (severity, note)
+                totalCombos += 1
+            }
+
+            if !resolved.isEmpty {
+                lookup[sourceKey] = resolved
+            }
+        }
+
+        comboLookup = lookup
+        comboNameResolution = nameToKey
+        print("[InteractionChecker] Loaded \(totalCombos) TripSit combo entries from \(lookup.count) substances")
+    }
+
+    /// Map TripSit combo status strings to InteractionSeverity.
+    /// Returns nil for "Low Risk" statuses (no warning needed).
+    private static func mapComboStatus(_ status: String) -> InteractionSeverity? {
+        switch status.lowercased() {
+        case "dangerous": .dangerous
+        case "unsafe": .unsafe
+        case "caution": .caution
+        default: nil // "Low Risk & Synergy", "Low Risk & No Synergy", "Low Risk & Decrease"
+        }
+    }
+
+    private static func comboFallbackNote(_ status: String) -> String {
+        switch status.lowercased() {
+        case "dangerous": "Dangerous combination — avoid."
+        case "unsafe": "Unsafe combination — significant risks."
+        case "caution": "Exercise caution with this combination."
+        default: "Interaction reported by TripSit."
+        }
+    }
+
+    /// Look up TripSit combo data for a substance pair (bidirectional).
+    private static func findCombo(for nameA: String, and nameB: String) -> (severity: InteractionSeverity, note: String)? {
+        let keyA = comboNameResolution[nameA.lowercased()]
+        let keyB = comboNameResolution[nameB.lowercased()]
+
+        // Try both directions with resolved keys
+        if let kA = keyA, let kB = keyB {
+            if let combo = comboLookup[kA]?[kB] { return combo }
+            if let combo = comboLookup[kB]?[kA] { return combo }
+        }
+
+        return nil
     }
 
     // MARK: - Interaction Rules

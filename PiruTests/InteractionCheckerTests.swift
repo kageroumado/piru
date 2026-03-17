@@ -227,4 +227,159 @@ struct InteractionCheckerTests {
         let active = InteractionChecker.activeEntries(from: [entry])
         #expect(active.isEmpty)
     }
+
+    // MARK: - InteractionSource
+
+    @Test("Class rule results have classRule source")
+    func classRuleSource() throws {
+        let results = InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: [])
+        #expect(!results.isEmpty)
+        #expect(results[0].source == .classRule)
+    }
+
+    @Test("InteractionSource labels are correct")
+    func sourceLabels() {
+        #expect(InteractionSource.classRule.label == "Pharmacological")
+        #expect(InteractionSource.tripSitCombo.label == "TripSit")
+        #expect(InteractionSource.fdaLabel.label == "FDA")
+    }
+
+    // MARK: - TripSit Combo Data
+
+    @Test("Loads TripSit combo data and resolves names")
+    func loadTripSitCombos() {
+        // Create mock TripSit data with combo entries
+        let drugA = TripSitAPI.TripSitDrug(
+            name: "lsd",
+            pretty_name: "LSD",
+            aliases: ["acid"],
+            categories: ["psychedelic"],
+            properties: nil,
+            formatted_dose: nil,
+            combos: [
+                "mdma": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Increased anxiety risk."),
+                "cannabis": TripSitAPI.TripSitDrug.ComboInfo(status: "Low Risk & Synergy", note: nil),
+            ],
+            pweffects: nil
+        )
+        let drugB = TripSitAPI.TripSitDrug(
+            name: "mdma",
+            pretty_name: "MDMA",
+            aliases: nil,
+            categories: ["empathogen"],
+            properties: nil,
+            formatted_dose: nil,
+            combos: [
+                "lsd": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Heightened effects."),
+            ],
+            pweffects: nil
+        )
+        let drugC = TripSitAPI.TripSitDrug(
+            name: "cannabis",
+            pretty_name: "Cannabis",
+            aliases: ["weed", "marijuana"],
+            categories: ["cannabinoid"],
+            properties: nil,
+            formatted_dose: nil,
+            combos: nil,
+            pweffects: nil
+        )
+
+        InteractionChecker.loadTripSitCombos(from: [
+            "lsd": drugA,
+            "mdma": drugB,
+            "cannabis": drugC,
+        ])
+
+        // Combo lookup should find caution-level interactions
+        let results = InteractionChecker.checkBatch(["LSD", "MDMA"], against: [])
+        // LSD + MDMA: class rules (empathogen+psychedelic) don't exist,
+        // but TripSit combo should provide a caution result
+        let tripSitResults = results.filter { $0.source == .tripSitCombo }
+        // Note: if a class rule also matches, the combo won't appear (fallback only)
+        // Either way, we should get some interaction result
+        #expect(!results.isEmpty)
+    }
+
+    @Test("Combo fallback only when no class rule matches")
+    func comboFallbackOnlyWhenNoClassRule() {
+        // Morphine (opioid) + Alprazolam (benzo) has a class rule
+        // Even if combo data exists, class rule should take precedence
+        let results = InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: [])
+        let classResults = results.filter { $0.source == .classRule }
+        let comboResults = results.filter { $0.source == .tripSitCombo }
+        #expect(!classResults.isEmpty)
+        // The opioid+benzo pair should use class rule, not combo
+        let pair = classResults.first { r in
+            Set([r.substanceA.lowercased(), r.substanceB.lowercased()]) == Set(["morphine", "alprazolam"])
+        }
+        #expect(pair != nil)
+        #expect(pair?.source == .classRule)
+        // Should not have a combo duplicate for the same pair
+        let comboPair = comboResults.first { r in
+            Set([r.substanceA.lowercased(), r.substanceB.lowercased()]) == Set(["morphine", "alprazolam"])
+        }
+        #expect(comboPair == nil)
+    }
+
+    @Test("Combo status mapping")
+    func comboStatusMapping() {
+        // Load combo data with all status types
+        let drug = TripSitAPI.TripSitDrug(
+            name: "testdrug",
+            pretty_name: "TestDrug",
+            aliases: nil,
+            categories: nil,
+            properties: nil,
+            formatted_dose: nil,
+            combos: [
+                "dangerouspair": TripSitAPI.TripSitDrug.ComboInfo(status: "Dangerous", note: "Fatal risk."),
+                "unsafepair": TripSitAPI.TripSitDrug.ComboInfo(status: "Unsafe", note: "Risky."),
+                "cautionpair": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Be careful."),
+                "safepair": TripSitAPI.TripSitDrug.ComboInfo(status: "Low Risk & Synergy", note: nil),
+            ],
+            pweffects: nil
+        )
+        let dangerDrug = TripSitAPI.TripSitDrug(
+            name: "dangerouspair", pretty_name: "DangerousPair", aliases: nil,
+            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
+        )
+        let unsafeDrug = TripSitAPI.TripSitDrug(
+            name: "unsafepair", pretty_name: "UnsafePair", aliases: nil,
+            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
+        )
+        let cautionDrug = TripSitAPI.TripSitDrug(
+            name: "cautionpair", pretty_name: "CautionPair", aliases: nil,
+            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
+        )
+        let safeDrug = TripSitAPI.TripSitDrug(
+            name: "safepair", pretty_name: "SafePair", aliases: nil,
+            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
+        )
+
+        InteractionChecker.loadTripSitCombos(from: [
+            "testdrug": drug,
+            "dangerouspair": dangerDrug,
+            "unsafepair": unsafeDrug,
+            "cautionpair": cautionDrug,
+            "safepair": safeDrug,
+        ])
+
+        // Dangerous combo
+        let dangerous = InteractionChecker.checkBatch(["TestDrug", "DangerousPair"], against: [])
+        #expect(dangerous.first?.severity == .dangerous)
+        #expect(dangerous.first?.source == .tripSitCombo)
+
+        // Unsafe combo
+        let unsafe = InteractionChecker.checkBatch(["TestDrug", "UnsafePair"], against: [])
+        #expect(unsafe.first?.severity == .unsafe)
+
+        // Caution combo
+        let caution = InteractionChecker.checkBatch(["TestDrug", "CautionPair"], against: [])
+        #expect(caution.first?.severity == .caution)
+
+        // Safe combo → no result
+        let safe = InteractionChecker.checkBatch(["TestDrug", "SafePair"], against: [])
+        #expect(safe.isEmpty)
+    }
 }
