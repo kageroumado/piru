@@ -78,7 +78,8 @@ struct ContentView: View {
 
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
-            .navigationTitle("Piru")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
             .toolbar { sharedToolbar }
             .withDayDetailDestination()
     }

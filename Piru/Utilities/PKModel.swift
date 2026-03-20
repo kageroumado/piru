@@ -58,6 +58,22 @@ enum PKModel {
         4 * ke
     }
 
+    /// Fraction of original dose still in the body (absorption site + central compartment) at time `t`.
+    /// Unlike `concentration(at:)` which tracks plasma levels only, this accounts for drug still being
+    /// absorbed from the gut — giving an accurate "% eliminated" even before peak concentration.
+    static func fractionRemainingInBody(at minutes: Double, ke: Double, ka: Double) -> Double {
+        guard minutes >= 0, ka > 0, ke > 0 else { return 1 }
+
+        // Handle ka ≈ ke singularity: limit is (1 + ke·t)·e^(-ke·t)
+        if abs(ka - ke) < 1e-10 {
+            return (1 + ke * minutes) * exp(-ke * minutes)
+        }
+
+        // F(t) = (ka·e^(-ke·t) - ke·e^(-ka·t)) / (ka - ke)
+        let result = (ka * exp(-ke * minutes) - ke * exp(-ka * minutes)) / (ka - ke)
+        return min(1, max(0, result))
+    }
+
     /// Time (in minutes) at which concentration drops to `fraction` of Cmax (on the descending side).
     /// Useful for determining chart x-axis range.
     static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50000) -> Double {

@@ -139,10 +139,6 @@ struct QuickLogView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                searchBar
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    .padding(.bottom, 4)
                 LazyVStack(alignment: .leading, spacing: 16) {
                     if !dailyDoseItems.isEmpty && searchText.isEmpty {
                         medicationsButton
@@ -160,9 +156,13 @@ struct QuickLogView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 4)
-                .padding(.bottom, 32)
+                .padding(.bottom, 64)
             }
-            
+            .safeAreaInset(edge: .bottom) {
+                searchBar
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+            }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Quick Log")
             .navigationBarTitleDisplayMode(.inline)
@@ -243,7 +243,7 @@ struct QuickLogView: View {
                 .autocorrectionDisabled()
         }
         .padding(10)
-        .themeCapsule()
+        .glassEffect(.regular, in: .capsule)
     }
 
     // MARK: - Scroll Content
@@ -272,7 +272,7 @@ struct QuickLogView: View {
             }
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity, alignment: .trailing)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
 
         // Selected doses section

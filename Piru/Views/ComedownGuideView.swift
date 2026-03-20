@@ -2,10 +2,11 @@ import SwiftUI
 import SwiftData
 
 struct ComedownGuideView: View {
+    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
-    @State private var expandedCategory: SubstanceCategory?
+    @State private var expandedCategories: Set<SubstanceCategory> = []
 
-    private static let guidedCategories: [SubstanceCategory] = [
+    static let guidedCategories: [SubstanceCategory] = [
         .stimulant, .empathogen, .psychedelic, .dissociative,
         .opioid, .benzodiazepine, .depressant, .cannabinoid
     ]
@@ -27,6 +28,29 @@ struct ComedownGuideView: View {
 
     var body: some View {
         List {
+            // Scrollable header when embedded in ToolsView
+            if let toolsSection {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Recovery Guide")
+                        .font(.largeTitle.bold())
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 8)
+
+                    Picker("Section", selection: toolsSection) {
+                        ForEach(ToolsView.Section.allCases) { section in
+                            Text(section.rawValue).tag(section)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 8)
+                }
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+            }
+
             aboutSection
 
             if !recentCategories.isEmpty {
@@ -48,7 +72,9 @@ struct ComedownGuideView: View {
         .listSectionSpacing(.compact)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Recovery Guide")
+        .navigationTitle(toolsSection == nil ? "Recovery Guide" : "")
+        .navigationBarTitleDisplayMode(toolsSection == nil ? .large : .inline)
+        .toolbarBackgroundVisibility(toolsSection == nil ? .automatic : .hidden, for: .navigationBar)
     }
 
     // MARK: - About
@@ -84,8 +110,14 @@ struct ComedownGuideView: View {
 
     private func binding(for category: SubstanceCategory) -> Binding<Bool> {
         Binding(
-            get: { expandedCategory == category },
-            set: { expandedCategory = $0 ? category : nil }
+            get: { expandedCategories.contains(category) },
+            set: { isExpanded in
+                if isExpanded {
+                    expandedCategories.insert(category)
+                } else {
+                    expandedCategories.remove(category)
+                }
+            }
         )
     }
 

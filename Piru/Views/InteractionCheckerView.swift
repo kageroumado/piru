@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct InteractionCheckerView: View {
+    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
@@ -45,6 +46,21 @@ struct InteractionCheckerView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                if let toolsSection {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Interactions")
+                            .font(.largeTitle.bold())
+                            .padding(.bottom, 8)
+
+                        Picker("Section", selection: toolsSection) {
+                            ForEach(ToolsView.Section.allCases) { section in
+                                Text(section.rawValue).tag(section)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                }
+
                 selectedSection
                 resultsSection
                 suggestionsSection
@@ -55,6 +71,8 @@ struct InteractionCheckerView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(Theme.background)
+        .navigationBarTitleDisplayMode(toolsSection != nil ? .inline : .automatic)
+        .toolbarBackgroundVisibility(toolsSection != nil ? .hidden : .automatic, for: .navigationBar)
     }
 
     // MARK: - Selected Capsules
@@ -139,6 +157,7 @@ struct InteractionCheckerView: View {
                     }
                     .padding(.bottom, 4)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .themeCard()
             }
         }
@@ -280,7 +299,7 @@ struct InteractionCheckerView: View {
                 Text(name)
                     .font(.subheadline.weight(.medium))
                 if removable {
-                    Image(systemName: "xmark")
+                    Text("×")
                         .font(.caption2.weight(.bold))
                 }
             }
