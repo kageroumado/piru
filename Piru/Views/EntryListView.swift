@@ -174,35 +174,40 @@ struct EntryListView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 0) {
-                // Toolbar: grouping picker + filter button + calendar button
+        List {
+            // Scrollable header: title + filters + tag chips
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Piru")
+                    .font(.largeTitle.bold())
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+
                 filterBar
 
-                // Tag chips
                 if !allUsedTags.isEmpty && grouping == .byDay {
                     tagChipBar
                         .transition(.opacity)
                 }
             }
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
             .animation(.easeInOut(duration: 0.2), value: grouping == .byDay)
 
-            // Main list
-            List {
-                switch grouping {
-                case .recent: recentContent
-                case .byDay: dayGroupedContent
-                case .bySubstance: substanceGroupedContent
-                case .byCategory: categoryGroupedContent
-                }
+            // Main content
+            switch grouping {
+            case .recent: recentContent
+            case .byDay: dayGroupedContent
+            case .bySubstance: substanceGroupedContent
+            case .byCategory: categoryGroupedContent
             }
-            .id(grouping)
-            .listStyle(.plain)
-
-            .overlay {
-                if filteredEntries.isEmpty {
-                    emptyState
-                }
+        }
+        .id(grouping)
+        .listStyle(.plain)
+        .overlay {
+            if filteredEntries.isEmpty {
+                emptyState
             }
         }
         .task {

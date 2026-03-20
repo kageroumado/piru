@@ -72,8 +72,7 @@ enum ActiveSubstanceCalculator {
             } else {
                 ka = PKModel.defaultKa(ke: ke)
             }
-            let peakConc = PKModel.cmax(ke: ke, ka: ka)
-            let remaining = peakConc > 0 ? entry.amount * PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc : 0
+            let remaining = entry.amount * PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
             let fraction = remaining / entry.amount
 
             guard fraction > 0.03 else { continue }

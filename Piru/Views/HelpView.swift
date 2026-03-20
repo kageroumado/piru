@@ -28,6 +28,22 @@ struct HelpView: View {
         return recentEntries.filter { $0.timestamp > cutoff }
     }
 
+    private var activeCategories: [SubstanceCategory] {
+        let guided = Set(ComedownGuideView.guidedCategories)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        var seen = Set<SubstanceCategory>()
+        var result: [SubstanceCategory] = []
+        for entry in recentEntries where entry.timestamp >= cutoff {
+            if let sub = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+               guided.contains(sub.category),
+               !seen.contains(sub.category) {
+                seen.insert(sub.category)
+                result.append(sub.category)
+            }
+        }
+        return result
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -35,6 +51,9 @@ struct HelpView: View {
                 emergencySection
                 if !activeSubstances.isEmpty {
                     activeSubstancesSection
+                }
+                if !activeCategories.isEmpty {
+                    recoverySection
                 }
                 if !last24hEntries.isEmpty {
                     recentDosesSection
@@ -75,6 +94,83 @@ struct HelpView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
+
+            groundingTip(
+                icon: "music.note",
+                color: .purple,
+                title: "Put on familiar music",
+                detail: activeCategories.contains(.psychedelic)
+                    ? "Music you know well is one of the most powerful grounding tools \u{2014} especially during a psychedelic experience."
+                    : "Familiar songs can ground you and bring comfort. Pick something you know well."
+            )
+
+            groundingTip(
+                icon: "person.2.fill",
+                color: .pink,
+                title: "Call a friend or family member",
+                detail: "Someone who knows you can help more than you\u{2019}d expect. You don\u{2019}t have to explain everything \u{2014} just hearing a familiar voice helps."
+            )
+        }
+    }
+
+    // MARK: - Grounding Tips
+
+    private func groundingTip(icon: String, color: Color, title: String, detail: String) -> some View {
+        Label {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline.weight(.medium))
+                Text(detail)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } icon: {
+            Image(systemName: icon)
+                .foregroundStyle(color)
+                .frame(width: 20)
+        }
+        .padding(.vertical, 2)
+    }
+
+    // MARK: - Recovery Guide
+
+    private var recoverySection: some View {
+        Section {
+            ForEach(activeCategories, id: \.self) { category in
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        Image(systemName: category.icon)
+                            .foregroundStyle(category.color)
+                            .frame(width: 20)
+                        Text(category.rawValue)
+                            .font(.subheadline.weight(.semibold))
+                    }
+
+                    let guide = ComedownGuideView.guide(for: category)
+                    ForEach(guide.rightNow, id: \.self) { tip in
+                        HStack(alignment: .top, spacing: 6) {
+                            Text("\u{2022}")
+                                .foregroundStyle(Theme.secondaryLabel)
+                            Text(tip)
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+
+            NavigationLink {
+                ComedownGuideView()
+            } label: {
+                Label("View Full Recovery Guide", systemImage: "heart.text.clipboard")
+                    .font(.subheadline)
+            }
+        } header: {
+            Text("Recovery \u{2014} Right Now")
+        } footer: {
+            Text("Showing guidance for substances in your system. Tap above for the full guide.")
         }
     }
 

@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct VolumetricDosingView: View {
+    var toolsSection: Binding<ToolsView.Section>?
+
     enum Mode: String, CaseIterable, Identifiable {
         case solventNeeded = "Solvent Needed"
         case concentration = "Concentration"
@@ -19,6 +21,21 @@ struct VolumetricDosingView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                if let toolsSection {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Volumetric Dosing")
+                            .font(.largeTitle.bold())
+                            .padding(.bottom, 8)
+
+                        Picker("Section", selection: toolsSection) {
+                            ForEach(ToolsView.Section.allCases) { section in
+                                Text(section.rawValue).tag(section)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                }
+
                 headerCard
 
                 Picker("Mode", selection: $mode) {
@@ -36,6 +53,8 @@ struct VolumetricDosingView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(Theme.background)
+        .navigationBarTitleDisplayMode(toolsSection != nil ? .inline : .automatic)
+        .toolbarBackgroundVisibility(toolsSection != nil ? .hidden : .automatic, for: .navigationBar)
     }
 
     // MARK: - Header

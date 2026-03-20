@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct HalfLifeCalculatorView: View {
+    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
@@ -46,6 +47,21 @@ struct HalfLifeCalculatorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                if let toolsSection {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Calculator")
+                            .font(.largeTitle.bold())
+                            .padding(.bottom, 8)
+
+                        Picker("Section", selection: toolsSection) {
+                            ForEach(ToolsView.Section.allCases) { section in
+                                Text(section.rawValue).tag(section)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                }
+
                 if !cachedActiveSubstances.isEmpty {
                     inYourSystemSection
                 }
@@ -65,6 +81,8 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
+        .navigationBarTitleDisplayMode(toolsSection != nil ? .inline : .automatic)
+        .toolbarBackgroundVisibility(toolsSection != nil ? .hidden : .automatic, for: .navigationBar)
         .task(id: allEntries.count) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }
@@ -575,8 +593,7 @@ struct HalfLifeCalculatorView: View {
         let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
         let remaining: Double
         if let params = pkParameters {
-            let peakConc = PKModel.cmax(ke: params.ke, ka: params.ka)
-            remaining = peakConc > 0 ? dose * PKModel.concentration(at: max(0, elapsed), ke: params.ke, ka: params.ka) / peakConc : 0
+            remaining = dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
         } else {
             remaining = dose * pow(0.5, max(0, elapsed) / halfLife)
         }

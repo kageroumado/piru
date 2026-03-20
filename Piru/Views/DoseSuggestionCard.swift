@@ -32,11 +32,7 @@ struct DoseSuggestionCard: View {
         let elapsed = Date.now.timeIntervalSince(lastDoseTimestamp) / 60
         guard elapsed >= 0 else { return nil }
 
-        let cmax = PKModel.cmax(ke: ke, ka: ka)
-        guard cmax > 0 else { return nil }
-
-        let current = PKModel.concentration(at: elapsed, ke: ke, ka: ka)
-        let remainingPercent = (current / cmax) * 100
+        let remainingPercent = PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka) * 100
 
         let timeTo10 = PKModel.timeToFraction(0.10, ke: ke, ka: ka)
         let waitMinutes = max(0, timeTo10 - elapsed)

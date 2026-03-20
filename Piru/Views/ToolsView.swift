@@ -12,28 +12,18 @@ struct ToolsView: View {
     @State private var selectedSection: Section = .interactions
 
     var body: some View {
-        VStack(spacing: 0) {
-            Picker("Section", selection: $selectedSection) {
-                ForEach(Section.allCases) { section in
-                    Text(section.rawValue).tag(section)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .padding(.top, 8)
-
+        Group {
             switch selectedSection {
             case .interactions:
-                InteractionCheckerView()
+                InteractionCheckerView(toolsSection: $selectedSection)
             case .calculator:
-                HalfLifeCalculatorView()
+                HalfLifeCalculatorView(toolsSection: $selectedSection)
             case .volumetric:
-                VolumetricDosingView()
+                VolumetricDosingView(toolsSection: $selectedSection)
             case .recovery:
-                ComedownGuideView()
+                ComedownGuideView(toolsSection: $selectedSection)
             }
         }
         .background(Theme.background)
-        .navigationTitle("Tools")
     }
 }
