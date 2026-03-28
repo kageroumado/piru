@@ -175,14 +175,8 @@ struct EntryListView: View {
 
     var body: some View {
         List {
-            // Scrollable header: title + filters + tag chips
+            // Filters + tag chips header
             VStack(alignment: .leading, spacing: 0) {
-                Text("Journal")
-                    .font(.largeTitle.bold())
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
-
                 filterBar
 
                 if !allUsedTags.isEmpty && grouping == .byDay {
@@ -205,6 +199,9 @@ struct EntryListView: View {
         }
         .id(grouping)
         .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("Journal")
         .overlay {
             if filteredEntries.isEmpty {
                 emptyState
@@ -265,6 +262,7 @@ struct EntryListView: View {
 
             // Calendar button
             Button("Calendar", systemImage: "calendar") {
+                guard !showingFilters else { return }
                 showingCalendar = true
             }
             .labelStyle(.iconOnly)
@@ -276,6 +274,7 @@ struct EntryListView: View {
 
             // Filter button
             Button("Filter", systemImage: "line.3.horizontal.decrease") {
+                guard !showingCalendar else { return }
                 showingFilters = true
             }
             .labelStyle(.iconOnly)
