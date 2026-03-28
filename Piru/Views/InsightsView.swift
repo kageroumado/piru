@@ -10,16 +10,7 @@ struct InsightsView: View {
     @State private var selectedSection: Section = .adherence
 
     var body: some View {
-        VStack(spacing: 0) {
-            Picker("Section", selection: $selectedSection) {
-                ForEach(Section.allCases) { section in
-                    Text(section.rawValue).tag(section)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .padding(.top, 8)
-
+        Group {
             switch selectedSection {
             case .adherence:
                 AdherenceView()
@@ -27,7 +18,17 @@ struct InsightsView: View {
                 UsageStatsView()
             }
         }
+        .safeAreaInset(edge: .top) {
+            Picker("Section", selection: $selectedSection) {
+                ForEach(Section.allCases) { section in
+                    Text(section.rawValue).tag(section)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(.bar)
+        }
         .navigationTitle("Insights")
-        .background(Theme.background)
     }
 }

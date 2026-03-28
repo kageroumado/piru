@@ -42,6 +42,7 @@ struct ToolsView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.vertical, 8)
+            .background(.bar)
         }
         .navigationTitle(title)
     }
