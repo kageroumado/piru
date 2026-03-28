@@ -21,7 +21,19 @@ struct ToolsView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        Group {
+            switch selectedSection {
+            case .interactions:
+                InteractionCheckerView(toolsSection: $selectedSection)
+            case .calculator:
+                HalfLifeCalculatorView(toolsSection: $selectedSection)
+            case .volumetric:
+                VolumetricDosingView(toolsSection: $selectedSection)
+            case .recovery:
+                ComedownGuideView(toolsSection: $selectedSection)
+            }
+        }
+        .safeAreaInset(edge: .top) {
             Picker("Section", selection: $selectedSection) {
                 ForEach(Section.allCases) { section in
                     Text(section.rawValue).tag(section)
@@ -29,22 +41,8 @@ struct ToolsView: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
-            .padding(.top, 8)
-
-            Group {
-                switch selectedSection {
-                case .interactions:
-                    InteractionCheckerView(toolsSection: $selectedSection)
-                case .calculator:
-                    HalfLifeCalculatorView(toolsSection: $selectedSection)
-                case .volumetric:
-                    VolumetricDosingView(toolsSection: $selectedSection)
-                case .recovery:
-                    ComedownGuideView(toolsSection: $selectedSection)
-                }
-            }
+            .padding(.vertical, 8)
         }
-        .background(Theme.background)
         .navigationTitle(title)
     }
 }
