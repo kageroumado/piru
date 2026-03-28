@@ -177,7 +177,7 @@ struct EntryListView: View {
         List {
             // Scrollable header: title + filters + tag chips
             VStack(alignment: .leading, spacing: 0) {
-                Text("Piru")
+                Text("Journal")
                     .font(.largeTitle.bold())
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
@@ -460,7 +460,7 @@ struct EntryListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { showingCalendar = false }
+                    Button { showingCalendar = false } label: { Image(systemName: "xmark") }
                 }
             }
         }
@@ -666,22 +666,29 @@ struct JournalFilterSheet: View {
                         }
                     }
                 }
+
+                if startDate != nil || endDate != nil || !selectedSubstances.isEmpty || !selectedCategories.isEmpty || hasDateRange {
+                    Section {
+                        Button("Reset Filters", role: .destructive) {
+                            startDate = nil
+                            endDate = nil
+                            selectedSubstances = []
+                            selectedCategories = []
+                            hasDateRange = false
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                }
             }
             .navigationTitle("Filter Journal")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Reset") {
-                        startDate = nil
-                        endDate = nil
-                        selectedSubstances = []
-                        selectedCategories = []
-                        hasDateRange = false
-                        dismiss()
-                    }
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Apply") {
+                    Button {
                         if hasDateRange {
                             startDate = tempStart
                             endDate = tempEnd
@@ -690,8 +697,9 @@ struct JournalFilterSheet: View {
                             endDate = nil
                         }
                         dismiss()
+                    } label: {
+                        Image(systemName: "checkmark").fontWeight(.semibold)
                     }
-                    .fontWeight(.semibold)
                 }
             }
             .onAppear {

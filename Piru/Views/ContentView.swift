@@ -44,8 +44,10 @@ struct ContentView: View {
                     }
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button("Close") {
+                            Button {
                                 showingSessionDetail = false
+                            } label: {
+                                Image(systemName: "xmark")
                             }
                         }
                     }
@@ -56,8 +58,10 @@ struct ContentView: View {
                 EntryDetailView(entry: entry)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button("Close") {
+                            Button {
                                 deepLinkEntry = nil
+                            } label: {
+                                Image(systemName: "xmark")
                             }
                         }
                     }
@@ -157,11 +161,10 @@ struct ContentView: View {
             showingForm = true
         } label: {
             Image(systemName: "plus")
-                .font(.title3.weight(.semibold))
-                .foregroundStyle(.white)
-                .frame(width: 64, height: 64)
-                .background(Theme.accent, in: Circle())
-                .shadow(color: Theme.accent.opacity(0.3), radius: 8, y: 4)
+                .font(.title2.weight(.semibold))
+                .frame(width: 56, height: 56)
+                .glassEffect(.regular.interactive(), in: Circle())
+                .tint(Theme.accent)
         }
     }
 
@@ -180,7 +183,7 @@ struct ContentView: View {
             Button {
                 showingHelp = true
             } label: {
-                Image(systemName: "heart.circle")
+                Image(systemName: "staroflife")
             }
         }
     }

@@ -40,9 +40,11 @@ struct SubstanceColorPickerView: View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    Button {
                         onPick(selectedHex ?? "007AFF")
                         dismiss()
+                    } label: {
+                        Image(systemName: "checkmark").fontWeight(.semibold)
                     }
                     .disabled(selectedHex == nil)
                 }
