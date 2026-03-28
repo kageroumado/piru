@@ -47,21 +47,6 @@ struct HalfLifeCalculatorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                if let toolsSection {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Calculator")
-                            .font(.largeTitle.bold())
-                            .padding(.bottom, 8)
-
-                        Picker("Section", selection: toolsSection) {
-                            ForEach(ToolsView.Section.allCases) { section in
-                                Text(section.rawValue).tag(section)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                    }
-                }
-
                 if !cachedActiveSubstances.isEmpty {
                     inYourSystemSection
                 }
@@ -81,8 +66,6 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
-        .navigationBarTitleDisplayMode(toolsSection != nil ? .inline : .automatic)
-        .toolbarBackgroundVisibility(toolsSection != nil ? .hidden : .automatic, for: .navigationBar)
         .task(id: allEntries.count) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }

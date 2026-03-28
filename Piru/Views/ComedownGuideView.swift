@@ -28,29 +28,6 @@ struct ComedownGuideView: View {
 
     var body: some View {
         List {
-            // Scrollable header when embedded in ToolsView
-            if let toolsSection {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Recovery Guide")
-                        .font(.largeTitle.bold())
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 8)
-
-                    Picker("Section", selection: toolsSection) {
-                        ForEach(ToolsView.Section.allCases) { section in
-                            Text(section.rawValue).tag(section)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
-                }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-            }
-
             aboutSection
 
             if !recentCategories.isEmpty {
@@ -73,8 +50,6 @@ struct ComedownGuideView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(toolsSection == nil ? "Recovery Guide" : "")
-        .navigationBarTitleDisplayMode(toolsSection == nil ? .large : .inline)
-        .toolbarBackgroundVisibility(toolsSection == nil ? .automatic : .hidden, for: .navigationBar)
     }
 
     // MARK: - About
