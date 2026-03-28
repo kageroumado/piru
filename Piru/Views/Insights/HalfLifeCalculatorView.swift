@@ -66,6 +66,7 @@ struct HalfLifeCalculatorView: View {
             }
             .padding()
         }
+        .background(Theme.background)
         .task(id: allEntries.count) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }

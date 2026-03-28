@@ -403,6 +403,7 @@ struct SubstanceDetailView: View {
 
     var body: some View {
         List {
+            Group {
             if !historyEntries.isEmpty {
                 historySection
             }
@@ -588,7 +589,11 @@ struct SubstanceDetailView: View {
                     Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
                 }
             }
+            }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle(substance.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

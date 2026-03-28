@@ -78,6 +78,7 @@ struct DayDetailView: View {
 
     var body: some View {
         List {
+            Group {
             if entries.isEmpty {
                 ContentUnavailableView(
                     "No Entries",
@@ -220,7 +221,11 @@ struct DayDetailView: View {
                     }
                 }
             }
+            }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .task(id: entries.count) {

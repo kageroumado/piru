@@ -23,11 +23,11 @@ enum Theme {
             : .systemBackground
     })
 
-    /// Card/surface background: very dark gray in dark mode
+    /// Card/surface background: very dark gray in dark mode, subtle off-white in light mode
     static let cardBackground: Color = Color(UIColor { traits in
         traits.userInterfaceStyle == .dark
             ? UIColor(red: 0.067, green: 0.067, blue: 0.067, alpha: 1)
-            : .secondarySystemGroupedBackground
+            : .systemGray6
     })
 
     /// Grouped background: slightly off-black in dark mode

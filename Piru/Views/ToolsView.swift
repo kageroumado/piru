@@ -42,7 +42,7 @@ struct ToolsView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(.bar)
+            .background(Theme.background)
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)

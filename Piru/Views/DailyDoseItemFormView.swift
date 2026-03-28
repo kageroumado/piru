@@ -49,6 +49,7 @@ struct MedicationItemFormView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Group {
                 Section("Substance") {
                     SubstanceSearchField(text: $substance) { selected in
                         selectSubstance(selected)
@@ -133,7 +134,11 @@ struct MedicationItemFormView: View {
                         }
                     }
                 }
+                }
+                .listRowBackground(Theme.cardBackground)
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle(isEditing ? "Edit Prescription" : "Add Prescription")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

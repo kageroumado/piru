@@ -47,21 +47,26 @@ struct HelpView: View {
     var body: some View {
         NavigationStack {
             List {
-                reassuranceSection
-                emergencySection
-                if !activeSubstances.isEmpty {
-                    activeSubstancesSection
+                Group {
+                    reassuranceSection
+                    emergencySection
+                    if !activeSubstances.isEmpty {
+                        activeSubstancesSection
+                    }
+                    if !activeCategories.isEmpty {
+                        recoverySection
+                    }
+                    if !last24hEntries.isEmpty {
+                        recentDosesSection
+                    }
+                    if !activeSubstances.isEmpty || !last24hEntries.isEmpty {
+                        copySection
+                    }
                 }
-                if !activeCategories.isEmpty {
-                    recoverySection
-                }
-                if !last24hEntries.isEmpty {
-                    recentDosesSection
-                }
-                if !activeSubstances.isEmpty || !last24hEntries.isEmpty {
-                    copySection
-                }
+                .listRowBackground(Theme.cardBackground)
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle("Get Help")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

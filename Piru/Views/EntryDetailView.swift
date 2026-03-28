@@ -34,6 +34,7 @@ struct EntryDetailView: View {
 
     var body: some View {
         List {
+            Group {
             if let state = substanceState {
                 Section {
                     VStack(spacing: 8) {
@@ -140,7 +141,11 @@ struct EntryDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
             }
+            }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle(entry.substance)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

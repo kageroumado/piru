@@ -28,25 +28,30 @@ struct ComedownGuideView: View {
 
     var body: some View {
         List {
-            aboutSection
+            Group {
+                aboutSection
 
-            if !recentCategories.isEmpty {
-                Section("Relevant to you") {
-                    ForEach(recentCategories, id: \.self) { cat in
+                if !recentCategories.isEmpty {
+                    Section("Relevant to you") {
+                        ForEach(recentCategories, id: \.self) { cat in
+                            categoryRow(cat)
+                        }
+                    }
+                }
+
+                Section("All categories") {
+                    ForEach(Self.guidedCategories.filter { !recentCategories.contains($0) }, id: \.self) { cat in
                         categoryRow(cat)
                     }
                 }
-            }
 
-            Section("All categories") {
-                ForEach(Self.guidedCategories.filter { !recentCategories.contains($0) }, id: \.self) { cat in
-                    categoryRow(cat)
-                }
+                generalSection
             }
-
-            generalSection
+            .listRowBackground(Theme.cardBackground)
         }
         .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("Recovery Guide")
     }
 

@@ -23,11 +23,16 @@ struct RampDownView: View {
 
     var body: some View {
         List {
-            infoSection
-            timingSection
-            actionSection
-            recoveryTipsSection
+            Group {
+                infoSection
+                timingSection
+                actionSection
+                recoveryTipsSection
+            }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("Ramp Down")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
