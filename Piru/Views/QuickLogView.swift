@@ -161,7 +161,6 @@ struct QuickLogView: View {
             .safeAreaInset(edge: .bottom) {
                 searchBar
                     .padding(.horizontal)
-                    .padding(.bottom, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Quick Log")
@@ -242,7 +241,8 @@ struct QuickLogView: View {
                 .textFieldStyle(.plain)
                 .autocorrectionDisabled()
         }
-        .padding(10)
+        .padding(.horizontal, 12)
+        .frame(height: 44)
         .glassEffect(.regular, in: .capsule)
     }
 
