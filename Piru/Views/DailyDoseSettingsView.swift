@@ -223,10 +223,10 @@ struct MedicationsSettingsView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") { showingTimePicker = false }
+                        Button { showingTimePicker = false } label: { Image(systemName: "xmark") }
                     }
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Add") { addReminder() }
+                        Button { addReminder() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
                     }
                 }
             }

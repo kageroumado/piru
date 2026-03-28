@@ -64,8 +64,8 @@ struct HelpView: View {
             }
             .navigationTitle("Get Help")
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
             }
         }
