@@ -82,7 +82,7 @@ struct LogMedicationsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
             }
             .sheet(isPresented: $showColorPicker, onDismiss: showNextColorPicker) {
@@ -239,7 +239,7 @@ struct InteractionWarningSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { onCancel() }
+                    Button { onCancel() } label: { Image(systemName: "xmark") }
                 }
             }
         }

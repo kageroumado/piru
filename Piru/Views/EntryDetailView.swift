@@ -145,8 +145,10 @@ struct EntryDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit") {
+                Button {
                     showingEditForm = true
+                } label: {
+                    Image(systemName: "square.and.pencil")
                 }
             }
         }

@@ -138,10 +138,10 @@ struct MedicationItemFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }
+                    Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
                         .disabled(substance.isEmpty || amount.isEmpty || (frequency == .specificDays && selectedWeekdays.isEmpty))
                 }
             }
