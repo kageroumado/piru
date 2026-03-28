@@ -177,7 +177,7 @@ struct QuickLogView: View {
                             if !multiSelectEnabled { selectedDoses.removeAll() }
                         }
                     } label: {
-                        Image(systemName: multiSelectEnabled ? "checkmark.circle.fill" : "checkmark.circle")
+                        Image(systemName: "checklist")
                     }
                     if multiSelectEnabled && !selectedDoses.isEmpty {
                         Button("Add (\(selectedDoses.count))") {
@@ -415,15 +415,17 @@ struct QuickLogView: View {
                     .font(.headline)
                 Spacer()
                 Button {
-                    toggleFavorite(card.substanceName)
+                    withAnimation(.snappy) {
+                        toggleFavorite(card.substanceName)
+                    }
                 } label: {
                     Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
                         .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Theme.secondaryLabel.opacity(0.6))
+                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Theme.secondaryLabel)
+                        .contentTransition(.symbolEffect(.replace))
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
             }
 
             if let lastEntry = mostRecentEntry(for: card.substanceName) {
