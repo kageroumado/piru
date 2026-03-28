@@ -29,6 +29,7 @@ struct SubstanceColorPickerView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 40)
             }
+            .background(Theme.background)
             .navigationTitle("Choose Color")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

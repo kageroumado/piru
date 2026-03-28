@@ -28,6 +28,7 @@ struct AdherenceView: View {
                 }
                 .padding()
             }
+            .background(Theme.background)
             .task { recompute() }
             .onChange(of: allEntries.count) { recompute() }
             .onChange(of: displayedMonth) { recompute() }

@@ -614,6 +614,7 @@ struct JournalFilterSheet: View {
     var body: some View {
         NavigationStack {
             List {
+                Group {
                 // Date range section
                 Section("Date Range") {
                     Toggle("Filter by dates", isOn: $hasDateRange)
@@ -682,7 +683,11 @@ struct JournalFilterSheet: View {
                         .frame(maxWidth: .infinity)
                     }
                 }
+                }
+                .listRowBackground(Theme.cardBackground)
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle("Filter Journal")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -161,6 +161,7 @@ struct QuickLogView: View {
                     .padding(.horizontal)
             }
             .scrollDismissesKeyboard(.interactively)
+            .background(Theme.background)
             .navigationTitle("Quick Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

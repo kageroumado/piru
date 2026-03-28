@@ -211,6 +211,7 @@ struct UsageStatsView: View {
                 availableWidth = width
             }
         }
+        .background(Theme.background)
         .task(id: allEntries.count) {
             await Task.yield()
             rebuildFilteredEntries()

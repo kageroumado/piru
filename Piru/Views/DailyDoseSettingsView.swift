@@ -46,6 +46,7 @@ struct MedicationsSettingsView: View {
 
     var body: some View {
         List {
+            Group {
             // MARK: - Reminders
             Section {
                 Toggle("Daily Reminders", isOn: $reminderEnabled)
@@ -183,8 +184,12 @@ struct MedicationsSettingsView: View {
                     }
                 }
             }
+            }
+            .listRowBackground(Theme.cardBackground)
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("Prescriptions")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

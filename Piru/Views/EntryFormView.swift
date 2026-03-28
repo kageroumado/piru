@@ -104,6 +104,7 @@ struct EntryFormView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Group {
                 // Interaction warnings — shown at top
                 if !interactionWarnings.isEmpty {
                     Section {
@@ -186,6 +187,8 @@ struct EntryFormView: View {
                 Section("Tags") {
                     TagEditorView(tags: $entryTags)
                 }
+                }
+                .listRowBackground(Theme.cardBackground)
             }
             .onChange(of: substance) { checkInteractions() }
             .onChange(of: notes) {
@@ -194,6 +197,8 @@ struct EntryFormView: View {
                     entryTags.append(tag)
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle(isEditing ? "Edit Entry" : "New Entry")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

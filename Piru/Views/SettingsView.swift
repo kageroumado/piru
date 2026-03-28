@@ -21,6 +21,7 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            Group {
             Section("Prescriptions") {
                 NavigationLink {
                     MedicationsSettingsView()
@@ -166,7 +167,11 @@ struct SettingsView: View {
             } footer: {
                 Text("Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, mechanisms of action, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. Mechanism of action descriptions are based on human pharmacological research only. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use.")
             }
+            }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("Settings")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -320,7 +325,10 @@ struct SubstanceColorsListView: View {
                     modelContext.delete(substanceColors[index])
                 }
             }
+            .listRowBackground(Theme.cardBackground)
         }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
         .navigationTitle("Substance Colors")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $editingSubstance) { sc in

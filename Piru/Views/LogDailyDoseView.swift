@@ -48,36 +48,41 @@ struct LogMedicationsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    ForEach(items) { item in
-                        Toggle(isOn: binding(for: item)) {
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(item.substance)
-                                    .font(.body)
-                                Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(item.route.displayName)")
-                                    .font(.subheadline)
-                                    .foregroundStyle(Theme.secondaryLabel)
+                Group {
+                    Section {
+                        ForEach(items) { item in
+                            Toggle(isOn: binding(for: item)) {
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(item.substance)
+                                        .font(.body)
+                                    Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(item.route.displayName)")
+                                        .font(.subheadline)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                }
                             }
                         }
+                    } header: {
+                        Text("Toggle off any you don't want to log today")
                     }
-                } header: {
-                    Text("Toggle off any you don't want to log today")
-                }
 
-                Section {
-                    Button {
-                        attemptLog()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Label("Log \(selectedCount) Item\(selectedCount == 1 ? "" : "s")", systemImage: "checkmark.circle.fill")
-                                .font(.headline)
-                            Spacer()
+                    Section {
+                        Button {
+                            attemptLog()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Label("Log \(selectedCount) Item\(selectedCount == 1 ? "" : "s")", systemImage: "checkmark.circle.fill")
+                                    .font(.headline)
+                                Spacer()
+                            }
                         }
+                        .disabled(selectedCount == 0)
                     }
-                    .disabled(selectedCount == 0)
                 }
+                .listRowBackground(Theme.cardBackground)
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle(category.isEmpty ? "Log Prescriptions" : "Log \(category)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -214,27 +219,32 @@ struct InteractionWarningSheet: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    ForEach(Array(warnings.enumerated()), id: \.offset) { _, warning in
-                        InteractionWarningRow(warning: warning)
+                Group {
+                    Section {
+                        ForEach(Array(warnings.enumerated()), id: \.offset) { _, warning in
+                            InteractionWarningRow(warning: warning)
+                        }
+                    } header: {
+                        Text("\(warnings.count) interaction\(warnings.count == 1 ? "" : "s") detected")
                     }
-                } header: {
-                    Text("\(warnings.count) interaction\(warnings.count == 1 ? "" : "s") detected")
-                }
 
-                Section {
-                    Button(role: .destructive) {
-                        onProceed()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Label("Log Anyway", systemImage: "exclamationmark.triangle")
-                                .font(.headline)
-                            Spacer()
+                    Section {
+                        Button(role: .destructive) {
+                            onProceed()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Label("Log Anyway", systemImage: "exclamationmark.triangle")
+                                    .font(.headline)
+                                Spacer()
+                            }
                         }
                     }
                 }
+                .listRowBackground(Theme.cardBackground)
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle("Interaction Warning")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

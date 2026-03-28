@@ -27,7 +27,7 @@ struct InsightsView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(.bar)
+            .background(Theme.background)
         }
         .navigationTitle("Insights")
         .navigationBarTitleDisplayMode(.inline)
