@@ -121,15 +121,13 @@ struct QuickLogView: View {
             .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
     }
 
-    private func isFavorite(_ name: String) -> Bool {
-        cachedFavoriteSet.contains(name.lowercased())
-    }
-
     private func toggleFavorite(_ name: String) {
         let lowered = name.lowercased()
         if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            cachedFavoriteSet.remove(lowered)
             modelContext.delete(existing)
         } else {
+            cachedFavoriteSet.insert(lowered)
             modelContext.insert(FavoriteSubstance(substance: name))
         }
     }
@@ -242,7 +240,7 @@ struct QuickLogView: View {
                 .autocorrectionDisabled()
         }
         .padding(.horizontal, 12)
-        .frame(height: 44)
+        .frame(height: 50)
         .glassEffect(.regular, in: .capsule)
     }
 
@@ -291,7 +289,8 @@ struct QuickLogView: View {
         if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
             Section {
                 ForEach(favoriteCards) { card in
-                    substanceCard(card)
+                    substanceCard(card, isFavorite: true)
+                        .id("\(card.id)_fav")
                 }
                 ForEach(favoriteLibrarySubstances) { substance in
                     libraryRow(substance)
@@ -306,15 +305,18 @@ struct QuickLogView: View {
 
         // Recent / search results
         if !nonFavoriteCards.isEmpty {
-            if !favoriteCards.isEmpty && searchText.isEmpty {
-                Text("Recent")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .padding(.top, 8)
-            }
-            ForEach(nonFavoriteCards) { card in
-                substanceCard(card)
+            Section {
+                ForEach(nonFavoriteCards) { card in
+                    substanceCard(card, isFavorite: false)
+                        .id("\(card.id)_recent")
+                }
+            } header: {
+                if !favoriteCards.isEmpty && searchText.isEmpty {
+                    Label("Recent", systemImage: "clock")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .textCase(.uppercase)
+                }
             }
         } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
@@ -405,7 +407,7 @@ struct QuickLogView: View {
 
     // MARK: - Substance Card
 
-    private func substanceCard(_ card: SubstanceCard) -> some View {
+    private func substanceCard(_ card: SubstanceCard, isFavorite: Bool) -> some View {
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -421,9 +423,9 @@ struct QuickLogView: View {
                         toggleFavorite(card.substanceName)
                     }
                 } label: {
-                    Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
+                    Image(systemName: isFavorite ? "star.fill" : "star")
                         .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Theme.secondaryLabel)
+                        .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                         .contentTransition(.symbolEffect(.replace))
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
