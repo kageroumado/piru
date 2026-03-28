@@ -249,7 +249,17 @@ final class LiveActivityManager {
 
     /// Whether there are any tracked active substances (regardless of live activity state)
     var hasActiveSession: Bool {
-        !activeEntries.isEmpty
+        let now = Date.now
+        return activeEntries.contains { item in
+            guard let duration = item.duration else { return false }
+            let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
+            return now <= endTime
+        }
+    }
+
+    /// Prune expired entries and update state. Call on scene phase changes or periodic checks.
+    func refresh() {
+        pruneCompleted()
     }
 
     /// Whether the iOS Live Activity (Lock Screen widget) is currently running

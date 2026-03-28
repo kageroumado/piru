@@ -3,6 +3,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var selectedTab = 0
     @State private var searchText = ""
@@ -88,6 +89,11 @@ struct ContentView: View {
         }
         .onOpenURL { url in
             handleDeepLink(url)
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                LiveActivityManager.shared.refresh()
+            }
         }
     }
 
