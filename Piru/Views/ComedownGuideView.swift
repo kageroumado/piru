@@ -46,10 +46,8 @@ struct ComedownGuideView: View {
 
             generalSection
         }
-        .listSectionSpacing(.compact)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
-        .navigationTitle(toolsSection == nil ? "Recovery Guide" : "")
+        .listStyle(.insetGrouped)
+        .navigationTitle("Recovery Guide")
     }
 
     // MARK: - About
