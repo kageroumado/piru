@@ -30,5 +30,6 @@ struct InsightsView: View {
             .background(.bar)
         }
         .navigationTitle("Insights")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
