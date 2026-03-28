@@ -9,12 +9,26 @@ struct ContentView: View {
     @State private var librarySearchText = ""
 
     @State private var lastContentTab = 0
-    @State private var showingForm = false
-    @State private var showingSettings = false
-    @State private var showingHelp = false
+    @State private var activeSheet: SheetDestination?
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @State private var showingSessionDetail = false
-    @State private var deepLinkEntry: DoseEntry?
+
+    enum SheetDestination: Identifiable {
+        case quickLog
+        case settings
+        case help
+        case sessionDetail
+        case entryDetail(DoseEntry)
+
+        var id: Int {
+            switch self {
+            case .quickLog: 0
+            case .settings: 1
+            case .help: 2
+            case .sessionDetail: 3
+            case .entryDetail: 4
+            }
+        }
+    }
 
     var body: some View {
         liquidGlassBody
@@ -25,46 +39,45 @@ struct ContentView: View {
             searchText = ""
             librarySearchText = ""
         }
-        .sheet(isPresented: $showingForm) {
-            QuickLogView()
-        }
-        .sheet(isPresented: $showingSettings) {
-            NavigationStack {
-                SettingsView()
-            }
-        }
-        .sheet(isPresented: $showingHelp) {
-            HelpView()
-        }
-        .sheet(isPresented: $showingSessionDetail) {
-            NavigationStack {
-                DayDetailView(date: .now)
-                    .navigationDestination(for: DoseEntry.self) { entry in
-                        EntryDetailView(entry: entry)
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button {
-                                showingSessionDetail = false
-                            } label: {
-                                Image(systemName: "xmark")
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .quickLog:
+                QuickLogView()
+            case .settings:
+                NavigationStack {
+                    SettingsView()
+                }
+            case .help:
+                HelpView()
+            case .sessionDetail:
+                NavigationStack {
+                    DayDetailView(date: .now)
+                        .navigationDestination(for: DoseEntry.self) { entry in
+                            EntryDetailView(entry: entry)
+                        }
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button {
+                                    activeSheet = nil
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
                             }
                         }
-                    }
-            }
-        }
-        .sheet(item: $deepLinkEntry) { entry in
-            NavigationStack {
-                EntryDetailView(entry: entry)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button {
-                                deepLinkEntry = nil
-                            } label: {
-                                Image(systemName: "xmark")
+                }
+            case .entryDetail(let entry):
+                NavigationStack {
+                    EntryDetailView(entry: entry)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button {
+                                    activeSheet = nil
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
                             }
                         }
-                    }
+                }
             }
         }
         .fullScreenCover(isPresented: .init(
@@ -149,8 +162,14 @@ struct ContentView: View {
         }
         .withSessionAccessory(
             isActive: LiveActivityManager.shared.hasActiveSession,
-            showingSessionDetail: $showingSessionDetail,
-            showingForm: $showingForm
+            showingSessionDetail: Binding(
+                get: { activeSheet?.id == SheetDestination.sessionDetail.id },
+                set: { if $0 { activeSheet = .sessionDetail } else { activeSheet = nil } }
+            ),
+            showingForm: Binding(
+                get: { activeSheet?.id == SheetDestination.quickLog.id },
+                set: { if $0 { activeSheet = .quickLog } else { activeSheet = nil } }
+            )
         )
     }
 
@@ -158,7 +177,7 @@ struct ContentView: View {
 
     private var addMenu: some View {
         Button {
-            showingForm = true
+            activeSheet = .quickLog
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
@@ -174,14 +193,14 @@ struct ContentView: View {
     private var sharedToolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                showingSettings = true
+                activeSheet = .settings
             } label: {
                 Image(systemName: "gearshape")
             }
         }
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                showingHelp = true
+                activeSheet = .help
             } label: {
                 Image(systemName: "staroflife")
             }
@@ -197,7 +216,7 @@ struct ContentView: View {
         switch components.host {
         case "day":
             selectedTab = 0
-            showingSessionDetail = true
+            activeSheet = .sessionDetail
 
         case "entry":
             if let tsString = components.path.split(separator: "/").first,
@@ -212,11 +231,11 @@ struct ContentView: View {
                 )
                 if let entry = try? modelContext.fetch(descriptor).first {
                     selectedTab = 0
-                    deepLinkEntry = entry
+                    activeSheet = .entryDetail(entry)
                 } else {
                     // Entry not found — fall back to day view
                     selectedTab = 0
-                    showingSessionDetail = true
+                    activeSheet = .sessionDetail
                 }
             }
 
