@@ -271,6 +271,7 @@ struct EntryListView: View {
             .padding(.vertical, 6)
             .background(Color(.secondarySystemFill))
             .clipShape(Capsule())
+            .contentShape(Capsule())
 
             // Filter button
             Button("Filter", systemImage: "line.3.horizontal.decrease") {
@@ -279,12 +280,12 @@ struct EntryListView: View {
             }
             .labelStyle(.iconOnly)
             .font(.subheadline.weight(.medium))
-            .frame(height: 16)
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
             .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
             .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
             .clipShape(Capsule())
+            .contentShape(Capsule())
             .animation(.snappy, value: hasActiveFilters)
 
             Spacer()
