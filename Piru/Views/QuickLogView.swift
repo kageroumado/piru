@@ -177,7 +177,7 @@ struct QuickLogView: View {
                             if !multiSelectEnabled { selectedDoses.removeAll() }
                         }
                     } label: {
-                        Image(systemName: "checklist")
+                        Image(systemName: multiSelectEnabled ? "checklist.checked" : "checklist")
                     }
                     if multiSelectEnabled && !selectedDoses.isEmpty {
                         Button("Add (\(selectedDoses.count))") {
@@ -266,18 +266,20 @@ struct QuickLogView: View {
         if !multiSelectEnabled {
             HStack(spacing: 4) {
                 Text("Press the")
-                Image(systemName: "checkmark.circle")
+                Image(systemName: "checklist")
                     .imageScale(.small)
                 Text("icon or long press doses to select multiple at once")
             }
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-        }
-
-        // Selected doses section
-        if multiSelectEnabled {
+        } else if multiSelectEnabled && !selectedDoses.isEmpty {
             selectedDosesSection
+        } else {
+            Text("Tap doses to select them, then tap Add to log together.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
 
         // Help resources — shown when user searches for help
@@ -605,38 +607,32 @@ struct QuickLogView: View {
     @ViewBuilder
     private var selectedDosesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if selectedDoses.isEmpty {
-                Text("Tap doses to select them, then tap Add to log together.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            } else {
-                ForEach(selectedDoses) { dose in
-                    HStack(spacing: 8) {
-                        if let hex = dose.colorHex {
-                            Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
-                        }
-                        Text(dose.substanceName)
-                            .font(.subheadline.weight(.medium))
-                        Spacer()
-                        Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
-                            .font(.caption)
+            ForEach(selectedDoses) { dose in
+                HStack(spacing: 8) {
+                    if let hex = dose.colorHex {
+                        Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
+                    }
+                    Text(dose.substanceName)
+                        .font(.subheadline.weight(.medium))
+                    Spacer()
+                    Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Button {
+                        withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Theme.secondaryLabel)
-                        Button {
-                            withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
-                        } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        .buttonStyle(.plain)
                     }
+                    .buttonStyle(.plain)
                 }
+            }
 
-                let interactions = selectedInteractions
-                if !interactions.isEmpty {
-                    Divider()
-                    ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
-                        InteractionWarningRow(warning: warning)
-                    }
+            let interactions = selectedInteractions
+            if !interactions.isEmpty {
+                Divider()
+                ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
+                    InteractionWarningRow(warning: warning)
                 }
             }
         }
