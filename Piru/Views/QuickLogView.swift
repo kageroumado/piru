@@ -121,15 +121,13 @@ struct QuickLogView: View {
             .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
     }
 
-    private func isFavorite(_ name: String) -> Bool {
-        cachedFavoriteSet.contains(name.lowercased())
-    }
-
     private func toggleFavorite(_ name: String) {
         let lowered = name.lowercased()
         if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
+            cachedFavoriteSet.remove(lowered)
             modelContext.delete(existing)
         } else {
+            cachedFavoriteSet.insert(lowered)
             modelContext.insert(FavoriteSubstance(substance: name))
         }
     }
@@ -161,14 +159,13 @@ struct QuickLogView: View {
             .safeAreaInset(edge: .bottom) {
                 searchBar
                     .padding(.horizontal)
-                    .padding(.bottom, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Quick Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
@@ -177,7 +174,7 @@ struct QuickLogView: View {
                             if !multiSelectEnabled { selectedDoses.removeAll() }
                         }
                     } label: {
-                        Image(systemName: multiSelectEnabled ? "checkmark.circle.fill" : "checkmark.circle")
+                        Image(systemName: multiSelectEnabled ? "checklist.checked" : "checklist")
                     }
                     if multiSelectEnabled && !selectedDoses.isEmpty {
                         Button("Add (\(selectedDoses.count))") {
@@ -242,7 +239,8 @@ struct QuickLogView: View {
                 .textFieldStyle(.plain)
                 .autocorrectionDisabled()
         }
-        .padding(10)
+        .padding(.horizontal, 12)
+        .frame(height: 50)
         .glassEffect(.regular, in: .capsule)
     }
 
@@ -266,18 +264,20 @@ struct QuickLogView: View {
         if !multiSelectEnabled {
             HStack(spacing: 4) {
                 Text("Press the")
-                Image(systemName: "checkmark.circle")
+                Image(systemName: "checklist")
                     .imageScale(.small)
                 Text("icon or long press doses to select multiple at once")
             }
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
             .frame(maxWidth: .infinity, alignment: .leading)
-        }
-
-        // Selected doses section
-        if multiSelectEnabled {
+        } else if multiSelectEnabled && !selectedDoses.isEmpty {
             selectedDosesSection
+        } else {
+            Text("Tap doses to select them, then tap Add to log together.")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
 
         // Help resources — shown when user searches for help
@@ -289,7 +289,8 @@ struct QuickLogView: View {
         if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
             Section {
                 ForEach(favoriteCards) { card in
-                    substanceCard(card)
+                    substanceCard(card, isFavorite: true)
+                        .id("\(card.id)_fav")
                 }
                 ForEach(favoriteLibrarySubstances) { substance in
                     libraryRow(substance)
@@ -304,15 +305,18 @@ struct QuickLogView: View {
 
         // Recent / search results
         if !nonFavoriteCards.isEmpty {
-            if !favoriteCards.isEmpty && searchText.isEmpty {
-                Text("Recent")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .padding(.top, 8)
-            }
-            ForEach(nonFavoriteCards) { card in
-                substanceCard(card)
+            Section {
+                ForEach(nonFavoriteCards) { card in
+                    substanceCard(card, isFavorite: false)
+                        .id("\(card.id)_recent")
+                }
+            } header: {
+                if !favoriteCards.isEmpty && searchText.isEmpty {
+                    Label("Recent", systemImage: "clock")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .textCase(.uppercase)
+                }
             }
         } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
@@ -403,7 +407,7 @@ struct QuickLogView: View {
 
     // MARK: - Substance Card
 
-    private func substanceCard(_ card: SubstanceCard) -> some View {
+    private func substanceCard(_ card: SubstanceCard, isFavorite: Bool) -> some View {
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -415,15 +419,17 @@ struct QuickLogView: View {
                     .font(.headline)
                 Spacer()
                 Button {
-                    toggleFavorite(card.substanceName)
+                    withAnimation(.snappy) {
+                        toggleFavorite(card.substanceName)
+                    }
                 } label: {
-                    Image(systemName: isFavorite(card.substanceName) ? "star.fill" : "star")
+                    Image(systemName: isFavorite ? "star.fill" : "star")
                         .font(.body)
-                        .foregroundStyle(isFavorite(card.substanceName) ? Color.yellow : Theme.secondaryLabel.opacity(0.6))
+                        .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
+                        .contentTransition(.symbolEffect(.replace))
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
             }
 
             if let lastEntry = mostRecentEntry(for: card.substanceName) {
@@ -603,38 +609,32 @@ struct QuickLogView: View {
     @ViewBuilder
     private var selectedDosesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if selectedDoses.isEmpty {
-                Text("Tap doses to select them, then tap Add to log together.")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            } else {
-                ForEach(selectedDoses) { dose in
-                    HStack(spacing: 8) {
-                        if let hex = dose.colorHex {
-                            Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
-                        }
-                        Text(dose.substanceName)
-                            .font(.subheadline.weight(.medium))
-                        Spacer()
-                        Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
-                            .font(.caption)
+            ForEach(selectedDoses) { dose in
+                HStack(spacing: 8) {
+                    if let hex = dose.colorHex {
+                        Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
+                    }
+                    Text(dose.substanceName)
+                        .font(.subheadline.weight(.medium))
+                    Spacer()
+                    Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Button {
+                        withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Theme.secondaryLabel)
-                        Button {
-                            withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
-                        } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        .buttonStyle(.plain)
                     }
+                    .buttonStyle(.plain)
                 }
+            }
 
-                let interactions = selectedInteractions
-                if !interactions.isEmpty {
-                    Divider()
-                    ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
-                        InteractionWarningRow(warning: warning)
-                    }
+            let interactions = selectedInteractions
+            if !interactions.isEmpty {
+                Divider()
+                ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
+                    InteractionWarningRow(warning: warning)
                 }
             }
         }
