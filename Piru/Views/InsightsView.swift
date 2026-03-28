@@ -28,5 +28,6 @@ struct InsightsView: View {
             }
         }
         .navigationTitle("Insights")
+        .background(Theme.background)
     }
 }

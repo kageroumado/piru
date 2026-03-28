@@ -101,8 +101,6 @@ struct ContentView: View {
 
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
             .toolbar { sharedToolbar }
             .withDayDetailDestination()
     }
@@ -183,11 +181,13 @@ struct ContentView: View {
 
     private var addMenu: some View {
         Button {
+            guard activeSheet == nil else { return }
             activeSheet = .quickLog
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
                 .frame(width: 56, height: 56)
+                .contentShape(Circle())
                 .glassEffect(.regular.interactive(), in: Circle())
                 .tint(Theme.accent)
         }
@@ -199,6 +199,7 @@ struct ContentView: View {
     private var sharedToolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
+                guard activeSheet == nil else { return }
                 activeSheet = .settings
             } label: {
                 Image(systemName: "gearshape")
@@ -206,6 +207,7 @@ struct ContentView: View {
         }
         ToolbarItem(placement: .topBarTrailing) {
             Button {
+                guard activeSheet == nil else { return }
                 activeSheet = .help
             } label: {
                 Image(systemName: "staroflife")
