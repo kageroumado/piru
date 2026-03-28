@@ -254,38 +254,40 @@ struct EntryListView: View {
             } label: {
                 Label(grouping.rawValue, systemImage: grouping.icon)
                     .font(.subheadline.weight(.medium))
+                    .frame(height: 28)
                     .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
                     .background(Color(.secondarySystemFill))
                     .clipShape(Capsule())
             }
 
             // Calendar button
-            Button("Calendar", systemImage: "calendar") {
-                guard !showingFilters else { return }
+            Button {
                 showingCalendar = true
+            } label: {
+                Image(systemName: "calendar")
+                    .font(.subheadline.weight(.medium))
+                    .frame(height: 28)
+                    .padding(.horizontal, 10)
+                    .background(Color(.secondarySystemFill))
+                    .clipShape(Capsule())
+                    .contentShape(Capsule())
             }
-            .labelStyle(.iconOnly)
-            .font(.subheadline.weight(.medium))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(Color(.secondarySystemFill))
-            .clipShape(Capsule())
-            .contentShape(Capsule())
+            .buttonStyle(.plain)
 
             // Filter button
-            Button("Filter", systemImage: "line.3.horizontal.decrease") {
-                guard !showingCalendar else { return }
+            Button {
                 showingFilters = true
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.subheadline.weight(.medium))
+                    .frame(height: 28)
+                    .padding(.horizontal, 10)
+                    .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
+                    .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
+                    .clipShape(Capsule())
+                    .contentShape(Capsule())
             }
-            .labelStyle(.iconOnly)
-            .font(.subheadline.weight(.medium))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
-            .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
-            .clipShape(Capsule())
-            .contentShape(Capsule())
+            .buttonStyle(.plain)
             .animation(.snappy, value: hasActiveFilters)
 
             Spacer()
