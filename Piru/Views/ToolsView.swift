@@ -45,5 +45,6 @@ struct ToolsView: View {
             .background(.bar)
         }
         .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
