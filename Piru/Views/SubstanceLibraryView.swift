@@ -54,7 +54,7 @@ struct SubstanceLibraryView: View {
                 searchResultsList
             }
         }
-        .listSectionSpacing(.compact)
+        .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("Substance Library")
@@ -324,7 +324,7 @@ struct SubstanceCategoryListView: View {
                 }
             }
         }
-        .listSectionSpacing(.compact)
+        .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(title)
