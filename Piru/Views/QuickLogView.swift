@@ -588,7 +588,7 @@ struct QuickLogView: View {
             $0.substance.lowercased() == entry.substance.lowercased()
         }?.hexColor ?? "007AFF"
 
-        LiveActivityManager.shared.addDose(
+        ActiveSessionManager.shared.addDose(
             entry: entry,
             substance: group.librarySubstance,
             colorHex: colorHex,
@@ -686,7 +686,7 @@ struct QuickLogView: View {
                 $0.substance.lowercased() == dose.substanceName.lowercased()
             }?.hexColor ?? "007AFF"
 
-            LiveActivityManager.shared.addDose(
+            ActiveSessionManager.shared.addDose(
                 entry: entry,
                 substance: dose.librarySubstance,
                 colorHex: colorHex,

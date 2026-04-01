@@ -41,10 +41,11 @@ struct EntryDetailView: View {
                         HStack {
                             Spacer()
                             Button("Live Activity") {
-                                LiveActivityManager.shared.restartFromEntries(
+                                ActiveSessionManager.shared.restartFromEntries(
                                     [entry],
                                     allColors: Array(substanceColors)
                                 )
+                                LiveActivityManager.shared.sessionDidChange()
                             }
                             .font(.caption)
                             .buttonStyle(.plain)

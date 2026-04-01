@@ -28,6 +28,10 @@ struct DoseSnapshot {
     }
 }
 
+/// Manages the iOS Live Activity (Lock Screen / Dynamic Island widget) lifecycle.
+///
+/// Session state (which substances are active) lives in `ActiveSessionManager`.
+/// This manager only handles starting, updating, and ending the Live Activity widget.
 @MainActor
 @Observable
 final class LiveActivityManager {
@@ -35,9 +39,7 @@ final class LiveActivityManager {
     static let backgroundTaskIdentifier = "com.piru.app.live-activity-refresh"
 
     private var currentActivity: Activity<PiruActivityAttributes>?
-    private var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
     private var updateTimer: Timer?
-    private var cachedColorMap: [String: String] = [:]
 
     /// Whether live activities are enabled by the user in Settings.
     var isEnabled: Bool {
@@ -45,231 +47,103 @@ final class LiveActivityManager {
     }
 
     private init() {
-        // Resume any existing activity on app launch and recover tracked entries
+        // Resume reference to any existing activity on app launch
         if let existing = Activity<PiruActivityAttributes>.activities.first {
             currentActivity = existing
-            activeEntries = existing.content.state.activeSubstances.map { state in
-                let snapshot = DoseSnapshot(
-                    substance: state.substanceName,
-                    amount: state.amount,
-                    unit: state.unit,
-                    route: RouteOfAdministration.from(string: state.route),
-                    timestamp: state.doseTimestamp
-                )
-                let duration = DurationProfile(fromState: state)
-                return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
-            }
         }
 
         // If live activities are disabled, end any recovered activity
-        if !isEnabled {
+        if !isEnabled, currentActivity != nil {
             endActivity()
         }
     }
 
-    /// Recover an active session from today's SwiftData entries on app launch.
-    /// Only runs if no entries were already recovered from a running Live Activity.
-    func recoverSession(container: ModelContainer) {
-        guard activeEntries.isEmpty else { return }
+    // MARK: - Recovery
 
-        let context = ModelContext(container)
-        let startOfDay = Calendar.current.startOfDay(for: .now)
-        let endOfDay = startOfDay.addingTimeInterval(86400)
+    /// Recover active entries from a running Live Activity.
+    /// Called by `ActiveSessionManager.recoverSession()` on app launch.
+    /// Returns entries if a Live Activity is running, nil otherwise.
+    func recoverEntriesFromActivity() -> [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)]? {
+        guard let existing = currentActivity else { return nil }
+        return existing.content.state.activeSubstances.map { state in
+            let snapshot = DoseSnapshot(
+                substance: state.substanceName,
+                amount: state.amount,
+                unit: state.unit,
+                route: RouteOfAdministration.from(string: state.route),
+                timestamp: state.doseTimestamp
+            )
+            let duration = DurationProfile(fromState: state)
+            return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
+        }
+    }
 
-        let descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { entry in
-                entry.timestamp >= startOfDay && entry.timestamp < endOfDay
-            },
-            sortBy: [SortDescriptor(\.timestamp)]
-        )
+    // MARK: - Session Notifications
 
-        guard let entries = try? context.fetch(descriptor), !entries.isEmpty else { return }
+    /// Called by `ActiveSessionManager` when session entries change.
+    /// Starts or updates the Live Activity if enabled.
+    func sessionDidChange() {
+        guard isEnabled else { return }
 
-        let colorDescriptor = FetchDescriptor<SubstanceColor>()
-        let colors = (try? context.fetch(colorDescriptor)) ?? []
-        let colorMap = Self.buildColorMap(from: colors)
-        cachedColorMap = colorMap
-
-        activeEntries = entries.map { entry in
-            let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
-            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            return (snapshot: snapshot, duration: duration, colorHex: hex)
+        let session = ActiveSessionManager.shared
+        guard !session.activeEntries.isEmpty else {
+            endActivity()
+            return
         }
 
-        pruneCompleted()
+        let state = session.buildContentState(colorMap: session.cachedColorMap)
 
-        if !activeEntries.isEmpty {
+        if currentActivity != nil {
             startUpdateTimer()
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
+        } else {
+            startActivity(state: state)
+        }
+    }
+
+    /// Called by `ActiveSessionManager` when all entries have been removed.
+    func sessionCleared() {
+        if currentActivity != nil {
+            endActivity()
         }
     }
 
     // MARK: - Public API
 
-    func addDose(
-        entry: DoseEntry,
-        substance: Substance?,
-        colorHex: String,
-        allColors: [SubstanceColor]
-    ) {
-        guard isEnabled else { return }
-        let snapshot = DoseSnapshot(entry: entry)
-        let duration = Self.resolveDuration(substance: substance, route: entry.route)
-        activeEntries.append((snapshot: snapshot, duration: duration, colorHex: colorHex))
-
-        pruneCompleted()
-        guard !activeEntries.isEmpty else { return }
-
-        let colorMap = Self.buildColorMap(from: allColors)
-        cachedColorMap = colorMap
-        let state = buildContentState(colorMap: colorMap)
-
-        if currentActivity != nil {
-            startUpdateTimer()
-            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
-        } else {
-            startActivity(state: state)
-        }
-    }
-
-    func addDoses(
-        entries: [(entry: DoseEntry, substance: Substance?)],
-        allColors: [SubstanceColor]
-    ) {
-        guard isEnabled else { return }
-        let colorMap = Self.buildColorMap(from: allColors)
-        cachedColorMap = colorMap
-
-        for (entry, substance) in entries {
-            let snapshot = DoseSnapshot(entry: entry)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            let duration = Self.resolveDuration(substance: substance, route: entry.route)
-            activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
-        }
-
-        pruneCompleted()
-        guard !activeEntries.isEmpty else { return }
-
-        let state = buildContentState(colorMap: colorMap)
-
-        if currentActivity != nil {
-            startUpdateTimer()
-            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
-        } else {
-            startActivity(state: state)
-        }
-    }
-
-    /// Remove a specific dose entry from the live activity (e.g. when user deletes it)
-    func removeDose(
-        substanceName: String,
-        timestamp: Date,
-        allColors: [SubstanceColor]
-    ) {
-        activeEntries.removeAll { item in
-            item.snapshot.substance == substanceName &&
-            abs(item.snapshot.timestamp.timeIntervalSince(timestamp)) < 1
-        }
-
-        if activeEntries.isEmpty {
-            endActivity()
-            return
-        }
-
-        let colorMap = Self.buildColorMap(from: allColors)
-        cachedColorMap = colorMap
-        let state = buildContentState(colorMap: colorMap)
-        if currentActivity != nil {
-            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
-        }
-    }
-
-    /// Restart live activity from a set of existing day entries
-    func restartFromEntries(
-        _ doseEntries: [DoseEntry],
-        allColors: [SubstanceColor]
-    ) {
-        guard isEnabled else { return }
-        // End any existing activity first
-        if currentActivity != nil {
-            endActivity()
-        }
-
-        let colorMap = Self.buildColorMap(from: allColors)
-        cachedColorMap = colorMap
-
-        activeEntries = doseEntries.map { entry in
-            let snapshot = DoseSnapshot(entry: entry)
-            let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
-            let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
-            return (snapshot: snapshot, duration: duration, colorHex: hex)
-        }
-
-        pruneCompleted()
-        guard !activeEntries.isEmpty else { return }
-
-        let state = buildContentState(colorMap: colorMap)
-        startActivity(state: state)
-    }
-
+    /// End the Live Activity and clear the session.
     func endActivity() {
         guard currentActivity != nil else { return }
         stopUpdateTimer()
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
-        let state = buildContentState(colorMap: [:])
+        let state = ActiveSessionManager.shared.buildContentState(colorMap: [:])
         pushEnd(ActivityContent(state: state, staleDate: nil))
         self.currentActivity = nil
-        activeEntries.removeAll()
+        ActiveSessionManager.shared.clearSession()
     }
 
-    /// Stop the iOS Live Activity widget but keep tracking active substances
+    /// Stop the iOS Live Activity widget but keep tracking active substances.
     func stopLiveActivity() {
         guard currentActivity != nil else { return }
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
-        let state = buildContentState(colorMap: cachedColorMap)
+        let state = ActiveSessionManager.shared.buildContentState(colorMap: ActiveSessionManager.shared.cachedColorMap)
         pushEnd(ActivityContent(state: state, staleDate: nil))
         self.currentActivity = nil
-        // Keep updateTimer running for pruning; keep activeEntries for UI
+        // Keep session alive — only the widget is stopped
     }
 
-    /// Restart the iOS Live Activity from currently tracked entries
+    /// Restart the iOS Live Activity from currently tracked entries.
     func restartLiveActivity() {
-        pruneCompleted()
-        guard !activeEntries.isEmpty, currentActivity == nil else { return }
-        let state = buildContentState(colorMap: cachedColorMap)
+        guard isEnabled else { return }
+        ActiveSessionManager.shared.refresh()
+        let session = ActiveSessionManager.shared
+        guard !session.activeEntries.isEmpty, currentActivity == nil else { return }
+        let state = session.buildContentState(colorMap: session.cachedColorMap)
         startActivity(state: state)
     }
 
-    /// Whether a live activity is currently running
-    var isActive: Bool {
-        currentActivity != nil && !activeEntries.isEmpty
-    }
-
-    /// Whether there are any tracked active substances (regardless of live activity state)
-    var hasActiveSession: Bool {
-        let now = Date.now
-        return activeEntries.contains { item in
-            guard let duration = item.duration else { return false }
-            let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
-            return now <= endTime
-        }
-    }
-
-    /// Prune expired entries and update state. Call on scene phase changes or periodic checks.
-    func refresh() {
-        pruneCompleted()
-    }
-
-    /// Whether the iOS Live Activity (Lock Screen widget) is currently running
+    /// Whether the iOS Live Activity (Lock Screen widget) is currently running.
     var isLiveActivityRunning: Bool {
         currentActivity != nil
-    }
-
-    /// Active substance states for UI display (e.g. session accessory view)
-    var activeSubstanceStates: [ActiveSubstanceState] {
-        buildContentState(colorMap: cachedColorMap).activeSubstances
     }
 
     // MARK: - Background Refresh
@@ -283,7 +157,8 @@ final class LiveActivityManager {
 
         task.expirationHandler = { }
 
-        if !activeEntries.isEmpty {
+        let session = ActiveSessionManager.shared
+        if !session.activeEntries.isEmpty {
             periodicUpdate()
         } else if let currentActivity {
             // App was relaunched — push a lightweight update to force widget re-render
@@ -341,14 +216,14 @@ final class LiveActivityManager {
     }
 
     private func periodicUpdate() {
-        pruneCompleted()
-        guard !activeEntries.isEmpty else {
+        let session = ActiveSessionManager.shared
+        session.refresh()
+        guard !session.activeEntries.isEmpty else {
             stopUpdateTimer()
             return
         }
-        // Only push update if the iOS activity is running
         if currentActivity != nil {
-            let state = buildContentState(colorMap: cachedColorMap)
+            let state = session.buildContentState(colorMap: session.cachedColorMap)
             pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
         }
     }
@@ -356,7 +231,8 @@ final class LiveActivityManager {
     private func startActivity(state: PiruActivityAttributes.ContentState) {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
-        let earliest = activeEntries.map(\.snapshot.timestamp).min() ?? .now
+        let session = ActiveSessionManager.shared
+        let earliest = session.activeEntries.map(\.snapshot.timestamp).min() ?? .now
         let attributes = PiruActivityAttributes(startTime: earliest)
         let content = ActivityContent(state: state, staleDate: staleDate())
 
@@ -373,60 +249,14 @@ final class LiveActivityManager {
         }
     }
 
-    /// Resolve the best available duration for a substance and route.
-    /// Tries: exact route → any route. Returns nil if no duration data available.
-    private static func resolveDuration(substance: Substance?, route: RouteOfAdministration) -> DurationProfile? {
-        substance?.resolveDuration(for: route)
-    }
-
-    private static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {
-        allColors.hexColorMap
-    }
-
-    private func buildContentState(colorMap: [String: String]) -> PiruActivityAttributes.ContentState {
-        let substanceStates: [ActiveSubstanceState] = activeEntries.compactMap { item in
-            let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
-            return ActiveSubstanceState(
-                name: item.snapshot.substance,
-                colorHex: hex,
-                timestamp: item.snapshot.timestamp,
-                amount: item.snapshot.amount,
-                unit: item.snapshot.unit,
-                routeDisplayName: item.snapshot.route.displayName,
-                duration: item.duration
-            )
-        }
-
-        return PiruActivityAttributes.ContentState(
-            activeSubstances: substanceStates,
-            lastUpdated: .now
-        )
-    }
-
     private func staleDate() -> Date? {
-        // Use a short stale date (5 min) so iOS refreshes the Live Activity frequently.
-        // Fall back to substance end time if all entries finish sooner.
         let shortStale = Date.now.addingTimeInterval(5 * 60)
-        let substanceEnd = activeEntries.compactMap { item -> Date? in
+        let session = ActiveSessionManager.shared
+        let substanceEnd = session.activeEntries.compactMap { item -> Date? in
             guard let duration = item.duration else { return nil }
             return item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
         }.max()
         guard let end = substanceEnd else { return shortStale }
         return min(shortStale, end)
-    }
-
-    private func pruneCompleted() {
-        let now = Date.now
-        activeEntries.removeAll { item in
-            guard let duration = item.duration else {
-                return true // Remove entries without duration data
-            }
-            let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
-            return now > endTime
-        }
-
-        if activeEntries.isEmpty, currentActivity != nil {
-            endActivity()
-        }
     }
 }

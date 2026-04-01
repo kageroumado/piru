@@ -283,7 +283,7 @@ struct DayDetailView: View {
         modelContext.delete(entry)
 
         // Also remove from live activity if active
-        LiveActivityManager.shared.removeDose(
+        ActiveSessionManager.shared.removeDose(
             substanceName: name,
             timestamp: timestamp,
             allColors: Array(substanceColors)
@@ -295,10 +295,11 @@ struct DayDetailView: View {
     }
 
     private func restartLiveActivity() {
-        LiveActivityManager.shared.restartFromEntries(
+        ActiveSessionManager.shared.restartFromEntries(
             entries,
             allColors: Array(substanceColors)
         )
+        LiveActivityManager.shared.sessionDidChange()
     }
 
 }

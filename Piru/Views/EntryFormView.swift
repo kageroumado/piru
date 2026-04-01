@@ -365,7 +365,7 @@ struct EntryFormView: View {
             $0.substance.lowercased() == savedEntry.substance.lowercased()
         }?.hexColor ?? "007AFF"
 
-        LiveActivityManager.shared.addDose(
+        ActiveSessionManager.shared.addDose(
             entry: savedEntry,
             substance: selectedSubstance,
             colorHex: colorHex,
