@@ -188,7 +188,7 @@ struct LogMedicationsView: View {
     private func startLiveActivityForBatch() {
         guard !loggedDoseEntries.isEmpty else { return }
         let entries = zip(loggedDoseEntries, loggedSubstances).map { (entry: $0, substance: $1) }
-        LiveActivityManager.shared.addDoses(
+        ActiveSessionManager.shared.addDoses(
             entries: entries,
             allColors: Array(substanceColors)
         )

@@ -92,7 +92,7 @@ struct ContentView: View {
         }
         .onChange(of: scenePhase) {
             if scenePhase == .active {
-                LiveActivityManager.shared.refresh()
+                ActiveSessionManager.shared.refresh()
             }
         }
     }
@@ -129,7 +129,7 @@ struct ContentView: View {
                 NavigationStack {
                     journalContent
                         .overlay(alignment: .bottom) {
-                            if !LiveActivityManager.shared.hasActiveSession {
+                            if !ActiveSessionManager.shared.hasActiveSession {
                                 addMenu
                                     .padding(.bottom, 16)
                             }
@@ -165,7 +165,7 @@ struct ContentView: View {
             }
         }
         .withSessionAccessory(
-            isActive: LiveActivityManager.shared.hasActiveSession,
+            isActive: ActiveSessionManager.shared.hasActiveSession,
             showingSessionDetail: Binding(
                 get: { activeSheet?.id == SheetDestination.sessionDetail.id },
                 set: { if $0 { activeSheet = .sessionDetail } else { activeSheet = nil } }
@@ -282,7 +282,7 @@ private extension View {
             self.tabViewBottomAccessory(isEnabled: isActive) {
                 TimelineView(.periodic(from: .now, by: 60)) { context in
                     SessionAccessoryView(
-                        states: LiveActivityManager.shared.activeSubstanceStates,
+                        states: ActiveSessionManager.shared.activeSubstanceStates,
                         isLiveActivityRunning: LiveActivityManager.shared.isLiveActivityRunning,
                         currentTime: context.date,
                         onTapSession: { showingSessionDetail.wrappedValue = true },

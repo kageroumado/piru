@@ -45,7 +45,7 @@ struct PiruApp: App {
                 .task {
                     WidgetCenter.shared.reloadAllTimelines()
                     SubstanceLibrary.fetchFromAPIs()
-                    LiveActivityManager.shared.recoverSession(container: container)
+                    ActiveSessionManager.shared.recoverSession(container: container)
                     #if DEBUG
                     DemoData.insertShowcaseData(container: container)
                     #endif
