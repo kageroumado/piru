@@ -14,7 +14,7 @@ final class ActiveSessionManager {
     private(set) var activeEntries: [(snapshot: DoseSnapshot, duration: DurationProfile?, colorHex: String)] = []
     var cachedColorMap: [String: String] = [:]
 
-    private var pruneTimer: Timer?
+    private var pruneTask: Task<Void, Never>?
 
     private init() {}
 
@@ -46,7 +46,7 @@ final class ActiveSessionManager {
         if let recoveredEntries = LiveActivityManager.shared.recoverEntriesFromActivity() {
             activeEntries = recoveredEntries
             if !activeEntries.isEmpty {
-                startPruneTimer()
+                scheduleNextPrune()
             }
             return
         }
@@ -79,10 +79,6 @@ final class ActiveSessionManager {
         }
 
         pruneCompleted()
-
-        if !activeEntries.isEmpty {
-            startPruneTimer()
-        }
     }
 
     // MARK: - Add / Remove
@@ -103,7 +99,6 @@ final class ActiveSessionManager {
         pruneCompleted()
 
         if !activeEntries.isEmpty {
-            startPruneTimer()
             LiveActivityManager.shared.sessionDidChange()
         }
     }
@@ -125,7 +120,6 @@ final class ActiveSessionManager {
         pruneCompleted()
 
         if !activeEntries.isEmpty {
-            startPruneTimer()
             LiveActivityManager.shared.sessionDidChange()
         }
     }
@@ -144,9 +138,11 @@ final class ActiveSessionManager {
         cachedColorMap = colorMap
 
         if activeEntries.isEmpty {
-            stopPruneTimer()
+            pruneTask?.cancel()
+            pruneTask = nil
             LiveActivityManager.shared.sessionCleared()
         } else {
+            scheduleNextPrune()
             LiveActivityManager.shared.sessionDidChange()
         }
     }
@@ -168,10 +164,6 @@ final class ActiveSessionManager {
         }
 
         pruneCompleted()
-
-        if !activeEntries.isEmpty {
-            startPruneTimer()
-        }
     }
 
     /// Prune expired entries and stop timer if empty. Call on scene phase changes.
@@ -182,7 +174,8 @@ final class ActiveSessionManager {
     /// Clear all tracked entries (e.g. when user explicitly ends session).
     func clearSession() {
         activeEntries.removeAll()
-        stopPruneTimer()
+        pruneTask?.cancel()
+        pruneTask = nil
     }
 
     // MARK: - State Building
@@ -226,23 +219,26 @@ final class ActiveSessionManager {
             let endTime = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
             return now > endTime
         }
-
-        if activeEntries.isEmpty {
-            stopPruneTimer()
-        }
+        scheduleNextPrune()
     }
 
-    private func startPruneTimer() {
-        guard pruneTimer == nil else { return }
-        pruneTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.pruneCompleted()
-            }
-        }
-    }
+    /// Sleep until the earliest entry expires, then prune and re-schedule.
+    private func scheduleNextPrune() {
+        pruneTask?.cancel()
+        pruneTask = nil
 
-    private func stopPruneTimer() {
-        pruneTimer?.invalidate()
-        pruneTimer = nil
+        let now = Date.now
+        guard let nextExpiry = activeEntries.compactMap({ item -> Date? in
+            guard let duration = item.duration else { return nil }
+            let end = item.snapshot.timestamp.addingTimeInterval(duration.estimatedTotalMinutes * 60)
+            return end > now ? end : nil
+        }).min() else { return }
+
+        let delay = nextExpiry.timeIntervalSince(now)
+        pruneTask = Task {
+            try? await Task.sleep(for: .seconds(delay))
+            guard !Task.isCancelled else { return }
+            pruneCompleted()
+        }
     }
 }
