@@ -10,8 +10,10 @@ struct QuickLogView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @Query(sort: \CustomSubstance.name) private var customSubstances: [CustomSubstance]
 
     @State private var searchText = ""
+    @State private var showCustomForm = false
     @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
     @State private var medicationCategory: MedicationCategoryItem?
@@ -121,6 +123,20 @@ struct QuickLogView: View {
             .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
     }
 
+    private var filteredCustomSubstances: [Substance] {
+        guard !searchText.isEmpty else { return [] }
+        let query = searchText.lowercased()
+        let libraryNames = Set(cachedLibraryResults.map { $0.name.lowercased() })
+        return customSubstances
+            .filter { custom in
+                let nameLower = custom.name.lowercased()
+                return nameLower.contains(query)
+                    && !cachedHistoryNames.contains(nameLower)
+                    && !libraryNames.contains(nameLower)
+            }
+            .map(\.asSubstance)
+    }
+
     private func toggleFavorite(_ name: String) {
         let lowered = name.lowercased()
         if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
@@ -200,6 +216,9 @@ struct QuickLogView: View {
             }
             .sheet(item: $medicationCategory) { item in
                 LogMedicationsView(category: item.category)
+            }
+            .sheet(isPresented: $showCustomForm) {
+                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces))
             }
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
@@ -319,8 +338,22 @@ struct QuickLogView: View {
                         .textCase(.uppercase)
                 }
             }
-        } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && favoriteCards.isEmpty {
+        } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && filteredCustomSubstances.isEmpty && favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
+        }
+
+        if !filteredCustomSubstances.isEmpty {
+            Section {
+                ForEach(filteredCustomSubstances) { substance in
+                    customSubstanceRow(substance)
+                }
+            } header: {
+                Label("Custom", systemImage: "flask")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(.uppercase)
+                    .padding(.top, 8)
+            }
         }
 
         if !cachedLibraryResults.isEmpty {
@@ -335,6 +368,10 @@ struct QuickLogView: View {
                     .textCase(.uppercase)
                     .padding(.top, 8)
             }
+        }
+
+        if !searchText.isEmpty && cachedLibraryResults.isEmpty && nonFavoriteCards.isEmpty {
+            createCustomButton
         }
     }
 
@@ -509,6 +546,64 @@ struct QuickLogView: View {
                         .clipShape(Capsule())
                 }
             }
+        }
+    }
+
+    // MARK: - Custom Substance
+
+    private var createCustomButton: some View {
+        Button {
+            showCustomForm = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "flask.fill")
+                    .foregroundStyle(Theme.accent)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Create \"\(searchText.trimmingCharacters(in: .whitespaces))\"")
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(.primary)
+                    Text("Add as custom substance")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                Image(systemName: "plus.circle.fill")
+                    .foregroundStyle(Theme.accent)
+            }
+            .padding(12)
+            .background(Theme.accent.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func customSubstanceRow(_ substance: Substance) -> some View {
+        Button {
+            openLibrarySubstance(substance)
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "flask")
+                    .foregroundStyle(substance.category.color)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(substance.name)
+                        .font(.body.weight(.medium))
+                        .foregroundStyle(.primary)
+                    Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+                Spacer()
+                Text("Custom")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Theme.secondaryLabel.opacity(0.12))
+                    .clipShape(Capsule())
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .padding(.vertical, 4)
         }
     }
 

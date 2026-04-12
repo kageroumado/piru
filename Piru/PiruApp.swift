@@ -20,7 +20,7 @@ struct PiruApp: App {
             let config = ModelConfiguration(url: groupURL)
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self,
+                DailyDoseItem.self, FavoriteSubstance.self, CustomSubstance.self,
                 configurations: config
             )
         } catch {
