@@ -45,7 +45,7 @@ struct SubstanceExtendedTests {
         #expect(dur?.onset?.min == 15)
     }
 
-    @Test("resolveDuration falls back to any route with duration")
+    @Test("resolveDuration falls back when only one route has duration")
     func resolveDurationFallback() {
         let substance = Substance(
             name: "Test",
@@ -55,10 +55,39 @@ struct SubstanceExtendedTests {
             routes: [nasalRouteNoDuration, oralRouteWithDuration],
             effects: []
         )
-        // Insufflation has no duration, should fall back to oral's duration
+        // Insufflation has no duration; only one route has data → safe generic fallback
         let dur = substance.resolveDuration(for: .insufflation)
         #expect(dur != nil)
         #expect(dur?.onset?.min == 15)
+    }
+
+    @Test("resolveDuration does not fall back across routes when multiple have data")
+    func resolveDurationNoWrongRoute() {
+        let smokedRoute = SubstanceRoute(
+            route: .inhalation,
+            unit: "mg",
+            doses: DoseRange(),
+            duration: DurationProfile(
+                onset: TimeRange(min: 0, max: 1),
+                comeup: TimeRange(min: 1, max: 3),
+                peak: TimeRange(min: 15, max: 45),
+                offset: TimeRange(min: 30, max: 60),
+                afterglow: nil, total: nil
+            )
+        )
+        let substance = Substance(
+            name: "Cannabis",
+            aliases: [],
+            category: .cannabinoid,
+            defaultRoute: .inhalation,
+            routes: [smokedRoute, oralRouteWithDuration],
+            effects: []
+        )
+        // Rectal has no data, but two routes have durations → don't guess
+        #expect(substance.resolveDuration(for: .rectal) == nil)
+        // Exact matches still work
+        #expect(substance.resolveDuration(for: .oral) != nil)
+        #expect(substance.resolveDuration(for: .inhalation) != nil)
     }
 
     @Test("resolveDuration returns nil when no route has duration")

@@ -448,9 +448,15 @@ struct Substance: Identifiable {
         routes.first { $0.route == route }?.duration
     }
 
-    /// Best available duration: exact route → any route with duration data.
+    /// Best available duration: exact route → similar route → generic fallback.
+    /// Only falls back when a single route has duration data (implying it's generic).
+    /// When multiple routes have distinct durations, returns nil rather than guessing.
     func resolveDuration(for route: RouteOfAdministration) -> DurationProfile? {
-        duration(for: route) ?? routes.lazy.compactMap(\.duration).first
+        if let exact = duration(for: route) { return exact }
+        let routesWithDuration = routes.filter { $0.duration != nil }
+        // Single route with data is likely generic — safe to use for any route
+        if routesWithDuration.count == 1 { return routesWithDuration.first?.duration }
+        return nil
     }
 
     func matches(_ query: String) -> Bool {
