@@ -173,9 +173,15 @@ enum SubstanceDeduplicator {
         let mergedSources = Array(Set(primary.sources + secondary.sources)).sorted()
 
         var routes = primary.routes
-        let primaryRoutes = Set(primary.routes.map { $0.route })
-        for r in secondary.routes where !primaryRoutes.contains(r.route) {
-            routes.append(r)
+        for r in secondary.routes {
+            if let idx = routes.firstIndex(where: { $0.route == r.route }) {
+                // Replace if secondary has better data for this route
+                if routeDataScore(r) > routeDataScore(routes[idx]) {
+                    routes[idx] = r
+                }
+            } else {
+                routes.append(r)
+            }
         }
 
         let primaryEffects = Set(primary.effects.map { $0.lowercased() })
@@ -194,6 +200,23 @@ enum SubstanceDeduplicator {
             sources: mergedSources,
             mechanismOfAction: primary.mechanismOfAction ?? secondary.mechanismOfAction
         )
+    }
+
+    /// Score how complete a single route's data is — used to pick the better source
+    /// when two sources provide data for the same route.
+    static func routeDataScore(_ r: SubstanceRoute) -> Int {
+        var score = 0
+        let d = r.doses
+        if d.threshold != nil { score += 1 }
+        if d.light != nil { score += 1 }
+        if d.common != nil { score += 1 }
+        if d.strong != nil { score += 1 }
+        if d.heavy != nil { score += 1 }
+        if r.duration != nil { score += 2 }
+        // Prefer standard mass/volume units over non-standard (e.g. "g" over "units")
+        let unit = r.unit.lowercased()
+        if ["mg", "g", "µg", "ug", "ml"].contains(unit) { score += 3 }
+        return score
     }
 
     /// Score how complete a substance's data is (higher = more data)

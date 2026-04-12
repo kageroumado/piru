@@ -224,7 +224,11 @@ struct TripSitAPI {
             if cleaned.contains("ug") || cleaned.contains("µg") { return "µg" }
             if cleaned.contains("mg") { return "mg" }
             if cleaned.contains("ml") { return "mL" }
-            if cleaned.hasSuffix("g") { return "g" }
+            // Non-standard TripSit units (standard drinks, inhalation hits)
+            if cleaned.contains("unit") { return "units" }
+            if cleaned.contains("hit") { return "hits" }
+            if cleaned.contains("drink") { return "drinks" }
+            if cleaned.hasSuffix("g") || cleaned.contains(" g") { return "g" }
         }
         return nil
     }
