@@ -183,6 +183,11 @@ final class ActiveSessionManager {
     func buildSubstanceStates(colorMap: [String: String]) -> [ActiveSubstanceState] {
         activeEntries.compactMap { item in
             let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
+            let substance = SubstanceLibrary.lookupByNameOrAlias(item.snapshot.substance)
+            let intensity = ActiveSubstanceState.computeDoseIntensity(
+                amount: item.snapshot.amount,
+                doseRange: substance?.doseRange(for: item.snapshot.route)
+            )
             return ActiveSubstanceState(
                 name: item.snapshot.substance,
                 colorHex: hex,
@@ -190,7 +195,8 @@ final class ActiveSessionManager {
                 amount: item.snapshot.amount,
                 unit: item.snapshot.unit,
                 routeDisplayName: item.snapshot.route.displayName,
-                duration: item.duration
+                duration: item.duration,
+                doseIntensity: intensity
             )
         }
     }

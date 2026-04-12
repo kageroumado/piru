@@ -75,14 +75,19 @@ struct TimelineGraphView: View {
         return result
     }
 
-    /// Height scale factor for a substance (0.3...1.0). Single doses get full height.
+    /// Height scale factor combining dose intensity (vs heavy threshold) and
+    /// relative scaling when multiple doses of the same substance are present.
     private func heightScale(for substance: ActiveSubstanceState) -> Double {
+        var scale = substance.doseIntensity
+        // For multiple doses of the same substance, also scale by relative amount
         let key = substance.substanceName.lowercased()
-        guard let maxDose = maxDoseBySubstance[key], maxDose > 0 else { return 1.0 }
-        // Only scale if there are multiple doses of this substance
-        let count = substances.filter { $0.substanceName.lowercased() == key }.count
-        guard count > 1 else { return 1.0 }
-        return max(0.3, substance.amount / maxDose)
+        if let maxDose = maxDoseBySubstance[key], maxDose > 0 {
+            let count = substances.filter { $0.substanceName.lowercased() == key }.count
+            if count > 1 {
+                scale *= max(0.3, substance.amount / maxDose)
+            }
+        }
+        return max(0.15, scale)
     }
 
     private var effectiveZoom: CGFloat {

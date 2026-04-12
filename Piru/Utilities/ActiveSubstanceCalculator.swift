@@ -121,7 +121,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, doseIntensity: Double = 1.0) {
         guard let duration else { return nil }
         let boundaries = duration.phaseBoundaries
         self.init(
@@ -136,7 +136,8 @@ extension ActiveSubstanceState {
             peakEndMinutes: boundaries.peakEnd,
             offsetEndMinutes: boundaries.offsetEnd,
             afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
-            totalMinutes: duration.estimatedTotalMinutes
+            totalMinutes: duration.estimatedTotalMinutes,
+            doseIntensity: doseIntensity
         )
     }
 
@@ -144,6 +145,10 @@ extension ActiveSubstanceState {
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
               let duration = substance.resolveDuration(for: entry.route) else { return nil }
+        let intensity = Self.computeDoseIntensity(
+            amount: entry.amount,
+            doseRange: substance.doseRange(for: entry.route)
+        )
         return ActiveSubstanceState(
             name: entry.substance,
             colorHex: colorHex,
@@ -151,7 +156,25 @@ extension ActiveSubstanceState {
             amount: entry.amount,
             unit: entry.unit,
             routeDisplayName: entry.route.displayName,
-            duration: duration
+            duration: duration,
+            doseIntensity: intensity
         )
+    }
+
+    /// Compute dose intensity as a proportion of the substance's heavy threshold (0.15...1.0).
+    /// Returns 1.0 when no dose range data is available.
+    static func computeDoseIntensity(amount: Double, doseRange: DoseRange?) -> Double {
+        guard let range = doseRange else { return 1.0 }
+        let reference: Double
+        if let heavy = range.heavy, heavy > 0 {
+            reference = heavy
+        } else if let strong = range.strong, strong.upperBound > 0 {
+            reference = strong.upperBound
+        } else if let common = range.common, common.upperBound > 0 {
+            reference = common.upperBound
+        } else {
+            return 1.0
+        }
+        return min(1.0, max(0.15, amount / reference))
     }
 }
