@@ -30,14 +30,12 @@ struct LockScreenView: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            // Timeline Graph – periodic refresh so knobs track real time
-            TimelineView(.periodic(from: .now, by: 60)) { timeline in
-                TimelineGraphView(
-                    substances: substances,
-                    currentTime: timeline.date,
-                    compact: true
-                )
-            }
+            // Timeline Graph – updates when Live Activity state is pushed
+            TimelineGraphView(
+                substances: substances,
+                currentTime: context.state.lastUpdated,
+                compact: true
+            )
             .frame(height: 80)
 
             // Gradient progress bar that auto-fills
@@ -104,13 +102,11 @@ struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 60)) { timeline in
-            TimelineGraphView(
-                substances: context.state.activeSubstances,
-                currentTime: timeline.date,
-                compact: true
-            )
-        }
+        TimelineGraphView(
+            substances: context.state.activeSubstances,
+            currentTime: context.state.lastUpdated,
+            compact: true
+        )
         .frame(height: 50)
     }
 }
@@ -182,10 +178,8 @@ struct CompactLeadingView: View {
     var body: some View {
         HStack(spacing: 3) {
             PillClockIcon()
-            TimelineView(.periodic(from: .now, by: 60)) { timeline in
-                Text(elapsedString(from: earliestDose, to: timeline.date))
-                    .font(.caption2.monospacedDigit().weight(.medium))
-            }
+            Text(earliestDose, style: .timer)
+                .font(.caption2.monospacedDigit().weight(.medium))
         }
         .frame(minWidth: 32)
     }
@@ -203,10 +197,8 @@ struct CompactTrailingView: View {
     var body: some View {
         HStack(spacing: 3) {
             GraphDeclineIcon()
-            TimelineView(.periodic(from: .now, by: 60)) { timeline in
-                Text(remainingString(from: timeline.date, to: latestEnd))
-                    .font(.caption2.monospacedDigit())
-            }
+            Text(latestEnd, style: .timer)
+                .font(.caption2.monospacedDigit())
         }
         .frame(minWidth: 32)
     }

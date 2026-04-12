@@ -14,6 +14,9 @@ struct DayDetailView: View {
     @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
     @State private var dayInteractions: [InteractionResult] = []
+    @State private var exportedImage: UIImage?
+    @State private var showShareSheet = false
+    @State private var isExporting = false
 
     private var substanceStates: [ActiveSubstanceState] {
         let colorMap = Array(substanceColors).hexColorMap
@@ -232,6 +235,21 @@ struct DayDetailView: View {
             await loadInteractions()
         }
         .toolbar {
+            if !entries.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        exportDayLog()
+                    } label: {
+                        if isExporting {
+                            ProgressView()
+                                .tint(Theme.accent)
+                        } else {
+                            Image(systemName: "camera")
+                        }
+                    }
+                    .disabled(isExporting)
+                }
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     showingForm = true
@@ -251,6 +269,12 @@ struct DayDetailView: View {
                 TimeAdjustSheet(entry: entry)
             }
             .presentationDetents([.medium])
+        }
+        .sheet(isPresented: $showShareSheet) {
+            if let image = exportedImage {
+                DayLogShareSheet(image: image)
+                    .presentationDetents([.medium, .large])
+            }
         }
         .sheet(isPresented: $showColorPicker) {
             SubstanceColorPickerView(
@@ -294,6 +318,36 @@ struct DayDetailView: View {
         Array(substanceColors).colorMap[entry.substance.lowercased()] ?? Theme.accent
     }
 
+    private func exportDayLog() {
+        isExporting = true
+        let entriesCopy = entries.map { entry in
+            DayLogImageExporter.EntryData(
+                substance: entry.substance,
+                amount: entry.amount,
+                unit: entry.unit,
+                route: entry.route,
+                timestamp: entry.timestamp,
+                notes: entry.notes,
+                tags: entry.tags,
+                category: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
+                doseLevel: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount),
+                colorHex: Array(substanceColors).hexColorMap[entry.substance.lowercased()]
+            )
+        }
+        let exportDate = date
+        Task {
+            let image = DayLogImageExporter.generateImage(
+                date: exportDate,
+                entries: entriesCopy
+            )
+            isExporting = false
+            if let image {
+                exportedImage = image
+                showShareSheet = true
+            }
+        }
+    }
+
     private func restartLiveActivity() {
         ActiveSessionManager.shared.restartFromEntries(
             entries,
@@ -302,6 +356,16 @@ struct DayDetailView: View {
         LiveActivityManager.shared.sessionDidChange()
     }
 
+}
+
+private struct DayLogShareSheet: UIViewControllerRepresentable {
+    let image: UIImage
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: [image], applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 private struct TimeAdjustSheet: View {

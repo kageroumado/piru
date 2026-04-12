@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 struct SettingsView: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
+    @Query private var customSubstances: [CustomSubstance]
     @Environment(\.modelContext) private var modelContext
 
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
@@ -30,6 +31,19 @@ struct SettingsView: View {
                         Label("Prescriptions", systemImage: "pills")
                         Spacer()
                         Text("\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            }
+
+            Section("Custom Substances") {
+                NavigationLink {
+                    CustomSubstancesListView()
+                } label: {
+                    HStack {
+                        Label("Custom Substances", systemImage: "flask")
+                        Spacer()
+                        Text("\(customSubstances.count)")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
