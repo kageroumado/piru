@@ -147,7 +147,7 @@ extension ActiveSubstanceState {
               let duration = substance.resolveDuration(for: entry.route) else { return nil }
         let intensity = Self.computeDoseIntensity(
             amount: entry.amount,
-            doseRange: substance.doseRange(for: entry.route)
+            doseRange: Self.resolveDoseRange(substance: substance, route: entry.route)
         )
         return ActiveSubstanceState(
             name: entry.substance,
@@ -161,20 +161,62 @@ extension ActiveSubstanceState {
         )
     }
 
-    /// Compute dose intensity as a proportion of the substance's heavy threshold (0.15...1.0).
-    /// Returns 1.0 when no dose range data is available.
+    /// Fall back to the substance's default route (then any populated route)
+    /// when the requested route has no DoseRange. Without this, a user logging
+    /// a non-default route (e.g. insufflated when the library only has oral
+    /// data) gets `doseIntensity = 1.0`, which makes every such dose render at
+    /// full graph height regardless of magnitude — collapsing the visual
+    /// distinction between light/common/heavy across the journal.
+    static func resolveDoseRange(substance: Substance, route: RouteOfAdministration) -> DoseRange? {
+        if let exact = substance.doseRange(for: route), hasAnyLevel(exact) { return exact }
+        if let def = substance.doseRange(for: substance.defaultRoute), hasAnyLevel(def) { return def }
+        return substance.routes.first { hasAnyLevel($0.doses) }?.doses
+    }
+
+    /// `true` when at least one dose-level bound is populated.
+    private static func hasAnyLevel(_ range: DoseRange) -> Bool {
+        range.threshold != nil || range.light != nil || range.common != nil
+            || range.strong != nil || range.heavy != nil
+    }
+
+    /// Compute dose intensity (0.05...1.0) used to scale timeline curve heights.
+    ///
+    /// Uses `amount / heavy_threshold` directly — matches PsychonautWiki's
+    /// visual behavior: 17g alcohol renders at half the height of 34g, plat-1
+    /// DXM (150mg / 700mg heavy ≈ 0.21) renders much shorter than 75g alcohol
+    /// (75 / 40 = 1.0 saturated). The ratio naturally captures within-substance
+    /// proportionality while the `min(1.0, …)` cap handles overdose cases.
+    ///
+    /// Falls back to looser references (strong upper, common upper × 1.5, etc.)
+    /// when heavy isn't defined, so substances with partial data still produce
+    /// a sensible scale. Returns a neutral 0.60 (mid-common-ish) when no dose
+    /// range information is available at all — we'd rather show "unknown" as
+    /// a moderate curve than peg it at the top of the graph where it would
+    /// wrongly dominate every other dose.
+    static let unknownIntensity: Double = 0.60
+
+    /// Floor height so sub-threshold doses still show a visible nub rather
+    /// than disappearing.
+    static let minimumIntensity: Double = 0.05
+
     static func computeDoseIntensity(amount: Double, doseRange: DoseRange?) -> Double {
-        guard let range = doseRange else { return 1.0 }
+        guard let range = doseRange else { return unknownIntensity }
+
         let reference: Double
         if let heavy = range.heavy, heavy > 0 {
             reference = heavy
         } else if let strong = range.strong, strong.upperBound > 0 {
             reference = strong.upperBound
         } else if let common = range.common, common.upperBound > 0 {
-            reference = common.upperBound
+            // Approximate a heavy threshold when only common is defined.
+            reference = common.upperBound * 1.5
+        } else if let light = range.light, light.upperBound > 0 {
+            reference = light.upperBound * 3
+        } else if let threshold = range.threshold, threshold > 0 {
+            reference = threshold * 10
         } else {
-            return 1.0
+            return unknownIntensity
         }
-        return min(1.0, max(0.15, amount / reference))
+        return min(1.0, max(minimumIntensity, amount / reference))
     }
 }

@@ -184,9 +184,12 @@ final class ActiveSessionManager {
         activeEntries.compactMap { item in
             let hex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
             let substance = SubstanceLibrary.lookupByNameOrAlias(item.snapshot.substance)
+            let doseRange = substance.flatMap {
+                ActiveSubstanceState.resolveDoseRange(substance: $0, route: item.snapshot.route)
+            }
             let intensity = ActiveSubstanceState.computeDoseIntensity(
                 amount: item.snapshot.amount,
-                doseRange: substance?.doseRange(for: item.snapshot.route)
+                doseRange: doseRange
             )
             return ActiveSubstanceState(
                 name: item.snapshot.substance,

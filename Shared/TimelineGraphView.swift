@@ -14,6 +14,7 @@ struct TimelineGraphView: View {
     let currentTime: Date
     let compact: Bool
     var markers: [DoseMarker] = []
+    var stackRedoses: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -77,17 +78,18 @@ struct TimelineGraphView: View {
 
     /// Height scale factor combining dose intensity (vs heavy threshold) and
     /// relative scaling when multiple doses of the same substance are present.
+    /// The multi-dose multiplier preserves PsychonautWiki-style behavior where
+    /// a 17g alcohol next to a 34g alcohol renders at roughly half the height.
     private func heightScale(for substance: ActiveSubstanceState) -> Double {
         var scale = substance.doseIntensity
-        // For multiple doses of the same substance, also scale by relative amount
         let key = substance.substanceName.lowercased()
         if let maxDose = maxDoseBySubstance[key], maxDose > 0 {
             let count = substances.filter { $0.substanceName.lowercased() == key }.count
             if count > 1 {
-                scale *= max(0.3, substance.amount / maxDose)
+                scale *= max(0.2, substance.amount / maxDose)
             }
         }
-        return max(0.15, scale)
+        return max(0.05, scale)
     }
 
     private var effectiveZoom: CGFloat {
@@ -259,56 +261,68 @@ struct TimelineGraphView: View {
             }
 
             // Substance curves
-            for substance in substances {
-                let color = Color(hex: substance.colorHex)
-                let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                let scale = heightScale(for: substance)
-
-                let fillPath = intensityFillPath(
-                    for: substance,
-                    substanceOffset: substanceOffset,
+            if stackRedoses {
+                drawStackedCurves(
+                    context: context,
                     visibleStart: vStart,
                     visibleSpan: vSpan,
                     graphWidth: graphWidth,
                     graphHeight: graphHeight,
                     graphInset: graphInset,
-                    graphTop: graphTop,
-                    scale: scale
+                    graphTop: graphTop
                 )
-                context.fill(fillPath, with: .color(color.opacity(0.15)))
+            } else {
+                for substance in substances {
+                    let color = Color(hex: substance.colorHex)
+                    let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                    let scale = heightScale(for: substance)
 
-                let strokePath = intensityStrokePath(
-                    for: substance,
-                    substanceOffset: substanceOffset,
-                    visibleStart: vStart,
-                    visibleSpan: vSpan,
-                    graphWidth: graphWidth,
-                    graphHeight: graphHeight,
-                    graphInset: graphInset,
-                    graphTop: graphTop,
-                    scale: scale
-                )
-                context.stroke(
-                    strokePath,
-                    with: .color(color),
-                    lineWidth: compact ? 1.5 : 2
-                )
+                    let fillPath = intensityFillPath(
+                        for: substance,
+                        substanceOffset: substanceOffset,
+                        visibleStart: vStart,
+                        visibleSpan: vSpan,
+                        graphWidth: graphWidth,
+                        graphHeight: graphHeight,
+                        graphInset: graphInset,
+                        graphTop: graphTop,
+                        scale: scale
+                    )
+                    context.fill(fillPath, with: .color(color.opacity(0.15)))
 
-                let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
-                if elapsed >= 0 && elapsed <= substance.totalMinutes {
-                    let minutePos = substanceOffset + elapsed
-                    let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
-                    let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.93
-                    if x >= -5 && x <= graphWidth + 5 {
-                        let dotSize: CGFloat = compact ? 5 : 7
-                        let dot = Path(ellipseIn: CGRect(
-                            x: x - dotSize / 2,
-                            y: y - dotSize / 2,
-                            width: dotSize,
-                            height: dotSize
-                        ))
-                        context.fill(dot, with: .color(color))
-                        context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                    let strokePath = intensityStrokePath(
+                        for: substance,
+                        substanceOffset: substanceOffset,
+                        visibleStart: vStart,
+                        visibleSpan: vSpan,
+                        graphWidth: graphWidth,
+                        graphHeight: graphHeight,
+                        graphInset: graphInset,
+                        graphTop: graphTop,
+                        scale: scale
+                    )
+                    context.stroke(
+                        strokePath,
+                        with: .color(color),
+                        lineWidth: compact ? 1.5 : 2
+                    )
+
+                    let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
+                    if elapsed >= 0 && elapsed <= substance.totalMinutes {
+                        let minutePos = substanceOffset + elapsed
+                        let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
+                        let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.93
+                        if x >= -5 && x <= graphWidth + 5 {
+                            let dotSize: CGFloat = compact ? 5 : 7
+                            let dot = Path(ellipseIn: CGRect(
+                                x: x - dotSize / 2,
+                                y: y - dotSize / 2,
+                                width: dotSize,
+                                height: dotSize
+                            ))
+                            context.fill(dot, with: .color(color))
+                            context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                        }
                     }
                 }
             }
@@ -439,6 +453,126 @@ struct TimelineGraphView: View {
     private func smoothStep(_ t: Double) -> Double {
         let clamped = max(0, min(1, t))
         return clamped * clamped * (3 - 2 * clamped)
+    }
+
+    // MARK: - Stacked Rendering
+
+    /// Groups substance states by lowercased substance name, preserving original order.
+    private var stackedGroups: [[ActiveSubstanceState]] {
+        var order: [String] = []
+        var buckets: [String: [ActiveSubstanceState]] = [:]
+        for s in substances {
+            let key = s.substanceName.lowercased()
+            if buckets[key] == nil {
+                order.append(key)
+                buckets[key] = [s]
+            } else {
+                buckets[key]?.append(s)
+            }
+        }
+        return order.compactMap { buckets[$0] }
+    }
+
+    /// Summed intensity of a group at a given global time (minutes since earliestDose).
+    /// Each dose contributes `intensity(localT) * doseIntensity`, and the sum is clamped
+    /// to [0, 1] so the curve stays inside the graph bounds even when doses overlap heavily.
+    private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState]) -> Double {
+        var sum = 0.0
+        for dose in group {
+            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+            let local = global - offset
+            guard local >= 0, local < dose.totalMinutes else { continue }
+            sum += intensity(at: local, for: dose) * dose.doseIntensity
+        }
+        return min(1.0, sum)
+    }
+
+    private func stackedGroupRange(_ group: [ActiveSubstanceState]) -> (start: Double, end: Double) {
+        var start = Double.greatestFiniteMagnitude
+        var end = 0.0
+        for dose in group {
+            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+            start = min(start, offset)
+            end = max(end, offset + dose.totalMinutes)
+        }
+        return (start, end)
+    }
+
+    private func drawStackedCurves(
+        context: GraphicsContext,
+        visibleStart: Double,
+        visibleSpan: Double,
+        graphWidth: CGFloat,
+        graphHeight: CGFloat,
+        graphInset: CGFloat,
+        graphTop: CGFloat
+    ) {
+        let baseline = graphTop + graphHeight
+        let steps = compact ? 60 : 200
+
+        for group in stackedGroups {
+            guard let first = group.first else { continue }
+            let color = Color(hex: first.colorHex)
+            let (gStart, gEnd) = stackedGroupRange(group)
+            let gSpan = gEnd - gStart
+            guard gSpan > 0 else { continue }
+
+            // Build a single stacked curve across the group's active window.
+            func point(at i: Int) -> CGPoint {
+                let t = gStart + Double(i) / Double(steps) * gSpan
+                let x = graphInset + CGFloat((t - visibleStart) / visibleSpan) * graphWidth
+                let y = baseline - CGFloat(stackedIntensity(atGlobalMinutes: t, group: group)) * graphHeight * 0.93
+                return CGPoint(x: x, y: y)
+            }
+
+            var fillPath = Path()
+            let startX = graphInset + CGFloat((gStart - visibleStart) / visibleSpan) * graphWidth
+            fillPath.move(to: CGPoint(x: startX, y: baseline))
+            for i in 0...steps { fillPath.addLine(to: point(at: i)) }
+            let endX = graphInset + CGFloat((gEnd - visibleStart) / visibleSpan) * graphWidth
+            fillPath.addLine(to: CGPoint(x: endX, y: baseline))
+            fillPath.closeSubpath()
+            context.fill(fillPath, with: .color(color.opacity(0.15)))
+
+            var strokePath = Path()
+            for i in 0...steps {
+                let p = point(at: i)
+                if i == 0 { strokePath.move(to: p) } else { strokePath.addLine(to: p) }
+            }
+            context.stroke(strokePath, with: .color(color), lineWidth: compact ? 1.5 : 2)
+
+            // Small tick glyphs at each redose time along the baseline so the user
+            // can see where additional doses contributed to the curve.
+            if group.count > 1 && !compact {
+                for dose in group {
+                    let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                    let x = graphInset + CGFloat((offset - visibleStart) / visibleSpan) * graphWidth
+                    guard x >= -5 && x <= graphWidth + 5 else { continue }
+                    var tick = Path()
+                    tick.move(to: CGPoint(x: x, y: baseline))
+                    tick.addLine(to: CGPoint(x: x, y: baseline - 5))
+                    context.stroke(tick, with: .color(color.opacity(0.75)), lineWidth: 1.5)
+                }
+            }
+
+            // Current-time dot on the summed curve.
+            let elapsedGlobal = currentTime.timeIntervalSince(earliestDose) / 60
+            if elapsedGlobal >= gStart && elapsedGlobal <= gEnd {
+                let x = graphInset + CGFloat((elapsedGlobal - visibleStart) / visibleSpan) * graphWidth
+                let y = baseline - CGFloat(stackedIntensity(atGlobalMinutes: elapsedGlobal, group: group)) * graphHeight * 0.93
+                if x >= -5 && x <= graphWidth + 5 {
+                    let dotSize: CGFloat = compact ? 5 : 7
+                    let dot = Path(ellipseIn: CGRect(
+                        x: x - dotSize / 2,
+                        y: y - dotSize / 2,
+                        width: dotSize,
+                        height: dotSize
+                    ))
+                    context.fill(dot, with: .color(color))
+                    context.stroke(dot, with: .color(.white.opacity(0.8)), lineWidth: 1)
+                }
+            }
+        }
     }
 
     // MARK: - Tick Marks
