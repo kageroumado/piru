@@ -344,6 +344,26 @@ enum SubstanceLibrary {
                     heavy: 700
                 )
             )
+        ],
+        // TripSit reports alcohol in ambiguous "units" (1-6 units) — UK/US
+        // standard-drink definitions vary (8g vs 14g), which makes the raw
+        // numbers dangerous as harm-reduction references. PsychonautWiki's
+        // enrichment would normally replace this with grams of ethanol, but
+        // PW has been intermittently down, so pin the canonical oral ethanol
+        // reference directly. Values match PsychonautWiki's public reference:
+        // Threshold 10g (≈ one standard drink), Heavy 60g+ (≈ 4-6 drinks).
+        "alcohol": [
+            DoseOverride(
+                route: .oral,
+                unit: "g",
+                doses: DoseRange(
+                    threshold: 10,
+                    light: 10...20,
+                    common: 20...40,
+                    strong: 40...60,
+                    heavy: 60
+                )
+            )
         ]
     ]
 
