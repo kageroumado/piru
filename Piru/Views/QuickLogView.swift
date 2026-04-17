@@ -10,7 +10,8 @@ struct QuickLogView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
-    @Query(sort: \CustomSubstance.name) private var customSubstances: [CustomSubstance]
+
+    @State private var customSubstanceStore = CustomSubstanceStore.shared
 
     @State private var searchText = ""
     @State private var showCustomForm = false
@@ -21,6 +22,7 @@ struct QuickLogView: View {
     @State private var colorPickerSubstance = ""
     @State private var entryFormPrefill: EntryPrefill?
     @State private var pendingLogAction: (() -> Void)?
+    @State private var pendingCustomPrefill: EntryPrefill?
 
     @State private var multiSelectEnabled = false
     @State private var selectedDoses: [DoseSelection] = []
@@ -127,7 +129,7 @@ struct QuickLogView: View {
         guard !searchText.isEmpty else { return [] }
         let query = searchText.lowercased()
         let libraryNames = Set(cachedLibraryResults.map { $0.name.lowercased() })
-        return customSubstances
+        return customSubstanceStore.all
             .filter { custom in
                 let nameLower = custom.name.lowercased()
                 return nameLower.contains(query)
@@ -217,8 +219,14 @@ struct QuickLogView: View {
             .sheet(item: $medicationCategory) { item in
                 LogMedicationsView(category: item.category)
             }
-            .sheet(isPresented: $showCustomForm) {
-                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces))
+            .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
+                CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
+                    pendingCustomPrefill = EntryPrefill(
+                        substance: saved.name,
+                        route: saved.defaultRoute,
+                        unit: saved.unit
+                    )
+                }
             }
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
@@ -370,7 +378,7 @@ struct QuickLogView: View {
             }
         }
 
-        if !searchText.isEmpty && cachedLibraryResults.isEmpty && nonFavoriteCards.isEmpty {
+        if !searchText.isEmpty && cachedLibraryResults.isEmpty && nonFavoriteCards.isEmpty && filteredCustomSubstances.isEmpty {
             createCustomButton
         }
     }
@@ -698,6 +706,13 @@ struct QuickLogView: View {
         } else {
             dismiss()
         }
+    }
+
+    private func onCustomFormDismiss() {
+        guard let prefill = pendingCustomPrefill else { return }
+        pendingCustomPrefill = nil
+        searchText = ""
+        entryFormPrefill = prefill
     }
 
     // MARK: - Multi-Select

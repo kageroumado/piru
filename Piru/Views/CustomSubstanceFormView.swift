@@ -1,12 +1,12 @@
 import SwiftUI
-import SwiftData
 
 struct CustomSubstanceFormView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @State private var store = CustomSubstanceStore.shared
 
-    var existing: CustomSubstance?
+    var existing: CustomSubstanceEntry?
     var initialName: String?
+    var onSaved: ((CustomSubstanceEntry) -> Void)?
 
     @State private var name: String
     @State private var category: SubstanceCategory
@@ -15,13 +15,16 @@ struct CustomSubstanceFormView: View {
     @State private var notes: String
     @State private var showDuplicateAlert = false
 
-    @Query private var allCustom: [CustomSubstance]
-
     private var isEditing: Bool { existing != nil }
 
-    init(existing: CustomSubstance? = nil, initialName: String? = nil) {
+    init(
+        existing: CustomSubstanceEntry? = nil,
+        initialName: String? = nil,
+        onSaved: ((CustomSubstanceEntry) -> Void)? = nil
+    ) {
         self.existing = existing
         self.initialName = initialName
+        self.onSaved = onSaved
         _name = State(initialValue: existing?.name ?? initialName ?? "")
         _category = State(initialValue: existing?.category ?? .other)
         _defaultRoute = State(initialValue: existing?.defaultRoute ?? .oral)
@@ -103,29 +106,38 @@ struct CustomSubstanceFormView: View {
         let trimmed = name.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
+        let saved: CustomSubstanceEntry
         if let existing {
-            existing.name = trimmed
-            existing.category = category
-            existing.defaultRoute = defaultRoute
-            existing.unit = unit
-            existing.notes = notes
-        } else {
-            let isDuplicate = allCustom.contains {
-                $0.name.lowercased() == trimmed.lowercased()
-            }
-            if isDuplicate {
+            // Editing: allow rename as long as it doesn't collide with a different entry.
+            if let collision = store.first(whereName: trimmed), collision.id != existing.id {
                 showDuplicateAlert = true
                 return
             }
-            let custom = CustomSubstance(
+            var updated = existing
+            updated.name = trimmed
+            updated.category = category
+            updated.defaultRoute = defaultRoute
+            updated.unit = unit
+            updated.notes = notes
+            store.update(updated)
+            saved = updated
+        } else {
+            if store.contains(name: trimmed) {
+                showDuplicateAlert = true
+                return
+            }
+            let entry = CustomSubstanceEntry(
                 name: trimmed,
                 category: category,
                 defaultRoute: defaultRoute,
                 unit: unit,
                 notes: notes
             )
-            modelContext.insert(custom)
+            store.add(entry)
+            saved = entry
         }
+
+        onSaved?(saved)
         dismiss()
     }
 }
