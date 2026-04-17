@@ -1,16 +1,14 @@
 import SwiftUI
-import SwiftData
 
 struct CustomSubstancesListView: View {
-    @Query(sort: \CustomSubstance.name) private var customSubstances: [CustomSubstance]
-    @Environment(\.modelContext) private var modelContext
+    @State private var store = CustomSubstanceStore.shared
 
     @State private var showingForm = false
-    @State private var editingSubstance: CustomSubstance?
+    @State private var editingSubstance: CustomSubstanceEntry?
 
     var body: some View {
         List {
-            if customSubstances.isEmpty {
+            if store.all.isEmpty {
                 ContentUnavailableView(
                     "No Custom Substances",
                     systemImage: "flask",
@@ -18,7 +16,7 @@ struct CustomSubstancesListView: View {
                 )
                 .listRowBackground(Color.clear)
             } else {
-                ForEach(customSubstances) { substance in
+                ForEach(store.all) { substance in
                     Button {
                         editingSubstance = substance
                     } label: {
@@ -47,10 +45,8 @@ struct CustomSubstancesListView: View {
                         }
                     }
                 }
-                .onDelete { indexSet in
-                    for index in indexSet {
-                        modelContext.delete(customSubstances[index])
-                    }
+                .onDelete { offsets in
+                    store.delete(at: offsets)
                 }
                 .listRowBackground(Theme.cardBackground)
             }

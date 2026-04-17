@@ -5,11 +5,12 @@ import UniformTypeIdentifiers
 struct SettingsView: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
-    @Query private var customSubstances: [CustomSubstance]
+    @State private var customSubstanceStore = CustomSubstanceStore.shared
     @Environment(\.modelContext) private var modelContext
 
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
+    @AppStorage("stackRedoses") private var stackRedoses = false
 
     @State private var showingExporter = false
     @State private var showingReport = false
@@ -43,7 +44,7 @@ struct SettingsView: View {
                     HStack {
                         Label("Custom Substances", systemImage: "flask")
                         Spacer()
-                        Text("\(customSubstances.count)")
+                        Text("\(customSubstanceStore.all.count)")
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
@@ -74,6 +75,17 @@ struct SettingsView: View {
                 Text("Harm Reduction")
             } footer: {
                 Text("Wellness reminders send hydration and sleep nudges automatically when you log a dose.")
+            }
+
+            Section {
+                Toggle(isOn: $stackRedoses) {
+                    Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
+                }
+                .tint(Theme.accent)
+            } header: {
+                Text("Timeline")
+            } footer: {
+                Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
             }
 
             Section("Substance Colors") {
