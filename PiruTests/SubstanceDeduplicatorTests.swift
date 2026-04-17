@@ -252,6 +252,43 @@ struct SubstanceDeduplicatorTests {
         #expect(merged.routes.count == 2)
     }
 
+    @Test("Merge preserves duration when the other source wins on doses")
+    func mergePreservesDurationAcrossSources() {
+        // Mirrors DXM's merge path: TripSit supplies duration but no usable
+        // doses (mg/kg-scaled → empty), DailyMed supplies real doses in a
+        // clinical unit but no pharmacokinetics. Whichever side wins the
+        // dose score, duration must survive.
+        let duration = DurationProfile(
+            onset: TimeRange(min: 30, max: 60),
+            comeup: TimeRange(min: 30, max: 60),
+            peak: TimeRange(min: 120, max: 240),
+            offset: TimeRange(min: 120, max: 240),
+            afterglow: TimeRange(min: 240, max: 720),
+            total: TimeRange(min: 360, max: 600)
+        )
+        let durationOnlyRoute = SubstanceRoute(
+            route: .oral,
+            unit: "mg",
+            doses: DoseRange(),
+            duration: duration
+        )
+        let dosesOnlyRoute = SubstanceRoute(
+            route: .oral,
+            unit: "mL",
+            doses: DoseRange(threshold: 15, light: 15...30, common: 30...60, strong: 60...120, heavy: 120),
+            duration: nil
+        )
+        let tripSit = makeSubstance(name: "Dextromethorphan", routes: [durationOnlyRoute], sources: ["TripSit"])
+        let dailyMed = makeSubstance(name: "Dextromethorphan", routes: [dosesOnlyRoute], sources: ["DailyMed"])
+
+        let mergedA = SubstanceDeduplicator.mergeSubstances(tripSit, dailyMed)
+        let mergedB = SubstanceDeduplicator.mergeSubstances(dailyMed, tripSit)
+
+        // Whichever side was primary, the merged oral route keeps the duration.
+        #expect(mergedA.routes.first?.duration?.total?.min == 360)
+        #expect(mergedB.routes.first?.duration?.total?.min == 360)
+    }
+
     @Test("Merge combines effects without duplicates")
     func mergeCombinesEffects() {
         let a = makeSubstance(name: "Test", effects: ["euphoria", "alertness"])

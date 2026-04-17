@@ -175,10 +175,7 @@ enum SubstanceDeduplicator {
         var routes = primary.routes
         for r in secondary.routes {
             if let idx = routes.firstIndex(where: { $0.route == r.route }) {
-                // Replace if secondary has better data for this route
-                if routeDataScore(r) > routeDataScore(routes[idx]) {
-                    routes[idx] = r
-                }
+                routes[idx] = mergeRoutes(routes[idx], r)
             } else {
                 routes.append(r)
             }
@@ -200,6 +197,43 @@ enum SubstanceDeduplicator {
             sources: mergedSources,
             mechanismOfAction: primary.mechanismOfAction ?? secondary.mechanismOfAction
         )
+    }
+
+    /// Merge two routes for the same administration path, keeping the best dose
+    /// data from either source and the best duration data from either source
+    /// independently. Replacing a route wholesale (as we used to) silently
+    /// discarded whichever field the winning source didn't have — e.g. DXM's
+    /// TripSit duration vanishing because DailyMed's oral syrup had denser
+    /// dose text but no pharmacokinetics.
+    static func mergeRoutes(_ a: SubstanceRoute, _ b: SubstanceRoute) -> SubstanceRoute {
+        let doseWinner = routeDataScore(a) >= routeDataScore(b) ? a : b
+        let duration: DurationProfile? = {
+            switch (a.duration, b.duration) {
+            case let (ad?, bd?):
+                return durationPhaseCount(ad) >= durationPhaseCount(bd) ? ad : bd
+            case let (ad?, nil): return ad
+            case let (nil, bd?): return bd
+            case (nil, nil): return nil
+            }
+        }()
+        return SubstanceRoute(
+            route: a.route,
+            unit: doseWinner.unit,
+            doses: doseWinner.doses,
+            duration: duration
+        )
+    }
+
+    /// Count how many phase ranges a DurationProfile has populated.
+    static func durationPhaseCount(_ d: DurationProfile) -> Int {
+        var count = 0
+        if d.onset != nil { count += 1 }
+        if d.comeup != nil { count += 1 }
+        if d.peak != nil { count += 1 }
+        if d.offset != nil { count += 1 }
+        if d.afterglow != nil { count += 1 }
+        if d.total != nil { count += 1 }
+        return count
     }
 
     /// Score how complete a single route's data is — used to pick the better source

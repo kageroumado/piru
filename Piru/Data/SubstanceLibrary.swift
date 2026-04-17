@@ -270,8 +270,120 @@ enum SubstanceLibrary {
         }
     }
 
+    // MARK: - Dose Overrides
+
+    /// A substance-specific replacement for a single route's dose data. Applied
+    /// after every merge to ensure source fixes can't be clobbered by later
+    /// enrichment (e.g. PsychonautWiki) that would otherwise win on data completeness.
+    private struct DoseOverride {
+        let route: RouteOfAdministration
+        let unit: String
+        let doses: DoseRange
+    }
+
+    /// Per-substance dose overrides keyed by lowercased name. Each route listed
+    /// here is replaced wholesale; any duration data TripSit/PW provided for the
+    /// same route is preserved.
+    private static let doseOverrides: [String: [DoseOverride]] = [
+        // TripSit's smoked cannabis doses (Light 10-20mg, Common 20-60mg,
+        // Strong 60-100mg+) don't match either mg-of-THC or a plausible
+        // flower-weight interpretation. Replace with PsychonautWiki's
+        // canonical inhaled THC reference.
+        "cannabis": [
+            DoseOverride(
+                route: .inhalation,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 0.4,
+                    light: 0.4...2,
+                    common: 2...4,
+                    strong: 4...10,
+                    heavy: 10
+                )
+            ),
+            // Oral (edibles) — TripSit provides oral duration but no oral doses.
+            // Numbers align with PsychonautWiki's oral THC reference and
+            // standard dispensary single-serving sizing (≈10 mg = one edible).
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 2.5,
+                    light: 2.5...5,
+                    common: 5...15,
+                    strong: 15...30,
+                    heavy: 30
+                )
+            ),
+            // Sublingual (tinctures/oromucosal sprays) — faster onset and
+            // partial first-pass bypass put potencies between inhaled and oral.
+            DoseOverride(
+                route: .sublingual,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 1,
+                    light: 1...2.5,
+                    common: 2.5...10,
+                    strong: 10...20,
+                    heavy: 20
+                )
+            )
+        ],
+        // TripSit serves DXM in mg/kg (now filtered upstream); DailyMed's syrup
+        // labels make unit detection land on "mL". Pin to PsychonautWiki's
+        // canonical oral DXM HBr reference so the display is always mg.
+        "dextromethorphan": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 75,
+                    light: 100...200,
+                    common: 200...400,
+                    strong: 400...700,
+                    heavy: 700
+                )
+            )
+        ]
+    ]
+
+    private static func applyDoseOverrides(_ substances: [Substance]) -> [Substance] {
+        substances.map { s in
+            guard let overrides = doseOverrides[s.name.lowercased()] else { return s }
+
+            var routes = s.routes
+            for override in overrides {
+                let replacement = SubstanceRoute(
+                    route: override.route,
+                    unit: override.unit,
+                    doses: override.doses,
+                    duration: routes.first { $0.route == override.route }?.duration
+                )
+                if let idx = routes.firstIndex(where: { $0.route == override.route }) {
+                    routes[idx] = replacement
+                } else {
+                    routes.append(replacement)
+                }
+            }
+
+            return Substance(
+                name: s.name,
+                aliases: s.aliases,
+                category: s.category,
+                defaultRoute: s.defaultRoute,
+                routes: routes,
+                effects: s.effects,
+                subjectiveEffects: s.subjectiveEffects,
+                toleranceInfo: s.toleranceInfo,
+                halfLifeMinutes: s.halfLifeMinutes,
+                sources: s.sources,
+                mechanismOfAction: s.mechanismOfAction
+            )
+        }
+    }
+
     @MainActor private static func updateAll(_ substances: [Substance]) {
-        all = substances
+        all = applyDoseOverrides(substances)
         byCategory = Dictionary(grouping: all, by: \.category)
         nonEmptyCategories = SubstanceCategory.allCases.filter { byCategory[$0] != nil }
         nameLookup = Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
@@ -305,7 +417,8 @@ enum SubstanceLibrary {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let url = dir.appendingPathComponent("substances_cache.json")
         guard let data = try? Data(contentsOf: url) else { return nil }
-        return try? JSONDecoder().decode([Substance].self, from: data)
+        guard let decoded = try? JSONDecoder().decode([Substance].self, from: data) else { return nil }
+        return applyDoseOverrides(decoded)
     }
 
     private static func clearCache() {

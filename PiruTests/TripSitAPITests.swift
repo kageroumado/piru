@@ -142,6 +142,48 @@ struct TripSitAPITests {
         #expect(rectalDuration?.onset?.max == 20)
     }
 
+    @Test("mg/kg-scaled doses produce route with empty doses but preserved duration")
+    func kgScaledDosesKeepDuration() throws {
+        // Mirrors TripSit's DXM payload: doses are body-weight-scaled, but
+        // duration is still a usable per-route pharmacokinetic profile.
+        let drug = try decodeDrug("""
+        {
+            "name": "dxm",
+            "pretty_name": "Dextromethorphan",
+            "categories": ["dissociative"],
+            "properties": {
+                "onset": "Oral: 30-60 minutes",
+                "duration": "Oral: 4-8 hours"
+            },
+            "formatted_dose": {
+                "Oral": {
+                    "Light": "1.5-2.5mg/kg",
+                    "Common": "2.5-7.5mg/kg",
+                    "Strong": "7.5-15mg/kg"
+                }
+            }
+        }
+        """)
+        let substance = TripSitAPI.toSubstance(drug)
+
+        // Route is preserved (not silently dropped)
+        #expect(substance.routes.contains { $0.route == .oral })
+
+        // Doses are intentionally empty — the mg/kg values would be dangerously
+        // misinterpreted as absolute mg. A per-substance override supplies them.
+        let oral = substance.routes.first { $0.route == .oral }
+        #expect(oral?.doses.threshold == nil)
+        #expect(oral?.doses.light == nil)
+        #expect(oral?.doses.common == nil)
+
+        // Duration survives — this is the whole point of the fix.
+        let duration = substance.duration(for: .oral)
+        #expect(duration?.total?.min == 240)
+        #expect(duration?.total?.max == 480)
+        #expect(duration?.onset?.min == 30)
+        #expect(duration?.onset?.max == 60)
+    }
+
     @Test("Route with onset but no duration still produces a profile")
     func onsetOnlyRoute() throws {
         let drug = try decodeDrug("""
