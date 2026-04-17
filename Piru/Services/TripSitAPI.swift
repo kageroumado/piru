@@ -141,11 +141,19 @@ struct TripSitAPI {
         if let doseInfo = drug.formatted_dose {
             for (routeName, levels) in doseInfo {
                 let route = RouteOfAdministration.from(string: routeName)
-                let doseRange = parseDoseRange(levels)
-                let unit = extractUnit(from: levels) ?? "mg"
                 let routeOnset = onsetByRoute[route] ?? fallbackOnset
                 let routeTotal = durationByRoute[route] ?? fallbackDuration
                 let durationProfile = buildDurationProfile(onsetRange: routeOnset, totalRange: routeTotal)
+
+                // Body-weight-scaled doses ("1.5-2.5mg/kg") can't be rendered as
+                // absolute amounts without the user's weight, and pretending they
+                // are would be dangerously misleading (e.g. DXM). Emit the route
+                // with empty doses so duration/timeline rendering still works and
+                // a per-substance dose override or another source can supply
+                // correct absolute doses.
+                let hasKgScaled = levels.values.contains(where: { $0.lowercased().contains("/kg") })
+                let doseRange = hasKgScaled ? DoseRange() : parseDoseRange(levels)
+                let unit = extractUnit(from: levels) ?? "mg"
                 routes.append(SubstanceRoute(route: route, unit: unit, doses: doseRange, duration: durationProfile))
             }
         }
