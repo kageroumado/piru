@@ -125,6 +125,12 @@ struct SubstanceDeduplicatorTests {
         #expect(SubstanceDeduplicator.knownAliases["acetaminophen"] == "paracetamol")
     }
 
+    @Test("Alcohol/Ethanol maps bidirectionally so oral-ethanol data merges with alcohol")
+    func alcoholEthanolAlias() {
+        #expect(SubstanceDeduplicator.knownAliases["alcohol"] == "ethanol")
+        #expect(SubstanceDeduplicator.knownAliases["ethanol"] == "alcohol")
+    }
+
     @Test("Known aliases map contains expected entries")
     func knownAliasesContainsExpected() {
         let aliases = SubstanceDeduplicator.knownAliases

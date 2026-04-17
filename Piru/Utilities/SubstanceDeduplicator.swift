@@ -72,6 +72,8 @@ enum SubstanceDeduplicator {
         "epinephrine": "adrenaline",
         "noradrenaline": "norepinephrine",
         "norepinephrine": "noradrenaline",
+        "alcohol": "ethanol",
+        "ethanol": "alcohol",
     ]
 
     // MARK: - Deduplication
