@@ -6,6 +6,7 @@ struct DayDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
+    @AppStorage("stackRedoses") private var stackRedoses = false
 
     @State private var showingForm = false
     @State private var entryToEdit: DoseEntry?
@@ -110,7 +111,8 @@ struct DayDetailView: View {
                                     substances: substanceStates,
                                     currentTime: .now,
                                     compact: false,
-                                    markers: doseMarkers
+                                    markers: doseMarkers,
+                                    stackRedoses: stackRedoses
                                 )
                                 .frame(height: 160)
                             }

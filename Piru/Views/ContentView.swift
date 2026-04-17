@@ -308,6 +308,7 @@ private extension View {
 
 private struct SessionAccessoryView: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
+    @AppStorage("stackRedoses") private var stackRedoses = false
 
     let states: [ActiveSubstanceState]
     let isLiveActivityRunning: Bool
@@ -324,7 +325,8 @@ private struct SessionAccessoryView: View {
                         TimelineGraphView(
                             substances: states,
                             currentTime: currentTime,
-                            compact: true
+                            compact: true,
+                            stackRedoses: stackRedoses
                         )
                         .frame(width: 60, height: 36)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
