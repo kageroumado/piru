@@ -10,7 +10,7 @@ struct SettingsView: View {
 
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
-    @AppStorage("stackRedoses") private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     @State private var showingExporter = false
     @State private var showingReport = false

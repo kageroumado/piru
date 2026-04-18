@@ -308,7 +308,7 @@ private extension View {
 
 private struct SessionAccessoryView: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
-    @AppStorage("stackRedoses") private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     let states: [ActiveSubstanceState]
     let isLiveActivityRunning: Bool
