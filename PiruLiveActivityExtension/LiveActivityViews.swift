@@ -7,6 +7,9 @@ import WidgetKit
 struct LockScreenView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var stackRedoses = false
+
     private var substances: [ActiveSubstanceState] {
         context.state.activeSubstances
     }
@@ -34,7 +37,8 @@ struct LockScreenView: View {
             TimelineGraphView(
                 substances: substances,
                 currentTime: context.state.lastUpdated,
-                compact: true
+                compact: true,
+                stackRedoses: stackRedoses
             )
             .frame(height: 80)
 
@@ -101,11 +105,15 @@ struct ExpandedTrailingView: View {
 struct ExpandedBottomView: View {
     let context: ActivityViewContext<PiruActivityAttributes>
 
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru"))
+    private var stackRedoses = false
+
     var body: some View {
         TimelineGraphView(
             substances: context.state.activeSubstances,
             currentTime: context.state.lastUpdated,
-            compact: true
+            compact: true,
+            stackRedoses: stackRedoses
         )
         .frame(height: 50)
     }

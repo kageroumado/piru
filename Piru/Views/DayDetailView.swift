@@ -6,7 +6,7 @@ struct DayDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
-    @AppStorage("stackRedoses") private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     @State private var showingForm = false
     @State private var entryToEdit: DoseEntry?
