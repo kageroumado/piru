@@ -16,3 +16,8 @@ Tools/SubstanceValidator/.build
 
 # Backup files
 AppIcon_backup.png
+*.bak
+*.bak2
+
+# Certificates (Apple's CAs are public, but no need to vendor them)
+*.cer
