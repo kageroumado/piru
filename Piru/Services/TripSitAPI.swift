@@ -156,10 +156,27 @@ struct TripSitAPI {
                 // a per-substance dose override or another source can supply
                 // correct absolute doses.
                 let hasKgScaled = levels.values.contains(where: { $0.lowercased().contains("/kg") })
-                let doseRange = hasKgScaled ? DoseRange() : parseDoseRange(levels)
-                let unit = extractUnit(from: levels) ?? "mg"
+                let (doseRange, unit) = hasKgScaled
+                    ? (DoseRange(), "mg")
+                    : parseDoseRangeAndUnit(levels)
                 routes.append(SubstanceRoute(route: route, unit: unit, doses: doseRange, duration: durationProfile))
             }
+        }
+
+        // TripSit often ships per-route duration data for routes that have no
+        // dose data (e.g. cannabis publishes both Smoked and Oral timings but
+        // only Smoked dose ranges). Without these dose-less routes the
+        // single-route fallback in Substance.resolveDuration would hand the
+        // user one route's timing for an entirely different ROA. Materialise
+        // any leftover timed routes here so each ROA carries its own timeline.
+        let coveredRoutes = Set(routes.map(\.route))
+        let timedRoutes = Set(onsetByRoute.keys).union(durationByRoute.keys)
+        for route in timedRoutes.subtracting(coveredRoutes) {
+            let durationProfile = buildDurationProfile(
+                onsetRange: onsetByRoute[route] ?? fallbackOnset,
+                totalRange: durationByRoute[route] ?? fallbackDuration
+            )
+            routes.append(SubstanceRoute(route: route, unit: "mg", doses: DoseRange(), duration: durationProfile))
         }
 
         var halfLifeMinutes: Double? = nil
@@ -184,24 +201,69 @@ struct TripSitAPI {
         )
     }
 
-    private static func parseDoseRange(_ levels: [String: String]) -> DoseRange {
-        func parseValue(_ str: String) -> Double? {
+    /// Mass-unit conversion factors to milligrams. Used to normalise mixed-unit
+    /// dose ranges (e.g. TripSit aspirin: Threshold/Light/Common in mg, Heavy in g).
+    private static let massUnitsToMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1000]
+
+    /// Detect the unit substring in a TripSit dose-level string. Returns nil if no
+    /// recognized unit is present (the caller then assumes the prevailing unit).
+    private static func detectUnit(_ value: String) -> String? {
+        let cleaned = value.lowercased()
+        if cleaned.contains("ug") || cleaned.contains("µg") { return "µg" }
+        if cleaned.contains("mg") { return "mg" }
+        if cleaned.contains("ml") { return "mL" }
+        if cleaned.contains("unit") { return "units" }
+        if cleaned.contains("hit") { return "hits" }
+        if cleaned.contains("drink") { return "drinks" }
+        // 'g' check has to come after mg/µg so they don't fall through.
+        if cleaned.hasSuffix("g") || cleaned.contains(" g") { return "g" }
+        return nil
+    }
+
+    /// Parse a TripSit dose-level dictionary into a DoseRange plus the canonical
+    /// unit it's expressed in. Per-level units are detected individually and, if
+    /// they mix across mass units, all values are converted to the smallest unit
+    /// present (preserving precision). Non-mass units (units/hits/drinks/mL) pass
+    /// through unchanged — they shouldn't mix with mass units in practice.
+    private static func parseDoseRangeAndUnit(_ levels: [String: String]) -> (DoseRange, String) {
+        func parseFirst(_ str: String) -> Double? {
             let cleaned = str.replacingOccurrences(of: "[^0-9.]", with: " ", options: .regularExpression)
             return cleaned.split(separator: " ").compactMap { Double($0) }.first
         }
-        func parseMax(_ str: String) -> Double? {
+        func parseLast(_ str: String) -> Double? {
             let cleaned = str.replacingOccurrences(of: "[^0-9.]", with: " ", options: .regularExpression)
             let nums = cleaned.split(separator: " ").compactMap { Double($0) }
             return nums.count > 1 ? nums.last : nums.first
         }
 
-        let threshold = levels["Threshold"].flatMap { parseValue($0) }
-        let light = levels["Light"].flatMap { parseMax($0) }
-        let common = levels["Common"].flatMap { parseMax($0) }
-        let strong = levels["Strong"].flatMap { parseMax($0) }
-        let heavy = levels["Heavy"].flatMap { parseValue($0) }
+        // Detect a unit per level; choose canonical unit.
+        let perLevelUnit = levels.compactMapValues { detectUnit($0) }
+        let presentUnits = Set(perLevelUnit.values)
+        let canonicalUnit: String = {
+            if presentUnits.count == 1, let u = presentUnits.first { return u }
+            // Mixed mass units → normalise to the smallest present (preserves precision).
+            let massPresent = presentUnits.intersection(massUnitsToMg.keys)
+            if !massPresent.isEmpty {
+                return massPresent.min { massUnitsToMg[$0]! < massUnitsToMg[$1]! } ?? "mg"
+            }
+            return perLevelUnit.values.first ?? "mg"
+        }()
 
-        // Build ranges from threshold->light, light->common, etc.
+        func scaled(_ raw: Double?, in levelKey: String) -> Double? {
+            guard let raw else { return nil }
+            guard let levelUnit = perLevelUnit[levelKey],
+                  let from = massUnitsToMg[levelUnit],
+                  let to = massUnitsToMg[canonicalUnit],
+                  levelUnit != canonicalUnit else { return raw }
+            return raw * from / to
+        }
+
+        let threshold = scaled(levels["Threshold"].flatMap(parseFirst), in: "Threshold")
+        let light = scaled(levels["Light"].flatMap(parseLast), in: "Light")
+        let common = scaled(levels["Common"].flatMap(parseLast), in: "Common")
+        let strong = scaled(levels["Strong"].flatMap(parseLast), in: "Strong")
+        let heavy = scaled(levels["Heavy"].flatMap(parseFirst), in: "Heavy")
+
         let lightRange: ClosedRange<Double>? = {
             guard let l = light else { return nil }
             let lower = threshold ?? l * 0.5
@@ -221,28 +283,14 @@ struct TripSitAPI {
             return lower...s
         }()
 
-        return DoseRange(
+        let range = DoseRange(
             threshold: threshold,
             light: lightRange,
             common: commonRange,
             strong: strongRange,
             heavy: heavy ?? strong.map { $0 * 1.5 }
         )
-    }
-
-    private static func extractUnit(from levels: [String: String]) -> String? {
-        for value in levels.values {
-            let cleaned = value.lowercased()
-            if cleaned.contains("ug") || cleaned.contains("µg") { return "µg" }
-            if cleaned.contains("mg") { return "mg" }
-            if cleaned.contains("ml") { return "mL" }
-            // Non-standard TripSit units (standard drinks, inhalation hits)
-            if cleaned.contains("unit") { return "units" }
-            if cleaned.contains("hit") { return "hits" }
-            if cleaned.contains("drink") { return "drinks" }
-            if cleaned.hasSuffix("g") || cleaned.contains(" g") { return "g" }
-        }
-        return nil
+        return (range, canonicalUnit)
     }
 
     /// Parse a TripSit duration/onset string like "4-8 hours" or "30-60 minutes" into a DurationRange in minutes.
