@@ -270,7 +270,7 @@ enum DayLogImageExporter {
                 nameStr.draw(at: CGPoint(x: x + 8, y: y + 4))
                 
                 let totalStr = NSAttributedString(
-                    string: "\(formatDose(dose.total)) \(dose.unit) (\(dose.count)×)",
+                    string: "\(dose.total.doseFormatted) \(dose.unit) (\(dose.count)×)",
                     attributes: [
                         .font: Fonts.totalLabel,
                         .foregroundColor: Palette.accent
@@ -340,7 +340,7 @@ enum DayLogImageExporter {
             innerY += 24
             
             // Dose + route + level
-            var doseString = "\(formatDose(entry.amount)) \(entry.unit) — \(entry.route.displayName)"
+            var doseString = "\(entry.amount.doseFormatted) \(entry.unit) — \(entry.route.displayName)"
             if let level = entry.doseLevel {
                 doseString += " (\(level.rawValue))"
             }
@@ -446,18 +446,6 @@ enum DayLogImageExporter {
         return formatter.string(from: date)
     }
     
-    private static func formatDose(_ value: Double) -> String {
-        if value == value.rounded() && value < 10000 {
-            return String(format: "%.0f", value)
-        } else if value < 1 {
-            return String(format: "%.3f", value)
-        } else if value < 10 {
-            return String(format: "%.2f", value)
-        } else {
-            return String(format: "%.1f", value)
-        }
-    }
-    
     private static func drawRoundedRect(context: CGContext, rect: CGRect, radius: CGFloat, color: UIColor) {
         let path = UIBezierPath(roundedRect: rect, cornerRadius: radius)
         context.saveGState()
@@ -478,20 +466,3 @@ enum DayLogImageExporter {
     }
 }
 
-// MARK: - UIColor Hex Init
-
-private extension UIColor {
-    convenience init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let r, g, b: UInt64
-        switch hex.count {
-        case 6:
-            (r, g, b) = ((int >> 16) & 0xFF, (int >> 8) & 0xFF, int & 0xFF)
-        default:
-            (r, g, b) = (0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
-    }
-}
