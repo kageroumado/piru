@@ -64,6 +64,7 @@ enum RampDownScheduler {
     private static let hydrationCategoryID = "hydration"
     private static let sleepCategoryID = "sleepReminder"
     private static let cumulativeCategoryID = "cumulativeDose"
+    private static let phaseCategoryID = "phaseAlert"
 
     /// Groups doses within 6-hour windows into the same notification thread.
     static func sessionIdentifier(for doseTime: Date) -> String {
@@ -75,6 +76,11 @@ enum RampDownScheduler {
     /// Whether automatic wellness notifications (hydration, sleep) are enabled.
     static var wellnessNotificationsEnabled: Bool {
         UserDefaults.standard.object(forKey: "wellnessNotificationsEnabled") as? Bool ?? false
+    }
+
+    /// Whether per-phase notifications (onset / come-up / peak) are enabled.
+    static var phaseNotificationsEnabled: Bool {
+        UserDefaults.standard.object(forKey: "phaseNotificationsEnabled") as? Bool ?? false
     }
 
     // MARK: - Comedown Timing
@@ -345,6 +351,103 @@ enum RampDownScheduler {
             "\(sleepCategoryID)_\(ts)",
         ]
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+    }
+
+    // MARK: - Phase Notifications
+
+    /// One of the pharmacokinetic phases that gets its own notification.
+    enum Phase: String, CaseIterable {
+        case onset, comeup, peak
+
+        var displayName: String {
+            switch self {
+            case .onset: "Onset"
+            case .comeup: "Come-up"
+            case .peak: "Peak"
+            }
+        }
+    }
+
+    /// Schedule notifications at the start of each pharmacokinetic phase.
+    ///
+    /// - **Onset**: fires 1 minute after the dose (a confirmation that tracking
+    ///   has begun and a heads-up that effects will start within onset-min /
+    ///   onset-max minutes).
+    /// - **Come-up**: fires at `onsetEnd` minutes (when the come-up phase
+    ///   begins — typically the first perceptible effects).
+    /// - **Peak**: fires at `comeupEnd` minutes (when the peak phase begins).
+    ///
+    /// Requires a `DurationProfile` with usable phase data; phases that are
+    /// nil in the profile are skipped silently. All requests share the dose's
+    /// session thread so iOS groups them.
+    static func schedulePhaseNotifications(
+        substanceName: String,
+        doseTime: Date,
+        duration: DurationProfile?
+    ) {
+        guard phaseNotificationsEnabled, let duration else { return }
+        let threadId = sessionIdentifier(for: doseTime)
+
+        Task {
+            let granted = await requestPermissionIfNeeded()
+            guard granted else { return }
+
+            let boundaries = duration.phaseBoundaries
+            let onsetEndSec = boundaries.onsetEnd * 60
+            let comeupEndSec = boundaries.comeupEnd * 60
+
+            func body(for phase: Phase) -> String {
+                switch phase {
+                case .onset:
+                    if let onset = duration.onset {
+                        return "Effects should start within \(Int(onset.min))-\(Int(onset.max)) minutes."
+                    }
+                    return "Tracking started. Effects on the way."
+                case .comeup:
+                    return "First effects starting now. Find your spot."
+                case .peak:
+                    return "Peak is hitting. Stay safe and aware."
+                }
+            }
+
+            schedulePhase(.onset, of: substanceName, delaySec: 60, body: body(for: .onset), doseTime: doseTime, threadId: threadId)
+            if onsetEndSec > 0 {
+                schedulePhase(.comeup, of: substanceName, delaySec: onsetEndSec, body: body(for: .comeup), doseTime: doseTime, threadId: threadId)
+            }
+            if comeupEndSec > 0 && comeupEndSec > onsetEndSec {
+                schedulePhase(.peak, of: substanceName, delaySec: comeupEndSec, body: body(for: .peak), doseTime: doseTime, threadId: threadId)
+            }
+        }
+    }
+
+    /// Cancel any pending phase notifications for a given dose.
+    static func cancelPhaseNotifications(for doseTimestamp: Date) {
+        let ts = Int(doseTimestamp.timeIntervalSince1970)
+        let ids = Phase.allCases.map { "\(phaseCategoryID)_\($0.rawValue)_\(ts)" }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+    }
+
+    private static func schedulePhase(
+        _ phase: Phase,
+        of substance: String,
+        delaySec: TimeInterval,
+        body: String,
+        doseTime: Date,
+        threadId: String
+    ) {
+        let absoluteInterval = doseTime.addingTimeInterval(delaySec).timeIntervalSince(.now)
+        // Don't schedule phases that have already passed (e.g. backfilling an
+        // old entry) or that are too imminent for the user to react to.
+        guard absoluteInterval > 5 else { return }
+
+        scheduleSimpleNotification(
+            id: "\(phaseCategoryID)_\(phase.rawValue)_\(Int(doseTime.timeIntervalSince1970))",
+            title: "\(substance) — \(phase.displayName)",
+            body: body,
+            timeInterval: absoluteInterval,
+            category: phaseCategoryID,
+            threadId: threadId
+        )
     }
 
     // MARK: - Notification Helpers

@@ -884,6 +884,11 @@ struct QuickLogView: View {
             duration: duration,
             recentStimHours: stimHours
         )
+        RampDownScheduler.schedulePhaseNotifications(
+            substanceName: entry.substance,
+            doseTime: entry.timestamp,
+            duration: duration
+        )
 
         // Check cumulative dose
         let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(

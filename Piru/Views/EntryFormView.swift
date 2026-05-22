@@ -330,6 +330,11 @@ struct EntryFormView: View {
                 duration: duration,
                 recentStimHours: stimHours
             )
+            RampDownScheduler.schedulePhaseNotifications(
+                substanceName: substance,
+                doseTime: timestamp,
+                duration: duration
+            )
 
             let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
                 substanceName: substance,

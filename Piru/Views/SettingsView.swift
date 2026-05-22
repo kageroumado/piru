@@ -10,6 +10,7 @@ struct SettingsView: View {
 
     @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
+    @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     @State private var showingExporter = false
@@ -71,10 +72,14 @@ struct SettingsView: View {
                     Label("Wellness Reminders", systemImage: "heart.text.clipboard")
                 }
                 .tint(Theme.accent)
+                Toggle(isOn: $phaseNotificationsEnabled) {
+                    Label("Phase Notifications", systemImage: "bell.badge.waveform")
+                }
+                .tint(Theme.accent)
             } header: {
                 Text("Harm Reduction")
             } footer: {
-                Text("Wellness reminders send hydration and sleep nudges automatically when you log a dose.")
+                Text("Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data.")
             }
 
             Section {
