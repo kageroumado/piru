@@ -53,7 +53,9 @@ final class ActiveSessionManager {
 
         // Fall back to SwiftData
         let context = ModelContext(container)
-        let startOfDay = Calendar.current.startOfDay(for: .now)
+        // Recover from the current session day (configurable cutoff) so a
+        // dose taken at 01:30 still surfaces after a cold launch at 02:00.
+        let startOfDay = Calendar.current.sessionDayStart(for: .now)
         let endOfDay = startOfDay.addingTimeInterval(86400)
 
         let descriptor = FetchDescriptor<DoseEntry>(

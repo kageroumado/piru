@@ -358,7 +358,7 @@ enum DataExportImport {
         let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
 
         let calendar = Calendar.current
-        let grouped = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
+        let grouped = Dictionary(grouping: entries) { calendar.sessionDayStart(for: $0.timestamp) }
 
         let titleFormatter = DateFormatter()
         titleFormatter.dateFormat = "d MMM yyyy"

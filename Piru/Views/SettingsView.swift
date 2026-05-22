@@ -12,6 +12,7 @@ struct SettingsView: View {
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
     @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
+    @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
     @State private var showingExporter = false
     @State private var showingReport = false
@@ -91,6 +92,21 @@ struct SettingsView: View {
                 Text("Timeline")
             } footer: {
                 Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
+            }
+
+            Section {
+                Stepper(value: $dayBoundaryHour, in: 0...12) {
+                    HStack {
+                        Label("Day Starts At", systemImage: "moon.stars")
+                        Spacer()
+                        Text(boundaryHourLabel)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            } header: {
+                Text("Session Day")
+            } footer: {
+                Text("Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping.")
             }
 
             Section("Substance Colors") {
@@ -251,6 +267,15 @@ struct SettingsView: View {
     }
 
     // MARK: - Colors Preview
+
+    private var boundaryHourLabel: String {
+        switch dayBoundaryHour {
+        case 0: "12 AM"
+        case 12: "12 PM"
+        case ..<12: "\(dayBoundaryHour) AM"
+        default: "\(dayBoundaryHour - 12) PM"
+        }
+    }
 
     private var colorsPreview: some View {
         HStack(spacing: -4) {

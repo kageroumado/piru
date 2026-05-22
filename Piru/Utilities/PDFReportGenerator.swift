@@ -368,7 +368,7 @@ enum PDFReportGenerator {
             let daysTaken = Set(
                 entries
                     .filter { $0.substance.lowercased() == dose.substance.lowercased() }
-                    .map { calendar.startOfDay(for: $0.timestamp) }
+                    .map { calendar.sessionDayStart(for: $0.timestamp) }
             ).count
 
             let pct = totalDays > 0 ? Double(daysTaken) / Double(totalDays) * 100 : 0
@@ -823,7 +823,7 @@ enum PDFReportGenerator {
 
     private static func drawUsageLog(_ cursor: inout Cursor, entries: [EntrySnapshot]) {
         let calendar = Calendar.current
-        let grouped = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.timestamp) }
+        let grouped = Dictionary(grouping: entries) { calendar.sessionDayStart(for: $0.timestamp) }
 
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "EEEE, MMM d, yyyy"
