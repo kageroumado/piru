@@ -1,5 +1,8 @@
 import Foundation
 import Observation
+import os
+
+nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceLibrary")
 
 @Observable @MainActor
 final class LibraryLoadingState {
@@ -10,6 +13,40 @@ final class LibraryLoadingState {
     private init() {}
 }
 
+/// The merged, cached, in-memory substance catalogue that powers search,
+/// detail views, and interaction checking.
+///
+/// ## Load pipeline
+///
+/// Data is composed in stages so the UI can render TripSit-only results
+/// immediately while richer sources stream in:
+///
+/// 1. **TripSit** — primary source. Each drug becomes a `Substance` via
+///    `TripSitAPI.toSubstance`; the list is published and the UI unblocks.
+/// 2. **DailyMed** — clinical drugs fetched by name and deduplicated into the
+///    TripSit set via ``SubstanceDeduplicator``.
+/// 3. **`HalfLifeDatabase`** — fills in `halfLifeMinutes` for every substance
+///    missing it (by name or alias, then a duration heuristic as last resort).
+/// 4. **`MechanismOfActionDatabase`** — fills in mechanism strings where
+///    available.
+/// 5. **PsychonautWiki** — runs *after* the cache is saved on a detached
+///    background path. Adds per-route dose ranges, full duration profiles,
+///    subjective effects, and tolerance info without blocking the UI.
+///
+/// ## Caching
+///
+/// The merged set is persisted to `substances_cache.json` in the documents
+/// directory with a 7-day TTL (see ``cacheMaxAge``). On launch the cache is
+/// rehydrated synchronously (so views have data on first frame) and only
+/// re-fetched if stale or `forceRefresh: true`.
+///
+/// ## Concurrency
+///
+/// The entire library is `@MainActor`-isolated. Reads (`all`, ``lookup(_:)``,
+/// ``lookupByNameOrAlias(_:)``, ``search(_:limit:)``) are safe from any
+/// MainActor context. Writes happen only inside ``fetchFromAPIs(forceRefresh:)``
+/// via the private ``updateAll(_:)`` choke point — this is the one-way
+/// mutation invariant the rest of the app relies on.
 enum SubstanceLibrary {
     // MARK: - Data
 
@@ -47,19 +84,19 @@ enum SubstanceLibrary {
             return false
         }
         let age = Date().timeIntervalSince(modDate)
-        print("[SubstanceLibrary] Cache age: \(Int(age / 3600))h \(Int(age.truncatingRemainder(dividingBy: 3600) / 60))m")
+        logger.debug("Cache age: \(Int(age / 3600))h \(Int(age.truncatingRemainder(dividingBy: 3600) / 60))m")
         return age < cacheMaxAge
     }
 
     @MainActor static func fetchFromAPIs(forceRefresh: Bool = false) {
-        print("[SubstanceLibrary] fetchFromAPIs called (force: \(forceRefresh)), starting Task...")
+        logger.info("fetchFromAPIs called (force: \(forceRefresh)), starting Task...")
         Task {
-            print("[SubstanceLibrary] Task started")
+            logger.debug("Task started")
             LibraryLoadingState.shared.substanceCount = all.count
 
             // Skip API fetch if cache is fresh and non-empty (unless forced)
             if !forceRefresh && !all.isEmpty && cacheIsFresh() {
-                print("[SubstanceLibrary] Cache is fresh, skipping API fetch (\(all.count) substances)")
+                logger.info("Cache is fresh, skipping API fetch (\(all.count) substances)")
                 isLoading = false
                 InteractionChecker.rebuildCache()
                 LibraryLoadingState.shared.isLoading = false
@@ -69,7 +106,7 @@ enum SubstanceLibrary {
 
             if forceRefresh {
                 clearCache()
-                print("[SubstanceLibrary] Cache cleared for force refresh")
+                logger.info("Cache cleared for force refresh")
             }
 
             LibraryLoadingState.shared.isLoading = true
@@ -78,9 +115,9 @@ enum SubstanceLibrary {
             let tripSitDrugs: [String: TripSitAPI.TripSitDrug]
             do {
                 tripSitDrugs = try await TripSitAPI.fetchAll()
-                print("[SubstanceLibrary] TripSit: \(tripSitDrugs.count) drugs fetched")
+                logger.info("TripSit: \(tripSitDrugs.count) drugs fetched")
             } catch {
-                print("[SubstanceLibrary] TripSit fetch failed: \(error)")
+                logger.error("TripSit fetch failed: \(error.localizedDescription, privacy: .public)")
                 tripSitDrugs = [:]
             }
 
@@ -89,7 +126,7 @@ enum SubstanceLibrary {
             if !tripSitSubstances.isEmpty {
                 let sorted = tripSitSubstances.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
                 updateAll(sorted)
-                print("[SubstanceLibrary] Stage 1: \(all.count) substances (TripSit)")
+                logger.info("Stage 1: \(all.count) substances (TripSit)")
             }
 
             // Load TripSit combo data into the interaction checker
@@ -104,28 +141,28 @@ enum SubstanceLibrary {
                 let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: clinicalDrugs)
                 updateAll(merged)
             }
-            print("[SubstanceLibrary] Stage 2: \(all.count) substances (TripSit + DailyMed)")
+            logger.info("Stage 2: \(all.count) substances (TripSit + DailyMed)")
 
             // Stage 3: Enrich half-life data from HalfLifeDatabase + duration heuristic
             LibraryLoadingState.shared.statusText = "Enriching half-life data..."
             let enriched = enrichHalfLifeData(all)
             updateAll(enriched)
             let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
-            print("[SubstanceLibrary] Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
+            logger.info("Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
 
             // Stage 4: Enrich mechanism of action data from MechanismOfActionDatabase
             LibraryLoadingState.shared.statusText = "Adding mechanism data..."
             let withMOA = enrichMechanismOfAction(enriched)
             updateAll(withMOA)
             let moaCount = withMOA.filter { $0.mechanismOfAction != nil }.count
-            print("[SubstanceLibrary] Stage 4: \(moaCount)/\(withMOA.count) substances have mechanism of action data")
+            logger.info("Stage 4: \(moaCount)/\(withMOA.count) substances have mechanism of action data")
 
             saveCache(all)
             isLoading = false
             InteractionChecker.rebuildCache()
             LibraryLoadingState.shared.isLoading = false
             LibraryLoadingState.shared.statusText = "Done"
-            print("[SubstanceLibrary] Done! \(all.count) total substances")
+            logger.info("Done! \(all.count) total substances")
 
             // Background enrichment: PsychonautWiki fetches per-route dose ranges,
             // full duration profiles, subjective effects, and tolerance info.
@@ -176,17 +213,17 @@ enum SubstanceLibrary {
 
         guard !pwNames.isEmpty else { return }
 
-        print("[SubstanceLibrary] Background PW enrichment: querying \(pwNames.count) substances...")
+        logger.info("Background PW enrichment: querying \(pwNames.count) substances...")
         let pwSubstances = await PsychonautWikiAPI.fetchSubstances(names: pwNames)
         guard !pwSubstances.isEmpty else {
-            print("[SubstanceLibrary] Background PW enrichment: no results")
+            logger.warning("Background PW enrichment: no results")
             return
         }
 
         let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: pwSubstances)
         updateAll(merged)
         saveCache(all)
-        print("[SubstanceLibrary] Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
+        logger.info("Background PW enrichment: merged \(pwSubstances.count) substances, \(all.count) total")
     }
 
     // MARK: - Half-Life Enrichment
@@ -284,6 +321,14 @@ enum SubstanceLibrary {
     /// Per-substance dose overrides keyed by lowercased name. Each route listed
     /// here is replaced wholesale; any duration data TripSit/PW provided for the
     /// same route is preserved.
+    ///
+    /// These exist because some upstream sources ship dose data in units that
+    /// are ambiguous, label-specific, or actively dangerous if displayed
+    /// verbatim — e.g. TripSit's `units` field for alcohol (UK ~8 g vs US ~14 g
+    /// ethanol per "unit"), or DailyMed DXM syrup labels where mass detection
+    /// lands on "mL". Overrides are applied after every merge, including PW
+    /// enrichment, so a more "complete" downstream source can't silently
+    /// re-introduce the bad units. Duration data from upstream is preserved.
     private static let doseOverrides: [String: [DoseOverride]] = [
         // TripSit's smoked cannabis doses (Light 10-20mg, Common 20-60mg,
         // Strong 60-100mg+) don't match either mg-of-THC or a plausible
@@ -329,9 +374,10 @@ enum SubstanceLibrary {
                 )
             )
         ],
-        // TripSit serves DXM in mg/kg (now filtered upstream); DailyMed's syrup
-        // labels make unit detection land on "mL". Pin to PsychonautWiki's
-        // canonical oral DXM HBr reference so the display is always mg.
+        // TripSit ships DXM doses in mg/kg for some sources, and DailyMed's
+        // syrup labels make unit detection land on "mL" — both interpretations
+        // are unsafe to surface as a harm-reduction reference. Pin to
+        // PsychonautWiki's canonical oral DXM HBr mg reference instead.
         "dextromethorphan": [
             DoseOverride(
                 route: .oral,
@@ -346,12 +392,10 @@ enum SubstanceLibrary {
             )
         ],
         // TripSit reports alcohol in ambiguous "units" (1-6 units) — UK/US
-        // standard-drink definitions vary (8g vs 14g), which makes the raw
-        // numbers dangerous as harm-reduction references. PsychonautWiki's
-        // enrichment would normally replace this with grams of ethanol, but
-        // PW has been intermittently down, so pin the canonical oral ethanol
-        // reference directly. Values match PsychonautWiki's public reference:
-        // Threshold 10g (≈ one standard drink), Heavy 60g+ (≈ 4-6 drinks).
+        // standard-drink definitions vary (8 g vs 14 g of ethanol), which makes
+        // the raw numbers dangerous as a harm-reduction reference. Pin to
+        // PsychonautWiki's canonical oral ethanol values, denominated in grams:
+        // Threshold 10 g (≈ one standard drink), Heavy 60 g+ (≈ 4-6 drinks).
         "alcohol": [
             DoseOverride(
                 route: .oral,
@@ -422,14 +466,14 @@ enum SubstanceLibrary {
 
     @MainActor private static func saveCache(_ substances: [Substance]) {
         guard let data = try? JSONEncoder().encode(substances) else {
-            print("[SubstanceLibrary] Failed to encode cache")
+            logger.error("Failed to encode cache")
             return
         }
         Task.detached(priority: .utility) {
             let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let url = dir.appendingPathComponent("substances_cache.json")
             try? data.write(to: url)
-            print("[SubstanceLibrary] Cache saved (\(data.count) bytes)")
+            logger.debug("Cache saved (\(data.count) bytes)")
         }
     }
 

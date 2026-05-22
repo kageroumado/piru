@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+import os
+
+nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "Interactions")
 
 // MARK: - Interaction Severity
 
@@ -97,6 +100,38 @@ private struct InteractionRule {
 
 // MARK: - Interaction Checker
 
+/// The drug-interaction engine. Resolves substance pairs into severity-ranked
+/// warnings using a three-layer model, returning the worst-case match per pair.
+///
+/// ## Layers
+///
+/// 1. **Class-pair rules** (``rules``) — hand-curated pharmacological rules
+///    keyed by ``DrugClass`` pairs. Resolved through a precomputed lookup
+///    table for O(1) access. This is the primary, most trusted layer.
+/// 2. **TripSit `combos`** — substance-name-keyed combo data loaded from the
+///    TripSit API. Consulted as a fallback when no class rule matches the
+///    pair, providing substance-specific coverage beyond class generalisation.
+/// 3. **FDA labels** — ``SubstanceInteraction`` records parsed from DailyMed
+///    `drug_interactions` sections. These match a known drug name against
+///    keywords describing a target class, supplementing the other layers with
+///    label-derived prescribing information.
+///
+/// ## Severity ordering
+///
+/// ``InteractionSeverity`` orders `dangerous > unsafe > caution`. Batch
+/// deduplication keeps the highest-severity result for each substance pair so
+/// users always see the worst-case warning.
+///
+/// ## Caveats
+///
+/// ``DrugClass/other`` participates in **zero** rules. Any substance that
+/// `categoryToDrugClass` maps to `.other` (analgesics, cardiovascular,
+/// antimicrobials, GI, respiratory, endocrine, immunological, depressants not
+/// otherwise classified, etc.) is effectively interaction-invisible at the
+/// class layer and will only surface warnings if its specific name appears in
+/// a TripSit combo or FDA label record. Add an entry to
+/// ``substanceClassOverrides`` to lift a substance into a real class when a
+/// missing interaction is discovered.
 enum InteractionChecker {
 
     // MARK: - Public API
@@ -408,7 +443,15 @@ enum InteractionChecker {
         case .empathogen: .empathogen
         case .cannabinoid: .cannabinoid
         case .gabapentinoid: .gabapentinoid
-        case .antidepressant: .ssri // Default antidepressants to SSRI class (overrides handle specific subtypes)
+        // Default fallback for the `.antidepressant` category. SSRI is the
+        // most common subtype, so this is the safest serotonergic proxy when
+        // we have no better information. **Failure mode:** any imported MAOI,
+        // SNRI, or TCA that lacks a name/alias hit in
+        // `substanceClassOverrides` will silently land here and be matched
+        // against SSRI rules — missing MAOI×stimulant or SNRI×empathogen
+        // warnings, for instance. When such a gap is discovered, add the
+        // substance to `substanceClassOverrides` with the correct subtype.
+        case .antidepressant: .ssri
         case .antipsychotic: .antipsychotic
         case .supplement: .supplement
         case .nootropic: .other
@@ -472,7 +515,7 @@ enum InteractionChecker {
 
         comboLookup = lookup
         comboNameResolution = nameToKey
-        print("[InteractionChecker] Loaded \(totalCombos) TripSit combo entries from \(lookup.count) substances")
+        logger.info("Loaded \(totalCombos) TripSit combo entries from \(lookup.count) substances")
     }
 
     /// Map TripSit combo status strings to InteractionSeverity.

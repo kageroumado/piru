@@ -1,12 +1,26 @@
 import Foundation
 
-// Sources: DrugBank, Goodman & Gilmans Pharmacological Basis of Therapeutics (14th ed),
-// Stahls Essential Psychopharmacology, PubMed pharmacokinetic studies,
-// FDA-approved prescribing information (DailyMed), TripSit, PsychonautWiki,
-// PiHKAL/TiHKAL (Shulgin), EMCDDA risk assessments, WHO ECDD critical reviews
-
 /// Hardcoded pharmacokinetic half-life data for common substances.
-/// Values are population-average elimination half-lives in minutes.
+///
+/// Values are population-average elimination half-lives expressed in
+/// **minutes**. Many entries reflect the midpoint of a published range rather
+/// than a single canonical figure — half-lives vary substantially with route,
+/// formulation, dose, hepatic metabolism, and genetic polymorphisms (e.g.
+/// CYP2D6 status), so these are best treated as order-of-magnitude estimates
+/// for pharmacokinetic modelling, not clinical references.
+///
+/// ## Sources
+///
+/// - DrugBank
+/// - *Goodman & Gilman's Pharmacological Basis of Therapeutics* (14th ed)
+/// - *Stahl's Essential Psychopharmacology*
+/// - PubMed pharmacokinetic studies
+/// - FDA-approved prescribing information (DailyMed)
+/// - TripSit
+/// - PsychonautWiki
+/// - PiHKAL / TiHKAL (Shulgin)
+/// - EMCDDA risk assessments
+/// - WHO ECDD critical reviews
 enum HalfLifeDatabase {
     // MARK: - Lookup
 

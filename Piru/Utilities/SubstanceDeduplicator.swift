@@ -1,5 +1,31 @@
 import Foundation
+import os
 
+nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "Dedup")
+
+/// Merges substance records from multiple API sources (TripSit, DailyMed,
+/// PsychonautWiki) into a single deduplicated catalogue.
+///
+/// ## Name normalisation
+///
+/// ``normalizeName(_:)`` lowercases the name, strips punctuation and
+/// whitespace, and expands greek-letter prefixes (`α` → `alpha`, etc.).
+/// ``saltStripped(_:)`` then iteratively removes pharmaceutical salt/form
+/// suffixes (`hydrochloride`, `sulfate`, `mesylate`, hydrates, etc.) so that
+/// e.g. "Naloxone hydrochloride" collides with "Naloxone".
+/// ``knownAliases`` covers common synonym pairs (`mdma` ↔
+/// `34methylenedioxymethamphetamine`, `paracetamol` ↔ `acetaminophen`, etc.).
+///
+/// ## Priority
+///
+/// Source ordering for canonical name selection is **TripSit > DailyMed >
+/// PsychonautWiki**: the load pipeline merges in that order, and the existing
+/// record's name is preferred unless the incoming record has a meaningfully
+/// shorter non-salt form. Per-field merging in ``mergeSubstances(_:_:)`` and
+/// ``mergeRoutes(_:_:)`` is independent of source priority — for each field
+/// (routes, doses, durations, half-life, mechanism, aliases, sources,
+/// effects), the value from whichever record carries denser data wins.
+/// Aliases and sources from all contributing records are unioned.
 enum SubstanceDeduplicator {
     // MARK: - Name Normalization
 
@@ -148,7 +174,7 @@ enum SubstanceDeduplicator {
             }
         }
 
-        print("[SubstanceDeduplicator] \(incoming.count) incoming → \(dupeCount) matched existing, \(newCount) added as new")
+        logger.info("\(incoming.count) incoming → \(dupeCount) matched existing, \(newCount) added as new")
         return result.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
 
