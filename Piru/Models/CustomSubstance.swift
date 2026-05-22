@@ -13,6 +13,11 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
     var defaultRoute: RouteOfAdministration
     var unit: String
     var notes: String
+    /// Optional pharmacokinetic profile. When present, the substance participates
+    /// in the same timeline / Live-Activity / PK-curve rendering as a library
+    /// substance. Added in v1.3 — decoders treat missing as `nil` for
+    /// backward compatibility with pre-1.3 stored entries.
+    var duration: DurationProfile?
     var createdAt: Date
 
     init(
@@ -22,6 +27,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
         defaultRoute: RouteOfAdministration = .oral,
         unit: String = "mg",
         notes: String = "",
+        duration: DurationProfile? = nil,
         createdAt: Date = .now
     ) {
         self.id = id
@@ -30,7 +36,24 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
         self.defaultRoute = defaultRoute
         self.unit = unit
         self.notes = notes
+        self.duration = duration
         self.createdAt = createdAt
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, name, category, defaultRoute, unit, notes, duration, createdAt
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        name = try c.decode(String.self, forKey: .name)
+        category = try c.decode(SubstanceCategory.self, forKey: .category)
+        defaultRoute = try c.decode(RouteOfAdministration.self, forKey: .defaultRoute)
+        unit = try c.decode(String.self, forKey: .unit)
+        notes = try c.decode(String.self, forKey: .notes)
+        duration = try c.decodeIfPresent(DurationProfile.self, forKey: .duration)
+        createdAt = try c.decode(Date.self, forKey: .createdAt)
     }
 
     @MainActor var asSubstance: Substance {
@@ -39,7 +62,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
             aliases: [],
             category: category,
             defaultRoute: defaultRoute,
-            routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: DoseRange())],
+            routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: DoseRange(), duration: duration)],
             effects: [],
             sources: ["User-defined"]
         )

@@ -127,7 +127,7 @@ enum DoseUnit {
 
 // MARK: - Duration
 
-struct DurationRange: Codable {
+struct DurationRange: Codable, Hashable {
     let min: Double
     let max: Double
 
@@ -160,7 +160,7 @@ struct DurationRange: Codable {
     }
 }
 
-struct DurationProfile: Codable {
+struct DurationProfile: Codable, Hashable {
     let onset: DurationRange?
     let comeup: DurationRange?
     let peak: DurationRange?
