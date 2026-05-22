@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "dev.yumeji.piru", category: "TripSitAPI")
 
 /// TripSit API client — fetches recreational/research substance data
 struct TripSitAPI {
@@ -69,10 +72,11 @@ struct TripSitAPI {
                 result[key] = drug
             } catch {
                 decodeFailures += 1
+                logger.debug("Decode failed for \(key): \(error.localizedDescription)")
             }
         }
         if decodeFailures > 0 {
-            print("[TripSitAPI] \(decodeFailures) drugs failed to decode")
+            logger.warning("\(decodeFailures) drugs failed to decode")
         }
 
         return result
