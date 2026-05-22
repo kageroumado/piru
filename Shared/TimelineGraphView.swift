@@ -459,10 +459,14 @@ struct TimelineGraphView: View {
 
     /// Groups substance states by lowercased substance name, preserving original order.
     private var stackedGroups: [[ActiveSubstanceState]] {
+        // Group by (substance, route) so that e.g. insufflated heroin and smoked
+        // heroin draw as separate curves even when "Stack Redoses" is on. Doses
+        // of the same substance via the same route still stack into a combined
+        // curve as before.
         var order: [String] = []
         var buckets: [String: [ActiveSubstanceState]] = [:]
         for s in substances {
-            let key = s.substanceName.lowercased()
+            let key = "\(s.substanceName.lowercased())|\(s.route.lowercased())"
             if buckets[key] == nil {
                 order.append(key)
                 buckets[key] = [s]
