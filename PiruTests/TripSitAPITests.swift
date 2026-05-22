@@ -208,4 +208,124 @@ struct TripSitAPITests {
         #expect(substance.duration(for: .oral)?.onset?.min == 30)
         #expect(substance.duration(for: .insufflation)?.onset?.min == 5)
     }
+
+    // MARK: - Mixed-unit dose parsing
+
+    @Test("Mixed mass units across dose levels normalise to the smallest unit")
+    func mixedUnitsNormaliseToSmallest() throws {
+        // Mirrors TripSit's aspirin payload: Threshold/Light/Common in mg,
+        // Heavy in g. Without normalisation, heavy=1.6 (numeric) would label
+        // any normal aspirin dose as Heavy.
+        let drug = try decodeDrug("""
+        {
+            "name": "aspirin",
+            "categories": ["analgesic"],
+            "properties": {
+                "duration": "4-8 hours"
+            },
+            "formatted_dose": {
+                "Oral": {
+                    "Threshold": "50mg",
+                    "Light": "75mg-81mg",
+                    "Common": "325mg-650mg",
+                    "Heavy": "1.6g"
+                }
+            }
+        }
+        """)
+        let substance = TripSitAPI.toSubstance(drug)
+        let oral = substance.routes.first { $0.route == .oral }!
+        #expect(oral.unit == "mg")
+        #expect(oral.doses.threshold == 50)
+        #expect(oral.doses.light?.upperBound == 81)
+        #expect(oral.doses.common?.upperBound == 650)
+        #expect(oral.doses.heavy == 1600)  // 1.6g converted to mg
+        // A standard 325 mg dose should classify as Common, not Heavy.
+        #expect(oral.doses.level(for: 325) == .common)
+    }
+
+    @Test("All-mg levels keep mg as the unit (no false normalisation)")
+    func allMgLevelsKeepMg() throws {
+        let drug = try decodeDrug("""
+        {
+            "name": "caffeine",
+            "formatted_dose": {
+                "Oral": {
+                    "Threshold": "20mg",
+                    "Light": "20-50mg",
+                    "Common": "50-150mg",
+                    "Heavy": "400mg"
+                }
+            }
+        }
+        """)
+        let substance = TripSitAPI.toSubstance(drug)
+        let oral = substance.routes.first { $0.route == .oral }!
+        #expect(oral.unit == "mg")
+        #expect(oral.doses.heavy == 400)
+    }
+
+    @Test("Non-mass units (units/drinks/hits) pass through unchanged")
+    func nonMassUnitsPassThrough() throws {
+        let drug = try decodeDrug("""
+        {
+            "name": "alcohol",
+            "formatted_dose": {
+                "Oral": {
+                    "Light": "1-2units",
+                    "Common": "2-4units",
+                    "Heavy": "5-6units"
+                }
+            }
+        }
+        """)
+        let substance = TripSitAPI.toSubstance(drug)
+        let oral = substance.routes.first { $0.route == .oral }!
+        #expect(oral.unit == "units")
+        #expect(oral.doses.heavy == 5)
+    }
+
+    // MARK: - Route timing without dose data
+
+    @Test("Routes with duration but no dose data still produce a timed route")
+    func timingOnlyRouteIsMaterialised() throws {
+        // TripSit's cannabis payload publishes durations for both Smoked and
+        // Oral but dose data only for Smoked. Without the fix, the Oral
+        // duration is parsed and then discarded, and Substance.resolveDuration
+        // falls back to the smoked timeline for any oral dose.
+        let drug = try decodeDrug("""
+        {
+            "name": "cannabis",
+            "categories": ["psychedelic", "depressant"],
+            "properties": {
+                "onset": "Smoked: 1-10 minutes | Oral: 30-120 minutes",
+                "duration": "Smoked: 1-4 hours | Oral: 4-10 hours"
+            },
+            "formatted_dose": {
+                "Smoked": {
+                    "Light": "10-20mg",
+                    "Common": "20-60mg",
+                    "Strong": "60-100mg"
+                }
+            }
+        }
+        """)
+        let substance = TripSitAPI.toSubstance(drug)
+
+        // Both routes should be present.
+        #expect(substance.routes.contains { $0.route == .inhalation })
+        #expect(substance.routes.contains { $0.route == .oral })
+
+        // Smoked timing is its own, not borrowed from oral.
+        let smoked = substance.duration(for: .inhalation)
+        #expect(smoked?.total?.min == 60)   // 1 hour
+        #expect(smoked?.total?.max == 240)  // 4 hours
+        #expect(smoked?.onset?.min == 1)
+
+        // Oral timing is the slower edibles profile.
+        let oral = substance.duration(for: .oral)
+        #expect(oral?.total?.min == 240)    // 4 hours
+        #expect(oral?.total?.max == 600)    // 10 hours
+        #expect(oral?.onset?.min == 30)
+    }
 }
