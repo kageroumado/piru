@@ -145,8 +145,11 @@ struct EntryListView: View {
             break // Uses filteredEntries directly, no grouping needed
 
         case .byDay:
+            // Group by session day (configurable cutoff hour) so a 02:00
+            // dose joins the previous evening's session instead of starting
+            // a new day at midnight.
             let grouped = Dictionary(grouping: filtered) { entry in
-                calendar.startOfDay(for: entry.timestamp)
+                calendar.sessionDayStart(for: entry.timestamp)
             }
             cachedDayGroups = grouped.sorted { $0.key > $1.key }
                 .map { (date: $0.key, entries: $0.value) }

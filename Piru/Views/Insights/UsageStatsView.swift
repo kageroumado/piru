@@ -79,7 +79,7 @@ struct UsageStatsView: View {
         for e in filtered {
             let ce = CachedEntry(substance: e.substance, amount: e.amount, unit: e.unit, timestamp: e.timestamp)
             entries.append(ce)
-            let day = calendar.startOfDay(for: ce.timestamp)
+            let day = calendar.sessionDayStart(for: ce.timestamp)
             dayBuckets[DaySubstance(date: day, substance: ce.substance), default: 0] += 1
             substanceDays[ce.substance, default: []].insert(day)
             substanceCounts[ce.substance, default: 0] += 1
@@ -505,9 +505,9 @@ struct UsageStatsView: View {
             let key: Date
             if weekly {
                 key = calendar.dateInterval(of: .weekOfYear, for: entry.timestamp)?.start
-                    ?? calendar.startOfDay(for: entry.timestamp)
+                    ?? calendar.sessionDayStart(for: entry.timestamp)
             } else {
-                key = calendar.startOfDay(for: entry.timestamp)
+                key = calendar.sessionDayStart(for: entry.timestamp)
             }
             buckets[key, default: 0] += entry.amount
         }

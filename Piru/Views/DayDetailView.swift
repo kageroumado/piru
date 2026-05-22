@@ -41,8 +41,10 @@ struct DayDetailView: View {
 
     init(date: Date) {
         self.date = date
-        let start = Calendar.current.startOfDay(for: date)
-        let end = Calendar.current.date(byAdding: .day, value: 1, to: start) ?? start.addingTimeInterval(86400)
+        // Use the configured session-day window so a late-night dose shows
+        // up under the same day card the user tapped.
+        let start = Calendar.current.sessionDayStart(for: date)
+        let end = start.addingTimeInterval(86400)
         _entries = Query(
             filter: #Predicate<DoseEntry> { entry in
                 entry.timestamp >= start && entry.timestamp < end
