@@ -10,7 +10,7 @@ struct RampDownView: View {
     @State private var showingCancelConfirmation = false
 
     private var redoseTime: Date {
-        RampDownScheduler.calculateRedoseTime(doseTime: entry.timestamp, duration: duration)
+        RampDownScheduler.comedownStartTime(doseTime: entry.timestamp, duration: duration)
     }
 
     private var category: SubstanceCategory? {
