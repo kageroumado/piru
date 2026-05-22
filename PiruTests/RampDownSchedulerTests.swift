@@ -24,13 +24,13 @@ struct RampDownSchedulerTests {
         )
     }
 
-    // MARK: - calculateRedoseTime
+    // MARK: - comedownStartTime
 
     @Test("Comedown time is after dose time")
     func comedownTimeAfterDose() {
         let doseTime = Date.now
         let duration = makeDuration()
-        let comedown = RampDownScheduler.calculateRedoseTime(doseTime: doseTime, duration: duration)
+        let comedown = RampDownScheduler.comedownStartTime(doseTime: doseTime, duration: duration)
         #expect(comedown > doseTime)
     }
 
@@ -41,7 +41,7 @@ struct RampDownSchedulerTests {
         // comeupMinutes = comeupEnd - onsetEnd = 45 - 15 = 30
         // redoseMinutes = peakEnd - comeupMinutes = 165 - 30 = 135
         let duration = makeDuration(onset: 15, comeup: 30, peak: 120)
-        let comedown = RampDownScheduler.calculateRedoseTime(doseTime: doseTime, duration: duration)
+        let comedown = RampDownScheduler.comedownStartTime(doseTime: doseTime, duration: duration)
         let expectedInterval = 135.0 * 60 // 135 minutes in seconds
         #expect(abs(comedown.timeIntervalSince(doseTime) - expectedInterval) < 1)
     }
@@ -50,7 +50,7 @@ struct RampDownSchedulerTests {
     func shortDurationNonNegative() {
         let doseTime = Date.now
         let duration = makeDuration(onset: 0, comeup: 0, peak: 5)
-        let comedown = RampDownScheduler.calculateRedoseTime(doseTime: doseTime, duration: duration)
+        let comedown = RampDownScheduler.comedownStartTime(doseTime: doseTime, duration: duration)
         #expect(comedown >= doseTime)
     }
 
