@@ -52,6 +52,6 @@ struct PresetColorTests {
         let names = Set(PresetColor.all.map(\.name))
         // Should have at least some of these base families
         #expect(names.contains("Green"))
-        #expect(names.contains("Cyan"))
+        #expect(names.contains("Teal"))
     }
 }
