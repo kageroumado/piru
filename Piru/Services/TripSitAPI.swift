@@ -245,8 +245,8 @@ struct TripSitAPI {
         return nil
     }
 
-    /// Parse a TripSit duration/onset string like "4-8 hours" or "30-60 minutes" into a TimeRange in minutes.
-    private static func parseTimeRange(_ str: String) -> TimeRange? {
+    /// Parse a TripSit duration/onset string like "4-8 hours" or "30-60 minutes" into a DurationRange in minutes.
+    private static func parseTimeRange(_ str: String) -> DurationRange? {
         let first = str.components(separatedBy: "|").first?
             .trimmingCharacters(in: .whitespaces) ?? str
 
@@ -260,15 +260,15 @@ struct TripSitAPI {
         guard let lo = nums.first else { return nil }
         let hi = nums.count > 1 ? nums[1] : lo
         guard lo > 0 else { return nil }
-        return TimeRange(min: lo * multiplier, max: hi * multiplier)
+        return DurationRange(min: lo * multiplier, max: hi * multiplier)
     }
 
     /// Parse pipe-separated route timings like "Oral: 20-75 minutes | Insufflated: 1-10 minutes"
-    /// into per-route TimeRanges plus a fallback for unkeyed values.
-    private static func parseRouteTimings(_ str: String?) -> (byRoute: [RouteOfAdministration: TimeRange], fallback: TimeRange?) {
+    /// into per-route DurationRanges plus a fallback for unkeyed values.
+    private static func parseRouteTimings(_ str: String?) -> (byRoute: [RouteOfAdministration: DurationRange], fallback: DurationRange?) {
         guard let str else { return ([:], nil) }
-        var byRoute: [RouteOfAdministration: TimeRange] = [:]
-        var fallback: TimeRange?
+        var byRoute: [RouteOfAdministration: DurationRange] = [:]
+        var fallback: DurationRange?
 
         let segments = str.components(separatedBy: "|")
         for segment in segments {
@@ -304,9 +304,9 @@ struct TripSitAPI {
         return (byRoute, fallback)
     }
 
-    /// Build a DurationProfile from onset/total TimeRanges, estimating intermediate phases.
+    /// Build a DurationProfile from onset/total DurationRanges, estimating intermediate phases.
     /// Estimated values are rounded to the nearest 5 minutes (or 15 minutes above 60 min).
-    private static func buildDurationProfile(onsetRange: TimeRange?, totalRange: TimeRange?) -> DurationProfile? {
+    private static func buildDurationProfile(onsetRange: DurationRange?, totalRange: DurationRange?) -> DurationProfile? {
         guard totalRange != nil || onsetRange != nil else { return nil }
 
         let totalMid = totalRange?.midpoint ?? 240
@@ -328,11 +328,11 @@ struct TripSitAPI {
         )
     }
 
-    /// Create a TimeRange with ±30% variance, rounded to friendly intervals.
-    private static func roundedRange(midpoint: Double) -> TimeRange {
+    /// Create a DurationRange with ±30% variance, rounded to friendly intervals.
+    private static func roundedRange(midpoint: Double) -> DurationRange {
         let lo = midpoint * 0.7
         let hi = midpoint * 1.3
-        return TimeRange(min: roundMinutes(lo), max: roundMinutes(hi))
+        return DurationRange(min: roundMinutes(lo), max: roundMinutes(hi))
     }
 
     /// Round minutes to the nearest 5 (under 60 min) or nearest 15 (60 min and above), no decimals.

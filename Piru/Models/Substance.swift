@@ -127,7 +127,7 @@ enum DoseUnit {
 
 // MARK: - Duration
 
-struct TimeRange: Codable {
+struct DurationRange: Codable {
     let min: Double
     let max: Double
 
@@ -161,12 +161,12 @@ struct TimeRange: Codable {
 }
 
 struct DurationProfile: Codable {
-    let onset: TimeRange?
-    let comeup: TimeRange?
-    let peak: TimeRange?
-    let offset: TimeRange?
-    let afterglow: TimeRange?
-    let total: TimeRange?
+    let onset: DurationRange?
+    let comeup: DurationRange?
+    let peak: DurationRange?
+    let offset: DurationRange?
+    let afterglow: DurationRange?
+    let total: DurationRange?
 
     var estimatedTotalMinutes: Double {
         if let total { return total.midpoint }
@@ -200,12 +200,12 @@ extension DurationProfile {
         let afterglowLen: Double? = state.afterglowEndMinutes.map { $0 - state.offsetEndMinutes }
 
         self.init(
-            onset: onsetLen > 0 ? TimeRange(min: onsetLen, max: onsetLen) : nil,
-            comeup: comeupLen > 0 ? TimeRange(min: comeupLen, max: comeupLen) : nil,
-            peak: peakLen > 0 ? TimeRange(min: peakLen, max: peakLen) : nil,
-            offset: offsetLen > 0 ? TimeRange(min: offsetLen, max: offsetLen) : nil,
-            afterglow: afterglowLen.flatMap { $0 > 0 ? TimeRange(min: $0, max: $0) : nil },
-            total: TimeRange(min: state.totalMinutes, max: state.totalMinutes)
+            onset: onsetLen > 0 ? DurationRange(min: onsetLen, max: onsetLen) : nil,
+            comeup: comeupLen > 0 ? DurationRange(min: comeupLen, max: comeupLen) : nil,
+            peak: peakLen > 0 ? DurationRange(min: peakLen, max: peakLen) : nil,
+            offset: offsetLen > 0 ? DurationRange(min: offsetLen, max: offsetLen) : nil,
+            afterglow: afterglowLen.flatMap { $0 > 0 ? DurationRange(min: $0, max: $0) : nil },
+            total: DurationRange(min: state.totalMinutes, max: state.totalMinutes)
         )
     }
 }

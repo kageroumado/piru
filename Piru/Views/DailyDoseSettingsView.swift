@@ -47,7 +47,7 @@ struct MedicationsSettingsView: View {
     var body: some View {
         List {
             Group {
-            // MARK: - Reminders
+            // Reminders
             Section {
                 Toggle("Daily Reminders", isOn: $reminderEnabled)
                     .onChange(of: reminderEnabled) { _, enabled in
@@ -84,7 +84,7 @@ struct MedicationsSettingsView: View {
                 }
             }
 
-            // MARK: - Categories
+            // Categories
             Section {
                 ForEach(categories, id: \.self) { cat in
                     HStack {
@@ -127,7 +127,7 @@ struct MedicationsSettingsView: View {
                 Text("Organize prescriptions by time of day or purpose. Drag items onto a category to assign them.")
             }
 
-            // MARK: - Items
+            // Items
             if items.isEmpty {
                 Section {
                     VStack(spacing: 16) {
