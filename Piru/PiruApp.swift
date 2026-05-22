@@ -1,7 +1,10 @@
 import SwiftUI
 import SwiftData
 import BackgroundTasks
+import os
 import WidgetKit
+
+private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
 
 // MARK: - App
 
@@ -13,26 +16,17 @@ struct PiruApp: App {
     init() {
         Self.migrateStoreToAppGroupIfNeeded()
 
-        do {
-            let groupURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroupID
-            )!.appendingPathComponent("default.store")
-            let config = ModelConfiguration(url: groupURL)
-            container = try ModelContainer(
-                for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self,
-                configurations: config
-            )
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
+        container = Self.makeContainer()
 
         BGTaskScheduler.shared.register(
             forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
             using: nil
         ) { task in
             guard let task = task as? BGAppRefreshTask else { return }
-            Task { @MainActor in
+            // BGTaskScheduler fires this closure on a background queue. Hop to
+            // main once — `handleBackgroundRefresh` does only synchronous,
+            // MainActor-isolated state management.
+            DispatchQueue.main.async {
                 LiveActivityManager.shared.handleBackgroundRefresh(task)
             }
         }
@@ -52,6 +46,58 @@ struct PiruApp: App {
                 }
         }
         .modelContainer(container)
+    }
+
+    /// Build the SwiftData `ModelContainer`. If the store is corrupt and fails
+    /// to open, move the offending files aside and try once more so the user
+    /// at least gets a working (empty) database instead of a launch crash.
+    private static func makeContainer() -> ModelContainer {
+        let groupURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: appGroupID
+        )!.appendingPathComponent("default.store")
+        let config = ModelConfiguration(url: groupURL)
+
+        do {
+            return try ModelContainer(
+                for: DoseEntry.self, SubstanceColor.self, UserColor.self,
+                DailyDoseItem.self, FavoriteSubstance.self,
+                configurations: config
+            )
+        } catch {
+            appLogger.error("ModelContainer creation failed: \(error.localizedDescription, privacy: .public). Attempting store recovery.")
+            quarantineCorruptStore(at: groupURL)
+            do {
+                return try ModelContainer(
+                    for: DoseEntry.self, SubstanceColor.self, UserColor.self,
+                    DailyDoseItem.self, FavoriteSubstance.self,
+                    configurations: config
+                )
+            } catch {
+                appLogger.fault("ModelContainer recovery failed: \(error.localizedDescription, privacy: .public)")
+                fatalError("Failed to create ModelContainer after recovery: \(error)")
+            }
+        }
+    }
+
+    /// Rename `default.store{,-shm,-wal}` to `default.store.corrupt-<timestamp>{,-shm,-wal}`
+    /// so SwiftData can create a fresh store on the next attempt.
+    private static func quarantineCorruptStore(at storeURL: URL) {
+        let fm = FileManager.default
+        let directory = storeURL.deletingLastPathComponent()
+        let timestamp = Int(Date().timeIntervalSince1970)
+        let suffixes = ["", "-shm", "-wal"]
+
+        for suffix in suffixes {
+            let source = directory.appendingPathComponent("default.store\(suffix)")
+            guard fm.fileExists(atPath: source.path) else { continue }
+            let destination = directory.appendingPathComponent("default.store.corrupt-\(timestamp)\(suffix)")
+            do {
+                try fm.moveItem(at: source, to: destination)
+                appLogger.notice("Quarantined corrupt store file: \(destination.lastPathComponent, privacy: .public)")
+            } catch {
+                appLogger.error("Failed to quarantine \(source.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            }
+        }
     }
 
     /// One-time migration: copies the old app-sandbox SwiftData store to the shared App Group container.

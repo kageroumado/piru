@@ -1,6 +1,26 @@
 import ActivityKit
 import Foundation
 
+/// Wire format for the Piru Live Activity widget extension.
+///
+/// `PiruActivityAttributes` defines two parts of the data the app and extension
+/// exchange via ActivityKit:
+///
+/// - **Static attributes** (this struct's stored properties): set once at
+///   `Activity.request(…)` time and immutable for the lifetime of the activity.
+///   Currently just `startTime`.
+/// - **`ContentState`**: mutable per-update payload pushed via `activity.update(…)`.
+///   Drives the widget's timeline graph, progress bar, and timer labels.
+///
+/// Because the app target and the widget extension can be on different versions
+/// at runtime (a widget extension launched against an older activity, or vice
+/// versa after an upgrade), every field on `ContentState`, `ActiveSubstanceState`,
+/// and the static attributes MUST be treated as a stable, append-only contract:
+///
+/// - Never remove or rename fields without a deprecation window.
+/// - New fields must be optional (`Codable` decoding tolerates missing keys) or
+///   provide a default in a custom `init(from:)` — see `ActiveSubstanceState`'s
+///   `doseIntensity` for the pattern.
 struct PiruActivityAttributes: ActivityAttributes {
     struct ContentState: Codable, Hashable {
         var activeSubstances: [ActiveSubstanceState]
@@ -23,8 +43,15 @@ struct ActiveSubstanceState: Codable, Hashable {
     let offsetEndMinutes: Double
     let afterglowEndMinutes: Double?
     let totalMinutes: Double
-    /// How intense this dose is relative to the substance's heavy threshold (0.15...1.0).
-    /// Substances without dose range data default to 1.0.
+    /// Dose intensity used to scale the timeline curve height, clamped to
+    /// `[0.05, 1.0]`.
+    ///
+    /// Computed by `ActiveSubstanceCalculator.computeDoseIntensity(amount:doseRange:)`:
+    /// `amount / heavy_threshold`, with looser fallbacks (strong upper, common
+    /// upper × 1.5) when `heavy` isn't defined. Substances with no dose-range
+    /// data fall back to `unknownIntensity` (0.60) — a neutral mid-common-ish
+    /// height. Sub-threshold doses are floored at `minimumIntensity` (0.05) so
+    /// they still render as a visible nub instead of disappearing.
     let doseIntensity: Double
 
     init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0) {

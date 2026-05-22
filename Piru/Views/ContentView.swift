@@ -289,7 +289,7 @@ private extension View {
                         onToggleActivity: {
                             let manager = LiveActivityManager.shared
                             if manager.isLiveActivityRunning {
-                                manager.stopLiveActivity()
+                                manager.hideLiveActivity()
                             } else {
                                 manager.restartLiveActivity()
                             }

@@ -162,7 +162,8 @@ private struct DeclineCurveShape: Shape {
         // X axis
         path.addLine(to: CGPoint(x: w, y: h))
 
-        // Declining curve (exponential decay)
+        // Hand-tuned polyline for the Dynamic Island compact icon — purely
+        // decorative, not derived from PK.
         path.move(to: CGPoint(x: w * 0.08, y: h * 0.08))
         path.addCurve(
             to: CGPoint(x: w * 0.92, y: h * 0.88),
