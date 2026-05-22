@@ -121,4 +121,54 @@ struct CustomSubstanceStoreTests {
         #expect(substance.defaultRoute == .sublingual)
         #expect(substance.unit(for: .sublingual) == "µg")
     }
+
+    @Test("Custom duration round-trips through persistence")
+    func customDurationRoundTrip() {
+        let (store, defaults, suite) = makeStore()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let duration = DurationProfile(
+            onset: DurationRange(min: 30, max: 60),
+            comeup: DurationRange(min: 15, max: 30),
+            peak: DurationRange(min: 60, max: 120),
+            offset: DurationRange(min: 30, max: 60),
+            afterglow: nil,
+            total: nil
+        )
+        let entry = CustomSubstanceEntry(name: "TestDuration", duration: duration)
+        store.add(entry)
+
+        // Force a fresh read from persisted data.
+        let store2 = CustomSubstanceStore.forTesting(defaults: defaults)
+        let loaded = store2.all.first { $0.name == "TestDuration" }
+        #expect(loaded?.duration?.onset?.min == 30)
+        #expect(loaded?.duration?.peak?.max == 120)
+
+        // The exported Substance picks up the duration on its route.
+        let substance = entry.asSubstance
+        #expect(substance.duration(for: substance.defaultRoute)?.peak?.midpoint == 90)
+    }
+
+    @Test("Pre-1.3 stored entries (no duration field) decode with duration = nil")
+    func decodesLegacyEntryWithoutDuration() throws {
+        // Simulates a v1.2 record persisted before custom durations existed.
+        let legacyJSON = """
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "name": "Legacy",
+            "category": "Other",
+            "defaultRoute": "oral",
+            "unit": "mg",
+            "notes": "",
+            "createdAt": 770000000
+        }
+        """
+        let entry = try JSONDecoder().decode(CustomSubstanceEntry.self, from: Data(legacyJSON.utf8))
+        #expect(entry.name == "Legacy")
+        #expect(entry.duration == nil)
+        // And re-encoding then decoding preserves nil.
+        let data = try JSONEncoder().encode(entry)
+        let roundTripped = try JSONDecoder().decode(CustomSubstanceEntry.self, from: data)
+        #expect(roundTripped.duration == nil)
+    }
 }

@@ -13,6 +13,15 @@ struct CustomSubstanceFormView: View {
     @State private var defaultRoute: RouteOfAdministration
     @State private var unit: String
     @State private var notes: String
+    @State private var hasDuration: Bool
+    @State private var onsetMin: String
+    @State private var onsetMax: String
+    @State private var comeupMin: String
+    @State private var comeupMax: String
+    @State private var peakMin: String
+    @State private var peakMax: String
+    @State private var offsetMin: String
+    @State private var offsetMax: String
     @State private var showDuplicateAlert = false
 
     private var isEditing: Bool { existing != nil }
@@ -30,6 +39,64 @@ struct CustomSubstanceFormView: View {
         _defaultRoute = State(initialValue: existing?.defaultRoute ?? .oral)
         _unit = State(initialValue: existing?.unit ?? "mg")
         _notes = State(initialValue: existing?.notes ?? "")
+
+        let duration = existing?.duration
+        _hasDuration = State(initialValue: duration != nil)
+        _onsetMin = State(initialValue: Self.format(duration?.onset?.min))
+        _onsetMax = State(initialValue: Self.format(duration?.onset?.max))
+        _comeupMin = State(initialValue: Self.format(duration?.comeup?.min))
+        _comeupMax = State(initialValue: Self.format(duration?.comeup?.max))
+        _peakMin = State(initialValue: Self.format(duration?.peak?.min))
+        _peakMax = State(initialValue: Self.format(duration?.peak?.max))
+        _offsetMin = State(initialValue: Self.format(duration?.offset?.min))
+        _offsetMax = State(initialValue: Self.format(duration?.offset?.max))
+    }
+
+    private static func format(_ value: Double?) -> String {
+        guard let value, value > 0 else { return "" }
+        return value == value.rounded() ? String(Int(value)) : String(value)
+    }
+
+    @ViewBuilder
+    private func durationRow(_ label: String, min: Binding<String>, max: Binding<String>) -> some View {
+        HStack {
+            Text(label)
+            Spacer()
+            TextField("min", text: min)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 60)
+            Text("–").foregroundStyle(Theme.secondaryLabel)
+            TextField("max", text: max)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 60)
+            Text("min").foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    private func buildDuration() -> DurationProfile? {
+        guard hasDuration else { return nil }
+        func range(_ minStr: String, _ maxStr: String) -> DurationRange? {
+            guard let lo = Double(minStr), lo > 0 else { return nil }
+            let hi = Double(maxStr) ?? lo
+            guard hi >= lo else { return nil }
+            return DurationRange(min: lo, max: hi)
+        }
+        let onset = range(onsetMin, onsetMax)
+        let comeup = range(comeupMin, comeupMax)
+        let peak = range(peakMin, peakMax)
+        let offset = range(offsetMin, offsetMax)
+        // Return nil when no phase was filled out — nothing to render.
+        guard onset != nil || comeup != nil || peak != nil || offset != nil else { return nil }
+        return DurationProfile(
+            onset: onset,
+            comeup: comeup,
+            peak: peak,
+            offset: offset,
+            afterglow: nil,
+            total: nil
+        )
     }
 
     private var canSave: Bool {
@@ -64,20 +131,29 @@ struct CustomSubstanceFormView: View {
                 }
 
                 Section {
+                    Toggle("Custom duration", isOn: $hasDuration.animation())
+                    if hasDuration {
+                        durationRow("Onset", min: $onsetMin, max: $onsetMax)
+                        durationRow("Come-up", min: $comeupMin, max: $comeupMax)
+                        durationRow("Peak", min: $peakMin, max: $peakMax)
+                        durationRow("Offset", min: $offsetMin, max: $offsetMax)
+                    }
+                } header: {
+                    Text("Duration")
+                } footer: {
+                    Text(hasDuration
+                        ? "Minutes for each phase. Leave a phase blank to skip it; the timeline will interpolate from what you provide."
+                        : "Add per-phase timing so this substance gets a Live-Activity timeline like library substances."
+                    )
+                }
+
+                Section {
                     TextField("Notes", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
                 } header: {
                     Text("Notes")
                 } footer: {
                     Text("Optional notes about this substance for your reference.")
-                }
-
-                if !isEditing {
-                    Section {
-                        Label("Custom substances have no dose range data. You'll enter doses manually when logging.", systemImage: "info.circle")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
                 }
             }
             .scrollContentBackground(.hidden)
@@ -119,6 +195,7 @@ struct CustomSubstanceFormView: View {
             updated.defaultRoute = defaultRoute
             updated.unit = unit
             updated.notes = notes
+            updated.duration = buildDuration()
             store.update(updated)
             saved = updated
         } else {
@@ -131,7 +208,8 @@ struct CustomSubstanceFormView: View {
                 category: category,
                 defaultRoute: defaultRoute,
                 unit: unit,
-                notes: notes
+                notes: notes,
+                duration: buildDuration()
             )
             store.add(entry)
             saved = entry
