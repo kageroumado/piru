@@ -59,6 +59,42 @@ struct DoseOverrideTests {
         #expect(oral.doses.level(for: 60) == .heavy)
     }
 
+    // MARK: - Unit aliases
+
+    @Test("Alcohol exposes a 'drink' alias that converts to 14 g of ethanol")
+    func alcoholDrinkAlias() {
+        let alcohol = make(name: "Alcohol", aliases: ["ethanol"], oralUnit: "g")
+        let alias = alcohol.unitAliases.first { $0.label == "drink" }
+        #expect(alias?.amountPerUnit == 14)
+        #expect(alias?.unit == "g")
+
+        // 2 drinks → 28 g
+        let converted = alcohol.convert(amount: 2, from: "drink", toRoute: .oral)
+        #expect(converted == 28)
+    }
+
+    @Test("Ethanol picks up the same drink alias via the aliases array")
+    func ethanolDrinkAliasViaAlias() {
+        let ethanol = make(name: "Ethanol", aliases: ["alcohol"], oralUnit: "g")
+        let converted = ethanol.convert(amount: 3, from: "drink", toRoute: .oral)
+        #expect(converted == 42)
+    }
+
+    @Test("Substances without aliases return nil for unknown units")
+    func noAliasReturnsNil() {
+        let caffeine = make(name: "Caffeine", oralUnit: "mg")
+        #expect(caffeine.unitAliases.isEmpty)
+        #expect(caffeine.convert(amount: 1, from: "cup", toRoute: .oral) == nil)
+    }
+
+    @Test("Mass-unit conversion still works alongside alias resolution")
+    func directMassConversionWorks() {
+        let alcohol = make(name: "Alcohol", oralUnit: "g")
+        // 14 g (the canonical alias amount) is reachable from "mg" directly.
+        let converted = alcohol.convert(amount: 14000, from: "mg", toRoute: .oral)
+        #expect(converted == 14)
+    }
+
     @Test("Substances without an override key are passed through unchanged")
     func passThrough() {
         let raw = make(

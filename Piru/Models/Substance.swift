@@ -125,6 +125,60 @@ enum DoseUnit {
     }
 }
 
+// MARK: - Substance-Specific Unit Aliases
+
+/// A colloquial unit that resolves to a fixed amount in a known physical unit.
+/// e.g. `("drink", 14, "g")` for alcohol — "2 drinks" is logged as 28 g of ethanol.
+struct UnitAlias: Hashable {
+    /// User-facing display label (what appears in the unit picker).
+    let label: String
+    /// How many `unit`s a single instance of `label` represents.
+    let amountPerUnit: Double
+    /// The physical unit that `amountPerUnit` is denominated in.
+    let unit: String
+}
+
+extension Substance {
+    /// Colloquial unit aliases for this substance. Keys are the canonical
+    /// (lowercased) substance name or any alias; the lookup matches whichever
+    /// is canonical at runtime.
+    ///
+    /// References:
+    /// - **drink**: US standard drink = 14 g of pure ethanol per
+    ///   [NIAAA](https://www.niaaa.nih.gov/alcohols-effects-health/overview-alcohol-consumption/what-standard-drink).
+    private static let unitAliasTable: [String: [UnitAlias]] = [
+        "alcohol": [
+            UnitAlias(label: "drink", amountPerUnit: 14, unit: "g"),
+        ],
+        "ethanol": [
+            UnitAlias(label: "drink", amountPerUnit: 14, unit: "g"),
+        ],
+    ]
+
+    /// Unit aliases applicable to this substance, looked up by canonical name
+    /// or any alias. Empty for substances without colloquial conventions.
+    var unitAliases: [UnitAlias] {
+        let candidates = [name.lowercased()] + aliases.map { $0.lowercased() }
+        return candidates.lazy.compactMap { Self.unitAliasTable[$0] }.first ?? []
+    }
+
+    /// Convert an amount-in-some-unit to this substance's native unit for the
+    /// given route. Tries direct mass conversion first, then falls back to
+    /// substance-specific aliases (e.g. "drink" → grams of ethanol). Returns
+    /// `nil` if no conversion path exists.
+    func convert(amount: Double, from unit: String, toRoute route: RouteOfAdministration) -> Double? {
+        let targetUnit = self.unit(for: route)
+        if let direct = DoseUnit.convert(amount, from: unit, to: targetUnit) {
+            return direct
+        }
+        if let alias = unitAliases.first(where: { $0.label == unit }) {
+            let canonicalAmount = amount * alias.amountPerUnit
+            return DoseUnit.convert(canonicalAmount, from: alias.unit, to: targetUnit) ?? canonicalAmount
+        }
+        return nil
+    }
+}
+
 // MARK: - Duration
 
 struct DurationRange: Codable, Hashable {
