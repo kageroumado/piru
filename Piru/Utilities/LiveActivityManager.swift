@@ -1,7 +1,10 @@
 import ActivityKit
 import BackgroundTasks
 import Foundation
+import os
 import SwiftData
+
+private let logger = Logger(subsystem: "dev.yumeji.piru", category: "LiveActivity")
 
 /// Lightweight value snapshot of a DoseEntry, decoupled from SwiftData.
 struct DoseSnapshot {
@@ -30,8 +33,19 @@ struct DoseSnapshot {
 
 /// Manages the iOS Live Activity (Lock Screen / Dynamic Island widget) lifecycle.
 ///
-/// Session state (which substances are active) lives in `ActiveSessionManager`.
-/// This manager only handles starting, updating, and ending the Live Activity widget.
+/// Singleton owned by the app process. Responsibilities:
+/// - Starts, updates, and ends the `Activity<PiruActivityAttributes>` widget.
+/// - Drives a 60-second periodic refresh `Timer` while a session is active so the
+///   widget's timeline graph and "last updated" timestamp stay current.
+/// - Recovers session state across cold launches by reading the running activity's
+///   `contentState` (see `recoverEntriesFromActivity`).
+/// - Posts a Darwin notification so other targets (the widget extension) can
+///   re-render when content changes.
+/// - Schedules background app refresh via `BGTaskScheduler` to keep the widget
+///   alive when the app is suspended.
+///
+/// Session state (which substances are active) lives in `ActiveSessionManager`;
+/// this manager only owns the widget itself.
 @MainActor
 @Observable
 final class LiveActivityManager {
@@ -54,7 +68,7 @@ final class LiveActivityManager {
 
         // If live activities are disabled, end any recovered activity
         if !isEnabled, currentActivity != nil {
-            endActivity()
+            endSession()
         }
     }
 
@@ -87,7 +101,7 @@ final class LiveActivityManager {
 
         let session = ActiveSessionManager.shared
         guard !session.activeEntries.isEmpty else {
-            endActivity()
+            endSession()
             return
         }
 
@@ -104,14 +118,14 @@ final class LiveActivityManager {
     /// Called by `ActiveSessionManager` when all entries have been removed.
     func sessionCleared() {
         if currentActivity != nil {
-            endActivity()
+            endSession()
         }
     }
 
     // MARK: - Public API
 
-    /// End the Live Activity and clear the session.
-    func endActivity() {
+    /// End the Live Activity widget AND clear all active session entries.
+    func endSession() {
         guard currentActivity != nil else { return }
         stopUpdateTimer()
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
@@ -121,8 +135,9 @@ final class LiveActivityManager {
         ActiveSessionManager.shared.clearSession()
     }
 
-    /// Stop the iOS Live Activity widget but keep tracking active substances.
-    func stopLiveActivity() {
+    /// Hide the iOS Live Activity widget while keeping the underlying session
+    /// (active substances) intact, so `restartLiveActivity()` can re-show it.
+    func hideLiveActivity() {
         guard currentActivity != nil else { return }
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
         let state = ActiveSessionManager.shared.buildContentState(colorMap: ActiveSessionManager.shared.cachedColorMap)
@@ -179,20 +194,22 @@ final class LiveActivityManager {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            print("Failed to schedule background refresh: \(error)")
+            logger.error("Failed to schedule background refresh: \(error.localizedDescription, privacy: .public)")
         }
     }
 
     // MARK: - Activity Updates
 
     /// Push a state update to the current live activity.
-    /// Centralises the `nonisolated(unsafe)` workaround for `Activity` not being `Sendable`.
+    /// `nonisolated(unsafe)` is required because ActivityKit's `Activity<>` is not declared `Sendable` in this SDK.
     private func pushUpdate(_ content: ActivityContent<PiruActivityAttributes.ContentState>) {
         guard let currentActivity else { return }
         nonisolated(unsafe) let activity = currentActivity
         Task { await activity.update(content) }
     }
 
+    /// Push a final state and end the live activity.
+    /// `nonisolated(unsafe)` is required because ActivityKit's `Activity<>` is not declared `Sendable` in this SDK.
     private func pushEnd(_ content: ActivityContent<PiruActivityAttributes.ContentState>) {
         guard let currentActivity else { return }
         nonisolated(unsafe) let activity = currentActivity
@@ -204,9 +221,8 @@ final class LiveActivityManager {
     private func startUpdateTimer() {
         updateTimer?.invalidate()
         updateTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.periodicUpdate()
-            }
+            // Timer fires on the main run loop, so we're already on the main actor.
+            MainActor.assumeIsolated { self?.periodicUpdate() }
         }
     }
 
@@ -245,7 +261,7 @@ final class LiveActivityManager {
             startUpdateTimer()
             scheduleBackgroundRefresh()
         } catch {
-            print("Failed to start Live Activity: \(error)")
+            logger.error("Failed to start Live Activity: \(error.localizedDescription, privacy: .public)")
         }
     }
 

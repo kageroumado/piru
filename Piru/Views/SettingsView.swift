@@ -57,7 +57,7 @@ struct SettingsView: View {
                 .tint(Theme.accent)
                 .onChange(of: liveActivityEnabled) {
                     if !liveActivityEnabled {
-                        LiveActivityManager.shared.endActivity()
+                        LiveActivityManager.shared.endSession()
                     }
                 }
             } header: {
