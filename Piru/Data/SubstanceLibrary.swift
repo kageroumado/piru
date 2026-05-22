@@ -411,9 +411,10 @@ enum SubstanceLibrary {
         ]
     ]
 
-    private static func applyDoseOverrides(_ substances: [Substance]) -> [Substance] {
+    static func applyDoseOverrides(_ substances: [Substance]) -> [Substance] {
         substances.map { s in
-            guard let overrides = doseOverrides[s.name.lowercased()] else { return s }
+            let candidates = [s.name.lowercased()] + s.aliases.map { $0.lowercased() }
+            guard let overrides = candidates.lazy.compactMap({ doseOverrides[$0] }).first else { return s }
 
             var routes = s.routes
             for override in overrides {
