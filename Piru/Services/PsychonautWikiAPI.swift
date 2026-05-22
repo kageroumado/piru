@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "dev.yumeji.piru", category: "PsychonautWikiAPI")
 
 /// PsychonautWiki GraphQL API client — fetches psychoactive substance data
 /// with per-route dose ranges, full duration profiles, subjective effects, and tolerance info.
@@ -32,7 +35,7 @@ enum PsychonautWikiAPI {
 
         // Convert outside the task group (avoids @Sendable isolation issues)
         let substances = rawResults.map { toSubstance($0) }
-        print("[PsychonautWikiAPI] Fetched \(substances.count)/\(names.count) substances")
+        logger.info("Fetched \(substances.count)/\(names.count) substances")
         return substances
     }
 
@@ -107,6 +110,7 @@ enum PsychonautWikiAPI {
             let result = try JSONDecoder().decode(PWGraphQLResponse.self, from: data)
             return result.data?.substances?.first
         } catch {
+            logger.error("fetchSingle(\(name)) failed: \(error.localizedDescription)")
             return nil
         }
     }

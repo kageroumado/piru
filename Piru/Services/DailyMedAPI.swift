@@ -1,4 +1,8 @@
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "dev.yumeji.piru", category: "DailyMedAPI")
+
 struct DailyMedAPI {
     private static let baseURL = "https://api.fda.gov/drug/label.json"
 
@@ -259,7 +263,7 @@ struct DailyMedAPI {
             }
         }
 
-        print("[DailyMedAPI] Fetched \(allSubstances.count) clinical substances from \(total) name queries")
+        logger.info("Fetched \(allSubstances.count) clinical substances from \(total) name queries")
         return allSubstances
     }
 
@@ -285,6 +289,7 @@ struct DailyMedAPI {
             let result = try JSONDecoder().decode(LabelResponse.self, from: data)
             return result.results?.first.flatMap { toSubstance($0, queryName: name) }
         } catch {
+            logger.error("fetchByName(\(name)) failed: \(error.localizedDescription)")
             return nil
         }
     }
@@ -501,181 +506,4 @@ struct DailyMedAPI {
         return nil
     }
 
-    // MARK: - Drug Interaction Fetching
-
-    private struct InteractionLabelResponse: Decodable {
-        let results: [InteractionLabelEntry]?
-        struct InteractionLabelEntry: Decodable {
-            let drug_interactions: [String]?
-        }
-    }
-
-    /// Fetch and parse drug interaction sections from FDA labels for clinical substances.
-    ///
-    /// Targets prescription-only categories where label interaction sections are most complete.
-    /// Processes in batches of 10 concurrent requests to stay within OpenFDA rate limits.
-    static func fetchInteractions(for substances: [Substance]) async -> [SubstanceInteraction] {
-        let clinicalCategories: Set<SubstanceCategory> = [
-            .opioid, .benzodiazepine, .stimulant, .antidepressant, .antipsychotic,
-            .gabapentinoid, .antihistamine, .dissociative, .analgesic, .cardiovascular,
-        ]
-        let targets = Array(substances.filter { clinicalCategories.contains($0.category) }.prefix(200))
-        guard !targets.isEmpty else { return [] }
-        print("[DailyMedAPI] Fetching interaction data for \(targets.count) clinical substances...")
-
-        var allInteractions: [SubstanceInteraction] = []
-        let concurrency = 10
-
-        for batchStart in stride(from: 0, to: targets.count, by: concurrency) {
-            let batch = Array(targets[batchStart..<min(batchStart + concurrency, targets.count)])
-            let batchResults = await withTaskGroup(of: [SubstanceInteraction].self) { group in
-                for substance in batch {
-                    group.addTask { await Self.fetchAndParseInteractions(for: substance.name) }
-                }
-                var results: [SubstanceInteraction] = []
-                for await r in group { results.append(contentsOf: r) }
-                return results
-            }
-            allInteractions.append(contentsOf: batchResults)
-        }
-
-        // Deduplicate: one record per (sourceDrug, targetClass) pair — first mention wins
-        var seen = Set<String>()
-        let unique = allInteractions.filter {
-            seen.insert("\($0.sourceDrug)|\($0.targetClass.rawValue)").inserted
-        }
-        print("[DailyMedAPI] Parsed \(unique.count) FDA-sourced interactions from \(targets.count) substances")
-        return unique
-    }
-
-    private static func fetchAndParseInteractions(for drugName: String) async -> [SubstanceInteraction] {
-        var components = URLComponents(string: baseURL)!
-        components.queryItems = [
-            URLQueryItem(name: "search", value: "openfda.generic_name:\"\(drugName)\""),
-            URLQueryItem(name: "limit", value: "1"),
-        ]
-        guard let url = components.url else { return [] }
-        var request = URLRequest(url: url)
-        request.timeoutInterval = 15
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse, http.statusCode == 200 else { return [] }
-            let result = try JSONDecoder().decode(InteractionLabelResponse.self, from: data)
-            guard let texts = result.results?.first?.drug_interactions, !texts.isEmpty else { return [] }
-            return parseInteractionText(texts.joined(separator: "\n"), sourceDrug: drugName.lowercased())
-        } catch {
-            return []
-        }
-    }
-
-    /// Parse structured interaction data from the `drug_interactions` section of an FDA label.
-    ///
-    /// Strategy: scan for known drug-class keywords in order of specificity (e.g.,
-    /// "monoamine oxidase inhibitor" before "maoi"). For the first mention of each class,
-    /// score severity by context words in a ±400-char window. One record per drug class.
-    private static func parseInteractionText(_ text: String, sourceDrug: String) -> [SubstanceInteraction] {
-        let lower = text.lowercased()
-        var interactions: [SubstanceInteraction] = []
-        var seenClasses = Set<String>()
-
-        // Get the source drug's own classes so we can skip self-referential matches
-        // (e.g., amphetamine's label mentioning "amphetamine" shouldn't create a stimulant interaction)
-        let ownClasses = InteractionChecker.drugClasses(for: sourceDrug)
-
-        for (drugClass, keywords) in interactionClassKeywords {
-            guard !seenClasses.contains(drugClass.rawValue) else { continue }
-            // Skip if the target class is the same as the source drug's own class
-            guard !ownClasses.contains(drugClass) else { continue }
-            for keyword in keywords {
-                guard lower.contains(keyword) else { continue }
-                let kwRange = lower.range(of: keyword)!
-                let ctxStart = lower.index(kwRange.lowerBound, offsetBy: -300, limitedBy: lower.startIndex) ?? lower.startIndex
-                let ctxEnd   = lower.index(kwRange.upperBound, offsetBy: 400,  limitedBy: lower.endIndex)   ?? lower.endIndex
-                let context  = String(lower[ctxStart..<ctxEnd])
-
-                // Skip matches in "no interaction" / "no dosage adjustment" context
-                let noInteractionPhrases = [
-                    "no clinically important interaction",
-                    "no dosage adjustment is necessary",
-                    "no dosage adjustment is required",
-                    "no clinically significant interaction",
-                    "no dose adjustment",
-                    "does not affect",
-                    "no significant effect",
-                    "having no clinically important",
-                ]
-                if noInteractionPhrases.contains(where: { context.contains($0) }) { continue }
-
-                seenClasses.insert(drugClass.rawValue)
-                interactions.append(SubstanceInteraction(
-                    sourceDrug: sourceDrug,
-                    targetClass: drugClass,
-                    targetKeyword: keyword,
-                    severity: severityFromContext(context),
-                    snippet: extractSnippet(from: text, nearKeyword: keyword)
-                ))
-                break
-            }
-        }
-        return interactions
-    }
-
-    /// Score severity based on risk-signal keywords in the interaction context window.
-    private static func severityFromContext(_ context: String) -> InteractionSeverity {
-        let dangerousWords = [
-            "contraindicated", "fatal", "life-threatening", "must not be used",
-            "do not use", "cannot be used", "potentially fatal", "risk of death",
-        ]
-        let unsafeWords = [
-            "serious adverse", "severe", "avoid concomitant", "avoid combination",
-            "significant risk", "substantially increase", "increased risk",
-            "serotonin syndrome", "respiratory depression", "hypertensive crisis",
-        ]
-        for word in dangerousWords where context.contains(word) { return .dangerous }
-        for word in unsafeWords    where context.contains(word) { return .unsafe }
-        return .caution
-    }
-
-    /// Extract the most relevant sentence from label text near the given keyword.
-    private static func extractSnippet(from text: String, nearKeyword keyword: String) -> String {
-        let kwLower = keyword.lowercased()
-        let sentences = text
-            .components(separatedBy: CharacterSet(charactersIn: ".\n"))
-            .map { $0.trimmingCharacters(in: .whitespaces) }
-            .filter { $0.count > 15 }
-        if let hit = sentences.first(where: { $0.lowercased().contains(kwLower) }) {
-            return hit.count > 300 ? String(hit.prefix(300)) + "…" : hit
-        }
-        return "Refer to FDA prescribing information."
-    }
-
-    /// Drug-class keyword lookup table for `parseInteractionText`.
-    /// Each entry lists keywords from most-specific to most-generic so the first match
-    /// is always the most precise signal. Order of entries also matters — higher-risk
-    /// classes (MAOIs, opioids) are checked before lower-risk ones.
-    private static let interactionClassKeywords: [(DrugClass, [String])] = [
-        (.maoi,          ["monoamine oxidase inhibitor", "maoi", "phenelzine", "tranylcypromine",
-                          "linezolid", "methylene blue", "selegiline", "isocarboxazid"]),
-        (.ssri,          ["selective serotonin reuptake inhibitor", "ssri", "fluoxetine",
-                          "sertraline", "paroxetine", "citalopram", "escitalopram", "fluvoxamine"]),
-        (.snri,          ["serotonin-norepinephrine reuptake inhibitor", "snri", "venlafaxine",
-                          "duloxetine", "desvenlafaxine", "levomilnacipran"]),
-        (.tca,           ["tricyclic antidepressant", "amitriptyline", "nortriptyline",
-                          "imipramine", "clomipramine", "desipramine"]),
-        (.opioid,        ["opioid", "narcotic analgesic", "opiate", "morphine", "oxycodone",
-                          "fentanyl", "tramadol", "codeine", "hydrocodone", "buprenorphine"]),
-        (.benzodiazepine,["benzodiazepine", "diazepam", "alprazolam", "lorazepam",
-                          "clonazepam", "triazolam", "midazolam"]),
-        (.alcohol,       ["alcohol", "ethanol", "alcoholic beverages"]),
-        (.stimulant,     ["amphetamine", "methylphenidate", "sympathomimetic amine", "stimulant"]),
-        (.gabapentinoid, ["pregabalin", "gabapentin"]),
-        (.antihistamine, ["diphenhydramine", "hydroxyzine", "promethazine", "antihistamine"]),
-        (.antipsychotic, ["antipsychotic", "haloperidol", "quetiapine", "risperidone",
-                          "olanzapine", "chlorpromazine", "aripiprazole"]),
-        (.ghb,           ["gamma-hydroxybutyrate", "sodium oxybate", "xyrem"]),
-        (.lithium,       ["lithium"]),
-        (.dissociative,  ["ketamine", "phencyclidine", "dextromethorphan"]),
-        (.empathogen,    ["3,4-methylenedioxy", "serotonin releasing agent"]),
-        (.cannabinoid,   ["delta-9-tetrahydrocannabinol", "cannabinoid", "cannabis", "marijuana"]),
-    ]
 }
