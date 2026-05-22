@@ -68,9 +68,13 @@ struct EntryFormView: View {
     private var currentUnits: [String] {
         if let sub = selectedSubstance {
             let routeUnits = sub.routes.map(\.unit)
-            let unique = Array(Set(routeUnits + defaultUnits))
+            let aliasLabels = sub.unitAliases.map(\.label)
+            let unique = Array(Set(routeUnits + aliasLabels + defaultUnits))
             let defaultUnit = sub.unit(for: route)
-            return [defaultUnit] + unique.filter { $0 != defaultUnit }
+            // Native unit first, then substance-specific aliases (so a drink/joint
+            // sits near the natural unit, not buried under mg/IU/etc.), then the rest.
+            let ordered = [defaultUnit] + aliasLabels.filter { $0 != defaultUnit }
+            return ordered + unique.filter { !ordered.contains($0) }
         }
         return defaultUnits
     }
@@ -88,8 +92,7 @@ struct EntryFormView: View {
     /// The user's input converted to the substance's native unit for accurate dose level comparison.
     private var normalizedAmount: Double? {
         guard let parsedAmount, let sub = selectedSubstance else { return parsedAmount }
-        let substanceUnit = sub.unit(for: route)
-        return DoseUnit.convert(parsedAmount, from: unit, to: substanceUnit) ?? parsedAmount
+        return sub.convert(amount: parsedAmount, from: unit, toRoute: route) ?? parsedAmount
     }
 
     private var currentDoseLevel: DoseLevel? {
@@ -295,10 +298,21 @@ struct EntryFormView: View {
     private func save() {
         guard let parsedAmount else { return }
 
+        // If the user picked a colloquial alias (e.g. "drink" for alcohol),
+        // normalise to the canonical physical unit at save time so cumulative
+        // dose, dose-level chips, and PK scaling all see the right number.
+        let (storedAmount, storedUnit): (Double, String) = {
+            if let sub = selectedSubstance,
+               let alias = sub.unitAliases.first(where: { $0.label == unit }) {
+                return (parsedAmount * alias.amountPerUnit, alias.unit)
+            }
+            return (parsedAmount, unit)
+        }()
+
         if let entry {
             entry.substance = substance
-            entry.amount = parsedAmount
-            entry.unit = unit
+            entry.amount = storedAmount
+            entry.unit = storedUnit
             entry.route = route
             entry.timestamp = timestamp
             entry.notes = notes.isEmpty ? nil : notes
@@ -308,8 +322,8 @@ struct EntryFormView: View {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             let newEntry = DoseEntry(
                 substance: substance,
-                amount: parsedAmount,
-                unit: unit,
+                amount: storedAmount,
+                unit: storedUnit,
                 route: route,
                 timestamp: timestamp,
                 notes: notes.isEmpty ? nil : notes,
