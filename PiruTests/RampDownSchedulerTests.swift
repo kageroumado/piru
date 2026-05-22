@@ -15,11 +15,11 @@ struct RampDownSchedulerTests {
         afterglow: Double? = nil
     ) -> DurationProfile {
         DurationProfile(
-            onset: TimeRange(min: onset, max: onset),
-            comeup: TimeRange(min: comeup, max: comeup),
-            peak: TimeRange(min: peak, max: peak),
-            offset: TimeRange(min: offset, max: offset),
-            afterglow: afterglow.map { TimeRange(min: $0, max: $0) },
+            onset: DurationRange(min: onset, max: onset),
+            comeup: DurationRange(min: comeup, max: comeup),
+            peak: DurationRange(min: peak, max: peak),
+            offset: DurationRange(min: offset, max: offset),
+            afterglow: afterglow.map { DurationRange(min: $0, max: $0) },
             total: nil
         )
     }

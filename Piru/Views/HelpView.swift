@@ -202,7 +202,7 @@ struct HelpView: View {
     private var services: [EmergencyService] {
         switch regionCode {
 
-        // MARK: Americas
+        // Americas
 
         case "US":
             return [
@@ -271,7 +271,7 @@ struct HelpView: View {
                 .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
             ]
 
-        // MARK: Europe
+        // Europe
 
         case "GB":
             return [
@@ -375,7 +375,7 @@ struct HelpView: View {
                 .init(title: "Emergency", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
             ]
 
-        // MARK: Asia & Oceania
+        // Asia & Oceania
 
         case "AU":
             return [
@@ -444,7 +444,7 @@ struct HelpView: View {
                 .init(title: "Samaritans", detail: "2389 2222", systemImage: "phone.fill", url: "tel:23892222", tint: .blue),
             ]
 
-        // MARK: Middle East & Africa
+        // Middle East & Africa
 
         case "IL":
             return [

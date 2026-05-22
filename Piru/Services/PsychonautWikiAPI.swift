@@ -173,20 +173,20 @@ enum PsychonautWikiAPI {
             || dur.offset != nil || dur.total != nil else { return nil }
 
         return DurationProfile(
-            onset: normalizeTimeRange(dur.onset),
-            comeup: normalizeTimeRange(dur.comeup),
-            peak: normalizeTimeRange(dur.peak),
-            offset: normalizeTimeRange(dur.offset),
-            afterglow: normalizeTimeRange(dur.afterglow),
-            total: normalizeTimeRange(dur.total)
+            onset: normalizeDurationRange(dur.onset),
+            comeup: normalizeDurationRange(dur.comeup),
+            peak: normalizeDurationRange(dur.peak),
+            offset: normalizeDurationRange(dur.offset),
+            afterglow: normalizeDurationRange(dur.afterglow),
+            total: normalizeDurationRange(dur.total)
         )
     }
 
     /// Normalize a PW time range to minutes.
-    private static func normalizeTimeRange(_ tr: PWTimeRange?) -> TimeRange? {
+    private static func normalizeDurationRange(_ tr: PWTimeRange?) -> DurationRange? {
         guard let tr, let min = tr.min, let max = tr.max, min > 0, max > 0 else { return nil }
         let multiplier = timeMultiplier(for: tr.units)
-        return TimeRange(min: min * multiplier, max: max * multiplier)
+        return DurationRange(min: min * multiplier, max: max * multiplier)
     }
 
     /// Multiplier to convert PW time units to minutes.

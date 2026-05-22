@@ -63,12 +63,12 @@ struct SubstanceCodableTests {
                     threshold: 5, light: 10...20, common: 20...40,
                     strong: 40...80, heavy: 80
                 ), duration: DurationProfile(
-                    onset: TimeRange(min: 15, max: 30),
-                    comeup: TimeRange(min: 10, max: 20),
-                    peak: TimeRange(min: 60, max: 120),
-                    offset: TimeRange(min: 30, max: 60),
+                    onset: DurationRange(min: 15, max: 30),
+                    comeup: DurationRange(min: 10, max: 20),
+                    peak: DurationRange(min: 60, max: 120),
+                    offset: DurationRange(min: 30, max: 60),
                     afterglow: nil,
-                    total: TimeRange(min: 180, max: 300)
+                    total: DurationRange(min: 180, max: 300)
                 )),
                 SubstanceRoute(route: .insufflation, unit: "mg", doses: DoseRange(
                     threshold: 3, light: 5...10, common: 10...20,

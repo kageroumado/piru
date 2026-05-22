@@ -265,12 +265,12 @@ struct SubstanceDeduplicatorTests {
         // clinical unit but no pharmacokinetics. Whichever side wins the
         // dose score, duration must survive.
         let duration = DurationProfile(
-            onset: TimeRange(min: 30, max: 60),
-            comeup: TimeRange(min: 30, max: 60),
-            peak: TimeRange(min: 120, max: 240),
-            offset: TimeRange(min: 120, max: 240),
-            afterglow: TimeRange(min: 240, max: 720),
-            total: TimeRange(min: 360, max: 600)
+            onset: DurationRange(min: 30, max: 60),
+            comeup: DurationRange(min: 30, max: 60),
+            peak: DurationRange(min: 120, max: 240),
+            offset: DurationRange(min: 120, max: 240),
+            afterglow: DurationRange(min: 240, max: 720),
+            total: DurationRange(min: 360, max: 600)
         )
         let durationOnlyRoute = SubstanceRoute(
             route: .oral,

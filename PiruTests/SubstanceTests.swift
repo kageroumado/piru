@@ -9,10 +9,10 @@ struct SubstanceTests {
         unit: "mg",
         doses: DoseRange(threshold: 5, light: 10...20, common: 20...40, strong: 40...80, heavy: 80),
         duration: DurationProfile(
-            onset: TimeRange(min: 15, max: 30),
-            comeup: TimeRange(min: 15, max: 30),
-            peak: TimeRange(min: 60, max: 120),
-            offset: TimeRange(min: 30, max: 60),
+            onset: DurationRange(min: 15, max: 30),
+            comeup: DurationRange(min: 15, max: 30),
+            peak: DurationRange(min: 60, max: 120),
+            offset: DurationRange(min: 30, max: 60),
             afterglow: nil,
             total: nil
         )
@@ -23,10 +23,10 @@ struct SubstanceTests {
         unit: "mg",
         doses: DoseRange(threshold: 3, light: 5...15, common: 15...30, strong: 30...60, heavy: 60),
         duration: DurationProfile(
-            onset: TimeRange(min: 5, max: 10),
-            comeup: TimeRange(min: 5, max: 10),
-            peak: TimeRange(min: 30, max: 60),
-            offset: TimeRange(min: 15, max: 30),
+            onset: DurationRange(min: 5, max: 10),
+            comeup: DurationRange(min: 5, max: 10),
+            peak: DurationRange(min: 30, max: 60),
+            offset: DurationRange(min: 15, max: 30),
             afterglow: nil,
             total: nil
         )
