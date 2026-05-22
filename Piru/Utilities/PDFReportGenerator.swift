@@ -328,7 +328,7 @@ enum PDFReportGenerator {
             x = Layout.margin
             item.substance.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: nameAttr)
             x += colWidths[0]
-            "\(formatDose(item.amount)) \(item.unit)".draw(at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr)
+            "\(item.amount.doseFormatted) \(item.unit)".draw(at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr)
             x += colWidths[1]
             item.route.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr)
             cursor.y += Layout.rowHeight
@@ -872,7 +872,7 @@ enum PDFReportGenerator {
                 xPos += nameStr.size(withAttributes: nameAttr).width + 6
 
                 // Dose info
-                "\(formatDose(entry.amount)) \(entry.unit) (\(entry.route))".draw(
+                "\(entry.amount.doseFormatted) \(entry.unit) (\(entry.route))".draw(
                     at: CGPoint(x: xPos, y: cursor.y), withAttributes: doseAttr)
                 cursor.y += 14
 
@@ -937,19 +937,8 @@ enum PDFReportGenerator {
         if value >= 100 {
             return String(format: "%.0f", value.rounded())
         } else if value >= 10 {
-            return formatDose((value * 10).rounded() / 10)
+            return ((value * 10).rounded() / 10).doseFormatted
         }
-        return formatDose(value)
-    }
-
-    private static func formatDose(_ value: Double) -> String {
-        if value.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.0f", value)
-        }
-        let formatted = String(format: "%.2f", value)
-        var result = formatted
-        while result.hasSuffix("0") { result = String(result.dropLast()) }
-        if result.hasSuffix(".") { result = String(result.dropLast()) }
-        return result
+        return value.doseFormatted
     }
 }
