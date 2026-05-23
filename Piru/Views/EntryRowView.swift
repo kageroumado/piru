@@ -36,9 +36,9 @@ struct EntryRowView: View {
                 Text(entry.substance)
                     .font(.headline)
                 HStack(spacing: 4) {
-                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(entry.route.displayName)")
+                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
                     if let doseLevel {
-                        Text("(\(doseLevel.rawValue))")
+                        Text("(\(String(localized: doseLevel.displayName)))")
                             .foregroundStyle(doseLevel.swiftUIColor)
                     }
                 }

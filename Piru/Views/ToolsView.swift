@@ -7,11 +7,20 @@ struct ToolsView: View {
         case volumetric = "Volumetric"
         case recovery = "Recovery"
         var id: String { rawValue }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .interactions: "Interactions"
+            case .calculator: "Calculator"
+            case .volumetric: "Volumetric"
+            case .recovery: "Recovery"
+            }
+        }
     }
 
     @State private var selectedSection: Section = .interactions
 
-    private var title: String {
+    private var title: LocalizedStringResource {
         switch selectedSection {
         case .interactions: "Interactions"
         case .calculator: "Calculator"
@@ -36,7 +45,7 @@ struct ToolsView: View {
         .safeAreaInset(edge: .top) {
             Picker("Section", selection: $selectedSection) {
                 ForEach(Section.allCases) { section in
-                    Text(section.rawValue).tag(section)
+                    Text(section.displayName).tag(section)
                 }
             }
             .pickerStyle(.segmented)
@@ -44,7 +53,7 @@ struct ToolsView: View {
             .padding(.vertical, 8)
             .background(Theme.background)
         }
-        .navigationTitle(title)
+        .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

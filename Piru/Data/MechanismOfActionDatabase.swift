@@ -15,9 +15,14 @@ enum MechanismOfActionDatabase {
     // MARK: - Helpers
 
     private static func moa(
-        _ summary: String, _ desc: String, _ bindings: [ReceptorBinding], _ refs: [String]
+        _ summary: LocalizedStringResource, _ desc: LocalizedStringResource, _ bindings: [ReceptorBinding], _ refs: [String]
     ) -> MechanismOfAction {
-        MechanismOfAction(summary: summary, description: desc, bindings: bindings, references: refs)
+        MechanismOfAction(
+            summary: String(localized: summary),
+            description: String(localized: desc),
+            bindings: bindings,
+            references: refs
+        )
     }
 
     private static func b(_ target: String, _ action: BindingAction, _ affinity: BindingAffinity) -> ReceptorBinding {

@@ -97,7 +97,7 @@ struct SubstanceSearchField: View {
                                         }
                                     }
                                     Spacer()
-                                    Text(substance.category.rawValue)
+                                    Text(substance.category.displayName)
                                         .font(.caption2)
                                         .padding(.horizontal, 6)
                                         .padding(.vertical, 2)

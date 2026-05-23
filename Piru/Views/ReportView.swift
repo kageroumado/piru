@@ -31,6 +31,16 @@ struct ReportView: View {
             case .custom: nil
             }
         }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .last7: "Last 7 Days"
+            case .last30: "Last 30 Days"
+            case .last90: "Last 90 Days"
+            case .allTime: "All Time"
+            case .custom: "Custom"
+            }
+        }
     }
 
     private var dateRange: (start: Date, end: Date) {
@@ -71,7 +81,7 @@ struct ReportView: View {
                 Section {
                     Picker("Period", selection: $selectedRange) {
                         ForEach(DateRange.allCases, id: \.self) { range in
-                            Text(range.rawValue).tag(range)
+                            Text(range.displayName).tag(range)
                         }
                     }
 

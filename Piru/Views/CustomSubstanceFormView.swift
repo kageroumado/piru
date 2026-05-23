@@ -123,7 +123,7 @@ struct CustomSubstanceFormView: View {
                 Section("Dosing Defaults") {
                     Picker("Default Route", selection: $defaultRoute) {
                         ForEach(RouteOfAdministration.allCases) { route in
-                            Text(route.displayName).tag(route)
+                            Text(route.localizedName).tag(route)
                         }
                     }
                     TextField("Unit (e.g. mg, ml, µg)", text: $unit)

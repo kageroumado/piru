@@ -108,6 +108,17 @@ enum DoseLevel: String, CaseIterable {
         case .heavy: "red"
         }
     }
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .sub: "Sub-threshold"
+        case .threshold: "Threshold"
+        case .light: "Light"
+        case .common: "Common"
+        case .strong: "Strong"
+        case .heavy: "Heavy"
+        }
+    }
 }
 
 // MARK: - Unit Conversion
@@ -192,16 +203,16 @@ struct DurationRange: Codable, Hashable {
             let minH = Self.roundHours(min / 60)
             let maxH = Self.roundHours(max / 60)
             if minH == maxH {
-                return "~\(Self.fmtHours(minH)) hours"
+                return String(localized: "~\(Self.fmtHours(minH)) hours")
             }
-            return "~\(Self.fmtHours(minH))-\(Self.fmtHours(maxH)) hours"
+            return String(localized: "~\(Self.fmtHours(minH))-\(Self.fmtHours(maxH)) hours")
         }
         let minR = Int(min.rounded())
         let maxR = Int(max.rounded())
         if minR == maxR {
-            return "~\(minR) minutes"
+            return String(localized: "~\(minR) minutes")
         }
-        return "~\(minR)-\(maxR) minutes"
+        return String(localized: "~\(minR)-\(maxR) minutes")
     }
 
     /// Rounds hours to the nearest 0.5
@@ -354,6 +365,33 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     }
 
     var id: String { rawValue }
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .stimulant: "Stimulant"
+        case .psychedelic: "Psychedelic"
+        case .dissociative: "Dissociative"
+        case .opioid: "Opioid"
+        case .benzodiazepine: "Benzodiazepine"
+        case .gabapentinoid: "GABAergic"
+        case .empathogen: "Empathogen"
+        case .cannabinoid: "Cannabinoid"
+        case .nootropic: "Nootropic"
+        case .depressant: "Depressant"
+        case .antidepressant: "Antidepressant"
+        case .antipsychotic: "Antipsychotic"
+        case .analgesic: "Analgesic"
+        case .antihistamine: "Antihistamine"
+        case .cardiovascular: "Cardiovascular"
+        case .antimicrobial: "Antimicrobial"
+        case .gastrointestinal: "Gastrointestinal"
+        case .respiratory: "Respiratory"
+        case .endocrine: "Endocrine"
+        case .immunological: "Immunological"
+        case .supplement: "Supplement"
+        case .other: "Other"
+        }
+    }
 }
 
 struct SubjectiveEffect: Codable {
@@ -380,7 +418,7 @@ enum BindingAction: String, Codable {
     case channelBlocker
     case modulator
 
-    var displayName: String {
+    var displayName: LocalizedStringResource {
         switch self {
         case .agonist: "Agonist"
         case .partialAgonist: "Partial Agonist"
