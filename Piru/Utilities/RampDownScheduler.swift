@@ -255,7 +255,7 @@ enum RampDownScheduler {
             if hydrationInterval > 10 && !hasPendingWithin(of: hydrationFireDate, prefix: hydrationCategoryID) {
                 scheduleSimpleNotification(
                     id: "\(hydrationCategoryID)_\(Int(doseTime.timeIntervalSince1970))",
-                    title: "Stay hydrated",
+                    title: String(localized: "Stay hydrated"),
                     body: hydrationMessage(for: category),
                     timeInterval: hydrationInterval,
                     category: hydrationCategoryID,
@@ -272,8 +272,8 @@ enum RampDownScheduler {
                     && !hasPendingWithin(of: secondFireDate, prefix: hydrationCategoryID) {
                     scheduleSimpleNotification(
                         id: "\(hydrationCategoryID)2_\(Int(doseTime.timeIntervalSince1970))",
-                        title: "Hydration check",
-                        body: "Have some water and a snack if you haven't recently. Your body will thank you.",
+                        title: String(localized: "Hydration check"),
+                        body: String(localized: "Have some water and a snack if you haven't recently. Your body will thank you."),
                         timeInterval: secondInterval,
                         category: hydrationCategoryID,
                         threadId: threadId
@@ -288,8 +288,8 @@ enum RampDownScheduler {
                     if !hasPendingWithin(of: sleepFireDate, prefix: sleepCategoryID) {
                         scheduleSimpleNotification(
                             id: "\(sleepCategoryID)_\(Int(doseTime.timeIntervalSince1970))",
-                            title: "Time to rest",
-                            body: "You've been going for over \(Int(stimHours)) hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep.",
+                            title: String(localized: "Time to rest"),
+                            body: String(localized: "You've been going for over \(Int(stimHours)) hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep."),
                             timeInterval: Timing.extendedStimSleepDelay,
                             category: sleepCategoryID,
                             threadId: threadId
@@ -302,8 +302,8 @@ enum RampDownScheduler {
                         && !hasPendingWithin(of: sleepFireDate, prefix: sleepCategoryID) {
                         scheduleSimpleNotification(
                             id: "\(sleepCategoryID)_\(Int(doseTime.timeIntervalSince1970))",
-                            title: "Time to rest",
-                            body: "It's been a long session. Your body and brain need sleep to recover. Try to wind down.",
+                            title: String(localized: "Time to rest"),
+                            body: String(localized: "It's been a long session. Your body and brain need sleep to recover. Try to wind down."),
                             timeInterval: sleepInterval,
                             category: sleepCategoryID,
                             threadId: threadId
@@ -333,8 +333,8 @@ enum RampDownScheduler {
 
             scheduleSimpleNotification(
                 id: "\(cumulativeCategoryID)_\(substanceName.lowercased())_\(Int(Date.now.timeIntervalSince1970))",
-                title: "Heads up — \(totalAmount.doseFormatted)\(unit) \(substanceName) today",
-                body: "That's a high cumulative dose. \(tip)",
+                title: String(localized: "Heads up — \(totalAmount.doseFormatted)\(unit) \(substanceName) today"),
+                body: String(localized: "That's a high cumulative dose. \(tip)"),
                 timeInterval: 5,
                 category: cumulativeCategoryID,
                 threadId: threadId
@@ -359,7 +359,7 @@ enum RampDownScheduler {
     enum Phase: String, CaseIterable {
         case onset, comeup, peak
 
-        var displayName: String {
+        var displayName: LocalizedStringResource {
             switch self {
             case .onset: "Onset"
             case .comeup: "Come-up"
@@ -400,13 +400,13 @@ enum RampDownScheduler {
                 switch phase {
                 case .onset:
                     if let onset = duration.onset {
-                        return "Effects should start within \(Int(onset.min))-\(Int(onset.max)) minutes."
+                        return String(localized: "Effects should start within \(Int(onset.min))-\(Int(onset.max)) minutes.")
                     }
-                    return "Tracking started. Effects on the way."
+                    return String(localized: "Tracking started. Effects on the way.")
                 case .comeup:
-                    return "First effects starting now. Find your spot."
+                    return String(localized: "First effects starting now. Find your spot.")
                 case .peak:
-                    return "Peak is hitting. Stay safe and aware."
+                    return String(localized: "Peak is hitting. Stay safe and aware.")
                 }
             }
 
@@ -442,7 +442,7 @@ enum RampDownScheduler {
 
         scheduleSimpleNotification(
             id: "\(phaseCategoryID)_\(phase.rawValue)_\(Int(doseTime.timeIntervalSince1970))",
-            title: "\(substance) — \(phase.displayName)",
+            title: "\(substance) — \(String(localized: phase.displayName))",
             body: body,
             timeInterval: absoluteInterval,
             category: phaseCategoryID,
@@ -487,62 +487,62 @@ enum RampDownScheduler {
     private static func comedownMessage(for category: SubstanceCategory?) -> (title: String, body: String) {
         switch category {
         case .stimulant:
-            ("{name} wearing off",
-             "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery."))
         case .empathogen:
-            ("{name} wearing off",
-             "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days."))
         case .psychedelic:
-            ("{name} effects fading",
-             "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience.")
+            (String(localized: "{name} effects fading"),
+             String(localized: "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience."))
         case .opioid:
-            ("{name} wearing off",
-             "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support."))
         case .dissociative:
-            ("{name} wearing off",
-             "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving."))
         case .benzodiazepine:
-            ("{name} wearing off",
-             "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out."))
         case .depressant:
-            ("{name} wearing off",
-             "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts."))
         case .cannabinoid:
-            ("{name} wearing off",
-             "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it."))
         default:
-            ("{name} wearing off",
-             "Take care of yourself — eat, hydrate, and rest. The effects will fade with time.")
+            (String(localized: "{name} wearing off"),
+             String(localized: "Take care of yourself — eat, hydrate, and rest. The effects will fade with time."))
         }
     }
 
     private static func hydrationMessage(for category: SubstanceCategory?) -> String {
         switch category {
         case .stimulant:
-            "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize."
+            String(localized: "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize.")
         case .empathogen:
-            "Sip some water — a glass every 30-60 minutes. Don't overdo it, just stay steady."
+            String(localized: "Sip some water — a glass every 30-60 minutes. Don't overdo it, just stay steady.")
         case .dissociative:
-            "Have some water if you can. Your body needs fluids even if you don't feel thirsty."
+            String(localized: "Have some water if you can. Your body needs fluids even if you don't feel thirsty.")
         default:
-            "Drink some water. Your body needs it, especially right now."
+            String(localized: "Drink some water. Your body needs it, especially right now.")
         }
     }
 
     private static func cumulativeTip(for category: SubstanceCategory?) -> String {
         switch category {
         case .stimulant:
-            "Remember to hydrate, eat, and try to get some sleep. Your heart has been working hard."
+            String(localized: "Remember to hydrate, eat, and try to get some sleep. Your heart has been working hard.")
         case .empathogen:
-            "Your serotonin system is taking a hit. Please rest and take care of yourself."
+            String(localized: "Your serotonin system is taking a hit. Please rest and take care of yourself.")
         case .opioid:
-            "Be very careful. Don't mix with other downers. Have naloxone nearby if possible."
+            String(localized: "Be very careful. Don't mix with other downers. Have naloxone nearby if possible.")
         case .benzodiazepine:
-            "High cumulative benzo doses impair memory and coordination. Stay somewhere safe."
+            String(localized: "High cumulative benzo doses impair memory and coordination. Stay somewhere safe.")
         case .dissociative:
-            "Stay somewhere safe. Don't drive. Your coordination and judgment are affected."
+            String(localized: "Stay somewhere safe. Don't drive. Your coordination and judgment are affected.")
         default:
-            "Take it easy. Hydrate, eat, and rest."
+            String(localized: "Take it easy. Hydrate, eat, and rest.")
         }
     }
 

@@ -15,7 +15,7 @@ enum InteractionSeverity: Int, Comparable, Codable {
         lhs.rawValue < rhs.rawValue
     }
 
-    var label: String {
+    var label: LocalizedStringResource {
         switch self {
         case .dangerous: "Dangerous"
         case .unsafe: "Unsafe"
@@ -39,7 +39,7 @@ enum InteractionSource {
     case tripSitCombo
     case fdaLabel
 
-    var label: String {
+    var label: LocalizedStringResource {
         switch self {
         case .classRule: "Pharmacological"
         case .tripSitCombo: "TripSit"
@@ -96,6 +96,13 @@ private struct InteractionRule {
     let classB: DrugClass
     let severity: InteractionSeverity
     let description: String
+
+    init(classA: DrugClass, classB: DrugClass, severity: InteractionSeverity, description: LocalizedStringResource) {
+        self.classA = classA
+        self.classB = classB
+        self.severity = severity
+        self.description = String(localized: description)
+    }
 }
 
 // MARK: - Interaction Checker

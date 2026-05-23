@@ -5,6 +5,13 @@ struct InsightsView: View {
         case adherence = "Adherence"
         case usage = "Usage"
         var id: String { rawValue }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .adherence: "Adherence"
+            case .usage: "Usage"
+            }
+        }
     }
 
     @State private var selectedSection: Section = .adherence
@@ -21,7 +28,7 @@ struct InsightsView: View {
         .safeAreaInset(edge: .top) {
             Picker("Section", selection: $selectedSection) {
                 ForEach(Section.allCases) { section in
-                    Text(section.rawValue).tag(section)
+                    Text(section.displayName).tag(section)
                 }
             }
             .pickerStyle(.segmented)

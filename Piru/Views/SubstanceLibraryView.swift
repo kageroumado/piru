@@ -61,7 +61,7 @@ struct SubstanceLibraryView: View {
         .navigationDestination(for: LibraryDestination.self) { destination in
             switch destination {
             case .category(let cat):
-                SubstanceCategoryListView(title: cat.rawValue, category: cat)
+                SubstanceCategoryListView(title: cat.displayName, category: cat)
             case .favorites:
                 SubstanceCategoryListView(title: "Favorites", category: nil)
             }
@@ -114,7 +114,7 @@ struct SubstanceLibraryView: View {
                             .foregroundStyle(category.color)
                             .frame(width: 30)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(category.rawValue)
+                            Text(category.displayName)
                                 .font(.body)
                             Text("\(count) substance\(count == 1 ? "" : "s")")
                                 .font(.caption)
@@ -282,7 +282,7 @@ struct SubstanceLibraryView: View {
 // MARK: - Category Substance List
 
 struct SubstanceCategoryListView: View {
-    let title: String
+    let title: LocalizedStringResource
     let category: SubstanceCategory?
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
@@ -327,7 +327,7 @@ struct SubstanceCategoryListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle(title)
+        .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.large)
     }
 }
@@ -351,7 +351,7 @@ struct SubstanceRowView: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 3) {
-                Text(substance.category.rawValue)
+                Text(substance.category.displayName)
                     .font(.caption2)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
@@ -416,8 +416,12 @@ struct SubstanceDetailView: View {
                             .multilineTextAlignment(.trailing)
                     }
                 }
-                LabeledContent("Category", value: substance.category.rawValue)
-                LabeledContent("Default Route", value: substance.defaultRoute.displayName)
+                LabeledContent("Category") {
+                    Text(substance.category.displayName)
+                }
+                LabeledContent("Default Route") {
+                    Text(substance.defaultRoute.localizedName)
+                }
             }
 
             if let moa = substance.mechanismOfAction
@@ -505,7 +509,7 @@ struct SubstanceDetailView: View {
             }
 
             ForEach(substance.routes, id: \.route) { substanceRoute in
-                Section("Dosage — \(substanceRoute.route.displayName)") {
+                Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
                     let unit = substanceRoute.unit
                     let doses = substanceRoute.doses
 
@@ -535,7 +539,7 @@ struct SubstanceDetailView: View {
                 }
 
                 if let duration = substanceRoute.duration {
-                    Section("Duration — \(substanceRoute.route.displayName)") {
+                    Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
                         DurationInfoView(duration: duration)
                             .padding(.vertical, 4)
                     }
@@ -638,7 +642,7 @@ struct SubstanceDetailView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("\(entry.amount.doseFormatted) \(entry.unit)")
                                 .font(.subheadline)
-                            Text(entry.route.displayName)
+                            Text(entry.route.localizedName)
                                 .font(.caption2)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -693,7 +697,7 @@ struct SubstanceDetailView: View {
     }
 
     @ViewBuilder
-    private func doseRow(_ label: String, value: String, level: DoseLevel) -> some View {
+    private func doseRow(_ label: LocalizedStringResource, value: String, level: DoseLevel) -> some View {
         HStack {
             HStack(spacing: 6) {
                 Circle()

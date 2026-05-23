@@ -17,6 +17,15 @@ enum JournalGrouping: String, CaseIterable {
         case .byCategory: "square.grid.2x2"
         }
     }
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .recent: "Recent"
+        case .byDay: "Days"
+        case .bySubstance: "Substance"
+        case .byCategory: "Category"
+        }
+    }
 }
 
 // MARK: - Entry List View
@@ -251,11 +260,11 @@ struct EntryListView: View {
                     Button {
                         grouping = mode
                     } label: {
-                        Label(mode.rawValue, systemImage: mode.icon)
+                        Label(mode.displayName, systemImage: mode.icon)
                     }
                 }
             } label: {
-                Label(grouping.rawValue, systemImage: grouping.icon)
+                Label(grouping.displayName, systemImage: grouping.icon)
                     .font(.subheadline.weight(.medium))
                     .frame(height: 28)
                     .padding(.horizontal, 10)
@@ -416,7 +425,7 @@ struct EntryListView: View {
                 } label: {
                     HStack(spacing: 8) {
                         Label {
-                            Text("\(group.category.rawValue) (\(group.entries.count))")
+                            Text("\(String(localized: group.category.displayName)) (\(group.entries.count))")
                         } icon: {
                             Image(systemName: group.category.icon)
                                 .foregroundStyle(group.category.color)
@@ -489,7 +498,7 @@ private struct SubstanceEntryRow: View {
                 Text(entry.substance)
                     .font(.subheadline.weight(.medium))
                 HStack(spacing: 4) {
-                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(entry.route.displayName)")
+                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -549,7 +558,7 @@ struct DayCardView: View {
             return unique.joined(separator: ", ")
         }
         let first = unique.prefix(3).joined(separator: ", ")
-        return "\(first) +\(unique.count - 3) more"
+        return String(localized: "\(first) +\(unique.count - 3) more")
     }
 
     private var barColors: [Color] {
@@ -638,7 +647,7 @@ struct JournalFilterSheet: View {
                                     Image(systemName: category.icon)
                                         .foregroundStyle(category.color)
                                         .frame(width: 24)
-                                    Text(category.rawValue)
+                                    Text(category.displayName)
                                         .foregroundStyle(.primary)
                                     Spacer()
                                     if selectedCategories.contains(category) {

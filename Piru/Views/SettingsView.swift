@@ -241,7 +241,7 @@ struct SettingsView: View {
         ) { result in
             exportDocument = nil
             if case .failure(let error) = result {
-                importMessage = "Export failed: \(error.localizedDescription)"
+                importMessage = String(localized: "Export failed: \(error.localizedDescription)")
                 showingImportMessage = true
             }
         }
@@ -269,12 +269,10 @@ struct SettingsView: View {
     // MARK: - Colors Preview
 
     private var boundaryHourLabel: String {
-        switch dayBoundaryHour {
-        case 0: "12 AM"
-        case 12: "12 PM"
-        case ..<12: "\(dayBoundaryHour) AM"
-        default: "\(dayBoundaryHour - 12) PM"
-        }
+        var components = DateComponents()
+        components.hour = dayBoundaryHour
+        let date = Calendar.current.date(from: components) ?? .now
+        return date.formatted(.dateTime.hour())
     }
 
     private var colorsPreview: some View {
@@ -311,7 +309,7 @@ struct SettingsView: View {
         switch result {
         case .success(let url):
             guard url.startAccessingSecurityScopedResource() else {
-                importMessage = "Couldn't access the selected file."
+                importMessage = String(localized: "Couldn't access the selected file.")
                 showingImportMessage = true
                 return
             }
@@ -320,10 +318,10 @@ struct SettingsView: View {
             do {
                 let data = try Data(contentsOf: url)
                 try DataExportImport.importJSON(data: data, context: modelContext)
-                importMessage = "Data imported successfully."
+                importMessage = String(localized: "Data imported successfully.")
                 showingImportMessage = true
             } catch {
-                importMessage = "Import failed: \(error.localizedDescription)"
+                importMessage = String(localized: "Import failed: \(error.localizedDescription)")
                 showingImportMessage = true
             }
         case .failure(let error):
@@ -336,7 +334,7 @@ struct SettingsView: View {
         do {
             try DataExportImport.deleteAll(context: modelContext)
         } catch {
-            importMessage = "Delete failed: \(error.localizedDescription)"
+            importMessage = String(localized: "Delete failed: \(error.localizedDescription)")
             showingImportMessage = true
         }
     }

@@ -106,7 +106,13 @@ struct InteractionCheckerView: View {
                 .themeCard()
             } else {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(results.count == 1 ? "1 Interaction Found" : "\(results.count) Interactions Found")
+                    Group {
+                        if results.count == 1 {
+                            Text("1 Interaction Found")
+                        } else {
+                            Text("\(results.count) Interactions Found")
+                        }
+                    }
                         .font(.caption.weight(.semibold))
                         .foregroundStyle((results.first?.severity ?? .caution).color)
                         .textCase(.uppercase)
@@ -227,7 +233,7 @@ struct InteractionCheckerView: View {
                             }
                         }
                         Spacer()
-                        Text(substance.category.rawValue)
+                        Text(substance.category.displayName)
                             .font(.caption2)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)

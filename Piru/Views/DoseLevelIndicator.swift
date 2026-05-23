@@ -16,7 +16,7 @@ struct DoseLevelIndicator: View {
                     Circle()
                         .fill(level.swiftUIColor)
                         .frame(width: 10, height: 10)
-                    Text(level.rawValue)
+                    Text(level.displayName)
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(level.swiftUIColor)
                 }
@@ -97,7 +97,7 @@ struct DoseLevelBadge: View {
     let level: DoseLevel
 
     var body: some View {
-        Text("(\(level.rawValue))")
+        Text("(\(String(localized: level.displayName)))")
             .font(.caption.weight(.semibold))
             .foregroundStyle(level.swiftUIColor)
     }
@@ -166,7 +166,7 @@ struct DoseInfoView: View {
     }
 
     @ViewBuilder
-    private func doseLabel(_ label: String, level: DoseLevel) -> some View {
+    private func doseLabel(_ label: LocalizedStringResource, level: DoseLevel) -> some View {
         HStack(spacing: 4) {
             Circle()
                 .fill(level.swiftUIColor)
@@ -205,7 +205,7 @@ struct DurationTimelineBar: View {
     let duration: DurationProfile
 
     private struct Phase {
-        let label: String
+        let label: LocalizedStringResource
         let minutes: Double
         let color: Color
     }
@@ -324,7 +324,7 @@ struct DurationInfoView: View {
     }
 
     @ViewBuilder
-    private func phaseLabel(_ label: String, color: Color) -> some View {
+    private func phaseLabel(_ label: LocalizedStringResource, color: Color) -> some View {
         HStack(spacing: 4) {
             Circle()
                 .fill(color)

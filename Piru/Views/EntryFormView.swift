@@ -157,7 +157,7 @@ struct EntryFormView: View {
                     }
                     Picker("Route", selection: $route) {
                         ForEach(availableRoutes) { r in
-                            Text(r.displayName).tag(r)
+                            Text(r.localizedName).tag(r)
                         }
                     }
                     .onChange(of: route) {

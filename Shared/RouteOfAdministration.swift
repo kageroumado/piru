@@ -28,6 +28,21 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
         case .other: "Other"
         }
     }
+
+    var localizedName: LocalizedStringResource {
+        switch self {
+        case .oral: "Oral"
+        case .sublingual: "Sublingual"
+        case .insufflation: "Insufflation"
+        case .inhalation: "Inhalation"
+        case .intravenous: "Intravenous"
+        case .intramuscular: "Intramuscular"
+        case .subcutaneous: "Subcutaneous"
+        case .transdermal: "Transdermal"
+        case .rectal: "Rectal"
+        case .other: "Other"
+        }
+    }
 }
 
 extension RouteOfAdministration {

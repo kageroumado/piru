@@ -54,6 +54,15 @@ struct UsageStatsView: View {
             case .all: nil
             }
         }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .sevenDays: "7D"
+            case .thirtyDays: "30D"
+            case .ninetyDays: "90D"
+            case .all: "All"
+            }
+        }
     }
 
     private func rebuildFilteredEntries() {
@@ -224,7 +233,7 @@ struct UsageStatsView: View {
     private var timeRangePicker: some View {
         Picker("Time Range", selection: $timeRange) {
             ForEach(TimeRange.allCases) { range in
-                Text(range.rawValue).tag(range)
+                Text(range.displayName).tag(range)
             }
         }
         .pickerStyle(.segmented)
@@ -256,7 +265,7 @@ struct UsageStatsView: View {
         }
     }
 
-    private func statCard(value: String, label: String) -> some View {
+    private func statCard(value: String, label: LocalizedStringResource) -> some View {
         VStack(spacing: 4) {
             Text(value)
                 .font(.system(.title3, design: .rounded, weight: .semibold))
@@ -341,7 +350,7 @@ struct UsageStatsView: View {
                                     Circle()
                                         .fill(item.category.color)
                                         .frame(width: 6, height: 6)
-                                    Text(item.category.rawValue)
+                                    Text(item.category.displayName)
                                         .font(.caption2.weight(.medium))
                                 }
                                 .padding(.horizontal, 8)
@@ -642,7 +651,7 @@ struct UsageStatsView: View {
                 Text(date.formatted(.dateTime.weekday(.wide).day().month(.wide)))
                     .font(.subheadline.weight(.semibold))
                 Spacer()
-                Text(String(format: "%.1f %@ total", total, unit))
+                Text("\(String(format: "%.1f", total)) \(unit) total")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(color)
             }
@@ -752,10 +761,10 @@ private struct TimeOfDayChartContent: View {
     var body: some View {
         let total = buckets.reduce(0, +)
         let items = [
-            TimeBucket(name: "Morning\n6–12", count: buckets[0], color: .orange),
-            TimeBucket(name: "Afternoon\n12–18", count: buckets[1], color: .yellow),
-            TimeBucket(name: "Evening\n18–0", count: buckets[2], color: .indigo),
-            TimeBucket(name: "Night\n0–6", count: buckets[3], color: .blue),
+            TimeBucket(name: String(localized: "Morning\n6–12"), count: buckets[0], color: .orange),
+            TimeBucket(name: String(localized: "Afternoon\n12–18"), count: buckets[1], color: .yellow),
+            TimeBucket(name: String(localized: "Evening\n18–0"), count: buckets[2], color: .indigo),
+            TimeBucket(name: String(localized: "Night\n0–6"), count: buckets[3], color: .blue),
         ]
 
         VStack(alignment: .leading, spacing: 8) {
@@ -964,7 +973,7 @@ private struct CategoryBreakdownContent: View {
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                     }
-                    Text(selected.rawValue)
+                    Text(selected.displayName)
                         .font(.headline)
                 }
             } else {
@@ -1010,7 +1019,7 @@ private struct CategoryBreakdownContent: View {
                                 Circle()
                                     .fill(item.category.color)
                                     .frame(width: 8, height: 8)
-                                Text(item.category.rawValue)
+                                Text(item.category.displayName)
                                     .font(.caption2)
                                 Text("\(item.count)")
                                     .font(.caption2.weight(.semibold))
@@ -1037,7 +1046,7 @@ private struct CategoryBreakdownContent: View {
         let drillTotal = counts.reduce(0) { $0 + $1.count }
 
         if counts.isEmpty {
-            Text("No data for \(category.rawValue)")
+            Text("No data for \(String(localized: category.displayName))")
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
                 .frame(maxWidth: .infinity, alignment: .center)

@@ -69,7 +69,7 @@ struct MedicationItemFormView: View {
                     }
                     Picker("Route", selection: $route) {
                         ForEach(availableRoutes) { r in
-                            Text(r.displayName).tag(r)
+                            Text(r.localizedName).tag(r)
                         }
                     }
                     .onChange(of: route) {
@@ -85,6 +85,7 @@ struct MedicationItemFormView: View {
                             Text(freq.displayName).tag(freq)
                         }
                     }
+
 
                     if frequency == .specificDays {
                         VStack(alignment: .leading, spacing: 8) {
