@@ -21,3 +21,6 @@ AppIcon_backup.png
 
 # Certificates (Apple's CAs are public, but no need to vendor them)
 *.cer
+
+# Claude Code workspace
+.claude/
