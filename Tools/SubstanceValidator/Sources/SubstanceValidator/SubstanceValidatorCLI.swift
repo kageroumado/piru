@@ -6,8 +6,76 @@ struct SubstanceValidator: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "SubstanceValidator",
         abstract: "Validate and enrich Piru's substance library against TripSit and PsychonautWiki APIs.",
-        subcommands: [Validate.self, Generate.self]
+        subcommands: [Validate.self, Generate.self, Audit.self]
     )
+}
+
+// MARK: - Audit Subcommand
+
+/// Reads the iOS app's runtime substance cache (`substances_cache.json`) and
+/// runs correctness checks against it: monotonic dose ladders, plausible
+/// per-category bounds, and agreement with a hand-curated ground-truth table.
+struct Audit: AsyncParsableCommand {
+    static let configuration = CommandConfiguration(
+        abstract: "Audit the runtime substance cache for monotonicity, plausibility, and ground-truth disagreement."
+    )
+
+    @Option(name: .long, help: "Path to substances_cache.json (the runtime cache produced by the Piru app).")
+    var cache: String = "./substances_cache.json"
+
+    @Option(name: .long, help: "Directory to write audit-report.md to.")
+    var outputDir: String = "."
+
+    @Option(name: .long, help: "Optional path to a custom ground-truth file (YAML or JSON). Currently unused — placeholder for future extension.")
+    var groundTruth: String?
+
+    @Flag(name: .long, help: "Verbose output.")
+    var verbose: Bool = false
+
+    func run() async throws {
+        print("Piru Substance Audit")
+        print("====================\n")
+
+        let cacheURL = URL(fileURLWithPath: cache)
+        print("[1/4] Loading cache: \(cacheURL.path)")
+        let data = try Data(contentsOf: cacheURL)
+        let substances = try JSONDecoder().decode([AuditSubstance].self, from: data)
+        print("  Loaded \(substances.count) substances\n")
+
+        if let groundTruth, verbose {
+            print("  (Note: --ground-truth=\(groundTruth) is reserved; built-in table is used.)\n")
+        }
+
+        print("[2/4] Monotonicity check...")
+        let mono = MonotonicityCheck.run(substances)
+        print("  \(mono.count) finding(s)\n")
+
+        print("[3/4] Plausibility check...")
+        let plaus = PlausibilityCheck.run(substances)
+        print("  \(plaus.count) finding(s)\n")
+
+        print("[4/4] Ground-truth check...")
+        let gt = GroundTruthCheck.run(substances)
+        print("  \(gt.count) finding(s)\n")
+
+        let all = mono + plaus + gt
+        let errors = all.filter { $0.severity == .error }.count
+        let warnings = all.filter { $0.severity == .warning }.count
+        let infos = all.filter { $0.severity == .info }.count
+        print("Total: \(all.count) — \(errors) error, \(warnings) warning, \(infos) info")
+
+        let report = AuditReportGenerator.generate(
+            findings: all,
+            substances: substances,
+            cachePath: cacheURL.path
+        )
+
+        let outputURL = URL(fileURLWithPath: outputDir)
+        try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+        let reportFile = outputURL.appendingPathComponent("audit-report.md")
+        try report.write(to: reportFile, atomically: true, encoding: .utf8)
+        print("\nReport written to: \(reportFile.path)")
+    }
 }
 
 // MARK: - Validate Subcommand
