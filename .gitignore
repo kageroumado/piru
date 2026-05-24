@@ -21,3 +21,9 @@ AppIcon_backup.png
 
 # Certificates (Apple's CAs are public, but no need to vendor them)
 *.cer
+
+# Claude Code session state
+.claude/
+
+# Specs are working documents, not source of truth
+Specs/
