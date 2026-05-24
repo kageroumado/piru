@@ -29,9 +29,9 @@ struct CustomSubstancesListView: View {
                                     .font(.body.weight(.medium))
                                     .foregroundStyle(.primary)
                                 HStack(spacing: 6) {
-                                    Text(substance.category.rawValue)
+                                    Text(substance.category.displayName)
                                     Text("·")
-                                    Text(substance.defaultRoute.displayName)
+                                    Text(substance.defaultRoute.localizedName)
                                     Text("·")
                                     Text(substance.unit)
                                 }

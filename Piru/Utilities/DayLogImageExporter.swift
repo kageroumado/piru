@@ -340,9 +340,9 @@ enum DayLogImageExporter {
             innerY += 24
             
             // Dose + route + level
-            var doseString = "\(entry.amount.doseFormatted) \(entry.unit) — \(entry.route.displayName)"
+            var doseString = "\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))"
             if let level = entry.doseLevel {
-                doseString += " (\(level.rawValue))"
+                doseString += " (\(String(localized: level.displayName)))"
             }
             
             let doseAttrs: [NSAttributedString.Key: Any] = [

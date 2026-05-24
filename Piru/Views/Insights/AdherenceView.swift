@@ -288,10 +288,10 @@ struct AdherenceDayDetailSheet: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(itemAdherence.taken
                                      ? "Taken \(itemAdherence.item.substance)"
-                                     : "Missed \(itemAdherence.item.route.displayName.lowercased()) of \(itemAdherence.item.substance)")
+                                     : "Missed \(String(localized: itemAdherence.item.route.localizedName).lowercased()) of \(itemAdherence.item.substance)")
                                     .font(.body)
 
-                                Text("\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit) \u{2014} \(itemAdherence.item.frequency.shortLabel)")
+                                Text("\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit) \u{2014} \(String(localized: itemAdherence.item.frequency.shortLabel))")
                                     .font(.caption)
                                     .foregroundStyle(Theme.secondaryLabel)
                             }
@@ -337,7 +337,7 @@ struct AdherenceDayDetailSheet: View {
         }
     }
 
-    private var statusLabel: String {
+    private var statusLabel: LocalizedStringResource {
         switch day.status {
         case .complete: "All taken"
         case .partial: "Partially taken"

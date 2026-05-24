@@ -9,7 +9,7 @@ final class LibraryLoadingState {
     static let shared = LibraryLoadingState()
     var substanceCount = 0
     var isLoading = true
-    var statusText = "Starting..."
+    var statusText: String = String(localized: "Starting...")
     private init() {}
 }
 
@@ -100,7 +100,7 @@ enum SubstanceLibrary {
                 isLoading = false
                 InteractionChecker.rebuildCache()
                 LibraryLoadingState.shared.isLoading = false
-                LibraryLoadingState.shared.statusText = "Done"
+                LibraryLoadingState.shared.statusText = String(localized: "Done")
                 return
             }
 
@@ -110,7 +110,7 @@ enum SubstanceLibrary {
             }
 
             LibraryLoadingState.shared.isLoading = true
-            LibraryLoadingState.shared.statusText = "Fetching TripSit data..."
+            LibraryLoadingState.shared.statusText = String(localized: "Fetching TripSit data...")
 
             let tripSitDrugs: [String: TripSitAPI.TripSitDrug]
             do {
@@ -135,7 +135,7 @@ enum SubstanceLibrary {
             }
 
             // Stage 2: Fetch DailyMed clinical drugs by direct name lookup.
-            LibraryLoadingState.shared.statusText = "Fetching clinical drug data..."
+            LibraryLoadingState.shared.statusText = String(localized: "Fetching clinical drug data...")
             let clinicalDrugs = await DailyMedAPI.fetchClinicalDrugs()
             if !clinicalDrugs.isEmpty {
                 let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: clinicalDrugs)
@@ -144,14 +144,14 @@ enum SubstanceLibrary {
             logger.info("Stage 2: \(all.count) substances (TripSit + DailyMed)")
 
             // Stage 3: Enrich half-life data from HalfLifeDatabase + duration heuristic
-            LibraryLoadingState.shared.statusText = "Enriching half-life data..."
+            LibraryLoadingState.shared.statusText = String(localized: "Enriching half-life data...")
             let enriched = enrichHalfLifeData(all)
             updateAll(enriched)
             let hlCount = enriched.filter { $0.halfLifeMinutes != nil }.count
             logger.info("Stage 3: \(hlCount)/\(enriched.count) substances have half-life data")
 
             // Stage 4: Enrich mechanism of action data from MechanismOfActionDatabase
-            LibraryLoadingState.shared.statusText = "Adding mechanism data..."
+            LibraryLoadingState.shared.statusText = String(localized: "Adding mechanism data...")
             let withMOA = enrichMechanismOfAction(enriched)
             updateAll(withMOA)
             let moaCount = withMOA.filter { $0.mechanismOfAction != nil }.count

@@ -97,7 +97,9 @@ struct EntryDetailView: View {
 
             Section("Dosage") {
                 LabeledContent("Amount", value: "\(entry.amount.doseFormatted) \(entry.unit)")
-                LabeledContent("Route", value: entry.route.displayName)
+                LabeledContent("Route") {
+                    Text(entry.route.localizedName)
+                }
             }
 
             Section("Timing") {

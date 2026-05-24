@@ -80,7 +80,7 @@ struct ComedownGuideView: View {
                 Image(systemName: category.icon)
                     .foregroundStyle(category.color)
                     .frame(width: 24)
-                Text(category.rawValue)
+                Text(category.displayName)
                     .font(.body)
             }
         }
@@ -115,12 +115,12 @@ struct ComedownGuideView: View {
         .padding(.vertical, 8)
     }
 
-    private func tipGroup(_ title: String, items: [String]) -> some View {
+    private func tipGroup(_ title: LocalizedStringResource, items: [LocalizedStringResource]) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.primary)
-            ForEach(items, id: \.self) { item in
+            ForEach(Array(items.enumerated()), id: \.offset) { _, item in
                 HStack(alignment: .top, spacing: 6) {
                     Text("\u{2022}")
                         .foregroundStyle(Theme.secondaryLabel)
@@ -150,7 +150,7 @@ struct ComedownGuideView: View {
         }
     }
 
-    private func tipRow(icon: String, color: Color, text: String) -> some View {
+    private func tipRow(icon: String, color: Color, text: LocalizedStringResource) -> some View {
         HStack(alignment: .top, spacing: 8) {
             Image(systemName: icon)
                 .foregroundStyle(color)
@@ -163,10 +163,10 @@ struct ComedownGuideView: View {
     // MARK: - Guide Data
 
     struct CategoryGuide {
-        let whatsHappening: [String]
-        let rightNow: [String]
-        let nextHours: [String]
-        let avoid: [String]
+        let whatsHappening: [LocalizedStringResource]
+        let rightNow: [LocalizedStringResource]
+        let nextHours: [LocalizedStringResource]
+        let avoid: [LocalizedStringResource]
     }
 
     static func guide(for category: SubstanceCategory) -> CategoryGuide {

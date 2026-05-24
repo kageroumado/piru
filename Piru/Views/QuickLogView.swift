@@ -492,7 +492,7 @@ struct QuickLogView: View {
 
     private func routeSection(_ group: SubstanceGroup, color: Color) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(group.route.displayName)
+            Text(group.route.localizedName)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Theme.secondaryLabel)
                 .padding(.top, 4)
@@ -718,7 +718,7 @@ struct QuickLogView: View {
                     Text(dose.substanceName)
                         .font(.subheadline.weight(.medium))
                     Spacer()
-                    Text("\(dose.amount.doseFormatted) \(dose.unit) — \(dose.route.displayName)")
+                    Text("\(dose.amount.doseFormatted) \(dose.unit) — \(String(localized: dose.route.localizedName))")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                     Button {

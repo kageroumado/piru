@@ -153,7 +153,7 @@ struct RampDownView: View {
     private var recoveryTipsSection: some View {
         Section("Recovery tips") {
             let guide = ComedownGuideView.guide(for: category ?? .other)
-            ForEach(guide.rightNow.prefix(3), id: \.self) { tip in
+            ForEach(Array(guide.rightNow.prefix(3).enumerated()), id: \.offset) { _, tip in
                 HStack(alignment: .top, spacing: 8) {
                     Image(systemName: "leaf.fill")
                         .font(.caption)

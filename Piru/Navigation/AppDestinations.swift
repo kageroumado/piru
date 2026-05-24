@@ -60,7 +60,7 @@ private struct PushRouteView: View {
             }
 
         case .libraryCategory(let category):
-            SubstanceCategoryListView(title: category.rawValue, category: category)
+            SubstanceCategoryListView(title: category.displayName, category: category)
 
         case .libraryFavorites:
             SubstanceCategoryListView(title: "Favorites", category: nil)
