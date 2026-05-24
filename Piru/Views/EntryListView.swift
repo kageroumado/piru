@@ -332,7 +332,7 @@ struct EntryListView: View {
     @ViewBuilder
     private var recentContent: some View {
         ForEach(filteredEntries) { entry in
-            NavigationLink(value: entry) {
+            NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
                 SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
             }
             .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
@@ -344,7 +344,7 @@ struct EntryListView: View {
     @ViewBuilder
     private var dayGroupedContent: some View {
         ForEach(cachedDayGroups, id: \.date) { day in
-            NavigationLink(value: day.date) {
+            NavigationLink(value: PushRoute.day(date: day.date)) {
                 DayCardView(date: day.date, entries: day.entries, colorMap: cachedColorMap)
             }
             .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
@@ -360,7 +360,7 @@ struct EntryListView: View {
             Section {
                 if !isCollapsed {
                     ForEach(group.entries) { entry in
-                        NavigationLink(value: entry) {
+                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
                             SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
                         }
                         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
@@ -398,7 +398,7 @@ struct EntryListView: View {
             Section {
                 if !isCollapsed {
                     ForEach(group.entries) { entry in
-                        NavigationLink(value: entry) {
+                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
                             SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
                         }
                         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
