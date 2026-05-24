@@ -33,6 +33,7 @@ struct SheetRouteView: View {
             NavigationStack {
                 DayDetailView(date: .now)
                     .withCancellationCloseButton()
+                    .withAppDestinations()
             }
 
         case .entryDetail(let timestamp):
@@ -40,6 +41,7 @@ struct SheetRouteView: View {
                 NavigationStack {
                     EntryDetailView(entry: entry)
                         .withCancellationCloseButton()
+                        .withAppDestinations()
                 }
             }
 
