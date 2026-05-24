@@ -17,7 +17,7 @@ struct SettingsView: View {
     @State private var showingExporter = false
     @State private var showingReport = false
     @State private var showingImporter = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @State private var showingDeleteConfirmation = false
     @State private var exportDocument: PiruDocument?
     @State private var importMessage: String?
@@ -223,7 +223,7 @@ struct SettingsView: View {
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
-                    dismiss()
+                    navigator.dismiss()
                 } label: {
                     Image(systemName: "xmark")
                         .font(.body.weight(.semibold))
@@ -391,6 +391,7 @@ struct SubstanceColorsListView: View {
                 takenColors: takenColorMap(excluding: sc.substance)
             ) { hex in
                 sc.hexColor = hex
+                editingSubstance = nil
             }
             .presentationDetents([.large])
         }

@@ -22,5 +22,12 @@ AppIcon_backup.png
 # Certificates (Apple's CAs are public, but no need to vendor them)
 *.cer
 
-# Claude Code workspace
+# Claude Code session state
 .claude/
+
+# Specs are working documents, not source of truth
+Specs/
+
+# Skills CLI working files
+.agents/
+skills-lock.json

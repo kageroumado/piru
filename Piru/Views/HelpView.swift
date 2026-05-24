@@ -4,7 +4,7 @@ import SwiftData
 struct HelpView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @State private var copiedSummary = false
 
     init() {
@@ -70,7 +70,7 @@ struct HelpView: View {
             .navigationTitle("Get Help")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
                 }
             }
         }

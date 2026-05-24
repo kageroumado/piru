@@ -5,11 +5,11 @@ import WidgetKit
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @Query private var substanceColors: [SubstanceColor]
 
     let entry: DoseEntry
 
-    @State private var showingEditForm = false
     @State private var showingDeleteConfirmation = false
     @State private var showColorPicker = false
 
@@ -154,7 +154,7 @@ struct EntryDetailView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    showingEditForm = true
+                    navigator.present(.entryEdit(timestamp: entry.timestamp))
                 } label: {
                     Image(systemName: "square.and.pencil")
                 }
@@ -173,9 +173,6 @@ struct EntryDetailView: View {
         } message: {
             Text("\(entry.amount.doseFormatted) \(entry.unit) \(entry.substance) on \(entry.timestamp.formatted(date: .abbreviated, time: .shortened))")
         }
-        .sheet(isPresented: $showingEditForm) {
-            EntryFormView(entry: entry)
-        }
         .sheet(isPresented: $showColorPicker) {
             SubstanceColorPickerView(
                 substanceName: entry.substance,
@@ -186,6 +183,7 @@ struct EntryDetailView: View {
                 } else {
                     modelContext.insert(SubstanceColor(substance: entry.substance, hexColor: hex))
                 }
+                showColorPicker = false
             }
             .presentationDetents([.large])
         }
