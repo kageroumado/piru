@@ -9,7 +9,6 @@ struct DayDetailView: View {
     @Query private var substanceColors: [SubstanceColor]
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
-    @State private var showingForm = false
     @State private var entryToAdjustTime: DoseEntry?
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
@@ -256,14 +255,11 @@ struct DayDetailView: View {
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    showingForm = true
+                    navigator.present(.entryForm(prefill: nil))
                 } label: {
                     Image(systemName: "plus")
                 }
             }
-        }
-        .sheet(isPresented: $showingForm) {
-            EntryFormView()
         }
         .sheet(item: $entryToAdjustTime) { entry in
             NavigationStack {
