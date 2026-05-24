@@ -32,15 +32,15 @@ struct SheetRouteView: View {
         case .sessionDetail:
             NavigationStack {
                 DayDetailView(date: .now)
+                    .withCancellationCloseButton()
             }
-            .withCancellationCloseButton()
 
         case .entryDetail(let timestamp):
             EntryByTimestampView(timestamp: timestamp) { entry in
                 NavigationStack {
                     EntryDetailView(entry: entry)
+                        .withCancellationCloseButton()
                 }
-                .withCancellationCloseButton()
             }
 
         case .entryForm(let prefill):
