@@ -651,6 +651,37 @@ enum SubstanceLibrary {
                     heavy: 10
                 )
             )
+        ],
+
+        // TripSit shipped theophylline as µg — almost certainly a unit-parse
+        // bug (clinical doses are 200–400 mg/day; serum therapeutic 10–20 µg/mL
+        // gets misread as oral dose). Replace with the actual mg ranges from
+        // FDA labeling for Theo-Dur etc. Heavy caps at 600 mg per-dose; daily
+        // max 800-900 mg is split across doses, so per-event "heavy" is 600.
+        "theophylline": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 100,
+                    light: 100...200,
+                    common: 200...400,
+                    strong: 400...500,
+                    heavy: 600
+                )
+            )
+        ],
+
+        // MK-801 (dizocilpine) is a research-only NMDA antagonist. Human
+        // recreational use is rare and the public-source dose data ("50–100 µg
+        // oral") is implausible — animal studies use 0.1–0.3 mg/kg. Clear the
+        // route entirely; better to surface no dose than a misleading one.
+        "mk-801": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange()
+            )
         ]
     ]
 

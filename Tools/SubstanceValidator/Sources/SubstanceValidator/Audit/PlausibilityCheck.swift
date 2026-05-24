@@ -34,6 +34,16 @@ enum PlausibilityCheck {
         guard let bound = PlausibilityTable.bound(category: substance.category, route: route.route) else {
             return []
         }
+        // Per-substance opt-out: kratom, mushrooms, etc. are taxonomically in
+        // their category but dosed by herbal mass rather than isolated alkaloid.
+        // Ground-truth entries cover their canonical doses.
+        let nameLower = substance.name.lowercased()
+        let aliasesLower = substance.aliases.map { $0.lowercased() }
+        if bound.exceptions.contains(where: { excluded in
+            nameLower == excluded || aliasesLower.contains(excluded)
+        }) {
+            return []
+        }
         var findings: [AuditFinding] = []
 
         // 1. Unit-mismatch heuristic. The bound declares an `acceptableUnits`
