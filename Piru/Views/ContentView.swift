@@ -176,25 +176,8 @@ struct ContentView: View {
     // MARK: - Deep Linking
 
     private func handleDeepLink(_ url: URL) {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              components.scheme == "piru" else { return }
-
-        switch components.host {
-        case "day":
-            navigator.select(.journal)
-            navigator.present(.sessionDetail)
-
-        case "entry":
-            if let tsString = components.path.split(separator: "/").first,
-               let ts = TimeInterval(tsString) {
-                let target = Date(timeIntervalSince1970: ts)
-                navigator.select(.journal)
-                navigator.present(.entryDetail(timestamp: target))
-            }
-
-        default:
-            break
-        }
+        guard let snapshot = DeepLink.decode(url) else { return }
+        navigator.snapshot = snapshot
     }
 }
 
