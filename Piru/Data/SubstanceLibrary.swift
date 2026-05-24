@@ -440,8 +440,249 @@ enum SubstanceLibrary {
                     heavy: 60
                 )
             )
+        ],
+
+        // The remaining overrides come from the 2026-05-24 library audit
+        // (`Specs/library-audit-2026-05-24.md`). Each value is sourced from
+        // FDA prescribing labels, PsychonautWiki, or established clinical
+        // references; the source is cited inline. Audit ran the SubstanceValidator
+        // `audit` subcommand and the resulting ground-truth disagreements were
+        // researched against authoritative documents.
+
+        // FDA Wellbutrin XL labeling — max 450 mg/day across IR/SR/XR. The DailyMed
+        // parser was pulling the IR starting dose (150 mg) as heavy.
+        "bupropion": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 75,
+                    light: 75...150,
+                    common: 150...300,
+                    strong: 300...450,
+                    heavy: 450
+                )
+            )
+        ],
+
+        // FDA Adderall labeling — IR max 40 mg/day for ADHD, up to 60 mg/day
+        // for narcolepsy. We use 60 as heavy so legitimate narcolepsy patients
+        // aren't flagged. TripSit had heavy at 75 mg (recreational); FDA cap wins.
+        "adderall": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 5,
+                    light: 5...10,
+                    common: 10...30,
+                    strong: 30...40,
+                    heavy: 60
+                )
+            )
+        ],
+
+        // PsychonautWiki deliriant scale — full delirium begins above ~500 mg
+        // with cardiotoxicity and seizure risk; lethal overlap above ~1000 mg.
+        // Library was 1050 mg from merged sources, which is in the lethal range.
+        "diphenhydramine": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 12.5,
+                    light: 25...100,
+                    common: 100...300,
+                    strong: 300...500,
+                    heavy: 700
+                )
+            )
+        ],
+
+        // FDA Synthroid prescribing info — 1.6 µg/kg/day typical; >200 µg
+        // rarely needed, >300 µg suggests malabsorption. Library had the
+        // *starting* dose (25 µg) as heavy. Unit gotcha: dosed in µg, not mg.
+        "levothyroxine": [
+            DoseOverride(
+                route: .oral,
+                unit: "µg",
+                doses: DoseRange(
+                    threshold: 12.5,
+                    light: 25...75,
+                    common: 75...150,
+                    strong: 150...200,
+                    heavy: 300
+                )
+            )
+        ],
+
+        // PsychonautWiki nicotine — one 4 mg gum is "common-to-strong";
+        // two pieces (~8 mg) is heavy. Library had heavy = 4 mg (one gum).
+        "nicotine": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 0.2,
+                    light: 1...3,
+                    common: 3...5,
+                    strong: 5...7,
+                    heavy: 7
+                )
+            )
+        ],
+
+        // FDA Nuvigil labeling — max 250 mg/day; PsychonautWiki extends heavy
+        // to 300 mg recreationally. 300 mg gives a small buffer above the FDA cap.
+        "armodafinil": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 20,
+                    light: 40...100,
+                    common: 100...200,
+                    strong: 200...300,
+                    heavy: 300
+                )
+            )
+        ],
+
+        // FDA Provigil labeling — max 400 mg/day. Use the FDA ceiling so
+        // legitimate narcolepsy patients aren't flagged.
+        "modafinil": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 25,
+                    light: 50...100,
+                    common: 100...200,
+                    strong: 200...400,
+                    heavy: 400
+                )
+            )
+        ],
+
+        // Per-dose Rx single ceiling 800 mg (Mayo Clinic / Drugs.com); daily
+        // Rx max 3200 mg, OTC max 1200 mg — tracked separately, not via heavy.
+        "ibuprofen": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 100,
+                    light: 200...400,
+                    common: 400...600,
+                    strong: 600...800,
+                    heavy: 800
+                )
+            )
+        ],
+
+        // FDA acetaminophen guidance — per-dose extra-strength ceiling 1000 mg
+        // (one extra-strength Tylenol); daily max 4000 mg with manufacturer-
+        // recommended 3000 mg for chronic use. Hepatotoxicity onset ~7.5 g acute.
+        "paracetamol": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 325,
+                    light: 325...500,
+                    common: 500...1000,
+                    strong: 1000...1000,
+                    heavy: 1000
+                )
+            )
+        ],
+
+        // PsychonautWiki ketamine — route-aware. Oral and insufflation differ
+        // by ~3× because oral bioavailability is ~17% vs nasal ~45%. Confusing
+        // 150 mg insufflated (heavy) with 150 mg oral (common) is dangerous.
+        "ketamine": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 50,
+                    light: 50...100,
+                    common: 100...300,
+                    strong: 300...450,
+                    heavy: 450
+                )
+            ),
+            DoseOverride(
+                route: .insufflation,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 5,
+                    light: 10...30,
+                    common: 30...75,
+                    strong: 75...150,
+                    heavy: 150
+                )
+            ),
+            DoseOverride(
+                route: .intramuscular,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 5,
+                    light: 15...30,
+                    common: 30...75,
+                    strong: 75...120,
+                    heavy: 120
+                )
+            )
+        ],
+
+        // Sleep Foundation / Drugs.com — >5 mg no more effective; >10 mg
+        // increases side effects without benefit. JAMA 2017 caveat: US OTC
+        // labeling is notoriously inaccurate (actual content 17–478% of label).
+        "melatonin": [
+            DoseOverride(
+                route: .oral,
+                unit: "mg",
+                doses: DoseRange(
+                    threshold: 0.3,
+                    light: 0.3...1,
+                    common: 1...3,
+                    strong: 3...5,
+                    heavy: 10
+                )
+            )
         ]
     ]
+
+    /// Drop dose-ladder rungs that violate `threshold ≤ light ≤ common ≤ strong ≤ heavy`.
+    /// Mostly cleans up DailyMed-derived data where the parser misread pediatric
+    /// or renal-adjustment numbers as adult heavy doses. Applied to every route
+    /// on every library update so cached data is sanitised on load.
+    static func enforceMonotonicity(_ substances: [Substance]) -> [Substance] {
+        substances.map { s in
+            let cleaned = s.routes.map { route in
+                SubstanceRoute(
+                    route: route.route,
+                    unit: route.unit,
+                    doses: DailyMedAPI.enforceMonotonicity(route.doses),
+                    duration: route.duration
+                )
+            }
+            return Substance(
+                name: s.name,
+                aliases: s.aliases,
+                category: s.category,
+                defaultRoute: s.defaultRoute,
+                routes: cleaned,
+                effects: s.effects,
+                subjectiveEffects: s.subjectiveEffects,
+                toleranceInfo: s.toleranceInfo,
+                halfLifeMinutes: s.halfLifeMinutes,
+                sources: s.sources,
+                mechanismOfAction: s.mechanismOfAction
+            )
+        }
+    }
 
     static func applyDoseOverrides(_ substances: [Substance]) -> [Substance] {
         substances.map { s in
@@ -480,7 +721,7 @@ enum SubstanceLibrary {
     }
 
     @MainActor private static func updateAll(_ substances: [Substance]) {
-        all = applyDoseOverrides(substances)
+        all = applyDoseOverrides(enforceMonotonicity(substances))
         byCategory = Dictionary(grouping: all, by: \.category)
         nonEmptyCategories = SubstanceCategory.allCases.filter { byCategory[$0] != nil }
         nameLookup = Dictionary(all.map { ($0.name.lowercased(), $0) }, uniquingKeysWith: { first, _ in first })
