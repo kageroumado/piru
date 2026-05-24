@@ -166,7 +166,11 @@ final class AppNavigator {
         set {
             selectedTab = newValue.selectedTab
             paths = newValue.paths
-            sheetStack = newValue.sheetStack
+            // Same `maxSheetDepth` clamp as `present(_:)`. A snapshot loaded
+            // from disk or assembled programmatically must not bypass the
+            // limit and create invisible sheets that `dismiss()` would have
+            // to drain before reaching what the user can see.
+            sheetStack = Array(newValue.sheetStack.prefix(Self.maxSheetDepth))
         }
     }
 

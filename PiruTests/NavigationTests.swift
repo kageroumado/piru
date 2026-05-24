@@ -194,6 +194,40 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.quickLog])
     }
 
+    @Test("present beyond maxSheetDepth is dropped silently")
+    func presentBeyondMaxDepthDropped() {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        nav.present(.help)
+        nav.present(.quickLog)
+        // We're at the cap (3). A fourth append must be dropped.
+        nav.present(.sessionDetail)
+        #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
+        #expect(nav.sheetStack.last == .quickLog)
+    }
+
+    @Test("replacingTop still succeeds at maxSheetDepth")
+    func replacingTopAtMaxDepthSucceeds() {
+        let nav = makeNavigator()
+        nav.present(.settings)
+        nav.present(.help)
+        nav.present(.quickLog)
+        nav.present(.sessionDetail, replacingTop: true)
+        #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
+        #expect(nav.sheetStack.last == .sessionDetail)
+    }
+
+    @Test("Setting snapshot clamps sheetStack to maxSheetDepth")
+    func snapshotClampsSheetStackDepth() {
+        let nav = makeNavigator()
+        var snap = NavigatorSnapshot()
+        snap.sheetStack = [.settings, .help, .quickLog, .sessionDetail, .entryForm(prefill: nil)]
+        nav.snapshot = snap
+        #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
+        // First N from the snapshot survive — deeper items are dropped.
+        #expect(nav.sheetStack == [.settings, .help, .quickLog])
+    }
+
     // MARK: - Color picker queue (the Phase 3 bug fix)
 
     @Test("Color picker queue advances via replacingTop, then dismisses when empty")
