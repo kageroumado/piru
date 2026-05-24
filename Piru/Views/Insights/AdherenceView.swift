@@ -120,7 +120,10 @@ struct AdherenceView: View {
     private var calendarGrid: some View {
         let days = daysInMonth()
         return LazyVGrid(columns: columns, spacing: 4) {
-            ForEach(days, id: \.self) { date in
+            // Use the slot index as the identity, not the date itself —
+            // the leading blanks at the start of the month are all `nil`
+            // and would otherwise collide on `id: \.self`.
+            ForEach(Array(days.enumerated()), id: \.offset) { _, date in
                 if let date {
                     let adherence = monthAdherence.first { calendar.isDate($0.date, inSameDayAs: date) }
                     let isToday = calendar.isDateInToday(date)
