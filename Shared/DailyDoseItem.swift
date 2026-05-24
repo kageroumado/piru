@@ -13,7 +13,7 @@ enum DoseFrequency: String, Codable, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var displayName: String {
+    var displayName: LocalizedStringResource {
         switch self {
         case .daily: "Daily"
         case .everyOtherDay: "Every other day"
@@ -24,7 +24,7 @@ enum DoseFrequency: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    var shortLabel: String {
+    var shortLabel: LocalizedStringResource {
         switch self {
         case .daily: "Daily"
         case .everyOtherDay: "Every 2 days"

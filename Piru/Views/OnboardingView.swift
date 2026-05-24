@@ -66,8 +66,8 @@ struct OnboardingView: View {
 
     private func featureToggle(
         icon: String,
-        title: String,
-        description: String,
+        title: LocalizedStringResource,
+        description: LocalizedStringResource,
         isOn: Binding<Bool>
     ) -> some View {
         HStack(spacing: 14) {

@@ -8,6 +8,14 @@ struct VolumetricDosingView: View {
         case concentration = "Concentration"
         case doseVolume = "Dose Volume"
         var id: String { rawValue }
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .solventNeeded: "Solvent Needed"
+            case .concentration: "Concentration"
+            case .doseVolume: "Dose Volume"
+            }
+        }
     }
 
     @State private var mode: Mode = .solventNeeded
@@ -25,7 +33,7 @@ struct VolumetricDosingView: View {
 
                 Picker("Mode", selection: $mode) {
                     ForEach(Mode.allCases) { m in
-                        Text(m.rawValue).tag(m)
+                        Text(m.displayName).tag(m)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -80,7 +88,7 @@ struct VolumetricDosingView: View {
         .themeCard()
     }
 
-    private func numericField(_ label: String, value: Binding<String>, unit: String) -> some View {
+    private func numericField(_ label: LocalizedStringResource, value: Binding<String>, unit: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
                 .font(.caption)
@@ -121,7 +129,7 @@ struct VolumetricDosingView: View {
         }
     }
 
-    private var resultLabel: String {
+    private var resultLabel: LocalizedStringResource {
         switch mode {
         case .solventNeeded: "Solvent Needed"
         case .concentration: "Concentration"
@@ -193,7 +201,7 @@ struct VolumetricDosingView: View {
         .themeCard()
     }
 
-    private func safetyPoint(_ text: String) -> some View {
+    private func safetyPoint(_ text: LocalizedStringResource) -> some View {
         HStack(alignment: .top, spacing: 8) {
             Circle()
                 .fill(Theme.secondaryLabel)

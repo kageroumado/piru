@@ -120,7 +120,7 @@ struct HelpView: View {
 
     // MARK: - Grounding Tips
 
-    private func groundingTip(icon: String, color: Color, title: String, detail: String) -> some View {
+    private func groundingTip(icon: String, color: Color, title: LocalizedStringResource, detail: LocalizedStringResource) -> some View {
         Label {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -147,12 +147,12 @@ struct HelpView: View {
                         Image(systemName: category.icon)
                             .foregroundStyle(category.color)
                             .frame(width: 20)
-                        Text(category.rawValue)
+                        Text(category.displayName)
                             .font(.subheadline.weight(.semibold))
                     }
 
                     let guide = ComedownGuideView.guide(for: category)
-                    ForEach(guide.rightNow, id: \.self) { tip in
+                    ForEach(Array(guide.rightNow.enumerated()), id: \.offset) { _, tip in
                         HStack(alignment: .top, spacing: 6) {
                             Text("\u{2022}")
                                 .foregroundStyle(Theme.secondaryLabel)
@@ -183,7 +183,7 @@ struct HelpView: View {
 
     private struct EmergencyService: Identifiable {
         let id = UUID()
-        let title: String
+        let title: LocalizedStringResource
         let detail: String
         let systemImage: String
         let url: String
@@ -584,7 +584,7 @@ struct HelpView: View {
                             Text("\(entry.amount.doseFormatted) \(entry.unit)")
                             Text("\u{00B7}")
                                 .foregroundStyle(.tertiary)
-                            Text(entry.route.displayName)
+                            Text(entry.route.localizedName)
                         }
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -660,7 +660,7 @@ struct HelpView: View {
         if !entries.isEmpty {
             lines.append("RECENT DOSES (LAST 24 HOURS):")
             for entry in entries {
-                var line = "- \(entry.substance) \(entry.amount.doseFormatted) \(entry.unit) \(entry.route.displayName.lowercased()) — \(formatter.string(from: entry.timestamp))"
+                var line = "- \(entry.substance) \(entry.amount.doseFormatted) \(entry.unit) \(String(localized: entry.route.localizedName).lowercased()) — \(formatter.string(from: entry.timestamp))"
                 if let notes = entry.notes, !notes.isEmpty {
                     line += " (\(notes))"
                 }

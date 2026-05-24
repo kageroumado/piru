@@ -1,0 +1,63 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Biweekly" : {
+
+    },
+    "Custom days" : {
+
+    },
+    "Daily" : {
+
+    },
+    "Every 2 days" : {
+
+    },
+    "Every 2 weeks" : {
+
+    },
+    "Every other day" : {
+
+    },
+    "Inhalation" : {
+
+    },
+    "Insufflation" : {
+
+    },
+    "Intramuscular" : {
+
+    },
+    "Intravenous" : {
+
+    },
+    "Monthly" : {
+
+    },
+    "Oral" : {
+
+    },
+    "Other" : {
+
+    },
+    "Rectal" : {
+
+    },
+    "Specific days" : {
+
+    },
+    "Subcutaneous" : {
+
+    },
+    "Sublingual" : {
+
+    },
+    "Transdermal" : {
+
+    },
+    "Weekly" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -269,7 +269,7 @@ struct MedicationsSettingsView: View {
                     Text(item.substance)
                         .font(.body)
                         .foregroundStyle(.primary)
-                    Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(item.route.displayName)")
+                    Text("\(item.amount.doseFormatted) \(item.unit) \u{2014} \(String(localized: item.route.localizedName))")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                     if item.frequency != .daily {
