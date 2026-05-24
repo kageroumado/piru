@@ -259,9 +259,6 @@ private extension View {
     func withDayDetailDestination() -> some View {
         self.navigationDestination(for: Date.self) { date in
             DayDetailView(date: date)
-                .navigationDestination(for: DoseEntry.self) { entry in
-                    EntryDetailView(entry: entry)
-                }
         }
         .navigationDestination(for: DoseEntry.self) { entry in
             EntryDetailView(entry: entry)
