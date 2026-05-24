@@ -20,8 +20,8 @@ struct SheetRouteView: View {
             QuickLogView()
 
         case .settings:
+            // SettingsView owns its own xmark toolbar item.
             NavigationStack { SettingsView() }
-                .withCancellationCloseButton()
 
         case .help:
             HelpView()

@@ -37,6 +37,7 @@ Piru/
 ├── Data/            # SubstanceLibrary (singleton), HalfLifeDatabase, Interactions, AppSources
 ├── Services/        # TripSitAPI, PsychonautWikiAPI, DailyMedAPI
 ├── Utilities/       # ActiveSubstanceCalculator, PKModel, RampDownScheduler, etc.
+├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
 Shared/              # Code shared across all targets: models, ColorHex, DoseFormatting, timeline graph
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
@@ -63,6 +64,10 @@ Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against
 | `Views/DoseSuggestionCard.swift` | Smart dose suggestion card shown during quick-log |
 | `Views/ContentView.swift` | Main TabView (Journal, Library, Tools, Insights) |
 | `Views/QuickLogView.swift` | Modal for quick dose logging (~880 LOC) |
+| `Navigation/AppNavigator.swift` | `@Observable @MainActor` singleton owning `selectedTab`, per-tab push paths, and the sheet stack |
+| `Navigation/Routes.swift` | `AppTab`, `PushRoute`, `SheetRoute` enums + `NavigatorSnapshot` (all Codable for deep links) |
+| `Navigation/DeepLink.swift` | `piru://` URL ↔ `NavigatorSnapshot` codec |
+| `Navigation/SheetRouteView.swift` | Dispatches a `SheetRoute` to its underlying view |
 | `Theme.swift` | Accent color + secondary label styling |
 
 ## Data Layer
@@ -73,6 +78,17 @@ Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against
 - **Search**: Ranked cascade (exact → alias → prefix → contains → fuzzy via Levenshtein distance)
 - **Export**: PsyLog-compatible JSON format via `DataExportImport`; PDF reports with PK charts via `PDFReportGenerator`
 - **Shared code**: SwiftData models + formatting live in `Shared/` with multi-target membership (Piru, PiruWidget, PiruLiveActivityExtension)
+
+## Navigation
+
+Navigation state is centralised in `AppNavigator` (`Piru/Navigation/`). Views read tab/sheet state through `@Environment(\.appNavigator)` rather than holding their own `@State` flags. The key rules:
+
+- **Present a sheet**: `navigator.present(.someRoute)`. To atomically swap the current sheet for another (e.g. Save → ColorPicker), use `replacingTop: true`.
+- **Dismiss a sheet**: `navigator.dismiss()`. Direct state mutation, not the env `dismiss()` round-trip — that's why Done/Cancel feel instant now.
+- **`@Environment(\.dismiss)` is fine** in views that can be either pushed or presented (e.g. `EntryDetailView`) — the system routes it correctly. For dedicated sheet roots, prefer `navigator.dismiss()` for explicitness.
+- **New screens**: add a case to `SheetRoute` (or `PushRoute`) and a dispatch arm in `SheetRouteView`. Update `DeepLink.encode/decode` if the route should be deep-linkable.
+
+`piru://` URLs route through `DeepLink.decode` → `navigator.snapshot = decoded`. URL scheme is registered in `Piru/Info.plist`.
 
 ## Testing
 

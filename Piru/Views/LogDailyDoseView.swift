@@ -115,10 +115,6 @@ struct LogMedicationsView: View {
         )
     }
 
-    private var takenColorMap: [String: String] {
-        Array(substanceColors).takenColorMap
-    }
-
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
     }
