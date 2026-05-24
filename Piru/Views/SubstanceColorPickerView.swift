@@ -4,9 +4,14 @@ import SwiftData
 struct SubstanceColorPickerView: View {
     let substanceName: String
     let takenColors: [String: String] // hex -> substance name
+    /// Invoked when the user confirms or skips. The caller owns dismissal —
+    /// either by toggling a local `@State` `isPresented` flag or by mutating
+    /// the navigator (e.g. presenting the next picker via `replacingTop`).
+    /// The picker itself does not call `dismiss()` so it can be composed with
+    /// the navigator's atomic sheet swapping without the system tearing the
+    /// stack down between picks.
     var onPick: (String) -> Void
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \UserColor.createdAt) private var userColors: [UserColor]
 
@@ -37,13 +42,11 @@ struct SubstanceColorPickerView: View {
                     Button("Skip") {
                         let fallback = firstAvailableHex ?? "007AFF"
                         onPick(fallback)
-                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
                         onPick(selectedHex ?? "007AFF")
-                        dismiss()
                     } label: {
                         Image(systemName: "checkmark").fontWeight(.semibold)
                     }

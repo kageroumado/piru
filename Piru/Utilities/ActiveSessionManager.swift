@@ -173,6 +173,23 @@ final class ActiveSessionManager {
         pruneCompleted()
     }
 
+    /// Re-read `SubstanceColor` records and patch every active entry's stored
+    /// `colorHex` (plus `cachedColorMap`) so newly-picked colors are reflected
+    /// in the live activity and bottom session accessory without waiting for
+    /// the next `addDose` call. Used by `ColorPickerHost` after the user
+    /// selects a color for a substance that already has a tracked dose.
+    func applyColorUpdates(allColors: [SubstanceColor]) {
+        let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
+        activeEntries = activeEntries.map { item in
+            let newHex = colorMap[item.snapshot.substance.lowercased()] ?? item.colorHex
+            return (snapshot: item.snapshot, duration: item.duration, colorHex: newHex)
+        }
+        if !activeEntries.isEmpty {
+            LiveActivityManager.shared.sessionDidChange()
+        }
+    }
+
     /// Clear all tracked entries (e.g. when user explicitly ends session).
     func clearSession() {
         activeEntries.removeAll()

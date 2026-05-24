@@ -25,6 +25,9 @@ struct TimeRangeTests {
     }
 
     // MARK: - Display string (minutes)
+    //
+    // The test plan pins the locale to en-US so `String(localized: …)` in
+    // DurationRange.displayString resolves to the English source strings.
 
     @Test("Display string in minutes when max < 120")
     func displayMinutes() {

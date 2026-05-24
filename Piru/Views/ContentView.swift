@@ -4,97 +4,42 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.appNavigator) private var navigator
 
-    @State private var selectedTab = 0
     @State private var searchText = ""
     @State private var librarySearchText = ""
 
-    @State private var lastContentTab = 0
-    @State private var activeSheet: SheetDestination?
+    /// Remembers the last content tab so the Search tab can mirror Library or
+    /// Journal depending on what the user was browsing.
+    @State private var lastContentTab: AppTab = .journal
+
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
-    enum SheetDestination: Identifiable {
-        case quickLog
-        case settings
-        case help
-        case sessionDetail
-        case entryDetail(DoseEntry)
-
-        var id: Int {
-            switch self {
-            case .quickLog: 0
-            case .settings: 1
-            case .help: 2
-            case .sessionDetail: 3
-            case .entryDetail: 4
-            }
-        }
-    }
-
     var body: some View {
+        @Bindable var navigator = navigator
         liquidGlassBody
-        .onChange(of: selectedTab) { oldValue, newValue in
-            if newValue == 5 {
-                lastContentTab = oldValue
+            .onChange(of: navigator.selectedTab) { oldValue, newValue in
+                if newValue == .search {
+                    lastContentTab = oldValue
+                }
+                searchText = ""
+                librarySearchText = ""
             }
-            searchText = ""
-            librarySearchText = ""
-        }
-        .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .quickLog:
-                QuickLogView()
-            case .settings:
-                NavigationStack {
-                    SettingsView()
-                }
-            case .help:
-                HelpView()
-            case .sessionDetail:
-                NavigationStack {
-                    DayDetailView(date: .now)
-                        .navigationDestination(for: DoseEntry.self) { entry in
-                            EntryDetailView(entry: entry)
-                        }
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button {
-                                    activeSheet = nil
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
-                            }
-                        }
-                }
-            case .entryDetail(let entry):
-                NavigationStack {
-                    EntryDetailView(entry: entry)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button {
-                                    activeSheet = nil
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
-                            }
-                        }
+            .sheetStackPresenter(navigator)
+            .fullScreenCover(isPresented: .init(
+                get: { !hasCompletedOnboarding },
+                set: { if !$0 { hasCompletedOnboarding = true } }
+            )) {
+                OnboardingView()
+            }
+            .onOpenURL { url in
+                handleDeepLink(url)
+            }
+            .onChange(of: scenePhase) {
+                if scenePhase == .active {
+                    ActiveSessionManager.shared.refresh()
                 }
             }
-        }
-        .fullScreenCover(isPresented: .init(
-            get: { !hasCompletedOnboarding },
-            set: { if !$0 { hasCompletedOnboarding = true } }
-        )) {
-            OnboardingView()
-        }
-        .onOpenURL { url in
-            handleDeepLink(url)
-        }
-        .onChange(of: scenePhase) {
-            if scenePhase == .active {
-                ActiveSessionManager.shared.refresh()
-            }
-        }
     }
 
     // MARK: - Shared Tab Content
@@ -102,7 +47,6 @@ struct ContentView: View {
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
             .toolbar { sharedToolbar }
-            .withDayDetailDestination()
     }
 
     private var libraryContent: some View {
@@ -118,15 +62,15 @@ struct ContentView: View {
     private var insightsContent: some View {
         InsightsView()
             .toolbar { sharedToolbar }
-            .withDayDetailDestination()
     }
 
     // MARK: - Tab View
 
     private var liquidGlassBody: some View {
-        TabView(selection: $selectedTab) {
-            Tab("Journal", systemImage: "book", value: 0) {
-                NavigationStack {
+        @Bindable var navigator = navigator
+        return TabView(selection: $navigator.selectedTab) {
+            Tab("Journal", systemImage: "book", value: AppTab.journal) {
+                NavigationStack(path: navigator.pathBinding(for: .journal)) {
                     journalContent
                         .overlay(alignment: .bottom) {
                             if !ActiveSessionManager.shared.hasActiveSession {
@@ -134,45 +78,75 @@ struct ContentView: View {
                                     .padding(.bottom, 16)
                             }
                         }
+                        .withAppDestinations()
                 }
             }
-            Tab("Library", systemImage: "books.vertical", value: 1) {
-                NavigationStack {
+            Tab("Library", systemImage: "books.vertical", value: AppTab.library) {
+                NavigationStack(path: navigator.pathBinding(for: .library)) {
                     libraryContent
+                        .withAppDestinations()
                 }
             }
-            Tab("Tools", systemImage: "wrench.and.screwdriver", value: 2) {
-                NavigationStack { toolsContent }
+            Tab("Tools", systemImage: "wrench.and.screwdriver", value: AppTab.tools) {
+                NavigationStack(path: navigator.pathBinding(for: .tools)) {
+                    toolsContent
+                        .withAppDestinations()
+                }
             }
-            Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: 3) {
-                NavigationStack { insightsContent }
+            Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: AppTab.insights) {
+                NavigationStack(path: navigator.pathBinding(for: .insights)) {
+                    insightsContent
+                        .withAppDestinations()
+                }
             }
-            Tab("Search", systemImage: "magnifyingglass", value: 5, role: .search) {
-                NavigationStack {
-                    if lastContentTab == 1 {
-                        SubstanceLibraryView(searchText: $librarySearchText)
-                            .navigationTitle("Search Library")
-                            .toolbar { sharedToolbar }
-                            .searchable(text: $librarySearchText, prompt: "Search substances...")
-                    } else {
-                        EntryListView(searchText: $searchText)
-                            .withDayDetailDestination()
-                            .navigationTitle("Search Journal")
-                            .toolbar { sharedToolbar }
-                            .searchable(text: $searchText, prompt: "Search entries...")
+            Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
+                NavigationStack(path: navigator.pathBinding(for: .search)) {
+                    Group {
+                        if lastContentTab == .library {
+                            SubstanceLibraryView(searchText: $librarySearchText)
+                                .navigationTitle("Search Library")
+                                .toolbar { sharedToolbar }
+                                .searchable(text: $librarySearchText, prompt: "Search substances...")
+                        } else {
+                            EntryListView(searchText: $searchText)
+                                .navigationTitle("Search Journal")
+                                .toolbar { sharedToolbar }
+                                .searchable(text: $searchText, prompt: "Search entries...")
+                        }
                     }
+                    .withAppDestinations()
                 }
             }
         }
         .withSessionAccessory(
             isActive: ActiveSessionManager.shared.hasActiveSession,
+            // Only treat the toggle as "on" when the sheet is at the TOP of
+            // the stack — anything buried under another sheet isn't actually
+            // visible, so flipping the toggle would otherwise no-op against
+            // a stale getter reading. Same for setting: refuse to stack a
+            // second sheet on top of an existing one (matches the addMenu
+            // guard).
             showingSessionDetail: Binding(
-                get: { activeSheet?.id == SheetDestination.sessionDetail.id },
-                set: { if $0 { activeSheet = .sessionDetail } else { activeSheet = nil } }
+                get: { navigator.sheetStack.last == .sessionDetail },
+                set: { isShowing in
+                    if isShowing {
+                        guard navigator.sheetStack.isEmpty else { return }
+                        navigator.present(.sessionDetail)
+                    } else if navigator.sheetStack.last == .sessionDetail {
+                        navigator.dismiss()
+                    }
+                }
             ),
             showingForm: Binding(
-                get: { activeSheet?.id == SheetDestination.quickLog.id },
-                set: { if $0 { activeSheet = .quickLog } else { activeSheet = nil } }
+                get: { navigator.sheetStack.last == .quickLog },
+                set: { isShowing in
+                    if isShowing {
+                        guard navigator.sheetStack.isEmpty else { return }
+                        navigator.present(.quickLog)
+                    } else if navigator.sheetStack.last == .quickLog {
+                        navigator.dismiss()
+                    }
+                }
             )
         )
     }
@@ -181,8 +155,8 @@ struct ContentView: View {
 
     private var addMenu: some View {
         Button {
-            guard activeSheet == nil else { return }
-            activeSheet = .quickLog
+            guard navigator.sheetStack.isEmpty else { return }
+            navigator.present(.quickLog)
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
@@ -199,16 +173,16 @@ struct ContentView: View {
     private var sharedToolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                guard activeSheet == nil else { return }
-                activeSheet = .settings
+                guard navigator.sheetStack.isEmpty else { return }
+                navigator.present(.settings)
             } label: {
                 Image(systemName: "gearshape")
             }
         }
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                guard activeSheet == nil else { return }
-                activeSheet = .help
+                guard navigator.sheetStack.isEmpty else { return }
+                navigator.present(.help)
             } label: {
                 Image(systemName: "staroflife")
             }
@@ -218,54 +192,8 @@ struct ContentView: View {
     // MARK: - Deep Linking
 
     private func handleDeepLink(_ url: URL) {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-              components.scheme == "piru" else { return }
-
-        switch components.host {
-        case "day":
-            selectedTab = 0
-            activeSheet = .sessionDetail
-
-        case "entry":
-            if let tsString = components.path.split(separator: "/").first,
-               let ts = TimeInterval(tsString) {
-                let target = Date(timeIntervalSince1970: ts)
-                let lower = target.addingTimeInterval(-2)
-                let upper = target.addingTimeInterval(2)
-                let descriptor = FetchDescriptor<DoseEntry>(
-                    predicate: #Predicate { entry in
-                        entry.timestamp >= lower && entry.timestamp <= upper
-                    }
-                )
-                if let entry = try? modelContext.fetch(descriptor).first {
-                    selectedTab = 0
-                    activeSheet = .entryDetail(entry)
-                } else {
-                    // Entry not found — fall back to day view
-                    selectedTab = 0
-                    activeSheet = .sessionDetail
-                }
-            }
-
-        default:
-            break
-        }
-    }
-}
-
-// MARK: - Day Detail Navigation Destination
-
-private extension View {
-    func withDayDetailDestination() -> some View {
-        self.navigationDestination(for: Date.self) { date in
-            DayDetailView(date: date)
-                .navigationDestination(for: DoseEntry.self) { entry in
-                    EntryDetailView(entry: entry)
-                }
-        }
-        .navigationDestination(for: DoseEntry.self) { entry in
-            EntryDetailView(entry: entry)
-        }
+        guard let outcome = DeepLink.decode(url) else { return }
+        navigator.apply(outcome)
     }
 }
 
