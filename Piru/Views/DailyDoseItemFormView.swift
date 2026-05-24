@@ -3,7 +3,7 @@ import SwiftData
 
 struct MedicationItemFormView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
 
     var item: DailyDoseItem?
     var initialCategory: String = ""
@@ -143,7 +143,7 @@ struct MedicationItemFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
@@ -243,6 +243,6 @@ struct MedicationItemFormView: View {
             modelContext.insert(newItem)
         }
 
-        dismiss()
+        navigator.dismiss()
     }
 }

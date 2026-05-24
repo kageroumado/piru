@@ -27,3 +27,7 @@ AppIcon_backup.png
 
 # Specs are working documents, not source of truth
 Specs/
+
+# Skills CLI working files
+.agents/
+skills-lock.json

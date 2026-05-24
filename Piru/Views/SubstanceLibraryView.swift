@@ -1,11 +1,6 @@
 import SwiftData
 import SwiftUI
 
-enum LibraryDestination: Hashable {
-    case category(SubstanceCategory)
-    case favorites
-}
-
 struct SubstanceLibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var searchText: String
@@ -58,17 +53,6 @@ struct SubstanceLibraryView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("Substance Library")
-        .navigationDestination(for: LibraryDestination.self) { destination in
-            switch destination {
-            case .category(let cat):
-                SubstanceCategoryListView(title: cat.rawValue, category: cat)
-            case .favorites:
-                SubstanceCategoryListView(title: "Favorites", category: nil)
-            }
-        }
-        .navigationDestination(for: Substance.self) { substance in
-            SubstanceDetailView(substance: substance)
-        }
         .task(id: searchText) {
             guard !searchText.isEmpty else {
                 searchResults = []
@@ -87,7 +71,7 @@ struct SubstanceLibraryView: View {
         Section {
             if !favoriteSubstances.isEmpty {
                 let count = favoriteSubstances.count
-                NavigationLink(value: LibraryDestination.favorites) {
+                NavigationLink(value: PushRoute.libraryFavorites) {
                     HStack {
                         Image(systemName: "star.fill")
                             .font(.title3)
@@ -107,7 +91,7 @@ struct SubstanceLibraryView: View {
 
             ForEach(SubstanceLibrary.nonEmptyCategories) { category in
                 let count = SubstanceLibrary.substances(in: category).count
-                NavigationLink(value: LibraryDestination.category(category)) {
+                NavigationLink(value: PushRoute.libraryCategory(category)) {
                     HStack {
                         Image(systemName: category.icon)
                             .font(.title3)
@@ -155,7 +139,7 @@ struct SubstanceLibraryView: View {
         } else if !searchResults.isEmpty {
             Section("\(searchResults.count) results") {
                 ForEach(searchResults) { substance in
-                    NavigationLink(value: substance) {
+                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
                         SubstanceRowView(substance: substance)
                     }
                     .swipeActions(edge: .trailing) {
@@ -310,7 +294,7 @@ struct SubstanceCategoryListView: View {
     var body: some View {
         List {
             ForEach(substances) { substance in
-                NavigationLink(value: substance) {
+                NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     SubstanceRowView(substance: substance)
                 }
                 .swipeActions(edge: .trailing) {

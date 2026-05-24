@@ -4,7 +4,7 @@ import WidgetKit
 
 struct QuickLogView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
 
     @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
@@ -17,12 +17,7 @@ struct QuickLogView: View {
     @State private var showCustomForm = false
     @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
-    @State private var medicationCategory: MedicationCategoryItem?
-    @State private var showColorPicker = false
-    @State private var colorPickerSubstance = ""
-    @State private var entryFormPrefill: EntryPrefill?
-    @State private var pendingLogAction: (() -> Void)?
-    @State private var pendingCustomPrefill: EntryPrefill?
+    @State private var pendingCustomPrefill: EntryPrefillPayload?
 
     @State private var multiSelectEnabled = false
     @State private var selectedDoses: [DoseSelection] = []
@@ -184,7 +179,7 @@ struct QuickLogView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
@@ -203,25 +198,9 @@ struct QuickLogView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showColorPicker, onDismiss: onColorPickerDismiss) {
-                SubstanceColorPickerView(
-                    substanceName: colorPickerSubstance,
-                    takenColors: takenColorMap
-                ) { hex in
-                    let sc = SubstanceColor(substance: colorPickerSubstance, hexColor: hex)
-                    modelContext.insert(sc)
-                }
-                .presentationDetents([.large])
-            }
-            .sheet(item: $entryFormPrefill) { prefill in
-                EntryFormView(prefillSubstance: prefill.substance, prefillRoute: prefill.route, prefillUnit: prefill.unit)
-            }
-            .sheet(item: $medicationCategory) { item in
-                LogMedicationsView(category: item.category)
-            }
             .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
                 CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
-                    pendingCustomPrefill = EntryPrefill(
+                    pendingCustomPrefill = EntryPrefillPayload(
                         substance: saved.name,
                         route: saved.defaultRoute,
                         unit: saved.unit
@@ -378,9 +357,25 @@ struct QuickLogView: View {
             }
         }
 
-        if !searchText.isEmpty && cachedLibraryResults.isEmpty && nonFavoriteCards.isEmpty && filteredCustomSubstances.isEmpty {
+        // Show the "Add as custom" CTA whenever the user has typed something
+        // that doesn't *exactly* match an existing substance (case- and
+        // whitespace-insensitive). Partial matches in the library still
+        // appear above; the button lets the user add a new substance without
+        // having to clear the search first.
+        if !searchText.isEmpty && !exactMatchExists {
             createCustomButton
         }
+    }
+
+    /// True when `searchText` exactly matches the name of any substance
+    /// already known to the app (library, custom store, or recently logged).
+    private var exactMatchExists: Bool {
+        let needle = searchText.trimmingCharacters(in: .whitespaces).lowercased()
+        guard !needle.isEmpty else { return false }
+        if cachedLibraryResults.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if filteredCustomSubstances.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if cachedCards.contains(where: { $0.substanceName.lowercased() == needle }) { return true }
+        return false
     }
 
     // MARK: - Medications
@@ -415,7 +410,7 @@ struct QuickLogView: View {
 
     private func medicationRow(title: String, icon: String, count: Int, category: String) -> some View {
         Button {
-            medicationCategory = MedicationCategoryItem(category: category)
+            navigator.present(.dailyDoseLog(category: category))
         } label: {
             HStack(spacing: 10) {
                 Image(systemName: icon)
@@ -657,33 +652,37 @@ struct QuickLogView: View {
         // Schedule wellness notifications & check cumulative dose
         scheduleWellnessIfNeeded(entry: entry, substance: group.librarySubstance)
 
+        // Always add to the active session immediately. If the colour
+        // doesn't exist yet, the picker comes up next and refreshes the
+        // session when the user picks one.
+        startLiveActivity(entry: entry, group: group)
+
+        // Quick-log completes a logging flow; clear the entire sheet chain
+        // back to root regardless of whether the picker queue runs.
         if hasColor(for: group.substanceName) {
-            startLiveActivity(entry: entry, group: group)
-            dismiss()
+            navigator.dismissAll()
         } else {
-            pendingLogAction = {
-                startLiveActivity(entry: entry, group: group)
-                dismiss()
-            }
-            colorPickerSubstance = group.substanceName
-            showColorPicker = true
+            navigator.present(
+                .colorPicker(substance: group.substanceName, dismissAllOnComplete: true),
+                replacingTop: true
+            )
         }
     }
 
     private func openOtherDose(group: SubstanceGroup) {
-        entryFormPrefill = EntryPrefill(
+        navigator.present(.entryForm(prefill: EntryPrefillPayload(
             substance: group.substanceName,
             route: group.route,
             unit: group.doses.first?.unit ?? "mg"
-        )
+        )))
     }
 
     private func openLibrarySubstance(_ substance: Substance) {
-        entryFormPrefill = EntryPrefill(
+        navigator.present(.entryForm(prefill: EntryPrefillPayload(
             substance: substance.name,
             route: substance.defaultRoute,
             unit: substance.defaultUnit
-        )
+        )))
     }
 
     private func startLiveActivity(entry: DoseEntry, group: SubstanceGroup) {
@@ -699,20 +698,11 @@ struct QuickLogView: View {
         )
     }
 
-    private func onColorPickerDismiss() {
-        if let action = pendingLogAction {
-            action()
-            pendingLogAction = nil
-        } else {
-            dismiss()
-        }
-    }
-
     private func onCustomFormDismiss() {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
         searchText = ""
-        entryFormPrefill = prefill
+        navigator.present(.entryForm(prefill: prefill))
     }
 
     // MARK: - Multi-Select
@@ -804,14 +794,10 @@ struct QuickLogView: View {
             )
         }
         WidgetCenter.shared.reloadAllTimelines()
-        dismiss()
+        navigator.dismissAll()
     }
 
     // MARK: - Helpers
-
-    private var takenColorMap: [String: String] {
-        Array(substanceColors).takenColorMap
-    }
 
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
@@ -956,18 +942,6 @@ struct SubstanceGroup: Identifiable {
             latestTimestamp = entry.timestamp
         }
     }
-}
-
-struct MedicationCategoryItem: Identifiable {
-    let id = UUID()
-    let category: String
-}
-
-struct EntryPrefill: Identifiable, Hashable {
-    let id = UUID()
-    let substance: String
-    let route: RouteOfAdministration
-    let unit: String
 }
 
 struct DoseSelection: Identifiable {

@@ -6,6 +6,17 @@
 	<array>
 		<string>com.piru.app.live-activity-refresh</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>dev.yumeji.piru</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>piru</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
