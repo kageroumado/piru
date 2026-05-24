@@ -426,27 +426,80 @@ struct DailyMedAPI {
         ])
 
         if let mainRange = ranges.first {
-            let doses = DoseRange(
+            let raw = DoseRange(
                 threshold: startDose.map { min($0, mainRange.lowerBound) } ?? mainRange.lowerBound,
                 light: nil,
                 common: mainRange,
                 strong: ranges.count > 1 ? ranges[1] : nil,
                 heavy: maxDose ?? ranges.last?.upperBound
             )
-            return DoseEnrichment(doses: doses, unit: unit)
+            return DoseEnrichment(doses: enforceMonotonicity(raw), unit: unit)
         }
 
         let singles = extractSingles(from: text, unitPattern: unitPat)
         guard let first = singles.first else { return nil }
         let lo = startDose ?? first * 0.5
-        let doses = DoseRange(
+        let raw = DoseRange(
             threshold: lo,
             light: nil,
             common: lo <= first ? lo...first : first...first,
             strong: nil,
             heavy: maxDose ?? singles.max()
         )
-        return DoseEnrichment(doses: doses, unit: unit)
+        return DoseEnrichment(doses: enforceMonotonicity(raw), unit: unit)
+    }
+
+    /// Drop ladder rungs that violate `threshold ≤ light ≤ common ≤ strong ≤ heavy`.
+    ///
+    /// FDA labels mix pediatric (`X mg/kg`), renal-adjustment, and starting-dose
+    /// sentences with the adult range, so the regex extractor sometimes assigns
+    /// a smaller number to `strong` or `heavy` than the value already in `common`.
+    /// The audit found ~30% of DailyMed-only entries had at least one such
+    /// inversion (vs ~1% for TripSit).
+    ///
+    /// We prefer dropping the suspect field over keeping a wrong value: a missing
+    /// `heavy` shows the user "no upper bound known", while a wrong heavy of, say,
+    /// `1 mg` on Cephalexin actively misleads.
+    static func enforceMonotonicity(_ r: DoseRange) -> DoseRange {
+        var threshold = r.threshold
+        var light = r.light
+        var common = r.common
+        var strong = r.strong
+        var heavy = r.heavy
+
+        // Threshold must not exceed the next-known lower bound.
+        let nextAfterThreshold = light?.lowerBound ?? common?.lowerBound ?? strong?.lowerBound ?? heavy
+        if let t = threshold, let next = nextAfterThreshold, t > next {
+            threshold = nil
+        }
+
+        // Light must sit between threshold and common.
+        if let l = light {
+            let below = threshold ?? 0
+            let above = common?.lowerBound ?? strong?.lowerBound ?? heavy ?? .infinity
+            if l.lowerBound < below || l.upperBound > above {
+                light = nil
+            }
+        }
+
+        // Strong must sit above common.
+        if let s = strong, let c = common, s.lowerBound < c.upperBound {
+            strong = nil
+        }
+
+        // Heavy must sit at or above the highest known rung.
+        let topKnown = strong?.upperBound ?? common?.upperBound ?? light?.upperBound ?? threshold ?? 0
+        if let h = heavy, h < topKnown {
+            heavy = nil
+        }
+
+        return DoseRange(
+            threshold: threshold,
+            light: light,
+            common: common,
+            strong: strong,
+            heavy: heavy
+        )
     }
 
     // MARK: - Parsing Helpers
