@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CustomSubstanceFormView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
     @State private var store = CustomSubstanceStore.shared
 
     var existing: CustomSubstanceEntry?
@@ -162,7 +162,7 @@ struct CustomSubstanceFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("Cancel") { navigator.dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(isEditing ? "Save" : "Add") { save() }
@@ -216,6 +216,6 @@ struct CustomSubstanceFormView: View {
         }
 
         onSaved?(saved)
-        dismiss()
+        navigator.dismiss()
     }
 }
