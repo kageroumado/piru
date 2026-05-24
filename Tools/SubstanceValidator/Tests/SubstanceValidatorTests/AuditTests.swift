@@ -77,13 +77,38 @@ final class PlausibilityCheckTests: XCTestCase {
         XCTAssertEqual(PlausibilityCheck.check(substance: alcohol, route: route).count, 0)
     }
 
-    func testAlcoholAtTenMilligramsFails() {
-        // 10 mg labeled as "g" → trips the unit-mismatch warning AND the
-        // threshold-below-minimum error (10 g ≥ minThreshold so this is fine,
-        // but here we use a tiny value to also force the threshold check).
+    func testStimulantInGramsTripsUnitMismatch() {
+        // Stimulant + oral accepts {mg, µg}. A stimulant labeled in `g` is
+        // therefore outside the acceptable list and trips the unit-mismatch
+        // warning. (Depressant accepts {mg, g, µg} — alcohol mislabeled as
+        // mg can't be caught at the category level anymore; the ground-truth
+        // check covers that specific case via the alcohol entry.)
         let route = AuditRoute(
             route: "oral",
-            unit: "mg", // wrong unit — alcohol should be g
+            unit: "g", // way wrong for a stimulant
+            doses: AuditDoseRange(threshold: 0.1, heavy: 1)
+        )
+        let s = AuditSubstance(
+            name: "TestStim",
+            category: "Stimulant",
+            defaultRoute: "oral",
+            routes: [route]
+        )
+        let findings = PlausibilityCheck.check(substance: s, route: route)
+        XCTAssertTrue(
+            findings.contains { $0.detail.contains("verify not a unit-conversion slip") },
+            "Stimulant in `g` should trip the unit-mismatch warning"
+        )
+    }
+
+    func testAlcoholInMilligramsCaughtByGroundTruth() {
+        // Confirms the architecture: Depressant + oral now accepts mg/g/µg
+        // so alcohol-in-mg isn't a plausibility unit-mismatch hit anymore.
+        // The protection moved to GroundTruthCheck, which compares against
+        // the 60 g reference value (~6e4 mg) and fires an ERROR.
+        let route = AuditRoute(
+            route: "oral",
+            unit: "mg",
             doses: AuditDoseRange(threshold: 1, heavy: 10)
         )
         let alcohol = AuditSubstance(
@@ -93,9 +118,18 @@ final class PlausibilityCheckTests: XCTestCase {
             defaultRoute: "oral",
             routes: [route]
         )
-        let findings = PlausibilityCheck.check(substance: alcohol, route: route)
-        XCTAssertGreaterThan(findings.count, 0, "Expected at least one finding for mislabeled alcohol")
-        XCTAssertTrue(findings.contains { $0.detail.contains("typically uses g") }, "Should warn about unit mismatch")
+        // No plausibility unit-mismatch — that's by design now.
+        let plausibility = PlausibilityCheck.check(substance: alcohol, route: route)
+        XCTAssertFalse(
+            plausibility.contains { $0.detail.contains("verify not a unit-conversion slip") },
+            "Depressant accepts mg, so unit-mismatch shouldn't fire"
+        )
+        // Ground-truth catches it.
+        let groundTruth = GroundTruthCheck.run([alcohol])
+        XCTAssertTrue(
+            groundTruth.contains { $0.severity == .error && $0.substance.lowercased() == "alcohol" },
+            "Alcohol at 10 mg vs 60 g reference should fire a ground-truth ERROR"
+        )
     }
 
     func testStimulantWayOutOfRangeFlagsError() {
