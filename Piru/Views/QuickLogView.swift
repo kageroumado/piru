@@ -641,10 +641,15 @@ struct QuickLogView: View {
         // session when the user picks one.
         startLiveActivity(entry: entry, group: group)
 
+        // Quick-log completes a logging flow; clear the entire sheet chain
+        // back to root regardless of whether the picker queue runs.
         if hasColor(for: group.substanceName) {
-            navigator.dismiss()
+            navigator.dismissAll()
         } else {
-            navigator.present(.colorPicker(substance: group.substanceName), replacingTop: true)
+            navigator.present(
+                .colorPicker(substance: group.substanceName, dismissAllOnComplete: true),
+                replacingTop: true
+            )
         }
     }
 
@@ -773,7 +778,7 @@ struct QuickLogView: View {
             )
         }
         WidgetCenter.shared.reloadAllTimelines()
-        navigator.dismiss()
+        navigator.dismissAll()
     }
 
     // MARK: - Helpers

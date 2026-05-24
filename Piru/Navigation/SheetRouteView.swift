@@ -59,8 +59,12 @@ struct SheetRouteView: View {
                 EntryFormView(entry: entry)
             }
 
-        case .colorPicker(let substance, let remaining):
-            ColorPickerHost(substance: substance, remaining: remaining)
+        case .colorPicker(let substance, let remaining, let dismissAllOnComplete):
+            ColorPickerHost(
+                substance: substance,
+                remaining: remaining,
+                dismissAllOnComplete: dismissAllOnComplete
+            )
 
         case .timeAdjust(let timestamp):
             EntryByTimestampView(timestamp: timestamp) { entry in
@@ -148,6 +152,7 @@ private struct EntryByTimestampView<Content: View>: View {
 private struct ColorPickerHost: View {
     let substance: String
     let remaining: [String]
+    let dismissAllOnComplete: Bool
 
     @Environment(\.appNavigator) private var navigator
     @Environment(\.modelContext) private var modelContext
@@ -173,10 +178,18 @@ private struct ColorPickerHost: View {
 
     private func advance() {
         if let next = remaining.first {
+            // Carry the dismiss flag through the queue so the final pick
+            // honours the originating flow's request.
             navigator.present(
-                .colorPicker(substance: next, remaining: Array(remaining.dropFirst())),
+                .colorPicker(
+                    substance: next,
+                    remaining: Array(remaining.dropFirst()),
+                    dismissAllOnComplete: dismissAllOnComplete
+                ),
                 replacingTop: true
             )
+        } else if dismissAllOnComplete {
+            navigator.dismissAll()
         } else {
             navigator.dismiss()
         }

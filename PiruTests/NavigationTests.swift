@@ -238,7 +238,7 @@ struct AppNavigatorTests {
         nav.present(.colorPicker(substance: "A", remaining: ["B", "C"]), replacingTop: true)
 
         // Simulate the picker advancing the queue.
-        guard case .colorPicker(_, let r1) = nav.sheetStack.last else {
+        guard case .colorPicker(_, let r1, _) = nav.sheetStack.last else {
             Issue.record("Expected color picker on top")
             return
         }
@@ -250,6 +250,31 @@ struct AppNavigatorTests {
 
         nav.dismiss()
         #expect(nav.sheetStack.isEmpty)
+    }
+
+    @Test("dismissAll clears the whole chain (logging-flow completion)")
+    func dismissAllChain() {
+        let nav = makeNavigator()
+        // Simulate QuickLog → From Library → EntryForm.
+        nav.present(.quickLog)
+        nav.present(.entryForm(prefill: EntryPrefillPayload(substance: "Caffeine", route: .oral, unit: "mg")))
+        #expect(nav.sheetStack.count == 2)
+        // The save handler for a new entry should land us back at root.
+        nav.dismissAll()
+        #expect(nav.sheetStack.isEmpty)
+    }
+
+    @Test("colorPicker route propagates dismissAllOnComplete through Codable")
+    func colorPickerCarriesDismissAllFlag() throws {
+        let route = SheetRoute.colorPicker(substance: "A", remaining: ["B"], dismissAllOnComplete: true)
+        let data = try JSONEncoder().encode(route)
+        let decoded = try JSONDecoder().decode(SheetRoute.self, from: data)
+        #expect(decoded == route)
+        if case .colorPicker(_, _, let flag) = decoded {
+            #expect(flag == true)
+        } else {
+            Issue.record("Expected color picker case")
+        }
     }
 
     // MARK: - Snapshot
