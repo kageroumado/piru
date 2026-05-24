@@ -18,17 +18,17 @@ struct PiruApp: App {
 
         container = Self.makeContainer()
 
+        // Register on the main queue so the launch handler runs on the MainActor
+        // executor. Otherwise — under `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` —
+        // this closure is inferred as @MainActor, and BGTaskScheduler invoking it
+        // from a background queue (the default for `using: nil`) trips the Swift
+        // runtime's entry isolation guard and crashes.
         BGTaskScheduler.shared.register(
             forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
-            using: nil
+            using: .main
         ) { task in
             guard let task = task as? BGAppRefreshTask else { return }
-            // BGTaskScheduler fires this closure on a background queue. Hop to
-            // main once — `handleBackgroundRefresh` does only synchronous,
-            // MainActor-isolated state management.
-            DispatchQueue.main.async {
-                LiveActivityManager.shared.handleBackgroundRefresh(task)
-            }
+            LiveActivityManager.shared.handleBackgroundRefresh(task)
         }
     }
 
