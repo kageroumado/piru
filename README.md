@@ -19,17 +19,6 @@ session tracking, and stack safety. Substance data is sourced from
 [pw]: https://psychonautwiki.org
 [dailymed]: https://dailymed.nlm.nih.gov
 
-## Status
-
-Piru is **no longer actively maintained**. The original author
-([@yunaveth](https://github.com/yunaveth)) stepped back; the repository
-is open-sourced here so anyone who finds it useful can keep it running,
-fork it, or learn from it. Issues and PRs are welcome but response time
-is best-effort.
-
-It shipped on TestFlight as **v1.2 (build 5)** and was never published
-to the App Store.
-
 ## Features
 
 - **~1,100 substances** with dose ranges (threshold / light / common /
@@ -85,7 +74,7 @@ xcodebuild -scheme Piru \
   build
 ```
 
-To run the test suite (387 tests, Apple Testing framework):
+To run the test suite (Apple Testing framework):
 
 ```bash
 xcodebuild -scheme Piru \
@@ -141,7 +130,7 @@ Substance data corrections are especially useful — open an issue with
 the substance name and the source you're using.
 
 If you ship a fork, please don't call it "Piru" — the name and the pink
-flame icon were Yuna's. Pick your own.
+flame icon are pharmacykitty's. Pick your own.
 
 ## License
 
@@ -150,8 +139,10 @@ License, version 3** — see [LICENSE](LICENSE).
 
 ## Acknowledgements
 
-Originally built by [Yuna](https://github.com/yunaveth). Pharmacology
-data courtesy of [TripSit][tripsit], [PsychonautWiki][pw], and the
+Originally built by [pharmacykitty](https://github.com/pharmacykitty);
+development is now continued by
+[kageroumado](https://github.com/kageroumado). Pharmacology data courtesy
+of [TripSit][tripsit], [PsychonautWiki][pw], and the
 [NIH's DailyMed][dailymed]. Half-life values are drawn from a hand-curated
 database of ~1,100 entries; see `Piru/Data/HalfLifeDatabase.swift`.
 
