@@ -46,12 +46,7 @@ private struct PushRouteView: View {
             // semantics in SheetRouteView). If the entry has been deleted
             // since the route was pushed, render nothing — the stack will
             // typically pop the dead route on next interaction.
-            let lower = timestamp.addingTimeInterval(-2)
-            let upper = timestamp.addingTimeInterval(2)
-            let descriptor = FetchDescriptor<DoseEntry>(
-                predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper }
-            )
-            if let entry = try? modelContext.fetch(descriptor).first {
+            if let entry = lookupEntry(at: timestamp) {
                 EntryDetailView(entry: entry)
             } else {
                 EmptyView()
@@ -70,5 +65,15 @@ private struct PushRouteView: View {
         case .libraryFavorites:
             SubstanceCategoryListView(title: "Favorites", category: nil)
         }
+    }
+
+    private func lookupEntry(at timestamp: Date) -> DoseEntry? {
+        let lower = timestamp.addingTimeInterval(-2)
+        let upper = timestamp.addingTimeInterval(2)
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper }
+        )
+        descriptor.sortBy = [SortDescriptor(\.timestamp)]
+        return try? modelContext.fetch(descriptor).first
     }
 }

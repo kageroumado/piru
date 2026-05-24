@@ -107,6 +107,13 @@ final class AppNavigator {
 
     // MARK: - Modals
 
+    /// Maximum sheet stack depth that the presenter can render gracefully on
+    /// iOS 26. Pushing past this limit is silently dropped — sheets in state
+    /// but not on screen would otherwise create a "ghost stack" where
+    /// `dismiss()` removes invisible items before reaching what the user
+    /// can actually see.
+    static let maxSheetDepth = 3
+
     /// Present `sheet` on top of the current stack.
     ///
     /// When `replacingTop` is true and a sheet is already showing, the top of
@@ -114,10 +121,12 @@ final class AppNavigator {
     /// pattern used by Save handlers: dismiss the current form *and* present
     /// the color picker in one atomic transition, so the user perceives a
     /// single tap of Done.
+    ///
+    /// Pushes beyond `maxSheetDepth` are dropped; replacements always succeed.
     func present(_ sheet: SheetRoute, replacingTop: Bool = false) {
         if replacingTop, !sheetStack.isEmpty {
             sheetStack[sheetStack.count - 1] = sheet
-        } else {
+        } else if sheetStack.count < Self.maxSheetDepth {
             sheetStack.append(sheet)
         }
     }
@@ -158,6 +167,18 @@ final class AppNavigator {
             selectedTab = newValue.selectedTab
             paths = newValue.paths
             sheetStack = newValue.sheetStack
+        }
+    }
+
+    /// Apply a deep-link outcome. Unlike setting `snapshot`, this only mutates
+    /// the slices the URL spoke about — a sheet-only URL doesn't clobber the
+    /// current tab.
+    func apply(_ outcome: DeepLinkOutcome) {
+        if let tab = outcome.tab {
+            selectedTab = tab
+        }
+        if let sheet = outcome.sheet {
+            present(sheet)
         }
     }
 }

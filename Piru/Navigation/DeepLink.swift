@@ -31,15 +31,32 @@ import Foundation
 /// stack (or just the tab when no modal is presented). Multi-level stacks
 /// aren't yet representable as a single URL — that's by design, since deep
 /// links open a specific destination, not arbitrary nav state.
+/// The intent of a single deep-link URL: maybe switch to a tab, maybe
+/// present a sheet. Distinct from `NavigatorSnapshot` because deep links
+/// don't speak about *unchanged* state — a URL like `piru://quicklog`
+/// shouldn't clobber the user's current tab.
+nonisolated struct DeepLinkOutcome: Hashable, Sendable {
+    /// `nil` means "preserve the current tab".
+    var tab: AppTab?
+    /// `nil` means "no sheet to present" (the URL is tab-only or
+    /// unrepresentable).
+    var sheet: SheetRoute?
+
+    init(tab: AppTab? = nil, sheet: SheetRoute? = nil) {
+        self.tab = tab
+        self.sheet = sheet
+    }
+}
+
 nonisolated enum DeepLink {
 
     static let scheme = "piru"
 
     // MARK: - Decode
 
-    /// Parse a `piru://` URL into a navigator snapshot. Returns `nil` for
+    /// Parse a `piru://` URL into a navigator outcome. Returns `nil` for
     /// unsupported schemes or unrecognised hosts.
-    static func decode(_ url: URL) -> NavigatorSnapshot? {
+    static func decode(_ url: URL) -> DeepLinkOutcome? {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               components.scheme == scheme,
               let host = components.host?.lowercased()
@@ -53,35 +70,38 @@ nonisolated enum DeepLink {
             return (item.name, value)
         })
 
-        // Tab-only deep link.
+        // Tab-only deep link: switch tab, no sheet.
         if let tab = AppTab(rawValue: host), pathSegments.isEmpty {
-            return NavigatorSnapshot(selectedTab: tab)
+            return DeepLinkOutcome(tab: tab, sheet: nil)
         }
 
-        // Sheet routes are presented over the journal tab by default. Callers
-        // can override the tab by including it in the query (`?tab=library`).
-        let baseTab = query["tab"].flatMap(AppTab.init(rawValue:)) ?? .journal
+        // Explicit tab override via `?tab=library` etc. — overrides whatever
+        // default the host would imply.
+        let overrideTab = query["tab"].flatMap(AppTab.init(rawValue:))
 
         switch host {
         case "quicklog":
-            return NavigatorSnapshot(selectedTab: baseTab, sheetStack: [.quickLog])
+            // App-level sheets preserve the current tab by default.
+            return DeepLinkOutcome(tab: overrideTab, sheet: .quickLog)
 
         case "settings":
-            return NavigatorSnapshot(selectedTab: baseTab, sheetStack: [.settings])
+            return DeepLinkOutcome(tab: overrideTab, sheet: .settings)
 
         case "help":
-            return NavigatorSnapshot(selectedTab: baseTab, sheetStack: [.help])
+            return DeepLinkOutcome(tab: overrideTab, sheet: .help)
 
         case "day":
-            return NavigatorSnapshot(selectedTab: .journal, sheetStack: [.sessionDetail])
+            // Journal-flow routes implicitly land on the journal tab since the
+            // sheet makes no sense in any other context.
+            return DeepLinkOutcome(tab: overrideTab ?? .journal, sheet: .sessionDetail)
 
         case "entry":
             guard let tsString = pathSegments.first,
                   let ts = TimeInterval(tsString) else { return nil }
             let timestamp = Date(timeIntervalSince1970: ts)
-            return NavigatorSnapshot(
-                selectedTab: .journal,
-                sheetStack: [.entryDetail(timestamp: timestamp)]
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .journal,
+                sheet: .entryDetail(timestamp: timestamp)
             )
 
         case "entryform":
@@ -94,16 +114,16 @@ nonisolated enum DeepLink {
                 else { return nil }
                 return EntryPrefillPayload(substance: substance, route: route, unit: unit)
             }()
-            return NavigatorSnapshot(
-                selectedTab: .journal,
-                sheetStack: [.entryForm(prefill: prefill)]
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .journal,
+                sheet: .entryForm(prefill: prefill)
             )
 
         case "meds":
             guard let category = pathSegments.first else { return nil }
-            return NavigatorSnapshot(
-                selectedTab: .journal,
-                sheetStack: [.dailyDoseLog(category: category)]
+            return DeepLinkOutcome(
+                tab: overrideTab ?? .journal,
+                sheet: .dailyDoseLog(category: category)
             )
 
         default:
