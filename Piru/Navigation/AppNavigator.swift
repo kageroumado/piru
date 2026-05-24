@@ -19,7 +19,12 @@ final class AppNavigator {
 
     // MARK: - State
 
-    var selectedTab: AppTab
+    var selectedTab: AppTab {
+        didSet {
+            guard selectedTab != oldValue else { return }
+            storage.set(selectedTab.rawValue, forKey: Self.selectedTabKey)
+        }
+    }
 
     private(set) var paths: [AppTab: [PushRoute]]
 
@@ -61,7 +66,6 @@ final class AppNavigator {
 
     func select(_ tab: AppTab) {
         selectedTab = tab
-        storage.set(tab.rawValue, forKey: Self.selectedTabKey)
     }
 
     // MARK: - Push
@@ -154,7 +158,6 @@ final class AppNavigator {
             selectedTab = newValue.selectedTab
             paths = newValue.paths
             sheetStack = newValue.sheetStack
-            storage.set(newValue.selectedTab.rawValue, forKey: Self.selectedTabKey)
         }
     }
 }
