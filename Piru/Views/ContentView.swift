@@ -78,42 +78,44 @@ struct ContentView: View {
                                     .padding(.bottom, 16)
                             }
                         }
+                        .withAppDestinations()
                 }
-                .withAppDestinations()
             }
             Tab("Library", systemImage: "books.vertical", value: AppTab.library) {
                 NavigationStack(path: navigator.pathBinding(for: .library)) {
                     libraryContent
+                        .withAppDestinations()
                 }
-                .withAppDestinations()
             }
             Tab("Tools", systemImage: "wrench.and.screwdriver", value: AppTab.tools) {
                 NavigationStack(path: navigator.pathBinding(for: .tools)) {
                     toolsContent
+                        .withAppDestinations()
                 }
-                .withAppDestinations()
             }
             Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: AppTab.insights) {
                 NavigationStack(path: navigator.pathBinding(for: .insights)) {
                     insightsContent
+                        .withAppDestinations()
                 }
-                .withAppDestinations()
             }
             Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
                 NavigationStack(path: navigator.pathBinding(for: .search)) {
-                    if lastContentTab == .library {
-                        SubstanceLibraryView(searchText: $librarySearchText)
-                            .navigationTitle("Search Library")
-                            .toolbar { sharedToolbar }
-                            .searchable(text: $librarySearchText, prompt: "Search substances...")
-                    } else {
-                        EntryListView(searchText: $searchText)
-                            .navigationTitle("Search Journal")
-                            .toolbar { sharedToolbar }
-                            .searchable(text: $searchText, prompt: "Search entries...")
+                    Group {
+                        if lastContentTab == .library {
+                            SubstanceLibraryView(searchText: $librarySearchText)
+                                .navigationTitle("Search Library")
+                                .toolbar { sharedToolbar }
+                                .searchable(text: $librarySearchText, prompt: "Search substances...")
+                        } else {
+                            EntryListView(searchText: $searchText)
+                                .navigationTitle("Search Journal")
+                                .toolbar { sharedToolbar }
+                                .searchable(text: $searchText, prompt: "Search entries...")
+                        }
                     }
+                    .withAppDestinations()
                 }
-                .withAppDestinations()
             }
         }
         .withSessionAccessory(
