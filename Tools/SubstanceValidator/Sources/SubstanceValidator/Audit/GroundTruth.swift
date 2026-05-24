@@ -113,5 +113,14 @@ enum GroundTruth {
         GroundTruthEntry(name: "gbl", route: "oral", unit: "g",
                          expectedHeavy: 4, tolerancePercent: 0.5,
                          source: "PsychonautWiki — heavy oral GBL"),
+        // Mushrooms and Kratom are taxonomically Psychedelic/Opioid but dosed
+        // by dried-fruit/leaf mass in grams, not by isolated alkaloid weight.
+        // Their plausibility-table exemptions defer to these entries.
+        GroundTruthEntry(name: "mushrooms", route: "oral", unit: "g",
+                         expectedHeavy: 5, tolerancePercent: 0.5,
+                         source: "PsychonautWiki — heavy dried Psilocybe cubensis 5+ g"),
+        GroundTruthEntry(name: "kratom", route: "oral", unit: "g",
+                         expectedHeavy: 8, tolerancePercent: 0.5,
+                         source: "PsychonautWiki — heavy oral kratom 8+ g of dried leaf"),
     ]
 }
