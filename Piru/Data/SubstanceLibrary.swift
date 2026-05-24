@@ -168,7 +168,39 @@ enum SubstanceLibrary {
             // full duration profiles, subjective effects, and tolerance info.
             // Runs without blocking the UI — results merge in and re-save the cache.
             await enrichFromPsychonautWiki()
+
+            // Background enrichment: drug.community fills the long tail of
+            // research chemicals and analogs (DMXE, novel arylcyclohexylamines,
+            // fluorinated amphetamines, etc.) that TripSit/PW/DailyMed don't
+            // cover. Adds ~420 substances, mostly new ones.
+            await enrichFromDrugCommunity()
         }
+    }
+
+    // MARK: - drug.community Background Enrichment
+
+    /// Fetch drug.community records for every substance in their bundled
+    /// name list, convert to ``Substance``, and merge. New substances are
+    /// added; existing ones (by name or alias) are deduplicated via
+    /// ``SubstanceDeduplicator``.
+    @MainActor private static func enrichFromDrugCommunity() async {
+        let names = DrugCommunityAPI.allNames
+        guard !names.isEmpty else { return }
+
+        logger.info("Background drug.community enrichment: querying \(names.count) substances...")
+        LibraryLoadingState.shared.statusText = String(localized: "Adding research chemicals...")
+
+        let responses = await DrugCommunityAPI.fetchResponses(names: names)
+        guard !responses.isEmpty else {
+            logger.warning("Background drug.community enrichment: no results")
+            return
+        }
+
+        let substances = responses.map { DrugCommunityAPI.toSubstance($0) }
+        let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: substances)
+        updateAll(merged)
+        saveCache(all)
+        logger.info("Background drug.community enrichment: merged \(substances.count) substances, \(all.count) total")
     }
 
     // MARK: - PsychonautWiki Background Enrichment
