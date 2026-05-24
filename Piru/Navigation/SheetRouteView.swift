@@ -67,8 +67,10 @@ struct SheetRouteView: View {
                 TimeAdjustHost(entry: entry)
             }
 
-        case .dailyDoseLog,
-             .dailyDoseSettings,
+        case .dailyDoseLog(let category):
+            LogMedicationsView(category: category)
+
+        case .dailyDoseSettings,
              .dailyDoseItemForm,
              .customSubstancesList,
              .customSubstanceForm,
@@ -149,6 +151,11 @@ private struct ColorPickerHost: View {
         ) { hex in
             let color = SubstanceColor(substance: substance, hexColor: hex)
             modelContext.insert(color)
+            // Refresh the active session so any already-displayed doses for
+            // this substance pick up the new colour (instead of the default
+            // "007AFF" they were initialised with when the entry was saved
+            // before the picker was shown).
+            ActiveSessionManager.shared.refresh()
             advance()
         }
         .onDisappear(perform: advanceIfNeeded)

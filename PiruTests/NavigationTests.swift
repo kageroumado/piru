@@ -283,7 +283,7 @@ struct RoutesCodableTests {
         .entryForm(prefill: nil),
         .entryForm(prefill: EntryPrefillPayload(substance: "MDMA", route: .oral, unit: "mg")),
         .entryEdit(timestamp: Date(timeIntervalSince1970: 200)),
-        .dailyDoseLog,
+        .dailyDoseLog(category: "Antidepressants"),
         .dailyDoseSettings,
         .dailyDoseItemForm(itemID: nil),
         .dailyDoseItemForm(itemID: UUID(uuidString: "00000000-0000-0000-0000-000000000001")),

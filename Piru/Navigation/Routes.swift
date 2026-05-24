@@ -50,7 +50,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     case entryEdit(timestamp: Date)
 
     // Daily dose tracking
-    case dailyDoseLog
+    case dailyDoseLog(category: String)
     case dailyDoseSettings
     case dailyDoseItemForm(itemID: UUID?)
 
