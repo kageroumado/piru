@@ -9,11 +9,6 @@ import SwiftUI
 struct SheetStackPresenter: ViewModifier {
     @Bindable var navigator: AppNavigator
 
-    /// Maximum nested sheet depth SwiftUI handles gracefully on iOS 26.
-    /// Beyond this, additional sheets in the stack are held in state but not
-    /// presented until one is dismissed.
-    static let maxDepth = 3
-
     func body(content: Content) -> some View {
         content.modifier(SheetLayer(navigator: navigator, depth: 0))
     }
@@ -27,7 +22,7 @@ private struct SheetLayer: ViewModifier {
     let depth: Int
 
     func body(content: Content) -> some View {
-        if depth >= SheetStackPresenter.maxDepth {
+        if depth >= AppNavigator.maxSheetDepth {
             content
         } else {
             content.sheet(item: binding) { route in

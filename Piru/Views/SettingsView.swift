@@ -393,6 +393,7 @@ struct SubstanceColorsListView: View {
                 takenColors: takenColorMap(excluding: sc.substance)
             ) { hex in
                 sc.hexColor = hex
+                editingSubstance = nil
             }
             .presentationDetents([.large])
         }

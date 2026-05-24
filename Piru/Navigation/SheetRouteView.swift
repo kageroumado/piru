@@ -118,22 +118,33 @@ private struct EntryByTimestampView<Content: View>: View {
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
-        let lower = timestamp.addingTimeInterval(-2)
-        let upper = timestamp.addingTimeInterval(2)
-        let descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper }
-        )
-        if let entry = try? modelContext.fetch(descriptor).first {
+        if let entry = lookup() {
             content(entry)
         } else {
             EmptyView()
         }
+    }
+
+    private func lookup() -> DoseEntry? {
+        let lower = timestamp.addingTimeInterval(-2)
+        let upper = timestamp.addingTimeInterval(2)
+        var descriptor = FetchDescriptor<DoseEntry>(
+            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper }
+        )
+        descriptor.sortBy = [SortDescriptor(\.timestamp)]
+        return try? modelContext.fetch(descriptor).first
     }
 }
 
 /// Color picker host that persists the chosen color and either advances the
 /// remaining queue (via `replacingTop`) or dismisses when done. Replaces the
 /// chained `onDismiss` color loop in `LogMedicationsView` and `QuickLogView`.
+///
+/// SubstanceColorPickerView does not call `dismiss()` internally — the host
+/// owns the transition, either via `replacingTop` (when the queue has more
+/// substances) or `navigator.dismiss()` (when empty). This avoids the
+/// `@Environment(\.dismiss)` → sheet-binding-nil → `truncateSheetStack` chain
+/// that would otherwise wipe the queue between picks.
 private struct ColorPickerHost: View {
     let substance: String
     let remaining: [String]
@@ -151,14 +162,13 @@ private struct ColorPickerHost: View {
         ) { hex in
             let color = SubstanceColor(substance: substance, hexColor: hex)
             modelContext.insert(color)
-            // Refresh the active session so any already-displayed doses for
-            // this substance pick up the new colour (instead of the default
-            // "007AFF" they were initialised with when the entry was saved
-            // before the picker was shown).
-            ActiveSessionManager.shared.refresh()
+            // Re-read all colors from the store and patch the active session
+            // so any in-flight doses for this substance pick up the new color.
+            // `refresh()` alone would only prune; we need a full color refresh.
+            let allColors = (try? modelContext.fetch(FetchDescriptor<SubstanceColor>())) ?? []
+            ActiveSessionManager.shared.applyColorUpdates(allColors: allColors)
             advance()
         }
-        .onDisappear(perform: advanceIfNeeded)
     }
 
     private func advance() {
@@ -170,11 +180,6 @@ private struct ColorPickerHost: View {
         } else {
             navigator.dismiss()
         }
-    }
-
-    private func advanceIfNeeded() {
-        guard !remaining.isEmpty else { return }
-        advance()
     }
 }
 

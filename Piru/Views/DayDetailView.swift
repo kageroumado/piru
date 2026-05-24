@@ -4,12 +4,12 @@ import ActivityKit
 
 struct DayDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @Query private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     @State private var showingForm = false
-    @State private var entryToEdit: DoseEntry?
     @State private var entryToAdjustTime: DoseEntry?
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
@@ -156,7 +156,7 @@ struct DayDetailView: View {
                         }
                         .swipeActions(edge: .leading) {
                             Button {
-                                entryToEdit = entry
+                                navigator.present(.entryEdit(timestamp: entry.timestamp))
                             } label: {
                                 Label("Edit", systemImage: "pencil")
                             }
@@ -175,7 +175,7 @@ struct DayDetailView: View {
                                 Label("Change Color", systemImage: "paintbrush")
                             }
                             Button {
-                                entryToEdit = entry
+                                navigator.present(.entryEdit(timestamp: entry.timestamp))
                             } label: {
                                 Label("Edit", systemImage: "pencil")
                             }
@@ -265,9 +265,6 @@ struct DayDetailView: View {
         .sheet(isPresented: $showingForm) {
             EntryFormView()
         }
-        .sheet(item: $entryToEdit) { entry in
-            EntryFormView(entry: entry)
-        }
         .sheet(item: $entryToAdjustTime) { entry in
             NavigationStack {
                 TimeAdjustSheet(entry: entry)
@@ -290,6 +287,7 @@ struct DayDetailView: View {
                 } else {
                     modelContext.insert(SubstanceColor(substance: colorPickerSubstance, hexColor: hex))
                 }
+                showColorPicker = false
             }
             .presentationDetents([.large])
         }

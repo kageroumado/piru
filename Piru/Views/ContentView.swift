@@ -118,23 +118,31 @@ struct ContentView: View {
         }
         .withSessionAccessory(
             isActive: ActiveSessionManager.shared.hasActiveSession,
+            // Only treat the toggle as "on" when the sheet is at the TOP of
+            // the stack — anything buried under another sheet isn't actually
+            // visible, so flipping the toggle would otherwise no-op against
+            // a stale getter reading. Same for setting: refuse to stack a
+            // second sheet on top of an existing one (matches the addMenu
+            // guard).
             showingSessionDetail: Binding(
-                get: { navigator.sheetStack.contains(.sessionDetail) },
+                get: { navigator.sheetStack.last == .sessionDetail },
                 set: { isShowing in
                     if isShowing {
+                        guard navigator.sheetStack.isEmpty else { return }
                         navigator.present(.sessionDetail)
-                    } else {
-                        navigator.dismiss(.sessionDetail)
+                    } else if navigator.sheetStack.last == .sessionDetail {
+                        navigator.dismiss()
                     }
                 }
             ),
             showingForm: Binding(
-                get: { navigator.sheetStack.contains(.quickLog) },
+                get: { navigator.sheetStack.last == .quickLog },
                 set: { isShowing in
                     if isShowing {
+                        guard navigator.sheetStack.isEmpty else { return }
                         navigator.present(.quickLog)
-                    } else {
-                        navigator.dismiss(.quickLog)
+                    } else if navigator.sheetStack.last == .quickLog {
+                        navigator.dismiss()
                     }
                 }
             )
@@ -182,8 +190,8 @@ struct ContentView: View {
     // MARK: - Deep Linking
 
     private func handleDeepLink(_ url: URL) {
-        guard let snapshot = DeepLink.decode(url) else { return }
-        navigator.snapshot = snapshot
+        guard let outcome = DeepLink.decode(url) else { return }
+        navigator.apply(outcome)
     }
 }
 
