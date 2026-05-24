@@ -144,7 +144,7 @@ struct DayDetailView: View {
                 // Entries
                 Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
                     ForEach(entries) { entry in
-                        NavigationLink(value: entry) {
+                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
                             EntryRowView(entry: entry, color: colorFor(entry))
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {

@@ -268,6 +268,9 @@ struct RoutesCodableTests {
         PushRoute.day(date: Date(timeIntervalSince1970: 1_700_000_000)),
         PushRoute.entry(timestamp: Date(timeIntervalSince1970: 1_700_000_500)),
         PushRoute.substance(name: "LSD"),
+        .libraryCategory(.stimulant),
+        .libraryCategory(.psychedelic),
+        .libraryFavorites,
     ])
     func pushRouteRoundTrip(route: PushRoute) throws {
         #expect(try roundTrip(route) == route)

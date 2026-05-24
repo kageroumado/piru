@@ -47,7 +47,6 @@ struct ContentView: View {
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
             .toolbar { sharedToolbar }
-            .withDayDetailDestination()
     }
 
     private var libraryContent: some View {
@@ -63,7 +62,6 @@ struct ContentView: View {
     private var insightsContent: some View {
         InsightsView()
             .toolbar { sharedToolbar }
-            .withDayDetailDestination()
     }
 
     // MARK: - Tab View
@@ -72,7 +70,7 @@ struct ContentView: View {
         @Bindable var navigator = navigator
         return TabView(selection: $navigator.selectedTab) {
             Tab("Journal", systemImage: "book", value: AppTab.journal) {
-                NavigationStack {
+                NavigationStack(path: navigator.pathBinding(for: .journal)) {
                     journalContent
                         .overlay(alignment: .bottom) {
                             if !ActiveSessionManager.shared.hasActiveSession {
@@ -81,20 +79,28 @@ struct ContentView: View {
                             }
                         }
                 }
+                .withAppDestinations()
             }
             Tab("Library", systemImage: "books.vertical", value: AppTab.library) {
-                NavigationStack {
+                NavigationStack(path: navigator.pathBinding(for: .library)) {
                     libraryContent
                 }
+                .withAppDestinations()
             }
             Tab("Tools", systemImage: "wrench.and.screwdriver", value: AppTab.tools) {
-                NavigationStack { toolsContent }
+                NavigationStack(path: navigator.pathBinding(for: .tools)) {
+                    toolsContent
+                }
+                .withAppDestinations()
             }
             Tab("Insights", systemImage: "chart.line.uptrend.xyaxis", value: AppTab.insights) {
-                NavigationStack { insightsContent }
+                NavigationStack(path: navigator.pathBinding(for: .insights)) {
+                    insightsContent
+                }
+                .withAppDestinations()
             }
             Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
-                NavigationStack {
+                NavigationStack(path: navigator.pathBinding(for: .search)) {
                     if lastContentTab == .library {
                         SubstanceLibraryView(searchText: $librarySearchText)
                             .navigationTitle("Search Library")
@@ -102,12 +108,12 @@ struct ContentView: View {
                             .searchable(text: $librarySearchText, prompt: "Search substances...")
                     } else {
                         EntryListView(searchText: $searchText)
-                            .withDayDetailDestination()
                             .navigationTitle("Search Journal")
                             .toolbar { sharedToolbar }
                             .searchable(text: $searchText, prompt: "Search entries...")
                     }
                 }
+                .withAppDestinations()
             }
         }
         .withSessionAccessory(
@@ -178,19 +184,6 @@ struct ContentView: View {
     private func handleDeepLink(_ url: URL) {
         guard let snapshot = DeepLink.decode(url) else { return }
         navigator.snapshot = snapshot
-    }
-}
-
-// MARK: - Day Detail Navigation Destination
-
-private extension View {
-    func withDayDetailDestination() -> some View {
-        self.navigationDestination(for: Date.self) { date in
-            DayDetailView(date: date)
-        }
-        .navigationDestination(for: DoseEntry.self) { entry in
-            EntryDetailView(entry: entry)
-        }
     }
 }
 
