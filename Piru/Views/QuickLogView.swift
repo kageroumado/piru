@@ -357,9 +357,25 @@ struct QuickLogView: View {
             }
         }
 
-        if !searchText.isEmpty && cachedLibraryResults.isEmpty && nonFavoriteCards.isEmpty && filteredCustomSubstances.isEmpty {
+        // Show the "Add as custom" CTA whenever the user has typed something
+        // that doesn't *exactly* match an existing substance (case- and
+        // whitespace-insensitive). Partial matches in the library still
+        // appear above; the button lets the user add a new substance without
+        // having to clear the search first.
+        if !searchText.isEmpty && !exactMatchExists {
             createCustomButton
         }
+    }
+
+    /// True when `searchText` exactly matches the name of any substance
+    /// already known to the app (library, custom store, or recently logged).
+    private var exactMatchExists: Bool {
+        let needle = searchText.trimmingCharacters(in: .whitespaces).lowercased()
+        guard !needle.isEmpty else { return false }
+        if cachedLibraryResults.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if filteredCustomSubstances.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if cachedCards.contains(where: { $0.substanceName.lowercased() == needle }) { return true }
+        return false
     }
 
     // MARK: - Medications
