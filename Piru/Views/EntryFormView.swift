@@ -353,14 +353,25 @@ struct EntryFormView: View {
         // Always add to the active session immediately — the live activity
         // shouldn't wait on the user picking a colour. If no colour exists
         // yet for this substance, the picker comes up *after* dismissal, and
-        // the ColorPickerHost calls `ActiveSessionManager.refresh()` to pull
-        // in the new colour without needing a round-trip back here.
+        // the ColorPickerHost calls `ActiveSessionManager.applyColorUpdates`
+        // to pull in the new colour without needing a round-trip back here.
         startLiveActivityIfNeeded()
+
+        // A new-entry save completes the logging flow that may span multiple
+        // sheets (e.g. QuickLog → "From Library" → EntryForm). Dismiss the
+        // entire stack so the user lands back at root. An edit, by contrast,
+        // should return to wherever the form was opened from.
+        let isNewEntry = entry == nil
 
         if !hasColor(for: substance) {
             // Replace the form with the colour picker in one transition so
             // the user perceives a single tap of Done.
-            navigator.present(.colorPicker(substance: substance), replacingTop: true)
+            navigator.present(
+                .colorPicker(substance: substance, dismissAllOnComplete: isNewEntry),
+                replacingTop: true
+            )
+        } else if isNewEntry {
+            navigator.dismissAll()
         } else {
             navigator.dismiss()
         }

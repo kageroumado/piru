@@ -66,7 +66,14 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     /// the picker can re-present itself with `replacingTop: true` for the
     /// next substance in the queue. Replaces the chained `onDismiss` color
     /// loop in `LogDailyDoseView`.
-    case colorPicker(substance: String, remaining: [String] = [])
+    ///
+    /// `dismissAllOnComplete`: when `true`, finishing the queue calls
+    /// `navigator.dismissAll()` instead of `navigator.dismiss()`. Set this for
+    /// save handlers that are completing a multi-sheet logging flow (e.g.
+    /// QuickLog → EntryForm → ColorPicker) so the user lands back at root.
+    /// Leave `false` for edit-from-detail flows where the user expects to
+    /// return to the originating sheet.
+    case colorPicker(substance: String, remaining: [String] = [], dismissAllOnComplete: Bool = false)
 
     // Day utilities
     case journalFilters

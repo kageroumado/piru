@@ -164,14 +164,20 @@ struct LogMedicationsView: View {
         // ActiveSessionManager.refresh() after each pick to update colours.
         startLiveActivityForBatch()
 
+        // Medication log completes a logging flow; clear the entire chain
+        // back to root.
         if needsColor.isEmpty {
-            navigator.dismiss()
+            navigator.dismissAll()
         } else {
             // Atomic replace: the form goes away and the first colour picker
             // appears in one transition. The picker walks `remaining` and
-            // calls `navigator.dismiss()` once the queue is empty.
+            // calls `navigator.dismissAll()` once the queue is empty.
             navigator.present(
-                .colorPicker(substance: needsColor[0], remaining: Array(needsColor.dropFirst())),
+                .colorPicker(
+                    substance: needsColor[0],
+                    remaining: Array(needsColor.dropFirst()),
+                    dismissAllOnComplete: true
+                ),
                 replacingTop: true
             )
         }
