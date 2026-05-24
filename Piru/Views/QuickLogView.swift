@@ -17,7 +17,7 @@ struct QuickLogView: View {
     @State private var showCustomForm = false
     @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
-    @State private var pendingCustomPrefill: EntryPrefill?
+    @State private var pendingCustomPrefill: EntryPrefillPayload?
 
     @State private var multiSelectEnabled = false
     @State private var selectedDoses: [DoseSelection] = []
@@ -200,7 +200,7 @@ struct QuickLogView: View {
             }
             .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
                 CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
-                    pendingCustomPrefill = EntryPrefill(
+                    pendingCustomPrefill = EntryPrefillPayload(
                         substance: saved.name,
                         route: saved.defaultRoute,
                         unit: saved.unit
@@ -681,11 +681,7 @@ struct QuickLogView: View {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
         searchText = ""
-        navigator.present(.entryForm(prefill: EntryPrefillPayload(
-            substance: prefill.substance,
-            route: prefill.route,
-            unit: prefill.unit
-        )))
+        navigator.present(.entryForm(prefill: prefill))
     }
 
     // MARK: - Multi-Select
@@ -781,10 +777,6 @@ struct QuickLogView: View {
     }
 
     // MARK: - Helpers
-
-    private var takenColorMap: [String: String] {
-        Array(substanceColors).takenColorMap
-    }
 
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
@@ -929,18 +921,6 @@ struct SubstanceGroup: Identifiable {
             latestTimestamp = entry.timestamp
         }
     }
-}
-
-struct MedicationCategoryItem: Identifiable {
-    let id = UUID()
-    let category: String
-}
-
-struct EntryPrefill: Identifiable, Hashable {
-    let id = UUID()
-    let substance: String
-    let route: RouteOfAdministration
-    let unit: String
 }
 
 struct DoseSelection: Identifiable {
