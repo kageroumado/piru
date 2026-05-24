@@ -36,10 +36,16 @@ enum PlausibilityCheck {
         }
         var findings: [AuditFinding] = []
 
-        // 1. Unit-mismatch heuristic. Only meaningful when both units are
-        // convertible mass units (µg/mg/g) but differ from the canonical one.
+        // 1. Unit-mismatch heuristic. The bound declares an `acceptableUnits`
+        // list — units the category × route legitimately uses (e.g. opioids
+        // dose in both mg *and* µg, since fentanyl-class is µg-active).
+        // Only flag when the observed unit isn't in that list AND both units
+        // are convertible mass units. This eliminates ~130 false positives
+        // that the original "bound.unit only" check produced (LSDs in µg,
+        // fentanyls in µg, benzos/barbs in mg under depressants).
         let isMassUnit: (String) -> Bool = { ["µg", "ug", "mg", "g"].contains($0.lowercased()) }
-        if route.unit != bound.unit, isMassUnit(route.unit), isMassUnit(bound.unit) {
+        let unitAccepted = bound.acceptableUnits.contains { $0.caseInsensitiveCompare(route.unit) == .orderedSame }
+        if !unitAccepted, isMassUnit(route.unit), isMassUnit(bound.unit) {
             findings.append(AuditFinding(
                 substance: substance.name,
                 category: substance.category,
@@ -47,8 +53,8 @@ enum PlausibilityCheck {
                 unit: route.unit,
                 check: .plausibility,
                 severity: .warning,
-                detail: "category \(substance.category) typically uses \(bound.unit) on \(route.route); route uses \(route.unit) — verify not a unit-conversion slip.",
-                expected: bound.unit,
+                detail: "category \(substance.category) on \(route.route) accepts \(bound.acceptableUnits.joined(separator: "/")); route uses \(route.unit) — verify not a unit-conversion slip.",
+                expected: bound.acceptableUnits.joined(separator: "/"),
                 actual: route.unit
             ))
         }
