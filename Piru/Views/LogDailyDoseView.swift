@@ -4,7 +4,7 @@ import ActivityKit
 
 struct LogMedicationsView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
 
     @Query(sort: \DailyDoseItem.sortOrder) private var allItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
@@ -13,9 +13,6 @@ struct LogMedicationsView: View {
     let category: String
 
     @State private var toggleStates: [String: Bool] = [:]
-    @State private var showColorPicker = false
-    @State private var colorQueue: [String] = []
-    @State private var currentColorSubstance = ""
     @State private var loggedDoseEntries: [DoseEntry] = []
     @State private var loggedSubstances: [Substance?] = []
     @State private var interactionWarnings: [InteractionResult] = []
@@ -87,18 +84,8 @@ struct LogMedicationsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
                 }
-            }
-            .sheet(isPresented: $showColorPicker, onDismiss: showNextColorPicker) {
-                SubstanceColorPickerView(
-                    substanceName: currentColorSubstance,
-                    takenColors: takenColorMap
-                ) { hex in
-                    let sc = SubstanceColor(substance: currentColorSubstance, hexColor: hex)
-                    modelContext.insert(sc)
-                }
-                .presentationDetents([.large])
             }
             .sheet(isPresented: $showInteractionSheet) {
                 InteractionWarningSheet(
@@ -176,12 +163,21 @@ struct LogMedicationsView: View {
             }
         }
 
+        // Always add to the active session. If any substance lacks a colour,
+        // the picker queue runs next and the host calls
+        // ActiveSessionManager.refresh() after each pick to update colours.
+        startLiveActivityForBatch()
+
         if needsColor.isEmpty {
-            startLiveActivityForBatch()
-            dismiss()
+            navigator.dismiss()
         } else {
-            colorQueue = needsColor
-            showNextColorPicker()
+            // Atomic replace: the form goes away and the first colour picker
+            // appears in one transition. The picker walks `remaining` and
+            // calls `navigator.dismiss()` once the queue is empty.
+            navigator.present(
+                .colorPicker(substance: needsColor[0], remaining: Array(needsColor.dropFirst())),
+                replacingTop: true
+            )
         }
     }
 
@@ -192,16 +188,6 @@ struct LogMedicationsView: View {
             entries: entries,
             allColors: Array(substanceColors)
         )
-    }
-
-    private func showNextColorPicker() {
-        guard !colorQueue.isEmpty else {
-            startLiveActivityForBatch()
-            dismiss()
-            return
-        }
-        currentColorSubstance = colorQueue.removeFirst()
-        showColorPicker = true
     }
 }
 

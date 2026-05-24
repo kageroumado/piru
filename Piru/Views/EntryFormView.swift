@@ -5,7 +5,7 @@ import WidgetKit
 
 struct EntryFormView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appNavigator) private var navigator
 
     var entry: DoseEntry?
     private var prefillSubstanceName: String?
@@ -22,8 +22,6 @@ struct EntryFormView: View {
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
-    @State private var showColorPicker = false
-    @State private var savedSubstanceName = ""
     @State private var savedEntry: DoseEntry?
     @State private var interactionWarnings: [InteractionResult] = []
     @State private var substanceLocked = false
@@ -206,7 +204,7 @@ struct EntryFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
+                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
@@ -214,19 +212,6 @@ struct EntryFormView: View {
                 }
             }
             .onAppear(perform: loadEntry)
-            .sheet(isPresented: $showColorPicker, onDismiss: {
-                startLiveActivityIfNeeded()
-                dismiss()
-            }) {
-                SubstanceColorPickerView(
-                    substanceName: savedSubstanceName,
-                    takenColors: takenColorMap
-                ) { hex in
-                    let sc = SubstanceColor(substance: savedSubstanceName, hexColor: hex)
-                    modelContext.insert(sc)
-                }
-                .presentationDetents([.large])
-            }
         }
     }
 
@@ -369,12 +354,19 @@ struct EntryFormView: View {
 
         WidgetCenter.shared.reloadAllTimelines()
 
+        // Always add to the active session immediately — the live activity
+        // shouldn't wait on the user picking a colour. If no colour exists
+        // yet for this substance, the picker comes up *after* dismissal, and
+        // the ColorPickerHost calls `ActiveSessionManager.refresh()` to pull
+        // in the new colour without needing a round-trip back here.
+        startLiveActivityIfNeeded()
+
         if !hasColor(for: substance) {
-            savedSubstanceName = substance
-            showColorPicker = true
+            // Replace the form with the colour picker in one transition so
+            // the user perceives a single tap of Done.
+            navigator.present(.colorPicker(substance: substance), replacingTop: true)
         } else {
-            startLiveActivityIfNeeded()
-            dismiss()
+            navigator.dismiss()
         }
     }
 
