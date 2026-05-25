@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-private let logger = Logger(subsystem: "dev.yumeji.piru", category: "DrugCommunityAPI")
+nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "DrugCommunityAPI")
 
 /// [drug.community](https://drug.community) API client — a 4th data source
 /// alongside TripSit, PsychonautWiki, and DailyMed.
@@ -47,6 +47,38 @@ struct DrugCommunityAPI {
         }
         return names
     }()
+
+    /// Load the full drug.community dataset from the bundled JSON snapshot
+    /// at `Piru/Data/drug-community-data.json`. The dataset covers ~420
+    /// research chemicals, novel arylcyclohexylamines, fluorinated
+    /// amphetamines, and other long-tail compounds that TripSit and DailyMed
+    /// don't reach. Returns nil when the resource is missing, empty when it
+    /// is present but contains no records.
+    nonisolated static func loadResponsesFromBundle() -> [Response]? {
+        guard let url = Bundle.main.url(forResource: "drug-community-data", withExtension: "json") else {
+            logger.warning("Bundled drug-community-data.json not found")
+            return nil
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            logger.error("Failed to read bundled drug-community-data.json")
+            return nil
+        }
+        do {
+            let responses = try JSONDecoder().decode([Response].self, from: data)
+            logger.info("Loaded \(responses.count) drug.community records from bundle")
+            return responses
+        } catch {
+            logger.error("Failed to decode bundled drug-community-data.json: \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
+    }
+
+    /// Convenience that converts the bundled dataset directly into
+    /// ``Substance`` records. Convenient for the synchronous fallback path
+    /// in ``SubstanceLibrary`` when the cache is empty on first launch.
+    @MainActor static func loadSubstancesFromBundle() -> [Substance] {
+        loadResponsesFromBundle()?.map { toSubstance($0) } ?? []
+    }
 
     // MARK: - JSON shapes
 

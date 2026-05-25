@@ -50,7 +50,7 @@ final class LibraryLoadingState {
 enum SubstanceLibrary {
     // MARK: - Data
 
-    @MainActor private(set) static var all: [Substance] = loadCache() ?? []
+    @MainActor private(set) static var all: [Substance] = loadCache() ?? loadInitialBundledSubstances()
 
     @MainActor private(set) static var byCategory: [SubstanceCategory: [Substance]] = Dictionary(grouping: all, by: \.category)
 
@@ -134,6 +134,24 @@ enum SubstanceLibrary {
                 InteractionChecker.loadTripSitCombos(from: tripSitDrugs)
             }
 
+            // Stage 1.5: Merge the bundled research-chemical dataset. Covers
+            // NPS, PIHKAL/TIHKAL compounds, novel arylcyclohexylamines, AMPAkines,
+            // afinils, dysdelics, and the long tail of obscure compounds that
+            // TripSit/PW/DailyMed don't reach. Bundled fills gaps; TripSit wins
+            // conflicts because it represents widely-used harm-reduction data.
+            if let bundled = loadBundledSubstances(), !bundled.isEmpty {
+                LibraryLoadingState.shared.statusText = String(localized: "Loading research-chemical dataset...")
+                let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: bundled)
+                updateAll(merged)
+                logger.info("Stage 1.5: \(all.count) substances (TripSit + bundled)")
+            }
+
+            // Stage 1.6: Merge the bundled drug.community dataset (~420 records).
+            // Adds DMXE, novel arylcyclohexylamines, fluorinated amphetamines,
+            // and other long-tail RCs that drug.community curated. Shipped
+            // offline so first-launch users get the data without network access.
+            enrichFromDrugCommunity()
+
             // Stage 2: Fetch DailyMed clinical drugs by direct name lookup.
             LibraryLoadingState.shared.statusText = String(localized: "Fetching clinical drug data...")
             let clinicalDrugs = await DailyMedAPI.fetchClinicalDrugs()
@@ -168,39 +186,28 @@ enum SubstanceLibrary {
             // full duration profiles, subjective effects, and tolerance info.
             // Runs without blocking the UI — results merge in and re-save the cache.
             await enrichFromPsychonautWiki()
-
-            // Background enrichment: drug.community fills the long tail of
-            // research chemicals and analogs (DMXE, novel arylcyclohexylamines,
-            // fluorinated amphetamines, etc.) that TripSit/PW/DailyMed don't
-            // cover. Adds ~420 substances, mostly new ones.
-            await enrichFromDrugCommunity()
         }
     }
 
-    // MARK: - drug.community Background Enrichment
+    // MARK: - drug.community Bundled Enrichment
 
-    /// Fetch drug.community records for every substance in their bundled
-    /// name list, convert to ``Substance``, and merge. New substances are
-    /// added; existing ones (by name or alias) are deduplicated via
-    /// ``SubstanceDeduplicator``.
-    @MainActor private static func enrichFromDrugCommunity() async {
-        let names = DrugCommunityAPI.allNames
-        guard !names.isEmpty else { return }
-
-        logger.info("Background drug.community enrichment: querying \(names.count) substances...")
-        LibraryLoadingState.shared.statusText = String(localized: "Adding research chemicals...")
-
-        let responses = await DrugCommunityAPI.fetchResponses(names: names)
-        guard !responses.isEmpty else {
-            logger.warning("Background drug.community enrichment: no results")
+    /// Load the full drug.community dataset from the bundled JSON snapshot
+    /// and merge into the library. Replaces what used to be per-substance
+    /// HTTP fetches against `drug.community/api/info` — the dataset is now
+    /// shipped offline so first-launch users get the long tail without
+    /// network access, and the API endpoint can come and go without
+    /// affecting the app.
+    @MainActor private static func enrichFromDrugCommunity() {
+        let substances = DrugCommunityAPI.loadSubstancesFromBundle()
+        guard !substances.isEmpty else {
+            logger.warning("Bundled drug.community dataset is empty or missing")
             return
         }
 
-        let substances = responses.map { DrugCommunityAPI.toSubstance($0) }
+        LibraryLoadingState.shared.statusText = String(localized: "Adding research chemicals...")
         let merged = SubstanceDeduplicator.deduplicatedMerge(existing: all, incoming: substances)
         updateAll(merged)
-        saveCache(all)
-        logger.info("Background drug.community enrichment: merged \(substances.count) substances, \(all.count) total")
+        logger.info("drug.community bundled merge: \(substances.count) records → \(all.count) total")
     }
 
     // MARK: - PsychonautWiki Background Enrichment
@@ -209,9 +216,9 @@ enum SubstanceLibrary {
     /// Merges results into the library and re-saves the cache without blocking the UI.
     @MainActor private static func enrichFromPsychonautWiki() async {
         let psychoactiveCategories: Set<SubstanceCategory> = [
-            .psychedelic, .dissociative, .empathogen, .cannabinoid,
-            .stimulant, .opioid, .benzodiazepine, .depressant,
-            .gabapentinoid, .nootropic, .other,
+            .psychedelic, .dissociative, .dysdelic, .empathogen, .cannabinoid,
+            .stimulant, .eugeroic, .opioid, .benzodiazepine, .depressant,
+            .gabapentinoid, .nootropic, .ampakine, .other,
         ]
         var pwNames = all
             .filter { psychoactiveCategories.contains($0.category) }
@@ -788,6 +795,45 @@ enum SubstanceLibrary {
         guard let data = try? Data(contentsOf: url) else { return nil }
         guard let decoded = try? JSONDecoder().decode([Substance].self, from: data) else { return nil }
         return applyDoseOverrides(decoded)
+    }
+
+    /// Initial population for ``all`` on first launch (no cache present).
+    /// Merges every bundled dataset so the library is non-empty before any
+    /// network call returns — users can search and log without waiting on
+    /// TripSit/DailyMed. The same datasets are re-merged later inside
+    /// ``fetchFromAPIs(forceRefresh:)`` to integrate live data on top.
+    @MainActor private static func loadInitialBundledSubstances() -> [Substance] {
+        var seed: [Substance] = loadBundledSubstances() ?? []
+        let dc = DrugCommunityAPI.loadSubstancesFromBundle()
+        if !dc.isEmpty {
+            seed = SubstanceDeduplicator.deduplicatedMerge(existing: seed, incoming: dc)
+        }
+        return applyDoseOverrides(enforceMonotonicity(seed))
+    }
+
+    /// Load the comprehensive default dataset that ships in the app bundle.
+    /// Covers research chemicals, NPS, nootropics, dissociative analogues,
+    /// salvinorin derivatives, PIHKAL/TIHKAL compounds, and compounds whose
+    /// only information is a reference link to literature. Returns nil when
+    /// the resource is missing or unparseable so first-launch can fall back
+    /// to an empty list until APIs respond.
+    static func loadBundledSubstances() -> [Substance]? {
+        guard let url = Bundle.main.url(forResource: "substances-bundled", withExtension: "json") else {
+            logger.warning("Bundled substances resource not found")
+            return nil
+        }
+        guard let data = try? Data(contentsOf: url) else {
+            logger.error("Failed to read bundled substances at \(url.path, privacy: .public)")
+            return nil
+        }
+        do {
+            let decoded = try JSONDecoder().decode([Substance].self, from: data)
+            logger.info("Loaded \(decoded.count) bundled substances")
+            return decoded
+        } catch {
+            logger.error("Failed to decode bundled substances: \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
     }
 
     private static func clearCache() {
