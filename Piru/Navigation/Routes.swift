@@ -60,6 +60,10 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     case customSubstancesList
     case customSubstanceForm(id: UUID?)
 
+    // Substance database settings
+    case sourcePriority
+    case advancedSearch
+
     // Pickers / mini-flows
     /// Pick a color for `substance`. `remaining` carries any substances that
     /// still need a color after this one — when the user picks (or skips),
