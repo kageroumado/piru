@@ -2233,6 +2233,7 @@
       }
     },
     "Adding mechanism data..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2247,9 +2248,6 @@
           }
         }
       }
-    },
-    "Adding research chemicals..." : {
-
     },
     "Additive CNS and respiratory depression — antihistamines potentiate opioid sedation." : {
       "localizations" : {
@@ -2650,6 +2648,9 @@
           }
         }
       }
+    },
+    "AMPAkine" : {
+
     },
     "An amino acid analogue of glutamate found in tea leaves. Crosses the blood-brain barrier and increases brain levels of GABA, serotonin, and dopamine. May antagonize glutamate at AMPA receptors and modulate α-wave brain activity. Promotes relaxation without sedation, and may attenuate the anxiogenic effects of caffeine when co-administered." : {
       "localizations" : {
@@ -6430,6 +6431,9 @@
         }
       }
     },
+    "Dysdelic" : {
+
+    },
     "e.g. Morning, Noon, Night" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6933,6 +6937,7 @@
       }
     },
     "Enriching half-life data..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7075,6 +7080,9 @@
           }
         }
       }
+    },
+    "Eugeroic" : {
+
     },
     "Evening\n18–0" : {
       "localizations" : {
@@ -7333,6 +7341,7 @@
       }
     },
     "Fetching clinical drug data..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7349,6 +7358,7 @@
       }
     },
     "Fetching TripSit data..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9407,6 +9417,9 @@
           }
         }
       }
+    },
+    "Limited human data" : {
+
     },
     "Linea 113 Salud" : {
       "localizations" : {
@@ -14598,6 +14611,7 @@
       }
     },
     "Starting..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15652,6 +15666,9 @@
           }
         }
       }
+    },
+    "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds." : {
+
     },
     "This is a rebound effect, not a return to baseline anxiety. It passes." : {
       "localizations" : {

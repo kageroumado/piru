@@ -73,22 +73,21 @@ struct SubstanceLibraryTests {
 
     // MARK: - byCategory
 
-    @Test("By category groups correctly")
-    func byCategoryGroups() {
-        let grouped = SubstanceLibrary.byCategory
-        #expect(!grouped.isEmpty)
-
-        for (category, substances) in grouped {
+    @Test("Each non-empty category is populated by substances(in:)")
+    func substancesByCategoryAreCorrect() {
+        for category in SubstanceLibrary.nonEmptyCategories {
+            let substances = SubstanceLibrary.substances(in: category)
+            #expect(!substances.isEmpty)
             for substance in substances {
                 #expect(substance.category == category)
             }
         }
     }
 
-    @Test("By category covers all substances")
-    func byCategoryCoversAll() {
-        let grouped = SubstanceLibrary.byCategory
-        let totalGrouped = grouped.values.reduce(0) { $0 + $1.count }
+    @Test("Sum of substances across non-empty categories equals total count")
+    func nonEmptyCategoriesCoverAll() {
+        let totalGrouped = SubstanceLibrary.nonEmptyCategories
+            .reduce(0) { $0 + SubstanceLibrary.substances(in: $1).count }
         #expect(totalGrouped == SubstanceLibrary.all.count)
     }
 }

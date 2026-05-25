@@ -169,24 +169,22 @@ struct BundledDatabaseTests {
 
     // MARK: - Bundled resource
 
-    @Test("Bundled substances resource is present and decodes")
-    func bundledResourcePresent() {
-        let bundle = Bundle(for: BundleAnchor.self)
-        let testBundleHasResource = bundle.url(forResource: "substances-bundled", withExtension: "json") != nil
-        let mainBundleHasResource = Bundle.main.url(forResource: "substances-bundled", withExtension: "json") != nil
-        // Either bundle hosting model is acceptable — Xcode synchronized groups
-        // place the resource in the main app bundle, but #-bundle-aware test
-        // hosts may surface it via the test bundle instead.
-        if testBundleHasResource || mainBundleHasResource {
-            let result = SubstanceLibrary.loadBundledSubstances()
-            // Either we get a valid array (possibly empty placeholder) or nil
-            // when the resource is not linked into the test host. Both are
-            // acceptable; what matters is that decoding doesn't throw on a
-            // well-formed empty/populated file.
-            if let result {
-                #expect(result.count >= 0)
-            }
-        }
+    @Test("Bundled SQLite database opens and contains substances")
+    @MainActor
+    func bundledSqliteOpens() {
+        // Touch the shared store; will fatalError if the bundled .sqlite is
+        // missing from the app bundle.
+        let count = SubstanceStore.shared.count
+        #expect(count > 0)
+    }
+
+    @Test("Source priority resolution returns at least the seeded defaults")
+    @MainActor
+    func sourcePriorityResolved() {
+        let order = SubstanceStore.shared.enabledSourceOrder
+        #expect(!order.isEmpty)
+        // Curated should be highest-priority out of the box.
+        #expect(order.first == "piru-curated")
     }
 }
 
