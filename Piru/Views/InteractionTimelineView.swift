@@ -435,7 +435,7 @@ struct InteractionTimelineView: View {
 
     private var warningDescription: String {
         let results = InteractionChecker.checkBatch([substanceA, substanceB], against: [])
-        return results.first?.description ?? "Exercise caution when combining these substances."
+        return results.first?.description ?? String(localized: "Exercise caution when combining these substances.")
     }
 
     // MARK: - Substance Info

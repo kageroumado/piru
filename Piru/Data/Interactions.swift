@@ -538,10 +538,10 @@ enum InteractionChecker {
 
     private static func comboFallbackNote(_ status: String) -> String {
         switch status.lowercased() {
-        case "dangerous": "Dangerous combination — avoid."
-        case "unsafe": "Unsafe combination — significant risks."
-        case "caution": "Exercise caution with this combination."
-        default: "Interaction reported by TripSit."
+        case "dangerous": String(localized: "Dangerous combination — avoid.")
+        case "unsafe": String(localized: "Unsafe combination — significant risks.")
+        case "caution": String(localized: "Exercise caution with this combination.")
+        default: String(localized: "Interaction reported by TripSit.")
         }
     }
 
