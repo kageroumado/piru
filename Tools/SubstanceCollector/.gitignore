@@ -1,0 +1,5 @@
+.build/
+.cache/
+Package.resolved
+*.swp
+.DS_Store

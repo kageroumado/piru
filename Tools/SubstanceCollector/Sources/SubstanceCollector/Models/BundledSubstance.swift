@@ -1,0 +1,222 @@
+import Foundation
+
+// MARK: - Output Schema
+//
+// Mirrors `Piru/Models/Substance.swift` so the encoded JSON matches the
+// `Substance` Codable conformance the app expects. Field names, optionality,
+// and array-omission rules track the iOS model. When that model changes,
+// update this file.
+
+/// Codable JSON representation of `ClosedRange<Double>` matching `CodableRange`
+/// in the iOS app.
+struct JSONRange: Codable, Hashable {
+    let lower: Double
+    let upper: Double
+
+    init(_ lo: Double, _ hi: Double) {
+        // Repair inverted ranges defensively; the iOS decoder drops them.
+        self.lower = min(lo, hi)
+        self.upper = max(lo, hi)
+    }
+
+    init?(_ range: ClosedRange<Double>?) {
+        guard let range else { return nil }
+        self.init(range.lowerBound, range.upperBound)
+    }
+}
+
+struct JSONDoseRange: Codable, Hashable {
+    var threshold: Double?
+    var light: JSONRange?
+    var common: JSONRange?
+    var strong: JSONRange?
+    var heavy: Double?
+
+    var isEmpty: Bool {
+        threshold == nil && light == nil && common == nil && strong == nil && heavy == nil
+    }
+}
+
+struct JSONDurationRange: Codable, Hashable {
+    let min: Double
+    let max: Double
+}
+
+struct JSONDurationProfile: Codable, Hashable {
+    var onset: JSONDurationRange?
+    var comeup: JSONDurationRange?
+    var peak: JSONDurationRange?
+    var offset: JSONDurationRange?
+    var afterglow: JSONDurationRange?
+    var total: JSONDurationRange?
+
+    var isEmpty: Bool {
+        onset == nil && comeup == nil && peak == nil && offset == nil
+            && afterglow == nil && total == nil
+    }
+}
+
+struct JSONRoute: Codable, Hashable {
+    let route: String   // RouteOfAdministration raw value, e.g. "oral"
+    let unit: String
+    let doses: JSONDoseRange
+    let duration: JSONDurationProfile?
+}
+
+struct JSONSubjectiveEffect: Codable, Hashable {
+    let name: String
+    let description: String
+}
+
+struct JSONToleranceInfo: Codable, Hashable {
+    let halfLife: Double
+    let fullResetDays: Double
+    let buildRate: String
+}
+
+struct JSONReceptorBinding: Codable, Hashable {
+    let target: String
+    let action: String
+    let affinity: Int
+}
+
+struct JSONMechanismOfAction: Codable, Hashable {
+    let summary: String
+    let description: String
+    let primaryTargets: [String]
+    let bindings: [JSONReceptorBinding]
+    let references: [String]
+}
+
+/// The fully-merged substance record we emit to `substances-bundled.json`.
+struct BundledSubstance: Codable, Hashable {
+    var name: String
+    var aliases: [String]
+    var category: String           // SubstanceCategory raw value (e.g. "Stimulant")
+    var defaultRoute: String       // RouteOfAdministration raw value
+    var routes: [JSONRoute]
+    var effects: [String]
+    var subjectiveEffects: [JSONSubjectiveEffect]
+    var toleranceInfo: JSONToleranceInfo?
+    var halfLifeMinutes: Double?
+    var sources: [String]
+    var mechanismOfAction: JSONMechanismOfAction?
+    var tags: [String]
+
+    /// Empty array if no usable dose data on any route — the iOS app handles
+    /// this via `Substance.hasNoDoseData` and switches to a "see references"
+    /// detail view.
+    var hasNoDoseData: Bool {
+        routes.isEmpty || routes.allSatisfy { $0.doses.isEmpty }
+    }
+
+    /// Custom encoder mirrors the iOS app's `Substance.encode(to:)` which
+    /// omits `subjectiveEffects`/`sources`/`tags` when empty.
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(name, forKey: .name)
+        try c.encode(aliases, forKey: .aliases)
+        try c.encode(category, forKey: .category)
+        try c.encode(defaultRoute, forKey: .defaultRoute)
+        try c.encode(routes, forKey: .routes)
+        try c.encode(effects, forKey: .effects)
+        if !subjectiveEffects.isEmpty {
+            try c.encode(subjectiveEffects, forKey: .subjectiveEffects)
+        }
+        try c.encodeIfPresent(toleranceInfo, forKey: .toleranceInfo)
+        try c.encodeIfPresent(halfLifeMinutes, forKey: .halfLifeMinutes)
+        if !sources.isEmpty {
+            try c.encode(sources, forKey: .sources)
+        }
+        try c.encodeIfPresent(mechanismOfAction, forKey: .mechanismOfAction)
+        if !tags.isEmpty {
+            try c.encode(tags, forKey: .tags)
+        }
+    }
+
+    init(
+        name: String,
+        aliases: [String] = [],
+        category: String,
+        defaultRoute: String,
+        routes: [JSONRoute] = [],
+        effects: [String] = [],
+        subjectiveEffects: [JSONSubjectiveEffect] = [],
+        toleranceInfo: JSONToleranceInfo? = nil,
+        halfLifeMinutes: Double? = nil,
+        sources: [String] = [],
+        mechanismOfAction: JSONMechanismOfAction? = nil,
+        tags: [String] = []
+    ) {
+        self.name = name
+        self.aliases = aliases
+        self.category = category
+        self.defaultRoute = defaultRoute
+        self.routes = routes
+        self.effects = effects
+        self.subjectiveEffects = subjectiveEffects
+        self.toleranceInfo = toleranceInfo
+        self.halfLifeMinutes = halfLifeMinutes
+        self.sources = sources
+        self.mechanismOfAction = mechanismOfAction
+        self.tags = tags
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        name = try c.decode(String.self, forKey: .name)
+        aliases = (try? c.decode([String].self, forKey: .aliases)) ?? []
+        category = try c.decode(String.self, forKey: .category)
+        defaultRoute = try c.decode(String.self, forKey: .defaultRoute)
+        routes = (try? c.decode([JSONRoute].self, forKey: .routes)) ?? []
+        effects = (try? c.decode([String].self, forKey: .effects)) ?? []
+        subjectiveEffects = (try? c.decode([JSONSubjectiveEffect].self, forKey: .subjectiveEffects)) ?? []
+        toleranceInfo = try? c.decodeIfPresent(JSONToleranceInfo.self, forKey: .toleranceInfo)
+        halfLifeMinutes = try? c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
+        sources = (try? c.decode([String].self, forKey: .sources)) ?? []
+        mechanismOfAction = try? c.decodeIfPresent(JSONMechanismOfAction.self, forKey: .mechanismOfAction)
+        tags = (try? c.decode([String].self, forKey: .tags)) ?? []
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case name, aliases, category, defaultRoute, routes, effects
+        case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
+        case mechanismOfAction, tags
+    }
+}
+
+// MARK: - Provenance
+
+/// Where a `BundledSubstance` originated. Used during merging for conflict
+/// resolution: curated overlay wins, then Erowid (PIHKAL/TIHKAL), then
+/// TripSit, then Wikidata/PubChem stub records.
+enum Provenance: Int, Comparable {
+    case wikidataPubchem = 1
+    case tripSit = 2
+    case erowidShulgin = 3
+    case curated = 4
+
+    static func < (a: Provenance, b: Provenance) -> Bool { a.rawValue < b.rawValue }
+
+    var label: String {
+        switch self {
+        case .wikidataPubchem: "wikidata+pubchem"
+        case .tripSit: "tripsit"
+        case .erowidShulgin: "erowid"
+        case .curated: "curated"
+        }
+    }
+}
+
+/// A substance record with provenance and dedup identifiers attached so the
+/// merge pipeline can reason about precedence and join across sources.
+struct SourcedSubstance {
+    var substance: BundledSubstance
+    var provenance: Provenance
+    /// InChIKey if known. Highest-confidence dedup key.
+    var inchiKey: String?
+    /// PubChem CID. Secondary dedup key.
+    var pubchemCID: Int?
+    /// CAS number for cross-referencing.
+    var cas: String?
+}
