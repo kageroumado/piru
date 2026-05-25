@@ -6,6 +6,7 @@ struct ToolsView: View {
         case calculator = "Calculator"
         case volumetric = "Volumetric"
         case recovery = "Recovery"
+        case pharma = "Pharma"
         var id: String { rawValue }
 
         var displayName: LocalizedStringResource {
@@ -14,11 +15,24 @@ struct ToolsView: View {
             case .calculator: "Calculator"
             case .volumetric: "Volumetric"
             case .recovery: "Recovery"
+            case .pharma: "Pharma"
             }
         }
+
+        /// Sections always visible regardless of disclosure tier.
+        static let coreSections: [Section] = [.interactions, .calculator, .volumetric, .recovery]
     }
 
     @State private var selectedSection: Section = .interactions
+
+    /// Pharma search is only exposed on the pharma-nerd tier — keeps the
+    /// segmented picker uncluttered for casual + harm-reduction users.
+    private var availableSections: [Section] {
+        if SubstanceStore.shared.userProfile == .pharmaNerd {
+            return Section.coreSections + [.pharma]
+        }
+        return Section.coreSections
+    }
 
     private var title: LocalizedStringResource {
         switch selectedSection {
@@ -26,6 +40,7 @@ struct ToolsView: View {
         case .calculator: "Calculator"
         case .volumetric: "Volumetric Dosing"
         case .recovery: "Recovery Guide"
+        case .pharma: "Pharma Search"
         }
     }
 
@@ -40,11 +55,13 @@ struct ToolsView: View {
                 VolumetricDosingView(toolsSection: $selectedSection)
             case .recovery:
                 ComedownGuideView(toolsSection: $selectedSection)
+            case .pharma:
+                AdvancedSearchView()
             }
         }
         .safeAreaInset(edge: .top) {
             Picker("Section", selection: $selectedSection) {
-                ForEach(Section.allCases) { section in
+                ForEach(availableSections) { section in
                     Text(section.displayName).tag(section)
                 }
             }
@@ -55,5 +72,12 @@ struct ToolsView: View {
         }
         .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: SubstanceStore.shared.userProfile) { _, _ in
+            // Fall back to interactions if the selected section is no longer
+            // available after a profile downgrade.
+            if !availableSections.contains(selectedSection) {
+                selectedSection = .interactions
+            }
+        }
     }
 }

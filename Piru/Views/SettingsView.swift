@@ -189,10 +189,11 @@ struct SettingsView: View {
                     }
                 }
                 LabeledContent("Substances", value: "\(SubstanceStore.shared.count)")
+                SubstanceDBUpdateRow()
             } header: {
                 Text("Substance Database")
             } footer: {
-                Text("All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact.")
+                Text("All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256.")
             }
 
             Section("About") {

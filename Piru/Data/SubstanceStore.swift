@@ -63,21 +63,36 @@ final class SubstanceStore {
     private var aliasIndex: [String: Int64] = [:]
     private(set) var allNames: [String] = []
 
-    private init() {
+    /// Picks the SQLite file to open at launch. Prefers an opt-in updated
+    /// copy in `Documents/` (sha256-verified at install time by
+    /// ``SubstanceDBUpdater``) and falls back to the bundled resource the app
+    /// shipped with.
+    static func resolveSubstancesDBURL() -> URL {
+        let applied = SubstanceDBUpdater.appliedSQLiteURL
+        if FileManager.default.fileExists(atPath: applied.path) {
+            return applied
+        }
         guard let bundleURL = Bundle.main.url(forResource: "piru-substances", withExtension: "sqlite") else {
             fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 Exports/build-sqlite-database.py` and add the result to the Piru target.")
         }
+        return bundleURL
+    }
 
-        // Bundled DB is read-only; the resource folder is on a read-only mount
-        // in shipped builds anyway. Configuration.readonly = true also lets
-        // multiple processes (app + extension if shared in future) open it.
+    private init() {
+        let dbURL = Self.resolveSubstancesDBURL()
+
+        // The substances DB is opened read-only — both the bundled copy
+        // (immutable resource bundle) and any opt-in update applied to
+        // Documents/ (we never modify it after sha256-verified install).
+        // readonly = true also allows multiple processes (app + extension)
+        // to open the same file safely if we ever share it across targets.
         var bundleConfig = Configuration()
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
         do {
-            self.substancesDB = try DatabaseQueue(path: bundleURL.path, configuration: bundleConfig)
+            self.substancesDB = try DatabaseQueue(path: dbURL.path, configuration: bundleConfig)
         } catch {
-            fatalError("Failed to open bundled substances DB at \(bundleURL.path): \(error)")
+            fatalError("Failed to open substances DB at \(dbURL.path): \(error)")
         }
 
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -787,6 +802,47 @@ final class SubstanceStore {
             }
         } catch {
             logger.error("bindings query failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// Every binding row associated with a specific substance, resolved by
+    /// canonical name. Used by the detail view's "Receptor Literature"
+    /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with
+    /// per-row source attribution. Returns rows sorted by tightest Ki first.
+    func bindings(forSubstanceName name: String) -> [BindingHit] {
+        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        do {
+            return try substancesDB.read { db in
+                let rows = try Row.fetchAll(db, sql: """
+                    SELECT b.id, b.target, b.action, b.ki_nm, b.ec50_nm, b.species,
+                           s.canonical_name AS substance_name,
+                           src.slug AS source_slug,
+                           c.doi, c.pmid
+                      FROM bindings b
+                      JOIN substances s ON s.id = b.substance_id
+                      JOIN sources    src ON src.id = b.source_id
+                      LEFT JOIN citations c ON c.id = b.citation_id
+                     WHERE b.substance_id = ?
+                     ORDER BY b.ki_nm ASC NULLS LAST, b.ec50_nm ASC NULLS LAST
+                """, arguments: [substanceID])
+                return rows.map { row in
+                    BindingHit(
+                        id: row["id"],
+                        substanceName: row["substance_name"],
+                        target: row["target"],
+                        action: row["action"],
+                        kiNm: row["ki_nm"],
+                        ec50Nm: row["ec50_nm"],
+                        species: row["species"],
+                        sourceSlug: row["source_slug"],
+                        doi: row["doi"],
+                        pmid: row["pmid"]
+                    )
+                }
+            }
+        } catch {
+            logger.error("bindings(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
             return []
         }
     }
