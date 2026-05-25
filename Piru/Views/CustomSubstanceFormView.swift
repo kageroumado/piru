@@ -114,7 +114,7 @@ struct CustomSubstanceFormView: View {
                 Section("Classification") {
                     Picker("Category", selection: $category) {
                         ForEach(SubstanceCategory.allCases) { cat in
-                            Label(cat.rawValue, systemImage: cat.icon)
+                            Label(cat.displayName, systemImage: cat.icon)
                                 .tag(cat)
                         }
                     }
