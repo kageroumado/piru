@@ -193,7 +193,9 @@ nonisolated enum DeepLink {
              .journalFilters,
              .journalCalendar,
              .timeAdjust,
-             .dayShare:
+             .dayShare,
+             .sourcePriority,
+             .advancedSearch:
             // Not represented as deep links — these are app-internal flows.
             return nil
         }

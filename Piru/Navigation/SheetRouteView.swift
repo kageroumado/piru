@@ -76,6 +76,18 @@ struct SheetRouteView: View {
         case .dailyDoseLog(let category):
             LogMedicationsView(category: category)
 
+        case .sourcePriority:
+            NavigationStack {
+                SourcePriorityView()
+                    .withCancellationCloseButton()
+            }
+
+        case .advancedSearch:
+            NavigationStack {
+                AdvancedSearchView()
+                    .withCancellationCloseButton()
+            }
+
         case .dailyDoseSettings,
              .dailyDoseItemForm,
              .customSubstancesList,

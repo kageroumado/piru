@@ -26,6 +26,25 @@ struct SettingsView: View {
     var body: some View {
         List {
             Group {
+            Section {
+                Picker(selection: profileBinding) {
+                    ForEach(UserProfile.allCases) { profile in
+                        Label {
+                            Text(profile.displayName)
+                        } icon: {
+                            Image(systemName: profile.icon)
+                        }
+                        .tag(profile)
+                    }
+                } label: {
+                    Label("Disclosure Tier", systemImage: "slider.horizontal.3")
+                }
+            } header: {
+                Text("Profile")
+            } footer: {
+                Text(SubstanceStore.shared.userProfile.summary)
+            }
+
             Section("Prescriptions") {
                 NavigationLink {
                     MedicationsSettingsView()
@@ -158,15 +177,25 @@ struct SettingsView: View {
                 Text("Journal Data")
             }
 
-            Section("About") {
-                LabeledContent("Substances in Library", value: "\(LibraryLoadingState.shared.substanceCount)")
-                Button {
-                    SubstanceLibrary.fetchFromAPIs(forceRefresh: true)
+            Section {
+                NavigationLink {
+                    SourcePriorityView()
                 } label: {
-                    Label("Refresh Substance Data", systemImage: "arrow.clockwise")
-                        .foregroundStyle(LibraryLoadingState.shared.isLoading ? Theme.secondaryLabel : Theme.accent)
+                    HStack {
+                        Label("Data Sources", systemImage: "books.vertical")
+                        Spacer()
+                        Text("\(SubstanceStore.shared.enabledSourceOrder.count) enabled")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
                 }
-                .disabled(LibraryLoadingState.shared.isLoading)
+                LabeledContent("Substances", value: "\(SubstanceStore.shared.count)")
+            } header: {
+                Text("Substance Database")
+            } footer: {
+                Text("All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact.")
+            }
+
+            Section("About") {
                 LabeledContent("Version", value: "1.0")
             }
 
@@ -264,6 +293,15 @@ struct SettingsView: View {
         } message: {
             Text(importMessage ?? "")
         }
+    }
+
+    // MARK: - Bindings
+
+    private var profileBinding: Binding<UserProfile> {
+        Binding(
+            get: { SubstanceStore.shared.userProfile },
+            set: { SubstanceStore.shared.setUserProfile($0) }
+        )
     }
 
     // MARK: - Colors Preview

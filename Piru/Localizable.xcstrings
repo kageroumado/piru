@@ -84,6 +84,12 @@
         }
       }
     },
+    "· DOI" : {
+
+    },
+    "· PMID %lld" : {
+
+    },
     "(%@)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -667,6 +673,9 @@
           }
         }
       }
+    },
+    "%lld enabled" : {
+
     },
     "%lld entr%@" : {
       "localizations" : {
@@ -2537,6 +2546,9 @@
         }
       }
     },
+    "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact." : {
+
+    },
     "All taken" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2923,6 +2935,9 @@
           }
         }
       }
+    },
+    "Any" : {
+
     },
     "Appetite changes and sleep disruption are common after heavy sessions." : {
       "localizations" : {
@@ -3899,6 +3914,9 @@
           }
         }
       }
+    },
+    "Casual" : {
+
     },
     "Categories" : {
       "localizations" : {
@@ -5311,6 +5329,9 @@
         }
       }
     },
+    "Data Sources" : {
+
+    },
     "Date" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5598,6 +5619,9 @@
           }
         }
       }
+    },
+    "Disclosure Tier" : {
+
     },
     "Dissociative" : {
       "localizations" : {
@@ -6111,6 +6135,9 @@
         }
       }
     },
+    "Dose ladders, durations, top-line warnings. Skip the deep pharmacology." : {
+
+    },
     "Dose Reference" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6577,6 +6604,9 @@
           }
         }
       }
+    },
+    "EC50 %@ nM" : {
+
     },
     "Edit" : {
       "localizations" : {
@@ -7148,6 +7178,9 @@
         }
       }
     },
+    "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI." : {
+
+    },
     "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting inositol and modulating phosphoinositide signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), regulating neuroplasticity, circadian rhythm, and neuroprotection. Modulates glutamate neurotransmission by reducing NMDA receptor activity. Also affects protein kinase C, cAMP, and arachidonic acid metabolism." : {
       "localizations" : {
         "zh-Hans" : {
@@ -7421,6 +7454,9 @@
           }
         }
       }
+    },
+    "Filters" : {
+
     },
     "First effects starting now. Find your spot." : {
       "localizations" : {
@@ -8954,6 +8990,9 @@
         }
       }
     },
+    "Interactions, mechanisms, subjective effects, and source citations." : {
+
+    },
     "Intihar Onleme Hatti" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9161,6 +9200,12 @@
           }
         }
       }
+    },
+    "Ki %@ nM" : {
+
+    },
+    "Ki ≤ %lld nM" : {
+
     },
     "Klimaka Crisis Line" : {
       "localizations" : {
@@ -9666,6 +9711,9 @@
           }
         }
       }
+    },
+    "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high." : {
+
     },
     "Macrolide Antibiotic (Protein Synthesis Inhibitor)" : {
       "localizations" : {
@@ -10574,6 +10622,9 @@
           }
         }
       }
+    },
+    "No bindings match these filters." : {
+
     },
     "No Custom Substances" : {
       "localizations" : {
@@ -11535,6 +11586,12 @@
         }
       }
     },
+    "Pharma Nerd" : {
+
+    },
+    "Pharma Search" : {
+
+    },
     "Pharmacological" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11919,6 +11976,9 @@
         }
       }
     },
+    "Priority Order" : {
+
+    },
     "Prodrug → GHB (GABA-B Agonist)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12046,6 +12106,9 @@
           }
         }
       }
+    },
+    "Profile" : {
+
     },
     "Proton Pump Inhibitor (PPI)" : {
       "localizations" : {
@@ -12271,6 +12334,9 @@
         }
       }
     },
+    "Receptor target" : {
+
+    },
     "Recovery" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12400,6 +12466,7 @@
       }
     },
     "Refresh Substance Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12686,6 +12753,9 @@
           }
         }
       }
+    },
+    "Results (%lld)" : {
+
     },
     "Reuptake Inhibitor" : {
       "localizations" : {
@@ -13169,6 +13239,9 @@
           }
         }
       }
+    },
+    "Searching…" : {
+
     },
     "Section" : {
       "localizations" : {
@@ -14450,6 +14523,9 @@
         }
       }
     },
+    "Sources at the top take precedence when a fact is reported by multiple sources. Disabled sources are hidden from resolved values but still searchable in advanced views." : {
+
+    },
     "Specific days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14995,6 +15071,12 @@
         }
       }
     },
+    "Substance contains…" : {
+
+    },
+    "Substance Database" : {
+
+    },
     "Substance Library" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15044,6 +15126,7 @@
       }
     },
     "Substances in Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

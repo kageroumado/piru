@@ -376,68 +376,31 @@ enum InteractionChecker {
         return map
     }()
 
-    /// Precomputed cache mapping lowercased substance names to their drug classes.
-    /// Rebuilt via `rebuildCache()` after the substance library finishes loading.
+    /// Lazy cache mapping lowercased substance names (and aliases) to their
+    /// resolved drug classes. Filled on first lookup via ``SubstanceLibrary``.
     private static var drugClassCache: [String: [DrugClass]] = [:]
 
-
-    @MainActor static func rebuildCache() {
-        var cache: [String: [DrugClass]] = [:]
-        for substance in SubstanceLibrary.all {
-            let key = substance.name.lowercased()
-            if cache[key] == nil {
-                cache[key] = [categoryToDrugClass(substance.category)]
-            }
-            for alias in substance.aliases {
-                let aliasKey = alias.lowercased()
-                if cache[aliasKey] == nil {
-                    cache[aliasKey] = [categoryToDrugClass(substance.category)]
-                }
-            }
-        }
-        drugClassCache = cache
-
-        // Extend combo name resolution with SubstanceLibrary aliases
-        // (e.g., brand names from DailyMed that map to the same TripSit substance)
-        for substance in SubstanceLibrary.all {
-            let nameLower = substance.name.lowercased()
-            if let tripSitKey = comboNameResolution[nameLower] {
-                for alias in substance.aliases {
-                    if comboNameResolution[alias.lowercased()] == nil {
-                        comboNameResolution[alias.lowercased()] = tripSitKey
-                    }
-                }
-            } else {
-                for alias in substance.aliases {
-                    if let tripSitKey = comboNameResolution[alias.lowercased()] {
-                        comboNameResolution[nameLower] = tripSitKey
-                        for otherAlias in substance.aliases where otherAlias != alias {
-                            if comboNameResolution[otherAlias.lowercased()] == nil {
-                                comboNameResolution[otherAlias.lowercased()] = tripSitKey
-                            }
-                        }
-                        break
-                    }
-                }
-            }
-        }
-    }
-
-    /// Get drug classes for a substance name
+    /// Get drug classes for a substance name. Falls back to a `SubstanceLibrary`
+    /// lookup (canonical name or alias) when not in the overrides table; the
+    /// result is memoised for subsequent calls.
     static func drugClasses(for substanceName: String) -> [DrugClass] {
         let lower = substanceName.lowercased()
 
-        // Check overrides first
         if let override = substanceClassOverrides[lower] {
             return override
         }
 
-        // Check precomputed cache
         if let cached = drugClassCache[lower] {
             return cached
         }
 
-        return []
+        guard let substance = SubstanceLibrary.lookupByNameOrAlias(substanceName) else {
+            drugClassCache[lower] = []
+            return []
+        }
+        let resolved = [categoryToDrugClass(substance.category)]
+        drugClassCache[lower] = resolved
+        return resolved
     }
 
     private static func categoryToDrugClass(_ category: SubstanceCategory) -> DrugClass {

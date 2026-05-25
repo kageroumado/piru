@@ -47,6 +47,11 @@ final class SubstanceStore {
     /// launch.
     private(set) var enabledSourceOrder: [String] = []
 
+    /// The user's chosen disclosure tier. Drives default expanded state in
+    /// progressive-disclosure surfaces. Defaults to ``UserProfile/harmReduction``
+    /// when no value has been stored.
+    private(set) var userProfile: UserProfile = .harmReduction
+
     /// Cached resolved substances keyed by canonical name (case-insensitive).
     /// Cleared when the user changes source priority.
     private var resolvedCache: [String: Substance] = [:]
@@ -87,8 +92,9 @@ final class SubstanceStore {
 
         seedUserPrefsIfNeeded()
         reloadSourceOrder()
+        reloadUserProfile()
         buildIndexes()
-        logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources")
+        logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources, profile=\(self.userProfile.rawValue, privacy: .public)")
     }
 
     // MARK: - User prefs schema + seed
@@ -188,6 +194,47 @@ final class SubstanceStore {
             reloadSourceOrder()
         } catch {
             logger.error("Failed to toggle source enabled state: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+
+    // MARK: - User profile
+
+    private static let userProfileKey = "profile"
+
+    private func reloadUserProfile() {
+        do {
+            let raw = try userPrefsDB.read { db in
+                try String.fetchOne(
+                    db,
+                    sql: "SELECT value FROM user_profile WHERE key = ?",
+                    arguments: [Self.userProfileKey]
+                )
+            }
+            if let raw, let parsed = UserProfile(rawValue: raw) {
+                userProfile = parsed
+            }
+        } catch {
+            logger.error("Failed to read user profile: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+
+    /// Persist a new disclosure tier. The change is immediate and triggers
+    /// `@Observable` updates so detail views re-render with the new defaults.
+    func setUserProfile(_ profile: UserProfile) {
+        guard profile != userProfile else { return }
+        do {
+            try userPrefsDB.write { db in
+                try db.execute(
+                    sql: """
+                        INSERT INTO user_profile(key, value) VALUES (?, ?)
+                        ON CONFLICT(key) DO UPDATE SET value = excluded.value
+                    """,
+                    arguments: [Self.userProfileKey, profile.rawValue]
+                )
+            }
+            userProfile = profile
+        } catch {
+            logger.error("Failed to write user profile: \(error.localizedDescription, privacy: .public)")
         }
     }
 
