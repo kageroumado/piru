@@ -1,6 +1,6 @@
 {
   "content_version": "2026-05-25.0",
-  "generated_at": "2026-05-25T13:27:38.693451+00:00",
+  "generated_at": "2026-05-25T13:43:34.163735+00:00",
   "generator_version": "build-sqlite-database.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
   "schema_version": 1,
@@ -22,13 +22,13 @@
     },
     "erowid-pihkal": {
       "bindings": 0,
-      "categories": 0,
-      "dose_ranges": 0
+      "categories": 179,
+      "dose_ranges": 167
     },
     "erowid-tihkal": {
       "bindings": 0,
-      "categories": 0,
-      "dose_ranges": 0
+      "categories": 55,
+      "dose_ranges": 41
     },
     "pdsp": {
       "bindings": 0,
@@ -42,8 +42,8 @@
     },
     "piru-curated": {
       "bindings": 0,
-      "categories": 1376,
-      "dose_ranges": 801
+      "categories": 270,
+      "dose_ranges": 101
     },
     "psychonautwiki": {
       "bindings": 0,
@@ -57,17 +57,17 @@
     },
     "tripsit": {
       "bindings": 0,
-      "categories": 0,
-      "dose_ranges": 0
+      "categories": 554,
+      "dose_ranges": 598
     },
     "wikidata": {
       "bindings": 0,
-      "categories": 0,
+      "categories": 577,
       "dose_ranges": 0
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "fdb1f1ceebbf347abf2e1c09c639f075faefeea6b252508e6b82303148d27a68",
-  "sqlite_size_bytes": 4079616,
-  "substance_count": 1583
+  "sqlite_sha256": "c5a41ad4be86d2f510c877a1f13175681fb06623eb0e685cef7e1497d3f3f72e",
+  "sqlite_size_bytes": 4268032,
+  "substance_count": 1629
 }

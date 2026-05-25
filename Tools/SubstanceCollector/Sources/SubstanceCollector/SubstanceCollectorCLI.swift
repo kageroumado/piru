@@ -15,8 +15,11 @@ struct Build: AsyncParsableCommand {
         abstract: "Run the full collector pipeline (TripSit + Wikidata + PubChem + Erowid + DEA + curated overlay) and write the result to substances-bundled.json."
     )
 
-    @Option(name: .long, help: "Output JSON path.")
+    @Option(name: .long, help: "Output JSON path for the merged dataset (kept for compatibility with the JSON-fed app path until iOS migrates to SQLite).")
     var output: String = "../../Piru/Data/substances-bundled.json"
+
+    @Option(name: .long, help: "Output JSON path for the per-record sourced dataset. Each entry retains its provenance + dedup identifiers so the SQLite builder can attribute every fact to the right source. Pre-merge.")
+    var sourcedOutput: String = "../../Piru/Data/sourced-substances.json"
 
     @Option(name: .long, help: "HTTP cache directory.")
     var cacheDir: String = ".cache"
@@ -39,11 +42,13 @@ struct Build: AsyncParsableCommand {
     func run() async throws {
         let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let outputURL = URL(fileURLWithPath: output, isDirectory: false, relativeTo: cwd).standardizedFileURL
+        let sourcedOutputURL = URL(fileURLWithPath: sourcedOutput, isDirectory: false, relativeTo: cwd).standardizedFileURL
         let cacheURL = URL(fileURLWithPath: cacheDir, isDirectory: true, relativeTo: cwd).standardizedFileURL
         let overlayURL = URL(fileURLWithPath: curatedOverlay, isDirectory: false, relativeTo: cwd).standardizedFileURL
 
         Log.info("SubstanceCollector — build pipeline")
-        Log.info("Output:           \(outputURL.path)")
+        Log.info("Merged output:    \(outputURL.path)")
+        Log.info("Sourced output:   \(sourcedOutputURL.path)")
         Log.info("Cache:            \(cacheURL.path)")
         Log.info("Curated overlay:  \(overlayURL.path)")
         Log.info("Mode:             \(noNetwork ? "OFFLINE (cache only)" : "online")")
@@ -106,7 +111,21 @@ struct Build: AsyncParsableCommand {
             allSourced.append(contentsOf: overlay.entries)
         }
 
-        // ── Merge & write ──────────────────────────────────────────────────
+        // ── Write per-source dataset (pre-merge) ───────────────────────────
+        // Each record retains its provenance + dedup identifiers so the SQLite
+        // builder can attribute every fact to the right `sources.slug`. Sort
+        // deterministically for byte-stable output across runs.
+        Log.step("Writing sourced (pre-merge) dataset")
+        let sortedSourced = allSourced.sorted { a, b in
+            if a.provenance.rawValue != b.provenance.rawValue {
+                return a.provenance.rawValue < b.provenance.rawValue
+            }
+            return a.substance.name.lowercased() < b.substance.name.lowercased()
+        }
+        try JSONWriter.writeSourced(sortedSourced, to: sourcedOutputURL)
+        Log.info("Wrote \(sortedSourced.count) sourced records to \(sourcedOutputURL.path)")
+
+        // ── Merge & write merged dataset ───────────────────────────────────
         Log.step("Merging")
         Log.info("Total source records before merge: \(allSourced.count)")
         let result = Merger.merge(allSourced)

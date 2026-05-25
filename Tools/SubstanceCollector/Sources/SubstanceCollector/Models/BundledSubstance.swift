@@ -188,29 +188,41 @@ struct BundledSubstance: Codable, Hashable {
 // MARK: - Provenance
 
 /// Where a `BundledSubstance` originated. Used during merging for conflict
-/// resolution: curated overlay wins, then Erowid (PIHKAL/TIHKAL), then
-/// TripSit, then Wikidata/PubChem stub records.
-enum Provenance: Int, Comparable {
-    case wikidataPubchem = 1
-    case tripSit = 2
-    case erowidShulgin = 3
-    case curated = 4
+/// resolution and during SQLite emission as the `source_id` for every
+/// fact-bearing row attributable to this record. Raw values map 1:1 to the
+/// SQLite `sources.slug` column so the build pipeline can join cleanly.
+enum Provenance: String, Codable, Comparable {
+    case wikidataPubchem  = "wikidata"
+    case pubchem          = "pubchem"
+    case tripSit          = "tripsit"
+    case erowidPIHKAL     = "erowid-pihkal"
+    case erowidTIHKAL     = "erowid-tihkal"
+    case deaOrangeBook    = "dea-orange-book"
+    case curated          = "piru-curated"
 
-    static func < (a: Provenance, b: Provenance) -> Bool { a.rawValue < b.rawValue }
-
-    var label: String {
+    /// Merge precedence: higher wins on conflict.
+    var precedence: Int {
         switch self {
-        case .wikidataPubchem: "wikidata+pubchem"
-        case .tripSit: "tripsit"
-        case .erowidShulgin: "erowid"
-        case .curated: "curated"
+        case .wikidataPubchem: 1
+        case .pubchem:         1
+        case .deaOrangeBook:   1
+        case .tripSit:         2
+        case .erowidTIHKAL:    3
+        case .erowidPIHKAL:    3
+        case .curated:         4
         }
     }
+
+    static func < (a: Provenance, b: Provenance) -> Bool { a.precedence < b.precedence }
+
+    /// Short display label used in CLI stats output.
+    var label: String { rawValue }
 }
 
 /// A substance record with provenance and dedup identifiers attached so the
-/// merge pipeline can reason about precedence and join across sources.
-struct SourcedSubstance {
+/// merge pipeline can reason about precedence and join across sources, and so
+/// the SQLite builder can attribute every fact to the right source.
+struct SourcedSubstance: Codable {
     var substance: BundledSubstance
     var provenance: Provenance
     /// InChIKey if known. Highest-confidence dedup key.
