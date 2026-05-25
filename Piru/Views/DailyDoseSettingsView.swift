@@ -470,8 +470,8 @@ struct MedicationsSettingsView: View {
 
         for (index, time) in reminderTimes.enumerated() {
             let content = UNMutableNotificationContent()
-            content.title = "Prescriptions"
-            content.body = "Time to take your prescriptions."
+            content.title = String(localized: "Prescriptions")
+            content.body = String(localized: "Time to take your prescriptions.")
             content.sound = .default
 
             var dateComponents = DateComponents()
