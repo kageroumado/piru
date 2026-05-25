@@ -37,6 +37,7 @@ OUT_SQLITE   = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
 OUT_REPORT   = REPO / "Exports/sqlite-build-report.md"
 
+SOURCED       = REPO / "Piru/Data/sourced-substances.json"
 BUNDLED       = REPO / "Piru/Data/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "Piru/Data/drug-community-data.json"
 CURATED       = REPO / "Tools/SubstanceCollector/curated-overlay.json"
@@ -511,6 +512,34 @@ def split_compound_name(name: str) -> tuple[str, list[str]]:
     return (name.strip(), [])
 
 
+# Map source-specific route name spellings onto the canonical
+# RouteOfAdministration raw values used by the iOS app's enum. The query
+# layer relies on these strings matching across rows, so normalise here.
+_ROUTE_ALIASES = {
+    "insufflated":     "insufflation",
+    "snorted":         "insufflation",
+    "snorting":        "insufflation",
+    "inhaled":         "inhalation",
+    "vaporized":       "inhalation",
+    "vaporised":       "inhalation",
+    "smoke":           "smoked",
+    "iv":              "intravenous",
+    "im":              "intramuscular",
+    "sc":              "subcutaneous",
+    "subq":            "subcutaneous",
+    "sublingually":    "sublingual",
+    "buccally":        "buccal",
+    "rectally":        "rectal",
+    "po":              "oral",
+    "by mouth":        "oral",
+}
+
+
+def normalise_route(route: str) -> str:
+    r = (route or "").strip().lower()
+    return _ROUTE_ALIASES.get(r, r)
+
+
 # ---------------------------------------------------------------------------
 # Build pipeline
 # ---------------------------------------------------------------------------
@@ -651,7 +680,7 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, route.lower(), src, unit or "mg",
+                (sid, normalise_route(route), src, unit or "mg",
                  to_float(threshold), ll, lu, cl, cu, sl, su, to_float(heavy),
                  notes, self.cite(citation)),
             )
@@ -675,7 +704,7 @@ class Build:
             try:
                 self.cur.execute(
                     "INSERT INTO durations(substance_id, route, source_id, phase, min_minutes, max_minutes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (sid, route.lower(), src, phase, mn, mx, self.cite(citation)),
+                    (sid, normalise_route(route), src, phase, mn, mx, self.cite(citation)),
                 )
                 self.stats["durations"] += 1
             except sqlite3.IntegrityError:
@@ -835,7 +864,7 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, r.get("route").lower(), src,
+            (sid, normalise_route(r.get("route", "")), src,
              to_float(r.get("bioavailability_pct")), to_float(r.get("cmax_ng_per_ml")),
              to_float(r.get("tmax_min")), to_float(r.get("auc_0_inf_ng_h_per_ml")),
              to_float(r.get("half_life_min")), to_float(r.get("vd_l_per_kg")),
@@ -949,55 +978,100 @@ class Build:
 
     # ---- file ingesters ----
 
-    def ingest_bundled_substances(self, path: Path) -> None:
-        """The collector's merged JSON output. Treat each record as piru-curated
-        OR a chosen attribution if we knew (we don't currently). For now attribute
-        to piru-curated since this file is the merged authoritative output."""
+    def _ingest_substance_record(self, s: dict, slug: str, *,
+                                  inchikey: str | None = None,
+                                  pubchem_cid: int | None = None,
+                                  cas: str | None = None) -> int | None:
+        """Insert all facts from one BundledSubstance dict, attributing every
+        row to the given source slug. Shared body for the merged-JSON and
+        sourced-JSON ingesters."""
+        sid = self.upsert_substance(
+            s.get("name"),
+            aliases=s.get("aliases") or [],
+            inchikey=inchikey, pubchem_cid=pubchem_cid, cas=cas,
+            source_slug=slug,
+        )
+        if sid is None:
+            return None
+        if s.get("category"):
+            self.add_category(sid, slug, s["category"])
+        for tag in (s.get("tags") or []):
+            self.add_tag(sid, slug, tag)
+        for r in (s.get("routes") or []):
+            if not isinstance(r, dict):
+                continue
+            doses = r.get("doses") or {}
+            self.add_dose(sid, slug, r.get("route", ""), r.get("unit", "mg"),
+                          threshold=doses.get("threshold"),
+                          light=doses.get("light"),
+                          common=doses.get("common"),
+                          strong=doses.get("strong"),
+                          heavy=doses.get("heavy"))
+            if r.get("duration"):
+                self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"])
+        if s.get("halfLifeMinutes") is not None:
+            self.add_half_life(sid, slug, float(s["halfLifeMinutes"]))
+        if s.get("mechanismOfAction"):
+            moa = s["mechanismOfAction"]
+            self.add_mechanism_summary(sid, slug, moa.get("summary") or moa.get("description") or "",
+                                       description=moa.get("description"))
+            for b in (moa.get("bindings") or []):
+                self.add_binding(sid, slug, {
+                    "target": b.get("target"),
+                    "action": b.get("action") or "modulator",
+                    "intrinsic_activity_pct": None,
+                })
+        for e in (s.get("effects") or []):
+            self.add_effect(sid, slug, e)
+        for se in (s.get("subjectiveEffects") or []):
+            if isinstance(se, dict):
+                self.add_subjective_effect(sid, slug, se.get("name"), se.get("description"))
+            elif isinstance(se, str):
+                self.add_subjective_effect(sid, slug, se)
+        if s.get("toleranceInfo"):
+            self.add_tolerance(sid, slug, s["toleranceInfo"])
+        return sid
+
+    def ingest_sourced_substances(self, path: Path) -> None:
+        """SubstanceCollector's per-record sourced output. Each record carries
+        its provenance (mapped 1:1 to sources.slug) so every fact gets
+        attributed correctly without merge-time information loss."""
         if not path.exists():
             return
         data = json.loads(path.read_text())
-        slug = "piru-curated"
-        for s in sorted(data, key=lambda x: x.get("name", "").lower()):
-            sid = self.upsert_substance(s.get("name"), aliases=s.get("aliases") or [], source_slug=slug)
-            if sid is None:
+        if not isinstance(data, list):
+            return
+        # Process in (provenance ASC, name ASC) order for deterministic output.
+        records = sorted(
+            data,
+            key=lambda r: (r.get("provenance", ""), (r.get("substance") or {}).get("name", "").lower()),
+        )
+        for rec in records:
+            substance = rec.get("substance")
+            slug = rec.get("provenance")
+            if not isinstance(substance, dict) or not slug:
                 continue
-            if s.get("category"):
-                self.add_category(sid, slug, s["category"])
-            for tag in (s.get("tags") or []):
-                self.add_tag(sid, slug, tag)
-            for r in (s.get("routes") or []):
-                if not isinstance(r, dict):
-                    continue
-                doses = r.get("doses") or {}
-                self.add_dose(sid, slug, r.get("route", ""), r.get("unit", "mg"),
-                              threshold=doses.get("threshold"),
-                              light=doses.get("light"),
-                              common=doses.get("common"),
-                              strong=doses.get("strong"),
-                              heavy=doses.get("heavy"))
-                if r.get("duration"):
-                    self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"])
-            if s.get("halfLifeMinutes") is not None:
-                self.add_half_life(sid, slug, float(s["halfLifeMinutes"]))
-            if s.get("mechanismOfAction"):
-                moa = s["mechanismOfAction"]
-                self.add_mechanism_summary(sid, slug, moa.get("summary") or moa.get("description") or "",
-                                           description=moa.get("description"))
-                for b in (moa.get("bindings") or []):
-                    self.add_binding(sid, slug, {
-                        "target": b.get("target"),
-                        "action": b.get("action") or "modulator",
-                        "intrinsic_activity_pct": None,
-                    })
-            for e in (s.get("effects") or []):
-                self.add_effect(sid, slug, e)
-            for se in (s.get("subjectiveEffects") or []):
-                if isinstance(se, dict):
-                    self.add_subjective_effect(sid, slug, se.get("name"), se.get("description"))
-                elif isinstance(se, str):
-                    self.add_subjective_effect(sid, slug, se)
-            if s.get("toleranceInfo"):
-                self.add_tolerance(sid, slug, s["toleranceInfo"])
+            if slug not in self.source_ids:
+                # Unknown provenance — fall back to piru-curated so we don't drop data.
+                slug = "piru-curated"
+            self._ingest_substance_record(
+                substance, slug,
+                inchikey=rec.get("inchiKey"),
+                pubchem_cid=to_int(rec.get("pubchemCID")),
+                cas=rec.get("cas"),
+            )
+
+    def ingest_bundled_substances(self, path: Path) -> None:
+        """Legacy ingester for the post-merge bundled JSON. Attributes
+        everything to piru-curated. Used only when sourced-substances.json is
+        absent (e.g. a clean clone that hasn't run the Swift collector yet);
+        in that case we still want *something* in the DB rather than nothing.
+        """
+        if not path.exists():
+            return
+        data = json.loads(path.read_text())
+        for s in sorted(data, key=lambda x: x.get("name", "").lower()):
+            self._ingest_substance_record(s, "piru-curated")
 
     def ingest_drug_community(self, path: Path) -> None:
         if not path.exists():
@@ -1181,8 +1255,13 @@ def main() -> int:
     build = Build(db)
     build.seed_sources()
 
-    build.ingest_bundled_substances(BUNDLED)
-    print(f"After bundled: {build.stats}", file=sys.stderr)
+    if SOURCED.exists():
+        build.ingest_sourced_substances(SOURCED)
+        print(f"After sourced (per-record attribution): {build.stats}", file=sys.stderr)
+    else:
+        print(f"WARNING: {SOURCED} not found; falling back to merged JSON with piru-curated attribution.", file=sys.stderr)
+        build.ingest_bundled_substances(BUNDLED)
+        print(f"After bundled (fallback): {build.stats}", file=sys.stderr)
 
     build.ingest_drug_community(DRUG_COMMUNITY)
     print(f"After drug.community: {build.stats}", file=sys.stderr)

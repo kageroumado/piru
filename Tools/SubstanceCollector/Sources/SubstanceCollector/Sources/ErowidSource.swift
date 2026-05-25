@@ -121,7 +121,7 @@ struct ErowidSource {
                 ],
                 tags: tags
             ),
-            provenance: .erowidShulgin,
+            provenance: book == .pihkal ? .erowidPIHKAL : .erowidTIHKAL,
             inchiKey: nil, pubchemCID: nil, cas: nil
         )
     }
