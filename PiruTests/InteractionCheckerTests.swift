@@ -82,6 +82,22 @@ struct InteractionCheckerTests {
         #expect(classes.isEmpty)
     }
 
+    @Test("Alias resolves through the library to the canonical drug class")
+    func drugClassAlias() {
+        // Xanax → Alprazolam → .benzodiazepine. Catches regressions in the
+        // lazy `SubstanceLibrary.lookupByNameOrAlias` fallback added when
+        // the precomputed cache went away.
+        let classes = InteractionChecker.drugClasses(for: "Xanax")
+        #expect(classes == [.benzodiazepine])
+    }
+
+    @Test("Repeated unknown lookups are stable (negative cache)")
+    func drugClassNegativeCache() {
+        let a = InteractionChecker.drugClasses(for: "zzzAnotherFakeOne")
+        let b = InteractionChecker.drugClasses(for: "zzzAnotherFakeOne")
+        #expect(a.isEmpty && b.isEmpty)
+    }
+
     // MARK: - check()
 
     @Test("Detects dangerous opioid + benzo interaction")

@@ -97,24 +97,34 @@ final class SubstanceDBUpdater {
     func checkForUpdates() async {
         state = .checking
         do {
-            let remote = try await fetchRemoteManifest()
-            guard remote.schemaVersion <= Self.supportedSchemaVersion else {
-                state = .error("This database requires a newer version of Piru.")
-                return
-            }
-            guard let local = currentManifest else {
-                state = .updateAvailable(local: placeholderLocal(), remote: remote)
-                return
-            }
-            if local.isOlderThan(remote) {
-                state = .updateAvailable(local: local, remote: remote)
-            } else {
-                state = .upToDate(local: local)
-            }
+            let data = try await fetchRemoteManifestData()
+            state = evaluateManifest(remoteData: data)
         } catch {
             updaterLogger.error("checkForUpdates failed: \(error.localizedDescription, privacy: .public)")
             state = .error(error.localizedDescription)
         }
+    }
+
+    /// Pure decision step: given the raw remote manifest bytes (or any test
+    /// fixture in the same shape), figure out what state we should land in.
+    /// Exposed so the state machine can be unit tested without a live
+    /// `URLSession` — see `SubstanceDBUpdaterTests`.
+    func evaluateManifest(remoteData: Data) -> State {
+        let remote: SubstanceDBManifest
+        do {
+            remote = try SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: remoteData)
+        } catch {
+            return .error(error.localizedDescription)
+        }
+        guard remote.schemaVersion <= Self.supportedSchemaVersion else {
+            return .error("This database requires a newer version of Piru.")
+        }
+        guard let local = currentManifest else {
+            return .updateAvailable(local: placeholderLocal(), remote: remote)
+        }
+        return local.isOlderThan(remote)
+            ? .updateAvailable(local: local, remote: remote)
+            : .upToDate(local: local)
     }
 
     /// Download the SQLite file referenced by the current `.updateAvailable`
@@ -167,7 +177,7 @@ final class SubstanceDBUpdater {
 
     // MARK: - Internals
 
-    private func fetchRemoteManifest() async throws -> SubstanceDBManifest {
+    private func fetchRemoteManifestData() async throws -> Data {
         var request = URLRequest(url: manifestURL)
         request.cachePolicy = .reloadIgnoringLocalCacheData
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -175,7 +185,7 @@ final class SubstanceDBUpdater {
         if let http = response as? HTTPURLResponse, http.statusCode != 200 {
             throw UpdaterError.httpStatus(http.statusCode)
         }
-        return try SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: data)
+        return data
     }
 
     private func sqliteURL(from manifest: SubstanceDBManifest) -> URL {
@@ -199,9 +209,9 @@ final class SubstanceDBUpdater {
     }
 
     /// Hex-encoded SHA-256 of the given bytes. Exposed for testability — the
-    /// file-based `verifySha256` defers to this after streaming the file.
+    /// file-based `verifySha256` defers to this after memory-mapping the file.
     static func sha256Hex(of data: Data) -> String {
-        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        SHA256.hash(data: data).hexString
     }
 
     private func downloadFile(url: URL, progress onProgress: @escaping @MainActor (Double) -> Void) async throws -> URL {
@@ -232,15 +242,12 @@ final class SubstanceDBUpdater {
     }
 
     private func verifySha256(file: URL, expected: String) throws {
-        let handle = try FileHandle(forReadingFrom: file)
-        defer { try? handle.close() }
-        var hasher = SHA256()
-        while true {
-            let chunk = autoreleasepool { handle.readData(ofLength: 65_536) }
-            if chunk.isEmpty { break }
-            hasher.update(data: chunk)
-        }
-        let computed = hasher.finalize().map { String(format: "%02x", $0) }.joined()
+        // Memory-map the file so the kernel pages bytes lazily — RAM cost is
+        // bounded regardless of file size and we don't pay for hand-rolled
+        // chunking. `SHA256.hash(data:)` accepts any `DataProtocol` and runs
+        // in C; for a <10 MB SQLite this is the right shape.
+        let data = try Data(contentsOf: file, options: .alwaysMapped)
+        let computed = SHA256.hash(data: data).hexString
         guard computed.caseInsensitiveCompare(expected) == .orderedSame else {
             try? FileManager.default.removeItem(at: file)
             throw UpdaterError.checksumMismatch(expected: expected, actual: computed)
@@ -248,17 +255,33 @@ final class SubstanceDBUpdater {
     }
 
     private func installDownloadedDB(tempFile: URL, manifest: SubstanceDBManifest) throws {
+        // Two-step atomic install. Order matters: write the manifest FIRST
+        // so a disk error between steps can't leave us with an applied
+        // SQLite that disowns its provenance. If step 1 fails the install
+        // is a clean no-op; if step 2 fails the manifest gets rolled back
+        // explicitly so `currentManifest` doesn't lie about the next launch.
         let fm = FileManager.default
-        if fm.fileExists(atPath: Self.appliedSQLiteURL.path) {
-            try fm.removeItem(at: Self.appliedSQLiteURL)
-        }
-        try fm.moveItem(at: tempFile, to: Self.appliedSQLiteURL)
+        let manifestData = try SubstanceDBManifest.jsonEncoder.encode(manifest)
 
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        let data = try encoder.encode(manifest)
-        try data.write(to: Self.appliedManifestURL, options: .atomic)
+        let priorManifest: Data? = (try? Data(contentsOf: Self.appliedManifestURL))
+        try manifestData.write(to: Self.appliedManifestURL, options: .atomic)
+
+        do {
+            if fm.fileExists(atPath: Self.appliedSQLiteURL.path) {
+                try fm.removeItem(at: Self.appliedSQLiteURL)
+            }
+            try fm.moveItem(at: tempFile, to: Self.appliedSQLiteURL)
+        } catch {
+            // Roll the manifest back to whatever was there before (or remove
+            // it entirely if no prior manifest existed) so the next launch
+            // doesn't think a half-installed update is current.
+            if let priorManifest {
+                try? priorManifest.write(to: Self.appliedManifestURL, options: .atomic)
+            } else {
+                try? fm.removeItem(at: Self.appliedManifestURL)
+            }
+            throw error
+        }
     }
 
     private func loadAppliedManifest() -> SubstanceDBManifest? {
@@ -288,6 +311,17 @@ final class SubstanceDBUpdater {
             sqliteSizeBytes: 0,
             releaseNotes: ""
         )
+    }
+}
+
+// MARK: - Hex helpers
+
+extension Sequence where Element == UInt8 {
+    /// Lowercase hex encoding of a byte sequence. Replaces the
+    /// `map { String(format: "%02x", $0) }.joined()` idiom Foundation never
+    /// shipped a first-class encoder for.
+    var hexString: String {
+        lazy.map { String(format: "%02x", $0) }.joined()
     }
 }
 

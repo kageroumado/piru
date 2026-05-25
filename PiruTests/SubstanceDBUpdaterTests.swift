@@ -193,4 +193,71 @@ struct SubstanceDBUpdaterTests {
         #expect(computed.caseInsensitiveCompare(manifest.sqliteSha256) == .orderedSame,
                 "Bundled SQLite hash diverges from manifest. Rebuild via Exports/build-sqlite-database.py.")
     }
+
+    // MARK: - State machine (via evaluateManifest)
+
+    /// Build a remote-manifest payload with a given version + schema. The
+    /// state machine tests feed this into `evaluateManifest(remoteData:)`
+    /// directly so the URLSession round-trip stays out of the test.
+    private func remoteManifestData(version: String, schemaVersion: Int = 1) throws -> Data {
+        let manifest = SubstanceDBManifest(
+            schemaVersion: schemaVersion,
+            contentVersion: version,
+            generatedAt: "2026-05-25T00:00:00Z",
+            generatorVersion: "test",
+            substanceCount: 1,
+            sources: [:],
+            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqliteSha256: String(repeating: "0", count: 64),
+            sqliteSizeBytes: 0,
+            releaseNotes: "Test remote build"
+        )
+        return try SubstanceDBManifest.jsonEncoder.encode(manifest)
+    }
+
+    @Test("evaluateManifest: equal version → .upToDate")
+    @MainActor
+    func evaluateUpToDate() throws {
+        let updater = SubstanceDBUpdater.shared
+        try? updater.revertToBundled()
+        guard let local = updater.currentManifest else {
+            Issue.record("Bundled manifest unavailable")
+            return
+        }
+        let data = try remoteManifestData(version: local.contentVersion)
+        let result = updater.evaluateManifest(remoteData: data)
+        if case .upToDate = result { return }
+        Issue.record("Expected .upToDate, got \(result)")
+    }
+
+    @Test("evaluateManifest: newer remote → .updateAvailable")
+    @MainActor
+    func evaluateUpdateAvailable() throws {
+        let updater = SubstanceDBUpdater.shared
+        try? updater.revertToBundled()
+        let data = try remoteManifestData(version: "9999-12-31.0") // far future
+        let result = updater.evaluateManifest(remoteData: data)
+        if case .updateAvailable = result { return }
+        Issue.record("Expected .updateAvailable, got \(result)")
+    }
+
+    @Test("evaluateManifest: unsupported schema version → .error")
+    @MainActor
+    func evaluateRejectsNewerSchema() throws {
+        let updater = SubstanceDBUpdater.shared
+        try? updater.revertToBundled()
+        let data = try remoteManifestData(version: "9999-12-31.0", schemaVersion: 999)
+        let result = updater.evaluateManifest(remoteData: data)
+        if case .error = result { return }
+        Issue.record("Expected .error for schema=999, got \(result)")
+    }
+
+    @Test("evaluateManifest: malformed JSON → .error")
+    @MainActor
+    func evaluateRejectsMalformedJSON() {
+        let updater = SubstanceDBUpdater.shared
+        let result = updater.evaluateManifest(remoteData: Data("not a manifest".utf8))
+        if case .error = result { return }
+        Issue.record("Expected .error for malformed JSON, got \(result)")
+    }
 }

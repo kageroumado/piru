@@ -63,6 +63,11 @@ final class SubstanceStore {
     private var aliasIndex: [String: Int64] = [:]
     private(set) var allNames: [String] = []
 
+    /// `source.slug` → `source.display_name`. Built once at init; consumed by
+    /// the detail view's source-attribution rows so users see "TripSit
+    /// factsheets" rather than the raw slug "tripsit".
+    private var sourceDisplayNames: [String: String] = [:]
+
     /// Picks the SQLite file to open at launch. Prefers an opt-in updated
     /// copy in `Documents/` (sha256-verified at install time by
     /// ``SubstanceDBUpdater``) and falls back to the bundled resource the app
@@ -289,21 +294,31 @@ final class SubstanceStore {
 
     private func buildIndexes() {
         do {
-            let (names, aliases): ([(String, Int64, String)], [(String, Int64)]) = try substancesDB.read { db in
+            let (names, aliases, displayNames): ([(String, Int64, String)], [(String, Int64)], [(String, String)]) = try substancesDB.read { db in
                 let nameRows = try Row.fetchAll(db, sql: "SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE")
                 let names = nameRows.map { ($0["canonical_name"] as String, $0["id"] as Int64, ($0["canonical_name"] as String).lowercased()) }
                 let aliasRows = try Row.fetchAll(db, sql: "SELECT substance_id, alias_normalized FROM aliases")
                 let aliases = aliasRows.map { ($0["alias_normalized"] as String, $0["substance_id"] as Int64) }
-                return (names, aliases)
+                let sourceRows = try Row.fetchAll(db, sql: "SELECT slug, display_name FROM sources")
+                let displayNames = sourceRows.map { ($0["slug"] as String, $0["display_name"] as String) }
+                return (names, aliases, displayNames)
             }
             self.allNames = names.map(\.0)
             self.nameIndex = Dictionary(uniqueKeysWithValues: names.map { ($0.2, $0.1) })
             var ax: [String: Int64] = [:]
             for (alias, sid) in aliases where ax[alias] == nil { ax[alias] = sid }
             self.aliasIndex = ax
+            self.sourceDisplayNames = Dictionary(uniqueKeysWithValues: displayNames)
         } catch {
             logger.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
         }
+    }
+
+    /// Human-readable name for a source slug. Returns the slug itself as a
+    /// safe fallback if the source is unknown (e.g. an applied DB has a slug
+    /// our bundled `sources` table doesn't recognise).
+    func sourceDisplayName(forSlug slug: String) -> String {
+        sourceDisplayNames[slug] ?? slug
     }
 
     // MARK: - Public lookup API
@@ -813,7 +828,6 @@ final class SubstanceStore {
     /// "every source that contributed anything") — this surfaces *which*
     /// source supplied a specific field after priority resolution.
     struct RouteProvenance: Hashable, Sendable {
-        let route: RouteOfAdministration
         let doseSource: String?
         let durationSource: String?
     }
@@ -822,7 +836,10 @@ final class SubstanceStore {
         let categorySource: String?
         let halfLifeSource: String?
         let mechanismSource: String?
-        let routes: [RouteProvenance]
+        /// Keyed by route for O(1) lookup from per-route UI rows. Routes
+        /// without any source data (e.g. the route is in `dose_ranges` but no
+        /// enabled source has it after priority resolution) are simply absent.
+        let routesBySource: [RouteOfAdministration: RouteProvenance]
     }
 
     /// Resolves per-field source slugs for a substance using the same
@@ -867,7 +884,8 @@ final class SubstanceStore {
                 )
 
                 let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
-                var routeProvenance: [RouteProvenance] = []
+                var routesBySource: [RouteOfAdministration: RouteProvenance] = [:]
+                routesBySource.reserveCapacity(routes.count)
                 for route in routes {
                     let doseSource = try fieldSource(
                         db: db,
@@ -893,18 +911,17 @@ final class SubstanceStore {
                         substanceID: substanceID,
                         extra: [route.rawValue]
                     )
-                    routeProvenance.append(RouteProvenance(
-                        route: route,
+                    routesBySource[route] = RouteProvenance(
                         doseSource: doseSource,
                         durationSource: durationSource
-                    ))
+                    )
                 }
 
                 return SubstanceProvenance(
                     categorySource: categorySource,
                     halfLifeSource: halfLifeSource,
                     mechanismSource: mechanismSource,
-                    routes: routeProvenance
+                    routesBySource: routesBySource
                 )
             }
         } catch {

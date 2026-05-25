@@ -14,7 +14,6 @@ struct AdvancedSearchView: View {
     @State private var kiCeilingEnabled = false
     @State private var substanceQuery = ""
     @State private var results: [SubstanceStore.BindingHit] = []
-    @State private var isLoading = false
 
     private let kiSliderRange: ClosedRange<Double> = 1...10_000
 
@@ -61,12 +60,7 @@ struct AdvancedSearchView: View {
     @ViewBuilder
     private var resultsSection: some View {
         Section {
-            if isLoading {
-                HStack {
-                    ProgressView()
-                    Text("Searching…").foregroundStyle(.secondary)
-                }
-            } else if results.isEmpty {
+            if results.isEmpty {
                 Text("No bindings match these filters.")
                     .foregroundStyle(.secondary)
             } else {
@@ -83,8 +77,10 @@ struct AdvancedSearchView: View {
         availableTargets = SubstanceStore.shared.availableBindingTargets()
     }
 
+    /// The bindings query is a synchronous SQLite read — runs in <10 ms even
+    /// for unfiltered scans. No loading state needed; if that ever changes,
+    /// move the call into a `Task` and re-introduce a progress indicator.
     private func runQuery() {
-        isLoading = true
         let target = selectedTarget
         let kiAtMost = kiCeilingEnabled ? kiCeilingNm : nil
         let q = substanceQuery.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -93,7 +89,6 @@ struct AdvancedSearchView: View {
             kiNmAtMost: kiAtMost,
             substanceContains: q.isEmpty ? nil : q
         )
-        isLoading = false
     }
 }
 

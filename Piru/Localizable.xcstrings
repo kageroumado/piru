@@ -8106,6 +8106,9 @@
         }
       }
     },
+    "Half-life" : {
+
+    },
     "Half-life data not available for %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -13310,9 +13313,6 @@
           }
         }
       }
-    },
-    "Searching…" : {
-
     },
     "Section" : {
       "localizations" : {
