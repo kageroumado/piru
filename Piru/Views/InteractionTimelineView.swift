@@ -283,7 +283,7 @@ struct InteractionTimelineView: View {
             HStack(spacing: 16) {
                 legendItem(color: colorA, label: substanceA)
                 legendItem(color: colorB, label: substanceB)
-                legendItem(color: severity.color.opacity(0.4), label: "Overlap", filled: true)
+                legendItem(color: severity.color.opacity(0.4), label: String(localized: "Overlap"), filled: true)
             }
             .font(.caption)
         }
