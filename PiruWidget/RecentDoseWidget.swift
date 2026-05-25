@@ -124,9 +124,11 @@ struct RecentDoseView: View {
 
         if hours > 0 {
             let remainingMin = minutes % 60
-            return remainingMin > 0 ? "\(hours)h \(remainingMin)m ago" : "\(hours)h ago"
+            return remainingMin > 0
+                ? String(localized: "\(hours)h \(remainingMin)m ago")
+                : String(localized: "\(hours)h ago")
         }
-        return "\(minutes)m ago"
+        return String(localized: "\(minutes)m ago")
     }
 
     private var smallView: some View {

@@ -254,6 +254,38 @@
         }
       }
     },
+    "%@ ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@前"
+          }
+        }
+      }
+    },
+    "%@ days": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 天"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 天"
+          }
+        }
+      }
+    },
     "%@ in · %@ left": {
       "localizations": {
         "en": {
@@ -430,6 +462,38 @@
         }
       }
     },
+    "%@h": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 小时"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 小時"
+          }
+        }
+      }
+    },
+    "%@h ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 小时前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 小時前"
+          }
+        }
+      }
+    },
     "%lld": {
       "localizations": {
         "zh-Hans": {
@@ -500,6 +564,22 @@
         }
       }
     },
+    "%lld days": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 天"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 天"
+          }
+        }
+      }
+    },
     "%lld entr%@": {
       "localizations": {
         "en": {
@@ -544,6 +624,22 @@
         }
       }
     },
+    "%lld hours": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小時"
+          }
+        }
+      }
+    },
     "%lld interaction%@ detected": {
       "localizations": {
         "en": {
@@ -578,6 +674,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "已載入 %lld 個"
+          }
+        }
+      }
+    },
+    "%lld min": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
           }
         }
       }
@@ -756,6 +868,22 @@
         }
       }
     },
+    "%lldd ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 天前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 天前"
+          }
+        }
+      }
+    },
     "%lldh": {
       "localizations": {
         "zh-Hans": {
@@ -768,6 +896,102 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld 小時"
+          }
+        }
+      }
+    },
+    "%lldh %lldm": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小时 %2$lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小時 %2$lld 分鐘"
+          }
+        }
+      }
+    },
+    "%lldh %lldm ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小时 %2$lld 分钟前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld 小時 %2$lld 分鐘前"
+          }
+        }
+      }
+    },
+    "%lldh ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小時前"
+          }
+        }
+      }
+    },
+    "%lldm": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
+          }
+        }
+      }
+    },
+    "%lldm ago": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘前"
+          }
+        }
+      }
+    },
+    "%lldmin": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分鐘"
           }
         }
       }
@@ -880,6 +1104,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "0"
+          }
+        }
+      }
+    },
+    "0m": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 分钟"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 分鐘"
           }
         }
       }
@@ -8342,6 +8582,22 @@
         }
       }
     },
+    "In %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 后"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 後"
+          }
+        }
+      }
+    },
     "In Your System": {
       "localizations": {
         "zh-Hans": {
@@ -8914,6 +9170,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "跳轉到日期"
+          }
+        }
+      }
+    },
+    "Just now": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刚刚"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剛剛"
           }
         }
       }
@@ -16970,6 +17242,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "圖示或長按劑量以一次選擇多個"
+          }
+        }
+      }
+    },
+    "just now": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刚刚"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "剛剛"
           }
         }
       }

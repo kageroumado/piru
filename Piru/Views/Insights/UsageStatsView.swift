@@ -666,7 +666,7 @@ struct UsageStatsView: View {
                             .frame(width: 52, alignment: .leading)
                         Text(String(format: "%.1f %@", entry.amount, entry.unit))
                             .font(.caption.weight(.semibold))
-                        Text("\u{00B7} \(entry.route.rawValue)")
+                        Text("\u{00B7} \(String(localized: entry.route.localizedName))")
                             .font(.caption2)
                             .foregroundStyle(Theme.secondaryLabel)
                         if let notes = entry.notes, !notes.isEmpty {

@@ -358,11 +358,11 @@ struct InteractionTimelineView: View {
 
     private func relativeTimeDescription(_ date: Date) -> String {
         let interval = Date.now.timeIntervalSince(date)
-        if abs(interval) < 60 { return "Right now" }
+        if abs(interval) < 60 { return String(localized: "Right now") }
         if interval > 0 {
-            return "\(formatDuration(interval / 60)) ago"
+            return String(localized: "\(formatDuration(interval / 60)) ago")
         } else {
-            return "In \(formatDuration(-interval / 60))"
+            return String(localized: "In \(formatDuration(-interval / 60))")
         }
     }
 
@@ -490,25 +490,31 @@ struct InteractionTimelineView: View {
     // MARK: - Formatting
 
     private func formatDuration(_ minutes: Double) -> String {
-        if minutes < 60 { return "\(Int(minutes)) min" }
+        if minutes < 60 {
+            let m = Int(minutes)
+            return String(localized: "\(m) min")
+        }
         let hours = minutes / 60
         if hours < 24 {
             if hours == hours.rounded(.toNearestOrEven) {
-                return "\(Int(hours))h"
+                let h = Int(hours)
+                return String(localized: "\(h)h")
             }
-            return String(format: "%.1fh", hours)
+            return String(localized: "\(String(format: "%.1f", hours))h")
         }
         let days = hours / 24
-        return String(format: "%.1f days", days)
+        return String(localized: "\(String(format: "%.1f", days)) days")
     }
 
     private func formatHours(_ hours: Double) -> String {
         if hours < 1 {
-            return "\(Int(hours * 60))min"
+            let m = Int(hours * 60)
+            return String(localized: "\(m)min")
         }
         if hours == hours.rounded(.toNearestOrEven) {
-            return "\(Int(hours))h"
+            let h = Int(hours)
+            return String(localized: "\(h)h")
         }
-        return String(format: "%.1fh", hours)
+        return String(localized: "\(String(format: "%.1f", hours))h")
     }
 }

@@ -219,14 +219,18 @@ private func elapsedString(from start: Date, to now: Date) -> String {
     let seconds = max(0, Int(now.timeIntervalSince(start)))
     let hours = seconds / 3600
     let minutes = (seconds % 3600) / 60
-    return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
+    return hours > 0
+        ? String(localized: "\(hours)h \(minutes)m")
+        : String(localized: "\(minutes)m")
 }
 
 private func remainingString(from now: Date, to end: Date) -> String {
     let seconds = max(0, Int(end.timeIntervalSince(now)))
     let hours = seconds / 3600
     let minutes = (seconds % 3600) / 60
-    return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
+    return hours > 0
+        ? String(localized: "\(hours)h \(minutes)m")
+        : String(localized: "\(minutes)m")
 }
 
 // MARK: - Minimal View

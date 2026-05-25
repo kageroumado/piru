@@ -305,7 +305,7 @@ private struct SessionAccessoryView: View {
     }
 
     private var elapsedText: String {
-        guard let start = states.map(\.doseTimestamp).min() else { return "0m" }
+        guard let start = states.map(\.doseTimestamp).min() else { return String(localized: "0m") }
         return Self.formatDuration(currentTime.timeIntervalSince(start))
     }
 
@@ -320,11 +320,11 @@ private struct SessionAccessoryView: View {
         let minutes = totalMinutes % 60
 
         if hours > 0 && minutes > 0 {
-            return "\(hours)h \(minutes)m"
+            return String(localized: "\(hours)h \(minutes)m")
         } else if hours > 0 {
-            return "\(hours)h"
+            return String(localized: "\(hours)h")
         } else {
-            return "\(minutes)m"
+            return String(localized: "\(minutes)m")
         }
     }
 }
