@@ -1,0 +1,953 @@
+{
+  "slug": "arylcyclohexylamines",
+  "name": "Arylcyclohexylamines (ketamine and PCP families)",
+  "count": 62,
+  "substances": [
+    {
+      "name": "2-Bromodeschloroketamine",
+      "aliases": [
+        "2-Br-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Chlorodeschloroketamine",
+      "aliases": [
+        "2-Cl-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Fluorodeschloroketamine",
+      "aliases": [
+        "2-F-DCK",
+        "2-fl-2'-oxo-pcm",
+        "2-fluorodeschloroketamine",
+        "2f-ket",
+        "2f-ketamine",
+        "Canket",
+        "Fluorexetamine",
+        "Fluoroketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "fatalities-reported",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-FXE",
+      "aliases": [
+        "2-Fluoro-FXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-MeO-Ketamine",
+      "aliases": [
+        "2‑MeO‑K",
+        "MXM (community abbreviation; ambiguous)",
+        "Methoxyketamine",
+        "O‑methoxyketamine",
+        "2-(2‑Methoxyphenyl)-2-(methylamino)cyclohexanone",
+        "2‑MeO‑ketamine",
+        "2‑MeO‑2‑deschloroketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine"
+    },
+    {
+      "name": "3,4-Methylenedioxy-phencyclidine",
+      "aliases": [
+        "3,4-methylenedioxy-PCP",
+        "4-MD-PCP",
+        "3,4-MD-PCP",
+        "3,4-MDPCP HCl",
+        "MDPCP",
+        "3,4-MD-PCP hydrochloride",
+        "3,4-benzodioxole-PCP",
+        "3"
+      ],
+      "category": "Dissociative NMDA-receptor antagonist",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (PCP analogue, methylenedioxy-substituted)"
+    },
+    {
+      "name": "3-EtO-PCP",
+      "aliases": [
+        "1-[1-(3-ethoxyphenyl)cyclohexyl]piperidine",
+        "3-OEt-PCP",
+        "3-ethoxy-PCP"
+      ],
+      "category": "NMDA-receptor antagonist (PCP analogue)",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine dissociative"
+    },
+    {
+      "name": "3-F-PCP",
+      "aliases": [
+        "3-fluoro phencyclidine",
+        "1-[1-(3-fluorophenyl)cyclohexyl]piperidine",
+        "3FPCP",
+        "3F-PCP",
+        "3′-F-PCP",
+        "3-Fluoro-PCP"
+      ],
+      "category": "Non-competitive NMDA receptor antagonist; likely sigma-receptor activity; possible modest monoamine reuptake effects (inferred from PCP-class data)",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine dissociative"
+    },
+    {
+      "name": "3-Fluoro-PCP",
+      "aliases": [
+        "3-F-PCP"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "PCP-analog",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-ho-pce",
+      "aliases": [
+        "3hopce"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-Me-PCPy",
+      "aliases": [
+        "3-methyl-1-(1-phenylcyclohexyl)pyrrolidine (informal)",
+        "3-MePCPy",
+        "1-[1-(3-methylphenyl)cyclohexyl]pyrrolidine",
+        "3-methyl-PCPy"
+      ],
+      "category": "Stimulating dissociative / psychotomimetic",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (pyrrolidine-substituted PCP analogue)"
+    },
+    {
+      "name": "3-MeO-PCE",
+      "aliases": [
+        "3-Methoxy-eticyclidine",
+        "3meopce",
+        "methoxyieticyclidine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "habit-forming",
+        "NMDA-antagonist",
+        "PCP-analog",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-meo-pcmo",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-MeO-PCP",
+      "aliases": [
+        "3-Methoxyphencyclidine",
+        "3meopcp"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "common",
+        "designer-dissociative",
+        "fatalities-reported",
+        "habit-forming",
+        "NMDA-antagonist",
+        "PCP-analog",
+        "research-chemical",
+        "sigma-1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-meo-pcpr",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "sigma-1",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-meo-pcpy",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "sigma-1",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-pip-OH-BTCP",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "arylcyclohexylamine",
+        "DRI",
+        "metabolite",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-meo-pcp",
+      "aliases": [
+        "4meopcp"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "sigma-1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Allylketamine",
+      "aliases": [
+        "N-Allyl-ketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Arketamine",
+      "aliases": [
+        "(R)-ketamine",
+        "k",
+        "ket",
+        "kittens",
+        "kitty",
+        "R-ketamine",
+        "special k"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "common",
+        "habit-forming",
+        "investigational",
+        "NMDA-antagonist",
+        "research-chemical",
+        "US-Schedule-III"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bromoketamine",
+      "aliases": [
+        "Bromo‑DCK",
+        "2‑BrDCK",
+        "2-Bromodeschloroketamine",
+        "2‑bromodeschloroketamine",
+        "BDCK",
+        "2‑(2‑bromophenyl)‑2‑(methylamino)cyclohexan‑1‑one",
+        "2‑BDCK"
+      ],
+      "category": "Dissociative anesthetic",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (ketamine analogue)"
+    },
+    {
+      "name": "BTCP",
+      "aliases": [
+        "Benzothiophenylcyclohexylpiperidine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "arylcyclohexylamine",
+        "DRI",
+        "investigational",
+        "liver-toxicity",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Canket",
+      "aliases": [
+        "2-F-2'-Oxo-PCE",
+        "Canberra ketamine",
+        "2F‑NENDCK",
+        "2F‑NENK",
+        "3‑FXE (name sometimes used online; see identity note)",
+        "2‑Fluoro‑2‑oxo‑PCE",
+        "Fluorexetamine",
+        "FXE",
+        "2F‑2′‑Oxo‑PCE",
+        "2‑FXE",
+        "2F-NENDCK",
+        "2′-Fluoro-2-oxo-PCE"
+      ],
+      "category": "Dissociative anesthetic",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (fluorinated ketone)"
+    },
+    {
+      "name": "Cyclobutylketamine",
+      "aliases": [
+        "N-Cyclobutyl-ketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyclopropylketamine",
+      "aliases": [
+        "N-Cyclopropyl-ketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dehydronorketamine",
+      "aliases": [
+        "DHNK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "metabolite",
+        "no-human-data"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Deoxymethoxetamine",
+      "aliases": [
+        "DMXE",
+        "3-Me-2′-oxo-PCE",
+        "3D-MXE"
+      ],
+      "category": "dissociative",
+      "tags": [],
+      "chemical_class": "arylcyclohexylamine"
+    },
+    {
+      "name": "Deschloroketamine",
+      "aliases": [
+        "2-Oxo-PCM",
+        "DCK",
+        "DXE",
+        "O-PCM"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimethylketamine",
+      "aliases": [
+        "N,N-Dimethyl-ketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMXE",
+      "aliases": [
+        "3D-MXE",
+        "Deoxymethoxetamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "NMDA-antagonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMXM",
+      "aliases": [
+        "3-Methoxy-PCM"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Esketamine",
+      "aliases": [
+        "(S)-ketamine",
+        "S-ketamine",
+        "Spravato"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "antidepressant",
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "prescription-only",
+        "US-Schedule-III"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethketamine",
+      "aliases": [
+        "n-ethyl-norketamine",
+        "nek"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethylketamine",
+      "aliases": [
+        "N-Ethylnorketamine",
+        "NEK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Eticyclidone",
+      "aliases": [
+        "2'-Oxo-PCE",
+        "eticyclidone",
+        "N-Ethyldeschloroketamine",
+        "O-PCE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluorexetamine",
+      "aliases": [
+        "3-Fluoro-2-Oxo-PCE",
+        "FXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "NMDA-antagonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydroxetamine",
+      "aliases": [
+        "3-HO-2-Oxo-PCE",
+        "HXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydroxynorketamine",
+      "aliases": [
+        "(2R,6R)-HNK",
+        "HNK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "AMPA-active",
+        "arylcyclohexylamine",
+        "metabolite",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ketamine",
+      "aliases": [
+        "K",
+        "esketamine / S-ketamine",
+        "kitty",
+        "racemic ketamine",
+        "(±)-ketamine",
+        "wonk",
+        "horse tranquilizer",
+        "ket",
+        "Special K",
+        "ketamine hydrochloride",
+        "Ketaset",
+        "vitamin K",
+        "arketamine / R-ketamine",
+        "2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+        "Ketalar"
+      ],
+      "category": "Dissociative anesthetic / analgesic; noncompetitive NMDA receptor antagonist with sedative, amnestic, hallucinogen-like, and rapid-acting antidepressant effects in clinical contexts",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine; cyclohexanone derivative; commonly encountered medically as ketamine hydrochloride"
+    },
+    {
+      "name": "Methoxetamine",
+      "aliases": [
+        "3-MeO-2-Oxo-PCE",
+        "methoxetamine",
+        "MXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "designer-dissociative",
+        "fatalities-reported",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methoxmetamine",
+      "aliases": [
+        "3-MeO-2-Oxo-PCM",
+        "methoxmetamine",
+        "MXM"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methoxyketamine",
+      "aliases": [
+        "2-meo-ketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylethylketamine",
+      "aliases": [
+        "N-Methyl-N-ethyl-norketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylpropylketamine",
+      "aliases": [
+        "N-Methyl-N-propyl-norketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MXiPr",
+      "aliases": [
+        "N-Isopropyl-MXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MXPCP",
+      "aliases": [
+        "3-MeO-2'-oxo-PCP; 2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one",
+        "2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one",
+        "3-MeO-2'-Oxo-PCP HCl",
+        "3-MeO-2'-oxo-PCP",
+        "3-MeO-PCP-2-oxo analogue",
+        "3-MeO-O-PCP (market misnaming seen)"
+      ],
+      "category": "Dissociative; NMDA receptor antagonist (presumed)",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (PCP-like; 2'-oxo PCP analogue)"
+    },
+    {
+      "name": "MXPr",
+      "aliases": [
+        "3-MeO-2-Oxo-PCPr",
+        "N-Propyl-MXE"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Norketamine",
+      "aliases": [
+        "DMK",
+        "N-Desmethylketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "metabolite",
+        "NMDA-antagonist",
+        "no-human-data"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCA",
+      "aliases": [
+        "O-Phenylcyclohexylamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCAl",
+      "aliases": [
+        "N-Allyl-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCcP",
+      "aliases": [
+        "N-Cyclopropyl-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCE",
+      "aliases": [
+        "deschloro‑N‑ethyl‑ketamine",
+        "eticyclidon",
+        "N‑ethyldeschloroketamine",
+        "2′‑Oxo‑PCE",
+        "O‑PCE",
+        "eticyclidone",
+        "2‑Oxo‑PCE",
+        "2‑DCNEK",
+        "OPCE"
+      ],
+      "category": "Dissociative anesthetic",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine"
+    },
+    {
+      "name": "O-PCEtOH",
+      "aliases": [
+        "N-Ethanol-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCiPr",
+      "aliases": [
+        "N-Isopropyl-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-PCP",
+      "aliases": [
+        "2‑Phenyl‑2‑(piperidin‑1‑yl)cyclohexan‑1‑one",
+        "2′-Oxo‑PCP",
+        "2-Keto-PCP",
+        "2-Oxo‑PCP",
+        "2‑Keto‑PCP"
+      ],
+      "category": "Uncompetitive NMDA receptor antagonist; probable weak monoamine re-uptake inhibitor",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine dissociative (2-oxo analogue of PCP)"
+    },
+    {
+      "name": "O-PCPr",
+      "aliases": [
+        "2'-Oxo-PCPr",
+        "N-Propyl-DCK"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PCP",
+      "aliases": [
+        "angel",
+        "angeldust",
+        "dust",
+        "phencyclidine",
+        "wet"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "sigma-1",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propylketamine",
+      "aliases": [
+        "N-Propylnorketamine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Rolicyclidine",
+      "aliases": [
+        "pcpy"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "S-Ketamine",
+      "aliases": [
+        "L-ketamine",
+        "(S)-ketamine",
+        "S-ketamine HCl",
+        "Spravato (intranasal brand)",
+        "S-(−)-ketamine",
+        "Ketanest S (parenteral brand)",
+        "Esketamine"
+      ],
+      "category": "Dissociative anesthetic",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (Cyclohexanone derivative)"
+    },
+    {
+      "name": "Tiletamine",
+      "aliases": [
+        "CI-634",
+        "telazol",
+        "Telazol component"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "veterinary-only"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tilmetamine",
+      "aliases": [
+        "Arylcyclohexylamine (thiophene-substituted); not to be confused with tiletamine",
+        "2-(methylamino)-2-(thiophen-2-yl)cyclohexan-1-one"
+      ],
+      "category": "Dissociative anesthetic (NMDA receptor antagonist; presumed)",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine"
+    }
+  ]
+}

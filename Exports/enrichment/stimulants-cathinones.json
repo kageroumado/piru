@@ -1,0 +1,3916 @@
+[
+  {
+    "is_class_context": true,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "class_name": "Cathinones (β-keto phenethylamine stimulants; split into substrate-releasers and pure pyrrolidinophenone reuptake-inhibitors)",
+    "shared_mechanism": "Synthetic cathinones share the β-ketoamphetamine core and act on monoamine transporters (DAT, NET, SERT), but the class splits sharply into two functional sub-classes based on N-substituent. (1) Primary/N-methyl/N-ethyl cathinones (cathinone, methcathinone, mephedrone, methylone, ethylone, butylone) are SUBSTRATES that produce reverse transport ('release'), analogous to amphetamines but ~10× less CNS-penetrant because the β-keto increases polarity. (2) Pyrrolidinophenones (α-PVP, MDPV, α-PHP, α-PiHP, naphyrone, MDPBP, MDPPP) cannot act as substrates because the bulky pyrrolidine N-substituent prevents the transporter from translocating the molecule across the membrane — they are PURE CATECHOLAMINE REUPTAKE INHIBITORS at sub-nanomolar to low-nanomolar potency at DAT/NET, with little to no SERT activity. The β-keto group at the α-carbon also makes cathinones POOR TAAR1 ligands (negligible agonism at hTAAR1 in Simmler 2016, pmid:26791601) because the carbonyl forces a non-planar geometry that breaks the TAAR1 binding pose. Loss of TAAR1's natural feedback braking on dopamine neuron firing is widely believed to underlie cathinones' higher psychosis risk versus amphetamines.",
+    "shared_pk_summary": "Cathinones are well absorbed by intranasal/insufflation and oral routes; oral bioavailability is typically lower than amphetamines (mephedrone F ~10% in rats, suggesting first-pass metabolism). Half-lives are short for releaser-type cathinones (mephedrone ~2 h, methylone ~6 h, cathinone ~1.5 h) but longer for MDPV (terminal ~80–100 min in rats but with tissue accumulation extending pharmacodynamic effects; human estimates 4–8 h). Primary metabolism is hepatic, dominated by CYP2D6 for N-demethylation (mephedrone, methcathinone, methylone), with CYP2B6, CYP1A2, CYP2C19 contributing minor pathways. MDPV and pyrrolidinophenones undergo O-demethylenation by CYP1A2/CYP2D6/CYP2C19 followed by catechol-O-methylation by COMT, then glucuronidation. β-keto reduction yields cathine/norephedrine analogues with reduced activity. Plasma protein binding is modest (mephedrone ~22%). Vd is large for the lipophilic pyrrolidinophenones, particularly MDPV which shows tissue accumulation that explains its long-tail effects.",
+    "shared_safety": "(1) HYPERTHERMIA — a class-defining hazard, multifactorial as with amphetamines, but worsened by the loss of TAAR1 feedback (no autoinhibition of DA firing). (2) SYMPATHETIC CRISIS — extreme HR/BP elevations; MDPV particularly cardiotoxic, with direct hERG and KCNQ1 block at low-μM concentrations (Tarapoulouzi 2024, DOI:10.3390/ijms27010059). (3) PSYCHOSIS AND COMPULSIVE REDOSING — the pyrrolidinophenones (MDPV, α-PVP, α-PHP) have especially severe compulsive-redosing liability because they are sub-nM DAT inhibitors with no release component, no autoreceptor activation from released DA, and no TAAR1 brake — this 'pure DAT slam-cocaine on steroids' profile drives flakka/bath-salts-style psychosis. (4) SEROTONERGIC NEUROTOXICITY RISK — para-halogenated cathinones (4-CMC/clephedrone, 4-CEC, brephedrone, 4F-MABP) are structural analogues of PCMA/PBA, raising a serotonergic axonal neurotoxicity concern; recent in vitro studies show oxidative-stress cytotoxicity in SH-SY5Y but classical 5-HT terminal damage in vivo has not been firmly demonstrated yet (Wojcieszak 2020, DOI:10.1007/s12640-020-00227-8). (5) RHABDOMYOLYSIS, HYPONATREMIA (water-loading with SERT-active congeners), DIC, and acute kidney injury all reported. (6) FATALITIES — α-PVP, MDPV, 4-CMC, ephylone (N-ethylpentylone), eutylone, pentylone all have documented fatality clusters.",
+    "sar_summary": "Core SAR axes for cathinones: (1) β-KETONE is the defining feature — adds polarity, reduces CNS penetration ~10× versus matched amphetamine, eliminates TAAR1 agonism. β-keto is reduced in vivo to β-hydroxy (cathine-like), an active metabolite. (2) N-SUBSTITUENT controls functional mechanism: H, CH3, C2H5 → substrate/releaser; PYRROLIDINE → pure reuptake inhibitor (cannot be transported). (3) α-ALKYL CHAIN LENGTH: methyl (mephedrone/methcathinone) gives ~equipotent DA/NE/5-HT release; ethyl (buphedrone) shifts toward DA selectivity and increases potency; propyl (pentedrone), butyl (hexedrone) progressively boost DAT potency at the cost of SERT. (4) RING SUBSTITUENT controls SERT engagement: unsubstituted gives DA-selective; 3-methyl (3-MMC) is still DAT-preferring; 4-methyl (mephedrone) shifts toward balanced DA/5-HT release; 4-methylenedioxy (methylone, MDPV) further increases SERT engagement for the substrates while killing SERT activity for the pyrrolidinophenones. 4-halogen (4-CMC/4-FMC/4-BMC/4F-MABP) mimics the SERT-shift of para-halogenated amphetamines and raises a serotonergic-neurotoxicity flag by analogy to PCA/4-CA. (5) AROMATIC EXTENSION — naphthyl (naphyrone) re-introduces SERT activity to the pyrrolidinophenone scaffold via a larger aromatic surface. (6) For pyrrolidinophenones, increasing α-alkyl chain from propyl (MDPPP, α-PPP) → butyl (MDPBP, α-PBP) → pentyl (MDPV, α-PVP) → hexyl (α-PHP, α-PiHP) monotonically increases DAT potency and lipophilicity, with α-PVP and α-PHP being the most potent pure DAT blockers in the class (sub-30-nM IC50).",
+    "key_references": [
+      "pmid:22897747",
+      "pmid:24275046",
+      "pmid:26791601",
+      "pmid:25502630",
+      "pmid:34361040",
+      "pmid:30815856",
+      "pmid:30429818",
+      "pmid:33689284",
+      "doi:10.1007/s00213-018-5075-5",
+      "doi:10.1021/acschemneuro.5b00006",
+      "doi:10.3390/ijms27010059",
+      "doi:10.1007/s12640-020-00227-8",
+      "doi:10.3390/ijms23147826",
+      "doi:10.3390/medicina60030466",
+      "doi:10.1007/s11419-018-0428-7",
+      "doi:10.3389/fphar.2023.1122861"
+    ]
+  },
+  {
+    "name": "Mephedrone",
+    "aliases_added": ["4-MMC", "4-methylmethcathinone", "4-methylephedrone"],
+    "iupac_name": "(RS)-2-methylamino-1-(4-methylphenyl)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(C)cc1",
+    "inchikey": "ZBSGKPYXQINNGF-UHFFFAOYSA-N",
+    "cas": "1189726-22-4",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (release, [3H]-DA from rat synaptosomes)",
+          "ki_nm": null,
+          "ec50_nm": 51,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "radioligand_or_probe": "[3H]-dopamine",
+          "reference": "pmid:22354460",
+          "is_review": false,
+          "notes": "Baumann 2012 Neuropsychopharmacology — racemic mephedrone, EC50 DA release 51 nM (similar to MDMA at NE but stronger at DA)"
+        },
+        {
+          "target": "NET (release, [3H]-NE from rat synaptosomes)",
+          "ec50_nm": 58,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat hypothalamic synaptosomes",
+          "radioligand_or_probe": "[3H]-norepinephrine",
+          "reference": "pmid:22354460",
+          "is_review": false,
+          "notes": "Baumann 2012 — EC50 NE release 58 nM"
+        },
+        {
+          "target": "SERT (release, [3H]-5-HT from rat synaptosomes)",
+          "ec50_nm": 122,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat whole brain synaptosomes",
+          "radioligand_or_probe": "[3H]-serotonin",
+          "reference": "pmid:22354460",
+          "is_review": false,
+          "notes": "Baumann 2012 — EC50 5-HT release 122 nM; DAT/SERT release ratio ~2.4 = MDMA-like balanced profile"
+        },
+        {
+          "target": "TAAR1 (rat)",
+          "ec50_nm": 2900,
+          "intrinsic_activity_pct": 80,
+          "reference_agonist": "β-PEA",
+          "action": "partialAgonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 transient hTAAR1 cAMP",
+          "reference": "pmid:22897747",
+          "is_review": false,
+          "notes": "Simmler 2013 — weak rat TAAR1 partial agonist, but NEGLIGIBLE human TAAR1 activity (EC50 >10 μM hTAAR1, consistent with cathinone class)"
+        },
+        {
+          "target": "hTAAR1",
+          "ki_nm": null,
+          "ec50_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "reference": "pmid:26791601",
+          "is_review": false,
+          "notes": "Simmler 2016 — no functional activation at hTAAR1 up to 30 μM; this is the class-defining loss of TAAR1 brake"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "As a non-selective DAT/NET/SERT substrate, mephedrone drives reverse transport at all three transporters with roughly balanced potency (DA:5-HT EC50 ~1:2.4), more MDMA-like than methamphetamine-like. Unlike amphetamines, NO TAAR1 activation in humans means no PKA/PKC feedback inhibition of DAT firing — combined with rapid clearance (t1/2 ~2 h) this produces the characteristic compulsive-redosing pattern.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 84.1,
+          "tmax_min": 75,
+          "half_life_min": 130,
+          "protein_binding_pct": 22,
+          "dose_in_study_mg": 150,
+          "subject_n": 12,
+          "subject_demographics": "Recreational stimulant users, mostly male, age 21-32, supervised lab study",
+          "reference": "doi:10.1002/cpt.1417",
+          "notes": "Olesti 2019 Clin Pharmacol Ther — single oral dose 50/100/150/200 mg, dose-linear PK; Cmax ~84 ng/mL at 150 mg, t1/2 2.15 h. CYP2D6 PMs had 2-3× higher mephedrone Cmax and AUC."
+        },
+        {
+          "route": "insufflation",
+          "cmax_ng_per_ml": 60,
+          "tmax_min": 30,
+          "half_life_min": 130,
+          "dose_in_study_mg": 100,
+          "subject_n": 10,
+          "subject_demographics": "Male/female experienced users",
+          "reference": "doi:10.1093/jat/bkaa121",
+          "notes": "Papaseit 2020 J Anal Toxicol — controlled IN 100 mg; faster onset than oral but similar t1/2"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "subjective high (VAS 0-100)",
+          "concentration_unit": "ng/mL",
+          "threshold": 30,
+          "peak_effect": 80,
+          "reference": "doi:10.1002/cpt.1417",
+          "notes": "Olesti 2019 — subjective and cardiovascular effects scaled linearly with plasma mephedrone"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "normephedrone (N-demethyl)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "doi:10.1002/cpt.1417",
+        "notes": "Primary N-demethylation by CYP2D6; CYP2D6 PMs show 2-3× higher parent AUC and worse adverse effects"
+      },
+      {
+        "enzyme": "CYP2D6/CYP2B6",
+        "metabolite_name": "4-carboxy-mephedrone (4-tolyl oxidation)",
+        "metabolite_active": false,
+        "reference": "doi:10.1208/s12248-017-0132-2",
+        "notes": "Pozo 2017 AAPS J — most abundant urinary metabolite; tolyl methyl oxidized to carboxylic acid"
+      },
+      {
+        "enzyme": "carbonyl reductase",
+        "metabolite_name": "dihydromephedrone (β-keto reduction)",
+        "metabolite_active": true,
+        "reference": "doi:10.3389/fphar.2021.654061",
+        "notes": "Luethi 2021 Front Pharmacol — β-OH metabolite still functions as DAT/SERT substrate"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "fluoxetine/paroxetine/bupropion (CYP2D6 inhibitors)",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "Predicted to phenocopy CYP2D6 PM status — 2-3× higher mephedrone exposure; case reports of severe toxicity in users co-using SSRIs",
+        "reference": "doi:10.1002/cpt.1417"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "CYP2D6 PMs (~7% of Europeans) and IMs show 2-3× higher mephedrone Cmax/AUC and substantially greater cardiovascular and subjective effects. This is the single most important pharmacogenetic factor for mephedrone toxicity.",
+      "reference": "doi:10.1002/cpt.1417"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "DAT/SERT downregulation reported after repeated mephedrone in rats; no human data on receptor occupancy",
+      "cross_tolerance": ["MDMA", "methylone", "methamphetamine", "4-MMC analogues"],
+      "withdrawal_syndrome": "Anhedonia, dysphoria, fatigue, cognitive slowing; onset 6-24 h after binge; peak 2-4 days; partial resolution over weeks. No physical dependence syndrome.",
+      "reference": "doi:10.3390/medicina60030466"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": 30000,
+        "concern_level": "low",
+        "clinical_consequence": "Minimal direct hERG block (~9% inhibition at 30 μM); cardiotoxicity is sympathomimetic, not channel-mediated",
+        "reference": "doi:10.1016/j.ejphar.2011.10.045"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "CYP2D6 PM status dominates — see pharmacogenetics"
+    },
+    "tags_to_add": ["substrate-releaser", "DAT-NET-SERT-balanced", "CYP2D6-substrate", "TAAR1-inactive-human", "hERG-safe"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["σ1 affinity", "definitive hERG IC50 from manual patch clamp at therapeutic concentrations", "biased agonism (not applicable — not a GPCR ligand)"],
+    "notes": "Mephedrone is one of the best-characterized cathinones with controlled human PK, CYP2D6 pharmacogenetics, and full transporter profiles. The class-defining absence of hTAAR1 agonism (versus MDMA which is a hTAAR1 agonist) likely explains its higher compulsive-use signal.",
+    "references_consulted": [
+      "pmid:22897747",
+      "pmid:22354460",
+      "doi:10.1002/cpt.1417",
+      "doi:10.1208/s12248-017-0132-2",
+      "doi:10.3389/fphar.2021.654061",
+      "doi:10.1093/jat/bkaa121",
+      "pmid:26791601"
+    ]
+  },
+  {
+    "name": "Methylone",
+    "aliases_added": ["bk-MDMA", "βk-MDMA", "M1", "MDMC"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "JURKNVYFZMSNLP-UHFFFAOYSA-N",
+    "cas": "186028-79-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 117,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "radioligand_or_probe": "[3H]-dopamine",
+          "reference": "pmid:22354460",
+          "is_review": false,
+          "notes": "Baumann 2012 — methylone is ~2× less potent than mephedrone at DA release"
+        },
+        {
+          "target": "NET (release)",
+          "ec50_nm": 140,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat hypothalamic synaptosomes",
+          "reference": "pmid:22354460"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 234,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat whole brain synaptosomes",
+          "reference": "pmid:22354460",
+          "notes": "DA:5-HT release ratio ~0.5 — slightly SERT-leaning, MDMA-like balanced entactogen profile"
+        },
+        {
+          "target": "hTAAR1",
+          "action": "agonist",
+          "ec50_nm": null,
+          "species": "human",
+          "reference": "pmid:26791601",
+          "is_review": false,
+          "notes": "Simmler 2016 — methylone shows negligible activation at hTAAR1 (cathinone class effect); rat TAAR1 EC50 ~2 μM partial agonist"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Substrate-type releaser at DAT/NET/SERT, mechanistically similar to MDMA but with weaker potency at all three transporters and significantly reduced VMAT2 disruption. The result is a shorter, more stimulating, less empathogenic profile.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "cmax_ng_per_ml": 304,
+          "tmax_min": 150,
+          "auc_0_inf_ng_h_per_ml": 2441,
+          "half_life_min": 384,
+          "dose_in_study_mg": 100,
+          "subject_n": 12,
+          "subject_demographics": "12 healthy male volunteers, mean 23 y, recreational psychostimulant users",
+          "reference": "doi:10.3390/ijms232314636",
+          "notes": "Poyatos/Papaseit 2022 IJMS — dose-linear across 50–200 mg; 200 mg: Cmax 604 ng/mL, t1/2 6.4 h, Tmax 2 h. Methylone PK is linear (unlike MDMA which auto-inhibits CYP2D6)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "MDC (3,4-methylenedioxycathinone, N-demethyl)",
+        "metabolite_active": true,
+        "reference": "doi:10.3390/ijms232314636"
+      },
+      {
+        "enzyme": "CYP2B6/CYP1A2 (O-demethylenation)",
+        "metabolite_name": "HHMC (3,4-dihydroxy-N-methylcathinone), then HMMC (4-OH-3-methoxy-N-methylcathinone) via COMT",
+        "metabolite_active": true,
+        "reference": "doi:10.3390/ijms232314636",
+        "notes": "HMMC is the major urinary metabolite (Cmax 10-14× lower than parent, AUC 21-29× lower); pathway parallels MDMA but methylone does NOT autoinhibit CYP2D6, hence linear PK"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "Less pronounced than MDMA because methylone does not autoinhibit CYP2D6; PM status expected to elevate AUC by 30-50% but not produce the runaway accumulation seen with repeat MDMA dosing",
+      "reference": "doi:10.3390/ijms232314636"
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["MDMA", "mephedrone", "ethylone", "butylone"],
+      "withdrawal_syndrome": "Mild post-acute dysphoria similar to MDMA 'Tuesday blues'; binge-pattern users report 2-4 day low mood and serotonergic depletion symptoms",
+      "reference": "doi:10.3389/fphar.2023.1122861"
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": "Only male subjects in published PK; sex differences not characterized",
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["substrate-releaser", "MDMA-analog", "linear-PK"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["intravenous and intranasal human PK", "5-HT2B affinity (potential valvulopathy)", "long-term neurotoxicity in humans"],
+    "notes": "Methylone is being developed as MDMA-alternative psychotherapy adjunct (Transcend Therapeutics); linear PK and lack of CYP2D6 autoinhibition is a clinical advantage over MDMA. 5-HT2B activity not yet quantified — important to characterize given chronic-use proposal.",
+    "references_consulted": [
+      "pmid:22354460",
+      "pmid:22897747",
+      "doi:10.3390/ijms232314636",
+      "doi:10.3389/fphar.2023.1122861",
+      "pmid:26791601"
+    ]
+  },
+  {
+    "name": "Mdpv",
+    "aliases_added": ["3,4-methylenedioxypyrovalerone", "MDPV", "Cloud Nine", "Ivory Wave", "Vanilla Sky"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "SYHGEUNFJIGTRX-UHFFFAOYSA-N",
+    "cas": "687603-66-3",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake inhibition)",
+          "ic50_nm": 4.1,
+          "ki_ci_nm": [3.5, 4.7],
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "radioligand_or_probe": "[3H]-dopamine uptake",
+          "reference": "pmid:23039876",
+          "is_review": false,
+          "notes": "Baumann 2013 Neuropsychopharmacology — MDPV is ~50× more potent than cocaine at DAT; pure blocker, NOT a substrate (no release evoked)"
+        },
+        {
+          "target": "DAT (human, HEK293)",
+          "ic50_nm": 30,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:34361040",
+          "is_review": false,
+          "notes": "Luethi 2021 — IC50 0.03 μM at hDAT; confirms pure blocker mechanism"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 26,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat hypothalamic synaptosomes",
+          "reference": "pmid:23039876"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 3349,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat whole brain synaptosomes",
+          "reference": "pmid:23039876",
+          "notes": "DAT/SERT selectivity >800 — the most DAT-selective monoamine drug yet characterized; explains 'pure dopaminergic' hyperstimulation profile"
+        },
+        {
+          "target": "hTAAR1",
+          "ic50_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "reference": "pmid:34361040",
+          "is_review": false,
+          "notes": "Luethi 2021 — MDPV inactive at hTAAR1 up to 30 μM; no TAAR1 brake on dopamine firing"
+        },
+        {
+          "target": "σ1",
+          "ki_nm": null,
+          "action": "modulator",
+          "species": "rat",
+          "reference": "pmid:25239817",
+          "is_review": false,
+          "notes": "Glennon 2014 reports moderate σ1 affinity for MDPV (low μM); contributes to psychostimulant profile and possibly proconvulsant effects"
+        }
+      ],
+      "functional": [
+        {
+          "target": "DAT (S-MDPV)",
+          "readout": "[3H]-dopamine uptake",
+          "ic50_nm": 1.0,
+          "emax_pct": null,
+          "reference_agonist": "cocaine",
+          "species": "rat",
+          "cell_system": "rat caudate synaptosomes",
+          "reference": "doi:10.1021/acschemneuro.5b00006",
+          "notes": "Kolanos 2015 ACS Chem Neurosci — S-(+)-MDPV ~270× more potent than R-(-)-MDPV at DAT; eutomer accounts for activity"
+        }
+      ],
+      "downstream_signalling": "Pure DAT/NET reuptake inhibitor with sub-nM eutomer potency. Persistent binding kinetics (slow off-rate at DAT compared to cocaine) explains prolonged in vivo effects beyond what plasma half-life predicts. The combination of (a) extreme DAT potency, (b) slow off-rate, (c) no TAAR1 feedback, and (d) no autoreceptor activation from released DA produces sustained dopaminergic activation responsible for flakka-style psychosis.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "half_life_min": 470,
+          "dose_in_study_mg": null,
+          "reference": "doi:10.1007/s11419-014-0250-9",
+          "notes": "Compiled clinical estimates from forensic cases suggest t1/2 ~7-8 h in humans (rat t1/2 ~80-100 min, but humans accumulate due to lipophilicity). Exact controlled-administration PK NOT published — would be unethical given toxicity."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "3,4-dihydroxypyrovalerone (catechol-PV, O-demethylenation)",
+        "metabolite_active": true,
+        "reference": "pmid:23922010",
+        "notes": "Strano-Rossi 2010 — CYP2D6, CYP1A2, CYP2C19 all contribute to O-demethylenation; catechol metabolite further methylated by COMT to 4-OH-3-MeO-PV (predominant urinary metabolite)"
+      },
+      {
+        "enzyme": "COMT",
+        "metabolite_name": "4-OH-3-MeO-pyrovalerone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 25,
+        "reference": "pmid:23922010"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP2D6 inhibitors",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "Reduced demethylenation may prolong half-life and increase toxicity risk",
+        "reference": "pmid:23922010"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6", "CYP1A2", "CYP2C19"],
+      "phenotype_effects": "CYP2D6/CYP2C19 PMs likely show prolonged exposure; redundant metabolic pathways reduce magnitude of pharmacogenetic impact compared to mephedrone",
+      "reference": "pmid:23922010"
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["cocaine", "α-PVP", "α-PHP", "methamphetamine"],
+      "withdrawal_syndrome": "Severe stimulant withdrawal: anhedonia, hypersomnia, intense craving, depression; can persist weeks. Compulsive-redosing during use is the hallmark.",
+      "reference": "pmid:27029951"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Direct hERG and KCNQ1 block at low-μM concentrations in zebrafish hearts produces conduction delay and bradyarrhythmia — distinct from sympathomimetic tachycardia; documented MDPV cardiac deaths often show conduction abnormalities",
+        "reference": "doi:10.3390/ijms27010059",
+        "notes": "Tarapoulouzi 2024 — integrated cardiotoxicity assessment; MDPV-specific direct ion channel toxicity"
+      },
+      {
+        "target": "σ1",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Possible contribution to seizures and psychosis at high doses",
+        "reference": "pmid:25239817"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": "Lipophilicity (logP ~3.3) predicts increased tissue accumulation in obese users; clinical correlation reported in flakka epidemics",
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["pure-reuptake-inhibitor", "DAT-selective-extreme", "hERG-direct-block", "TAAR1-inactive-human", "high-psychosis-risk", "slow-off-rate-DAT", "CYP2D6-CYP2C19-substrate"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled-administration human PK (ethical barrier)", "exact hERG IC50 in mammalian patch clamp", "human σ1 Ki"],
+    "notes": "MDPV is the canonical 'pure pyrrolidinophenone' — sub-nM DAT eutomer (S-MDPV), no SERT, no TAAR1, slow off-rate. The combination is uniquely dangerous; this profile drives most flakka/bath-salts emergency presentations. Direct hERG block (unlike most cathinones) adds cardiac risk distinct from sympathomimetic toxicity.",
+    "references_consulted": [
+      "pmid:23039876",
+      "pmid:34361040",
+      "doi:10.1021/acschemneuro.5b00006",
+      "pmid:23922010",
+      "pmid:27029951",
+      "pmid:25239817",
+      "doi:10.3390/ijms27010059",
+      "doi:10.1007/s11419-014-0250-9"
+    ]
+  },
+  {
+    "name": "alpha-PVP",
+    "aliases_added": ["α-PVP", "α-Pyrrolidinopentiophenone", "Flakka", "Gravel", "desmethylpyrovalerone", "O-2387"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": "BPBVPVMUNVPABU-UHFFFAOYSA-N",
+    "cas": "14530-33-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake inhibition, human)",
+          "ic50_nm": 30,
+          "ki_ci_nm": [20, 40],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:34361040",
+          "is_review": false,
+          "notes": "Luethi 2021 — IC50 0.03 μM at hDAT; pure blocker, no substrate activity"
+        },
+        {
+          "target": "DAT (S-enantiomer, rat)",
+          "ic50_nm": 20,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "reference": "doi:10.1073/pnas.2114204120",
+          "notes": "Banks/Negus PNAS 2023 — S-α-PVP 125× more potent than R-enantiomer; slow off-rate at DAT (persistent binding) drives sustained psychostimulant effects"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 20,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hNET",
+          "reference": "pmid:34361040"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 279000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT",
+          "reference": "pmid:34361040",
+          "notes": "Essentially inactive at SERT — DAT/SERT selectivity ~10,000; even more selective than MDPV"
+        },
+        {
+          "target": "hTAAR1",
+          "action": "agonist",
+          "species": "human",
+          "reference": "pmid:34361040",
+          "notes": "Inactive at hTAAR1 up to 30 μM"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET reuptake inhibitor with slow off-rate (persistent binding) at DAT — distinguishes α-PVP from cocaine even at matched IC50. The slow dissociation prolongs effective DAT occupancy beyond plasma t1/2 and is thought to drive the prolonged 'flakka' psychotic-stimulant syndrome.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "half_life_min": 270,
+          "reference": "pmid:25664636",
+          "notes": "Marusich 2014 estimates t1/2 ~4.5 h from forensic and animal data; no controlled human PK"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6 / CYP1A2 / CYP2C19",
+        "metabolite_name": "OH-α-PVP (ω-1 hydroxylation), 2′′-oxo-α-PVP (pyrrolidine oxidation)",
+        "metabolite_active": false,
+        "reference": "doi:10.1007/s11419-015-0265-x",
+        "notes": "Sauer 2009 / Negreira 2015 — multiple oxidative pathways; ketone reduction (carbonyl reductase) gives β-OH metabolite; no clinically active metabolites identified"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "Not characterized; redundant CYP pathways suggest modest PM effect",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["MDPV", "α-PHP", "cocaine", "methamphetamine"],
+      "withdrawal_syndrome": "Severe stimulant withdrawal; intense craving during binges; compulsive redosing the hallmark",
+      "reference": "doi:10.3390/ijms21218185"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Less direct hERG block than MDPV but case reports of ventricular arrhythmias",
+        "reference": "doi:10.3390/ijms21218185"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["pure-reuptake-inhibitor", "DAT-NET-selective", "slow-DAT-off-rate", "TAAR1-inactive-human", "high-psychosis-risk"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "exact hERG IC50", "human σ1 Ki"],
+    "notes": "α-PVP shares MDPV's pure-blocker profile but with greater DAT/SERT selectivity and similar slow-off-rate kinetics. The 'flakka' street name applies to both compounds.",
+    "references_consulted": [
+      "pmid:34361040",
+      "doi:10.1073/pnas.2114204120",
+      "doi:10.3390/ijms21218185",
+      "doi:10.1007/s11419-015-0265-x"
+    ]
+  },
+  {
+    "name": "alpha-PHP",
+    "aliases_added": ["α-PHP", "α-Pyrrolidinohexiophenone", "PV-7", "PV7"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)hexan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": "VMTJVHGBHIPONP-UHFFFAOYSA-N",
+    "cas": "13415-86-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 60,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:34361040",
+          "is_review": false,
+          "notes": "Luethi 2021 — α-PHP IC50 0.06 μM at hDAT; pure blocker, no substrate activity"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 60,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hNET",
+          "reference": "pmid:34361040"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 245000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT",
+          "reference": "pmid:34361040",
+          "notes": "DAT/SERT selectivity ~4000 — extreme DAT selectivity, pyrrolidinophenone class hallmark"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET reuptake inhibitor, slightly less potent than α-PVP but with same compulsive-redosing potential. Hexyl chain (vs pentyl in α-PVP, vs butyl in α-PBP) progressively increases DAT potency via deeper lipophilic pocket binding.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated oxidation",
+        "metabolite_name": "ω-1 hydroxy α-PHP, 2′′-oxo α-PHP (pyrrolidine oxidation), β-OH α-PHP (ketone reduction)",
+        "metabolite_active": false,
+        "reference": "doi:10.1007/s11419-018-0428-7",
+        "notes": "Manier 2018 Forensic Toxicol — primary metabolic routes are ω-1 hydroxylation, pyrrolidine ring oxidation to 2-oxo, and β-keto reduction; longer alkyl chain (vs α-PVP) shifts metabolism toward chain hydroxylation"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6", "CYP1A2"],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["α-PVP", "MDPV", "α-PiHP", "cocaine"],
+      "withdrawal_syndrome": "Severe stimulant withdrawal; documented in fatal-intoxication clinical reports",
+      "reference": "doi:10.1016/j.toxlet.2025.01.003"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Cardiotoxicity reported in fatal intoxications; channel-specific data not published",
+        "reference": "doi:10.1016/j.toxlet.2025.01.003"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Female mice show higher sensitivity to α-PHP in recent acute-effects studies",
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["pure-reuptake-inhibitor", "DAT-NET-selective", "TAAR1-inactive-human"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "exact hERG IC50"],
+    "notes": "α-PHP is a direct homologue of α-PVP with one extra carbon in the α-alkyl chain. Equivalent pure-blocker mechanism and DAT/NET selectivity. SAR confirms hexyl is near the optimum for the lipophilic DAT pocket.",
+    "references_consulted": [
+      "pmid:34361040",
+      "doi:10.1007/s11419-018-0428-7",
+      "doi:10.1021/acschemneuro.3c00156"
+    ]
+  },
+  {
+    "name": "Naphyrone",
+    "aliases_added": ["Naphthylpyrovalerone", "NRG-1"],
+    "iupac_name": "1-(naphthalen-2-yl)-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccc2ccccc2c1",
+    "inchikey": "DLAMRSHHKAQDEX-UHFFFAOYSA-N",
+    "cas": "850352-53-3",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 40,
+          "ki_nm": 20.1,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:22897747",
+          "is_review": false,
+          "notes": "Simmler 2013 — naphyrone IC50 40 nM at DAT, Kd 20 nM; unique among pyrrolidinophenones in retaining SERT activity"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 11.7,
+          "ki_nm": 136,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hNET",
+          "reference": "pmid:22897747"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 46,
+          "ki_nm": 33.1,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT",
+          "reference": "pmid:22897747",
+          "notes": "Only pyrrolidinophenone with meaningful SERT inhibition — larger 2-naphthyl aromatic surface allows SERT binding pocket access"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Triple monoamine reuptake inhibitor — balanced DAT/NET/SERT block. Profile resembles a pure 'cocaine-like' triple blocker rather than the DAT-selective pyrrolidinophenones.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV", "α-PVP", "cocaine"], "withdrawal_syndrome": "Stimulant withdrawal pattern", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-reuptake-inhibitor", "triple-reuptake-inhibitor"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK", "hERG"],
+    "notes": "Naphyrone is the SAR exception that proves the rule: pyrrolidinophenones are usually DAT-selective, but increasing aromatic surface (naphthyl vs phenyl) restores SERT engagement.",
+    "references_consulted": ["pmid:22897747"]
+  },
+  {
+    "name": "3-MMC",
+    "aliases_added": ["3-methylmethcathinone", "metaphedrone", "3-meph", "3-mephedrone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-(3-methylphenyl)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(C)c1",
+    "inchikey": "BRRSNXCXLSVPFC-UHFFFAOYSA-N",
+    "cas": "1246816-62-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 1900,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:30429818",
+          "is_review": false,
+          "notes": "Luethi 2018 — 3-MMC is more DAT-selective than 4-MMC (mephedrone); DAT:SERT ratio ~10× higher"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 20000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT",
+          "reference": "pmid:30429818"
+        },
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 100,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:30429818",
+          "notes": "3-MMC is also a substrate-type releaser like mephedrone; methyl in 3-position vs 4-position shifts DA/5-HT release balance toward DA"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Substrate-releaser at DAT/NET/SERT (mephedrone-like), but with DAT preference compared to mephedrone's balanced profile. Predicts greater stimulant/euphoria vs entactogen experience.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "half_life_min": 180,
+          "dose_in_study_mg": 100,
+          "subject_n": 14,
+          "subject_demographics": "Healthy adult volunteers, mixed sex, recreational users, dose escalation 25/50/100 mg",
+          "reference": "doi:10.1038/s41386-024-02042-7",
+          "notes": "Mason 2024 Neuropsychopharmacology — first in-human study; t1/2 median 3.0 h (range 1.5–6.0); dose-linear PK; cardiovascular effects mild, cognitive-enhancing"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "nor-3-MMC (N-demethyl), β-OH-3-MMC, 3-carboxy-3-MMC",
+        "metabolite_active": true,
+        "reference": "doi:10.1038/s41386-024-02042-7"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "By analogy to mephedrone, CYP2D6 PMs likely show elevated exposure; not yet directly tested",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["mephedrone", "methylone", "MDMA"],
+      "withdrawal_syndrome": "Compulsive-redosing pattern reported clinically; binge-use post-acute dysphoria",
+      "reference": "doi:10.3390/medicina60030466"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "DAT-preferring", "CYP2D6-substrate", "first-in-human-published"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["multi-dose/binge PK", "CYP2D6 PM data", "long-term cognitive sequelae of frequent use"],
+    "notes": "3-MMC became the post-mephedrone successor on European markets after 4-MMC scheduling. The 2024 Mason et al. study is the first controlled human PK/PD on any 'NPS-era' cathinone. 3-position methyl is critical — preserves DAT release while reducing SERT engagement vs 4-MMC.",
+    "references_consulted": [
+      "pmid:30429818",
+      "doi:10.1038/s41386-024-02042-7",
+      "doi:10.3390/medicina60030466"
+    ]
+  },
+  {
+    "name": "(RS)-3-methylmethcathinone",
+    "aliases_added": ["3-MMC", "metaphedrone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-(3-methylphenyl)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(C)c1",
+    "inchikey": "BRRSNXCXLSVPFC-UHFFFAOYSA-N",
+    "cas": "1246816-62-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "Same compound as 3-MMC entry above; duplicate naming in input list. See 3-MMC for full pharmacology.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of 3-MMC — see that entry for full data.",
+    "references_consulted": ["doi:10.1038/s41386-024-02042-7"]
+  },
+  {
+    "name": "(RS)-3-methylmethcathinone hydrochloride",
+    "aliases_added": ["3-MMC HCl"],
+    "iupac_name": "(RS)-2-(methylamino)-1-(3-methylphenyl)propan-1-one hydrochloride",
+    "smiles": "CC(NC)C(=O)c1cccc(C)c1.[H]Cl",
+    "inchikey": null,
+    "cas": "1246816-62-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "HCl salt of 3-MMC; pharmacology identical to free base. See 3-MMC entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Salt form of 3-MMC; identical pharmacology after dissociation.",
+    "references_consulted": []
+  },
+  {
+    "name": "(R)-3-MMC",
+    "aliases_added": ["(R)-Metaphedrone", "(R)-3-Methylmethcathinone"],
+    "iupac_name": "(2R)-2-(methylamino)-1-(3-methylphenyl)propan-1-one",
+    "smiles": "C[C@@H](NC)C(=O)c1cccc(C)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:30429818",
+          "notes": "By analogy with R-mephedrone (R-enantiomer is the DA-selective eutomer with weaker SERT), R-3-MMC is predicted to be more DA-selective than S-isomer; direct stereoselective Ki/IC50 not published"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Predicted DA-selective releaser based on R-mephedrone analogy; no direct enantiomer assay published",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone", "3-MMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DA-selective-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["direct enantiomer-resolved Ki/IC50", "human PK"],
+    "notes": "Pure R-enantiomer; not separately characterized vs racemic 3-MMC. Predictions based on R-mephedrone enantiomer SAR.",
+    "references_consulted": ["pmid:30429818"]
+  },
+  {
+    "name": "4-CMC",
+    "aliases_added": ["4-Chloromethcathinone", "Clephedrone"],
+    "iupac_name": "(RS)-1-(4-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(Cl)cc1",
+    "inchikey": "OUYDLXIHOLDGAR-UHFFFAOYSA-N",
+    "cas": "1225622-14-9",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 1014,
+          "ki_ci_nm": [936, 1092],
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "reference": "pmid:36876024",
+          "is_review": false,
+          "notes": "Wojcieszak/Sitka 2023 (PMC10201577) — full SNDRA profile; nonselective"
+        },
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 91,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "Substrate-type releaser, fully efficacious"
+        },
+        {
+          "target": "NET (uptake)",
+          "ic50_nm": 559,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024"
+        },
+        {
+          "target": "NET (release)",
+          "ec50_nm": 99,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:36876024"
+        },
+        {
+          "target": "SERT (uptake)",
+          "ic50_nm": 542,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 169,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "4-CMC is a fully efficacious SERT substrate — analogous to PCMA/4-CA neurotoxic amphetamines, raising chronic-use serotonin neurotoxicity concern"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Non-selective substrate-releaser at all three transporters (SNDRA). The para-chloro substitution is the SAR red flag: in amphetamine class, 4-Cl gives PCA (Fuller-style serotonergic neurotoxin). Whether 4-CMC produces analogous SERT terminal damage in vivo is unsettled; in vitro cytotoxicity is greater than 4-MMC.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "reference": "doi:10.3390/ijms27010089",
+          "notes": "Oral fluid concentration data only (no controlled plasma PK published due to ethical/legal restrictions); peak oral fluid at 1-2h post-dose"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "nor-4-CMC (N-demethyl), β-OH-4-CMC (ketone reduction), 4-Cl-4-OH-MC (ring hydroxylation)",
+        "metabolite_active": true,
+        "reference": "doi:10.1002/dta.2229"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "Predicted CYP2D6 dependency by analogy with mephedrone",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["mephedrone", "MDMA", "methamphetamine"],
+      "withdrawal_syndrome": "Post-acute dysphoria, anhedonia; fatalities reported in mixed-drug overdoses",
+      "reference": "doi:10.1007/s12640-020-00227-8"
+    },
+    "off_targets": [
+      {
+        "target": "Mitochondrial/oxidative stress (SH-SY5Y)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "4-CMC produces more cytotoxicity than 4-MMC in SH-SY5Y neuroblastoma; oxidative-stress mechanism distinct from classical 5-HT terminal damage but raises long-term neurotoxicity concern",
+        "reference": "doi:10.1007/s12640-020-00227-8"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "SNDRA", "para-chloro-neurotoxicity-flag", "fatalities-reported", "oxidative-stress-toxicity"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human plasma PK", "in vivo SERT terminal damage assessment", "TAAR1 binding (predicted negligible)", "hERG"],
+    "notes": "4-CMC (clephedrone) has been the dominant post-mephedrone cathinone in Europe since 2016 with >100 fatalities reported. The 4-chloro SAR analogy to PCA/4-CA is the most important toxicological concern that distinguishes 4-CMC from 4-MMC; while classical 5-HT neurotoxicity has not been firmly demonstrated, the in vitro toxicology is concerning.",
+    "references_consulted": [
+      "pmid:36876024",
+      "doi:10.1007/s12640-020-00227-8",
+      "doi:10.3390/ijms27010089",
+      "doi:10.1002/dta.2229",
+      "doi:10.1002/hup.2621"
+    ]
+  },
+  {
+    "name": "3-CMC",
+    "aliases_added": ["3-Chloromethcathinone", "clophedrone"],
+    "iupac_name": "(RS)-1-(3-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(Cl)c1",
+    "inchikey": "TUNAYWBSUDWPSV-UHFFFAOYSA-N",
+    "cas": "1607438-09-0",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 208,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "reference": "pmid:36876024",
+          "is_review": false,
+          "notes": "3-CMC IC50 0.208 μM at DAT; about 5× more potent than 4-CMC at DAT, but also a partial SERT releaser"
+        },
+        {
+          "target": "SERT (uptake)",
+          "ic50_nm": 670,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "DAT/SERT ratio 3.22 — more DA-preferring than 4-CMC; 3-position halogen partially escapes the SERT-shift seen at 4-position"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid: more DA-selective than 4-CMC; partial SERT substrate. The 3-chloro position is structurally less prone to the PCA-style serotonergic neurotoxicity than 4-chloro, though in vitro cytotoxicity in SH-SY5Y is present.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6/CYP2B6",
+        "metabolite_name": "nor-3-CMC (N-demethyl), ring-hydroxylated metabolites",
+        "metabolite_active": true,
+        "reference": "doi:10.1002/dta.2229"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["4-CMC", "mephedrone", "methamphetamine"],
+      "withdrawal_syndrome": "Stimulant withdrawal; binge-pattern compulsive use reported; significant European fatalities",
+      "reference": "doi:10.1007/s12640-020-00227-8"
+    },
+    "off_targets": [
+      {
+        "target": "Mitochondrial/oxidative stress",
+        "concern_level": "high",
+        "clinical_consequence": "SH-SY5Y cytotoxicity with delayed onset (>24h incubation), suggesting indirect mechanism not mediated by transporter binding",
+        "reference": "doi:10.1007/s12640-020-00227-8"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "DA-preferring", "delayed-cytotoxicity", "fatalities-reported"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human plasma PK", "in vivo neurotoxicity", "TAAR1"],
+    "notes": "3-CMC emerged as a 4-CMC replacement after EU scheduling; clinically similar fatality and addiction profile. The 3-position halogen is less SERT-shifted than 4-position but still produces delayed cytotoxicity in vitro.",
+    "references_consulted": [
+      "pmid:36876024",
+      "doi:10.1007/s12640-020-00227-8",
+      "doi:10.1002/dta.2229"
+    ]
+  },
+  {
+    "name": "2-CMC",
+    "aliases_added": ["2-Chloromethcathinone"],
+    "iupac_name": "(RS)-1-(2-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": "1346598-43-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET", "SERT"],
+      "binding": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "2-CMC has been characterized in the same Wojcieszak series as 3-CMC and 4-CMC; reduced potency vs 3- and 4-isomers due to steric clash of ortho-Cl with carbonyl/amine; ortho-substitution generally weakens monoamine transporter binding"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Likely a weak releaser; structural ortho-Cl disrupts the planar binding pose. Less SERT-shifted than 4-CMC.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-CMC", "4-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [
+      {
+        "target": "Mitochondrial/oxidative stress",
+        "concern_level": "moderate",
+        "clinical_consequence": "Less neurotoxic than 4-CMC in SH-SY5Y in vitro",
+        "reference": "doi:10.1007/s12640-020-00227-8"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-substrate-releaser", "less-toxic-than-4CMC"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["exact IC50/EC50 values", "human PK"],
+    "notes": "2-CMC is the least active of the chlorocathinone positional series due to ortho-Cl steric interference. Lower toxicity than 4-CMC in vitro.",
+    "references_consulted": ["pmid:36876024", "doi:10.1007/s12640-020-00227-8"]
+  },
+  {
+    "name": "(+)-cathinone",
+    "aliases_added": ["S-(-)-cathinone", "natural cathinone (S)"],
+    "iupac_name": "(2S)-2-amino-1-phenylpropan-1-one",
+    "smiles": "C[C@H](N)C(=O)c1ccccc1",
+    "inchikey": "PYHRZPFZZDCOPH-QMMMGPOBSA-N",
+    "cas": "71031-15-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 83,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "reference": "pmid:22897747",
+          "notes": "S-(-)-cathinone is the natural (khat) eutomer; ~10× more potent at DA release than R-isomer; DA/5-HT selectivity high"
+        },
+        {
+          "target": "NET (release)",
+          "ec50_nm": 26.3,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:22897747"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 4640,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:22897747",
+          "notes": "Very weak SERT release; cathinone is essentially a DA/NE releaser like methamphetamine"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Catecholamine-selective substrate releaser, similar to amphetamine but ~10× lower CNS penetration due to β-keto polarity. Active component of khat (Catha edulis) leaves.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "half_life_min": 90,
+          "subject_demographics": "Healthy khat-naive adults",
+          "reference": "pmid:8612379",
+          "notes": "Toennes 2002 — t1/2 ~90 min from khat consumption; rapid hepatic clearance"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "carbonyl reductase",
+        "metabolite_name": "norephedrine (β-keto reduction)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 20,
+        "reference": "pmid:8612379",
+        "notes": "Primary metabolite is norephedrine; major reduction pathway"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["amphetamine", "methamphetamine", "methcathinone"],
+      "withdrawal_syndrome": "Khat withdrawal: depression, lethargy, increased appetite; mild compared to amphetamines",
+      "reference": "pmid:14976302"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "DA-NE-selective", "natural-product", "khat"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["hTAAR1 data (predicted negligible)"],
+    "notes": "S-(-)-cathinone is the natural eutomer found in khat. Despite the (+)/(-) confusion in nomenclature, the natural S-isomer is laevorotatory (-), and the unnatural R-isomer is dextrorotatory (+). Input list naming may be inconsistent with actual stereochemistry.",
+    "references_consulted": ["pmid:22897747", "pmid:8612379", "pmid:14976302"]
+  },
+  {
+    "name": "(−)-cathinone",
+    "aliases_added": ["S-(-)-cathinone", "natural cathinone"],
+    "iupac_name": "(2S)-2-amino-1-phenylpropan-1-one",
+    "smiles": "C[C@H](N)C(=O)c1ccccc1",
+    "inchikey": "PYHRZPFZZDCOPH-QMMMGPOBSA-N",
+    "cas": "71031-15-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Same as (+)-cathinone — see that entry. Naming convention in input list inconsistent.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["amphetamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser","khat"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "S-(-)-cathinone is the natural khat eutomer; see (+)-cathinone entry. Input list contains both as separate records — duplicate.",
+    "references_consulted": ["pmid:22897747"]
+  },
+  {
+    "name": "Methcathinone",
+    "aliases_added": ["Ephedrone", "Cat", "Jeff", "Mulka", "α-methylamino-propiophenone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-phenylpropan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccccc1",
+    "inchikey": "MQVRGDZCYDEQML-UHFFFAOYSA-N",
+    "cas": "5650-44-2",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (release, S-isomer)",
+          "ec50_nm": 49.9,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "radioligand_or_probe": "[3H]-dopamine",
+          "reference": "pmid:14523190",
+          "is_review": false,
+          "notes": "Rothman 2003 — S-(-)-methcathinone is the eutomer; DA release potency similar to methamphetamine"
+        },
+        {
+          "target": "NET (release, S-isomer)",
+          "ec50_nm": 22,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:14523190"
+        },
+        {
+          "target": "SERT (release, S-isomer)",
+          "ec50_nm": 1772,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:14523190",
+          "notes": "DA/5-HT selectivity ~35 — methamphetamine-like profile; minimal 5-HT release"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Catecholamine-selective substrate releaser, the cathinone analogue of methamphetamine. Lower CNS penetration than methamphetamine (~10×) due to β-keto polarity.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "half_life_min": 240,
+          "reference": "pmid:8612379",
+          "notes": "Estimated t1/2 ~4 h from forensic data"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "ephedrine (β-keto reduction); ring-hydroxylated metabolites",
+        "metabolite_active": true,
+        "reference": "pmid:8612379"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": "By analogy with mephedrone, PMs likely have elevated exposure", "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["methamphetamine", "amphetamine", "mephedrone"],
+      "withdrawal_syndrome": "Stimulant withdrawal; severe psychosis with chronic use (especially Russian 'jeff' epidemics from KMnO4-contaminated synthesis with manganese parkinsonism)",
+      "reference": "pmid:18266875"
+    },
+    "off_targets": [
+      {
+        "target": "Manganese (synthesis contaminant)",
+        "concern_level": "high",
+        "clinical_consequence": "Street methcathinone from KMnO4-mediated synthesis is contaminated with Mn²⁺, causing irreversible extrapyramidal syndrome (manganese parkinsonism) in chronic users",
+        "reference": "pmid:18266875",
+        "notes": "Distinct from intrinsic methcathinone pharmacology — a synthesis-contaminant toxicity"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "DA-NE-selective", "manganese-toxicity-synthesis-contaminant"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "hTAAR1 (predicted negligible)"],
+    "notes": "Methcathinone is the cathinone analogue of methamphetamine. Critical clinical caveat: Russian/Eastern European users of street 'jeff' present with manganese parkinsonism from KMnO4 synthesis contamination, NOT from methcathinone itself.",
+    "references_consulted": ["pmid:14523190", "pmid:8612379", "pmid:18266875"]
+  },
+  {
+    "name": "(+)-methcathinone",
+    "aliases_added": ["R-(+)-methcathinone"],
+    "iupac_name": "(2R)-2-(methylamino)-1-phenylpropan-1-one",
+    "smiles": "C[C@@H](NC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 1170,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:14523190",
+          "notes": "R-(+)-methcathinone is the distomer — ~20× weaker than S-isomer at DA release"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Weakly active distomer of methcathinone",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methcathinone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["distomer", "weak-releaser"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "R-(+) distomer; clinically inactive compared to S-(-).",
+    "references_consulted": ["pmid:14523190"]
+  },
+  {
+    "name": "(-)-methcathinone",
+    "aliases_added": ["S-(-)-methcathinone"],
+    "iupac_name": "(2S)-2-(methylamino)-1-phenylpropan-1-one",
+    "smiles": "C[C@H](NC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 49.9,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:14523190",
+          "notes": "S-(-)-methcathinone is the eutomer; see Methcathinone full entry"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "DA/NE-selective substrate releaser — see Methcathinone entry",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methcathinone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["eutomer", "substrate-releaser"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "S-(-) eutomer of methcathinone — the active form.",
+    "references_consulted": ["pmid:14523190"]
+  },
+  {
+    "name": "Ethylone",
+    "aliases_added": ["bk-MDEA", "MDEC", "3,4-methylenedioxy-N-ethylcathinone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(ethylamino)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "NPYWBZDCJUSGQF-UHFFFAOYSA-N",
+    "cas": "1112937-64-0",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 622,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat caudate synaptosomes",
+          "reference": "pmid:24123416",
+          "notes": "Eshleman 2013 — ethylone is less potent than methylone at all three transporters; N-ethyl shifts profile toward 5-HT release"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 1064,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:24123416"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Non-selective substrate-releaser like methylone but with N-ethyl extension shifting toward 5-HT release. Entactogen-like profile (MDEA analogue).",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6/CYP2B6",
+        "metabolite_name": "MDC (N-deethyl, identical to methylone N-demethyl), HHEC/HMEC (catechol pathway via CYP1A2 then COMT)",
+        "metabolite_active": true,
+        "reference": "doi:10.1208/s12248-017-0132-2"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["methylone", "MDMA", "butylone"],
+      "withdrawal_syndrome": "MDMA-like post-acute dysphoria",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "MDMA-analog", "5-HT-shifted"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["human PK", "TAAR1", "5-HT2B"],
+    "notes": "Ethylone is N-ethyl-methylone; cathinone analogue of MDEA. SERT-preferring relative to methylone.",
+    "references_consulted": ["pmid:24123416", "doi:10.1208/s12248-017-0132-2"]
+  },
+  {
+    "name": "Butylone",
+    "aliases_added": ["bk-MBDB", "β-keto-MBDB", "b1", "bk-methyl-j"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(methylamino)butan-1-one",
+    "smiles": "CCC(NC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "BWKDAMBGCPRVPI-UHFFFAOYSA-N",
+    "cas": "802575-11-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake, human)",
+          "ic50_nm": 1440,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "radioligand_or_probe": "[3H]-dopamine",
+          "reference": "pmid:30219933",
+          "is_review": false,
+          "notes": "Saha 2018 — butylone is a DAT BLOCKER but SERT SUBSTRATE (hybrid mechanism, different from methylone's pure substrate profile)"
+        },
+        {
+          "target": "SERT (uptake, human)",
+          "ic50_nm": 24400,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT-YFP",
+          "reference": "pmid:30219933"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 330,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hSERT-YFP",
+          "reference": "pmid:30219933",
+          "notes": "Substrate-type releaser at SERT (monensin-confirmed); blocker at DAT — α-ethyl extension prevents DAT translocation but not SERT"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid mechanism: DAT blocker + SERT substrate. The α-ethyl group (vs methyl in methylone) creates steric hindrance for DAT translocation but permits SERT.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methylone", "MDMA", "pentylone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-blocker-SERT-substrate", "MDMA-analog"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK", "NET data"],
+    "notes": "Butylone is the methylone homologue with α-ethyl (vs α-methyl). Critically — α-ethyl extension is sufficient to switch from substrate to blocker at DAT while preserving SERT substrate behavior. Same hybrid pattern as pentylone.",
+    "references_consulted": ["pmid:30219933"]
+  },
+  {
+    "name": "Pentylone",
+    "aliases_added": ["bk-MBDP", "bk-methyl-K", "β-keto-methylbenzodioxolylpentanamine"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(methylamino)pentan-1-one",
+    "smiles": "CCCC(NC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "NWDDTXMURFBSQZ-UHFFFAOYSA-N",
+    "cas": "698963-77-8",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake, human)",
+          "ic50_nm": 310,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:30219933",
+          "notes": "Saha 2018 — pentylone is ~5× more potent than butylone at DAT; pure blocker"
+        },
+        {
+          "target": "SERT (uptake, human)",
+          "ic50_nm": 11700,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:30219933"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 1030,
+          "action": "releasingAgent",
+          "species": "human",
+          "reference": "pmid:30219933",
+          "notes": "Partial SERT releaser (~48% efficacy); hybrid mechanism like butylone"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid DAT-blocker / partial-SERT-substrate. More DAT-selective than butylone — drives stimulant rather than entactogen experience.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["butylone", "methylone", "MDPV"],
+      "withdrawal_syndrome": "Stimulant withdrawal; fatalities reported",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-blocker-SERT-partial-substrate", "DAT-preferring"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "α-Propyl extension (vs methyl in methylone, ethyl in butylone) further DAT-shifts the profile; pentylone behaves more like a cocaine analogue than an MDMA analogue.",
+    "references_consulted": ["pmid:30219933"]
+  },
+  {
+    "name": "Eutylone",
+    "aliases_added": ["bk-EBDB", "N-Ethylbutylone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(ethylamino)butan-1-one",
+    "smiles": "CCC(NCC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "UTOOVNNAQLOWLM-UHFFFAOYSA-N",
+    "cas": "802855-66-9",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 500,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:33689284",
+          "is_review": false,
+          "notes": "Glatfelter 2021 ACS Chem Neurosci — eutylone is a potent DAT inhibitor and partial SERT releaser; profile similar to pentylone/butylone"
+        },
+        {
+          "target": "SERT (uptake)",
+          "ic50_nm": 8000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:33689284"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 1500,
+          "action": "releasingAgent",
+          "species": "human",
+          "reference": "pmid:33689284",
+          "notes": "Weak partial SERT releaser"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "DAT-preferring stimulant with partial SERT substrate activity; mechanistically similar to pentylone but with N-ethyl. After the 2021 international scheduling of eutylone, dipentylone (N,N-dimethyl analogue) emerged within 2 months as its market replacement.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["pentylone", "MDMA", "methylone"],
+      "withdrawal_syndrome": "Stimulant; fatalities reported especially in MDMA-substitution scenarios where users redose expecting MDMA's longer duration",
+      "reference": "pmid:33689284"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-preferring", "MDMA-analog", "fatalities-mdma-substitution"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "Eutylone surged 2020-2022 as MDMA substitute in pressed pills; the DAT-preferring profile (not MDMA-like) drove redosing-based fatalities.",
+    "references_consulted": ["pmid:33689284"]
+  },
+  {
+    "name": "N-Ethylpentylone",
+    "aliases_added": ["Ephylone", "N-Ethylnorpentylone", "βk-Ethyl-K", "bk-EBDP"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(ethylamino)pentan-1-one",
+    "smiles": "CCCC(NCC)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "OXAMRCDRBLPVAW-UHFFFAOYSA-N",
+    "cas": "17763-12-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 100,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:32542207",
+          "notes": "Costa 2020 — N-ethylpentylone is significantly more potent than pentylone/butylone at all three transporters; PURE blocker (no substrate activity at any transporter)"
+        },
+        {
+          "target": "NET (uptake)",
+          "ic50_nm": 150,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:32542207"
+        },
+        {
+          "target": "SERT (uptake)",
+          "ic50_nm": 700,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:32542207"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure triple monoamine reuptake inhibitor — unlike pentylone/butylone which retain partial SERT substrate activity, N-ethylpentylone has lost ALL substrate behavior. Mechanism shift from N-methyl to N-ethyl is decisive at the MDx-pentyl scaffold.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["MDPV", "α-PVP", "pentylone"],
+      "withdrawal_syndrome": "Severe stimulant; multiple fatalities reported in 2017-2018 outbreaks where users mistook ephylone-pressed pills for MDMA, then redosed because of slower onset and lack of MDMA-like entactogen effects, leading to compounding cardiovascular toxicity and hyperthermia",
+      "reference": "pmid:32542207"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-reuptake-inhibitor", "triple-blocker", "fatalities-mdma-substitution"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "N-ethylpentylone caused the 2017-2018 'Ephylone in MDMA' fatality cluster. The pharmacological lesson: extending N-substituent (Me→Et) at the methylenedioxy-pentyl scaffold dramatically increases potency AND abolishes substrate behavior, producing a pyrrolidinophenone-like pure-blocker profile without the pyrrolidine ring.",
+    "references_consulted": ["pmid:32542207"]
+  },
+  {
+    "name": "4-MEC",
+    "aliases_added": ["4-Methylethcathinone", "4-Methyl-N-ethylcathinone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-(4-methylphenyl)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccc(C)cc1",
+    "inchikey": "ABTHZAZNQQUKAB-UHFFFAOYSA-N",
+    "cas": "1225617-18-4",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [
+        {
+          "target": "DAT (uptake, human)",
+          "ic50_nm": 3900,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:25502630",
+          "is_review": false,
+          "notes": "Saha 2015 — 4-MEC IC50 3.9 μM at hDAT; DAT blocker (no release)"
+        },
+        {
+          "target": "SERT (uptake, human)",
+          "ic50_nm": 10900,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:25502630"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 100,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:25502630",
+          "notes": "Potent SERT substrate — hybrid: DAT blocker + SERT releaser, the same pattern later confirmed for butylone/pentylone"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid mechanism (DAT block + SERT release) similar to butylone/pentylone. The N-ethyl group is decisive in switching DAT from substrate to blocker.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["mephedrone", "pentylone", "MDMA"],
+      "withdrawal_syndrome": "Stimulant; documented fatalities (Smith 2016, J Anal Toxicol)",
+      "reference": "pmid:27405367"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-blocker-SERT-substrate"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK", "NET data"],
+    "notes": "4-MEC was the canonical post-mephedrone 'second-generation' cathinone in the 2014 Saha paper that established the DAT-blocker / SERT-substrate hybrid as a distinct mechanism class within cathinones.",
+    "references_consulted": ["pmid:25502630", "pmid:27405367"]
+  },
+  {
+    "name": "Flephedrone",
+    "aliases_added": ["4-FMC", "4-Fluoromethcathinone"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(F)cc1",
+    "inchikey": "FZBHBYCAUVOSCQ-UHFFFAOYSA-N",
+    "cas": "447-40-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT", "NET"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 1100,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:22897747",
+          "is_review": false,
+          "notes": "Simmler 2013 — 4-FMC is a catecholamine-selective substrate-releaser; weaker than methcathinone at DA release"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 15000,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:22897747",
+          "notes": "Weak 5-HT release; 4-F shifts profile less than 4-Cl, retains DA selectivity"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Catecholamine-selective substrate-releaser. 4-fluoro substitution is the smallest halogen and minimally perturbs DA/5-HT balance — flephedrone is more methcathinone-like than 4-CMC.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone", "methcathinone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "DA-selective"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "4-fluoro is the only halogen that doesn't strongly SERT-shift cathinones (unlike 4-Cl/4-Br which produce SNDRA profiles). Smaller VdW radius preserves DA selectivity.",
+    "references_consulted": ["pmid:22897747"]
+  },
+  {
+    "name": "4-fmc",
+    "aliases_added": ["flephedrone", "4-fluoromethcathinone"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(F)cc1",
+    "inchikey": "FZBHBYCAUVOSCQ-UHFFFAOYSA-N",
+    "cas": "447-40-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Same as Flephedrone — duplicate input naming", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of Flephedrone — see that entry.",
+    "references_consulted": ["pmid:22897747"]
+  },
+  {
+    "name": "(RS)-flephedrone hydrochloride",
+    "aliases_added": ["4-FMC HCl"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(methylamino)propan-1-one hydrochloride",
+    "smiles": "CC(NC)C(=O)c1ccc(F)cc1.[H]Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Salt of flephedrone", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "HCl salt of flephedrone; see Flephedrone entry.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-FMC",
+    "aliases_added": ["3-fluoromethcathinone", "3F-MC"],
+    "iupac_name": "(RS)-1-(3-fluorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(F)c1",
+    "inchikey": "BCRWAFJMHILUQX-UHFFFAOYSA-N",
+    "cas": "1346600-40-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:24275046",
+          "notes": "Simmler 2014 — 3-FMC is a non-selective substrate-releaser, like methcathinone but with slightly increased SERT engagement from m-F substitution"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Substrate-releaser at all three transporters",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "ring-hydroxylated, N-demethyl, β-keto-reduced metabolites",
+        "metabolite_active": true,
+        "reference": "pmid:22359337"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methcathinone", "mephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [
+      {
+        "target": "Oxidative stress / autophagy (HT22 neurons)",
+        "concern_level": "moderate",
+        "clinical_consequence": "Induces ROS production and autophagy in vitro at micromolar concentrations",
+        "reference": "pmid:30248994"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "medium",
+    "data_gaps_remaining": ["specific IC50/EC50", "human PK"],
+    "notes": "3-fluoro vs 4-fluoro (flephedrone): meta-fluoro is rarer in cathinones and slightly perturbs DA/SERT balance. Often confused with 4-FMC in analytical reports.",
+    "references_consulted": ["pmid:24275046", "pmid:30248994", "pmid:22359337"]
+  },
+  {
+    "name": "2-FMC",
+    "aliases_added": ["2-Fluoromethcathinone"],
+    "iupac_name": "(RS)-1-(2-fluorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccccc1F",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted weak substrate-releaser; ortho-F sterically interferes with transporter binding, reducing potency vs 3-FMC and 4-FMC",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-FMC", "flephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-releaser-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["any direct transporter assay", "any in vivo data"],
+    "notes": "Effectively no peer-reviewed pharmacology data. Inferred from SAR — ortho-halogen weakens both substrate and blocker activity at monoamine transporters.",
+    "references_consulted": []
+  },
+  {
+    "name": "Pentedrone",
+    "aliases_added": ["α-Methylamino-valerophenone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-phenylpentan-1-one",
+    "smiles": "CCCC(NC)C(=O)c1ccccc1",
+    "inchikey": "LJBVGWZGTUPMKB-UHFFFAOYSA-N",
+    "cas": "879722-57-3",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 500,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:24275046",
+          "is_review": false,
+          "notes": "Simmler 2014 — pentedrone IC50 ~0.5 μM at DAT; α-propyl extension converts cathinone scaffold from substrate (releaser) to a hybrid/blocker — same SAR rule as MEC vs MC"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 130000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:24275046",
+          "notes": "Essentially inactive at SERT; very DAT-selective"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "DAT/NET blocker with negligible SERT activity. α-Propyl extension (vs α-methyl in methcathinone) is sufficient to switch from substrate to blocker — same SAR rule as 4-MEC/butylone/pentylone.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV", "α-PVP", "cocaine"], "withdrawal_syndrome": "Stimulant withdrawal", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker", "DAT-selective"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "Pentedrone is the non-pyrrolidine analogue of α-PVP — same α-propyl chain, but secondary amine instead of pyrrolidine. Same DAT blocker mechanism; lower potency than α-PVP because of the loss of the rigid pyrrolidine.",
+    "references_consulted": ["pmid:24275046"]
+  },
+  {
+    "name": "Buphedrone",
+    "aliases_added": ["α-Methylamino-butyrophenone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-phenylbutan-1-one",
+    "smiles": "CCC(NC)C(=O)c1ccccc1",
+    "inchikey": "RDKAPBLEYUHCJG-UHFFFAOYSA-N",
+    "cas": "408332-79-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT/NET (uptake)",
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:24275046",
+          "notes": "Simmler 2014 — buphedrone preferentially inhibits NET and DAT and also releases NE; transitional between methcathinone (pure releaser) and pentedrone (pure blocker) due to intermediate α-ethyl chain length"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid mechanism: NE releaser + DAT/NET blocker. The α-ethyl chain is the SAR transition point — methyl (methcathinone) is pure releaser, propyl (pentedrone) is pure blocker, ethyl (buphedrone) is hybrid.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methcathinone", "pentedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-releaser-blocker", "NE-preferring"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["specific IC50/EC50", "human PK"],
+    "notes": "Buphedrone is the α-ethyl analogue of methcathinone — pivotal SAR position where substrate behavior gradually transitions to blocker behavior.",
+    "references_consulted": ["pmid:24275046"]
+  },
+  {
+    "name": "Hexedrone",
+    "aliases_added": ["α-Methylamino-hexanophenone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-phenylhexan-1-one",
+    "smiles": "CCCCC(NC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "3185-94-2",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 470,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1021/acschemneuro.2c00772",
+          "notes": "López-Arnau SAR series — hexedrone (α-butyl, N-methyl) is a potent DAT/NET blocker similar to pentedrone but with longer chain"
+        },
+        {
+          "target": "NET (uptake)",
+          "ic50_nm": 800,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1021/acschemneuro.2c00772"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET blocker; SAR position confirms longer α-alkyl chains progressively increase DAT potency",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["N-ethylhexedrone", "pentedrone", "α-PHP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "medium",
+    "data_gaps_remaining": ["human PK", "exact Ki"],
+    "notes": "Often confused with N-ethylhexedrone (Hexen/NEH); pure hexedrone is the N-methyl analogue. NEH (N-ethyl) is the clinically more prevalent compound.",
+    "references_consulted": ["doi:10.1021/acschemneuro.2c00772"]
+  },
+  {
+    "name": "Ethyl-pentedrone",
+    "aliases_added": ["n-ethylpentedrone", "NEP", "α-ethylaminopentiophenone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-phenylpentan-1-one",
+    "smiles": "CCCC(NCC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "879722-86-8",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 150,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1021/acschemneuro.2c00772",
+          "notes": "López-Arnau 2023 — NEP is a potent DAT blocker, more potent than pentedrone (N-methyl) — N-ethyl extension boosts potency in the non-pyrrolidine cathinone series"
+        },
+        {
+          "target": "NET (uptake)",
+          "ic50_nm": 100,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1021/acschemneuro.2c00772"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET blocker — N-ethyl substitution makes this a more potent DAT inhibitor than pentedrone, approaching pyrrolidinophenone-like profile without the pyrrolidine ring",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intranasal",
+          "subject_n": 12,
+          "subject_demographics": "Observational naturalistic recreational use, mixed sex",
+          "reference": "doi:10.3390/ph18050721",
+          "notes": "Pirona-Tort 2025 — observational study; produces stimulant/euphoric effects more pronounced than NEH; significant CV stimulation"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["pentedrone", "N-ethylhexedrone", "α-PVP"], "withdrawal_syndrome": "Stimulant withdrawal", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-DAT-NET-blocker", "DAT-selective"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["controlled human PK", "hERG"],
+    "notes": "NEP = N-ethyl-pentedrone. α-propyl + N-ethyl gives near-pyrrolidinophenone potency. Increasingly common European RC.",
+    "references_consulted": ["doi:10.1021/acschemneuro.2c00772", "doi:10.3390/ph18050721"]
+  },
+  {
+    "name": "N-Ethylpentedrone",
+    "aliases_added": ["NEP", "N-ethyl-norpentedrone", "α-EAPP"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-phenylpentan-1-one",
+    "smiles": "CCCC(NCC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "879722-86-8",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Same compound as Ethyl-pentedrone — duplicate input naming. See that entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["NEH"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of Ethyl-pentedrone.",
+    "references_consulted": ["doi:10.1021/acschemneuro.2c00772"]
+  },
+  {
+    "name": "Ethylcathinone",
+    "aliases_added": ["ethcathinone", "N-ethylcathinone", "NEC", "ETH-cat"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-phenylpropan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccccc1",
+    "inchikey": "QTFKIBOSWFGCSL-UHFFFAOYSA-N",
+    "cas": "29708-44-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (release)",
+          "ec50_nm": 1100,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:24275046",
+          "notes": "Simmler 2014 — ethcathinone is a substrate-releaser, weaker than methcathinone; N-ethyl extension reduces DA release potency vs N-methyl"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Substrate-releaser, weak DA/NE preference; the active metabolite of diethylpropion (amfepramone)",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "carbonyl reductase",
+        "metabolite_name": "N-ethylnorephedrine",
+        "metabolite_active": true,
+        "reference": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP3A4"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methcathinone", "cathinone", "amfepramone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "amfepramone-active-metabolite"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "N-Ethylcathinone is the active metabolite of the FDA-approved anorectic diethylpropion (amfepramone). Parent drug is a prodrug.",
+    "references_consulted": ["pmid:24275046"]
+  },
+  {
+    "name": "N-Ethylcathinone",
+    "aliases_added": ["Ethcathinone", "NEC"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-phenylpropan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccccc1",
+    "inchikey": "QTFKIBOSWFGCSL-UHFFFAOYSA-N",
+    "cas": "29708-44-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of Ethylcathinone — see that entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["ethylcathinone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of Ethylcathinone.",
+    "references_consulted": []
+  },
+  {
+    "name": "Amfepramone",
+    "aliases_added": ["Diethylpropion", "Diethylcathinone", "Tenuate", "Tepanil"],
+    "iupac_name": "2-(diethylamino)-1-phenylpropan-1-one",
+    "smiles": "CC(N(CC)CC)C(=O)c1ccccc1",
+    "inchikey": "DJBNUMBKLMJRSA-UHFFFAOYSA-N",
+    "cas": "90-84-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT (via metabolite)"],
+      "binding": [
+        {
+          "target": "DAT/NET/SERT (parent compound)",
+          "ki_nm": null,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "doi:10.1038/s41598-019-54436-z",
+          "notes": "Amfepramone itself has NO direct affinity for monoamine transporters — it is a PRODRUG. Activity comes from CYP3A4-mediated N-deethylation to ethcathinone (the active metabolite)"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Prodrug → ethcathinone (active metabolite, substrate-releaser at DAT/NET) and further to phentermine-like analogues; appetite suppression via NE-dominant release",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 75,
+          "half_life_min": 240,
+          "subject_demographics": "Healthy adults, mixed sex; FDA-approved anorectic",
+          "reference": "doi:10.1038/s41598-019-54436-z",
+          "notes": "Sustained-release formulations widely used for obesity; metabolite ethcathinone t1/2 also short (~2-4 h)"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4 / CYP3A5",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "ethcathinone (N-deethyl), further to ephedrine-like",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1038/s41598-019-54436-z",
+        "notes": "Sequential N-deethylation by CYP3A4; ethcathinone (also called diethylpropion metabolite-1) is the pharmacologically active species"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP3A4 inhibitors (e.g., ketoconazole, clarithromycin, grapefruit)",
+        "mechanism": "CYP3A4 inhibition",
+        "clinical_effect": "Reduced metabolism to active ethcathinone → potentially reduced anorectic effect AND elevated parent drug accumulation; clinical impact not well studied",
+        "reference": "doi:10.1038/s41598-019-54436-z"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP3A4", "ABCB1"],
+      "phenotype_effects": "CYP3A4-rs2242480 and ABCB1-rs1045642 predict 4 metabolizer phenotypes (slow/normal/intermediate/fast) with significant amfepramone exposure differences in healthy Mexican subjects",
+      "reference": "doi:10.1038/s41598-019-54436-z"
+    },
+    "tolerance_and_dependence": {
+      "cross_tolerance": ["phentermine", "ethcathinone", "amphetamine"],
+      "withdrawal_syndrome": "Mild stimulant rebound; DEA Schedule IV reflects lower abuse potential than amphetamines",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B (concern by class analogy)",
+        "concern_level": "low",
+        "clinical_consequence": "Anorectics with 5-HT2B activity caused fen-phen valvulopathy; amfepramone has not been associated with valvulopathy, suggesting minimal 5-HT2B engagement",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": "Elderly: dose reduction recommended due to reduced CL", "weight": null, "renal_or_hepatic": "Hepatic impairment: reduce dose (CYP3A4 metabolism)"},
+    "tags_to_add": ["prodrug", "FDA-approved-anorectic", "Schedule-IV", "CYP3A4-substrate"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["specific Ki at DAT for parent compound (predicted >10 μM)", "5-HT2B Ki"],
+    "notes": "Amfepramone is the only FDA-approved cathinone-class drug. Critical clinical fact: it is a PRODRUG with no direct transporter affinity; pharmacology is mediated by ethcathinone metabolite. CYP3A4-dependent activation differentiates it from CYP2D6-dependent cathinones like mephedrone.",
+    "references_consulted": ["doi:10.1038/s41598-019-54436-z"]
+  },
+  {
+    "name": "MDPBP",
+    "aliases_added": ["3,4-Methylenedioxy-α-pyrrolidinobutiophenone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(pyrrolidin-1-yl)butan-1-one",
+    "smiles": "CCC(N1CCCC1)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "784985-33-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 70,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:34361040",
+          "notes": "Luethi 2021 — MDPBP IC50 0.07 μM at hDAT; pure pyrrolidinophenone blocker, slightly weaker than MDPV (α-butyl vs α-pentyl)"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 140,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:34361040"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 11000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:34361040",
+          "notes": "DAT/SERT ratio 155 — high DAT selectivity, MDPV-like"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET reuptake inhibitor, ~2× less potent than MDPV. Same pyrrolidinophenone mechanism.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV", "MDPPP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-reuptake-inhibitor", "pyrrolidinophenone"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "MDPBP is the α-butyl homologue of MDPV (α-pentyl). One carbon shorter, ~2× lower DAT potency.",
+    "references_consulted": ["pmid:34361040"]
+  },
+  {
+    "name": "MDPPP",
+    "aliases_added": ["3,4-Methylenedioxy-α-pyrrolidinopropiophenone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(pyrrolidin-1-yl)propan-1-one",
+    "smiles": "CC(N1CCCC1)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "783241-66-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT",
+          "ic50_nm": 500,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:34361040",
+          "notes": "MDPPP is the α-methyl homologue of MDPV — ~10× weaker; confirms α-chain length SAR (longer = more potent at DAT)"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pyrrolidinophenone DAT/NET blocker; weaker than MDPBP and MDPV",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "various phase I metabolites",
+        "metabolite_active": false,
+        "reference": "doi:10.1080/00498250400028239"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6","CYP1A2"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV", "MDPBP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pyrrolidinophenone", "low-potency-MDPV-analog"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "medium",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "Shortest α-chain pyrrolidinophenone; weakest of the methylenedioxy series.",
+    "references_consulted": ["pmid:34361040", "doi:10.1080/00498250400028239"]
+  },
+  {
+    "name": "MPPP",
+    "aliases_added": ["4'-Methyl-α-pyrrolidinopropiophenone", "4-MePPP"],
+    "iupac_name": "(RS)-1-(4-methylphenyl)-2-(pyrrolidin-1-yl)propan-1-one",
+    "smiles": "CC(N1CCCC1)C(=O)c1ccc(C)cc1",
+    "inchikey": null,
+    "cas": "5588-26-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [
+        {
+          "target": "DAT (uptake, human)",
+          "ic50_nm": 1080,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT-YFP",
+          "reference": "pmid:25502630",
+          "notes": "Saha 2015 — 4-MePPP IC50 1.08 μM at DAT; PURE blocker (40-fold DAT selectivity over SERT)"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 126000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:25502630"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT blocker; no SERT or substrate activity. Pyrrolidinophenone scaffold even with short α-methyl maintains pure-blocker behavior.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV", "α-PVP", "4-MEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-DAT-blocker", "pyrrolidinophenone"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "MPPP / 4-MePPP is the 4-methyl pyrrolidinophenone — the pyrrolidine N-substitution suffices to give a pure blocker even with α-methyl chain length.",
+    "references_consulted": ["pmid:25502630"]
+  },
+  {
+    "name": "alpha-PiHP",
+    "aliases_added": ["α-PiHP", "α-Pyrrolidinoisohexaphenone", "α-PHiP", "alpha-pyrrolidinoisohexanophenone"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)-4-methylpentan-1-one",
+    "smiles": "CC(C)CC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "2181620-71-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.3390/life14040429",
+          "notes": "Daskalova 2024 — α-PiHP IC50 at DAT roughly equivalent to α-PVP (~30 nM); slightly weaker at NET; pure blocker"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET reuptake inhibitor; isohexyl chain branching slightly reduces NET potency vs straight-chain α-PHP",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intranasal/oral observational",
+          "subject_demographics": "Mixed-sex recreational users, observational cohort",
+          "reference": "doi:10.3389/fphar.2025.1728824",
+          "notes": "2025 observational study — α-PiHP plasma kinetics roughly cocaine-like with slower offset; pharmacodynamic similarity to α-PVP"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "ω-hydroxylated, β-keto-reduced, pyrrolidine-oxidized metabolites",
+        "metabolite_active": false,
+        "reference": "doi:10.3390/ijms22010230"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6","CYP1A2"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PHP", "α-PVP", "MDPV"], "withdrawal_syndrome": "Severe stimulant withdrawal; fatalities reported", "reference": "doi:10.3390/life14040429"},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-DAT-NET-blocker", "pyrrolidinophenone", "fatalities-reported"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "exact Ki"],
+    "notes": "α-PiHP is the isohexyl analogue of α-PHP, top-5 cathinone by EU seizures in 2022. WHO Critical Review October 2022 led to international scheduling.",
+    "references_consulted": ["doi:10.3390/life14040429", "doi:10.3389/fphar.2025.1728824", "doi:10.3390/ijms22010230"]
+  },
+  {
+    "name": "alpha-Pyrrolidinohexiophenone",
+    "aliases_added": ["α-PHP", "PV-7", "PV7"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)hexan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": "VMTJVHGBHIPONP-UHFFFAOYSA-N",
+    "cas": "13415-86-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of alpha-PHP entry — see that record.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PVP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of alpha-PHP — see that entry.",
+    "references_consulted": ["pmid:34361040"]
+  },
+  {
+    "name": "α-Pyrrolidinopentiophenone",
+    "aliases_added": ["α-PVP", "A-PVP", "Flakka", "Gravel", "O-2387"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": "BPBVPVMUNVPABU-UHFFFAOYSA-N",
+    "cas": "14530-33-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of alpha-PVP entry — see that record.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of alpha-PVP — see that entry.",
+    "references_consulted": ["pmid:34361040"]
+  },
+  {
+    "name": "A-pvp",
+    "aliases_added": ["alpha-PVP", "α-PVP"],
+    "iupac_name": "(RS)-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccccc1",
+    "inchikey": "BPBVPVMUNVPABU-UHFFFAOYSA-N",
+    "cas": "14530-33-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of alpha-PVP entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of alpha-PVP.",
+    "references_consulted": []
+  },
+  {
+    "name": "Methylenedioxypyrovalerone",
+    "aliases_added": ["MDPV"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccc2OCOc2c1",
+    "inchikey": "SYHGEUNFJIGTRX-UHFFFAOYSA-N",
+    "cas": "687603-66-3",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of Mdpv entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of Mdpv — see that entry for full pharmacology.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-CEC",
+    "aliases_added": ["4-Chloroethcathinone", "4-chloro-N-ethylcathinone"],
+    "iupac_name": "(RS)-1-(4-chlorophenyl)-2-(ethylamino)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccc(Cl)cc1",
+    "inchikey": null,
+    "cas": "1225617-19-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["SERT","DAT"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 1455,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "Wojcieszak 2023 — 4-CEC is a DAT blocker (inactive as releaser)"
+        },
+        {
+          "target": "NET (uptake)",
+          "ic50_nm": 2848,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024"
+        },
+        {
+          "target": "SERT (uptake)",
+          "ic50_nm": 589,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "pmid:36876024"
+        },
+        {
+          "target": "SERT (release)",
+          "ec50_nm": 191,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "pmid:36876024",
+          "notes": "SERT-selective substrate releaser; DAT blocker — hybrid mechanism like 4-MEC. 4-Cl + N-ethyl combination strongly shifts toward 5-HT"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Hybrid DAT-blocker / SERT-substrate; ~3× SERT-selective. The 4-chloro + N-ethyl combination together produces extreme SERT shift — much more than 4-CMC (N-methyl).",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-CMC", "4-MEC", "MDMA"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [
+      {
+        "target": "Para-chloro serotonergic-neurotoxicity concern",
+        "concern_level": "moderate",
+        "clinical_consequence": "By analogy to PCA/PCMA but no in vivo serotonergic neurotoxicity demonstrated",
+        "reference": "doi:10.1007/s12640-020-00227-8"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-blocker-SERT-substrate", "SERT-selective", "para-chloro-neurotoxicity-flag"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "4-CEC is critical SAR data: 4-Cl + N-ethyl shifts the profile much more toward SERT than 4-Cl + N-methyl (4-CMC), changing from balanced SNDRA (4-CMC) to SERT-selective releaser (4-CEC).",
+    "references_consulted": ["pmid:36876024", "doi:10.1002/hup.2621", "doi:10.1007/s12640-020-00227-8"]
+  },
+  {
+    "name": "Brephedrone",
+    "aliases_added": ["4-Bromomethcathinone", "4-BMC", "BrMcat"],
+    "iupac_name": "(RS)-1-(4-bromophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(Br)cc1",
+    "inchikey": null,
+    "cas": "486459-04-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [
+        {
+          "target": "DAT/NET/SERT",
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1002/hup.2621",
+          "notes": "Grifell 2017 — clinically grouped with 4-CMC/4-CEC as para-halogenated cathinones; presumed SNDRA substrate-releaser by analogy to 4-CMC; direct Ki/IC50 not published"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Presumed non-selective substrate-releaser (4-CMC-like) but with bromine larger atomic radius likely further enhancing SERT shift",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-CMC", "mephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [
+      {
+        "target": "Para-bromo neurotoxicity concern (analogy to 4-BA)",
+        "concern_level": "moderate",
+        "clinical_consequence": "Bromine larger than chlorine, expected to be more SERT-shifted and potentially more neurotoxic by analogy to 4-bromoamphetamine",
+        "reference": "doi:10.1002/hup.2621"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser", "para-bromo-neurotoxicity-flag"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["direct transporter assay", "human PK"],
+    "notes": "Limited direct pharmacology; grouped with 4-CMC/4-CEC in clinical assessments.",
+    "references_consulted": ["doi:10.1002/hup.2621"]
+  },
+  {
+    "name": "Dibutylone",
+    "aliases_added": ["bk-MMBDB", "bk-DMBDB"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)butan-1-one",
+    "smiles": "CCC(N(C)C)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "802575-11-7",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": null,
+          "notes": "Potent DAT/NET inhibitor with ~10× greater potency at DAT than NET; negligible SERT activity (catecholamine-focused profile distinct from eutylone and pentylone) — but most published characterization is descriptive without quantitative IC50"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "DAT/NET blocker; N,N-dimethyl substitution prevents SERT engagement, distinguishing from N-methyl methylenedioxy cathinones (eutylone, pentylone)",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "various phase I metabolites described in case series",
+        "metabolite_active": null,
+        "reference": "doi:10.1093/jat/bky016"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["dimethylpentylone", "MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker"],
+    "tags_to_remove": ["inactive"],
+    "confidence": "medium",
+    "data_gaps_remaining": ["exact IC50", "human PK"],
+    "notes": "The 'inactive' tag in the input list is wrong — dibutylone is a potent DAT/NET inhibitor and has caused intoxications. Likely incorrect provenance.",
+    "references_consulted": ["doi:10.1093/jat/bky016"]
+  },
+  {
+    "name": "Dimethylpentylone",
+    "aliases_added": ["N,N-Dimethylpentylone", "DM-Pentylone", "Dipentylone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one",
+    "smiles": "CCCC(N(C)C)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "17763-02-9",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "https://cdn.who.int/media/docs/default-source/46th-ecdd/dipentylone_46th-ecdd_critical-review_public-version.pdf",
+          "notes": "WHO ECDD 46th review — dimethylpentylone shows DAT/NET/SERT inhibition; emerged as market replacement for eutylone within 2 months of 2021 scheduling. Direct potency values not published but rodent locomotor profile is cocaine/methamphetamine-like."
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Triple monoamine reuptake inhibitor; DAT-preferring, mechanistically similar to pentylone but with N,N-dimethyl preventing SERT substrate behavior",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "N-demethyl-pentylone, β-OH metabolites, ring-hydroxylated metabolites",
+        "metabolite_active": true,
+        "reference": "doi:10.1080/13880209.2023.2200613"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["pentylone", "eutylone", "MDMA"], "withdrawal_syndrome": "Stimulant; fatalities reported in MDMA-substitution scenarios", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-preferring", "post-eutylone-market-successor", "fatalities-mdma-substitution"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["exact IC50 values", "human PK"],
+    "notes": "Dimethylpentylone (a.k.a. dipentylone, 'KU crystals') replaced eutylone on the European/US market in late 2021. Same MDMA-substitute fatality pattern as eutylone/ephylone.",
+    "references_consulted": ["https://cdn.who.int/media/docs/default-source/46th-ecdd/dipentylone_46th-ecdd_critical-review_public-version.pdf"]
+  },
+  {
+    "name": "Dipentylone",
+    "aliases_added": ["bk-DMBDP", "dimethylpentylone", "DMBDP"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one",
+    "smiles": "CCCC(N(C)C)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "17763-02-9",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET"], "binding": [], "functional": [], "downstream_signalling": "Same compound as Dimethylpentylone — duplicate input naming.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of Dimethylpentylone.",
+    "references_consulted": []
+  },
+  {
+    "name": "Dimethylone",
+    "aliases_added": ["bk-MDDMA"],
+    "iupac_name": "1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)propan-1-one",
+    "smiles": "CC(N(C)C)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "765231-58-1",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [
+        {
+          "target": "DAT/NET/SERT",
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": null,
+          "notes": "N,N-dimethyl analogue of methylone; predicted to be a weak DAT/NET blocker like dibutylone — but with α-methyl it lacks chain length needed for potent DAT engagement"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Likely weak DAT/NET blocker; α-methyl + N,N-dimethyl gives very weak transporter binding",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-potency-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["any direct pharmacology data"],
+    "notes": "Often used as analytical standard; minimal pharmacology data; predicted weak activity based on N,N-dimethyl + α-methyl scaffold.",
+    "references_consulted": []
+  },
+  {
+    "name": "Th-pvp",
+    "aliases_added": ["tetrahydronaphthyl-PVP"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted pyrrolidinophenone DAT/NET blocker based on scaffold; bicyclic aromatic likely intermediate between phenyl (α-PVP) and naphthyl (naphyrone)",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PVP", "naphyrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pyrrolidinophenone-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "Very limited published data; predicted pyrrolidinophenone class effect.",
+    "references_consulted": []
+  },
+  {
+    "name": "4f-pvp",
+    "aliases_added": ["4f-a-pvp", "pfpvp", "4-fluoro-α-PVP"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccc(F)cc1",
+    "inchikey": null,
+    "cas": "17763-13-2",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "ic50_nm": 500,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stable hDAT",
+          "reference": "pmid:34361040",
+          "notes": "Luethi 2021 — 4F-PBP (4F-α-PVP IUPAC isomer) IC50 0.5 μM at hDAT; 4-fluoro substitution REDUCES potency vs unsubstituted α-PVP by ~25× — surprising SAR; predicts F at ring exits the optimal DAT pocket geometry"
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 610,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:34361040"
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 177000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "pmid:34361040"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET blocker but ~25× weaker than α-PVP — 4-fluoro substitution surprisingly reduces pyrrolidinophenone potency",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated",
+        "metabolite_name": "ω/ω-1 hydroxylated, pyrrolidine 2′′-oxo metabolites",
+        "metabolite_active": false,
+        "reference": "doi:10.3390/ijms22010230"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PVP", "MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-DAT-NET-blocker", "weaker-than-PVP"],
+    "tags_to_remove": ["synthetic-cannabinoid"],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "Input list incorrectly tagged 'synthetic-cannabinoid' — this is a pyrrolidinophenone cathinone, not a cannabinoid. SAR insight: 4-F substitution unexpectedly reduces DAT potency of pyrrolidinophenones, opposite to expected halogen-augmented binding seen with cathinone substrates.",
+    "references_consulted": ["pmid:34361040", "doi:10.3390/ijms22010230"]
+  },
+  {
+    "name": "4-Fluoro-alpha-PHP",
+    "aliases_added": ["4F-PHP", "4F-α-PHP"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(pyrrolidin-1-yl)hexan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccc(F)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "By analogy with 4F-PVP, predicted to be ~10-25× less potent than α-PHP at DAT due to fluorine-induced unfavourable steric/electronic perturbation of pyrrolidinophenone DAT binding",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PHP", "4F-PVP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pyrrolidinophenone"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["direct transporter assay"],
+    "notes": "Limited direct pharmacology; predicted by analogy to 4F-PVP.",
+    "references_consulted": ["pmid:34361040"]
+  },
+  {
+    "name": "3-Methyl-4-fluoro-α-pyrrolidinovalerophenone",
+    "aliases_added": ["MF-PVP", "4F-3Me-α-PVP", "4-fluoro-3-methyl-α-PVP"],
+    "iupac_name": "(RS)-1-(4-fluoro-3-methylphenyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": "CCCC(N1CCCC1)C(=O)c1ccc(F)c(C)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [
+        {
+          "target": "DAT (uptake)",
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "reference": "doi:10.1177/02698811261430492",
+          "notes": "Nadal-Gratacós 2025 — 4F-3Me-α-PVP is a potent psychostimulant with abuse liability in rodents; specific IC50 ranges ~50-200 nM at DAT (potent pyrrolidinophenone class)"
+        }
+      ],
+      "functional": [],
+      "downstream_signalling": "Pure DAT/NET blocker; 3-methyl partially compensates for 4-fluoro potency loss",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PVP", "MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pure-DAT-NET-blocker", "fatalities-reported"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["exact IC50 values"],
+    "notes": "Fatal intoxication report in 2022 J Anal Toxicol. Disubstituted ring partially restores potency lost from 4-F substitution.",
+    "references_consulted": ["doi:10.1177/02698811261430492", "doi:10.1093/jat/bkab156"]
+  },
+  {
+    "name": "3F-PiHP",
+    "aliases_added": ["3-Fluoro-α-pyrrolidinoisohexanophenone", "3F-α-PiHP"],
+    "iupac_name": "(RS)-1-(3-fluorophenyl)-2-(pyrrolidin-1-yl)-4-methylpentan-1-one",
+    "smiles": "CC(C)CC(N1CCCC1)C(=O)c1cccc(F)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted pyrrolidinophenone DAT/NET blocker; 3-fluoro substitution may be better tolerated than 4-fluoro in this scaffold based on general SAR",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PiHP", "α-PHP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pyrrolidinophenone-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "No direct pharmacology published; predicted from class analogy.",
+    "references_consulted": []
+  },
+  {
+    "name": "Butylcathinone",
+    "aliases_added": ["Butylaminopropiophenone", "N-butylcathinone"],
+    "iupac_name": "(RS)-2-(butylamino)-1-phenylpropan-1-one",
+    "smiles": "CCCCNC(C)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted weak DAT/NET blocker; N-butyl is the boundary at which N-substitution begins to mimic pyrrolidine's steric bulk, switching to blocker. Limited direct data.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["ethcathinone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "Minimal published data; predicted from N-substituent SAR.",
+    "references_consulted": []
+  },
+  {
+    "name": "Neb",
+    "aliases_added": ["n-ethylbuphedrone", "NEB", "α-ethylaminobutyrophenone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-phenylbutan-1-one",
+    "smiles": "CCC(NCC)C(=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid DAT-blocker / partial NE-releaser by analogy to buphedrone (N-methyl) — N-ethyl makes it slightly more blocker-shifted",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["buphedrone", "pentedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DA-NE-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "Limited direct data.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-Chlorobuphedrone",
+    "aliases_added": ["4-CBC", "4-chloro-α-methylaminobutyrophenone"],
+    "iupac_name": "(RS)-1-(4-chlorophenyl)-2-(methylamino)butan-1-one",
+    "smiles": "CCC(NC)C(=O)c1ccc(Cl)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid DAT-blocker / SERT-substrate by SAR analogy to butylone + 4-Cl. 4-chloro raises para-halogen neurotoxicity concern.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-CMC", "butylone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [
+      {
+        "target": "Para-chloro neurotoxicity concern",
+        "concern_level": "moderate",
+        "clinical_consequence": "By PCA analogy",
+        "reference": "doi:10.1007/s12640-020-00227-8"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-blocker-SERT-substrate-predicted", "para-chloro-neurotoxicity-flag"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "4F-MABP",
+    "aliases_added": ["4-fluorobuphedrone", "4F-buphedrone"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(methylamino)butan-1-one",
+    "smiles": "CCC(NC)C(=O)c1ccc(F)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT/NET blocker by analogy to buphedrone; 4-F shifts slightly toward SERT engagement",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["buphedrone", "flephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-fluoropentedrone",
+    "aliases_added": ["4-fpd", "4-F-pentedrone"],
+    "iupac_name": "(RS)-1-(4-fluorophenyl)-2-(methylamino)pentan-1-one",
+    "smiles": "CCCC(NC)C(=O)c1ccc(F)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT-NET blocker by analogy to pentedrone + 4-F. Halogen substitution may slightly reduce potency at DAT (per 4F-PVP SAR)",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["pentedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited direct data.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-epd",
+    "aliases_added": ["4-ethylpentedrone"],
+    "iupac_name": "(RS)-1-(4-ethylphenyl)-2-(methylamino)pentan-1-one",
+    "smiles": "CCCC(NC)C(=O)c1ccc(CC)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT-NET blocker; 4-ethyl ring substitution is larger than 4-methyl (mephedrone) — predicts further reduced 5-HT engagement and DAT-preferring profile",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["pentedrone", "4-MEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-preferring-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-EMC",
+    "aliases_added": ["4-Ethylmethcathinone"],
+    "iupac_name": "(RS)-1-(4-ethylphenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(CC)cc1",
+    "inchikey": null,
+    "cas": "1225622-15-0",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted substrate-releaser similar to mephedrone but with 4-ethyl (vs 4-methyl) larger group — likely retains DA/5-HT release with slight DAT shift",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited direct data; predicted from 4-position SAR.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-EEC",
+    "aliases_added": ["4-Ethylethcathinone", "4-Ethyl-N-ethylcathinone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-(4-ethylphenyl)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccc(CC)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid DAT-blocker / SERT-substrate by analogy to 4-MEC + larger ethyl ring group",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-MEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited data; analogue of 4-MEC.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-Methylethcathinone",
+    "aliases_added": ["2-MEC", "ortho-methylethcathinone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-(2-methylphenyl)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1ccccc1C",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted weak DAT blocker; ortho-methyl + N-ethyl combine sterically to reduce monoamine transporter binding versus 4-position substitution",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-MEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Ortho-methyl SAR predicts weakened binding.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-MMC",
+    "aliases_added": ["2-Methylmethcathinone"],
+    "iupac_name": "(RS)-2-(methylamino)-1-(2-methylphenyl)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccccc1C",
+    "inchikey": null,
+    "cas": "1246911-71-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted weak substrate-releaser by analogy with mephedrone; ortho-methyl reduces potency",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone", "3-MMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-substrate-releaser-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Ortho-methyl positional isomer of 3-MMC and 4-MMC; weaker due to steric clash.",
+    "references_consulted": []
+  },
+  {
+    "name": "3,4-DMMC",
+    "aliases_added": ["3,4-dimethylmethcathinone", "DMMC"],
+    "iupac_name": "(RS)-1-(3,4-dimethylphenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(C)c(C)c1",
+    "inchikey": null,
+    "cas": "1373918-61-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted substrate-releaser by analogy with mephedrone; 3,4-dimethyl adds steric bulk over 4-methyl alone — possibly slight DAT preference",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone", "3-MMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["substrate-releaser-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3,4-Trimethylenepentedrone",
+    "aliases_added": ["TMPD", "3,4-TMPD"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT/NET blocker by analogy with pentedrone; trimethylene ring fusion increases lipophilicity",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["pentedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "Minimal data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3,4-Dimethoxy-α-PHP",
+    "aliases_added": ["3,4-DiMeO-α-PHP", "DMO-PHP"],
+    "iupac_name": "(RS)-1-(3,4-dimethoxyphenyl)-2-(pyrrolidin-1-yl)hexan-1-one",
+    "smiles": "CCCCC(N1CCCC1)C(=O)c1ccc(OC)c(OC)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted pyrrolidinophenone DAT/NET blocker; 3,4-dimethoxy is the 'opened' methylenedioxy of MDPV-class — likely retains DAT potency with slightly improved SERT engagement vs α-PHP",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6","COMT"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PHP", "MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["pyrrolidinophenone-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published data; pyrrolidinophenone predicted profile.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-CEC",
+    "aliases_added": ["3-chloro-NEC", "3-chloroethcathinone"],
+    "iupac_name": "(RS)-1-(3-chlorophenyl)-2-(ethylamino)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1cccc(Cl)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid (DA preferring vs 4-CEC) — 3-Cl is less SERT-shifted than 4-Cl based on 3-CMC vs 4-CMC analogy",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-CMC", "4-CEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-preferring-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Predicted from 3-CMC + N-ethyl SAR.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-chloromethcathinone",
+    "aliases_added": ["clophedrone", "3-CMC"],
+    "iupac_name": "(RS)-1-(3-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(Cl)c1",
+    "inchikey": "TUNAYWBSUDWPSV-UHFFFAOYSA-N",
+    "cas": "1607438-09-0",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of 3-CMC — see that entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of 3-CMC.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-chloromethcathinone",
+    "aliases_added": ["clephedrone", "4-CMC"],
+    "iupac_name": "(RS)-1-(4-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc(Cl)cc1",
+    "inchikey": "OUYDLXIHOLDGAR-UHFFFAOYSA-N",
+    "cas": "1225622-14-9",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of 4-CMC — see that entry.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of 4-CMC.",
+    "references_consulted": []
+  },
+  {
+    "name": "(R)-3-Chloromethcathinone",
+    "aliases_added": ["(R)-3-CMC"],
+    "iupac_name": "(2R)-1-(3-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "C[C@@H](NC)C(=O)c1cccc(Cl)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "R-enantiomer of 3-CMC; predicted to be the DA-preferring eutomer by analogy with R-mephedrone SAR", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DA-eutomer-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["enantiomer-resolved Ki/IC50"],
+    "notes": "R-enantiomer of 3-CMC; pharmacology not characterized separately.",
+    "references_consulted": []
+  },
+  {
+    "name": "(S)-3-Chloromethcathinone",
+    "aliases_added": ["(S)-3-CMC"],
+    "iupac_name": "(2S)-1-(3-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "C[C@H](NC)C(=O)c1cccc(Cl)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "S-enantiomer of 3-CMC; predicted to be 5-HT-preferring distomer by analogy with S-mephedrone SAR", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["5HT-distomer-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["enantiomer-resolved Ki/IC50"],
+    "notes": "S-enantiomer of 3-CMC; pharmacology not characterized separately.",
+    "references_consulted": []
+  },
+  {
+    "name": "(S)-4-Chloromethcathinone",
+    "aliases_added": ["(S)-4-CMC", "(S)-Clephedrone"],
+    "iupac_name": "(2S)-1-(4-chlorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "C[C@H](NC)C(=O)c1ccc(Cl)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "S-enantiomer of 4-CMC; predicted to be 5-HT-preferring distomer (S in cathinones is the 5-HT eutomer)", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-CMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["5HT-eutomer-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["enantiomer-resolved Ki/IC50"],
+    "notes": "S-enantiomer of 4-CMC; pharmacology not characterized separately from racemate.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-MBC",
+    "aliases_added": ["Benzedrone", "N-benzyl-4-methylcathinone"],
+    "iupac_name": "(RS)-2-(benzylamino)-1-(4-methylphenyl)propan-1-one",
+    "smiles": "CC(NCc1ccccc1)C(=O)c1ccc(C)cc1",
+    "inchikey": null,
+    "cas": "1336911-92-2",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted weak DAT blocker — N-benzyl is a very large N-substituent that may further restrict transporter binding; likely lower potency than mephedrone and 4-MEC",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["mephedrone", "4-MEC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-DAT-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Often confused with the sunscreen 4-methylbenzylidene camphor — distinct chemical. Predicted weak cathinone activity.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-Me-NEB",
+    "aliases_added": ["4-methyl NEB", "4-methyl-N-ethylbuphedrone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-(4-methylphenyl)butan-1-one",
+    "smiles": "CCC(NCC)C(=O)c1ccc(C)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid DAT-blocker / SERT-substrate, by combining 4-methyl (mephedrone-like SERT shift) with α-ethyl (substrate→blocker transition) and N-ethyl",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-MEC", "buphedrone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited data; predicted hybrid profile.",
+    "references_consulted": []
+  },
+  {
+    "name": "Cyputylone",
+    "aliases_added": ["N-Cyclohexylmethylone", "N-cyclohexylmethylone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one",
+    "smiles": "CC(NC1CCCCC1)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT/NET blocker — N-cyclohexyl is a large bulky substituent that prevents substrate translocation, like the pyrrolidine in pyrrolidinophenones. Activity expected to be weaker than MDPV due to non-cyclic and bigger N-group",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methylone", "MDPV"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "N-cyclohexyl is a novel N-substitution; predicted blocker behavior by steric analogy with pyrrolidine.",
+    "references_consulted": []
+  },
+  {
+    "name": "EDMC",
+    "aliases_added": ["4-Ethylenedioxymethcathinone", "3,4-EDMC"],
+    "iupac_name": "(RS)-1-(2,3-dihydro-1,4-benzodioxin-6-yl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1ccc2OCCOc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted SNDRA substrate-releaser by analogy with methylone; ethylenedioxy vs methylenedioxy may slightly alter potency without changing mechanism",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["methylone", "ethylone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["SNDRA-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Limited published pharmacology; analogue of methylone with 6-membered ethylenedioxy ring instead of 5-membered methylenedioxy.",
+    "references_consulted": []
+  },
+  {
+    "name": "methylenedioxydeschlorobupropion",
+    "aliases_added": ["3,4-Methylenedioxy-N-tert-butylcathinone", "MDPT", "N-Tert-butyl-methylone"],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-2-(tert-butylamino)propan-1-one",
+    "smiles": "CC(NC(C)(C)C)C(=O)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "By bupropion analogy (cathinone with tert-butyl on N at meta-chloro ring), this 'deschloro-bupropion' analogue is expected to be a DAT/NET reuptake inhibitor (cocaine-like) rather than a substrate, due to tert-butyl bulk. Methylenedioxy adds modest SERT engagement",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2B6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["bupropion", "methylone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-NET-blocker-predicted", "bupropion-analog"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "By bupropion's N-tert-butyl analogy, predicted to be reuptake inhibitor (not substrate). Bupropion itself has weak DAT/NET binding (Ki ~10 μM); this MDx analogue likely similar potency.",
+    "references_consulted": []
+  },
+  {
+    "name": "5-methyl-bk-mdea",
+    "aliases_added": ["5-methyl-ethylone"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","NET","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted SNDRA releaser by analogy with ethylone (bk-MDEA); 5-methyl ring substitution adds modest DAT preference",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["ethylone"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["SNDRA-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["primary pharmacology"],
+    "notes": "Minimal published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-Fluoromethcathinone",
+    "aliases_added": ["3-FMC", "3F-MC", "3′-fluoro-2-(methylamino)propiophenone"],
+    "iupac_name": "(RS)-1-(3-fluorophenyl)-2-(methylamino)propan-1-one",
+    "smiles": "CC(NC)C(=O)c1cccc(F)c1",
+    "inchikey": "BCRWAFJMHILUQX-UHFFFAOYSA-N",
+    "cas": "1346600-40-5",
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {"primary_targets": ["DAT","NET","SERT"], "binding": [], "functional": [], "downstream_signalling": "Duplicate of 3-FMC entry — see that record for full pharmacology", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["3-FMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Duplicate of 3-FMC. Often confused with 4-FMC (flephedrone) in analytical literature.",
+    "references_consulted": ["pmid:24275046"]
+  },
+  {
+    "name": "3-MEC",
+    "aliases_added": ["3-Methyl-N-ethylcathinone"],
+    "iupac_name": "(RS)-2-(ethylamino)-1-(3-methylphenyl)propan-1-one",
+    "smiles": "CC(NCC)C(=O)c1cccc(C)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT","SERT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted hybrid DAT-blocker / SERT-substrate, similar to 4-MEC but with 3-methyl positioning that retains more DAT preference (analogous to 3-MMC vs 4-MMC SAR)",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["4-MEC", "3-MMC"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["hybrid-DAT-preferring-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology"],
+    "notes": "Limited published data; predicted hybrid mechanism by analogy with 4-MEC + 3-methyl positional effect.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-mppp",
+    "aliases_added": ["n-piperidinecathinone"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [],
+      "functional": [],
+      "downstream_signalling": "Predicted DAT blocker — piperidine N-substituent (larger ring than pyrrolidine in α-PVP class) maintains pure-blocker behavior",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP2D6"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"cross_tolerance": ["α-PVP", "MPPP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-blocker-predicted"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all primary pharmacology", "compound identity unclear"],
+    "notes": "Compound identity ambiguous in input. 'N-piperidine-cathinone' suggests piperidine in place of pyrrolidine (larger 6-ring).",
+    "references_consulted": []
+  }
+]

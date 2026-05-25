@@ -1,0 +1,1062 @@
+{
+  "slug": "benzos-and-z-drugs",
+  "name": "Benzodiazepines (classical + designer) and Z-drugs",
+  "count": 73,
+  "substances": [
+    {
+      "name": "3-Hydroxyphenazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "designer-benzo",
+        "metabolite-as-drug"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-oh-phenazepam",
+      "aliases": [
+        "3-ho-p",
+        "3-ho-phenazepam",
+        "3-hydroxyphenazepam",
+        "3-oh-p",
+        "3ohphenazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4'-chlorodiazepam",
+      "aliases": [
+        "4′-Chlorodiazepam",
+        "Chlorodiazepam (Ro5-4864; not to be confused with other similarly named benzodiazepines)",
+        "4'-Chlordiazepam",
+        "Ro5-4864",
+        "Ro 5-4864"
+      ],
+      "category": "atypical benzodiazepine / TSPO (18 kDa translocator protein) agonist with weak or absent classical GABA_A activity",
+      "tags": [],
+      "chemical_class": "1,4-benzodiazepine (diazepam analogue)"
+    },
+    {
+      "name": "4-chlorodiazepam",
+      "aliases": [
+        "4'-chlorodiazepam",
+        "ro5-4864"
+      ],
+      "category": "Other",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Adinazolam",
+      "aliases": [
+        "deracyn"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative",
+        "triazolobenzodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Alprazolam",
+      "aliases": [
+        "ksalol",
+        "niravam",
+        "prazolam",
+        "xanax"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Avizafone",
+      "aliases": [
+        "RO 03-7355",
+        "RO-03-7355/000",
+        "Ro03-7355",
+        "Avizafone dihydrochloride",
+        "Pro-diazepam"
+      ],
+      "category": "Sedative-hypnotic / anxiolytic (benzodiazepine)",
+      "tags": [],
+      "chemical_class": "Peptidic benzodiazepine prodrug"
+    },
+    {
+      "name": "Bentazepam",
+      "aliases": [
+        "thiadipone",
+        "tiadipona"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bromazepam",
+      "aliases": [
+        "brazepam",
+        "lectopam",
+        "lexilium",
+        "lexotan",
+        "lexotanil"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bromazolam",
+      "aliases": [
+        "xli-268"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "fatalities-reported",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative",
+        "triazolobenzodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Brotizolam",
+      "aliases": [
+        "lendormin"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Chlordiazepoxide",
+      "aliases": [
+        "Librium",
+        "Clopoxide",
+        "Chlordiazepoxidum",
+        "CDP",
+        "Chloradiazepoxide"
+      ],
+      "category": "Depressant, Anxiolytic, Sedative, Hypnotic",
+      "tags": [],
+      "chemical_class": "Benzodiazepine"
+    },
+    {
+      "name": "Cinolazepam",
+      "aliases": [
+        "geroderm"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clobazam",
+      "aliases": [
+        "frisium"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clobromazolam",
+      "aliases": [
+        "DM-II-90",
+        "DM-ii-90",
+        "Phenazolam"
+      ],
+      "category": "GABA-A positive allosteric modulator (benzodiazepine)",
+      "tags": [],
+      "chemical_class": "Triazolobenzodiazepine (benzodiazepine derivative)"
+    },
+    {
+      "name": "Clonazepam",
+      "aliases": [
+        "klonopin",
+        "kpin"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clonazolam",
+      "aliases": [
+        "Clam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "common",
+        "designer-benzo",
+        "extreme-potency",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "triazolobenzodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cloniprazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clorazepate",
+      "aliases": [
+        "novo-clopate",
+        "tranxene",
+        "tranzene"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clotiazepam",
+      "aliases": [
+        "clozan",
+        "distensan",
+        "rize",
+        "rizen",
+        "trecalmo",
+        "veratran"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cloxazolam",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Delorazepam",
+      "aliases": [
+        "nordiclazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Deschloroetizolam",
+      "aliases": [
+        "etizolam-2"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative",
+        "thienodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Desmethylflunitrazepam",
+      "aliases": [
+        "fonazepam",
+        "norflunitrazepam",
+        "ro05-4435"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Diazepam",
+      "aliases": [
+        "valium"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Diclazepam",
+      "aliases": [
+        "2'-Chloro-diazepam",
+        "Chlorodiazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "long-half-life"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Estazolam",
+      "aliases": [
+        "elprazolam",
+        "eurodin",
+        "prosom"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Eszopiclone",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etizolam",
+      "aliases": [
+        "depas",
+        "Etilaam",
+        "etiz",
+        "Etizest",
+        "Etizex",
+        "etizola",
+        "inxity",
+        "lamet",
+        "sedekopan",
+        "towa",
+        "zoly"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "prescription-some-countries",
+        "research-chemical",
+        "thienodiazepine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flualprazolam",
+      "aliases": [
+        "Flualp"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "fatalities-reported",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative",
+        "triazolobenzodiazepine",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flubromazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "long-half-life",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flubromazolam",
+      "aliases": [
+        "f-lam",
+        "FBZ"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "extreme-potency",
+        "fatalities-reported",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "triazolobenzodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluclotizolam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluetizolam",
+      "aliases": [
+        "Fluetizolam (IUPAC): 4-ethyl-7-(2-fluorophenyl)-13-methyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^2,6]trideca-2(6),4,7,10,12-pentaene",
+        "Flu-E (colloquial)"
+      ],
+      "category": "Sedative",
+      "tags": [],
+      "chemical_class": "Thienotriazolodiazepine"
+    },
+    {
+      "name": "Flunitrazepam",
+      "aliases": [
+        "rohypnol",
+        "roofies"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flunitrazolam",
+      "aliases": [
+        "fln"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flurazepam",
+      "aliases": [
+        "dalmane"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flutazolam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flutoprazepam",
+      "aliases": [
+        "restas"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Gidazepam",
+      "aliases": [
+        "Desalkylgidazepam (active metabolite; aka bromonordiazepam)",
+        "Gidazepam monohydrate",
+        "Bromonordiazepam (active metabolite)",
+        "Hidazepam",
+        "Gidazepam IC",
+        "Hydazepam"
+      ],
+      "category": "Depressant, Anxiolytic",
+      "tags": [],
+      "chemical_class": "Benzodiazepine"
+    },
+    {
+      "name": "Halazepam",
+      "aliases": [
+        "paxipam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ketazolam",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Librium",
+      "aliases": [
+        "chlordiazepoxide"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Loprazolam",
+      "aliases": [
+        "dormonoct"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lorazepam",
+      "aliases": [
+        "ativan"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lormetazepam",
+      "aliases": [
+        "noctamid"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Meclonazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Medazepam",
+      "aliases": [
+        "azepamid",
+        "mezapam",
+        "nobrium",
+        "raporan",
+        "rudotel",
+        "talis"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Metaclazepam",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Metizolam",
+      "aliases": [
+        "desmethyletizolam",
+        "metiz"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mexazolam",
+      "aliases": [
+        "melex",
+        "sedoxil"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Midazolam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nifoxipam",
+      "aliases": [
+        "3-Hydroxydesmethylflunitrazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "metabolite-as-drug",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nimetazepam",
+      "aliases": [
+        "erimin"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nitemazepam",
+      "aliases": [
+        "3-hydroxynimetazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nitrazolam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nordazepam",
+      "aliases": [
+        "desmethyldiazepam",
+        "nordaz",
+        "nordiazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Norflurazepam",
+      "aliases": [
+        "Desmethylflurazepam",
+        "n-desalkylflurazepam"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "metabolite-as-drug",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Oxazepam",
+      "aliases": [
+        "serax"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Oxazolam",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenazepam",
+      "aliases": [
+        "Bonsai supersleep",
+        "Bromdihydrochlorphenylbenzodiazepine"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "fatalities-reported",
+        "GABAA-PAM",
+        "habit-forming",
+        "long-half-life",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenazolam",
+      "aliases": [
+        "8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine",
+        "RC/triazolobenzodiazepine",
+        "Clobromazolam (common vendor synonym; community treats as the same compound)"
+      ],
+      "category": "Depressant — GABAA positive-allosteric modulator",
+      "tags": [],
+      "chemical_class": "Triazolobenzodiazepine (8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine)"
+    },
+    {
+      "name": "Prazepam",
+      "aliases": [
+        "centrac",
+        "centrax",
+        "demetrin",
+        "lysanxia",
+        "pozapam",
+        "prasepine",
+        "prazene",
+        "reapam",
+        "trepidan"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pyrazolam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "designer-benzo",
+        "GABAA-PAM",
+        "habit-forming",
+        "research-chemical",
+        "triazolobenzodiazepine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Quazepam",
+      "aliases": [
+        "doral"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Rilmazafone",
+      "aliases": [
+        "rhythmy"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sonata",
+      "aliases": [
+        "zaleplon"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Temazepam",
+      "aliases": [
+        "restoril"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tetrazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Triazolam",
+      "aliases": [
+        "halcion"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Zolazepam",
+      "aliases": [],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Zolpidem",
+      "aliases": [
+        "ambien",
+        "stilnox"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Zopiclone",
+      "aliases": [
+        "imovane",
+        "zimovane"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "GABAA-PAM",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

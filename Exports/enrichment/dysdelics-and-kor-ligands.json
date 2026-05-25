@@ -1,0 +1,1424 @@
+[
+  {
+    "name": "Salvinorin A",
+    "aliases_added": ["Divinorin A"],
+    "iupac_name": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(furan-3-yl)-6a,10b-dimethyl-4,10-dioxododecahydro-2H-benzo[f]isochromene-7-carboxylate",
+    "smiles": "CC(=O)O[C@@H]1CC(=O)O[C@@H]2[C@@]1([C@H]3CC[C@@]([C@@H]([C@@]3(C(=O)C2)C)C(=O)OC)C4=COC=C4)C",
+    "inchikey": "MKPLKVHSHYCHOC-AHTXBMBWSA-N",
+    "cas": "83729-01-5",
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 16,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 transiently expressing human cloned KOR (cloned receptor)",
+          "radioligand_or_probe": "[3H]-bremazocine (competition); 48 secondary targets in PDSP screen showed no significant displacement",
+          "assay_buffer_notes": "Original Roth lab discovery paper; ~99% selective vs cloned human MOR and DOR (Ki >>10000 nM)",
+          "reference": "doi:10.1073/pnas.182234399",
+          "is_review": false,
+          "notes": "Roth et al. 2002 — the original discovery that Sal A is a high-affinity, highly selective KOR agonist. Ki at guinea-pig MOR and DOR >5000 nM."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 1.8,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "U69593",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
+          "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:19053825",
+          "is_review": false,
+          "notes": "Yan et al. 2009 (Biochemistry) — reports Ki = 1.8 ± 1.4 nM; MOR Ki ~21 ± 11 nM (some MOR activity). Same paper introduced RB-64."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 4,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing cloned rat KOR",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1021/jm049438q",
+          "is_review": false,
+          "notes": "Béguin et al. 2005 / pharmacophore series — Ki = 4 ± 1 nM at rat KOR. Used as reference for the C-2 SAR series."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Ki reported >5000 nM in Roth 2002; subsequent Yan 2009 reports Ki ~21 nM at human MOR — discrepancy may reflect receptor tagging/expression. Salvinorin A is widely treated as KOR-selective but residual MOR activity is documented.",
+          "reference": "doi:10.1073/pnas.182234399",
+          "is_review": false,
+          "notes": "Highly selective for KOR > MOR; the canonical claim is >300-fold KOR/MOR."
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "GTPγS binding",
+          "ec50_nm": 2.2,
+          "emax_pct": 100,
+          "reference_agonist": "U69593",
+          "species": "human",
+          "cell_system": "CHO expressing human KOR",
+          "reference": "doi:10.1021/jm049438q"
+        },
+        {
+          "target": "KOR",
+          "readout": "G-protein cAMP biosensor (split-luciferase Glowsensor)",
+          "ec50_nm": 4.73,
+          "emax_pct": 101,
+          "reference_agonist": "U69593 (set as 100%)",
+          "species": "mouse",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1124/jpet.114.216820"
+        },
+        {
+          "target": "KOR",
+          "readout": "β-arrestin-2 recruitment (Tango assay)",
+          "ec50_nm": 10.5,
+          "emax_pct": null,
+          "reference_agonist": "U69593",
+          "species": "mouse",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "KOR",
+          "pathways_compared": ["Gαi (cAMP)", "β-arrestin-2"],
+          "bias_factor_log": 0,
+          "bias_reference_compound": "Salvinorin A is used as the unbiased reference (bias factor = 1) in White/Roth 2015",
+          "interpretation": "Salvinorin A recruits both G-protein and β-arrestin pathways with roughly balanced potency; β-arrestin recruitment is implicated in the dysphoric/aversive component shared by all unbiased KOR agonists.",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "KOR Gαi/o coupling → adenylyl cyclase inhibition (decreased cAMP) and Gβγ-mediated GIRK channel activation and N/P/Q-type calcium channel inhibition. Salvinorin A also robustly activates β-arrestin-2 recruitment with subsequent JNK activation and KOR desensitisation/internalisation — these pathways underlie the rapid tachyphylaxis and dysphoric/aversive component characteristic of unbiased KOR agonism.",
+      "neuroimaging": [
+        {
+          "modality": "PET ([11C]-salvinorin A)",
+          "finding": "Baboon brain uptake peaked at ~40 s after IV bolus reaching 3.3% of injected dose; brain clearance half-life ~8 min — matches the <10-min behavioural duration after smoking in humans.",
+          "reference": "pmid:18434204"
+        },
+        {
+          "modality": "fMRI BOLD (12 healthy men, 15 µg/kg inhaled vapor)",
+          "finding": "Decreased within-network static functional connectivity, increased between-network connectivity, reduced dynamic FC, increased FC entropy. Most prominent effect: attenuation of default mode network (DMN) during first half of 20-min scan (F(1,11) = 9.40, p = 0.011; every subject showed DMN reduction, d = 1.50). Effect tracks the 1–10 min peak subjective intensity.",
+          "reference": "pmid:32869039"
+        },
+        {
+          "modality": "EEG (10 subjects, 8 and 12 mg inhaled)",
+          "finding": "Reduced resting EEG spectral power across most bands (Ranganathan/Krystal, Yale).",
+          "reference": "doi:10.1016/j.biopsych.2012.05.030"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "inhalation",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 18.8,
+          "tmax_min": 2,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": 6,
+          "subject_demographics": "Healthy adults, mean age 25, 4× received 21 µg/kg and 2× received 18 µg/kg vaporised via glass pipe",
+          "reference": "pmid:27780703",
+          "_note": "Johnson/Reissig — Cmax mean 18.8 ng/mL at 2 min; subjective intensity correlated with plasma level r ≈ 0.93 across subjects; prolactin rose from 5 min peaking at 15 min, cortisol inconsistent. Effects essentially gone by 20 min, plasma near baseline by 90 min."
+        },
+        {
+          "route": "sublingual",
+          "bioavailability_pct": 0,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 4,
+          "subject_n": 8,
+          "subject_demographics": "Healthy volunteers, sublingual DMSO/PEG-400 vehicle",
+          "reference": "pmid:33546518",
+          "_note": "Up to 4 mg sublingual produced no psychoactive effects — very low bioavailability via the DMSO/PEG-400 sublingual vehicle (review citing Ranganathan).  Buccal absorption of leaf-extract juice held >10 min in mouth is the traditional Mazatec route."
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": 0,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": "pmid:25404862",
+          "_note": "Effectively zero oral bioavailability — rapid GI hydrolysis of C2 acetate to inactive salvinorin B; P-gp efflux at BBB."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "Subject-rated drug strength (0-10)",
+          "concentration_unit": "ng/mL",
+          "threshold": null,
+          "peak_effect": 18,
+          "reference": "pmid:27780703"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "Plasma/blood carboxylesterase",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "Salvinorin B (2-deacetyl Sal A)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:19462483"
+      },
+      {
+        "enzyme": "CYP1A1",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxylated metabolite(s)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19462483"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxylated metabolite(s)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19462483"
+      },
+      {
+        "enzyme": "CYP2C18",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxylated metabolite(s)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19462483"
+      },
+      {
+        "enzyme": "CYP2E1",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxylated metabolite(s)",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19462483"
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "salvinorin A glucuronide",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:19462483"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "CYP2D6 contributes ~15% of in-vitro metabolism — theoretically PMs could see slightly higher exposure but the dominant clearance pathway is plasma esterase hydrolysis (independent of CYP), so PM/UM status is unlikely to change clinical PK meaningfully.",
+      "reference": "pmid:19462483"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Acute desensitisation of KOR within minutes of salvinorin A exposure in HEK293 (β-arrestin-dependent); rapid tachyphylaxis to subjective effects when redosing within tens of minutes is reported anecdotally but not formally quantified in humans.",
+      "cross_tolerance": ["U50488", "U69593", "ketazocine", "other KOR agonists"],
+      "withdrawal_syndrome": "No physical withdrawal syndrome described; KOR agonists produce dysphoria/anhedonia acutely rather than dependence on cessation.",
+      "reference": "pmid:25320048"
+    },
+    "off_targets": [
+      {
+        "target": "D2 dopamine receptor",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "A 2008 report suggested partial agonism at D2 (Ki 5-10 nM, 40-60% intrinsic activity); subsequent work has not consistently replicated this and the contribution to in-vivo effects is unclear.",
+        "reference": "pmid:19391150"
+      },
+      {
+        "target": "5-HT2A",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "No appreciable binding (PDSP screen, Roth 2002) — mechanistically distinguishes Sal A from classical psychedelics.",
+        "reference": "doi:10.1073/pnas.182234399"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["KOR-selective", "neoclerodane-diterpene", "non-nitrogenous-opioid", "balanced-agonist-KOR", "rapid-onset", "ultra-short-duration", "dysdelic", "DMN-attenuating"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human Vd, CL, AUC, protein binding", "Formal CYP fractional clearance %", "6-hydroxynorsalvinorin metabolite — could not confirm primary literature; salvinorin B is the dominant documented metabolite"],
+    "notes": "The only non-nitrogenous opioid agonist known. Smoked: onset <30 s, peak 1–2 min, gone by 15–20 min. Brain Cmax 40 s after IV in baboons, brain t½ ~8 min — explains the short duration despite ~75-min plasma half-life in rodents. Sublingual/buccal needs vehicle (DMSO/PEG); oral inactive (esterase hydrolysis). Phenomenology is mechanistically third-kind: no 5-HT2A, no NMDA — pure KOR agonism with β-arrestin-driven dissociation/dysphoria.",
+    "references_consulted": [
+      "doi:10.1073/pnas.182234399",
+      "doi:10.1021/jm049438q",
+      "pmid:18434204",
+      "pmid:19462483",
+      "pmid:27780703",
+      "pmid:32869039",
+      "doi:10.1016/j.biopsych.2012.05.030",
+      "pmid:25320048",
+      "doi:10.1124/jpet.114.216820",
+      "pmid:33546518",
+      "pmid:25404862",
+      "pmid:19053825"
+    ]
+  },
+
+  {
+    "name": "Salvinorin B",
+    "aliases_added": [],
+    "iupac_name": "methyl (2S,4aR,6aR,7R,9S,10aS,10bR)-2-(furan-3-yl)-9-hydroxy-6a,10b-dimethyl-4,10-dioxododecahydro-2H-benzo[f]isochromene-7-carboxylate",
+    "smiles": "O[C@@H]1CC(=O)O[C@@H]2[C@@]1([C@H]3CC[C@@]([C@@H]([C@@]3(C(=O)C2)C)C(=O)OC)C4=COC=C4)C",
+    "inchikey": null,
+    "cas": "92545-30-3",
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (very weak)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "various — see notes",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Multiple reports place Sal B Ki >1000 nM (≈250-fold weaker than Sal A); some report values in the 65–418 nM range cited for divinatorin D/E and Sal B together (reviews). Generally considered the inactive plasma metabolite of Sal A.",
+          "reference": "doi:10.1021/jm049438q",
+          "is_review": false,
+          "notes": "Loss of the C-2 acetoxy → essentially loss of KOR affinity. Sal B is the principal C-2-deacetyl metabolite of Sal A produced by plasma carboxylesterase, and is behaviourally inactive in animals."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Negligible KOR engagement — its biological role is as the inactive principal metabolite of salvinorin A and as a synthetic precursor to the C-2 ether analogues (MOM-Sal B, EOM-Sal B, mesyl Sal B).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["inactive-metabolite", "synthetic-precursor"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Precise Ki value at human KOR — most papers simply report >1 µM"],
+    "notes": "C-2 hydroxyl (rather than acetoxy) — confirms the C-2 acyl group as critical for KOR pharmacophore. Useful only as a synthetic scaffold for C-2 modified analogues.",
+    "references_consulted": ["doi:10.1021/jm049438q", "pmid:19462483"]
+  },
+
+  {
+    "name": "Salvinorin C",
+    "aliases_added": ["2-acetoxysalvinorin A (sometimes used incorrectly)"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": "474598-91-5",
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (weak)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 1022,
+          "ki_ci_nm": [760, 1284],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing cloned rat KOR",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Ki = 1022 ± 262 nM — ~250-fold weaker than Sal A",
+          "reference": "doi:10.1021/jm049438q",
+          "is_review": false,
+          "notes": "Béguin et al. 2005 — Sal C natural extra acetoxy at C-1 (1α-acetoxy) reduces affinity significantly, supporting the Sal A pharmacophore hypothesis that C-1 substitution disfavours KOR binding."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Minimal in vivo activity reported.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-KOR-agonist"],
+    "tags_to_remove": ["kappa-opioid-agonist"],
+    "confidence": "medium",
+    "data_gaps_remaining": ["Human KOR Ki", "Any human in vivo data"],
+    "notes": "Natural minor constituent of S. divinorum. ~250× weaker at KOR than Sal A. No reported human psychoactivity.",
+    "references_consulted": ["doi:10.1021/jm049438q"]
+  },
+
+  {
+    "name": "Salvinorin D",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (very weak)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 10000,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing cloned rat KOR",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Ki >10,000 nM",
+          "reference": "doi:10.1021/jm049438q",
+          "is_review": false,
+          "notes": "Munro/Rizzacasa salvinorins D-F paper + Béguin pharmacophore series — Sal D, E, F all > 10 µM, supporting the conclusion that the C-1 hydroxyl/acetoxy and the lactone modification cause dramatic loss of KOR affinity."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["inactive-or-near-inactive"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["Direct human KOR Ki", "Functional data"],
+    "notes": "Minor diterpene from S. divinorum; original isolation Munro et al. 2003 (J Nat Prod, doi:10.1021/np0205699).",
+    "references_consulted": ["doi:10.1021/jm049438q", "doi:10.1021/np0205699"]
+  },
+
+  {
+    "name": "Salvinorin E",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (very weak)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 10000,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing cloned rat KOR",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Ki >10,000 nM (Béguin 2005)",
+          "reference": "doi:10.1021/jm049438q",
+          "is_review": false,
+          "notes": "Bigham et al. 2005 reports Sal E + Sal G as much weaker than Sal A at human KOR; specific Ki not separately reported in available open-access excerpts. Reviews place Sal E in the 65–418 nM cluster together with Div D/E and Sal B — but Béguin's own data give >10 µM."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-KOR-agonist"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Definitive Ki value — literature reports a range from 65 nM to >10 µM depending on assay/source"],
+    "notes": "Minor S. divinorum diterpene; isolated by Bigham/Munro 2005 (doi:10.1016/j.bmc.2005.05.063 / pmid:16084728).",
+    "references_consulted": ["pmid:16084728", "doi:10.1021/jm049438q"]
+  },
+
+  {
+    "name": "Salvinorin F",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (weak/none)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "rat",
+          "tissue_or_cell": "HEK293 expressing cloned rat KOR",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Béguin pharmacophore series implies weak affinity (>1 µM) but specific Ki for Sal F not in extracted text",
+          "reference": "doi:10.1021/np0205699",
+          "is_review": false,
+          "notes": "Munro et al. 2003 (J Nat Prod) — Sal D, E, F isolation paper, all reported as much less active than Sal A."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["weak-KOR-agonist-or-inactive"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Quantitative Ki not extracted from primary paper", "Functional data", "All in vivo data"],
+    "notes": "Minor S. divinorum diterpene. Sal F differs from Sal A in the C-1 keto/C-2 acetoxy region; consistent with the SAR conclusion that Sal A is unusually well-fit to the KOR pharmacophore.",
+    "references_consulted": ["doi:10.1021/np0205699"]
+  },
+
+  {
+    "name": "Divinatorin A",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing cloned human KOR",
+          "radioligand_or_probe": "[3H]diprenorphine (Bigham/Munro paper)",
+          "assay_buffer_notes": "The original isolation paper (Bigham et al. 2003, J Nat Prod) reports negligible KOR affinity for Div A — substantially weaker than Sal A. Quantitative Ki not in extracted text.",
+          "reference": "doi:10.1021/np030313i",
+          "is_review": false,
+          "notes": "Divinatorin A is a hardwickiic-acid-related diterpene lacking the lactone of Sal A — explains its near-absence of KOR activity."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["KOR-inactive-or-near-inactive"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Definitive Ki", "Any functional data", "Human exposure data"],
+    "notes": "Minor neoclerodane from S. divinorum (Bigham/Munro/Rizzacasa, 2003, pmid:14510607). Pharmacological interest mostly comparative — confirms that the Sal A scaffold is uniquely active.",
+    "references_consulted": ["pmid:14510607", "doi:10.1021/np030313i"]
+  },
+
+  {
+    "name": "Divinatorin B",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human cloned KOR",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Same Bigham 2003 isolation paper — Div B reported with negligible KOR affinity vs Sal A. Quantitative Ki not in extracted text.",
+          "reference": "doi:10.1021/np030313i",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["KOR-inactive-or-near-inactive"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Definitive Ki", "Functional data"],
+    "notes": "Minor neoclerodane from S. divinorum. Pharmacology not meaningfully different from divinatorin A — both lack the active Sal A pharmacophore.",
+    "references_consulted": ["pmid:14510607"]
+  },
+
+  {
+    "name": "Salvinicin A",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR (partial agonist)"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human cloned KOR",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Quantitative Ki not in the extracted Org. Lett. abstract; isolation/SAR paper Harding/Tidgewell 2005 (Org Lett, doi:10.1021/ol0510522 / pmid:15987194) reports KOR partial agonism for Sal A.",
+          "reference": "pmid:15987194",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Reported as KOR partial agonist (Harding/Tidgewell/Prisinzano).",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["KOR-partial-agonist"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Numeric Ki and EC50/efficacy %", "Any in vivo data"],
+    "notes": "Naturally occurring 12,17-cyclised salvinorin derivative. Pharmacological interest is that the cyclisation reduces full-agonist efficacy → partial agonism at KOR.",
+    "references_consulted": ["pmid:15987194"]
+  },
+
+  {
+    "name": "Salvinicin B",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["MOR (weak antagonist)"],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human cloned MOR",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Harding/Tidgewell 2005 isolation paper reports Sal B (salvinicin) as a MOR antagonist; quantitative Ki not in the extracted abstract.",
+          "reference": "pmid:15987194",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR antagonist activity reported. Salvinicin B is notable because it inverts the opioid receptor selectivity of the salvinorin scaffold from KOR-agonist to MOR-antagonist, showing how plastic the scaffold is.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["MOR-antagonist"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Numeric Ki", "Functional EC50", "Any in vivo"],
+    "notes": "Naturally occurring cyclised salvinorin derivative. First non-nitrogenous diterpene to demonstrate MOR antagonism on the salvinorin scaffold.",
+    "references_consulted": ["pmid:15987194"]
+  },
+
+  {
+    "name": "Herkinorin",
+    "aliases_added": ["Salvinorin B benzoate"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": "857642-42-5",
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["MOR"],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 45,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO/HEK293 expressing human MOR (various)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Originally reported as a selective MOR agonist with µ/κ binding ratio of 0.13 (Harding et al. 2005, J Med Chem); μOR Ki ≈ 45 nM is the widely cited value (MedChem Express, vendor sheet citing primary literature).",
+          "reference": "doi:10.1021/jm050531m",
+          "is_review": false,
+          "notes": "First salvinorin-scaffold MOR-selective agonist. Selectivity reversed from Sal A by replacing C-2 acetate with a benzoate."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 90,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human cloned KOR",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "µ/κ ratio ≈ 0.13 implies KOR Ki ≈ 90 nM (back-calculated from MOR Ki 45 nM and reported ratio).",
+          "reference": "doi:10.1021/jm050531m",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "DOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293",
+          "radioligand_or_probe": "[3H]naltrindole",
+          "assay_buffer_notes": "Reported as having very little affinity for DOR",
+          "reference": "pmid:17090705",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "MAP kinase (ERK1/2)",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO",
+          "species": "mouse/human",
+          "cell_system": "HEK293 expressing HA-tagged mouse MOR",
+          "reference": "pmid:17090705"
+        },
+        {
+          "target": "MOR",
+          "readout": "β-arrestin-2 recruitment / receptor internalisation",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO",
+          "species": "mouse",
+          "cell_system": "HEK293 + GRK2 overexpression",
+          "reference": "pmid:17090705"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": ["G-protein (cAMP/MAPK)", "β-arrestin-2 recruitment / receptor internalisation"],
+          "bias_factor_log": null,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Originally reported as a strongly G-protein-biased MOR agonist (Groer et al. 2007 — induces MAPK signalling but does not recruit β-arrestin-2 or internalise MOR even with GRK2 overexpression). Later studies (Manglik/Shoichet group) reported similar β-arrestin recruitment to DAMGO depending on assay/cell-system — bias is contested. The original observation made herkinorin a landmark tool compound for MOR-biased agonism research.",
+          "reference": "pmid:17090705"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR Gαi/o coupling; G-protein-mediated MAPK activation; minimal β-arrestin-2 recruitment / internalisation in HEK293 + GRK2 assay (Groer 2007); contested by later studies.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "Carboxylesterase (plasma)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "Salvinorin B + benzoic acid",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:17090705"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Hypothesised to be slower than morphine — minimal internalisation should mean reduced tolerance development. Not formally measured in humans.",
+      "cross_tolerance": ["morphine", "DAMGO", "other MOR agonists"],
+      "withdrawal_syndrome": "Not characterised — no human data.",
+      "reference": "pmid:17090705"
+    },
+    "off_targets": [
+      {
+        "target": "KOR",
+        "ki_or_ic50_nm": 90,
+        "concern_level": "moderate",
+        "clinical_consequence": "Residual KOR activity (~2× weaker than MOR) means herkinorin is not pure MOR-selective.",
+        "reference": "doi:10.1021/jm050531m"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["MOR-selective-on-salvinorin-scaffold", "biased-agonist-G-protein-contested", "research-tool-compound"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["Human PK", "Definitive β-arrestin bias factor (literature contested)", "Functional EC50 numerics"],
+    "notes": "The exception in the salvinorin family — replacement of the C-2 acetate with benzoate inverts opioid receptor selectivity from KOR to MOR. Originally celebrated as the first G-protein-biased MOR agonist (Groer 2007), this bias claim has been challenged; remains a key reference compound in MOR-biased-agonism discussions.",
+    "references_consulted": ["pmid:17090705", "doi:10.1021/jm050531m"]
+  },
+
+  {
+    "name": "Mesyl Sal B",
+    "aliases_added": ["22-Methylsulfonyloxy-salvinorin B", "RB-64"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 0.59,
+          "ki_ci_nm": [0.38, 0.80],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U69593",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
+          "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
+          "assay_buffer_notes": "Ki = 0.59 ± 0.21 nM — described as the most potent KOR agonist identified to date (Yan et al. 2009, Biochemistry).",
+          "reference": "pmid:19053825",
+          "is_review": false,
+          "notes": "Note: literature commonly conflates 'Mesyl Sal B' (RB-64 / 22-methylsulfonyl Sal B) with 22-thiocyanatosalvinorin A; the latter is more rigorously what RB-64 refers to. They are closely related C-22 (oxymethylene-substituted Sal B) probes from the Roth lab. Treat the input compound name 'Mesyl Sal B / RB-64' as the irreversible covalent-tethered Roth probe."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 10000,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": "Ki >> 10,000 nM — no significant MOR/DOR activity",
+          "reference": "pmid:19053825",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "G-protein cAMP biosensor (split-luc Glowsensor)",
+          "ec50_nm": 5.22,
+          "emax_pct": 99,
+          "reference_agonist": "U69593",
+          "species": "mouse",
+          "cell_system": "HEK293 expressing mouse KOR",
+          "reference": "doi:10.1124/jpet.114.216820"
+        },
+        {
+          "target": "KOR",
+          "readout": "β-arrestin-2 recruitment (Tango)",
+          "ec50_nm": 1130,
+          "emax_pct": 126,
+          "reference_agonist": "U69593",
+          "species": "mouse",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "KOR",
+          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2 recruitment"],
+          "bias_factor_log": 1.98,
+          "bias_reference_compound": "Salvinorin A (bias factor 1)",
+          "interpretation": "Bias factor 96 toward G-protein over β-arrestin-2 (relative to Sal A as the unbiased reference). One of the most strongly G-protein-biased KOR agonists ever reported — the prototype for the 'Gi-biased KOR agonist = non-dysphoric analgesic' hypothesis. In vivo: analgesic without the locomotor incoordination seen with unbiased KOR agonists; retains aversion (so Gi bias does not fully eliminate dysphoria).",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Strong Gαi/o-mediated cAMP inhibition and GIRK activation with markedly reduced β-arrestin-2 recruitment and receptor internalisation. Irreversible (covalent) tethering to KOR via the C-22 reactive group → very long-duration KOR activation.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Reduced KOR internalisation compared to unbiased agonists — predicted to develop tolerance more slowly, though formal time-course not in literature.",
+      "cross_tolerance": ["salvinorin A", "U50488", "U69593"],
+      "withdrawal_syndrome": null,
+      "reference": "doi:10.1124/jpet.114.216820"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["biased-agonist-Gi", "irreversible-agonist", "covalent-probe", "longer-acting-than-Sal-A"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human exposure data (research compound)", "Numeric in-vivo durations in human"],
+    "notes": "Roth-lab covalent KOR probe (Yan et al. 2009). Reactive C-22 (thiocyanate/methanesulfonate) group tethers irreversibly to KOR → very high apparent potency and dramatically extended duration. Landmark proof-of-concept that strongly G-protein-biased KOR agonists can be analgesic with reduced motor side-effects, but still aversive in animals — so KOR-mediated dysphoria is not fully explained by β-arrestin-2 alone.",
+    "references_consulted": ["pmid:19053825", "doi:10.1124/jpet.114.216820"]
+  },
+
+  {
+    "name": "22-Thiocyanatosalvinorin A",
+    "aliases_added": ["RB-64"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 0.59,
+          "ki_ci_nm": [0.38, 0.80],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U69593",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 transiently expressing FLAG-His6-tagged human KOR",
+          "radioligand_or_probe": "[3H]U69,593 and [3H]diprenorphine",
+          "assay_buffer_notes": "Yan et al. 2009 (Biochemistry) — Ki 0.59 ± 0.21 nM, the most potent KOR agonist reported at time of publication.",
+          "reference": "pmid:19053825",
+          "is_review": false,
+          "notes": "Same RB-64 compound as the 'Mesyl Sal B' entry above (literature variably uses either name). The reactive thiocyanate at C-22 of Sal B forms a covalent bond with KOR."
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "G-protein cAMP",
+          "ec50_nm": 5.22,
+          "emax_pct": 99,
+          "reference_agonist": "U69593",
+          "species": "mouse",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1124/jpet.114.216820"
+        },
+        {
+          "target": "KOR",
+          "readout": "β-arrestin-2 (Tango)",
+          "ec50_nm": 1130,
+          "emax_pct": 126,
+          "reference_agonist": "U69593",
+          "species": "mouse",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "KOR",
+          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2"],
+          "bias_factor_log": 1.98,
+          "bias_reference_compound": "Salvinorin A (set as 1)",
+          "interpretation": "Bias factor 96. Sustained G-protein analgesia with markedly reduced β-arrestin-2 recruitment and reduced motor incoordination.",
+          "reference": "doi:10.1124/jpet.114.216820"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same as Mesyl Sal B entry — covalent irreversible KOR agonism; very long apparent duration.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["salvinorin A", "U50488"], "withdrawal_syndrome": null, "reference": "doi:10.1124/jpet.114.216820"},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["biased-agonist-Gi", "irreversible-covalent-agonist", "research-probe"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human exposure data — research compound only"],
+    "notes": "Almost certainly the same compound as the 'Mesyl Sal B / RB-64' input entry; the input list contains both names as separate entries. Treated identically here.",
+    "references_consulted": ["pmid:19053825", "doi:10.1124/jpet.114.216820"]
+  },
+
+  {
+    "name": "Salvinorin B ethoxymethyl ether",
+    "aliases_added": ["EOM-Sal B", "EOM-SalB", "Salvinorin B ethyl glycol ether"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 3.1,
+          "ki_ci_nm": [2.7, 3.5],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U69593",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO stably expressing human KOPr",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Ki = 3.1 ± 0.4 nM (Sal A in same assay: 7.4 ± 0.7 nM; β-THP-Sal B: 6.2 ± 0.4 nM).",
+          "reference": "doi:10.1007/s00213-017-4637-2",
+          "is_review": false,
+          "notes": "C-2 ethoxymethyl ether — replaces metabolically labile acetate, gives both higher affinity and dramatically extended duration."
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "[35S]GTPγS binding",
+          "ec50_nm": 0.65,
+          "emax_pct": null,
+          "reference_agonist": "U50488",
+          "species": "human",
+          "cell_system": "CHO expressing human KOPr",
+          "reference": "doi:10.1007/s00213-017-4637-2"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "KOR",
+          "pathways_compared": ["G-protein", "β-arrestin / JNK"],
+          "bias_factor_log": null,
+          "bias_reference_compound": "U50488 / Sal A",
+          "interpretation": "G-protein-biased in cellular assays. Substitution of C-2 ethoxymethyl ether for the C-2 acetyl group of Sal A reduces JNK stimulation, prevents desensitisation, and gives a monotonic antinociceptive dose-response. Associated with anti-cocaine efficacy with fewer KOR side effects (less anxiogenic/anhedonic).",
+          "reference": "doi:10.1007/s00213-017-4637-2"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "KOR Gαi/o (cAMP↓, GIRK↑) with reduced β-arrestin-2 recruitment and reduced JNK activation. In MS preclinical models (EAE) shows KOR-dependent disease modification — possibly via myelin-OL-progenitor effects.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Reduced acute desensitisation vs Sal A (Bruchas group — C-2 ether prevents the rapid JNK-mediated KOR desensitisation seen with Sal A).",
+      "cross_tolerance": ["salvinorin A", "MOM Sal B (SymBMS)", "U50488"],
+      "withdrawal_syndrome": null,
+      "reference": "doi:10.1007/s00213-017-4637-2"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["biased-agonist-G-protein", "long-duration", "anti-cocaine-preclinical", "EAE-active"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human PK", "Numeric β-arrestin bias factor"],
+    "notes": "C-2 ethoxymethyl ether of Sal B — the SAR archetype for trading metabolic lability for longer duration. Increased KOR affinity AND functionally G-protein-biased; among the more interesting therapeutic-candidate Sal analogues, with preclinical activity in cocaine seeking and EAE/MS remyelination.",
+    "references_consulted": ["doi:10.1007/s00213-017-4637-2", "doi:10.3389/fneur.2021.782190"]
+  },
+
+  {
+    "name": "2-Methoxymethyl-salvinorin B",
+    "aliases_added": ["MOM-Sal B", "SymBMS", "MOM-SalB"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 0.6,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U50488",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO expressing human KOR",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": "Ki ≈ 0.40 nM (Wang/Ma 2008) — described as ~3-fold higher affinity than U50488H or Sal A.",
+          "reference": "pmid:18089845",
+          "is_review": false,
+          "notes": "C-2 methoxymethyl ether — protects against esterase hydrolysis."
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "[35S]GTPγS binding",
+          "ec50_nm": 6,
+          "emax_pct": 100,
+          "reference_agonist": "U50488",
+          "species": "human",
+          "cell_system": "CHO expressing human KOR",
+          "reference": "pmid:18089845"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full-agonist KOR activation, ~5–7× more potent than U50488 / Sal A in GTPγS. Internalises and downregulates KOR similarly to Sal A and U50488 — so unlike EOM Sal B or RB-64, MOM Sal B is not biased; it's a balanced KOR full agonist with extended duration.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "Resistant to plasma esterase hydrolysis (vs Sal A acetate)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:18089845"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Similar internalisation/downregulation to Sal A and U50488 in vitro.",
+      "cross_tolerance": ["salvinorin A", "U50488", "EOM Sal B"],
+      "withdrawal_syndrome": null,
+      "reference": "pmid:18089845"
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["balanced-KOR-full-agonist", "long-duration-3h", "designer-drug-encountered-2020"],
+    "tags_to_remove": ["biased-agonist"],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human PK/exposure data"],
+    "notes": "Wang/Béguin/Ma 2008 — first widely-cited C-2 ether Sal B analogue. Duration ~2-3 hours in rodents vs <30 min for Sal A. Note this is a balanced (not biased) KOR full agonist, in contrast to the closely related EOM Sal B and RB-64. Encountered as a recreational designer drug from 2020 onwards.",
+    "references_consulted": ["pmid:18089845"]
+  },
+
+  {
+    "name": "16-Bromo-salvinorin A",
+    "aliases_added": ["16-Br-SalA", "16-Br-Sal A", "16-bromosalvinorin A"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "pharmacology": {
+      "primary_targets": ["KOR"],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 2.9,
+          "ki_ci_nm": [2.6, 3.2],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U69593",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human KOR (also DAT-KOR coexpressed)",
+          "radioligand_or_probe": "[3H]diprenorphine",
+          "assay_buffer_notes": "Ki = 2.9 ± 0.3 nM vs Sal A Ki = 2.5 ± 0.6 nM in same assay.",
+          "reference": "pmid:37354128",
+          "is_review": false,
+          "notes": "C-16 bromine on the furan ring — affinity essentially preserved vs Sal A."
+        }
+      ],
+      "functional": [
+        {
+          "target": "KOR",
+          "readout": "[35S]GTPγS binding",
+          "ec50_nm": 2.4,
+          "emax_pct": 108,
+          "reference_agonist": "U69593",
+          "species": "human",
+          "cell_system": "HEK293",
+          "reference": "pmid:37354128"
+        },
+        {
+          "target": "KOR",
+          "readout": "cAMP inhibition (HitHunter)",
+          "ec50_nm": 0.04,
+          "emax_pct": null,
+          "reference_agonist": "U50488",
+          "species": "human",
+          "cell_system": "HEK293",
+          "reference": "pmid:37354128"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "KOR",
+          "pathways_compared": ["G-protein (cAMP)", "β-arrestin-2"],
+          "bias_factor_log": null,
+          "bias_reference_compound": "Sal A / 16-ethynyl Sal A",
+          "interpretation": "Reported as G-protein-biased KOR agonist, contrasting with the more balanced 16-ethynyl Sal A. Anti-cocaine efficacy without significant effects on locomotion, food reward, learning/memory, anxiety, or depression — supports the hypothesis that KOR G-bias drives the desirable effects.",
+          "reference": "pmid:37354128"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "G-protein-biased KOR agonism with reduced KOR-mediated DAT internalisation effects on dopamine signalling compared to Sal A.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["salvinorin A", "EOM Sal B", "U50488"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["biased-agonist-G-protein", "longer-duration-than-Sal-A", "anti-cocaine-preclinical"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Human exposure data — research compound only", "Numeric bias factor"],
+    "notes": "C-16 halogenation extends duration (>90 min antinociception in tail-withdrawal vs ~15 min for Sal A) and confers G-protein bias. Preclinical anti-cocaine effects without anxiogenic/anhedonic side effects — one of the most therapeutically interesting Sal A analogues currently.",
+    "references_consulted": ["pmid:37354128", "doi:10.3390/molecules26154526"]
+  },
+
+  {
+    "name": "IBOGAINE",
+    "aliases_added": ["iboga", "ibogaine"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": "83-74-9",
+    "pubchem_cid": null,
+    "class_context_id": "iboga-alkaloids-misclassified-in-this-group",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCLASSIFIED FOR THIS GROUP. Ibogaine is an iboga-alkaloid tabernanthe constituent (indole alkaloid, complex polypharmacology at NMDA / κ-opioid / 5-HT2A / 5-HT-transporter / sigma-2 / nAChR α3β4) — it is not a salvinorin neoclerodane diterpene and does not belong in the 'dysdelics and KOR ligands (salvinorin family)' group as a salvinorin sibling. Ibogaine does have weak KOR agonism, but its primary mechanism of action is debated and most studied as a polypharmacological agent. Recommend reassigning to an iboga / atypical-psychedelic group for proper enrichment.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["iboga-alkaloid", "polypharmacological", "should-be-regrouped"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["Ibogaine should be enriched by an iboga-alkaloid-focused agent — out of scope for this salvinorin-focused pass."],
+    "notes": "MISCLASSIFIED. Ibogaine is included in the input list but is mechanistically and structurally unrelated to the salvinorin neoclerodanes. Not enriching it here; it belongs in an iboga / atypical-psychedelic group.",
+    "references_consulted": []
+  },
+
+  {
+    "is_class_context": true,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "class_name": "Salvinorin neoclerodane diterpenes (κ-opioid receptor ligands — 'dysdelics')",
+    "shared_mechanism": "Neoclerodane diterpenes from Salvia divinorum and their semi-synthetic analogues are the only known non-nitrogenous agonists of the κ-opioid receptor (KOR). They bind KOR in a binding pocket distinct from the classical morphinan/peptide site: salvinorin A occupies the extracellular portion of the KOR cavity, with the C-4 methyl ester hydrogen-bonding to Glu297(ECL2), the C-1 carbonyl to Tyr312(7.35), and the C-2 acetoxy to Tyr313(7.36), with the furan ring pointing down into the morphinan pocket (PDB 6B73 / Roth 2021). Crucially they lack the protonatable amine that all classical opioids use to engage Asp138(3.32). Downstream they couple via Gαi/o to cAMP inhibition and GIRK activation, with substantial β-arrestin-2 recruitment that drives KOR desensitisation, JNK activation, and the dysphoric/aversive component of the subjective experience. The phenomenology produced — rapid dissociation, intense 'shifting reality' visuals, dysphoria — does not involve 5-HT2A (no classical-psychedelic mechanism) or NMDA (no classical-dissociative mechanism), making the class mechanistically third-kind. The term 'dysdelic' coined to capture this neither-psychedelic-nor-dissociative phenomenology.",
+    "shared_pk_summary": "All members of this class are highly lipophilic, non-ionisable, and bind plasma albumin tightly. Smoked/inhaled, salvinorin A reaches Cmax in 2 min (mean ~19 ng/mL after 21 µg/kg) and plasma levels return to baseline within 90 min; brain uptake peaks within 40 s (baboon PET) and clears with t½ ~8 min — explaining the <10 min subjective duration. Oral bioavailability is essentially zero due to rapid GI esterase hydrolysis of the C-2 acetate to inactive salvinorin B. The C-2 acetate is the metabolically labile group — replacing it with C-2 ether (MOM, EOM), sulfonate (mesyl), or other ester (benzoate — herkinorin) dramatically extends duration (≥100-fold in some cases) by preventing esterase hydrolysis. In vitro: salvinorin A is metabolised by plasma carboxylesterase (dominant), with secondary contributions from CYP2D6, CYP1A1, CYP2C18, CYP2E1, and UGT2B7. P-gp is an efflux substrate at the BBB. Sublingual/buccal absorption needs DMSO/PEG vehicle; aqueous vehicles fail (logP ~2.5 but poor water solubility).",
+    "shared_safety": "Cardiopulmonary safety appears favourable in clinical doses studied (modest, transient increases in HR/BP at peak effect). The principal acute harm-reduction concerns are: (1) profound dissociation/loss of body awareness within seconds of smoking — risk of physical injury / wandering / unintended self-harm — making a tripsitter essential; (2) acute dysphoria and lasting emotional residue from intense β-arrestin-driven KOR signalling; (3) lack of cross-tolerance with classical psychedelics — even experienced psychedelic users are caught off-guard by Sal A's intensity and short rebuild time; (4) seizure-like motor phenomena documented at high doses. Hormonal: increases prolactin (peaks ~15 min after inhalation) and inconsistently cortisol. The semi-synthetic C-2-modified analogues (MOM Sal B, RB-64, 16-Br Sal A) have markedly extended duration — same dose intensity but lasting hours rather than minutes, magnifying all harms.",
+    "sar_summary": "The Sal A pharmacophore requires: (1) the C-4 methyl ester (loss → loss of activity); (2) the furan ring at C-12 (loss → near-complete loss of activity; halogenation at C-16 of furan tolerated and even extends duration without losing potency — see 16-Br Sal A); (3) the C-2 ester/ether on the alpha-face (de-acetylation → Sal B, essentially inactive); the C-1 carbonyl is NOT strictly required (the 1-deoxy analogue is well-tolerated); the C-2 hydroxyl orientation matters — beta-epimer dramatically less active. The C-2 acetoxy is the key modifiable position for therapeutic engineering: methyl ester (Sal A) → 100× extended duration as methoxymethyl ether (MOM Sal B / SymBMS) → biased agonist as ethoxymethyl ether (EOM Sal B) → biased irreversible agonist as 22-thiocyanate/sulfonate (RB-64). Replacement of acetate with benzoate (herkinorin) inverts receptor selectivity from KOR to MOR. C-1, C-12, C-16, and C-22 modifications all generate distinct G-protein-bias profiles, making the salvinorin scaffold one of the richest classes for biased-agonism SAR alongside the morphinan/MOR field. Salvinicin A/B (cyclic 12,17-rearrangements) demonstrate further plasticity — Sal A becomes a KOR partial agonist, Sal B a MOR antagonist.",
+    "key_references": [
+      "doi:10.1073/pnas.182234399",
+      "doi:10.1021/jm049438q",
+      "pmid:19053825",
+      "doi:10.1124/jpet.114.216820",
+      "pmid:18089845",
+      "doi:10.1007/s00213-017-4637-2",
+      "pmid:17090705",
+      "pmid:18434204",
+      "pmid:19462483",
+      "pmid:27780703",
+      "pmid:32869039",
+      "doi:10.1016/j.biopsych.2012.05.030",
+      "pmid:37354128",
+      "pmid:14510607",
+      "doi:10.1021/np0205699",
+      "pmid:15987194",
+      "pmid:16084728"
+    ]
+  }
+]

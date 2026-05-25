@@ -1,0 +1,52 @@
+{
+  "slug": "deliriants-anticholinergics",
+  "name": "Anticholinergic deliriants",
+  "count": 4,
+  "substances": [
+    {
+      "name": "Chlorpheniramine",
+      "aliases": [
+        "Chlorphenamine maleate",
+        "Chlorpheniramine maleate",
+        "Aller-Chlor",
+        "Chlorpheniramine polistirex",
+        "Chlorpheniramine Maleate",
+        "Chlorphenamine",
+        "Clorfeniramina",
+        "Chlor-Trimeton",
+        "Piriton",
+        "Chlorphenaminum"
+      ],
+      "category": "Antihistamine (H1 receptor antagonist)",
+      "tags": [],
+      "chemical_class": "Alkylamine derivative (first-generation antihistamine)"
+    },
+    {
+      "name": "Jenkem",
+      "aliases": [],
+      "category": "Antihistamine",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Promethazine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Scopolamine",
+      "aliases": [],
+      "category": "Antihistamine",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

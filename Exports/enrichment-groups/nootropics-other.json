@@ -1,0 +1,526 @@
+{
+  "slug": "nootropics-other",
+  "name": "Other nootropics (peptides, cholinergics, novel mechanisms)",
+  "count": 37,
+  "substances": [
+    {
+      "name": "9-Me-BC",
+      "aliases": [
+        "9-Methyl-β-carboline"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "beta-carboline",
+        "MAOI-A-weak",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ABT-126",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "alpha7-nAChR-agonist",
+        "investigational",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ABT-418",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "nAChR-agonist",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Agmatine",
+      "aliases": [
+        "Agmatine sulfate",
+        "Decarboxylated L-arginine"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "imidazoline",
+        "NMDA-antagonist",
+        "nootropic",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Alpha-GPC",
+      "aliases": [
+        "Choline alfoscerate",
+        "L-Alpha glycerylphosphorylcholine"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "BPC-157",
+      "aliases": [
+        "Body Protection Compound 157",
+        "PL 14736"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "gut-healing",
+        "no-human-data",
+        "nootropic",
+        "peptide",
+        "research-chemical",
+        "WADA-banned"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bromantane",
+      "aliases": [
+        "ADK-709",
+        "Ladasten"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "research-chemical",
+        "stimulant",
+        "WADA-banned"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Centrophenoxine",
+      "aliases": [
+        "Lucidril",
+        "Meclofenoxate"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cerebrolysin",
+      "aliases": [
+        "FPF-1070"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "peptide",
+        "prescription-only"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Citicoline",
+      "aliases": [
+        "CDP-Choline",
+        "Cytidine diphosphate-choline"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "phospholipid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cytisine",
+      "aliases": [
+        "Cytisinicline",
+        "Tabex"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nAChR-partial-agonist",
+        "natural",
+        "nootropic",
+        "smoking-cessation"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dihexa",
+      "aliases": [
+        "N-hexanoic-Tyr-Ile-(6) aminohexanoic amide"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "nootropic",
+        "peptide",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Encenicline",
+      "aliases": [
+        "EVP-6124"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "alpha7-nAChR-agonist",
+        "investigational",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Galantamine",
+      "aliases": [
+        "Razadyne",
+        "Reminyl"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "AChE-inhibitor",
+        "cholinergic",
+        "nootropic",
+        "prescription-only"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Huperzine A",
+      "aliases": [
+        "h-a",
+        "HupA"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "AChE-inhibitor",
+        "cholinergic",
+        "NMDA-antagonist",
+        "nootropic",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Idebenone",
+      "aliases": [
+        "Catena",
+        "Raxone"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "antioxidant",
+        "mitochondrial",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ispronicline",
+      "aliases": [
+        "AZD-3480",
+        "TC-1734"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "nAChR-agonist",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "J-147",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "neuroprotective",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylene blue",
+      "aliases": [
+        "MB",
+        "Methylthioninium chloride"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "MAOI-A",
+        "mitochondrial",
+        "nootropic",
+        "prescription-OTC-mixed"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylliberine",
+      "aliases": [
+        "Dynamine",
+        "O(2),1,7,9-Tetramethyluric acid"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "purine-alkaloid",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nicotine",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Noopept",
+      "aliases": [
+        "GVS-111",
+        "N-Phenylacetyl-L-prolylglycine ethyl ester"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "glutamate-modulator",
+        "nootropic",
+        "racetam-adjacent",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "NSI-189",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "neurogenesis",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "P21",
+      "aliases": [
+        "Ciliary neurotrophic factor peptide mimetic"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "nootropic",
+        "peptide",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Polygala tenuifolia",
+      "aliases": [
+        "Chinese senega",
+        "Yuan zhi"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "herb",
+        "nootropic",
+        "TCM"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PRL-8-53",
+      "aliases": [
+        "prl853"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "nootropic",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pterostilbene",
+      "aliases": [
+        "trans-3,5-Dimethoxy-4'-hydroxystilbene"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "sirtuin-activator",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pyritinol",
+      "aliases": [
+        "Encephabol",
+        "Pyridoxine disulfide"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "B6-derivative",
+        "cholinergic",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RG3487",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "alpha7-nAChR-PAM",
+        "investigational",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Selank",
+      "aliases": [
+        "Threonyl-lysyl-prolyl-arginyl-prolyl-glycyl-proline"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "anxiolytic",
+        "nootropic",
+        "peptide"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Semax",
+      "aliases": [
+        "Methionyl-glutamyl-histidyl-phenylalanyl-prolyl-glycyl-proline"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "neurotrophic",
+        "nootropic",
+        "peptide"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sulbutiamine",
+      "aliases": [
+        "Arcalion",
+        "bisibuthiamine",
+        "Bisibutiamine",
+        "enerion",
+        "sulbut",
+        "youvitan"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "habit-forming",
+        "nootropic",
+        "tentative",
+        "thiamine-derivative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sulforaphane",
+      "aliases": [
+        "1-Isothiocyanato-4-(methylsulfinyl)butane"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "Nrf2-activator",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tianeptine",
+      "aliases": [
+        "Coaxil",
+        "Stablon"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "antidepressant",
+        "habit-forming",
+        "high-dependence-risk",
+        "mu-opioid-agonist",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tianeptine sodium",
+      "aliases": [],
+      "category": "Antidepressant",
+      "tags": [
+        "antidepressant",
+        "high-dependence-risk",
+        "mu-opioid-agonist",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Varenicline",
+      "aliases": [
+        "Champix",
+        "Chantix"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nAChR-partial-agonist",
+        "nootropic",
+        "prescription-only",
+        "smoking-cessation"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Vinpocetine",
+      "aliases": [
+        "Cavinton",
+        "Ethyl apovincaminate"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "pregnancy-contraindicated",
+        "vasodilator"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

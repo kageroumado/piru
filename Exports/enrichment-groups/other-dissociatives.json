@@ -1,0 +1,237 @@
+{
+  "slug": "other-dissociatives",
+  "name": "Other dissociatives (DXM, memantine, diarylethylamines, N2O)",
+  "count": 16,
+  "substances": [
+    {
+      "name": "2-chloro-ephenidine",
+      "aliases": [
+        "2-chloroephenidine",
+        "2-cl-ephenidine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "diarylethylamine",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-TFMXP",
+      "aliases": [
+        "TFMXP",
+        "2‑TFM‑diphenidine",
+        "2‑trifluoromethyl‑MXP",
+        "2‑TFM‑MXP",
+        "2-(trifluoromethyl)‑methoxphenidine"
+      ],
+      "category": "Dissociative NMDA‑receptor antagonist",
+      "tags": [],
+      "chemical_class": "Arylcyclohexylamine (diphenidine/diarylethylamine family)"
+    },
+    {
+      "name": "25CN-NBOH",
+      "aliases": [
+        "PubChem CID 90489020",
+        "NBOH-2C-CN",
+        "25CN NBOH",
+        "C18H20N2O3",
+        "4-cyano-2,5-dimethoxy-N-(2-hydroxybenzyl)phenethylamine",
+        "2C-CN-NBOH"
+      ],
+      "category": "psychedelic hallucinogen (5-HT2A-selective agonist)",
+      "tags": [],
+      "chemical_class": "N-benzyl phenethylamine (NBOMe/NBOH family)"
+    },
+    {
+      "name": "Dextromethorphan",
+      "aliases": [
+        "dex",
+        "DM",
+        "dxm",
+        "robitussin",
+        "robo",
+        "robotussin",
+        "syrup"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dextromethorphan Hydrobromide",
+      "aliases": [
+        "Delsym (DXM polistirex, ER formulation)",
+        "Robo",
+        "DXM HBr",
+        "DXM",
+        "CCC / Triple C (Coricidin HBP Cough & Cold; dangerous combo)",
+        "Robotripping",
+        "DM"
+      ],
+      "category": "Dissociative",
+      "tags": [],
+      "chemical_class": "Morphinan (Levorphanol derivative, codeine analog)"
+    },
+    {
+      "name": "Diphenidine",
+      "aliases": [
+        "dpd"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "diarylethylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dizocilpine",
+      "aliases": [
+        "(-)-MK-801",
+        "MK-801",
+        "Dizocilpine maleate",
+        "(+)-MK-801",
+        "CID 180081 (PubChem)",
+        "Dizocilpine HCl"
+      ],
+      "category": "Non-competitive NMDA receptor open-channel blocker; putative low-affinity σ1 agonist (tool compound)",
+      "tags": [],
+      "chemical_class": "Diarycycloheptene; NMDA-channel blocker (PCP-site ligand)"
+    },
+    {
+      "name": "DXM Polistirex",
+      "aliases": [
+        "DXM polistirex ER",
+        "DXM extended‑release",
+        "Delsym (12‑hour)",
+        "DXM Poli",
+        "Dextromethorphan polistirex"
+      ],
+      "category": "Dissociative, Antitussive",
+      "tags": [],
+      "chemical_class": "Morphinan (Levorphanol derivative)"
+    },
+    {
+      "name": "Dxme",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ephenidine",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "diarylethylamine",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluorolintane",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Memantine",
+      "aliases": [
+        "Axura",
+        "Ebixa",
+        "Namenda"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "NMDA-antagonist",
+        "nootropic",
+        "prescription-only",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methoxphenidine",
+      "aliases": [
+        "2-MeO-Diphenidine",
+        "2-mxp",
+        "methoxyphenidine",
+        "MXP"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "designer-dissociative",
+        "diarylethylamine",
+        "fatalities-reported",
+        "habit-forming",
+        "NMDA-antagonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mk-801",
+      "aliases": [
+        "dizocilpine",
+        "mk801"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MXP",
+      "aliases": [
+        "2-MeO-diphenidine",
+        "Methoxphenidine",
+        "2-MXP",
+        "2-Methoxydiphenidine"
+      ],
+      "category": "Dissociative",
+      "tags": [],
+      "chemical_class": "Diarylethylamine (diphenidine family), not an arylcyclohexylamine"
+    },
+    {
+      "name": "Nitrous",
+      "aliases": [
+        "hippy crack",
+        "laughing_gas",
+        "n20",
+        "n2o",
+        "nitrous oxide",
+        "nos"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

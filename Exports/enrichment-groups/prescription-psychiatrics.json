@@ -1,0 +1,217 @@
+{
+  "slug": "prescription-psychiatrics",
+  "name": "Prescription psychiatrics (SSRIs/SNRIs/TCAs/MAOIs, antipsychotics, mood stabilisers)",
+  "count": 17,
+  "substances": [
+    {
+      "name": "Befuraline",
+      "aliases": [],
+      "category": "Antidepressant",
+      "tags": [
+        "antidepressant",
+        "discontinued"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Citalopram",
+      "aliases": [
+        "celexa",
+        "cipramil"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "common",
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Escitalopram",
+      "aliases": [
+        "cipralex",
+        "lexapro"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "EXP-561",
+      "aliases": [],
+      "category": "Antidepressant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluoxetine",
+      "aliases": [
+        "prozac",
+        "sarafem"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluvoxamine",
+      "aliases": [
+        "faverin",
+        "luvox"
+      ],
+      "category": "Antidepressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lamotrigine",
+      "aliases": [
+        "3,5-diamino-6-(2,3-dichlorophenyl)-1,2,4-triazine",
+        "LTG",
+        "Lamictal",
+        "6-(2,3-dichlorophenyl)-1,2,4-triazine-3,5-diamine"
+      ],
+      "category": "Mood stabiliser / anticonvulsant",
+      "tags": [],
+      "chemical_class": "Phenyl-triazine anticonvulsant"
+    },
+    {
+      "name": "Lithium orotate",
+      "aliases": [],
+      "category": "Supplement",
+      "tags": [
+        "mood-stabilizer",
+        "nootropic",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Medifoxamine",
+      "aliases": [
+        "Cledial"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "antidepressant",
+        "DRI",
+        "hepatotoxic",
+        "withdrawn"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mirtazapine",
+      "aliases": [
+        "Avanza",
+        "Mirtazapinum",
+        "Org 3770",
+        "Zispin",
+        "Mepirzapine",
+        "Remeron",
+        "6-Azamianserin"
+      ],
+      "category": "Antidepressant (NaSSA: noradrenergic and specific serotonergic)",
+      "tags": [],
+      "chemical_class": "Tetracyclic (piperazino-azepine) antidepressant"
+    },
+    {
+      "name": "Moclobemide",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "MAOI-A",
+        "RIMA"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Olanzapine",
+      "aliases": [
+        "LY170053",
+        "Zyprexa Zydis",
+        "Zyprexa",
+        "2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine"
+      ],
+      "category": "Atypical antipsychotic (multi-receptor antagonist)",
+      "tags": [],
+      "chemical_class": "Thienobenzodiazepine"
+    },
+    {
+      "name": "Paroxetine",
+      "aliases": [
+        "paxil",
+        "seroxat"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenelzine",
+      "aliases": [
+        "Nardil®",
+        "phenelzine sulfate",
+        "phenethylhydrazine"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "MAOI-A",
+        "MAOI-B",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Rimcazole",
+      "aliases": [
+        "BW-234U"
+      ],
+      "category": "Antipsychotic",
+      "tags": [
+        "DRI",
+        "investigational",
+        "research-chemical",
+        "sigma-antagonist"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sertraline",
+      "aliases": [
+        "lustral",
+        "zoloft"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tranylcypromine",
+      "aliases": [
+        "Racemic tranylcypromine",
+        "SKF-385",
+        "(±)-trans-2-phenylcyclopropylamine",
+        "Parnate",
+        "trans-2-phenylcyclopropan-1-amine",
+        "Tranylcypromine sulfate"
+      ],
+      "category": "Antidepressant (irreversible, nonselective monoamine oxidase inhibitor: MAO-A > MAO-B)",
+      "tags": [],
+      "chemical_class": "Phenethylamine (substituted amphetamine; cyclopropylamine)"
+    }
+  ]
+}

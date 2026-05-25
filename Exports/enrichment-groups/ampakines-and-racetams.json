@@ -1,0 +1,430 @@
+{
+  "slug": "ampakines-and-racetams",
+  "name": "AMPAkines and racetams",
+  "count": 30,
+  "substances": [
+    {
+      "name": "Brivaracetam",
+      "aliases": [
+        "Briviact",
+        "UCB-34714"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "anticonvulsant",
+        "prescription-only",
+        "racetam",
+        "SV2A-ligand",
+        "US-Schedule-V"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Coluracetam",
+      "aliases": [
+        "BCI-540",
+        "MKC-231"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-1739",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-1942",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-516",
+      "aliases": [
+        "Ampalex",
+        "BDP-12"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-546",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-614",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-691",
+      "aliases": [
+        "Farampator",
+        "Org 24448"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CX-717",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "Cortex-Pharmaceuticals",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimiracetam",
+      "aliases": [
+        "EN-101"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etiracetam",
+      "aliases": [
+        "UCB-6474"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IDRA-21",
+      "aliases": [
+        "7-Chloro-3-methyl-3-4-dihydro-2H-1,2,4-benzothiadiazine S,S-dioxide"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "benzothiadiazine",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Imuracetam",
+      "aliases": [],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Levetiracetam",
+      "aliases": [
+        "etiracetam S-enantiomer",
+        "Keppra",
+        "UCB-LO59"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "anticonvulsant",
+        "prescription-only",
+        "racetam",
+        "SV2A-ligand"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LY-404187",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "biarylpropylsulfonamide",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LY-451646",
+      "aliases": [
+        "Mibampator (R-enantiomer)"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LY-503430",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nebracetam",
+      "aliases": [
+        "WEB-1881"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "investigational",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nefiracetam",
+      "aliases": [
+        "DM-9384",
+        "nerfiracetam",
+        "Translon"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "GABAergic",
+        "nootropic",
+        "racetam",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Org 26576",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Oxiracetam",
+      "aliases": [
+        "Hydroxypiracetam",
+        "ISF-2522",
+        "neuractiv",
+        "neuromet"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "racetam"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PEPA",
+      "aliases": [
+        "4-[2-(Phenylsulfonylamino)ethylthio]-2,6-difluorophenoxyacetamide"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenylpiracetam hydrazide",
+      "aliases": [
+        "Fonturacetam hydrazide"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "no-human-data",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Piracetam",
+      "aliases": [
+        "2-oxo-1-pyrrolidineacetamide",
+        "biotropil",
+        "breinox",
+        "geratam",
+        "lucetam",
+        "noostan",
+        "Nootropil",
+        "oikamid",
+        "UCB-6215"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "AMPA-modulator",
+        "cholinergic",
+        "nootropic",
+        "racetam"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pramiracetam",
+      "aliases": [
+        "CI-879",
+        "Neupramir",
+        "Pramistar"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "lipophilic",
+        "nootropic",
+        "racetam"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Rolziracetam",
+      "aliases": [
+        "CI-911"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "no-human-data",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "S-18986",
+      "aliases": [],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Seletracetam",
+      "aliases": [
+        "UCB-44212"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "investigational",
+        "racetam",
+        "research-chemical",
+        "SV2A-ligand"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sunifiram",
+      "aliases": [
+        "DM-235"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "no-human-data",
+        "racetam-adjacent",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Unifiram",
+      "aliases": [
+        "DM-232"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "investigational",
+        "no-human-data",
+        "racetam-adjacent",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

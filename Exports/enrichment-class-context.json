@@ -1,0 +1,1014 @@
+[
+  {
+    "is_class_context": true,
+    "class_context_id": "racetams-and-ampakines",
+    "class_name": "AMPAkines and racetams",
+    "shared_mechanism": "Two genuinely distinct mechanism classes share this folder for historical/structural reasons. (1) AMPAkines are positive allosteric modulators of AMPA-type ionotropic glutamate receptors, splitting into 'high-impact' (Type I — large modulation, Gq-coupled metabotropic AMPA signaling with ER Ca2+ release, convulsant liability; CX-516, CX-614, biarylpropylsulfonamides) and 'low-impact' (Type II — desensitization-focused, minimal Gq coupling, safer; CX-717, CX-1739, Org 26576). (2) Racetams are a structurally-defined family of 2-oxopyrrolidone derivatives with no shared receptor target: piracetam/aniracetam/oxiracetam/pramiracetam are loosely 'cholinergic-via-HACU' with weak or absent direct receptor binding; aniracetam is a genuine but low-potency AMPA PAM; levetiracetam/brivaracetam/seletracetam are SV2A ligands and have no AMPA activity despite the shared scaffold; nefiracetam is pleiotropic (Ca channels, nAChR, GABA); coluracetam is an HACU enhancer at CHT1; phenylpiracetam adds a DAT-inhibitor stimulant component. Sunifiram and unifiram are 'racetam-adjacent' piperazine derivatives whose AMPA mechanism has never been demonstrated directly.",
+    "shared_pk_summary": "Racetams typical: high oral bioavailability (often ~100%), negligible protein binding, predominant renal elimination of unchanged drug (piracetam, levetiracetam, oxiracetam), short-to-moderate plasma half-life (3-8 h). Brivaracetam and aniracetam diverge: brivaracetam undergoes hepatic amidase hydrolysis + CYP2C19 hydroxylation; aniracetam has ~0.2% systemic bioavailability with extensive first-pass to N-anisoyl-GABA (the putative active metabolite). AMPAkines have generally poor published human PK — most never reached substantial clinical exposure. The recurring failure mode for AMPAkines in trials is dose-limiting CNS adverse events (often before efficacy is reached) plus low CNS penetration for many compounds.",
+    "shared_safety": "AMPAkines — high-impact subclass carries demonstrated convulsant liability in animal models (Gq-coupled ER Ca2+ mechanism, Karst et al. Synapse 2024); low-impact subclass appears safer but is also less efficacious. The Cortex/Org programs were terminated primarily for low efficacy at tolerated doses (high-impact) or cardiotoxicity signals (CX-691/farampator). Pharma essentially exited the AMPAkine cognitive-enhancement space ~2014. Racetams — generally a benign safety profile: piracetam/oxiracetam/aniracetam are well-tolerated at gram-scale doses; major caveat is the behavioral adverse-event signal with SV2A ligands (irritability, depression, aggression — levetiracetam especially), which is mechanism-specific to SV2A rather than to the racetam scaffold. Phenylpiracetam carries a stimulant component and is WADA-banned in sport.",
+    "sar_summary": "AMPAkines — three principal chemotypes: (1) benzamides (CX-516, CX-546) — first generation, modest potency, mixed deactivation/desensitization; (2) benzothiadiazines (IDRA-21, CX-691, S-18986) — typically higher potency, often high-impact, increase EEG gamma; (3) biarylpropylsulfonamides (LY-404187, LY-451646, LY-503430, mibampator) — Lilly series, ~1000-fold more potent than CX-516, almost universally high-impact; (4) benzoxazines (CX-614) — rigid bicyclic, very potent desensitization blockers. Flip-vs-flop splice-variant selectivity is a real SAR axis (cyclothiazide → flip; PEPA → flop) but underexploited clinically. Racetams — 2-oxopyrrolidone is the structural defining core; substitution patterns radically change pharmacology: 4-aryl (aniracetam) adds AMPA modulation; 4-propyl/butyl (brivaracetam, levetiracetam) yields SV2A binding with no AMPA activity; 4-phenyl (phenylpiracetam) adds DAT-inhibitor stimulant component; basic amine side chains (pramiracetam) increase brain penetration; bicyclic constraints (dimiracetam, rolziracetam) variably retain or lose activity. The shared 'racetam' label across these structurally similar but mechanistically unrelated compounds is one of the most misleading naming conventions in modern neuropharmacology.",
+    "key_references": [
+      "pmid:11640919",
+      "pmid:10999951",
+      "pmid:24900368",
+      "pmid:9221774",
+      "pmid:15210974",
+      "pmid:16876775",
+      "pmid:18341673",
+      "doi:10.1002/syn.22310",
+      "pmid:14600801",
+      "doi:10.1046/j.1528-1157.2001.0420s4024.x"
+    ],
+    "_source_group": "ampakines-and-racetams"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "arylcyclohexylamines",
+    "class_name": "Arylcyclohexylamines (NMDA antagonists at the PCP binding site)",
+    "shared_mechanism": "Arylcyclohexylamines are use-dependent, voltage-sensitive, non-competitive blockers of the NMDA receptor channel at the PCP binding site within the central vestibule. Channel block requires the channel to be open (agonist-bound, depolarized). Cryo-EM structures of S-ketamine bound to GluN1/GluN2A and GluN1/GluN2B (Zhang 2021, doi:10.1038/s41586-021-03769-9) revealed two distinct sub-poses within the binding pocket, mediated primarily by hydrophobic and hydrogen-bond interactions with GluN2A-L642 (≡ GluN2B-L643) and GluN1-N616. The two-pose model rationalizes apparent SAR discrepancies. Beyond NMDA blockade, members of the class engage σ1 receptors (PCP, 3-MeO-PCP strongly; ketamine weakly), serotonin and other monoamine transporters (MXE family especially SERT; 3-MeO-PCP SERT; PCP weakly DAT), HCN1 channels (ketamine, anesthetic relevance), and μ/κ-opioid receptors (3-HO-PCP strongly; ketamine weakly — debated as functional contributor to antidepressant action). The major ketamine metabolite (2R,6R)-hydroxynorketamine does NOT block NMDA at antidepressant-relevant concentrations and instead acts via α7-nAChR-dependent presynaptic glutamate release plus AMPA potentiation (Marcantoni 2024, Suzuki 2017).",
+    "shared_pk_summary": "Hepatic CYP-mediated metabolism dominates the class. Ketamine cleared predominantly by CYP2B6 and CYP3A4 to norketamine (active, 3× less potent at NMDA), then to (2R,6R)-HNK and dehydronorketamine. Oral routes give norketamine >> parent drug due to first-pass (norketamine/ketamine plasma ratio ~6:1). Bioavailability: IV 100%, IM ~93%, intranasal 25-50%, sublingual ~25-30%, oral ~17-25%. Half-lives 2-4 h for ketamine class; PCP is an outlier at 1-3 days due to high lipophilicity. Protein binding 12-50% across the class. CYP2B6*6/*6 PMs show ~50% reduction in oral ketamine clearance with implications for TRD therapy.",
+    "shared_safety": "Acute risk: respiratory depression at high doses (potentiated when combined with opioids or alcohol). Cardiovascular sympathomimetic effects (HR/BP increase). Emergence delirium, dissociation, occasional violent psychomotor agitation (highest for 3-MeO-PCP, 3-MeO-PCE, PCP). Hepatic toxicity — case reports for some research chemicals. Chronic risk: ulcerative cystitis (norketamine implicated) in heavy daily users; cognitive impairment; psychological dependence. Key off-targets: HCN1 (ketamine hypnosis), σ1 (3-MeO-PCP psychosis profile), μ-opioid (3-HO-PCP/E respiratory depression). Fatal blood concentrations: PCP >200 ng/mL, 3-MeO-PCP 50-3,525 ng/mL (very narrow window), ketamine >1,000 ng/mL (very wide therapeutic index).",
+    "sar_summary": "Core scaffold: phenyl + cyclohexyl + amine. SAR principles, with primary literature: (1) Aryl ring substitution dominates NMDA affinity: 3-methoxy > 3-ethoxy > 3-methyl > 3-fluoro > H > 2-chloro (ketamine); 4-position less effective than 3-position (Roth 2013 doi:10.1371/journal.pone.0059334). (2) 2'-oxo (β-keto) substitution: shortens duration, restricts conformation, shifts pose preference at PCP site (Zhang 2021), produces 'heavier' subjective profile per Abelian 2024 SAR analysis. (3) N-amine: N-methyl (ketamine) > N-ethyl (MXE/O-PCE) > N-propyl > N-cyclopropyl; primary amine (norketamine) ~3× less potent than N-methyl. Piperidine (PCP) and pyrrolidine (rolicyclidine) typically more potent at NMDA than secondary amines but with different σ1 and PK profiles. (4) Combining 2'-oxo + 3-MeO + piperidine (MXPCP-like) predicted maximum NMDA affinity. (5) Aryl ring replacement: thiophene-2 (tiletamine) retains NMDA activity; benzothiophene-2 (BTCP) eliminates NMDA and switches to DAT-selective. (6) Meta-OH (3-HO-PCP/E series) introduces μ-opioid agonism alongside NMDA blockade — major safety implication.",
+    "key_references": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1038/s41586-021-03769-9",
+      "doi:10.1038/nature17998",
+      "doi:10.1523/JNEUROSCI.3481-08.2009",
+      "doi:10.1016/j.euroneuro.2011.07.006",
+      "doi:10.1097/00000542-199702000-00019",
+      "doi:10.1124/dmd.30.7.853",
+      "doi:10.3390/ijms232415574",
+      "doi:10.1038/s41398-024-02744-y",
+      "doi:10.1111/bph.15680"
+    ],
+    "_source_group": "arylcyclohexylamines"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "benzos-z-drugs",
+    "class_name": "Benzodiazepines (classical and designer) + Z-drugs",
+    "shared_mechanism": "All compounds are positive allosteric modulators (PAMs) at the GABA-A receptor benzodiazepine binding site, located at the α/γ subunit interface (α+ side, γ2- side). Binding enhances GABA-induced Cl- channel opening frequency at GABA-bound receptors, hyperpolarising neurons. Pharmacological subunit selectivity defines clinical/recreational profile: α1-containing GABA-A receptors mediate sedation, anterograde amnesia, ataxia, and reinforcement (abuse liability); α2/α3-containing receptors mediate anxiolysis and muscle relaxation; α5-containing receptors mediate cognitive effects (memory, learning). Classical 1,4-benzodiazepines (diazepam, lorazepam, clonazepam) bind α1/α2/α3/α5 with roughly equal nanomolar affinity. Zolpidem and zaleplon are α1-preferring (>20× vs other subtypes); eszopiclone is non-selective like classical benzos. The benzodiazepine site has no GABA-A receptor-mediated activity in the absence of GABA — these are not direct agonists. The closely related TSPO ('peripheral benzodiazepine receptor') is structurally distinct and not GABA-A; compounds like Ro5-4864 (4'-chlorodiazepam) bind TSPO selectively and produce no benzodiazepine-like effects.",
+    "shared_pk_summary": "Most classical benzodiazepines (diazepam, alprazolam, clonazepam, triazolam, midazolam, flunitrazepam, clobazam) are CYP3A4 substrates (some additionally CYP2C19, especially diazepam and flunitrazepam). The 'LOT' rule — lorazepam, oxazepam, temazepam — identifies benzos cleared by direct UGT2B7/UGT2B15 glucuronidation without Phase I metabolism, making them preferred in hepatic impairment and resistant to CYP-mediated drug-drug interactions. Active metabolites dominate the clinical pharmacology of multiple parent compounds: diazepam → nordazepam (t1/2 50–100 h) → oxazepam; flurazepam/quazepam → N-desalkylflurazepam (norflurazepam, t1/2 47–150 h); alprazolam → α-hydroxyalprazolam; midazolam → 1-OH-midazolam (~20% potency); clobazam → norclobazam (8–20× plasma vs parent on chronic dosing). Plasma protein binding is generally 80–97%, dominated by albumin. Volume of distribution 0.5–3 L/kg (lipid-soluble). Z-drugs zolpidem and zaleplon have very short t1/2 (1.5–3 h) and are 80–95% protein-bound. Pyrazolam is unusual in having NO Phase I metabolism (direct glucuronidation only). Designer benzos with very long t1/2 include flubromazepam (~106 h), diclazepam (~42 h), and phenazepam (~60 h) — these dramatically prolong effects of single doses to weeks. CYP3A4 inhibitors (ketoconazole, itraconazole, erythromycin, ritonavir, grapefruit juice) markedly elevate exposure of CYP3A4-cleared benzos; inducers (rifampin, carbamazepine, phenytoin, St John's wort) markedly reduce it.",
+    "shared_safety": "The signal harm of benzodiazepines is RESPIRATORY DEPRESSION when combined with other CNS depressants — especially opioids, alcohol, GHB/GBL, and Z-drugs themselves. Alone, benzodiazepines are remarkably non-lethal: documented LD50 ratios are extraordinary (the original Roche estimates put diazepam's LD50/ED50 at >100). Almost all benzodiazepine-attributed deaths involve concurrent CNS depressants. The 2010s/2020s overdose epidemic in North America/Europe with designer benzos (clonazolam, flualprazolam, bromazolam) overwhelmingly involves co-ingestion of fentanyl or its analogues. Specific risks: (1) anterograde amnesia (more pronounced with triazolam, alprazolam, midazolam, flunitrazepam → DFSA potential); (2) paradoxical disinhibition / behavioural disinhibition (~1–2% incidence, more common in elderly, children, alcoholics, those with personality disorders); (3) physical dependence and withdrawal, with seizure risk on abrupt cessation from high doses of short-acting compounds (alprazolam, triazolam, oxazepam) — withdrawal can be fatal without taper; (4) increased fall/fracture risk in elderly; (5) cognitive impairment with chronic use; (6) tolerance to anticonvulsant/hypnotic effects more rapid than to anxiolytic effects. Flumazenil is a competitive antagonist at the benzodiazepine site and reverses sedation acutely (1–2 h duration); not used in chronic users because it can precipitate withdrawal seizures. Z-drugs additionally carry a recognized risk of complex sleep-related behaviours (sleep-driving, sleep-eating, sleep-sex) prompting an FDA boxed warning in 2019 for zolpidem, zaleplon, eszopiclone.",
+    "sar_summary": "Core 1,4-benzodiazepin-2-one scaffold: 7-substituent on the fused benzene determines potency (7-Cl in diazepam, 7-Br in phenazepam/flubromazepam → more potent than unsubstituted; 7-NO2 in clonazepam/flunitrazepam/nitrazepam → very high affinity); 5-aryl group is essential (phenyl = standard; 2'-Cl in lorazepam/clonazepam/diclazepam → potency boost; 2'-F in flunitrazepam/midazolam → metabolic stability + potency; 2-pyridyl in bromazepam/pyrazolam → different metabolic fate). N1-substitution: H = standard (nordazepam); methyl (diazepam) → modest change; 2,2,2-trifluoroethyl (halazepam, quazepam) → α1-selectivity hint; diethylaminoethyl (flurazepam) → prodrug-like, parent inactive, all activity from N-dealkylation. 3-position: 3-OH (oxazepam, lorazepam, temazepam, lormetazepam) → bypasses CYP, direct glucuronidation, no active metabolites, hepatic-safe; 3-methyl (meclonazepam) → adds stereochemistry. RING MODIFICATIONS: triazolo-annulation [1,2,4-triazolo[4,3-a]] (alprazolam, triazolam, estazolam, clonazolam, flubromazolam, flualprazolam, bromazolam, adinazolam) → markedly increases intrinsic activity at the benzodiazepine site → higher potency, faster tolerance, more severe withdrawal; thieno-replacement of the benzene (etizolam, brotizolam, clotiazepam, deschloroetizolam, metizolam) → thienodiazepine, faster onset, slightly different binding kinetics; 1,5-benzodiazepine ring rearrangement (clobazam) → mild α2-preference, less sedation. PRO-DRUGS exploit aminopeptidase cleavage (avizafone → diazepam; rilmazafone → triazolobenzodiazepine metabolite) or gastric chemical hydrolysis (clorazepate → nordazepam; ketazolam → diazepam; oxazolam → nordazepam) or CYP-mediated N-dealkylation (prazepam → nordazepam; flurazepam → norflurazepam; quazepam → 2-oxoquazepam; medazepam → diazepam). Z-DRUGS occupy the benzodiazepine site without sharing the benzo scaffold: imidazopyridine (zolpidem, α1-preferring), pyrazolopyrimidine (zaleplon, highly α1-preferring), cyclopyrrolone (zopiclone/eszopiclone, non-selective like classical benzos). The α1G201 residue (Pritchett & Seeburg 1991) is the structural determinant for zolpidem's α1 selectivity. TSPO ligands (Ro5-4864 = 4'-chlorodiazepam) share the benzodiazepine scaffold but bind a structurally unrelated mitochondrial protein and have no GABA-A activity.",
+    "key_references": [
+      "pmid:8391122",
+      "pmid:16107249",
+      "pmid:1326622",
+      "doi:10.1021/jm800889m",
+      "doi:10.2165/00003088-197803010-00005",
+      "doi:10.2165/00003088-198106020-00001",
+      "doi:10.2165/00003088-197803050-00004",
+      "pmid:6138080",
+      "pmid:8004131",
+      "pmid:11259331",
+      "pmid:14517708",
+      "pmid:12386133",
+      "pmid:23554428",
+      "pmid:15961980",
+      "pmid:1474178",
+      "doi:10.1002/jms.3279",
+      "doi:10.1002/dta.1628",
+      "doi:10.1002/dta.1525",
+      "doi:10.1002/dta.2203",
+      "doi:10.1007/s11419-022-00616-y",
+      "pmid:2858403",
+      "pmc:PMC5914180",
+      "pmc:PMC9397074",
+      "doi:10.1038/srep28674",
+      "doi:10.1186/1478-811X-11-13"
+    ],
+    "_source_group": "benzos-and-z-drugs"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "cannabinoids-mixed",
+    "class_name": "Phytocannabinoids (mixed CB1 partial agonists, NAMs, and TRP modulators)",
+    "shared_mechanism": "Plant-derived cannabinoids act through a constellation of targets: CB1/CB2 cannabinoid receptors (THC = partial agonist; CBN = weaker partial agonist; CBG/CBC = weak), GPCR allosterism (CBD = CB1 negative allosteric modulator), serotonergic (CBD = 5-HT1A agonist; CBDA = stronger 5-HT1A agonist; CBG = 5-HT1A antagonist), adrenergic (CBG = potent α2 agonist), TRP channels (CBC/CBD/CBDV/CBG → TRPV1/TRPV2/TRPA1 desensitisation), and enzyme inhibition (CBDA = COX-2; CBD = FAAH and major CYP isoforms). The CB1 partial agonism of THC (intrinsic activity ~15-30% vs full agonists) is the single pharmacological feature that prevents lethal overdose — there is a CEILING on receptor activation regardless of dose. Recent (Laprairie 2015) finding that CBD is a CB1 NAM means CBD reduces CB1-mediated effects of THC while having its own multi-target pharmacology.",
+    "shared_pk_summary": "Highly lipophilic, large Vd (~10 L/kg), high protein binding (>95% albumin/lipoproteins). Smoked bioavailability 18-50%; oral 4-12% with marked food effect (3-5× fed:fasted). Hepatic metabolism by CYP2C9/CYP3A4/CYP2C19 with hydroxylation and glucuronidation. Active metabolite 11-OH-THC ≥ parent in potency (drives delayed/prolonged edible effects). CBD additionally inhibits CYP2C19 (potent) and CYP3A4 — clinically significant for clobazam, warfarin, mTOR inhibitors. Terminal half-lives are long (>24 h) due to deep adipose redistribution.",
+    "shared_safety": "Natural cannabinoids: cannabis itself has not produced confirmed fatal overdose due to partial CB1 agonism. Major risks: tachycardia/dose-related anxiety/psychosis, cannabinoid hyperemesis syndrome with chronic use, withdrawal (mild compared to synthetics). CBD-specific: hepatotoxicity (5-15% AST/ALT elevation in Epidiolex trials, doi:10.1056/NEJMoa1611618), drug interactions via CYP2C19/3A4. CBG-specific: hypotension/bradycardia from α2 agonism.",
+    "sar_summary": "Pentyl side chain (C5) is optimal for CB1 binding — propyl analogues (THCV, CBDV) are weaker; heptyl (THCP) is dramatically more potent (Ki 1.2 nM vs 40 nM for THC). Carboxylated precursors (THCA, CBDA, CBGA) are pharmacologically distinct from decarboxylated forms — CBDA is more potent at 5-HT1A and selectively inhibits COX-2 due to the carboxylate. Δ8 vs Δ9 vs Δ10 isomers: Δ8 has ~2× weaker CB1 affinity than Δ9 but qualitatively similar pharmacology. Free phenolic OH at C-1 critical for CB1 binding.",
+    "key_references": [
+      "pmid:8632377",
+      "doi:10.1111/bph.13250",
+      "pmid:20002104",
+      "doi:10.1111/bph.12827",
+      "pmid:18556441",
+      "pmid:17828291",
+      "doi:10.1097/00007691-200502000-00007"
+    ],
+    "_source_group": "cannabinoids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "cannabinoids-synthetic",
+    "class_name": "Synthetic cannabinoid receptor agonists (SCRAs / 'Spice' / 'K2')",
+    "shared_mechanism": "SCRAs are typically FULL agonists at CB1 (intrinsic activity = 100% or 'super-Emax' >100% vs CP55,940) with affinities in the sub-nanomolar to low-nM range — 10-1000× more potent than Δ9-THC, which is a partial agonist (~25% efficacy). The combination of high affinity AND full intrinsic activity is the single most important toxicological fact: there is no receptor-level ceiling on activation, unlike THC. The dominant chemotypes are: (1) aminoalkylindoles (JWH-018, JWH-073, AM-2201) — early-generation; (2) indazole-3-carboxamides (AB/ADB/AMB/MDMB-PINACA/-BUTINACA/-FUBINACA series) — post-2014 ultrapotent; (3) indole-3-carboxamides (5F-MDMB-PICA, ADBICA); (4) adamantoylindoles (AM-1248, APICA); (5) cumyl/PINACA hybrids; (6) ester-linked quinolinyl indoles (PB-22, 5F-PB-22). Functional CB1 signalling: full Gαi/o → adenylyl cyclase inhibition; strong β-arrestin-2 recruitment correlates with seizure/cardiotoxicity. CB2 affinity is variable.",
+    "shared_pk_summary": "Smoked or vaporised in herbal mixtures; controlled human PK essentially non-existent — only post-mortem and ER concentrations. Highly lipophilic, large Vd. Major metabolism: CYP3A4/CYP2C9/CYP1A2 hydroxylation (ω, ω-1, indole 6/7 positions); CES1 hydrolysis of methyl ester groups (5F-MDMB-PICA, 4F-MDMB-BINACA, AMB-FUBINACA) producing INACTIVE free carboxylic acids — short half-life of parent. Glucuronidation by UGT2B7/UGT1A3 produces urinary metabolites. Hydroxylated metabolites of aminoalkylindoles often retain CB1 affinity; some are neutral antagonists.",
+    "shared_safety": "Severe and frequent: seizures (status epilepticus reported), acute kidney injury (especially XLR-11, MDMB-CHMICA, ADB-PINACA), myocardial infarction, ischaemic stroke, agitated delirium, severe vomiting, hyperthermia/rhabdomyolysis, acute psychosis, dependence/withdrawal more severe than cannabis. Mass-poisoning events: AMB-FUBINACA Brooklyn July 2016 (33 cases, NEJM); MDMB-CHMICA Europe 2014-2016 (29 deaths, 9 countries); ADB-PINACA Colorado 2013; MDMB-4en-PINACA multiple recent fatalities. Naloxone DOES NOT reverse — supportive care + benzodiazepines for agitation/seizures. Cannabinoid CB1 antagonists (rimonabant — withdrawn from clinical use; CB1 NAMs in development per Laprairie 2024 ITCM) are not clinically available as antidotes.",
+    "sar_summary": "Aung 2000 SAR: minimum 3-carbon N-alkyl chain for CB1 affinity; pentyl (C5) optimal. ω-fluorination of pentyl (5F-) increases CB1 affinity AND metabolic stability vs parent. Substituting pentyl with cyclohexylmethyl (CHM) or 4-fluorobenzyl (FUB) maintains or enhances CB1 affinity. Head group SAR (Banister 2015-2021): tert-leucine (MDMB) > valine (AMB) > leucine (AB) > glycine for both potency and Emax. Indazole core often more potent than indole (PINACA > PICA). Ester linkages (PB-22, 5F-PB-22) give very high potency but rapid CES1 hydrolysis. Designer evasion 2019-: replacement of fluoropentyl with pent-4-enyl (MDMB-4en-PINACA), hexyl (ADB-HEXINACA), or 4-fluorobutyl (4F-MDMB-BINACA) to circumvent analogue laws.",
+    "key_references": [
+      "pmid:11020385",
+      "doi:10.1021/jm010532f",
+      "doi:10.1021/acschemneuro.5b00112",
+      "doi:10.1021/acschemneuro.5b00107",
+      "pmid:26105953",
+      "doi:10.1056/NEJMoa1610300",
+      "doi:10.1021/acschemneuro.0c00644",
+      "pmid:33787091",
+      "doi:10.1016/j.drugalcdep.2014.07.027"
+    ],
+    "_source_group": "cannabinoids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "data-error",
+    "class_name": "Data integrity issues in source list",
+    "shared_mechanism": "Three entries in the source list (4F-NEB, 4F-PHP, MADAM-6) are tagged 'synthetic-cannabinoid' but are NOT cannabinoids: 4F-PHP is a pyrrolidinophenone synthetic cathinone (stimulant, monoamine reuptake inhibitor); MADAM-6 is a Shulgin phenethylamine (6-methyl-MDMA, reported inactive); 4F-NEB does not match any known cannabinoid in the literature. The 'synthetic-cannabinoid' tags should be removed from the source data.",
+    "shared_pk_summary": "Not applicable — these are not cannabinoids.",
+    "shared_safety": "If users encounter these substances expecting cannabinoid-like effects (because the database labels them as such), they may misjudge dose and route. Especially dangerous for 4F-α-PHP (cathinone stimulant) — recreational doses are mg-range, not hundreds-of-mg.",
+    "sar_summary": "N/A — class mislabelling.",
+    "key_references": [
+      "pmc:7796222"
+    ],
+    "_source_group": "cannabinoids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "classical-opioids",
+    "class_name": "Classical opioids and kratom-derived opioid alkaloids",
+    "shared_mechanism": "Agonism (or antagonism) at the μ-opioid receptor (OPRM1), with variable activity at δ (OPRD1), κ (OPRK1), and NOP (OPRL1) receptors. Activated MOR couples Gαi/o → inhibits adenylyl cyclase (↓cAMP), activates GIRK potassium channels (hyperpolarisation), inhibits N/P/Q-type voltage-gated calcium channels (↓neurotransmitter release). Repeated activation drives GRK phosphorylation, β-arrestin-2 recruitment, desensitisation, and internalisation. 'Biased agonism' (G-protein > β-arrestin) was hypothesised to dissociate analgesia from respiratory depression (TRV130/oliceridine, kratom alkaloids) but the hypothesis is now contested (Conibear & Kelly 2019, doi:10.1016/j.tips.2019.04.002): much of the apparent safety of G-biased agonists like 7-OH-mitragynine and PZM21 derives from low intrinsic efficacy / partial agonism, not bias per se.",
+    "shared_pk_summary": "Morphinans typically undergo UGT2B7 glucuronidation (morphine M3G/M6G, hydromorphone H3G, oxymorphone) — minimal CYP dependence. Codeine/hydrocodone/tramadol are CYP2D6 prodrugs — PMs get reduced effect, UMs get supratherapeutic active metabolite (codeine→morphine, hydrocodone→hydromorphone, tramadol→O-DSMT) and risk fatal respiratory depression at standard doses (FDA contraindicates codeine and tramadol <12 y, post-tonsillectomy adolescents). Oxycodone is primarily CYP3A4 (→inactive noroxycodone) with CYP2D6 minor (→oxymorphone). Methadone is mainly CYP2B6, with huge inter-individual half-life variability (8-59 h). Buprenorphine is CYP3A4 + UGT (very long t½, sublingual bioavailability ~30%). Mitragynine is CYP3A4-bioactivated to 7-OH-mitragynine in vivo.",
+    "shared_safety": "Respiratory depression at supratherapeutic doses is the proximal cause of death. Naloxone reverses MOR-mediated opioid overdose; reversal of buprenorphine requires higher doses (slow off-rate), reversal of methadone may require multiple doses or infusion (long t½), reversal of meperidine does NOT prevent normeperidine seizures, and KOR-selective designer opioids (U-51754) are less responsive. Methadone uniquely carries hERG/QT risk (S-enantiomer ~3.5× more potent than R at hERG block). Dextropropoxyphene was withdrawn worldwide for cardiotoxicity (norpropoxyphene Na+/K+ channel block). Tramadol and tapentadol add SNRI/NRI activity → serotonin syndrome (tramadol > tapentadol) and lowered seizure threshold (tramadol particularly). Codeine/tramadol respiratory deaths in CYP2D6 UMs are the canonical pharmacogenetics safety case. OPRM1 A118G (rs1799971) G-carriers have ~30% higher morphine requirement and are paradoxically protected from morphine-induced respiratory depression.",
+    "sar_summary": "Within the morphinan core: 3-OH free phenol (morphine) → CYP2D6 substrate; 3-O-methyl (codeine) → CYP2D6 prodrug (200× lower MOR affinity than morphine); 14-OH (oxycodone, oxymorphone, naloxone, naltrexone) → increased MOR affinity and altered receptor selectivity; 6-keto reduction (hydromorphone vs morphine) → 5-10× potency increase; 6-deoxy + 7,8-saturation (desomorphine) → 8-10× lipophilic potency increase; N-cyclopropylmethyl / N-allyl (naloxone, naltrexone, nalbuphine, buprenorphine, butorphanol) → switches efficacy toward antagonism or partial agonism; 6,14-endoetheno + thevinol/orvinol side chain (buprenorphine, etorphine, acetorphine) → sub-nanomolar MOR affinity, slow off-rate, and sometimes mixed efficacy (buprenorphine partial agonist; etorphine full agonist with 1000-3000× morphine potency). Outside morphinans: methadone/diphenylpropylamine class → MOR + NMDA + monoamine reuptake; piperidines (fentanyl, meperidine, ketobemidone) → variable; arylcyclohexylamines mostly NMDA (3-HO-PCP is the rare arylcyclohexylamine with high MOR affinity). Mitragynine indole alkaloids — biased G-protein signalling; bioactivated by CYP3A4 to 7-OH-mitragynine, the dominant in-vivo MOR effector; further N1-rearrangement gives mitragynine pseudoindoxyl (also biased).",
+    "key_references": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1021/jacs.6b00360",
+      "doi:10.1021/acscentsci.9b00141",
+      "doi:10.1056/NEJMra1604339",
+      "doi:10.1038/clpt.2011.287",
+      "doi:10.1002/cpt.2956",
+      "doi:10.1016/j.tips.2019.04.002",
+      "doi:10.1038/s41380-023-02353-z",
+      "doi:10.1124/jpet.107.121319"
+    ],
+    "_source_group": "classical-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_h1_blockers",
+    "class_name": "First-generation H1 antihistamines with anticholinergic deliriant activity (ethanolamine, alkylamine, and phenothiazine subclasses)",
+    "shared_mechanism": "First-generation H1 antihistamines are lipophilic, brain-penetrant inverse agonists of the constitutively active H1 histamine receptor (Gαq → PLCβ → IP3/DAG). Their 'deliriant' / sedative profile is the combined result of (a) H1 inverse agonism in the tuberomammillary-cortical arousal system (sedation), and (b) variable but clinically meaningful muscarinic M1-M5 antagonism on cortical/hippocampal/PNS muscarinic receptors (anticholinergic delirium, dry mouth, tachycardia, urinary retention). Recreational use typically exploits the muscarinic action at supratherapeutic doses (e.g. diphenhydramine 500-1500 mg) to produce true hallucinations (Lilliputian, conversation with absent persons, indistinguishable from reality). Phenothiazine antihistamines (promethazine) add D2, 5-HT2, α1 antagonism. The class shares 'anticholinergic toxidrome': hyperthermia, mydriasis, dry mucous membranes, urinary retention, ileus, agitated delirium, seizures, and — at higher concentrations — cardiotoxicity via combined hERG (Kv11.1) and Nav1.5 (cardiac sodium channel) block.",
+    "shared_pk_summary": "All members are weak bases (pKa 8-10), highly lipophilic, well absorbed orally but undergoing substantial first-pass hepatic metabolism (bioavailability 25-50%). Vd typically 3-15 L/kg (extensive tissue distribution). Protein binding 70-95% (predominantly albumin). Hepatic metabolism is dominated by CYP2D6 (chlorpheniramine, diphenhydramine, promethazine) with secondary CYP3A4/UGT pathways. Half-lives 8-30 h. CYP2D6 PMs (~7% of European-ancestry populations) show 2-3× higher AUC and prolonged sedation.",
+    "shared_safety": "Class hazards: (1) Anticholinergic delirium — particularly dangerous in elderly (Beers criteria avoid). (2) Cardiotoxicity in overdose: combined hERG block → QT prolongation/torsades + Nav1.5 block → wide QRS/Brugada-like ECG. Treated with hypertonic sodium bicarbonate (for sodium channel toxicity) and magnesium (for torsades). (3) Pediatric respiratory depression (promethazine FDA black box <2 y/o). (4) Serotonergic syndrome risk with chlorpheniramine + SSRI (SERT inhibition). (5) Hyperthermia & rhabdomyolysis at recreational doses. Antidote for anticholinergic delirium: physostigmine 0.5-2 mg IV (contraindicated if QRS prolonged or AV block). Sodium channel toxicity: not antidoted by physostigmine — physostigmine may worsen cardiac toxicity.",
+    "sar_summary": "Ethanolamines (diphenhydramine, doxylamine, dimenhydrinate) have ether/amine linker giving strong H1 affinity (Ki 5-20 nM) and intermediate muscarinic affinity (Ki 50-200 nM at M1). Alkylamines (chlorpheniramine, brompheniramine, pheniramine) are propylamine-linked, more H1-selective (Ki 1-5 nM) with weak muscarinic affinity (Ki 10-50 µM at M1) — but pick up potent SERT activity (Ki 15-30 nM) from the diphenylmethane → propylamine geometry. Phenothiazines (promethazine) inherit the antipsychotic-like polypharmacology of the phenothiazine ring (D2, 5-HT2, α1, plus very potent muscarinic ~1-12 nM at all subtypes). Replacing the tertiary amine with quaternary nitrogen (loratadine N-oxide → fexofenadine derivatives) removes BBB penetration → 'second-generation' non-sedating antihistamines.",
+    "key_references": [
+      "pmid:11994058",
+      "pmid:8946477",
+      "pmid:2884340",
+      "pmid:19885040",
+      "doi:10.1016/j.phrs.2009.05.008",
+      "pmid:25339374",
+      "ncbi:books/NBK534844",
+      "https://pdsp.unc.edu/databases/kidb.php"
+    ],
+    "_source_group": "deliriants-anticholinergics"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_tropane_alkaloids",
+    "class_name": "Tropane alkaloid muscarinic antagonists (Solanaceae alkaloids — scopolamine, atropine, hyoscyamine)",
+    "shared_mechanism": "Tropane-alkaloid muscarinic antagonists (atropine, scopolamine/hyoscine, hyoscyamine, anisodamine) are pan-muscarinic (M1-M5) competitive antagonists with sub-nanomolar to low-nanomolar Ki at all five subtypes. They are largely non-selective at equilibrium binding, but exhibit clinically meaningful functional differences driven by (a) lipophilicity (scopolamine > atropine > hyoscine butylbromide → CNS:peripheral ratio), (b) tissue distribution kinetics, and (c) the chirality of the tropic-acid ester (L-hyoscyamine is the pharmacologically active enantiomer; racemic atropine is half-strength). Block of muscarinic transmission in cortex/hippocampus produces 'true' deliriant hallucinations (Lilliputian, no insight, no critical distance from the experience), profound antegrade amnesia, and disorientation. Peripheral block produces classic 'mad as a hatter, red as a beet, hot as a hare, dry as a bone, blind as a bat' anticholinergic toxidrome.",
+    "shared_pk_summary": "Tropane alkaloids are weak bases (pKa ~9.7), lipophilic at physiological pH (atropine logP 1.8; scopolamine logP 1.2). Oral bioavailability 10-50% (variable due to first-pass and gut wall metabolism). Vd ~1-2 L/kg. CYP3A4 is the dominant metabolic pathway. Renal excretion of unchanged drug is small (1-5%). Half-lives are short: scopolamine 4-5 h (oral, longer transdermal), atropine 2-4 h. Notably shorter than the antihistamines — repeated dosing of scopolamine is uncommon clinically except via the 72-h transdermal patch.",
+    "shared_safety": "Class hazards: (1) Anticholinergic delirium with true hallucinations; recovery takes 24-72 h (longer than the parent compound's t1/2, suggesting active metabolites or post-receptor recovery kinetics). (2) Hyperthermia/heatstroke from sweat-gland blockade — particularly dangerous in summer / physical exertion. (3) Severe agitation requiring physical restraint or sedation — benzodiazepines preferred. (4) Physostigmine is antidote (peripheral + central AChE inhibitor; ~0.5-2 mg IV slow push). (5) Botanical preparations (Datura, Brugmansia, Atropa belladonna, Hyoscyamus) are exceptionally dangerous: scopolamine/atropine/hyoscyamine ratios vary 10-40× between specimens, plant parts (seeds richest), seasons, and geographies — no reliable dose estimation possible. Lethal doses estimated 10-100 mg atropine equivalent (highly variable). (6) Pediatric patients show paradoxical excitement and lower toxic thresholds.",
+    "sar_summary": "All tropane mAChR antagonists share the tropane bicyclic core (8-azabicyclo[3.2.1]octane) esterified with tropic acid (or substituted phenylpropanoic acid). The 6,7-epoxide differentiates scopolamine from atropine and confers greater CNS:peripheral ratio (more lipophilic, faster BBB equilibration). Quaternisation of the tropane nitrogen (e.g. atropine methylnitrate, hyoscine butylbromide) abolishes BBB penetration, producing peripheral-only antimuscarinics used for GI/biliary spasm without CNS delirium. Tropic acid stereochemistry: (S)-tropic acid (in L-hyoscyamine) is the active enantiomer; (R)-tropic acid has ~100× weaker muscarinic affinity. Racemisation of L-hyoscyamine during extraction/processing produces atropine (DL-hyoscyamine), halving potency by mass. Glycopyrrolate (synthetic quaternary) has the inverse CNS:peripheral profile of scopolamine — no CNS penetration, used for anesthesia premedication and sialorrhea.",
+    "key_references": [
+      "pmid:2704370",
+      "pmid:16175141",
+      "doi:10.1023/A:1015916423156",
+      "pmid:25339374",
+      "pmid:25187432",
+      "pmid:26955968",
+      "https://en.wikipedia.org/wiki/Scopolamine"
+    ],
+    "_source_group": "deliriants-anticholinergics"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_misc_hoax",
+    "class_name": "Unverified/hoax inhalants miscategorised as deliriants",
+    "shared_mechanism": "No verified pharmacology. Substances in this informal category (jenkem being the canonical example) lack a defined active ingredient, peer-reviewed binding data, or analytical chemistry. The 'class' exists only as a residual bucket for substance-list entries that survived from earlier database curation without sufficient evidence base to remove.",
+    "shared_pk_summary": "Not applicable — no characterised active.",
+    "shared_safety": "Inhalation of putrefaction gases poses real chemical (H2S, NH3) and biological (enteric pathogens) hazards but does not produce predictable psychoactive effects.",
+    "sar_summary": "Not applicable.",
+    "key_references": [
+      "https://en.wikipedia.org/wiki/Jenkem",
+      "https://www.snopes.com/fact-check/jenkem/"
+    ],
+    "_source_group": "deliriants-anticholinergics"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "benzimidazole-nitazenes",
+    "class_name": "Benzimidazole nitazenes (2-benzylbenzimidazoles)",
+    "shared_mechanism": "Full μ-opioid receptor agonists with structures derived from 1950s Ciba-Geigy analgesic research (original etonitazene). MOR engagement via a binding pose distinct from fentanyl — the 5-nitro group, alkoxy phenyl, and N-dialkylaminoethyl tail all contribute to picomolar affinity. Most subnanomolar in Ki and EC50 at human MOR with Emax 90-110% of DAMGO. NOT detected by fentanyl test strips — chemically unrelated scaffold. Naloxone reverses but cumulative doses ≥4 mg are often needed clinically (vs ≥1 mg typical fentanyl).",
+    "shared_pk_summary": "Limited human PK. Hepatic metabolism via CYP3A4 (N-deethylation, primary) and CYP1A2 (O-dealkylation of alkoxy chain). Many phase-I metabolites retain MOR activity (notably N-desethyl-isotonitazene and N-desethyl-protonitazene, which are themselves sold as designer opioids). Half-life appears intermediate between morphine and fentanyl (rat data only).",
+    "shared_safety": "Extreme potency + steep dose-response + onset within minutes of insufflation/IV. Respiratory depression dominates clinical picture. Naloxone is effective but high cumulative doses needed: emergency departments report 4-6 mg cumulative IV naloxone for nitazene reversal (vs 0.4-2 mg typical for morphine/oxycodone). Active metabolites can produce 'renarcotization' as naloxone wears off (t½ 1.5-2.5h) while parent + metabolite persist longer. Public-access intranasal Narcan (4 mg) may be insufficient as single dose. Despite being part of the 'designer opioid' class, evidence does NOT support uniform β-arrestin bias — Vandeputte/Connors studies show MOR-coupling characteristic of full agonists rather than arrestin-biased ligands. The 'biased toward respiratory depression' narrative is better explained by extreme efficacy (Emax >100% DAMGO at full receptor occupancy) plus extreme potency than by pathway bias.",
+    "sar_summary": "MOR potency rank by 4-position substituent on benzyl: ethoxy ≈ isopropoxy > propoxy > methoxy > butoxy > Cl > F. 5-nitro contributes ~5× potency vs des-nitro analogues. Pyrrolidine (N-pyrrolidino) replacement of diethylamine tail preserves potency but appears to alter MOR/KOR selectivity. N-deethylation of the tail amine produces active metabolites with maintained or even improved MOR EC50. The 2-benzylbenzimidazole scaffold provides a binding mode unrelated to fentanyl's anilidopiperidine — this is why fentanyl-test-strips (immunoassay-based) cannot detect nitazenes.",
+    "key_references": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-021-03207-9",
+      "doi:10.1093/jat/bkaa092",
+      "doi:10.1038/s41386-022-01396-0",
+      "doi:10.3389/fpubh.2024.1346109"
+    ],
+    "_source_group": "designer-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "class_name": "Fentanyl-family anilidopiperidines",
+    "shared_mechanism": "4-anilidopiperidine scaffold designed at Janssen (1960s) — full MOR agonists with sub- to low-nanomolar Ki at human MOR. β-arrestin recruitment is broadly proportional to G-protein activation (i.e., not biased) per Ramos-González 2023, except for carfentanil which is genuinely β-arrestin-biased. Activate Gαi/o → cAMP inhibition + GIRK opening + Ca²⁺ channel closure.",
+    "shared_pk_summary": "Extensive CYP3A4 N-dealkylation to inactive nor-metabolite + 4-ANPP marker (from amide hydrolysis). High lipophilicity → rapid BBB transfer, large Vd (3-5 L/kg), context-sensitive half-life that grows with infusion duration (except remifentanil — esterase-cleared). Protein binding 80-92% (albumin + α1-acid glycoprotein). CYP3A4 inhibitors (ritonavir, itraconazole) markedly increase exposure.",
+    "shared_safety": "Chest wall rigidity ('wooden chest syndrome') — class-specific complication driven by central MOR activation via dopaminergic pathway; risk highest with rapid-onset routes (IV bolus, smoked, IN). Reversible with naloxone OR neuromuscular blockade. Onset within seconds-to-minutes; can cause sudden ventilatory failure before classical respiratory depression manifests. Naloxone dose requirements rise with potency: fentanyl typically reverses with 0.4-2 mg cumulative; carfentanil-class exposures may need ≥4-8 mg and/or nalmefene/naltrexone given the unique receptor conformation stabilised by carfentanil (Faouzi 2024).",
+    "sar_summary": "4-position substituent on piperidine: methoxymethyl (sufentanil) or methyl ester (carfentanil, remifentanil) markedly increase MOR affinity. N-aryl ring substitution: para-F preserves activity; para-Cl, para-OMe also active; para-thienyl (sufentanil) increases potency. Amide acyl chain: propionyl (fentanyl) > butyryl (butyrfentanyl) > acetyl (acetylfentanyl) > pentanoyl in MOR Ki. Furanyl carbonyl (furanylfentanyl) preserves high potency. 3-methyl piperidine substitution + 4-carbomethoxy (lofentanil) gives extreme affinity + slow off-rate.",
+    "key_references": [
+      "doi:10.1002/dta.2822",
+      "doi:10.3390/molecules24040740",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1111/bph.16084",
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1097/MJT.0b013e3182691e8d"
+    ],
+    "_source_group": "designer-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "u-series-benzamides",
+    "class_name": "U-series and benzamide opioids (U-47700, U-49900, AH-7921)",
+    "shared_mechanism": "trans-3,4-dichlorobenzamide + cyclohexyl-diamine scaffold designed at Upjohn 1970s (U-series) and Allen+Hanburys (AH-7921). Full MOR agonists with Ki 11-30 nM at human MOR. U-47700 shows ~25% MOR internalisation (DAMGO-like); AH-7921 shows ~5% (morphine-like) per Hsu 2019. Selectivity: μ >> δ > κ for U-47700; AH-7921 has mixed μ/κ.",
+    "shared_pk_summary": "Hepatic metabolism via CYP3A4 (and minor CYP3A5/2B6/2C19) → N-desmethyl-U-47700 (active) and further N,N-didesmethyl in urine. Rapid Cmax (rat Tmax 15-38 min IV). Human CL extrapolated 0.944-1.371 L/h/kg via PBPK. Half-life in rats ~2-3 hours; human estimates ~3-5 hours.",
+    "shared_safety": "Roughly 7-8× morphine potency in-vivo (U-47700). Fatalities reported with combination use, often with benzodiazepines. Naloxone-responsive with standard doses (lower-potency than fentanyl/nitazenes). Not detected by fentanyl test strips.",
+    "sar_summary": "trans-1,2-diamine geometry is required; 3,4-dichlorobenzamide is optimal — mono-Cl or mono-F reduce potency. N,N-dimethyl tail (U-47700) > N,N-diethyl tail (U-49900) at MOR. Modifications mostly explored as scheduling workarounds 2016-2019.",
+    "key_references": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-020-02766-7",
+      "doi:10.1093/jat/bkx028",
+      "doi:10.1002/prp2.511"
+    ],
+    "_source_group": "designer-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "mt-piperazines",
+    "class_name": "Diphenylethyl-piperazine opioids (MT-45)",
+    "shared_mechanism": "1-cyclohexyl-4-(1,2-diphenylethyl)piperazine. MOR full agonist with moderate potency (Ki 18-57 nM; cAMP EC50 1.3 μM) but strongly G-PROTEIN BIASED — β-arrestin recruitment is 18× weaker than expected from cAMP potency. Approximately morphine-equivalent in vivo. Not chemically related to fentanyl, U-series, or nitazenes — entirely distinct scaffold.",
+    "shared_pk_summary": "Hepatic CYP3A4 oxidation; multiple hydroxylated and N-dealkylated metabolites identified in human urine (Helander 2018). No formal human PK studies.",
+    "shared_safety": "Distinctive bilateral sensorineural hearing loss in MT-45 users (2014 Swedish cluster, 9 cases) — unique among opioids. Mechanism unclear, possibly via NMDA-related off-target activity. Classical opioid respiratory depression also; naloxone-responsive.",
+    "sar_summary": "Class so small (MT-45 + 2F-MT-45 + a handful of analogues) that no broad SAR. The ortho-fluorine in 2F-MT-45 markedly increases potency (cAMP EC50 42 nM vs 1300 nM for MT-45) and restores β-arrestin recruitment to DAMGO-like potency.",
+    "key_references": [
+      "doi:10.1111/bph.15064",
+      "doi:10.1002/dta.2358",
+      "doi:10.1097/MJT.0000000000000275"
+    ],
+    "_source_group": "designer-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "brorphine-benzimidazolones",
+    "class_name": "Piperidine-benzimidazolone opioids (Brorphine class)",
+    "shared_mechanism": "1-(piperidin-4-yl)-2,3-dihydro-1H-benzimidazol-2-one scaffold with arylethyl tail. Functional bridge between piperidine (fentanyl) and benzimidazole (nitazene) chemistries. Full MOR agonist with high β-arrestin2 recruitment (Emax 209% hydromorphone) but NOT biased (G-protein and arrestin scale proportionally). Halogen series (chlor-, brom-, iodo-rphine) all active; bromo (brorphine) is the marketed compound.",
+    "shared_pk_summary": "Hepatic CYP3A4 — multiple oxidative metabolites in hepatocyte studies. No formal human PK.",
+    "shared_safety": "Found in supply since 2019. Fatalities reported in US/EU. Naloxone-responsive but potency exceeds morphine. Not detected by fentanyl test strips. Resurgence post-2023 after initial decline.",
+    "sar_summary": "Para-halogen on arylethyl phenyl ring: H << F < Cl ≈ Br ≈ I at MOR. The 'orphine' parent (no para-halogen) is much weaker.",
+    "key_references": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1016/j.neuropharm.2024.110115"
+    ],
+    "_source_group": "designer-opioids"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "neoclerodane-kor-ligands",
+    "class_name": "Salvinorin neoclerodane diterpenes (κ-opioid receptor ligands — 'dysdelics')",
+    "shared_mechanism": "Neoclerodane diterpenes from Salvia divinorum and their semi-synthetic analogues are the only known non-nitrogenous agonists of the κ-opioid receptor (KOR). They bind KOR in a binding pocket distinct from the classical morphinan/peptide site: salvinorin A occupies the extracellular portion of the KOR cavity, with the C-4 methyl ester hydrogen-bonding to Glu297(ECL2), the C-1 carbonyl to Tyr312(7.35), and the C-2 acetoxy to Tyr313(7.36), with the furan ring pointing down into the morphinan pocket (PDB 6B73 / Roth 2021). Crucially they lack the protonatable amine that all classical opioids use to engage Asp138(3.32). Downstream they couple via Gαi/o to cAMP inhibition and GIRK activation, with substantial β-arrestin-2 recruitment that drives KOR desensitisation, JNK activation, and the dysphoric/aversive component of the subjective experience. The phenomenology produced — rapid dissociation, intense 'shifting reality' visuals, dysphoria — does not involve 5-HT2A (no classical-psychedelic mechanism) or NMDA (no classical-dissociative mechanism), making the class mechanistically third-kind. The term 'dysdelic' coined to capture this neither-psychedelic-nor-dissociative phenomenology.",
+    "shared_pk_summary": "All members of this class are highly lipophilic, non-ionisable, and bind plasma albumin tightly. Smoked/inhaled, salvinorin A reaches Cmax in 2 min (mean ~19 ng/mL after 21 µg/kg) and plasma levels return to baseline within 90 min; brain uptake peaks within 40 s (baboon PET) and clears with t½ ~8 min — explaining the <10 min subjective duration. Oral bioavailability is essentially zero due to rapid GI esterase hydrolysis of the C-2 acetate to inactive salvinorin B. The C-2 acetate is the metabolically labile group — replacing it with C-2 ether (MOM, EOM), sulfonate (mesyl), or other ester (benzoate — herkinorin) dramatically extends duration (≥100-fold in some cases) by preventing esterase hydrolysis. In vitro: salvinorin A is metabolised by plasma carboxylesterase (dominant), with secondary contributions from CYP2D6, CYP1A1, CYP2C18, CYP2E1, and UGT2B7. P-gp is an efflux substrate at the BBB. Sublingual/buccal absorption needs DMSO/PEG vehicle; aqueous vehicles fail (logP ~2.5 but poor water solubility).",
+    "shared_safety": "Cardiopulmonary safety appears favourable in clinical doses studied (modest, transient increases in HR/BP at peak effect). The principal acute harm-reduction concerns are: (1) profound dissociation/loss of body awareness within seconds of smoking — risk of physical injury / wandering / unintended self-harm — making a tripsitter essential; (2) acute dysphoria and lasting emotional residue from intense β-arrestin-driven KOR signalling; (3) lack of cross-tolerance with classical psychedelics — even experienced psychedelic users are caught off-guard by Sal A's intensity and short rebuild time; (4) seizure-like motor phenomena documented at high doses. Hormonal: increases prolactin (peaks ~15 min after inhalation) and inconsistently cortisol. The semi-synthetic C-2-modified analogues (MOM Sal B, RB-64, 16-Br Sal A) have markedly extended duration — same dose intensity but lasting hours rather than minutes, magnifying all harms.",
+    "sar_summary": "The Sal A pharmacophore requires: (1) the C-4 methyl ester (loss → loss of activity); (2) the furan ring at C-12 (loss → near-complete loss of activity; halogenation at C-16 of furan tolerated and even extends duration without losing potency — see 16-Br Sal A); (3) the C-2 ester/ether on the alpha-face (de-acetylation → Sal B, essentially inactive); the C-1 carbonyl is NOT strictly required (the 1-deoxy analogue is well-tolerated); the C-2 hydroxyl orientation matters — beta-epimer dramatically less active. The C-2 acetoxy is the key modifiable position for therapeutic engineering: methyl ester (Sal A) → 100× extended duration as methoxymethyl ether (MOM Sal B / SymBMS) → biased agonist as ethoxymethyl ether (EOM Sal B) → biased irreversible agonist as 22-thiocyanate/sulfonate (RB-64). Replacement of acetate with benzoate (herkinorin) inverts receptor selectivity from KOR to MOR. C-1, C-12, C-16, and C-22 modifications all generate distinct G-protein-bias profiles, making the salvinorin scaffold one of the richest classes for biased-agonism SAR alongside the morphinan/MOR field. Salvinicin A/B (cyclic 12,17-rearrangements) demonstrate further plasticity — Sal A becomes a KOR partial agonist, Sal B a MOR antagonist.",
+    "key_references": [
+      "doi:10.1073/pnas.182234399",
+      "doi:10.1021/jm049438q",
+      "pmid:19053825",
+      "doi:10.1124/jpet.114.216820",
+      "pmid:18089845",
+      "doi:10.1007/s00213-017-4637-2",
+      "pmid:17090705",
+      "pmid:18434204",
+      "pmid:19462483",
+      "pmid:27780703",
+      "pmid:32869039",
+      "doi:10.1016/j.biopsych.2012.05.030",
+      "pmid:37354128",
+      "pmid:14510607",
+      "doi:10.1021/np0205699",
+      "pmid:15987194",
+      "pmid:16084728"
+    ],
+    "_source_group": "dysdelics-and-kor-ligands"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "gaba-depressants-other",
+    "class_name": "Other GABAergic depressants (alcohol, GHB family, gabapentinoids, phenibut, baclofen, barbiturates, quinazolinones)",
+    "shared_mechanism": "This is a heterogeneous group united by clinical CNS depressant effect rather than a shared receptor target. Mechanisms diverge wildly: (1) Ethanol acts at NMDA (channel blocker, IC50 ~50 mM), GABA-A δ-subunit, glycine receptors, 5-HT3, nAChR, GIRK — and indirectly via neurosteroid (allopregnanolone) induction. (2) GHB has a high-affinity 'GHB receptor' (Maitre site, ~580 nM) plus low-affinity GABA-B partial agonism (~200 μM) — this dual-site pharmacology underlies the biphasic dose response (low dose stimulant, high dose sedative-coma). GBL and 1,4-butanediol are GHB prodrugs (lactonase and ADH/ALDH respectively). (3) Gabapentinoids (gabapentin, pregabalin) are NOT GABA receptor ligands despite the name — they bind the α2δ-1 auxiliary subunit of voltage-gated Ca2+ channels, reducing presynaptic Ca2+ entry and transmitter release. Pregabalin has ~6x higher α2δ-1 affinity than gabapentin. (4) Phenibut combines GABA-B partial agonism (like baclofen) with weak α2δ binding (like gabapentin) — a dual mechanism shared with no other widely used compound. (5) Baclofen is the prototype selective GABA-B agonist (R1/R2 obligate heterodimer). (6) Barbiturates bind a β+/α- pocket on GABA-A and at high concentrations DIRECTLY open the chloride channel without GABA — this distinguishes them from benzodiazepines and explains higher overdose lethality. (7) Methaqualone-family quinazolinones bind the etomidate/propofol pocket on GABA-A (distinct from both BZ and barbiturate sites).",
+    "shared_pk_summary": "PK varies dramatically. Ethanol: zero-order elimination via ADH (Km ~2 mM = ~0.02 g/dL BAC), inducible CYP2E1 minor path. GHB: capacity-limited absorption AND elimination, dose-dependent t1/2 (~30-90 min), 95% metabolised to succinate via SSADH (Krebs cycle). Gabapentin: saturable LAT1 absorption (F% drops 60→25% across 300→3600 mg), 100% renal unchanged. Pregabalin: linear PK, 98% renal unchanged. Phenibut: ~65% renal unchanged, t1/2 ~5 h. Baclofen: 70-85% renal unchanged, t1/2 2-6 h PO. Barbiturates: extensive hepatic CYP oxidation, very long t1/2 (phenobarb ~100 h, pentobarb ~20 h), PXR/CAR pan-CYP inducers. Methaqualone: lipophilic, large Vd, hepatic clearance.",
+    "shared_safety": "Universal feature: dose-dependent respiratory depression. Synergy with other GABA-A PAMs (BZs, Z-drugs), opioids, and ethanol → leading cause of accidental overdose death. Barbiturates lethal via direct GABA-A channel opening at supratherapeutic doses (no ceiling). Gabapentinoids implicated in opioid-overdose deaths (UK Schedule 3 reclassification 2019). Withdrawal mechanisms: GABA-A downregulation + NMDA upregulation (ethanol, BZs, barbiturates) → seizures, delirium tremens. GABA-B receptor downregulation (GHB, phenibut, chronic baclofen) → protracted withdrawal with psychiatric sequelae. GHB has a narrow therapeutic index (sedative dose ~250-500 μM brain conc; coma at 600-800 μM).",
+    "sar_summary": "GABA-B: β-aryl GABA scaffold (phenibut → baclofen p-chloro → 4-F phenibut). para-chloro (baclofen) gives highest selectivity and potency; para-F (4-F phenibut) gives lipophilicity boost + duration. α2δ ligands: β-amino acid scaffold, cyclohexyl ring (gabapentin) vs isobutyl (pregabalin) vs bicyclic (mirogabalin). Pregabalin's stereochemistry and methyl branching give ~6x α2δ-1 affinity boost. Barbiturates: 5,5-disubstitution at the pyrimidinetrione ring; alkyl side chains (pentobarb) give anaesthesia (higher direct activation), aryl side chain (phenobarb) gives anticonvulsant efficacy with less direct activation. Quinazolinones (methaqualone, mecloqualone, etaqualone, mebroqualone, methylmethaqualone, SL-164): substitution on the 3-aryl group and the 2-methyl/ethyl modulates potency at the etomidate-site GABA-A pocket. GHB analogues: 4-OH on butyric acid is essential; GBL (lactone) is prodrug; 1,4-BD (diol) is two-step prodrug.",
+    "key_references": [
+      "pmid:2467611",
+      "pmid:15567424",
+      "pmid:10591456",
+      "pmid:22778411",
+      "pmid:8395712",
+      "pmid:15801823",
+      "pmid:26101061",
+      "pmid:6323949",
+      "pmid:23026953",
+      "pmid:26195733",
+      "pmid:11061418",
+      "pmid:30627427",
+      "pmid:16968519"
+    ],
+    "_source_group": "gaba-depressants-other"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "methylenedioxy-entactogens",
+    "class_name": "Methylenedioxy phenethylamine entactogens (MDxx and SAR-related)",
+    "shared_mechanism": "Substrate-type monoamine releasers at SERT, NET, and DAT. Compound enters the neuron via the same transporter it will then reverse — once inside, it triggers efflux of stored monoamines, with VMAT2 inhibition contributing to cytosolic monoamine availability. The 3,4-methylenedioxy ring is the entactogen signature: it shifts SERT selectivity above DAT (the opposite of methamphetamine). The α-methyl group protects against MAO oxidation, doubling duration vs the deaminated phenethylamines. The N-substituent modulates the DAT:SERT release ratio: N-H (MDA) gives broad release with some 5-HT2A agonism; N-methyl (MDMA) is the prototypical entactogen with strong SERT/NET, modest DAT; N-ethyl (MDE) collapses DA release; N-propyl/N-allyl further reduce all activity. Ring substitution (e.g., 5-methoxy → MMDA, 6-bromo → 2-Br-MDA) shifts pharmacology from releaser toward direct 5-HT2A agonist psychedelic. The class is also defined by potent 5-HT2B agonism (MDA Ki ≈100 nM, MDMA ≈500 nM), responsible for the cardiac valvular fibrosis risk shared by all members at heavy chronic exposure.",
+    "shared_pk_summary": "Oral bioavailability ~70%, Tmax 1.5-2.5 h, half-life 6-10 h for the prototypical MDxx compounds. Metabolism is primarily CYP2D6 (O-demethylenation of the catechol — generating reactive ortho-quinones that mechanism-based-inhibit the enzyme) and CYP2B6 (N-dealkylation). The mechanism-based inhibition of CYP2D6 is the source of MDMA's characteristic nonlinear PK: doubling the dose more than doubles AUC, half-life lengthens at higher doses, and the inhibited CYP2D6 takes ~10 days to recover via de novo protein synthesis. This means CYP2D6 polymorphism has less impact than predicted from first principles, but co-administration of other CYP2D6 substrates is dangerous — repeat-dosing within a week stacks exposure unpredictably regardless of genotype. Major active metabolites are MDA from MDMA (N-demethylation, half-life ~12 h — explains next-day stimulant tail). HMMA via COMT methylation of HHMA is the major urinary metabolite. Phase II glucuronide/sulfate conjugation of HMMA dominates elimination.",
+    "shared_safety": "Acute: serotonin syndrome (with any MAOI / serotonergic agent — absolute contraindication for MAOIs); SIADH-mediated hyponatremia (especially with the polydipsia typical of recreational use; women at higher risk); hyperthermia driven by NE release + skeletal muscle activity + impaired heat dissipation, capable of causing rhabdomyolysis, DIC, multi-organ failure. Cardiovascular: dose-dependent HR and BP increases. Chronic: 5-HT2B-mediated cardiac valvular fibrosis (fenfluramine-class concern); serotonergic axonal pruning at heavy repeated doses (animal evidence robust; human imaging with [11C]-DASB PET shows reduced SERT availability in heavy users with partial recovery on abstinence). Lifetime exposure matters more than single-dose intensity for valve disease and SERT downregulation. Re-dosing within a session is particularly inefficient and increases risk because CYP2D6 is already inhibited and 5-HT pools are depleted — gives more side effects without more euphoria.",
+    "sar_summary": "α-methyl: protects from MAO oxidation, doubles duration relative to phenethylamine. N-substituent: H = MDA (broad release + 5-HT2A agonist character); methyl = MDMA (canonical entactogen, balanced SERT/NET, weaker DA); ethyl = MDE (collapses DA, pure entactogen); larger N-alkyls progressively kill activity. Ring substitution: 3,4-methylenedioxy = entactogen signature (SERT-selective); halogenation (Br, I) on the ring increases 5-HT2A binding (psychedelic shift); methoxy substitution (e.g., MMDA) increases 5-HT2A agonism at the cost of release; benzofuran ring-replacement (5-APB/6-APB) gives single-digit-nM SNDRA potency with high 5-HT2B agonism (more dangerous); 2-aminoindane scaffold (MDAI) constrains geometry for SERT-selectivity (less neurotoxic per Nichols' design but still capable of fatal hyperthermia). β-keto (cathinone) ring shifts toward stimulant character with VMAT2 inactivity (methylone is 4-5× less potent at SERT release than MDMA). Lysine-amide prodrugs (Lys-MDA, Lys-MDMA) extend onset/duration with no intrinsic activity until peptidase cleavage.",
+    "key_references": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1097/FTD.0b013e3181a8b626",
+      "doi:10.1046/j.1365-2125.2000.00121.x",
+      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1038/s41386-024-01972-6",
+      "doi:10.1038/s41386-025-02248-3",
+      "pmid:12649569",
+      "doi:10.3389/fgene.2012.00235",
+      "doi:10.1177/0269881106065907",
+      "doi:10.1124/jpet.105.085639"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "benzofuran-entactogens",
+    "class_name": "Benzofuran and dihydrobenzofuran amphetamines (APB/APDB family)",
+    "shared_mechanism": "The benzofuran ring (and its saturated dihydrobenzofuran analogue) replaces the methylenedioxy of MDxx with a furan oxygen, while keeping the α-methyl phenethylamine pharmacophore. The substitution dramatically increases potency at human monoamine transporters: 5-APB and 6-APB are 3-10× more potent than MDA at every transporter (single-digit nM EC50 at rat DAT/NET/SERT). The class-defining liability is potent agonism at 5-HT2B (5-APB EC50 280 nM Emax 61%, 6-APB EC50 140 nM Emax 70% — both full agonists in the nanomolar range), which substantially exceeds MDMA's 5-HT2B affinity. This explains the higher rate of fatal cardiac events seen with APB-class drugs at recreational doses. The 5- and 6-positional isomers differ: 5-APB is more SERT-selective; 6-APB is more potent at DAT. Dihydrobenzofuran (APDB) variants have weaker DAT activity and shift toward NRI/SSRA profile. N-methyl substitution (MAPB) gives MDMA-like profile shifts (less DAT release). N-ethyl (EAPB) collapses DA release further.",
+    "shared_pk_summary": "Longer half-lives than MDMA (8-12 h reported for APBs vs 6-8 h MDMA). Slower onset (~2 h vs ~1 h for MDMA). Hepatic metabolism via CYP2D6 (analogous to MDMA) plus likely furan ring oxidation (epoxide intermediates — potential hepatotoxic mechanism not well-characterised). No controlled human PK studies published.",
+    "shared_safety": "Acute: same serotonin syndrome risks as MDMA but multiplied by higher transporter potency. Multiple fatalities documented in UK 2012-2014 ('benzofury'), prompting UK ban. The potent 5-HT2B agonism makes chronic use highly likely to cause cardiac valvular fibrosis (fenfluramine-class concern, but more potent than fenfluramine on a molar basis). Furan ring metabolism may generate reactive epoxides — hepatotoxicity signal in case reports. Long duration combined with vasoconstriction makes hyperthermia/cardiotoxicity worse than equivalent MDMA dose.",
+    "sar_summary": "Furan O position (5 vs 6) determines DAT:SERT ratio. Dihydro- (saturated) form weakens DAT. Same N-substitution effects as MDxx family: H = APB (SNDRA), methyl = MAPB, ethyl = EAPB. All retain potent 5-HT2B agonism — there is no published structural modification that decouples desirable release activity from this cardiotoxic off-target in this scaffold.",
+    "key_references": [
+      "doi:10.1002/dta.1389",
+      "doi:10.1111/bph.15211"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "aminoindane-entactogens",
+    "class_name": "2-Aminoindane entactogens (MDAI family)",
+    "shared_mechanism": "The 2-aminoindane scaffold conformationally constrains the phenethylamine into a rigid 'extended' geometry. This geometry is favourable for SERT activity but disfavours DAT — yielding selective serotonin releasers/reuptake inhibitors with minimal dopamine effect. MDAI (5,6-methylenedioxy-2-aminoindane) is the prototype, developed by David Nichols at Purdue as a 'non-neurotoxic MDMA' research tool. SERT IC50 512 nM, DAT IC50 5920 nM (~12-fold SERT-selective) in rat synaptosomes (Johnson et al 1991). The reduced neurotoxicity in animals stems from low DA-mediated oxidative stress; serotonergic axonal pruning is still possible but markedly reduced.",
+    "shared_pk_summary": "Limited published human PK. Onset 1-2 h, duration 4-6 h reported by users. Hepatic metabolism with CYP2D6 contribution presumed.",
+    "shared_safety": "The 'non-neurotoxic' label has been misleading in practice — Corkery 2013 documented fatalities, and Pálenicek 2016 rat LD50 work demonstrated a narrow safety margin with severe hyperthermia. SERT-selective release still produces serotonin syndrome with MAOIs and SSRIs. 5-HT2B agonism — likely retained by class — adds cardiac concern.",
+    "sar_summary": "Aminoindane core (2-aminopropyl built into a cyclopentane ring fused to benzene) gives rigidity. 5,6-methylenedioxy = MDAI; 5-iodo = 5-IAI (similar profile, halogenated); 5-amino (unsubstituted) = 5-APDI = IAP. Without ring substitution, the parent 2-aminoindane is itself a selective NRI used as a research reference. N-methylation reduces serotonergic potency.",
+    "key_references": [
+      "pmid:1875344",
+      "doi:10.1002/hup.2298",
+      "doi:10.1016/j.etap.2016.03.013"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "aminorex-derivatives",
+    "class_name": "Aminorex derivatives (4-MAR, 4,4'-DMAR family)",
+    "shared_mechanism": "2-amino-oxazoline ring system. Parent aminorex was a 1960s anorectic (withdrawn for pulmonary arterial hypertension). The dimethyl/methyl analogues retain release activity at all three monoamine transporters; 4,4'-DMAR is a single-digit-nM SNDRA (DAT EC50 8.6 nM, SERT 18.5 nM, NET 26.9 nM) and a VMAT2 inhibitor.",
+    "shared_pk_summary": "Limited published human PK.",
+    "shared_safety": "The most dangerous compounds in the entactogen/empathogen-adjacent space by user-fatality ratio. 4,4'-DMAR caused >30 fatal cases in EU 2013-2014 (cluster in Northern Ireland alone: 19 deaths). Mechanism: serotonin syndrome from massive 5-HT release, plus retained aminorex pulmonary toxicity, plus VMAT2-mediated neurotoxicity. Avoid entirely.",
+    "sar_summary": "Methylation at the 4-position of the oxazoline (cis-4-methyl) and on the phenyl ring (4'-methyl) gives 4,4'-DMAR — the most active and most fatal variant. 3,4-DMAR (3'-methyl instead of 4'-methyl) is somewhat less potent.",
+    "key_references": [
+      "doi:10.1016/j.neuropharm.2018.06.025",
+      "doi:10.1111/bcpt.12399"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "alpha-methyltryptamine-derivatives",
+    "class_name": "α-Methyltryptamine and 5-(2-aminopropyl)indole derivatives",
+    "shared_mechanism": "α-methyl tryptamines combine 5-HT2A agonism (psychedelic) with monoamine releaser activity AND MAO-A inhibition. The MAO-A inhibition is the dangerous feature: it is built into the compound's own pharmacology, so the released 5-HT cannot be metabolised. 5-IT (5-API, the indole positional isomer of AMT) is a particularly potent MAO-A inhibitor. 5-MeO-AMT adds 5-methoxy substitution that boosts 5-HT2A agonism markedly — Shulgin's α,O-DMS — extremely potent at 2.5-5 mg active dose.",
+    "shared_pk_summary": "Very long duration (12-18 h for 5-MeO-AMT) reflecting MAO inhibition prolonging the compound's own half-life.",
+    "shared_safety": "Built-in pharmacological foot-gun. The MAO-A inhibition guarantees fatal serotonin syndrome with any additional serotonergic input. Multiple fatality clusters: 5-MeO-AMT in US 2003-2004, 5-IT in EU 2011-2013 (>20 confirmed deaths). MISCATEGORIZED in this group: these are tryptamine psychedelics, not entactogens.",
+    "sar_summary": "Adding 5-methoxy boosts 5-HT2A. Moving the 2-aminopropyl from indole-3 (true tryptamines) to indole-5 (5-IT/5-API) shifts activity from receptor agonism to MAO inhibition.",
+    "key_references": [
+      "doi:10.1124/jpet.300.3.971",
+      "doi:10.1016/j.taap.2017.02.004"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "cathinone-entactogens",
+    "class_name": "Cathinone-class entactogens (β-keto amphetamines)",
+    "shared_mechanism": "β-keto (cathinone) shifts the amphetamine scaffold toward stimulant character. Methylone (3,4-methylenedioxymethcathinone) is the β-keto MDMA — much weaker SERT release (~5× less than MDMA) but retains stimulant-like DAT activity, no VMAT2 inhibition (lower neurotoxicity). Mephedrone and 4-MEC inherit similar profiles. The cathinone class is generally less SERT-selective than the MDxx amphetamines, more reinforcing, and shorter-acting. β-methoxy modifications (mexedrone) collapse activity.",
+    "shared_pk_summary": "Shorter half-lives than MDxx (mephedrone ~2-3 h). Hepatic metabolism via CYP2D6 (analogous demethylenation). Cathinones generally have lower oral bioavailability than amphetamines.",
+    "shared_safety": "Lower serotonergic neurotoxicity than MDMA at equivalent doses but higher abuse potential due to DAT activity. Cardiotoxicity from sympathomimetic load. Methylone cleared US Phase 1 trials for PTSD — apparently safer subjective profile than MDMA at equivalent serotonergic effect.",
+    "sar_summary": "β-keto = stimulant shift, VMAT2-inactive. N-methyl vs N-ethyl: same dose-shifting as MDxx. Ring substitution: 3,4-methylenedioxy = methylone/butylone family; 4-methyl = mephedrone.",
+    "key_references": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1002/dta.2053"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "naphthyl-entactogens",
+    "class_name": "Naphthyl amphetamines (PAL-287 / methamnetamine family)",
+    "shared_mechanism": "Naphthalene ring replacement of phenyl. PAL-287 (naphthylaminopropane) is a balanced SNDRA with single-digit-nM potency at all three monoamine transporters (5-HT 3.4 nM, NE 11.1 nM, DA 12.6 nM) — originally developed as a candidate stimulant-use-disorder treatment because the balanced release dampens DA reinforcement. Methamnetamine is the N-methyl analogue (similar profile).",
+    "shared_pk_summary": "Limited human PK.",
+    "shared_safety": "Serotonin syndrome with MAOIs. No published fatalities cluster, but research-chemical exposure is low.",
+    "sar_summary": "Naphthyl ring boosts potency at all transporters. N-methylation and N-ethylation shift the DAT:SERT ratio analogously to phenethylamine families.",
+    "key_references": [
+      "doi:10.1016/j.neuropharm.2014.04.019"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "pyrovalerone-cathinones",
+    "class_name": "Pyrovalerone cathinones (MDPV / α-PVP / MD-PHP family) — included by accident",
+    "shared_mechanism": "Pure DAT/NET reuptake inhibitors with NO serotonergic activity. Pyrrolidine-N + extended α-alkyl chain. MDPV is the prototype; α-PVP, MD-PHP, MD-PiHP, α-PiHP all share the same NDRI profile. These are pure stimulants — not entactogens. Their inclusion in this group is a categorisation error.",
+    "shared_pk_summary": "Hepatic CYP2D6/CYP1A2 metabolism. Short half-lives (2-4 h for MDPV).",
+    "shared_safety": "High abuse potential, cardiovascular toxicity, agitation/psychosis (the 'bath salts' presentation). No serotonin syndrome risk because no serotonergic activity. Should be reclassified to a stimulant group.",
+    "sar_summary": "Pyrrolidine N + α-alkyl chain length (propyl/butyl/pentyl/hexyl) tunes DAT potency. β-keto retained. Methylenedioxy ring on phenyl gives MD-PHP/MD-PiHP/MDPV.",
+    "key_references": [
+      "doi:10.3390/ph14080732"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "tryptamine-psychedelics",
+    "class_name": "Classical tryptamine psychedelics — miscategorized in this group",
+    "shared_mechanism": "5-HT2A agonists. Psilocin (active form of psilocybin), Ayahuasca (DMT + β-carboline MAOIs), Yopo (bufotenin/DMT snuff) all share 5-HT2A-driven psychedelic mechanism. NOT entactogens — they do not release monoamines significantly.",
+    "shared_pk_summary": null,
+    "shared_safety": "Class-typical psychedelic risks (HPPD, psychiatric exacerbation), with MAOI-specific risks for Ayahuasca.",
+    "sar_summary": null,
+    "key_references": [
+      "pmid:21073468"
+    ],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "phenethylamine-psychedelics",
+    "class_name": "Phenethylamine psychedelics — miscategorized (2C-x, NBOMe)",
+    "shared_mechanism": "Direct 5-HT2A agonists, not monoamine releasers. NBOMe N-substitution converts 2C-x parents into hyper-potent (sub-nM) 5-HT2A agonists with serious fatality risk.",
+    "shared_pk_summary": null,
+    "shared_safety": "NBOMe vasoconstriction, hyperthermia, seizures; multiple documented fatalities.",
+    "sar_summary": null,
+    "key_references": [],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "piperazine-entactogens",
+    "class_name": "Phenylpiperazines (BZP / mCPP / pFPP)",
+    "shared_mechanism": "5-HT1A, 5-HT2A, 5-HT2C agonism plus weak SERT inhibition. Fenfluramine-like serotonergic profile. Not strictly entactogens — produce dysphoric serotonergic effects more than empathy.",
+    "shared_pk_summary": null,
+    "shared_safety": "Headache, nausea, anxiety. mCPP is the active metabolite of trazodone.",
+    "sar_summary": null,
+    "key_references": [],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "synthetic-cannabinoids",
+    "class_name": "Synthetic cannabinoids — wrong group (JWH-367)",
+    "shared_mechanism": "CB1/CB2 receptor agonists. JWH-367 is a Huffman pyrrole cannabinoid. Has nothing in common with MDMA/entactogens — appears in this group by error.",
+    "shared_pk_summary": null,
+    "shared_safety": null,
+    "sar_summary": null,
+    "key_references": [],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "tryptamine-related",
+    "class_name": "Miscellaneous tryptamine-related (ambiguous identifications)",
+    "shared_mechanism": "Catch-all for entries with ambiguous identification.",
+    "shared_pk_summary": null,
+    "shared_safety": null,
+    "sar_summary": null,
+    "key_references": [],
+    "_source_group": "mdma-and-entactogens"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "nootropics-mixed",
+    "class_name": "Other nootropics — kitchen-sink class with radically different mechanisms",
+    "shared_mechanism": "This is NOT a true mechanistic class. The 'nootropic' label groups together compounds with completely different primary pharmacology: (1) cholinergic enhancers — AChE inhibitors (huperzine A, galantamine), choline donors (alpha-GPC, citicoline, centrophenoxine, pyritinol), and nicotinic ligands (nicotine, varenicline, cytisine, encenicline, ABT-126, ABT-418, ispronicline, RG3487); (2) atypical neurotrophic / signaling peptides (semax, selank, cerebrolysin, BPC-157, dihexa, P21); (3) glutamate / AMPA modulators (noopept→cPG, NSI-189); (4) mitochondrial agents (methylene blue, idebenone, J-147); (5) atypical psychostimulants (bromantane via TH upregulation, sulbutiamine via D1 receptor upregulation, methylliberine via adenosine antagonism); (6) Nrf2/sirtuin/longevity (sulforaphane, pterostilbene); (7) misclassified opioids — TIANEPTINE is a μ-opioid receptor full agonist with high abuse liability whose historical 'SSRE atypical antidepressant' framing is medically obsolete and dangerously underplays the true pharmacology; (8) miscellaneous (agmatine, vinpocetine, PRL-8-53, Polygala tenuifolia, 9-Me-BC).",
+    "shared_pk_summary": "PK is heterogeneous: peptides (semax, selank, BPC-157) are essentially restricted to parenteral or intranasal routes due to GI proteolysis; small molecules have variable oral bioavailability ranging from very poor (~6-7% — idebenone, vinpocetine) to excellent (~80-99% — pterostilbene, tianeptine, citicoline). Half-lives range from minutes (semax parent peptide) to ~60 h (encenicline). CYP involvement is mostly limited to varenicline (minimal), galantamine (CYP2D6/3A4), and vinpocetine (CYP3A4/2C19) — tianeptine is notable for being almost entirely non-CYP cleared (mitochondrial β-oxidation).",
+    "shared_safety": "Multi-target safety considerations rather than class-shared: (a) SEROTONIN SYNDROME risk with MAO-A inhibitors (methylene blue is potent enough at therapeutic doses to be a major clinical hazard with SSRIs/SNRIs/tramadol; 9-Me-BC theoretically); (b) OPIOID-RELATED HARM with tianeptine — full MOR agonism with abuse liability, withdrawal, and respiratory depression at supratherapeutic doses (this is the SINGLE most important safety message for this group); (c) CHOLINERGIC AEs with AChE inhibitors and nAChR ligands (nausea, bradycardia, GI cramping); (d) HEPATOTOXICITY reported for pyritinol; (e) PREGNANCY contraindication for vinpocetine (miscarriage risk); (f) THEORETICAL ONCOGENICITY for dihexa (chronic HGF/c-Met augmentation); (g) NO HUMAN SAFETY DATA at all for J-147, P21, BPC-157 (oral), dihexa.",
+    "sar_summary": "No single SAR axis. Within sub-groups: (i) nAChR ligands — selectivity for α4β2 vs α7 vs α6β2 is structural (e.g., epibatidine/varenicline/cytisine share the pyridine-bicycle scaffold; encenicline/ABT-126 are α7-selective quinuclidine-based); (ii) peptide nootropics with C-terminal Pro-Gly-Pro tail (semax, selank) gain metabolic stability and acquire enkephalinase-inhibitor activity via the PGP metabolite; (iii) pterostilbene's two methoxy groups versus resveratrol's free hydroxyls dramatically improve oral BA and BBB penetration; (iv) tianeptine's MOR efficacy is sensitive to the heptanoate side chain length — shorter chain analogs lose efficacy.",
+    "key_references": [
+      "doi:10.1038/tp.2014.30",
+      "doi:10.1021/acschemneuro.4c00519",
+      "doi:10.1038/sj.bjp.0707430",
+      "pmid:11516831",
+      "pmid:17157884",
+      "doi:10.1038/mp.2015.178",
+      "doi:10.1007/s11055-008-9013-6"
+    ],
+    "_source_group": "nootropics-other"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "class_name": "Non-arylcyclohexylamine NMDA receptor antagonists (morphinans, aminoadamantanes, dibenzocycloheptenes, anaesthetic gases)",
+    "shared_mechanism": "Heterogeneous chemotypes that converge on the NMDA receptor PCP / channel-binding site, blocking the open channel in a use- and voltage-dependent manner. Affinity ranges from very low (DXM ~7 μM at the parent; dextrorphan metabolite ~0.9 μM) through low-affinity fast-off-rate (memantine, amantadine ~1-10 μM IC50, koff ~5 s-1) to extremely high-affinity slow-trapping (MK-801 Ki ~2 nM, koff ~0.01 s-1). Off-target serotonergic, sigma, nicotinic, and HCN1 actions vary by scaffold and explain qualitative differences in subjective profile — DXM is ketamine-adjacent with serotonergic affective overlay; memantine is functionally subtler due to fast off-rate and extrasynaptic selectivity; MK-801 is uncontrolled-dissociative with Olney's-lesion neurotoxicity. Nitrous oxide is mechanistically related (NMDA antagonist) but is the outlier in route (gas), kinetics (5-min onset/offset), and chronic toxicity (irreversible B12 inactivation).",
+    "shared_pk_summary": "DXM: oral, CYP2D6-dominated metabolism to active dextrorphan, F% varies 1-80% between PMs and EMs. Memantine: oral F 100%, ~100% renal-cleared (active tubular secretion + pH-dependent reabsorption), t1/2 60-80 h, no meaningful CYP role. Amantadine: similar profile to memantine but t1/2 ~17 h. MK-801: research tool, no published modern human PK. Nitrous: pulmonary, blood-gas 0.47, pharmacokinetics dominated by alveolar ventilation; non-metabolised (except for irreversible MTR-cobalamin oxidation, which is mechanistically a poison reaction not a clearance pathway).",
+    "shared_safety": "Acute: respiratory depression (NMDA antagonists are normally respiratory-sparing but in massive overdose or with synergistic CNS depressants this fails); psychotomimetic effects (Olney's lesions on chronic high-dose for slow-off compounds — MK-801, PCP, ketamine; not seen with fast-off memantine at therapeutic doses). DXM specific: hERG block + SERT activity → QT prolongation + serotonin syndrome risk with SSRIs/MAOIs (Nuedexta DXM/quinidine combination exploits the CYP2D6-driven exposure boost). Nitrous specific: irreversible B12 inactivation → subacute combined degeneration of the spinal cord with chronic heavy use (cases reliable at multi-canister-per-day exposure).",
+    "sar_summary": "Across this heterogeneous group, the unifying SAR axis is fit to the PCP/channel binding pocket. Within each scaffold: (1) morphinans — the dextrorotatory enantiomer is the NMDA-active series; CH2OMe vs OH at C3 (DXM vs DXO) changes affinity ~10x; (2) aminoadamantanes — methyl substitution on the adamantane cage (amantadine → memantine = 3,5-dimethyl) raises affinity ~10x and slightly slows off-rate but retains fast koff and voltage-dependent block; (3) dibenzocycloheptenes (MK-801) — methyl-bridged rigid scaffold maximises affinity and slows off-rate dramatically; (4) gases (N2O, xenon) — molecular volume and lipophilicity govern channel-pocket interaction. The fast-off vs slow-off distinction within the PCP site is more clinically important than absolute affinity — slow-off compounds are neurotoxic and psychotomimetic; fast-off are tolerable.",
+    "key_references": [
+      "pmid:7714771",
+      "pmid:8355251",
+      "doi:10.1038/nm0498-460",
+      "pmid:15665416",
+      "pmid:20720132",
+      "pmid:2568580"
+    ],
+    "_source_group": "other-dissociatives"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "class_name": "1,2-Diarylethylamine NMDA receptor antagonists (diphenidine series)",
+    "shared_mechanism": "Open-chain (non-cyclic) NMDA channel blockers built on a 1,2-diphenyl-ethylamine scaffold with a cyclic amine on the alpha-carbon. Bind the PCP site of the NMDA receptor with high to moderate affinity (Ki 9-460 nM range, Wallach et al. 2016) in a use- and voltage-dependent manner. (S)-enantiomer is the active form (~40x more potent than R). Off-target profile: weak-to-moderate dopamine/norepinephrine reuptake inhibition (more prominent in pyrrolidine analogues like fluorolintane), moderate sigma-1/sigma-2 binding, generally negligible SERT and opioid receptor affinity (unlike DXM, which has appreciable SERT). The 1,2-diaryl orientation and lack of cyclohexyl ring distinguish them structurally from arylcyclohexylamines like PCP/ketamine, but they share the same NMDA binding pose and similar voltage-dependent block kinetics.",
+    "shared_pk_summary": "No controlled human PK studies have been published for any diphenidine-class compound. Forensic toxicology of intoxications and fatalities (Helander et al. 2015; Elliott et al. 2015; Geyer et al. 2015) shows: oral and insufflated routes both used; duration of subjective effects 4-8 h depending on compound; primary urinary metabolites are ring-hydroxylated and N-dealkylated products (CYP-mediated, presumed CYP3A4/2C19); no specific quantitative human Cmax, Tmax, t1/2 published. Postmortem blood concentrations of MXP in fatalities span ~200 μg/L to 24 mg/L — wide range indicates substantial inter-individual variability and a narrow therapeutic index.",
+    "shared_safety": "Major risks: (1) Narrow therapeutic index — multiple documented fatalities for MXP and diphenidine; recreational doses are close to toxic doses. (2) Long duration (4-8+ h) facilitates additional dosing during plateau, leading to delayed cumulative toxicity. (3) Co-ingestion with other CNS depressants (alcohol, benzodiazepines, GHB) is the most common fatal scenario. (4) Hypertensive crises, tachycardia, agitation, and dissociative psychosis reported in clinical case series. (5) No characterised antidote — supportive management only. (6) Cross-tolerance with ketamine reported anecdotally. Isomeric purity is a forensic concern: 3-MeO-diphenidine is ~2x more potent than 2-MeO at NMDA (Ki 19 vs 36 nM), and street 'MXP' has occasionally been the 3-MeO isomer or contained it as a contaminant.",
+    "sar_summary": "Key SAR findings from Wallach et al. 2016 (PLOS One): (1) NMDA affinity sensitive to ortho/meta vs para position of substituents on the 'aryl A' ring: meta-OMe (3-MXP) ≈ unsubstituted (DPH) > ortho-OMe (2-MXP) >> para-OMe (4-MXP); (2) Halogen at the 2-position dramatically increases affinity: 2-Cl-DPH Ki 9.3 nM (~2x parent), and the chloro analogue of ephenidine (2-Cl-ephenidine) is predicted to follow same trend; (3) Pyrrolidine (5-ring) replacing piperidine (6-ring) on nitrogen reduces NMDA affinity but markedly increases DAT inhibition — fluorolintane shows DAT > NMDA affinity, the opposite of the piperidine series; (4) Open-chain secondary amine (ephenidine, NEDPA) reduces affinity ~3x vs cyclic piperidine but retains channel-blocker mechanism. Conformational restriction by the cyclic amine on nitrogen is favourable for NMDA channel docking. CF3 substitution (2-TFMXP, no published Ki) remains pharmacologically uncharacterised but would predict either potent affinity (electron-withdrawing analogous to halogen) or steric loss depending on pocket geometry.",
+    "key_references": [
+      "doi:10.1371/journal.pone.0157021",
+      "pmid:27623219",
+      "doi:10.1016/j.ejphar.2019.172403",
+      "doi:10.3109/15563650.2015.1033630",
+      "pmid:25698777"
+    ],
+    "_source_group": "other-dissociatives"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "iboga-alkaloid",
+    "class_name": "Iboga alkaloid NMDA/opioid/sigma polyligands (ibogaine, noribogaine)",
+    "shared_mechanism": "Indolealkylamine monoterpenoid alkaloids from Tabernanthe iboga, with an unusually broad polypharmacology: weak-to-moderate affinity at NMDA receptors (Ki ~1-3 μM at PCP site), kappa-opioid (Ki ~0.7-3 μM, G-protein-biased agonism for noribogaine), mu-opioid (Ki ~2-5 μM, weak functional antagonism for noribogaine), serotonin transporter (Ki 40-550 nM, with noribogaine 10x more potent), sigma-1/sigma-2, 5-HT2A weak agonism, alpha3-beta4 nicotinic, and hERG (IC50 3.5 μM for ibogaine — clinically important arrhythmia risk). The anti-addictive efficacy is thought to arise from combined NMDA antagonism (Glick & Maisonneuve 1998), kappa-opioid G-biased agonism (Maillet et al. 2015), and SERT inhibition (especially via noribogaine). Pharmacology is not driven by any one target but by the orchestrated multi-target profile.",
+    "shared_pk_summary": "Ibogaine: oral, CYP2D6-dominated metabolism to noribogaine. Ibogaine plasma t1/2 ~7 h in EMs (shorter in UMs, much longer in PMs). Cmax and AUC strongly CYP2D6-genotype-dependent (Glue et al. 2015 — r=0.77 for Cmax). Noribogaine: t1/2 28-49 h (long-acting; persists days after parent gone — likely the species responsible for sub-acute mood and craving effects). Noribogaine itself has been formally characterised in healthy volunteers (Glue et al. 2014 ascending dose study).",
+    "shared_safety": "PRIMARY ACUTE RISK: cardiac arrhythmia. Ibogaine blocks hERG (IC50 3.5 μM) and prolongs QTc; multiple case reports of fatal torsades-de-pointes at treatment doses (8-10 mg/kg). Pre-existing QT prolongation, hypokalaemia, hypomagnesaemia, structural heart disease, CYP2D6 PM genotype (slower metabolism, higher exposure), and concomitant QT-prolonging drugs all amplify risk. ECG monitoring, electrolyte repletion, and avoidance of co-medications are mandatory in clinical use. SUB-ACUTE: dystonia, ataxia, vomiting (24-72h), and prolonged dysregulation of mood. Cerebellar Purkinje cell toxicity seen in rats at very high doses (no clear human correlate). Noribogaine appears better tolerated cardiovascularly than parent ibogaine.",
+    "sar_summary": "Ibogaine → noribogaine (O-demethyl metabolite) is the dominant SAR shift: removing the 12-methoxy group of ibogaine to free phenol (noribogaine) (1) increases SERT affinity 10x (Ki 550 → 40 nM), (2) modestly increases opioid receptor affinities (Ki kappa 2.6 → 0.72 μM, mu 5 → 2.7 μM), (3) reduces NMDA affinity, (4) profoundly extends half-life (~7h → ~30+ h), (5) appears to reduce hERG and cardiac liability — making noribogaine the safer therapeutic candidate currently in clinical development for opioid use disorder (DemeRx, etc.). The 18-MC (18-methoxycoronaridine) congener was designed to retain anti-addictive efficacy while reducing tremor, hERG, and Purkinje toxicity by altering scaffold geometry.",
+    "key_references": [
+      "pmid:9138735",
+      "pmid:26302653",
+      "pmid:7796150",
+      "pmid:25651476",
+      "pmid:21864603"
+    ],
+    "_source_group": "other-dissociatives"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "prescription-psychiatrics",
+    "class_name": "Prescription psychiatric drugs — SSRIs, SNRIs, atypical antidepressants, MAOIs, atypical antipsychotics, and mood stabilisers",
+    "shared_mechanism": "These compounds split into mechanistically distinct subclasses despite their shared therapeutic indication. SSRIs selectively block the serotonin transporter (SERT) with Ki values typically <5 nM at cloned hSERT, raising synaptic 5-HT acutely and producing delayed (2-3 week) somatodendritic 5-HT1A autoreceptor desensitisation that gates the antidepressant response. Atypical antidepressants act through diverse mechanisms: mirtazapine via α2-autoreceptor + 5-HT2/3 antagonism (no transporter blockade), bupropion via NDRI. MAOIs irreversibly form covalent adducts on monoamine oxidase A and/or B, requiring 2-week enzyme resynthesis for washout; moclobemide uniquely is reversible (RIMA). Atypical antipsychotics are defined functionally by 5-HT2A:D2 receptor binding ratios above unity (clozapine ~30:1, olanzapine ~3:1) — the 5-HT2A blockade enhances cortical DA release while D2 blockade reduces mesolimbic DA, separating antipsychotic efficacy from extrapyramidal side-effects. Lithium uncompetitively inhibits GSK-3β by displacing Mg2+, depletes inositol via IMPase inhibition. Lamotrigine blocks voltage-gated sodium channels in a use- and state-dependent manner.",
+    "shared_pk_summary": "CYP2D6 and CYP2C19 are the meta-axes for most antidepressant variability. Fluoxetine and paroxetine are mechanism-based CYP2D6 inhibitors AND substrates, producing severe nonlinear PK and persistent inhibition (weeks after stopping fluoxetine). Citalopram/escitalopram cleared by CYP2C19 — PMs require dose reduction. Sertraline goes mainly via CYP2B6/2C19. Fluvoxamine is the prototype CYP1A2 inhibitor (raises clozapine, theophylline, caffeine, melatonin levels). Antipsychotics divide by metabolism: olanzapine via UGT1A4 + CYP1A2 (smoking induces, fluvoxamine inhibits); clozapine via CYP1A2/2D6/3A4. Lamotrigine via UGT1A4 — valproate halves clearance, carbamazepine doubles it. Lithium and gabapentinoids are renally excreted unchanged with PK closely tied to GFR.",
+    "shared_safety": "Five class-defining safety issues. (1) Serotonin syndrome from combining any 5-HT-elevating agent with an MAOI requires 2-5 week washout. (2) QTc prolongation: citalopram >40 mg (FDA black box), ziprasidone, methadone; mediated by hERG block by parent compound and DCT metabolite. (3) Metabolic syndrome from antipsychotics (olanzapine, clozapine highest) — driven by 5-HT2C + H1 + M3 antagonism causing weight gain and diabetogenic effects. (4) Stevens-Johnson syndrome with lamotrigine, especially with valproate co-administration or rapid titration — HLA-B*15:02 increases risk 1000× in Asian populations. (5) Tyramine 'cheese reaction' with irreversible MAOIs requires dietary restriction. SSRI discontinuation syndrome is dose-, t1/2-, and anticholinergic-load-dependent — paroxetine (short t1/2 + M1 block) is worst, fluoxetine (long-acting metabolite) is mildest. Pregnancy: paroxetine alone is category D for cardiac malformations; lithium for Ebstein anomaly (low absolute risk); valproate strongly teratogenic; sertraline/citalopram generally considered safest SSRIs in pregnancy. Lithium narrow therapeutic index (0.6-1.2 mM target) with toxicity ≥1.5 mM — NSAIDs/ACEis/thiazides reduce renal clearance and precipitate intoxication.",
+    "sar_summary": "SSRI SAR is dominated by the orthosteric SERT pocket binding pose: fluoxetine's aryloxyalkylamine, sertraline's tetralin, paroxetine's piperidine, and citalopram's phthalan — each occupies the same site with different selectivities for off-targets driven by accessory pharmacophores (paroxetine's piperidine for NET, sertraline's dichloro substitution for DAT). Atypical antipsychotic SAR balances D2 affinity against 5-HT2A:D2 ratio (the higher the ratio, the more 'atypical'); clozapine's tricyclic dibenzodiazepine scaffold with N-methylpiperazine is the prototype, with thienobenzodiazepine (olanzapine) and dibenzothiazepine (quetiapine) being scaffold-conservative successors. Aripiprazole's dichlorophenylpiperazine + quinolinone is the unique partial-agonist scaffold. MAOI SAR turns on the warhead: hydrazine (phenelzine) reduces FAD non-selectively; cyclopropylamine (tranylcypromine) opens to form a covalent adduct; propargyl (selegiline, rasagiline) provides MAO-B selectivity. Lamotrigine's phenyltriazine is sui generis as a use-dependent Na blocker, distinct from the hydantoin (phenytoin) and dibenzazepine (carbamazepine) sodium-channel-blocking scaffolds.",
+    "key_references": [
+      "pmid:9400006",
+      "pmid:8822531",
+      "doi:10.2165/00003088-200645190-00002",
+      "doi:10.2165/00003088-199529050-00002",
+      "pmid:28655495",
+      "doi:10.1073/pnas.93.16.8455",
+      "doi:10.1111/bcp.12984",
+      "doi:10.1002/cpt.147",
+      "doi:10.1517/14740338.2014.892926",
+      "doi:10.2165/00003088-199937030-00001",
+      "doi:10.2165/00003088-200038060-00001"
+    ],
+    "_source_group": "prescription-psychiatrics"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "serotonergic-phenethylamine-psychedelics",
+    "class_name": "Serotonergic phenethylamine psychedelics (2C-x, DOx, mescaline analogues, NBOMe / NBOH / NBF / NBMD)",
+    "shared_mechanism": "Primary target is the 5-HT2A receptor (Gαq-coupled), with secondary activity at 5-HT2C and 5-HT2B. Activation drives PLCβ → PIP2 hydrolysis → IP3 + DAG → intracellular Ca2+ release and PKC activation; downstream ERK1/2 phosphorylation. The cortical psychedelic effect tracks Gαq-pathway engagement rather than β-arrestin-2 recruitment (DOI-induced head-twitch is abolished in Gq-KO mice but preserved in β-arr2-KO; see PMC12491688). 5-HT2A receptor heteromerises with mGluR2 in cortex; this heteromer is implicated in the psychedelic signalling profile (Gonzalez-Maeso 2008, PMID 18297054). The N-benzyl head of NBOMe/NBOH derivatives forms an additional contact in the extracellular vestibule, locking the receptor into an active-like state — this is the structural basis of the ~100-fold potency gain over the parent 2C drug.",
+    "shared_pk_summary": "Parent 2C phenethylamines (2C-B, 2C-I, 2C-E, 2C-D, etc.) are MAO-A/B substrates with high first-pass deamination; oral bioavailability is modest and intranasal increases potency ~3-fold. DOx amphetamines (DOI, DOB, DOM, DOC) are protected from MAO by the α-methyl group → longer half-life (10–30 h) and lower oral doses (1–10 mg vs 15–30 mg for the parent 2C). Mescaline analogues with bulkier 4-alkoxy groups (escaline, proscaline) are 5–8× more potent than mescaline due to lipophilicity-driven BBB penetration. NBOMe/NBOH series have very low oral bioavailability because of extensive first-pass O-demethylation (CYP2D6 and CYP3A4 dominate; CYP2D6 is responsible for ~69% of 25B-NBOMe clearance per Caspar 2018); they are dosed sublingually/buccally to bypass first-pass. Mescaline itself is NOT a CYP2D6 substrate; cleared mainly by MAO-A (TMPAA) and N-acetylation (Vizeli 2025).",
+    "shared_safety": "Acute risks scale with potency. 2C-B and the parent 2C drugs have a wide therapeutic window. DOx amphetamines have a steep dose-response curve and 18–36 h duration making accidental re-dosing common. NBOMe series (especially 25I-, 25C-, 25B-NBOMe) have caused dozens of deaths from sympathomimetic toxicity: tachycardia, hypertension, hyperthermia, rhabdomyolysis, seizures, multi-organ failure. Mechanism is primarily α1-adrenergic engagement plus 5-HT2A-mediated vasoconstriction. Bromo-DragonFLY combines 5-HT2A super-potency (Ki ~0.04 nM) with α1 agonism and 12–48 h duration, causing peripheral vasospasm/necrosis. 5-HT2B partial agonism across the class raises long-term cardiac valvulopathy concern with chronic use (Roth 2007, PMID 17202345). hERG data are sparse for the NBOMe series specifically but QT prolongation is reported in clinical case series.",
+    "sar_summary": "2C-x → DOx: adding an α-methyl protects from MAO, increases potency ~10× and duration ~5×. 2C-x → 25x-NBOMe: N-benzyl with 2'-methoxy increases 5-HT2A binding 14–100× (the 2'-OMe is critical; ortho-OH gives the NBOH series which is slightly less potent at 5-HT2A but is rapidly hydrolysed in vivo to the parent 2C). NBOMe → NBOH: similar 5-HT2A affinity but NBOH is metabolised faster (CYP2D6) and partly releases the parent 2C in vivo. NBOMe → NBF/NBMD: para-fluoro or methylenedioxy on the benzyl ring; comparable potency, less human data. 4-position halogen size: Br (2C-B) > I (2C-I) > Cl (2C-C) > F gives the strongest 5-HT2A binding at Br/I. 4-alkoxy (escaline series) is selective for 5-HT2C in some studies. Adding constraining rings (FLY, DragonFLY) locks the 2,5-dimethoxy groups out-of-plane and dramatically increases 5-HT2A affinity (DragonFLY > FLY > 2C-B).",
+    "key_references": [
+      "doi:10.1016/j.bcp.2018.10.025",
+      "doi:10.1016/j.neuropharm.2015.08.034",
+      "doi:10.1371/journal.pone.0009019",
+      "doi:10.1007/PL00005315",
+      "doi:10.1021/acsptsci.4c00157",
+      "doi:10.1007/s40262-025-01544-x",
+      "doi:10.3389/fphar.2018.00206",
+      "doi:10.1186/s13550-019-0527-4",
+      "doi:10.1002/dta.2031",
+      "doi:10.1021/acs.chemrestox.5b00450"
+    ],
+    "_source_group": "serotonergic-phenethylamine-psychedelics"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "ergolines-lysergamides",
+    "class_name": "Ergolines and lysergamides (LSD-family 5-HT2A agonists)",
+    "shared_mechanism": "Tetracyclic ergoline scaffold acting as polypharmacology 5-HT agonists with highest potency at 5-HT2A. The diethylamide moiety (LSD) plus the ergoline rigid core enables a 'lid' interaction with ECL2 (Leu229) of the 5-HT2A orthosteric pocket, trapping the receptor in a β-arrestin-favouring conformation. Residence time on the receptor is ~3–4 hours — orders of magnitude longer than 5-HT — directly producing the long subjective duration. Pharmacology also includes potent 5-HT1A, 5-HT2C, 5-HT6, 5-HT7, D1/D2 partial agonism, and TAAR1 activity. Wacker 2017 (Cell) and Kim 2020 (Cell) crystal structures clarified the bias mechanism; Ippolito 2025 (Br J Pharmacol) reopened the debate by arguing that signalling efficacy (not bias) differentiates hallucinogenic from non-hallucinogenic 5-HT2A ligands.",
+    "shared_pk_summary": "Oral bioavailability ~70–80%; Cmax 1–5 ng/mL for typical 50–200 µg doses; Tmax 1.5–2.5 h; t½ 2.5–4 h (LSD itself). Subjective duration far exceeds plasma t½ due to slow receptor dissociation. Metabolism: CYP3A4 (~30%), CYP2D6, CYP1A2, CYP2E1 (minor) — major metabolite 2-oxo-3-OH-LSD is inactive. N1-acyl prodrugs (1P-, 1cP-, 1B-, ALD-52) hydrolyse to LSD via plasma/liver carboxylesterases (CES1/2) with in-vitro t½ ~5 min; in vivo functionally equivalent to LSD.",
+    "shared_safety": "Acute lethal toxicity in humans extraordinarily low (no clearly documented overdose deaths from pure LSD). Main acute risks: psychological distress, hyperthermia at supratherapeutic doses (>1 mg), serotonin-syndrome risk when combined with SSRIs/MAOIs/lithium (lithium combination linked to seizures). Chronic risks: HPPD (rare), psychiatric vulnerability in predisposed individuals. Cardiovascular concern at high doses via 5-HT2B (valvulopathy) is theoretical for chronic high-frequency dosing only. hERG affinity weak (Ki ~6 μM).",
+    "sar_summary": "N6-methyl → ethyl (ETH-LAD) or allyl (AL-LAD) modestly changes potency and qualitative profile; diethylamide → 2,4-dimethylazetidide (LSZ) constrains the bioactive rotamer and slightly outperforms LSD; replacement with amide (LSA) drops potency ~30× and shifts toward sedative profile via α-adrenergic. N1 acylation reduces direct 5-HT2A binding 1–2 orders of magnitude but is restored in vivo by serum esterase hydrolysis (the prodrug pattern: 1P-/1cP-/1B-LSD, ALD-52). Dihydrogenation at 9,10 (ergoloids/Hydergine) abolishes hallucinogenic activity and produces α-adrenergic blocker profile.",
+    "key_references": [
+      "doi:10.1016/j.cell.2017.01.020",
+      "doi:10.1016/j.cell.2020.08.024",
+      "doi:10.1111/bcp.13918",
+      "doi:10.1093/ijnp/pyv072",
+      "doi:10.1124/dmd.115.064550",
+      "doi:10.1111/bph.70109",
+      "doi:10.1002/dta.2821",
+      "doi:10.1021/jm020153s"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "4-substituted-tryptamines-psilocin-family",
+    "class_name": "4-Substituted tryptamines (psilocin/psilocybin family — 4-OH, 4-AcO, 4-PrO, 4-PO esters/ethers)",
+    "shared_mechanism": "4-Hydroxylation of the tryptamine indole confers high 5-HT2A potency with full-to-partial Gq efficacy. N-alkyl size modulates 5-HT1A vs 5-HT2A balance: small N-methyl (psilocin) gives full Emax at 5-HT2A with substantial 5-HT2C; larger N-alkyl (4-HO-MIPT, 4-HO-DET) progressively favours 5-HT2A over 5-HT2C/SERT. Per Ippolito 2025, the family shows minimal Gq-vs-arrestin bias (LSD-distinct). 4-Phosphate (psilocybin), 4-acetate (4-AcO-DMT etc), and 4-propionate (4-PrO-DMT) are prodrugs requiring intestinal/plasma hydrolysis to the active 4-OH species; the prodrug improves oral bioavailability and reduces gastric instability of the hot 4-OH phenol. Norpsilocin (no N-methyls) is more potent than psilocin at 5-HT2A in vitro BUT does not produce hallucinogenic HTR in mice — secondary-amine 4-OH compounds are BBB-restricted (Glatfelter 2022).",
+    "shared_pk_summary": "Oral psilocybin bioavailability 52.7 ± 20% (as psilocin); Cmax ~19 ng/mL psilocin at 25 mg psilocybin; Tmax 1.5–2 h; t½ 2–3 h. Metabolism: dominant UGT1A10 (intestinal) + UGT1A9 (hepatic) glucuronidation (~80%) + MAO-A oxidation (~15%) → 4-HIAA; CYP2D6/3A4 minor. Protein binding ~66%. Free phenol (psilocin) chemically unstable in solution at neutral pH (autoxidation to bluish quinone).",
+    "shared_safety": "Wide therapeutic index. Acute lethality essentially nil from pure compound. Main concerns: bad-trip psychological distress, transient hypertension/tachycardia, modest 5-HT2B activity giving theoretical valvulopathy risk for chronic high-frequency dosing. Drug interactions: SSRI chronic use blunts response (5-HT2A downregulation); MAOIs modestly potentiate via blocking 15% MAO-A clearance.",
+    "sar_summary": "4-position modification: 4-OH (psilocin family, active) > 4-AcO (prodrug, equivalent in vivo) > 4-PrO (slower onset prodrug) > 4-PO (psilocybin itself, the natural prodrug). N-substituents: NMe2 (psilocin, full agonist), NMeEt (4-HO-MET, similar potency), NMeiPr (4-HO-MIPT, more 2A-selective), NEt2 (4-HO-DET, Hofmann's CZ-74), NPr2 (4-HO-DPT), NiPr2 (4-HO-DiPT, unusually weak 5-HT2C). Removing both N-methyls (norpsilocin, 4-HT) destroys CNS bioavailability despite higher intrinsic potency.",
+    "key_references": [
+      "doi:10.1021/acschemneuro.8b00186",
+      "doi:10.1124/dmd.117.077107",
+      "doi:10.1021/acsptsci.2c00177",
+      "doi:10.1021/acsptsci.2c00222",
+      "doi:10.1021/acs.jmedchem.0c00257",
+      "pmid:27216487",
+      "doi:10.1007/s00213-017-4710-x"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "5-MeO-tryptamines",
+    "class_name": "5-Methoxy-tryptamines (5-MeO-DMT family, including bufotenin)",
+    "shared_mechanism": "5-Methoxy substitution flips the 5-HT2A/5-HT1A selectivity vs the 4-OH family — 5-MeO-DMT itself is 100–1000× selective for 5-HT1A over 5-HT2A. The defining biased-agonism story: 5-MeO-DMT is G-protein biased AT 5-HT2A (favouring Gq Ca²⁺ over β-arrestin), the opposite of LSD's arrestin bias. This is thought to underlie the qualitative difference in phenomenology (ego-loss without visuals) and the absence of tachyphylaxis with repeated dosing. 5-Methoxy substitution dramatically REDUCES monoamine release potency vs unsubstituted tryptamines (αMT) and abolishes oral MAO resistance — most 5-MeO compounds require MAOI (ayahuasca) or non-oral routes to be active.",
+    "shared_pk_summary": "5-MeO-DMT vaporized: onset seconds, peak 1 min, duration 15–20 min. IM: onset 1–6 min, duration up to 60 min. Sublingual: Tmax 20 min, t½ 28 min. Insufflation (BPL-003 benzoate): Tmax 9 min, t½ 30 min. Plasma t½ very short (12–19 min) due to rapid MAO-A clearance. Metabolism: MAO-A (~70%) → 5-methoxyindole-3-acetic acid; CYP2D6 (~20%) → bufotenin (5-HO-DMT, active metabolite with ~10× higher 5-HT2A affinity). Bufotenin itself is much more BBB-limited due to 5-OH polarity.",
+    "shared_safety": "Wide acute margin from pure compound but unique among classical psychedelics for blackout-amnesia at moderate doses, autonomic instability, transient unconsciousness/cataleptic state. Reports of cardiac strain at high doses. CYP2D6 inhibitor co-use (paroxetine, fluoxetine) blocks bufotenin formation. MAOI combination dangerous (serotonin syndrome).",
+    "sar_summary": "N-alkyl size: small Me, Et, iPr similar. αMethyl (5-MeO-AMT) extends half-life dramatically (~16 h). Pyrrolidine N (5-MeO-PYR-T) maximises 5-HT1A selectivity. Allyl-amino derivatives (5-MeO-DALT, 5-MeO-MALT) are most 5-HT2A-preferring among 5-MeO family — opposite to most others. 5-Methoxy → 5-hydroxy (bufotenin) increases receptor affinity 10× but BBB-limits the compound. Halogenation at 4, 6, or 7 (4F-5-MeO-DMT etc) explored as SAR probes.",
+    "key_references": [
+      "doi:10.1111/jnc.15587",
+      "pmid:20942780",
+      "doi:10.1177/02698811241246857",
+      "doi:10.1038/s41386-025-02167-3",
+      "doi:10.1038/s41380-024-02506-8",
+      "pmid:16510126"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "simple-tryptamines-DMT-family",
+    "class_name": "Simple N,N-dialkyltryptamines (DMT, DET, DPT, DIPT, MIPT, EIPT etc — no 4- or 5- ring substitution)",
+    "shared_mechanism": "Tryptamine + 2 alkyls on the side-chain N. Direct moderate-affinity 5-HT2A agonists (Ki 100–500 nM range, partial-to-full Emax at Gq). Larger N-alkyls progressively block MAO-A active site, so N,N-dimethyl (DMT) needs MAOI for oral activity, N,N-diethyl (DET) is borderline orally active, N,N-dipropyl (DPT) and N,N-diisopropyl (DIPT) are orally active. Also σ1, TAAR1, weak SERT at micromolar; sigma-1 likely relevant for endogenous DMT but not exogenous recreational doses.",
+    "shared_pk_summary": "DMT IV t½ 6–15 min; smoked similar. With MAOI (ayahuasca, DMT t½ extends to 4 h). DPT/DIPT SC active 30–60 min onset. Metabolism: MAO-A dominant (90% DMT); minor CYP2D6 (N-oxide, 6-OH). No CYP2D6 PM contraindication established.",
+    "shared_safety": "Acute lethality nil at recreational doses. Cardiovascular: brief BP/HR spike during peak. MAOI combination danger (ayahuasca with SSRI = serotonin syndrome). No tachyphylaxis with closely spaced dosing per Strassman 1996.",
+    "sar_summary": "Alkyl ladder Me<Et<Pr<iPr progressively reduces MAO-A susceptibility and shifts phenomenology (DIPT uniquely produces auditory rather than visual distortion). Asymmetric N-substitution (MIPT, EIPT) produces hybrid profiles. α-methyl substitution (αMT, αET) confers MAO resistance + dopamine release → stimulant/entactogen hybrid.",
+    "key_references": [
+      "pmid:8067486",
+      "pmid:27216487",
+      "doi:10.1038/s41398-023-02477-4",
+      "doi:10.1126/science.1166127",
+      "doi:10.1007/s40262-024-01450-8",
+      "pmid:9700761"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "alpha-alkyl-tryptamines",
+    "class_name": "α-Alkyl tryptamines (αMT, αET and analogues — substrate-type releasers / hybrid psychedelic-stimulant)",
+    "shared_mechanism": "α-Methyl (or α-ethyl) substitution sterically blocks MAO-A oxidative deamination AND converts the compound into a substrate-type SERT/NET/DAT releaser by analogy with amphetamine. Net pharmacology: full 5-HT/NE/DA release + 5-HT2A agonism + weak MAO-A inhibition. Hybrid stimulant-entactogen-psychedelic phenomenology — αMT was sold as Indopan antidepressant in USSR, αET as Monase by Upjohn (withdrawn 1962 for agranulocytosis).",
+    "shared_pk_summary": "αMT oral t½ ~16 h, onset 1–2 h, duration 12–24 h. Long duration is the dominant safety risk. Metabolism CYP2D6 + partial MAO-A.",
+    "shared_safety": "Multiple deaths in 2000s research-chemical wave from 5-HT-syndrome-like presentations at moderate doses (40–60 mg). 5-HT2B chronic concern (cf. fenfluramine, MDMA). Agranulocytosis idiosyncrasy reported for αET. Narrow margin between recreational and toxic dose vs other tryptamines.",
+    "sar_summary": "α-methyl baseline (αMT) vs α-ethyl (αET) — longer chain reduces potency. Ring substitution (5-MeO-AMT) attenuates DA/NE release while preserving 5-HT release + 5-HT2A agonism.",
+    "key_references": [
+      "pmid:9089915",
+      "doi:10.1016/j.neuint.2017.05.005",
+      "pmid:30053461"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "beta-carboline-MAOI",
+    "class_name": "β-Carbolines (harmala alkaloids — harmine, harmaline, THH)",
+    "shared_mechanism": "Tricyclic β-carbolines from Peganum harmala (Syrian rue) and Banisteriopsis caapi (ayahuasca vine). Harmine and harmaline are potent, reversible, competitive MAO-A inhibitors (IC50 2–8 nM at human MAO-A, >10,000× selective over MAO-B). Mechanism enables oral DMT activity (the essence of ayahuasca). Also DYRK1A inhibition (harmine, IC50 80 nM) — significant for β-cell proliferation research; mild 5-HT2A binding; very weak SSRI activity (THH is a 3 μM SSRI).",
+    "shared_pk_summary": "Harmine oral (ayahuasca) Cmax ~115 ng/mL at 250 mg, Tmax 90 min, t½ 2 h. Harmaline similar but more lipophilic (better CNS penetration). THH t½ 9 h (the lingering 'afterglow' component). Metabolism CYP1A2 + CYP2D6 → O-demethylated harmol/harmalol (active, lower potency).",
+    "shared_safety": "Reversible MAO-A inhibition is safer than irreversible MAOIs (phenelzine) for tyramine interactions, but combination with SSRIs/SNRIs/triptans/other serotonergic agents → serotonin syndrome (recommend 5-week fluoxetine washout). Acute β-carboline doses produce tremor, nausea, sedation (harmaline > harmine). Pure harmine deaths essentially unreported.",
+    "sar_summary": "Aromatic dihydro/tetrahydro reduction: harmine (fully aromatic, most potent MAOI) → harmaline (dihydro, more sedating) → THH (tetrahydro, weak MAOI, SSRI character). N-methylation, ring methoxylation tune potency. Banisterine = harmine (alternative name).",
+    "key_references": [
+      "doi:10.1016/j.fct.2009.12.018",
+      "pmid:9700761",
+      "doi:10.1371/journal.pone.0019409",
+      "doi:10.1016/j.taap.2010.04.020"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "endogenous-tryptamines",
+    "class_name": "Endogenous tryptamines (serotonin, melatonin, 5-HTP, tryptophan, NMT, tryptamine itself)",
+    "shared_mechanism": "Endogenous mammalian tryptamines/precursors. Serotonin is the reference 5-HT receptor agonist (14 subtypes). Melatonin is selective for MT1/MT2 (subnanomolar Ki). Tryptamine itself is the prototype TAAR1 agonist (EC50 110 nM) but rapidly MAO-A-cleared, so not orally psychoactive alone. 5-HTP and tryptophan are precursors: cross BBB and increase central serotonin via AADC/TPH2.",
+    "shared_pk_summary": "Serotonin: not orally psychoactive (BBB impermeable). Melatonin: oral F ~15%, Tmax 40 min, t½ 45 min, CYP1A2-dominated metabolism (fluvoxamine raises AUC 17×). 5-HTP: oral F 70%, t½ 1.5–2 h, AADC-converted. Tryptophan: ~95% routed to kynurenine, only ~5% to 5-HT synthesis.",
+    "shared_safety": "Generally safe in physiological/supplement doses. 5-HTP + MAOI/SSRI → serotonin syndrome. Melatonin in pregnancy and immune-suppressed populations cautious. Tryptophan EMS outbreak 1989 linked to Showa Denko contamination, not the amino acid itself.",
+    "sar_summary": "Hydroxyl position determines receptor target: 5-OH (serotonin) → 5-HT receptors; 5-methoxy + N-acetyl (melatonin) → MT1/MT2; phosphorylation at 4 (psilocybin) → 4-HT prodrug system.",
+    "key_references": [
+      "doi:10.1124/mol.105.018622",
+      "doi:10.1124/dmd.117.075788",
+      "doi:10.1006/abbi.1998.0973",
+      "pmid:11459929"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "triptans-5HT1B1D",
+    "class_name": "Triptans (5-HT1B/1D agonists — antimigraine sumatriptan family)",
+    "shared_mechanism": "Selective 5-HT1B and 5-HT1D agonists. 5-HT1B activation constricts cranial vessels; 5-HT1D inhibits trigeminal sensory neuropeptide release. Antimigraine without psychedelic activity (no significant 5-HT2A binding at therapeutic concentrations). Coronary 5-HT1B activation is the main contraindication (chest pain, MI risk in CAD).",
+    "shared_pk_summary": "Zolmitriptan: oral F 40%, Tmax 2 h, t½ 3 h; active CYP1A2-mediated N-desmethyl metabolite has ~2× higher 5-HT1B/D affinity than parent. Metabolism CYP1A2 (primary) + MAO-A (inactivates active metabolite).",
+    "shared_safety": "FDA black-box serotonin syndrome warning with SSRIs/SNRIs/MAOIs (despite weak 5-HT2A activity — class-wide caution). Coronary vasospasm risk: contraindicated in CAD, uncontrolled HTN, recent MI. Medication-overuse headache with frequent use.",
+    "sar_summary": "Indole or indazole core + ethylamine + sulfonamide/amide tail. Naratriptan, zolmitriptan, rizatriptan, frovatriptan, eletriptan, almotriptan, sumatriptan differ in CNS penetration, half-life, and CYP route.",
+    "key_references": [
+      "doi:10.1016/S0028-3908(99)00075-2"
+    ],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "non-recreational-pharma-or-peptide",
+    "class_name": "Non-recreational pharmaceutical or peptide compounds (peptide hormones, kinase probes, neuropeptide ligands)",
+    "shared_mechanism": "These compounds appear in the parent dataset due to indole-containing or tryptophan-containing substructure but have no recreational/psychedelic relevance. Includes GnRH agonists (buserelin, leuprolide, goserelin, nafarelin, histrelin, etc — pituitary-gonadal axis suppression for prostate cancer / endometriosis / precocious puberty); CCK-A/B receptor ligands (PD-series, BC-264, GR94800 — research probes); growth-hormone secretagogues (pralmorelin, anamorelin, examorelin, macimorelin); HDAC inhibitors (dacinostat); and miscellaneous research tool compounds.",
+    "shared_pk_summary": "Highly variable by class — peptides typically require SC/IM/depot delivery, very short plasma half-life unless in depot formulation (goserelin acetate 28-day depot, leuprolide LAR 1/3/6-month).",
+    "shared_safety": "Class-specific — GnRH agonists cause hypogonadism (hot flashes, bone density loss, sexual dysfunction); CCK ligands largely not approved for human use.",
+    "sar_summary": "Not applicable as a psychedelic class. Included only for namespace deduplication.",
+    "key_references": [],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "tryptophan-derivative",
+    "class_name": "Tryptophan derivatives, peptides, and metabolic intermediates",
+    "shared_mechanism": "Tryptophan-based amino acids, peptides, conjugates, glucosinolates, and analytical reference standards. Not directly psychoactive. Either upstream of serotonin synthesis (free L-Trp), components of larger peptides (glycyl-tryptophan, tryptophyl-tryptophan), or chemical intermediates (Fmoc/Cbz/Boc-protected derivatives) used in peptide synthesis or as reference compounds.",
+    "shared_pk_summary": "L-Tryptophan: oral, ~95% routed to kynurenine pathway, ~5% to serotonin. Peptide derivatives variable by sequence and route.",
+    "shared_safety": "Generally safe; tryptophan EMS link was contaminant-specific.",
+    "sar_summary": "Not applicable.",
+    "key_references": [],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "halogenated-or-substituted-tryptamine-no-human-data",
+    "class_name": "Halogenated / multiply-substituted tryptamines (lab probes, no human use)",
+    "shared_mechanism": "Halogenation (F, Cl, Br) of the tryptamine indole at 4, 5, 6, or 7 produces lab probes for SAR studies of 5-HT receptor selectivity, MAO substrate properties, and SERT/SLC6A4 substrate behaviour. Examples: 5,7-dihydroxytryptamine (5,7-DHT, classical serotonergic neurotoxin), 5-bromotryptamine, 6-fluorotryptamine, 4-Br-DMT, 5-Cl-DMT. Most have not been characterised in humans and lack controlled pharmacology data.",
+    "shared_pk_summary": "Unknown in humans.",
+    "shared_safety": "5,7-DHT and 5,6-DHT are documented serotonergic axon toxins (rodent stereotaxic studies). Other halogenated tryptamines lack human safety data.",
+    "sar_summary": "Position 5 halogenation usually preserves 5-HT receptor affinity while altering metabolic stability. Position 4 strongly favours psychedelic activity (cf. psilocin). 5,6/5,7-dihydroxy → neurotoxin.",
+    "key_references": [],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "generic-tryptamine-NPS-no-human-data",
+    "class_name": "Generic / obscure tryptamine NPS without published pharmacology",
+    "shared_mechanism": "Novel psychoactive substance tryptamines without published controlled in-vitro or human characterisation. Pharmacology is inferred from structural class (likely 5-HT2A partial agonists), but no quantitative receptor data is published.",
+    "shared_pk_summary": "Unknown.",
+    "shared_safety": "Unknown — extrapolated from class.",
+    "sar_summary": "See parent class entries (4-OH, 5-MeO, αalkyl) depending on substitution pattern.",
+    "key_references": [],
+    "_source_group": "serotonergic-tryptamines-and-lsd"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "amphetamine-monoamine-releasers",
+    "class_name": "Amphetamine-type monoamine releasers (TAAR1 + reverse transport at DAT/NET/SERT + VMAT2 reverse transport)",
+    "shared_mechanism": "Amphetamine-type stimulants act on three converging substrates: (1) they are TAAR1 full agonists, with TAAR1 activation desensitising DAT via PKA/PKC and slowing dopamine neuron firing; (2) they are substrates for DAT/NET/SERT (depending on substituent pattern), entering the cytosol and causing reverse transport ('non-exocytotic release') by reversing the Na+/Cl- electrochemical gradient the transporters normally use; (3) inside the cytosol they are weak bases that collapse the proton gradient across vesicular VMAT2, displacing monoamines from synaptic vesicles into the cytosol where they can be reverse-transported out. The relative ratio of DAT:NET:SERT substrate activity is set by ring substituents — unsubstituted/N-methyl/2-fluoro favour DA+NE, 4-halogen shifts toward SERT, 4-methylthio/4-methoxy make the compound SERT-dominant. Rothman & Baumann's synaptosomal release-assay EC50 values (PMID 11071707, PMID 18307294) are the canonical reference.",
+    "shared_pk_summary": "Most amphetamines are well absorbed orally (F = 70–100%), have small-to-moderate Vd (3–6 L/kg), low protein binding (15–40%), and are eliminated by a combination of CYP2D6 hydroxylation (para-hydroxylation, then COMT/SULT), N-demethylation (CYP2D6/CYP3A4), deamination (FMO3, DBH), and direct renal excretion of unchanged drug — which is pH-dependent because the protonated amine is a tertiary base (pKa ~9.9). Acidic urine increases renal clearance (t1/2 ~7 h); alkaline urine reduces it (t1/2 >20 h). Typical half-life of d-amphetamine in adults is 9–11 h; l-amphetamine is 11–14 h; d-methamphetamine 9–12 h. The α-methyl group is what protects amphetamines from MAO degradation (versus phenethylamine itself, t1/2 ~30 s).",
+    "shared_safety": "The classic acute hazards are (1) hyperthermia (multifactorial: sympathomimetic vasoconstriction limits heat dissipation, 5-HT release activates 5-HT2A-mediated thermogenesis, mitochondrial uncoupling); (2) sympathetic crisis (HTN, tachycardia, MI, stroke, aortic dissection); (3) serotonin syndrome with serotonergic releasers especially combined with MAOIs or SSRIs; (4) for 4-halogenated and 4-thio/methoxy compounds (4-MTA, PMA, 4-CA, 4-BA) — selective serotonergic axonal neurotoxicity (Fuller PMID 1196472) and 5-HT2B-mediated cardiac valvulopathy / pulmonary hypertension (Rothman/Setola, PMID 11104741, PMID 12649293). PMA/PMMA are uniquely dangerous because they combine SERT release with MAO-A inhibition (IC50 300–600 nM and 1700 nM respectively, Reyes-Parada DOI:10.3389/fphar.2019.01590) producing delayed-onset hyperthermia and serotonin syndrome (peak 4–6 h after dose rather than 1–2 h, leading to repeat dosing). Long-term — chronic high-dose methamphetamine causes DAT/SERT terminal damage detectable by PET (McCann PMID 9504281). hERG is generally not the primary cardiotoxicity mechanism for this class (in contrast to cocaine analogues). 5-HT2B is the main valve risk; fenfluramine's metabolite norfenfluramine has Ki 11–52 nM at 5-HT2B (Rothman PMID 11104741) which is why fen-phen caused valvulopathy while phen-only did not (phentermine has no 5-HT2B activity).",
+    "sar_summary": "Core SAR axes for amphetamine class: (1) α-methyl is essential for oral activity (protects from MAO; bare PEA t1/2 ~30 s) and for switching from PEA's primarily MAO-substrate behaviour to monoamine release. (2) N-methyl (→ methamphetamine) increases lipophilicity, BBB penetration, and DA:NE selectivity, and adds σ1 activity. (3) N-ethyl/N-propyl progressively reduce DA release while sparing 5-HT release, biasing the profile toward entactogen. (4) Ring substitution at the 4-position controls SERT engagement: 4-F is intermediate (DA>5-HT, EC50 200 vs 730 nM, Nagai PMID 17223101), 4-Cl is fully SERT-shifted and neurotoxic, 4-Br is similar to 4-Cl, 4-I likewise; 4-methyl gives p-toluidine analogues with SERT shift; 4-methylthio (4-MTA) and 4-methoxy (PMA) are SERT-dominant and add MAO-A inhibition. (5) 2-halogen retains DA selectivity (2-FA EC50 DA ~33 nM, SERT >10 µM — Wee PMID 15914673). (6) 3,4-methylenedioxy makes entactogens (MDMA family — covered elsewhere). (7) β-hydroxyl (→ ephedrine, norephedrine, cathinone family) reduces lipophilicity and CNS penetration ~10×, weakens DA release more than NE release, eliminates TAAR1 efficacy. (8) Beta-keto (→ cathinones) similarly reduces CNS penetration but is metabolised to β-hydroxy. (9) Oxazoline ring (→ aminorex family) gives long-duration releasers with 5-HT2B liability (aminorex caused PPH epidemic 1965–1972). (10) Para-methoxy specifically gives PMA — slow-onset, MAOI-active, deadly (DOI:10.1038/s41573-019-0049-9).",
+    "key_references": [
+      "pmid:11071707",
+      "pmid:18307294",
+      "pmid:11104741",
+      "pmid:17223101",
+      "pmid:24275046",
+      "pmid:1196472",
+      "doi:10.3389/fphar.2019.01590",
+      "doi:10.1002/dta.1668",
+      "pmid:25624004",
+      "pmid:12163129",
+      "pmid:17017961",
+      "pmid:14612135"
+    ],
+    "_source_group": "stimulants-amphetamines"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "cathinones-beta-keto-stimulants",
+    "class_name": "Cathinones (β-keto phenethylamine stimulants; split into substrate-releasers and pure pyrrolidinophenone reuptake-inhibitors)",
+    "shared_mechanism": "Synthetic cathinones share the β-ketoamphetamine core and act on monoamine transporters (DAT, NET, SERT), but the class splits sharply into two functional sub-classes based on N-substituent. (1) Primary/N-methyl/N-ethyl cathinones (cathinone, methcathinone, mephedrone, methylone, ethylone, butylone) are SUBSTRATES that produce reverse transport ('release'), analogous to amphetamines but ~10× less CNS-penetrant because the β-keto increases polarity. (2) Pyrrolidinophenones (α-PVP, MDPV, α-PHP, α-PiHP, naphyrone, MDPBP, MDPPP) cannot act as substrates because the bulky pyrrolidine N-substituent prevents the transporter from translocating the molecule across the membrane — they are PURE CATECHOLAMINE REUPTAKE INHIBITORS at sub-nanomolar to low-nanomolar potency at DAT/NET, with little to no SERT activity. The β-keto group at the α-carbon also makes cathinones POOR TAAR1 ligands (negligible agonism at hTAAR1 in Simmler 2016, pmid:26791601) because the carbonyl forces a non-planar geometry that breaks the TAAR1 binding pose. Loss of TAAR1's natural feedback braking on dopamine neuron firing is widely believed to underlie cathinones' higher psychosis risk versus amphetamines.",
+    "shared_pk_summary": "Cathinones are well absorbed by intranasal/insufflation and oral routes; oral bioavailability is typically lower than amphetamines (mephedrone F ~10% in rats, suggesting first-pass metabolism). Half-lives are short for releaser-type cathinones (mephedrone ~2 h, methylone ~6 h, cathinone ~1.5 h) but longer for MDPV (terminal ~80–100 min in rats but with tissue accumulation extending pharmacodynamic effects; human estimates 4–8 h). Primary metabolism is hepatic, dominated by CYP2D6 for N-demethylation (mephedrone, methcathinone, methylone), with CYP2B6, CYP1A2, CYP2C19 contributing minor pathways. MDPV and pyrrolidinophenones undergo O-demethylenation by CYP1A2/CYP2D6/CYP2C19 followed by catechol-O-methylation by COMT, then glucuronidation. β-keto reduction yields cathine/norephedrine analogues with reduced activity. Plasma protein binding is modest (mephedrone ~22%). Vd is large for the lipophilic pyrrolidinophenones, particularly MDPV which shows tissue accumulation that explains its long-tail effects.",
+    "shared_safety": "(1) HYPERTHERMIA — a class-defining hazard, multifactorial as with amphetamines, but worsened by the loss of TAAR1 feedback (no autoinhibition of DA firing). (2) SYMPATHETIC CRISIS — extreme HR/BP elevations; MDPV particularly cardiotoxic, with direct hERG and KCNQ1 block at low-μM concentrations (Tarapoulouzi 2024, DOI:10.3390/ijms27010059). (3) PSYCHOSIS AND COMPULSIVE REDOSING — the pyrrolidinophenones (MDPV, α-PVP, α-PHP) have especially severe compulsive-redosing liability because they are sub-nM DAT inhibitors with no release component, no autoreceptor activation from released DA, and no TAAR1 brake — this 'pure DAT slam-cocaine on steroids' profile drives flakka/bath-salts-style psychosis. (4) SEROTONERGIC NEUROTOXICITY RISK — para-halogenated cathinones (4-CMC/clephedrone, 4-CEC, brephedrone, 4F-MABP) are structural analogues of PCMA/PBA, raising a serotonergic axonal neurotoxicity concern; recent in vitro studies show oxidative-stress cytotoxicity in SH-SY5Y but classical 5-HT terminal damage in vivo has not been firmly demonstrated yet (Wojcieszak 2020, DOI:10.1007/s12640-020-00227-8). (5) RHABDOMYOLYSIS, HYPONATREMIA (water-loading with SERT-active congeners), DIC, and acute kidney injury all reported. (6) FATALITIES — α-PVP, MDPV, 4-CMC, ephylone (N-ethylpentylone), eutylone, pentylone all have documented fatality clusters.",
+    "sar_summary": "Core SAR axes for cathinones: (1) β-KETONE is the defining feature — adds polarity, reduces CNS penetration ~10× versus matched amphetamine, eliminates TAAR1 agonism. β-keto is reduced in vivo to β-hydroxy (cathine-like), an active metabolite. (2) N-SUBSTITUENT controls functional mechanism: H, CH3, C2H5 → substrate/releaser; PYRROLIDINE → pure reuptake inhibitor (cannot be transported). (3) α-ALKYL CHAIN LENGTH: methyl (mephedrone/methcathinone) gives ~equipotent DA/NE/5-HT release; ethyl (buphedrone) shifts toward DA selectivity and increases potency; propyl (pentedrone), butyl (hexedrone) progressively boost DAT potency at the cost of SERT. (4) RING SUBSTITUENT controls SERT engagement: unsubstituted gives DA-selective; 3-methyl (3-MMC) is still DAT-preferring; 4-methyl (mephedrone) shifts toward balanced DA/5-HT release; 4-methylenedioxy (methylone, MDPV) further increases SERT engagement for the substrates while killing SERT activity for the pyrrolidinophenones. 4-halogen (4-CMC/4-FMC/4-BMC/4F-MABP) mimics the SERT-shift of para-halogenated amphetamines and raises a serotonergic-neurotoxicity flag by analogy to PCA/4-CA. (5) AROMATIC EXTENSION — naphthyl (naphyrone) re-introduces SERT activity to the pyrrolidinophenone scaffold via a larger aromatic surface. (6) For pyrrolidinophenones, increasing α-alkyl chain from propyl (MDPPP, α-PPP) → butyl (MDPBP, α-PBP) → pentyl (MDPV, α-PVP) → hexyl (α-PHP, α-PiHP) monotonically increases DAT potency and lipophilicity, with α-PVP and α-PHP being the most potent pure DAT blockers in the class (sub-30-nM IC50).",
+    "key_references": [
+      "pmid:22897747",
+      "pmid:24275046",
+      "pmid:26791601",
+      "pmid:25502630",
+      "pmid:34361040",
+      "pmid:30815856",
+      "pmid:30429818",
+      "pmid:33689284",
+      "doi:10.1007/s00213-018-5075-5",
+      "doi:10.1021/acschemneuro.5b00006",
+      "doi:10.3390/ijms27010059",
+      "doi:10.1007/s12640-020-00227-8",
+      "doi:10.3390/ijms23147826",
+      "doi:10.3390/medicina60030466",
+      "doi:10.1007/s11419-018-0428-7",
+      "doi:10.3389/fphar.2023.1122861"
+    ],
+    "_source_group": "stimulants-cathinones"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "dat-inhibitors-mixed",
+    "class_name": "Dopamine transporter (DAT) inhibitors — cocaine-like / phenidate-like / NDRI",
+    "shared_mechanism": "Block reuptake of DA (+/- NE +/- 5-HT) at the orthosteric site of SLC6A3 (DAT). The functional split that matters clinically is binding kinetics and DAT conformation, not chemical scaffold: 'cocaine-like' inhibitors (cocaine, methylphenidate, RTI-150, WIN-35,428, JJC8-088) stabilise DAT in an outward-open conformation, exhibit fast association/dissociation, and produce euphoria; 'atypical' DAT inhibitors (modafinil, JJC8-091, JHW-007, AHN-1055, vanoxerine, CE-123) stabilise an inward-occluded conformation, exhibit slow binding/dissociation, achieve partial DAT occupancy at therapeutic doses, and lack abuse liability. NDRIs (bupropion, methylphenidate, mazindol, atomoxetine via NE→DA spillover) hit both NET and DAT; PFC dopamine clearance is NET-dominated, so NDRI gives strong cognitive enhancement without striatal DA spike — better tolerability/cardiovascular profile depends on net DAT/NET ratio.",
+    "shared_pk_summary": "Cocaine: hepatic + plasma BChE + CES1 hydrolysis; t1/2 ~1 h (intranasal/IV) — fast in/out is the key abuse parameter. Methylphenidate and ester homologues: CES1 stereoselective hydrolysis (l-MPH cleared 5-10x faster than d-MPH; explains 22% vs 5% bioavailability respectively); CES1 G143E reduces clearance. Bupropion: CYP2B6→hydroxybupropion (active, NET-selective, 4-7x parent plasma); CYP2B6*6 reduces metabolite. Atomoxetine: CYP2D6 — PMs have 10x AUC, 5x Cmax, t1/2 21.6h vs 5.2h EM. Modafinil: hepatic amidase + CYP3A4/5; long t1/2 ~15h; weak CYP3A4 inducer (reduces oral contraceptive efficacy), weak CYP2C19 inhibitor. Lisdexamfetamine and serdexmethylphenidate: prodrugs (RBC aminopeptidases for LDX; gut hydrolysis for SDX) — rate-limited bioactivation deflates IV/IN abuse routes.",
+    "shared_safety": "hERG block + Nav1.5 block → arrhythmia, sudden cardiac death (cocaine prototype; cocaethylene 4x worse). Atypical DAT inhibitors with sigma binding (JHW-007) and modafinil analogs (JJC8-088 IC50 0.13 µM at hERG) carry intrinsic hERG risk. Bupropion lowers seizure threshold (dose-dependent; 0.4% at ≤450 mg/day). All abused stimulants risk sympathomimetic crisis, hyperthermia, rhabdomyolysis at supratherapeutic doses. CES1 G143E and BChE deficiency are genetic risk factors for cocaine/MPH toxicity. CYP3A4 induction (modafinil/armodafinil) → oral contraceptive failure, reduced AUC of co-administered substrates (encorafenib, triazolam, ethinyl estradiol).",
+    "sar_summary": "Cocaine scaffold: replacing C3 benzoyloxy with phenyl (phenyltropanes) → markedly higher DAT affinity (WIN-35,428 Kd 16 nM vs cocaine 300 nM) and slower dissociation; 4-iodo (RTI-55) adds SERT; 4-chloro phenyl ester (RTI-113) maximises DAT selectivity (1500x vs NET); N-substitution of benztropine scaffold from methyl→butyl shifts from cocaine-like (benztropine) to atypical/non-reinforcing (JHW-007, AHN-1055). Methylphenidate scaffold: ester chain length (Me→Et→iPr→Pr) shifts NET→DAT selectivity (d-MPH NET Ki 38 nM vs d-EPH NET Ki 3700 nM); 3,4-dichloro on phenyl (3,4-CTMP) gives 7-fold potency boost + esterase resistance → long duration. Modafinil scaffold: bis-4-fluoro (flmodafinil) boosts DAT affinity ~4x and abolishes CYP induction; small N-substituent changes in JJC8-088 vs -091 series produce activity cliff between cocaine-like and atypical profile (DAT conformation determined by single methyl difference). Phenylmorpholine releasers (phenmetrazine): 3-fluoro, 3-chloro maintain NE/DA releaser profile; 4-methyl or 3,4-methylenedioxy add 5-HT release → MDMA-like entactogen profile.",
+    "key_references": [
+      "doi:10.1124/jpet.105.099424",
+      "pmid:8245956",
+      "doi:10.1038/386827a0",
+      "pmid:11306689",
+      "doi:10.1001/jama.2009.351",
+      "doi:10.1038/sj.npp.1301534",
+      "pmid:34420294",
+      "doi:10.3390/biom14060713",
+      "pmid:8786705",
+      "pmid:15082749",
+      "doi:10.1038/srep07111",
+      "doi:10.1038/sj.npp.1300266",
+      "pmid:11907181",
+      "pmid:8517722",
+      "pmc:4257105",
+      "pmc:4876529"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "phenyltropane-RTI",
+    "class_name": "Phenyltropanes (RTI series, WIN-35,428) — cocaine-derived DAT-selective inhibitors",
+    "shared_mechanism": "Tropane scaffold of cocaine with the C3 benzoyloxy ester replaced by a phenyl ring (no oxygen at C3-aryl junction); C2 carbomethoxy retained. Removes the metabolically labile ester bond → much longer half-life and slower brain entry than cocaine. Binds DAT orthosteric site competitively with cocaine; most phenyltropanes are cocaine-like (outward-facing conformation, fast on/off) but with longer duration of action because the ester is replaced by a non-hydrolysable bond. SAR: 4-aryl substituent dictates DAT selectivity (4-F = WIN-35,428 highest selectivity for DAT; 4-I = RTI-55 adds SERT; 4-Me = RTI-150). C2 substituent dictates duration (C2 phenyl ester = RTI-113 long-acting).",
+    "shared_pk_summary": "Generally lipophilic with slow brain entry (vs cocaine) and long half-lives (hours to days); ester hydrolysis is the main clearance pathway when C2 carbomethoxy is retained, but C2 modifications (esters, amides) can produce very long elimination. Used primarily as PET/SPECT radioligands (WIN-35,428 [11C], β-CIT/RTI-55 [123I]) in human DAT imaging — slow brain kinetics is desirable for imaging but argues against therapeutic translation in pure form.",
+    "shared_safety": "Phenyltropanes inherit cocaine's cardiovascular off-targets (hERG, Nav1.5) to varying degrees; specific human data sparse since most are research tools. RTI-113 and others have been tested in primate self-administration with high reinforcing efficacy, but slower onset reduces (rather than eliminates) abuse liability. Atypical phenyltropanes (those stabilising occluded DAT conformation) like indatraline have lower abuse liability.",
+    "sar_summary": "C3-aryl 4-position controls selectivity: H ~ cocaine; F → DAT-selective (WIN-35,428); I → adds SERT (RTI-55); Me → cocaine-like (RTI-150); 3,4-Cl2 → high potency. C2 substituent controls duration: methyl ester (cocaine) hydrolysed by esterases (t1/2 min); phenyl ester (RTI-113) and amides resist hydrolysis (t1/2 hours). N8 substituent (methyl→nor or larger groups) modulates affinity and kinetics: nor- generally less potent; larger N-substituents can flip from cocaine-like to atypical.",
+    "key_references": [
+      "pmid:8878059",
+      "pmid:8245956",
+      "pmid:1675639",
+      "pmid:9704880",
+      "pmid:1411961",
+      "doi:10.1016/S0014-2999(00)00538-4"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "atypical-DAT-modafinil-analogs",
+    "class_name": "Atypical DAT inhibitors — modafinil-derived (JJC, CE, SoRI series)",
+    "shared_mechanism": "Diphenylmethyl-sulfinyl-acetamide scaffold (modafinil) and ring-expanded/N-substituted variants. Mechanism distinct from cocaine: at the DAT, these compounds stabilise inward-facing or occluded conformations (rather than outward-open) and exhibit SLOW association and dissociation kinetics. Slow kinetics → blunted reinforcement (the dopaminergic spike does not have sharp onset) → low abuse liability. Some (JJC8-088 specifically) violate this rule by stabilising outward-open, demonstrating the conformation hypothesis: modafinil-derived chemistry can produce both atypical and cocaine-like profiles depending on subtle N- and aryl-substituent choices (activity cliff). Modafinil parent additionally activates orexin/hypocretin neurons in lateral hypothalamus → histamine TMN → wakefulness (DAT inhibition alone is insufficient to explain its eugeroic profile at clinical doses).",
+    "shared_pk_summary": "Modafinil: oral t1/2 ~12-15h (racemate); armodafinil 10-15h; bioavailability high (~80%); CYP3A4/5 + amidase metabolism to inactive sulfone (t1/2 40h) and acid (t1/2 7h). Modafinil is weak CYP3A4 inducer and weak CYP2C19 inhibitor; flmodafinil is reportedly NOT a CYP inducer (key advantage). Adrafinil prodrug hepatically converted to modafinil (~50%) but carries additional hepatotoxicity from hydroxamic acid moiety. Atypical research compounds (JJC, CE-123) have very long half-lives by design to maintain slow brain kinetics.",
+    "shared_safety": "Major concern: hERG block (JJC8-088 IC50 0.13 µM; medchem effort to reduce). Modafinil: rare Stevens-Johnson syndrome / DRESS (FDA label warns), CYP3A4 induction → contraceptive failure. Vanoxerine: multi-channel cardiac block (hERG IC50 0.84 nM, Nav1.5, Cav1.2) but minimal APD prolongation — paradoxically antiarrhythmic. Atypical DAT profile generally low abuse liability — proposed mechanism for stimulant use disorder treatment.",
+    "sar_summary": "Single N-substituent change (e.g. JJC8-088 vs -091) flips conformational preference and abuse-likability: this is the 'activity cliff'. Adding fluorines to diphenyl rings (flmodafinil vs modafinil) increases DAT affinity ~4x without changing atypical character and removes CYP induction. Hydroxamic acid moiety (adrafinil, fladrafinil) confers hepatotoxicity. CE-123 series replaces sulfinyl with thio/sulfonyl groups to tune selectivity.",
+    "key_references": [
+      "pmid:34420294",
+      "doi:10.3390/biom14060713",
+      "doi:10.1021/acsomega.3c09348",
+      "doi:10.1021/acschemneuro.8b00340",
+      "doi:10.1001/jama.2009.351"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "atypical-DAT-benztropines",
+    "class_name": "Atypical DAT inhibitors — N-substituted benztropines (AHN, JHW series)",
+    "shared_mechanism": "Tropane-diphenylmethylether scaffold of benztropine. Despite high DAT affinity (Ki single-digit nM), N-substituent (especially N-butyl, JHW-007) yields atypical DAT inhibitor profile: slow onset, partial DAT occupancy at high doses, no cocaine-like reinforcement, blocks (rather than substitutes for) cocaine in self-administration and discrimination. Mechanism: stabilises DAT in inward-occluded conformation. Many in this series additionally bind sigma-1 and sigma-2 receptors at therapeutic concentrations, which may contribute to anti-cocaine effects. Slow binding kinetics + DAT-independent striatal binding sites (residual binding in DAT-knockout mice) are signatures of the class.",
+    "shared_pk_summary": "Highly lipophilic → slow brain entry and prolonged half-lives. Limited human PK published. Benztropine itself: oral, t1/2 ~16h; N-substituted analogues lipophilicity-dependent.",
+    "shared_safety": "Inherited from benztropine: anticholinergic burden (M1, M2 muscarinic antagonism — dry mouth, urinary retention, cognitive impairment in elderly); H1 antihistamine (sedation). Sigma-1 antagonism may have unknown long-term consequences. Lower abuse liability is the chief advantage.",
+    "sar_summary": "N-methyl (benztropine, AHN-1055) → modest DAT affinity, partial cocaine-like profile. N-butyl/longer (JHW-007) → atypical, non-reinforcing, cocaine-antagonist profile. Bis-(4-fluoro) on diphenyl improves DAT selectivity. Removing tropane methyl yields nor-analogues with altered conformational preference at DAT.",
+    "key_references": [
+      "pmid:14755006",
+      "pmid:20855444",
+      "pmid:15846468"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "phenylmorpholine-releasers",
+    "class_name": "Phenylmorpholine substrate-type monoamine releasers (phenmetrazine and analogues)",
+    "shared_mechanism": "Substituted phenylmorpholine scaffold. Acts as substrate at DAT and NET — taken up via transporter, then displaces vesicular monoamines (via VMAT2 substrate competition / weak-base trapping) → reverse transport of DA and NE into synapse (efflux). Distinct from cocaine-class uptake blockers — releaser pharmacology produces stronger and more sustained DA/NE rise. Aryl-ring substitution dictates serotonergic add-on: parent phenmetrazine essentially NE/DA-selective (negligible SERT); 4-methyl (4-MPM) and 3,4-methylenedioxy (MDPM) shift toward 5-HT releaser activity (MDMA-like entactogen profile).",
+    "shared_pk_summary": "Phenmetrazine: oral t1/2 ~8h. Phendimetrazine (N-methyl analogue): inactive prodrug, slow CYP N-demethylation to phenmetrazine — flatter PK profile reduces abuse liability vs phenmetrazine itself. Fluorinated analogues (3-FPM) and Cl-substituted (3-CPM) have variable PK; halogenation typically extends duration via metabolic stabilisation.",
+    "shared_safety": "Releaser pharmacology produces stronger sympathomimetic load than uptake-blocker class — hypertension, tachycardia, vasoconstriction (3-FPM AKI + critical limb ischemia case reports). MDMA-like analogues (4-MPM) add serotonin syndrome risk and 5-HT2B-mediated valvulopathy concern with chronic use.",
+    "sar_summary": "Halogen at C3 (F, Cl) maintains NE/DA selectivity and modestly potentiates DAT release. Halogen at C4 (4-F) similar. C4 methyl or 3,4-methylenedioxy adds substantial SERT releaser activity → MDMA-like profile. N-methylation (phendimetrazine) abolishes activity, generating slow-release prodrug of demethylated form (phenmetrazine).",
+    "key_references": [
+      "pmid:11907181",
+      "doi:10.1016/j.neuropharm.2017.10.006",
+      "doi:10.1016/j.bmcl.2015.04.083",
+      "doi:10.1002/dta.2396",
+      "doi:10.1038/srep31385",
+      "pmid:23211394"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "afinil",
+    "class_name": "Eugeroic afinils (modafinil, adrafinil, fladrafinil, hydrafinil, etc.)",
+    "shared_mechanism": "Predominant clinically active member is modafinil. Mechanism is multimodal: (1) weak DAT inhibition (modafinil DAT Ki ~4 µM; PET shows 50% striatal DAT occupancy at 200-400 mg in humans), (2) ORE EXIN/hypocretin neuron activation in lateral hypothalamus (modafinil increases orexin neuron c-Fos), (3) downstream histaminergic TMN activation (modafinil-induced wakefulness requires intact histamine neurons), (4) modest glutamate↑ and GABA↓ in cortical networks. Adrafinil is hepatic prodrug of modafinil; fladrafinil is bis-fluoro adrafinil; flmodafinil/bisfluoromodafinil is bis-fluoro modafinil (improved DAT affinity, no CYP induction); hydrafinil is structurally unrelated fluorenol with weak/poorly characterised mechanism.",
+    "shared_pk_summary": "Modafinil: oral F ~80%, t1/2 12-15h, Tmax 2h, protein binding 60%. Metabolised CYP3A4/5 + hepatic amidase to inactive sulfone (t1/2 40h) and acid (t1/2 7h). Weak CYP3A4 inducer (clinically relevant for hormonal contraceptives, triazolam, encorafenib), weak CYP2C19 inhibitor (warfarin, omeprazole). Armodafinil (R-enantiomer): t1/2 ~15h (slightly longer than racemate because R-eutomer clears slower than S). Adrafinil: prodrug t1/2 ~1h before conversion to modafinil; adds hepatotoxicity (LFT elevation; French market withdrawal 2011).",
+    "shared_safety": "Rare Stevens-Johnson syndrome, DRESS, toxic epidermal necrolysis (FDA boxed-warning class). CYP3A4 induction → contraceptive failure. Adrafinil/fladrafinil class hepatotoxicity (hydroxamic acid moiety). Generally low abuse liability — but reinforcing in vulnerable populations; classified US Schedule IV.",
+    "sar_summary": "Bis-4-fluoro on diphenyl (flmodafinil, fladrafinil) increases DAT affinity ~4x and removes CYP3A4 induction. Hydroxamic acid (adrafinil, fladrafinil) → hepatotoxicity. Sulfinyl→sulfonyl (modafinil sulfone): inactive. Acetamide→acetic acid (modafinil acid): inactive. R-enantiomer of modafinil is the eutomer (slower clearance, similar potency).",
+    "key_references": [
+      "doi:10.1001/jama.2009.351",
+      "doi:10.1038/sj.npp.1301534",
+      "pmid:31951804",
+      "doi:10.1021/acschemneuro.8b00340"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "selective-NRI",
+    "class_name": "Selective NE reuptake inhibitors (atomoxetine, viloxazine)",
+    "shared_mechanism": "Block NET (SLC6A2) with high selectivity over DAT and SERT. In prefrontal cortex, NET co-transports BOTH NE and DA (because PFC has low DAT density), so selective NET inhibition raises PFC DA without striatal DA spike → cognitive enhancement without abuse liability. No reinforcement, no euphoria. Viloxazine adds serotonergic activity (5-HT2C partial agonism, 5-HT2B/2C/7 antagonism) — differentiates from atomoxetine. Both used in ADHD as non-stimulant alternatives.",
+    "shared_pk_summary": "Atomoxetine: oral F 63% (EM) / 94% (CYP2D6 PM); t1/2 5.2h EM / 21.6h PM (10x AUC, 5x Cmax); protein binding 98% (albumin). CYP2D6 primary; CYP2C19 minor. Viloxazine ER: t1/2 7h, Tmax 5h, protein binding 76%; UGT1A9/UGT2B15 primary; CYP2D6 minor (PMs have only 21-26% increase, no dose adjust). Viloxazine is strong CYP1A2 inhibitor (caffeine, theophylline AUC doubled).",
+    "shared_safety": "Atomoxetine: rare hepatic injury (boxed warning), modest QT prolongation in PMs, suicidality concern (FDA boxed warning, pediatric). Viloxazine: CYP1A2 interactions (caffeine, theophylline, melatonin, clozapine). Both: dry mouth, decreased appetite, insomnia common; no significant abuse liability.",
+    "sar_summary": "Phenoxypropylamine (atomoxetine) and morpholine (viloxazine) scaffolds. CYP2D6 stereoselective metabolism (atomoxetine R-isomer hydroxylated faster than S). NET selectivity over DAT/SERT 290-fold (atomoxetine) to 100-fold (viloxazine) — high enough to avoid abuse.",
+    "key_references": [
+      "doi:10.1016/S0006-3223(02)01692-1",
+      "pmc:4876529",
+      "doi:10.1007/s40268-026-00543-y",
+      "doi:10.1007/s40261-024-01356-0"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "triple-reuptake-inhibitors",
+    "class_name": "Serotonin-norepinephrine-dopamine reuptake inhibitors (SNDRIs / triple reuptake inhibitors)",
+    "shared_mechanism": "Simultaneous inhibition of SERT, NET, and DAT at the orthosteric sites. Designed for major depression with the theory that DA component would address anhedonia/motivation deficit unmet by SSRIs/SNRIs. Most programs failed because hitting DAT at antidepressant doses creates abuse liability (e.g., dasotraline) or hERG/cardiovascular issues. Dasotraline succeeded by extreme PK flattening (t1/2 47-77h → infusion-like exposure, no peak-trough abuse pattern) but was discontinued for commercial reasons. Indatraline and brasofensine are classic research-grade SNDRIs.",
+    "shared_pk_summary": "Variable; medicinal-chemistry effort focused on extending half-life to avoid peak abuse liability. Dasotraline t1/2 47-77h; brasofensine and indatraline shorter. Most metabolised by hepatic CYPs.",
+    "shared_safety": "DAT activity drives abuse liability if PK is sharp. Pridefine: noncompetitive uptake inhibition mode (mechanistic curiosity). Hypertension/tachycardia from NE + DA effects. Serotonin syndrome risk if combined with SSRIs/MAOIs. Hepatic concerns with several compounds.",
+    "sar_summary": "Phenyltropane (brasofensine), aminoindane (indatraline, dasotraline), pyrroloisoquinoline (JNJ-7925476), pyrrolidine (pridefine). Within each scaffold, halogen substitution on aryl moiety tunes SERT vs DAT vs NET potency ratios. Dasotraline (1R,4S-aminotetralin) directly derived from tametraline → sertraline series with stereochemistry tuned for SNDRI rather than SSRI profile.",
+    "key_references": [
+      "pmid:11249705",
+      "doi:10.1038/srep34655",
+      "pmid:18499098",
+      "doi:10.1124/jpet.114.220293",
+      "pmid:25948101",
+      "pmid:7205281"
+    ],
+    "_source_group": "stimulants-dat-inhibitors"
+  }
+]

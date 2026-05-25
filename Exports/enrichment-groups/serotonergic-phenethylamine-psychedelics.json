@@ -1,0 +1,1196 @@
+{
+  "slug": "serotonergic-phenethylamine-psychedelics",
+  "name": "Serotonergic psychedelics — 2C-x, DOx, mescaline, NBOMe",
+  "count": 88,
+  "substances": [
+    {
+      "name": "(E)-indol-3-ylacetaldoxime",
+      "aliases": [
+        "3-Indoleacetaldoxime",
+        "Indole-3-acetaldoxime"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(Z)-indol-3-ylacetaldoxime",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25b-nboh",
+      "aliases": [
+        "25bnboh",
+        "2cb-nboh",
+        "nboh-2cb"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOH",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25b-nbome",
+      "aliases": [
+        "25b"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25C-NB3OMe",
+      "aliases": [
+        "NB3OMe-2C-C",
+        "N-(3-methoxybenzyl)-2C-C",
+        "2C-C-NB3OMe",
+        "25C-NB-3-OMe",
+        "25C-NB(3)OMe"
+      ],
+      "category": "psychedelic hallucinogen (5-HT2A partial agonist)",
+      "tags": [],
+      "chemical_class": "phenethylamine (2C) / NB3OMe series"
+    },
+    {
+      "name": "25c-nboh",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOH",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25c-nbome",
+      "aliases": [
+        "25c",
+        "2c-nbome"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25d-nbome",
+      "aliases": [
+        "25d",
+        "2c-d-nbome"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25e-nbome",
+      "aliases": [
+        "25e"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25g-nbome",
+      "aliases": [
+        "25g",
+        "25gnbome"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25h-nbome",
+      "aliases": [
+        "25-h-nbome",
+        "25h"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25i-nbf",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBF",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25i-nbmd",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "NBMD",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25i-nboh",
+      "aliases": [
+        "cimbi-27",
+        "nboh-2ci"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOH",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25i-nbome",
+      "aliases": [
+        "2-c-i-nbome",
+        "25i"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25ip-nbome",
+      "aliases": [
+        "25ip"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25n-nbome",
+      "aliases": [
+        "2-c-n-nbome",
+        "25n"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25p-nbome",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25t-2-nbome",
+      "aliases": [
+        "25t2-nbome"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "25t-4-nbome",
+      "aliases": [
+        "25t4-nbome"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2c-b-an",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2c-b-fly",
+      "aliases": [
+        "2cb-fly"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2C-BZ",
+      "aliases": [
+        "\"2C-B Z\" (spacing variant seen in posts)",
+        "2CBZ",
+        "Street label used for an unconfirmed 2C-B analogue"
+      ],
+      "category": "Psychedelic / hallucinogen",
+      "tags": [],
+      "chemical_class": "Substituted phenethylamine (2C family, brominated dimethoxy-phenethylamine analogue; structure not analytically confirmed)"
+    },
+    {
+      "name": "2C-D",
+      "aliases": [
+        "2c-m",
+        "2cd"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2C-G-N",
+      "aliases": [
+        "1,4-dimethoxynaphthyl-2-ethylamine",
+        "2-(1,4-dimethoxy-2-naphthalenyl)ethylamine",
+        "2-(1,4-dimethoxynaphthalen-2-yl)ethan-1-amine",
+        "2-(1,4-dimethoxynaphthalen-2-yl)ethanamine",
+        "2C-G-NPH"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2c-ip",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2C-P-NBOMe",
+      "aliases": [
+        "25P-NBOMe",
+        "NBOMe (series)",
+        "2-(4-propyl-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine",
+        "P‑NBOMe",
+        "25P",
+        "N-(2-methoxybenzyl)-2C-P",
+        "NBOMe-2C-P"
+      ],
+      "category": "Psychedelic / hallucinogen (5‑HT2A receptor agonist)",
+      "tags": [],
+      "chemical_class": "Phenethylamine; NBOMe (N‑methoxybenzyl) series; 2C family derivative (2C‑P analog)"
+    },
+    {
+      "name": "5-(2-aminoethyl)-2,3-dimethoxyphenol",
+      "aliases": [
+        "3-O-desmethylmescaline"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "AM-2233",
+      "aliases": [
+        "R(+)-AM-2233 (active enantiomer)",
+        "1-[(N-methylpiperidin-2-yl)methyl]-3-(2-iodobenzoyl)indole",
+        "CAS 444912-75-8",
+        "AM2233",
+        "1-((N-Methyl-2-piperidinyl)methyl)-3-(2-iodobenzoyl)-1H-indole"
+      ],
+      "category": "synthetic cannabinoid agonist",
+      "tags": [],
+      "chemical_class": "benzoylindole synthetic cannabinoid"
+    },
+    {
+      "name": "AM-694",
+      "aliases": [
+        "1-[(5-fluoropentyl)-1H-indol-3-yl]-(2-iodophenyl)methanone",
+        "1-(5-fluoropentyl)-3-(2-iodobenzoyl)indole",
+        "[18F]AM-694 (radiotracer derivative)"
+      ],
+      "category": "synthetic cannabinoid",
+      "tags": [],
+      "chemical_class": "indole-based synthetic cannabinoid (aminoalkylindole / 1-(5-fluoropentyl)-3-(2-iodobenzoyl)indole)"
+    },
+    {
+      "name": "Aniracetam",
+      "aliases": [
+        "Ampamet",
+        "Draganon",
+        "Memodrin",
+        "Ro 13-5057",
+        "Sarpul"
+      ],
+      "category": "AMPAkine",
+      "tags": [
+        "AMPA-PAM",
+        "nootropic",
+        "racetam",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bk-2c-b",
+      "aliases": [
+        "bk-2cb"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "common",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bk-2c-i",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bromo-dragonfly",
+      "aliases": [
+        "bdfly",
+        "bromo-d-fly",
+        "bromo-dragon-fly",
+        "dob-dragonfly"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "C30-nbome",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "5-HT2A-agonist",
+        "inactive",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Camazepam",
+      "aliases": [
+        "albego",
+        "limpidon",
+        "paxor"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMCPA",
+      "aliases": [
+        "2,5-dimethoxy-4-methylphenylcyclopropylamine",
+        "2-(2,5-dimethoxy-4-methylphenyl)cyclopropan-1-amine",
+        "2-(2,5-dimethoxy-4-methylphenyl)cyclopropylamine",
+        "25D-CPA",
+        "4-methyl-2,5-methoxyphenylcyclopropylamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOAM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOBU",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOC",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOEF",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOET",
+      "aliases": [
+        "doe"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOI",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL",
+        "radioligand-origin",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Doip",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine",
+        "radioligand-origin",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOM",
+      "aliases": [
+        "stp"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DON",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DOPR",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Doxylamine",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "E; ESCALINE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Eflea",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "inactive",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "endomorphin-1",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Escaline",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "FLEA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indapyrophenidone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "indol-3-ylacetaldoxime",
+      "aliases": [
+        "indole-3-acetaldehyde oxime"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indole-3-acetaldoxime N-oxide",
+      "aliases": [
+        "IAOx N-oxide"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isobutyrylvalindomycin",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isoproscaline",
+      "aliases": [
+        "ip"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LHRH, N-epsilon-azidobenzoyl-lys(6)-",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LOPHOPHINE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MEM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "META-DOB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "META-DOT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methallylescaline",
+      "aliases": [
+        "mal"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methiodone",
+      "aliases": [
+        "Ethyl 1,1-diphenyl-3-dimethylaminobutyl sulfone",
+        "IC-26"
+      ],
+      "category": "μ-Opioid receptor agonist analgesic",
+      "tags": [],
+      "chemical_class": "Diphenylpropylamine sulfone (methadone analogue)"
+    },
+    {
+      "name": "Methoxydoisuthine",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "radioligand-origin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-DOB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Methyl-Cyclazodone",
+      "aliases": [
+        "N-methylcyclazodone",
+        "NMCY",
+        "NMC",
+        "N‑methyl‑cyclazodone",
+        "Cyclazodone N‑methyl analogue",
+        "N‑methyl‑cyclaz",
+        "N‑methyl‑cyclazadone (common misspelling)"
+      ],
+      "category": "Stimulant / Nootropic",
+      "tags": [],
+      "chemical_class": "2-Oxazolidinone (pemoline) derivative"
+    },
+    {
+      "name": "Nitrazepam",
+      "aliases": [
+        "baronite",
+        "dormin",
+        "dreem",
+        "enzed",
+        "gentravit",
+        "hypnonex",
+        "hypnoril",
+        "hypnotex",
+        "konit",
+        "mogadon",
+        "nicare",
+        "nigap",
+        "nipam",
+        "nirosun",
+        "nitavan",
+        "nithra"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ORTHO-DOT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenylpiracetam",
+      "aliases": [
+        "Carphedon",
+        "Fonturacetam",
+        "Phenotropil",
+        "phenylpiracetam"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "nootropic",
+        "racetam",
+        "research-chemical",
+        "stimulant-adjacent",
+        "WADA-banned"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pinazepam",
+      "aliases": [
+        "domar"
+      ],
+      "category": "Benzodiazepine",
+      "tags": [
+        "benzodiazepine",
+        "GABAA-PAM",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Podocarpamide",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propionylvalindomycin",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Proscaline",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "psilocybin",
+      "aliases": [
+        "3-(2-(dimethylamino)ethyl)-1H-indol-4-ol dihydrogen phosphate ester",
+        "3-(2-dimethylaminoethyl)indol-4-yl dihydrogen phosphate",
+        "4-phosphoryloxy-N,N-dimethyltryptamine",
+        "4-PO-DMT",
+        "indocybin",
+        "O-phosphoryl-4-hydroxy-N,N-dimethyltryptamine",
+        "psilocin phosphate ester",
+        "psilocybine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pyrophenidone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Resedine",
+      "aliases": [
+        "5-Phenyl-2-oxazolidone"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Scorodocarpine B",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Scorodocarpine C",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMA-2",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMA-6",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Trazodone",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Vilazodone",
+      "aliases": [
+        "EMD-68843",
+        "Viibryd",
+        "SB-659746A"
+      ],
+      "category": "Antidepressant (SSRI + 5‑HT1A partial agonist)",
+      "tags": [],
+      "chemical_class": "Indole-derived benzofuran; serotonergic antidepressant"
+    },
+    {
+      "name": "Ziprasidone",
+      "aliases": [
+        "Geodon",
+        "Ziprasidone mesylate (IM)",
+        "Ziprasidone HCl"
+      ],
+      "category": "Mixed 5-HT2A/D2 receptor antagonist with 5-HT1A partial-agonism; weak serotonin–norepinephrine reuptake inhibition",
+      "tags": [],
+      "chemical_class": "Benzisothiazolyl piperazine; second-generation (atypical) antipsychotic"
+    },
+    {
+      "name": "zoptarelin doxorubicin",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "DOx",
+        "no-human-data",
+        "phenethylamine",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Βh-2c-b",
+      "aliases": [
+        "beta-hydroxy-2c-b",
+        "bh-2c-b",
+        "boh-2c-b",
+        "bohb"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

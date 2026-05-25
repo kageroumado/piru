@@ -1,0 +1,5338 @@
+{
+  "slug": "serotonergic-tryptamines-and-lsd",
+  "name": "Serotonergic psychedelics — tryptamines and LSD/ergolines",
+  "count": 406,
+  "substances": [
+    {
+      "name": "1-methyl-DMT",
+      "aliases": [
+        "1,N,N-trimethyltryptamine",
+        "1-Me-DMT",
+        "1-methyl-N,N-dimethyltryptamine",
+        "Indole, 3-(2-(dimethylamino)ethyl)-1-methyl-"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1b-lsd",
+      "aliases": [
+        "1b"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1cP-AL-LAD",
+      "aliases": [
+        "AL‑LAD prodrug (presumed)",
+        "1-cyclopropanecarbonyl-AL-LAD",
+        "1-cyclopropanoyl-AL-LAD",
+        "N1‑cyclopropanoyl AL‑LAD",
+        "1cP‑AL‑LAD"
+      ],
+      "category": "Serotonergic psychedelic; presumed 5‑HT2A agonist primarily via in vivo deacylation to AL‑LAD",
+      "tags": [],
+      "chemical_class": "Lysergamide (1-substituted N1-cyclopropanoyl derivative of AL-LAD)"
+    },
+    {
+      "name": "1cp-lsd",
+      "aliases": [
+        "1cp",
+        "1cplsd",
+        "curie"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1cP-MiPLA",
+      "aliases": [
+        "1‑cP‑MiPLA",
+        "LAMIDE 1‑cP (colloquial)",
+        "MiPLA prodrug (putative)",
+        "Lysergic acid 1‑cyclopropionyl‑N‑methyl‑N‑isopropylamide",
+        "1‑cyclopropionyl‑MiPLA",
+        "1‑cyclopropanecarbonyl‑N‑methyl‑N‑isopropyllysergamide",
+        "1cP‑MIPLA"
+      ],
+      "category": "Psychedelic",
+      "tags": [],
+      "chemical_class": "Lysergamides"
+    },
+    {
+      "name": "1p-eth-lad",
+      "aliases": [
+        "1pethlad"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1p-lsd",
+      "aliases": [
+        "1p",
+        "1plsd"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1S-LSD",
+      "aliases": [
+        "1‑(3‑(trimethylsilyl)propanoyl)‑lysergic acid diethylamide",
+        "1S‑LSD D‑tartrate",
+        "1-(3-trimethylsilyl-propionyl)-LSD",
+        "N1‑TMS‑propionyl lysergamide"
+      ],
+      "category": "Serotonergic psychedelic (5‑HT2A partial agonist via LSD after deacylation)",
+      "tags": [],
+      "chemical_class": "Lysergamide"
+    },
+    {
+      "name": "2'-alpha-mannosyl-L-tryptophan",
+      "aliases": [
+        "(2S)-2-amino-3-{2-[(2R,3S,4R,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]-1H-indol-3-yl}propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2,a-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2,N,N-trimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(1H-INDOL-3-YL)ACETAMIDE",
+      "aliases": [
+        "1H-indole-3-acetamide",
+        "2-(1H-indol-3-yl)acetamide",
+        "2-(1H-indol-3-yl)ethanamide",
+        "3-indoleacetamide",
+        "Indole-3-acetamide",
+        "indoleacetamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(5-Chloro-1H-indol-3-yl)ethanamine hydrochloride",
+      "aliases": [
+        "5-Chloro-1H-indole-3-ethylamine monohydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(5-methyl-1H-indol-3-yl)ethanamine",
+      "aliases": [
+        "2-(5-Methyl-1H-indol-3-yl)ethanamine",
+        "2-(5-Methyl-1H-indol-3-yl)ethylamine",
+        "2-(5-Methyl-indol-3-yl)ethyl amine",
+        "5-Methyltryptamine",
+        "NSC 90805"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(Trifluoromethyl)-1H-indole-3-acetonitrile",
+      "aliases": [
+        "2-(2-(Trifluoromethyl)-1H-indol-3-yl)acetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Bromo-N-methyltryptamine",
+      "aliases": [
+        "2-(2-bromo-1H-indol-3-yl)-N-methylethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-hydroxy-L-tryptophan",
+      "aliases": [
+        "(2S)-2-Amino-3-(2-hydroxy-1H-indol-3-yl)propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-hydroxy-N-methyltryptamine",
+      "aliases": [
+        "2-HO-NMT",
+        "2-hydroxy-N-methyl-1H-indole-3-ethaneamine",
+        "3-[2-(methylamino)ethyl]-1H-indol-2-ol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-hydroxytryptophan",
+      "aliases": [
+        "2-hydroxy-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-imino-3-(indol-3-yl)propanoate",
+      "aliases": [
+        "IPAimine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-ME-DET",
+      "aliases": [
+        "2-methyl-diethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-ME-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-methyl-5-HT",
+      "aliases": [
+        "2-Me-5-HT",
+        "2-methyl-5-hydroxytryptamine",
+        "2-methylserotonin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-methyl-L-tryptophan",
+      "aliases": [
+        "2-Methyltryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-methylalanyl-D-tryptophan",
+      "aliases": [
+        "(2R)-2-[(2-amino-2-methylpropanoyl)amino]-3-(1H-indol-3-yl)propanoic acid",
+        "alpha-aminoisobutyryl-D-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-methylindole-3-ethylamine",
+      "aliases": [
+        "2-(2-methyl-1H-indol-3-yl)-ethylamine",
+        "2-methyltryptamine",
+        "3-(2-aminoethyl)-2-methylindole"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-(2-Amino-2,2-dimethylethyl)indole",
+      "aliases": [
+        "alpha,alpha-Dimethyl-1H-indole-3-ethanamine",
+        "alpha,alpha-Dimethyl-3-indoleethanamine",
+        "alpha,alpha-Dimethyltryptamine",
+        "Ro 3-1638"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-(2-Amino-tert-butyl)indole",
+      "aliases": [
+        "beta,beta-Dimethyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-hydroxy-L-tryptophan",
+      "aliases": [
+        "beta-hydroxy-L-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4,5-Dihydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4,5-MDO-DIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4,5-MDO-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4,7-Dimethyl-5,6-dihydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-(3-methylbut-2-enyl)-L-tryptophan",
+      "aliases": [
+        "4-dimethylallyl-L-tryptophan",
+        "4-dimethylallyltryptophan",
+        "DMATrp"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-det",
+      "aliases": [
+        "4-acetoxy-det",
+        "ethacetin",
+        "ethylacybin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-dipt",
+      "aliases": [
+        "4-acetoxy-dipt",
+        "4acodipt",
+        "aces",
+        "ipracetin",
+        "iprocetyl"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "research-chemical",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-dmt",
+      "aliases": [
+        "4-acetoxy-dmt",
+        "4-aco",
+        "4acodmt",
+        "acetylpsilocin",
+        "psilacetin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-dpt",
+      "aliases": [
+        "4acodpt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-met",
+      "aliases": [
+        "4-acetoxy-met",
+        "4acomet",
+        "metacetin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Br-DMT",
+      "aliases": [
+        "4-Bromo-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Cl-DMT",
+      "aliases": [
+        "4-Chloro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fluoro-5-methoxy-DMT",
+      "aliases": [
+        "2-(4-fluoro-5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fluoro-DMT",
+      "aliases": [
+        "4-fluoro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fluorotryptamine",
+      "aliases": [
+        "2-(4-fluoro-1H-indol-3-yl)ethan-1-amine",
+        "4-FT",
+        "PAL-551"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-DBT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-DET",
+      "aliases": [
+        "4-hydroxy-det",
+        "4hodet"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-DIPT",
+      "aliases": [
+        "iprocin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-DPT",
+      "aliases": [
+        "4-hydroxy-n",
+        "4hodpt",
+        "n-dipropyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-MALT",
+      "aliases": [
+        "4-hydroxy-N-methyl-N-allyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-MET",
+      "aliases": [
+        "4homet",
+        "ethocin",
+        "homet",
+        "metocin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-MIPT",
+      "aliases": [
+        "4-ho",
+        "4homipt",
+        "homipt",
+        "miprocin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-MPT",
+      "aliases": [
+        "4hompt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-NET",
+      "aliases": [
+        "4-hydroxy-N-ethyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-NiPT",
+      "aliases": [
+        "4-hydroxy-N-isopropyltryptamine,"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-NPT",
+      "aliases": [
+        "4-hydroxy-N-propyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-PYR-T",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-αMT",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxy-indole-3-carbonyl nitrile",
+      "aliases": [
+        "4-hydroxy-α-oxo-1H-indole-3-acetonitrile",
+        "4-hydroxyindole-3-carboxylic acid cyanide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxy-N,N diethyltryptamine",
+      "aliases": [
+        "4-hydroxy-diethyl-tryptamine",
+        "Этоцин"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxy-N-methyl-N-ethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxy-N-methyl-N-isopropyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxyglucobrassicin",
+      "aliases": [
+        "4-Ohimg"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-hydroxytryptophan",
+      "aliases": [
+        "4-hydroxy-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Me-αMT",
+      "aliases": [
+        "4,α-dimethyltryptamine",
+        "4,α-DMT",
+        "4-methyl-AMT",
+        "4-Methyl-α-methyltryptamine",
+        "MP-809"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-MEO-MIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-methoxyglucobrassicin",
+      "aliases": [
+        "4-methoxy-3-indolylmethylglucosinolate",
+        "4-methoxyindol-3-ylmethylglucosinolate",
+        "4-Moimg"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-methoxytryptamine",
+      "aliases": [
+        "3-(2-aminoethyl)-4-methoxyindole"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Methyl-α-ethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-methylthiodimethyltryptamine",
+      "aliases": [
+        "4-MeS-DMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Nitro-5-methoxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-PrO-DMT",
+      "aliases": [
+        "4-Propionyloxy-N,N-dimethyltryptamine",
+        "4-Propionyloxy-DMT",
+        "4-ProO-DMT",
+        "O-propionylpsilocin",
+        "4-Propanoyloxy-N,N-dimethyltryptamine"
+      ],
+      "category": "Classical psychedelic (5-HT2A agonist; pro-drug to psilocin)",
+      "tags": [],
+      "chemical_class": "Substituted tryptamine (psilocin ester)"
+    },
+    {
+      "name": "4-PrO-MET",
+      "aliases": [
+        "4-propionoxy-4-HO-MET prodrug",
+        "4-propanoyloxy-MET",
+        "4-propionoxy-MET",
+        "O-propionyl-metocin",
+        "O-propionyl-4-HO-MET",
+        "4-PrO-MET fumarate (common salt)"
+      ],
+      "category": "Serotonergic psychedelic (effects presumed mainly via 5‑HT2A agonism after in‑vivo hydrolysis to 4‑HO‑MET; possible minor parent-compound activity)",
+      "tags": [],
+      "chemical_class": "Tryptamine; 4-substituted indole O-ester (putative prodrug to 4‑HO‑MET)"
+    },
+    {
+      "name": "4-propionoxy-N,N-dimethyltryptamine",
+      "aliases": [
+        "O-propionylpsilocin",
+        "{3-[2-(dimethylamino)ethyl]-1H-indol-4-yl} propanoate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4F-5-MeO-DMT",
+      "aliases": [
+        "4-Fluoro-5-methoxy-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4F-DMT",
+      "aliases": [
+        "4-Fluoro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-dibromo-N-methyltryptamine",
+      "aliases": [
+        "2-(5,6-dibromo-1H-indol-3-yl)-N-methylethan-1-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-dibromodimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-dibromotryptamine",
+      "aliases": [
+        "2-(5,6-dibromo-1H-indol-3-yl)ethan-1-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-dihydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-MDO-DIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-MDO-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-MDO-MIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,6-MEO-MIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,7-Dichlorotryptamine HCl",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5,7-dihydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-(Trifluoromethoxy)-1H-indole-3-ethanamine",
+      "aliases": [
+        "5-Trifluoromethoxytryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Br-DMT",
+      "aliases": [
+        "5-Bromo-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Bromo-DMT",
+      "aliases": [
+        "5-bromo-N,N-dimethyltryptamine",
+        "SpongeBob DMT",
+        "5-Br-DMT"
+      ],
+      "category": "Atypical psychedelic / sedative tryptamine",
+      "tags": [],
+      "chemical_class": "Tryptamine (halogenated indoleethylamine)"
+    },
+    {
+      "name": "5-bromodimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-bromotryptamine",
+      "aliases": [
+        "2-(5-bromo-1H-indol-3-yl)ethan-1-amine",
+        "5-Br-T",
+        "PAL-518"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Bromotryptophan",
+      "aliases": [
+        "5-Bromo-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-carboxamidotryptamine",
+      "aliases": [
+        "5-Carboxamide tryptamine",
+        "5-Carboxyamidotryptamine",
+        "5-CT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Chloro-1H-indole-3-ethanamine",
+      "aliases": [
+        "2-(5-Chloro-1H-indol-3-yl)ethanamine",
+        "2-(5-Chloro-1H-indol-3-yl)ethylamine",
+        "5-Chloro-3-indoleethanamine",
+        "5-Chlorotryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-chloro-N,N-dimethyltryptamine",
+      "aliases": [
+        "5-Chloro-DMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Chloro-αMT",
+      "aliases": [
+        "5-chloro-alpha-methyltryptamine",
+        "5-chloro-α-methyltryptamine",
+        "PAL-542"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Cyanotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Ethoxy-DMT",
+      "aliases": [
+        "5-EtO-DMT"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-ethoxy-αMT",
+      "aliases": [
+        "1-(5-ethoxy-1H-indol-3-yl)propan-2-amine",
+        "5-ethoxy-alpha-methyltryptamine",
+        "5-EtO-AMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-ethyl-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-F-DMT",
+      "aliases": [
+        "5-Fluoro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluoro-AET",
+      "aliases": [
+        "1-(5-fluoro-1H-indol-3-yl)butan-2-amine",
+        "5-F-AET"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluoro-DET",
+      "aliases": [
+        "5-fluoro-N,N-diethyltryptamine",
+        "5F-DET",
+        "N,N-diethyl-2-(5-fluoro-1H-indol-3-yl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluoro-MET",
+      "aliases": [
+        "5-F-MET",
+        "5-fluoro-N-methyl-N-ethyltryptamine",
+        "bretisilocin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluoro-N,N-dimethyltryptamine",
+      "aliases": [
+        "5-Fluoro-DMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluoro-α-methyltryptamine",
+      "aliases": [
+        "5-fluoro-alpha-methyltryptamine",
+        "5-fluoro-AMT",
+        "5-fluoro-αMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluorotryptamine",
+      "aliases": [
+        "2-(5-fluoro-1H-indol-3-yl)ethanamine",
+        "2-(5-fluoro-1H-indol-3-yl)ethylamine",
+        "2-(5-fluoroindol-3-yl)ethylamine",
+        "3-(2-aminoethyl)-5-fluoro-1H-indole",
+        "5-fluoro-1H-indole-3-ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Fluorotryptamine hydrochloride",
+      "aliases": [
+        "5-Fluoro-1H-indole-3-ethylamine monohydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-fluorotryptophan",
+      "aliases": [
+        "5-Fluoro-L-tryptophan",
+        "Fluorotryptophane"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-HO-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-HO-MET",
+      "aliases": [
+        "5-hydroxy-N-methyl-N-ethyltryptamine",
+        "5-OH-MET"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-htp",
+      "aliases": [
+        "5-Hydroxy-L-Tryptophan",
+        "5-hydroxytryptophan",
+        "5-Hydroxytryptophan L-form",
+        "5htp",
+        "Cincofarm",
+        "Hydroxy-5 L-tryptophane",
+        "Levothym",
+        "oxitriptan",
+        "Tript-OH",
+        "tryptophan"
+      ],
+      "category": "Supplement",
+      "tags": [
+        "common",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-hydroxy-alpha-methyltryptophan",
+      "aliases": [
+        "α-methyl-5-hydroxytryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-hydroxymethyl-N,N-dimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Hydroxytryptamine O-sulfate",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-iso-Propyl-N,N-dimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MeO-2-TMT",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MeO-AET",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-dalt",
+      "aliases": [
+        "5meodalt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-DET",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-DIPT",
+      "aliases": [
+        "5meodipt",
+        "foxy",
+        "foxy-methoxy"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-DMT",
+      "aliases": [
+        "3-(2-dimethylaminoethyl)-5-methoxyindole",
+        "3-[2-(N,N-Dimethylamino)ethyl]-5-methoxy-indole",
+        "5-medmt",
+        "5-meo",
+        "5-methoxy-N,N-dimethyl-1H-indole-3-ethanamine",
+        "5-Methoxy-N,N-dimethyl-1H-indole-3-ethylamine",
+        "5-Methoxy-N,N-dimethyltryptamine",
+        "5-methoxydimethyltryptamine",
+        "5-Methoxyindole 3-(2-(N,N-Dimethylamino)ethyl)",
+        "5meodmt",
+        "[2-(5-methoxy-1H-indol-3-yl)ethyl]dimethylamine",
+        "Bufotenine, 5-Methoxydimethyltryptamine",
+        "Indole, 3-(2-(N,N-dimethylamino)ethyl)-5-methoxy-",
+        "MeODMT",
+        "Methoxybufotenin",
+        "Methylbufotenine",
+        "N,N-Dimethyl-5-methoxy tryptamine",
+        "O-methylbufotenine",
+        "toads"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-dpt",
+      "aliases": [
+        "5meodpt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-met",
+      "aliases": [
+        "5-MeO-MET",
+        "N-ethyl-2-(5-methoxy-1H-indol-3-yl)-N-methylethan-1-amine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-MIPT",
+      "aliases": [
+        "5meomipt",
+        "moxy"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MeO-NET",
+      "aliases": [
+        "5-methoxy-N-ethyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-nipt",
+      "aliases": [
+        "5meonipt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-NMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-PYR-T",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MEO-TMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-MES-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Methoxy-7,N,N-trimethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methoxy-N-methyltryptamine",
+      "aliases": [
+        "5-methoxy-3-(2-methylamino)ethylindole",
+        "5-methoxy-N-methyl-1H-indole-3-ethanamine",
+        "5-Methoxy-N-methyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methoxy-N-methyltryptamine hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Methoxyindole-3-acetonitrile",
+      "aliases": [
+        "(5-Methoxy-1H-indol-3-yl)acetonitrile",
+        "5-Methoxy-3-indolylacetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methoxytryptamine hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Methyl-1H-indole-2-ethanamine hydrochloride",
+      "aliases": [
+        "5-Methyl-1H-indole-2-ethanamine monohydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methyl-D-tryptophan",
+      "aliases": [
+        "5-Methyl-D-tryptophan",
+        "D-5-Methyltryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methyl-L-tryptophan",
+      "aliases": [
+        "5-Methyl-L-tryptophan",
+        "L-5-Methyltryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-Methyltryptamine hydrochloride",
+      "aliases": [
+        "2-(5-Methyl-1H-indol-3-yl)ethanamine hydrochloride",
+        "3-(2-Aminoethyl)-5-methylindole hydrochloride",
+        "5-Methyl-1H-indole-3-ethylamine monohydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-nitro-N,N-dimethyltryptamine",
+      "aliases": [
+        "3-(2-DIMETHYLAMINOETHYL)-5-NITROINDOLE",
+        "5-nitro-DMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-TERT-BUTYLTRYPTAMINE",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-TFMO-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6,7-dichloro-L-tryptophan",
+      "aliases": [
+        "(2S)-2-amino-3-(6,7-dichloro-1H-indol-3-yl)propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-(Trifluoromethoxy)-1H-indole-3-ethanamine",
+      "aliases": [
+        "6-Trifluoromethoxytryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Amino-1H-indole-3-acetonitrile",
+      "aliases": [
+        "(6-Amino-1H-indol-3-yl)acetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Bromo-1H-indole-3-ethanamine monohydrochloride",
+      "aliases": [
+        "6-Bromo-3-(2-aminoethyl)-1H-indole hydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-bromo-2-mercaptomethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-bromo-2-mercaptotryptamine",
+      "aliases": [
+        "BrMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Bromo-N-methyltryptamine",
+      "aliases": [
+        "2-(6-bromo-1H-indol-3-yl)-N-methylethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-bromo-N-propionyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-bromotryptamine",
+      "aliases": [
+        "2-(6-bromo-1H-indol-3-yl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-chloro-L-tryptophan",
+      "aliases": [
+        "6-Chloro-L-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-F-DMT",
+      "aliases": [
+        "6-Fluoro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-fluoro-DET",
+      "aliases": [
+        "6-fluoro-N,N-diethyltryptamine",
+        "6F-DET",
+        "N,N-diethyl-2-(6-fluoro-1H-indol-3-yl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-fluorotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Fluorotryptamine hydrochloride",
+      "aliases": [
+        "6-Fluoro-1H-indole-3-ethylamine monohydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Hydroxy-1H-indole-3-acetamide",
+      "aliases": [
+        "6-hydroxy- 1H-indole-3-acetamide",
+        "NSC 144995"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-hydroxy-N-acetyl-ss-oxotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-hydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-MEO-THH",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-methoxytryptamine",
+      "aliases": [
+        "3-(2-aminoethyl)-6-methoxyindole"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-methyltryptamine",
+      "aliases": [
+        "2-(6-methyl-1H-indol-3-yl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-chloro-AMT",
+      "aliases": [
+        "1-(7-chloro-1H-indol-3-yl)propan-2-amine",
+        "7-Cl-AMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-chloro-L-tryptophan",
+      "aliases": [
+        "7-chlorotryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-chlorotryptamine",
+      "aliases": [
+        "1H-indole-3-ethanamine, 7-chloro-",
+        "7-chloro-1H-indole-3-ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-chlorotryptophan",
+      "aliases": [
+        "7-chloro-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-Cl-DMT",
+      "aliases": [
+        "7-Chloro-N,N-dimethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "experimental",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "tryptamine-halogen"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-fluorotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-hydroxy-DMT",
+      "aliases": [
+        "3-[2-(dimethylamino)ethyl]-1H-indol-7-ol"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-hydroxytryptophan",
+      "aliases": [
+        "7-hydroxy-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-methyl-α-ethyltryptamine",
+      "aliases": [
+        "7-methyl-αET"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "7-methyltryptamine",
+      "aliases": [
+        "7-methyl-1H-indole-3-ethylamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "a,N,O-TMS",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "a,N-DMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "a,O-DMS",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "A-443654",
+      "aliases": [
+        "(2S)-1-(1H-INDOL-3-YL)-3-{[5-(3-METHYL-1H-INDAZOL-5-YL)PYRIDIN-3-YL]OXY}PROPAN-2-AMINE",
+        "(alphaS)-alpha-[[[5-(3-Methyl-1H-indazol-5-yl)-3-pyridinyl]oxy]methyl]-(S)-1H-indole-3-ethanamine",
+        "A443654"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "A-71623",
+      "aliases": [
+        "A71623",
+        "L-phenylalaninamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "a-ET",
+      "aliases": [
+        "a-et",
+        "a-ethyltryptamine",
+        "alpha-ethyl-tryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "a-MT",
+      "aliases": [
+        "1-(1H-Indol-3-yl)-2-propanamine",
+        "164E",
+        "3-IT",
+        "alpha-Methyl-1H-indole-3-ethanamine",
+        "alpha-Methyl-3-indoleethanamine",
+        "alpha-Methyl-beta-indoleethylamine",
+        "Alpha-methyltryptamine",
+        "alphamethyltryptamine",
+        "AMT",
+        "DL-3-(2-Aminopropyl)indole",
+        "indopan",
+        "IT-290",
+        "IT-403",
+        "monase",
+        "αMT"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "abrine",
+      "aliases": [
+        "3-(1H-indol-3-yl)-2-(methylamino)propanoic acid",
+        "N(alpha)-methyl-L-tryptophan",
+        "N-methyl-L-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ac-178335",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "acetryptine",
+      "aliases": [
+        "5-acetyltryptamine",
+        "5-AT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "afamelanotide",
+      "aliases": [
+        "[Nle4,dPhe7]α-MSH",
+        "melanotan 1",
+        "melanotan I",
+        "MT-I",
+        "α-NDP-MSH"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "AL-LAD",
+      "aliases": [
+        "allad"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ald-52",
+      "aliases": [
+        "1alsd",
+        "ald52"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha,alpha-Dimethylindole-3-acetonitrile",
+      "aliases": [
+        "alpha,alpha-Dimethyl-1H-indole-3-acetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha,beta-didehydrotryptophan",
+      "aliases": [
+        "(2Z)-2-amino-3-(1H-indol-3-yl)prop-2-enoic acid",
+        "α,β-didehydrotryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-Methyl-5-hydroxytryptamine maleate",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-Methyltryptamine",
+      "aliases": [
+        "alpha-methyl-1H-indole-3-ethanamine",
+        "α-methyltryptamine",
+        "Indopan",
+        "aMT",
+        "Amtrak (slang)",
+        "3-IT",
+        "IT-290",
+        "Amthrax (slang)",
+        "U-14,164E",
+        "AMT",
+        "3-(2-aminopropyl)indole"
+      ],
+      "category": "Psychedelic, Stimulant, Empathogen",
+      "tags": [],
+      "chemical_class": "Tryptamine"
+    },
+    {
+      "name": "alpha-methyltryptophan",
+      "aliases": [
+        "(2S)-2-amino-3-(1H-indol-3-yl)-2-methylpropanoic acid",
+        "α-methyl-L-tryptophan",
+        "α-methyltryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-N,N-trimethyltryptamine",
+      "aliases": [
+        "1-(1H-indol-3-yl)-N,N-dimethylpropan-2-amine",
+        "ATMT"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alsactide",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "anamorelin",
+      "aliases": [
+        "Adlumiz",
+        "Anamorelin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "app-018",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "arvelexin",
+      "aliases": [
+        "4-methoxyindole-3-acetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Aspirin",
+      "aliases": [
+        "acetylsalicylate"
+      ],
+      "category": "Other",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Atropine",
+      "aliases": [
+        "Atropin",
+        "Tropine tropate",
+        "Isopto Atropine (ophthalmic brand)",
+        "Lomotil/Motofen co-formulated atropine (very low dose for deterrence)",
+        "(±)-Atropine",
+        "Atropina",
+        "Atropen (auto-injector brand)",
+        "Duodote (atropine/pralidoxime combo)",
+        "Atropinum",
+        "dl-Hyoscyamine",
+        "dl-tropyltropate"
+      ],
+      "category": "Deliriant anticholinergic",
+      "tags": [],
+      "chemical_class": "Tropane alkaloid (belladonna alkaloid)"
+    },
+    {
+      "name": "avorelin acetate",
+      "aliases": [
+        "AZD5928"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "azagly-nafarelin",
+      "aliases": [
+        "Gonazon"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "BC-264",
+      "aliases": [
+        "BC264"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "beta-hydroxytryptophane",
+      "aliases": [
+        "(2S,3S)-2-amino-3-hydroxy-3-(1H-indol-3-yl)propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Boc-L-tryptophan N-hydroxysuccinimide ester",
+      "aliases": [
+        "Boc-Trp-Osu",
+        "tert-Butyl (S)-[2-[(2,5-dioxo-1-pyrrolidinyl)oxy]-1-(1H-indol-3-ylmethyl)-2-oxoethyl]carbamate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bufotenin",
+      "aliases": [
+        "5-OH-DMT",
+        "cebilcin",
+        "mappine",
+        "5-HO-DMT",
+        "N,N-dimethylserotonin",
+        "Bufotenine",
+        "5-hydroxy-N,N-dimethyltryptamine",
+        "dimethylserotonin"
+      ],
+      "category": "Serotonergic psychedelic",
+      "tags": [],
+      "chemical_class": "Indolealkylamine (substituted tryptamine)"
+    },
+    {
+      "name": "bufotenine",
+      "aliases": [
+        "3-[2-(dimethylamino)ethyl]-5-indolol",
+        "3-[2-(dimethylamino)ethyl]indol-5-ol",
+        "3-[beta-(dimethylamino)ethyl]-5-hydroxyindole",
+        "3-[β-(dimethylamino)ethyl]-5-hydroxyindole",
+        "5-hydroxy-N,N-dimethyltryptamine",
+        "5-OH-DMT",
+        "Bufotenin",
+        "Bufotenine",
+        "Cinobufotenine",
+        "dimethylserotonin",
+        "DM5-HT",
+        "Mappin",
+        "N,N-dimethyl-5-HT",
+        "N,N-Dimethyl-5-hydroxytryptamine",
+        "N,N-dimethylserotonin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "bufoviridine",
+      "aliases": [
+        "1H-Indol-5-ol, 3-[2-(dimethylamino)ethyl]-, 5-(hydrogen sulfate)",
+        "5-sulfooxy-DMT",
+        "5-sulfooxy-N,N-dimethyltryptamine",
+        "bufotenine O-sulfate",
+        "dihydrobufothionine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "buserelin",
+      "aliases": [
+        "buserelin acetate",
+        "HOE 766",
+        "HOE 766A",
+        "ICI 123215",
+        "Metrelef®",
+        "Suprefact®"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "C-Glycosyltryptophan",
+      "aliases": [
+        "(2S)-2-amino-3-[2-[3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]-1H-indol-3-yl]propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "cbp-501",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CCK-4",
+      "aliases": [
+        "Cholecystokinin tetrapeptide",
+        "Tetragastrin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ceruletide",
+      "aliases": [
+        "caerulein",
+        "Cerulein",
+        "Ceruletida",
+        "Ceruletide",
+        "ceruletide diethylamine",
+        "Ceruletidum",
+        "Tymtran®"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ceruletide diethylamine",
+      "aliases": [
+        "caerulein diethylamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "cgs-35601",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CI-1015",
+      "aliases": [
+        "CI1015",
+        "PD 144598"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "cinnamoyl tryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cys(IAN)-Gly",
+      "aliases": [
+        "S-[cyano(1H-indol-3-yl)methyl]-L-cysteinylglycine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-5-hydroxytryptophan",
+      "aliases": [
+        "5-hydroxy-D-tryptophan",
+        "5-hydroxytryptophan D-form"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-Tryptophan",
+      "aliases": [
+        "(2R)-2-amino-3-(1H-indol-3-yl)propanoic acid",
+        "(R)-tryptophan",
+        "D-Trp",
+        "DTR"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-Tryptophan methyl ester hydrochloride",
+      "aliases": [
+        "(S)-2-Amino-3-(1H-indol-3-yl)-propionic acid methyl ester hydrochloride",
+        "Methyl (2R)-2-amino-3-(1H-indol-3-yl)propanoate hydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-tryptophanate",
+      "aliases": [
+        "(2R)-2-amino-3-(1H-indol-3-yl)propanoate",
+        "D-tryptophan anion"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-tryptophanium",
+      "aliases": [
+        "(1R)-1-carboxy-2-(1H-indol-3-yl)ethanaminium",
+        "D-tryptophan cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-Tryptophyl-D-tryptophan",
+      "aliases": [
+        "D-Trp-D-Trp"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dacinostat",
+      "aliases": [
+        "LAQ824",
+        "NVP-LAQ824"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DBT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dermaseptin s3(1-16)-NH2",
+      "aliases": [
+        "Ala-Leu-Trp-Lys-Asn-Met-Leu-Lys-Gly-Ile-Gly-Lys-Leu-Ala-Gly-Lys-NH2",
+        "ALWKNMLKGIGKLAGK-NH2",
+        "L-Ala-L-Leu-L-Trp-L-Lys-L-Asn-L-Met-L-Leu-L-Lys-Gly-L-Ile-Gly-L-Lys-L-Leu-L-Ala-Gly-L-Lys-NH2"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Desoxyfructose-5-methoxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DET",
+      "aliases": [
+        "diethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "didemnidine A",
+      "aliases": [
+        "N-{3-[(4-Aminobutyl)amino]propyl}-2-(1H-indol-3-yl)-2-oxoacetamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Didemnidine B",
+      "aliases": [
+        "N-[3-(4-aminobutylamino)propyl]-2-(6-bromo-1H-indol-3-yl)-2-oxo-acetamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dimethyltryptamine fumarate",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DIMETHYLTRYPTAMINE HYDROCHLORIDE",
+      "aliases": [
+        "2-(1H-Indol-3-yl)-N,N-dimethylethan-1-amine--hydrogen chloride (1/1)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dimethyltryptamine methiodide",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimethyltryptamine-N-oxide",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DIPT",
+      "aliases": [
+        "diisopropyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "no-human-data",
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Disitertide",
+      "aliases": [
+        "L-Threonyl-L-seryl-L-leucyl-L-alpha-aspartyl-L-alanyl-L-seryl-L-isoleucyl-L-isoleucyl-L-tryptophyl-L-alanyl-L-methionyl-L-methionyl-L-glutaminyl-L-asparagine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-5-fluorotryptophan",
+      "aliases": [
+        "2-amino-3-(5-fluoro-1H-indol-3-yl)propanoic acid",
+        "5-fluoro-DL-tryptophan",
+        "DL-5-Fluorotryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-5-hydroxytryptophan",
+      "aliases": [
+        "5-hydroxy-DL-tryptophan",
+        "5-hydroxytryptophan DL-form",
+        "DL-2-Amino-3-(5-hydroxyindolyl)propionic acid",
+        "DL-5-HTP",
+        "DL-5-Hydroxytryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-6-fluorotryptophan",
+      "aliases": [
+        "2-amino-3-(6-fluoro-1H-indol-3-yl)propanoic acid",
+        "2-amino-3-(6-fluoroindol-3-yl)propanoic acid",
+        "343-92-0",
+        "6-fluoro-D,L-tryptophan",
+        "6-Fluorotryptophan, DL-",
+        "7730-20-3",
+        "AC1L3T80",
+        "AC1Q5S5W",
+        "ACMC-20mbi4",
+        "AK325543",
+        "AKOS015916432",
+        "AM003618",
+        "AM012015",
+        "AR-1H1713",
+        "BRN 0482552",
+        "CHEMBL472222",
+        "CTK8F7137",
+        "DB-015701",
+        "dl-6-Fluorotryptophan",
+        "DL-6-Fluorotryptophane",
+        "EINECS 231-788-6",
+        "F-6880",
+        "F7626",
+        "F7626_SIGMA",
+        "FT-0621130",
+        "GTPL5126",
+        "H-Trp(6-F)-OH",
+        "I14-51278",
+        "KB-87162",
+        "KM1838",
+        "LS-158140",
+        "MCULE-1286010028",
+        "MFCD00005653",
+        "NSC9364",
+        "PS-6938",
+        "RP05236",
+        "SBB096294",
+        "SCHEMBL248870",
+        "ST072163",
+        "Tryptophan, 6-fluoro-",
+        "Tryptophan, 6-fluoro-, DL-",
+        "VZ30759",
+        "Y4063",
+        "YMEXGEAJNZRQEH-UHFFFAOYSA-N"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-acetyltryptophan",
+      "aliases": [
+        "Acetyltryptophan",
+        "N-acetyl-DL-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-tryptophan",
+      "aliases": [
+        "2-amino-3-(1H-indol-3-yl)propanoic acid",
+        "alpha-amino-beta-3-indolepropionic acid",
+        "beta-3-indolylalanine",
+        "Htrp",
+        "Trp",
+        "W"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-Tryptophan methyl ester hydrochloride",
+      "aliases": [
+        "Methyl 2-amino-3-(1H-indol-3-yl)propanoate hydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-tryptophanol",
+      "aliases": [
+        "2-amino-3-(1H-indol-3-yl)propan-1-ol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMT",
+      "aliases": [
+        "(2-Indol-3-ylethyl)dimethylamine",
+        "(psychogenic)",
+        "2-(1H-Indol-3-yl)-N,N-dimethylethanamine",
+        "2-(1H-Indol-3-yl)-N,N-dimethylethanamine (ACD/Name 4.0)",
+        "2-(3-indolyl)ethyldimethylamine",
+        "3-[2-(dimethylamino)ethyl]indole",
+        "[2-(1H-indol-3-yl)ethyl]dimethylamine",
+        "dimethyltryptamine",
+        "Dimethyltryptamine(DMT)",
+        "DMT",
+        "Indolalkylamine der",
+        "N,N-Dimethyl-1H-Indole-3-ethanamine",
+        "N,N-Dimethyl-1H-Indole-3-ethanamine (9CI)",
+        "N,N-dimethyl-1H-indole-3-ethylamine",
+        "N,N-dimethyltryptamine",
+        "n,n-dmt",
+        "N-(2-(1H-Indol-3-yl)ethyl)-N,N-dimethylamine (ACD/Name 4.0)"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "5-HT2A-agonist",
+        "common",
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DPT",
+      "aliases": [
+        "dipropyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dynorphin A (2-17)",
+      "aliases": [
+        "Dynorphin (2-17)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "EIPT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "epinephrine",
+      "aliases": [
+        "(-)-3,4-dihydroxy-a-[2-(methylamino)ethyl]benzene alcohol",
+        "(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]-Benzyl alcohol",
+        "(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]benzyl alcohol(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]-Benzyl alcohol",
+        "(-)-3,4-dihydroxy-alpha-[2-(methylamino)ethyl]benzene alcohol",
+        "(R)-(-)-adnephrine",
+        "(R)-4-[1-hydroxy-2-(methylamino)ethyl]-1,2-benzenediol",
+        "4-[(1R)-1-hydroxy-2-(methylamino)ethyl]-1,2-benzenediol",
+        "4-[(1R)-1-hydroxy-2-methylamino-ethyl]pyrocatechol",
+        "4-[(1R)-1-hydroxy-2-methylaminoethyl]benzene-1,2-diol",
+        "adrenalin",
+        "L-1-(3,4-dihydroxyphenyl)-2-methylaminoethanol",
+        "L-adrenaline",
+        "L-dethylaminoethanolcatechol",
+        "L-epinephrine",
+        "L-epirenamine",
+        "levoepinephrine",
+        "R-(-)-epinephrine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ept",
+      "aliases": [
+        "EPT",
+        "ethylpropyltryptamine",
+        "n,n-ethylpropyltryptamine",
+        "N-ethyl-N-propyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ergotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ETH-LAD",
+      "aliases": [
+        "ethlad"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ethylisopropyltryptamine",
+      "aliases": [
+        "N-ethyl-N-[2-(1H-indol-3-yl)ethyl]propan-2-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "etryptamine",
+      "aliases": [
+        "3-(2-aminobutyl)indole",
+        "α-ethyltryptamine",
+        "αET"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "etryptamine hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "examorelin",
+      "aliases": [
+        "EP23905",
+        "Exarelin",
+        "Hexamorelin",
+        "Hexarelin",
+        "MF6003"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "fertirelin",
+      "aliases": [
+        "Fertirelin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fmoc-D-tryptophan",
+      "aliases": [
+        "Fmoc-D-Trp-OH",
+        "N-(9-fluorenylmethoxycarbonyl)-D-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "gammaGluCys(IAN)",
+      "aliases": [
+        "indole-3-acetonitrile-gamma-glutamylcysteine conjugate",
+        "indole-3-acetonitrile-L-gamma-glutamyl-L-cysteine conjugate",
+        "L-gamma-Glu-L-Cys-(IAN)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "gammaGluCys(IAN)Glu",
+      "aliases": [
+        "gamma-L-Glu-L-Cys-(IAN)-L-Glu"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "gastrin-14",
+      "aliases": [
+        "22-34-Gastrin",
+        "Gastrin (21-34)",
+        "Gastrin tetradecapeptide",
+        "Minigastrin",
+        "Trp-Leu-Glu-Glu-Glu-Glu-Glu-Ala-Tyr-Gly-Trp-Met-Asp-Phe"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "gastrin-17",
+      "aliases": [
+        "G 17",
+        "Gastrin heptadecapeptide",
+        "Glp-Gly-Pro-Trp-Leu-Glu-Glu-Glu-Glu-Glu-Ala-Tyr-Gly-Trp-Met-Asp-Phe-NH2",
+        "Heptadecapeptide gastrin",
+        "Little gastrin",
+        "Little gastrin I"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GHRP-6",
+      "aliases": [
+        "GH-releasing hexapeptide 6",
+        "growth hormone releasing hexapeptide",
+        "growth hormone releasing peptide-6",
+        "Skf 110679"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "glucobrassicin",
+      "aliases": [
+        "3-IMG",
+        "3-Indolylmethylglucosinolate",
+        "indol-3-ylmethylglucosinolate",
+        "Indolylmethyl glucosinolate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "glucobrassicin(1-)",
+      "aliases": [
+        "glucobrassicin anion"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "glycyl-L-tryptophan 2-naphthylamide",
+      "aliases": [
+        "Gly-L-Trp 2-naphthylamide",
+        "Gly-Trp 2-naphthylamide",
+        "glycyltryptophan 2-naphthylamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "glycyltryptophan",
+      "aliases": [
+        "Gly-L-Trp",
+        "Glycyl-Tryptophan",
+        "GW",
+        "N-glycyltryptophan",
+        "Nalpha-glycyl-L-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GnRH I",
+      "aliases": [
+        "GnRH",
+        "gonadoliberin",
+        "gonadotropin releasing hormone",
+        "LH-RH (LHRH)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "gonadorelin",
+      "aliases": [
+        "Fertagyl",
+        "GnRH",
+        "GnRH-I",
+        "Gonadoliberin I",
+        "Gonadorelin decapeptide",
+        "Gonadorelina",
+        "Gonadorelinum",
+        "Gonadoréline",
+        "Gonadotropin-releasing hormone",
+        "Luteinizing Hormone-releasing Factor Diacetate Tetrahydrate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "goserelin acetate",
+      "aliases": [
+        "Goserelin acetate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GR100679",
+      "aliases": [
+        "GR-100679"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GR94800",
+      "aliases": [
+        "GR-94800"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Growth hormone releasing hexapeptide",
+      "aliases": [
+        "growth hormone-releasing hexapeptide",
+        "SKF-110679"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "HARMALINE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "HARMINE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "histrelin",
+      "aliases": [
+        "5-oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-N(tau)-benzyl-D-histidyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide",
+        "[(im-Bzl)-D-His(6),Pro(9)-NEt]-gonadotropin releasing hormone",
+        "L-pyroglutamyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-D-N(im)-benzyl-histidyl-L-leucyl-L-arginyl-L-proline ethylamide",
+        "ORF 17070",
+        "RWJ 17070",
+        "Vantas®"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "histrelin acetate",
+      "aliases": [
+        "5-Oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-1-benzyl-D-histidyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide acetate (1:2)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hunteriatryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydergine",
+      "aliases": [
+        "Dihydroergotoxine",
+        "Ergoloid mesylates"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "ergot-derivative",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "hypaphorine",
+      "aliases": [
+        "Lenticin",
+        "Trimethyl-tryptophan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ilomastat",
+      "aliases": [
+        "GM6001"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "indole-3-acetonitrile",
+      "aliases": [
+        "(Indol-3-yl)acetonitrile",
+        "2-(1H-indol-3-yl)acetonitrile",
+        "2-(1H-indol-3-yl)ethanenitrile",
+        "3-(cyanomethyl)indole",
+        "3-indolylacetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "indolylmethylglucosinolate",
+      "aliases": [
+        "indolylglucosinolate",
+        "indolylmethyl glucosinolate",
+        "indolylmethylglucosinolates"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IQM-97423",
+      "aliases": [
+        "IQM-97,423"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IRL 2500",
+      "aliases": [
+        "IRL2500"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IS-159",
+      "aliases": [
+        "2-[(2-{[3-(2-Aminoethyl)-1H-indol-5-yl]oxy}-1-hydroxyethylidene)amino]-N-(2-hydroxy-2-iminoethyl)-3-(4-hydroxyphenyl)propanimidic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "isovaleric acid; tryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "jmv-2810",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-779,976",
+      "aliases": [
+        "L 779976",
+        "L-779976"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-acetyltryptophan",
+      "aliases": [
+        "(2S)-2-acetamido-3-(1H-indol-3-yl)propanoic acid",
+        "(S)-N-Acetyltryptophan",
+        "Ac-Try",
+        "Acetyl-L-trp",
+        "AcetylL-Tryptophan",
+        "Acetyltryptophan",
+        "N-Acetyl-L-Tryptophan",
+        "N-Acetyltryptophan (ACD/Name 4.0)",
+        "Tryptophan, acetyl"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophan 2-naphthylamide",
+      "aliases": [
+        "(S)-2-amino-3-(1-indol-3-yl)-naphthalen-2-yl-propionamide",
+        "(S)-alpha-Amino-N-2-naphthyl-1H-indole-3-propionamide",
+        "L-tryptophan beta-naphthylamide",
+        "N-(2-naphthyl)-L-tryptophanamide",
+        "N-(beta-naphthyl)-L-tryptophanamide",
+        "N-tryptophyl-2-aminonaphthalene"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophan polyoxin C",
+      "aliases": [
+        "1-[5'-(L-tryptophanylamino)-5'-deoxy-beta-D-allofuranosyluronic acid]uracil",
+        "tryptophan polyoxin C"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophanamide(1+)",
+      "aliases": [
+        "L-tryptophanamide cation",
+        "L-tryptophaniumamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophanate",
+      "aliases": [
+        "(2S)-2-amino-3-(1H-indol-3-yl)propanoate",
+        "L-tryptophan anion"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophanium",
+      "aliases": [
+        "(1S)-1-carboxy-2-(1H-indol-3-yl)ethanaminium",
+        "L-tryptophan cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-tryptophanol",
+      "aliases": [
+        "2-amino-3-(1H-indol-3-yl)-propan-1-ol",
+        "tryptophanol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "lanepitant",
+      "aliases": [
+        "LY303870"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "lecirelin",
+      "aliases": [
+        "6-(3-Methyl-D-valine)-9-(N-ethyl-L-prolinamide)-10-deglycinamide-luteinizing hormone-releasing factor (pig)",
+        "Dalmarelin",
+        "Lecirelin",
+        "Ovucron",
+        "Reproreline",
+        "Supergestran"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "lespedamine",
+      "aliases": [
+        "2-(1-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "leuprolide acetate",
+      "aliases": [
+        "5-Oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tryosyl-D-leucyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide monoacetate",
+        "Leuprorelin acetate",
+        "Pyr-His-Trp-Ser-Tyr-D-Leu-Leu-Arg-Pro-NHEt.HOAc"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lsa",
+      "aliases": [
+        "hbmg",
+        "hbw",
+        "hbwr",
+        "Morning",
+        "morningglory",
+        "ololiuqui"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LSD-25",
+      "aliases": [
+        "9,10-didehydro-N,N-diethyl-6-methylergoline-8b-carboxamide",
+        "acid",
+        "blotter acid",
+        "cid",
+        "D-LSD",
+        "D-lysergic acid dethylamide",
+        "D-lysergic acid diethylamide",
+        "D-lysergic acid N,N-diethylamide",
+        "delysid",
+        "dextrolysergic acid diethylamide",
+        "dots",
+        "hits",
+        "lsd-25",
+        "lucy",
+        "lysergamide",
+        "lysergic acid amide",
+        "lysergic acid diethylamide-25",
+        "lysergide",
+        "mellow yellow",
+        "microdot",
+        "N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+        "N,N-diethyl-D-lysergamide",
+        "N,N-diethyllysergamide",
+        "window pane"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "no-human-data",
+        "phenethylamine",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lsz",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ltx-315",
+      "aliases": [
+        "LTX-315"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "macimorelin",
+      "aliases": [
+        "Macimorelin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Marinacarboline D",
+      "aliases": [
+        "1-Acetyl-N-[2-(1H-indol-3-yl)ethyl]-9H-beta-carboline-3-carboxamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "mastoparan-B",
+      "aliases": [
+        "Leu-Lys-Leu-Lys-Ser-Ile-Val-Ser-Trp-Ala-Lys-Lys-Val-Leu-NH2",
+        "Mast cell degranulating peptide (Vespa basalis)",
+        "MP-B"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "mastoparan-V",
+      "aliases": [
+        "Ile-Asn-Trp-Lys-Gly-Ile-Ala-Ala-Met-Ala-Lys-Lys-Leu-Leu-NH2",
+        "mast cell degranulating peptide (Vespa velutina)",
+        "MP-V"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MBT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MELATONIN",
+      "aliases": [
+        "5-methoxy-N-acetyltryptamine",
+        "Melatol",
+        "Melatonin (synth.) standard-grade",
+        "Melatonin (synth.) ultra-pure",
+        "Melovine",
+        "MLT",
+        "MT6",
+        "N-[2-(5-Methoxy-1H-indol-3-yl)ethyl]acetamide",
+        "N-[2-(5-methoxyindol-3-yl)ethyl]acetamide",
+        "N-Acetyl-5-methoxy-tryptamine",
+        "N-Acetyl-5-methoxy-tryptamine Melatonine",
+        "Regulin"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MEN 10376",
+      "aliases": [
+        "[Tyr5,D-Trp6,8,9,Lys10]-alpha-NEUROKININ A, Fragment 4-10",
+        "MEN-10376",
+        "neurokinin A(4-10), Tyr(5)-Trp(6,8,9)-Lys(10)-"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "methyl L-tryptophanate",
+      "aliases": [
+        "(S)-2-Amino-3-(1H-indol-3-yl)propionic acid methyl ester",
+        "L-Tryptophan methyl ester",
+        "Methyl L-tryptophanate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "methylbutyltryptamine",
+      "aliases": [
+        "N-butyl-N-methyl-1H-indole-3-ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "methylethyltryptamine",
+      "aliases": [
+        "N-methyl-N-ethyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mexamine",
+      "aliases": [
+        "2-(5-methoxy-1H-indol-3-yl)ethan-1-amine",
+        "2-(5-methoxy-1H-indol-3-yl)ethanamine",
+        "2-(5-methoxy-1H-indol-3-yl)ethylamine",
+        "2-(5-methoxyindol-3-yl)ethylamine",
+        "3-(2-aminoethyl)-5-methoxyindole",
+        "5-methoxy-1H-indole-3-ethanamine",
+        "Lopac-M-6628",
+        "methoxytryptamine",
+        "mexamine base"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "tentative",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "mipracetin",
+      "aliases": [
+        "4-acetoxy-MiPT",
+        "4-acetoxy-N-methyl-N-isopropyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MIPT",
+      "aliases": [
+        "n-methyl-n-isopropyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ML-18",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "mmi-166",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mpa",
+      "aliases": [
+        "Ile-Lys-Trp-Lys-Ala-Ile-Leu-Asp-Ala-Val-Lys-Lys-Val-Ile-NH2",
+        "Mast cell degranulating peptide (Vespa analis)",
+        "methiopropamine",
+        "MP-A"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "no-human-data",
+        "research-chemical",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "mrz-99030",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mushrooms",
+      "aliases": [
+        "mushroom",
+        "psilocybin",
+        "psylocybin",
+        "shrooms"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,alpha-dimethyltryptamine",
+      "aliases": [
+        "1-(1H-indol-3-yl)-N-methylpropan-2-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,N-Diacyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,N-diethyltryptamine",
+      "aliases": [
+        "3-(2-Diethylaminoethyl)indole",
+        "Diethyltryptamine",
+        "N,N-Diethyl-2-(1H-indol-3-yl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,N-Diethyltryptamine fumarate",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,N-Dimethyl-O-glucopyranuronosyl-5-hydroxytryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-(1-Deoxy-1-fructosyl)tryptophan",
+      "aliases": [
+        "(2S)-3-(1H-indol-3-yl)-2-[[(3S,4S,5R)-2,3,4-trihydroxy-5-(hydroxymethyl)oxolan-2-yl]methylamino]propanoic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-(carbomethoxyacetyl)-4-S-chlorotryptophan",
+      "aliases": [
+        "N(2)-acetyl-D-glutamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-1-isopropyl-5-MeOT",
+      "aliases": [
+        "N-1-isopropyl-5-methoxytryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-1-isopropyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-[1H-INDOL-3-YL-ACETYL]GLYCINE ACID",
+      "aliases": [
+        "N-indoleacetylglycine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-acetyl-alpha-hydroxy-beta-oxotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-acetyl-D-tryptophanate",
+      "aliases": [
+        "N-acetyl-D-tryptophanate anion",
+        "N-acetyl-D-tryptophanate(1-)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-acetyl-β-oxotryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-acetylserotonin",
+      "aliases": [
+        "N-(2-(5-Hydroxy-1H-indol-3-yl)ethyl)acetamide",
+        "N-Acetyl Serotonin",
+        "N-acetyl-5-hydroxytryptamine",
+        "NAS",
+        "O-demethylmelatonin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-acetyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Cbz-L-Tryptophan",
+      "aliases": [
+        "(2S)-3-(1H-indol-3-yl)-2-(phenylmethoxycarbonylamino)propanoic acid",
+        "N-Benzyloxycarbonyl-L-tryptophane",
+        "N-Carbobenzyloxy-L-tryptophan",
+        "Z-Trp-OH"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Cbz-L-tryptophanamide",
+      "aliases": [
+        "N-(Benzyloxycarbonyl)tryptophanamide",
+        "N-[(1S)-2-Amino-1-(1H-indol-3-ylmethyl)-2-oxoethyl]carbamic acid phenylmethyl ester",
+        "N-Carbobenzoxy-L-tryptophanamide",
+        "Z-L-Trp-NH2"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-desmethyl zolmitriptan",
+      "aliases": [
+        "(4S)-4-({3-[2-(methylamino)ethyl]-1H-indol-5-yl}methyl)-1,3-oxazolidin-2-one",
+        "183C91",
+        "N-desmethylzolmitriptan"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Ethyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Hydroxyl-tryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-mesyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyl-4-dimethylallyltryptophan",
+      "aliases": [
+        "4-dimethylallyl-L-abrine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyl-N-allyltryptamine",
+      "aliases": [
+        "N,N-methylallyltryptamine",
+        "N-[2-(1H-Indol-3-yl)ethyl]-N-methylprop-2-en-1-amine",
+        "N-allyl-N-methyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyl-N-isopropyltryptamine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyltryptamine",
+      "aliases": [
+        "2-(1H-Indol-3-yl)-N-methylethanamine",
+        "3-(2-(Methylamino)ethyl)indole",
+        "[2-(1H-indol-3-yl)ethyl](methyl)amine",
+        "Dipterine",
+        "Methyltryptamine",
+        "N(omega)-methyltryptamine",
+        "N-methyl-1H-indole-3-ethanamine",
+        "N-monomethyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyltryptamine hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-pentyltryptamine",
+      "aliases": [
+        "amyltrytamine",
+        "N-amyltrytamine",
+        "pentyltryptamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-t-butyltryptamine",
+      "aliases": [
+        "N-[2-(1H-indol-3-yl)ethyl]-2-methylpropan-2-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "nafarelin acetate",
+      "aliases": [
+        "nafarelin acetate anhydrous"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "NET",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "NMT",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "norbaeocystin",
+      "aliases": [
+        "norbaeocystin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "norpsilocin",
+      "aliases": [
+        "3-[2-(methylamino)ethyl]-1H-indol-4-ol",
+        "4-HO-NMT",
+        "4-hydroxy-N-methyltryptamine",
+        "Norpsilocin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-Methylsakambullin",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-Methylsakerinol A",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "oglufanide",
+      "aliases": [
+        "Glutamyltryptophan",
+        "L-glutamyl-L-tryptophan",
+        "L-α-Glu-L-Trp",
+        "Oglufanide",
+        "α-Glu-Trp"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "p-1946",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Paprotrain",
+      "aliases": [
+        "(alphaZ)-alpha-(3-Pyridinylmethylene)-1H-indole-3-acetonitrile"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PBC-264",
+      "aliases": [
+        "pBC 264",
+        "propionyl-BC264"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD 165929",
+      "aliases": [
+        "PD-165929"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD 168368",
+      "aliases": [
+        "PD168368"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD-135666",
+      "aliases": [
+        "PD135666"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD-140548",
+      "aliases": [
+        "PD140548"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD-149163",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "pd-176252",
+      "aliases": [
+        "PD-176252"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PD136450",
+      "aliases": [
+        "CAM 1189",
+        "PD-136450"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "penta-L-tryptophan",
+      "aliases": [
+        "H-Trp-Trp-Trp-Trp-Trp-OH",
+        "L-tryptophyl-L-tryptophyl-L-tryptophyl-L-tryptophyl-L-tryptophan",
+        "pentatryptophan",
+        "Trp-Trp-Trp-Trp-Trp",
+        "WWWWW"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "pentagastrin",
+      "aliases": [
+        "AY-6608",
+        "ICI-50123",
+        "Pentagastrin",
+        "Peptavlon"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "pr-924",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "pralmorelin",
+      "aliases": [
+        "GHRP KAKEN 100",
+        "GHRP2",
+        "GPA748",
+        "Growth hormone-releasing peptide 2",
+        "KP102",
+        "Pralmorelin dihydrochloride",
+        "Pralmorelin hydrochloride",
+        "WAY-GPA-748"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PRO-LAD",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "tentative",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "propylisopropyltryptamine",
+      "aliases": [
+        "N-[2-(1H-indol-3-yl)ethyl]-N-propan-2-ylpropan-1-amine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PYR-T",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "R396",
+      "aliases": [
+        "R-396"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RB-400",
+      "aliases": [
+        "RB 400"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Relamorelin",
+      "aliases": [
+        "BIM28131",
+        "BIM28163",
+        "RM131"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "rhosin",
+      "aliases": [
+        "(2R)-2-amino-3-(1H-indol-3-yl)-N'-[(E)-(quinoxalin-6-yl)methylidene]propanehydrazide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ro 23-7014",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "S-3304",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ser-100",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "serotonin",
+      "aliases": [
+        "3-(2-Aminoethyl)-1H-indol-5-ol",
+        "3-(2-Aminoethyl)indol-5-ol",
+        "3-(2-azanylethyl)-1H-indol-5-ol",
+        "3-(b-Aminoethyl)-5-hydroxyindole",
+        "5-HTA",
+        "5-Hydroxy-3-(b-aminoethyl)indole",
+        "5-Hydroxyltryptamine",
+        "5-Hydroxytryptamine",
+        "7-GTA",
+        "Antemoqua",
+        "Antemovis",
+        "DS substance",
+        "Enteramin",
+        "Enteramine",
+        "Hippophaine",
+        "Serotonin",
+        "sérotonine",
+        "thrombocytin",
+        "thrombotonin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "serotonin(1+)",
+      "aliases": [
+        "serotonin cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "sirpiglenastat",
+      "aliases": [
+        "DRP-104",
+        "N-acetyl-L-tryptophyl-6-diazo-5-oxo-L-norleucine 1-methylethyl ester"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ST-1936",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "T",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "T22",
+      "aliases": [
+        "[Tyr5,12,Lys7]-polyphemusin II"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TAK-448",
+      "aliases": [
+        "MVT-602",
+        "RVT-602"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TETRAHYDROHARMINE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "TIHKAL",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMC-2A",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMC-2B",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tri-L-tryptophan",
+      "aliases": [
+        "H-Trp-Trp-Trp-OH",
+        "L-tryptophyl-L-tryptophyl-L-tryptophan",
+        "Trp-Trp-Trp",
+        "WWW"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptamine",
+      "aliases": [
+        "(3-Indolyl)ethylamine",
+        "1H-indole-3-ethanamine",
+        "2-(1H-indol-3-yl)ethan-1-amine",
+        "2-(1H-INDOL-3-YL)ETHANAMINE",
+        "2-(1H-Indol-3-yl)ethylamine",
+        "2-(3-indolyl)ethylamine",
+        "2-Indol-3-yl-aethylamin",
+        "2-Indol-3-yl-ethylamine",
+        "3-(2-Aminoethyl)-1H-indole",
+        "3-Indoleethanamine",
+        "3-Indoleethylamine",
+        "Abramovitch–Shapiro tryptamine synthesis",
+        "Tryptamin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptamine hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tryptamine-d4 Hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptaminium",
+      "aliases": [
+        "tryptaminium cation",
+        "tryptaminium(1+)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptophan",
+      "aliases": [
+        "(S)-2-Amino-3-(1H-indol-3-yl)propanoic acid",
+        "(S)-alpha-Amino-beta-(3-indolyl)-propionic acid",
+        "(S)-α-amino-1H-indole-3-propanoic acid",
+        "Indole-3-alanine",
+        "L(-)-Tryptophan",
+        "L-(−)-tryptophan",
+        "L-alpha-Amino-3-indolepropionic acid",
+        "L-β-3-indolylalanine",
+        "Trp",
+        "W"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptophanamide",
+      "aliases": [
+        "(S)-alpha-Amino-1H-indole-3-propionamide",
+        "2-amino-3-(1H-indol-3-yl)propanamide",
+        "2-Amino-3-(3-indolyl)-Propanamide",
+        "alpha-Amino-(S)-1H-Indole-3-propanamide",
+        "alpha-Amino-1H-indole-3-propanamide",
+        "L-Tryptophanamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptophanate",
+      "aliases": [
+        "2-amino-3-(1H-indol-3-yl)propanoate",
+        "trp(-)",
+        "tryptophan anion"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptophanium",
+      "aliases": [
+        "1-carboxy-2-(1H-indol-3-yl)ethanaminium",
+        "Htrp(+)",
+        "tryptophan cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "tryptophylglycine",
+      "aliases": [
+        "L-Trp-Gly",
+        "N-L-Tryptophylglycine",
+        "Tryptophyl-Glycine",
+        "WG"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Xenopsin (Xenopus amieti)",
+      "aliases": [
+        "5-Oxo-L-prolylglycyl-L-lysyl-L-arginyl-L-prolyl-L-tryptophyl-L-isoleucyl-L-leucine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "YM-280193",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "zep-3",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "zolmitriptan",
+      "aliases": [
+        "(S)-4-({3-[2-(dimethylamino)ethyl]-1H-indol-5-yl}methyl)-1,3-oxazolidin-2-one",
+        "4-{[3-(2-Dimethylaminoethyl)-1H-indol-5-yl]methyl}oxazolidin-2-one"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "α-methyl-5-HT",
+      "aliases": [
+        "alpha-methyl-5-HT",
+        "alpha-methyl-5-hydroxytryptamine",
+        "α-Me-5-HT",
+        "α-methylserotonin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "tryptamine"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}
