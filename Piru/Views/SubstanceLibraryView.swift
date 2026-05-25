@@ -359,6 +359,39 @@ struct SubstanceDetailView: View {
     @State private var showAllHistory = false
     @State private var showEntries = false
 
+    // Section expansion state. Initialised from the user's tier on first
+    // appear so the user can still collapse/expand against the grain after.
+    @State private var mechanismExpanded: Bool?
+    @State private var subjectiveExpanded: Bool?
+    @State private var sourcesExpanded: Bool?
+    @State private var receptorLitExpanded: Bool?
+    @State private var literatureBindings: [SubstanceStore.BindingHit] = []
+
+    private var profile: UserProfile { SubstanceStore.shared.userProfile }
+
+    /// Sections to show beyond the always-visible core (history, info,
+    /// warnings, dose, duration). Determined by the user's profile tier.
+    private struct DisclosurePolicy {
+        let profile: UserProfile
+
+        /// Mechanism summary + binding affinity grid.
+        var showsMechanism: Bool        { profile != .casual }
+        /// Rich subjective effects with descriptions.
+        var showsRichSubjective: Bool   { profile != .casual }
+        /// Source citation list at the bottom.
+        var showsSources: Bool          { true }
+        /// The full receptor-binding literature table with Ki/EC50 and
+        /// per-row citations. Only pharma-nerd surface.
+        var showsReceptorLiterature: Bool { profile == .pharmaNerd }
+
+        var mechanismDefaultExpanded: Bool   { profile == .pharmaNerd }
+        var subjectiveDefaultExpanded: Bool  { profile == .pharmaNerd }
+        var sourcesDefaultExpanded: Bool     { profile != .casual }
+        var receptorLitDefaultExpanded: Bool { profile == .pharmaNerd }
+    }
+
+    private var policy: DisclosurePolicy { .init(profile: profile) }
+
     init(substance: Substance) {
         self.substance = substance
         let name = substance.name
@@ -427,82 +460,46 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if let moa = substance.mechanismOfAction
+            if policy.showsMechanism,
+               let moa = substance.mechanismOfAction
                 ?? MechanismOfActionDatabase.categoryFallback(for: substance.category) {
-                Section("Mechanism of Action") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(moa.summary)
+                Section {
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
+                            set: { mechanismExpanded = $0 }
+                        )
+                    ) {
+                        mechanismBody(moa)
+                    } label: {
+                        Label("Mechanism of Action", systemImage: "atom")
                             .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(substance.category.color)
-
-                        Text(moa.description)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-
-                        if !moa.bindings.isEmpty {
-                            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-                                GridRow {
-                                    Text("Target")
-                                    Text("Action")
-                                    Text("")
-                                }
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(Theme.secondaryLabel)
-
-                                ForEach(moa.bindings) { binding in
-                                    GridRow {
-                                        Text(binding.target)
-                                            .fontWeight(.medium)
-                                        Text(binding.action.displayName)
-                                            .foregroundStyle(.secondary)
-                                        HStack(spacing: 2) {
-                                            ForEach(0..<3, id: \.self) { i in
-                                                Circle()
-                                                    .fill(i < binding.affinity.rawValue ? substance.category.color : substance.category.color.opacity(0.15))
-                                                    .frame(width: 6, height: 6)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            .font(.caption)
-                        } else if !moa.primaryTargets.isEmpty {
-                            HStack(spacing: 0) {
-                                Text("Primary Targets: ")
-                                    .font(.caption.weight(.medium))
-                                Text(moa.primaryTargets.joined(separator: " · "))
-                                    .font(.caption)
-                            }
-                            .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-                    .padding(.vertical, 2)
-
-                    ForEach(moa.references, id: \.self) { ref in
-                        if let info = AppSources.info(for: ref) {
-                            if let url = URL(string: info.url), !info.url.isEmpty {
-                                Link(destination: url) {
-                                    Label(ref, systemImage: "book.closed")
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                }
-                            } else {
-                                Label(ref, systemImage: "book.closed")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                            }
-                        } else {
-                            Label(ref, systemImage: "book.closed")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
                     }
                 }
             }
 
+            if policy.showsReceptorLiterature && !literatureBindings.isEmpty {
+                Section {
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
+                            set: { receptorLitExpanded = $0 }
+                        )
+                    ) {
+                        receptorLiteratureBody
+                    } label: {
+                        Label("Receptor Literature", systemImage: "function")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                } footer: {
+                    Text("Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting.")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+
             if !substance.effects.isEmpty {
-                Section("Subjective Effects") {
+                Section("Effects") {
                     ForEach(substance.effects, id: \.self) { effect in
                         Label(effect, systemImage: "circle.fill")
                             .font(.subheadline)
@@ -549,49 +546,48 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if !substance.subjectiveEffects.isEmpty {
-                Section("Reported Subjective Effects") {
-                    ForEach(substance.subjectiveEffects, id: \.name) { effect in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(effect.name)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                            Text(effect.description)
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .fixedSize(horizontal: false, vertical: true)
+            if policy.showsRichSubjective && !substance.subjectiveEffects.isEmpty {
+                Section {
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
+                            set: { subjectiveExpanded = $0 }
+                        )
+                    ) {
+                        ForEach(substance.subjectiveEffects, id: \.name) { effect in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(effect.name)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                Text(effect.description)
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.vertical, 2)
                         }
-                        .padding(.vertical, 2)
+                    } label: {
+                        Label("Reported Subjective Effects", systemImage: "person.wave.2")
+                            .font(.subheadline.weight(.semibold))
                     }
                 }
             }
 
-            if !substance.sources.isEmpty {
+            if policy.showsSources && !substance.sources.isEmpty {
                 Section {
-                    ForEach(substance.sources, id: \.self) { source in
-                        if let info = AppSources.info(for: source) {
-                            let deepURL = AppSources.substanceURL(for: source, substance: substance.name)
-                            if let url = deepURL {
-                                Link(destination: url) {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(source).font(.subheadline.weight(.medium))
-                                        Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
-                                    }
-                                }
-                            } else {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(source).font(.subheadline.weight(.medium))
-                                    Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
-                                }
-                            }
-                        } else {
-                            Text(source)
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.secondaryLabel)
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
+                            set: { sourcesExpanded = $0 }
+                        )
+                    ) {
+                        ForEach(substance.sources, id: \.self) { source in
+                            sourceRow(source)
                         }
+                    } label: {
+                        Label("Sources", systemImage: "book.closed")
+                            .font(.subheadline.weight(.semibold))
                     }
-                } header: {
-                    Label("Sources", systemImage: "book.closed")
                 } footer: {
                     Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
                 }
@@ -612,6 +608,118 @@ struct SubstanceDetailView: View {
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                 }
             }
+        }
+        .task(id: substance.name) {
+            // Only fetch when the pharma-nerd tier needs it. Cheap query but
+            // skipped entirely for casual / harm-reduction users.
+            guard policy.showsReceptorLiterature else { return }
+            literatureBindings = SubstanceStore.shared.bindings(forSubstanceName: substance.name)
+        }
+    }
+
+    // MARK: - Mechanism + Literature bodies
+
+    @ViewBuilder
+    private func mechanismBody(_ moa: MechanismOfAction) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(moa.summary)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(substance.category.color)
+
+            Text(moa.description)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if !moa.bindings.isEmpty {
+                Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
+                    GridRow {
+                        Text("Target")
+                        Text("Action")
+                        Text("")
+                    }
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+
+                    ForEach(moa.bindings) { binding in
+                        GridRow {
+                            Text(binding.target)
+                                .fontWeight(.medium)
+                            Text(binding.action.displayName)
+                                .foregroundStyle(.secondary)
+                            HStack(spacing: 2) {
+                                ForEach(0..<3, id: \.self) { i in
+                                    Circle()
+                                        .fill(i < binding.affinity.rawValue ? substance.category.color : substance.category.color.opacity(0.15))
+                                        .frame(width: 6, height: 6)
+                                }
+                            }
+                        }
+                    }
+                }
+                .font(.caption)
+            } else if !moa.primaryTargets.isEmpty {
+                HStack(spacing: 0) {
+                    Text("Primary Targets: ")
+                        .font(.caption.weight(.medium))
+                    Text(moa.primaryTargets.joined(separator: " · "))
+                        .font(.caption)
+                }
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+        .padding(.vertical, 2)
+
+        ForEach(moa.references, id: \.self) { ref in
+            if let info = AppSources.info(for: ref),
+               let url = URL(string: info.url), !info.url.isEmpty {
+                Link(destination: url) {
+                    Label(ref, systemImage: "book.closed")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
+            } else {
+                Label(ref, systemImage: "book.closed")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var receptorLiteratureBody: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(literatureBindings) { hit in
+                ReceptorLiteratureRow(hit: hit, accent: substance.category.color)
+                if hit.id != literatureBindings.last?.id {
+                    Divider()
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    @ViewBuilder
+    private func sourceRow(_ source: String) -> some View {
+        if let info = AppSources.info(for: source) {
+            let deepURL = AppSources.substanceURL(for: source, substance: substance.name)
+            if let url = deepURL {
+                Link(destination: url) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(source).font(.subheadline.weight(.medium))
+                        Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+            } else {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(source).font(.subheadline.weight(.medium))
+                    Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                }
+            }
+        } else {
+            Text(source)
+                .font(.subheadline)
+                .foregroundStyle(Theme.secondaryLabel)
         }
     }
 
@@ -717,6 +825,75 @@ struct SubstanceDetailView: View {
         .font(.subheadline)
     }
 
+}
+
+// MARK: - Receptor Literature Row
+
+/// Single binding row inside the pharma-nerd "Receptor Literature" disclosure.
+/// Each row shows the target, action, Ki or EC50 value, optional species,
+/// source slug, and a PMID/DOI affordance so the user can verify the claim.
+private struct ReceptorLiteratureRow: View {
+    let hit: SubstanceStore.BindingHit
+    let accent: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(hit.target)
+                    .font(.subheadline.weight(.semibold))
+                Text(hit.action)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                affinityLabel
+            }
+            HStack(spacing: 6) {
+                Image(systemName: "doc.text.magnifyingglass")
+                    .font(.caption2)
+                Text(hit.sourceSlug)
+                    .font(.caption2.monospaced())
+                if let species = hit.species, !species.isEmpty {
+                    Text("·")
+                    Text(species).italic()
+                }
+                Spacer()
+                if let pmid = hit.pmid, let url = URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") {
+                    Link(destination: url) {
+                        Text("PMID \(pmid)")
+                            .font(.caption2)
+                            .foregroundStyle(accent)
+                    }
+                } else if let doi = hit.doi, !doi.isEmpty, let url = URL(string: "https://doi.org/\(doi)") {
+                    Link(destination: url) {
+                        Text("DOI")
+                            .font(.caption2)
+                            .foregroundStyle(accent)
+                    }
+                }
+            }
+            .font(.caption)
+            .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
+    @ViewBuilder
+    private var affinityLabel: some View {
+        if let ki = hit.kiNm {
+            Text("Ki \(formatNm(ki)) nM")
+                .font(.subheadline.monospacedDigit())
+                .foregroundStyle(accent)
+        } else if let ec = hit.ec50Nm {
+            Text("EC50 \(formatNm(ec)) nM")
+                .font(.subheadline.monospacedDigit())
+                .foregroundStyle(accent)
+        }
+    }
+
+    private func formatNm(_ value: Double) -> String {
+        if value >= 100 { return String(format: "%.0f", value) }
+        if value >= 10  { return String(format: "%.1f", value) }
+        return String(format: "%.2f", value)
+    }
 }
 
 // MARK: - Effect Label Style

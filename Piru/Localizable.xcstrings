@@ -504,6 +504,16 @@
         }
       }
     },
+    "%@ → %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ → %2$@"
+          }
+        }
+      }
+    },
     "%@ +%lld more" : {
       "localizations" : {
         "en" : {
@@ -2546,7 +2556,7 @@
         }
       }
     },
-    "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact." : {
+    "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256." : {
 
     },
     "All taken" : {
@@ -4158,6 +4168,9 @@
         }
       }
     },
+    "Check for Updates" : {
+
+    },
     "Checked every %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4253,6 +4266,9 @@
           }
         }
       }
+    },
+    "Checking…" : {
+
     },
     "Cholinergic Precursor" : {
       "localizations" : {
@@ -5332,6 +5348,9 @@
     "Data Sources" : {
 
     },
+    "Database Build" : {
+
+    },
     "Date" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5686,6 +5705,9 @@
           }
         }
       }
+    },
+    "DOI" : {
+
     },
     "Don't 'hair of the dog' — more depressant just delays recovery." : {
       "localizations" : {
@@ -6234,6 +6256,12 @@
         }
       }
     },
+    "Download" : {
+
+    },
+    "Downloading…" : {
+
+    },
     "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize." : {
       "localizations" : {
         "zh-Hans" : {
@@ -6671,6 +6699,9 @@
           }
         }
       }
+    },
+    "Effects" : {
+
     },
     "Effects should start within %lld-%lld minutes." : {
       "localizations" : {
@@ -9207,6 +9238,9 @@
     "Ki ≤ %lld nM" : {
 
     },
+    "Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting." : {
+
+    },
     "Klimaka Crisis Line" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11586,6 +11620,9 @@
         }
       }
     },
+    "Pharma" : {
+
+    },
     "Pharma Nerd" : {
 
     },
@@ -11783,6 +11820,9 @@
           }
         }
       }
+    },
+    "PMID %lld" : {
+
     },
     "Poison Centre" : {
       "localizations" : {
@@ -12334,6 +12374,9 @@
         }
       }
     },
+    "Receptor Literature" : {
+
+    },
     "Receptor target" : {
 
     },
@@ -12754,7 +12797,13 @@
         }
       }
     },
+    "Restart Piru to use the new database." : {
+
+    },
     "Results (%lld)" : {
+
+    },
+    "Retry" : {
 
     },
     "Reuptake Inhibitor" : {
@@ -14992,6 +15041,7 @@
       }
     },
     "Subjective Effects" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16350,6 +16400,18 @@
           }
         }
       }
+    },
+    "Up to date" : {
+
+    },
+    "Update Applied" : {
+
+    },
+    "Update Available" : {
+
+    },
+    "Update Failed" : {
+
     },
     "Urgences" : {
       "localizations" : {
