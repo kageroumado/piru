@@ -199,6 +199,7 @@ enum SubstanceDeduplicator {
         let mergedAliases = Array(allAliases).sorted()
 
         let mergedSources = Array(Set(primary.sources + secondary.sources)).sorted()
+        let mergedTags = Array(Set(primary.tags + secondary.tags)).sorted()
 
         var routes = primary.routes
         for r in secondary.routes {
@@ -223,7 +224,8 @@ enum SubstanceDeduplicator {
             toleranceInfo: primary.toleranceInfo ?? secondary.toleranceInfo,
             halfLifeMinutes: primary.halfLifeMinutes ?? secondary.halfLifeMinutes,
             sources: mergedSources,
-            mechanismOfAction: primary.mechanismOfAction ?? secondary.mechanismOfAction
+            mechanismOfAction: primary.mechanismOfAction ?? secondary.mechanismOfAction,
+            tags: mergedTags
         )
     }
 
