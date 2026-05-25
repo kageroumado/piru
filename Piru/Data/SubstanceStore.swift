@@ -864,21 +864,15 @@ final class SubstanceStore {
         } catch { return [] }
     }
 
-    // MARK: - Compatibility shims
-
-    /// No-op kept so existing app startup code (`fetchFromAPIs(forceRefresh:)`)
-    /// keeps compiling during the migration. The shipped SQLite is the source
-    /// of truth; refresh is opt-in via the manifest-update mechanism (separate
-    /// surface). Will be removed once call sites are migrated.
-    @MainActor static func fetchFromAPIs(forceRefresh: Bool = false) {
-        _ = shared.allNames.count   // touch to ensure the store is initialised
-    }
 }
 
 // MARK: - Static façade
 
-/// Static façade matching the legacy SubstanceLibrary API. Lets every call site
-/// keep working while the store underneath is GRDB-backed.
+/// Static façade matching the legacy `SubstanceLibrary` API. Lets every call
+/// site keep working with a stable shape while the store underneath is
+/// GRDB-backed. Inlined into call sites would be the long-term cleanup, but
+/// the façade is zero-cost so a one-line `enum` is the right level of
+/// abstraction for the migration to land cleanly.
 @MainActor
 enum SubstanceLibrary {
     static var all: [Substance] { SubstanceStore.shared.all }
@@ -888,15 +882,4 @@ enum SubstanceLibrary {
     static func lookup(_ name: String) -> Substance? { SubstanceStore.shared.lookup(name) }
     static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? { SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias) }
     static func search(_ query: String, limit: Int = 50) -> [Substance] { SubstanceStore.shared.search(query, limit: limit) }
-    static func fetchFromAPIs(forceRefresh: Bool = false) { SubstanceStore.fetchFromAPIs(forceRefresh: forceRefresh) }
-}
-
-@MainActor
-@Observable
-final class LibraryLoadingState {
-    static let shared = LibraryLoadingState()
-    var substanceCount: Int { SubstanceStore.shared.count }
-    var isLoading = false
-    var statusText = String(localized: "Done")
-    private init() {}
 }

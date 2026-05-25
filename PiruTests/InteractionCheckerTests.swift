@@ -246,43 +246,30 @@ struct InteractionCheckerTests {
 
     // MARK: - TripSit Combo Data
 
-    @Test("Loads TripSit combo data and resolves names")
+    @Test("Loads combo data and resolves names")
     func loadTripSitCombos() {
-        // Create mock TripSit data with combo entries
-        let drugA = TripSitAPI.TripSitDrug(
+        // Mock combo entries — the data shape mirrors the historical TripSit
+        // JSON structure that InteractionChecker.ComboDrug models.
+        let drugA = InteractionChecker.ComboDrug(
             name: "lsd",
             pretty_name: "LSD",
             aliases: ["acid"],
-            categories: ["psychedelic"],
-            properties: nil,
-            formatted_dose: nil,
             combos: [
-                "mdma": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Increased anxiety risk."),
-                "cannabis": TripSitAPI.TripSitDrug.ComboInfo(status: "Low Risk & Synergy", note: nil),
-            ],
-            pweffects: nil
+                "mdma": .init(status: "Caution", note: "Increased anxiety risk."),
+                "cannabis": .init(status: "Low Risk & Synergy", note: nil),
+            ]
         )
-        let drugB = TripSitAPI.TripSitDrug(
+        let drugB = InteractionChecker.ComboDrug(
             name: "mdma",
             pretty_name: "MDMA",
-            aliases: nil,
-            categories: ["empathogen"],
-            properties: nil,
-            formatted_dose: nil,
             combos: [
-                "lsd": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Heightened effects."),
-            ],
-            pweffects: nil
+                "lsd": .init(status: "Caution", note: "Heightened effects."),
+            ]
         )
-        let drugC = TripSitAPI.TripSitDrug(
+        let drugC = InteractionChecker.ComboDrug(
             name: "cannabis",
             pretty_name: "Cannabis",
-            aliases: ["weed", "marijuana"],
-            categories: ["cannabinoid"],
-            properties: nil,
-            formatted_dose: nil,
-            combos: nil,
-            pweffects: nil
+            aliases: ["weed", "marijuana"]
         )
 
         InteractionChecker.loadTripSitCombos(from: [
@@ -324,38 +311,20 @@ struct InteractionCheckerTests {
 
     @Test("Combo status mapping")
     func comboStatusMapping() {
-        // Load combo data with all status types
-        let drug = TripSitAPI.TripSitDrug(
+        let drug = InteractionChecker.ComboDrug(
             name: "testdrug",
             pretty_name: "TestDrug",
-            aliases: nil,
-            categories: nil,
-            properties: nil,
-            formatted_dose: nil,
             combos: [
-                "dangerouspair": TripSitAPI.TripSitDrug.ComboInfo(status: "Dangerous", note: "Fatal risk."),
-                "unsafepair": TripSitAPI.TripSitDrug.ComboInfo(status: "Unsafe", note: "Risky."),
-                "cautionpair": TripSitAPI.TripSitDrug.ComboInfo(status: "Caution", note: "Be careful."),
-                "safepair": TripSitAPI.TripSitDrug.ComboInfo(status: "Low Risk & Synergy", note: nil),
-            ],
-            pweffects: nil
+                "dangerouspair": .init(status: "Dangerous", note: "Fatal risk."),
+                "unsafepair":    .init(status: "Unsafe",    note: "Risky."),
+                "cautionpair":   .init(status: "Caution",   note: "Be careful."),
+                "safepair":      .init(status: "Low Risk & Synergy", note: nil),
+            ]
         )
-        let dangerDrug = TripSitAPI.TripSitDrug(
-            name: "dangerouspair", pretty_name: "DangerousPair", aliases: nil,
-            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
-        )
-        let unsafeDrug = TripSitAPI.TripSitDrug(
-            name: "unsafepair", pretty_name: "UnsafePair", aliases: nil,
-            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
-        )
-        let cautionDrug = TripSitAPI.TripSitDrug(
-            name: "cautionpair", pretty_name: "CautionPair", aliases: nil,
-            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
-        )
-        let safeDrug = TripSitAPI.TripSitDrug(
-            name: "safepair", pretty_name: "SafePair", aliases: nil,
-            categories: nil, properties: nil, formatted_dose: nil, combos: nil, pweffects: nil
-        )
+        let dangerDrug  = InteractionChecker.ComboDrug(name: "dangerouspair", pretty_name: "DangerousPair")
+        let unsafeDrug  = InteractionChecker.ComboDrug(name: "unsafepair",    pretty_name: "UnsafePair")
+        let cautionDrug = InteractionChecker.ComboDrug(name: "cautionpair",   pretty_name: "CautionPair")
+        let safeDrug    = InteractionChecker.ComboDrug(name: "safepair",      pretty_name: "SafePair")
 
         InteractionChecker.loadTripSitCombos(from: [
             "testdrug": drug,
