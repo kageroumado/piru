@@ -1,0 +1,73 @@
+{
+  "content_version": "2026-05-25.0",
+  "generated_at": "2026-05-25T13:27:38.693451+00:00",
+  "generator_version": "build-sqlite-database.py 0.1.0",
+  "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
+  "schema_version": 1,
+  "sources": {
+    "dailymed": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "dea-orange-book": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "drug.community": {
+      "bindings": 0,
+      "categories": 420,
+      "dose_ranges": 893
+    },
+    "erowid-pihkal": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "erowid-tihkal": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "pdsp": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "peer-review-primary": {
+      "bindings": 904,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "piru-curated": {
+      "bindings": 0,
+      "categories": 1376,
+      "dose_ranges": 801
+    },
+    "psychonautwiki": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "pubchem": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "tripsit": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "wikidata": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    }
+  },
+  "sqlite_path": "Piru/Data/piru-substances.sqlite",
+  "sqlite_sha256": "fdb1f1ceebbf347abf2e1c09c639f075faefeea6b252508e6b82303148d27a68",
+  "sqlite_size_bytes": 4079616,
+  "substance_count": 1583
+}
