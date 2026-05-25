@@ -451,14 +451,53 @@ enum InteractionChecker {
 
     // MARK: - TripSit Combo Data
 
+    /// Minimal shape needed to ingest TripSit-format combo data into the
+    /// in-memory lookup. Originally lived in `TripSitAPI`; preserved here for
+    /// backwards compatibility with the existing `loadTripSitCombos` API and
+    /// its tests. The runtime no longer fetches from the TripSit network;
+    /// combo data is currently dormant until a future migration into the
+    /// bundled SQLite (interactions table) ships.
+    struct ComboDrug: Decodable, Hashable, Sendable {
+        let name: String
+        let pretty_name: String?
+        let aliases: [String]?
+        let properties: Properties?
+        let combos: [String: ComboInfo]?
+
+        struct Properties: Decodable, Hashable, Sendable {
+            let aliases: [String]?
+        }
+
+        struct ComboInfo: Decodable, Hashable, Sendable {
+            let status: String?
+            let note: String?
+        }
+
+        init(
+            name: String,
+            pretty_name: String? = nil,
+            aliases: [String]? = nil,
+            properties: Properties? = nil,
+            combos: [String: ComboInfo]? = nil
+        ) {
+            self.name = name
+            self.pretty_name = pretty_name
+            self.aliases = aliases
+            self.properties = properties
+            self.combos = combos
+        }
+    }
+
     /// Combo lookup: [tripSitKey: [targetTripSitKey: (severity, note)]]
     private static var comboLookup: [String: [String: (severity: InteractionSeverity, note: String)]] = [:]
 
     /// Maps any known name (pretty name, TripSit key, alias) → TripSit internal key
     private static var comboNameResolution: [String: String] = [:]
 
-    /// Load TripSit combo data from the raw API response into the interaction checker.
-    @MainActor static func loadTripSitCombos(from drugs: [String: TripSitAPI.TripSitDrug]) {
+    /// Load combo data into the interaction checker. The shape mirrors the
+    /// historical TripSit JSON; callers (currently only tests) construct
+    /// ``ComboDrug`` values directly.
+    @MainActor static func loadTripSitCombos(from drugs: [String: ComboDrug]) {
         // Step 1: Build name → TripSit key resolution
         var nameToKey: [String: String] = [:]
         for (key, drug) in drugs {

@@ -38,7 +38,9 @@ struct PiruApp: App {
                 .tint(Theme.accent)
                 .task {
                     WidgetCenter.shared.reloadAllTimelines()
-                    SubstanceLibrary.fetchFromAPIs()
+                    // Touch the store so its singleton init runs (opens the
+                    // SQLite, seeds preferences) before the first view query.
+                    _ = SubstanceStore.shared.count
                     ActiveSessionManager.shared.recoverSession(container: container)
                     #if DEBUG
                     DemoData.insertShowcaseData(container: container)

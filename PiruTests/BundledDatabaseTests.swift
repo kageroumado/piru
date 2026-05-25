@@ -85,38 +85,6 @@ struct BundledDatabaseTests {
         #expect(SubstanceCategory.from(tripSitCategory: "kappa-opioid-agonist") == .dysdelic)
     }
 
-    // MARK: - Deduplicator merges tags
-
-    @Test("Deduplicator unions tags from both inputs")
-    func deduplicatorUnionsTags() {
-        let primary = Substance(
-            name: "Modafinil",
-            aliases: ["Provigil"],
-            category: .eugeroic,
-            defaultRoute: .oral,
-            routes: [],
-            effects: [],
-            tags: ["DAT-inhibitor", "prescription-only"]
-        )
-        let secondary = Substance(
-            name: "Modafinil",
-            aliases: ["Provigil", "Modalert"],
-            category: .eugeroic,
-            defaultRoute: .oral,
-            routes: [],
-            effects: [],
-            tags: ["DAT-inhibitor", "US-Schedule-IV", "eugeroic"]
-        )
-        let merged = SubstanceDeduplicator.mergeSubstances(primary, secondary)
-        #expect(merged.tags.contains("DAT-inhibitor"))
-        #expect(merged.tags.contains("prescription-only"))
-        #expect(merged.tags.contains("US-Schedule-IV"))
-        #expect(merged.tags.contains("eugeroic"))
-        // Sorted + deduplicated
-        #expect(merged.tags.count == 4)
-        #expect(merged.tags == merged.tags.sorted())
-    }
-
     // MARK: - hasNoDoseData
 
     @Test("hasNoDoseData true for empty routes")

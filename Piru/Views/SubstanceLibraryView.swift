@@ -29,21 +29,6 @@ struct SubstanceLibraryView: View {
     var body: some View {
         List {
             if searchText.isEmpty {
-                if LibraryLoadingState.shared.isLoading {
-                    Section {
-                        HStack(spacing: 12) {
-                            ProgressView()
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(LibraryLoadingState.shared.statusText)
-                                    .font(.subheadline)
-                                Text("\(LibraryLoadingState.shared.substanceCount) loaded so far")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
                 categoryGrid
             } else {
                 searchResultsList
