@@ -580,6 +580,16 @@
         }
       }
     },
+    "%@, source: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, source: %2$@"
+          }
+        }
+      }
+    },
     "%@: %@ + %@" : {
       "localizations" : {
         "en" : {
@@ -6159,6 +6169,9 @@
         }
       }
     },
+    "Dose data" : {
+
+    },
     "Dose ladders, durations, top-line warnings. Skip the deep pharmacology." : {
 
     },
@@ -6487,6 +6500,9 @@
           }
         }
       }
+    },
+    "Duration data" : {
+
     },
     "Dysdelic" : {
 
@@ -7391,6 +7407,7 @@
       }
     },
     "FDA" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9798,6 +9815,9 @@
           }
         }
       }
+    },
+    "Mechanism" : {
+
     },
     "Mechanism incompletely understood despite widespread use. Weakly inhibits COX peripherally but primarily acts centrally. Its active metabolite AM404 inhibits endocannabinoid reuptake, increasing anandamide levels and activating CB1 and TRPV1 receptors. Also inhibits prostaglandin synthesis in the CNS, producing antipyretic effects via the hypothalamus. Lacks significant anti-inflammatory activity." : {
       "localizations" : {
@@ -16222,6 +16242,7 @@
       }
     },
     "TripSit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

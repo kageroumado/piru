@@ -129,4 +129,68 @@ struct SubstanceDBUpdaterTests {
         #expect(bundled.lastPathComponent == "piru-substances.sqlite")
         #expect(bundled.path.contains(".app"))
     }
+
+    // MARK: - URL arithmetic
+
+    @Test("sqliteURL joins repo root + manifest's sqlitePath correctly")
+    func sqliteURLArithmetic() {
+        let manifestURL = URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json")!
+        let manifest = SubstanceDBManifest(
+            schemaVersion: 1,
+            contentVersion: "2026-05-25.0",
+            generatedAt: "",
+            generatorVersion: "",
+            substanceCount: 0,
+            sources: [:],
+            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqliteSha256: "",
+            sqliteSizeBytes: 0,
+            releaseNotes: ""
+        )
+        let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
+        #expect(resolved.absoluteString == "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/piru-substances.sqlite")
+    }
+
+    @Test("sqliteURL handles fork repos / different branches")
+    func sqliteURLAlternateRepo() {
+        let manifestURL = URL(string: "https://example.com/some/owner/repo/branch/Piru/Data/manifest.json")!
+        let manifest = SubstanceDBManifest(
+            schemaVersion: 1, contentVersion: "", generatedAt: "", generatorVersion: "",
+            substanceCount: 0, sources: [:],
+            sqlitePath: "Piru/Data/piru-substances.sqlite",
+            sqliteSha256: "", sqliteSizeBytes: 0, releaseNotes: ""
+        )
+        let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
+        #expect(resolved.absoluteString == "https://example.com/some/owner/repo/branch/Piru/Data/piru-substances.sqlite")
+    }
+
+    // MARK: - SHA-256
+
+    @Test("sha256Hex computes a known vector")
+    func sha256KnownVector() {
+        // From the FIPS test vector: empty input → e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        #expect(SubstanceDBUpdater.sha256Hex(of: Data()) == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+        // "abc" → ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+        #expect(SubstanceDBUpdater.sha256Hex(of: Data("abc".utf8)) == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
+    }
+
+    @Test("Bundled SQLite hash matches the bundled manifest")
+    func bundledHashMatchesBundledManifest() throws {
+        let bundle = Bundle.main
+        guard
+            let sqliteURL = bundle.url(forResource: "piru-substances", withExtension: "sqlite"),
+            let manifestURL = bundle.url(forResource: "manifest", withExtension: "json")
+        else {
+            Issue.record("Bundled DB or manifest missing from the app bundle")
+            return
+        }
+
+        let manifestData = try Data(contentsOf: manifestURL)
+        let manifest = try SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: manifestData)
+
+        let sqliteData = try Data(contentsOf: sqliteURL)
+        let computed = SubstanceDBUpdater.sha256Hex(of: sqliteData)
+        #expect(computed.caseInsensitiveCompare(manifest.sqliteSha256) == .orderedSame,
+                "Bundled SQLite hash diverges from manifest. Rebuild via Exports/build-sqlite-database.py.")
+    }
 }
