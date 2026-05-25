@@ -344,15 +344,24 @@ struct SubstanceDetailView: View {
     @State private var showAllHistory = false
     @State private var showEntries = false
 
-    // Section expansion state. Initialised from the user's tier on first
-    // appear so the user can still collapse/expand against the grain after.
+    // Holding the @Observable store as @State (rather than reading
+    // `SubstanceStore.shared.userProfile` via a plain computed) is what makes
+    // SwiftUI re-render this view when the user changes profile in Settings.
+    @State private var store = SubstanceStore.shared
+
+    // Section expansion state. `nil` means "use the policy default for the
+    // current tier"; once the user toggles a section, the stored Bool sticks.
+    // Reset to nil on profile change so the new tier's defaults take effect
+    // (otherwise the user would be permanently stuck on whatever defaults
+    // applied the first time the section was rendered).
     @State private var mechanismExpanded: Bool?
     @State private var subjectiveExpanded: Bool?
     @State private var sourcesExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
+    @State private var provenance: SubstanceStore.SubstanceProvenance?
 
-    private var profile: UserProfile { SubstanceStore.shared.userProfile }
+    private var profile: UserProfile { store.userProfile }
 
     /// Sections to show beyond the always-visible core (history, info,
     /// warnings, dose, duration). Determined by the user's profile tier.
@@ -460,6 +469,9 @@ struct SubstanceDetailView: View {
                         Label("Mechanism of Action", systemImage: "atom")
                             .font(.subheadline.weight(.semibold))
                     }
+                    if let slug = provenance?.mechanismSource {
+                        SourceAttributionRow(slug: slug, label: "Mechanism")
+                    }
                 }
             }
 
@@ -521,12 +533,20 @@ struct SubstanceDetailView: View {
                         VolumetricDosingDisclaimer()
                             .padding(.vertical, 4)
                     }
+
+                    if let slug = doseSourceSlug(for: substanceRoute.route) {
+                        SourceAttributionRow(slug: slug, label: "Dose data")
+                    }
                 }
 
                 if let duration = substanceRoute.duration {
                     Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
                         DurationInfoView(duration: duration)
                             .padding(.vertical, 4)
+
+                        if let slug = durationSourceSlug(for: substanceRoute.route) {
+                            SourceAttributionRow(slug: slug, label: "Duration data")
+                        }
                     }
                 }
             }
@@ -594,12 +614,43 @@ struct SubstanceDetailView: View {
                 }
             }
         }
-        .task(id: substance.name) {
-            // Only fetch when the pharma-nerd tier needs it. Cheap query but
-            // skipped entirely for casual / harm-reduction users.
-            guard policy.showsReceptorLiterature else { return }
-            literatureBindings = SubstanceStore.shared.bindings(forSubstanceName: substance.name)
+        .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
+            // Always fetch provenance — per-field source attribution is
+            // shown to every tier so users can see where each fact came from.
+            provenance = store.provenance(forSubstanceName: substance.name)
+
+            // Receptor literature is pharma-nerd-only — skip the query for
+            // other tiers.
+            if policy.showsReceptorLiterature {
+                literatureBindings = store.bindings(forSubstanceName: substance.name)
+            } else {
+                literatureBindings = []
+            }
         }
+        .onChange(of: profile) { _, _ in
+            // Reset stuck Bool? overrides so the new tier's policy defaults
+            // win. Any disclosure the user touches after this point sticks
+            // until the next profile change.
+            mechanismExpanded = nil
+            subjectiveExpanded = nil
+            sourcesExpanded = nil
+            receptorLitExpanded = nil
+        }
+    }
+
+    private struct TaskKey: Hashable {
+        let substanceName: String
+        let profile: UserProfile
+    }
+
+    // MARK: - Source attribution
+
+    private func doseSourceSlug(for route: RouteOfAdministration) -> String? {
+        provenance?.routes.first(where: { $0.route == route })?.doseSource
+    }
+
+    private func durationSourceSlug(for route: RouteOfAdministration) -> String? {
+        provenance?.routes.first(where: { $0.route == route })?.durationSource
     }
 
     // MARK: - Mechanism + Literature bodies
@@ -810,6 +861,38 @@ struct SubstanceDetailView: View {
         .font(.subheadline)
     }
 
+}
+
+// MARK: - Source Attribution
+
+/// Small inline badge that names the source that supplied a specific field
+/// after source-priority resolution. Visible to all tiers so users always see
+/// where each fact came from — the per-field counterpart to the
+/// substance-level "Sources" disclosure at the bottom of the detail view.
+private struct SourceAttributionRow: View {
+    let slug: String
+    let label: LocalizedStringResource
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "checkmark.seal")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text("·")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+            Text(slug)
+                .font(.caption2.monospaced())
+                .foregroundStyle(Theme.secondaryLabel)
+            Spacer()
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text("\(String(localized: label)), source: \(slug)"))
+    }
 }
 
 // MARK: - Receptor Literature Row

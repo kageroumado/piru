@@ -120,16 +120,31 @@ final class SubstanceDBUpdater {
     /// Download the SQLite file referenced by the current `.updateAvailable`
     /// state, verify its sha256, and atomically move it into Documents/.
     /// Result lands in `.appliedNeedsRestart(...)` or `.error(...)`.
+    /// On any failure (download, checksum mismatch, install), the temp file
+    /// is removed so we don't leak partial downloads into the user's temp dir.
     func downloadAndApply() async {
         guard case let .updateAvailable(_, remote) = state else { return }
         state = .downloading(progress: 0)
+
+        var tempFile: URL?
+        defer {
+            if let tempFile, FileManager.default.fileExists(atPath: tempFile.path) {
+                try? FileManager.default.removeItem(at: tempFile)
+            }
+        }
+
         do {
-            let sqliteURL = sqliteURL(from: remote)
-            let tempFile = try await downloadFile(url: sqliteURL) { progress in
+            let sqliteRemote = sqliteURL(from: remote)
+            let downloaded = try await downloadFile(url: sqliteRemote) { progress in
                 self.state = .downloading(progress: progress)
             }
-            try verifySha256(file: tempFile, expected: remote.sqliteSha256)
-            try installDownloadedDB(tempFile: tempFile, manifest: remote)
+            tempFile = downloaded
+            try verifySha256(file: downloaded, expected: remote.sqliteSha256)
+            try installDownloadedDB(tempFile: downloaded, manifest: remote)
+            // installDownloadedDB moves the file out — null the local
+            // reference so the defer doesn't try to remove a no-longer-temp
+            // file at the Documents path.
+            tempFile = nil
             state = .appliedNeedsRestart(applied: remote)
         } catch {
             updaterLogger.error("downloadAndApply failed: \(error.localizedDescription, privacy: .public)")
@@ -164,43 +179,53 @@ final class SubstanceDBUpdater {
     }
 
     private func sqliteURL(from manifest: SubstanceDBManifest) -> URL {
-        // The manifest URL points at `<base>/Piru/Data/manifest.json`. Strip
-        // the trailing component and append the manifest-relative SQLite path
-        // (`Piru/Data/piru-substances.sqlite`).
-        let manifestRoot = manifestURL.deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-        return manifestRoot.appendingPathComponent(manifest.sqlitePath)
+        Self.sqliteURL(manifestURL: manifestURL, manifest: manifest)
+    }
+
+    /// Build the SQLite download URL by joining the manifest-relative
+    /// `sqlite_path` onto the manifest URL's repo root.
+    ///
+    /// The manifest URL is structured as `<repo-root>/Piru/Data/manifest.json`
+    /// — stripping the trailing two path components (`Data/manifest.json`)
+    /// plus the `Piru/` segment yields the repo root that `sqlite_path` is
+    /// relative to. Exposed as `internal` so the URL arithmetic can be unit
+    /// tested directly.
+    static func sqliteURL(manifestURL: URL, manifest: SubstanceDBManifest) -> URL {
+        let repoRoot = manifestURL
+            .deletingLastPathComponent()  // .../Piru/Data
+            .deletingLastPathComponent()  // .../Piru
+            .deletingLastPathComponent()  // .../
+        return repoRoot.appendingPathComponent(manifest.sqlitePath)
+    }
+
+    /// Hex-encoded SHA-256 of the given bytes. Exposed for testability — the
+    /// file-based `verifySha256` defers to this after streaming the file.
+    static func sha256Hex(of data: Data) -> String {
+        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
     private func downloadFile(url: URL, progress onProgress: @escaping @MainActor (Double) -> Void) async throws -> URL {
-        let (asyncBytes, response) = try await URLSession.shared.bytes(from: url)
+        // Use URLSession.download so the framework streams to disk directly —
+        // no per-byte AsyncBytes suspensions, no manual file-handle bookkeeping.
+        // The trade-off is no fine-grained progress without a delegate; the
+        // DB is small enough (<10 MB) that a single intermediate update is
+        // honest and avoids the complexity of a downloadTask delegate.
+        await onProgress(0)
+        let (downloadedURL, response) = try await URLSession.shared.download(from: url)
         if let http = response as? HTTPURLResponse, http.statusCode != 200 {
+            try? FileManager.default.removeItem(at: downloadedURL)
             throw UpdaterError.httpStatus(http.statusCode)
         }
-        let total = max(response.expectedContentLength, 1)
+
+        // Move the system-chosen temp location to one we control, so error
+        // paths from the verify+install steps can find and clean it.
         let temp = FileManager.default.temporaryDirectory
             .appendingPathComponent("piru-substances-\(UUID().uuidString).sqlite")
-        FileManager.default.createFile(atPath: temp.path, contents: nil)
-        guard let handle = try? FileHandle(forWritingTo: temp) else {
-            throw UpdaterError.diskWrite("Failed to open temp file for write")
-        }
-        defer { try? handle.close() }
-
-        var written: Int64 = 0
-        var buffer = Data(capacity: 65536)
-        for try await byte in asyncBytes {
-            buffer.append(byte)
-            if buffer.count >= 65536 {
-                try handle.write(contentsOf: buffer)
-                written += Int64(buffer.count)
-                buffer.removeAll(keepingCapacity: true)
-                let p = Double(written) / Double(total)
-                await onProgress(min(p, 0.99))
-            }
-        }
-        if !buffer.isEmpty {
-            try handle.write(contentsOf: buffer)
+        do {
+            try FileManager.default.moveItem(at: downloadedURL, to: temp)
+        } catch {
+            try? FileManager.default.removeItem(at: downloadedURL)
+            throw UpdaterError.diskWrite(error.localizedDescription)
         }
         await onProgress(1)
         return temp
@@ -210,12 +235,11 @@ final class SubstanceDBUpdater {
         let handle = try FileHandle(forReadingFrom: file)
         defer { try? handle.close() }
         var hasher = SHA256()
-        while autoreleasepool(invoking: {
-            let chunk = handle.readData(ofLength: 65536)
-            if chunk.isEmpty { return false }
+        while true {
+            let chunk = autoreleasepool { handle.readData(ofLength: 65_536) }
+            if chunk.isEmpty { break }
             hasher.update(data: chunk)
-            return true
-        }) {}
+        }
         let computed = hasher.finalize().map { String(format: "%02x", $0) }.joined()
         guard computed.caseInsensitiveCompare(expected) == .orderedSame else {
             try? FileManager.default.removeItem(at: file)
