@@ -43,6 +43,15 @@ struct SubstanceDBManifest: Codable, Equatable, Hashable, Sendable {
         return dec
     }()
 
+    /// JSON encoder for round-tripping back to the build-script format —
+    /// used when persisting the applied manifest alongside a downloaded DB.
+    static let jsonEncoder: JSONEncoder = {
+        let enc = JSONEncoder()
+        enc.keyEncodingStrategy = .convertToSnakeCase
+        enc.outputFormatting = [.prettyPrinted, .sortedKeys]
+        return enc
+    }()
+
     /// Returns `true` when `other` represents a newer content build than this
     /// one. The comparison treats `contentVersion` as a lexicographic string,
     /// which works because the format `YYYY-MM-DD.N` sorts chronologically.

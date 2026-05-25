@@ -362,28 +362,6 @@ struct SubstanceDetailView: View {
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
     private var profile: UserProfile { store.userProfile }
-
-    /// Sections to show beyond the always-visible core (history, info,
-    /// warnings, dose, duration). Determined by the user's profile tier.
-    private struct DisclosurePolicy {
-        let profile: UserProfile
-
-        /// Mechanism summary + binding affinity grid.
-        var showsMechanism: Bool        { profile != .casual }
-        /// Rich subjective effects with descriptions.
-        var showsRichSubjective: Bool   { profile != .casual }
-        /// Source citation list at the bottom.
-        var showsSources: Bool          { true }
-        /// The full receptor-binding literature table with Ki/EC50 and
-        /// per-row citations. Only pharma-nerd surface.
-        var showsReceptorLiterature: Bool { profile == .pharmaNerd }
-
-        var mechanismDefaultExpanded: Bool   { profile == .pharmaNerd }
-        var subjectiveDefaultExpanded: Bool  { profile == .pharmaNerd }
-        var sourcesDefaultExpanded: Bool     { profile != .casual }
-        var receptorLitDefaultExpanded: Bool { profile == .pharmaNerd }
-    }
-
     private var policy: DisclosurePolicy { .init(profile: profile) }
 
     init(substance: Substance) {
@@ -436,6 +414,12 @@ struct SubstanceDetailView: View {
                 if !substance.tags.isEmpty {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
                         .padding(.vertical, 4)
+                }
+                if let slug = provenance?.categorySource {
+                    SourceAttributionRow(slug: slug, label: "Category")
+                }
+                if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
+                    SourceAttributionRow(slug: slug, label: "Half-life")
                 }
             }
 
@@ -646,11 +630,11 @@ struct SubstanceDetailView: View {
     // MARK: - Source attribution
 
     private func doseSourceSlug(for route: RouteOfAdministration) -> String? {
-        provenance?.routes.first(where: { $0.route == route })?.doseSource
+        provenance?.routesBySource[route]?.doseSource
     }
 
     private func durationSourceSlug(for route: RouteOfAdministration) -> String? {
-        provenance?.routes.first(where: { $0.route == route })?.durationSource
+        provenance?.routesBySource[route]?.durationSource
     }
 
     // MARK: - Mechanism + Literature bodies
@@ -869,9 +853,18 @@ struct SubstanceDetailView: View {
 /// after source-priority resolution. Visible to all tiers so users always see
 /// where each fact came from — the per-field counterpart to the
 /// substance-level "Sources" disclosure at the bottom of the detail view.
+///
+/// The displayed source name is resolved from the bundled `sources` table
+/// via ``SubstanceStore/sourceDisplayName(forSlug:)`` so users see the
+/// human-readable name ("TripSit factsheets") instead of the wire slug
+/// ("tripsit").
 private struct SourceAttributionRow: View {
     let slug: String
     let label: LocalizedStringResource
+
+    private var displayName: String {
+        SubstanceStore.shared.sourceDisplayName(forSlug: slug)
+    }
 
     var body: some View {
         HStack(spacing: 6) {
@@ -884,14 +877,14 @@ private struct SourceAttributionRow: View {
             Text("·")
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
-            Text(slug)
-                .font(.caption2.monospaced())
+            Text(displayName)
+                .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
             Spacer()
         }
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text("\(String(localized: label)), source: \(slug)"))
+        .accessibilityLabel(Text("\(String(localized: label)), source: \(displayName)"))
     }
 }
 

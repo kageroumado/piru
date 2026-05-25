@@ -55,3 +55,34 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 }
+
+/// Pure policy describing which detail-view sections are visible and which
+/// are expanded by default for a given profile tier. Extracted from
+/// ``SubstanceDetailView`` so the tier matrix is independently testable —
+/// regressions in tier visibility would otherwise need a SwiftUI snapshot
+/// test to catch.
+///
+/// **Show vs expand:** "shows" means the section appears in the view at all;
+/// "default expanded" means the `DisclosureGroup` starts open. A casual user
+/// never sees the pharma-nerd surfaces (no manual override). A harm-reduction
+/// user sees mechanism/subjective effects but they start collapsed.
+struct DisclosurePolicy: Hashable, Sendable {
+    let profile: UserProfile
+
+    /// Mechanism summary + binding affinity grid (the in-app curated
+    /// summary, distinct from the literature table below).
+    var showsMechanism: Bool        { profile != .casual }
+    /// Rich subjective effects with PsychonautWiki-style descriptions.
+    var showsRichSubjective: Bool   { profile != .casual }
+    /// Substance-level "Sources" disclosure at the bottom. Shown to every
+    /// tier — even casual users may want to see source attribution.
+    var showsSources: Bool          { true }
+    /// The full receptor-binding literature table with Ki/EC50 and per-row
+    /// citations. Only pharma-nerd surface.
+    var showsReceptorLiterature: Bool { profile == .pharmaNerd }
+
+    var mechanismDefaultExpanded: Bool   { profile == .pharmaNerd }
+    var subjectiveDefaultExpanded: Bool  { profile == .pharmaNerd }
+    var sourcesDefaultExpanded: Bool     { profile != .casual }
+    var receptorLitDefaultExpanded: Bool { profile == .pharmaNerd }
+}

@@ -90,4 +90,40 @@ struct SubstanceLibraryTests {
             .reduce(0) { $0 + SubstanceLibrary.substances(in: $1).count }
         #expect(totalGrouped == SubstanceLibrary.all.count)
     }
+
+    // MARK: - Search ranking edge cases
+
+    @Test("Search for 'lsd' finds LSD as first hit")
+    func searchExactBeatsAlias() {
+        let results = SubstanceLibrary.search("LSD", limit: 5)
+        #expect(!results.isEmpty)
+        #expect(results.first?.name.uppercased().contains("LSD") == true)
+    }
+
+    @Test("Search is case-insensitive both ways")
+    func searchCaseInsensitiveBothWays() {
+        let upper = SubstanceLibrary.search("KETAMINE")
+        let lower = SubstanceLibrary.search("ketamine")
+        let mixed = SubstanceLibrary.search("Ketamine")
+        #expect(!upper.isEmpty)
+        #expect(upper.first?.name == lower.first?.name)
+        #expect(upper.first?.name == mixed.first?.name)
+    }
+
+    @Test("Fuzzy match only kicks in for queries ≥ 4 chars")
+    func fuzzyMinimumLength() {
+        // 3-char nonsense query should NOT return anything via fuzzy match.
+        // (Exact/alias misses too, so the result should be empty.)
+        let tooShort = SubstanceLibrary.search("zzx")
+        #expect(tooShort.isEmpty,
+                "Queries under 4 chars must not trigger fuzzy match — got \(tooShort.map(\.name))")
+    }
+
+    @Test("Limit parameter bounds result count")
+    func searchLimitRespected() {
+        let unbounded = SubstanceLibrary.search("a", limit: 1000)
+        let bounded   = SubstanceLibrary.search("a", limit: 3)
+        #expect(bounded.count <= 3)
+        #expect(unbounded.count >= bounded.count)
+    }
 }
