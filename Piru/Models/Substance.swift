@@ -308,12 +308,15 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case stimulant = "Stimulant"
     case psychedelic = "Psychedelic"
     case dissociative = "Dissociative"
+    case dysdelic = "Dysdelic"
     case opioid = "Opioid"
     case benzodiazepine = "Benzodiazepine"
     case gabapentinoid = "GABAergic"
     case empathogen = "Empathogen"
     case cannabinoid = "Cannabinoid"
     case nootropic = "Nootropic"
+    case ampakine = "AMPAkine"
+    case eugeroic = "Eugeroic"
     case depressant = "Depressant"
     case antidepressant = "Antidepressant"
     case antipsychotic = "Antipsychotic"
@@ -339,12 +342,15 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "stimulant": return .stimulant
         case "psychedelic", "hallucinogen": return .psychedelic
         case "dissociative": return .dissociative
+        case "dysdelic", "kappa-agonist", "kappa-opioid-agonist", "salvinorin": return .dysdelic
         case "opioid", "opiate": return .opioid
         case "benzodiazepine": return .benzodiazepine
         case "depressant", "barbiturate", "sedative": return .depressant
         case "empathogen", "entactogen": return .empathogen
         case "cannabinoid": return .cannabinoid
         case "nootropic": return .nootropic
+        case "ampakine", "ampa-pam", "ampa-positive-modulator": return .ampakine
+        case "eugeroic", "afinil", "wake-promoting": return .eugeroic
         case "ssri", "snri", "maoi", "antidepressant": return .antidepressant
         case "antipsychotic": return .antipsychotic
         case "antihistamine", "deliriant": return .antihistamine
@@ -371,12 +377,15 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case .stimulant: "Stimulant"
         case .psychedelic: "Psychedelic"
         case .dissociative: "Dissociative"
+        case .dysdelic: "Dysdelic"
         case .opioid: "Opioid"
         case .benzodiazepine: "Benzodiazepine"
         case .gabapentinoid: "GABAergic"
         case .empathogen: "Empathogen"
         case .cannabinoid: "Cannabinoid"
         case .nootropic: "Nootropic"
+        case .ampakine: "AMPAkine"
+        case .eugeroic: "Eugeroic"
         case .depressant: "Depressant"
         case .antidepressant: "Antidepressant"
         case .antipsychotic: "Antipsychotic"
@@ -494,6 +503,11 @@ struct Substance: Identifiable {
     let halfLifeMinutes: Double?
     let sources: [String]
     let mechanismOfAction: MechanismOfAction?
+    /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
+    /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,
+    /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
+    /// Compounds often belong to multiple families; tags compose where `category` cannot.
+    let tags: [String]
 
     init(
         name: String,
@@ -506,7 +520,8 @@ struct Substance: Identifiable {
         toleranceInfo: ToleranceInfo? = nil,
         halfLifeMinutes: Double? = nil,
         sources: [String] = [],
-        mechanismOfAction: MechanismOfAction? = nil
+        mechanismOfAction: MechanismOfAction? = nil,
+        tags: [String] = []
     ) {
         self.id = UUID()
         self.name = name
@@ -520,6 +535,18 @@ struct Substance: Identifiable {
         self.halfLifeMinutes = halfLifeMinutes
         self.sources = sources
         self.mechanismOfAction = mechanismOfAction
+        self.tags = tags
+    }
+
+    /// True when no route on this substance has any usable dose data. Used by
+    /// the detail view to switch to a "see references" presentation for
+    /// research chemicals whose only available information is the literature.
+    var hasNoDoseData: Bool {
+        guard !routes.isEmpty else { return true }
+        return routes.allSatisfy { route in
+            let d = route.doses
+            return d.threshold == nil && d.light == nil && d.common == nil && d.strong == nil && d.heavy == nil
+        }
     }
 
     var defaultUnit: String {
@@ -571,7 +598,7 @@ extension Substance: Codable {
     enum CodingKeys: String, CodingKey {
         case name, aliases, category, defaultRoute, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
-        case mechanismOfAction
+        case mechanismOfAction, tags
     }
 
     init(from decoder: Decoder) throws {
@@ -588,6 +615,7 @@ extension Substance: Codable {
         halfLifeMinutes = try c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
         sources = try c.decodeIfPresent([String].self, forKey: .sources) ?? []
         mechanismOfAction = try c.decodeIfPresent(MechanismOfAction.self, forKey: .mechanismOfAction)
+        tags = try c.decodeIfPresent([String].self, forKey: .tags) ?? []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -607,6 +635,9 @@ extension Substance: Codable {
             try c.encode(sources, forKey: .sources)
         }
         try c.encodeIfPresent(mechanismOfAction, forKey: .mechanismOfAction)
+        if !tags.isEmpty {
+            try c.encode(tags, forKey: .tags)
+        }
     }
 }
 
@@ -629,12 +660,15 @@ extension SubstanceCategory {
         case .stimulant: "bolt.fill"
         case .psychedelic: "eye.fill"
         case .dissociative: "waveform.path"
+        case .dysdelic: "spiral"
         case .opioid: "cross.fill"
         case .benzodiazepine: "moon.fill"
         case .gabapentinoid: "waveform"
         case .empathogen: "heart.fill"
         case .cannabinoid: "leaf.fill"
         case .nootropic: "brain.fill"
+        case .ampakine: "sparkles"
+        case .eugeroic: "sunrise.fill"
         case .depressant: "arrow.down.circle.fill"
         case .antidepressant: "sun.max.fill"
         case .antipsychotic: "shield.fill"
@@ -656,12 +690,15 @@ extension SubstanceCategory {
         case .stimulant: .orange
         case .psychedelic: .purple
         case .dissociative: .cyan
+        case .dysdelic: Color(red: 0.55, green: 0.25, blue: 0.55)
         case .opioid: .red
         case .benzodiazepine: .blue
         case .gabapentinoid: .indigo
         case .empathogen: .pink
         case .cannabinoid: .green
         case .nootropic: .teal
+        case .ampakine: Color(red: 0.55, green: 0.85, blue: 0.45)
+        case .eugeroic: Color(red: 0.95, green: 0.70, blue: 0.30)
         case .depressant: Color(red: 0.45, green: 0.55, blue: 0.72)
         case .antidepressant: .yellow
         case .antipsychotic: .mint

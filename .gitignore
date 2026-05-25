@@ -13,6 +13,13 @@ xcuserdata/
 
 # Swift Package Manager
 Tools/SubstanceValidator/.build
+Tools/SubstanceCollector/.build
+Tools/SubstanceCollector/.cache
+
+# SQLite journal sidecars (only the .sqlite itself is tracked)
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite-journal
 
 # Backup files
 AppIcon_backup.png

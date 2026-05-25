@@ -406,6 +406,25 @@ struct SubstanceDetailView: View {
                 LabeledContent("Default Route") {
                     Text(substance.defaultRoute.localizedName)
                 }
+                if !substance.tags.isEmpty {
+                    SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
+                        .padding(.vertical, 4)
+                }
+            }
+
+            if substance.hasNoDoseData {
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Limited human data", systemImage: "exclamationmark.triangle.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.orange)
+                        Text("This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.vertical, 4)
+                }
             }
 
             if let moa = substance.mechanismOfAction
@@ -710,5 +729,73 @@ struct EffectLabelStyle: LabelStyle {
                 .foregroundStyle(Theme.secondaryLabel)
             configuration.title
         }
+    }
+}
+
+// MARK: - Substance Tag Flow
+
+/// Renders a substance's class metadata tags as a wrapping row of small
+/// capsule chips. Tags carry mechanism, chemical family, provenance, and
+/// status — see ``Substance/tags`` for the vocabulary.
+struct SubstanceTagFlow: View {
+    let tags: [String]
+    let accent: Color
+
+    var body: some View {
+        TagFlowLayout(spacing: 6) {
+            ForEach(tags, id: \.self) { tag in
+                Text(tag)
+                    .font(.caption2.weight(.medium))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(accent.opacity(0.15), in: Capsule())
+                    .foregroundStyle(accent)
+            }
+        }
+    }
+}
+
+/// Minimal flow layout — wraps subviews to additional lines as they overflow
+/// the proposed width. Used by ``SubstanceTagFlow`` so the chip row matches
+/// row width regardless of tag count.
+private struct TagFlowLayout: Layout {
+    var spacing: CGFloat = 6
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? .infinity
+        let arrangement = arrange(subviews: subviews, in: width)
+        return CGSize(width: arrangement.size.width, height: arrangement.size.height)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let arrangement = arrange(subviews: subviews, in: bounds.width)
+        for (idx, sub) in subviews.enumerated() {
+            let origin = arrangement.offsets[idx]
+            sub.place(
+                at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y),
+                proposal: .unspecified
+            )
+        }
+    }
+
+    private func arrange(subviews: Subviews, in maxWidth: CGFloat) -> (offsets: [CGPoint], size: CGSize) {
+        var offsets: [CGPoint] = []
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var totalWidth: CGFloat = 0
+        for sub in subviews {
+            let size = sub.sizeThatFits(.unspecified)
+            if x > 0, x + size.width > maxWidth {
+                x = 0
+                y += rowHeight + spacing
+                rowHeight = 0
+            }
+            offsets.append(CGPoint(x: x, y: y))
+            x += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
+            totalWidth = max(totalWidth, x - spacing)
+        }
+        return (offsets, CGSize(width: totalWidth, height: y + rowHeight))
     }
 }

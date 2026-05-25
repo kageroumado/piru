@@ -447,9 +447,20 @@ enum InteractionChecker {
         case .stimulant: .stimulant
         case .psychedelic: .psychedelic
         case .dissociative: .dissociative
+        // KOR agonists are pharmacologically closer to dissociatives than to
+        // classical psychedelics — they don't engage 5-HT2A, but the kappa
+        // mechanism shares acute dissociation/derealisation phenomenology and
+        // (more importantly for interaction modelling) compounds with
+        // dissociatives or sedatives. Route to `.dissociative` until we add a
+        // dedicated `.kappaAgonist` class with its own rule set.
+        case .dysdelic: .dissociative
         case .empathogen: .empathogen
         case .cannabinoid: .cannabinoid
         case .gabapentinoid: .gabapentinoid
+        case .ampakine: .other
+        // Eugeroics block DAT/NET like stimulants and stack badly with serotonergics
+        // and MAOIs — treat as `.stimulant` for interaction purposes.
+        case .eugeroic: .stimulant
         // Default fallback for the `.antidepressant` category. SSRI is the
         // most common subtype, so this is the safest serotonergic proxy when
         // we have no better information. **Failure mode:** any imported MAOI,
