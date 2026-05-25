@@ -1,0 +1,872 @@
+{
+  "slug": "mdma-and-entactogens",
+  "name": "MDMA family and entactogens",
+  "count": 61,
+  "substances": [
+    {
+      "name": "(RS)-5-methoxy-3,4-methylenedioxymethamphetamine",
+      "aliases": [
+        "3-methoxy-4,5-methylenedioxy-N-methamphetamine",
+        "3-methoxy-4,5-methylenedioxy-N-methylamphetamine",
+        "5-methoxy-MDMA"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2,3-methylenedioxyamphetamine",
+      "aliases": [
+        "2,3-MDA"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2,3-methylenedioxymethamphetamine",
+      "aliases": [
+        "2,3-MDMA"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-BR-4,5-MDA",
+      "aliases": [
+        "1-(6-bromo-1,3-benzodioxol-5-yl)propan-2-amine",
+        "1-(6-bromo-2H-1,3-benzodioxol-5-yl)propan-2-amine",
+        "2-bromo-4,5-methylenedioxyamphetamine",
+        "6-Br-MDA"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Bromo-4,5-MDMA",
+      "aliases": [
+        "2-Br-4,5-MDMA",
+        "6-Br-MDMA",
+        "2-bromo-4,5-methylenedioxymethamphetamine",
+        "2-bromo-4,5-methylenedioxy-N-methylamphetamine"
+      ],
+      "category": "Empathogen-entactogen / stimulant",
+      "tags": [],
+      "chemical_class": "Substituted amphetamine (methylenedioxyphenethylamine; halogenated MDMA analogue)"
+    },
+    {
+      "name": "2c-b-fly-nbome",
+      "aliases": [
+        "2cbflynbome"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "NBOMe",
+        "phenethylamine",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2T-MMDA-3a",
+      "aliases": [
+        "1-[4-(methylsulfanyl)-1,3-benzodioxol-5-yl]propan-2-amine",
+        "1-[4-(methylsulfanyl)-2H-1,3-benzodioxol-5-yl]propan-2-amine",
+        "2-methylthio-3,4-methylenedioxyamphetamine",
+        "3,4-methylenedioxy-2-methylthioamphetamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3,4-Methylenedioxyamphetamine",
+      "aliases": [
+        "Tenamfetamine",
+        "SKF-5",
+        "EA-1299",
+        "Sally",
+        "Sass",
+        "MDA",
+        "Sassafras"
+      ],
+      "category": "Psychedelic; Stimulant; Entactogen",
+      "tags": [],
+      "chemical_class": "Phenethylamine; Amphetamine (ring-substituted methylenedioxyamphetamine)"
+    },
+    {
+      "name": "3-meomc",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4,4-dmar",
+      "aliases": [
+        "4,4-dmap",
+        "serotoni"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-mipt",
+      "aliases": [
+        "4acomipt",
+        "mipracetin"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-cbc",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fpp",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4T-MMDA-2",
+      "aliases": [
+        "1-(5-methoxy-1,3-benzoxathiol-6-yl)propan-2-amine",
+        "1-(5-methoxy-2H-1,3-benzoxathiol-6-yl)propan-2-amine",
+        "2-methoxy-4,5-methylenethiooxyamphetamine",
+        "4,5-thiomethyleneoxy-2-methoxyamphetamine",
+        "6-(2-aminopropyl)-5-methoxy-1,3-benzoxathiol"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-apb",
+      "aliases": [
+        "5apb"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-apdb",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-apdi",
+      "aliases": [
+        "iap"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-eapb",
+      "aliases": [
+        "5eapb"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-iai",
+      "aliases": [
+        "5iai"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-it",
+      "aliases": [
+        "5-api"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-mapb",
+      "aliases": [
+        "5mapb"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-mapdb",
+      "aliases": [
+        "5mapdb"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-amt",
+      "aliases": [
+        "5meoamt",
+        "α,O-Dimethylserotonin"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-dibf",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-apb",
+      "aliases": [
+        "6apb"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-apdb",
+      "aliases": [
+        "4-desoxy-mda"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-eapb",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-mapb",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "A-pihp",
+      "aliases": [
+        "pihp"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ayahuasca",
+      "aliases": [
+        "pharmahuasca",
+        "yage"
+      ],
+      "category": "Empathogen",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "BOH",
+      "aliases": [
+        "2-(1,3-benzodioxol-5-yl)-2-methoxyethan-1-amine",
+        "2-(2H-1,3-benzodioxol-5-yl)-2-methoxyethan-1-amine",
+        "3,4-methylenedioxy-beta-methoxyphenethylamine",
+        "3,4-methylenedioxy-β-methoxyphenethylamine",
+        "β-methoxy-1,3-benzodioxole-5-ethanamine",
+        "β-methoxy-3,4-methylenedioxyphenethylamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyclo-methiodrone",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimemebfe",
+      "aliases": [
+        "5-meo-bfe"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMMDA",
+      "aliases": [
+        "1-(4,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+        "1-(4,7-dimethoxy-2H-1,3-benzodioxol-5-yl)propan-2-amine",
+        "2,5-dimethoxy-3,4-methylenedioxyamphetamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMMDA-2",
+      "aliases": [
+        "1-(6,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+        "1-(6,7-dimethoxy-2H-1,3-benzodioxol-5-yl)propan-2-amine",
+        "1-(6,7-dimethoxybenzo[d][1,3]dioxol-5-yl)propan-2-amine",
+        "2,3-dimethoxy-4,5-methylenedioxyamphetamine",
+        "2-(6,7-dimethoxy-benzo[1,3]dioxol-5-yl)-1-methyl-ethylamine",
+        "6,7-dimethoxy-alpha-methyl-1,3-benzodioxole-5-ethanamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "JWH-367",
+      "aliases": [
+        "(5-(3-methoxyphenyl)-1-pentyl-1H-pyrrol-3-yl)(naphthalen-1-yl)methanone",
+        "914458-30-3",
+        "BDBM50192604",
+        "CHEMBL385994",
+        "DTXSID201337004",
+        "JWH-367",
+        "RefChem:150698",
+        "SCHEMBL29988277"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "synthetic-cannabinoid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lys-MDA",
+      "aliases": [
+        "Lysine-MDA",
+        "N-(L-lysinamidyl)-3,4-methylenedioxyamphetamine"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MD-PHP",
+      "aliases": [
+        "methylenedioxypyrolidinohexiophenone",
+        "MDPH (old/misapplied name)",
+        "3,4-methylenedioxy-α-pyrrolidinohexiophenone",
+        "zombie dust",
+        "3,4-MDPHP",
+        "monkey dust",
+        "MDPHP"
+      ],
+      "category": "Noradrenaline–dopamine reuptake inhibitor (stimulant)",
+      "tags": [],
+      "chemical_class": "Synthetic cathinone (pyrrolidinophenone series)"
+    },
+    {
+      "name": "MD-PiHP",
+      "aliases": [
+        "MDPiHP",
+        "MD-PiHP HCl",
+        "MD-PiHP freebase",
+        "(putative EMCDDA framework class: methylenedioxy-pyrrolidinophenone; isohexanophenone side chain)",
+        "3,4-methylenedioxy-α-pyrrolidinoisohexanophenone",
+        "3,4-MD-PiHP"
+      ],
+      "category": "Norepinephrine–dopamine re-uptake inhibitor (NDRI) stimulant",
+      "tags": [],
+      "chemical_class": "Synthetic cathinone (pyrrolidinophenone)"
+    },
+    {
+      "name": "MDA",
+      "aliases": [
+        "3,4-MDA",
+        "3,4-Methylenedioxyamphetamine",
+        "MDA",
+        "methylendioxyamphetamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "DRI",
+        "habit-forming",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI",
+        "TAAR1",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mdai",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "phenethylamine",
+        "research-chemical",
+        "SNDRI",
+        "SRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDAL",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mdea",
+      "aliases": [
+        "eve",
+        "mde"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "tentative",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMA",
+      "aliases": [
+        "(RS)-3,4-(methylenedioxy)methamphetamine",
+        "1-(1,3-benzodioxol-5-yl)-N-methyl-2-propanamine",
+        "adam",
+        "beans",
+        "california sunrise",
+        "clarity",
+        "E",
+        "ecstasy",
+        "essence",
+        "happy pills",
+        "hug drug",
+        "Love Drug",
+        "lover’s speed",
+        "M&M",
+        "MA",
+        "mandy",
+        "md",
+        "methylenedioxymethamphetamine",
+        "midomafetamine",
+        "molly",
+        "N,alpha-dimethyl-1,3-benzodioxole-5-ethanamine",
+        "N-methyl-3,4-methylenedioxyamphetamine",
+        "stacy",
+        "The Love Drug",
+        "x",
+        "xtc"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "habit-forming",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDOH",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "habit-forming",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mdpa",
+      "aliases": [
+        "methylenedioxyphenylacetamide"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPR",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methamnetamine",
+      "aliases": [
+        "methylnaphetamine",
+        "mnt",
+        "n-methyl-pal-287"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-MMDA-2",
+      "aliases": [
+        "1-(6-methoxy-1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+        "methyl-MMDA-2",
+        "MMDMA-2"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mexedrone",
+      "aliases": [
+        "4-mmeoc"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MMDA",
+      "aliases": [
+        "(+-)-mmda",
+        "3-Methoxy-4,5-methylenedioxyphenylisopropylamine",
+        "3-Methoxy-alpha-methyl-4,5-methylenedioxyphenethylamine",
+        "3-METHOXY-METHYLENEDIOXYAMPHETAMINE",
+        "5-Methoxy-3,4-methylenedioxyamphetamine",
+        "5-methoxy-MDA",
+        "Amphetamine, 3,4-methylenedioxy-5-methoxy"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MMDA-2",
+      "aliases": [
+        "MMDA-2"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "DRI",
+        "NDRI",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI",
+        "TAAR1"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MMDA-3a",
+      "aliases": [
+        "1-(4-Methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+        "2-Methoxy-3,4-methylenedioxyamphetamine",
+        "MMDA-3a"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MMDA-3b",
+      "aliases": [
+        "1-(7-methoxy-1,3-benzodioxol-4-yl)propan-2-amine",
+        "1-(7-methoxy-2H-1,3-benzodioxol-4-yl)propan-2-amine",
+        "4-methoxy-2,3-methylenedioxyamphetamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Myristicin",
+      "aliases": [
+        "3-methoxy-4,5-methylenedioxyallylbenzene",
+        "5-allyl-1-methoxy-2,3-methylenedioxybenzene",
+        "principal aromatic ether in nutmeg oil",
+        "Nutmeg",
+        "constituent of Myristica fragrans (nutmeg) and mace"
+      ],
+      "category": "Deliriant, sedative-hypnotic, hallucinogen (primarily at high doses)",
+      "tags": [],
+      "chemical_class": "Phenylpropene (aromatic ether)"
+    },
+    {
+      "name": "Nm-2-ai",
+      "aliases": [],
+      "category": "Empathogen",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Psilocin",
+      "aliases": [
+        "3-(2-(Dimethylamino)ethyl)indol-4-ol",
+        "4-ho-dmt",
+        "4-hydroxy-N,N-dimethyltryptamine",
+        "4-oh-dmt",
+        "N,N-dimethyl-4-hydroxytryptamine",
+        "Psilocine",
+        "Psilotsin"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "tentative",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "R-(-)-MDMA",
+      "aliases": [
+        "(R)-1-(Benzo[d] [1,3]dioxol-5-yl)-N-methylpropan-2-amine",
+        "(R)-methylenedioxymethamphetamine"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "S-(+)-MDMA",
+      "aliases": [
+        "(2S)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+        "(S)-methylenedioxymethamphetamine"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Yopo",
+      "aliases": [
+        "anadenanthera"
+      ],
+      "category": "Empathogen",
+      "tags": [],
+      "chemical_class": ""
+    }
+  ]
+}

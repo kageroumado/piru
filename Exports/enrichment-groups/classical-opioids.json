@@ -1,0 +1,595 @@
+{
+  "slug": "classical-opioids",
+  "name": "Classical opioids (medical and kratom)",
+  "count": 47,
+  "substances": [
+    {
+      "name": "2C-O-4",
+      "aliases": [
+        "2,5-dimethoxy-4-(1-methylethoxy)-benzeneethanamine",
+        "2,5-dimethoxy-4-isopropoxyphenethylamine",
+        "2-{2,5-dimethoxy-4-[(propan-2-yl)oxy]phenyl}ethan-1-amine",
+        "4-isopropoxy-2,5-dimethoxyphenethylamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "2C-x",
+        "5-HT2A-agonist",
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-HO-PCP",
+      "aliases": [
+        "3-Hydroxyphencyclidine",
+        "3hopcp"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "arylcyclohexylamine",
+        "habit-forming",
+        "mu-opioid-agonist",
+        "NMDA-antagonist",
+        "no-human-data",
+        "PCP-analog",
+        "research-chemical",
+        "sigma-1",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-mddm",
+      "aliases": [
+        "6-methylenedihydrodesoxymorphine"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "6-Monoacetylmorphine",
+      "aliases": [
+        "6-acetyl morphine",
+        "6-MAM",
+        "6-AM",
+        "6-ACM",
+        "6-Acetylmorphine"
+      ],
+      "category": "Opioid analgesic / euphoric depressant",
+      "tags": [],
+      "chemical_class": "Semi-synthetic morphinan opioid"
+    },
+    {
+      "name": "7-Hydroxymitragynine",
+      "aliases": [
+        "7-OH",
+        "7-OHM",
+        "7-HMG"
+      ],
+      "category": "Atypical μ-opioid receptor agonist (G-protein-biased)",
+      "tags": [],
+      "chemical_class": "Terpenoid indole alkaloid"
+    },
+    {
+      "name": "Acetorphine",
+      "aliases": [
+        "Acetorfina",
+        "7α-etorphine 3-acetate",
+        "Acetylpropylorvinol"
+      ],
+      "category": "Opioid (narcotic analgesic)",
+      "tags": [],
+      "chemical_class": "Morphinan (organic polycyclic compound with a four-ring skeleton)"
+    },
+    {
+      "name": "Acetyldihydrocodeine",
+      "aliases": [
+        "dihydrocodeine 6-acetate",
+        "dihydrocodeine acetate",
+        "6-acetyldihydrocodeine",
+        "ADC",
+        "6-ADC"
+      ],
+      "category": "opioid analgesic/antitussive",
+      "tags": [],
+      "chemical_class": "semi-synthetic morphinan opioid"
+    },
+    {
+      "name": "Apomorphine",
+      "aliases": [
+        "Apo-Go PEN",
+        "Apokyn",
+        "Onapgo",
+        "Ixense (discontinued)",
+        "Apo-go",
+        "Movapo",
+        "Apo-Go pump",
+        "Uprima (discontinued)",
+        "Kynmobi (discontinued 2023 in US)"
+      ],
+      "category": "Dopamine agonist (primarily D2/D3 agonist)",
+      "tags": [],
+      "chemical_class": "Morphine derivative (non-ergoline)"
+    },
+    {
+      "name": "Bromadol",
+      "aliases": [
+        "bdpc"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Buprenorphine",
+      "aliases": [
+        "bupe",
+        "suboxone",
+        "subs"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-III"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Butorphanol",
+      "aliases": [
+        "Stadol",
+        "Butorphanol tartrate",
+        "(−)-17-(cyclobutylmethyl)morphinan-3,14-diol",
+        "Butorphanolum",
+        "(−)-N-cyclobutylmethyl-3,14-dihydroxymorphinan",
+        "LEVO-BC-2627"
+      ],
+      "category": "Mixed opioid agonist–antagonist (predominantly κ-agonist; partial μ-agonist/antagonist)",
+      "tags": [],
+      "chemical_class": "Morphinan opioid (synthetic morphinan derivative)"
+    },
+    {
+      "name": "Codeine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Demerol",
+      "aliases": [
+        "meperidine",
+        "pethidine"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Desomorphine",
+      "aliases": [
+        "Dihydrodesoxymorphine D",
+        "Krokodil",
+        "6‑Deoxy‑7,8‑dihydromorphine",
+        "Crocodile",
+        "Desomorphine hydrochloride (salt)",
+        "Permonid",
+        "Deoxydihydromorphine D",
+        "Dihydrodeoxymorphine"
+      ],
+      "category": "Opioid analgesic; CNS depressant",
+      "tags": [],
+      "chemical_class": "Morphinan (morphine derivative)"
+    },
+    {
+      "name": "Dextropropoxyphene",
+      "aliases": [
+        "capadex",
+        "co-proxamol",
+        "darvocet",
+        "di-gesic"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dihydrocodeine",
+      "aliases": [
+        "dhc"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dipipanone",
+      "aliases": [
+        "diconal"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethylmorphine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Glaucine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Heroin",
+      "aliases": [
+        "diamorphine"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydrocodone",
+      "aliases": [
+        "hydro",
+        "vicodin"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydromorphone",
+      "aliases": [
+        "dilaudid",
+        "diluadid"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ic-26",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isomethadone",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ketobemidone",
+      "aliases": [
+        "kbd"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Kratom",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lean",
+      "aliases": [
+        "texas tea",
+        "syrup",
+        "barre",
+        "Promethazine+Codeine",
+        "sizzurp",
+        "pint (slang for ~473 mL bottle)",
+        "purple drank",
+        "Purple Drank",
+        "drank",
+        "wock"
+      ],
+      "category": "Opioid depressant / antihistamine sedative",
+      "tags": [],
+      "chemical_class": "Phenothiazine antihistamine (promethazine) + natural opiate alkaloid, phenanthrene class (codeine)"
+    },
+    {
+      "name": "Levomethorphan",
+      "aliases": [
+        "Levomethorphanum",
+        "LVM",
+        "(-)-3-methoxy-17-methylmorphinan",
+        "Levometorfano",
+        "L-methorphan"
+      ],
+      "category": "Opioid",
+      "tags": [],
+      "chemical_class": "Morphinan"
+    },
+    {
+      "name": "Methadone",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MGM-15",
+      "aliases": [
+        "Matsumoto MGM-15",
+        "7-OH derivative (Matsumoto series)",
+        "MGM-15 free base / salts (vendor labels vary)",
+        "MGM15",
+        "dihydro-7-hydroxymitragynine (1,2-dihydro 7-OH)"
+      ],
+      "category": "Opioid receptor agonist (mu/delta dual agonist)",
+      "tags": [],
+      "chemical_class": "Indole-based kratom alkaloid derivative (semi-synthetic from 7-hydroxymitragynine)"
+    },
+    {
+      "name": "Mitragynine",
+      "aliases": [
+        "MG",
+        "SK&F 12711",
+        "(αE,2S,3S,12bS)-3-ethyl-1,2,3,4,6,7,12,12b-octahydro-8-methoxy-α-(methoxymethylene)-indolo[2,3-a]quinolizine-2-acetic acid methyl ester",
+        "9-methoxycorynantheidine",
+        "MIT"
+      ],
+      "category": "Opioid agonist; stimulant (low doses); sedative/analgesic (higher doses)",
+      "tags": [],
+      "chemical_class": "Indole alkaloid"
+    },
+    {
+      "name": "Morpheridine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Morphine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nicomorphine",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-desmethyltramadol",
+      "aliases": [
+        "o-dsmt",
+        "o-smt",
+        "odt"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Opium",
+      "aliases": [
+        "O"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Oxycodone",
+      "aliases": [
+        "oxy",
+        "oxycontin",
+        "oxynorm",
+        "percocet"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Oxymorphone",
+      "aliases": [
+        "opana",
+        "stopsigns"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Palfium",
+      "aliases": [
+        "dextromoramide"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pentazocine",
+      "aliases": [
+        "talwin"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propoxyphene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pst",
+      "aliases": [
+        "poppy-seed-tea",
+        "poppy-tea"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tapentadol",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tilidine",
+      "aliases": [
+        "tilidate",
+        "tilidin",
+        "valoron",
+        "valtran"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tramadol",
+      "aliases": [
+        "tram"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "U-51754",
+      "aliases": [
+        "methene-u47700"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "W-15",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "slug": "dysdelics-and-kor-ligands",
+  "name": "Dysdelics and κ-opioid ligands (salvinorin family)",
+  "count": 17,
+  "substances": [
+    {
+      "name": "16-Bromo-salvinorin A",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Methoxymethyl-salvinorin B",
+      "aliases": [
+        "MOM-Sal B",
+        "SymBMS"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "22-Thiocyanatosalvinorin A",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Divinatorin A",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Divinatorin B",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Herkinorin",
+      "aliases": [
+        "Salvinorin B benzoate"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "biased-agonist",
+        "mu-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin-derivative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IBOGAINE",
+      "aliases": [
+        "iboga"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "TIHKAL",
+        "tryptamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mesyl Sal B",
+      "aliases": [
+        "22-Methylsulfonyloxy-salvinorin B",
+        "RB-64"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "biased-agonist",
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinicin A",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-partial-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinicin B",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "mu-opioid-antagonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin A",
+      "aliases": [
+        "Sal A",
+        "Salvia divinorum extract"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "natural",
+        "neoclerodane-diterpene",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin B",
+      "aliases": [
+        "Sal B"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "inactive",
+        "kappa-opioid-inactive",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin B ethoxymethyl ether",
+      "aliases": [
+        "EOM-Sal B"
+      ],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin C",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "kappa-opioid-agonist",
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin D",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin E",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvinorin F",
+      "aliases": [],
+      "category": "Dysdelic",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "salvinorin"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

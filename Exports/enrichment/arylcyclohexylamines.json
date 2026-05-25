@@ -1,0 +1,3213 @@
+[
+  {
+    "name": "Ketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": "YQEZLKZALYSWHR-UHFFFAOYSA-N",
+    "cas": "6740-88-1",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "HCN1", "μ-opioid (weak)", "σ1 (weak)", "nAChR (weak)"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site, racemate)",
+          "ki_nm": 659,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "assay_buffer_notes": "Used as the reference comparator in Roth 2013 (MK-801 Ki ≈ 5.7 nM in same assay)",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Racemic ketamine; widely cited canonical value"
+        },
+        {
+          "target": "NMDA (MK-801 site, S-enantiomer)",
+          "ki_nm": 300,
+          "ki_ci_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "is_review": false,
+          "notes": "S-ketamine ~4× higher affinity than R-ketamine"
+        },
+        {
+          "target": "NMDA (MK-801 site, R-enantiomer)",
+          "ki_nm": 1400,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "σ1 (racemate)",
+          "ki_nm": 139000,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "is_review": false,
+          "notes": "R-ketamine Ki ≈ 27,000 nM, S-ketamine Ki ≈ 131,000 nM at σ1; substantial enantioselectivity"
+        },
+        {
+          "target": "σ2 (racemate)",
+          "ki_nm": 2800000,
+          "action": "modulator",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DTG",
+          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "is_review": false,
+          "notes": "Very weak; clinical relevance unclear"
+        },
+        {
+          "target": "μ-opioid",
+          "ki_nm": 42100,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human MOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1097/00000542-199702000-00019",
+          "is_review": false,
+          "notes": "Hirota et al. 1997; functional agonism debated. Williams 2018 naltrexone trial showed naltrexone blocks ketamine antidepressant effect but Yoon 2019 reanalysis questioned methodology"
+        },
+        {
+          "target": "κ-opioid",
+          "ki_nm": 28100,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human KOR",
+          "radioligand_or_probe": "[3H]U-69593",
+          "reference": "doi:10.1097/00000542-199702000-00019",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "HCN1",
+          "readout": "electrophysiology (Ih current)",
+          "ec50_nm": 16000,
+          "emax_pct": 45,
+          "reference_agonist": null,
+          "species": "mouse",
+          "cell_system": "HEK293 expressing HCN1; cortical pyramidal neurons",
+          "reference": "doi:10.1523/JNEUROSCI.3481-08.2009",
+          "notes": "EC50 ~8-16 μM for racemate; S-ketamine ~2× more potent (EC50 ~7 μM). Within clinically anesthetic free plasma range (5-10 μM). Chen et al. 2009 — HCN1 knockout abolishes ketamine hypnosis"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Acute: blocks open NMDA channel (use-dependent, voltage-sensitive). Disinhibits cortical pyramidal cells via preferential blockade of GABAergic interneuron NMDARs → glutamate surge → AMPA activation → BDNF/TrkB → mTORC1 → synaptogenesis (Duman/Aghajanian model). HCN1 inhibition contributes to hypnosis. The major active metabolite (2R,6R)-HNK potentiates AMPA via α7 nAChR-dependent presynaptic mechanism (Marcantoni 2024, doi:10.1038/s41398-024-02744-y).",
+      "neuroimaging": [
+        {
+          "modality": "fMRI BOLD",
+          "finding": "Acute ketamine increases prefrontal/ACC BOLD signal and decreases default-mode network connectivity in humans; matches subjective dissociation",
+          "reference": "doi:10.1038/npp.2014.298"
+        },
+        {
+          "modality": "EEG",
+          "finding": "Acute ketamine increases gamma power (30-80 Hz), decreases alpha power; biomarker of dissociation and rapid antidepressant response",
+          "reference": "doi:10.1016/j.biopsych.2014.04.022"
+        },
+        {
+          "modality": "PET",
+          "finding": "[11C]-(+)-PHNO displacement studies show ketamine increases striatal dopamine release ~20% at subanesthetic doses (consistent with ~3% D2/D3 occupancy by displaced DA)",
+          "reference": "doi:10.1038/sj.npp.1301520"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 1,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 156,
+          "vd_l_per_kg": 2.5,
+          "clearance_ml_per_min_per_kg": 17,
+          "protein_binding_pct": 47,
+          "dose_in_study_mg": 30,
+          "subject_n": 6,
+          "subject_demographics": "adults",
+          "reference": "pmid:7097501",
+          "notes": "Clements & Nimmo 1981. Terminal t½ ~2.5 h (range 2-4 h)"
+        },
+        {
+          "route": "intramuscular",
+          "bioavailability_pct": 93,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 20,
+          "half_life_min": 155,
+          "dose_in_study_mg": 50,
+          "reference": "pmid:7097501"
+        },
+        {
+          "route": "intranasal",
+          "bioavailability_pct": 45,
+          "tmax_min": 22,
+          "half_life_min": 120,
+          "reference": "doi:10.1213/00000539-199311000-00007",
+          "notes": "Yanagihara et al. report 45% absolute bioavailability; some studies give 25-50% range"
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": 20,
+          "tmax_min": 30,
+          "half_life_min": 180,
+          "protein_binding_pct": 47,
+          "reference": "doi:10.1097/00000542-199310000-00003",
+          "notes": "Grant et al. 1981; oral bioavailability 17-20% due to extensive first-pass; norketamine/ketamine ratio ~6.4 in plasma with oral route"
+        },
+        {
+          "route": "sublingual",
+          "bioavailability_pct": 30,
+          "reference": "doi:10.1111/j.1365-2125.2010.03635.x"
+        },
+        {
+          "route": "rectal",
+          "bioavailability_pct": 25,
+          "reference": "doi:10.1213/00000539-199311000-00007"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "general anesthesia (loss of consciousness)",
+          "concentration_unit": "ng/mL",
+          "threshold": 640,
+          "peak_effect": 2000,
+          "reference": "doi:10.1097/00000542-198202000-00007",
+          "notes": "Plasma ketamine ~640-1000 ng/mL produces unconsciousness; recovery at <500 ng/mL"
+        },
+        {
+          "effect": "analgesia / antidepressant subanesthetic",
+          "concentration_unit": "ng/mL",
+          "threshold": 70,
+          "peak_effect": 200,
+          "reference": "doi:10.1097/ALN.0b013e3181a91a35",
+          "notes": "Subanesthetic plasma ~100-200 ng/mL during 0.5 mg/kg IV infusion produces analgesia and antidepressant response"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": 50,
+        "metabolite_name": "norketamine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 33,
+        "reference": "doi:10.1124/dmd.30.7.853",
+        "notes": "Yanagihara 2002, Hijazi 2002. CYP2B6 demethylates S- and R-ketamine equipotently"
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 40,
+        "metabolite_name": "norketamine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 33,
+        "reference": "doi:10.1124/dmd.30.7.853",
+        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine; primary in human liver microsomes per some reports"
+      },
+      {
+        "enzyme": "CYP2B6/CYP2A6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "(2R,6R)-hydroxynorketamine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1038/nature17998",
+        "notes": "HNK does NOT block NMDA at antidepressant-relevant doses (Zanos 2016, Suzuki 2017 doi:10.1073/pnas.1816071116); acts via α7 nAChR and AMPA potentiation"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "metabolite_name": "dehydronorketamine",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.30.7.853"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "clarithromycin",
+        "mechanism": "CYP3A4 inhibition",
+        "clinical_effect": "Oral ketamine AUC increased ~2.6× by clarithromycin (strong CYP3A4 inhibitor)",
+        "reference": "doi:10.1111/j.1365-2125.2010.03835.x"
+      },
+      {
+        "with": "rifampin",
+        "mechanism": "CYP3A4 and CYP2B6 induction",
+        "clinical_effect": "Reduces ketamine and S-ketamine AUC ~80%",
+        "reference": "doi:10.1097/00000542-199605000-00012"
+      },
+      {
+        "with": "ticlopidine",
+        "mechanism": "CYP2B6 inhibition",
+        "clinical_effect": "Inhibits norketamine formation; increases ketamine AUC",
+        "reference": "doi:10.1124/dmd.30.7.853"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2B6", "CYP3A4", "CYP3A5"],
+      "phenotype_effects": "CYP2B6*6/*6 carriers (~3-5% Caucasians) show ~50% lower oral ketamine clearance; norketamine exposure increased. Clinical relevance for oral/sublingual ketamine in TRD treatment.",
+      "reference": "doi:10.1124/dmd.115.064683"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Rapid tachyphylaxis with repeated dosing (hours to days); use-dependence of NMDA blockade reduces with sustained channel blockade",
+      "cross_tolerance": ["esketamine", "PCP", "MXE", "3-MeO-PCP", "DXM (partial, via different NMDA site kinetics)"],
+      "withdrawal_syndrome": "Mild compared to opioids/benzos. Onset 24-72h after cessation in heavy users: craving, dysphoria, anhedonia, fatigue, GI distress. Lasts 1-2 weeks. Urinary tract symptoms (ketamine cystitis) may persist months.",
+      "reference": "doi:10.1111/add.13502"
+    },
+    "off_targets": [
+      {
+        "target": "HCN1",
+        "ki_or_ic50_nm": 16000,
+        "concern_level": "moderate",
+        "clinical_consequence": "Contributes to hypnotic action; HCN1 KO mice resistant to ketamine anesthesia",
+        "reference": "doi:10.1523/JNEUROSCI.3481-08.2009"
+      },
+      {
+        "target": "L-type Ca channels (cardiac)",
+        "ki_or_ic50_nm": 90000,
+        "concern_level": "low",
+        "clinical_consequence": "Minor at clinical concentrations; indirect sympathomimetic effects dominate cardiovascular profile",
+        "reference": "doi:10.1097/00000542-198108000-00009"
+      },
+      {
+        "target": "nAChR α3β4",
+        "ki_or_ic50_nm": 9500,
+        "concern_level": "low",
+        "clinical_consequence": "Inhibition at supratherapeutic doses; not clinically dominant",
+        "reference": "doi:10.1124/jpet.108.143818"
+      },
+      {
+        "target": "Bladder urothelium",
+        "concern_level": "high",
+        "clinical_consequence": "Ulcerative cystitis in chronic high-dose users (>1 g/day); norketamine implicated as direct urothelial toxin",
+        "reference": "doi:10.1111/j.1464-410X.2008.07597.x"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women have slightly lower CL/F and higher peak exposure on weight-normalized basis",
+      "age": "Pediatric CL/kg higher than adult; elderly show decreased CL",
+      "weight": "Standard weight-based dosing; obese patients may need lean-body-weight calculation",
+      "renal_or_hepatic": "Hepatic impairment reduces CL significantly; renal impairment minor effect on parent but HNK glucuronides accumulate"
+    },
+    "tags_to_add": ["HCN1-inhibitor", "CYP2B6-substrate", "CYP3A4-substrate", "antidepressant", "FDA-approved-anesthetic"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["definitive μ-opioid functional agonism vs allosteric modulation; mechanism of urothelial toxicity"],
+    "notes": "Reference compound for the entire class. Zhang 2021 Nature (doi:10.1038/s41586-021-03769-9) revealed S-ketamine binds NMDA channel central vestibule with two distinct sub-poses; key residues GluN2A-L642 and GluN1-N616. R-ketamine has longer-lasting/stronger antidepressant effect in rodents despite lower NMDA affinity (Hashimoto group).",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1038/s41586-021-03769-9",
+      "doi:10.1038/nature17998",
+      "doi:10.1523/JNEUROSCI.3481-08.2009",
+      "pmid:7097501",
+      "doi:10.1124/dmd.30.7.853",
+      "doi:10.1097/00000542-199702000-00019",
+      "doi:10.1016/j.euroneuro.2011.07.006",
+      "doi:10.1176/appi.ajp.2018.18020138",
+      "doi:10.1038/s41398-024-02744-y"
+    ]
+  },
+  {
+    "name": "Esketamine",
+    "aliases_added": ["JNJ-54135419"],
+    "iupac_name": "(S)-2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CN[C@@]1(CCCC C1=O)c1ccccc1Cl",
+    "inchikey": "YQEZLKZALYSWHR-NSHDSACASA-N",
+    "cas": "33643-46-8",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "HCN1", "σ1"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 300,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "is_review": false,
+          "notes": "Ebert 1997; ~4× higher affinity than R-ketamine. Some sources report 560 nM."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 131000,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "μ-opioid",
+          "ki_nm": 11000,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human MOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1097/00000542-199702000-00019",
+          "is_review": false,
+          "notes": "Hirota 1997"
+        }
+      ],
+      "functional": [
+        {
+          "target": "HCN1",
+          "readout": "electrophysiology",
+          "ec50_nm": 7000,
+          "emax_pct": 45,
+          "species": "mouse",
+          "cell_system": "HEK293 / cortical pyramidal neurons",
+          "reference": "doi:10.1523/JNEUROSCI.3481-08.2009"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same as racemic ketamine but ~2× more potent. FDA approval (Spravato 2019) for TRD relies on NMDA-mediated disinhibition + downstream synaptogenesis.",
+      "neuroimaging": [
+        {
+          "modality": "fMRI",
+          "finding": "Spravato 84 mg intranasal increases ACC and PFC activation, decreases DMN connectivity in TRD patients",
+          "reference": "doi:10.1038/s41386-020-0631-1"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intranasal",
+          "bioavailability_pct": 48,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 30,
+          "half_life_min": 450,
+          "vd_l_per_kg": 9,
+          "clearance_ml_per_min_per_kg": 30,
+          "protein_binding_pct": 44,
+          "dose_in_study_mg": 84,
+          "subject_n": null,
+          "subject_demographics": "TRD patients (Spravato pivotal trials)",
+          "reference": "doi:10.1007/s40262-016-0436-x",
+          "notes": "Janssen Spravato label; Tmax 20-40 min, terminal t½ ~7-12 h. Plasma can be measured within 7 min."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 300,
+          "reference": "doi:10.1097/00000542-199605000-00012"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "S-norketamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.30.7.853",
+        "notes": "CYP3A4 demethylates S-ketamine faster than R-ketamine"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": 30,
+        "metabolite_name": "S-norketamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.30.7.853"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ticlopidine",
+        "mechanism": "CYP2B6 inhibition",
+        "clinical_effect": "Ticlopidine increases esketamine AUC modestly",
+        "reference": "Spravato US prescribing information 2025"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2B6"],
+      "phenotype_effects": "CYP2B6 PMs show higher esketamine exposure; clinical dose adjustment not specified by Spravato label",
+      "reference": "Spravato US prescribing information"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Tachyphylaxis with frequent dosing; Spravato dosing is twice-weekly induction then weekly/biweekly",
+      "cross_tolerance": ["racemic ketamine", "arketamine", "PCP", "MXE", "3-MeO-PCP"],
+      "withdrawal_syndrome": "Similar to ketamine; not formally characterized for esketamine alone",
+      "reference": "Spravato US prescribing information"
+    },
+    "off_targets": [
+      {
+        "target": "HCN1",
+        "ki_or_ic50_nm": 7000,
+        "concern_level": "moderate",
+        "clinical_consequence": "Contributes to sedation/hypnosis",
+        "reference": "doi:10.1523/JNEUROSCI.3481-08.2009"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Female patients show ~10-15% higher exposure",
+      "age": "Elderly (≥65): clearance reduced; dose adjustment per label",
+      "weight": null,
+      "renal_or_hepatic": "Moderate hepatic impairment: AUC ↑ ~58%; severe hepatic impairment not studied"
+    },
+    "tags_to_add": ["antidepressant", "FDA-approved-TRD", "HCN1-inhibitor"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "FDA-approved 2019 as Spravato (intranasal) for treatment-resistant depression and 2020 for major depressive disorder with acute suicidal ideation. Same PK/PD parameters apply to S-Ketamine record.",
+    "references_consulted": [
+      "doi:10.1016/S0014-2999(97)01116-3",
+      "doi:10.1007/s40262-016-0436-x",
+      "doi:10.1097/00000542-199702000-00019",
+      "doi:10.1124/dmd.30.7.853"
+    ]
+  },
+  {
+    "name": "S-Ketamine",
+    "aliases_added": [],
+    "iupac_name": "(S)-2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CN[C@@]1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": "YQEZLKZALYSWHR-NSHDSACASA-N",
+    "cas": "33643-46-8",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "HCN1"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 300,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "notes": "Same compound as Esketamine record; entry retained because input list contains both names."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "See Esketamine record.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intranasal",
+          "bioavailability_pct": 48,
+          "tmax_min": 30,
+          "half_life_min": 450,
+          "protein_binding_pct": 44,
+          "dose_in_study_mg": 84,
+          "reference": "doi:10.1007/s40262-016-0436-x",
+          "notes": "Spravato label"
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 300,
+          "reference": "doi:10.1097/00000542-199605000-00012"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "S-norketamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.30.7.853"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2B6"],
+      "phenotype_effects": "See Esketamine.",
+      "reference": "Spravato US prescribing information"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["racemic ketamine", "arketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["antidepressant", "duplicate-of-esketamine"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Chemically identical to Esketamine. Input list has both names — Piru likely benefits from a dedup pass.",
+    "references_consulted": ["doi:10.1016/S0014-2999(97)01116-3"]
+  },
+  {
+    "name": "Arketamine",
+    "aliases_added": ["PCN-101"],
+    "iupac_name": "(R)-2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CN[C@]1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": "YQEZLKZALYSWHR-AWEZNQCLSA-N",
+    "cas": "33643-47-9",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "σ1"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 1400,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "is_review": false,
+          "notes": "Ebert 1997. ~4-5× lower affinity than S-ketamine."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 27000,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1016/j.euroneuro.2011.07.006",
+          "is_review": false,
+          "notes": "5× higher σ1 affinity than S-ketamine; Hashimoto hypothesizes σ1 agonism mediates arketamine's longer antidepressant effect."
+        },
+        {
+          "target": "μ-opioid",
+          "ki_nm": 28000,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human MOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1097/00000542-199702000-00019"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Hashimoto group has consistently shown R-ketamine produces longer-lasting (>1 week) antidepressant-like effects in rodents than S-ketamine despite lower NMDA affinity. Mechanism proposed: σ1 agonism + sustained BDNF-TrkB-mTOR signalling + ERK pathway in mPFC. Phase 2a (Perception Neuroscience PCN-101) failed primary endpoint May 2023 but showed signal at 60 mg without dissociation.",
+      "neuroimaging": [
+        {
+          "modality": "EEG (rat)",
+          "finding": "(R)-ketamine produces distinctly different theta power changes vs (S)-ketamine — possibly tied to differential σ1 engagement",
+          "reference": "pmc:PMC10893209"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 200,
+          "subject_n": 24,
+          "subject_demographics": "healthy Chinese adults",
+          "reference": "pmc:PMC12298542",
+          "notes": "(R)-ketamine PK nonlinear; cautious dose-escalation recommended"
+        },
+        {
+          "route": "subcutaneous",
+          "bioavailability_pct": null,
+          "reference": "ASCP 2023 conference proceedings",
+          "notes": "Perception Neuroscience PCN-101 IV-to-SC bridging study; SC well-tolerated"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "R-norketamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.30.7.853",
+        "notes": "CYP2B6 demethylates both enantiomers similarly; CYP3A4 prefers S-ketamine"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2B6"],
+      "phenotype_effects": "CYP2B6 PMs likely show larger exposure increases for arketamine than esketamine because CYP3A4 contribution is smaller",
+      "reference": "doi:10.1124/dmd.30.7.853"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["esketamine", "racemic ketamine"],
+      "withdrawal_syndrome": "Lower dissociation than esketamine; abuse potential likely lower",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["σ1-agonist-strong", "investigational-antidepressant", "lower-dissociation"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["Phase 3 efficacy data", "Definitive σ1-mediated mechanism in humans"],
+    "notes": "Hashimoto group has driven most of the preclinical arketamine literature (2014-present). Major theoretical interest because lower NMDA blockade + longer antidepressant effect challenges the simple 'NMDA antagonism = antidepressant' model.",
+    "references_consulted": [
+      "doi:10.1016/S0014-2999(97)01116-3",
+      "doi:10.1016/j.euroneuro.2011.07.006",
+      "pmc:PMC12298542"
+    ]
+  },
+  {
+    "name": "Norketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(2-chlorophenyl)-2-aminocyclohexan-1-one",
+    "smiles": "NC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": "BVKOLTUYJSSZRJ-UHFFFAOYSA-N",
+    "cas": "35211-10-0",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site, racemate)",
+          "ki_nm": 3600,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/S0014-2999(97)01116-3",
+          "is_review": false,
+          "notes": "Ebert 1997. S-norketamine Ki ~1700 nM; R-norketamine Ki ~13,000 nM. About 3× less potent than parent ketamine at NMDA. After oral ketamine, norketamine plasma >> ketamine plasma (ratio ~6:1) — major contributor to oral PD."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same use-dependent NMDA channel block as parent. Higher norketamine/ketamine ratio with oral route makes norketamine a major active species in oral ketamine PD.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "half_life_min": 350,
+          "reference": "doi:10.1097/00000542-199310000-00003",
+          "notes": "Norketamine forms via first-pass; plasma half-life ~5-6 h, longer than parent ketamine"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2B6",
+        "metabolite_name": "(2R,6R)/(2S,6S)-hydroxynorketamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1038/nature17998"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "metabolite_name": "dehydronorketamine",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.30.7.853"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2B6"],
+      "phenotype_effects": "CYP2B6 PMs show prolonged norketamine exposure",
+      "reference": "doi:10.1124/dmd.115.064683"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["ketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "bladder urothelium",
+        "concern_level": "high",
+        "clinical_consequence": "Proposed primary mediator of ketamine cystitis in chronic users",
+        "reference": "doi:10.1111/j.1464-410X.2008.07597.x"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["active-metabolite", "oral-PD-dominant"],
+    "tags_to_remove": ["no-human-data"],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Tag 'no-human-data' is wrong — norketamine is detected in every human ketamine PK study; it's an active metabolite, not a research chemical.",
+    "references_consulted": [
+      "doi:10.1016/S0014-2999(97)01116-3",
+      "doi:10.1124/dmd.30.7.853"
+    ]
+  },
+  {
+    "name": "Hydroxynorketamine",
+    "aliases_added": ["2R,6R-HNK", "(2S,6S)-HNK"],
+    "iupac_name": "(2R,6R)-2-amino-2-(2-chlorophenyl)-6-hydroxycyclohexan-1-one",
+    "smiles": "N[C@]1(CCC[C@@H](O)C1=O)c1ccccc1Cl",
+    "inchikey": "RTHJULSDXOZRMP-UHFFFAOYSA-N",
+    "cas": "81395-70-2",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["α7-nAChR", "AMPA (indirect)", "mGlu2 (Moaddel claim, disputed)"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "ic50_nm": 38000,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "recombinant NMDA in HEK293",
+          "radioligand_or_probe": "patch-clamp Ca2+ flux",
+          "reference": "doi:10.1073/pnas.1816071116",
+          "is_review": false,
+          "notes": "Suzuki 2017: (2R,6R)-HNK does NOT block NMDA at antidepressant-relevant concentrations (≤10 μM). Earlier Moaddel 2013 claim of NMDA antagonism not replicated. HNK binds closed/desensitized NMDA receptors at much higher concentrations (Lumsden 2019)"
+        }
+      ],
+      "functional": [
+        {
+          "target": "α7-nAChR",
+          "readout": "presynaptic glutamate release / gene expression",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "species": "rat/mouse",
+          "cell_system": "hippocampal neurons",
+          "reference": "doi:10.1038/s41398-024-02744-y",
+          "notes": "Marcantoni 2024: HNK (not ketamine) acts via α7-nAChR. Selective α7 antagonist or Chrna7 KO abolishes HNK-induced synaptic and nuclear regulations."
+        },
+        {
+          "target": "AMPA",
+          "readout": "synaptic potentiation (mEPSC)",
+          "species": "rat",
+          "cell_system": "hippocampal slices",
+          "reference": "doi:10.1038/nature17998",
+          "notes": "Zanos 2016: (2R,6R)-HNK potentiates AMPA via presynaptic mechanism. AMPA blockade by NBQX abolishes antidepressant effect."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Proposed mechanism (Zanos/Gould): presynaptic α7-nAChR activation → glutamate release → AMPA potentiation → BDNF → TrkB → mTOR → synaptogenesis WITHOUT NMDA blockade or dissociation. This decoupling drove HNK as a non-dissociative antidepressant candidate (Phase 1 NIH 2023).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "half_life_min": null,
+          "reference": "NCT04711005",
+          "notes": "NIH Phase 1 single ascending dose study (Zarate group); preliminary data shows oral bioavailability adequate for therapeutic exposure"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT (multiple)",
+        "metabolite_name": "HNK glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.1038/nature17998"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": "Predicted minimal (no NMDA blockade, no dissociation)",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["α7-nAChR-active", "non-dissociative", "investigational-antidepressant", "AMPA-potentiator"],
+    "tags_to_remove": ["NMDA-antagonist"],
+    "confidence": "high",
+    "data_gaps_remaining": ["Definitive mechanism (α7 vs mGlu2 controversy)", "Human efficacy Phase 2"],
+    "notes": "Major mechanism controversy. Zarate/Gould (NIH) push α7-nAChR + AMPA mechanism (Zanos 2016 Nature, Marcantoni 2024 Transl Psychiatry). Moaddel 2013 originally claimed NMDA antagonism but Suzuki 2017 PNAS showed no NMDA block at antidepressant-relevant doses. Different from parent ketamine — should NOT be tagged NMDA-antagonist.",
+    "references_consulted": [
+      "doi:10.1038/nature17998",
+      "doi:10.1073/pnas.1816071116",
+      "doi:10.1038/s41398-024-02744-y",
+      "doi:10.1073/pnas.1819540116"
+    ]
+  },
+  {
+    "name": "Dehydronorketamine",
+    "aliases_added": [],
+    "iupac_name": "2-amino-2-(2-chlorophenyl)cyclohex-5-en-1-one",
+    "smiles": "NC1(C=CCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": "81395-71-3",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["α7-nAChR (weak negative allosteric modulator)"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "ic50_nm": 100000,
+          "action": "channelBlocker",
+          "species": "rat",
+          "reference": "doi:10.1038/nature17998",
+          "notes": "Essentially inactive at NMDA"
+        }
+      ],
+      "functional": [
+        {
+          "target": "α7-nAChR",
+          "readout": "calcium flux",
+          "species": "human",
+          "cell_system": "expressed α7",
+          "reference": "doi:10.1124/jpet.112.198887",
+          "notes": "DHNK is a negative allosteric modulator of α7-nAChR at low μM; opposite direction to HNK"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["α7-nAChR-NAM", "inactive-at-NMDA"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Major terminal metabolite of ketamine; long half-life (~12 h). Plasma DHNK is a marker of chronic ketamine exposure.",
+    "references_consulted": ["doi:10.1038/nature17998", "doi:10.1124/jpet.112.198887"]
+  },
+  {
+    "name": "PCP",
+    "aliases_added": [],
+    "iupac_name": "1-(1-phenylcyclohexyl)piperidine",
+    "smiles": "C1CCN(CC1)C1(CCCCC1)c1ccccc1",
+    "inchikey": "JTJMJGYZQZDUJJ-UHFFFAOYSA-N",
+    "cas": "77-10-1",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "σ1 (weak)", "σ2", "DAT (weak)", "nAChR"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 59,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Roth 2013. Range across literature 59-250 nM; PCP is reference parent compound"
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 10000,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Ki >10,000 nM in Roth 2013"
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 10000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Ki >10,000 nM in direct binding; functional DA-releasing effects may involve allosteric sites"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Strong NMDA channel block + indirect dopaminergic effects via σ-receptor-mediated DA release modulation in NAc (Nishikawa 1999, doi:10.1016/S0014-2999(99)00769-4).",
+      "neuroimaging": [
+        {
+          "modality": "fMRI (preclinical)",
+          "finding": "PCP produces robust prefrontal hyperactivation + thalamic disinhibition pattern used as model of schizophrenia",
+          "reference": "doi:10.1038/sj.npp.1301456"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "smoked",
+          "bioavailability_pct": 70,
+          "tmax_min": 30,
+          "half_life_min": 1800,
+          "vd_l_per_kg": 6.2,
+          "protein_binding_pct": 65,
+          "reference": "pmid:6391896",
+          "notes": "Cook 1982; t½ 1-3 days, mean ~21 h. Vd highly variable due to lipophilicity."
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": 72,
+          "tmax_min": 90,
+          "half_life_min": 1800,
+          "reference": "pmid:6391896"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "intoxication threshold",
+          "concentration_unit": "ng/mL",
+          "threshold": 10,
+          "peak_effect": 100,
+          "reference": "pmid:6391896",
+          "notes": "Coma/death typically >200 ng/mL plasma"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 50,
+        "metabolite_name": "4-hydroxy-PCP",
+        "metabolite_active": false,
+        "reference": "pmid:11160603"
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": 30,
+        "metabolite_name": "PCHP / PPC",
+        "metabolite_active": false,
+        "reference": "pmid:11160603"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": ["CYP3A4"], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Tolerance develops to subjective effects within days of repeated use",
+      "cross_tolerance": ["ketamine", "MXE", "3-MeO-PCP", "PCE"],
+      "withdrawal_syndrome": "Heavy chronic users: anxiety, depression, craving, weight loss, sleep disturbance; psychotic symptoms may persist weeks",
+      "reference": "pmid:6391896"
+    },
+    "off_targets": [
+      {
+        "target": "GIRK channels",
+        "ki_or_ic50_nm": 30000,
+        "concern_level": "low",
+        "clinical_consequence": "Contributes to atypical EEG/cardiovascular profile",
+        "reference": "doi:10.1124/jpet.110.176933"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Highly lipophilic → enterohepatic recycling; gastric lavage useful in overdose"
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Originally Parke-Davis Sernyl (1956); withdrawn from human use 1965 due to emergence delirium. Schedule II in US. Roth 2013 found PCP highly selective NMDA+σ2 with weak DAT/σ1. Two binding poses at PCP site (Zhang 2021 Nature, doi:10.1038/s41586-021-03769-9) explain SAR discrepancies across the class.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0059334",
+      "pmid:6391896",
+      "doi:10.1038/s41586-021-03769-9"
+    ]
+  },
+  {
+    "name": "3-MeO-PCP",
+    "aliases_added": ["3-methoxyphencyclidine"],
+    "iupac_name": "1-[1-(3-methoxyphenyl)cyclohexyl]piperidine",
+    "smiles": "COc1cccc(c1)C1(CCCCC1)N1CCCCC1",
+    "inchikey": "FFKVKKQXVVNNFG-UHFFFAOYSA-N",
+    "cas": "91164-58-8",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "σ1", "SERT"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 20,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Roth 2013. Among the most potent NMDA antagonists in the arylcyclohexylamine class — ~3× more potent than PCP, ~30× more than ketamine."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 42,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Some sources cite 436 nM. The high σ1 affinity (42 nM if accurate) at clinically achievable concentrations may explain the distinctive agitation/psychosis profile."
+        },
+        {
+          "target": "σ2",
+          "ki_nm": 10000,
+          "action": "modulator",
+          "species": "rat",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Ki >10,000 nM"
+        },
+        {
+          "target": "SERT",
+          "ki_nm": 216,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing hSERT",
+          "radioligand_or_probe": "[125I]RTI-55",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Most NMDA-potent compound in the class. Combination of high-affinity NMDA blockade + σ1 agonism + SERT inhibition may explain unique agitation/mania/psychosis profile distinct from ketamine, MXE.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "tmax_min": 90,
+          "half_life_min": 660,
+          "reference": "doi:10.1080/20961790.2021.1928821",
+          "notes": "Estimated t½ 10-11 h from case reports; no controlled PK studies in humans"
+        },
+        {
+          "route": "insufflation",
+          "tmax_min": 30,
+          "half_life_min": 660,
+          "reference": "PsychonautWiki / case reports"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "fatal blood concentration",
+          "concentration_unit": "ng/mL",
+          "threshold": 50,
+          "peak_effect": 3525,
+          "reference": "doi:10.1080/20961790.2021.1928821",
+          "notes": "Fatal range 50-3,525 ng/mL femoral blood (Bakota 2016, Chatterton 2017, Allard 2021)"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated O-demethylation + N-dealkylation",
+        "metabolite_name": "3-OH-PCP",
+        "metabolite_active": true,
+        "reference": "doi:10.1080/20961790.2021.1928821",
+        "notes": "Major metabolite is the 3-hydroxy demethylation product (3-OH-PCP), itself an NMDA antagonist and μ-opioid agonist"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Rapid tolerance; users often escalate to maintain effects",
+      "cross_tolerance": ["PCP", "ketamine", "MXE", "3-MeO-PCE"],
+      "withdrawal_syndrome": "Psychological dependence; agitation/psychosis on cessation in heavy users",
+      "reference": "doi:10.1016/j.forsciint.2017.02.022"
+    },
+    "off_targets": [
+      {
+        "target": "DAT",
+        "ki_or_ic50_nm": 10000,
+        "concern_level": "low",
+        "clinical_consequence": "Negligible direct DAT binding",
+        "reference": "doi:10.1371/journal.pone.0059334"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["SERT-inhibitor", "psychosis-inducing", "agitation-risk", "fatal-overdose-narrow-window"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["σ1 Ki discrepancy (42 vs 436 nM)", "controlled human PK"],
+    "notes": "Distinct clinical profile from MXE and ketamine — much higher agitation/mania/psychosis risk plus narrow therapeutic window. Multiple fatalities (Chatterton 2017 reported 7 deaths in Sweden 2014-2016). The combination of very high NMDA affinity, σ1 agonism, and SERT inhibition is essentially unique in the class.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1080/20961790.2021.1928821",
+      "doi:10.1016/j.forsciint.2017.02.022",
+      "doi:10.1093/jat/bkw048"
+    ]
+  },
+  {
+    "name": "4-meo-pcp",
+    "aliases_added": ["methoxydine"],
+    "iupac_name": "1-[1-(4-methoxyphenyl)cyclohexyl]piperidine",
+    "smiles": "COc1ccc(cc1)C1(CCCCC1)N1CCCCC1",
+    "inchikey": "DRDCJEKQUWODJK-UHFFFAOYSA-N",
+    "cas": "2201-37-8",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "σ1", "σ2"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 404,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Roth 2013. Lower NMDA affinity than 3-MeO isomer (20 nM) and lower than PCP (59 nM) — 4-position substitution disfavored at PCP site. PsychonautWiki cites 20 nM but Roth's reported value is 404 nM."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 296,
+          "action": "agonist",
+          "species": "guinea pig",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        },
+        {
+          "target": "σ2",
+          "ki_nm": 143,
+          "action": "modulator",
+          "species": "rat",
+          "radioligand_or_probe": "[3H]DTG",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Notable σ2 activity"
+        },
+        {
+          "target": "SERT",
+          "ki_nm": 844,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        },
+        {
+          "target": "NET",
+          "ki_nm": 713,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["PCP", "3-MeO-PCP", "ketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["σ2-active", "lower-NMDA-than-3-MeO-isomer"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["human PK"],
+    "notes": "Para-methoxy substitution → reduced NMDA affinity vs meta-methoxy (3-MeO-PCP); ~20× less potent at NMDA than 3-MeO isomer per Roth 2013 — opposite of what's often claimed in casual references. Often considered the 'gentlest' of the methoxy-PCP series.",
+    "references_consulted": ["doi:10.1371/journal.pone.0059334"]
+  },
+  {
+    "name": "Methoxetamine",
+    "aliases_added": ["MXE"],
+    "iupac_name": "2-(ethylamino)-2-(3-methoxyphenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccc(c1)OC",
+    "inchikey": "FNYZHOFCCAKQHL-UHFFFAOYSA-N",
+    "cas": "1239943-76-0",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "SERT"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 259,
+          "ki_ci_nm": [183, 335],
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Roth 2013 reported 259 ± 76 nM (some texts cite 337). ~3× higher NMDA affinity than ketamine."
+        },
+        {
+          "target": "SERT",
+          "ki_nm": 481,
+          "ic50_nm": 2400,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing hSERT",
+          "radioligand_or_probe": "[125I]RTI-55",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "S-(+)-MXE Ki 320 nM, R-(-)-MXE Ki 510 nM. Confirmed functional SERT inhibitor (Hondebrink 2017)."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 10000,
+          "ic50_nm": 20000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 10000,
+          "ic50_nm": 33000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 10000,
+          "action": "agonist",
+          "species": "guinea pig",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Ki >10,000 nM — surprisingly weak vs 3-MeO-PCP (42 nM)"
+        },
+        {
+          "target": "σ2",
+          "ki_nm": 10000,
+          "action": "modulator",
+          "species": "rat",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        },
+        {
+          "target": "μ-opioid",
+          "ki_nm": 10000,
+          "action": "agonist",
+          "species": "human",
+          "reference": "doi:10.1371/journal.pone.0059334"
+        }
+      ],
+      "functional": [
+        {
+          "target": "5-HT2 receptors",
+          "readout": "behavioral / discrimination",
+          "ec50_nm": null,
+          "species": "rat",
+          "cell_system": "in vivo",
+          "reference": "doi:10.1016/j.bbr.2021.113380",
+          "notes": "Botanas 2021: MXE behavioral effects partially blocked by 5-HT2 antagonists; suggests indirect 5-HT2 activation via SERT block"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "NMDA blockade dominant; SERT inhibition contributes serotonergic component that may underlie the longer-duration and 'antidepressant-like' subjective profile vs ketamine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "tmax_min": 90,
+          "half_life_min": 270,
+          "reference": "doi:10.1002/dta.1881",
+          "notes": "Hill 2012; t½ ~3-6 h"
+        },
+        {
+          "route": "insufflation",
+          "tmax_min": 30,
+          "half_life_min": 240,
+          "reference": "PsychonautWiki / case reports"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated O-demethylation",
+        "metabolite_name": "O-desmethyl-MXE (3-HO-PCE-like)",
+        "metabolite_active": true,
+        "reference": "doi:10.1002/dta.1881"
+      },
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "normethoxetamine",
+        "metabolite_active": true,
+        "reference": "doi:10.1002/dta.1881"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["ketamine", "PCP", "3-MeO-PCP"],
+      "withdrawal_syndrome": "Cravings, anxiety, depression after heavy use; case reports of dependence syndrome",
+      "reference": "doi:10.1111/add.13059"
+    },
+    "off_targets": [
+      {
+        "target": "bladder",
+        "concern_level": "moderate",
+        "clinical_consequence": "Lower-reported cystitis incidence than ketamine but case reports exist",
+        "reference": "doi:10.1186/2050-7283-2-29"
+      }
+    ],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["SERT-inhibitor", "long-duration-dissociative"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "long-term cystitis incidence"],
+    "notes": "Most-studied of the post-2010 RC dissociatives. Combination of high-affinity NMDA blockade (Ki 259 nM) + SERT inhibition (Ki 481 nM) is the canonical 2'-oxo + 3-methoxy + N-ethyl pharmacophore. Designed by Lee 2010 (UK patent) as a putative analgesic.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1002/dta.1881",
+      "doi:10.1016/j.neuropharm.2017.04.035"
+    ]
+  },
+  {
+    "name": "DMXE",
+    "aliases_added": ["3D-MXE"],
+    "iupac_name": "2-(ethylamino)-2-(3-methylphenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccc(c1)C",
+    "inchikey": null,
+    "cas": "2666932-45-0",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "ic50_nm": 679,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "recombinant NMDA",
+          "radioligand_or_probe": "patch-clamp",
+          "reference": "doi:10.3390/molecules27227938",
+          "notes": "Bonaventura 2022 / Wallach group; IC50 ~0.68 μM. Less potent than MXE despite structural similarity."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["MXE", "ketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["σ1, SERT, μ-opioid binding profiles", "human PK"],
+    "notes": "Methyl analogue of MXE (3-methyl in place of 3-methoxy). Sold post-2020 as MXE replacement. The 3-methyl substituent loses H-bonding capacity vs methoxy → expected reduction in NMDA affinity, consistent with IC50 679 nM.",
+    "references_consulted": ["doi:10.3390/molecules27227938"]
+  },
+  {
+    "name": "Deoxymethoxetamine",
+    "aliases_added": ["DMXE"],
+    "iupac_name": "2-(ethylamino)-2-(3-methylphenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccc(c1)C",
+    "inchikey": null,
+    "cas": "2666932-45-0",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same compound as DMXE record.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-DMXE"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Identical to DMXE; input list has both names — Piru should dedup.",
+    "references_consulted": []
+  },
+  {
+    "name": "Deschloroketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(methylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": "ZVTGLDVLNHEUEN-UHFFFAOYSA-N",
+    "cas": "6740-86-9",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 240,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "recombinant human GluN1/GluN2B in HEK293",
+          "radioligand_or_probe": "patch-clamp",
+          "reference": "doi:10.1111/bph.15680",
+          "is_review": false,
+          "notes": "Štefková-Mazochová 2022. Comparable to ketamine; S-DCK ~3× more potent than R-DCK in inhibition of NMDA currents."
+        }
+      ],
+      "functional": [
+        {
+          "target": "NMDA (functional inhibition)",
+          "readout": "patch-clamp (rat hippocampal neuron)",
+          "ic50_nm": 500,
+          "species": "rat",
+          "cell_system": "primary hippocampal neurons",
+          "reference": "doi:10.1111/bph.15680"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Behaves as ketamine pharmacologically. Longer duration than ketamine likely due to slower phase-I metabolism (the 2-chlorine in ketamine accelerates CYP-mediated oxidation).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "tmax_min": 60,
+          "half_life_min": 360,
+          "reference": "PsychonautWiki / case reports",
+          "notes": "User-reported t½ longer than ketamine (~4-6 h vs 2-3 h); no controlled studies"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "nor-DCK",
+        "metabolite_active": true,
+        "reference": "doi:10.1111/bph.15680"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["ketamine", "PCP"],
+      "withdrawal_syndrome": "Heavy users report craving, anxiety, dysphoria",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["longer-duration-than-ketamine"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": ["controlled human PK", "cystitis incidence"],
+    "notes": "Removal of 2-chloro from ketamine — gives slower CYP metabolism and longer subjective duration. Štefková-Mazochová 2022 is the only published rigorous PK/PD study (rats).",
+    "references_consulted": ["doi:10.1111/bph.15680"]
+  },
+  {
+    "name": "2-Fluorodeschloroketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(2-fluorophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1F",
+    "inchikey": "BAHANNQVCQDQQT-UHFFFAOYSA-N",
+    "cas": "111982-50-4",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "action": "channelBlocker",
+          "species": null,
+          "reference": "doi:10.1016/j.forsciint.2021.110815",
+          "notes": "No formal Ki measurement published as of 2024. Assumed similar to ketamine (Ki ~600 nM) based on F-for-Cl bioisostere logic."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "insufflation",
+          "half_life_min": null,
+          "reference": "doi:10.1093/jat/bkae003",
+          "notes": "Theofel 2024; analytically confirmed in fatalities. Snorted recreational doses 87.5-330 mg vs 60-250 mg for ketamine."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "nor-2F-DCK",
+        "metabolite_active": true,
+        "reference": "pmid:34515415"
+      },
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "dehydronor-2F-DCK",
+        "metabolite_active": false,
+        "reference": "pmid:34515415",
+        "notes": "Major metabolite identified in vivo (Theofel 2021)"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["ketamine", "DCK"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["formal Ki measurements", "controlled human PK"],
+    "notes": "F-for-Cl bioisostere of ketamine. Multiple fatalities documented (Theofel 2024 doi:10.1093/jat/bkae003, Pelletier 2024 doi:10.1016/j.forsciint.2024). WHO ECDD critical review 2023 recommended scheduling.",
+    "references_consulted": [
+      "doi:10.1093/jat/bkae003",
+      "pmid:34515415",
+      "doi:10.1016/j.forsciint.2021.110815"
+    ]
+  },
+  {
+    "name": "3-MeO-PCE",
+    "aliases_added": ["3-methoxyeticyclidine"],
+    "iupac_name": "N-ethyl-1-(3-methoxyphenyl)cyclohexan-1-amine",
+    "smiles": "CCNC1(CCCCC1)c1cccc(c1)OC",
+    "inchikey": "KKPGYIAYZBOZNS-UHFFFAOYSA-N",
+    "cas": "117652-95-6",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "σ1", "SERT"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 61,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "is_review": false,
+          "notes": "Roth 2013. ~3× lower NMDA potency than 3-MeO-PCP (20 nM); piperidine → N-ethyl loss of one ring lowers affinity."
+        },
+        {
+          "target": "σ1",
+          "ki_nm": 50,
+          "action": "agonist",
+          "species": "guinea pig",
+          "reference": "doi:10.1371/journal.pone.0059334",
+          "notes": "Approximate; Roth reports 'appreciable σ1 affinity'"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Similar to 3-MeO-PCP profile but with N-ethyl on a cyclohexylamine scaffold (vs piperidine). Reported as more 'stimulating' than MXE.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "insufflation",
+          "half_life_min": null,
+          "reference": "doi:10.1016/j.forsciint.2021.110815",
+          "notes": "Implicated in fatalities along with 2F-DCK"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["3-MeO-PCP", "MXE"],
+      "withdrawal_syndrome": "Reports of mania, agitation similar to 3-MeO-PCP",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["σ1-active", "agitation-risk"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["formal σ1 Ki", "human PK"],
+    "notes": "Non-keto analogue of MXE; shares 3-methoxy substitution but lacks the 2'-oxo group. Has the same agitation/psychosis liability as 3-MeO-PCP per case reports.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1016/j.forsciint.2021.110815"
+    ]
+  },
+  {
+    "name": "Methoxmetamine",
+    "aliases_added": ["3-MeO-2-Oxo-PCM", "MXM", "MMXE"],
+    "iupac_name": "2-(3-methoxyphenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1cccc(c1)OC",
+    "inchikey": null,
+    "cas": "1781829-56-8",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["MXE", "ketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["NMDA Ki", "human PK", "SAR vs MXE"],
+    "notes": "N-methyl analogue of MXE (N-methyl instead of N-ethyl). Predicted similar NMDA affinity (200-400 nM) and SERT activity but no published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCE",
+    "aliases_added": ["eticyclidone", "2'-Oxo-PCE", "N-ethyldeschloroketamine"],
+    "iupac_name": "2-(ethylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "1364933-54-9",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Deschloro-N-ethyl analogue of ketamine. Predicted similar potency to MXE without the 3-MeO group.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["MXE", "DCK", "ketamine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal NMDA Ki", "σ1 binding", "human PK"],
+    "notes": "Eticyclidone. No published binding data; speculated NMDA Ki 100-400 nM based on structural homology.",
+    "references_consulted": []
+  },
+  {
+    "name": "Eticyclidone",
+    "aliases_added": ["O-PCE"],
+    "iupac_name": "2-(ethylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": "1364933-54-9",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See O-PCE.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-O-PCE"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Same compound as O-PCE.",
+    "references_consulted": []
+  },
+  {
+    "name": "BTCP",
+    "aliases_added": ["benocyclidine"],
+    "iupac_name": "1-[1-(benzo[b]thiophen-2-yl)cyclohexyl]piperidine",
+    "smiles": "C1CCCCN1C1(CCCCC1)c1cc2ccccc2s1",
+    "inchikey": null,
+    "cas": "112726-66-6",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [
+        {
+          "target": "DAT",
+          "ki_nm": 7,
+          "ic50_nm": 7,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat striatum",
+          "radioligand_or_probe": "[3H]BTCP autoradiography",
+          "reference": "pmid:1681444",
+          "is_review": false,
+          "notes": "Vignon 1988; IC50 7-8 nM for DA uptake. ~50× selectivity over SERT/NET."
+        },
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 10000,
+          "action": "channelBlocker",
+          "species": "rat",
+          "reference": "doi:10.1124/jpet.103.052282",
+          "notes": "Essentially inactive at NMDA — BTCP is a 'PCP without NMDA activity'"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Pure DAT inhibitor with cocaine-like behavioral profile (Le Foll 2000 Neuropsychopharmacology) but binds at a DAT site allosterically distinct from cocaine.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "PCP-OH and BTCP-OH derivatives",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "doi:10.1021/jm970078z",
+        "notes": "Two active hydroxylated metabolites bind DAT with Ki within 2× of parent"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["cocaine"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-selective-inhibitor", "stimulant-not-dissociative"],
+    "tags_to_remove": ["NMDA-antagonist"],
+    "confidence": "high",
+    "data_gaps_remaining": ["human PK (no human studies)"],
+    "notes": "Atypical arylcyclohexylamine — replacing the phenyl with benzothiophene shifts pharmacology entirely from NMDA blockade to DAT inhibition. Behaviorally cocaine-like, not PCP-like. Tag 'NMDA-antagonist' is wrong.",
+    "references_consulted": [
+      "pmid:1681444",
+      "doi:10.1021/jm970078z",
+      "doi:10.1038/sj.npp.1395512"
+    ]
+  },
+  {
+    "name": "3-pip-OH-BTCP",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["DAT"],
+      "binding": [
+        {
+          "target": "DAT",
+          "ki_nm": 10,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat striatum",
+          "radioligand_or_probe": "[3H]BTCP",
+          "reference": "doi:10.1021/jm970078z",
+          "notes": "Hydroxylated BTCP metabolite; retains DAT affinity within 2× of parent"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["DAT-inhibitor"],
+    "tags_to_remove": ["NMDA-antagonist"],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Hydroxylated BTCP metabolite. Like parent, DAT-selective; not an NMDA blocker.",
+    "references_consulted": ["doi:10.1021/jm970078z"]
+  },
+  {
+    "name": "Tiletamine",
+    "aliases_added": [],
+    "iupac_name": "2-(ethylamino)-2-(2-thienyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccs1",
+    "inchikey": "ZKLXUUYLEHCAMF-UHFFFAOYSA-N",
+    "cas": "14176-49-9",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "action": "channelBlocker",
+          "species": null,
+          "reference": null,
+          "notes": "No published Ki value identified in literature search."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Thiophene-2 in place of phenyl ring. Functional in vivo profile similar to ketamine — used as Telazol (with zolazepam) in veterinary anesthesia.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "nor-tiletamine",
+        "metabolite_active": true,
+        "reference": "pmid:24020890",
+        "notes": "Kumar 2014: marked species differences in metabolism. Pig liver microsomes show different pathways than human."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["ketamine", "PCP"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Plasma t½ varies by species: cat 2.4 h, dog 1.2 h, monkey 1-1.5 h (pmid:17083465)"
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["NMDA Ki", "human PK"],
+    "notes": "Veterinary dissociative; component of Telazol (with zolazepam, 1:1). No published human PK or human Ki binding studies.",
+    "references_consulted": [
+      "pmid:24020890",
+      "pmid:17083465"
+    ]
+  },
+  {
+    "name": "Tilmetamine",
+    "aliases_added": [],
+    "iupac_name": "2-(methylamino)-2-(thiophen-2-yl)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1cccs1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA (presumed)"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl analogue of tiletamine (vs N-ethyl). No published pharmacology.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Research-chemical N-methyl variant of tiletamine. No published binding or PK data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Rolicyclidine",
+    "aliases_added": [],
+    "iupac_name": "1-(1-phenylcyclohexyl)pyrrolidine",
+    "smiles": "C1CCN(C1)C1(CCCCC1)c1ccccc1",
+    "inchikey": "ZRYZBQLXDKPBDU-UHFFFAOYSA-N",
+    "cas": "2201-39-0",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "action": "channelBlocker",
+          "species": null,
+          "reference": null,
+          "notes": "PCPy is the pyrrolidine analogue of PCP; binds the PCP site. Roth 2013 did not include rolicyclidine. No quantitative Ki published; estimated similar potency to PCP based on classical SAR papers from 1970s (Maddox 1965)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Slightly less potent than PCP per behavioral studies; less stimulant character.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": ["PCP"],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["arylcyclohexylamine", "NMDA-antagonist"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki", "human PK"],
+    "notes": "Synthesized in 1958 (Maddox/Parke-Davis). Never developed clinically. Schedule I in US.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-MeO-PCE",
+    "aliases_added": [],
+    "iupac_name": "N-ethyl-1-(3-methoxyphenyl)cyclohexan-1-amine",
+    "smiles": "CCNC1(CCCCC1)c1cccc(c1)OC",
+    "inchikey": null,
+    "cas": "117652-95-6",
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA", "σ1"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See 3-MeO-PCE record (with lowercase 'e' in input list duplicate).", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Cross-reference: see the original 3-MeO-PCE record (Ki 61 nM NMDA, Roth 2013). Same compound, distinct input list entry.",
+    "references_consulted": ["doi:10.1371/journal.pone.0059334"]
+  },
+  {
+    "name": "3-Fluoro-PCP",
+    "aliases_added": ["3-F-PCP"],
+    "iupac_name": "1-[1-(3-fluorophenyl)cyclohexyl]piperidine",
+    "smiles": "Fc1cccc(c1)C1(CCCCC1)N1CCCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Meta-fluoro analogue of PCP. No published Ki. By SAR analogy to 3-MeO-PCP (very high NMDA affinity 20 nM) and 3-F bioisostere logic — expected NMDA Ki 30-100 nM range.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["PCP", "3-MeO-PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki", "human PK", "σ1 binding"],
+    "notes": "Two entries in input list (3-F-PCP and 3-Fluoro-PCP refer to the same compound). No published binding data; estimated potency similar to or greater than PCP.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-F-PCP",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(3-fluorophenyl)cyclohexyl]piperidine",
+    "smiles": "Fc1cccc(c1)C1(CCCCC1)N1CCCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See 3-Fluoro-PCP.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-3-Fluoro-PCP"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Same compound as 3-Fluoro-PCP.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-EtO-PCP",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(3-ethoxyphenyl)cyclohexyl]piperidine",
+    "smiles": "CCOc1cccc(c1)C1(CCCCC1)N1CCCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Ethoxy analogue of 3-MeO-PCP. Expected slight reduction in NMDA affinity vs methoxy (bulkier group in the 3-position). No published Ki.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-MeO-PCP", "PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Emerging 2020s research chemical. Cases of intoxication documented but no published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-Me-PCPy",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(3-methylphenyl)cyclohexyl]pyrrolidine",
+    "smiles": "Cc1cccc(c1)C1(CCCCC1)N1CCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["rolicyclidine", "PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Pyrrolidine + 3-methyl analogue. No published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-MeO-PCMo",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Morpholine analogue. The PCMo series (Wallach 2017 ACS Chem Neurosci doi:10.1021/acschemneuro.7b00269) showed 3-MeO morpholine analogues retain NMDA affinity but lower than the piperidine counterpart.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-MeO-PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki"],
+    "notes": "Morpholine N-replacement of 3-MeO-PCP. Wallach group has reported the PCMo series shows ~10× lower NMDA affinity than the piperidine series.",
+    "references_consulted": ["doi:10.1021/acschemneuro.7b00269"]
+  },
+  {
+    "name": "3-MeO-PCPr",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-propyl analogue of 3-MeO-PCE. Higher lipophilicity may extend duration.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-MeO-PCE", "3-MeO-PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-MeO-PCPy",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Pyrrolidine + 3-MeO analogue. No published Ki.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-MeO-PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-ho-pce",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(3-hydroxyphenyl)cyclohexyl]-N-ethylamine (informal)",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "μ-opioid (presumed)"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "By structural analogy to 3-HO-PCP, expected to combine NMDA antagonism + μ-opioid agonism. 3-HO-PCP MOR Ki 39-60 nM, KOR Ki 140 nM (Itzhak 1985). The 3-OH PCE analogue likely shares this profile but no formal data.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-HO-PCP", "MXE"], "withdrawal_syndrome": "Possible opioid-like withdrawal in addition to NMDA-class withdrawal", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["possible-μ-opioid-agonist", "respiratory-depression-risk"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal MOR/KOR/NMDA Ki"],
+    "notes": "3-HO-PCE is the N-ethyl analogue of 3-HO-PCP. Critical safety concern: 3-OH substitution at meta of arylcyclohexylamines confers μ-opioid agonism — major overdose risk (respiratory depression) when combined with NMDA blockade dissociation.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-Bromodeschloroketamine",
+    "aliases_added": ["2-Br-DCK"],
+    "iupac_name": "2-(2-bromophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1Br",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Br-for-Cl bioisostere of ketamine. Expected slightly higher NMDA affinity than ketamine (larger halogen, more lipophilic) but no formal binding data published.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Same as Bromoketamine record.",
+    "references_consulted": []
+  },
+  {
+    "name": "Bromoketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(2-bromophenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1Br",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See 2-Bromodeschloroketamine.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-2-Br-DCK"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Same compound as 2-Bromodeschloroketamine.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-Chlorodeschloroketamine",
+    "aliases_added": ["2-Cl-DCK"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "By definition this name is identical to ketamine itself (ketamine = 2-chlorophenyl). The name 'deschloroketamine' refers to removal of chloro, so '2-chlorodeschloroketamine' is contradictory; likely a market naming artifact for ketamine.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["name-collision-with-ketamine"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Name is a contradiction. May refer to ketamine or to a different positional isomer per black-market vendor naming.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-FXE",
+    "aliases_added": ["2-Fluoro-FXE"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "Fluoro-substituted analogue of FXE (3-F-2-oxo-PCE). No published binding data.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["FXE", "MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Possibly equivalent to Canket / Fluorexetamine — name overlaps with these in marketplace usage.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-MeO-Ketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(2-methoxyphenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1OC",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Ortho-methoxy analogue of ketamine. Methoxy in 2-position replacing chloro. No published Ki; expected NMDA affinity similar to or slightly lower than ketamine because the ortho-methoxy may sterically interfere with PCP-site binding.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Same as Methoxyketamine record.",
+    "references_consulted": []
+  },
+  {
+    "name": "Methoxyketamine",
+    "aliases_added": ["2-MeO-Ketamine"],
+    "iupac_name": "2-(2-methoxyphenyl)-2-(methylamino)cyclohexan-1-one",
+    "smiles": "CNC1(CCCCC1=O)c1ccccc1OC",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See 2-MeO-Ketamine.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-2-MeO-Ketamine"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Same compound as 2-MeO-Ketamine.",
+    "references_consulted": []
+  },
+  {
+    "name": "3,4-Methylenedioxy-phencyclidine",
+    "aliases_added": ["3,4-MD-PCP", "MDPCP"],
+    "iupac_name": "1-{1-[1,3-benzodioxol-5-yl]cyclohexyl}piperidine",
+    "smiles": "C1CCCCN1C1(CCCCC1)c1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methylenedioxy in 3,4-position. No published binding data. Methylenedioxy substitution often introduces 5-HT2/SERT activity in other drug classes (MDMA vs methamphetamine) — possible additional serotonergic component vs PCP.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["PCP"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published binding data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Allylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(allylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "C=CCNC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-allyl analogue of ketamine. Allyl groups often produce CYP-suicide-inhibition; PK consequences possible.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "N-substitution variant of ketamine. Abelian 2024 β-keto SAR paper (cited in task brief) covers N-alkyl variants but specific value not captured here.",
+    "references_consulted": []
+  },
+  {
+    "name": "Cyclobutylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(cyclobutylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "ClC1=CC=CC=C1C2(CCCCC2=O)NC3CCC3",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-cyclobutyl analogue of ketamine. No published binding data.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Cyclopropylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(cyclopropylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-cyclopropyl analogue of ketamine. Cyclopropyl is a common 'metabolic stability' substitution.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Dimethylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(dimethylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "CN(C)C1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N,N-dimethyl analogue of ketamine. N,N-dialkyl substitution generally reduces NMDA affinity in the arylcyclohexylamine series — expected lower potency than parent ketamine.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "DMXM",
+    "aliases_added": ["3-Methoxy-PCM"],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": null, "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "Likely deoxy analogue of methoxmetamine. No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Ethketamine",
+    "aliases_added": ["NEK"],
+    "iupac_name": "2-(ethylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [
+        {
+          "target": "AMPA / 5-HT2",
+          "readout": "behavioral antidepressant + electrophysiology",
+          "ec50_nm": null,
+          "species": "rat",
+          "cell_system": "in vivo",
+          "reference": "doi:10.1007/s00213-019-05219-x",
+          "notes": "Han 2019: NENK, 2-MeO-NEK, 4-MeO-NEK produce rapid antidepressant-like effects via AMPA + 5-HT2 receptor activation. NENK = ethketamine."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Han 2019: N-ethyl-norketamine series acts via AMPA + 5-HT2 pathway, similar to (2R,6R)-HNK proposed mechanism, but with retained NMDA activity.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["AMPA-active", "5-HT2-active"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": ["formal NMDA Ki", "human PK"],
+    "notes": "Same as Ethylketamine record. Han 2019 (Psychopharmacology) showed antidepressant activity at lower doses than ketamine in rodents via 5-HT2-dependent mechanism.",
+    "references_consulted": ["doi:10.1007/s00213-019-05219-x"]
+  },
+  {
+    "name": "Ethylketamine",
+    "aliases_added": ["NEK", "N-ethylnorketamine"],
+    "iupac_name": "2-(ethylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA", "5-HT2", "AMPA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "See Ethketamine.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["duplicate-of-Ethketamine"],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Same compound as Ethketamine.",
+    "references_consulted": ["doi:10.1007/s00213-019-05219-x"]
+  },
+  {
+    "name": "Fluorexetamine",
+    "aliases_added": ["FXE"],
+    "iupac_name": "2-(ethylamino)-2-(3-fluorophenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccc(c1)F",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": null,
+          "action": "channelBlocker",
+          "species": null,
+          "reference": null,
+          "notes": "No formal Ki published. Expected affinity similar to MXE (~300 nM) based on F-for-MeO bioisostere logic in the 3-position (smaller F → less H-bonding → likely modestly lower NMDA affinity)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Fluorinated MXE analogue. Subjective duration reported shorter than MXE.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki"],
+    "notes": "Note alias collision: the name 'Fluorexetamine' has been used for both 3-F-MXE-like compounds and 2'-F-MXE — verify identity per source. Canket entry covers the 2'-F variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "Canket",
+    "aliases_added": [],
+    "iupac_name": "2-(ethylamino)-2-(2-fluorophenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1ccccc1F",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "2-fluoro analogue of O-PCE / N-ethyl-2F-DCK. Expected NMDA affinity similar to or higher than ketamine, by analogy to 2F-DCK.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["O-PCE", "MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "2'-Fluoro-2-Oxo-PCE. Marketplace identity ambiguous — sometimes called 'Canberra ketamine'. The name 'Fluorexetamine' overlaps with this and with 3-F-2-oxo-PCE.",
+    "references_consulted": []
+  },
+  {
+    "name": "Hydroxetamine",
+    "aliases_added": ["3-HO-2-Oxo-PCE", "HXE"],
+    "iupac_name": "2-(ethylamino)-2-(3-hydroxyphenyl)cyclohexan-1-one",
+    "smiles": "CCNC1(CCCCC1=O)c1cccc(c1)O",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA", "μ-opioid (presumed)"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "3-OH analogue of MXE. By analogy to 3-HO-PCP (μ-opioid Ki 39-60 nM) — likely μ-opioid agonist + NMDA antagonist. Could be hazardous combination.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["MXE", "3-HO-PCP"], "withdrawal_syndrome": "Possible opioid-like withdrawal", "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["possible-μ-opioid-agonist", "respiratory-depression-risk"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal MOR/NMDA Ki"],
+    "notes": "3-Hydroxy MXE analogue. Major safety concern: meta-OH arylcyclohexylamines (3-HO-PCP, 3-HO-PCE) have shown high μ-opioid affinity, raising respiratory depression risk uncharacteristic of pure NMDA antagonists.",
+    "references_consulted": []
+  },
+  {
+    "name": "Methylethylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(N-methyl-N-ethyl-amino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N,N-dialkyl ketamine analogue. Expected lower NMDA affinity than parent ketamine.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Methylpropylketamine",
+    "aliases_added": [],
+    "iupac_name": "2-(N-methyl-N-propyl-amino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N,N-dialkyl ketamine. No data.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "MXiPr",
+    "aliases_added": ["N-Isopropyl-MXE"],
+    "iupac_name": "2-(isopropylamino)-2-(3-methoxyphenyl)cyclohexan-1-one",
+    "smiles": "CC(C)NC1(CCCCC1=O)c1cccc(c1)OC",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-isopropyl analogue of MXE. Expected NMDA Ki similar to or slightly lower than MXE.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "MXPCP",
+    "aliases_added": [],
+    "iupac_name": "2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one",
+    "smiles": "COc1cccc(c1)C1(CCCCC1=O)N1CCCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "3-MeO-2'-oxo-PCP. Combines the 3-MeO substitution of 3-MeO-PCP with the 2'-oxo of ketamine — predicted highest NMDA affinity in the class per the task brief class context ('2'-Oxo + 3-MeO hits the highest affinity'). No published Ki.",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["3-MeO-PCP", "MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["likely-very-high-NMDA-potency"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki"],
+    "notes": "Theoretically the highest-affinity NMDA antagonist in the class per SAR analysis (combines 3-MeO from 3-MeO-PCP and 2'-oxo from ketamine, with piperidine).",
+    "references_consulted": []
+  },
+  {
+    "name": "MXPr",
+    "aliases_added": [],
+    "iupac_name": "2-(propylamino)-2-(3-methoxyphenyl)cyclohexan-1-one",
+    "smiles": "CCCNC1(CCCCC1=O)c1cccc(c1)OC",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-propyl analogue of MXE. Expected similar pharmacology to MXE.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["MXE"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCA",
+    "aliases_added": [],
+    "iupac_name": "2-amino-2-phenylcyclohexan-1-one",
+    "smiles": "NC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "Deschloro-nor-ketamine — primary amine (no N-substituent). NH2 is the simplest variant; expected lower NMDA affinity than secondary amines.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCAl",
+    "aliases_added": ["N-Allyl-DCK"],
+    "iupac_name": "2-(allylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "C=CCNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-allyl deschloroketamine. Allyl group may trigger CYP suicide inhibition.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCcP",
+    "aliases_added": ["N-Cyclopropyl-DCK"],
+    "iupac_name": "2-(cyclopropylamino)-2-phenylcyclohexan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": null, "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCEtOH",
+    "aliases_added": ["N-Ethanol-DCK"],
+    "iupac_name": "2-[(2-hydroxyethyl)amino]-2-phenylcyclohexan-1-one",
+    "smiles": "OCCNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-(2-hydroxyethyl) analogue. Polar N-substituent may decrease BBB penetration.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCiPr",
+    "aliases_added": ["N-Isopropyl-DCK"],
+    "iupac_name": "2-(isopropylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "CC(C)NC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": null, "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "O-PCP",
+    "aliases_added": ["2'-Oxo-PCP", "2-Keto-PCP"],
+    "iupac_name": "2-phenyl-2-(piperidin-1-yl)cyclohexan-1-one",
+    "smiles": "O=C1CCCCC1(c1ccccc1)N1CCCCC1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {
+      "primary_targets": ["NMDA"],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "2'-oxo (ketone) analogue of PCP. The β-keto group restricts conformation similar to ketamine. By Abelian 2024 SAR analysis, 2'-oxo substitution shifts subjective profile toward 'heavier/holier' character vs non-keto PCP — possibly via preferential occupation of one of the two PCP-site binding poses (Zhang 2021).",
+      "neuroimaging": []
+    },
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["PCP", "DCK"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": ["β-keto-PCP-analog"],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["formal Ki", "human PK"],
+    "notes": "Hybrid of PCP scaffold + ketamine-style β-keto. No formal binding data.",
+    "references_consulted": ["doi:10.1038/s41586-021-03769-9"]
+  },
+  {
+    "name": "O-PCPr",
+    "aliases_added": ["2'-Oxo-PCPr", "N-Propyl-DCK"],
+    "iupac_name": "2-(propylamino)-2-phenylcyclohexan-1-one",
+    "smiles": "CCCNC1(CCCCC1=O)c1ccccc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": null, "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": [], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Propylketamine",
+    "aliases_added": ["N-Propylnorketamine"],
+    "iupac_name": "2-(propylamino)-2-(2-chlorophenyl)cyclohexan-1-one",
+    "smiles": "CCCNC1(CCCCC1=O)c1ccccc1Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "arylcyclohexylamines",
+    "pharmacology": {"primary_targets": ["NMDA"], "binding": [], "functional": [], "biased_agonism": [], "receptor_oligomerisation": [], "downstream_signalling": "N-propyl analogue of ketamine. SAR generally shows N-methyl > N-ethyl > N-propyl at NMDA, so likely lower potency than parent.", "neuroimaging": []},
+    "human_pk": {"routes": [], "concentration_effect": []},
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {"relevant_genes": [], "phenotype_effects": null, "reference": null},
+    "tolerance_and_dependence": {"receptor_downregulation_half_time": null, "cross_tolerance": ["ketamine"], "withdrawal_syndrome": null, "reference": null},
+    "off_targets": [],
+    "demographic_differences": {"sex": null, "age": null, "weight": null, "renal_or_hepatic": null},
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": ["all pharmacology"],
+    "notes": "No published data.",
+    "references_consulted": []
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "arylcyclohexylamines",
+    "class_name": "Arylcyclohexylamines (NMDA antagonists at the PCP binding site)",
+    "shared_mechanism": "Arylcyclohexylamines are use-dependent, voltage-sensitive, non-competitive blockers of the NMDA receptor channel at the PCP binding site within the central vestibule. Channel block requires the channel to be open (agonist-bound, depolarized). Cryo-EM structures of S-ketamine bound to GluN1/GluN2A and GluN1/GluN2B (Zhang 2021, doi:10.1038/s41586-021-03769-9) revealed two distinct sub-poses within the binding pocket, mediated primarily by hydrophobic and hydrogen-bond interactions with GluN2A-L642 (≡ GluN2B-L643) and GluN1-N616. The two-pose model rationalizes apparent SAR discrepancies. Beyond NMDA blockade, members of the class engage σ1 receptors (PCP, 3-MeO-PCP strongly; ketamine weakly), serotonin and other monoamine transporters (MXE family especially SERT; 3-MeO-PCP SERT; PCP weakly DAT), HCN1 channels (ketamine, anesthetic relevance), and μ/κ-opioid receptors (3-HO-PCP strongly; ketamine weakly — debated as functional contributor to antidepressant action). The major ketamine metabolite (2R,6R)-hydroxynorketamine does NOT block NMDA at antidepressant-relevant concentrations and instead acts via α7-nAChR-dependent presynaptic glutamate release plus AMPA potentiation (Marcantoni 2024, Suzuki 2017).",
+    "shared_pk_summary": "Hepatic CYP-mediated metabolism dominates the class. Ketamine cleared predominantly by CYP2B6 and CYP3A4 to norketamine (active, 3× less potent at NMDA), then to (2R,6R)-HNK and dehydronorketamine. Oral routes give norketamine >> parent drug due to first-pass (norketamine/ketamine plasma ratio ~6:1). Bioavailability: IV 100%, IM ~93%, intranasal 25-50%, sublingual ~25-30%, oral ~17-25%. Half-lives 2-4 h for ketamine class; PCP is an outlier at 1-3 days due to high lipophilicity. Protein binding 12-50% across the class. CYP2B6*6/*6 PMs show ~50% reduction in oral ketamine clearance with implications for TRD therapy.",
+    "shared_safety": "Acute risk: respiratory depression at high doses (potentiated when combined with opioids or alcohol). Cardiovascular sympathomimetic effects (HR/BP increase). Emergence delirium, dissociation, occasional violent psychomotor agitation (highest for 3-MeO-PCP, 3-MeO-PCE, PCP). Hepatic toxicity — case reports for some research chemicals. Chronic risk: ulcerative cystitis (norketamine implicated) in heavy daily users; cognitive impairment; psychological dependence. Key off-targets: HCN1 (ketamine hypnosis), σ1 (3-MeO-PCP psychosis profile), μ-opioid (3-HO-PCP/E respiratory depression). Fatal blood concentrations: PCP >200 ng/mL, 3-MeO-PCP 50-3,525 ng/mL (very narrow window), ketamine >1,000 ng/mL (very wide therapeutic index).",
+    "sar_summary": "Core scaffold: phenyl + cyclohexyl + amine. SAR principles, with primary literature: (1) Aryl ring substitution dominates NMDA affinity: 3-methoxy > 3-ethoxy > 3-methyl > 3-fluoro > H > 2-chloro (ketamine); 4-position less effective than 3-position (Roth 2013 doi:10.1371/journal.pone.0059334). (2) 2'-oxo (β-keto) substitution: shortens duration, restricts conformation, shifts pose preference at PCP site (Zhang 2021), produces 'heavier' subjective profile per Abelian 2024 SAR analysis. (3) N-amine: N-methyl (ketamine) > N-ethyl (MXE/O-PCE) > N-propyl > N-cyclopropyl; primary amine (norketamine) ~3× less potent than N-methyl. Piperidine (PCP) and pyrrolidine (rolicyclidine) typically more potent at NMDA than secondary amines but with different σ1 and PK profiles. (4) Combining 2'-oxo + 3-MeO + piperidine (MXPCP-like) predicted maximum NMDA affinity. (5) Aryl ring replacement: thiophene-2 (tiletamine) retains NMDA activity; benzothiophene-2 (BTCP) eliminates NMDA and switches to DAT-selective. (6) Meta-OH (3-HO-PCP/E series) introduces μ-opioid agonism alongside NMDA blockade — major safety implication.",
+    "key_references": [
+      "doi:10.1371/journal.pone.0059334",
+      "doi:10.1038/s41586-021-03769-9",
+      "doi:10.1038/nature17998",
+      "doi:10.1523/JNEUROSCI.3481-08.2009",
+      "doi:10.1016/j.euroneuro.2011.07.006",
+      "doi:10.1097/00000542-199702000-00019",
+      "doi:10.1124/dmd.30.7.853",
+      "doi:10.3390/ijms232415574",
+      "doi:10.1038/s41398-024-02744-y",
+      "doi:10.1111/bph.15680"
+    ]
+  }
+]

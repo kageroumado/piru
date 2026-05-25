@@ -1,0 +1,399 @@
+{
+  "slug": "cannabinoids",
+  "name": "Cannabinoids (natural + synthetic)",
+  "count": 31,
+  "substances": [
+    {
+      "name": "4F-MDMB-BINACA",
+      "aliases": [
+        "4F-MDMB-BUTINACA",
+        "MDMB-4F-BINACA"
+      ],
+      "category": "Cannabinoid receptor agonist",
+      "tags": [],
+      "chemical_class": "Indazole-3-carboxamide synthetic cannabinoid"
+    },
+    {
+      "name": "4F-MDMB-BUTINACA",
+      "aliases": [
+        "4F-MDMB-BINACA"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4f-neb",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "research-chemical",
+        "synthetic-cannabinoid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4f-php",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5f-akb48",
+      "aliases": [
+        "5f-apinaca",
+        "5fakb48"
+      ],
+      "category": "Other",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5F-MDMB-PICA",
+      "aliases": [
+        "5F-MDMB-2201",
+        "5F-MMB-PICA"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indole-carboxamide",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5f-pb-22",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ab-chminaca",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ab-fubinaca",
+      "aliases": [
+        "ab-fub"
+      ],
+      "category": "Other",
+      "tags": [
+        "common",
+        "habit-forming",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ADB-BUTINACA",
+      "aliases": [
+        "ADMB-BUTINACA"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ADB-HEXINACA",
+      "aliases": [],
+      "category": "Cannabinoid",
+      "tags": [
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ADB-INACA",
+      "aliases": [],
+      "category": "Cannabinoid",
+      "tags": [],
+      "chemical_class": "Synthetic cannabinoid"
+    },
+    {
+      "name": "ADB-PINACA",
+      "aliases": [],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ADB-PINACA isomer 2",
+      "aliases": [
+        "ADB-PINACA structural isomer (non-parent)",
+        "ADB-PINACA positional isomer (isomer 2)",
+        "ADB-PINACA iso-2"
+      ],
+      "category": "Cannabinoid (full CB1/CB2 agonist)",
+      "tags": [],
+      "chemical_class": "Indazole-based synthetic cannabinoid"
+    },
+    {
+      "name": "ADBICA",
+      "aliases": [
+        "N-(1-(Aminocarbonyl)-2,2-dimethylpropyl)-1-pentyl-1H-indole-3-carboxamide",
+        "N-(1-amino-3,3-dimethyl-1-oxobutan-2-yl)-1-pentylindole-3-carboxamide",
+        "ADB-ICA"
+      ],
+      "category": "Cannabinoid receptor agonist (synthetic cannabinoid)",
+      "tags": [],
+      "chemical_class": "Indole–3-carboxamide synthetic cannabinoid"
+    },
+    {
+      "name": "AM-1248",
+      "aliases": [
+        "1-[(N-methylpiperidin-2-yl)methyl]-3-(adamant-1-oyl)indole",
+        "IUPAC: {1-[1-methylpiperidin-2-yl]-1H‑indol‑3‑yl}(tricyclo[3.3.1.13,7]dec‑1‑yl)methanone",
+        "AM 1248",
+        "AM-1248 (adamantoylindole)",
+        "CAS: 335160-66-2",
+        "adamantan-1-yl{1-[(1-methyl-2-piperidinyl)methyl]-1H-indol-3-yl}methanone"
+      ],
+      "category": "Synthetic cannabinoid receptor agonist (CB1/CB2)",
+      "tags": [],
+      "chemical_class": "Indole-3-carboxamide synthetic cannabinoid (adamantoylindole; AM-series, “class-6”)"
+    },
+    {
+      "name": "AM-2201",
+      "aliases": [
+        "am2201"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "aminoalkylindole",
+        "habit-forming",
+        "high-risk",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "AMB-CHMICA",
+      "aliases": [
+        "MDMB-CHM (short form)",
+        "Often confused with: AMB-CHMINACA (indazole valinate; a different SCRA)",
+        "MDMB-CHMICA (correct name for the indole tert‑leucinate; most literature, labs, and regulators use this)",
+        "MMB-CHMICA (common community alias)"
+      ],
+      "category": "Cannabinoid agonist / hallucinogen",
+      "tags": [],
+      "chemical_class": "Indole-based synthetic cannabinoid (cyclohexylmethyl-indole carboxamide)"
+    },
+    {
+      "name": "AMB-FUBINACA (AMB) — augmentation plan and justifications BEFORE JSON changes",
+      "aliases": [],
+      "category": "",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cannabichromene",
+      "aliases": [
+        "CBC",
+        "Cannabichrome"
+      ],
+      "category": "Cannabinoid (non-intoxicating)",
+      "tags": [],
+      "chemical_class": "Phytocannabinoid"
+    },
+    {
+      "name": "Cannabidiolic acid",
+      "aliases": [
+        "CBDA",
+        "CBD-A",
+        "cannabidiolic acid (CBD‑A)"
+      ],
+      "category": "non-intoxicating cannabinoid",
+      "tags": [],
+      "chemical_class": "cannabinoid (phytocannabinoid)"
+    },
+    {
+      "name": "Cannabigerol",
+      "aliases": [
+        "2-[(2E)-3,7-dimethylocta-2,6-dien-1-yl]-5-pentylbenzene-1,3-diol (IUPAC)",
+        "CBG",
+        "Cannabigerol (phytocannabinoid)",
+        "CBG isolate"
+      ],
+      "category": "Non-intoxicating cannabinoid / mild anxiolytic-stimulant",
+      "tags": [],
+      "chemical_class": "Phytocannabinoid (bicyclic terpenophenol)"
+    },
+    {
+      "name": "Cannabis",
+      "aliases": [
+        "dagga",
+        "hash",
+        "marijuana",
+        "thc",
+        "weed"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CBDV",
+      "aliases": [
+        "GWP42006",
+        "varinic CBD",
+        "Cannabidivarin",
+        "CBD-varin"
+      ],
+      "category": "Non-intoxicating cannabinoid",
+      "tags": [],
+      "chemical_class": "Phytocannabinoid"
+    },
+    {
+      "name": "CBN",
+      "aliases": [
+        "C21H26O2",
+        "Cannabinol",
+        "6H-Dibenzo[b,d]pyran-1-ol, 6,6,9-trimethyl-3-pentyl-",
+        "6,6,9-Trimethyl-3-pentyl-6H-dibenzo[b,d]pyran-1-ol"
+      ],
+      "category": "Non-intoxicating cannabinoid / mild depressant",
+      "tags": [],
+      "chemical_class": "Cannabinoid"
+    },
+    {
+      "name": "CBNA",
+      "aliases": [
+        "2-carboxy-cannabinol",
+        "CBNA (cannabinol-2-carboxylic acid)",
+        "CBN-A",
+        "Cannabinolic acid"
+      ],
+      "category": "Cannabinoid (largely non-intoxicating; precursor to CBN)",
+      "tags": [],
+      "chemical_class": "Phytocannabinoid acid; oxidative degradation product of Δ9-THCA/Δ9-THC"
+    },
+    {
+      "name": "JWH-018",
+      "aliases": [
+        "K2",
+        "Spice"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "aminoalkylindole",
+        "high-risk",
+        "no-human-data",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "JWH-073",
+      "aliases": [],
+      "category": "Cannabinoid",
+      "tags": [
+        "aminoalkylindole",
+        "high-risk",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MADAM-6",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "synthetic-cannabinoid"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMB-4en-PINACA",
+      "aliases": [],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MMB-2201",
+      "aliases": [
+        "5F-AMB",
+        "AMB-FUBINACA"
+      ],
+      "category": "Cannabinoid",
+      "tags": [
+        "fatalities-reported",
+        "high-risk",
+        "indazole-carboxamide",
+        "synthetic-cannabinoid",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

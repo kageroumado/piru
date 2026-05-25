@@ -1,0 +1,591 @@
+{
+  "slug": "designer-opioids",
+  "name": "Designer opioids (fentanyl analogues, nitazenes, brorphine, U-series)",
+  "count": 42,
+  "substances": [
+    {
+      "name": "4-meo-butryfentanyl",
+      "aliases": [
+        "4-meo-bf"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Methoxybutyrfentanyl",
+      "aliases": [
+        "p-MeO-butyrylfentanyl",
+        "N-(4-methoxyphenyl)-N-[1-(2-phenylethyl)-4-piperidinyl]butanamide",
+        "para-Methoxybutyrylfentanyl",
+        "4-MeO-BF",
+        "4-Methoxy-butyrylfentanyl"
+      ],
+      "category": "µ-opioid receptor agonist (opioid analgesic)",
+      "tags": [],
+      "chemical_class": "4-Anilidopiperidine (fentanyl) analogue"
+    },
+    {
+      "name": "4Cl-iBF",
+      "aliases": [
+        "p-Chloro-isobutyrylfentanyl",
+        "4-Cl-iBF",
+        "p-Cl-iBF",
+        "para-Chloroisobutyrylfentanyl",
+        "p-Cl-IBF",
+        "4-Cl-IBF",
+        "p-Chloroisobutyrylfentanyl"
+      ],
+      "category": "Opioid (μ-opioid receptor agonist)",
+      "tags": [],
+      "chemical_class": "4-anilidopiperidine (fentanyl analogue)"
+    },
+    {
+      "name": "Acetylfentanyl",
+      "aliases": [
+        "a-f",
+        "acetyl-fentanyl"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Acryl-fentanyl",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Acrylfentanyl",
+      "aliases": [
+        "Acryloylfentanyl",
+        "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acrylamide",
+        "Acryl-fentanyl",
+        "N-(1-phenethylpiperidin-4-yl)-N-phenylacrylamide"
+      ],
+      "category": "Opioid (µ-agonist)",
+      "tags": [],
+      "chemical_class": "4-anilidopiperidine (fentanyl analogue)"
+    },
+    {
+      "name": "Ah-7921",
+      "aliases": [
+        "ah7921"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Alfentanil",
+      "aliases": [
+        "Rapifen",
+        "R-39209",
+        "Alfentanyl",
+        "Fanaxal",
+        "Alfentanil hydrochloride",
+        "Alfenta",
+        "R 39209"
+      ],
+      "category": "Opioid",
+      "tags": [],
+      "chemical_class": "Phenylpiperidine (fentanyl analog)"
+    },
+    {
+      "name": "Benzodioxole-fentanyl",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Brorphine",
+      "aliases": [
+        "1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-1,3-dihydro-2H-benzo[d]imidazol-2-one"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Butonitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Butyrfentanyl",
+      "aliases": [
+        "bf"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Carfentanil",
+      "aliases": [
+        "Wildnil (veterinary brand)",
+        "Carfentanyl",
+        "methyl 1-(2-phenylethyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate",
+        "R-33799",
+        "4-methoxycarbonylfentanyl"
+      ],
+      "category": "Opioid analgesic",
+      "tags": [],
+      "chemical_class": "Opioid (4-anilidopiperidine)"
+    },
+    {
+      "name": "Clonitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "nitazene",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyclopentyl-fentanyl",
+      "aliases": [
+        "cp-f"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etazene",
+      "aliases": [
+        "Desnitroetonitazene"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etodesnitazene",
+      "aliases": [
+        "Etazene"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "mu-opioid-agonist",
+        "nitazene",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etonitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fentanyl",
+      "aliases": [
+        "1-Phenethyl-4-(N-phenylpropionamido)piperidine",
+        "1-phenethyl-4-N-propionylanilinopiperidine",
+        "fent",
+        "N-(1-phenethyl-4-piperidinyl)-N-phenylpropionamide",
+        "N-(1-phenethyl-4-piperidyl)propionanilide",
+        "N-(1-phenethylpiperidin-4-yl)-N-phenylpropionamide",
+        "N-phenethyl-4-(N-propionylanilino)piperidine",
+        "N-phenyl-N-(1-(2-phenylethyl)-4-piperidinyl)propanamide",
+        "phentanyl"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "no-human-data",
+        "phenethylamine",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flunitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Furanylfentanyl",
+      "aliases": [
+        "fu-f",
+        "furanyl-fentanyl"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isotonitazene",
+      "aliases": [
+        "Iso"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isotonitazepyne",
+      "aliases": [
+        "NPI",
+        "N-pyrrolidino isotonitazene",
+        "isotonitazepyne citrate (as sold, salt form varies)",
+        "iso-pyne"
+      ],
+      "category": "Opioid analgesic / μ-opioid receptor super-agonist",
+      "tags": [],
+      "chemical_class": "Benzimidazole opioid (nitazene subclass)"
+    },
+    {
+      "name": "Lofentanil",
+      "aliases": [
+        "R-34995",
+        "3-methyl-4-carbomethoxyfentanyl",
+        "3-methylcarfentanil",
+        "levo-cis-3-methylcarfentanil"
+      ],
+      "category": "Opioid analgesic (ultra-potent μ- and κ-receptor agonist)",
+      "tags": [],
+      "chemical_class": "3-methyl-4-carbomethoxy fentanyl (piperidinyl anilide opioid)"
+    },
+    {
+      "name": "Methoxyacetyl-fentanyl",
+      "aliases": [
+        "desfluoroocfentanil",
+        "maf"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Metodesnitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Metonitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mt-45",
+      "aliases": [
+        "ic-6",
+        "mt45"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Desethylprotonitazene",
+      "aliases": [
+        "N-desethyl protonitazene",
+        "NDP",
+        "N-desethyl-protonitazene",
+        "N-desethyl-protonitazene HCl",
+        "Nitazene (subclass)",
+        "Desethyl-protonitazene"
+      ],
+      "category": "Opioid analgesic / μ-opioid receptor agonist",
+      "tags": [],
+      "chemical_class": "Benzimidazole opioid (nitazene subclass; 2-benzylbenzimidazole)"
+    },
+    {
+      "name": "N-Pyrrolidino-etonitazene",
+      "aliases": [
+        "Etazene-pyrrolidine",
+        "Etonitazepyne"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Pyrrolidino-metonitazene",
+      "aliases": [
+        "Metonitazepyne"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nitazene",
+      "aliases": [
+        "1-[2-(Diethylamino)ethyl]-2-benzyl-5-nitro-1H-benzimidazole",
+        "14030-71-8",
+        "DTXSID601356250",
+        "Nitazene"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "mu-opioid-agonist",
+        "nitazene",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Parafluorobutyrfentanyl",
+      "aliases": [
+        "4-fbf",
+        "4-fluorobutyrfentanyl",
+        "pfbf"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Parafluorofentanyl",
+      "aliases": [
+        "4-fluorofentanyl",
+        "pff"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Protonitazene",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pyrrolidino-protonitazene",
+      "aliases": [
+        "Protonitazepyne"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "benzimidazole-opioid",
+        "extreme-potency",
+        "fatalities-reported",
+        "fentanyl-stronger",
+        "nitazene"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Remifentanil",
+      "aliases": [
+        "Ultiva",
+        "Remifentanyl",
+        "Remifentanil hydrochloride"
+      ],
+      "category": "Ultra-short-acting opioid analgesic",
+      "tags": [],
+      "chemical_class": "Phenyl-piperidine synthetic opioid"
+    },
+    {
+      "name": "Sufentanil",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tetrahydrofuran-fentanyl",
+      "aliases": [
+        "thf-f"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "U-47700",
+      "aliases": [
+        "u47700"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "U-49900",
+      "aliases": [],
+      "category": "Opioid",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Valerylfentanyl",
+      "aliases": [
+        "vf"
+      ],
+      "category": "Opioid",
+      "tags": [
+        "habit-forming",
+        "mu-opioid-agonist",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

@@ -1,0 +1,5394 @@
+[
+  {
+    "name": "Morphine",
+    "aliases_added": [],
+    "iupac_name": "(5\u03b1,6\u03b1)-7,8-didehydro-4,5-epoxy-17-methylmorphinan-3,6-diol",
+    "smiles": "CN1CC[C@]23c4c5ccc(O)c4O[C@H]2[C@H](O)C=C[C@H]3[C@H]1C5",
+    "inchikey": "BQJCRHHNABKAKU-KBQPJGBKSA-N",
+    "cas": "57-27-2",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "\u03bc-opioid receptor (MOR)",
+        "\u03b4-opioid receptor (DOR)",
+        "\u03ba-opioid receptor (KOR)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain homogenate",
+          "radioligand_or_probe": "[3H]-DAMGO",
+          "assay_buffer_notes": "50 mM Tris-HCl pH 7.4, 60 min at 25 \u00b0C",
+          "reference": "pmid:1851921",
+          "is_review": false,
+          "notes": "Chen 1991. In the Volpe 2011 uniform-assay ranking of recombinant human MOR (PMC, doi:10.1016/j.yrtph.2010.12.007) morphine fell in the Ki=1-100 nM bin."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ec50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing recombinant human MOR",
+          "radioligand_or_probe": "[3H]-diprenorphine displacement / [35S]GTP\u03b3S",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe et al. 2011 \u2014 morphine classified in Ki = 1\u2013100 nM bin; uniform-assay re-ranking."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "\u03b2-arrestin-2 recruitment",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "cell_system": "U2OS PathHunter",
+          "reference": "doi:10.1124/jpet.116.235952",
+          "notes": "Morphine recruits \u03b2-arrestin-2 with intermediate efficacy compared with DAMGO; this is the comparator against which 'G-protein biased' opioids (TRV130, mitragynines) are normalised."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "G\u03b1i cAMP",
+            "\u03b2-arrestin-2"
+          ],
+          "bias_factor_log": 0.0,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Morphine is the canonical reference compound used to define \u03b2-arrestin-2 over-recruitment liability; some analyses place it as marginally arrestin-biased relative to DAMGO, but the 'biased agonism rescues respiratory depression' hypothesis (originating from Bohn 1999/2000, KO mice) is now contested.",
+          "reference": "doi:10.1016/j.neuropharm.2020.108125"
+        }
+      ],
+      "receptor_oligomerisation": [
+        {
+          "complex": "\u03bc/\u03b4-opioid heteromer",
+          "evidence": "BRET in HEK293",
+          "functional_consequence": "Morphine binding at \u03bc in \u03bc/\u03b4 heteromer shifts pharmacology; \u03b4-antagonists potentiate morphine analgesia and slow tolerance.",
+          "reference": "doi:10.1126/scisignal.2000807"
+        }
+      ],
+      "downstream_signalling": "G\u03b1i/o coupling \u2192 inhibition of adenylyl cyclase (decreased cAMP), activation of GIRK potassium channels (hyperpolarisation), inhibition of N/P/Q-type Cav channels (decreased neurotransmitter release). Repeated activation drives GRK-mediated phosphorylation, \u03b2-arrestin-2 recruitment, receptor desensitisation and internalisation (morphine internalises MOR poorly compared with DAMGO/etorphine \u2014 the 'RAVE' paradox).",
+      "neuroimaging": [
+        {
+          "modality": "PET",
+          "finding": "Morphine displaces [11C]carfentanil from MOR in human striatum, thalamus, and cingulate cortex; displacement correlates with analgesic and euphoric ratings.",
+          "reference": "doi:10.1124/jpet.103.057091"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 25,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 60,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 120,
+          "vd_l_per_kg": 3.5,
+          "clearance_ml_per_min_per_kg": 15,
+          "protein_binding_pct": 35,
+          "dose_in_study_mg": 30,
+          "subject_n": null,
+          "subject_demographics": "adult, mixed",
+          "reference": "doi:10.1016/j.jpain.2009.12.002",
+          "notes": "F% ranges 20-40% due to high first-pass UGT2B7 glucuronidation; oral AUC ratios M3G:morphine \u2248 30:1, M6G:morphine \u2248 5:1."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 120,
+          "vd_l_per_kg": 3.5,
+          "clearance_ml_per_min_per_kg": 15,
+          "protein_binding_pct": 35,
+          "reference": "doi:10.1016/j.jpain.2009.12.002"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "analgesia (postoperative VAS)",
+          "concentration_unit": "ng/mL",
+          "threshold": 10,
+          "peak_effect": 30,
+          "reference": "doi:10.1093/bja/85.1.66"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 70,
+        "metabolite_name": "morphine-3-glucuronide (M3G)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1016/j.bja.2017.10.014",
+        "notes": "M3G has been implicated in opioid-induced hyperalgesia/neuroexcitation (TLR4) but is not an MOR agonist."
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "morphine-6-glucuronide (M6G)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 200,
+        "reference": "doi:10.1016/j.bja.2017.10.014",
+        "notes": "M6G accumulates in renal failure \u2192 prolonged sedation/respiratory depression. Penetrates BBB poorly but acts at MOR with higher intrinsic potency than parent."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "rifampicin",
+        "mechanism": "UGT2B7 / Pgp induction",
+        "ki_um": null,
+        "clinical_effect": "decreased morphine AUC; rare loss of analgesia",
+        "reference": "doi:10.1111/j.1365-2125.2009.03398.x"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1 (A118G / rs1799971)",
+        "UGT2B7",
+        "COMT"
+      ],
+      "phenotype_effects": "OPRM1 118G carriers show ~2x lower brain MOR binding potential, need ~30% more morphine for the same analgesia, but are paradoxically protected against morphine-induced respiratory depression (OR 5.6 for AA vs G-carriers). UGT2B7*2 alters M6G/M3G ratio. COMT Val158Met affects pain processing and morphine requirement.",
+      "reference": "pmid:25395868"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Receptor internalisation by morphine is paradoxically weaker than DAMGO; tolerance is driven more by signalling adaptation than receptor loss. Functional desensitisation occurs over days.",
+      "cross_tolerance": [
+        "all MOR full agonists (heroin, oxycodone, hydromorphone, fentanyl)"
+      ],
+      "withdrawal_syndrome": "Onset 6-12 h after last dose; peak 36-72 h; lasts 5-10 days. Symptoms: rhinorrhoea, lacrimation, mydriasis, piloerection, myalgia, abdominal cramps, diarrhoea, autonomic hyperactivity, dysphoria.",
+      "reference": "doi:10.1056/NEJMra1604339"
+    },
+    "off_targets": [
+      {
+        "target": "TLR4 (M3G metabolite)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Proposed mechanism for opioid-induced hyperalgesia; clinical importance debated.",
+        "reference": "doi:10.1016/j.bbi.2009.08.004"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women report stronger analgesia from morphine at equivalent plasma concentrations; mechanism likely receptor sensitivity rather than PK.",
+      "age": "Elderly (>65) have ~50% reduced clearance and higher Cmax; reduce dose 25-50%.",
+      "weight": null,
+      "renal_or_hepatic": "Renal failure: M6G/M3G accumulate dramatically \u2192 reduce dose, lengthen interval, or switch to hydromorphone/fentanyl."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "UGT2B7-substrate",
+      "active-glucuronide-M6G",
+      "OPRM1-sensitive"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "definitive human cloned MOR Ki measured in same lab as comparators"
+    ],
+    "notes": "Morphine is the reference opioid; all relative potencies in clinical use are anchored to it.",
+    "references_consulted": [
+      "pmid:1851921",
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1016/j.bja.2017.10.014",
+      "pmid:25395868",
+      "doi:10.1056/NEJMra1604339"
+    ]
+  },
+  {
+    "name": "6-Monoacetylmorphine",
+    "aliases_added": [
+      "6-AM",
+      "6-acetylmorphine"
+    ],
+    "iupac_name": "(5\u03b1,6\u03b1)-7,8-didehydro-4,5-epoxy-17-methylmorphinan-3-ol 6-acetate",
+    "smiles": "CC(=O)O[C@H]1C=C[C@H]2[C@H]3Cc4ccc(O)c5c4[C@@]2(CCN3C)[C@H]1O5",
+    "inchikey": "GMHKMTDVRCWUDX-OAQYLSRUSA-N",
+    "cas": "2784-73-8",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "DOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ec50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "morphine",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat thalamic membranes",
+          "radioligand_or_probe": "[3H]DAMGO; [35S]GTP\u03b3S",
+          "assay_buffer_notes": null,
+          "reference": "pmid:11448454",
+          "is_review": false,
+          "notes": "Selley et al. 2001 \u2014 6-MAM has affinity near-equal to morphine but greater efficacy than morphine in stimulating [35S]GTP\u03b3S binding at MOR. Higher Emax explains heroin > morphine rush at equimolar exposure."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "[35S]GTP\u03b3S binding",
+          "ec50_nm": null,
+          "emax_pct": 140,
+          "reference_agonist": "morphine (100%)",
+          "species": "rat",
+          "cell_system": "thalamic membranes",
+          "reference": "pmid:11448454"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same G\u03b1i cascade as morphine; greater intrinsic efficacy at MOR; also activates DOR (Negus et al. 1994, pmid:8138935).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 25,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "reference": "pmid:31268284",
+          "notes": "6-MAM is the dominant heroin metabolite in blood for the first 30 min; crosses BBB more efficiently than heroin or morphine but is restricted by P-gp/BCRP."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "carboxylesterase (CES1, CES2) / pseudo-cholinesterase",
+        "fraction_of_clearance_pct": 100,
+        "metabolite_name": "morphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "doi:10.1038/s41598-019-50461-0"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1",
+        "ABCB1 (P-gp)"
+      ],
+      "phenotype_effects": "P-gp ablation in mice doubles brain accumulation of 6-MAM and morphine.",
+      "reference": "doi:10.1007/s11095-023-03545-6"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "heroin",
+        "morphine",
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "Inseparable from heroin/morphine withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "heroin-metabolite",
+      "MOR-full-agonist",
+      "primary-active-species-after-heroin"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "human cloned MOR Ki measured against DAMGO"
+    ],
+    "notes": "6-MAM, not morphine, drives the acute rush after intravenous heroin (Gott\u00e5s 2019, pmid:31268284).",
+    "references_consulted": [
+      "pmid:11448454",
+      "pmid:31268284",
+      "doi:10.1007/s11095-023-03545-6"
+    ]
+  },
+  {
+    "name": "Heroin",
+    "aliases_added": [
+      "3,6-diacetylmorphine",
+      "diacetylmorphine"
+    ],
+    "iupac_name": "(5\u03b1,6\u03b1)-7,8-didehydro-4,5-epoxy-17-methylmorphinan-3,6-diol diacetate",
+    "smiles": "CC(=O)O[C@H]1C=C[C@H]2[C@H]3Cc4ccc(OC(C)=O)c5c4[C@@]2(CCN3C)[C@H]1O5",
+    "inchikey": "GVGLGOZIDCSQPN-PVHGPHFFSA-N",
+    "cas": "561-27-3",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via 6-MAM/morphine)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membranes",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "pmid:11448454",
+          "is_review": false,
+          "notes": "Heroin itself binds MOR with low intrinsic affinity; pharmacology is dominated by rapid hydrolysis to 6-MAM and morphine."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Acts predominantly as a lipophilic prodrug; rapid esterase hydrolysis (t\u00bd \u2248 2-3 min) to 6-MAM then morphine. The fast onset/'rush' reflects BBB penetration of the diester rather than direct receptor activity.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 3,
+          "reference": "doi:10.1111/add.16201",
+          "notes": "Parent heroin half-life ~2-6 min; undetectable by 10-40 min. Effects driven by 6-MAM then morphine."
+        },
+        {
+          "route": "insufflation",
+          "bioavailability_pct": 50,
+          "tmax_min": 5,
+          "reference": "doi:10.1016/S0306-4603(99)00073-4"
+        },
+        {
+          "route": "smoked",
+          "bioavailability_pct": 50,
+          "tmax_min": 1,
+          "reference": "doi:10.1016/S0306-4603(99)00073-4"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "human carboxylesterase 1/2, pseudocholinesterase",
+        "fraction_of_clearance_pct": 100,
+        "metabolite_name": "6-MAM (then morphine, then M3G/M6G)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:31268284"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1",
+        "ABCB1"
+      ],
+      "phenotype_effects": "Same OPRM1 sensitivity as morphine; CES1 polymorphism could in principle alter hydrolysis but is not clinically established.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "As morphine but more abrupt \u2014 onset 4-8 h, peak 36-72 h, duration 5-10 d.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Renal failure prolongs M6G accumulation \u2014 same caveat as morphine."
+    },
+    "tags_to_add": [
+      "prodrug",
+      "MOR-full-agonist-via-metabolite",
+      "high-abuse-liability"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Heroin is functionally a lipophilic morphine pro-prodrug. Naloxone reverses heroin overdose by antagonising MOR occupied by 6-MAM/morphine.",
+    "references_consulted": [
+      "pmid:11448454",
+      "pmid:31268284",
+      "doi:10.1111/add.16201"
+    ]
+  },
+  {
+    "name": "Buprenorphine",
+    "aliases_added": [
+      "Subutex",
+      "Sublocade",
+      "Belbuca",
+      "Butrans"
+    ],
+    "iupac_name": "(2S)-2-[(5R,6R,7R,14S)-9\u03b1-cyclopropylmethyl-3-hydroxy-6-methoxy-4,5-epoxy-6,14-ethano-morphinan-7-yl]-3,3-dimethylbutan-2-ol",
+    "smiles": null,
+    "inchikey": "RMRJXGBAOAMLHD-IHFGGWKQSA-N",
+    "cas": "52485-79-7",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "KOR",
+        "DOR",
+        "NOP (ORL-1)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.21,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes expressing recombinant human MOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.107.121319",
+          "is_review": false,
+          "notes": "Sub-nanomolar MOR Ki; very slow off-rate explains long clinical duration and difficulty in displacement during overdose."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 0.6,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1124/jpet.107.121319",
+          "is_review": false,
+          "notes": "Functional KOR antagonism contributes to mood-elevating effects and is the basis for buprenorphine's antidepressant signal."
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 6.1,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1124/jpet.107.121319",
+          "is_review": false
+        },
+        {
+          "target": "NOP (ORL-1)",
+          "ki_nm": 77,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "CHO membranes",
+          "radioligand_or_probe": "[3H]nociceptin",
+          "reference": "doi:10.1124/jpet.107.121319",
+          "is_review": false,
+          "notes": "Weak NOP partial agonism \u2014 proposed to modulate reward and may contribute to reduced abuse liability."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "[35S]GTP\u03b3S",
+          "ec50_nm": null,
+          "emax_pct": 30,
+          "reference_agonist": "DAMGO (100%)",
+          "species": "human",
+          "cell_system": "CHO",
+          "reference": "doi:10.1523/JNEUROSCI.3723-08.2009",
+          "notes": "Virk & Williams 2009 / J. Neurosci. \u2014 buprenorphine Emax ~25-40% of full agonists; intrinsic efficacy at MOR is low."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Partial G\u03b1i activation, very slow MOR dissociation (>2 h), poor internalisation. Norbuprenorphine metabolite is a FULL agonist at MOR, DOR, NOP \u2014 and 10\u00d7 more respiratory-depressant than parent in rats (Brown 2011, doi:10.1016/j.taap.2011.02.014) \u2014 BUT does not cross the human BBB efficiently, which is why buprenorphine's clinical respiratory ceiling holds. Buprenorphine itself competitively blocks norbuprenorphine from CNS MOR (Brown 2011).",
+      "neuroimaging": [
+        {
+          "modality": "PET",
+          "finding": "16 mg sublingual buprenorphine produces ~80-95% MOR occupancy that persists 24-76 h; this is the basis for once-daily and depot dosing.",
+          "reference": "doi:10.2967/jnumed.110.082313"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "sublingual",
+          "bioavailability_pct": 30,
+          "tmax_min": 90,
+          "half_life_min": 1900,
+          "protein_binding_pct": 96,
+          "dose_in_study_mg": 8,
+          "subject_n": null,
+          "reference": "doi:10.2165/00003088-200544070-00001",
+          "notes": "Oral F% <10% due to first-pass; sublingual \u224830%. Effective elimination half-life 24-42 h."
+        },
+        {
+          "route": "transdermal",
+          "bioavailability_pct": 15,
+          "half_life_min": 1800,
+          "reference": "doi:10.2165/00003088-200544070-00001"
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 180,
+          "vd_l_per_kg": 2.5,
+          "clearance_ml_per_min_per_kg": 19,
+          "protein_binding_pct": 96,
+          "reference": "doi:10.2165/00003088-200544070-00001"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "respiratory rate (ceiling)",
+          "concentration_unit": "ng/mL",
+          "threshold": 2,
+          "peak_effect": 8,
+          "reference": "doi:10.1097/01.anes.0000200543.10063.1f",
+          "notes": "Dahan 2006 \u2014 respiratory depression plateaus at \u224850% of baseline minute ventilation, the famous ceiling effect."
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 65,
+        "metabolite_name": "norbuprenorphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 1000,
+        "reference": "doi:10.1124/dmd.105.004135",
+        "notes": "Picard 2005 \u2014 CYP3A4 dominant, CYP2C8 minor contributor. Norbup is a full MOR/DOR/NOP agonist but has poor BBB penetration in humans."
+      },
+      {
+        "enzyme": "UGT1A1, UGT2B7",
+        "fraction_of_clearance_pct": 30,
+        "metabolite_name": "buprenorphine-3-glucuronide / norbuprenorphine-3-glucuronide",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1124/dmd.110.037523",
+        "notes": "Brown 2011 \u2014 both glucuronides are biologically active at opioid receptors."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / atazanavir / ketoconazole",
+        "mechanism": "strong CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "\u2191 buprenorphine AUC 1.5-3x",
+        "reference": "doi:10.1097/QAI.0b013e3181b8d2a3"
+      },
+      {
+        "with": "rifampicin / efavirenz",
+        "mechanism": "CYP3A4 induction",
+        "ki_um": null,
+        "clinical_effect": "\u2193 buprenorphine AUC \u226550%, possible withdrawal",
+        "reference": "doi:10.1086/527566"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4/5",
+        "CYP2C8",
+        "OPRM1",
+        "UGT2B7"
+      ],
+      "phenotype_effects": "CYP3A4 polymorphisms and inducers/inhibitors meaningfully alter buprenorphine and norbuprenorphine AUC. OPRM1 118G carriers may need higher maintenance doses.",
+      "reference": "doi:10.1124/dmd.105.004135"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Very slow MOR off-rate (>2 h dissociation) means antagonist effects persist; withdrawal symptoms milder and slower-onset than full agonists.",
+      "cross_tolerance": [
+        "methadone",
+        "morphine (partial)"
+      ],
+      "withdrawal_syndrome": "Onset 24-72 h after last dose; peak 5-7 d; milder but more protracted than morphine; insomnia and dysphoria last weeks.",
+      "reference": "doi:10.1056/NEJMra1604339"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": 7700,
+        "concern_level": "low",
+        "clinical_consequence": "Clinically meaningful QT prolongation rare; no torsades signal in routine use.",
+        "reference": "doi:10.1093/qjmed/hcg143"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Elderly: reduce initial dose; longer half-life.",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment: large F% changes; avoid in severe liver disease. Renal failure: no major dose change needed."
+    },
+    "tags_to_add": [
+      "MOR-partial-agonist",
+      "KOR-antagonist",
+      "ceiling-effect-respiratory",
+      "long-half-life",
+      "CYP3A4-substrate",
+      "OUD-treatment"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "The respiratory ceiling effect \u2014 partial agonism at MOR limits maximal respiratory depression \u2014 is the safety feature that makes bup viable for opioid use disorder maintenance. Naloxone reversal of buprenorphine overdose requires HIGH doses (\u22652-4 mg) and may not fully overcome the slow off-rate.",
+    "references_consulted": [
+      "doi:10.1124/jpet.107.121319",
+      "doi:10.1523/JNEUROSCI.3723-08.2009",
+      "doi:10.2165/00003088-200544070-00001",
+      "doi:10.1124/dmd.105.004135",
+      "doi:10.1124/dmd.110.037523"
+    ]
+  },
+  {
+    "name": "Methadone",
+    "aliases_added": [
+      "Dolophine",
+      "Methadose",
+      "Physeptone"
+    ],
+    "iupac_name": "(\u00b1)-6-(dimethylamino)-4,4-diphenylheptan-3-one",
+    "smiles": "CCC(=O)C(C(C)CN(C)C)(c1ccccc1)c1ccccc1",
+    "inchikey": "USSIQXCVUWKGNF-UHFFFAOYSA-N",
+    "cas": "76-99-3",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "NMDA receptor (non-competitive)",
+        "hERG (off-target)",
+        "SERT/NET"
+      ],
+      "binding": [
+        {
+          "target": "MOR (R-methadone)",
+          "ki_nm": 1.7,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant human MOR / membrane",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1038/s41380-023-02353-z",
+          "is_review": false,
+          "notes": "R-methadone is the active opioid enantiomer; ~10\u00d7 higher MOR affinity than S."
+        },
+        {
+          "target": "MOR (S-methadone)",
+          "ki_nm": 17,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant human MOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1038/s41380-023-02353-z",
+          "is_review": false,
+          "notes": "Bossert 2023 \u2014 S-methadone is a MOR partial agonist with selectively reduced efficacy at MOR-Gal1R heteromer; low abuse liability."
+        },
+        {
+          "target": "NMDA receptor (MK-801 site)",
+          "ki_nm": null,
+          "ic50_nm": 7400,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat cortex",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/0304-3940(95)11343-7",
+          "is_review": false,
+          "notes": "Non-competitive NMDA antagonist; both enantiomers equipotent. Believed to contribute to efficacy in opioid-tolerant patients and neuropathic pain."
+        },
+        {
+          "target": "hERG (S-methadone)",
+          "ki_nm": null,
+          "ic50_nm": 2000,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "HEK293-hERG",
+          "reference": "pmid:17329992",
+          "is_review": false,
+          "notes": "Eap 2007 \u2014 (S)-methadone blocks hERG 3.5\u00d7 more potently than (R)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [
+        {
+          "complex": "MOR-Gal1R heteromer",
+          "evidence": "Bossert 2023, BRET / heteromer-selective bias assays",
+          "functional_consequence": "S-methadone has selectively low efficacy at this complex, which is implicated in opioid reward; this is offered as a mechanism for low abuse liability of (S)-MTD (REL-1017/esmethadone).",
+          "reference": "doi:10.1038/s41380-023-02353-z"
+        }
+      ],
+      "downstream_signalling": "MOR G\u03b1i cascade + non-competitive NMDA antagonism + SERT/NET reuptake inhibition. The NMDA antagonism is hypothesised to reduce opioid tolerance and treat neuropathic pain.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 80,
+          "tmax_min": 240,
+          "half_life_min": 1800,
+          "vd_l_per_kg": 4,
+          "clearance_ml_per_min_per_kg": 1.4,
+          "protein_binding_pct": 89,
+          "reference": "doi:10.2165/00003088-200241140-00003",
+          "notes": "Eap 2002 \u2014 half-life highly variable (8-59 h), median ~24 h. F% high but inter-individual variability is enormous."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 1800,
+          "reference": "doi:10.2165/00003088-200241140-00003"
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "QTc prolongation",
+          "concentration_unit": "ng/mL",
+          "threshold": 200,
+          "peak_effect": 1000,
+          "reference": "doi:10.1592/phco.27.6.825",
+          "notes": "Daily methadone dose >100 mg / serum >1000 ng/mL associated with increased TdP risk."
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": 74,
+        "metabolite_name": "EDDP (2-ethylidene-1,5-dimethyl-3,3-diphenylpyrrolidine)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1002/cpt.2956",
+        "notes": "CPIC 2024 guideline \u2014 CYP2B6 dominant; CYP3A4/5 contributes <5% by recent modelling. CYP2D6 minimal."
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 5,
+        "metabolite_name": "EDDP",
+        "metabolite_active": false,
+        "reference": "doi:10.1002/cpt.2956"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "rifampicin",
+        "mechanism": "CYP3A4/2B6 induction",
+        "clinical_effect": "Precipitates methadone withdrawal in maintenance patients",
+        "reference": "doi:10.1056/NEJM197605132942005"
+      },
+      {
+        "with": "fluconazole / fluvoxamine",
+        "mechanism": "CYP3A4/2C19 inhibition",
+        "clinical_effect": "\u2191 methadone exposure, \u2191 QT risk",
+        "reference": "doi:10.1592/phco.27.6.825"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2B6 (*6/*6, *18)",
+        "CYP3A4/5",
+        "CYP2C19",
+        "OPRM1",
+        "ABCB1"
+      ],
+      "phenotype_effects": "CYP2B6 *6/*6 (slow metabolisers) have ~50% higher S-methadone plasma concentrations \u2192 4.5\u00d7 increased TdP risk (Eap 2007). CPIC 2024 recommends genotype-informed dosing.",
+      "reference": "doi:10.1002/cpt.2956"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "heroin",
+        "all MOR full agonists (partial \u2014 NMDA antagonism modifies cross-tolerance)"
+      ],
+      "withdrawal_syndrome": "Onset 36-72 h, peak 6-10 d, lasts 3-6 weeks; protracted dysphoria common.",
+      "reference": "doi:10.1056/NEJMra1604339"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": 2000,
+        "concern_level": "high",
+        "clinical_consequence": "QT prolongation, TdP, sudden cardiac death. ECG before initiation and at steady state recommended; risk \u2191 above 100 mg/d.",
+        "reference": "pmid:17329992"
+      },
+      {
+        "target": "\u03c31",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Binds \u03c31; clinical relevance unclear.",
+        "reference": "doi:10.1016/j.coph.2014.07.017"
+      },
+      {
+        "target": "SERT/NET",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Weak monoamine reuptake inhibition; theoretical serotonin syndrome risk when combined with strong serotonergics.",
+        "reference": "doi:10.1124/jpet.111.184382"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Elderly: slower clearance, prolonged half-life \u2014 start low, go slow.",
+      "weight": null,
+      "renal_or_hepatic": "Modest changes with renal impairment; faecal excretion compensates. Hepatic impairment: caution."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "NMDA-antagonist",
+      "hERG-strong",
+      "CYP2B6-substrate",
+      "long-half-life",
+      "QT-prolonging"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Methadone half-life >> analgesic duration (4-8 h) means accumulation is the killer \u2014 overdose deaths cluster in week 1 of initiation. Rotating from morphine equivalents requires the conservative methadone-specific conversion (not linear with morphine).",
+    "references_consulted": [
+      "doi:10.1038/s41380-023-02353-z",
+      "pmid:17329992",
+      "doi:10.1002/cpt.2956",
+      "doi:10.2165/00003088-200241140-00003",
+      "doi:10.1592/phco.27.6.825"
+    ]
+  },
+  {
+    "name": "Codeine",
+    "aliases_added": [
+      "methylmorphine",
+      "3-methylmorphine"
+    ],
+    "iupac_name": "(5\u03b1,6\u03b1)-7,8-didehydro-4,5-epoxy-3-methoxy-17-methylmorphinan-6-ol",
+    "smiles": "COc1ccc2C[C@H]3[C@@H]4C=C[C@H](O)[C@@H]5Oc1c2[C@]35CCN4C",
+    "inchikey": "OROGSEYTTFOCAN-DNJOTXNNSA-N",
+    "cas": "76-57-3",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (mostly via morphine metabolite)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 200,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:1851921",
+          "is_review": false,
+          "notes": "Codeine MOR Ki ~200\u00d7 weaker than morphine; analgesia depends almost entirely on CYP2D6 O-demethylation to morphine (~10% of dose)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Codeine itself is a weak MOR agonist; activity derives from CYP2D6 \u2192 morphine. Codeine-6-glucuronide (UGT2B7) is a minor active metabolite.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 60,
+          "tmax_min": 60,
+          "half_life_min": 180,
+          "vd_l_per_kg": 3.5,
+          "protein_binding_pct": 7,
+          "reference": "doi:10.1097/PR9.0000000000000615"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "morphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 20000,
+        "reference": "pmid:28520367",
+        "notes": "Rate-limiting bioactivation step; PMs get ~96% lower morphine AUC, UMs get supratherapeutic morphine from normal codeine doses."
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "norcodeine",
+        "metabolite_active": false,
+        "reference": "pmid:28520367"
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "codeine-6-glucuronide",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:28520367"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "paroxetine / fluoxetine / bupropion",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "Phenoconverts EM to PM \u2192 loss of codeine analgesia",
+        "reference": "pmid:28520367"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2D6 UM (\u22653 functional copies, ~1-2% Caucasian, 30% Ethiopian): risk of fatal morphine intoxication from standard doses \u2014 multiple infant deaths reported in breastfeeding UM mothers and post-tonsillectomy children \u2192 FDA contraindicated codeine <12 yo (2017). CYP2D6 PM (~5-10% Caucasian): no analgesia. CPIC strongly recommends genotype-guided dosing or alternative.",
+      "reference": "doi:10.1038/clpt.2011.287"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "hydrocodone",
+        "tramadol"
+      ],
+      "withdrawal_syndrome": "Mild morphine-type withdrawal at chronic doses.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": "AVOID in children <12 y and adolescents <18 y post-tonsillectomy (FDA black box).",
+      "weight": null,
+      "renal_or_hepatic": "Renal failure: morphine and M6G accumulate; reduce dose."
+    },
+    "tags_to_add": [
+      "CYP2D6-prodrug",
+      "pharmacogenetic-critical",
+      "MOR-via-metabolite"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Codeine is the textbook CYP2D6 pharmacogenetics example \u2014 PMs get no analgesia, UMs get respiratory depression. NEJMa041888 reports the seminal infant death case.",
+    "references_consulted": [
+      "pmid:1851921",
+      "pmid:28520367",
+      "doi:10.1038/clpt.2011.287",
+      "https://www.nejm.org/doi/full/10.1056/NEJMoa041888"
+    ]
+  },
+  {
+    "name": "Tramadol",
+    "aliases_added": [
+      "Ultram",
+      "Tramal"
+    ],
+    "iupac_name": "(\u00b1)-cis-2-[(dimethylamino)methyl]-1-(3-methoxyphenyl)cyclohexanol",
+    "smiles": "COc1cccc(c1)C1(O)CCCCC1CN(C)C",
+    "inchikey": "TVYLLZQTGLZFBW-ZBFHGGJFSA-N",
+    "cas": "27203-92-5",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (weak; potent via M1 metabolite)",
+        "SERT",
+        "NET"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 2100,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8788430",
+          "is_review": false,
+          "notes": "Raffa 1992 \u2014 parent tramadol Ki \u2248 2.1 \u03bcM (weak); analgesia largely from M1 (O-DSMT)."
+        },
+        {
+          "target": "MOR (+)-tramadol",
+          "ki_nm": 1300,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8788430",
+          "is_review": false
+        },
+        {
+          "target": "MOR (\u2212)-tramadol",
+          "ki_nm": 24800,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8788430",
+          "is_review": false
+        },
+        {
+          "target": "SERT (+)-tramadol",
+          "ki_nm": 530,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat synaptosomes",
+          "radioligand_or_probe": "[3H]5-HT uptake",
+          "reference": "pmid:8788430",
+          "is_review": false,
+          "notes": "(+)-tramadol enantiomer dominates SERT inhibition."
+        },
+        {
+          "target": "NET (\u2212)-tramadol",
+          "ki_nm": 430,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat synaptosomes",
+          "radioligand_or_probe": "[3H]NE uptake",
+          "reference": "pmid:8788430",
+          "is_review": false,
+          "notes": "(\u2212)-tramadol enantiomer dominates NET inhibition."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Two parallel mechanisms: (1) parent tramadol + M1 \u2192 MOR G\u03b1i cascade; (2) parent \u2192 SERT/NET inhibition \u2192 enhanced descending inhibition. M1 (O-desmethyltramadol) is the dominant opioid effector.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 75,
+          "tmax_min": 120,
+          "half_life_min": 360,
+          "vd_l_per_kg": 3,
+          "protein_binding_pct": 20,
+          "reference": "doi:10.2165/00003088-200443130-00004",
+          "notes": "Grond 2004 \u2014 F% \u224870-80%; M1 t\u00bd \u2248 7-9 h."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 20,
+        "metabolite_name": "O-desmethyltramadol (M1)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 20000,
+        "reference": "pmid:28520365",
+        "notes": "M1 has \u2248200\u00d7 higher MOR affinity than parent; clinical analgesia largely depends on M1."
+      },
+      {
+        "enzyme": "CYP3A4 / CYP2B6",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "N-desmethyltramadol (M2)",
+        "metabolite_active": false,
+        "reference": "pmid:28520365"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "SSRIs / SNRIs / MAOIs",
+        "mechanism": "additive serotonergic + CYP2D6 inhibition",
+        "clinical_effect": "serotonin syndrome; seizure threshold lowered",
+        "reference": "doi:10.1097/JCP.0b013e3181c34c34"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2D6 PMs: poor analgesia (low M1). UMs: respiratory depression from low doses, multiple paediatric deaths; FDA contraindicates tramadol in children <12 y. CPIC 2021 guideline.",
+      "reference": "doi:10.1002/cpt.2149"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine (partial)"
+      ],
+      "withdrawal_syndrome": "Hybrid opioid + serotonergic/noradrenergic discontinuation syndrome \u2014 opioid (sweating, GI) PLUS atypical (panic, paraesthesias, hallucinations, severe insomnia) lasting 5-15 d.",
+      "reference": "doi:10.1080/15389580701552510"
+    },
+    "off_targets": [
+      {
+        "target": "seizure threshold",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Lowers seizure threshold; risk amplified by SSRIs, bupropion, TCAs, and at supratherapeutic doses.",
+        "reference": "doi:10.1097/JCP.0b013e3181c34c34"
+      },
+      {
+        "target": "5-HT3",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Minor 5-HT3 antagonism may contribute to anti-emetic / analgesic profile.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Contraindicated <12 y; caution >65 (renal/hepatic decline).",
+      "weight": null,
+      "renal_or_hepatic": "Reduce dose in CKD and cirrhosis."
+    },
+    "tags_to_add": [
+      "MOR-weak-via-M1",
+      "SNRI",
+      "CYP2D6-prodrug",
+      "serotonin-syndrome-risk",
+      "seizure-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "The serotonergic and seizure liability separates tramadol from classical opioids and creates DDI risks (SSRIs, MAOIs, linezolid) that don't apply to morphine.",
+    "references_consulted": [
+      "pmid:8788430",
+      "pmid:28520365",
+      "doi:10.2165/00003088-200443130-00004",
+      "doi:10.1002/cpt.2149"
+    ]
+  },
+  {
+    "name": "O-desmethyltramadol",
+    "aliases_added": [
+      "M1",
+      "O-DSMT"
+    ],
+    "iupac_name": "(\u00b1)-cis-2-[(dimethylamino)methyl]-1-(3-hydroxyphenyl)cyclohexanol",
+    "smiles": "Oc1cccc(c1)C1(O)CCCCC1CN(C)C",
+    "inchikey": "RPHCDNKKBHHJGS-UHFFFAOYSA-N",
+    "cas": "73806-50-5",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "SERT",
+        "NET"
+      ],
+      "binding": [
+        {
+          "target": "MOR (+)-O-DSMT",
+          "ki_nm": 3.4,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8788430",
+          "is_review": false,
+          "notes": "Raffa 1992 \u2014 (+) enantiomer is the potent MOR agonist; \u2248400\u00d7 more potent than parent (+)-tramadol."
+        },
+        {
+          "target": "MOR (\u2212)-O-DSMT",
+          "ki_nm": 240,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8788430",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i cascade; retains tramadol-like monoamine effects but with much greater opioid contribution.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "tmax_min": 90,
+          "half_life_min": 540,
+          "reference": "doi:10.2165/00003088-200443130-00004",
+          "notes": "As metabolite of tramadol or when administered directly (desmetramadol clinical trials NCT04683926)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT2B7 / UGT1A8",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "O-DSMT-glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.105.005124"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1",
+        "UGT2B7"
+      ],
+      "phenotype_effects": "Bypasses CYP2D6 phenoconversion when administered directly; OPRM1 sensitivity applies as for any MOR agonist.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "all MOR agonists"
+      ],
+      "withdrawal_syndrome": "Opioid + monoaminergic, similar to tramadol.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "seizure threshold",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Inherits tramadol's seizure liability via mono\u00adamine reuptake inhibition.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Renal failure: accumulates."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "tramadol-metabolite",
+      "SNRI",
+      "seizure-risk"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "direct human Cmax for orally administered O-DSMT alone"
+    ],
+    "notes": "O-DSMT is the true opioid in tramadol therapy. When sold as a research chemical it bypasses CYP2D6 phenoconversion, making dosing more predictable but eliminating tramadol's 'self-limiting' poor-metaboliser safety margin.",
+    "references_consulted": [
+      "pmid:8788430",
+      "doi:10.1124/dmd.105.005124"
+    ]
+  },
+  {
+    "name": "Oxycodone",
+    "aliases_added": [],
+    "iupac_name": "(5R,9R,13S,14S)-4,5\u03b1-epoxy-14-hydroxy-3-methoxy-17-methylmorphinan-6-one",
+    "smiles": "COc1ccc2C[C@H]3N(C)CC[C@@]45[C@H]2c1O[C@@H]4C(=O)CC[C@@]35O",
+    "inchikey": "BRUQQQPBMZOVGD-XFKAJCMBSA-N",
+    "cas": "76-42-6",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "KOR (weak)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 18,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe 2011 uniform assay; ~15\u00d7 weaker than morphine at hMOR but oral F% and BBB transport compensate."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i cascade; some active influx transport into rat brain (parental oxycodone, not metabolites, dominates CNS effect in humans).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 75,
+          "tmax_min": 90,
+          "half_life_min": 240,
+          "vd_l_per_kg": 2.6,
+          "protein_binding_pct": 45,
+          "reference": "doi:10.2165/00003088-199631040-00005"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4/5",
+        "fraction_of_clearance_pct": 45,
+        "metabolite_name": "noroxycodone",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1124/jpet.106.105825",
+        "notes": "Lalovic 2006 \u2014 major pathway; noroxycodone has negligible MOR activity."
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 11,
+        "metabolite_name": "oxymorphone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 800,
+        "reference": "doi:10.1124/jpet.106.105825",
+        "notes": "Oxymorphone has 40-60\u00d7 higher MOR affinity than oxycodone but contributes only \u224815% of analgesia in EMs because plasma exposure is low."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "itraconazole / ritonavir",
+        "mechanism": "strong CYP3A4 inhibition",
+        "clinical_effect": "\u2191 oxycodone AUC 2-3\u00d7",
+        "reference": "doi:10.1111/j.1365-2125.2010.03683.x"
+      },
+      {
+        "with": "rifampicin",
+        "mechanism": "CYP3A4 induction",
+        "clinical_effect": "\u2193 oxycodone AUC \u226585%; loss of analgesia",
+        "reference": "doi:10.1038/clpt.2009.198"
+      },
+      {
+        "with": "paroxetine",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "Reduces oxymorphone formation; small reduction in subjective effects",
+        "reference": "doi:10.1007/s00228-009-0654-3"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP3A4/5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2D6 status modulates oxymorphone formation but oxycodone's parent activity means PM/UM effect is smaller than for codeine/tramadol. CYP3A inhibition is the bigger clinical lever.",
+      "reference": "doi:10.3390/pharmaceutics13091466"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "Morphine-type, onset 8-12 h, peak 36-72 h.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": "Women: 25% higher Cmax/AUC than men.",
+      "age": "Elderly: ~25% reduced clearance.",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment: 2\u00d7 AUC, halve dose. Renal failure: parent accumulates."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "CYP3A4-substrate",
+      "CYP2D6-minor",
+      "high-oral-F"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Unlike codeine/hydrocodone, oxycodone has meaningful intrinsic MOR activity, so CYP2D6 status is less critical clinically.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1124/jpet.106.105825",
+      "doi:10.2165/00003088-199631040-00005",
+      "doi:10.3390/pharmaceutics13091466"
+    ]
+  },
+  {
+    "name": "Hydromorphone",
+    "aliases_added": [
+      "Dilaudid",
+      "Palladone"
+    ],
+    "iupac_name": "(5R,9R,13S,14S)-4,5\u03b1-epoxy-3-hydroxy-17-methylmorphinan-6-one",
+    "smiles": "Oc1ccc2C[C@H]3N(C)CC[C@@]45[C@H]2c1O[C@@H]4C(=O)CC[C@@]35[H]",
+    "inchikey": "WVLOADHCBXTIJK-YNHQPCIGSA-N",
+    "cas": "466-99-9",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.6,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe 2011 \u2014 sub-nanomolar, in Ki<1 nM tier with oxymorphone/buprenorphine. ~5\u00d7 morphine potency in clinical use."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i; no significant active metabolites in normal renal function.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 24,
+          "tmax_min": 60,
+          "half_life_min": 150,
+          "vd_l_per_kg": 4,
+          "protein_binding_pct": 19,
+          "reference": "doi:10.2165/11530830-000000000-00000"
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 150,
+          "vd_l_per_kg": 4,
+          "reference": "doi:10.2165/11530830-000000000-00000"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT2B7 (>95%)",
+        "fraction_of_clearance_pct": 95,
+        "metabolite_name": "hydromorphone-3-glucuronide (H3G)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1124/dmd.108.025130",
+        "notes": "H3G has been associated with neuroexcitation/myoclonus in renal failure; analogous to morphine-3-glucuronide."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "cannabinoids (CBD/CBG)",
+        "mechanism": "UGT2B7 inhibition",
+        "ki_um": 0.5,
+        "clinical_effect": "potential increase in hydromorphone AUC",
+        "reference": "doi:10.1016/j.clpt.2025.09.012"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "UGT2B7 (*2)",
+        "OPRM1"
+      ],
+      "phenotype_effects": "UGT2B7*2 (-840G>A) modestly alters PK in some Asian populations.",
+      "reference": "pmid:24706503"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Elderly: reduce dose.",
+      "weight": null,
+      "renal_or_hepatic": "Renal failure: H3G accumulates \u2192 myoclonus, seizures."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "UGT2B7-substrate",
+      "high-potency"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Often preferred over morphine in renal failure because H3G is less neurotoxic than M3G, though debated.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.2165/11530830-000000000-00000",
+      "doi:10.1124/dmd.108.025130"
+    ]
+  },
+  {
+    "name": "Hydrocodone",
+    "aliases_added": [
+      "Norco",
+      "Vicodin",
+      "Lortab"
+    ],
+    "iupac_name": "(5R,9R,13S,14S)-4,5\u03b1-epoxy-3-methoxy-17-methylmorphinan-6-one",
+    "smiles": "COc1ccc2C[C@H]3N(C)CC[C@@]45[C@H]2c1O[C@@H]4C(=O)CC[C@@]35[H]",
+    "inchikey": "LLPOLZWFYMWNKH-CMKMFDCUSA-N",
+    "cas": "125-29-1",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (mostly via hydromorphone metabolite in EMs; some direct activity)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 41,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe 2011 \u2014 Ki ~40 nM. Hydromorphone has 10-100\u00d7 higher affinity, so CYP2D6 conversion meaningfully contributes."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Hybrid of direct MOR activation + CYP2D6\u2192hydromorphone bioactivation.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 60,
+          "tmax_min": 90,
+          "half_life_min": 240,
+          "vd_l_per_kg": null,
+          "protein_binding_pct": 36,
+          "reference": "doi:10.3389/fphar.2018.01122"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 50,
+        "metabolite_name": "norhydrocodone",
+        "metabolite_active": false,
+        "reference": "pmid:14998425"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "hydromorphone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 1000,
+        "reference": "pmid:14998425",
+        "notes": "Km 26 \u03bcM high-affinity CYP2D6 step; PMs have ~50% reduced subjective effects."
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 40,
+        "metabolite_name": "hydrocodone-glucuronide",
+        "metabolite_active": false,
+        "reference": "pmid:14998425"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "paroxetine / fluoxetine",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "\u2193 hydromorphone exposure; some reduction in analgesia",
+        "reference": "pmid:7693389"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2D6 PMs have reduced analgesia; UMs may have exaggerated effects but less dramatic than codeine because parent has intrinsic activity.",
+      "reference": "pmid:7693389"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "CYP3A4-substrate",
+      "CYP2D6-bioactivation"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Functionally between codeine and oxycodone \u2014 parent has meaningful MOR activity, but CYP2D6 still matters.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.3389/fphar.2018.01122",
+      "pmid:14998425",
+      "pmid:7693389"
+    ]
+  },
+  {
+    "name": "Oxymorphone",
+    "aliases_added": [
+      "Opana",
+      "Numorphan"
+    ],
+    "iupac_name": "(5R,9R,13S,14S)-4,5\u03b1-epoxy-3,14-dihydroxy-17-methylmorphinan-6-one",
+    "smiles": "Oc1ccc2C[C@H]3N(C)CC[C@@]45[C@H]2c1O[C@@H]4C(=O)CC[C@@]35O",
+    "inchikey": "UQCNKQCJZOAFTQ-ISWURRPUSA-N",
+    "cas": "76-41-5",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.4,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe 2011 \u2014 sub-nanomolar, one of the highest-affinity classical opioids. 40-60\u00d7 more potent than oxycodone at MOR."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 10,
+          "tmax_min": 60,
+          "half_life_min": 480,
+          "protein_binding_pct": 10,
+          "reference": "doi:10.1517/14656560903413575"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "oxymorphone-3-glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.1517/14656560903413575"
+      },
+      {
+        "enzyme": "CYP-mediated 6-keto reduction",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "6-OH-oxymorphone",
+        "metabolite_active": true,
+        "reference": "doi:10.1517/14656560903413575"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "UGT2B7",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Less CYP-dependent than oxycodone; few clinically significant pharmacogenetic interactions.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment dramatically increases oral F%; avoid in moderate-severe cirrhosis."
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "high-potency",
+      "UGT2B7-substrate"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Bypasses CYP-mediated metabolism; useful in patients on enzyme inhibitors.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1517/14656560903413575"
+    ]
+  },
+  {
+    "name": "Mitragynine",
+    "aliases_added": [
+      "MG",
+      "9-methoxycorynantheidine"
+    ],
+    "iupac_name": "methyl (E)-2-[(2S,3S,12bS)-3-ethyl-8-methoxy-1,2,3,4,6,7,12,12b-octahydroindolo[2,3-a]quinolizin-2-yl]-3-methoxyacrylate",
+    "smiles": "CC[C@H]1CN2CCc3c([C@H]2C[C@@H]1\\C(=C\\OC)C(=O)OC)[nH]c1cc(OC)ccc31",
+    "inchikey": "LELBFTMXCIIKKX-QVRQZEMUSA-N",
+    "cas": "4098-40-2",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (partial)",
+        "KOR (antagonist)",
+        "DOR (antagonist)",
+        "\u03b12-adrenergic",
+        "5-HT2A/2C (weak)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 233,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false,
+          "notes": "V\u00e1rfi/Kruegel 2016, JACS \u2014 Ki ~233 nM (also reported 161-700 nM across labs). Partial agonist, low intrinsic efficacy (Emax ~30-50% of DAMGO)."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 772,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hKOR",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 8174,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hDOR",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "\u03b2-arrestin-2 recruitment (PathHunter)",
+          "ec50_nm": null,
+          "emax_pct": 0,
+          "reference_agonist": "DAMGO (100%)",
+          "species": "human",
+          "cell_system": "U2OS",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "notes": "Kruegel/Majumdar 2016 \u2014 essentially no \u03b2-arrestin-2 recruitment \u2192 strongly G-protein biased."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "G\u03b1i cAMP",
+            "\u03b2-arrestin-2"
+          ],
+          "bias_factor_log": null,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Mitragynine is G-protein biased (recruits \u03b2-arrestin-2 essentially not at all), which is the proposed mechanism for kratom's apparently lower respiratory depression at equianalgesic doses vs morphine. The 'biased agonism = safer opioid' hypothesis is now controversial (Conibear & Kelly 2019 / doi:10.1016/j.tips.2019.04.002) \u2014 much of the safety may come from low intrinsic efficacy / partial agonism, not bias per se.",
+          "reference": "doi:10.1021/jacs.6b00360"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR partial G\u03b1i without \u03b2-arrestin-2; some \u03b12-adrenergic and weak 5-HT2 activity contribute to subjective profile. CYP3A4 converts mitragynine to 7-hydroxymitragynine in vivo \u2014 7-OH-MG is the dominant pharmacologically active species after oral kratom (Kruegel 2019).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "tmax_min": 50,
+          "half_life_min": 1390,
+          "cmax_ng_per_ml": 159,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "reference": "pmid:25995615",
+          "notes": "Trakulsrichai 2015 \u2014 Tmax 0.83 h, t\u00bd 23 h (range 9-43 h, dose-dependent). Cmax dose-dependent."
+        },
+        {
+          "route": "oral",
+          "half_life_min": 2580,
+          "reference": "doi:10.3390/molecules29050984",
+          "notes": "Huestis 2024 \u2014 t\u00bd 42.9 h after high single dose, 61 h after multiple dosing."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 70,
+        "metabolite_name": "7-hydroxymitragynine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 1000,
+        "reference": "doi:10.1021/acscentsci.9b00141",
+        "notes": "Kruegel 2019 \u2014 CYP3A4 generates 7-OH-MG in vivo; 7-OH-MG is the dominant analgesic species after oral kratom."
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 10,
+        "metabolite_name": "various demethylated metabolites",
+        "metabolite_active": null,
+        "reference": "pmid:24126017"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Tanna 2024 \u2014 itraconazole \u2191 mitragynine AUC ~3\u00d7 and reduces 7-OH-MG (less bioactivation).",
+        "reference": "doi:10.1021/acsptsci.3c00335"
+      },
+      {
+        "with": "CYP2D6 substrates (dextromethorphan, codeine)",
+        "mechanism": "CYP2D6 inhibition by mitragynine",
+        "ki_um": null,
+        "clinical_effect": "Mitragynine inhibits CYP2D6 (IC50 0.45 mM in HLM); clinical relevance modest.",
+        "reference": "doi:10.1016/j.dmpk.2014.01.001"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4/5",
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP3A inhibition reduces 7-OH-MG formation and may reduce kratom's opioid effects; OPRM1 sensitivity applies to the MOR component.",
+      "reference": "doi:10.1021/acsptsci.3c00335"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine (partial)",
+        "7-OH-mitragynine"
+      ],
+      "withdrawal_syndrome": "Mild-moderate opioid withdrawal \u2014 rhinorrhoea, myalgia, anxiety, restlessness, insomnia; usually milder and shorter than full agonists but well-documented (10-15% of chronic users meet DSM criteria).",
+      "reference": "doi:10.1038/s41386-020-0664-5"
+    },
+    "off_targets": [
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Some in vitro hERG block at supratherapeutic concentrations; rare QT signal in case reports.",
+        "reference": "doi:10.1016/j.taap.2020.115056"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-partial-agonist",
+      "G-protein-biased",
+      "KOR-antagonist",
+      "CYP3A4-bioactivation",
+      "kratom-alkaloid"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "definitive biased-agonism quantification in matched-lab conditions"
+    ],
+    "notes": "Mitragynine is a partial MOR agonist with G-protein bias, but in vivo most of kratom's opioid effect after oral dosing comes from CYP3A4-derived 7-hydroxymitragynine, which is a near-full MOR agonist (Kruegel 2019).",
+    "references_consulted": [
+      "doi:10.1021/jacs.6b00360",
+      "doi:10.1021/acscentsci.9b00141",
+      "pmid:25995615",
+      "doi:10.3390/molecules29050984",
+      "doi:10.1021/acsptsci.3c00335"
+    ]
+  },
+  {
+    "name": "7-Hydroxymitragynine",
+    "aliases_added": [
+      "7-OH-MG",
+      "7OH"
+    ],
+    "iupac_name": "methyl (E)-2-[(2S,3S,7aS,12bS)-3-ethyl-7a-hydroxy-8-methoxy-1,2,3,4,6,7,7a,12b-octahydroindolo[2,3-a]quinolizin-2-yl]-3-methoxyacrylate",
+    "smiles": null,
+    "inchikey": "BUPVKMVKQGTUET-OTRJLOAOSA-N",
+    "cas": "174418-82-7",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (near-full agonist)",
+        "KOR (weak partial)",
+        "DOR (antagonist)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 47,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false,
+          "notes": "Kruegel/Majumdar 2016 \u2014 ~5\u00d7 higher MOR affinity than mitragynine. Other recent measurements report 47-78 nM."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 188,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hKOR",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 219,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 hDOR",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "is_review": false
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "[35S]GTP\u03b3S / cAMP",
+          "ec50_nm": null,
+          "emax_pct": 90,
+          "reference_agonist": "DAMGO (100%)",
+          "species": "human",
+          "cell_system": "CHO",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "notes": "Near-full G-protein efficacy."
+        },
+        {
+          "target": "MOR",
+          "readout": "\u03b2-arrestin-2 recruitment",
+          "ec50_nm": null,
+          "emax_pct": 10,
+          "reference_agonist": "DAMGO (100%)",
+          "species": "human",
+          "cell_system": "U2OS",
+          "reference": "doi:10.1021/jacs.6b00360",
+          "notes": "Poor \u03b2-arrestin-2 recruitment \u2014 G-protein biased; the bias is the cited safety hypothesis."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "G-protein",
+            "\u03b2-arrestin-2"
+          ],
+          "bias_factor_log": null,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Strongly G-protein biased; in mice, 7-OH-MG produces analgesia with reduced respiratory depression and constipation vs morphine at equianalgesic doses (Chakraborty 2019/2021). However, abuse liability is real \u2014 case reports of physical dependence and overdose are accumulating as concentrated 7-OH products proliferate on the market.",
+          "reference": "doi:10.1021/acscentsci.9b00141"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Near-full G\u03b1i cascade at MOR with minimal \u03b2-arrestin-2 recruitment.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "tmax_min": 90,
+          "half_life_min": 150,
+          "reference": "doi:10.3390/molecules29050984",
+          "notes": "Huestis 2024 \u2014 7-OH-MG t\u00bd ~2.5 h after kratom tea; minor exposure compared with parent mitragynine. Direct 7-OH-MG dosing produces much higher Cmax and longer half-life."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT / further oxidation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "mitragynine pseudoindoxyl (and glucuronides)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1021/jm501686e",
+        "notes": "Majumdar 2016 \u2014 pseudoindoxyl rearrangement product is also a G-protein-biased MOR agonist."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "mitragynine",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Opioid-type withdrawal; concentrated 7-OH products produce rapid tolerance and dependence resembling full agonists.",
+      "reference": "doi:10.1038/s41386-020-0664-5"
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-near-full-agonist",
+      "G-protein-biased",
+      "kratom-metabolite",
+      "high-abuse-liability"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "human PK after direct (non-kratom) 7-OH dosing"
+    ],
+    "notes": "7-OH-MG is the dominant in-vivo opioid effector after oral kratom (Kruegel 2019, ACS Cent Sci). Concentrated 7-OH-MG products (tablets, gummies) marketed as 'kratom alternatives' since 2023 deliver receptor agonism in the same potency tier as morphine and carry corresponding overdose risk. The G-protein bias does not eliminate abuse liability.",
+    "references_consulted": [
+      "doi:10.1021/jacs.6b00360",
+      "doi:10.1021/acscentsci.9b00141",
+      "doi:10.1021/jm501686e",
+      "doi:10.3390/molecules29050984"
+    ]
+  },
+  {
+    "name": "Kratom",
+    "aliases_added": [
+      "Mitragyna speciosa",
+      "ketum",
+      "biak"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via mitragynine + 7-OH-MG)",
+        "\u03b12-adrenergic",
+        "weak 5-HT2A/2C"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Multi-alkaloid mixture; major constituents are mitragynine (60-66% of alkaloid mass), paynantheine (8-9%), speciogynine (6-7%), 7-hydroxymitragynine (\u22642%), speciociliatine, mitraphylline. Pharmacology is dominated by mitragynine and its CYP3A4-derived 7-OH-MG metabolite (Kruegel 2019).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "tmax_min": 50,
+          "half_life_min": 1390,
+          "reference": "pmid:25995615",
+          "notes": "Trakulsrichai 2015 \u2014 mitragynine PK in 10 chronic kratom users (Thailand). Mitragynine Cmax ~105 ng/mL after typical brewed-tea dose."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4 (mitragynine\u21927-OH-MG bioactivation)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "7-hydroxymitragynine and pseudoindoxyl",
+        "metabolite_active": true,
+        "reference": "doi:10.1021/acscentsci.9b00141"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP3A4 inhibitors / inducers",
+        "mechanism": "alters 7-OH-MG formation",
+        "clinical_effect": "Modulates kratom opioid effect",
+        "reference": "doi:10.1021/acsptsci.3c00335"
+      },
+      {
+        "with": "serotonergics, tramadol, fentanyl, alcohol, benzodiazepines",
+        "mechanism": "pharmacodynamic \u2014 additive CNS depression / serotonergic",
+        "clinical_effect": "Most kratom-related fatalities involve polypharmacy.",
+        "reference": "doi:10.1093/jat/bkz048"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4/5",
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine (partial)",
+        "all MOR agonists"
+      ],
+      "withdrawal_syndrome": "Mild to moderate opioid withdrawal in regular users; well-characterised but generally less severe than morphine/heroin withdrawal.",
+      "reference": "doi:10.1038/s41386-020-0664-5"
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "plant-mixture",
+      "MOR-via-7-OH-MG"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Crude kratom leaf is dramatically safer than concentrated 7-OH-MG extracts because in raw kratom 7-OH-MG comprises \u22642% of alkaloid mass.",
+    "references_consulted": [
+      "pmid:25995615",
+      "doi:10.1021/acscentsci.9b00141",
+      "doi:10.1021/acsptsci.3c00335",
+      "doi:10.1038/s41386-020-0664-5"
+    ]
+  },
+  {
+    "name": "Tapentadol",
+    "aliases_added": [
+      "Nucynta",
+      "Palexia"
+    ],
+    "iupac_name": "3-[(1R,2R)-3-(dimethylamino)-1-ethyl-2-methylpropyl]phenol",
+    "smiles": "CC[C@H](c1cccc(O)c1)[C@@H](C)CN(C)C",
+    "inchikey": "KWTWDQCKEHXFFR-SMDDNHRTSA-N",
+    "cas": "175591-23-8",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "NET"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 96,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:17656655",
+          "is_review": false,
+          "notes": "Tzschentke 2007 \u2014 Ki 96 nM at cloned hMOR (some sources quote 60 nM at rat MOR). ~50\u00d7 weaker than morphine yet only 2-3\u00d7 less analgesic in vivo due to NRI synergy."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 480,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "synaptosomes",
+          "radioligand_or_probe": "[3H]NE uptake",
+          "reference": "pmid:17656655",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ki_nm": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "synaptosomes",
+          "reference": "pmid:17656655",
+          "is_review": false,
+          "notes": "Tapentadol has only weak SERT activity (>30\u00d7 selectivity for NET vs SERT) \u2192 much lower serotonin-syndrome risk than tramadol."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "[35S]GTP\u03b3S",
+          "ec50_nm": null,
+          "emax_pct": 70,
+          "reference_agonist": "DAMGO (100%)",
+          "species": "human",
+          "cell_system": "CHO",
+          "reference": "doi:10.1002/prp2.921",
+          "notes": "Manandhar 2022 \u2014 tapentadol has lower intrinsic efficacy at MOR than morphine or oxycodone (partial agonist character at MOR)."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i + central noradrenergic inhibition \u2192 synergistic analgesia. NET-mediated descending pain modulation contributes most of analgesia at typical doses.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 32,
+          "tmax_min": 75,
+          "half_life_min": 240,
+          "vd_l_per_kg": 7.4,
+          "protein_binding_pct": 20,
+          "reference": "doi:10.2165/11534400-000000000-00000"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT1A6/1A9/2B7 (glucuronidation)",
+        "fraction_of_clearance_pct": 70,
+        "metabolite_name": "tapentadol-O-glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.2165/11534400-000000000-00000",
+        "notes": "Glucuronidation dominates clearance \u2014 NOT CYP-dependent; minimal DDI footprint and minimal pharmacogenetic CYP impact."
+      },
+      {
+        "enzyme": "CYP2C9/2C19",
+        "fraction_of_clearance_pct": 15,
+        "metabolite_name": "hydroxytapentadol",
+        "metabolite_active": false,
+        "reference": "doi:10.2165/11534400-000000000-00000"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs / strong serotonergics",
+        "mechanism": "pharmacodynamic \u2014 NE excess",
+        "clinical_effect": "Hypertensive crisis with MAOIs (contraindicated). Serotonin syndrome risk lower than tramadol because SERT activity minimal.",
+        "reference": "doi:10.1517/14740338.2013.793669"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "UGT2B7",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Unlike tramadol/codeine, tapentadol does NOT depend on CYP2D6 bioactivation \u2014 no PM/UM dichotomy. UGT2B7 polymorphisms produce modest exposure differences.",
+      "reference": "doi:10.2165/11534400-000000000-00000"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "tramadol"
+      ],
+      "withdrawal_syndrome": "Mixed opioid + adrenergic discontinuation; generally milder than morphine.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "seizure threshold",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Less seizure risk than tramadol; lacks SERT activity.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Elderly: small reduction in clearance, no dose adjustment usually needed.",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic: avoid in severe impairment (>3\u00d7 AUC). Renal: avoid in severe CKD."
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "NRI",
+      "UGT-substrate",
+      "no-CYP2D6-dependence",
+      "low-serotonin-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Mechanistically cleaner than tramadol: NRI dominates, SERT minimal, no CYP2D6 bioactivation. Safer pharmacogenetic and DDI profile.",
+    "references_consulted": [
+      "pmid:17656655",
+      "doi:10.1002/prp2.921",
+      "doi:10.2165/11534400-000000000-00000"
+    ]
+  },
+  {
+    "name": "Pentazocine",
+    "aliases_added": [
+      "Talwin"
+    ],
+    "iupac_name": "(2R,6R,11R)-6,11-dimethyl-3-(3-methylbut-2-en-1-yl)-1,2,3,4,5,6-hexahydro-2,6-methano-3-benzazocin-8-ol",
+    "smiles": "CC(C)=CCN1CC[C@@]2(c3ccc(O)cc23)[C@H](C)C1",
+    "inchikey": "VOKSWYLNZZRQPF-GDIGMMSISA-N",
+    "cas": "359-83-1",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "KOR (agonist)",
+        "MOR (partial / antagonist)",
+        "\u03c31"
+      ],
+      "binding": [
+        {
+          "target": "KOR (-)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "membrane",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "is_review": false,
+          "notes": "(-)-pentazocine is the KOR analgesic; provides analgesia + dysphoria."
+        },
+        {
+          "target": "\u03c31 (+)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "pmid:16125682",
+          "is_review": false,
+          "notes": "(+)-pentazocine is the canonical \u03c31 radioligand."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "partialAgonist",
+          "species": "human",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "is_review": false,
+          "notes": "Weak partial MOR agonist; can precipitate withdrawal in MOR-tolerant patients."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "KOR G\u03b1i (analgesia + dysphoria/dysphoric hallucinations); \u03c31 modulation (psychotomimesis); MOR partial agonism.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 20,
+          "tmax_min": 90,
+          "half_life_min": 120,
+          "protein_binding_pct": 60,
+          "reference": "doi:10.1002/cpt1976194_part1532"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated oxidation + glucuronidation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various",
+        "metabolite_active": false,
+        "reference": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other \u03ba-agonists"
+      ],
+      "withdrawal_syndrome": "Atypical \u2014 opioid + dysphoria; can precipitate acute withdrawal in MOR-dependent patients.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "\u03c31",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Dysphoria, hallucinations, anxiety at higher doses \u2014 partly \u03c31-mediated.",
+        "reference": "pmid:16125682"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment: \u2193 clearance."
+    },
+    "tags_to_add": [
+      "KOR-agonist",
+      "MOR-partial-agonist",
+      "sigma-1-agonist",
+      "dysphoric"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "quantitative Ki values from a single paper"
+    ],
+    "notes": "Classic mixed agonist-antagonist; will precipitate withdrawal in MOR-tolerant patients.",
+    "references_consulted": [
+      "doi:10.1016/0024-3205(93)90152-S",
+      "pmid:16125682"
+    ]
+  },
+  {
+    "name": "Butorphanol",
+    "aliases_added": [
+      "Stadol"
+    ],
+    "iupac_name": "(\u2212)-17-(cyclobutylmethyl)morphinan-3,14-diol",
+    "smiles": "OC1CCC[C@@H]2[C@H]1[C@@]1(O)CCN(CC3CCC3)[C@H]2C1=CC=C2",
+    "inchikey": "IJANSPSLNKOHJK-AHWVRZQESA-N",
+    "cas": "42408-82-2",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "KOR (high-affinity partial agonist)",
+        "MOR (partial agonist / antagonist)"
+      ],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": 1.7,
+          "action": "partialAgonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "brain membranes",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "is_review": false,
+          "notes": "Gharagozlou 2003 \u2014 high-affinity KOR partial agonist."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 2.5,
+          "action": "partialAgonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "brain membranes",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "is_review": false
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 14,
+          "action": "antagonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "brain membranes",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1016/0024-3205(93)90152-S",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "KOR-dominant analgesia + MOR partial agonism. Ceiling for respiratory depression.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intranasal",
+          "bioavailability_pct": 65,
+          "tmax_min": 60,
+          "half_life_min": 270,
+          "protein_binding_pct": 80,
+          "reference": "doi:10.2165/00003088-199630050-00001"
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 270,
+          "vd_l_per_kg": 7.5,
+          "clearance_ml_per_min_per_kg": 36,
+          "reference": "doi:10.2165/00003088-199630050-00001"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated hydroxylation + glucuronidation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxybutorphanol / glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.2165/00003088-199630050-00001"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1",
+        "OPRK1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "KOR agonists"
+      ],
+      "withdrawal_syndrome": "Mixed opioid/dysphoric; less severe than morphine.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "\u03c3",
+        "ki_or_ic50_nm": 1000,
+        "concern_level": "low",
+        "clinical_consequence": "Weak \u03c3 binding (Ki > 1 \u03bcM); minimal contribution to clinical effects.",
+        "reference": "pmid:16125682"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women show greater KOR-mediated analgesia.",
+      "age": "Elderly: ~25% reduced clearance.",
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "KOR-partial-agonist",
+      "MOR-partial-agonist",
+      "ceiling-effect"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Like pentazocine but with stronger KOR affinity and weaker \u03c3 component \u2192 less dysphoria.",
+    "references_consulted": [
+      "doi:10.1016/0024-3205(93)90152-S",
+      "doi:10.2165/00003088-199630050-00001"
+    ]
+  },
+  {
+    "name": "Demerol",
+    "aliases_added": [
+      "meperidine",
+      "pethidine"
+    ],
+    "iupac_name": "ethyl 1-methyl-4-phenylpiperidine-4-carboxylate",
+    "smiles": "CCOC(=O)C1(c2ccccc2)CCN(C)CC1",
+    "inchikey": "XADCESSVHJOZHK-UHFFFAOYSA-N",
+    "cas": "57-42-1",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "SERT (weak)",
+        "muscarinic AChR (weak)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 450,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Volpe 2011 \u2014 ~10% morphine potency at MOR; clinical analgesia equivalent to ~10 mg morphine per 75-100 mg meperidine."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i; weak SERT block (serotonin syndrome with MAOIs is classic); normeperidine has CNS-stimulant/proconvulsant activity (non-opioid, possibly NMDA-related).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 50,
+          "tmax_min": 60,
+          "half_life_min": 210,
+          "vd_l_per_kg": 4,
+          "protein_binding_pct": 65,
+          "reference": "doi:10.2165/00003088-198611030-00002"
+        },
+        {
+          "route": "intramuscular",
+          "bioavailability_pct": 90,
+          "tmax_min": 30,
+          "reference": "doi:10.2165/00003088-198611030-00002"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4 / CYP2B6 (N-demethylation)",
+        "fraction_of_clearance_pct": 60,
+        "metabolite_name": "normeperidine (norpethidine)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 50,
+        "reference": "doi:10.1517/14740338.4.2.155",
+        "notes": "Normeperidine has half the analgesia but several-fold the proconvulsant activity; t\u00bd ~15-30 h; accumulates with repeat dosing \u2192 seizures."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs (linezolid, phenelzine)",
+        "mechanism": "SERT block + MAO inhibition",
+        "clinical_effect": "Severe serotonin syndrome, hyperpyrexia, death \u2014 ABSOLUTE contraindication.",
+        "reference": "doi:10.1001/archinte.1996.00440170027004"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP2B6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2B6 slow metabolisers accumulate parent, less normeperidine, fewer seizures.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type plus possible serotonergic withdrawal.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "muscarinic",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Mild anticholinergic effects.",
+        "reference": null
+      },
+      {
+        "target": "Na+ channel (LA-like)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Local anaesthetic activity (relevant to spinal/epidural use).",
+        "reference": null
+      },
+      {
+        "target": "seizure threshold (normeperidine)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Repeated dosing \u2192 normeperidine accumulation \u2192 tremor, myoclonus, generalised seizures \u2014 naloxone does NOT reverse.",
+        "reference": "doi:10.1517/14740338.4.2.155"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Avoid in elderly (delirium, falls).",
+      "weight": null,
+      "renal_or_hepatic": "Renal failure: normeperidine accumulates dramatically \u2014 avoid."
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "SERT-weak",
+      "MAOI-contraindicated",
+      "seizure-risk-normeperidine",
+      "avoid-in-renal-failure"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Largely replaced in modern practice because of normeperidine toxicity. Multiple guidelines list it as 'avoid except brief use'.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.2165/00003088-198611030-00002",
+      "doi:10.1517/14740338.4.2.155"
+    ]
+  },
+  {
+    "name": "Dihydrocodeine",
+    "aliases_added": [
+      "DHC",
+      "DF118"
+    ],
+    "iupac_name": "(5\u03b1,6\u03b1)-4,5-epoxy-3-methoxy-17-methylmorphinan-6-ol",
+    "smiles": null,
+    "inchikey": "RBOXVHNMENFORY-DNJOTXNNSA-N",
+    "cas": "125-28-0",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (parent has direct activity unlike codeine)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 14000,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:12420793",
+          "is_review": false,
+          "notes": "Schmidt 2003 \u2014 dihydrocodeine Ki 14 \u03bcM; CYP2D6\u2192dihydromorphine has 60\u00d7 higher affinity."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Hybrid of direct (low) MOR activation + CYP2D6\u2192dihydromorphine bioactivation.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 20,
+          "tmax_min": 90,
+          "half_life_min": 240,
+          "vd_l_per_kg": null,
+          "protein_binding_pct": null,
+          "reference": "pmid:8521670"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "dihydromorphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 6000,
+        "reference": "pmid:7586928",
+        "notes": "Fromm 1995 \u2014 CYP2D6 O-demethylation; PMs have impaired dihydromorphine formation. Unlike codeine, parent dihydrocodeine retains some analgesia in PMs."
+      },
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "dihydrocodeine-6-glucuronide",
+        "metabolite_active": true,
+        "reference": "pmid:8521670"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP2D6 inhibitors (paroxetine, quinidine)",
+        "mechanism": "CYP2D6 inhibition",
+        "clinical_effect": "\u2193 dihydromorphine formation; some loss of analgesia (less dramatic than codeine).",
+        "reference": "pmid:7586928"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2D6 polymorphism alters dihydromorphine exposure but parent compound contributes meaningfully to analgesia.",
+      "reference": "pmid:7586928"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "codeine"
+      ],
+      "withdrawal_syndrome": "Morphine-type, mild-moderate.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "CYP2D6-bioactivation"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": null,
+    "references_consulted": [
+      "pmid:12420793",
+      "pmid:7586928",
+      "pmid:8521670"
+    ]
+  },
+  {
+    "name": "Desomorphine",
+    "aliases_added": [
+      "Permonid",
+      "Krokodil"
+    ],
+    "iupac_name": "(5\u03b1)-4,5-epoxy-17-methylmorphinan-3-ol",
+    "smiles": null,
+    "inchikey": "LNNWVNGFPYWNQE-GMIGKAJZSA-N",
+    "cas": "427-00-9",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/j.forsciint.2017.01.003",
+          "is_review": true,
+          "notes": "Casati 2017 review. Desomorphine is a full MOR agonist; in animal models 8-10\u00d7 morphine potency due to high lipophilicity \u2192 rapid BBB entry."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "half_life_min": 90,
+          "reference": "doi:10.1016/j.forsciint.2017.01.003",
+          "notes": "Fast onset (15-30 s IV), short duration (1-2 h)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "UGT2B7",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desomorphine-3-glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.1016/j.forsciint.2017.01.003"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine",
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "Severe and rapid morphine-type withdrawal owing to short half-life.",
+      "reference": "doi:10.1016/j.forsciint.2017.01.003"
+    },
+    "off_targets": [
+      {
+        "target": "tissue toxicity (illicit krokodil preparation)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Devastating necrotising soft-tissue lesions in krokodil users are caused by reactive impurities (phosphorus, iodine, hydrochloric acid) from clandestine codeine\u2192desomorphine synthesis \u2014 NOT desomorphine itself.",
+        "reference": "doi:10.1016/j.forsciint.2017.01.003"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "high-potency",
+      "short-duration"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "modern recombinant hMOR Ki"
+    ],
+    "notes": "Pure desomorphine is a clean potent MOR agonist; krokodil's notoriety reflects toxic synthesis impurities.",
+    "references_consulted": [
+      "doi:10.1016/j.forsciint.2017.01.003"
+    ]
+  },
+  {
+    "name": "Dextropropoxyphene",
+    "aliases_added": [
+      "propoxyphene",
+      "Darvon",
+      "Co-proxamol"
+    ],
+    "iupac_name": "(2S,3R)-4-(dimethylamino)-3-methyl-1,2-diphenylbutan-2-yl propionate",
+    "smiles": null,
+    "inchikey": "XLMALTXPSGQGBX-GCJKJVERSA-N",
+    "cas": "469-62-5",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (weak)",
+        "cardiac Na+ channel (norpropoxyphene)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1000,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:1851921",
+          "is_review": false,
+          "notes": "Weak MOR agonist (Chen 1991); analgesic potency similar to codeine."
+        },
+        {
+          "target": "hERG (norpropoxyphene)",
+          "ki_nm": null,
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "human",
+          "tissue_or_cell": "Xenopus oocytes / HEK293-hERG",
+          "reference": "pmid:10690289",
+          "is_review": false,
+          "notes": "Ulens 1999 \u2014 both propoxyphene and norpropoxyphene block hERG; low-dose facilitates, high-dose blocks."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Weak MOR G\u03b1i + dose-related cardiac Na+ and K+ channel block driving the proarrhythmia that led to worldwide withdrawal (2009-2010).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 40,
+          "tmax_min": 150,
+          "half_life_min": 900,
+          "protein_binding_pct": 80,
+          "reference": "doi:10.2165/00003088-198308040-00005",
+          "notes": "Norpropoxyphene t\u00bd 30-36 h \u2014 long enough to accumulate to cardiotoxic concentrations."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4 (N-demethylation)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norpropoxyphene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:10690289"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "QT-prolonging drugs / class IA antiarrhythmics",
+        "mechanism": "additive Na+/K+ channel block",
+        "clinical_effect": "Wide QRS, TdP, asystole.",
+        "reference": "pmid:10690289"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "codeine",
+        "weak MOR agonists"
+      ],
+      "withdrawal_syndrome": "Mild morphine-type.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "cardiac Na+ channel",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Norpropoxyphene blocks cardiac Na+ channels more potently than lidocaine, quinidine, procainamide \u2192 QRS widening, arrhythmias.",
+        "reference": "pmid:10690289"
+      },
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "QT prolongation, TdP. Drug withdrawn from US (2010), EU (2009), UK (2005) primarily for this reason.",
+        "reference": "pmid:10690289"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Elderly: high overdose mortality.",
+      "weight": null,
+      "renal_or_hepatic": "Renal/hepatic impairment: norpropoxyphene accumulates."
+    },
+    "tags_to_add": [
+      "MOR-weak",
+      "cardiotoxic",
+      "hERG-strong",
+      "withdrawn-multiple-markets"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Withdrawn worldwide due to dose-related cardiotoxicity from norpropoxyphene accumulation.",
+    "references_consulted": [
+      "pmid:1851921",
+      "pmid:10690289",
+      "doi:10.2165/00003088-198308040-00005"
+    ]
+  },
+  {
+    "name": "Propoxyphene",
+    "aliases_added": [
+      "Darvon"
+    ],
+    "iupac_name": "4-(dimethylamino)-3-methyl-1,2-diphenylbutan-2-yl propanoate",
+    "smiles": null,
+    "inchikey": "XLMALTXPSGQGBX-UHFFFAOYSA-N",
+    "cas": "1639-60-7",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (weak; D-isomer is active)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1000,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:1851921",
+          "is_review": false,
+          "notes": "Generic 'propoxyphene' = racemate; analgesia resides in the dextro-isomer."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Same as dextropropoxyphene.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 40,
+          "half_life_min": 900,
+          "reference": "doi:10.2165/00003088-198308040-00005"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norpropoxyphene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:10690289"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "codeine"
+      ],
+      "withdrawal_syndrome": "Mild.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "hERG / Na+ channel",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Same cardiotoxicity profile as dextropropoxyphene \u2014 withdrawn from market.",
+        "reference": "pmid:10690289"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-weak",
+      "cardiotoxic",
+      "withdrawn"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "See Dextropropoxyphene entry \u2014 same compound, racemic form.",
+    "references_consulted": [
+      "pmid:1851921",
+      "pmid:10690289"
+    ]
+  },
+  {
+    "name": "Tilidine",
+    "aliases_added": [
+      "Valoron",
+      "Valtran"
+    ],
+    "iupac_name": "ethyl (1S,2R)-2-(dimethylamino)-1-phenylcyclohex-3-ene-1-carboxylate",
+    "smiles": "CCOC(=O)[C@@]1(c2ccccc2)CC=CC[C@@H]1N(C)C",
+    "inchikey": "DUGOZIWVEXMGBE-CHWSQXEVSA-N",
+    "cas": "20380-58-9",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (only via nortilidine metabolite)"
+      ],
+      "binding": [
+        {
+          "target": "MOR (parent tilidine)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:15627429",
+          "is_review": false,
+          "notes": "Schulz 2004 \u2014 parent tilidine has weak MOR affinity; nortilidine is the selective MOR agonist that crosses BBB."
+        },
+        {
+          "target": "MOR (nortilidine)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:15627429",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Prodrug \u2192 nortilidine (active) \u2192 bisnortilidine (inactive). Naloxone co-formulation prevents IV abuse (oral naloxone has near-zero F% but blocks parenteral activity).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 6,
+          "tmax_min": 60,
+          "half_life_min": 240,
+          "reference": "pmid:22381043",
+          "notes": "Extensive first-pass to nortilidine; combination with naloxone (Valoron N) reduces IV abuse."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4 / CYP2C19 / CYP2B6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "nortilidine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 1000,
+        "reference": "pmid:22381043"
+      },
+      {
+        "enzyme": "CYP3A4 / CYP2C19 / CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "bisnortilidine",
+        "metabolite_active": false,
+        "reference": "pmid:22349139"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP3A4 inhibitors",
+        "mechanism": "blocks bioactivation",
+        "clinical_effect": "Reduced analgesia",
+        "reference": "pmid:22381043"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP2C19",
+        "CYP2B6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "CYP2C19/2B6 polymorphisms alter nortilidine exposure.",
+      "reference": "pmid:18516595"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-prodrug",
+      "CYP3A4-bioactivation",
+      "naloxone-combined"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "specific Ki values for parent/metabolite"
+    ],
+    "notes": "Used widely in Germany/Switzerland; abuse-deterrent naloxone formulation.",
+    "references_consulted": [
+      "pmid:15627429",
+      "pmid:22381043",
+      "pmid:22349139",
+      "pmid:18516595"
+    ]
+  },
+  {
+    "name": "Levomethorphan",
+    "aliases_added": [
+      "L-methorphan"
+    ],
+    "iupac_name": "(9S,13S,14S)-3-methoxy-17-methylmorphinan",
+    "smiles": null,
+    "inchikey": "UKQTYORGEBNJBR-OPGQYPLBSA-N",
+    "cas": "125-70-2",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via levorphanol)",
+        "NMDA antagonist",
+        "SERT/NET"
+      ],
+      "binding": [
+        {
+          "target": "MOR (levorphanol active metabolite)",
+          "ki_nm": 1.4,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1093/bja/87.1.27",
+          "is_review": false,
+          "notes": "Levorphanol Ki ~1.4 nM at hMOR; similar profile across MOR/DOR/KOR + NMDA + SNRI."
+        },
+        {
+          "target": "NMDA receptor (levorphanol)",
+          "ki_nm": null,
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat cortex",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1093/bja/87.1.27",
+          "is_review": false,
+          "notes": "Non-competitive NMDA antagonist, contributes to neuropathic analgesia."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Demethylated to levorphanol by hepatic CYP enzymes; levorphanol provides the actual pharmacology (MOR full agonism + NMDA antagonism + SNRI activity).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "half_life_min": 720,
+          "reference": "doi:10.1093/bja/87.1.27"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated O-demethylation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "levorphanol",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/bja/87.1.27"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type, delayed onset due to long half-life.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-prodrug",
+      "NMDA-antagonist",
+      "SNRI",
+      "long-half-life"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Levomethorphan is the levo-enantiomer of racemethorphan (DXM is the dextro-enantiomer with no opioid activity). Prodrug to levorphanol.",
+    "references_consulted": [
+      "doi:10.1093/bja/87.1.27"
+    ]
+  },
+  {
+    "name": "Ethylmorphine",
+    "aliases_added": [
+      "codethyline",
+      "Dionine"
+    ],
+    "iupac_name": "(5\u03b1,6\u03b1)-7,8-didehydro-4,5-epoxy-3-ethoxy-17-methylmorphinan-6-ol",
+    "smiles": null,
+    "inchikey": "DLHQZZUEERVIGQ-DJGCGUBLSA-N",
+    "cas": "76-58-4",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via morphine metabolite)"
+      ],
+      "binding": [
+        {
+          "target": "MOR (parent)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1097/00007691-200502000-00006",
+          "is_review": true,
+          "notes": "Like codeine, parent ethylmorphine has low MOR affinity; activity from CYP2D6\u2192morphine conversion."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "CYP2D6 O-deethylation to morphine; CYP3A4 N-demethylation to norethylmorphine. Same pharmacogenetics as codeine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "half_life_min": 150,
+          "reference": null
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "morphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1097/00007691-200502000-00006"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Same PM/UM caveats as codeine.",
+      "reference": "doi:10.1097/00007691-200502000-00006"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "codeine"
+      ],
+      "withdrawal_syndrome": "Mild.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-prodrug",
+      "CYP2D6-bioactivation",
+      "codeine-analog"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki and PK data"
+    ],
+    "notes": "Largely historical; used in some European countries as cough/antitussive.",
+    "references_consulted": [
+      "doi:10.1097/00007691-200502000-00006"
+    ]
+  },
+  {
+    "name": "Nicomorphine",
+    "aliases_added": [
+      "Vilan",
+      "morphine-3,6-dinicotinate"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": "HNDXBGYRMHRUFN-CIVUWBIHSA-N",
+    "cas": "639-48-5",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via 6-monoacetylmorphine analogues + morphine)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1007/BF02178565",
+          "is_review": false,
+          "notes": "Prodrug \u2014 rapidly hydrolysed to 6-mononicotinoyl-morphine, then morphine. 2-3\u00d7 more potent than morphine in vivo."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Esterase hydrolysis to nicotinic acid + morphine; analogous to heroin's diester strategy for faster BBB entry.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "rectal",
+          "bioavailability_pct": 88,
+          "tmax_min": 30,
+          "reference": "doi:10.1007/BF02178565",
+          "notes": "Rectal F% of morphine and metabolites after nicomorphine ~88%."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "esterase",
+        "fraction_of_clearance_pct": 100,
+        "metabolite_name": "morphine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1007/BF02178565"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "UGT2B7",
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-prodrug",
+      "morphine-ester"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "Used in Austria/Germany for cancer pain.",
+    "references_consulted": [
+      "doi:10.1007/BF02178565"
+    ]
+  },
+  {
+    "name": "Opium",
+    "aliases_added": [
+      "Papaver somniferum latex"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (morphine + codeine)",
+        "smooth muscle (papaverine, noscapine)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Crude raw opium contains morphine 10-12% by weight (dominant analgesic alkaloid), codeine 0.5-3%, thebaine 0.5-2%, plus the smooth-muscle alkaloids papaverine and noscapine. CNS pharmacology dominated by morphine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "reference": "https://royalsocietypublishing.org/doi/10.1098/rsob.220355"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6 (codeine\u2192morphine)",
+        "UGT2B7",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Same as morphine + codeine.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "all MOR full agonists"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "plant-mixture",
+      "MOR-via-morphine"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Crude plant material; effects dominated by morphine content. Variable alkaloid content per source.",
+    "references_consulted": [
+      "https://royalsocietypublishing.org/doi/10.1098/rsob.220355"
+    ]
+  },
+  {
+    "name": "Pst",
+    "aliases_added": [
+      "poppy seed tea",
+      "poppy tea"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (morphine)",
+        "MOR via codeine\u2192morphine"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Aqueous extract of poppy seeds (Papaver somniferum) \u2014 pharmacology is morphine + codeine + thebaine eluted from seed-coat residue. Highly variable: morphine 1-2788 mg/kg of seed, codeine <1-248 mg/kg, thebaine <1-124 mg/kg (Powers 2018).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "reference": "pmid:28973785",
+          "notes": "Pharmacokinetics dominated by morphine; same first-pass UGT2B7."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "UGT2B7",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Same as morphine + codeine.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type; can be severe with chronic use because daily morphine dose from PST can reach 100-500 mg.",
+      "reference": "doi:10.1111/dar.12882"
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Renal failure exaggerates M6G accumulation."
+    },
+    "tags_to_add": [
+      "plant-extract",
+      "MOR-via-morphine",
+      "highly-variable-dose"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "The dose hazard is extreme variability \u2014 a single washed-seed batch can be inert; the next can deliver lethal morphine.",
+    "references_consulted": [
+      "pmid:28973785",
+      "pmid:34688186"
+    ]
+  },
+  {
+    "name": "Apomorphine",
+    "aliases_added": [
+      "Apokyn",
+      "Kynmobi"
+    ],
+    "iupac_name": "(R)-5,6,6a,7-tetrahydro-6-methyl-4H-dibenzo[de,g]quinoline-10,11-diol",
+    "smiles": null,
+    "inchikey": "VMWNQDUVQKEIOC-CYBMUJFWSA-N",
+    "cas": "58-00-4",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "D4",
+        "D2",
+        "D3",
+        "D5",
+        "D1",
+        "5-HT1A/2A/2B/2C",
+        "\u03b1-adrenergic"
+      ],
+      "binding": [
+        {
+          "target": "D4",
+          "ki_nm": 4.4,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant",
+          "radioligand_or_probe": "[3H]spiperone",
+          "reference": "pmid:8787038",
+          "is_review": false,
+          "notes": "Highest-affinity target."
+        },
+        {
+          "target": "D2",
+          "ki_nm": 70,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human striatum / recombinant",
+          "radioligand_or_probe": "[3H]spiperone",
+          "reference": "pmid:8787038",
+          "is_review": false,
+          "notes": "Range 35-103 nM across studies."
+        },
+        {
+          "target": "D3",
+          "ki_nm": 26,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant",
+          "radioligand_or_probe": "[3H]spiperone",
+          "reference": "pmid:8787038",
+          "is_review": false
+        },
+        {
+          "target": "D5",
+          "ki_nm": 15,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant",
+          "radioligand_or_probe": "[3H]SCH23390",
+          "reference": "pmid:8787038",
+          "is_review": false
+        },
+        {
+          "target": "D1",
+          "ki_nm": 370,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "human striatum",
+          "radioligand_or_probe": "[3H]SCH23390",
+          "reference": "pmid:8787038",
+          "is_review": false
+        },
+        {
+          "target": "5-HT1A",
+          "ki_nm": 120,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant",
+          "radioligand_or_probe": "[3H]8-OH-DPAT",
+          "reference": "pmid:8787038",
+          "is_review": false
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "no significant data",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
+          "reference": null,
+          "is_review": false,
+          "notes": "Despite morphine-derived name, apomorphine has NO meaningful opioid receptor activity. Naloxone does not reverse its emetic/dyskinetic effects."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Broad D1/D2-like dopamine agonism; potent area-postrema D2 stimulation causes profuse vomiting (the classic emetic effect).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "subcutaneous",
+          "bioavailability_pct": 100,
+          "tmax_min": 10,
+          "half_life_min": 40,
+          "vd_l_per_kg": 1.6,
+          "protein_binding_pct": 90,
+          "reference": "doi:10.1002/cpdd.337"
+        },
+        {
+          "route": "sublingual",
+          "bioavailability_pct": 17,
+          "reference": "doi:10.1002/cpdd.337"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "sulfation / glucuronidation / COMT",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "apomorphine-sulfate / glucuronide",
+        "metabolite_active": false,
+        "reference": "doi:10.1002/cpdd.337"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "5-HT3 antagonists (ondansetron)",
+        "mechanism": "pharmacodynamic \u2014 additive QT + severe hypotension",
+        "clinical_effect": "Profound hypotension/syncope reported \u2014 CONTRAINDICATED.",
+        "reference": "doi:10.1212/01.WNL.0000031426.21683.E2"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "DRD2",
+        "COMT"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other dopamine agonists"
+      ],
+      "withdrawal_syndrome": "Dopamine agonist withdrawal syndrome possible.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "QT interval",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Apomorphine can prolong QT; avoid in patients with QT-prolonging meds.",
+        "reference": "doi:10.1212/01.WNL.0000031426.21683.E2"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "D2/D3-agonist",
+      "Parkinsons-rescue",
+      "QT-moderate",
+      "not-opioid"
+    ],
+    "tags_to_remove": [
+      "habit-forming"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Despite morphinan name, apomorphine is a dopamine agonist with NO opioid activity \u2014 categorisation under 'classical opioids' is historical/structural, not pharmacological.",
+    "references_consulted": [
+      "pmid:8787038",
+      "doi:10.1002/cpdd.337"
+    ]
+  },
+  {
+    "name": "3-HO-PCP",
+    "aliases_added": [
+      "3-Hydroxyphencyclidine"
+    ],
+    "iupac_name": "3-[1-(1-phenylcyclohexyl)piperidin-3-yl]phenol",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "79295-51-1",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA (MK-801 site)",
+        "MOR",
+        "\u03c31",
+        "KOR (weak)"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (MK-801 site)",
+          "ki_nm": 30,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "doi:10.1016/0014-2999(96)00382-2",
+          "is_review": false,
+          "notes": "8\u00d7 more potent than PCP at NMDA; high-affinity uncompetitive antagonist."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 50,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1016/0014-2999(96)00382-2",
+          "is_review": false,
+          "notes": "Ki 39-60 nM; unusually high MOR affinity for an arylcyclohexylamine (PCP itself: Ki 11-26 \u03bcM)."
+        },
+        {
+          "target": "\u03c31",
+          "ki_nm": 42,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "reference": "doi:10.1016/0014-2999(96)00382-2",
+          "is_review": false
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 140,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]U69593",
+          "reference": "doi:10.1016/0014-2999(96)00382-2",
+          "is_review": false
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 2300,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1016/0014-2999(96)00382-2",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Dual MOR agonist + NMDA antagonist + \u03c31 binding \u2014 the combination of opioid analgesia and NMDA-mediated dissociation makes 3-HO-PCP qualitatively different from other PCP analogues.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1",
+        "CYP2B6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other arylcyclohexylamines (NMDA)",
+        "MOR agonists (opioid)"
+      ],
+      "withdrawal_syndrome": "Opioid + dissociative withdrawal possible with chronic use.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "respiratory depression",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "MOR agonism means overdoses produce opioid-type respiratory depression \u2014 UNLIKE pure NMDA antagonists like ketamine. Naloxone-reversible respiratory depression has been reported in fatalities.",
+        "reference": "doi:10.1093/jat/bkab036"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "NMDA-antagonist",
+      "MOR-agonist",
+      "sigma-1-agonist",
+      "naloxone-responsive-respiratory-depression"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "human PK"
+    ],
+    "notes": "Unique among PCP analogues: high-affinity MOR agonism on top of NMDA antagonism means naloxone IS appropriate for overdose, unlike PCP/3-MeO-PCP overdose where naloxone is irrelevant.",
+    "references_consulted": [
+      "doi:10.1016/0014-2999(96)00382-2",
+      "doi:10.1093/jat/bkab036"
+    ]
+  },
+  {
+    "name": "U-51754",
+    "aliases_added": [
+      "U51754"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "KOR (selective)",
+        "MOR (weak)"
+      ],
+      "binding": [
+        {
+          "target": "KOR",
+          "ki_nm": null,
+          "ec50_nm": 120,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[35S]GTP\u03b3S",
+          "reference": "pmid:35142070",
+          "is_review": false,
+          "notes": "Vasudevan 2022 \u2014 U-51754 was the most potent KOR agonist in a panel of U-series compounds (EC50 120 nM); shows that pyrrolidine substitution shifts selectivity toward KOR. Unlike U-47700, NOT a \u03bc-selective agonist."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ec50_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[35S]GTP\u03b3S",
+          "reference": "pmid:35142070",
+          "is_review": false,
+          "notes": "Much weaker than U-47700 at MOR."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "KOR-selective; expect dysphoria/psychotomimesis rather than euphoria; respiratory effects different from MOR opioids.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRK1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other KOR agonists"
+      ],
+      "withdrawal_syndrome": "Dysphoric; KOR-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "KOR-selective",
+      "U-series-opioid",
+      "designer-opioid"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Ki values"
+    ],
+    "notes": "Often miscategorised as 'methylene-U47700' \u2014 actually structurally distinct (pyrrolidine vs dimethylamine) \u2192 KOR-selective profile. Naloxone has lower affinity at KOR than MOR; reversal of KOR overdose less predictable.",
+    "references_consulted": [
+      "pmid:35142070"
+    ]
+  },
+  {
+    "name": "W-15",
+    "aliases_added": [],
+    "iupac_name": "4-chloro-N-[1-(2-phenylethyl)piperidin-2-ylidene]benzenesulfonamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "183999-31-9",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "NO meaningful opioid receptor activity"
+      ],
+      "binding": [
+        {
+          "target": "MOR / DOR / KOR / NOP",
+          "ki_nm": null,
+          "ic50_nm": 10000,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "various",
+          "reference": "doi:10.1124/jpet.117.245019",
+          "is_review": false,
+          "notes": "Huang 2017 \u2014 no detectable opioid receptor activity for W-15 or W-18 up to 10 \u03bcM. The 'designer opioid' marketing of W-15/W-18 was based on a pharmacology error; in fact they are NOT opioids."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "No opioid action. Detected in fatalities only in polydrug context. Likely off-target targets unknown.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": "None expected.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "not-opioid",
+      "mis-classified-opioid"
+    ],
+    "tags_to_remove": [
+      "habit-forming"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "mechanism of any subjective effects"
+    ],
+    "notes": "W-15 and W-18 were widely sold as 'designer opioids' but Huang et al. 2017 (PMC5752382) showed both lack any detectable activity at MOR/DOR/KOR/NOP. Naloxone is therefore irrelevant for overdose.",
+    "references_consulted": [
+      "doi:10.1124/jpet.117.245019"
+    ]
+  },
+  {
+    "name": "Bromadol",
+    "aliases_added": [
+      "BDPC"
+    ],
+    "iupac_name": "4-(4-bromophenyl)-4-(dimethylamino)-1-(2-phenylethyl)cyclohexan-1-ol",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "77239-98-6",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (ultra-high potency)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "mouse",
+          "tissue_or_cell": "in vivo hot-plate",
+          "radioligand_or_probe": null,
+          "reference": "doi:10.1007/s11419-018-0454-5",
+          "is_review": true,
+          "notes": "In vivo potency originally reported as 10,000\u00d7 morphine; modern hot-plate work gives ~500\u00d7 morphine, 2.9\u00d7 fentanyl. trans-isomer >> cis. Direct Ki at recombinant hMOR not published."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR full agonist; ultra-high potency means microgram doses are active and unintentional overdose risk extreme.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Severe morphine-type.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "respiratory depression",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Microgram-active \u2192 extreme overdose risk; naloxone reversible but may require multiple doses.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "ultra-high-potency",
+      "designer-opioid"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "recombinant hMOR Ki",
+      "human PK"
+    ],
+    "notes": "Cyclohexanol scaffold (not morphinan, not fentanyl). Trans-isomer is the active form. Microgram potency means extreme overdose risk.",
+    "references_consulted": [
+      "doi:10.1007/s11419-018-0454-5"
+    ]
+  },
+  {
+    "name": "Dipipanone",
+    "aliases_added": [
+      "Diconal",
+      "Wellconal"
+    ],
+    "iupac_name": "(\u00b1)-4,4-diphenyl-6-piperidinoheptan-3-one",
+    "smiles": null,
+    "inchikey": "TXCDCPKCNAJMEE-UHFFFAOYSA-N",
+    "cas": "467-83-4",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ec50_nm": 40,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[35S]GTP\u03b3S",
+          "reference": "doi:10.1002/dta.3722",
+          "is_review": false,
+          "notes": "Dipyanone (pyrrolidino analogue) EC50 ~40 nM, Emax 155% of hydromorphone \u2014 likely similar for dipipanone (piperidino analogue). Methadone-class."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methadone-class MOR full agonist; ~2.5\u00d7 more potent than morphine in clinical use.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "tmax_min": null,
+          "half_life_min": null,
+          "reference": null,
+          "notes": "Limited modern human PK data."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated N-demethylation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nordipipanone",
+        "metabolite_active": null,
+        "reference": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "methadone",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Methadone/morphine-type.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "hERG (presumed by class analogy)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Methadone-class compounds carry baseline QT risk; specific dipipanone hERG data sparse.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "methadone-class"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "dipipanone-specific binding"
+    ],
+    "notes": "Sold combined with cyclizine (Diconal) \u2014 known for high abuse potential.",
+    "references_consulted": [
+      "doi:10.1002/dta.3722"
+    ]
+  },
+  {
+    "name": "Palfium",
+    "aliases_added": [
+      "dextromoramide",
+      "Palfium"
+    ],
+    "iupac_name": "(+)-(S)-1-[3-methyl-4-morpholino-2,2-diphenylbutyryl]pyrrolidine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "357-56-2",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (full agonist)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
+          "reference": "doi:10.1517/00377722-204-09-006",
+          "is_review": true,
+          "notes": "Full MOR agonist, ~3\u00d7 morphine analgesic potency, methadone-class diphenylpropylamine."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i; high oral F% (almost as effective PO as IV).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 90,
+          "tmax_min": 30,
+          "half_life_min": 215,
+          "vd_l_per_kg": 0.58,
+          "reference": "doi:10.1111/j.1399-6576.1985.tb02329.x"
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated N-dealkylation + glucuronidation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various",
+        "metabolite_active": null,
+        "reference": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type; rapid onset because short half-life.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "methadone-class",
+      "short-half-life",
+      "high-oral-F"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "modern hMOR Ki"
+    ],
+    "notes": "Short duration (1-3 h) + high oral F% drove high abuse potential \u2014 withdrawn from many markets.",
+    "references_consulted": [
+      "doi:10.1111/j.1399-6576.1985.tb02329.x"
+    ]
+  },
+  {
+    "name": "Ketobemidone",
+    "aliases_added": [
+      "Ketogan",
+      "kbd"
+    ],
+    "iupac_name": "1-[4-(3-hydroxyphenyl)-1-methylpiperidin-4-yl]propan-1-one",
+    "smiles": null,
+    "inchikey": "NLBUEDSBXVNAPB-UHFFFAOYSA-N",
+    "cas": "469-79-4",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (full agonist)",
+        "NMDA (weak non-competitive)"
+      ],
+      "binding": [
+        {
+          "target": "MOR (\u03bc1)",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "pmid:8951931",
+          "is_review": false,
+          "notes": "Kristensen 1996 \u2014 high-affinity MOR full agonist; analgesic potency similar to morphine."
+        },
+        {
+          "target": "NMDA (MK-801 site)",
+          "ki_nm": 26000,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat cortex",
+          "radioligand_or_probe": "[3H]MK-801",
+          "reference": "pmid:8951931",
+          "is_review": false,
+          "notes": "Weak NMDA block (Ki 26 \u03bcM); proposed to confer neuropathic-pain efficacy."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR G\u03b1i + weak non-competitive NMDA antagonism; spinal application blocks wind-up more effectively than morphine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated N-demethylation",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norketobemidone",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8951931"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "NMDA-antagonist-weak",
+      "neuropathic-pain"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "recombinant hMOR Ki, human PK"
+    ],
+    "notes": "Like methadone, the NMDA antagonism is proposed to be useful for neuropathic pain. Used in Scandinavia.",
+    "references_consulted": [
+      "pmid:8951931",
+      "pmid:9553996"
+    ]
+  },
+  {
+    "name": "Acetorphine",
+    "aliases_added": [
+      "acetylpropylorvinol",
+      "7\u03b1-etorphine 3-acetate"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "DOR",
+        "KOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Bentley-series oripavine derivative; semi-synthetic from thebaine via Diels-Alder. Non-selective \u03bc/\u03b4/\u03ba agonist; analgesic potency several thousand times morphine. Acetylation of the 3-phenol increases lipophilicity vs etorphine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-superagonist",
+      "Bentley-compound",
+      "veterinary-only-class"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Schedule I; veterinary M99 reversed with diprenorphine. Microgram-active \u2014 extreme overdose risk.",
+    "references_consulted": [
+      "doi:10.1016/S0014-2999(97)81924-3"
+    ]
+  },
+  {
+    "name": "Acetyldihydrocodeine",
+    "aliases_added": [
+      "6-acetyldihydrocodeine"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (via dihydromorphine)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Acetate ester prodrug of dihydrocodeine; CYP2D6 O-demethylation produces dihydromorphine. Higher lipophilicity than dihydrocodeine should give faster onset.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-prodrug",
+      "CYP2D6-bioactivation"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Minor opium-adjacent semi-synthetic; little dedicated pharmacology.",
+    "references_consulted": [
+      "pmid:7586928"
+    ]
+  },
+  {
+    "name": "6-mddm",
+    "aliases_added": [
+      "6-methylenedihydrodesoxymorphine"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Hydromorphone derivative with 6-methylidene replacement; ~80\u00d7 morphine MOR potency in animal hot-plate (Boswell 1968). Similar respiratory depression to morphine but less GI inhibition.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-superagonist",
+      "morphine-derivative"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Never developed clinically; included for completeness.",
+    "references_consulted": [
+      "pmid:4163617"
+    ]
+  },
+  {
+    "name": "Ic-26",
+    "aliases_added": [
+      "WIN 1161-3",
+      "Methiodone"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methadone analogue with carbonyl replaced by sulfone (bioisostere). Roughly methadone-equipotent in animals; human reports inconsistent.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "methadone-analog"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Sulfone bioisostere of methadone.",
+    "references_consulted": []
+  },
+  {
+    "name": "Isomethadone",
+    "aliases_added": [
+      "isoamidone"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methadone isomer with methyl group on different carbon; MOR full agonist with similar analgesia and methadone-type abuse profile.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "methadone-isomer"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Schedule II in US; little contemporary use.",
+    "references_consulted": []
+  },
+  {
+    "name": "Morpheridine",
+    "aliases_added": [
+      "morpholinoethyl\u00adnorpethidine"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Pethidine/meperidine 4-phenylpiperidine analogue with morpholinoethyl side chain. ~4\u00d7 more potent than pethidine, \u03bc-selective. Unlike pethidine, no convulsant liability.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-agonist",
+      "pethidine-analog"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "quantitative Ki/EC50, human PK"
+    ],
+    "notes": "Schedule I under UN drug conventions; never marketed.",
+    "references_consulted": [
+      "pmid:17404173"
+    ]
+  },
+  {
+    "name": "Glaucine",
+    "aliases_added": [
+      "d-glaucine",
+      "Bofedrol"
+    ],
+    "iupac_name": "(6aS)-1,2,9,10-tetramethoxy-6-methyl-5,6,6a,7-tetrahydro-4H-dibenzo[de,g]quinoline",
+    "smiles": null,
+    "inchikey": "RGVRUQHYQSORBY-JTQLQIEISA-N",
+    "cas": "475-81-0",
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "D1/D2 antagonist (weak)",
+        "PDE4 inhibitor",
+        "Ca2+ channel blocker",
+        "\u03b1-adrenergic"
+      ],
+      "binding": [
+        {
+          "target": "D1/D2",
+          "ki_nm": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "rat striatum",
+          "radioligand_or_probe": "[3H]SCH23390 / [3H]spiperone",
+          "reference": "pmid:2907279",
+          "is_review": false,
+          "notes": "Halogenated derivatives studied (Asencio 2005); affinity 'poor and similar to' parent glaucine. Weak D1/D2 antagonism contributes to mild neuroleptic-like behavioural profile."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": null,
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
+          "reference": null,
+          "is_review": false,
+          "notes": "Glaucine is NOT a classical opioid \u2014 categorisation here is incorrect on a pharmacological basis. Its antitussive effect is non-opioid (Ca2+ block, PDE4 inhibition)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Antitussive (Ca2+ channel + PDE4 inhibition); mild dopaminergic blockade; antinociception reported but mechanism unclear and only partly naloxone-reversible.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "half_life_min": null,
+          "reference": null
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": "None established.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "aporphine-alkaloid",
+      "antitussive",
+      "not-opioid"
+    ],
+    "tags_to_remove": [
+      "habit-forming"
+    ],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Mis-classified as opioid in input \u2014 glaucine is an aporphine alkaloid antitussive (used in Bulgaria/EU) with no significant opioid receptor activity. Naloxone partially reverses some animal antinociception but the mechanism is not classical opioid agonism.",
+    "references_consulted": [
+      "pmid:2907279"
+    ]
+  },
+  {
+    "name": "MGM-15",
+    "aliases_added": [
+      "dihydro-7-hydroxymitragynine",
+      "DH-7OH-MIT"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (full agonist)",
+        "DOR (full agonist)"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "reference": "doi:10.1124/jpet.114.213710",
+          "is_review": false,
+          "notes": "Matsumoto 2014 \u2014 \u03bc/\u03b4 dual agonist; greater hMOR and hDOR affinity than 7-OH-mitragynine."
+        },
+        {
+          "target": "DOR",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO recombinant",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "reference": "doi:10.1124/jpet.114.213710",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Dual \u03bc/\u03b4 G\u03b1i full agonist with high oral bioavailability \u2014 pharmacology of an addictive opioid despite the kratom-natural-product framing.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "OPRM1"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "7-OH-mitragynine",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Opioid-type.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MOR-full-agonist",
+      "DOR-full-agonist",
+      "kratom-derivative",
+      "semi-synthetic"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "specific human Ki values",
+      "human PK"
+    ],
+    "notes": "Matsumoto/Horie 2014 dual \u03bc/\u03b4 agonist derived from 7-OH-mitragynine. Has appeared in vendor markets recently as a 'kratom alternative' but exhibits the canonical pharmacology of an addictive full opioid agonist.",
+    "references_consulted": [
+      "doi:10.1124/jpet.114.213710"
+    ]
+  },
+  {
+    "name": "2C-O-4",
+    "aliases_added": [],
+    "iupac_name": "2-(2,5-dimethoxy-4-isopropoxyphenyl)ethan-1-amine",
+    "smiles": "COc1cc(OC(C)C)c(OC)cc1CCN",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A (presumed by 2C-x class)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL #25 (Shulgin). Threshold dose ~60 mg PO, weak +1 effects only. Shulgin abandoned the 2C-O series as 'uninteresting'. NOT an opioid \u2014 mis-categorised in input.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "2C-x",
+      "5-HT2A-presumed",
+      "weak-psychedelic",
+      "wrong-group-classification"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Ki at 5-HT2A; almost no quantitative pharmacology exists"
+    ],
+    "notes": "Phenethylamine psychedelic, NOT an opioid. Included in the classical-opioids batch by classification error in the input list.",
+    "references_consulted": [
+      "https://isomerdesign.com/PiHKAL/explore.php?domain=si&id=35"
+    ]
+  },
+  {
+    "name": "Lean",
+    "aliases_added": [
+      "sizzurp",
+      "purple drank"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "classical-opioids",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR (codeine\u2192morphine)",
+        "H1 + D2 (promethazine)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Mixture of codeine (~10 mg / 5 mL of typical formulation) + promethazine (~6.25 mg / 5 mL). Codeine pharmacology dominates the opioid effects; promethazine adds H1-antagonist sedation, D2 antagonism, anticholinergic effects, and cardiac Na+ channel/hERG block.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "alcohol / benzodiazepines / other CNS depressants",
+        "mechanism": "pharmacodynamic \u2014 additive respiratory depression + QT prolongation (promethazine)",
+        "clinical_effect": "Multiple celebrity deaths.",
+        "reference": "doi:10.1093/jat/bkz022"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Codeine pharmacogenetics apply.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Morphine-type (codeine) + promethazine discontinuation.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "hERG (promethazine)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Promethazine QT prolongation contributes to lean's cardiac risk.",
+        "reference": "doi:10.1517/14740338.2.2.111"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "codeine-promethazine-syrup",
+      "polypharmacy",
+      "QT-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "Cultural shorthand for prescription codeine/promethazine cough syrup. Mortality risk reflects high single-event codeine doses (often 50-200 mg) combined with promethazine's QT and CNS-depressant effects, often plus alcohol.",
+    "references_consulted": [
+      "doi:10.1093/jat/bkz022"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "classical-opioids",
+    "class_name": "Classical opioids and kratom-derived opioid alkaloids",
+    "shared_mechanism": "Agonism (or antagonism) at the \u03bc-opioid receptor (OPRM1), with variable activity at \u03b4 (OPRD1), \u03ba (OPRK1), and NOP (OPRL1) receptors. Activated MOR couples G\u03b1i/o \u2192 inhibits adenylyl cyclase (\u2193cAMP), activates GIRK potassium channels (hyperpolarisation), inhibits N/P/Q-type voltage-gated calcium channels (\u2193neurotransmitter release). Repeated activation drives GRK phosphorylation, \u03b2-arrestin-2 recruitment, desensitisation, and internalisation. 'Biased agonism' (G-protein > \u03b2-arrestin) was hypothesised to dissociate analgesia from respiratory depression (TRV130/oliceridine, kratom alkaloids) but the hypothesis is now contested (Conibear & Kelly 2019, doi:10.1016/j.tips.2019.04.002): much of the apparent safety of G-biased agonists like 7-OH-mitragynine and PZM21 derives from low intrinsic efficacy / partial agonism, not bias per se.",
+    "shared_pk_summary": "Morphinans typically undergo UGT2B7 glucuronidation (morphine M3G/M6G, hydromorphone H3G, oxymorphone) \u2014 minimal CYP dependence. Codeine/hydrocodone/tramadol are CYP2D6 prodrugs \u2014 PMs get reduced effect, UMs get supratherapeutic active metabolite (codeine\u2192morphine, hydrocodone\u2192hydromorphone, tramadol\u2192O-DSMT) and risk fatal respiratory depression at standard doses (FDA contraindicates codeine and tramadol <12 y, post-tonsillectomy adolescents). Oxycodone is primarily CYP3A4 (\u2192inactive noroxycodone) with CYP2D6 minor (\u2192oxymorphone). Methadone is mainly CYP2B6, with huge inter-individual half-life variability (8-59 h). Buprenorphine is CYP3A4 + UGT (very long t\u00bd, sublingual bioavailability ~30%). Mitragynine is CYP3A4-bioactivated to 7-OH-mitragynine in vivo.",
+    "shared_safety": "Respiratory depression at supratherapeutic doses is the proximal cause of death. Naloxone reverses MOR-mediated opioid overdose; reversal of buprenorphine requires higher doses (slow off-rate), reversal of methadone may require multiple doses or infusion (long t\u00bd), reversal of meperidine does NOT prevent normeperidine seizures, and KOR-selective designer opioids (U-51754) are less responsive. Methadone uniquely carries hERG/QT risk (S-enantiomer ~3.5\u00d7 more potent than R at hERG block). Dextropropoxyphene was withdrawn worldwide for cardiotoxicity (norpropoxyphene Na+/K+ channel block). Tramadol and tapentadol add SNRI/NRI activity \u2192 serotonin syndrome (tramadol > tapentadol) and lowered seizure threshold (tramadol particularly). Codeine/tramadol respiratory deaths in CYP2D6 UMs are the canonical pharmacogenetics safety case. OPRM1 A118G (rs1799971) G-carriers have ~30% higher morphine requirement and are paradoxically protected from morphine-induced respiratory depression.",
+    "sar_summary": "Within the morphinan core: 3-OH free phenol (morphine) \u2192 CYP2D6 substrate; 3-O-methyl (codeine) \u2192 CYP2D6 prodrug (200\u00d7 lower MOR affinity than morphine); 14-OH (oxycodone, oxymorphone, naloxone, naltrexone) \u2192 increased MOR affinity and altered receptor selectivity; 6-keto reduction (hydromorphone vs morphine) \u2192 5-10\u00d7 potency increase; 6-deoxy + 7,8-saturation (desomorphine) \u2192 8-10\u00d7 lipophilic potency increase; N-cyclopropylmethyl / N-allyl (naloxone, naltrexone, nalbuphine, buprenorphine, butorphanol) \u2192 switches efficacy toward antagonism or partial agonism; 6,14-endoetheno + thevinol/orvinol side chain (buprenorphine, etorphine, acetorphine) \u2192 sub-nanomolar MOR affinity, slow off-rate, and sometimes mixed efficacy (buprenorphine partial agonist; etorphine full agonist with 1000-3000\u00d7 morphine potency). Outside morphinans: methadone/diphenylpropylamine class \u2192 MOR + NMDA + monoamine reuptake; piperidines (fentanyl, meperidine, ketobemidone) \u2192 variable; arylcyclohexylamines mostly NMDA (3-HO-PCP is the rare arylcyclohexylamine with high MOR affinity). Mitragynine indole alkaloids \u2014 biased G-protein signalling; bioactivated by CYP3A4 to 7-OH-mitragynine, the dominant in-vivo MOR effector; further N1-rearrangement gives mitragynine pseudoindoxyl (also biased).",
+    "key_references": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1021/jacs.6b00360",
+      "doi:10.1021/acscentsci.9b00141",
+      "doi:10.1056/NEJMra1604339",
+      "doi:10.1038/clpt.2011.287",
+      "doi:10.1002/cpt.2956",
+      "doi:10.1016/j.tips.2019.04.002",
+      "doi:10.1038/s41380-023-02353-z",
+      "doi:10.1124/jpet.107.121319"
+    ]
+  }
+]

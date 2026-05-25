@@ -1,0 +1,978 @@
+{
+  "slug": "gaba-depressants-other",
+  "name": "Other GABAergic depressants (alcohol, GHB, gabapentinoids, barbiturates)",
+  "count": 76,
+  "substances": [
+    {
+      "name": "(+/-)-halostachine",
+      "aliases": [
+        "(+-)-alpha-((Methylamino)methyl)benzenemethanol",
+        "(+-)-Halostachine",
+        "2-methylamino-1-phenylethanol",
+        "Benzyl alcohol, alpha-((methylamino)methyl)-, dl-"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(±)-adrenaline",
+      "aliases": [
+        "(+-)-epinephrine",
+        "2-(methylamino)-1-(3,4-dihydroxyphenyl)ethanol",
+        "dl-adrenaline",
+        "epinephrine racemic"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1,4-butanediol",
+      "aliases": [
+        "1,4-bd",
+        "bd"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(Phenethylamino)ethanol",
+      "aliases": [
+        "2-[(2-Phenylethyl)amino]ethan-1-ol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-methyl-2-butanol",
+      "aliases": [
+        "2m2b"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Fluorophenibut",
+      "aliases": [
+        "Fluorophenibut",
+        "F-Phenibut HCl",
+        "4-F-Phenibut",
+        "F-Phenibut FAA",
+        "Fluorobut",
+        "F-Phenibut",
+        "4-amino-3-(4-fluorophenyl)butanoic acid"
+      ],
+      "category": "Depressant, Anxiolytic, Gabapentinoid",
+      "tags": [],
+      "chemical_class": "Gabapentinoid (structurally related to phenibut and baclofen)"
+    },
+    {
+      "name": "Aceburic acid",
+      "aliases": [
+        "4-OAc-GHB",
+        "Butanoic acid, 4-acetoxy-",
+        "GHB acetate (prodrug)",
+        "4-acetoxybutanoic acid",
+        "4-acetoxybutyric acid"
+      ],
+      "category": "Central nervous system depressant; GHB/GABA-B receptor agonist prodrug",
+      "tags": [],
+      "chemical_class": "Aliphatic carboxylic acid ester (acetyl ester of GHB)"
+    },
+    {
+      "name": "Afloqualone",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Alcohol",
+      "aliases": [
+        "beer",
+        "booze",
+        "ethanol",
+        "etoh",
+        "hooch"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Allobarbital",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Amobarbital",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ashwagandha",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Baclofen",
+      "aliases": [
+        "gablofen"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Barbital",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Carisoprodol",
+      "aliases": [
+        "soma"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Chloral Hydrate",
+      "aliases": [
+        "Noctec",
+        "Welldorm",
+        "Knockout drops",
+        "Aquachloral",
+        "Trichloroacetaldehyde monohydrate",
+        "1,1,1-trichloro-2,2-ethanediol",
+        "Mickey Finn",
+        "Somnote"
+      ],
+      "category": "Sedative-hypnotic",
+      "tags": [],
+      "chemical_class": "Chloral derivatives (trichloroacetaldehyde hydrate)"
+    },
+    {
+      "name": "Chloral-betaine",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Chloroform",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clomethiazole",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clonidine",
+      "aliases": [
+        "catapres",
+        "duraclon",
+        "kapvay"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyclizine",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyclobenzaprine",
+      "aliases": [
+        "apo-cyclobenzaprin",
+        "fexmid",
+        "flexeril",
+        "novo-cycloprine"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Datura",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "desglymidodrine",
+      "aliases": [
+        "1-(2',5'-dimethoxyphenyl)aminoethanol",
+        "alpha-(aminomethyl)-2,5-dimethoxybenzenemethanol",
+        "de-glymidodrine",
+        "rac-2-amino-1-(2,5-dimethoxyphenyl)ethanol",
+        "ST-1059"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Diethyl-ether",
+      "aliases": [
+        "ether"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimenhydrinate",
+      "aliases": [
+        "O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate",
+        "Driminate",
+        "Triptone",
+        "Dramamine (Original Formula)",
+        "Diphenhydramine theoclate",
+        "Vomex A",
+        "Gravol",
+        "Dinate",
+        "Diphenhydramine 8-chlorotheophyllinate"
+      ],
+      "category": "Deliriant (anticholinergic); antihistamine; anti‑emetic",
+      "tags": [],
+      "chemical_class": "Ethanolamine first‑generation H1 antihistamine salt: diphenhydramine + 8‑chlorotheophylline (xanthine)."
+    },
+    {
+      "name": "Diphenhydramine",
+      "aliases": [
+        "benadryl",
+        "diphenhydramine",
+        "dph"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMAE",
+      "aliases": [
+        "Deanol",
+        "Dimethylethanolamine"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "cholinergic",
+        "nootropic",
+        "supplement"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dramamine",
+      "aliases": [
+        "dimenhydrinate",
+        "gravol"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethaqualone",
+      "aliases": [
+        "etaqualone"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "F-Phenibut",
+      "aliases": [
+        "Fluorophenibut",
+        "β-(4-Fluorophenyl)-GABA"
+      ],
+      "category": "GABAergic",
+      "tags": [
+        "GABA-B-agonist",
+        "GABAergic",
+        "high-dependence-risk",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fasoracetam",
+      "aliases": [
+        "LAM-105",
+        "NS-105"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "GABA-B-agonist",
+        "mGluR-modulator",
+        "nootropic",
+        "racetam",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flubrotizolam",
+      "aliases": [
+        "LS-152,574",
+        "Flurotizolam"
+      ],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": "Thienotriazolodiazepine"
+    },
+    {
+      "name": "Fluorophenibut",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fosazepam",
+      "aliases": [
+        "Fosazepam (INN)"
+      ],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": "Benzodiazepine"
+    },
+    {
+      "name": "Gaba",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Gabapentin",
+      "aliases": [
+        "neurontin"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GBL",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GHB",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Glutethimide",
+      "aliases": [
+        "doriden",
+        "elrodorm",
+        "glimid",
+        "noxyron"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Halothane",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hexobarbital",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydroxyzine",
+      "aliases": [
+        "atarax",
+        "vistaril"
+      ],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Kanna",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Kava",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Marinol",
+      "aliases": [
+        "cesamet",
+        "delta9-tetrahydrocannabinol",
+        "delta9-thc",
+        "dronabinol",
+        "syndros",
+        "δ9--tetrahydrocannabinol",
+        "δ9-thc"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "tentative",
+        "US-Schedule-III"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mebroqualone",
+      "aliases": [
+        "mbq"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mefloquine",
+      "aliases": [
+        "(R*,S*)-2,8-bis(trifluoromethyl)quinolin-4-yl-(2-piperidyl)methanol",
+        "Mefloquina",
+        "RO 21-5998",
+        "Lariam",
+        "WR 142,490",
+        "Mefloquinum"
+      ],
+      "category": "Antimalarial; not intended as psychoactive, but can produce neuropsychiatric adverse effects in susceptible individuals",
+      "tags": [],
+      "chemical_class": "Quinoline methanol derivative"
+    },
+    {
+      "name": "metanephrine",
+      "aliases": [
+        "3-Methoxyadrenaline",
+        "3-O-Methylepinephrine",
+        "4-Hydroxy-3-methoxy-N-methylphenethanolamine",
+        "DL-3-O-Methyladrenaline",
+        "DL-Metanephrine",
+        "m-O-Methyladrenaline",
+        "metadrenaline",
+        "Metanephrine, metadrenaline"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Metaxalone",
+      "aliases": [
+        "skelaxin"
+      ],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methaqualone",
+      "aliases": [
+        "ludes",
+        "mandrax",
+        "quaaludes",
+        "qualudes"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylmethaqualone",
+      "aliases": [
+        "mmq"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methyprylon",
+      "aliases": [
+        "noludar"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methylphenylethanolaminium",
+      "aliases": [
+        "(2-hydroxy-2-phenylethyl)(methyl)azanium",
+        "alpha-(Methylaminomethyl)benzyl alcohol",
+        "N-methylphenylethanolaminium cation",
+        "N-methylphenylethanolaminium(1+)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Noctec",
+      "aliases": [
+        "aquachloral",
+        "chloral-hydrate",
+        "somnos"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "norepinephrine",
+      "aliases": [
+        "(-)-alpha-(Aminomethyl)protocatechuyl alcohol",
+        "4-(2-Amino-1-hydroxyethyl)-1,2-benzenediol",
+        "4-[(1R)-2-amino-1-hydroxy-ethyl]pyrocatechol",
+        "4-[(1R)-2-Amino-1-hydroxyethyl]-1,2-benzenediol",
+        "4-[(1R)-2-amino-1-hydroxyethyl]benzene-1,2-diol",
+        "Adrenor",
+        "Aktamin",
+        "L-2-Amino-1-(3,4-dihydroxyphenyl)ethanol",
+        "L-3,4-Dihydroxyphenylethanolamine",
+        "L-alpha-(Aminomethyl)-3,4-dihydroxybenzyl alcohol",
+        "L-Arterenol",
+        "L-Norepinephrine",
+        "Levarterenol®",
+        "Levoarterenol",
+        "Levonor",
+        "Levonoradrenaline",
+        "Levonorepinephrine",
+        "Levophed",
+        "Nor-Epirenan",
+        "Noradrenalin",
+        "Noradrenaline",
+        "Norartrinal",
+        "Norepinefrina",
+        "Norepinephrinum",
+        "Norepirenamine",
+        "Sympathin E"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "normetanephrine",
+      "aliases": [
+        "3-Methoxy-Noradrenaline",
+        "3-O-Methyl-Noradrenaline",
+        "4-(2-Amino-1-hydroxyethyl)-2-methoxyphenol",
+        "alpha-(Aminomethyl)-4-hydroxy-3-methoxy-Benzenemethanol",
+        "Dl-N-Normetanephrine",
+        "Dl-Normetanephrine",
+        "m-O-Methylnorepinephrine",
+        "N111",
+        "Normetadrenaline",
+        "O-Methylnoradrenaline"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pagoclone",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pentobarbital",
+      "aliases": [
+        "nembutal",
+        "novopentobarb"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenibut",
+      "aliases": [
+        "Anvifen",
+        "Fenibut",
+        "Noofen",
+        "β-Phenyl-γ-aminobutyric acid"
+      ],
+      "category": "GABAergic",
+      "tags": [
+        "GABA-B-agonist",
+        "GABAergic",
+        "habit-forming",
+        "high-dependence-risk",
+        "nootropic",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenobarbital",
+      "aliases": [
+        "luminal",
+        "pheno",
+        "phenobarbitone"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenylethanolaminium",
+      "aliases": [
+        "2-ammonio-1-phenylethanol",
+        "2-azaniumyl-1-phenylethanol",
+        "2-hydroxy-2-phenylethan-1-aminium",
+        "phenylethanolaminium cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Picamilon",
+      "aliases": [
+        "N-Nicotinoyl-GABA",
+        "Pikamilon",
+        "Pycamilon"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "GABAergic",
+        "habit-forming",
+        "nootropic",
+        "vasodilator"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pipradrol",
+      "aliases": [
+        "Pipradrol HCl",
+        "diphenyl(piperidin-2-yl)methanol (IUPAC)",
+        "Meratran (former brand)"
+      ],
+      "category": "Stimulant (primarily NDRI)",
+      "tags": [],
+      "chemical_class": "Diphenylmethylpiperidine (pipradrol family)"
+    },
+    {
+      "name": "Placdyl",
+      "aliases": [
+        "ethchlorvnol",
+        "placidyl"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pregabalin",
+      "aliases": [
+        "lyrica",
+        "pregablin"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-V"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propofol",
+      "aliases": [
+        "diprivan",
+        "milk-of-amnesia"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propranolol",
+      "aliases": [
+        "hemangeol",
+        "inderal",
+        "innopran"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Quetiapine",
+      "aliases": [
+        "seroquel"
+      ],
+      "category": "Depressant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ronlax",
+      "aliases": [
+        "ethyl-loflazepate",
+        "meilax",
+        "victan"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sabroxy",
+      "aliases": [
+        "Oroxylin A"
+      ],
+      "category": "Nootropic",
+      "tags": [
+        "flavonoid",
+        "GABA-A-NAM",
+        "nootropic"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Secobarbital",
+      "aliases": [
+        "seconal"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "SL-164",
+      "aliases": [
+        "SL164",
+        "SL 164",
+        "Dicloqualone",
+        "quinazolinone sedative",
+        "methaqualone analogue"
+      ],
+      "category": "Sedative-hypnotic depressant; presumed GABAA positive allosteric modulator (by class analogy to methaqualone).",
+      "tags": [],
+      "chemical_class": "Quinazolinone (4-quinazolinone) derivative; methaqualone analogue."
+    },
+    {
+      "name": "Thiopental",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tolibut",
+      "aliases": [],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tuinal",
+      "aliases": [
+        "beans",
+        "chirstmas-trees",
+        "jeebs",
+        "nawls",
+        "rainbows",
+        "tuinol"
+      ],
+      "category": "Depressant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

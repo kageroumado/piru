@@ -1,0 +1,1288 @@
+{
+  "slug": "stimulants-cathinones",
+  "name": "Cathinones (β-keto stimulants)",
+  "count": 84,
+  "substances": [
+    {
+      "name": "(+)-cathinone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(+)-methcathinone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(-)-methcathinone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(R)-3-Chloromethcathinone",
+      "aliases": [
+        "(2R)-1-(3-Chlorophenyl)-2-(methylamino)-1-propanone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(R)-3-MMC",
+      "aliases": [
+        "(2R)-2-(Methylamino)-1-(3-methylphenyl)-1-propanone",
+        "(R)-3-Methylmethcathinone",
+        "(R)-Metaphedrone"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(RS)-3-methylmethcathinone",
+      "aliases": [
+        "2-(methylamino)-1-(3-methylphenyl)propan-1-one",
+        "3-mephedrone",
+        "3-methyl-N-methylcathinone",
+        "3-Methylmethcathinone",
+        "3-MMC"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(RS)-3-methylmethcathinone hydrochloride",
+      "aliases": [
+        "1-propanone, 2-(methylamino)-1-(3-methylphenyl)-, hydrochloride (1:1)"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(RS)-flephedrone hydrochloride",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(S)-3-Chloromethcathinone",
+      "aliases": [
+        "(2S)-1-(3-Chlorophenyl)-2-(methylamino)-1-propanone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(S)-4-Chloromethcathinone",
+      "aliases": [
+        "(2S)-1-(4-Chlorophenyl)-2-(methylamino)-1-propanone",
+        "(S)-4-CMC",
+        "(S)-Clephedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(−)-cathinone",
+      "aliases": [
+        "D-Cathinone",
+        "Norephedrone",
+        "β-ketoamphetamine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-CMC",
+      "aliases": [
+        "2-Chloromethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "neurotoxic-evidence-preliminary",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-FMC",
+      "aliases": [
+        "2-Fluoromethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Methylethcathinone",
+      "aliases": [
+        "N-ethyl-2-methylcathinone",
+        "o-methyl-N-ethylcathinone",
+        "2-methyl-N-ethylcathinone",
+        "ortho-methylethcathinone",
+        "2-MEC"
+      ],
+      "category": "Stimulant / empathogen (monoaminergic)",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine)"
+    },
+    {
+      "name": "2-MMC",
+      "aliases": [
+        "2-Methylmethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-mppp",
+      "aliases": [
+        "n-piperidinecathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3,4-Dimethoxy-α-PHP",
+      "aliases": [
+        "“3,4-DMPV” (online usage varies; sometimes used ambiguously for dimethoxy α-PVP vs α-PHP—lab confirmation required)",
+        "3,4-Dimethoxy-α-pyrrolidinohexiophenone",
+        "3,4-DiMeO-α-PHP",
+        "3',4'-Dimethoxy-α-PHP",
+        "DMO-PHP",
+        "1-(3,4-dimethoxyphenyl)-2-(pyrrolidin-1-yl)hexan-1-one"
+      ],
+      "category": "stimulant",
+      "tags": [],
+      "chemical_class": "pyrrolidinophenone (substituted cathinone / pyrovalerone family)"
+    },
+    {
+      "name": "3,4-DMMC",
+      "aliases": [
+        "3,4-dimethyl methcathinone",
+        "4-dimethyl-methcathinone",
+        "M2",
+        "DMMC",
+        "3,4-dimethylmethcathinone",
+        "3"
+      ],
+      "category": "Stimulant / entactogen",
+      "tags": [],
+      "chemical_class": "Synthetic cathinone (β-keto-phenethylamine)"
+    },
+    {
+      "name": "3,4-Trimethylenepentedrone",
+      "aliases": [
+        "TMPD",
+        "3,4-TMPD"
+      ],
+      "category": "Stimulant / entactogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (phenethylamine, trimethylenedioxy analogue)"
+    },
+    {
+      "name": "3-CEC",
+      "aliases": [
+        "3-chloro-NEC",
+        "3-CEC HCl",
+        "3-Cl-ethcathinone",
+        "3-Chloroethcathinone",
+        "3-chloroethcathinone",
+        "1-(3-chlorophenyl)-2-(ethylamino)propan-1-one"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine)"
+    },
+    {
+      "name": "3-chloromethcathinone",
+      "aliases": [
+        "clophedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-CMC",
+      "aliases": [
+        "3-Chloromethcathinone",
+        "3cmc"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "habit-forming",
+        "neurotoxic-evidence-preliminary",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-Fluoromethcathinone",
+      "aliases": [
+        "3-FMC",
+        "3′-fluoro-2-(methylamino)propiophenone",
+        "1-(3-fluorophenyl)-2-(methylamino)propan-1-one",
+        "NOTE: often confused with 4-FMC (flephedrone); verify isomer via analytical data",
+        "3F-MC"
+      ],
+      "category": "Stimulant / entactogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine)"
+    },
+    {
+      "name": "3-FMC",
+      "aliases": [
+        "3-Fluoromethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-MEC",
+      "aliases": [
+        "3-Methyl-N-ethylcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-Methyl-4-fluoro-α-pyrrolidinovalerophenone",
+      "aliases": [
+        "MF-PVP",
+        "4-fluoro-3-methyl-α-PVP",
+        "4F-3Me-α-PVP",
+        "MFPVP",
+        "3-Me-4-F-α-PVP",
+        "4F-3Me-PVP",
+        "4F-3-methyl-α-PVP",
+        "4-fluoro-3-methyl-alpha-PVP"
+      ],
+      "category": "Norepinephrine–dopamine re-uptake inhibitor (stimulant)",
+      "tags": [],
+      "chemical_class": "Substituted cathinone; pyrrolidinophenone"
+    },
+    {
+      "name": "3-MMC",
+      "aliases": [
+        "3-meph",
+        "3-mephedrone",
+        "3-Methylmethcathinone",
+        "3mmc",
+        "Metaphedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "empathogen-adjacent",
+        "habit-forming",
+        "no-human-data",
+        "phenethylamine",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3F-PiHP",
+      "aliases": [
+        "3-Fluoro-α-pyrrolidinoisohexanophenone",
+        "3F-PHIP",
+        "3F-α-PiHP",
+        "3-fluoro-PiHP",
+        "3-Fluoro-PiHP",
+        "3F-Alpha-PHIP hydrochloride",
+        "3F-alpha-PiHP",
+        "3F-α-PHIP HCl (salt)",
+        "3F-Alpha-PHIP"
+      ],
+      "category": "Stimulant (primarily dopamine/norepinephrine reuptake inhibition; class inference)",
+      "tags": [],
+      "chemical_class": "Pyrrolidinophenone cathinone (β‑keto phenethylamine)"
+    },
+    {
+      "name": "4-CEC",
+      "aliases": [
+        "4-Chloroethcathinone",
+        "4′-chloro-N-ethylcathinone",
+        "p-chloro-ethcathinone",
+        "1-(4-chlorophenyl)-2-(ethylamino)propan-1-one",
+        "para-chloro-ethcathinone",
+        "4-chloroethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Substituted cathinone"
+    },
+    {
+      "name": "4-Chlorobuphedrone",
+      "aliases": [
+        "para-Chloro-buphedrone",
+        "4-CBC",
+        "4-chloro-buphedrone",
+        "4-chloro-butyrophenone cathinone",
+        "4-chloro-α-methylamino-butyrophenone",
+        "4-chloro-α-methylaminobutyrophenone"
+      ],
+      "category": "Stimulant / Empathogen / Entactogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine)"
+    },
+    {
+      "name": "4-chloromethcathinone",
+      "aliases": [
+        "clephedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-CMC",
+      "aliases": [
+        "(2R)-1-(4-Chlorophenyl)-2-(methylamino)-1-propanone",
+        "4-Chloromethcathinone",
+        "4cmc",
+        "Clephedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "fatalities-reported",
+        "habit-forming",
+        "neurotoxic-evidence-preliminary",
+        "no-human-data",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-EEC",
+      "aliases": [
+        "4‑Ethyl‑ethcathinone",
+        "para‑ethyl ethcathinone",
+        "4‑EEC",
+        "4-Ethylethcathinone",
+        "4‑Ethyl‑N‑ethylcathinone",
+        "2‑(ethylamino)‑1‑(4‑ethylphenyl)propan‑1‑one",
+        "p‑ethyl ethcathinone"
+      ],
+      "category": "stimulant / entactogen",
+      "tags": [],
+      "chemical_class": "substituted cathinone (β-ketoamphetamine)"
+    },
+    {
+      "name": "4-EMC",
+      "aliases": [
+        "4-Ethylmethcathinone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-epd",
+      "aliases": [
+        "4-ethylpentedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Fluoro-alpha-PHP",
+      "aliases": [
+        "4F-PHP",
+        "4-fluoro-alpha-pyrrolidinohexanophenone",
+        "4-fluoro-α-pyrrolidinohexanophenone",
+        "4F-α-PHP",
+        "4′-fluoro-α-PHP"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Cathinone (substituted cathinone; pyrrolidinophenone)"
+    },
+    {
+      "name": "4-fluoropentedrone",
+      "aliases": [
+        "4-f-pentedrone",
+        "4-fpd"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fmc",
+      "aliases": [
+        "4-fluoromethcathinone",
+        "4fmc",
+        "flephedrone",
+        "fpephedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-MBC",
+      "aliases": [
+        "4‑MBC (cathinone)",
+        "4‑methylbenzylcathinone",
+        "Benzedrone",
+        "(colloquial) benzyl‑mephedrone",
+        "Do not confuse with: 4‑methylbenzylidene camphor (also called 4‑MBC; a sunscreen filter)",
+        "N‑benzyl‑4‑methylcathinone",
+        "4‑methyl‑N‑benzylcathinone"
+      ],
+      "category": "stimulant / mild empathogen",
+      "tags": [],
+      "chemical_class": "substituted cathinone (β‑keto amphetamine, phenethylamine derivative)"
+    },
+    {
+      "name": "4-Me-NEB",
+      "aliases": [
+        "4-methyl NEB",
+        "2-(ethylamino)-1-(4-methylphenyl)butan-1-one",
+        "4-methyl-α-ethylaminobutiophenone",
+        "4-methyl-N-ethylbuphedrone"
+      ],
+      "category": "Stimulant / functional monoamine releaser or reuptake inhibitor (inferred)",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-ketone phenethylamine)"
+    },
+    {
+      "name": "4-MEC",
+      "aliases": [
+        "4-Methyl-N-ethylcathinone",
+        "4-Methylethcathinone",
+        "4mec"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4F-MABP",
+      "aliases": [
+        "4-fluorobuphedrone",
+        "4F‑buphedrone",
+        "4F‑MABP"
+      ],
+      "category": "stimulant",
+      "tags": [],
+      "chemical_class": "substituted cathinone"
+    },
+    {
+      "name": "4f-pvp",
+      "aliases": [
+        "4f-a-pvp",
+        "pfpvp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "synthetic-cannabinoid",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-methyl-bk-mdea",
+      "aliases": [
+        "5-me",
+        "5-methyl-ethylone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "A-pvp",
+      "aliases": [
+        "alpha-pvp",
+        "alpha-Pyrrolidinopentiophenone",
+        "apvp",
+        "flakka",
+        "flocka",
+        "αpvp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-PHP",
+      "aliases": [
+        "a-php",
+        "PV-7",
+        "α-PHP",
+        "α-Pyrrolidinohexiophenone",
+        "αphp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "habit-forming",
+        "high-risk",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-PiHP",
+      "aliases": [
+        "4-methyl-alpha-pyrrolidinopentanophenone",
+        "α-PiHP",
+        "α-Pyrrolidinoisohexaphenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "phenethylamine",
+        "pyrrolidinophenone",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-PVP",
+      "aliases": [
+        "1-phenyl-2-(1-pyrrolidinyl)-1-pentanone",
+        "2-(pyrrolidin-1-yl)phenylpentan-1-one",
+        "alfa-PvP",
+        "desmethylpyrovalerone",
+        "Flakka",
+        "Gravel",
+        "O-2387",
+        "prolintanone",
+        "α-PVP",
+        "α-Pyrrolidinopentiophenone",
+        "α-Pyrrolidinovalerophenone",
+        "β-keto-prolintane"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "high-risk",
+        "no-human-data",
+        "phenethylamine",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "alpha-Pyrrolidinohexiophenone",
+      "aliases": [
+        "α-PHP",
+        "a-PHP",
+        "PV7",
+        "alpha-PHP",
+        "PV-7",
+        "α-Pyrrolidinohexiophenone",
+        "1-phenyl-2-(pyrrolidin-1-yl)hexan-1-one",
+        "aphp"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Cathinone (substituted cathinone, pyrrolidine class)"
+    },
+    {
+      "name": "Amfepramone",
+      "aliases": [
+        "Diethylcathinone",
+        "Regenon",
+        "Nobesine",
+        "Tenuate Dospan",
+        "Phepranon",
+        "2-(Diethylamino)-1-phenylpropan-1-one",
+        "1-phenyl-2-(diethylamino)-1-propanone",
+        "Neobes",
+        "2-(diethylamino)propiophenone",
+        "Tenuate",
+        "Préfamone",
+        "Diethylpropion",
+        "Tepanil",
+        "Amfepramon",
+        "Regibon"
+      ],
+      "category": "Stimulant; anorectic (sympathomimetic)",
+      "tags": [],
+      "chemical_class": "Aminoketone; substituted cathinone; phenethylamine"
+    },
+    {
+      "name": "Brephedrone",
+      "aliases": [
+        "4-Bromomethcathinone",
+        "4-BMC",
+        "BrMcat",
+        "1-(4-bromophenyl)-2-(methylamino)propan-1-one",
+        "para-Bromomethcathinone"
+      ],
+      "category": "Stimulant / Entactogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine)"
+    },
+    {
+      "name": "Buphedrone",
+      "aliases": [
+        "α-Methylamino-butyrophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Butylcathinone",
+      "aliases": [
+        "Butylaminopropiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Butylone",
+      "aliases": [
+        "b1",
+        "bk-MBDB",
+        "bk-methyl-j",
+        "β-Keto-MBDB"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "MDMA-analog",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cyputylone",
+      "aliases": [
+        "N-CMC",
+        "1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one",
+        "N-Cyclohexylmethylone",
+        "common misspelling: Cuiputylone",
+        "N-cyclohexylmethylone",
+        "BDCP (vendor/colloquial label)"
+      ],
+      "category": "Stimulant / entactogen (likely mixed monoamine release and reuptake inhibition; precise human pharmacology uncharacterised)",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (β-keto phenethylamine); N-cyclohexyl analogue of methylone"
+    },
+    {
+      "name": "Dibutylone",
+      "aliases": [
+        "bk-MMBDB"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "inactive",
+        "MDMA-analog",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimethylone",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimethylpentylone",
+      "aliases": [
+        "KU crystals",
+        "N-Dimethylpentylone",
+        "N,N-Dimethylpentylone",
+        "Dimethylpentylone HCl",
+        "KU",
+        "DM-Pentylone",
+        "BU crystal",
+        "N"
+      ],
+      "category": "Stimulant, empathogen",
+      "tags": [],
+      "chemical_class": "Cathinone (substituted cathinone; beta-keto amphetamine; tertiary dimethylamino analogue of pentylone)"
+    },
+    {
+      "name": "Dipentylone",
+      "aliases": [
+        "bk-DMBDP",
+        "dimethylpentylone",
+        "1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one",
+        "N,N-dimethylpentylone",
+        "KU (street name reported)",
+        "DMBDP"
+      ],
+      "category": "Stimulant–empathogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (-keto phenethylamine)"
+    },
+    {
+      "name": "EDMC",
+      "aliases": [
+        "ED-MC",
+        "βk-EDMA",
+        "4-EDMC",
+        "3,4-EDMC",
+        "4-Ethylenedioxymethcathinone",
+        "1-(2,3-dihydro-1,4-benzodioxin-6-yl)-2-(methylamino)propan-1-one",
+        "3",
+        "3′,4′-Ethylenedioxy-2-(methylamino)propiophenone"
+      ],
+      "category": "Serotonin–norepinephrine–dopamine releasing agent; stimulant–entactogen",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (benzodioxine-derived)"
+    },
+    {
+      "name": "Ethyl-pentedrone",
+      "aliases": [
+        "n-ethylpentedrone",
+        "nep"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethylcathinone",
+      "aliases": [
+        "e-cat",
+        "eth-cat",
+        "ethcathinone"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethylone",
+      "aliases": [
+        "bk-MDEA",
+        "MDEC"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "MDMA-analog",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Eutylone",
+      "aliases": [
+        "bk-EBDB",
+        "N-Ethylbutylone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "MDMA-analog",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flephedrone",
+      "aliases": [
+        "4-Fluoromethcathinone",
+        "4-FMC"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "phenethylamine",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hexedrone",
+      "aliases": [
+        "ethyl-hexedrone",
+        "Hexen",
+        "n-ethylhexedrone",
+        "α-Methylamino-hexanophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPBP",
+      "aliases": [
+        "3,4-Methylenedioxy-α-pyrrolidinobutiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "pyrrolidinophenone",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPPP",
+      "aliases": [
+        "3,4-Methylenedioxy-α-pyrrolidinopropiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "pyrrolidinophenone",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mdpv",
+      "aliases": [
+        "bath_salts"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mephedrone",
+      "aliases": [
+        "4-methylephedrone",
+        "4-methylmethcathinone",
+        "4-mmc",
+        "m-cat",
+        "meow",
+        "meow meow",
+        "meph"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "no-human-data",
+        "phenethylamine",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methcathinone",
+      "aliases": [
+        "Bathtub Speed",
+        "Cadillac Express",
+        "Cat",
+        "Ephedrone",
+        "Gagers",
+        "Gaggers",
+        "Goog",
+        "Jeff",
+        "Mulka",
+        "Speed",
+        "The C",
+        "Wild Cat",
+        "Wonder Star",
+        "α-methylamino-propiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "DRI",
+        "no-human-data",
+        "phenethylamine",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "methylenedioxydeschlorobupropion",
+      "aliases": [
+        "3,4-Methylenedioxy-N-tert-butylcathinone",
+        "D-Tertylone",
+        "MDPT",
+        "N-Tert-butyl-methylone",
+        "tBuONE"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylenedioxypyrovalerone",
+      "aliases": [
+        "MDPV",
+        "bath salts",
+        "Cloud Nine",
+        "3,4-Methylenedioxypyrovalerone",
+        "NRG-1",
+        "Vanilla Sky",
+        "Ivory Wave"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (pyrrolidinophenone)"
+    },
+    {
+      "name": "Methylone",
+      "aliases": [
+        "3,4-Methylenedioxymethcathinone",
+        "bk-MDMA",
+        "M1",
+        "MDMC"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "common",
+        "empathogen-adjacent",
+        "habit-forming",
+        "MDMA-analog",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MPPP",
+      "aliases": [
+        "4'-Methyl-α-pyrrolidinopropiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "pyrrolidinophenone",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Ethylcathinone",
+      "aliases": [
+        "Ethcathinone",
+        "NEC"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Ethylpentedrone",
+      "aliases": [
+        "N-ethylnorpentedrone",
+        "NEPD (misused abbreviation seen in forums)",
+        "NEP",
+        "alpha-ethylaminopentiophenone",
+        "α‑EAPP",
+        "2-(ethylamino)-1-phenylpentan-1-one",
+        "α-ethylaminopentiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Synthetic cathinone (β‑keto amphetamine)"
+    },
+    {
+      "name": "N-Ethylpentylone",
+      "aliases": [
+        "Ephylone",
+        "N-Ethylnorpentylone",
+        "βk-Ethyl-K"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "high-risk",
+        "MDMA-analog",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Naphyrone",
+      "aliases": [
+        "Naphthylpyrovalerone",
+        "NRG-1"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "pyrrolidinophenone",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Neb",
+      "aliases": [
+        "n-ethylbuphedrone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pentedrone",
+      "aliases": [
+        "α-Methylamino-valerophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pentylone",
+      "aliases": [
+        "4-meppp",
+        "bk-mbdp",
+        "bk-methyl-k",
+        "β-Keto-methylbenzodioxolylpentanamine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "cathinone",
+        "fatalities-reported",
+        "habit-forming",
+        "MDMA-analog",
+        "research-chemical",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Th-pvp",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "pyrrolidinophenone",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "α-Pyrrolidinopentiophenone",
+      "aliases": [
+        "O‑2387",
+        "α‑pyrrolidinovalerophenone",
+        "A‑PVP",
+        "Flakka",
+        "a-PVP",
+        "α‑PVP",
+        "Gravel",
+        "α-PVP",
+        "alpha-PVP"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Cathinone (substituted cathinone, pyrrolidinophenone)"
+    }
+  ]
+}

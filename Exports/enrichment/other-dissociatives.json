@@ -1,0 +1,2109 @@
+[
+  {
+    "name": "Dextromethorphan",
+    "aliases_added": [],
+    "iupac_name": "(4bS,8aR,9S)-3-methoxy-11-methyl-6,7,8,8a,9,10-hexahydro-5H-9,4b-(epiminoethano)phenanthrene",
+    "smiles": "COc1ccc2c(c1)[C@@]13CCCC[C@H]1[C@@H](C2)N(C)CC3",
+    "inchikey": "MKXZASYAUGDDCJ-NJAFHUGGSA-N",
+    "cas": "125-71-3",
+    "pubchem_cid": 5360696,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA-receptor (PCP site, low-affinity uncompetitive)",
+        "sigma-1",
+        "SERT",
+        "nicotinic alpha3/beta4"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 7253,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]TCP (thienylphencyclidine)",
+          "assay_buffer_notes": "Assay performed in absence of Mg2+/glutamate, which inflates apparent affinity vs physiological conditions",
+          "reference": "pmid:2568580",
+          "is_review": false,
+          "notes": "Ki ~7.25 microM in original Wong et al. study; parent DXM is a low-affinity blocker. Dextrorphan (metabolite) is the more potent NMDA antagonist."
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 205,
+          "kd_nm": null,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain membranes",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:10064839",
+          "is_review": false,
+          "notes": "Chou et al. 1999; DXM vs dimemorfan comparison. Sigma-1 agonism contributes to antidepressant-like and anticonvulsant effects."
+        },
+        {
+          "target": "SERT (serotonin transporter)",
+          "ki_nm": 40,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "rat brain synaptosomes / HEK-hSERT comparison",
+          "radioligand_or_probe": "[3H]paroxetine displacement / [3H]5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24587167",
+          "is_review": false,
+          "notes": "Nguyen & Matsumoto 2014; DXM has higher SERT affinity than ketamine. This SERT inhibition underlies serotonin-syndrome risk with MAOIs/SSRIs."
+        },
+        {
+          "target": "NET (norepinephrine transporter)",
+          "ki_nm": 240,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "rat synaptosomes",
+          "radioligand_or_probe": "[3H]nisoxetine displacement",
+          "assay_buffer_notes": null,
+          "reference": "pmid:24587167",
+          "is_review": false,
+          "notes": "Nguyen & Matsumoto 2014; moderate NET inhibition contributes to dose-dependent stimulant overlay."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "DXM/dextrorphan blockade of NMDA receptors reduces glutamate-evoked Ca2+ influx in neurons. Sigma-1 agonism modulates IP3-receptor Ca2+ release from ER and chaperones BiP dissociation, contributing to neuroprotective and antidepressant effects.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 2,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 150,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 180,
+          "vd_l_per_kg": 5.0,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 60,
+          "dose_in_study_mg": 30,
+          "subject_n": null,
+          "subject_demographics": "CYP2D6 extensive metabolizers (EMs)",
+          "reference": "pmid:7593709",
+          "notes": "Capon et al. 1996 — EM bioavailability 1-2%, t1/2 ~2-4 h; poor metabolizers (PMs) bioavailability ~80%, t1/2 ~24 h with 5-fold higher DXM Cmax and DXO concentrations only 3% of EM values."
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": 80,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1440,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 30,
+          "subject_n": null,
+          "subject_demographics": "CYP2D6 poor metabolizers (PMs)",
+          "reference": "pmid:7593709",
+          "notes": "PMs accumulate DXM with markedly longer t1/2 and stronger dissociative effect at recreational doses."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "dextrorphan (DXO)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 800,
+        "reference": "pmid:15988119",
+        "notes": "O-demethylation. Dextrorphan is the principal NMDA-active metabolite (Ki ~900 nM at PCP site, ~8x parent)."
+      },
+      {
+        "enzyme": "CYP3A4/CYP3A5",
+        "fraction_of_clearance_pct": 15,
+        "metabolite_name": "3-methoxymorphinan (3-MM)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:15988119",
+        "notes": "N-demethylation. Becomes major pathway in CYP2D6 PMs (~2.8-fold higher 3-MM normalised to activity)."
+      },
+      {
+        "enzyme": "UGT2B7/UGT2B17",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "dextrorphan-O-glucuronide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:7593709",
+        "notes": "Conjugated dextrorphan is ~100x more abundant than free DXO in plasma."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "quinidine",
+        "mechanism": "CYP2D6 competitive inhibition",
+        "ki_um": 0.06,
+        "clinical_effect": "Converts EM to phenocopy PM; DXM AUC increases 20-40 fold (basis for Nuedexta DXM/quinidine combo).",
+        "reference": "pmid:7593709"
+      },
+      {
+        "with": "paroxetine",
+        "mechanism": "CYP2D6 mechanism-based inhibition",
+        "ki_um": 4.85,
+        "clinical_effect": "Persistent CYP2D6 inhibition (kinact 0.17 min-1); markedly elevated DXM exposure and serotonin syndrome risk.",
+        "reference": "pmid:12584155"
+      },
+      {
+        "with": "fluoxetine",
+        "mechanism": "CYP2D6 inhibition (norfluoxetine more potent)",
+        "ki_um": 0.6,
+        "clinical_effect": "Increases DXM exposure; documented serotonin syndrome cases with DXM cough syrup + fluoxetine.",
+        "reference": "pmid:12584155"
+      },
+      {
+        "with": "MAOIs (phenelzine, tranylcypromine, moclobemide)",
+        "mechanism": "Pharmacodynamic — DXM SERT inhibition + MAO blockade",
+        "ki_um": null,
+        "clinical_effect": "Severe serotonin syndrome and hyperpyrexia; contraindicated combination.",
+        "reference": "pmid:24587167"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP3A4",
+        "CYP3A5"
+      ],
+      "phenotype_effects": "CYP2D6 PMs (~7% of Caucasians, ~1% Asians): 5-fold higher DXM Cmax, t1/2 ~24 h vs ~3 h in EMs, DXO concentrations only 3% of EM values. UMs (CYP2D6 gene duplication) experience minimal subjective dissociation. PMs are at high risk of dose-dependent dissociation and serotonin syndrome at recreational doses; UMs at risk of opioid-like sedation from rapid DXO formation in rare cases.",
+      "reference": "doi:10.1002/psp4.12776"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Reverse tolerance / kindling-like phenomenon reported anecdotally in chronic DXM users (autoinduction of CYP2D6 has been hypothesised but not confirmed in humans).",
+      "cross_tolerance": [
+        "ketamine",
+        "PCP",
+        "DXO",
+        "methoxetamine"
+      ],
+      "withdrawal_syndrome": "Chronic high-dose users may develop psychological dependence with insomnia, dysphoria, craving, mild dysautonomia lasting 1-2 weeks. No major physical withdrawal syndrome.",
+      "reference": "doi:10.1021/acschemneuro.3c00088"
+    },
+    "off_targets": [
+      {
+        "target": "hERG (Kv11.1)",
+        "ki_or_ic50_nm": 5100,
+        "concern_level": "moderate",
+        "clinical_consequence": "QTc prolongation reported with supratherapeutic doses and CYP2D6 inhibitor co-administration; case reports of arrhythmia at recreational doses.",
+        "reference": "doi:10.1186/s40360-016-0053-1"
+      },
+      {
+        "target": "nicotinic alpha3-beta4",
+        "ki_or_ic50_nm": 700,
+        "concern_level": "low",
+        "clinical_consequence": "May contribute to anti-addictive effects observed in animal models.",
+        "reference": "pmid:24587167"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Pediatric DXM clearance higher per kg; recreational paediatric overdose particularly dangerous due to combination products (acetaminophen, chlorpheniramine, pseudoephedrine).",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment expected to increase DXM exposure (CYP2D6-dependent); no formal dedicated study published."
+    },
+    "tags_to_add": [
+      "SERT-inhibitor",
+      "sigma-1-agonist",
+      "CYP2D6-substrate",
+      "hERG-moderate",
+      "serotonin-syndrome-risk-with-MAOI-SSRI"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Quantitative human PET imaging of NMDA channel occupancy at recreational doses",
+      "Biased agonism data at sigma-1"
+    ],
+    "notes": "DXM is the prototype non-arylcyclohexylamine morphinan NMDA antagonist. Parent compound is a relatively weak NMDA blocker; pro-drug-like behaviour of the active metabolite dextrorphan (formed by CYP2D6) drives most dissociative pharmacology. The σ1 + SERT polypharmacology explains the affective overlay (euphoria, depersonalisation tinged with serotonergic activation) that differs qualitatively from ketamine. CYP2D6 phenotype is the single most important pharmacogenetic variable for DXM safety and effect intensity.",
+    "references_consulted": [
+      "pmid:2568580",
+      "pmid:10064839",
+      "pmid:24587167",
+      "pmid:7593709",
+      "pmid:15988119",
+      "pmid:12584155",
+      "doi:10.1002/psp4.12776",
+      "doi:10.1186/s40360-016-0053-1",
+      "doi:10.1021/acschemneuro.3c00088"
+    ]
+  },
+  {
+    "name": "Dextromethorphan Hydrobromide",
+    "aliases_added": [],
+    "iupac_name": "(4bS,8aR,9S)-3-methoxy-11-methyl-6,7,8,8a,9,10-hexahydro-5H-9,4b-(epiminoethano)phenanthrene hydrobromide monohydrate",
+    "smiles": "COc1ccc2c(c1)[C@@]13CCCC[C@H]1[C@@H](C2)N(C)CC3.Br",
+    "inchikey": "PJWRWXMIWLJVAU-UWBQDFIZSA-N",
+    "cas": "125-69-9",
+    "pubchem_cid": 5462527,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA-receptor (PCP site)",
+        "sigma-1",
+        "SERT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Identical pharmacology to free-base DXM after dissociation in GI tract.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 2,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 150,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 180,
+          "vd_l_per_kg": 5.0,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 60,
+          "dose_in_study_mg": 30,
+          "subject_n": null,
+          "subject_demographics": "CYP2D6 extensive metabolizers (EMs)",
+          "reference": "pmid:7593709",
+          "notes": "HBr salt: rapid dissociation, near-identical PK to base. Bromide counterion adds ~0.7 mg Br- per 1 mg DXM HBr — chronic megadosing (recreational 'robotripping') has caused bromism in case reports."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "dextrorphan",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 800,
+        "reference": "pmid:15988119",
+        "notes": "Same pathway as free-base DXM."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "See Dextromethorphan record — same CYP2D6 dependency.",
+      "reference": "doi:10.1002/psp4.12776"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "dextromethorphan",
+        "dextrorphan",
+        "ketamine",
+        "DXO"
+      ],
+      "withdrawal_syndrome": "Chronic high-dose users may experience psychological dependence; bromism (chronic Br- accumulation) may present with neurological/dermatologic signs after years of high-dose use.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "bromide accumulation",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Bromism with chronic megadosing — bromide t1/2 ~12 days, replaces Cl-, causes neuropsychiatric symptoms and acneiform rash.",
+        "reference": "doi:10.1021/acschemneuro.3c00088"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": "Renal impairment slows Br- clearance — bromism risk amplified."
+    },
+    "tags_to_add": [
+      "bromide-load-risk-chronic"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Pharmacologically identical to base DXM; primary distinguishing feature is the bromide counterion load with chronic recreational use. Refer to Dextromethorphan record for full receptor and CYP data.",
+    "references_consulted": [
+      "pmid:7593709",
+      "pmid:15988119",
+      "doi:10.1021/acschemneuro.3c00088"
+    ]
+  },
+  {
+    "name": "DXM Polistirex",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": "79815-78-2",
+    "pubchem_cid": null,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "sigma-1",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Once dissociated from the polistirex ion-exchange resin in GI tract, behaves identically to free-base DXM.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": "doi:10.1002/(SICI)1099-081X(1998110)19:8<541::AID-BDD138>3.0.CO;2-8",
+          "notes": "Polistirex ER (Delsym) — DXM bound to sulfonated styrene-divinylbenzene resin. Releases DXM over 12 h by ion exchange with gastric H+ / intestinal Na+/K+. Cmax lower, Tmax longer (~6 h) vs immediate release; AUC equivalent."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "dextrorphan",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 800,
+        "reference": "pmid:15988119",
+        "notes": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Same as DXM; ER formulation prolongs effect duration in both EMs and PMs.",
+      "reference": "doi:10.1002/psp4.12776"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "dextromethorphan",
+        "dextrorphan"
+      ],
+      "withdrawal_syndrome": "See Dextromethorphan.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "extended-release",
+      "ion-exchange-resin"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Quantitative PK head-to-head comparison vs IR DXM in CYP2D6 PMs"
+    ],
+    "notes": "Pro-drug formulation only — pharmacology is DXM. Distinguishing characteristic is the polistirex resin delivery system giving 12-h release window; ER formulation reduces Cmax-driven dissociative peak but extends duration. Crushing/chewing defeats the resin binding and yields IR-like pharmacokinetics (relevant for recreational misuse).",
+    "references_consulted": [
+      "doi:10.1002/(SICI)1099-081X(1998110)19:8<541::AID-BDD138>3.0.CO;2-8",
+      "pmid:15988119"
+    ]
+  },
+  {
+    "name": "Dxme",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "unidentified-RC"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No peer-reviewed identification of compound 'Dxme' exists; not found in PubChem, ChEMBL, NPS Discovery, EMCDDA EWS, or Tactogen monographs. Possible misspelling of DXM, DXE (deschloroketamine analogue), or DMXE (3-MeO-2'-Oxo-PCE / methoxmetamine)."
+    ],
+    "notes": "Unable to identify this compound with confidence. Strongly recommend resolving the entry — likely intended as either DXM, DXE (deschloroketamine), or DMXE/methoxmetamine. No usable pharmacology can be returned without disambiguation.",
+    "references_consulted": []
+  },
+  {
+    "name": "Memantine",
+    "aliases_added": [],
+    "iupac_name": "3,5-dimethyladamantan-1-amine",
+    "smiles": "CC12CC3CC(C)(C1)CC(N)(C2)C3",
+    "inchikey": "BUGYDGFZZOZRHP-UHFFFAOYSA-N",
+    "cas": "19982-08-2",
+    "pubchem_cid": 4054,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA-receptor (PCP site, low-affinity uncompetitive open-channel blocker)",
+        "5-HT3",
+        "nicotinic alpha7 nAChR",
+        "sigma-1"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 1000,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "cultured rat cortical / hippocampal neurons, whole-cell patch clamp",
+          "radioligand_or_probe": "NMDA-evoked current inhibition",
+          "assay_buffer_notes": "Voltage-dependent (Mg2+-like), use-dependent open-channel blocker. IC50 strongly voltage-dependent: ~1 μM at -70 mV.",
+          "reference": "pmid:7714771",
+          "is_review": false,
+          "notes": "Parsons et al. 1995. Key kinetic feature: fast off-rate (koff ~5 s-1) that allows escape during physiological transient glutamate release — preserves synaptic plasticity while blocking tonic pathological activation."
+        },
+        {
+          "target": "5-HT3 receptor",
+          "ki_nm": null,
+          "kd_nm": null,
+          "ic50_nm": 1200,
+          "action": "antagonist",
+          "species": "human/mouse",
+          "tissue_or_cell": "HEK-293 expressing h5-HT3A; N1E-115 neuroblastoma",
+          "radioligand_or_probe": "5-HT-evoked inward current",
+          "assay_buffer_notes": null,
+          "reference": "pmid:11403963",
+          "is_review": false,
+          "notes": "Rammes et al. 2001 — non-competitive antagonism, potency similar to NMDA. May contribute to anti-emetic effect and tolerability."
+        },
+        {
+          "target": "nicotinic alpha7 nAChR",
+          "ki_nm": null,
+          "ic50_nm": 700,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "rat cortical/hippocampal cultures",
+          "radioligand_or_probe": "ACh-evoked currents",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.neuropharm.2007.04.022",
+          "is_review": false,
+          "notes": "Aracava et al. 2005 — memantine has higher affinity for alpha7 nAChR than for NMDA at resting potentials, an under-appreciated off-target."
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 2600,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain membranes",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:18987635",
+          "is_review": false,
+          "notes": "Peeters et al. — moderate-affinity sigma-1 agonist; minor contribution at therapeutic doses."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Preferential block of extrasynaptic over synaptic NMDA receptors (Xia et al. 2010, J Neurosci 30:11246) — this selectivity arises from extrasynaptic NMDARs being more frequently activated by low ambient glutamate, allowing memantine's voltage- and use-dependent block to accumulate. Extrasynaptic NMDA activation drives pro-apoptotic CREB shutoff signalling, while synaptic NMDA activation drives pro-survival CREB activation; memantine's bias preserves the latter — the molecular basis for therapeutic utility in Alzheimer's.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 360,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 4200,
+          "vd_l_per_kg": 10.0,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 45,
+          "dose_in_study_mg": 20,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults, FDA NDA 21-487",
+          "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf",
+          "notes": "F ~100%, Tmax 3-8 h, t1/2 60-80 h (mean ~70 h), Vd 9-11 L/kg, plasma protein binding ~45%. Linear PK. ~48% excreted unchanged in urine."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "minimal hepatic metabolism",
+        "fraction_of_clearance_pct": 20,
+        "metabolite_name": "N-glucuronide-memantine, 6-OH-memantine, 1-nitroso-deaminated-memantine",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf",
+        "notes": "Three minor inactive metabolites; CYP450 system is NOT meaningfully involved in clearance — clinically negligible CYP-mediated DDI risk."
+      },
+      {
+        "enzyme": "renal (active tubular secretion)",
+        "fraction_of_clearance_pct": 48,
+        "metabolite_name": "unchanged memantine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:22863669",
+        "notes": "Excreted via OCT2/MATE-mediated tubular secretion; pH-dependent reabsorption. Urinary alkalinisation (e.g., heavy sodium bicarbonate) decreases clearance up to 9-fold."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "sodium bicarbonate / alkalinising agents",
+        "mechanism": "Urinary pH ↑ → ↑ tubular reabsorption of protonated memantine",
+        "ki_um": null,
+        "clinical_effect": "Up to 9-fold increase in memantine plasma concentrations",
+        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+      },
+      {
+        "with": "amantadine",
+        "mechanism": "Pharmacodynamic — additive NMDA channel block + OCT2 competition",
+        "ki_um": null,
+        "clinical_effect": "Increased risk of CNS toxicity; combination not recommended.",
+        "reference": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "SLC22A2 (OCT2)",
+        "SLC47A1 (MATE1)"
+      ],
+      "phenotype_effects": "Polymorphisms in OCT2/MATE1 affect tubular secretion; clinically modest. CYP genotype is largely irrelevant given negligible hepatic metabolism.",
+      "reference": "pmid:22863669"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "No clinically meaningful tolerance to therapeutic effect over years in dementia trials; minimal recreational tolerance reported.",
+      "cross_tolerance": [
+        "amantadine (limited)",
+        "ketamine (partial)"
+      ],
+      "withdrawal_syndrome": "No physical withdrawal documented in therapeutic use. Abrupt discontinuation in dementia patients may produce cognitive rebound over weeks consistent with loss of NMDA blockade.",
+      "reference": "doi:10.1517/14740338.2014.991378"
+    },
+    "off_targets": [
+      {
+        "target": "alpha7 nAChR",
+        "ki_or_ic50_nm": 700,
+        "concern_level": "low",
+        "clinical_consequence": "May contribute to cognitive side-effects; under investigation.",
+        "reference": "doi:10.1016/j.neuropharm.2007.04.022"
+      },
+      {
+        "target": "5-HT3",
+        "ki_or_ic50_nm": 1200,
+        "concern_level": "low",
+        "clinical_consequence": "Possibly contributes to low emetogenic profile vs other NMDA antagonists.",
+        "reference": "pmid:11403963"
+      },
+      {
+        "target": "D2 receptor",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Weak D2 affinity reported; not clinically significant at therapeutic doses.",
+        "reference": "pmid:15665416"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women have ~45% higher AUC at same mg dose (lower body weight + lower renal clearance per kg).",
+      "age": "Elderly (target population) have reduced renal function — dose-adjust in CrCl 5-29 mL/min to 5 mg BID.",
+      "weight": null,
+      "renal_or_hepatic": "Renal impairment markedly increases exposure: mean AUC ↑ 4%, 60%, 115% in mild, moderate, severe renal impairment respectively. t1/2 increases up to 95%. Hepatic impairment: negligible effect (no CYP dependence)."
+    },
+    "tags_to_add": [
+      "extrasynaptic-selective",
+      "fast-off-rate-NMDA-blocker",
+      "renal-clearance-dominant",
+      "minimal-CYP-DDI"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Quantitative human NMDA receptor occupancy at therapeutic vs recreational dose ranges (no PET ligand routine for this)"
+    ],
+    "notes": "The defining mechanism is fast-off-rate, voltage-dependent open-channel block (~5 s-1 koff vs ~0.01 s-1 for MK-801). This kinetic distinction — not affinity — is what makes memantine safe for chronic Alzheimer's therapy: it cleared from the channel rapidly enough during transient synaptic glutamate spikes to preserve LTP, while still accumulating block during the sustained low-glutamate elevation of neurodegeneration. The pharmacology is otherwise close to amantadine but with ~10x higher NMDA potency.",
+    "references_consulted": [
+      "pmid:7714771",
+      "pmid:11403963",
+      "pmid:15665416",
+      "pmid:20720132",
+      "pmid:22863669",
+      "pmid:18987635",
+      "doi:10.1016/j.neuropharm.2007.04.022",
+      "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf"
+    ]
+  },
+  {
+    "name": "Diphenidine",
+    "aliases_added": [
+      "DEP",
+      "1,2-DEP",
+      "1-(1,2-diphenylethyl)piperidine"
+    ],
+    "iupac_name": "1-(1,2-diphenylethyl)piperidine",
+    "smiles": "C1CCN(CC1)C(Cc2ccccc2)c3ccccc3",
+    "inchikey": "AVQQQNCBBIEMEU-UHFFFAOYSA-N",
+    "cas": "36794-52-2",
+    "pubchem_cid": 23583015,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "DAT",
+        "NET",
+        "sigma-1",
+        "sigma-2"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 18.2,
+          "ki_ci_nm": [
+            16.0,
+            20.4
+          ],
+          "kd_nm": null,
+          "ic50_nm": 28.6,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain homogenate",
+          "radioligand_or_probe": "[3H](+)-MK-801 (5 nM); 100 μM glutamate, 30 μM glycine",
+          "assay_buffer_notes": "Tris-HCl assay buffer; functionally a low-Mg2+ condition that inflates apparent affinity vs physiological — interpret accordingly.",
+          "reference": "doi:10.1371/journal.pone.0157021",
+          "is_review": false,
+          "notes": "Wallach et al. 2016. Ki ~18 nM places diphenidine in the 'PCP-like' high-affinity range — ~10x more potent than ketamine in same assay."
+        }
+      ],
+      "functional": [
+        {
+          "target": "DAT (human)",
+          "readout": "fluorescence uptake inhibition (HEK293 stably expressing hDAT)",
+          "ec50_nm": null,
+          "ic50_nm": 1990,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "human",
+          "cell_system": "HEK293-hDAT",
+          "reference": "doi:10.1371/journal.pone.0157021"
+        },
+        {
+          "target": "NET (human)",
+          "readout": "fluorescence uptake inhibition",
+          "ec50_nm": null,
+          "ic50_nm": 9250,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "human",
+          "cell_system": "HEK293-hNET",
+          "reference": "doi:10.1371/journal.pone.0157021"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Use- and voltage-dependent NMDA channel blockade; slower kinetic off-rate than memantine giving extended dissociation (anecdotal duration 4-6 h orally). Weak DA reuptake inhibition may contribute to stimulant overlay reported by users.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4/CYP2C19 (presumed, by analogy and metabolite profiling)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxy-diphenidine (on piperidine ring), N-dealkylated diphenidine",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.3109/15563650.2015.1033630",
+        "notes": "Helander et al. — urinary metabolites in intoxication cases; quantitative human PK studies not published."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Reverse tolerance and cravings reported anecdotally in heavy users; no controlled data.",
+      "cross_tolerance": [
+        "MXP",
+        "ephenidine",
+        "ketamine",
+        "PCP",
+        "MK-801"
+      ],
+      "withdrawal_syndrome": "Anecdotal reports of insomnia, dysphoria, craving, anxiety; not formally characterised.",
+      "reference": "https://www.gov.uk/government/publications/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine-accessible"
+    },
+    "off_targets": [
+      {
+        "target": "sigma-1",
+        "ki_or_ic50_nm": 290,
+        "concern_level": "low",
+        "clinical_consequence": "May contribute to affective overlay similar to DXM.",
+        "reference": "doi:10.1371/journal.pone.0157021"
+      },
+      {
+        "target": "sigma-2",
+        "ki_or_ic50_nm": 193,
+        "concern_level": "low",
+        "clinical_consequence": null,
+        "reference": "doi:10.1371/journal.pone.0157021"
+      },
+      {
+        "target": "kappa-opioid",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Weak affinity in Wallach screen.",
+        "reference": "doi:10.1371/journal.pone.0157021"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "high-affinity-NMDA-blocker",
+      "PCP-like-affinity",
+      "long-duration-dissociative"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "No controlled human PK study (no Cmax/Tmax/t1/2 published)",
+      "No biased-agonism / functional NMDA on-off kinetic data",
+      "No quantitative tolerance / withdrawal characterisation"
+    ],
+    "notes": "Diphenidine is the prototype 1,2-diarylethylamine NMDA channel blocker. Wallach et al. 2016 binding study is the canonical reference: Ki 18.2 nM at PCP site (~10x ketamine), placing it pharmacologically closer to PCP than to ketamine in raw affinity, though duration of action sits between them clinically. (S)-enantiomer is reportedly ~40x more potent than (R) (preliminary data); racemic material is the typical street form. Off-target screen at 46 sites shows surprising selectivity — sigma receptors and DAT are the most relevant secondary targets.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0157021",
+      "doi:10.3109/15563650.2015.1033630",
+      "https://www.gov.uk/government/publications/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine-accessible"
+    ]
+  },
+  {
+    "name": "Methoxphenidine",
+    "aliases_added": [
+      "2-MeO-diphenidine",
+      "2-MXP",
+      "2-MeO-DPP"
+    ],
+    "iupac_name": "1-[1-(2-methoxyphenyl)-2-phenylethyl]piperidine",
+    "smiles": "COc1ccccc1C(Cc2ccccc2)N3CCCCC3",
+    "inchikey": "MJUOWCSWIQOOQE-UHFFFAOYSA-N",
+    "cas": "503616-93-3",
+    "pubchem_cid": 73548906,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "DAT",
+        "sigma-1",
+        "sigma-2"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 36.0,
+          "ki_ci_nm": [
+            32.3,
+            39.7
+          ],
+          "ic50_nm": 56.5,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain homogenate",
+          "radioligand_or_probe": "[3H](+)-MK-801 (5 nM); 100 μM glu, 30 μM gly",
+          "assay_buffer_notes": "Tris-HCl, low-Mg2+; Wallach et al. methodology.",
+          "reference": "doi:10.1371/journal.pone.0157021",
+          "is_review": false,
+          "notes": "~2-fold lower affinity than diphenidine; consistent with users reporting needing higher MXP than DPH dose."
+        }
+      ],
+      "functional": [
+        {
+          "target": "DAT (human)",
+          "readout": "fluorescence uptake inhibition",
+          "ec50_nm": null,
+          "ic50_nm": 30000,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "human",
+          "cell_system": "HEK293-hDAT",
+          "reference": "doi:10.1371/journal.pone.0157021"
+        },
+        {
+          "target": "NET (human)",
+          "readout": "fluorescence uptake inhibition",
+          "ec50_nm": null,
+          "ic50_nm": 35200,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "human",
+          "cell_system": "HEK293-hNET",
+          "reference": "doi:10.1371/journal.pone.0157021"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Voltage- and use-dependent NMDA channel block. The 2-methoxy substitution reduces affinity vs diphenidine but does not fundamentally change the binding pose. The 3-methoxy isomer (3-MeO-PCP-like geometry) is substantially more potent (Ki 19 nM); the 4-methoxy isomer collapses to Ki 461 nM — a steep SAR demonstrating the importance of meta-substitution on the aryl ring for PCP-site engagement.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": "pmid:25698777",
+          "notes": "Postmortem blood concentrations: case 1 femoral 24.0 mg/L; case 2 femoral 606 μg/L; case 3 not detailed. No controlled human PK study published. Hydroxy-2-MXP on piperidine ring is the primary urinary metabolite."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated (presumed CYP3A4)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxy-2-MXP (piperidine ring), O-desmethyl-2-MXP, hydroxylated O-desmethyl-2-MXP",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:25698777",
+        "notes": "Geyer et al. forensic toxicology — metabolites identified in postmortem urine."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Anecdotal rapid tolerance; cross-tolerance to ketamine reported.",
+      "cross_tolerance": [
+        "diphenidine",
+        "ephenidine",
+        "ketamine",
+        "MXE"
+      ],
+      "withdrawal_syndrome": "Not formally characterised.",
+      "reference": "https://cdn.who.int/media/docs/default-source/controlled-substances/43rd-ecdd/2-meo-diphenidine-report-final-a.pdf"
+    },
+    "off_targets": [
+      {
+        "target": "sigma-1",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Moderate affinity reported in Wallach screen.",
+        "reference": "doi:10.1371/journal.pone.0157021"
+      },
+      {
+        "target": "sigma-2",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": null,
+        "reference": "doi:10.1371/journal.pone.0157021"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "fatalities-documented",
+      "long-duration-dissociative",
+      "high-affinity-NMDA-blocker"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "No controlled human pharmacokinetic data",
+      "No information on isomeric purity of street samples (2-MXP vs 3-MXP — pharmacologically very different)",
+      "No biased-agonism / electrophysiology kinetics"
+    ],
+    "notes": "Multiple confirmed fatalities (Elliott et al. JAT 2015; Hofer et al. Clin Toxicol 2015). The 2-MeO regiochemistry is less potent than the 3-MeO isomer (Wallach 2016), which is forensically important because street 'MXP' samples have on rare occasions been mis-sold or contaminated with the more potent 3-MeO isomer with predictable consequences. The compound has comparatively narrow therapeutic index — postmortem blood concentrations of fatalities (606 μg/L to 24 mg/L) overlap with concentrations reported in survivors after recreational use (~200-500 μg/L), suggesting toxicokinetic variability is the main risk driver.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0157021",
+      "pmid:25698777",
+      "doi:10.3109/15563650.2015.1033630",
+      "https://cdn.who.int/media/docs/default-source/controlled-substances/43rd-ecdd/2-meo-diphenidine-report-final-a.pdf"
+    ]
+  },
+  {
+    "name": "MXP",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(2-methoxyphenyl)-2-phenylethyl]piperidine",
+    "smiles": "COc1ccccc1C(Cc2ccccc2)N3CCCCC3",
+    "inchikey": "MJUOWCSWIQOOQE-UHFFFAOYSA-N",
+    "cas": "503616-93-3",
+    "pubchem_cid": 73548906,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "sigma-1",
+        "sigma-2"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-Methoxphenidine"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Synonym of Methoxphenidine (2-MeO-diphenidine). Refer to the Methoxphenidine record for all binding, PK, metabolism, and safety data. Strongly recommend merging this entry with Methoxphenidine in the underlying database.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0157021"
+    ]
+  },
+  {
+    "name": "Ephenidine",
+    "aliases_added": [
+      "NEDPA",
+      "EPE",
+      "1-(1,2-diphenylethyl)ethylamine"
+    ],
+    "iupac_name": "N-ethyl-1,2-diphenylethylamine",
+    "smiles": "CCNC(Cc1ccccc1)c2ccccc2",
+    "inchikey": "VDOTUWICHGSLFY-UHFFFAOYSA-N",
+    "cas": "14367-46-5",
+    "pubchem_cid": 12609961,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "DAT",
+        "NET",
+        "sigma-1",
+        "sigma-2"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 66.4,
+          "ki_ci_nm": [
+            62.7,
+            70.1
+          ],
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat whole-brain homogenate",
+          "radioligand_or_probe": "(+)-[3H]MK-801 (1 nM); 100 μM glutamate, 10 μM glycine",
+          "assay_buffer_notes": "10 mM HEPES, pH 7.4",
+          "reference": "pmid:27623219",
+          "is_review": false,
+          "notes": "Kang et al. 2017 (Neuropharmacology 112:144-149). Same assay gave ketamine Ki 324 ± 19 nM and MK-801 Ki 2.1 ± 0.3 nM — ephenidine is intermediate, ~5x more potent than ketamine."
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 379,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "PDSP primary screen / cloned hDAT",
+          "radioligand_or_probe": "[3H]WIN-35,428 displacement",
+          "assay_buffer_notes": null,
+          "reference": "pmid:27623219",
+          "is_review": false,
+          "notes": "Sub-micromolar DAT affinity is unusual for this class and predicts mild stimulant overlay."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 841,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "PDSP primary screen",
+          "radioligand_or_probe": "[3H]nisoxetine displacement",
+          "assay_buffer_notes": null,
+          "reference": "pmid:27623219",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-1",
+          "ki_nm": 628,
+          "action": "agonist (presumed)",
+          "species": "guinea pig",
+          "tissue_or_cell": "PDSP",
+          "radioligand_or_probe": "[3H](+)-pentazocine",
+          "assay_buffer_notes": null,
+          "reference": "pmid:27623219",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "sigma-2",
+          "ki_nm": 721,
+          "action": null,
+          "species": "rat",
+          "tissue_or_cell": "PDSP",
+          "radioligand_or_probe": "[3H]DTG (with masking)",
+          "assay_buffer_notes": null,
+          "reference": "pmid:27623219",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "NMDA receptor",
+          "readout": "field EPSP in rat hippocampal CA1 (theta-burst stimulation)",
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "rat",
+          "cell_system": "hippocampal slice",
+          "reference": "pmid:27623219"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Voltage-dependent channel block similar to ketamine; 10 μM ephenidine blocks LTP induction by theta-burst stimulation in rat hippocampal slices, consistent with synaptic plasticity disruption underlying anti-depressant-like effects of NMDA antagonists.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Anecdotally rapid tolerance.",
+      "cross_tolerance": [
+        "diphenidine",
+        "MXP",
+        "ketamine"
+      ],
+      "withdrawal_syndrome": "Not characterised.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mid-affinity-NMDA-blocker",
+      "DAT-active"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "No human PK data",
+      "No metabolism / CYP characterisation",
+      "No biased-agonism data"
+    ],
+    "notes": "Diarylethylamine with secondary amine (N-ethyl) rather than the cyclic piperidine of diphenidine. The open-chain amine reduces NMDA affinity ~3x vs diphenidine but maintains the same binding mode (PCP site, voltage-dependent block). Of the diarylethylamines, ephenidine has the best-characterised electrophysiology — voltage-dependent NMDA block at hippocampal synapses and LTP inhibition shown in Kang et al. 2017.",
+    "references_consulted": [
+      "pmid:27623219",
+      "doi:10.1016/j.neuropharm.2016.08.007"
+    ]
+  },
+  {
+    "name": "2-chloro-ephenidine",
+    "aliases_added": [],
+    "iupac_name": "N-ethyl-1-(2-chlorophenyl)-2-phenylethylamine",
+    "smiles": "CCNC(Cc1ccccc1)c2ccccc2Cl",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site, presumed by structural analogy)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "ephenidine",
+        "diphenidine"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No peer-reviewed pharmacology — no binding, functional, PK, or metabolism data",
+      "No formal toxicology / case reports"
+    ],
+    "notes": "The 2-chloro-substituted ephenidine analogue has no published binding data. Closest characterised reference is 2-Cl-diphenidine in Wallach et al. 2016 (Ki ~9 nM at NMDA — actually MORE potent than diphenidine itself). By weak structural analogy ortho-chloro substitution may increase NMDA affinity vs unsubstituted ephenidine, but this is extrapolation, not data. Treat as a research chemical with unknown therapeutic index. Vendor-only literature exists; no Tactogen, NPS Discovery, or EMCDDA monograph identified.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0157021",
+      "pmid:27623219"
+    ]
+  },
+  {
+    "name": "2-TFMXP",
+    "aliases_added": [],
+    "iupac_name": "1-[1-(2-trifluoromethylphenyl)-2-phenylethyl]piperidine",
+    "smiles": "FC(F)(F)c1ccccc1C(Cc2ccccc2)N3CCCCC3",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site, presumed)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "diphenidine",
+        "MXP"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No published Ki/IC50 at any target",
+      "No human PK or toxicology",
+      "Not catalogued in Wallach 2016 series"
+    ],
+    "notes": "Trifluoromethyl-substituted diphenidine analogue. No peer-reviewed pharmacology. By SAR analogy to the 2-/3-/4-MeO-diphenidine series of Wallach 2016, the 2-CF3 substitution likely retains NMDA affinity in the high-nanomolar range, but the strong electron-withdrawing character and steric bulk of CF3 could move it in either direction. Treat as unmapped research chemical.",
+    "references_consulted": [
+      "doi:10.1371/journal.pone.0157021"
+    ]
+  },
+  {
+    "name": "Fluorolintane",
+    "aliases_added": [
+      "2-F-DPPy",
+      "2F-DPPy",
+      "1-[1-(2-fluorophenyl)-2-phenylethyl]pyrrolidine"
+    ],
+    "iupac_name": "1-[1-(2-fluorophenyl)-2-phenylethyl]pyrrolidine",
+    "smiles": "Fc1ccccc1C(Cc2ccccc2)N3CCCC3",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "DAT",
+        "NET",
+        "SERT",
+        "sigma-1",
+        "sigma-2"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 87.9,
+          "ki_ci_nm": null,
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat brain homogenate",
+          "radioligand_or_probe": "[3H](+)-MK-801",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.ejphar.2019.172403",
+          "is_review": false,
+          "notes": "Wallach et al. 2019 (Eur J Pharmacol). Ki 87.92 nM at NMDA PCP site; voltage-dependent fEPSP inhibition and LTP block in rat hippocampal slices confirmed."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Notable feature: DAT affinity is higher than NMDA affinity for fluorolintane — among the diarylethylamines, this profile is the closest approximation to a 'dissociative-stimulant' hybrid; users report substantial arousal vs the more dissociative-typical diphenidine.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "diphenidine",
+        "MXP",
+        "ephenidine"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "DAT > NMDA affinity",
+      "pyrrolidine-analogue"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Quantitative DAT/NET/SERT Ki values for fluorolintane specifically",
+      "No human PK data",
+      "Limited toxicology"
+    ],
+    "notes": "1,2-diarylethylamine with pyrrolidine (5-ring) rather than piperidine (6-ring) on the nitrogen, and 2-fluoro on one aryl. The pyrrolidine analogue (vs piperidine) generally raises monoamine transporter affinity (compare alpha-PVP vs alpha-PHP) — fluorolintane shows the same SAR shift, with DAT affinity exceeding NMDA affinity (a hallmark of the cathinone-pyrrolidines). Two isomeric series exist; the 2-fluoro isomer is the canonical street form.",
+    "references_consulted": [
+      "doi:10.1016/j.ejphar.2019.172403"
+    ]
+  },
+  {
+    "name": "Dizocilpine",
+    "aliases_added": [],
+    "iupac_name": "(5S,10R)-(+)-5-methyl-10,11-dihydro-5H-dibenzo[a,d]cyclohepten-5,10-imine",
+    "smiles": "C[C@@]12CCC[C@@H](N1)c3ccccc3-c4ccccc24",
+    "inchikey": "LBOJYSIDWZQNJS-CVEARBPZSA-N",
+    "cas": "77086-21-6",
+    "pubchem_cid": 180081,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site, channel)"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site, channel)",
+          "ki_nm": 2.1,
+          "ki_ci_nm": [
+            1.8,
+            2.4
+          ],
+          "kd_nm": 37.2,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat cerebral cortical membrane / rat whole brain",
+          "radioligand_or_probe": "(+)-[3H]MK-801",
+          "assay_buffer_notes": "Mg2+-free; agonist-stimulated assay (glu/gly); use- and voltage-dependent binding to open channel.",
+          "reference": "pmid:8355251",
+          "is_review": false,
+          "notes": "Ki of (+)-enantiomer at PCP site; (-)-enantiomer is ~10-fold weaker. Kd 37 nM (Wong et al. 1986). MK-801 has extremely slow channel exit kinetics (koff ~0.01 s-1) — accumulates with repeated activation and produces sustained block, the molecular reason it is neurotoxic (Olney) and unsuitable for clinical use."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Trapping channel blocker — channel can close while drug is inside, requiring re-opening for drug egress. This trapping mechanism produces durable blockade and underlies both the long behavioural duration and the Olney's-lesion neurotoxicity (excessive disinhibition of cortical glutamate -> heat-shock response in retrosplenial neurons).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": null,
+          "notes": "MK-801 was developed by Merck for anticonvulsant indications but abandoned after Olney's lesions and severe psychotomimetic effects in Phase I trials at sub-anticonvulsant doses. No published controlled human PK in the modern literature; remains a research tool only."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP-mediated hydroxylation (rat data)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "various ring-hydroxylated metabolites",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1517/17425255.2010.499122",
+        "notes": "Limited human metabolism data."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Tolerance develops within days of repeated dosing in animals; NMDA receptor upregulation following chronic blockade documented (Williams et al.).",
+      "cross_tolerance": [
+        "ketamine",
+        "PCP",
+        "memantine (partial)",
+        "diphenidine"
+      ],
+      "withdrawal_syndrome": "No clinical syndrome described in humans (limited exposure). Animal studies show rebound hyperexcitability and seizure threshold reduction.",
+      "reference": "doi:10.1007/BF01271549"
+    },
+    "off_targets": [
+      {
+        "target": "sigma receptors",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Originally claimed as sigma ligand; subsequent work shows the apparent sigma binding was actually low-affinity off-target — dizocilpine is highly selective for the NMDA PCP site.",
+        "reference": "pmid:8355251"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "high-affinity-NMDA-blocker",
+      "trapping-blocker",
+      "Olney-lesion-positive",
+      "research-tool-only"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Modern published human PK study"
+    ],
+    "notes": "Dizocilpine ((+)-MK-801) is the canonical high-affinity, slow-koff, trapping channel blocker of the NMDA receptor and the standard reference compound for NMDA-channel-blocker pharmacology. The contrast with memantine is paradigmatic: same binding site, ~3-orders-of-magnitude koff difference. Olney's lesions (vacuolisation in retrosplenial cortex layers III/IV) seen in rats given systemic MK-801 mapped the neurotoxicity risk of NMDA channel blockade and informed Merck's decision to halt development.",
+    "references_consulted": [
+      "pmid:8355251",
+      "doi:10.1007/BF01271549",
+      "doi:10.1517/17425255.2010.499122"
+    ]
+  },
+  {
+    "name": "Mk-801",
+    "aliases_added": [],
+    "iupac_name": "(5S,10R)-(+)-5-methyl-10,11-dihydro-5H-dibenzo[a,d]cyclohepten-5,10-imine",
+    "smiles": "C[C@@]12CCC[C@@H](N1)c3ccccc3-c4ccccc24",
+    "inchikey": "LBOJYSIDWZQNJS-CVEARBPZSA-N",
+    "cas": "77086-21-6",
+    "pubchem_cid": 180081,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-Dizocilpine",
+      "research-tool-only"
+    ],
+    "tags_to_remove": [
+      "habit-forming"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "MK-801 is the synonym/code name for dizocilpine. Refer to the Dizocilpine record for all binding, PK, and safety data. Strongly recommend merging this entry with Dizocilpine. Removed 'habit-forming' tag — there is no human abuse liability characterised (only research-tool exposure), and the long off-rate makes self-administration impractical.",
+    "references_consulted": [
+      "pmid:8355251"
+    ]
+  },
+  {
+    "name": "Nitrous",
+    "aliases_added": [
+      "dinitrogen monoxide"
+    ],
+    "iupac_name": "oxidonitrogen(1+)",
+    "smiles": "[N-]=[N+]=O",
+    "inchikey": "GQPLMRYTRLFLPF-UHFFFAOYSA-N",
+    "cas": "10024-97-2",
+    "pubchem_cid": 948,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (non-competitive)",
+        "endogenous opioid release",
+        "GABAa (weak)",
+        "two-pore K+ channels (TREK-1)",
+        "HCN1 (modest)"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor",
+          "ki_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "cultured rat hippocampal neurons; Xenopus oocytes expressing NR1/NR2 subunits",
+          "radioligand_or_probe": "Whole-cell NMDA currents; inhibition >50% at 80% atm N2O at -60 mV",
+          "assay_buffer_notes": "Non-competitive antagonism at the channel; molecular site unresolved. Inhibits NMDA receptor function across NR2A-D subunits roughly equally.",
+          "reference": "doi:10.1038/nm0498-460",
+          "is_review": false,
+          "notes": "Jevtović-Todorović et al. 1998 — landmark paper showing N2O is an NMDA antagonist, neuroprotectant against NMDA-evoked toxicity, and (paradoxically) Olney-lesion-positive at high concentrations."
+        },
+        {
+          "target": "mu-opioid (endogenous release, not direct binding)",
+          "ki_nm": null,
+          "kd_nm": null,
+          "action": "indirect agonist via endogenous enkephalin/dynorphin release in periaqueductal grey (PAG)",
+          "species": "rat",
+          "tissue_or_cell": "rat PAG",
+          "radioligand_or_probe": "Microdialysis of enkephalin / antinociception blockade by naloxone",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1097/00000542-200304000-00033",
+          "is_review": false,
+          "notes": "N2O analgesia is blocked by naloxone; mechanism is N2O-induced release of endogenous opioid peptides that activate mu-opioid receptors on GABAergic interneurons in PAG, disinhibiting descending bulbospinal noradrenergic neurons. The descending noradrenergic system mediates analgesia via spinal α2-adrenergic receptors."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Dual mechanism: (1) NMDA channel blockade driving rapid-onset dissociation, euphoria, and (when sustained) Olney's lesions; (2) Endogenous opioid release in PAG driving analgesia via descending noradrenergic pathways. The opioid arm explains why N2O analgesia is reversed by naloxone and why it shows cross-tolerance with morphine. Antidepressant effects (Nagele et al. 2015, 2021) likely driven by NMDA antagonism analogous to ketamine. Recent literature also implicates two-pore K+ channels (TREK-1) and modest HCN1 inhibition in anaesthetic effects.",
+      "neuroimaging": [
+        {
+          "modality": "fMRI BOLD",
+          "finding": "N2O at sub-anesthetic concentrations produces increased BOLD in anterior cingulate cortex and posterior cingulate cortex with reduced default-mode network connectivity — pattern overlapping with ketamine.",
+          "reference": "doi:10.1016/j.neuroimage.2014.04.061"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "inhalation",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 5,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 5,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 0,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adult anesthetic patients",
+          "reference": "https://www.bjaed.org/article/S2058-5349(17)30084-7/fulltext",
+          "notes": "Blood:gas partition coefficient 0.47 (very low — fastest equilibration of any anaesthetic gas). MAC ~104% (weak anaesthetic; cannot achieve surgical anaesthesia at 1 atm pressure as a sole agent). Onset and offset within minutes. Excreted unchanged via the lungs; <0.004% metabolised in gut by anaerobic bacteria to N2 with possible enterotoxicity in chronic users. Causes 'second gas effect' enhancing uptake of volatile anaesthetics."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "non-enzymatic (irreversible oxidation of vitamin B12)",
+        "fraction_of_clearance_pct": 0,
+        "metabolite_name": "inactive Co3+-cobalamin",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:34786239",
+        "notes": "N2O oxidises the cobalt(1+) of methylcobalamin to inactive cobalt(3+), permanently inactivating methionine synthase (MTR). This blocks the conversion of homocysteine to methionine, depleting S-adenosylmethionine (SAM) — required for myelin sheath maintenance. Result: subacute combined degeneration of the spinal cord (dorsal column demyelination), peripheral neuropathy, and macrocytic anaemia in chronic users. Effect on a single B12 molecule is irreversible — recovery requires synthesis of new MTR and replenishment of active cobalamin (B12 + methionine supplementation accelerates recovery)."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "vitamin B12 (functional deficiency)",
+        "mechanism": "Oxidation of MeCbl Co1+ → Co3+ inactivates methionine synthase",
+        "ki_um": null,
+        "clinical_effect": "Megaloblastic anaemia; subacute combined degeneration of cord; sensorimotor neuropathy. Onset over weeks to months of heavy use; cases reported with chronic ~10 canister/day use.",
+        "reference": "pmid:34786239"
+      },
+      {
+        "with": "methotrexate / nitroprusside / other cobalamin-dependent drugs",
+        "mechanism": "Compound disruption of one-carbon metabolism",
+        "ki_um": null,
+        "clinical_effect": "Increased risk of bone marrow suppression and neurotoxicity.",
+        "reference": "doi:10.1097/00000542-200304000-00033"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "MTHFR (C677T)",
+        "MTR",
+        "TCN2"
+      ],
+      "phenotype_effects": "MTHFR C677T TT homozygotes have lower baseline methionine synthase activity and are at elevated risk of N2O-induced neurotoxicity. Hyperhomocysteinaemia-associated genetic variants compound the risk.",
+      "reference": "pmid:36499072"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Rapid acute tolerance (tachyphylaxis) within a single session of repeated balloons due to brief PK exposure. Tolerance to euphoria reported in heavy users.",
+      "cross_tolerance": [
+        "ketamine (partial)",
+        "morphine (partial — opioid arm)"
+      ],
+      "withdrawal_syndrome": "Mild psychological dependence; craving, dysphoria, occasional autonomic hyperactivity in chronic heavy users. No prominent physical withdrawal.",
+      "reference": "pmid:36499072"
+    },
+    "off_targets": [
+      {
+        "target": "TREK-1 (two-pore K+ channel)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Contributes to anaesthetic effect.",
+        "reference": "doi:10.1097/00000542-200304000-00033"
+      },
+      {
+        "target": "HCN1 (hyperpolarisation-activated cyclic nucleotide channel)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Modest inhibition may contribute to anaesthetic and analgesic effects.",
+        "reference": "doi:10.1097/00000542-200304000-00033"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Adolescents and young adults overrepresented in recreational use case series; rapid onset of myelopathy in heavy users <25 y.",
+      "weight": null,
+      "renal_or_hepatic": "No meaningful effect — pulmonary excretion bypasses both."
+    },
+    "tags_to_add": [
+      "B12-inactivation-neurotoxin",
+      "endogenous-opioid-releaser",
+      "fastest-onset-dissociative",
+      "Olney-lesion-positive-at-high-doses"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Quantitative NMDA NR2 subtype selectivity",
+      "Direct human in-vivo NMDA occupancy measurement",
+      "Dose-response curve for B12 inactivation in humans"
+    ],
+    "notes": "The outlier of this class — a gaseous, non-organic NMDA antagonist with extremely fast onset/offset (5-10 min) due to low blood-gas partition coefficient (0.47). Mechanistically dual: NMDA antagonism + endogenous opioid release in PAG (naloxone-reversible analgesia). The defining chronic harm is irreversible B12 inactivation: each oxidation of methylcobalamin's Co1+ to Co3+ is permanent, and chronic heavy use (multiple canisters/day) reliably produces subacute combined degeneration of the spinal cord, peripheral neuropathy, and macrocytic anaemia within months. Important harm-reduction: oral methylcobalamin supplementation does NOT prevent neurotoxicity (cobalamin keeps being inactivated); only abstinence does.",
+    "references_consulted": [
+      "doi:10.1038/nm0498-460",
+      "doi:10.1097/00000542-200304000-00033",
+      "pmid:34786239",
+      "pmid:36499072",
+      "https://www.bjaed.org/article/S2058-5349(17)30084-7/fulltext",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC1821130/",
+      "doi:10.1016/j.neuroimage.2014.04.061"
+    ]
+  },
+  {
+    "name": "25CN-NBOH",
+    "aliases_added": [],
+    "iupac_name": "4-[2-[(2-hydroxybenzyl)amino]ethyl]-2,5-dimethoxybenzonitrile",
+    "smiles": "COc1cc(CCNCc2ccccc2O)c(OC)cc1C#N",
+    "inchikey": "LWAQDQVGUIHGSY-UHFFFAOYSA-N",
+    "cas": "1391487-30-1",
+    "pubchem_cid": 90489020,
+    "class_context_id": "n-benzyl-phenethylamine-psychedelic",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A (selective agonist)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": null,
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "misclassified-not-a-dissociative"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "OUT OF SCOPE for this enrichment batch. 25CN-NBOH is a highly selective 5-HT2A agonist (one of the most 5-HT2A-selective psychedelics known), NOT a dissociative. It was included in the input list in error — it belongs in the classical-psychedelic / NBOMe-NBOH enrichment group. No dissociative pharmacology data should be returned for it. The 5-HT2A selectivity and PET-ligand applications (Hansen et al. 2014) belong in the psychedelic batch.",
+    "references_consulted": []
+  },
+  {
+    "name": "Ibogaine",
+    "aliases_added": [
+      "12-methoxyibogamine"
+    ],
+    "iupac_name": "(1S,15R,17S,18S)-17-ethyl-7-methoxy-3,13-diazapentacyclo[13.3.1.0^{2,10}.0^{4,9}.0^{13,18}]nonadeca-2(10),4(9),5,7-tetraene",
+    "smiles": "CC[C@H]1C[C@@H]2C[C@@H]3c4[nH]c5cc(OC)ccc5c4CCN3C[C@H]12",
+    "inchikey": "HSIBGVUMFOSJPD-CFDPKNGZSA-N",
+    "cas": "83-74-9",
+    "pubchem_cid": 197060,
+    "class_context_id": "iboga-alkaloid",
+    "pharmacology": {
+      "primary_targets": [
+        "NMDA receptor (PCP site)",
+        "kappa-opioid",
+        "mu-opioid",
+        "SERT",
+        "DAT",
+        "sigma-1",
+        "sigma-2",
+        "5-HT2A (weak)",
+        "alpha3-beta4 nAChR",
+        "hERG"
+      ],
+      "binding": [
+        {
+          "target": "NMDA receptor (PCP site)",
+          "ki_nm": 1100,
+          "kd_nm": null,
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "rat",
+          "tissue_or_cell": "rat forebrain membranes",
+          "radioligand_or_probe": "[3H]MK-801",
+          "assay_buffer_notes": null,
+          "reference": "pmid:9138735",
+          "is_review": false,
+          "notes": "Popik et al. 1995, 1997 — Ki ~1 μM at PCP site (one report); other groups have reported higher values (~3 μM). NMDA antagonism is widely accepted as one mechanism of anti-addictive action."
+        },
+        {
+          "target": "kappa-opioid",
+          "ki_nm": 2600,
+          "kd_nm": null,
+          "action": "agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain membranes",
+          "radioligand_or_probe": "[3H]U-69,593",
+          "assay_buffer_notes": null,
+          "reference": "pmid:7796150",
+          "is_review": false,
+          "notes": "Sweetnam et al. 1995; Glick & Maisonneuve attribute anti-addictive effects partly to kappa agonism. Lower-affinity than noribogaine."
+        },
+        {
+          "target": "mu-opioid",
+          "ki_nm": 5400,
+          "kd_nm": null,
+          "action": "weak agonist / partial agonist",
+          "species": "guinea pig",
+          "tissue_or_cell": "guinea pig brain",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "pmid:7796150",
+          "is_review": false,
+          "notes": "Glick et al. 1995 originally reported high mu affinity — that work used non-standard conditions. Standard radioligand displacement gives Ki ~5 μM."
+        },
+        {
+          "target": "SERT",
+          "ki_nm": 550,
+          "kd_nm": null,
+          "action": "reuptakeInhibitor (non-competitive)",
+          "species": "human",
+          "tissue_or_cell": "rat brain / HEK-hSERT",
+          "radioligand_or_probe": "[3H]paroxetine; [3H]5-HT uptake",
+          "assay_buffer_notes": null,
+          "reference": "pmid:7796150",
+          "is_review": false,
+          "notes": "Non-competitive inhibition of SERT (distinct from typical SSRI competitive mechanism)."
+        },
+        {
+          "target": "sigma-2",
+          "ki_nm": 200,
+          "kd_nm": null,
+          "action": null,
+          "species": "rat",
+          "tissue_or_cell": "rat liver / brain",
+          "radioligand_or_probe": "[3H]DTG (with masking)",
+          "assay_buffer_notes": null,
+          "reference": "pmid:7796150",
+          "is_review": false,
+          "notes": "Sigma-2 is the highest-affinity ibogaine target identified; functional consequences less well-mapped than NMDA/kappa."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "kd_nm": null,
+          "action": "weak agonist",
+          "species": "human",
+          "tissue_or_cell": null,
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "pmid:7796150",
+          "is_review": false,
+          "notes": "Glick & Maisonneuve 1998 — weak 5-HT2A agonism may contribute to the visionary/oneirogen subjective effects."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Multi-target polypharmacology with no single dominant mechanism. NMDA channel block (low-μM) acts synergistically with kappa-opioid G-biased agonism (via metabolite noribogaine) and SERT inhibition. The 'iboga experience' itself may reflect transient combined NMDA antagonism + 5-HT2A agonism (oneirogenic visions); the sub-acute anti-addictive effect (days-weeks) likely reflects the long-acting noribogaine metabolite acting at kappa-opioid and SERT.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 150,
+          "tmax_min": 120,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 420,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 20,
+          "subject_n": 21,
+          "subject_demographics": "Glue et al. healthy volunteer ascending dose study; mixed CYP2D6 genotype",
+          "reference": "pmid:25651476",
+          "notes": "t1/2 in EMs ~7 h, longer in PMs (paroxetine-pretreated subjects had ~2x exposure to active moiety). CYP2D6 is the dominant clearance pathway — phenotype correlates r=0.77 with ibogaine Cmax."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "noribogaine (12-hydroxy-ibogamine)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "pmid:25651476",
+        "notes": "O-demethylation. Noribogaine has 10x higher SERT affinity, longer t1/2 (28-49 h), and is the kappa-opioid G-biased active metabolite responsible for sustained anti-addictive effect."
+      },
+      {
+        "enzyme": "ABCB1 (P-gp) / OATP1B1",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.3389/fphar.2022.855000",
+        "notes": "Drug transporters P-gp and OATP1B1 affect ibogaine/noribogaine pharmacokinetics; CYP3A4 (despite presence of methoxy group) is NOT a major contributor to clearance."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "paroxetine, fluoxetine, bupropion (CYP2D6 inhibitors)",
+        "mechanism": "CYP2D6 inhibition",
+        "ki_um": null,
+        "clinical_effect": "2-fold increase in active moiety (ibogaine + noribogaine) exposure; markedly increased cardiotoxicity risk.",
+        "reference": "pmid:25651476"
+      },
+      {
+        "with": "QT-prolonging drugs (methadone, fluoroquinolones, amiodarone, ondansetron)",
+        "mechanism": "Additive hERG blockade",
+        "ki_um": null,
+        "clinical_effect": "Severe QTc prolongation, torsades risk — absolutely contraindicated combinations.",
+        "reference": "doi:10.1111/add.70319"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "ABCB1",
+        "OATP1B1"
+      ],
+      "phenotype_effects": "CYP2D6 PMs have markedly higher and longer-lasting ibogaine exposure → higher cardiotoxicity risk. UMs have rapid clearance → less effect at standard doses but rapid noribogaine accumulation. PM genotype is essentially a contraindication for full-dose ibogaine without dose adjustment.",
+      "reference": "pmid:25651476"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "No conventional tolerance described — ibogaine is typically dosed once or in widely spaced 're-treatments'. No physical dependence syndrome.",
+      "cross_tolerance": [
+        "noribogaine"
+      ],
+      "withdrawal_syndrome": "None.",
+      "reference": "pmid:9138735"
+    },
+    "off_targets": [
+      {
+        "target": "hERG (Kv11.1)",
+        "ki_or_ic50_nm": 3530,
+        "concern_level": "high",
+        "clinical_consequence": "QTc prolongation, torsades-de-pointes, sudden cardiac death. The dominant lethal hazard. Documented at standard anti-addictive doses (8-10 mg/kg) in healthy individuals without pre-existing cardiac disease.",
+        "reference": "doi:10.1111/add.70319"
+      },
+      {
+        "target": "alpha3-beta4 nAChR",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "May contribute to anti-addictive efficacy.",
+        "reference": "pmid:7796150"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": "mg/kg dosing standard; very high doses (>20 mg/kg) approach lethal range.",
+      "renal_or_hepatic": "Hepatic impairment increases exposure due to CYP2D6 dependency."
+    },
+    "tags_to_add": [
+      "hERG-high-risk",
+      "CYP2D6-substrate",
+      "polyligand",
+      "long-acting-via-noribogaine",
+      "QT-prolongation-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Functional NMDA receptor electrophysiology (open vs trapping block, on/off kinetics)",
+      "Quantitative human PET imaging of NMDA / kappa-opioid / SERT occupancy",
+      "Mechanistic dissection of which target drives which subjective effect"
+    ],
+    "notes": "Ibogaine is more a polypharmacology cocktail than a classical NMDA antagonist; its clinical effect (anti-addictive, particularly opioid-craving suppression) cannot be reproduced by any single-target ligand. The dominant safety hazard is hERG blockade (IC50 3.5 μM) producing QT prolongation and torsades — multiple deaths documented at therapeutic doses, especially with CYP2D6 PM genotype or QT-prolonging co-medications. The active metabolite noribogaine (formed by CYP2D6) likely carries most of the sub-acute therapeutic effect via 10x higher SERT affinity and kappa-opioid G-biased agonism with 28-49 h half-life.",
+    "references_consulted": [
+      "pmid:9138735",
+      "pmid:7796150",
+      "pmid:25651476",
+      "doi:10.3389/fphar.2022.855000",
+      "doi:10.1111/add.70319",
+      "doi:10.1177/02698811231200882"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "non-acca-nmda-antagonists",
+    "class_name": "Non-arylcyclohexylamine NMDA receptor antagonists (morphinans, aminoadamantanes, dibenzocycloheptenes, anaesthetic gases)",
+    "shared_mechanism": "Heterogeneous chemotypes that converge on the NMDA receptor PCP / channel-binding site, blocking the open channel in a use- and voltage-dependent manner. Affinity ranges from very low (DXM ~7 μM at the parent; dextrorphan metabolite ~0.9 μM) through low-affinity fast-off-rate (memantine, amantadine ~1-10 μM IC50, koff ~5 s-1) to extremely high-affinity slow-trapping (MK-801 Ki ~2 nM, koff ~0.01 s-1). Off-target serotonergic, sigma, nicotinic, and HCN1 actions vary by scaffold and explain qualitative differences in subjective profile — DXM is ketamine-adjacent with serotonergic affective overlay; memantine is functionally subtler due to fast off-rate and extrasynaptic selectivity; MK-801 is uncontrolled-dissociative with Olney's-lesion neurotoxicity. Nitrous oxide is mechanistically related (NMDA antagonist) but is the outlier in route (gas), kinetics (5-min onset/offset), and chronic toxicity (irreversible B12 inactivation).",
+    "shared_pk_summary": "DXM: oral, CYP2D6-dominated metabolism to active dextrorphan, F% varies 1-80% between PMs and EMs. Memantine: oral F 100%, ~100% renal-cleared (active tubular secretion + pH-dependent reabsorption), t1/2 60-80 h, no meaningful CYP role. Amantadine: similar profile to memantine but t1/2 ~17 h. MK-801: research tool, no published modern human PK. Nitrous: pulmonary, blood-gas 0.47, pharmacokinetics dominated by alveolar ventilation; non-metabolised (except for irreversible MTR-cobalamin oxidation, which is mechanistically a poison reaction not a clearance pathway).",
+    "shared_safety": "Acute: respiratory depression (NMDA antagonists are normally respiratory-sparing but in massive overdose or with synergistic CNS depressants this fails); psychotomimetic effects (Olney's lesions on chronic high-dose for slow-off compounds — MK-801, PCP, ketamine; not seen with fast-off memantine at therapeutic doses). DXM specific: hERG block + SERT activity → QT prolongation + serotonin syndrome risk with SSRIs/MAOIs (Nuedexta DXM/quinidine combination exploits the CYP2D6-driven exposure boost). Nitrous specific: irreversible B12 inactivation → subacute combined degeneration of the spinal cord with chronic heavy use (cases reliable at multi-canister-per-day exposure).",
+    "sar_summary": "Across this heterogeneous group, the unifying SAR axis is fit to the PCP/channel binding pocket. Within each scaffold: (1) morphinans — the dextrorotatory enantiomer is the NMDA-active series; CH2OMe vs OH at C3 (DXM vs DXO) changes affinity ~10x; (2) aminoadamantanes — methyl substitution on the adamantane cage (amantadine → memantine = 3,5-dimethyl) raises affinity ~10x and slightly slows off-rate but retains fast koff and voltage-dependent block; (3) dibenzocycloheptenes (MK-801) — methyl-bridged rigid scaffold maximises affinity and slows off-rate dramatically; (4) gases (N2O, xenon) — molecular volume and lipophilicity govern channel-pocket interaction. The fast-off vs slow-off distinction within the PCP site is more clinically important than absolute affinity — slow-off compounds are neurotoxic and psychotomimetic; fast-off are tolerable.",
+    "key_references": [
+      "pmid:7714771",
+      "pmid:8355251",
+      "doi:10.1038/nm0498-460",
+      "pmid:15665416",
+      "pmid:20720132",
+      "pmid:2568580"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "diarylethylamine-nmda-antagonists",
+    "class_name": "1,2-Diarylethylamine NMDA receptor antagonists (diphenidine series)",
+    "shared_mechanism": "Open-chain (non-cyclic) NMDA channel blockers built on a 1,2-diphenyl-ethylamine scaffold with a cyclic amine on the alpha-carbon. Bind the PCP site of the NMDA receptor with high to moderate affinity (Ki 9-460 nM range, Wallach et al. 2016) in a use- and voltage-dependent manner. (S)-enantiomer is the active form (~40x more potent than R). Off-target profile: weak-to-moderate dopamine/norepinephrine reuptake inhibition (more prominent in pyrrolidine analogues like fluorolintane), moderate sigma-1/sigma-2 binding, generally negligible SERT and opioid receptor affinity (unlike DXM, which has appreciable SERT). The 1,2-diaryl orientation and lack of cyclohexyl ring distinguish them structurally from arylcyclohexylamines like PCP/ketamine, but they share the same NMDA binding pose and similar voltage-dependent block kinetics.",
+    "shared_pk_summary": "No controlled human PK studies have been published for any diphenidine-class compound. Forensic toxicology of intoxications and fatalities (Helander et al. 2015; Elliott et al. 2015; Geyer et al. 2015) shows: oral and insufflated routes both used; duration of subjective effects 4-8 h depending on compound; primary urinary metabolites are ring-hydroxylated and N-dealkylated products (CYP-mediated, presumed CYP3A4/2C19); no specific quantitative human Cmax, Tmax, t1/2 published. Postmortem blood concentrations of MXP in fatalities span ~200 μg/L to 24 mg/L — wide range indicates substantial inter-individual variability and a narrow therapeutic index.",
+    "shared_safety": "Major risks: (1) Narrow therapeutic index — multiple documented fatalities for MXP and diphenidine; recreational doses are close to toxic doses. (2) Long duration (4-8+ h) facilitates additional dosing during plateau, leading to delayed cumulative toxicity. (3) Co-ingestion with other CNS depressants (alcohol, benzodiazepines, GHB) is the most common fatal scenario. (4) Hypertensive crises, tachycardia, agitation, and dissociative psychosis reported in clinical case series. (5) No characterised antidote — supportive management only. (6) Cross-tolerance with ketamine reported anecdotally. Isomeric purity is a forensic concern: 3-MeO-diphenidine is ~2x more potent than 2-MeO at NMDA (Ki 19 vs 36 nM), and street 'MXP' has occasionally been the 3-MeO isomer or contained it as a contaminant.",
+    "sar_summary": "Key SAR findings from Wallach et al. 2016 (PLOS One): (1) NMDA affinity sensitive to ortho/meta vs para position of substituents on the 'aryl A' ring: meta-OMe (3-MXP) ≈ unsubstituted (DPH) > ortho-OMe (2-MXP) >> para-OMe (4-MXP); (2) Halogen at the 2-position dramatically increases affinity: 2-Cl-DPH Ki 9.3 nM (~2x parent), and the chloro analogue of ephenidine (2-Cl-ephenidine) is predicted to follow same trend; (3) Pyrrolidine (5-ring) replacing piperidine (6-ring) on nitrogen reduces NMDA affinity but markedly increases DAT inhibition — fluorolintane shows DAT > NMDA affinity, the opposite of the piperidine series; (4) Open-chain secondary amine (ephenidine, NEDPA) reduces affinity ~3x vs cyclic piperidine but retains channel-blocker mechanism. Conformational restriction by the cyclic amine on nitrogen is favourable for NMDA channel docking. CF3 substitution (2-TFMXP, no published Ki) remains pharmacologically uncharacterised but would predict either potent affinity (electron-withdrawing analogous to halogen) or steric loss depending on pocket geometry.",
+    "key_references": [
+      "doi:10.1371/journal.pone.0157021",
+      "pmid:27623219",
+      "doi:10.1016/j.ejphar.2019.172403",
+      "doi:10.3109/15563650.2015.1033630",
+      "pmid:25698777"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "iboga-alkaloid",
+    "class_name": "Iboga alkaloid NMDA/opioid/sigma polyligands (ibogaine, noribogaine)",
+    "shared_mechanism": "Indolealkylamine monoterpenoid alkaloids from Tabernanthe iboga, with an unusually broad polypharmacology: weak-to-moderate affinity at NMDA receptors (Ki ~1-3 μM at PCP site), kappa-opioid (Ki ~0.7-3 μM, G-protein-biased agonism for noribogaine), mu-opioid (Ki ~2-5 μM, weak functional antagonism for noribogaine), serotonin transporter (Ki 40-550 nM, with noribogaine 10x more potent), sigma-1/sigma-2, 5-HT2A weak agonism, alpha3-beta4 nicotinic, and hERG (IC50 3.5 μM for ibogaine — clinically important arrhythmia risk). The anti-addictive efficacy is thought to arise from combined NMDA antagonism (Glick & Maisonneuve 1998), kappa-opioid G-biased agonism (Maillet et al. 2015), and SERT inhibition (especially via noribogaine). Pharmacology is not driven by any one target but by the orchestrated multi-target profile.",
+    "shared_pk_summary": "Ibogaine: oral, CYP2D6-dominated metabolism to noribogaine. Ibogaine plasma t1/2 ~7 h in EMs (shorter in UMs, much longer in PMs). Cmax and AUC strongly CYP2D6-genotype-dependent (Glue et al. 2015 — r=0.77 for Cmax). Noribogaine: t1/2 28-49 h (long-acting; persists days after parent gone — likely the species responsible for sub-acute mood and craving effects). Noribogaine itself has been formally characterised in healthy volunteers (Glue et al. 2014 ascending dose study).",
+    "shared_safety": "PRIMARY ACUTE RISK: cardiac arrhythmia. Ibogaine blocks hERG (IC50 3.5 μM) and prolongs QTc; multiple case reports of fatal torsades-de-pointes at treatment doses (8-10 mg/kg). Pre-existing QT prolongation, hypokalaemia, hypomagnesaemia, structural heart disease, CYP2D6 PM genotype (slower metabolism, higher exposure), and concomitant QT-prolonging drugs all amplify risk. ECG monitoring, electrolyte repletion, and avoidance of co-medications are mandatory in clinical use. SUB-ACUTE: dystonia, ataxia, vomiting (24-72h), and prolonged dysregulation of mood. Cerebellar Purkinje cell toxicity seen in rats at very high doses (no clear human correlate). Noribogaine appears better tolerated cardiovascularly than parent ibogaine.",
+    "sar_summary": "Ibogaine → noribogaine (O-demethyl metabolite) is the dominant SAR shift: removing the 12-methoxy group of ibogaine to free phenol (noribogaine) (1) increases SERT affinity 10x (Ki 550 → 40 nM), (2) modestly increases opioid receptor affinities (Ki kappa 2.6 → 0.72 μM, mu 5 → 2.7 μM), (3) reduces NMDA affinity, (4) profoundly extends half-life (~7h → ~30+ h), (5) appears to reduce hERG and cardiac liability — making noribogaine the safer therapeutic candidate currently in clinical development for opioid use disorder (DemeRx, etc.). The 18-MC (18-methoxycoronaridine) congener was designed to retain anti-addictive efficacy while reducing tremor, hERG, and Purkinje toxicity by altering scaffold geometry.",
+    "key_references": [
+      "pmid:9138735",
+      "pmid:26302653",
+      "pmid:7796150",
+      "pmid:25651476",
+      "pmid:21864603"
+    ]
+  }
+]

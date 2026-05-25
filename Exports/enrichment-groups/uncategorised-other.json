@@ -1,0 +1,2990 @@
+{
+  "slug": "uncategorised-other",
+  "name": "Uncategorised — needs class-assignment pass",
+  "count": 254,
+  "substances": [
+    {
+      "name": "(+)-CPCA",
+      "aliases": [
+        "(+)-N-Methyl-3β-phenyltropane-2β-carboxylic acid methyl ester"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(+)-halostachine",
+      "aliases": [
+        "(S)-halostachine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(+)-norepinephrine",
+      "aliases": [
+        "4-[(1S)-2-amino-1-hydroxy-ethyl]benzene-1,2-diol",
+        "4-[(1S)-2-amino-1-hydroxy-ethyl]pyrocatechol",
+        "4-[(1S)-2-azanyl-1-oxidanyl-ethyl]benzene-1,2-diol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(+/-)-noradrenaline",
+      "aliases": [
+        "norepinephrine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(E,E)-bastadin 19",
+      "aliases": [
+        "bastadin-19"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(R)-N-trans-feruloyloctopamine",
+      "aliases": [
+        "(2S,E)-N-[2-hydroxy-2-(4-hydroxyphenyl)ethyl]ferulamide",
+        "N-[2-(R)-hydroxy-2-(4-hydroxy-phenyl)ethyl]-3-(4-hydroxy-3-methoxy-phenyl)acrylamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(RS)-methoxyphenamine",
+      "aliases": [
+        "OMMA"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(S)-racepinefrine",
+      "aliases": [
+        "(S)-(+)-adrenaline"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "(±)-Tembamide",
+      "aliases": [
+        "NSC 114783"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1,4-BDO",
+      "aliases": [
+        "1,4-butylene glycol",
+        "one-four bee",
+        "liquid fantasy",
+        "tetramethylene glycol",
+        "1",
+        "butane-1,4-diol",
+        "4-Butanediol",
+        "1,4-B",
+        "one comma four",
+        "BDO"
+      ],
+      "category": "Depressant / GHB prodrug",
+      "tags": [],
+      "chemical_class": "Aliphatic diol (tetramethylene glycol)"
+    },
+    {
+      "name": "1-(2,3,4-Trimethoxybenzyl)piperazine",
+      "aliases": [
+        "2,3,4-TMBZP",
+        "2,3,4-trimethoxybenzyl-piperazine",
+        "1-(2,3,4-trimethoxybenzyl)-1,4-diazacyclohexane",
+        "2,3,4-trimethoxybenzylpiperazine",
+        "1-(2,3,4-TMB) piperazine"
+      ],
+      "category": "Poorly-studied; presumed stimulant / entactogen with possible mild psychedelic activity (extrapolated from related benzyl/phenyl-piperazines)",
+      "tags": [],
+      "chemical_class": "Phenyl-/benzyl-piperazine derivative (trimethoxy-substituted)"
+    },
+    {
+      "name": "1-(2,5-Dimethoxybenzyl) piperazine",
+      "aliases": [
+        "DMBZP",
+        "1-(2,5-dimethoxybenzyl)piperazine",
+        "1-(2,5-dimethoxybenzyl)piperazine freebase",
+        "2,5-dimethoxybenzylpiperazine",
+        "2,5-DMBZP",
+        "1-(2,5-dimethoxybenzyl)piperazine hydrochloride"
+      ],
+      "category": "stimulant with serotonergic activity (putative 5-HT activity; human data scarce)",
+      "tags": [],
+      "chemical_class": "benzylpiperazine (piperazine)"
+    },
+    {
+      "name": "1-(2-Isocyanoethyl)-4-methoxybenzene",
+      "aliases": [
+        "2-(4-Methoxyphenyl)ethylisocyanide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "no-human-data",
+        "piperazine",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1-Benzyl-4-(2-(diphenylmethoxy)ethyl)piperidine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "1ZP2MA",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-(2-aminoethyl)phenol",
+      "aliases": [
+        "2-(2-Aminoethyl)phenol"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-ai",
+      "aliases": [
+        "2-aminoindan",
+        "2ai"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-Aminoindane",
+      "aliases": [
+        "2-aminoindan",
+        "2,3‑dihydro‑1H‑inden‑2‑amine",
+        "2‑indanamine",
+        "2-AI"
+      ],
+      "category": "Selective NET/DAT releasing stimulant with α2‑adrenergic activity; weak serotonergic activity",
+      "tags": [],
+      "chemical_class": "Unsubstituted aminoindane (rigid amphetamine analogue)"
+    },
+    {
+      "name": "2-aminopropiophenone",
+      "aliases": [
+        "1-aminoethyl phenyl ketone"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-dpmp",
+      "aliases": [
+        "2-desoxypiperadol",
+        "2dpmp",
+        "desoxypipradol",
+        "desoxypipradrol"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-MAPB",
+      "aliases": [
+        "(±)-2-MAPB",
+        "2-(methylamino)propylbenzofuran",
+        "1-(1-benzofuran-2-yl)-N-methylpropan-2-amine"
+      ],
+      "category": "Entactogen / empathogen with stimulant properties",
+      "tags": [],
+      "chemical_class": "Benzofuran-substituted amphetamine"
+    },
+    {
+      "name": "2-mec",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-nmc",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-pa",
+      "aliases": [
+        "2-phenylacetamide"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-phenylethyl isocyanate",
+      "aliases": [
+        "2-Phenylethylisocyanate",
+        "phenethyl isocyanate",
+        "Phenylethylisocyanate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "2-pta",
+      "aliases": [
+        "2-(p-tolyl)acetamide",
+        "4-methyl-2-pa"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3,3-Diphenylcyclobutanamine",
+      "aliases": [
+        "3,3-Diphenylcyclobutan-1-amine",
+        "3,3-Diphenylcyclobutylamine",
+        "3-DPCB",
+        "3",
+        "DPCB"
+      ],
+      "category": "CNS stimulant; putative monoamine reuptake inhibitor/releaser",
+      "tags": [],
+      "chemical_class": "Diphenyl-substituted cyclobutylamine"
+    },
+    {
+      "name": "3,4-CFPP",
+      "aliases": [
+        "phenylpiperazine, 3‑chloro‑4‑fluoro‑",
+        "3-chloro-4-fluorophenylpiperazine",
+        "CFPP",
+        "Kleferein",
+        "3,4‑CFPP",
+        "1-(3-chloro-4-fluorophenyl)piperazine"
+      ],
+      "category": "Serotonergic stimulant / empathogen-like (phenylpiperazine)",
+      "tags": [],
+      "chemical_class": "Phenylpiperazine (halogenated)"
+    },
+    {
+      "name": "3,6-dmpm",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-fea",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-Quinuclidinyl benzilate",
+      "aliases": [
+        "Agent Buzz",
+        "QNB",
+        "EA-2277",
+        "Substance 78 (Soviet code)",
+        "BZ",
+        "3-QNB"
+      ],
+      "category": "Deliriant (anticholinergic)",
+      "tags": [],
+      "chemical_class": "Tropane-derived glycolate ester (antimuscarinic)"
+    },
+    {
+      "name": "3-T-TRIS",
+      "aliases": [
+        "2-[3,4-Diethoxy-5-(ethylsulfanyl)phenyl]ethanamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-TE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3-TME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3c-p",
+      "aliases": [
+        "3cp"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4'-O-methylnorbelladine",
+      "aliases": [
+        "4-O-methylnorbelladine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-aco-dalt",
+      "aliases": [
+        "4acodalt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Benzylpiperidine",
+      "aliases": [
+        "4-BP",
+        "4-pmpd"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-cic",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Cl-PPP",
+      "aliases": [
+        "4-Cl-α-PPP",
+        "p-chloro-α-PPP",
+        "4-chloro-α-pyrrolidinopropiophenone",
+        "4-Cl-PPP HCl (common salt)",
+        "4-chloro-PPP"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Substituted cathinone (pyrrolidinophenone)"
+    },
+    {
+      "name": "4-cma",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Fluoro-1-pyrazin-2-ylazepane",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Fluoro-α-pyrrolidinopropiophenone",
+      "aliases": [
+        "pFPPP",
+        "4F-PPP",
+        "4‑FPPP",
+        "para‑fluoro‑α‑PPP",
+        "1-(4-fluorophenyl)-2-(pyrrolidin-1-yl)propan-1-one",
+        "4′-fluoro-α-pyrrolidinopropiophenone"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Pyrrolidinophenone cathinone (β‑keto phenethylamine)"
+    },
+    {
+      "name": "4-Fluorophenylpiperazine",
+      "aliases": [
+        "pFPP",
+        "para-Fluorophenylpiperazine",
+        "4-FPP",
+        "1-(4-fluorophenyl)piperazine"
+      ],
+      "category": "Serotonergic entactogen / mild psychedelic (5-HT1A agonist ≫ 5-HT2A/2C agonist; weak SERT/NET releaser; negligible DAT activity)",
+      "tags": [],
+      "chemical_class": "Arylpiperazine (para-fluoro analogue of TFMPP)"
+    },
+    {
+      "name": "4-fpm",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-ho-ept",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-ho-mcpt",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-ho-mpmi",
+      "aliases": [
+        "lucigenol"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-HO-PiPT",
+      "aliases": [
+        "3-{2-[(propan-2-yl)(propyl)amino]ethyl}-1H-indol-4-ol",
+        "4-hydroxy-N-propyl-N-isopropyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [],
+      "chemical_class": "Tryptamine"
+    },
+    {
+      "name": "4-MA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-mpd",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-T-TRIS",
+      "aliases": [
+        "2-[3,5-Diethoxy-4-(ethylsulfanyl)phenyl]ethanamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-TME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-TSB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-bpdi",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-dbfpv",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-eipt",
+      "aliases": [
+        "5meoeipt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-meo-malt",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-ppdi",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-S-Cysteinyldopa",
+      "aliases": [
+        "Cysteinyldopa"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "5-TME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "A-pvt",
+      "aliases": [
+        "apvt"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Acetildenafil",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "aduncamide",
+      "aliases": [
+        "2-hydroxy-N-[2-(4-hydroxy-3-methoxyphenyl)ethyl]-5-methoxybenzamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "AKB-57",
+      "aliases": [
+        "AKB-57 (vendor/designation; identity unconfirmed)",
+        "AKB57",
+        "“Spice”/“K2”-type synthetic cannabinoid (marketing category; not a chemical name)",
+        "5F‑AKB‑57 (vendor-reported variant; identity unconfirmed)"
+      ],
+      "category": "Cannabinoid receptor agonist (likely CB1/CB2 agonism; exact efficacy/potency unknown)",
+      "tags": [],
+      "chemical_class": "Indazole-3-carboxamide synthetic cannabinoid (presumed; name used on market does not uniquely define a structure)"
+    },
+    {
+      "name": "alpha-D2PV",
+      "aliases": [
+        "1-(2-oxo-1,2-diphenylethyl)pyrrolidin-1-ium chloride (salt form)",
+        "α‑D2PV HCl",
+        "a-D2PV",
+        "α-D2PV",
+        "2-Diphenylmethylpyrrolidin-1-ylpentan-1-one",
+        "A-D2PV",
+        "1,2-diphenyl-2-(pyrrolidin-1-yl)ethanone",
+        "alpha D2PV"
+      ],
+      "category": "Psychostimulant; primarily dopamine/norepinephrine reuptake inhibition is presumed by structural analogy to other pyrrolidinophenones.",
+      "tags": [],
+      "chemical_class": "Synthetic cathinone; pyrrolidinophenone; diarylethyl-ketone (phenylacetyl-substituted α-PVP analogue)."
+    },
+    {
+      "name": "Amfecloral",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Aminotadalafil",
+      "aliases": [],
+      "category": "Other",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Apap",
+      "aliases": [
+        "acetaminophen",
+        "paracetamol",
+        "tylenol"
+      ],
+      "category": "Other",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Arecoline",
+      "aliases": [
+        "Areca alkaloid",
+        "Arecoline hydrochloride",
+        "Arecoline hydrobromide",
+        "methyl 1-methyl-1,2,5,6-tetrahydropyridine-3-carboxylate",
+        "Arecoline HBr"
+      ],
+      "category": "Cholinergic stimulant (primarily muscarinic agonist; minor nicotinic activity)",
+      "tags": [],
+      "chemical_class": "Piperidine alkaloid (esterified nipecotic acid derivative)"
+    },
+    {
+      "name": "Arimistane",
+      "aliases": [
+        "5-diene-7",
+        "Androsta-3",
+        "7-oxo-androst-3,5-diene-17-one",
+        "17-dione",
+        "Androsta-3,5-diene-7,17-dione",
+        "Androst-3,5-dien-7,17-dione",
+        "ADD"
+      ],
+      "category": "Endocrine modulator (aromatase inhibitor)",
+      "tags": [],
+      "chemical_class": "Steroidal aromatase inhibitor (7-keto-DHEA–related androstane)"
+    },
+    {
+      "name": "Benzydamine",
+      "aliases": [
+        "tantum"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Beta-meprodine",
+      "aliases": [
+        "(3R,4R)-3-ethyl-1-methyl-4-phenylpiperidin-4-yl propanoate",
+        "DB01552",
+        "β-Meprodine",
+        "Betameprodine",
+        "CAS 468-50-8"
+      ],
+      "category": "Opioid analgesic",
+      "tags": [],
+      "chemical_class": "4-Phenylpiperidine ester (meperidine analog)"
+    },
+    {
+      "name": "Bezitramide",
+      "aliases": [
+        "Bezitramidum",
+        "R 4845",
+        "Burgodin",
+        "Bezitramida",
+        "R-4845",
+        "Despropionyl‑bezitramide (active metabolite; R‑4618)"
+      ],
+      "category": "Opioid analgesic (long-acting, high-potency)",
+      "tags": [],
+      "chemical_class": "Diphenylpropylamide-derived benzimidazolone opioid"
+    },
+    {
+      "name": "Bk-ivp",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "BOM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bzp",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Caffeine",
+      "aliases": [
+        "coffee"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "candicine",
+      "aliases": [
+        "Ammonium, (p-hydroxyphenethyl)trimethyl-",
+        "Candicin",
+        "maltoxin"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cannabicyclol",
+      "aliases": [
+        "Cannabipinol",
+        "Cannabicyclolic acid (CBLA) [acid precursor/related compound]",
+        "CBL"
+      ],
+      "category": "Unclear/likely non-intoxicating; no established psychoactive activity in humans",
+      "tags": [],
+      "chemical_class": "Phytocannabinoid"
+    },
+    {
+      "name": "cannabisin B",
+      "aliases": [
+        "(1S,2R)-1-(3,4-dihydroxyphenyl)-6,7-dihydroxy-N-[2-(4-hydroxyphenyl)ethyl]-3-{[2-(4-hydroxyphenyl)ethyl]carbamoyl}-1,2-dihydronaphthalene-2-carboximidic acid",
+        "144506-17-2",
+        "2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N,N'-bis(2-(4-hydroxyphenyl)ethyl)-, (1R,2S)-rel-",
+        "2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N,N'-bis(2-(4-hydroxyphenyl)ethyl)-, trans-(+/-)-",
+        "2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N2,N3-bis(2-(4-hydroxyphenyl)ethyl)-, (1R,2S)-rel-",
+        "C17906",
+        "Cannabisin-b",
+        "CS-0528644",
+        "HY-N10419",
+        "Rel-(1R,2S)-1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N2,N3-bis(2-(4-hydroxyphenyl)ethyl)-2,3-naphthalenedicarboxamide",
+        "UNII-MBD34RU9GR component XENYXHLAFMZULS-ACHIHNKUSA-N"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cannabisin D",
+      "aliases": [
+        "cannabisin D",
+        "CHEMBL445592"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "CB-13",
+      "aliases": [
+        "SAB378",
+        "CB13",
+        "SAB-378",
+        "Peripherally restricted CB1/CB2 agonist (Abbott series)"
+      ],
+      "category": "Cannabinoid agonist (CB₁/CB₂)",
+      "tags": [],
+      "chemical_class": "Synthetic cannabinoid (peripherally-restricted 1,1-diaryl-piperazine amide)"
+    },
+    {
+      "name": "Changa",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cialis",
+      "aliases": [],
+      "category": "Other",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Clobenzorex",
+      "aliases": [
+        "Dinintel",
+        "Itravil",
+        "Asenlix",
+        "Finedal",
+        "SD-271-12"
+      ],
+      "category": "Catecholaminergic stimulant; prodrug that yields d-amphetamine (~15 % conversion)",
+      "tags": [],
+      "chemical_class": "N-substituted amphetamine (phenethylamine)"
+    },
+    {
+      "name": "Clofenciclan",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Coronaridine",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cuscuta propenamide 1",
+      "aliases": [
+        "7'-(3',4'-dihydroxyphenyl)-N-[(4-methoxyphenyl)ethyl]propenamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cychlorphine",
+      "aliases": [
+        "Cyclorphine",
+        "piperidinyl-benzimidazolone (“orphine”) opioid"
+      ],
+      "category": "Synthetic opioid",
+      "tags": [],
+      "chemical_class": "Piperidinyl-benzimidazolone derivative"
+    },
+    {
+      "name": "Cyproheptadine",
+      "aliases": [
+        "Cyproheptadinum",
+        "Ciplactin",
+        "4-(5H-dibenzo[a,d]cyclohepten-5-ylidene)-1-methylpiperidine",
+        "Cyprodine",
+        "Periactin",
+        "Peritol"
+      ],
+      "category": "Sedative antihistamine / antiserotonergic",
+      "tags": [],
+      "chemical_class": "Tricyclic benzocycloheptene (first-generation antihistamine)"
+    },
+    {
+      "name": "D-161",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-dopa",
+      "aliases": [
+        "3,4-dihydroxy-D-phenylalanine",
+        "3-hydroxy-D-tyrosine",
+        "D-3,4-dihydroxyphenylalanine",
+        "D-3-(3,4-dihydroxyphenyl)alanine",
+        "dopa D-form"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D-phenylalanine",
+      "aliases": [
+        "D-phenyl alanine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "D2pm",
+      "aliases": [
+        "diphenylprolinol"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dalt",
+      "aliases": [
+        "diallyltryptamine",
+        "n,n-diallyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Db-mdbp",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dehydroxyfluorafinil",
+      "aliases": [
+        "modafiendz"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Diclofensine",
+      "aliases": [
+        "ro8-4650"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dimethocaine",
+      "aliases": [
+        "CMD",
+        "DMC",
+        "Larocaine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-dopa",
+      "aliases": [
+        "(+-)-dopa",
+        "(+/-) 3-(3,4-Dihydroxyphenyl)alanine",
+        "(R,S)-dopa",
+        "2-Amino-3-(3,4-dihydroxyphenyl)propanoate",
+        "2-Amino-3-(3,4-dihydroxyphenyl)propanoic acid",
+        "3,4-Dihydroxy-DL-phenylalanine",
+        "3-(3,4-Dihydroxyphenyl)-DL-alanine",
+        "3-hydroxy-DL-tyrosine",
+        "a-Amino-3,4-dihydroxy-Benzenepropanoate",
+        "a-Amino-3,4-dihydroxy-Benzenepropanoic acid",
+        "alpha-Amino-3,4-dihydroxy-Benzenepropanoate",
+        "alpha-Amino-3,4-dihydroxy-Benzenepropanoic acid",
+        "alpha-Amino-Hydrocaffeic acid",
+        "b-(3,4-Dihydroxyphenyl)-a-alanine",
+        "beta-(3,4-dihydroxyphenyl)-DL-alpha-alanine",
+        "DL-3,4-dopa",
+        "DL-3-Hydroxytyrosine",
+        "DL-4,5-Dihydroxyphenylalanine",
+        "DL-b-(3,4-Dihydroxyphenyl)alanine",
+        "dl-beta-(3,4-dihydroxyphenyl)-alpha-alanine",
+        "DL-beta-(3,4-dihydroxyphenyl)alanine",
+        "DL-dihydroxyphenylalanine",
+        "DL-dioxyphenylalanine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DL-phenylalanine",
+      "aliases": [
+        "DL-Phenylalanine",
+        "F",
+        "PHE"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DMPC",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dopamine 3-O-sulfate",
+      "aliases": [
+        "4-(2-Aminoethyl)-1,2-Benzenediol 2-(hydrogen sulphate)",
+        "[5-(2-aminoethyl)-2-hydroxyphenyl]oxidanesulfonic acid",
+        "Dopamine 3-sulfate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "dopaminium(1+)",
+      "aliases": [
+        "2-(3,4-dihydroxyphenyl)ethan-1-aminium",
+        "dopaminium cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "DPP-26",
+      "aliases": [
+        "DPP26",
+        "1-(4-(ethylsulfonyl)-4,4-diphenylbutan-2-yl)piperidine",
+        "DPP-26 (dipipanone-sulfone analogue)",
+        "dipipanone–sulfone analogue",
+        "IC‑26/dipipanone hybrid (community nickname; not formal)"
+      ],
+      "category": "Opioid analgesic",
+      "tags": [],
+      "chemical_class": "Diphenylpiperidine opioid (dipipanone-sulfone analogue)"
+    },
+    {
+      "name": "droxidopa",
+      "aliases": [
+        "(-)-(2S,3R)-2-amino-3-hydroxy-3-(3,4-dihydroxyphenyl)propanoic acid",
+        "(2S,3R)-3,4-dihydroxy-phenylserine",
+        "Droxidopa",
+        "Droxydopa",
+        "L-Dihydroxyphenylserine",
+        "L-DOPS",
+        "L-threo-dihydroxyphenylserine",
+        "L-Threodops",
+        "Northera®",
+        "SM-5688",
+        "threo-Dopaserine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "EA-3167",
+      "aliases": [
+        "EA 3167",
+        "Quinuclidinyl phenylcyclopentyl glycolate",
+        "3-Quinuclidinyl-(phenylcyclopentyl)-glycolate",
+        "Edgewood Agent EA-3167"
+      ],
+      "category": "Anticholinergic deliriant incapacitant",
+      "tags": [],
+      "chemical_class": "Quinuclidinyl phenylcyclopentyl glycolate ester (tropane-related antimuscarinic)"
+    },
+    {
+      "name": "EEE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "EEM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "EME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Estradiol",
+      "aliases": [
+        "Oestradiol",
+        "17-beta-estradiol",
+        "(17β)-estra-1,3,5(10)-triene-3,17-diol",
+        "17β-estradiol",
+        "beta-Estradiol",
+        "cis-Estradiol",
+        "Estradiol-17β"
+      ],
+      "category": "Hormone (Estrogen)",
+      "tags": [],
+      "chemical_class": "Estrogenic steroid"
+    },
+    {
+      "name": "ETHYL-J",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ETHYL-K",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etifelmine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "discontinued",
+        "NDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Etoxadrol",
+      "aliases": [
+        "CL-1848C",
+        "U-37862A",
+        "Etoxadrol hydrochloride",
+        "U-37862A hydrochloride"
+      ],
+      "category": "Uncompetitive NMDA receptor antagonist (PCP-site channel blocker)",
+      "tags": [],
+      "chemical_class": "Dioxolane (piperidine) dissociative"
+    },
+    {
+      "name": "F-2",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "F-22",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Fluconazole",
+      "aliases": [
+        "Fluconazole sodium (IV formulations)",
+        "Fluconazol",
+        "Diflucan",
+        "Fluconazolum",
+        "FLZ"
+      ],
+      "category": "Not psychoactive (antifungal medication)",
+      "tags": [],
+      "chemical_class": "Triazole antifungal"
+    },
+    {
+      "name": "G-130",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "G-N",
+      "aliases": [
+        "1,4-dimethoxynaphthyl-2-isopropylamine",
+        "1-(1,4-dimethoxynaphthalen-2-yl)propan-2-amine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "no-human-data",
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Gaboxadol",
+      "aliases": [
+        "4,5,6,7-tetrahydroisoxazolo[5,4-c]pyridin-3-ol",
+        "2H,3H,4H,5H,6H,7H-[1,2]oxazolo[5,4-c]pyridin-3-one",
+        "THIP",
+        "MK-0928",
+        "MK0928",
+        "Lu 02-030"
+      ],
+      "category": "Sedative-hypnotic; GABAergic (GABA-A orthosteric agonist with extrasynaptic δ-subunit preference)",
+      "tags": [],
+      "chemical_class": "Isoxazole derivative"
+    },
+    {
+      "name": "GANESHA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "GSK1360707F",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "halostachine",
+      "aliases": [
+        "(R)-halostachine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hdep-28",
+      "aliases": [
+        "ethylnaphthidate"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hdmp-28",
+      "aliases": [
+        "methylnaphtidate"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hexacyclonate",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "discontinued",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Homosildenafil",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "HOT-17",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "HOT-2",
+      "aliases": [
+        "hot2"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "HOT-7",
+      "aliases": [
+        "hot7"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ibotenic acid",
+      "aliases": [
+        "alpha-amino-2,3-dihydro-3-oxo-5-isoxazoleacetic acid",
+        "alpha-amino-3-hydroxy-5-isoxazoleacetic acid",
+        "IBO",
+        "α-amino-3-hydroxy-5-isoxazoleacetic acid",
+        "amino-(3-hydroxy-5-isoxazolyl)acetic acid"
+      ],
+      "category": "Excitatory neurotoxin; deliriant (ionotropic/metabotropic glutamate receptor agonist)",
+      "tags": [],
+      "chemical_class": "Isoxazole amino acid"
+    },
+    {
+      "name": "Ibuprofen",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IDNNA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indapex",
+      "aliases": [
+        "5-meo-tmt"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IP",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "IRIS",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isophenidine",
+      "aliases": [
+        "N-(propan-2-yl)-1,2-diphenylethylamine",
+        "NPDPA",
+        "NSC 34569",
+        "isopropylphenidine",
+        "N-isopropyl-1,2-diphenylethylamine"
+      ],
+      "category": "dissociative",
+      "tags": [],
+      "chemical_class": "1,2-diarylethylamine"
+    },
+    {
+      "name": "J",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "julocrotine",
+      "aliases": [
+        "N-[2,6-Dioxo-1-(2-phenylethyl)-3-piperidinyl]-2-methylbutanamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Khat",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-dopa(1-)",
+      "aliases": [
+        "L-dopa carboxylate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "L-theanine",
+      "aliases": [
+        "theanine"
+      ],
+      "category": "Supplement",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "levodopa",
+      "aliases": [
+        "(−)-3-(3,4-dihydroxyphenyl)-L-alanine",
+        "(−)-dopa",
+        "3,4-Dihydroxy-L-phenylalanine",
+        "3-Hydroxy-L-tyrosine",
+        "Dihydroxy-L-phenylalanine",
+        "LDP540",
+        "Levodopa",
+        "Levodopum",
+        "Sinemet®",
+        "β-(3,4-dihydroxyphenyl)-L-alanine",
+        "β-(3,4-dihydroxyphenyl)alanine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lomevactone",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lsm-775",
+      "aliases": [
+        "lsm"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "M",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MAL",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Marinacarboline A",
+      "aliases": [
+        "1-acetyl-N-[2-(4-methoxyphenyl)ethyl]-9H-pyrido[3,4-b]indole-3-carboxamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "marinacarboline B",
+      "aliases": [
+        "4'O - desmethyl marinacarboline A"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Marinacarboline C",
+      "aliases": [
+        "1-Acetyl-N-(2-phenylethyl)-9H-beta-carboline-3-carboxamide",
+        "4'deshydroxy-marinacarboline B"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mbzp",
+      "aliases": [
+        "methylbenylpiperazine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mcpp",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDBU",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDBZ",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDCPM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDDM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDHOET",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDIP",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMC / EDMA [Note: MDMC is a Shulgin pet name, see commentary below.]",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMEO",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMEOET",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDMP",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPEA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPH",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mdphp",
+      "aliases": [
+        "monkey-dust"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MDPL",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "ME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MEE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MEPEA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mephtetramine",
+      "aliases": [
+        "mtta"
+      ],
+      "category": "Other",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Met",
+      "aliases": [
+        "methylethyltryptamine"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "methanofuranate(4-)",
+      "aliases": [
+        "methanofuranate tetraanion"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methoxypiperamide",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-DMA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-J",
+      "aliases": [
+        "eden",
+        "methyl-j"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "habit-forming",
+        "phenethylamine",
+        "PIHKAL",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-K",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "METHYL-MA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylmorphenate",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mirogabalin",
+      "aliases": [
+        "Tarlige",
+        "Mirogabalin besylate",
+        "(1R,5S,6S)-6-(aminomethyl)-3-ethylbicyclo[3.2.0]hept-3-ene-6-acetic acid",
+        "DS-5565"
+      ],
+      "category": "Anticonvulsant, Analgesic",
+      "tags": [],
+      "chemical_class": "Gabapentinoid (structurally related to gabapentin and pregabalin)"
+    },
+    {
+      "name": "MME",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Monotropa uniflora",
+      "aliases": [
+        "Ghost Pipe",
+        "Ghost flower",
+        "Ghost pipe",
+        "Convulsion root",
+        "Corpse plant",
+        "Indian Pipe",
+        "Ghost plant",
+        "Ice plant",
+        "Indian pipe"
+      ],
+      "category": "Herbal co-analgesic/sedative with anxiolytic reports; likely mediated by general CNS dampening and possible salicylate-type analgesia; sodium-channel toxin involvement is unproven in this species (treat as uncertain).",
+      "tags": [],
+      "chemical_class": "Mycoheterotrophic herb in Ericaceae; phytochemistry incompletely characterized (reports of phenolic/salicylate-type glycosides exist, specific diterpenes unconfirmed)."
+    },
+    {
+      "name": "MP",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "MPM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N,N-Dimethyl-3,3-diphenylcyclobutanamine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Feruloyloctopamine",
+      "aliases": [
+        "N-trans-Feruloyloctopamine",
+        "trans-N-Feruloyl octopamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-Isopropylphenylethylamine hydrochloride",
+      "aliases": [
+        "WIN 5523 hydrochloride"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "N-methyltyraminium",
+      "aliases": [
+        "N-methyltyraminium cation",
+        "N-methyltyraminium(1+)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Naproxen",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Nitracaine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "norfenefrine",
+      "aliases": [
+        "3-Octopamine",
+        "m-Octopamine",
+        "meta-Octopamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "O-2172",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ondansetron",
+      "aliases": [
+        "Ondansetron HCl",
+        "Zofran",
+        "Zuplenz",
+        "Ondansetron ODT (orally disintegrating tablet)"
+      ],
+      "category": "Antiemetic (not psychoactive in the traditional sense; centrally and peripherally acts on emesis pathways)",
+      "tags": [],
+      "chemical_class": "Carbazole derivative (selective serotonin 5-HT3 receptor antagonist)"
+    },
+    {
+      "name": "P",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pce",
+      "aliases": [
+        "eticyclidine"
+      ],
+      "category": "Dissociative",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Peyote",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "common",
+        "US-Schedule-I"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenazocine",
+      "aliases": [
+        "phenazocine, (-)-"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenethyl isothiocyanate",
+      "aliases": [
+        "(2-Isothiocyanatoethyl)benzene",
+        "2-Phenylethyl isothiocyanate",
+        "beta-phenethyl isothiocyanate",
+        "PEITC",
+        "Phenethyl mustard oil",
+        "Phenylethyl isothiocyanate"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenetrazine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenylalanine",
+      "aliases": [
+        "(S)-2-Amino-3-phenylpropionic acid",
+        "(S)-alpha-Amino-beta-phenylpropionic acid",
+        "3-phenyl-L-alanine",
+        "F",
+        "L-Phe",
+        "L-phenylalanine",
+        "β-phenyl-L-alanine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenylbutenamine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenylbutynamine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "phenylephrine(1+)",
+      "aliases": [
+        "phenylephrine cation"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phenylethylisocyanide",
+      "aliases": [
+        "(2-Isocyanoethyl)benzene"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pipt",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "pisoniamide",
+      "aliases": [
+        "N-(4-methoxyphenethyl)cinnamamide",
+        "N-[2-(4-methoxyphenyl)ethyl]-3-phenylacrylamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PR-000608",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pre-084",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Prolintane",
+      "aliases": [
+        "catovit",
+        "promotil",
+        "villescon"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PROPYNYL",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "PRX-14040",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pv-10",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pv-8",
+      "aliases": [
+        "a-phpp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pv-9",
+      "aliases": [],
+      "category": "Other",
+      "tags": [
+        "inactive"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pyrovalerone",
+      "aliases": [
+        "O-2371",
+        "beta-keto-prolintane",
+        "1-(4-methylphenyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+        "1-(p-tolyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+        "Desmethyl analog: α‑PVP (class relation)"
+      ],
+      "category": "Norepinephrine–dopamine reuptake inhibitor (stimulant)",
+      "tags": [],
+      "chemical_class": "Pyrrolidinophenone cathinone"
+    },
+    {
+      "name": "riparin A",
+      "aliases": [
+        "N-benzoyl-2-phenylethylamine",
+        "N-phenethylbenzamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "riparin III",
+      "aliases": [
+        "2,6-Dihydroxy-N-[2-(4-methoxyphenyl)ethyl]benzamide"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Rti-111",
+      "aliases": [
+        "dichloropane"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Salvia",
+      "aliases": [],
+      "category": "Dissociative",
+      "tags": [
+        "common"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "santacruzamate A",
+      "aliases": [
+        "CAY10683"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "SB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Setazindol",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Sibutramine",
+      "aliases": [
+        "Butramin",
+        "Meridia",
+        "Sibutramine hydrochloride monohydrate",
+        "Medaria",
+        "Reductil"
+      ],
+      "category": "Stimulant, Anorectic",
+      "tags": [],
+      "chemical_class": "Phenethylamine (structurally related to amphetamines)"
+    },
+    {
+      "name": "Sinicuichi",
+      "aliases": [
+        "heimia-salicifolia",
+        "shrubby-yellowcrest",
+        "sini",
+        "sun-opener",
+        "willow-leaf-heimia"
+      ],
+      "category": "Psychedelic",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Spirochlorphine",
+      "aliases": [
+        "R6890",
+        "R-6890",
+        "SPC"
+      ],
+      "category": "Opioid analgesic (μ-opioid/NOP agonist)",
+      "tags": [],
+      "chemical_class": "Spiropiperidine opioid"
+    },
+    {
+      "name": "SR-14968",
+      "aliases": [
+        "1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-5,6-dichloro-1H-benzo[d]imidazol-2(3H)-one",
+        "SR-14",
+        "SR14968"
+      ],
+      "category": "Opioid analgesic (atypical, biased)",
+      "tags": [],
+      "chemical_class": "Piperidine benzimidazolone (G-protein-biased μ-opioid agonist)"
+    },
+    {
+      "name": "SR-17018",
+      "aliases": [
+        "SR 17018",
+        "SR17018",
+        "5,6-dichloro-3-(1-((4-chlorophenyl)methyl)piperidin-4-yl)-1H-benzimidazol-2-one",
+        "SR‑17"
+      ],
+      "category": "Opioid analgesic (atypical, biased)",
+      "tags": [],
+      "chemical_class": "Piperidine benzimidazolone; G‑protein‑biased μ‑opioid receptor agonist"
+    },
+    {
+      "name": "TA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TB",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TE",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Theacrine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Theobromine",
+      "aliases": [],
+      "category": "Other",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "Thiopropamine",
+      "aliases": [
+        "a-methyl-2-thipheneethanamine",
+        "normethiopropamine",
+        "tpa"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TM",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMA",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TMA-5",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TOMSO",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TP",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "trichocereine",
+      "aliases": [
+        "N,N-dimethyl-2-(3,4,5-trimethoxyphenyl)ethanamine"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "TRIS",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [
+        "phenethylamine",
+        "PIHKAL"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Troparil",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Truffles",
+      "aliases": [],
+      "category": "Psychedelic",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "tyraminium",
+      "aliases": [
+        "tyraminium cation",
+        "tyraminium(1+)"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Viagra",
+      "aliases": [],
+      "category": "Other",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "xenortide C",
+      "aliases": [
+        "(2S)-2-[(2S)-N,3-dimethyl-2-(methylamino)butanamido]-3-phenyl-N-(2-phenylethyl)propanimidic acid"
+      ],
+      "category": "Other",
+      "tags": [
+        "no-human-data",
+        "phenethylamine"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Yerba-mate",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Α-pbp",
+      "aliases": [
+        "a-pbp",
+        "alpha-pbp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "α-PCYP",
+      "aliases": [
+        "alpha-PyrrolidinoCyclohexanoPhenone",
+        "A‑PCYP",
+        "alpha-Pyrrolidinocyclohexanophenone",
+        "alpha-PCyP"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Pyrrolidinophenone cathinone (substituted cathinone)"
+    },
+    {
+      "name": "α-Pyrrolidinopropiophenone",
+      "aliases": [
+        "APPP",
+        "1-phenyl-2-(pyrrolidin-1-yl)propan-1-one",
+        "α-pyrrolidinopropiophenone freebase",
+        "a-PPP",
+        "alpha-PPP",
+        "α-PPP HCl"
+      ],
+      "category": "Dopamine- and norepinephrine-transport reuptake inhibitor (DNRI); minimal SERT activity based on class data",
+      "tags": [],
+      "chemical_class": "Pyrrolidinophenone cathinone stimulant"
+    }
+  ]
+}

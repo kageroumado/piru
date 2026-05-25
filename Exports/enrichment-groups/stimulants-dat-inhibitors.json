@@ -1,0 +1,845 @@
+{
+  "slug": "stimulants-dat-inhibitors",
+  "name": "DAT inhibitors (cocaine analogues, RTI/WIN, modafinil family, methylphenidate)",
+  "count": 61,
+  "substances": [
+    {
+      "name": "3,4-ctmp",
+      "aliases": [
+        "3,4-dichloromethylphenidate",
+        "34ctmp"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "3,4-Methylenedioxyphenmetrazine",
+      "aliases": [
+        "MDPM",
+        "3,4-MD-phenmetrazine",
+        "3,4-MDPM",
+        "3-MDPM",
+        "Methylenedioxyphenmetrazine"
+      ],
+      "category": "Stimulant / mild empathogen",
+      "tags": [],
+      "chemical_class": "Substituted phenylmorpholine (phenmetrazine analogue)"
+    },
+    {
+      "name": "3-Chlorophenmetrazine",
+      "aliases": [
+        "3-CPM",
+        "PAL594",
+        "3-chloro-phenmetrazine",
+        "PAL-594"
+      ],
+      "category": "Stimulant; primarily a norepinephrine–dopamine releasing agent with weaker serotonergic releasing activity",
+      "tags": [],
+      "chemical_class": "Substituted phenylmorpholine"
+    },
+    {
+      "name": "3-Fluorophenmetrazine",
+      "aliases": [
+        "3-FPM",
+        "3fp",
+        "3FPM",
+        "3f-phenmetrazine",
+        "3f-p",
+        "3-fpm",
+        "PAL-593",
+        "3-FPH"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Phenylmorpholine (substituted phenmetrazine)"
+    },
+    {
+      "name": "3-fpm",
+      "aliases": [
+        "3-fph",
+        "3f-p",
+        "3f-phenmetrazine",
+        "3fpm",
+        "pal-593"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fluoroethylphenidate",
+      "aliases": [
+        "4f-eph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-fluoromethylphenidate",
+      "aliases": [
+        "4-fl-mph",
+        "4-fluoro-mph",
+        "4f-mph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-methylmethylphenidate",
+      "aliases": [
+        "4-me-tmp",
+        "4-mmph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "4-Methylphenmetrazine",
+      "aliases": [
+        "4-MPM",
+        "p-Methylphenmetrazine",
+        "para-methylphenmetrazine",
+        "3-methyl-2-(4-methylphenyl)morpholine",
+        "4-Me-phenmetrazine"
+      ],
+      "category": "Stimulant (mixed serotonin–dopamine–norepinephrine releasing agent)",
+      "tags": [],
+      "chemical_class": "Substituted phenylmorpholine"
+    },
+    {
+      "name": "4F-MPH",
+      "aliases": [
+        "4‑FMPH",
+        "4F Ritalin (colloquial; not a brand)",
+        "erythro‑4F‑MPH (less active diastereomer)",
+        "4‑Fluoro‑methylphenidate",
+        "para‑fluoromethylphenidate",
+        "4-Fluoromethylphenidate",
+        "threo‑4F‑MPH (active diastereomer)",
+        "pF‑MPH"
+      ],
+      "category": "Stimulant (dopamine/noradrenaline reuptake inhibitor)",
+      "tags": [],
+      "chemical_class": "Phenidate; piperidine (substituted phenidate)"
+    },
+    {
+      "name": "Adrafinil",
+      "aliases": [
+        "CRL-40,028",
+        "Olmifon"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "afinil",
+        "eugeroic",
+        "habit-forming",
+        "hepatotoxic-potential",
+        "prodrug",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "AHN 1-055",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Amfonelic acid",
+      "aliases": [
+        "aa",
+        "AFA",
+        "WIN 25,978"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "habit-forming",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Armodafinil",
+      "aliases": [
+        "(R)-modafinil",
+        "2-(diphenylmethylsulfinyl)acetamide",
+        "Alertec",
+        "Modavigil",
+        "Nuvigil",
+        "Provigil",
+        "R-modafinil"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "afinil",
+        "common",
+        "DAT-inhibitor",
+        "DAT-inhibitor-weak",
+        "eugeroic",
+        "habit-forming",
+        "prescription-only",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Atomoxetine",
+      "aliases": [
+        "strattera"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bisfluoromodafinil",
+      "aliases": [
+        "Bisfluoromodafinil",
+        "CRL-40,940",
+        "Flmodafinil",
+        "Lauflumide"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "afinil",
+        "eugeroic",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Brasofensine",
+      "aliases": [
+        "NS-2214"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Bupropion",
+      "aliases": [
+        "amfebutamone",
+        "wellbutrin",
+        "zyban"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": ""
+    },
+    {
+      "name": "CE-123",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Cocaine",
+      "aliases": [
+        "coke"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Crack",
+      "aliases": [
+        "rocks",
+        "supercoke",
+        "Roxanne",
+        "freebase cocaine",
+        "Cocaine",
+        "hard",
+        "base",
+        "rock"
+      ],
+      "category": "Powerful CNS stimulant (DAT/NET/SERT reuptake inhibitor; sodium‑channel blocker)",
+      "tags": [],
+      "chemical_class": "Tropane alkaloid (free‑base of benzoylmethylecgonine)"
+    },
+    {
+      "name": "CRL-40,941",
+      "aliases": [
+        "Bisfluoroadrafinil",
+        "CRL-40,941",
+        "Fladrafinil",
+        "Fluorafinil",
+        "fluoromodafinil"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "afinil",
+        "eugeroic",
+        "no-human-data",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Dasotraline",
+      "aliases": [
+        "(1R,4S)-Sertraline analog",
+        "Dasotraline",
+        "SEP-225289"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Ethylphenidate",
+      "aliases": [
+        "eph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Flmodafinil",
+      "aliases": [
+        "bisfluoromodafinil",
+        "Lauflumide",
+        "Flodafinil",
+        "NLS-4",
+        "CRL-40,940",
+        "Fluoromodafinil"
+      ],
+      "category": "Wakefulness-promoting agent; atypical dopamine reuptake inhibitor (selective DAT blocker)",
+      "tags": [],
+      "chemical_class": "Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)"
+    },
+    {
+      "name": "Fluorenol",
+      "aliases": [
+        "9H-fluoren-9-ol"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "eugeroic",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Focalin",
+      "aliases": [
+        "dexmethylphenidate",
+        "dextromethylphenidate"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Homomazindol",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Hydrafinil",
+      "aliases": [
+        "9-fluorenol",
+        "9-Hydroxyfluorene",
+        "Fluorenol"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "afinil",
+        "eugeroic",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indanorex",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "anorectic",
+        "discontinued",
+        "NDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indatraline",
+      "aliases": [
+        "Lu-19-005"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Indriline",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "no-human-data",
+        "research-chemical",
+        "stimulant"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isophenmetrazine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Isopropylphenidate",
+      "aliases": [
+        "iph",
+        "ipp",
+        "ippd",
+        "ipph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "JHW-007",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "JJC8-088",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "hERG-liability",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "JNJ-7925476",
+      "aliases": [],
+      "category": "Antidepressant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Lisdexamfetamine",
+      "aliases": [
+        "Vyvanse",
+        "Dextroamphetamine prodrug",
+        "Lisdexamphetamine (INTL)",
+        "Lisdexamfetamine dimesylate",
+        "LDX"
+      ],
+      "category": "Stimulant",
+      "tags": [],
+      "chemical_class": "Phenethylamine (Amphetamine derivative)"
+    },
+    {
+      "name": "LR-1111",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "LR-5182",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mazindol",
+      "aliases": [
+        "Mazanor",
+        "Sanorex"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "anorectic",
+        "NDRI",
+        "prescription-only",
+        "US-Schedule-IV"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Mephenmetrazine",
+      "aliases": [
+        "4-methylphenmetrazine",
+        "4-mpm"
+      ],
+      "category": "Empathogen",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Methylphenidate",
+      "aliases": [
+        "biphentin",
+        "concerta",
+        "mph",
+        "ritalin"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Modafinil acid",
+      "aliases": [
+        "CRL-40,467",
+        "Modafinilic acid"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "eugeroic",
+        "inactive",
+        "metabolite",
+        "no-human-data"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Modafinil sulfone",
+      "aliases": [
+        "Modafinil sulphone"
+      ],
+      "category": "Eugeroic",
+      "tags": [
+        "eugeroic",
+        "inactive",
+        "metabolite",
+        "no-human-data"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pfbt",
+      "aliases": [
+        "4-fluorotropacocaine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Phendimetrazine",
+      "aliases": [
+        "Statobex",
+        "Fendique ER",
+        "Phendimetrazine tartrate",
+        "Adipost",
+        "Melfiat",
+        "(2S,3S)-3,4-dimethyl-2-phenylmorpholine",
+        "Bontril (legacy brand)"
+      ],
+      "category": "Stimulant, Sympathomimetic amine",
+      "tags": [],
+      "chemical_class": "Phenylmorpholine (related to amphetamines)"
+    },
+    {
+      "name": "Phenmetrazine",
+      "aliases": [
+        "preludin"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Pridefine",
+      "aliases": [
+        "AHR-1118"
+      ],
+      "category": "Antidepressant",
+      "tags": [
+        "investigational",
+        "research-chemical",
+        "SNDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Propylphenidate",
+      "aliases": [
+        "pph"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "habit-forming",
+        "research-chemical",
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RTI-113",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RTI-133",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RTI-150",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "RTI-55",
+      "aliases": [
+        "Iometopane",
+        "β-CIT"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical",
+        "SDRI"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Serdexmethylphenidate",
+      "aliases": [
+        "Azstarys SDX component",
+        "KP-415 inner salt",
+        "Serdexmethylphenidate chloride (inner salt)",
+        "SDX"
+      ],
+      "category": "Stimulant (prodrug of dexmethylphenidate; NDRI downstream)",
+      "tags": [],
+      "chemical_class": "Piperidine-derived phenidate prodrug (quaternary pyridinium carbamate of dexmethylphenidate)"
+    },
+    {
+      "name": "SoRI-20041",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tametraline",
+      "aliases": [
+        "CP-24,441"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "investigational",
+        "NDRI",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Tropoxane",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Viloxazine",
+      "aliases": [],
+      "category": "Stimulant",
+      "tags": [
+        "tentative"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "Vyvanse",
+      "aliases": [
+        "lisdexamfetamine",
+        "lisdexamphetamine",
+        "lisdextroamfetamine",
+        "lisdextroamphetamine"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "common",
+        "habit-forming",
+        "US-Schedule-II"
+      ],
+      "chemical_class": ""
+    },
+    {
+      "name": "WIN-35428",
+      "aliases": [
+        "CFT"
+      ],
+      "category": "Stimulant",
+      "tags": [
+        "DRI",
+        "investigational",
+        "no-human-data",
+        "radioligand-origin",
+        "research-chemical"
+      ],
+      "chemical_class": ""
+    }
+  ]
+}

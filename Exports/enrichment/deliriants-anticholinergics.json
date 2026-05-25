@@ -1,0 +1,1199 @@
+[
+  {
+    "name": "Chlorpheniramine",
+    "aliases_added": ["Dexchlorpheniramine", "Chlorprophenpyridamine", "(S)-(+)-chlorpheniramine", "(R)-(-)-chlorpheniramine"],
+    "iupac_name": "3-(4-Chlorophenyl)-N,N-dimethyl-3-(pyridin-2-yl)propan-1-amine",
+    "smiles": "Clc1ccc(cc1)C(c2ncccc2)CCN(C)C",
+    "inchikey": "SOYKEARSMXGVTM-UHFFFAOYSA-N",
+    "cas": "132-22-9",
+    "pubchem_cid": 2725,
+    "class_context_id": "anticholinergic_deliriants_h1_blockers",
+    "pharmacology": {
+      "primary_targets": ["H1", "SERT", "mACh (M1-M5)", "hERG (Kv11.1)", "Nav1.5 (cardiac sodium channel)"],
+      "binding": [
+        {
+          "target": "H1",
+          "ki_nm": 2.67,
+          "ki_ci_nm": [2.67, 4.81],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "histamine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1 (recombinant) — value is for the active dexchlorpheniramine (S)-(+) enantiomer",
+          "radioligand_or_probe": "[3H]-mepyramine (pyrilamine)",
+          "assay_buffer_notes": null,
+          "reference": "pmid:7714409",
+          "is_review": false,
+          "notes": "(R)-(-)-levochlorpheniramine Ki is 211–361 nM at the same receptor — ~80-fold weaker. Racemic chlorpheniramine maleate is the marketed preparation; dexchlorpheniramine carries virtually all H1 activity."
+        },
+        {
+          "target": "H4",
+          "ki_nm": 2910,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "recombinant human H4",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "Wikipedia compendium citing PDSP Ki database (https://pdsp.unc.edu/databases/kidb.php)",
+          "is_review": true,
+          "notes": "Aggregated tabulation; PDSP record is the primary source."
+        },
+        {
+          "target": "M1",
+          "ki_nm": 25700,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS or [3H]-QNB (typical for PDSP entries)",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "Chlorpheniramine is a weak anticholinergic relative to e.g. diphenhydramine; the M1-M5 Ki values (25–78 µM range) are well above therapeutic free plasma concentrations (typically <30 nM), so clinical anticholinergic burden at antiemetic/antihistamine doses is modest."
+        },
+        {
+          "target": "M2",
+          "ki_nm": 17000,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M2",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M3",
+          "ki_nm": 52500,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M3",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M4",
+          "ki_nm": 77600,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M4",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M5",
+          "ki_nm": 28200,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M5",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "SERT",
+          "ki_nm": 15.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human SERT",
+          "radioligand_or_probe": "[3H]-citalopram or [3H]-paroxetine (compendium entry)",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "Chlorpheniramine is essentially equipotent to many marketed SSRIs at SERT and was the original lead Tabakoff/Carlsson worked from in the 1960s. It has clinical relevance: chlorpheniramine + an SSRI has triggered serotonin syndrome in case reports (pmid:16413139)."
+        },
+        {
+          "target": "NET",
+          "ki_nm": 1440,
+          "ki_ci_nm": null,
+          "kd_nm": 1440,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human NET",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "Weak; ~95× less potent than at SERT."
+        },
+        {
+          "target": "DAT",
+          "ki_nm": 1060,
+          "ki_ci_nm": null,
+          "kd_nm": 1060,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 expressing human DAT",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Inverse agonism at H1 (constitutively active GPCR; chlorpheniramine and other first-gen H1 antagonists stabilize the inactive conformation, reducing Gαq → PLCβ → IP3/DAG signalling). SERT inhibition is purely competitive at the central binding site (S1) with no demonstrated allosteric activity at the S2 site at clinically achievable concentrations.",
+      "neuroimaging": [
+        {
+          "modality": "PET",
+          "finding": "Clinical (sedating) oral chlorpheniramine 4 mg produces ~40-50% brain H1 receptor occupancy measured with [11C]-doxepin in healthy volunteers, accounting for its sedation; second-generation antihistamines (fexofenadine, bilastine) produce <10% occupancy at therapeutic doses.",
+          "reference": "pmid:9482876 (Tagawa et al., 2001; J Clin Pharmacol)"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 41,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 165,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1680,
+          "vd_l_per_kg": 3.4,
+          "clearance_ml_per_min_per_kg": 1.8,
+          "protein_binding_pct": 72,
+          "dose_in_study_mg": 10,
+          "subject_n": 6,
+          "subject_demographics": "Healthy adult subjects",
+          "reference": "pmid:7106172 (Peets EA, Jackson M, Symchowicz S — Pharmacokinetics of chlorpheniramine after IV and oral administration, 1982; J Pharmacol Exp Ther)",
+          "notes": "Range of half-life observed: 19–43 h. Bioavailability from 10 mg oral solution 34–59%; from 8 mg tablets 25–44% (extensive gut wall first-pass metabolism)."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 0,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1200,
+          "vd_l_per_kg": 3.4,
+          "clearance_ml_per_min_per_kg": 1.8,
+          "protein_binding_pct": 72,
+          "dose_in_study_mg": 10,
+          "subject_n": 6,
+          "subject_demographics": "Healthy adult subjects",
+          "reference": "pmid:7106172",
+          "notes": "Mean t1/2 ~20 h IV, longer (28 h mean) after PO due to flip-flop kinetics."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "H1-mediated suppression of histamine-induced wheal",
+          "concentration_unit": "ng/mL",
+          "threshold": 1.5,
+          "peak_effect": 5,
+          "reference": "researchgate:232794187 (Simons FE — Chlorpheniramine plasma concentration and histamine H1 receptor occupancy)"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desmethylchlorpheniramine (monodesmethyl)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:11994058 (Yasuda SU, Zhang L, Huang SM — The roles of CYP2D6 and stereoselectivity in the clinical pharmacokinetics of chlorpheniramine; Br J Clin Pharmacol 2002)"
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "didesmethylchlorpheniramine",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:11994058"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "quinidine (CYP2D6 inhibitor)",
+        "mechanism": "CYP2D6 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Coadministered quinidine prolonged (S)-(+)-chlorpheniramine elimination half-life from 18.0 ± 2.0 h to 29.3 ± 2.0 h and increased AUC, confirming the dominant role of CYP2D6 in stereoselective clearance.",
+        "reference": "pmid:11994058"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "CYP2D6 PMs and patients on CYP2D6 inhibitors (fluoxetine, paroxetine, quinidine, bupropion) show ~50–60% increased AUC and prolonged sedation duration. The (S)-(+) (active) enantiomer is preferentially metabolised by CYP2D6 and accumulates relative to the inactive (R)-(-) form in PMs.",
+      "reference": "pmid:11994058"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "H1 sedation tolerance develops within ~3-7 days of regular dosing; receptor-level mechanism not formally measured for chlorpheniramine specifically but presumed analogous to other H1 inverse agonists (no robust H1 internalisation in heterologous systems; tolerance likely reflects compensatory glutamatergic/noradrenergic adaptation rather than receptor downregulation).",
+      "cross_tolerance": ["diphenhydramine", "doxylamine", "promethazine", "hydroxyzine"],
+      "withdrawal_syndrome": "No formal withdrawal syndrome. Chronic users (e.g. for sleep) may report rebound insomnia and anxiety on cessation, lasting 2-7 days.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "hERG (Kv11.1)",
+        "ki_or_ic50_nm": 15600,
+        "concern_level": "moderate",
+        "clinical_consequence": "IC50 15.6 µM at 0 mV in Xenopus oocytes (Hong & Jo 2009); authors estimate ~2 µM IC50 in mammalian (HEK/cardiomyocyte) systems. Therapeutic free plasma chlorpheniramine is 12.5–30 nM, giving a ~70× safety margin in normal use. Overdose plasma concentrations of 1.25–2.75 µM approach hERG IC50 and have been associated with prolonged QT and wide-QRS arrhythmia.",
+        "reference": "pmid:19885040 (doi:10.4196/kjpp.2009.13.3.215)"
+      },
+      {
+        "target": "Nav1.5 (cardiac sodium channel)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Class IA-like sodium channel block contributes to wide-QRS and Brugada-pattern ECG findings in massive overdose; treated with hypertonic sodium bicarbonate. Quantitative Nav1.5 IC50 not separately characterised in mammalian patch-clamp.",
+        "reference": "ncbi:books/NBK534844 (StatPearls — Sodium Channel Blocker Toxicity)"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Children clear chlorpheniramine faster than adults (shorter t1/2 ~10-13 h vs 20-28 h adult); elderly show prolonged t1/2 and elevated steady-state concentrations.",
+      "weight": null,
+      "renal_or_hepatic": "Renal failure modestly prolongs t1/2 due to reduced metabolite clearance; severe hepatic impairment substantially reduces clearance (CYP2D6 hepatic)."
+    },
+    "tags_to_add": ["H1-inverse-agonist", "SERT-inhibitor-clinically-relevant", "CYP2D6-substrate", "hERG-moderate-overdose-only", "stereoselective-pharmacology"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Primary source for individual M1-M5 Ki values (PDSP compendium values cited; original Bolden 1992 / Stanton 1993 papers not directly accessed)",
+      "No human PET occupancy curve at multiple doses",
+      "No fraction of clearance per CYP isoform quantified"
+    ],
+    "notes": "Chlorpheniramine is unusual among first-generation antihistamines for its potent SERT activity (Ki 15.2 nM) — comparable to some marketed SSRIs — and its weak muscarinic activity (Ki >15 µM at M1-M5). It is the H1 antagonist most often implicated in case-reported serotonin syndrome with SSRIs. The 'anticholinergic' grouping is partially misleading: chlorpheniramine's anticholinergic load is modest compared to diphenhydramine, hydroxyzine, or promethazine. Stereoselectivity is pharmacologically meaningful — dexchlorpheniramine alone is marketed in some regions and is ~80× more H1-potent than the (R)-(-) enantiomer.",
+    "references_consulted": [
+      "pmid:7714409",
+      "pmid:11994058",
+      "pmid:7106172",
+      "pmid:19885040",
+      "pmid:16413139",
+      "pmid:9482876",
+      "https://pdsp.unc.edu/databases/kidb.php",
+      "https://en.wikipedia.org/wiki/Chlorphenamine"
+    ]
+  },
+  {
+    "name": "Promethazine",
+    "aliases_added": ["Phenergan", "Promethegan", "Pipolphen", "Romergan", "promethazine HCl"],
+    "iupac_name": "N,N-dimethyl-1-(10H-phenothiazin-10-yl)propan-2-amine",
+    "smiles": "CC(CN1C2=CC=CC=C2SC2=CC=CC=C12)N(C)C",
+    "inchikey": "PWWVAXIEGOYWEE-UHFFFAOYSA-N",
+    "cas": "60-87-7",
+    "pubchem_cid": 4927,
+    "class_context_id": "anticholinergic_deliriants_h1_blockers",
+    "pharmacology": {
+      "primary_targets": ["H1", "mACh (M1-M5)", "D2", "5-HT2A", "5-HT2C", "α1-adrenergic", "hERG (Kv11.1)"],
+      "binding": [
+        {
+          "target": "H1",
+          "ki_nm": 1.4,
+          "ki_ci_nm": [0.33, 1.4],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "histamine",
+          "action": "inverseAgonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H1 receptor (recombinant)",
+          "radioligand_or_probe": "[3H]-mepyramine (typical)",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "Sub-nM (0.33 nM) reported in some assays; 1-2 nM is the most commonly cited consensus. Behaves as inverse agonist (stabilises inactive H1 conformation) as for all first-gen H1 antagonists."
+        },
+        {
+          "target": "H2",
+          "ki_nm": 1146,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human H2",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M1",
+          "ki_nm": 3.32,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M1",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2884340 (Yasuda et al., Antimuscarinic effects of antihistamines; Mol Pharmacol)",
+          "is_review": false,
+          "notes": "Promethazine is the most potent muscarinic antagonist among the common first-gen antihistamines — comparable to atropine at M1 (~1 nM)."
+        },
+        {
+          "target": "M2",
+          "ki_nm": 12,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M2",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M3",
+          "ki_nm": 4.15,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M3",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M4",
+          "ki_nm": 1.06,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M4",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M5",
+          "ki_nm": 3.31,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human M5",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "D2",
+          "ki_nm": 260,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D2",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "D2 affinity is moderate but clinically meaningful — explains the antiemetic action via chemoreceptor trigger zone and the rare extrapyramidal symptoms (dystonia, akathisia) reported with parenteral promethazine."
+        },
+        {
+          "target": "D3",
+          "ki_nm": 190,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human D3",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 19,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2A",
+          "radioligand_or_probe": "[3H]-ketanserin (typical for PDSP)",
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 6.48,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "cloned human 5-HT2C",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "5-HT2C antagonism may contribute to anxiolytic and orexigenic properties."
+        },
+        {
+          "target": "α1A",
+          "ki_nm": 32,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "cloned rat α1A",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": "α1 blockade explains the orthostatic hypotension seen with parenteral promethazine."
+        },
+        {
+          "target": "α1B",
+          "ki_nm": 21,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "antagonist",
+          "species": "rat",
+          "tissue_or_cell": "cloned rat α1B",
+          "radioligand_or_probe": null,
+          "assay_buffer_notes": null,
+          "reference": "https://pdsp.unc.edu/databases/kidb.php",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "hERG",
+          "readout": "patch-clamp current block",
+          "ec50_nm": 1460,
+          "emax_pct": null,
+          "reference_agonist": null,
+          "species": "human",
+          "cell_system": "HEK293 stably expressing hERG, 36°C, +20 mV step protocol",
+          "reference": "doi:10.1016/j.phrs.2009.05.008 (Jo SH et al. — Promethazine directly blocks hERG K+ channel; Pharmacol Res 2009)"
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Inverse agonist at H1 (Gαq → PLCβ → IP3/DAG); silent antagonist at M1-M5 (Gq for M1/M3/M5; Gi for M2/M4). At 5-HT3 promethazine acts as a non-competitive channel blocker contributing to its antiemetic effect (separately from D2 antagonism). The phenothiazine ring is responsible for the broad off-target polypharmacology.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 25,
+          "cmax_ng_per_ml": 17,
+          "tmax_min": 165,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 720,
+          "vd_l_per_kg": 13.4,
+          "clearance_ml_per_min_per_kg": 17,
+          "protein_binding_pct": 93,
+          "dose_in_study_mg": 50,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults",
+          "reference": "medscape:406904 (Pharmacokinetics of promethazine HCl, Strenkoski-Nix et al. 2000); Wikipedia/StatPearls compendium",
+          "notes": "Although >80% of an oral dose is absorbed, first-pass hepatic glucuronidation and sulfoxidation reduce absolute bioavailability to ~25%. Cmax from 25-50 mg oral 11-23 ng/mL; Tmax 2-3 h."
+        },
+        {
+          "route": "intramuscular",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 150,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 588,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 93,
+          "dose_in_study_mg": 25,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults",
+          "reference": "ncbi:books/NBK544361 (StatPearls — Promethazine)",
+          "notes": "Mean t1/2 9.8 ± 3.4 h IM. Higher Cmax than oral due to bypass of first-pass."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 0,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 750,
+          "vd_l_per_kg": 13.4,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 93,
+          "dose_in_study_mg": 25,
+          "subject_n": null,
+          "subject_demographics": "Healthy adults",
+          "reference": "medscape:406904",
+          "notes": "IV t1/2 9-16 h. IV promethazine carries FDA black-box warning for severe tissue injury including gangrene if extravasation occurs."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "Sedation onset",
+          "concentration_unit": "ng/mL",
+          "threshold": 10,
+          "peak_effect": 20,
+          "reference": "ncbi:books/NBK544361"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "ring-hydroxylated promethazine (3-hydroxypromethazine and others)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8946477 (Nakamura K et al. — CYP2D6 is the principal cytochrome P450 responsible for metabolism of the histamine H1 antagonist promethazine in human liver microsomes; J Pharmacol Exp Ther 1996)"
+      },
+      {
+        "enzyme": "flavin monooxygenase (FMO) / CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "promethazine sulfoxide (S-oxidized)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:8946477"
+      },
+      {
+        "enzyme": "CYP2D6 / CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "desmethylpromethazine (N-demethylated)",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:8946477"
+      },
+      {
+        "enzyme": "UGT (glucuronidation)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "promethazine N-glucuronide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "Wikipedia/StatPearls compendium"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "CYP2D6 inhibitors (paroxetine, fluoxetine, bupropion, quinidine)",
+        "mechanism": "CYP2D6 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Reduced clearance, prolonged sedation, increased anticholinergic burden",
+        "reference": "pmid:8946477"
+      },
+      {
+        "with": "opioids (especially codeine + promethazine 'lean')",
+        "mechanism": "additive CNS/respiratory depression; CYP2D6 substrate competition (codeine→morphine activation may be impaired)",
+        "ki_um": null,
+        "clinical_effect": "Synergistic respiratory depression; the 'purple drank' / 'lean' (promethazine-codeine syrup) culture is associated with multiple fatalities largely from respiratory arrest.",
+        "reference": "ncbi:books/NBK544361"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP2D6"],
+      "phenotype_effects": "CYP2D6 poor metabolisers have markedly reduced clearance of ring-hydroxylation and N-demethylation pathways; expected to have 2-3× higher AUC and steady-state concentrations than EMs. UMs may have subtherapeutic plasma concentrations but are rarely characterised because promethazine is not titrated to a target.",
+      "reference": "pmid:8946477"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Sedation tolerance develops over 1-2 weeks of chronic use; no formal receptor occupancy/downregulation studies for promethazine specifically.",
+      "cross_tolerance": ["chlorpheniramine", "diphenhydramine", "doxylamine", "hydroxyzine", "low-potency phenothiazine antipsychotics"],
+      "withdrawal_syndrome": "Not formally characterised. Chronic high-dose recreational users (e.g. 'lean' culture) may report rebound insomnia, anxiety, and dystonia/restless legs (D2 receptor upregulation) on cessation.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "hERG (Kv11.1)",
+        "ki_or_ic50_nm": 1460,
+        "concern_level": "high",
+        "clinical_consequence": "IC50 1.46 µM (HEK293, 36°C, +20 mV); APD90 prolongation in guinea pig ventricular myocytes IC50 0.73 µM. Clinical exposure at therapeutic doses (peak free conc ~1-2 nM) is well below this, but supratherapeutic / 'lean' culture doses (often 240-480 mL syrup = 240-480 mg promethazine) drive plasma concentrations into the µM range. Multiple reports of QT prolongation and torsades; FDA labelling carries QT warning. Notably, despite hERG block, transmural dispersion of repolarisation is preserved → clinical torsades risk lower than expected from in vitro data.",
+        "reference": "doi:10.1016/j.phrs.2009.05.008"
+      },
+      {
+        "target": "Nav1.5 (cardiac sodium channel)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Phenothiazines have well-documented sodium channel block contributing to QRS widening in overdose; promethazine specifically less quantitatively characterised than chlorpromazine but shares the structural feature.",
+        "reference": "ncbi:books/NBK534844"
+      },
+      {
+        "target": "5-HT3",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Non-competitive channel block at 5-HT3 contributes to antiemetic effect (in addition to D2 antagonism).",
+        "reference": "pmid:rxhero compendium"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Children — particularly under 2 years — have a black-box warning for fatal respiratory depression after promethazine. Elderly have prolonged clearance and increased delirium risk (Beers criteria — avoid).",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment substantially prolongs clearance; renal impairment has modest effect (renal excretion is minor pathway)."
+    },
+    "tags_to_add": ["H1-inverse-agonist", "potent-anticholinergic", "D2-antagonist", "hERG-strong", "Beers-criteria-avoid-elderly", "FDA-black-box-pediatric-respiratory-depression", "FDA-black-box-IV-tissue-injury"],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Quantitative Nav1.5 IC50 for promethazine specifically",
+      "Fraction of clearance per CYP isoform not quantified",
+      "No PET H1 occupancy data published for promethazine"
+    ],
+    "notes": "Promethazine is a phenothiazine — chemically related to chlorpromazine and other antipsychotics — and inherits the polypharmacology: potent H1 (~1 nM), potent muscarinic (1-12 nM at all subtypes — among the most potent anticholinergic antihistamines), moderate D2 (260 nM), 5-HT2A/2C (6-19 nM), α1 (~25 nM). This breadth explains its multi-modal clinical use (sedative, antiemetic, anti-vertigo, allergy) and its risks: anticholinergic delirium, EPS, hERG-mediated QT prolongation, orthostatic hypotension. The 'lean' recreational use (promethazine-codeine cough syrup) exploits the synergistic sedation; deaths are typically from opioid respiratory depression but promethazine contributes via additive CNS depression and arrhythmogenesis.",
+    "references_consulted": [
+      "pmid:8946477",
+      "pmid:2884340",
+      "doi:10.1016/j.phrs.2009.05.008",
+      "ncbi:books/NBK544361",
+      "https://pdsp.unc.edu/databases/kidb.php",
+      "https://en.wikipedia.org/wiki/Promethazine",
+      "medscape:viewarticle/406904"
+    ]
+  },
+  {
+    "name": "Scopolamine",
+    "aliases_added": ["Hyoscine", "Hyoscine hydrobromide", "Hyoscine butylbromide (peripheral analogue)", "L-scopolamine", "(-)-scopolamine", "Transderm Scōp"],
+    "iupac_name": "[(1S,2R,4R,5S,7s)-9-methyl-3-oxa-9-azatricyclo[3.3.1.02,4]nonan-7-yl] (2S)-3-hydroxy-2-phenylpropanoate",
+    "smiles": "CN1[C@@H]2CC(C[C@H]1[C@H]3[C@@H]2O3)OC(=O)[C@H](CO)C4=CC=CC=C4",
+    "inchikey": "STECJAGHUSJQJN-FWXGHANASA-N",
+    "cas": "51-34-3",
+    "pubchem_cid": 3000322,
+    "class_context_id": "anticholinergic_deliriants_tropane_alkaloids",
+    "pharmacology": {
+      "primary_targets": ["M1", "M2", "M3", "M4", "M5", "5-HT3 (weak)"],
+      "binding": [
+        {
+          "target": "M1",
+          "ki_nm": 0.55,
+          "ki_ci_nm": [0.4, 0.8],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "acetylcholine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 cells expressing cloned human M1",
+          "radioligand_or_probe": "[3H]-N-methylscopolamine ([3H]-NMS)",
+          "assay_buffer_notes": "Standard membrane binding, 25°C; values from Buckley et al. 1989 (CHO-K1 cloned receptors) and PDSP compilations.",
+          "reference": "pmid:2704370 (Buckley NJ et al. — Antagonist binding properties of five cloned muscarinic receptors expressed in CHO-K1 cells; Mol Pharmacol 1989)",
+          "is_review": false,
+          "notes": "Scopolamine is broadly equipotent across M1-M5 in cloned binding assays, with Ki values typically <1 nM at all five subtypes. The 'non-selective' description is accurate at the equilibrium binding level — apparent functional selectivity in vivo arises from differential CNS penetration vs peripheral exposure and from kinetic differences (slower off-rate at some subtypes)."
+        },
+        {
+          "target": "M2",
+          "ki_nm": 0.42,
+          "ki_ci_nm": [0.3, 0.6],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "acetylcholine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 cells expressing cloned human M2",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2704370",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M3",
+          "ki_nm": 0.55,
+          "ki_ci_nm": [0.4, 0.8],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "acetylcholine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 cells expressing cloned human M3",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2704370",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M4",
+          "ki_nm": 0.4,
+          "ki_ci_nm": [0.3, 0.6],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "acetylcholine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 cells expressing cloned human M4",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2704370",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "M5",
+          "ki_nm": 0.55,
+          "ki_ci_nm": [0.4, 0.9],
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "acetylcholine",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "CHO-K1 cells expressing cloned human M5",
+          "radioligand_or_probe": "[3H]-NMS",
+          "assay_buffer_notes": null,
+          "reference": "pmid:2704370",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT3",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 2300,
+          "intrinsic_activity_pct": 0,
+          "reference_agonist": "5-HT",
+          "action": "antagonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stably expressing human 5-HT3A; whole-cell patch clamp",
+          "radioligand_or_probe": "functional electrophysiology",
+          "assay_buffer_notes": null,
+          "reference": "pmid:27077139 (Lummis SCR group — The muscarinic antagonists scopolamine and atropine are competitive antagonists at 5-HT3 receptors; doi:10.1111/jnc.13628)",
+          "is_review": false,
+          "notes": "Competitive 5-HT3 antagonism (IC50 ~2 µM) — likely contributes to scopolamine's modest antiemetic action independent of muscarinic block, particularly in motion sickness."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Pan-muscarinic antagonism: blocks Gαq/PLCβ at M1/M3/M5 (postsynaptic, predominantly cortical/hippocampal/glandular) and Gαi/AC inhibition at M2/M4 (presynaptic autoreceptors). In the PFC, M1 antagonism on GABAergic interneurons appears responsible for the rapid disinhibition-driven glutamate surge underlying scopolamine's rapid antidepressant effect (Voleti et al. 2013; Witkin et al. 2014). The same M1 antagonism in cortex/hippocampus drives the well-known memory impairment and delirium at higher doses.",
+      "neuroimaging": [
+        {
+          "modality": "EEG",
+          "finding": "Scopolamine produces characteristic increase in delta and theta power and decrease in alpha/beta — the 'cholinergic deficit EEG' signature also seen in Alzheimer's disease, supporting its use as a pharmacological model of AD cognitive impairment.",
+          "reference": "doi:10.1111/j.1365-2125.2011.03936.x (Liem-Moolenaar M et al. — PK-PD relationships of CNS effects of scopolamine in healthy subjects; Br J Clin Pharmacol 2011)"
+        },
+        {
+          "modality": "fMRI",
+          "finding": "0.4 mg scopolamine reduces task-related activation in hippocampus, parahippocampal cortex, and medial prefrontal cortex during memory encoding; effect reversible with donepezil.",
+          "reference": "doi:10.1038/sj.npp.1301448"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": 27,
+          "cmax_ng_per_ml": 0.53,
+          "tmax_min": 30,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 270,
+          "vd_l_per_kg": 1.4,
+          "clearance_ml_per_min_per_kg": 18,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 0.4,
+          "subject_n": 6,
+          "subject_demographics": "6 healthy male subjects",
+          "reference": "doi:10.1023/A:1015916423156 (Putcha L et al. — Pharmacokinetics and oral bioavailability of scopolamine in normal subjects; Pharm Res 1989)",
+          "notes": "Bioavailability ranged 10.7-48.2% — highly variable. Cmax 528.6 ± 109.4 pg/mL. Oral PO is unreliable; transdermal or parenteral routes preferred for clinical use."
+        },
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": 2.91,
+          "tmax_min": 5,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 90,
+          "vd_l_per_kg": 1.4,
+          "clearance_ml_per_min_per_kg": 18,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 0.4,
+          "subject_n": 6,
+          "subject_demographics": "Healthy subjects",
+          "reference": "pmid:16175141 (Renner UD, Oertel R, Kirch W — Pharmacokinetics and pharmacodynamics in clinical use of scopolamine; Ther Drug Monit 2005)",
+          "notes": "Mean Cmax 2909.8 ± 240.9 pg/mL after 0.4 mg IV; mean terminal t1/2 ~1.5 h IV (range 1.2-2.5 h). Plasma declines biexponentially with rapid distribution phase."
+        },
+        {
+          "route": "transdermal",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 0.1,
+          "tmax_min": 480,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 1.5,
+          "subject_n": null,
+          "subject_demographics": "Adult patients/healthy adults",
+          "reference": "pmid:16175141",
+          "notes": "1.5 mg Transderm Scōp patch delivers ~0.5 mg over 72 h; steady-state plasma 56-245 pg/mL maintained over 72 h. Protective effect emerges 6-8 h after application; clinically used for motion sickness and post-operative nausea."
+        },
+        {
+          "route": "intranasal",
+          "bioavailability_pct": 70,
+          "cmax_ng_per_ml": 1.0,
+          "tmax_min": 78,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 0.4,
+          "subject_n": 12,
+          "subject_demographics": "12 healthy adults, randomised crossover",
+          "reference": "pmid:25187210 (Wu et al. — Dose escalation pharmacokinetics of intranasal scopolamine gel; J Clin Pharmacol 2015)",
+          "notes": "Intranasal gel 0.1, 0.2, 0.4 mg showed linear PK; Tmax ~1.3 h. Higher bioavailability than oral by bypassing first-pass."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "Anti-motion-sickness efficacy threshold (plasma)",
+          "concentration_unit": "pg/mL",
+          "threshold": 50,
+          "peak_effect": 100,
+          "reference": "pmid:16175141"
+        },
+        {
+          "effect": "Memory impairment (delayed recall)",
+          "concentration_unit": "ng/mL",
+          "threshold": 0.5,
+          "peak_effect": 2,
+          "reference": "doi:10.1111/j.1365-2125.2011.03936.x"
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "demethylscopolamine + hydroxylated metabolites",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:16175141"
+      },
+      {
+        "enzyme": "Renal (unchanged)",
+        "fraction_of_clearance_pct": 2.6,
+        "metabolite_name": null,
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "pmid:16175141"
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "grapefruit juice (CYP3A4 inhibition, intestinal)",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased oral scopolamine AUC by reducing first-pass metabolism — clinically observed.",
+        "reference": "pmid:16175141"
+      },
+      {
+        "with": "ketoconazole / itraconazole / clarithromycin (strong CYP3A4 inhibitors)",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Expected increase in scopolamine exposure; formal interaction studies sparse",
+        "reference": "pmid:16175141"
+      },
+      {
+        "with": "donepezil / rivastigmine / physostigmine (AChE inhibitors)",
+        "mechanism": "Pharmacodynamic antagonism (raise synaptic ACh to outcompete scopolamine)",
+        "ki_um": null,
+        "clinical_effect": "Reverses scopolamine-induced delirium, memory impairment, and tachycardia. Physostigmine is the antidote of choice for anticholinergic toxidrome.",
+        "reference": "pmid:25339374 (Physostigmine is the antidote for anticholinergic syndrome)"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": ["CYP3A4", "CYP3A5"],
+      "phenotype_effects": "CYP3A5*1 carriers (expressers) may have somewhat faster clearance; no formal large-cohort PK study published. CYP3A4 induction (rifampin, phenytoin) will reduce scopolamine exposure; inhibition (azoles, macrolides, grapefruit) increases it.",
+      "reference": "pmid:16175141"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Chronic scopolamine in animal models produces muscarinic receptor upregulation (compensatory) within ~5-7 days. In humans, tolerance to the sedating and anti-motion-sickness effects develops over days; tolerance to memory-impairment effects is incomplete.",
+      "cross_tolerance": ["atropine", "hyoscyamine", "benztropine", "diphenhydramine (partial)", "promethazine (partial)"],
+      "withdrawal_syndrome": "Discontinuation after sustained transdermal use (>72 h) can produce a rebound syndrome with dizziness, nausea, headache, sweating, abdominal cramps, and bradycardia (cholinergic rebound) lasting 1-3 days. Most pronounced when patches are abruptly stopped after multi-week scuba-diving or post-surgical use.",
+      "reference": "pmid:16175141"
+    },
+    "off_targets": [
+      {
+        "target": "hERG (Kv11.1)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Scopolamine is not a clinically significant hERG blocker at therapeutic concentrations. Tachycardia and modest QT changes in overdose are predominantly mediated by vagal withdrawal (M2 blockade on SA node) rather than direct ion channel block.",
+        "reference": null
+      },
+      {
+        "target": "Nicotinic acetylcholine receptor (nAChR)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Weak nAChR antagonism at high concentrations (µM range); not clinically relevant at therapeutic doses.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women have somewhat greater sensitivity to CNS effects (memory, sedation) at equivalent plasma concentrations; mechanism unclear, possibly progesterone modulation of muscarinic signaling. No major PK sex difference.",
+      "age": "Elderly are markedly more sensitive to delirium-inducing effects (Beers criteria — avoid). Pediatric patients show paradoxical excitement and severe anticholinergic toxicity at lower doses; transdermal scopolamine is contraindicated in children <12.",
+      "weight": null,
+      "renal_or_hepatic": "Renal impairment has minor effect (only 2.6% excreted unchanged); hepatic impairment (CYP3A4) substantially prolongs clearance."
+    },
+    "tags_to_add": ["tropane-alkaloid", "M1-pan-muscarinic-antagonist", "CYP3A4-substrate", "BBB-penetrant-high", "antidepressant-rapid-investigational", "Beers-criteria-avoid-elderly", "physostigmine-reversible"],
+    "tags_to_remove": ["tentative"],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Specific PDSP Ki values for scopolamine at human M1-M5 — primary Buckley 1989 paper not directly accessed (PDSP compilation values used)",
+      "No published hERG IC50 for scopolamine",
+      "Pediatric PK studies very limited"
+    ],
+    "notes": "Scopolamine is the prototypical CNS-penetrant tropane alkaloid muscarinic antagonist — the high BBB permeability of the parent compound (vs the quaternary peripheral analogues N-butylscopolamine/hyoscine butylbromide and glycopyrrolate) is what distinguishes it. Acts as a non-selective M1-M5 antagonist in binding assays (~0.4-0.6 nM at all subtypes), but its clinical CNS-selectivity profile vs atropine is mostly explained by its higher CNS:peripheral concentration ratio (3-4× atropine's) and greater oral CNS-side-effect profile. The rapid antidepressant action (Drevets / Furey trials, 4 µg/kg IV) appears M1-mediated via PFC GABAergic interneuron disinhibition → glutamate surge → BDNF → mTORC1 — similar final pathway to ketamine. The deliriant profile at recreational doses (oral 1-4 mg, or seeds of Datura/Brugmansia) reflects pan-cortical M1 antagonism producing true (non-insight) hallucinations and amnesia. Datura/Brugmansia content is unpredictable: scopolamine/hyoscyamine/atropine ratios vary 10-40× between specimens, seasons, soils, and plant parts, making botanical preparations exceptionally dangerous.",
+    "references_consulted": [
+      "pmid:2704370",
+      "pmid:16175141",
+      "doi:10.1023/A:1015916423156",
+      "pmid:25187210",
+      "pmid:27077139",
+      "pmid:25339374",
+      "pmid:26955968",
+      "doi:10.1111/j.1365-2125.2011.03936.x",
+      "https://en.wikipedia.org/wiki/Scopolamine",
+      "https://pdsp.unc.edu/databases/kidb.php"
+    ]
+  },
+  {
+    "name": "Jenkem",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "anticholinergic_deliriants_misc_hoax",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Not applicable. 'Jenkem' is an unverified preparation of fermented human waste (faeces and/or urine), the fumes of which are allegedly inhaled for psychoactive effect. There is no defined active pharmaceutical ingredient. Putative volatile constituents of anaerobic faecal fermentation include hydrogen sulfide (H2S), methane (CH4), ammonia (NH3), volatile organic acids, indole, skatole, and methyl mercaptan — none of these are recognised hallucinogens. H2S at very high concentrations causes CNS depression and is acutely toxic (cytochrome c oxidase inhibition); ammonia causes mucosal injury. No coherent pharmacological mechanism for euphoria or hallucination has been proposed in the peer-reviewed literature.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "Inhalational toxicity (H2S, NH3, methyl mercaptan, biological pathogens)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "If actually inhaled, fecal fermentation gases pose risks of cytotoxic anoxia (H2S → cytochrome c oxidase inhibition), respiratory irritation, and bacterial / viral / parasitic infection from aerosolised pathogens (enteric bacteria, hepatitis A, helminth ova). No evidence of meaningful psychoactivity.",
+        "reference": "https://en.wikipedia.org/wiki/Jenkem"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": ["hoax-or-urban-legend", "no-known-active-pharmacology", "not-recommended-classification-as-anticholinergic-deliriant"],
+    "tags_to_remove": ["tentative"],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No peer-reviewed pharmacology",
+      "No analytical chemistry characterising 'jenkem' preparations",
+      "Most authoritative sources (Snopes, toxicology reviews) classify it as urban legend / media hoax with isolated, unverified African street-children case reports"
+    ],
+    "notes": "Jenkem does NOT belong in the anticholinergic-deliriants category. It is not an anticholinergic compound and likely does not produce reliable psychoactive effects at all. Origin: 2007 US media panic based on a 1995 BBC report about Zambian street children — the actual psychoactive substance abused by those children was overwhelmingly inhalant solvents (glue, petrol), not faecal gas. Recommendation: remove Jenkem from the substance database, or reclassify under 'hoax/unverified substances' if retention is needed for harm-reduction education purposes. If retained: warning copy should emphasise (a) likely hoax status, (b) genuine biological/chemical inhalation risks if attempted, (c) no expected psychoactive benefit.",
+    "references_consulted": [
+      "https://en.wikipedia.org/wiki/Jenkem",
+      "https://www.snopes.com/fact-check/jenkem/",
+      "abcnews:Health/Drugs/story?id=3834092"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_h1_blockers",
+    "class_name": "First-generation H1 antihistamines with anticholinergic deliriant activity (ethanolamine, alkylamine, and phenothiazine subclasses)",
+    "shared_mechanism": "First-generation H1 antihistamines are lipophilic, brain-penetrant inverse agonists of the constitutively active H1 histamine receptor (Gαq → PLCβ → IP3/DAG). Their 'deliriant' / sedative profile is the combined result of (a) H1 inverse agonism in the tuberomammillary-cortical arousal system (sedation), and (b) variable but clinically meaningful muscarinic M1-M5 antagonism on cortical/hippocampal/PNS muscarinic receptors (anticholinergic delirium, dry mouth, tachycardia, urinary retention). Recreational use typically exploits the muscarinic action at supratherapeutic doses (e.g. diphenhydramine 500-1500 mg) to produce true hallucinations (Lilliputian, conversation with absent persons, indistinguishable from reality). Phenothiazine antihistamines (promethazine) add D2, 5-HT2, α1 antagonism. The class shares 'anticholinergic toxidrome': hyperthermia, mydriasis, dry mucous membranes, urinary retention, ileus, agitated delirium, seizures, and — at higher concentrations — cardiotoxicity via combined hERG (Kv11.1) and Nav1.5 (cardiac sodium channel) block.",
+    "shared_pk_summary": "All members are weak bases (pKa 8-10), highly lipophilic, well absorbed orally but undergoing substantial first-pass hepatic metabolism (bioavailability 25-50%). Vd typically 3-15 L/kg (extensive tissue distribution). Protein binding 70-95% (predominantly albumin). Hepatic metabolism is dominated by CYP2D6 (chlorpheniramine, diphenhydramine, promethazine) with secondary CYP3A4/UGT pathways. Half-lives 8-30 h. CYP2D6 PMs (~7% of European-ancestry populations) show 2-3× higher AUC and prolonged sedation.",
+    "shared_safety": "Class hazards: (1) Anticholinergic delirium — particularly dangerous in elderly (Beers criteria avoid). (2) Cardiotoxicity in overdose: combined hERG block → QT prolongation/torsades + Nav1.5 block → wide QRS/Brugada-like ECG. Treated with hypertonic sodium bicarbonate (for sodium channel toxicity) and magnesium (for torsades). (3) Pediatric respiratory depression (promethazine FDA black box <2 y/o). (4) Serotonergic syndrome risk with chlorpheniramine + SSRI (SERT inhibition). (5) Hyperthermia & rhabdomyolysis at recreational doses. Antidote for anticholinergic delirium: physostigmine 0.5-2 mg IV (contraindicated if QRS prolonged or AV block). Sodium channel toxicity: not antidoted by physostigmine — physostigmine may worsen cardiac toxicity.",
+    "sar_summary": "Ethanolamines (diphenhydramine, doxylamine, dimenhydrinate) have ether/amine linker giving strong H1 affinity (Ki 5-20 nM) and intermediate muscarinic affinity (Ki 50-200 nM at M1). Alkylamines (chlorpheniramine, brompheniramine, pheniramine) are propylamine-linked, more H1-selective (Ki 1-5 nM) with weak muscarinic affinity (Ki 10-50 µM at M1) — but pick up potent SERT activity (Ki 15-30 nM) from the diphenylmethane → propylamine geometry. Phenothiazines (promethazine) inherit the antipsychotic-like polypharmacology of the phenothiazine ring (D2, 5-HT2, α1, plus very potent muscarinic ~1-12 nM at all subtypes). Replacing the tertiary amine with quaternary nitrogen (loratadine N-oxide → fexofenadine derivatives) removes BBB penetration → 'second-generation' non-sedating antihistamines.",
+    "key_references": [
+      "pmid:11994058",
+      "pmid:8946477",
+      "pmid:2884340",
+      "pmid:19885040",
+      "doi:10.1016/j.phrs.2009.05.008",
+      "pmid:25339374",
+      "ncbi:books/NBK534844",
+      "https://pdsp.unc.edu/databases/kidb.php"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_tropane_alkaloids",
+    "class_name": "Tropane alkaloid muscarinic antagonists (Solanaceae alkaloids — scopolamine, atropine, hyoscyamine)",
+    "shared_mechanism": "Tropane-alkaloid muscarinic antagonists (atropine, scopolamine/hyoscine, hyoscyamine, anisodamine) are pan-muscarinic (M1-M5) competitive antagonists with sub-nanomolar to low-nanomolar Ki at all five subtypes. They are largely non-selective at equilibrium binding, but exhibit clinically meaningful functional differences driven by (a) lipophilicity (scopolamine > atropine > hyoscine butylbromide → CNS:peripheral ratio), (b) tissue distribution kinetics, and (c) the chirality of the tropic-acid ester (L-hyoscyamine is the pharmacologically active enantiomer; racemic atropine is half-strength). Block of muscarinic transmission in cortex/hippocampus produces 'true' deliriant hallucinations (Lilliputian, no insight, no critical distance from the experience), profound antegrade amnesia, and disorientation. Peripheral block produces classic 'mad as a hatter, red as a beet, hot as a hare, dry as a bone, blind as a bat' anticholinergic toxidrome.",
+    "shared_pk_summary": "Tropane alkaloids are weak bases (pKa ~9.7), lipophilic at physiological pH (atropine logP 1.8; scopolamine logP 1.2). Oral bioavailability 10-50% (variable due to first-pass and gut wall metabolism). Vd ~1-2 L/kg. CYP3A4 is the dominant metabolic pathway. Renal excretion of unchanged drug is small (1-5%). Half-lives are short: scopolamine 4-5 h (oral, longer transdermal), atropine 2-4 h. Notably shorter than the antihistamines — repeated dosing of scopolamine is uncommon clinically except via the 72-h transdermal patch.",
+    "shared_safety": "Class hazards: (1) Anticholinergic delirium with true hallucinations; recovery takes 24-72 h (longer than the parent compound's t1/2, suggesting active metabolites or post-receptor recovery kinetics). (2) Hyperthermia/heatstroke from sweat-gland blockade — particularly dangerous in summer / physical exertion. (3) Severe agitation requiring physical restraint or sedation — benzodiazepines preferred. (4) Physostigmine is antidote (peripheral + central AChE inhibitor; ~0.5-2 mg IV slow push). (5) Botanical preparations (Datura, Brugmansia, Atropa belladonna, Hyoscyamus) are exceptionally dangerous: scopolamine/atropine/hyoscyamine ratios vary 10-40× between specimens, plant parts (seeds richest), seasons, and geographies — no reliable dose estimation possible. Lethal doses estimated 10-100 mg atropine equivalent (highly variable). (6) Pediatric patients show paradoxical excitement and lower toxic thresholds.",
+    "sar_summary": "All tropane mAChR antagonists share the tropane bicyclic core (8-azabicyclo[3.2.1]octane) esterified with tropic acid (or substituted phenylpropanoic acid). The 6,7-epoxide differentiates scopolamine from atropine and confers greater CNS:peripheral ratio (more lipophilic, faster BBB equilibration). Quaternisation of the tropane nitrogen (e.g. atropine methylnitrate, hyoscine butylbromide) abolishes BBB penetration, producing peripheral-only antimuscarinics used for GI/biliary spasm without CNS delirium. Tropic acid stereochemistry: (S)-tropic acid (in L-hyoscyamine) is the active enantiomer; (R)-tropic acid has ~100× weaker muscarinic affinity. Racemisation of L-hyoscyamine during extraction/processing produces atropine (DL-hyoscyamine), halving potency by mass. Glycopyrrolate (synthetic quaternary) has the inverse CNS:peripheral profile of scopolamine — no CNS penetration, used for anesthesia premedication and sialorrhea.",
+    "key_references": [
+      "pmid:2704370",
+      "pmid:16175141",
+      "doi:10.1023/A:1015916423156",
+      "pmid:25339374",
+      "pmid:25187432",
+      "pmid:26955968",
+      "https://en.wikipedia.org/wiki/Scopolamine"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "anticholinergic_deliriants_misc_hoax",
+    "class_name": "Unverified/hoax inhalants miscategorised as deliriants",
+    "shared_mechanism": "No verified pharmacology. Substances in this informal category (jenkem being the canonical example) lack a defined active ingredient, peer-reviewed binding data, or analytical chemistry. The 'class' exists only as a residual bucket for substance-list entries that survived from earlier database curation without sufficient evidence base to remove.",
+    "shared_pk_summary": "Not applicable — no characterised active.",
+    "shared_safety": "Inhalation of putrefaction gases poses real chemical (H2S, NH3) and biological (enteric pathogens) hazards but does not produce predictable psychoactive effects.",
+    "sar_summary": "Not applicable.",
+    "key_references": [
+      "https://en.wikipedia.org/wiki/Jenkem",
+      "https://www.snopes.com/fact-check/jenkem/"
+    ]
+  }
+]

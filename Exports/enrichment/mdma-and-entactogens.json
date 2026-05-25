@@ -1,0 +1,5403 @@
+[
+  {
+    "name": "MDMA",
+    "aliases_added": [
+      "midomafetamine",
+      "(±)-MDMA",
+      "(RS)-MDMA"
+    ],
+    "iupac_name": "(RS)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+    "smiles": "CC(NC)Cc1ccc2OCOc2c1",
+    "inchikey": "SHXWCVYOXRDMCX-UHFFFAOYSA-N",
+    "cas": "42542-10-9",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT",
+        "VMAT2",
+        "5-HT2A",
+        "5-HT2B",
+        "TAAR1"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ki_nm": null,
+          "ec50_nm": 5630,
+          "ec50_ci_nm": [
+            3500,
+            9200
+          ],
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stably expressing human SERT, release of preloaded [3H]-5-HT",
+          "radioligand_or_probe": "[3H]-5-HT efflux",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Simmler et al 2013, human transporter. Note that rat synaptosome assays (Baumann/Rothman) give SERT release EC50 ~75 nM — 70× more potent. The species difference is real and matters."
+        },
+        {
+          "target": "DAT",
+          "ki_nm": null,
+          "ec50_nm": 22000,
+          "ec50_ci_nm": [
+            8900,
+            53000
+          ],
+          "intrinsic_activity_pct": null,
+          "reference_agonist": null,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 stably expressing human DAT",
+          "radioligand_or_probe": "[3H]-dopamine efflux",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Rat synaptosome: 154 nM (much more potent at rat DAT)."
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 1360,
+          "ic50_ci_nm": [
+            1000,
+            2000
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hSERT, [3H]-5-HT uptake",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 447,
+          "ic50_ci_nm": [
+            330,
+            600
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hNET, [3H]-NE uptake",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "MDMA is most potent at NET — explains the sympathomimetic profile."
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 17000,
+          "ic50_ci_nm": [
+            12000,
+            24000
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hDAT",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 7800,
+          "action": "agonist",
+          "intrinsic_activity_pct": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 stably expressing h5-HT2A",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Weak partial agonist. Functional data: 5-HT2A activation contributes little at clinical doses."
+        },
+        {
+          "target": "5-HT2B",
+          "ki_nm": 500,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "h5-HT2B cloned receptor, [3H]-LSD binding",
+          "reference": "pmid:12649569",
+          "is_review": false,
+          "notes": "Setola & Roth 2003. 5-HT2B agonism is the proposed mechanism of MDMA-associated valvular heart disease (fenfluramine-like). Active metabolite MDA is more potent at 5-HT2B (Ki ~100 nM)."
+        },
+        {
+          "target": "5-HT1A",
+          "ki_nm": 12200,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT1A",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "TAAR1",
+          "ki_nm": 370,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 stably expressing rat TAAR1",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Human TAAR1 affinity is much weaker for amphetamines; rat data is not a good predictor."
+        },
+        {
+          "target": "α2A-adrenergic",
+          "ki_nm": 15000,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 hα2A",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": null
+        }
+      ],
+      "functional": [
+        {
+          "target": "5-HT2A",
+          "readout": "PIP2 hydrolysis / IP1 accumulation",
+          "ec50_nm": null,
+          "emax_pct": null,
+          "reference_agonist": "5-HT",
+          "species": "human",
+          "cell_system": "HEK293",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "notes": "Racemic and S-MDMA show weak partial agonism; R-MDMA has negligible functional activity despite higher binding affinity. Stereoselective dissociation between binding and function."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MDMA is primarily a transporter substrate, not a GPCR agonist of significance. It enters cells via DAT/NET/SERT, then triggers reverse transport (efflux) of monoamines through the same transporters. Inside the neuron, it also disrupts VMAT2 vesicular storage. The 5-HT release dominates the SSC subjective profile; concurrent NE release drives cardiovascular effects; weak DA release (low at human DAT) contributes to reinforcement. The mechanism-based inhibition of CYP2D6 — via reactive quinone/quinone-methide intermediates from the catechol metabolite HHMA — irreversibly inactivates the enzyme that clears MDMA itself, producing the well-documented nonlinear PK.",
+      "neuroimaging": [
+        {
+          "modality": "fMRI BOLD",
+          "finding": "MDMA (100 mg PO) decreases amygdala reactivity to angry faces and increases ventral striatum response to positive social stimuli",
+          "reference": "doi:10.1038/sj.npp.1301452"
+        },
+        {
+          "modality": "PET ([11C]-DASB)",
+          "finding": "Chronic heavy MDMA users show reduced SERT availability in cortical and subcortical regions; partial recovery after abstinence",
+          "reference": "doi:10.1001/archpsyc.55.10.946"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 162.9,
+          "tmax_min": 144,
+          "auc_0_inf_ng_h_per_ml": 1833,
+          "half_life_min": 414,
+          "vd_l_per_kg": 5.5,
+          "clearance_ml_per_min_per_kg": 10.3,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 76,
+          "subject_n": 17,
+          "subject_demographics": "8 male, 4 female (mixed); mean age 21.5; mean weight 76.7 kg; dose 1.0 mg/kg",
+          "reference": "doi:10.1097/FTD.0b013e3181a8b626",
+          "notes": "Kolbrich et al 2008. CL/F = 0.62 L/h/kg = ~10.3 mL/min/kg."
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 291.8,
+          "tmax_min": 144,
+          "auc_0_inf_ng_h_per_ml": 3485,
+          "half_life_min": 486,
+          "vd_l_per_kg": 5.5,
+          "clearance_ml_per_min_per_kg": 8.0,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 122,
+          "subject_n": 17,
+          "subject_demographics": "1.6 mg/kg dose; CL drops from 10.3 to 8.0 mL/min/kg between doses — classic nonlinear PK",
+          "reference": "doi:10.1097/FTD.0b013e3181a8b626",
+          "notes": "Doubling the dose more than doubles AUC — the canonical evidence of CYP2D6 mechanism-based inhibition."
+        },
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 236.4,
+          "tmax_min": 120,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "dose_in_study_mg": 125,
+          "subject_n": 8,
+          "subject_demographics": "male",
+          "reference": "doi:10.1046/j.1365-2125.2000.00121.x",
+          "notes": "de la Torre 2000. Cmax at 150 mg = 464.5 ng/mL (almost 2× that of 125 mg)."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "subjective intensity (VAS) and systolic BP increase",
+          "concentration_unit": "ng/mL",
+          "threshold": 50,
+          "peak_effect": 200,
+          "reference": "doi:10.1124/jpet.110.166439",
+          "notes": "Hysteresis observed: peak subjective effects lag peak plasma concentration by ~30-60 min, consistent with active-metabolite contribution and receptor kinetics."
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "HHMA (3,4-dihydroxymethamphetamine)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Primary O-demethylenation pathway. CYP2D6 catalyses the demethylenation that generates the catechol HHMA, which then forms reactive ortho-quinones that covalently bind and inactivate CYP2D6 — this is the mechanism-based inhibition."
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "HHMA",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Minor contribution to demethylenation."
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "MDA",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Primary N-demethylation enzyme — produces active metabolite MDA. CYP2B6 contributes more than CYP2D6 to this pathway."
+      },
+      {
+        "enzyme": "COMT",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "HMMA (4-hydroxy-3-methoxymethamphetamine)",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Methylates HHMA. HMMA is the major urinary metabolite."
+      },
+      {
+        "enzyme": "UGT",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "HMMA-glucuronide, HMMA-sulfate",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Phase II conjugation of HMMA."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "paroxetine",
+        "mechanism": "CYP2D6 inhibition (paroxetine inhibits, MDMA is a 2D6 substrate)",
+        "ki_um": null,
+        "clinical_effect": "Paroxetine pretreatment increases MDMA AUC by ~30% but blunts subjective effects via SSRI block of SERT — net effect is reduced euphoria with higher exposure.",
+        "reference": "doi:10.1038/sj.clpt.6100353"
+      },
+      {
+        "with": "ritonavir",
+        "mechanism": "CYP2D6 + CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Massive AUC increase reported in case reports; fatalities documented in HIV patients combining MDMA with protease inhibitors.",
+        "reference": "pmid:9498768"
+      },
+      {
+        "with": "fluoxetine",
+        "mechanism": "CYP2D6 inhibition + SERT block",
+        "clinical_effect": "Blunts MDMA subjective effects (SERT competition); risk of serotonin syndrome at high combined doses.",
+        "reference": "doi:10.1038/sj.npp.1395075"
+      },
+      {
+        "with": "moclobemide / other MAOIs",
+        "mechanism": "MAO-A inhibition",
+        "clinical_effect": "Severe risk: massive 5-HT accumulation → serotonin syndrome, hyperthermia, fatality. Absolute contraindication.",
+        "reference": "pmid:10605976"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6",
+        "CYP2B6",
+        "COMT",
+        "5-HTTLPR"
+      ],
+      "phenotype_effects": "CYP2D6 PM status modestly increases MDMA exposure (~30% higher Cmax) and prolongs half-life, but the effect is much smaller than expected because MDMA itself rapidly inhibits CYP2D6 — within 1 h of a 100 mg dose, even EMs are functionally phenoconverted to PM status. The auto-inhibition takes ~10 days to resolve (slow CYP2D6 resynthesis). Practical implication: re-dosing within a week stacks exposure unpredictably regardless of genotype. COMT Val/Met polymorphism affects HMMA formation kinetics. 5-HTTLPR short/short carriers report stronger subjective effects.",
+      "reference": "doi:10.3389/fgene.2012.00235"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Acute pharmacodynamic tachyphylaxis within hours of redosing (5-HT pools depleted, SERT downregulated). Chronic SERT downregulation in heavy users shows partial recovery over months of abstinence (PET [11C]-DASB studies).",
+      "cross_tolerance": [
+        "MDA",
+        "MDE",
+        "MBDB",
+        "methylone",
+        "5-APB",
+        "6-APB",
+        "4,4-DMAR",
+        "other SSRA entactogens"
+      ],
+      "withdrawal_syndrome": "No physical withdrawal syndrome. Post-acute 'comedown' (24-72 h) — dysphoria, fatigue, irritability, occasional depressive episodes — reflects depleted 5-HT stores rather than receptor adaptation. Resolves spontaneously; not pathognomonic of dependence.",
+      "reference": "doi:10.1001/archpsyc.55.10.946"
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 500,
+        "concern_level": "moderate",
+        "clinical_consequence": "Cardiac valvular fibrosis with chronic/repeated heavy use (fenfluramine-like mechanism). Epidemiological evidence supports increased VHD risk in regular MDMA users.",
+        "reference": "pmid:12649569"
+      },
+      {
+        "target": "hERG",
+        "ki_or_ic50_nm": null,
+        "concern_level": "low",
+        "clinical_consequence": "Weak hERG block at supratherapeutic concentrations; clinically relevant QT prolongation usually requires overdose or co-ingestion. Hyperthermia from MDMA toxicity is the dominant cardiac concern, not QT.",
+        "reference": "pmid:21692585"
+      },
+      {
+        "target": "VMAT2",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "MDMA disrupts vesicular storage of monoamines. Combined with cytosolic redox stress from MDMA quinone metabolites, this drives the well-characterised serotonergic axonal pruning seen in animal models at high repeated doses.",
+        "reference": "doi:10.1124/jpet.105.085639"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women show ~30-40% higher Cmax and stronger subjective effects per mg/kg, partly explained by lower body water and lower lean body mass. Women also have higher risk of MDMA-associated hyponatremia (combination of SIADH + polydipsia + smaller TBW).",
+      "age": null,
+      "weight": "Fixed-dose protocols (e.g., 125 mg flat) produce wide exposure range — light users get effective ~2 mg/kg, heavy users get ~1 mg/kg. Weight-adjusted dosing is preferred clinically.",
+      "renal_or_hepatic": "Hepatic impairment markedly extends half-life (CYP2D6 inhibition + reduced phase II capacity)."
+    },
+    "tags_to_add": [
+      "5-HT2B-agonist",
+      "CYP2D6-mechanism-based-inhibitor",
+      "nonlinear-PK",
+      "SNDRA",
+      "SSRA-dominant",
+      "Schedule-I"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Exact human 5-HT2B Ki (Setola data sometimes cited as 500 nM, sometimes as higher)",
+      "Quantitative protein binding fraction"
+    ],
+    "notes": "MDMA-assisted therapy for PTSD: MAPS/Lykos submitted NDA Dec 2023 based on MAPP1 (NCT03537014, n=90) and MAPP2 (n=104) Phase 3 trials, both meeting primary endpoint (CAPS-5 reduction vs placebo+therapy). FDA issued Complete Response Letter Aug 2024 citing functional unblinding, AE underreporting, and concerns about therapy delivery — not efficacy. Drug listed in DEA Schedule I; FDA breakthrough designation 2017. The Holze 2024 enantiomer trial (NCT05277636) showed S-MDMA 100 mg ≈ racemic 125 mg ≈ R-MDMA 300 mg for overall effect intensity.",
+    "references_consulted": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1097/FTD.0b013e3181a8b626",
+      "doi:10.1046/j.1365-2125.2000.00121.x",
+      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1038/s41386-024-01972-6",
+      "pmid:12649569",
+      "doi:10.3389/fgene.2012.00235",
+      "doi:10.1177/0269881106065907"
+    ]
+  },
+  {
+    "name": "MDA",
+    "aliases_added": [
+      "EA-1299",
+      "SKF-5",
+      "tenamfetamine"
+    ],
+    "iupac_name": "1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2OCOc2c1",
+    "inchikey": "VLPIATFUUWWMKC-UHFFFAOYSA-N",
+    "cas": "4764-17-4",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT",
+        "5-HT2A",
+        "5-HT2B",
+        "TAAR1"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1016/j.euroneuro.2022.09.005",
+          "is_review": false,
+          "notes": "MDA induces release of 5-HT, DA, and NE. Slightly serotonin-selective vs DA but less so than MDMA (DAT:SERT ratio ≈ 0.36, less SERT-selective than MDMA)."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": "agonist",
+          "intrinsic_activity_pct": null,
+          "species": "rat",
+          "tissue_or_cell": null,
+          "reference": "pmid:8013917",
+          "is_review": false,
+          "notes": "MDA has substantially greater direct 5-HT2A agonist activity than MDMA — this explains its more psychedelic, less prosocial subjective profile. Particularly the (R)-(−)-MDA isomer is more 5-HT2A-active."
+        },
+        {
+          "target": "5-HT2B",
+          "ki_nm": 100,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "h5-HT2B cloned",
+          "reference": "pmid:12649569",
+          "is_review": false,
+          "notes": "5× more potent at 5-HT2B than MDMA. MDA is the major active metabolite of MDMA — chronic MDMA users get repeated 5-HT2B exposure via MDA, driving VHD risk."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Mixed entactogen-psychedelic. Like MDMA, drives transporter-mediated monoamine efflux, but with substantially greater direct postsynaptic 5-HT2A agonism, producing visual/perceptual effects MDMA lacks.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 161,
+          "tmax_min": 90,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 480,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 92,
+          "subject_n": 23,
+          "subject_demographics": "12 women, 11 men; healthy adults; equimolar to 100 mg MDMA",
+          "reference": "doi:10.1038/s41386-025-02248-3",
+          "notes": "Holze 2025 — MDA produces qualitatively more psychedelic (5D-ASC) effects than MDMA at equimolar doses; comparable cardiovascular effects."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "HHA (3,4-dihydroxyamphetamine)",
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "O-demethylenation. MDA, like MDMA, is also a mechanism-based inhibitor of CYP2D6."
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": null,
+        "metabolite_active": false,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Minor contribution."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "MAO inhibition",
+        "clinical_effect": "Contraindicated — serotonin syndrome risk identical to MDMA.",
+        "reference": "pmid:10605976"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Same auto-inhibition pattern as MDMA; CYP2D6 PM status has limited PK impact due to substrate-induced enzyme inactivation.",
+      "reference": "doi:10.3389/fgene.2012.00235"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "Same as MDMA — depletion of presynaptic 5-HT pools, transient SERT downregulation.",
+      "cross_tolerance": [
+        "MDMA",
+        "MDE",
+        "MBDB",
+        "methylone"
+      ],
+      "withdrawal_syndrome": "No physical withdrawal; post-acute serotonergic comedown.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 100,
+        "concern_level": "moderate",
+        "clinical_consequence": "Cardiac valvulopathy risk; MDA is the more potent 5-HT2B agonist of the MDxx family.",
+        "reference": "pmid:12649569"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "5-HT2B-agonist",
+      "SNDRA",
+      "psychedelic-entactogen-hybrid"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Detailed human transporter EC50 (Simmler did not include MDA; rat synaptosome data dominates the literature)"
+    ],
+    "notes": "MDA is both a recreational drug and the active N-demethyl metabolite of MDMA. Its longer half-life (~8 h) explains the persistent next-day stimulant tail after MDMA use. Schedule I.",
+    "references_consulted": [
+      "doi:10.1038/s41386-025-02248-3",
+      "pmid:12649569",
+      "doi:10.1016/j.euroneuro.2022.09.005"
+    ]
+  },
+  {
+    "name": "MDE",
+    "aliases_added": [
+      "MDEA",
+      "Eve",
+      "N-ethyl-MDA"
+    ],
+    "iupac_name": "N-ethyl-1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CCNC(C)Cc1ccc2OCOc2c1",
+    "inchikey": "JEYIJEHKHIQVDS-UHFFFAOYSA-N",
+    "cas": "82801-81-8",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ic50_nm": 1270,
+          "ic50_ci_nm": [
+            930,
+            1700
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hSERT",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 1020,
+          "ic50_ci_nm": [
+            780,
+            1300
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hNET",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 9300,
+          "ic50_ci_nm": [
+            8000,
+            11000
+          ],
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hDAT",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": 2880,
+          "ec50_ci_nm": [
+            1600,
+            5000
+          ],
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hSERT release",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Full SERT releaser like MDMA."
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hDAT release",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "EC50 > 100,000 nM — does NOT release dopamine appreciably. This is the key distinction from MDMA. Rat synaptosome data: dopamine release EC50 = 622 nM, Emax 61% (partial releaser)."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 13000,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false,
+          "notes": "Weaker 5-HT2A than MDMA."
+        },
+        {
+          "target": "TAAR1",
+          "ki_nm": 320,
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "HEK293 rTAAR1",
+          "reference": "doi:10.1111/j.1476-5381.2012.02145.x",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Selective 5-HT/NE release with minimal DA release — pure entactogen profile, less euphoric/stimulant than MDMA. Lower abuse liability hypothesised but not proven clinically.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 120,
+          "half_life_min": 240,
+          "dose_in_study_mg": 140,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": "pmid:11071027",
+          "notes": "Half-life ~4 h (shorter than MDMA). Tmax ~2 h."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "MDA (N-deethylation gives MDA-like metabolite), HHEA",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "N-deethylation yields MDA. O-demethylenation analogous to MDMA."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "MAO inhibition",
+        "clinical_effect": "Same serotonin syndrome risk as MDMA.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Less mechanism-based inhibition than MDMA; CYP2D6 PMs may show more pronounced exposure changes.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "MDA",
+        "MBDB"
+      ],
+      "withdrawal_syndrome": "No physical withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SSRA-dominant",
+      "low-DA-release",
+      "Schedule-I"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Cmax at standard recreational doses",
+      "Specific 5-HT2B data"
+    ],
+    "notes": "N-ethyl substitution markedly reduces DA-releasing activity vs MDMA — explains the colder, less reinforcing, more 'pure empathogen' subjective profile users report. Was briefly used in early MDMA-assisted psychotherapy when MDMA was scheduled.",
+    "references_consulted": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1124/dmd.31.4.388",
+      "pmid:11071027"
+    ]
+  },
+  {
+    "name": "Mdea",
+    "aliases_added": [
+      "MDE",
+      "Eve",
+      "N-ethyl-MDA"
+    ],
+    "iupac_name": "N-ethyl-1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CCNC(C)Cc1ccc2OCOc2c1",
+    "inchikey": "JEYIJEHKHIQVDS-UHFFFAOYSA-N",
+    "cas": "82801-81-8",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Duplicate of MDE — see MDE record for full data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-MDE"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "DUPLICATE: This entry is the same compound as 'MDE' in the same list. Recommend deduplication. See MDE record.",
+    "references_consulted": []
+  },
+  {
+    "name": "S-(+)-MDMA",
+    "aliases_added": [
+      "S-MDMA",
+      "(S)-(+)-MDMA"
+    ],
+    "iupac_name": "(2S)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+    "smiles": "C[C@@H](NC)Cc1ccc2OCOc2c1",
+    "inchikey": "SHXWCVYOXRDMCX-NSHDSACASA-N",
+    "cas": "66142-89-0",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT",
+        "5-HT2A"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1007/s00213-017-4812-5",
+          "is_review": false,
+          "notes": "S-MDMA is the more potent monoamine releaser of the two enantiomers — particularly at DAT and NET. Drives the stimulant component of racemic MDMA."
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": "partialAgonist",
+          "intrinsic_activity_pct": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2A",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "is_review": false,
+          "notes": "Weak partial agonist (functionally weak despite measurable binding)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "The 'stimulant enantiomer' — more potent DA release, more oxytocin release, shorter half-life. Drives the euphoric, energizing component of racemic MDMA.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 239,
+          "tmax_min": 168,
+          "auc_0_inf_ng_h_per_ml": 1917,
+          "half_life_min": 246,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": 125,
+          "subject_n": 24,
+          "subject_demographics": "healthy adults; randomized crossover",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "notes": "Holze/Liechti 2024. S-MDMA half-life only ~4.1 h vs R-MDMA ~12 h — S-enantiomer is preferentially cleared (probably faster CYP2D6 metabolism). Subjective effects strongly favour stimulation/'drug high'/happiness; greater SBP/DBP increase than R-MDMA."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "S-MDA, S-HHMA",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Stereoselectively faster metabolism than R-enantiomer."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "R-MDMA",
+        "MDA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "stimulant-enantiomer",
+      "fast-clearance"
+    ],
+    "tags_to_remove": [
+      "no-human-data",
+      "Antidepressant"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "S-MDMA specific transporter EC50 at human transporters"
+    ],
+    "notes": "S-(+)-MDMA is the more stimulant-like enantiomer; 100 mg S-MDMA ≈ 125 mg racemic MDMA in overall acute effect intensity. Not currently in clinical development as a standalone agent — the racemic mixture (midomafetamine) is what Lykos submitted. Category 'Antidepressant' in source is misleading; this is the same class as MDMA.",
+    "references_consulted": [
+      "doi:10.1038/s41386-024-01972-6",
+      "doi:10.1007/s00213-017-4812-5"
+    ]
+  },
+  {
+    "name": "R-(-)-MDMA",
+    "aliases_added": [
+      "R-MDMA",
+      "(R)-(−)-MDMA"
+    ],
+    "iupac_name": "(2R)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+    "smiles": "C[C@H](NC)Cc1ccc2OCOc2c1",
+    "inchikey": "SHXWCVYOXRDMCX-MRVPVSSYSA-N",
+    "cas": "81262-70-6",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "5-HT2A"
+      ],
+      "binding": [
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": null,
+          "intrinsic_activity_pct": 0,
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2A",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "is_review": false,
+          "notes": "Higher specific 5-HT2A binding affinity than S-MDMA but NEGLIGIBLE functional activity — a binding/function dissociation. So 'psychedelic-like' marketing claims need scepticism — in humans, R-MDMA did NOT produce more psychedelic effects than S-MDMA at the doses tested."
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1007/s00213-017-4812-5",
+          "is_review": false,
+          "notes": "Retains SERT-releasing activity (less than S-enantiomer)."
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1007/s00213-017-4812-5",
+          "is_review": false,
+          "notes": "Much less DA release than S-MDMA — proposed safety advantage (less reinforcing, less hyperthermic, less neurotoxic in animals)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Preferential SERT-driven 5-HT release with minimal DA release. Animal data: lower locomotor stimulation, lower neurotoxicity signal, lower hyperthermia. Hypothesised as a 'safer' therapeutic enantiomer but the 2024 human trial showed comparable subjective intensity at equipotent doses (300 mg R ≈ 125 mg racemic).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": 335,
+          "tmax_min": 192,
+          "auc_0_inf_ng_h_per_ml": 6869,
+          "half_life_min": 720,
+          "dose_in_study_mg": 125,
+          "subject_n": 24,
+          "subject_demographics": "healthy adults",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "notes": "R-MDMA half-life ~12 h (3× longer than S). Slower CYP2D6 metabolism."
+        },
+        {
+          "route": "oral",
+          "cmax_ng_per_ml": 694,
+          "tmax_min": 216,
+          "auc_0_inf_ng_h_per_ml": 15754,
+          "half_life_min": 840,
+          "dose_in_study_mg": 250,
+          "subject_n": 24,
+          "subject_demographics": "healthy adults",
+          "reference": "doi:10.1038/s41386-024-01972-6",
+          "notes": "Dose-doubled R-MDMA — exposure roughly doubles linearly (less nonlinear than racemic)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "R-MDA, R-HHMA",
+        "metabolite_active": true,
+        "reference": "doi:10.1124/dmd.31.4.388",
+        "notes": "Slower than S-enantiomer."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "S-MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "long-half-life",
+      "SSRA-dominant",
+      "investigational"
+    ],
+    "tags_to_remove": [
+      "no-human-data",
+      "Antidepressant"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Whether R-MDMA's preclinical safety advantages survive at therapeutically equivalent doses"
+    ],
+    "notes": "R-(−)-MDMA is being explored as a potentially safer therapeutic alternative to racemic MDMA. MindMed and others have programs. The human data (Holze 2024) tempers preclinical enthusiasm — at equipotent doses (~300 mg R ≈ 125 mg racemic), overall subjective intensity, MEQ30, and 5D-ASC are similar; the hoped-for 'more psychedelic, less stimulant' dissociation did not emerge in humans.",
+    "references_consulted": [
+      "doi:10.1038/s41386-024-01972-6",
+      "doi:10.1007/s00213-017-4812-5"
+    ]
+  },
+  {
+    "name": "Lys-MDA",
+    "aliases_added": [
+      "Lysine-MDA",
+      "L-Lys-MDA"
+    ],
+    "iupac_name": "(2S)-2,6-diamino-N-[1-(1,3-benzodioxol-5-yl)propan-2-yl]hexanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "prodrug of MDA"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Lysine-amide prodrug of MDA. The parent molecule has no intrinsic monoamine activity; hydrolytic cleavage by aminopeptidases / esterases releases MDA gradually, producing a flatter, delayed exposure curve. Same downstream pharmacology as MDA once liberated.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "dose_in_study_mg": 164,
+          "subject_n": 23,
+          "subject_demographics": "12 women, 11 men; healthy adults; equimolar to 92 mg MDA",
+          "reference": "doi:10.1038/s41386-025-02248-3",
+          "notes": "Holze 2025. Lys-MDA produced MDA-like subjective effects with markedly delayed onset and lower peak intensity — confirms prodrug behaviour. Tmax of liberated MDA delayed vs direct MDA administration. Active duration extended."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "peptidases/aminopeptidases (extrahepatic and hepatic)",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "MDA + L-lysine",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1038/s41386-025-02248-3",
+        "notes": "Lysine amide bond hydrolysed to liberate MDA. Then MDA follows its own CYP2D6/2B6 metabolism."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": "Once MDA is liberated, same CYP2D6 considerations as MDA.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDA",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "prodrug",
+      "investigational",
+      "phase-1-data"
+    ],
+    "tags_to_remove": [
+      "no-human-data"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Fraction-converted-to-MDA in humans",
+      "Vd of intact prodrug",
+      "Effect of food on absorption"
+    ],
+    "notes": "Investigational prodrug being developed for delayed-onset, smoother PK profile suitable for psychotherapy contexts. WO2023028022A1 patent. Lykos and other developers are exploring this class. Category 'Antidepressant' in source is incorrect — this is an entactogen prodrug.",
+    "references_consulted": [
+      "doi:10.1038/s41386-025-02248-3"
+    ]
+  },
+  {
+    "name": "Mdai",
+    "aliases_added": [
+      "MDAI",
+      "5,6-methylenedioxy-2-aminoindane",
+      "sparkle",
+      "mindy"
+    ],
+    "iupac_name": "6,7-dihydro-5H-cyclopenta[f][1,3]benzodioxol-6-amine",
+    "smiles": "NC1Cc2cc3OCOc3cc2C1",
+    "inchikey": "RDJUHLUBPADHNP-UHFFFAOYSA-N",
+    "cas": "132741-81-2",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ic50_nm": 512,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:1875344",
+          "is_review": false,
+          "notes": "Johnson, Frescas, Oberlender, Nichols 1991."
+        },
+        {
+          "target": "NET",
+          "ic50_nm": 1426,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:1875344",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 5920,
+          "action": "reuptakeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:1875344",
+          "is_review": false,
+          "notes": "~12× selective for SERT over DAT — most SERT-selective of the entactogen class."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Conformationally constrained 2-aminoindane — the rigid indane ring locks the geometry that drives SERT selectivity. Acts predominantly as SERT-selective releaser/reuptake inhibitor with minimal DA effect. Nichols' original goal was a 'non-neurotoxic MDMA' — animal data shows much-reduced serotonergic terminal damage vs MDMA, but cases of fatal hyperthermia in users have been reported. Not as safe as the 'non-neurotoxic' label implies clinically.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "MAO inhibition",
+        "clinical_effect": "Serotonin syndrome risk — multiple fatalities reported from MDAI + serotonergic combinations.",
+        "reference": "doi:10.1002/hup.2298"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "MDA"
+      ],
+      "withdrawal_syndrome": "Serotonergic comedown.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "thermoregulation",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Animal LD50 studies show MDAI can cause severe hyperthermia despite its 'non-neurotoxic' reputation — fatalities documented.",
+        "reference": "doi:10.1016/j.etap.2016.03.013"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SSRA-selective",
+      "fatalities-reported",
+      "Nichols-compound"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Human PK data",
+      "Human 5-HT2B affinity"
+    ],
+    "notes": "Originally developed by David Nichols (Purdue) as a tool to study selective serotonin release without neurotoxicity. Sold as 'sparkle'/'mindy' RC in 2010s. Marketing as 'safe MDMA alternative' is misleading — Corkery review documents fatalities and the Pálenicek 2016 rat LD50 study shows narrow safety margin.",
+    "references_consulted": [
+      "pmid:1875344",
+      "doi:10.1002/hup.2298",
+      "doi:10.1016/j.etap.2016.03.013"
+    ]
+  },
+  {
+    "name": "5-apb",
+    "aliases_added": [
+      "5-APB",
+      "1-(benzofuran-5-yl)propan-2-amine",
+      "benzofury"
+    ],
+    "iupac_name": "1-(1-benzofuran-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2occc2c1",
+    "inchikey": "PIJYTSGFXIZESM-UHFFFAOYSA-N",
+    "cas": "286834-85-3",
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "NET",
+        "SERT",
+        "DAT",
+        "5-HT2B",
+        "TAAR1"
+      ],
+      "binding": [
+        {
+          "target": "NET",
+          "ic50_nm": 160,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hNET",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Iversen et al 2013."
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 290,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hSERT",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 6100,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hDAT",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": 19,
+          "intrinsic_activity_pct": 104,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false,
+          "notes": "Brandt et al 2020 — extremely potent releaser (3-10× more potent than MDA)."
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": 31,
+          "intrinsic_activity_pct": 103,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false
+        },
+        {
+          "target": "NET",
+          "ec50_nm": 21,
+          "intrinsic_activity_pct": 103,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": 840,
+          "action": null,
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2A",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2B",
+          "ec50_nm": 280,
+          "intrinsic_activity_pct": 61,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2B",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Full nM agonist at 5-HT2B — major cardiotoxicity concern. Same fenfluramine-class red flag."
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 880,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "α2A",
+          "ki_nm": 2900,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "TAAR1",
+          "ki_nm": 40,
+          "action": "agonist",
+          "species": "rat",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Benzofuran replacement of methylenedioxy ring shifts pharmacology toward more balanced SNDR release (less SERT-selective than MDMA). Combined with potent 5-HT2B agonism, this drives the documented cardiotoxicity in fatal cases — fenfluramine-like proliferative effects on heart valves.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "MAO inhibition",
+        "clinical_effect": "Serotonin syndrome — multiple fatalities documented in 5-APB users with concurrent serotonergic agents.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "MDA",
+        "6-APB",
+        "MDAI"
+      ],
+      "withdrawal_syndrome": "Serotonergic comedown; long-lasting because of extended half-life.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 280,
+        "concern_level": "high",
+        "clinical_consequence": "Potent full agonist at nM concentrations — substantial cardiac valvulopathy risk. Fenfluramine-class flag.",
+        "reference": "doi:10.1002/dta.1389"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2B-strong-agonist",
+      "SNDRA",
+      "fatalities-reported",
+      "cardiotoxicity-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK data — no published controlled-dose study",
+      "Specific Cmax/half-life"
+    ],
+    "notes": "Sold extensively as 'benzofury' 2010-2014; UK ban May 2014 followed multiple fatalities. The combination of low-nM SNDR release and potent 5-HT2B agonism makes it significantly more dangerous than MDMA at equivalent subjective doses.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389",
+      "doi:10.1111/bph.15211"
+    ]
+  },
+  {
+    "name": "6-apb",
+    "aliases_added": [
+      "6-APB",
+      "1-(benzofuran-6-yl)propan-2-amine",
+      "benzofury"
+    ],
+    "iupac_name": "1-(1-benzofuran-6-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2ccoc2c1",
+    "inchikey": "DYAHQMUHWGAUOR-UHFFFAOYSA-N",
+    "cas": "286834-84-2",
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "NET",
+        "DAT",
+        "SERT",
+        "5-HT2B"
+      ],
+      "binding": [
+        {
+          "target": "NET",
+          "ic50_nm": 190,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 3300,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 930,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": 10,
+          "intrinsic_activity_pct": 101,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false,
+          "notes": "Extremely potent DA releaser — single-digit nM. Drives stimulant character and abuse liability."
+        },
+        {
+          "target": "NET",
+          "ec50_nm": 14,
+          "intrinsic_activity_pct": 98,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": 36,
+          "intrinsic_activity_pct": 100,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1111/bph.15211",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2B",
+          "ec50_nm": 140,
+          "intrinsic_activity_pct": 70,
+          "action": "agonist",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Even more potent at 5-HT2B than 5-APB. Significant cardiac valvulopathy risk."
+        },
+        {
+          "target": "α2A",
+          "ki_nm": 380,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Higher α2A affinity than 5-APB."
+        },
+        {
+          "target": "TAAR1",
+          "ki_nm": 50,
+          "action": "agonist",
+          "species": "rat",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "More balanced SNDR profile than 5-APB but with shifted DAT/SERT ratio favouring DA release — more stimulant, more reinforcing. Combined with 5-HT2B agonism: cardiotoxic at exposures users seek.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "MAO inhibition",
+        "clinical_effect": "Severe serotonin syndrome risk.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "5-APB"
+      ],
+      "withdrawal_syndrome": "Long serotonergic comedown reflecting extended half-life.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 140,
+        "concern_level": "high",
+        "clinical_consequence": "Even more potent 5-HT2B agonism than 5-APB.",
+        "reference": "doi:10.1002/dta.1389"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2B-strong-agonist",
+      "SNDRA",
+      "cardiotoxicity-risk",
+      "long-acting"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Controlled human PK"
+    ],
+    "notes": "6-APB has longer onset (~2 h) and longer duration (8-12 h) than MDMA. Multiple fatalities in UK/EU 2012-2014.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389",
+      "doi:10.1111/bph.15211"
+    ]
+  },
+  {
+    "name": "5-mapb",
+    "aliases_added": [
+      "5-MAPB",
+      "N-methyl-5-APB"
+    ],
+    "iupac_name": "N-methyl-1-(1-benzofuran-5-yl)propan-2-amine",
+    "smiles": "CC(NC)Cc1ccc2occc2c1",
+    "inchikey": null,
+    "cas": "1354631-77-8",
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT",
+        "5-HT2B"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl version of 5-APB — analogous to MDMA/MDA relationship. Slightly longer half-life, more SERT-selective release than 5-APB. Inherits the 5-HT2B agonism / cardiotoxicity flag of the parent. Iversen 2013 data shows similar nanomolar 5-HT2B agonism.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP2D6",
+        "metabolite_name": "5-APB (N-demethylation)",
+        "metabolite_active": true,
+        "reference": null,
+        "notes": "Inferred from MDMA→MDA analogy."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "5-APB",
+        "6-APB"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Inherits 5-HT2B agonism of 5-APB scaffold.",
+        "reference": "doi:10.1002/dta.1389"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2B-agonist",
+      "SNDRA"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Specific 5-MAPB transporter EC50",
+      "5-HT2B specific data for the N-methyl variant"
+    ],
+    "notes": "N-methyl variant of 5-APB. Sold as RC. Inherits cardiotoxicity concerns.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389"
+    ]
+  },
+  {
+    "name": "6-mapb",
+    "aliases_added": [
+      "6-MAPB",
+      "N-methyl-6-APB"
+    ],
+    "iupac_name": "N-methyl-1-(1-benzofuran-6-yl)propan-2-amine",
+    "smiles": "CC(NC)Cc1ccc2ccoc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT",
+        "5-HT2B"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl variant of 6-APB. Same class-level mechanism. Brandt 2020 release data: S-6-MABB (the S-N-methyl-α-methyl variant) DAT EC50=41 nM, NET EC50=77 nM, SERT EC50=54 nM in rat synaptosomes — balanced SNDRA. 5-HT2B agonism inherited from 6-APB scaffold.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "6-APB",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Inherits 5-HT2B agonism.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2B-agonist",
+      "SNDRA"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human transporter EC50 for 6-MAPB",
+      "5-HT2B Ki for 6-MAPB specifically"
+    ],
+    "notes": "N-methyl-6-APB. Limited direct pharmacology data; class-level extrapolation only.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389"
+    ]
+  },
+  {
+    "name": "5-eapb",
+    "aliases_added": [
+      "5-EAPB",
+      "N-ethyl-5-APB"
+    ],
+    "iupac_name": "N-ethyl-1-(1-benzofuran-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-ethyl-5-APB. By analogy to MDE vs MDMA, N-ethyl substitution should reduce DA release relative to 5-HT release — i.e. less stimulant. Direct pharmacology data sparse.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-APB",
+        "6-APB",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SNDRA-presumed"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding/release data",
+      "5-HT2B data for the N-ethyl variant"
+    ],
+    "notes": "Research chemical, sparse peer-reviewed data. Pharmacology inferred from class.",
+    "references_consulted": []
+  },
+  {
+    "name": "6-eapb",
+    "aliases_added": [
+      "6-EAPB",
+      "N-ethyl-6-APB"
+    ],
+    "iupac_name": "N-ethyl-1-(1-benzofuran-6-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-ethyl-6-APB. Same SAR reasoning as 5-EAPB. No direct human data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "6-APB",
+        "5-EAPB"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SNDRA-presumed"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Everything — no peer-reviewed pharmacology"
+    ],
+    "notes": "Research chemical with no direct pharmacology data.",
+    "references_consulted": []
+  },
+  {
+    "name": "5-apdb",
+    "aliases_added": [
+      "5-APDB",
+      "EMA-3"
+    ],
+    "iupac_name": "1-(2,3-dihydro-1-benzofuran-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2OCCc2c1",
+    "inchikey": null,
+    "cas": "152624-02-7",
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "NET",
+        "SERT",
+        "5-HT2C"
+      ],
+      "binding": [
+        {
+          "target": "NET",
+          "ic50_nm": 290,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 580,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 49000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Very weak DAT — near-pure NE/5-HT releaser-inhibitor."
+        },
+        {
+          "target": "5-HT2B",
+          "ec50_nm": 1200,
+          "intrinsic_activity_pct": 50,
+          "action": "agonist",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Lower potency at 5-HT2B than 5-APB but still partial agonism — lower but not zero cardiac risk."
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 60,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Notably high 5-HT2C affinity — may contribute to subjective effects."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Saturated benzofuran (dihydrobenzofuran) ring. Lower DA release than 5-APB — more selectively serotonergic.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-APB",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 1200,
+        "concern_level": "moderate",
+        "clinical_consequence": "5-HT2B partial agonist — moderate cardiac concern.",
+        "reference": "doi:10.1002/dta.1389"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SSRA-NRI",
+      "5-HT2C-affinity"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Dihydrobenzofuran variant. More selective for serotonin than 5-APB.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389"
+    ]
+  },
+  {
+    "name": "6-apdb",
+    "aliases_added": [
+      "6-APDB",
+      "EMA-4",
+      "4-desoxy-MDA"
+    ],
+    "iupac_name": "1-(2,3-dihydro-1-benzofuran-6-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2CCOc2c1",
+    "inchikey": null,
+    "cas": "152623-93-3",
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "NET",
+        "SERT",
+        "5-HT2B",
+        "5-HT2C"
+      ],
+      "binding": [
+        {
+          "target": "NET",
+          "ic50_nm": 560,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 2300,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 33000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2B",
+          "ec50_nm": 120,
+          "intrinsic_activity_pct": 66,
+          "action": "agonist",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false,
+          "notes": "Potent 5-HT2B agonist (similar to 6-APB scaffold)."
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 60,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Like 5-APDB but with the benzofuran oxygen migrated to the 6-position. Higher 5-HT2B and lower DAT compared to 5-APDB.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "6-APB",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B",
+        "ki_or_ic50_nm": 120,
+        "concern_level": "high",
+        "clinical_consequence": "Potent 5-HT2B agonist.",
+        "reference": "doi:10.1002/dta.1389"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2B-agonist",
+      "SSRA-NRI"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Dihydrobenzofuran variant. Closely related to 6-APB.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389"
+    ]
+  },
+  {
+    "name": "5-mapdb",
+    "aliases_added": [
+      "5-MAPDB",
+      "N-methyl-5-APDB"
+    ],
+    "iupac_name": "N-methyl-1-(2,3-dihydro-1-benzofuran-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "NET",
+        "SERT"
+      ],
+      "binding": [
+        {
+          "target": "NET",
+          "ic50_nm": 960,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "SERT",
+          "ic50_nm": 1200,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ic50_nm": 77000,
+          "action": "reuptakeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 100,
+          "action": null,
+          "species": "human",
+          "reference": "doi:10.1002/dta.1389",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl-5-APDB — like other N-methyl substitutions in this class, slightly shifts the DAT/SERT balance.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-APDB"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SSRA-NRI"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "5-HT2B for the N-methyl variant",
+      "Human PK"
+    ],
+    "notes": "N-methyl dihydrobenzofuran variant.",
+    "references_consulted": [
+      "doi:10.1002/dta.1389"
+    ]
+  },
+  {
+    "name": "4,4-dmar",
+    "aliases_added": [
+      "4,4'-DMAR",
+      "4,4'-dimethylaminorex",
+      "Serotoni"
+    ],
+    "iupac_name": "(4S,5S)-4-methyl-5-(4-methylphenyl)-4,5-dihydro-1,3-oxazol-2-amine (cis)",
+    "smiles": "CC1OC(=N)NC1c1ccc(C)cc1",
+    "inchikey": null,
+    "cas": "1445569-01-6",
+    "pubchem_cid": null,
+    "class_context_id": "aminorex-derivatives",
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "SERT",
+        "NET",
+        "VMAT2"
+      ],
+      "binding": [
+        {
+          "target": "DAT",
+          "ec50_nm": 8.6,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hDAT",
+          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "is_review": false,
+          "notes": "Niello et al 2018 — single-digit nM SNDRA."
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": 18.5,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hSERT",
+          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "is_review": false
+        },
+        {
+          "target": "NET",
+          "ec50_nm": 26.9,
+          "action": "releasingAgent",
+          "species": "human",
+          "tissue_or_cell": "HEK293 hNET",
+          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "is_review": false
+        },
+        {
+          "target": "VMAT2",
+          "ic50_nm": null,
+          "action": "channelBlocker",
+          "species": "human",
+          "reference": "doi:10.1016/j.neuropharm.2018.06.025",
+          "is_review": false,
+          "notes": "Inhibits VMAT2 — like MDMA — supports neurotoxicity hypothesis."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Highly potent and well-balanced SNDRA — single-digit-nM at DAT, ~20 nM at SERT and NET. The aminorex parent (1960s anorectic) was withdrawn for pulmonary hypertension; the dimethyl analogues retain this risk profile plus add serotonergic toxicity. The serotonergic component (5-HT2B + massive 5-HT release) is the proposed mechanism of the >30 fatal serotonin-syndrome-like cases reported in Europe 2013-2014.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs / SSRIs",
+        "mechanism": "serotonergic",
+        "clinical_effect": "Lethal serotonin syndrome — multiple confirmed fatalities.",
+        "reference": "doi:10.1111/bcpt.12399"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "4-MAR"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "VMAT2",
+        "concern_level": "high",
+        "clinical_consequence": "Chronic neurotoxicity risk.",
+        "reference": "doi:10.1016/j.neuropharm.2018.06.025"
+      },
+      {
+        "target": "pulmonary vasculature (aminorex-class)",
+        "concern_level": "high",
+        "clinical_consequence": "Parent aminorex causes pulmonary arterial hypertension (1960s clinical disaster).",
+        "reference": "doi:10.1111/bcpt.12399"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SNDRA",
+      "fatalities-confirmed",
+      "PAH-risk",
+      "aminorex-class"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "31 fatalities in Europe 2013-2014 (19 in Northern Ireland alone). EU controlled 2015. The most dangerous compound in this list by user-fatality ratio. Schedule equivalent in most jurisdictions.",
+    "references_consulted": [
+      "doi:10.1016/j.neuropharm.2018.06.025",
+      "doi:10.1111/bcpt.12399"
+    ]
+  },
+  {
+    "name": "Methamnetamine",
+    "aliases_added": [
+      "MNA",
+      "PAL-1046",
+      "N-methyl-PAL-287"
+    ],
+    "iupac_name": "N-methyl-1-(naphthalen-2-yl)propan-2-amine",
+    "smiles": "CC(NC)Cc1ccc2ccccc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "naphthyl-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "DAT",
+        "NET",
+        "5-HT2A"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ec50_nm": 13,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "is_review": false,
+          "notes": "Wee/Negus dataset. Balanced SNDRA, low-nM."
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": 10,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "is_review": false
+        },
+        {
+          "target": "NET",
+          "ec50_nm": 34,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": "partialAgonist",
+          "intrinsic_activity_pct": null,
+          "species": "rat",
+          "reference": "doi:10.1016/j.neuropharm.2014.04.019",
+          "is_review": false,
+          "notes": "Lower-potency partial agonist."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Naphthyl ring replacement of phenyl gives a balanced SNDRA with very low nM potency. PAL-287 was investigated as a stimulant-use-disorder treatment because the 5-HT release dampens DA reinforcement. Methamnetamine is the N-methyl analogue.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "PAL-287 (N-demethylation), ring-hydroxy metabolites",
+        "metabolite_active": true,
+        "reference": null,
+        "notes": "Aromatic hydroxylation of the naphthalene ring is a major pathway in vitro."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs / SSRIs",
+        "mechanism": "serotonergic",
+        "clinical_effect": "Serotonin syndrome risk.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "PAL-287"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SNDRA",
+      "balanced-release"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Triple-monoamine releaser with research-pharmacology pedigree (PAL series). No published human controlled data; very limited recreational user-base data.",
+    "references_consulted": [
+      "doi:10.1016/j.neuropharm.2014.04.019"
+    ]
+  },
+  {
+    "name": "Mexedrone",
+    "aliases_added": [
+      "4-MMeOC",
+      "4-methylmethcathinone β-methoxy"
+    ],
+    "iupac_name": "3-methoxy-2-(methylamino)-1-(4-methylphenyl)propan-1-one",
+    "smiles": "COCC(NC)C(=O)c1ccc(C)cc1",
+    "inchikey": null,
+    "cas": "1607439-32-6",
+    "pubchem_cid": null,
+    "class_context_id": "cathinone-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1002/dta.2053",
+          "is_review": false,
+          "notes": "McLaughlin et al 2017 — only weak SERT releasing activity. Inactive as DAT/NET releaser."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "β-methoxy modification of mephedrone scaffold collapses transporter activity — only weak SERT release remains, with no DA/NE release. Subjective effects in users are weak compared to mephedrone, consistent with this. Sold as a 'legal' mephedrone replacement; actually weakly active.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "mephedrone"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-SSRA",
+      "cathinone"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Sold 2015+ as legal mephedrone alternative. Pharmacology disappointing; actual recreational potency may reflect contamination with active congeners.",
+    "references_consulted": [
+      "doi:10.1002/dta.2053"
+    ]
+  },
+  {
+    "name": "5-iai",
+    "aliases_added": [
+      "5-IAI",
+      "5-iodo-2-aminoindane"
+    ],
+    "iupac_name": "5-iodo-2,3-dihydro-1H-inden-2-amine",
+    "smiles": "NC1Cc2cc(I)ccc2C1",
+    "inchikey": null,
+    "cas": "132747-99-6",
+    "pubchem_cid": null,
+    "class_context_id": "aminoindane-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET"
+      ],
+      "binding": [
+        {
+          "target": "SERT",
+          "ic50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "pmid:1875344",
+          "is_review": false,
+          "notes": "Halogenated aminoindane variant of MDAI — similar SERT-selective release profile. Iodo substituent is a classic 'safety' analogue used by Nichols to map non-neurotoxic releasers."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Conformationally constrained aminoindane similar to MDAI. SERT-selective releaser. Lower in-vivo serotonergic neurotoxicity than MDMA in animals.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDAI",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "SSRA-selective",
+      "Nichols-compound"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Specific EC50 values",
+      "Human PK"
+    ],
+    "notes": "Halogenated MDAI relative. Originally a Nichols/Purdue research probe.",
+    "references_consulted": [
+      "pmid:1875344"
+    ]
+  },
+  {
+    "name": "5-apdi",
+    "aliases_added": [
+      "5-APDI",
+      "IAP",
+      "5-(2-aminopropyl)-2,3-dihydro-1H-indene"
+    ],
+    "iupac_name": "1-(2,3-dihydro-1H-inden-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2CCCc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "aminoindane-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Indane-fused 2-aminopropyl variant. Sparse direct data; presumed SERT-preferring releaser by class analogy.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDAI",
+        "5-IAI"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "aminoindane-class"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct pharmacology data"
+    ],
+    "notes": "Limited published pharmacology.",
+    "references_consulted": []
+  },
+  {
+    "name": "5-it",
+    "aliases_added": [
+      "5-IT",
+      "5-API",
+      "5-(2-aminopropyl)indole"
+    ],
+    "iupac_name": "1-(1H-indol-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2[nH]ccc2c1",
+    "inchikey": null,
+    "cas": "3784-30-3",
+    "pubchem_cid": null,
+    "class_context_id": "alpha-methyltryptamine-derivatives",
+    "pharmacology": {
+      "primary_targets": [
+        "MAO-A",
+        "SERT",
+        "DAT",
+        "NET"
+      ],
+      "binding": [
+        {
+          "target": "MAO-A",
+          "ic50_nm": null,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "tissue_or_cell": "recombinant hMAO-A",
+          "reference": "doi:10.1016/j.taap.2017.02.004",
+          "is_review": false,
+          "notes": "Potent and selective MAO-A inhibitor — this is the dominant pharmacology and the source of its lethality. Not primarily a transporter substrate."
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": null,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": null,
+          "is_review": false,
+          "notes": "Triple monoamine releaser similar to AMT."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Positional isomer of α-methyltryptamine (AMT). Acts as both monoamine releaser AND potent MAO-A inhibitor — a chemically guaranteed serotonin syndrome generator at supratherapeutic doses. Self-MAO-inhibition prolongs its own half-life. The combination accounts for the cluster of fatalities reported when 5-IT entered EU markets 2011-2013.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "any serotonergic agent or sympathomimetic",
+        "mechanism": "self-MAOI plus releaser — fatal stack",
+        "clinical_effect": "Serotonin syndrome with fatal hyperthermia. >20 confirmed deaths in EU 2011-2013.",
+        "reference": "doi:10.1016/j.taap.2017.02.004"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "AMT"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "MAO-A",
+        "concern_level": "high",
+        "clinical_consequence": "Built-in MAO-A inhibition while releasing 5-HT — fatal interaction with own pharmacology and any other serotonergic input.",
+        "reference": "doi:10.1016/j.taap.2017.02.004"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MAO-A-inhibitor",
+      "fatalities-confirmed",
+      "self-potentiating"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Specific human PK"
+    ],
+    "notes": "One of the most dangerous compounds in this list. Entered EU market 2011 sold as legal MDMA replacement; clustered fatalities (Sweden 14, UK ≥6, others) led to rapid scheduling. Not an entactogen-class compound clinically — it is an MAOI+releaser. Mislabeled by retail.",
+    "references_consulted": [
+      "doi:10.1016/j.taap.2017.02.004"
+    ]
+  },
+  {
+    "name": "5-meo-amt",
+    "aliases_added": [
+      "5-MeO-AMT",
+      "α,O-DMS",
+      "Alpha-O"
+    ],
+    "iupac_name": "1-(5-methoxy-1H-indol-3-yl)propan-2-amine",
+    "smiles": "COc1ccc2[nH]cc(CC(C)N)c2c1",
+    "inchikey": "ZTILUDNICMILKJ-UHFFFAOYSA-N",
+    "cas": "1137-04-8",
+    "pubchem_cid": null,
+    "class_context_id": "alpha-methyltryptamine-derivatives",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A",
+        "SERT",
+        "MAO-A"
+      ],
+      "binding": [
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": "agonist",
+          "intrinsic_activity_pct": null,
+          "species": "rat",
+          "tissue_or_cell": "rat prefrontal cortex (in vivo)",
+          "reference": "doi:10.1016/j.neuropharm.2018.06.020",
+          "is_review": false,
+          "notes": "Induces head-twitch response in mice via 5-HT2A — a classic psychedelic assay readout. Very high 5-HT2A potency."
+        },
+        {
+          "target": "SERT",
+          "ec50_nm": 460,
+          "action": "releasingAgent",
+          "species": "rat",
+          "tissue_or_cell": "rat brain synaptosomes",
+          "reference": "doi:10.1124/jpet.300.3.971",
+          "is_review": false
+        },
+        {
+          "target": "DAT",
+          "ec50_nm": 1500,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1124/jpet.300.3.971",
+          "is_review": false
+        },
+        {
+          "target": "NET",
+          "ec50_nm": 8900,
+          "action": "releasingAgent",
+          "species": "rat",
+          "reference": "doi:10.1124/jpet.300.3.971",
+          "is_review": false
+        },
+        {
+          "target": "MAO-A",
+          "ic50_nm": 31000,
+          "action": "enzymeInhibitor",
+          "species": "human",
+          "reference": "doi:10.1124/jpet.300.3.971",
+          "is_review": false,
+          "notes": "Weak MAO-A inhibitor."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Dominant pharmacology is 5-HT2A agonism (psychedelic) — the releaser activity is secondary. Shulgin TIHKAL dose 2.5-4.5 mg; duration 12-18 h. NOT an entactogen — this is misclassified.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "serotonergic",
+        "clinical_effect": "Fatal serotonin syndrome — multiple deaths reported in 2003-2004 US cluster.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-MeO-DMT",
+        "AMT"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "psychedelic",
+      "fatalities-reported",
+      "MISCATEGORIZED"
+    ],
+    "tags_to_remove": [
+      "research-chemical"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "MISCATEGORIZED: This is a serotonergic psychedelic (5-HT2A agonist), not an entactogen. Closely related to 5-MeO-DMT / AMT. Recategorize as Psychedelic. Schedule I in US.",
+    "references_consulted": [
+      "doi:10.1124/jpet.300.3.971",
+      "doi:10.1016/j.neuropharm.2018.06.020"
+    ]
+  },
+  {
+    "name": "MDOH",
+    "aliases_added": [
+      "N-hydroxy-MDA"
+    ],
+    "iupac_name": "N-hydroxy-1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CC(NO)Cc1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": "74698-46-9",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET",
+        "DAT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-hydroxy variant of MDA. The N-OH is metabolically labile and rapidly reduced to MDA in vivo — MDOH effectively acts as a prodrug of MDA. PIHKAL #114; dose 100-160 mg, duration 3-6 h.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "N-hydroxyamine reductase",
+        "metabolite_name": "MDA",
+        "metabolite_active": true,
+        "reference": null,
+        "notes": "Rapid N-OH reduction to MDA in vivo. MDOH is functionally an MDA prodrug."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2D6"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDA",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "5-HT2B (via MDA metabolite)",
+        "ki_or_ic50_nm": 100,
+        "concern_level": "moderate",
+        "clinical_consequence": "Inherits MDA's 5-HT2B agonism.",
+        "reference": null
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "MDA-prodrug",
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding/release data — only PIHKAL human dose-response is published"
+    ],
+    "notes": "PIHKAL #114. Functionally an MDA prodrug.",
+    "references_consulted": [
+      "https://erowid.org/library/books_online/pihkal/pihkal114.shtml"
+    ]
+  },
+  {
+    "name": "MDPR",
+    "aliases_added": [
+      "N-propyl-MDA"
+    ],
+    "iupac_name": "N-propyl-1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CCCNC(C)Cc1ccc2OCOc2c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-propyl extension of MDA scaffold. Per Shulgin SAR — extension beyond N-ethyl progressively kills monoamine release activity at the human transporters. PIHKAL describes weak activity at ~200 mg.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "MDE"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL",
+      "weak-activity"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Modern transporter assay data"
+    ],
+    "notes": "PIHKAL compound. N-propyl chain reduces potency. Limited published pharmacology.",
+    "references_consulted": []
+  },
+  {
+    "name": "MDAL",
+    "aliases_added": [
+      "N-allyl-MDA"
+    ],
+    "iupac_name": "N-(prop-2-en-1-yl)-1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-allyl-MDA. PIHKAL compound with sparse direct pharmacology data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct pharmacology data"
+    ],
+    "notes": "PIHKAL N-allyl variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "3,4-Methylenedioxyamphetamine",
+    "aliases_added": [
+      "MDA"
+    ],
+    "iupac_name": "1-(1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "CC(N)Cc1ccc2OCOc2c1",
+    "inchikey": "VLPIATFUUWWMKC-UHFFFAOYSA-N",
+    "cas": "4764-17-4",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "DUPLICATE of MDA — see MDA record for full data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-MDA"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "DUPLICATE: Same compound as 'MDA' in this list. Recommend deduplication.",
+    "references_consulted": []
+  },
+  {
+    "name": "MMDA",
+    "aliases_added": [
+      "3-methoxy-4,5-methylenedioxyamphetamine"
+    ],
+    "iupac_name": "1-(7-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": "COc1cc(CC(C)N)cc2OCOc12",
+    "inchikey": null,
+    "cas": "13674-05-0",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A",
+        "SERT"
+      ],
+      "binding": [
+        {
+          "target": "5-HT2A",
+          "ki_nm": null,
+          "action": "agonist",
+          "species": "rat",
+          "reference": null,
+          "is_review": false,
+          "notes": "Shulgin PIHKAL #132 — described as 'psychedelic with euphoric properties.' 5-HT2A agonism is the dominant pharmacology, more than transporter substrate activity. Active dose 100-250 mg, duration 6-8 h."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methoxy substitution on the methylenedioxyamphetamine ring shifts pharmacology from entactogen toward psychedelic — more 5-HT2A agonism, less monoamine release. MMDA is the proposed active metabolite of myristicin (nutmeg).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "serotonergic",
+        "clinical_effect": "Serotonin syndrome risk.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDA",
+        "psychedelic-class"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL",
+      "5-HT2A-agonist",
+      "myristicin-metabolite"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Modern receptor-binding data"
+    ],
+    "notes": "PIHKAL #132. Proposed active metabolite of myristicin from nutmeg.",
+    "references_consulted": []
+  },
+  {
+    "name": "MMDA-2",
+    "aliases_added": [
+      "2-methoxy-4,5-methylenedioxyamphetamine"
+    ],
+    "iupac_name": "1-(6-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL #133. Methoxy position isomer of MMDA. Psychedelic > entactogen.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MMDA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Receptor-binding data"
+    ],
+    "notes": "PIHKAL #133. Positional methoxy isomer of MMDA.",
+    "references_consulted": []
+  },
+  {
+    "name": "MMDA-3a",
+    "aliases_added": [],
+    "iupac_name": "1-(4-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL #134. Sparse data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL positional isomer with negligible published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "MMDA-3b",
+    "aliases_added": [],
+    "iupac_name": "1-(7-methoxy-1,3-benzodioxol-4-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL positional isomer. No direct pharmacology data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL.",
+    "references_consulted": []
+  },
+  {
+    "name": "DMMDA",
+    "aliases_added": [
+      "2,5-dimethoxy-3,4-methylenedioxyamphetamine"
+    ],
+    "iupac_name": "1-(4,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL #62. Di-methoxy version of MMDA — pushed further toward psychedelic/2C-x-like profile. Shulgin reported active at 30-75 mg.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "DOI",
+        "2C-x"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL",
+      "psychedelic-leaning"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Receptor binding"
+    ],
+    "notes": "PIHKAL #62.",
+    "references_consulted": []
+  },
+  {
+    "name": "DMMDA-2",
+    "aliases_added": [
+      "2,3-dimethoxy-4,5-methylenedioxyamphetamine"
+    ],
+    "iupac_name": "1-(6,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "PIHKAL #63. Positional isomer of DMMDA. Sparse data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "DMMDA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All receptor data"
+    ],
+    "notes": "PIHKAL #63.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-BR-4,5-MDA",
+    "aliases_added": [
+      "6-Br-MDA",
+      "2-bromo-4,5-methylenedioxyamphetamine"
+    ],
+    "iupac_name": "1-(6-bromo-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Ortho-bromo MDA — by 2C-B/DOB analogy, 6-bromo substitution markedly increases 5-HT2A binding affinity. Likely shifts pharmacology toward psychedelic. PIHKAL.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL",
+      "psychedelic-leaning"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Receptor data"
+    ],
+    "notes": "PIHKAL halogenated MDA.",
+    "references_consulted": []
+  },
+  {
+    "name": "2-Bromo-4,5-MDMA",
+    "aliases_added": [
+      "6-Br-MDMA",
+      "2-bromo-4,5-methylenedioxymethamphetamine"
+    ],
+    "iupac_name": "N-methyl-1-(6-bromo-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl variant of 2-Br-MDA. Same 5-HT2A-affinity-boosting bromine effect.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDMA",
+        "2-Br-MDA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "psychedelic-leaning"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "Halogenated MDMA analogue. Negligible published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "2T-MMDA-3a",
+    "aliases_added": [
+      "3,4-methylenedioxy-2-methylthioamphetamine"
+    ],
+    "iupac_name": "1-[4-(methylsulfanyl)-1,3-benzodioxol-5-yl]propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Thio-methyl variant of MMDA-3a. Shulgin PIHKAL. Sparse direct data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL methylthio variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "4T-MMDA-2",
+    "aliases_added": [
+      "2-methoxy-4,5-methylenethiooxyamphetamine"
+    ],
+    "iupac_name": "1-(5-methoxy-1,3-benzoxathiol-6-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Sulfur-bridged ring variant — benzoxathiol replaces methylenedioxy. PIHKAL/SAR exploration; no clinical data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL benzoxathiol variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "METHYL-MMDA-2",
+    "aliases_added": [
+      "MMDMA-2"
+    ],
+    "iupac_name": "1-(6-methoxy-1,3-benzodioxol-5-yl)-N-methylpropan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl-MMDA-2. PIHKAL. Sparse data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL.",
+    "references_consulted": []
+  },
+  {
+    "name": "BOH",
+    "aliases_added": [
+      "β-methoxy-3,4-methylenedioxyphenethylamine"
+    ],
+    "iupac_name": "2-(1,3-benzodioxol-5-yl)-2-methoxyethan-1-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "β-methoxy phenethylamine. PIHKAL. Sparse data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "PIHKAL"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "PIHKAL β-methoxy variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "(RS)-5-methoxy-3,4-methylenedioxymethamphetamine",
+    "aliases_added": [
+      "5-methoxy-MDMA"
+    ],
+    "iupac_name": "N-methyl-1-(7-methoxy-1,3-benzodioxol-5-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "5-methoxy-MDMA = N-methylated MMDA. Methoxy adds 5-HT2A affinity at cost of releaser activity.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MMDA",
+        "MDMA"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "Sparse data.",
+    "references_consulted": []
+  },
+  {
+    "name": "2,3-methylenedioxyamphetamine",
+    "aliases_added": [
+      "2,3-MDA"
+    ],
+    "iupac_name": "1-(1,3-benzodioxol-4-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Positional isomer of MDA — the methylenedioxy is on the 2,3 positions rather than 3,4. Much weaker than MDA at both transporters and 5-HT2A; the 3,4-arrangement is the pharmacophore.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-activity"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding data"
+    ],
+    "notes": "Inactive positional isomer of MDA.",
+    "references_consulted": []
+  },
+  {
+    "name": "2,3-methylenedioxymethamphetamine",
+    "aliases_added": [
+      "2,3-MDMA"
+    ],
+    "iupac_name": "N-methyl-1-(1,3-benzodioxol-4-yl)propan-2-amine",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Positional isomer of MDMA with the methylenedioxy on 2,3 instead of 3,4. Markedly reduced activity vs MDMA.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "weak-activity"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding data"
+    ],
+    "notes": "Inactive positional isomer of MDMA.",
+    "references_consulted": []
+  },
+  {
+    "name": "Myristicin",
+    "aliases_added": [
+      "3-methoxy-4,5-methylenedioxyallylbenzene",
+      "nutmeg principal",
+      "MMDA-precursor"
+    ],
+    "iupac_name": "5-allyl-1-methoxy-2,3-methylenedioxybenzene",
+    "smiles": "COc1cc(CC=C)cc2OCOc12",
+    "inchikey": "BRRSNXCXLSVPFC-UHFFFAOYSA-N",
+    "cas": "607-91-0",
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "MAO-A (weak)",
+        "5-HT2A (via MMDA metabolite)"
+      ],
+      "binding": [
+        {
+          "target": "MAO-A",
+          "ic50_nm": null,
+          "action": "enzymeInhibitor",
+          "species": "rat",
+          "tissue_or_cell": "rat brain mitochondria",
+          "reference": "doi:10.3390/molecules26195914",
+          "is_review": false,
+          "notes": "Weak MAO inhibitor — lacks basic nitrogen typical of MAOIs, so the activity is mild. Probably contributes to nutmeg's monoaminergic effects."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Itself an aromatic ether with no primary amine — not a classical entactogen. Hypothesised to be metabolised in humans to MMDA (3-methoxy-4,5-MDA) via an aminotransferase/CYP-mediated process that adds an amine to the allyl side chain — this proposed amphetamine metabolite would then act on 5-HT2A. The metabolic conversion has been demonstrated in rodent in vitro systems but the in vivo human conversion is debated and quantitatively small. Nutmeg's psychoactivity probably stems from a combination of weak MAO inhibition, slow generation of trace amphetamine metabolites, and CNS effects of other constituents (elemicin, safrole).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "oral",
+          "bioavailability_pct": null,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 300,
+          "half_life_min": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": null,
+          "reference": "doi:10.3390/molecules26195914",
+          "notes": "Onset of nutmeg intoxication 3-8 hours; duration 24-48 h. Pharmacokinetics dominated by extensive first-pass metabolism."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP",
+        "metabolite_name": "MMDA (proposed)",
+        "metabolite_active": true,
+        "reference": "doi:10.3390/molecules26195914",
+        "notes": "Aminotransferase-mediated formation of 3-methoxy-4,5-MDA in rodents. Quantitative role in humans unclear."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "MAOIs",
+        "mechanism": "weak MAO-A inhibition",
+        "clinical_effect": "Additive risk.",
+        "reference": null
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": "Hangover-like residual effects 1-2 days.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "natural-product",
+      "weak-MAOI",
+      "deliriant",
+      "MMDA-precursor"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Quantitative human MMDA formation",
+      "Specific metabolic enzymes"
+    ],
+    "notes": "Nutmeg primary aromatic ether. Not a true entactogen — included in this group because of the methylenedioxy ring. Psychoactivity is delayed (3-8 h onset) and dysphoric/deliriant rather than empathogenic.",
+    "references_consulted": [
+      "doi:10.3390/molecules26195914"
+    ]
+  },
+  {
+    "name": "Psilocin",
+    "aliases_added": [
+      "4-OH-DMT",
+      "4-hydroxy-N,N-dimethyltryptamine"
+    ],
+    "iupac_name": "3-[2-(dimethylamino)ethyl]-1H-indol-4-ol",
+    "smiles": "CN(C)CCc1c[nH]c2cccc(O)c12",
+    "inchikey": "CYHOMWAPJJPNMW-UHFFFAOYSA-N",
+    "cas": "520-53-6",
+    "pubchem_cid": null,
+    "class_context_id": "tryptamine-psychedelics",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A",
+        "5-HT2C",
+        "5-HT1A"
+      ],
+      "binding": [
+        {
+          "target": "5-HT2A",
+          "ki_nm": 49,
+          "action": "agonist",
+          "intrinsic_activity_pct": 89,
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2A",
+          "reference": "pmid:21073468",
+          "is_review": false
+        },
+        {
+          "target": "5-HT2C",
+          "ki_nm": 97,
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "HEK293 h5-HT2C",
+          "reference": "pmid:21073468",
+          "is_review": false
+        },
+        {
+          "target": "5-HT1A",
+          "ki_nm": 567,
+          "action": "agonist",
+          "species": "human",
+          "reference": "pmid:21073468",
+          "is_review": false
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: Psilocin is the active metabolite of psilocybin and a classical 5-HT2A agonist psychedelic. NOT an entactogen — does not significantly release monoamines. Recategorize as Psychedelic.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "psilocybin",
+        "LSD",
+        "DMT"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "psychedelic",
+      "MISCATEGORIZED"
+    ],
+    "tags_to_remove": [
+      "research-chemical",
+      "tentative"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "MISCATEGORIZED: Psilocin is a classical psychedelic (5-HT2A agonist), not an entactogen. This is the bioactive form of psilocybin. Recategorize.",
+    "references_consulted": [
+      "pmid:21073468"
+    ]
+  },
+  {
+    "name": "Ayahuasca",
+    "aliases_added": [
+      "yagé",
+      "pharmahuasca"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "tryptamine-psychedelics",
+    "pharmacology": {
+      "primary_targets": [
+        "MAO-A",
+        "5-HT2A (via DMT)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: Ayahuasca is a brew combining MAOI β-carbolines (harmine, harmaline, THH from Banisteriopsis caapi) with the 5-HT2A agonist DMT (from Psychotria viridis). Acts as a classical psychedelic, not an entactogen. The MAOIs prevent gut MAO from destroying the orally administered DMT.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "DMT",
+        "LSD"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "psychedelic",
+      "MAOI",
+      "MISCATEGORIZED"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "MISCATEGORIZED: Ayahuasca is a psychedelic brew (MAOI + DMT), not an entactogen. Recategorize.",
+    "references_consulted": []
+  },
+  {
+    "name": "Yopo",
+    "aliases_added": [
+      "Anadenanthera peregrina snuff"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "tryptamine-psychedelics",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A (via bufotenin/DMT)"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: Yopo is a snuff prepared from Anadenanthera peregrina seeds — contains bufotenin (5-HO-DMT), DMT, and 5-MeO-DMT. Classical psychedelic, not an entactogen.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-MeO-DMT",
+        "DMT"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "psychedelic",
+      "MISCATEGORIZED"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "MISCATEGORIZED: Yopo is a tryptamine-psychedelic snuff, not an entactogen. Recategorize.",
+    "references_consulted": []
+  },
+  {
+    "name": "JWH-367",
+    "aliases_added": [],
+    "iupac_name": "(5-(3-methoxyphenyl)-1-pentyl-1H-pyrrol-3-yl)(naphthalen-1-yl)methanone",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "914458-30-3",
+    "pubchem_cid": null,
+    "class_context_id": "synthetic-cannabinoids",
+    "pharmacology": {
+      "primary_targets": [
+        "CB1",
+        "CB2"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: JWH-367 is a JWH-series synthetic cannabinoid (Huffman pyrrole). It is a cannabinoid receptor agonist, not an MDMA-family entactogen. This compound does not belong in this group. The source dataset includes it accidentally.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "JWH-018",
+        "synthetic cannabinoids"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "synthetic-cannabinoid",
+      "MISCATEGORIZED",
+      "wrong-group"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "GROUP ERROR: JWH-367 is a synthetic cannabinoid, NOT in the MDMA family. Should be moved to a cannabinoid group entirely.",
+    "references_consulted": []
+  },
+  {
+    "name": "2c-b-fly-nbome",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "phenethylamine-psychedelics",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: This is a hybrid of the 2C-B-FLY scaffold with an NBOMe N-substitution — a hyper-potent (sub-nM) 5-HT2A agonist psychedelic. Belongs in the NBOMe / phenethylamine-psychedelic group, not entactogens. The NBOMe N-substitution converts the parent into a much more potent and longer-acting 5-HT2A agonist with known fatality risk (vasoconstriction, hyperthermia, seizures).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "2C-B-FLY",
+        "25I-NBOMe"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "psychedelic",
+      "MISCATEGORIZED",
+      "fatality-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct binding/functional data"
+    ],
+    "notes": "MISCATEGORIZED: NBOMe-class psychedelic, not entactogen.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-aco-mipt",
+    "aliases_added": [
+      "4-AcO-MiPT",
+      "mipracetin"
+    ],
+    "iupac_name": "3-[2-(methyl(propan-2-yl)amino)ethyl]-1H-indol-4-yl acetate",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "tryptamine-psychedelics",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT2A"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: 4-acetoxy-N-methyl-N-isopropyltryptamine — a 4-acetoxy psilocin-analogue prodrug for 4-HO-MiPT. Classical 5-HT2A-agonist tryptamine psychedelic, not an entactogen.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "esterases",
+        "metabolite_name": "4-HO-MiPT",
+        "metabolite_active": true,
+        "reference": null,
+        "notes": "Acetate ester prodrug."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "psilocin",
+        "4-HO-MiPT"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "5-HT2A-agonist",
+      "psychedelic",
+      "prodrug",
+      "MISCATEGORIZED"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "MISCATEGORIZED: Tryptamine psychedelic, not entactogen.",
+    "references_consulted": []
+  },
+  {
+    "name": "MD-PHP",
+    "aliases_added": [
+      "MDPHP",
+      "3,4-MDPHP",
+      "zombie dust",
+      "monkey dust"
+    ],
+    "iupac_name": "1-(1,3-benzodioxol-5-yl)-2-(pyrrolidin-1-yl)hexan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "pyrovalerone-cathinones",
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED for this group: MD-PHP is a pyrovalerone-class methylenedioxy cathinone — a pure DAT/NET reuptake inhibitor (NDRI) with NO serotonergic activity. The MDMA/entactogen group is wrong for it. Pharmacologically similar to MDPV: potent stimulant, high abuse potential, NOT empathogenic. Drives the 'zombie' presentations widely reported in UK Stoke 2018+.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDPV",
+        "α-PVP"
+      ],
+      "withdrawal_syndrome": "Strong post-stimulant crash, dysphoria, anhedonia.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "NDRI",
+      "pyrovalerone-cathinone",
+      "stimulant-not-entactogen"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct EC50/IC50 values"
+    ],
+    "notes": "Pyrovalerone cathinone — should be in stimulant group, not entactogen group.",
+    "references_consulted": [
+      "doi:10.3390/ph14080732"
+    ]
+  },
+  {
+    "name": "MD-PiHP",
+    "aliases_added": [
+      "MDPiHP"
+    ],
+    "iupac_name": "1-(1,3-benzodioxol-5-yl)-4-methyl-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "pyrovalerone-cathinones",
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: Isohexanophenone pyrrolidinophenone — pyrovalerone class NDRI stimulant, not entactogen. Same notes as MD-PHP.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MD-PHP",
+        "α-PVP"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "NDRI",
+      "pyrovalerone-cathinone",
+      "stimulant-not-entactogen"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct EC50/IC50 values"
+    ],
+    "notes": "Pyrovalerone cathinone — should be in stimulant group.",
+    "references_consulted": []
+  },
+  {
+    "name": "A-pihp",
+    "aliases_added": [
+      "α-PiHP"
+    ],
+    "iupac_name": "4-methyl-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "pyrovalerone-cathinones",
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MISCATEGORIZED: α-PiHP is a pyrovalerone-class NDRI stimulant cathinone analogous to α-PVP. No serotonergic activity; pure stimulant.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "α-PVP",
+        "MDPV"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "NDRI",
+      "pyrovalerone-cathinone",
+      "stimulant-not-entactogen"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding data"
+    ],
+    "notes": "Pyrovalerone cathinone.",
+    "references_consulted": []
+  },
+  {
+    "name": "Mdpa",
+    "aliases_added": [
+      "methylenedioxyphenylacetamide"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "methylenedioxy-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Methylenedioxyphenylacetamide. Sparse/no published pharmacology. The amide is likely metabolically labile or weakly active; no clear monoamine releaser activity reported.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "Negligible published data.",
+    "references_consulted": []
+  },
+  {
+    "name": "Nm-2-ai",
+    "aliases_added": [
+      "N-methyl-2-aminoindane",
+      "NM2AI"
+    ],
+    "iupac_name": "N-methyl-2,3-dihydro-1H-inden-2-amine",
+    "smiles": "CNC1Cc2ccccc2C1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "aminoindane-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "SERT",
+        "NET"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "N-methyl-2-aminoindane. Without the methylenedioxy ring, much weaker than MDAI. Pure 2-aminoindane scaffold is itself an NRI; N-methylation slightly shifts profile. Limited direct data.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "MDAI",
+        "5-IAI"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "aminoindane-class"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct EC50/IC50"
+    ],
+    "notes": "Aminoindane variant.",
+    "references_consulted": []
+  },
+  {
+    "name": "Cyclo-methiodrone",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinone-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Putative cathinone derivative. No published pharmacology found.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology — no peer-reviewed data found"
+    ],
+    "notes": "Negligible published data. Possibly an obscure or fictional compound name.",
+    "references_consulted": []
+  },
+  {
+    "name": "3-meomc",
+    "aliases_added": [
+      "3-methoxymethcathinone"
+    ],
+    "iupac_name": "2-(methylamino)-1-(3-methoxyphenyl)propan-1-one",
+    "smiles": "COc1cccc(C(=O)C(C)NC)c1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinone-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "3-methoxymethcathinone. Cathinone scaffold. By analogy to other methoxy-cathinones, mixed monoamine uptake inhibitor/releaser, more stimulant than empathogenic.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "methcathinone",
+        "mephedrone"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "cathinone"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct binding/release data"
+    ],
+    "notes": "Limited published pharmacology.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-cbc",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "cathinone-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Identification ambiguous — could be 4-chlorobutylcathinone or a cannabichromene confusion. No published pharmacology under this exact name.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Identification",
+      "All pharmacology"
+    ],
+    "notes": "Ambiguous identification; no clear peer-reviewed referent.",
+    "references_consulted": []
+  },
+  {
+    "name": "4-fpp",
+    "aliases_added": [
+      "4-fluorophenylpiperazine"
+    ],
+    "iupac_name": "1-(4-fluorophenyl)piperazine",
+    "smiles": "Fc1ccc(N2CCNCC2)cc1",
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "piperazine-entactogens",
+    "pharmacology": {
+      "primary_targets": [
+        "5-HT1A",
+        "5-HT2A",
+        "SERT"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "4-Fluorophenylpiperazine. Piperazine class — 5-HT1A and 5-HT2A activity with weak SERT inhibition. Not a true entactogen; more of a fenfluramine-like serotonergic. Recategorize.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "mCPP",
+        "BZP"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "piperazine",
+      "5-HT-agonist"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Specific Ki/EC50 values"
+    ],
+    "notes": "Piperazine class. Should probably be in a piperazine group.",
+    "references_consulted": []
+  },
+  {
+    "name": "5-meo-dibf",
+    "aliases_added": [],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "tryptamine-related",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "5-methoxy-N,N-diisobutyltryptamine analogue (presumed). Sparse direct data; class would suggest 5-HT2A agonism.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Identification and pharmacology"
+    ],
+    "notes": "Ambiguous identification.",
+    "references_consulted": []
+  },
+  {
+    "name": "Dimemebfe",
+    "aliases_added": [
+      "5-MeO-BFE"
+    ],
+    "iupac_name": null,
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzofuran-entactogens",
+    "pharmacology": {
+      "primary_targets": [],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "5-Methoxy benzofuran-ethylamine variant. Sparse direct pharmacology. By class, likely 5-HT releaser/5-HT2A agonist hybrid.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "5-APB"
+      ],
+      "withdrawal_syndrome": null,
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "All pharmacology"
+    ],
+    "notes": "Sparse data.",
+    "references_consulted": []
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "methylenedioxy-entactogens",
+    "class_name": "Methylenedioxy phenethylamine entactogens (MDxx and SAR-related)",
+    "shared_mechanism": "Substrate-type monoamine releasers at SERT, NET, and DAT. Compound enters the neuron via the same transporter it will then reverse — once inside, it triggers efflux of stored monoamines, with VMAT2 inhibition contributing to cytosolic monoamine availability. The 3,4-methylenedioxy ring is the entactogen signature: it shifts SERT selectivity above DAT (the opposite of methamphetamine). The α-methyl group protects against MAO oxidation, doubling duration vs the deaminated phenethylamines. The N-substituent modulates the DAT:SERT release ratio: N-H (MDA) gives broad release with some 5-HT2A agonism; N-methyl (MDMA) is the prototypical entactogen with strong SERT/NET, modest DAT; N-ethyl (MDE) collapses DA release; N-propyl/N-allyl further reduce all activity. Ring substitution (e.g., 5-methoxy → MMDA, 6-bromo → 2-Br-MDA) shifts pharmacology from releaser toward direct 5-HT2A agonist psychedelic. The class is also defined by potent 5-HT2B agonism (MDA Ki ≈100 nM, MDMA ≈500 nM), responsible for the cardiac valvular fibrosis risk shared by all members at heavy chronic exposure.",
+    "shared_pk_summary": "Oral bioavailability ~70%, Tmax 1.5-2.5 h, half-life 6-10 h for the prototypical MDxx compounds. Metabolism is primarily CYP2D6 (O-demethylenation of the catechol — generating reactive ortho-quinones that mechanism-based-inhibit the enzyme) and CYP2B6 (N-dealkylation). The mechanism-based inhibition of CYP2D6 is the source of MDMA's characteristic nonlinear PK: doubling the dose more than doubles AUC, half-life lengthens at higher doses, and the inhibited CYP2D6 takes ~10 days to recover via de novo protein synthesis. This means CYP2D6 polymorphism has less impact than predicted from first principles, but co-administration of other CYP2D6 substrates is dangerous — repeat-dosing within a week stacks exposure unpredictably regardless of genotype. Major active metabolites are MDA from MDMA (N-demethylation, half-life ~12 h — explains next-day stimulant tail). HMMA via COMT methylation of HHMA is the major urinary metabolite. Phase II glucuronide/sulfate conjugation of HMMA dominates elimination.",
+    "shared_safety": "Acute: serotonin syndrome (with any MAOI / serotonergic agent — absolute contraindication for MAOIs); SIADH-mediated hyponatremia (especially with the polydipsia typical of recreational use; women at higher risk); hyperthermia driven by NE release + skeletal muscle activity + impaired heat dissipation, capable of causing rhabdomyolysis, DIC, multi-organ failure. Cardiovascular: dose-dependent HR and BP increases. Chronic: 5-HT2B-mediated cardiac valvular fibrosis (fenfluramine-class concern); serotonergic axonal pruning at heavy repeated doses (animal evidence robust; human imaging with [11C]-DASB PET shows reduced SERT availability in heavy users with partial recovery on abstinence). Lifetime exposure matters more than single-dose intensity for valve disease and SERT downregulation. Re-dosing within a session is particularly inefficient and increases risk because CYP2D6 is already inhibited and 5-HT pools are depleted — gives more side effects without more euphoria.",
+    "sar_summary": "α-methyl: protects from MAO oxidation, doubles duration relative to phenethylamine. N-substituent: H = MDA (broad release + 5-HT2A agonist character); methyl = MDMA (canonical entactogen, balanced SERT/NET, weaker DA); ethyl = MDE (collapses DA, pure entactogen); larger N-alkyls progressively kill activity. Ring substitution: 3,4-methylenedioxy = entactogen signature (SERT-selective); halogenation (Br, I) on the ring increases 5-HT2A binding (psychedelic shift); methoxy substitution (e.g., MMDA) increases 5-HT2A agonism at the cost of release; benzofuran ring-replacement (5-APB/6-APB) gives single-digit-nM SNDRA potency with high 5-HT2B agonism (more dangerous); 2-aminoindane scaffold (MDAI) constrains geometry for SERT-selectivity (less neurotoxic per Nichols' design but still capable of fatal hyperthermia). β-keto (cathinone) ring shifts toward stimulant character with VMAT2 inactivity (methylone is 4-5× less potent at SERT release than MDMA). Lysine-amide prodrugs (Lys-MDA, Lys-MDMA) extend onset/duration with no intrinsic activity until peptidase cleavage.",
+    "key_references": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1097/FTD.0b013e3181a8b626",
+      "doi:10.1046/j.1365-2125.2000.00121.x",
+      "doi:10.1124/dmd.31.4.388",
+      "doi:10.1038/s41386-024-01972-6",
+      "doi:10.1038/s41386-025-02248-3",
+      "pmid:12649569",
+      "doi:10.3389/fgene.2012.00235",
+      "doi:10.1177/0269881106065907",
+      "doi:10.1124/jpet.105.085639"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "benzofuran-entactogens",
+    "class_name": "Benzofuran and dihydrobenzofuran amphetamines (APB/APDB family)",
+    "shared_mechanism": "The benzofuran ring (and its saturated dihydrobenzofuran analogue) replaces the methylenedioxy of MDxx with a furan oxygen, while keeping the α-methyl phenethylamine pharmacophore. The substitution dramatically increases potency at human monoamine transporters: 5-APB and 6-APB are 3-10× more potent than MDA at every transporter (single-digit nM EC50 at rat DAT/NET/SERT). The class-defining liability is potent agonism at 5-HT2B (5-APB EC50 280 nM Emax 61%, 6-APB EC50 140 nM Emax 70% — both full agonists in the nanomolar range), which substantially exceeds MDMA's 5-HT2B affinity. This explains the higher rate of fatal cardiac events seen with APB-class drugs at recreational doses. The 5- and 6-positional isomers differ: 5-APB is more SERT-selective; 6-APB is more potent at DAT. Dihydrobenzofuran (APDB) variants have weaker DAT activity and shift toward NRI/SSRA profile. N-methyl substitution (MAPB) gives MDMA-like profile shifts (less DAT release). N-ethyl (EAPB) collapses DA release further.",
+    "shared_pk_summary": "Longer half-lives than MDMA (8-12 h reported for APBs vs 6-8 h MDMA). Slower onset (~2 h vs ~1 h for MDMA). Hepatic metabolism via CYP2D6 (analogous to MDMA) plus likely furan ring oxidation (epoxide intermediates — potential hepatotoxic mechanism not well-characterised). No controlled human PK studies published.",
+    "shared_safety": "Acute: same serotonin syndrome risks as MDMA but multiplied by higher transporter potency. Multiple fatalities documented in UK 2012-2014 ('benzofury'), prompting UK ban. The potent 5-HT2B agonism makes chronic use highly likely to cause cardiac valvular fibrosis (fenfluramine-class concern, but more potent than fenfluramine on a molar basis). Furan ring metabolism may generate reactive epoxides — hepatotoxicity signal in case reports. Long duration combined with vasoconstriction makes hyperthermia/cardiotoxicity worse than equivalent MDMA dose.",
+    "sar_summary": "Furan O position (5 vs 6) determines DAT:SERT ratio. Dihydro- (saturated) form weakens DAT. Same N-substitution effects as MDxx family: H = APB (SNDRA), methyl = MAPB, ethyl = EAPB. All retain potent 5-HT2B agonism — there is no published structural modification that decouples desirable release activity from this cardiotoxic off-target in this scaffold.",
+    "key_references": [
+      "doi:10.1002/dta.1389",
+      "doi:10.1111/bph.15211"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "aminoindane-entactogens",
+    "class_name": "2-Aminoindane entactogens (MDAI family)",
+    "shared_mechanism": "The 2-aminoindane scaffold conformationally constrains the phenethylamine into a rigid 'extended' geometry. This geometry is favourable for SERT activity but disfavours DAT — yielding selective serotonin releasers/reuptake inhibitors with minimal dopamine effect. MDAI (5,6-methylenedioxy-2-aminoindane) is the prototype, developed by David Nichols at Purdue as a 'non-neurotoxic MDMA' research tool. SERT IC50 512 nM, DAT IC50 5920 nM (~12-fold SERT-selective) in rat synaptosomes (Johnson et al 1991). The reduced neurotoxicity in animals stems from low DA-mediated oxidative stress; serotonergic axonal pruning is still possible but markedly reduced.",
+    "shared_pk_summary": "Limited published human PK. Onset 1-2 h, duration 4-6 h reported by users. Hepatic metabolism with CYP2D6 contribution presumed.",
+    "shared_safety": "The 'non-neurotoxic' label has been misleading in practice — Corkery 2013 documented fatalities, and Pálenicek 2016 rat LD50 work demonstrated a narrow safety margin with severe hyperthermia. SERT-selective release still produces serotonin syndrome with MAOIs and SSRIs. 5-HT2B agonism — likely retained by class — adds cardiac concern.",
+    "sar_summary": "Aminoindane core (2-aminopropyl built into a cyclopentane ring fused to benzene) gives rigidity. 5,6-methylenedioxy = MDAI; 5-iodo = 5-IAI (similar profile, halogenated); 5-amino (unsubstituted) = 5-APDI = IAP. Without ring substitution, the parent 2-aminoindane is itself a selective NRI used as a research reference. N-methylation reduces serotonergic potency.",
+    "key_references": [
+      "pmid:1875344",
+      "doi:10.1002/hup.2298",
+      "doi:10.1016/j.etap.2016.03.013"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "aminorex-derivatives",
+    "class_name": "Aminorex derivatives (4-MAR, 4,4'-DMAR family)",
+    "shared_mechanism": "2-amino-oxazoline ring system. Parent aminorex was a 1960s anorectic (withdrawn for pulmonary arterial hypertension). The dimethyl/methyl analogues retain release activity at all three monoamine transporters; 4,4'-DMAR is a single-digit-nM SNDRA (DAT EC50 8.6 nM, SERT 18.5 nM, NET 26.9 nM) and a VMAT2 inhibitor.",
+    "shared_pk_summary": "Limited published human PK.",
+    "shared_safety": "The most dangerous compounds in the entactogen/empathogen-adjacent space by user-fatality ratio. 4,4'-DMAR caused >30 fatal cases in EU 2013-2014 (cluster in Northern Ireland alone: 19 deaths). Mechanism: serotonin syndrome from massive 5-HT release, plus retained aminorex pulmonary toxicity, plus VMAT2-mediated neurotoxicity. Avoid entirely.",
+    "sar_summary": "Methylation at the 4-position of the oxazoline (cis-4-methyl) and on the phenyl ring (4'-methyl) gives 4,4'-DMAR — the most active and most fatal variant. 3,4-DMAR (3'-methyl instead of 4'-methyl) is somewhat less potent.",
+    "key_references": [
+      "doi:10.1016/j.neuropharm.2018.06.025",
+      "doi:10.1111/bcpt.12399"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "alpha-methyltryptamine-derivatives",
+    "class_name": "α-Methyltryptamine and 5-(2-aminopropyl)indole derivatives",
+    "shared_mechanism": "α-methyl tryptamines combine 5-HT2A agonism (psychedelic) with monoamine releaser activity AND MAO-A inhibition. The MAO-A inhibition is the dangerous feature: it is built into the compound's own pharmacology, so the released 5-HT cannot be metabolised. 5-IT (5-API, the indole positional isomer of AMT) is a particularly potent MAO-A inhibitor. 5-MeO-AMT adds 5-methoxy substitution that boosts 5-HT2A agonism markedly — Shulgin's α,O-DMS — extremely potent at 2.5-5 mg active dose.",
+    "shared_pk_summary": "Very long duration (12-18 h for 5-MeO-AMT) reflecting MAO inhibition prolonging the compound's own half-life.",
+    "shared_safety": "Built-in pharmacological foot-gun. The MAO-A inhibition guarantees fatal serotonin syndrome with any additional serotonergic input. Multiple fatality clusters: 5-MeO-AMT in US 2003-2004, 5-IT in EU 2011-2013 (>20 confirmed deaths). MISCATEGORIZED in this group: these are tryptamine psychedelics, not entactogens.",
+    "sar_summary": "Adding 5-methoxy boosts 5-HT2A. Moving the 2-aminopropyl from indole-3 (true tryptamines) to indole-5 (5-IT/5-API) shifts activity from receptor agonism to MAO inhibition.",
+    "key_references": [
+      "doi:10.1124/jpet.300.3.971",
+      "doi:10.1016/j.taap.2017.02.004"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "cathinone-entactogens",
+    "class_name": "Cathinone-class entactogens (β-keto amphetamines)",
+    "shared_mechanism": "β-keto (cathinone) shifts the amphetamine scaffold toward stimulant character. Methylone (3,4-methylenedioxymethcathinone) is the β-keto MDMA — much weaker SERT release (~5× less than MDMA) but retains stimulant-like DAT activity, no VMAT2 inhibition (lower neurotoxicity). Mephedrone and 4-MEC inherit similar profiles. The cathinone class is generally less SERT-selective than the MDxx amphetamines, more reinforcing, and shorter-acting. β-methoxy modifications (mexedrone) collapse activity.",
+    "shared_pk_summary": "Shorter half-lives than MDxx (mephedrone ~2-3 h). Hepatic metabolism via CYP2D6 (analogous demethylenation). Cathinones generally have lower oral bioavailability than amphetamines.",
+    "shared_safety": "Lower serotonergic neurotoxicity than MDMA at equivalent doses but higher abuse potential due to DAT activity. Cardiotoxicity from sympathomimetic load. Methylone cleared US Phase 1 trials for PTSD — apparently safer subjective profile than MDMA at equivalent serotonergic effect.",
+    "sar_summary": "β-keto = stimulant shift, VMAT2-inactive. N-methyl vs N-ethyl: same dose-shifting as MDxx. Ring substitution: 3,4-methylenedioxy = methylone/butylone family; 4-methyl = mephedrone.",
+    "key_references": [
+      "doi:10.1111/j.1476-5381.2012.02145.x",
+      "doi:10.1002/dta.2053"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "naphthyl-entactogens",
+    "class_name": "Naphthyl amphetamines (PAL-287 / methamnetamine family)",
+    "shared_mechanism": "Naphthalene ring replacement of phenyl. PAL-287 (naphthylaminopropane) is a balanced SNDRA with single-digit-nM potency at all three monoamine transporters (5-HT 3.4 nM, NE 11.1 nM, DA 12.6 nM) — originally developed as a candidate stimulant-use-disorder treatment because the balanced release dampens DA reinforcement. Methamnetamine is the N-methyl analogue (similar profile).",
+    "shared_pk_summary": "Limited human PK.",
+    "shared_safety": "Serotonin syndrome with MAOIs. No published fatalities cluster, but research-chemical exposure is low.",
+    "sar_summary": "Naphthyl ring boosts potency at all transporters. N-methylation and N-ethylation shift the DAT:SERT ratio analogously to phenethylamine families.",
+    "key_references": [
+      "doi:10.1016/j.neuropharm.2014.04.019"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "pyrovalerone-cathinones",
+    "class_name": "Pyrovalerone cathinones (MDPV / α-PVP / MD-PHP family) — included by accident",
+    "shared_mechanism": "Pure DAT/NET reuptake inhibitors with NO serotonergic activity. Pyrrolidine-N + extended α-alkyl chain. MDPV is the prototype; α-PVP, MD-PHP, MD-PiHP, α-PiHP all share the same NDRI profile. These are pure stimulants — not entactogens. Their inclusion in this group is a categorisation error.",
+    "shared_pk_summary": "Hepatic CYP2D6/CYP1A2 metabolism. Short half-lives (2-4 h for MDPV).",
+    "shared_safety": "High abuse potential, cardiovascular toxicity, agitation/psychosis (the 'bath salts' presentation). No serotonin syndrome risk because no serotonergic activity. Should be reclassified to a stimulant group.",
+    "sar_summary": "Pyrrolidine N + α-alkyl chain length (propyl/butyl/pentyl/hexyl) tunes DAT potency. β-keto retained. Methylenedioxy ring on phenyl gives MD-PHP/MD-PiHP/MDPV.",
+    "key_references": [
+      "doi:10.3390/ph14080732"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "tryptamine-psychedelics",
+    "class_name": "Classical tryptamine psychedelics — miscategorized in this group",
+    "shared_mechanism": "5-HT2A agonists. Psilocin (active form of psilocybin), Ayahuasca (DMT + β-carboline MAOIs), Yopo (bufotenin/DMT snuff) all share 5-HT2A-driven psychedelic mechanism. NOT entactogens — they do not release monoamines significantly.",
+    "shared_pk_summary": null,
+    "shared_safety": "Class-typical psychedelic risks (HPPD, psychiatric exacerbation), with MAOI-specific risks for Ayahuasca.",
+    "sar_summary": null,
+    "key_references": [
+      "pmid:21073468"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "phenethylamine-psychedelics",
+    "class_name": "Phenethylamine psychedelics — miscategorized (2C-x, NBOMe)",
+    "shared_mechanism": "Direct 5-HT2A agonists, not monoamine releasers. NBOMe N-substitution converts 2C-x parents into hyper-potent (sub-nM) 5-HT2A agonists with serious fatality risk.",
+    "shared_pk_summary": null,
+    "shared_safety": "NBOMe vasoconstriction, hyperthermia, seizures; multiple documented fatalities.",
+    "sar_summary": null,
+    "key_references": []
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "piperazine-entactogens",
+    "class_name": "Phenylpiperazines (BZP / mCPP / pFPP)",
+    "shared_mechanism": "5-HT1A, 5-HT2A, 5-HT2C agonism plus weak SERT inhibition. Fenfluramine-like serotonergic profile. Not strictly entactogens — produce dysphoric serotonergic effects more than empathy.",
+    "shared_pk_summary": null,
+    "shared_safety": "Headache, nausea, anxiety. mCPP is the active metabolite of trazodone.",
+    "sar_summary": null,
+    "key_references": []
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "synthetic-cannabinoids",
+    "class_name": "Synthetic cannabinoids — wrong group (JWH-367)",
+    "shared_mechanism": "CB1/CB2 receptor agonists. JWH-367 is a Huffman pyrrole cannabinoid. Has nothing in common with MDMA/entactogens — appears in this group by error.",
+    "shared_pk_summary": null,
+    "shared_safety": null,
+    "sar_summary": null,
+    "key_references": []
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "tryptamine-related",
+    "class_name": "Miscellaneous tryptamine-related (ambiguous identifications)",
+    "shared_mechanism": "Catch-all for entries with ambiguous identification.",
+    "shared_pk_summary": null,
+    "shared_safety": null,
+    "sar_summary": null,
+    "key_references": []
+  }
+]

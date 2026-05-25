@@ -1,0 +1,4974 @@
+[
+  {
+    "name": "Etonitazene",
+    "aliases_added": [
+      "ETZ"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-ethoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": "CCOC1=CC=C(CC2=NC3=CC([N+]([O-])=O)=CC=C3N2CCN(CC)CC)C=C1",
+    "inchikey": "DDXBRRGMSLAZGV-UHFFFAOYSA-N",
+    "cas": "911-65-9",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.206,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1.14,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 99.4,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 167.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 510.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 85.3,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 124.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 311.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 92.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 8.11,
+          "ki_ci_nm": [
+            5.17,
+            12.6
+          ],
+          "kd_nm": null,
+          "ec50_nm": 0.0231,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "FLP-FRT-HEK cells stably expressing hMOR; cAMP HTRF (Gi)",
+          "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "is_review": false,
+          "notes": "EC50 of 23.1 pM makes etonitazene one of most potent nitazenes functionally; in-vivo rat antinociception ED50 0.00174 mg/kg"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist; activates Gi/o → adenylyl-cyclase inhibition → reduced cAMP. Kozell 2024 GTPγS Emax 99% of DAMGO. No bias data published; β-arrestin recruitment of nitazenes is broadly similar to morphine — they are NOT β-arrestin–biased per Connors/Vandeputte HEK293T assays (Vandeputte 2022 Arch Toxicol).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desethyl etonitazene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+        "notes": "N-deethylation via CYP3A4; metabolite retains μ-agonist activity"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine",
+        "isotonitazene"
+      ],
+      "withdrawal_syndrome": "Classical opioid withdrawal; onset 8–24h depending on dose schedule; not formally studied in humans for nitazenes.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "subnanomolar-Ki",
+      "naloxone-high-dose-required",
+      "fentanyl-stronger"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK data (no clinical studies)",
+      "Biased agonism specifically at MOR vs DAMGO",
+      "Receptor downregulation kinetics in human cells"
+    ],
+    "notes": "Morphine-equivalent potency ~1000–1500× (in-vivo rat). Naloxone reverses but multiple doses (≥4 mg cumulative) often needed.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-021-03207-9",
+      "doi:10.3389/fpubh.2024.1346109"
+    ]
+  },
+  {
+    "name": "Isotonitazene",
+    "aliases_added": [
+      "ITZ",
+      "iso"
+    ],
+    "iupac_name": "N,N-diethyl-2-(2-(4-isopropoxybenzyl)-5-nitro-1H-benzimidazol-1-yl)ethan-1-amine",
+    "smiles": "CCN(CC)CCN1C(=NC2=CC([N+]([O-])=O)=CC=C21)CC1=CC=C(OC(C)C)C=C1",
+    "inchikey": "OUEYXBYAJVMCRC-UHFFFAOYSA-N",
+    "cas": "14188-81-9",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.219,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1.45,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 103.5,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 109.6,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 344.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 87.7,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=6; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 143.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 548.6,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 114.6,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 11.2,
+          "ki_ci_nm": [
+            6.53,
+            19.7
+          ],
+          "kd_nm": null,
+          "ec50_nm": 0.0536,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "is_review": false,
+          "notes": "Rat antinociception ED50 0.00704 mg/kg; ~100× more potent than fentanyl in-vivo (Krotulski 2020)"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Gαi/o → cAMP inhibition. Not significantly β-arrestin biased relative to DAMGO/hydromorphone in HEK293T mini-Gαi vs β-arrestin2 NanoBiT assays.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desethyl isotonitazene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": 100,
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+        "notes": "N-desethyl metabolite is itself a MOR full agonist with Ki 1.53 nM (Vandeputte 2023) — found in post-mortem casework"
+      },
+      {
+        "enzyme": "CYP1A2",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "O-deisopropyl isotonitazene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/jat/bkaa092",
+        "notes": "Cleavage of isopropyl ether by CYP1A2 yields des-alkyl phenol metabolite (etodesnitazene scaffold)"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine",
+        "etonitazene",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; case reports of severe withdrawal after sustained nitazene use.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "subnanomolar-EC50",
+      "naloxone-high-dose-required",
+      "fentanyl-stronger",
+      "active-metabolite"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Volume of distribution",
+      "Bias factor at MOR vs reference compound"
+    ],
+    "notes": "First nitazene to cause large death-cluster (2019-2020); replaced rapidly by analogues after WHO scheduling.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1093/jat/bkaa092",
+      "doi:10.1007/s00204-021-03207-9"
+    ]
+  },
+  {
+    "name": "Metonitazene",
+    "aliases_added": [
+      "MTZ"
+    ],
+    "iupac_name": "2-(4-methoxybenzyl)-1-(2-(diethylamino)ethyl)-5-nitro-1H-benzimidazole",
+    "smiles": "CCN(CC)CCN1C(CC2=CC=C(OC)C=C2)=NC2=CC([N+]([O-])=O)=CC=C12",
+    "inchikey": "PBPCNYKPKZMILX-UHFFFAOYSA-N",
+    "cas": "14680-51-4",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.49,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 7.27,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 95.3,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 154.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 860.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 85.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=5; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 373.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2470.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 79.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist (Emax 95% DAMGO at GTPγS). MOR/KOR selectivity ratio ~314 (Kozell 2024). Not β-arrestin biased.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "metodesnitazene (N-desethyl) + O-demethyl-metonitazene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+        "notes": "N-deethylation and O-demethylation both observed; metodesnitazene metabolite has Ki 19.3 nM (less potent than parent)"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine",
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Tmax/Cmax",
+      "Bias factor"
+    ],
+    "notes": "Methoxy chain ~3× weaker than ethoxy isomer (etonitazene). US-Schedule-I 2022.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939"
+    ]
+  },
+  {
+    "name": "Butonitazene",
+    "aliases_added": [
+      "BTZ"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-butoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "14030-77-4",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.47,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 12.3,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 104.4,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=6; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 491.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 3430.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 69.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 390.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1280.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 85.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist (Emax 104%). Less potent than ethoxy/isopropoxy isomers due to butoxy chain length — exceeds optimal binding-pocket geometry (Vandeputte 2023 SAR).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Metabolism",
+      "Post-mortem casework numbers"
+    ],
+    "notes": "Alkoxy chain SAR: methoxy < butoxy < propoxy < ethoxy ≈ isopropoxy at MOR (Vandeputte 2023).",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Flunitazene",
+    "aliases_added": [
+      "FTZ"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-fluorobenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 12.49,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 168.5,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 95.4,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 2680.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 6200.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 63.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 8400.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 8000.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 15.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "Ki and EC50 both > assay upper limit; weak DOR partial agonist (Emax 15%)"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist but markedly less potent than alkoxy nitazenes — para-F substituent loses the H-bond acceptor that the alkoxy oxygen provides (binding-pocket SAR).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "weaker-than-fentanyl-class"
+    ],
+    "tags_to_remove": [
+      "fentanyl-stronger"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Casework"
+    ],
+    "notes": "Among the weakest nitazenes per Kozell 2024 — Ki ~60× higher than etonitazene; still subnanomolar at MOR in some assays.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Protonitazene",
+    "aliases_added": [
+      "PTZ"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-propoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "119276-01-6",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.295,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2.47,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 93.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=6; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 301.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1150.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 105.6,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=5; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 142.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2230.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 109.5,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=7; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Propoxy chain length close to optimum — Ki ~5× weaker than etonitazene but functionally comparable.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desethyl protonitazene",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+        "notes": "N-desethyl protonitazene reported in casework as active metabolite and as standalone marketed compound (NDP)"
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fentanyl-stronger",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Frequently co-detected with N-desethyl-protonitazene metabolite in fatal cases.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939"
+    ]
+  },
+  {
+    "name": "Etodesnitazene",
+    "aliases_added": [
+      "Etazene",
+      "Desnitroetonitazene",
+      "ETD"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-ethoxybenzyl)-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "14030-78-5",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.024,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 26.7,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 92.8,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 283.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 850.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 104.2,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=5; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 1310.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 3330.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 40.1,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist (Emax 93%). Removing the 5-nitro group of etonitazene reduces Ki by ~5×; still high potency in absolute terms.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "5-nitro absent — name has 'des-nitro'. Marketed since 2020 in EU/NA grey market.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Etazene",
+    "aliases_added": [
+      "Desnitroetonitazene"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-ethoxybenzyl)-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "14030-78-5",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.024,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 26.7,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 92.8,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Etazene is a synonym for etodesnitazene — see canonical record.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "duplicate-of-etodesnitazene"
+    ],
+    "tags_to_remove": [
+      "fentanyl-stronger"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "DUPLICATE record — same compound as Etodesnitazene. Recommend dedup in upstream substance list.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Metodesnitazene",
+    "aliases_added": [
+      "MTD"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-methoxybenzyl)-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 19.3,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 294.4,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 90.2,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 900.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2150.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 103.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist but ~40× weaker than metonitazene at binding — combined loss of 5-nitro and methoxy (vs ethoxy) chain.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist"
+    ],
+    "tags_to_remove": [
+      "fentanyl-stronger"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Casework"
+    ],
+    "notes": "Weakest 5-des-nitro alkoxy nitazene tested. Still ~5× more potent than morphine functionally.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "N-Desethylprotonitazene",
+    "aliases_added": [
+      "NDP",
+      "N-desethyl-protonitazene"
+    ],
+    "iupac_name": "1-[2-(ethylamino)ethyl]-2-(4-propoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.53,
+          "ki_ci_nm": [
+            0.922,
+            2.48
+          ],
+          "kd_nm": null,
+          "ec50_nm": 0.00413,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "is_review": false,
+          "notes": "Data reported for N-desethyl ISOtonitazene (DEI) in Vandeputte 2023 — same N-desethyl moiety; pharmacologically near-identical to N-desethyl protonitazene. EC50 4.13 pM — among most potent MOR ligands ever characterised in vitro."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "MOR superagonist. Kozell 2024 reports DEI Emax 111% vs DAMGO at GTPγS, EC50 53 pM — i.e. functionally MORE efficacious than the natural ligand peptide. β-arrestin recruitment also elevated (Malcolm 2023).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "further N-deethylated and hydroxylated species",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+        "notes": "Already an N-desethyl metabolite of protonitazene; further demethylation observed in human hepatocyte incubations."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-superagonist",
+      "extreme-potency",
+      "naloxone-high-dose-required",
+      "fentanyl-stronger"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Sold as a drug in its own right since ~2022 — was both a metabolite and a parent. β-arrestin superagonism (Emax >100% DAMGO) explains why respiratory depression is worse than the analgesic Ki ratio predicts.",
+    "references_consulted": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "N-Pyrrolidino-etonitazene",
+    "aliases_added": [
+      "PYRETZ",
+      "etonitazepyne"
+    ],
+    "iupac_name": "1-(2-(pyrrolidin-1-yl)ethyl)-2-(4-ethoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "2306823-35-4",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.24,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 0.73,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 106.1,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 240.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 430.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 56.4,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 110.6,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 828.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 106.6,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist (Emax 106% DAMGO). In Vandeputte 2022 (PYRETZ-focused paper) was equipotent to fentanyl in rat hot-plate and catalepsy assays; confirmed in 21 overdose fatalities.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes",
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fentanyl-stronger",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Pyrrolidine replaces diethylamine — appeared after 2020 ITZ ban as next-gen analogue.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1038/s41386-022-01396-0"
+    ]
+  },
+  {
+    "name": "N-Pyrrolidino-metonitazene",
+    "aliases_added": [
+      "PYRMTZ",
+      "metonitazepyne"
+    ],
+    "iupac_name": "1-(2-(pyrrolidin-1-yl)ethyl)-2-(4-methoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.929,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 18.2,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 95.3,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 770.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1000.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 42.9,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=5; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 308.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 1590.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 94.8,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Pyrrolidine + methoxy combination — ~3-4× weaker than PYRETZ.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fentanyl-stronger",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Among the more recently-emerged pyrrolidino-nitazene analogues. Still subnanomolar MOR Ki.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Isotonitazepyne",
+    "aliases_added": [
+      "PYRITZ",
+      "NPI",
+      "N-pyrrolidino isotonitazene",
+      "iso-pyne"
+    ],
+    "iupac_name": "1-(2-(pyrrolidin-1-yl)ethyl)-2-(4-isopropoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.26,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 0.574,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 97.8,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 37.1,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 105.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 90.5,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 54.4,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 60.4,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 101.3,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist; subnanomolar EC50. Loses MOR-selectivity (~140× MOR/KOR vs ~330× for PYRETZ) — pyrrolidine + isopropoxy combo binds KOR/DOR significantly. Functional Emax 98%.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fentanyl-stronger",
+      "naloxone-high-dose-required",
+      "less-mor-selective"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Recent casework numbers (emerged late 2024)"
+    ],
+    "notes": "First seen mid-2024. ~5× more potent than fentanyl in cell-based assays per CFSRE monograph; in-vivo potency ~1000× morphine.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Pyrrolidino-protonitazene",
+    "aliases_added": [
+      "PYRPTZ",
+      "protonitazepyne"
+    ],
+    "iupac_name": "1-(2-(pyrrolidin-1-yl)ethyl)-2-(4-propoxybenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.74,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 0.3,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 93.8,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 342.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 293.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 91.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 133.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 399.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 109.6,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist with EC50 300 pM — among the four subnanomolar functional potencies in Kozell 2024 (alongside DEI, ETZ, ITZ).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fentanyl-stronger",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Subnanomolar functional EC50.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Clonitazene",
+    "aliases_added": [
+      "CTZ"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-(4-chlorobenzyl)-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "3861-76-5",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 3.9,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 78.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 104.2,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 707.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2360.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 37.4,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=4; full MOR agonist relative to DAMGO"
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 1770.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2260.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 43.0,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing human MOR/KOR/DOR; functional via [35S]GTPγS",
+          "radioligand_or_probe": "[3H]DAMGO (MOR), [3H]U69,593 (KOR), [3H]DPDPE (DOR)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "n=3; full MOR agonist relative to DAMGO"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist at MOR (Emax 104%) but partial at KOR/DOR. Synthesized 1956 by Ciba; one of the original nitazenes.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "morphine-stronger"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK"
+    ],
+    "notes": "Original Ciba nitazene from 1950s. Para-Cl substitution gives ~20× weaker MOR Ki than ethoxy isomer (etonitazene).",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Nitazene",
+    "aliases_added": [
+      "nitazene-parent"
+    ],
+    "iupac_name": "1-[2-(diethylamino)ethyl]-2-benzyl-5-nitro-1H-benzimidazole",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "14030-71-8",
+    "pubchem_cid": null,
+    "class_context_id": "benzimidazole-nitazenes",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Parent unsubstituted 2-benzylbenzimidazole; weak MOR activity relative to alkoxy/halo-substituted analogues. Used as SAR reference compound.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "other nitazenes"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No published Ki for unsubstituted 'nitazene' parent at human MOR",
+      "All published data are for substituted analogues"
+    ],
+    "notes": "The unsubstituted parent — rarely encountered. Reference numbers (Kozell, Vandeputte) refer to substituted analogues, not this compound specifically.",
+    "references_consulted": [
+      "doi:10.1124/jpet.123.002052"
+    ]
+  },
+  {
+    "name": "Brorphine",
+    "aliases_added": [],
+    "iupac_name": "1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-1,3-dihydro-2H-benzo[d]imidazol-2-one",
+    "smiles": "BrC1=CC=C(C(C)N2CCC(N3C(=O)NC4=CC=CC=C43)CC2)C=C1",
+    "inchikey": "ZJNXAJVLHSAQAS-UHFFFAOYSA-N",
+    "cas": "2244737-98-0",
+    "pubchem_cid": null,
+    "class_context_id": "brorphine-benzimidazolones",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 24.2,
+          "ki_ci_nm": [
+            17.9,
+            32.7
+          ],
+          "kd_nm": null,
+          "ec50_nm": 2.06,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "FLP-FRT-HEK hMOR; HTRF cAMP / Gi pathway",
+          "radioligand_or_probe": "[3H]DAMGO (rat brain for affinity)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "is_review": false,
+          "notes": "Less potent than fentanyl at binding (Ki ~17× higher than fentanyl 1.4 nM in same assay), but comparable in-vivo potency (rat antinociception ED50 0.0858 mg/kg)"
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "β-arrestin 2 recruitment",
+          "ec50_nm": 30.9,
+          "emax_pct": 209,
+          "reference_agonist": "hydromorphone",
+          "species": "human",
+          "cell_system": "HEK293T transient; NanoBiT MOR-β-arrestin2",
+          "reference": "doi:10.1007/s00204-021-03207-9",
+          "notes": "Brorphine analogues do NOT show significant bias vs hydromorphone (Connors 2024 — Neuropharmacology); Emax above reference compound (so-called 'superagonist' for arrestin)"
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "mini-Gαi",
+            "β-arrestin-2"
+          ],
+          "bias_factor_log": 0,
+          "bias_reference_compound": "hydromorphone",
+          "interpretation": "Not significantly biased relative to reference. Brorphine and halogenated analogues recruit β-arrestin2 with high efficacy — at odds with the idea that 'designer opioids are uniformly β-arrestin-biased'.",
+          "reference": "doi:10.1016/j.neuropharm.2024.110115"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o; high β-arrestin2 recruitment with Emax 209% of hydromorphone but unbiased relative to reference (i.e., both pathways activated proportionally).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxylated and N-dealkylated metabolites",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1016/j.neuropharm.2024.110115",
+        "notes": "Hepatocyte studies show oxidative metabolism; primary metabolites are hydroxy-brorphine and the descyclized piperidine ring-opened products."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "extreme-potency",
+      "fatalities-reported",
+      "naloxone-high-dose-required"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Volume of distribution",
+      "Specific CYP fraction-of-clearance"
+    ],
+    "notes": "Piperidine-benzimidazolone scaffold — a bridge between nitazenes (benzimidazole) and fentanyl-like piperidines. Found in supply since 2019; mostly displaced by nitazenes by 2022 but resurfaced 2023.",
+    "references_consulted": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-021-03207-9",
+      "doi:10.1016/j.neuropharm.2024.110115"
+    ]
+  },
+  {
+    "name": "U-47700",
+    "aliases_added": [
+      "u47700"
+    ],
+    "iupac_name": "3,4-dichloro-N-[(1R,2R)-2-(dimethylamino)cyclohexyl]-N-methylbenzamide",
+    "smiles": "CN([C@@H]1CCCC[C@@H]1N(C)C)C(=O)C1=CC=C(Cl)C(Cl)=C1",
+    "inchikey": "BPYKRJBYQVDZRH-OLZOCXBDSA-N",
+    "cas": "121348-98-9",
+    "pubchem_cid": null,
+    "class_context_id": "u-series-benzamides",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 11.1,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane homogenate",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s00204-020-02766-7",
+          "is_review": false,
+          "notes": "Original Upjohn (1978) compound — designed as morphine alternative. ~7.5× more potent than morphine in-vivo despite weaker binding."
+        },
+        {
+          "target": "KOR",
+          "ki_nm": 287.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "U69,593",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane",
+          "radioligand_or_probe": "[3H]U69,593",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s00204-020-02766-7",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "DOR",
+          "ki_nm": 1220.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "DPDPE",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane",
+          "radioligand_or_probe": "[3H]DPDPE",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1007/s00204-020-02766-7",
+          "is_review": false,
+          "notes": null
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 14.3,
+          "ki_ci_nm": [
+            10.6,
+            19.3
+          ],
+          "kd_nm": null,
+          "ec50_nm": 4.47,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "FLP-FRT-HEK hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "is_review": false,
+          "notes": "Full agonist at MOR; rat antinociception ED50 0.405 mg/kg"
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Induces ~25% MOR internalisation (similar to DAMGO), in contrast to AH-7921's ~5% (Hsu 2019).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": 15.7,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Male rats, allometric extrapolation to human",
+          "reference": "doi:10.1007/s00204-020-02766-7",
+          "notes": "Human CL extrapolated 0.944–1.371 L/h/kg via PBPK + IVIVE; no human clinical PK studies exist."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desmethyl-U-47700",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/jat/bkx028",
+        "notes": "Krotulski 2017 — primary metabolite N-desmethyl-U-47700; secondary N,N-didesmethyl. CYP3A4/3A5/2B6/2C19 all contribute."
+      },
+      {
+        "enzyme": "CYP2B6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desmethyl-U-47700",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/jat/bkx028",
+        "notes": null
+      },
+      {
+        "enzyme": "CYP2C19",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desmethyl-U-47700",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/jat/bkx028",
+        "notes": null
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP2C19"
+      ],
+      "phenotype_effects": "CYP2C19 PMs likely have reduced clearance; not clinically demonstrated.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine",
+        "AH-7921"
+      ],
+      "withdrawal_syndrome": "Classical opioid withdrawal.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "fatalities-reported",
+      "naloxone-responsive"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human Vd",
+      "Tmax human",
+      "Specific β-arrestin bias"
+    ],
+    "notes": "Original Upjohn 1978 compound. ~7.5× morphine in-vivo (rat). Was the #1 designer opioid by deaths 2015-2017 before scheduled.",
+    "references_consulted": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-020-02766-7",
+      "doi:10.1093/jat/bkx028"
+    ]
+  },
+  {
+    "name": "U-49900",
+    "aliases_added": [],
+    "iupac_name": "3,4-dichloro-N-[2-(diethylamino)cyclohexyl]-N-methylbenzamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "67579-24-2",
+    "pubchem_cid": null,
+    "class_context_id": "u-series-benzamides",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Diethylamino homologue of U-47700 (dimethyl → diethyl). MOR agonist per GTPγS in cloned hMOR. Krotulski [35S]GTPγS assay characterised this and seven U-series analogues — U-49900 was a weaker MOR agonist than U-47700.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desethyl-U-49900 and N,N-didesethyl-N-desmethyl-U-49900",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1002/dta.2273",
+        "notes": "Krotulski 2017 — major metabolite N-desethyl; N,N-didesethyl-N-desmethyl most abundant in urine."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "U-47700",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-agonist"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Specific Ki at MOR/KOR/DOR (only relative GTPγS Emax published)",
+      "Human PK"
+    ],
+    "notes": "Direct N-ethyl homologue of U-47700. Less potent functionally; appeared mid-2017 as scheduling workaround.",
+    "references_consulted": [
+      "doi:10.1002/dta.2273",
+      "doi:10.1016/j.toxac.2022.02.001"
+    ]
+  },
+  {
+    "name": "Mt-45",
+    "aliases_added": [
+      "IC-6",
+      "MT45",
+      "1-cyclohexyl-4-(1,2-diphenylethyl)piperazine"
+    ],
+    "iupac_name": "1-cyclohexyl-4-(1,2-diphenylethyl)piperazine",
+    "smiles": "C1(N2CCN(CC2)C(C2=CC=CC=C2)CC2=CC=CC=C2)CCCCC1",
+    "inchikey": "QGMFRJVAMGTLBT-UHFFFAOYSA-N",
+    "cas": "52694-55-0",
+    "pubchem_cid": null,
+    "class_context_id": "mt-piperazines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 39.0,
+          "ki_ci_nm": [
+            18.0,
+            57.0
+          ],
+          "kd_nm": null,
+          "ec50_nm": 1300.0,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 80,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "PathHunter CHO cells stably expressing hMOR + β-arrestin2; GloSensor cAMP",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": "Ki range 18-57 nM across studies",
+          "reference": "doi:10.1111/bph.15064",
+          "is_review": false,
+          "notes": "MT-45 is uniquely a poor recruiter of β-arrestin2 — see biased_agonism field."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "cAMP inhibition (GloSensor)",
+          "ec50_nm": 1300.0,
+          "emax_pct": 80,
+          "reference_agonist": "DAMGO (EC50 1.0 nM)",
+          "species": "human",
+          "cell_system": "PathHunter CHO",
+          "reference": "doi:10.1111/bph.15064",
+          "notes": "Compare to morphine EC50 5.4 nM in same assay — MT-45 ~240× weaker functionally"
+        },
+        {
+          "target": "MOR",
+          "readout": "β-arrestin 2 recruitment",
+          "ec50_nm": 23000.0,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO (EC50 200 nM)",
+          "species": "human",
+          "cell_system": "PathHunter CHO",
+          "reference": "doi:10.1111/bph.15064",
+          "notes": "EC50 23 μM — i.e., MT-45 is dramatically G-protein biased; very poor β-arrestin recruiter."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "Gαi (cAMP)",
+            "β-arrestin-2"
+          ],
+          "bias_factor_log": 1.2,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "MT-45 is strongly G-protein biased — 18-fold weaker β-arrestin recruitment than expected from its cAMP potency. This is the OPPOSITE of the 'biased toward arrestin' narrative; suggests respiratory depression in MT-45 cannot be explained by arrestin-mediated apnea.",
+          "reference": "doi:10.1111/bph.15064"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "G-protein–biased MOR partial agonist. Also reported NMDA-antagonist activity at high concentrations (associated with reported ototoxicity / bilateral hearing loss — see off_targets).",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxy-MT-45 and N-dealkylated metabolites",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1002/dta.2358",
+        "notes": "Multiple hydroxylated and dealkylated phase I metabolites identified in human urine (Helander 2018)."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "auditory hair cells (mechanism unclear, possibly NMDA-related)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Bilateral sensorineural hearing loss reported in MT-45 users in Sweden 2014 cluster — distinctive of this compound, not shared with other opioids.",
+        "reference": "doi:10.1097/MJT.0000000000000275"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-partial-agonist",
+      "G-protein-biased",
+      "ototoxicity-reported",
+      "moderate-potency"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Mechanism of ototoxicity"
+    ],
+    "notes": "Synthesised at Dainippon (Japan) 1970s as morphine alternative. ~80% morphine-equivalent analgesic potency. Distinctive ototoxicity — unique to MT-45 in opioid class.",
+    "references_consulted": [
+      "doi:10.1111/bph.15064",
+      "doi:10.1002/dta.2358"
+    ]
+  },
+  {
+    "name": "Ah-7921",
+    "aliases_added": [
+      "doxylam"
+    ],
+    "iupac_name": "3,4-dichloro-N-{[1-(dimethylamino)cyclohexyl]methyl}benzamide",
+    "smiles": "ClC1=CC=C(C(=O)NCC2(N(C)C)CCCCC2)C=C1Cl",
+    "inchikey": "GORWMSWTRWCYRD-UHFFFAOYSA-N",
+    "cas": "55154-30-8",
+    "pubchem_cid": null,
+    "class_context_id": "u-series-benzamides",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR",
+        "KOR"
+      ],
+      "binding": [],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "cAMP inhibition",
+          "ec50_nm": 26.49,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "cell_system": "HT-1080 fibrosarcoma expressing hMOR",
+          "reference": "doi:10.1002/prp2.511",
+          "notes": "Hsu 2019 — AH-7921 induced ~5% MOR internalisation (morphine-like; lower than DAMGO or U-47700)."
+        }
+      ],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Mixed MOR/KOR full agonist. Roughly morphine-equivalent in mouse hot-plate. Lower receptor internalisation than DAMGO/U-47700 suggests biased toward G-protein over arrestin.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "N-desmethyl-AH-7921",
+        "metabolite_active": true,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1007/s00204-016-1907-4",
+        "notes": "Vorce 2014 / Karinen 2014 — N-desmethyl is major metabolite in human urine."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "U-47700",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "kappa-agonist",
+      "morphine-equivalent-potency"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct Ki at MOR/KOR/DOR at human receptor",
+      "Human PK"
+    ],
+    "notes": "Allen & Hanburys 1970s research compound (the 'AH' prefix = Allen+Hanburys). 0.8× morphine analgesic potency. Cluster of fatalities 2012-2013 Europe.",
+    "references_consulted": [
+      "doi:10.1002/prp2.511",
+      "doi:10.1007/s11419-015-0271-z"
+    ]
+  },
+  {
+    "name": "Fentanyl",
+    "aliases_added": [],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]propanamide",
+    "smiles": "CCC(=O)N(C1CCN(CCC2=CC=CC=C2)CC1)C1=CC=CC=C1",
+    "inchikey": "PJMPHNIQZUBGLI-UHFFFAOYSA-N",
+    "cas": "437-38-7",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.6,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 32.0,
+          "ic50_nm": 1.23,
+          "intrinsic_activity_pct": 89,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO cells stably expressing hMOR; [35S]GTPγS",
+          "radioligand_or_probe": "[3H]diprenorphine (0.2 nM, KD 0.38 nM)",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1002/dta.2822",
+          "is_review": false,
+          "notes": "Same paper measured IC50 1.23 nM in rat brain (Filizola 2019)."
+        },
+        {
+          "target": "MOR",
+          "ki_nm": 1.255,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": null,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "CHO hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.123.002052",
+          "is_review": false,
+          "notes": "Reference value used by Kozell 2024 to benchmark all nitazenes."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "cAMP inhibition (GloSensor)",
+          "ec50_nm": 0.104,
+          "emax_pct": 100,
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "cell_system": "FLP-FRT-HEK hMOR",
+          "reference": "doi:10.1016/j.drugalcdep.2023.109939",
+          "notes": null
+        },
+        {
+          "target": "MOR",
+          "readout": "β-arrestin 2 recruitment",
+          "ec50_nm": 389.0,
+          "emax_pct": null,
+          "reference_agonist": "DAMGO (EC50 200 nM)",
+          "species": "human",
+          "cell_system": "HEK293T",
+          "reference": "doi:10.1111/bph.16084",
+          "notes": "log(EC50) = -6.41; not significantly biased vs DAMGO."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "G-protein",
+            "β-arrestin-2"
+          ],
+          "bias_factor_log": 0,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Fentanyl is NOT significantly biased compared to DAMGO at the μ-opioid receptor (Ramos-González 2023). Earlier claims that fentanyl is 'arrestin-biased' have not survived re-analysis with operational-model bias factors.",
+          "reference": "doi:10.1111/bph.16084"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Activates Gαi/o → adenylyl cyclase inhibition, opens GIRK channels, closes voltage-gated Ca²⁺ channels. Also recruits β-arrestin2 and undergoes ~25% receptor internalisation at saturating concentrations.",
+      "neuroimaging": [
+        {
+          "modality": "PET",
+          "finding": "[11C]carfentanil PET displacement quantifies MOR occupancy during fentanyl administration in humans; analgesia threshold ~50% MOR occupancy.",
+          "reference": "doi:10.1097/00000542-200512000-00018"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 5,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 219,
+          "vd_l_per_kg": 4.0,
+          "clearance_ml_per_min_per_kg": 13.0,
+          "protein_binding_pct": 84,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adult anaesthesia patients (Mather 1983; Singleton 1987)",
+          "reference": "doi:10.1097/00000542-198304000-00010",
+          "notes": "Terminal t½ 3-7 h; Vd large due to lipophilicity; context-sensitive t½ ~250 min after 4h infusion."
+        },
+        {
+          "route": "transdermal",
+          "bioavailability_pct": 92,
+          "cmax_ng_per_ml": 1.2,
+          "tmax_min": 1440,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 1080,
+          "vd_l_per_kg": 4.0,
+          "clearance_ml_per_min_per_kg": 13.0,
+          "protein_binding_pct": 84,
+          "dose_in_study_mg": 2.5,
+          "subject_n": 12,
+          "subject_demographics": "Adults",
+          "reference": "doi:10.1097/00000542-199210000-00016",
+          "notes": "Apparent elimination half-life is depot-controlled (18-22 h) — much longer than IV t½."
+        },
+        {
+          "route": "insufflation",
+          "bioavailability_pct": 89,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 7,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": null,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adults",
+          "reference": "doi:10.1213/00000539-199501000-00010",
+          "notes": "Intranasal fentanyl bioavailability 71-89% across studies."
+        }
+      ],
+      "concentration_effect": [
+        {
+          "effect": "analgesia (50% pain reduction)",
+          "concentration_unit": "ng/mL",
+          "threshold": 0.6,
+          "peak_effect": 1.5,
+          "reference": "doi:10.1097/00000542-199006000-00007",
+          "notes": "Plasma 0.5-2 ng/mL = post-op analgesia; ≥3 ng/mL = anaesthesia / respiratory depression begins."
+        },
+        {
+          "effect": "respiratory depression (clinically significant)",
+          "concentration_unit": "ng/mL",
+          "threshold": 2.0,
+          "peak_effect": 10.0,
+          "reference": "doi:10.1097/00000542-199006000-00007",
+          "notes": null
+        }
+      ]
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 90,
+        "metabolite_name": "norfentanyl",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:8886601",
+        "notes": "Tateishi 1996 — CYP3A4 N-dealkylation is the dominant pathway; norfentanyl is essentially inactive. CYP3A5 contributes minor fraction."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole (potent CYP3A4 inhibitors)",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Reduced fentanyl clearance, increased AUC, risk of overdose; FDA black-box warning.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      },
+      {
+        "with": "grapefruit juice",
+        "mechanism": "intestinal CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Modest AUC increase for oral / mucosal fentanyl formulations.",
+        "reference": "doi:10.1093/bja/aei062"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1",
+        "ABCB1"
+      ],
+      "phenotype_effects": "CYP3A4*22 carriers have reduced clearance. OPRM1 A118G (rs1799971) — G-allele carriers need higher fentanyl doses for equivalent analgesia (Park 2007). ABCB1 (P-gp) polymorphisms affect brain efflux.",
+      "reference": "doi:10.1038/clpt.2008.59"
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": "MOR internalisation occurs within minutes; receptor recycling t½ ~30 min. Chronic exposure causes desensitisation rather than downregulation.",
+      "cross_tolerance": [
+        "morphine",
+        "heroin",
+        "oxycodone",
+        "nitazenes",
+        "U-47700"
+      ],
+      "withdrawal_syndrome": "Onset 8-24h (transdermal slower), peak 36-72h, duration 7-10 days. Symptoms: lacrimation, rhinorrhoea, mydriasis, gooseflesh, GI cramping, muscle aches, anxiety, insomnia, dysphoria.",
+      "reference": "doi:10.1056/NEJMra1604339"
+    },
+    "off_targets": [
+      {
+        "target": "diaphragm / chest wall musculature (chest wall rigidity)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Rapid IV bolus or high-dose smoked / IV illicit use causes 'wooden chest syndrome' — laryngeal closure + thoracic skeletal muscle hypertonia via central MOR-dopaminergic pathway. Sudden ventilatory failure within seconds-minutes of dose; reversible with naloxone OR neuromuscular blockade.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": "Women have ~30% slower clearance than men in some studies (Hess 1985); clinical relevance modest.",
+      "age": "Neonates and elderly have reduced clearance (decreased CYP3A activity and Vd changes).",
+      "weight": "Obese patients: dosing on lean body mass preferred — Vd does not scale linearly with TBW.",
+      "renal_or_hepatic": "Hepatic impairment markedly prolongs t½ (>50% reduction in clearance in cirrhosis)."
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "wooden-chest-syndrome-risk",
+      "CYP3A4-substrate",
+      "naloxone-responsive",
+      "OPRM1-pharmacogenetic"
+    ],
+    "tags_to_remove": [
+      "no-human-data",
+      "phenethylamine"
+    ],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "Reference compound for the class. ~80-100× morphine potency parenteral. Wooden chest syndrome is the #1 acute mechanism of sudden death (especially with very-rapid-onset routes — IV bolus, smoking). Naloxone reverses but high cumulative doses may be required for illicit-route exposures.",
+    "references_consulted": [
+      "doi:10.1002/dta.2822",
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1111/bph.16084",
+      "doi:10.1097/MJT.0b013e3182691e8d",
+      "pmid:8886601",
+      "doi:10.1097/00000542-198304000-00010"
+    ]
+  },
+  {
+    "name": "Carfentanil",
+    "aliases_added": [
+      "Carfentanyl",
+      "Wildnil"
+    ],
+    "iupac_name": "methyl 1-(2-phenylethyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate",
+    "smiles": "CCC(=O)N(C1(CCN(CCC2=CC=CC=C2)CC1)C(=O)OC)C1=CC=CC=C1",
+    "inchikey": "WMOVHXAZOJBABW-UHFFFAOYSA-N",
+    "cas": "59708-52-0",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": 0.024,
+          "ec50_nm": null,
+          "ic50_nm": 0.19,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "Multiple — rat brain (Filizola 2019 IC50 0.19 nM) and human cloned MOR; carfentanil itself used as PET radioligand ([11C]carfentanil)",
+          "radioligand_or_probe": "[3H]DAMGO; carfentanil also serves as MOR PET tracer",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3390/molecules24040740",
+          "is_review": false,
+          "notes": "Among the most potent MOR ligands known. Kd 0.024 nM at human MOR (Ramos-Gonzalez 2023). ~10,000× morphine in-vivo."
+        }
+      ],
+      "functional": [
+        {
+          "target": "MOR",
+          "readout": "G-protein activation (BRET)",
+          "ec50_nm": 0.0077,
+          "emax_pct": 100,
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "cell_system": "HEK293T",
+          "reference": "doi:10.1111/bph.16084",
+          "notes": "log(EC50) -8.11; 130× more potent than fentanyl at G-protein activation."
+        },
+        {
+          "target": "MOR",
+          "readout": "β-arrestin 2 recruitment",
+          "ec50_nm": 0.0032,
+          "emax_pct": 100,
+          "reference_agonist": "DAMGO",
+          "species": "human",
+          "cell_system": "HEK293T",
+          "reference": "doi:10.1111/bph.16084",
+          "notes": "log(EC50) -8.50; 625× more potent than DAMGO at β-arrestin2."
+        }
+      ],
+      "biased_agonism": [
+        {
+          "target": "MOR",
+          "pathways_compared": [
+            "G-protein",
+            "β-arrestin-2"
+          ],
+          "bias_factor_log": -0.5,
+          "bias_reference_compound": "DAMGO",
+          "interpretation": "Carfentanil is β-arrestin–BIASED relative to DAMGO (Ramos-González 2023) — opposite of fentanyl. Bias may contribute to apnea / respiratory depression at sub-analgesic doses. Carfentanil also stabilises MOR conformations resistant to naloxone reversal (Faouzi 2024 — see notes).",
+          "reference": "doi:10.1111/bph.16084"
+        }
+      ],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Ultra-efficient MOR agonist — full Emax at picomolar concentrations. Carfentanil-bound MOR is sensitive to naltrexone but partially resistant to naloxone and nalmefene (Faouzi et al., bioRxiv 2024 — PMC12198324); has clinical implications for overdose reversal.",
+      "neuroimaging": [
+        {
+          "modality": "PET",
+          "finding": "[11C]carfentanil is the standard PET radioligand for quantifying brain MOR occupancy in humans (Bencherif 2002).",
+          "reference": "doi:10.1097/00004647-200201000-00014"
+        }
+      ]
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": null,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 342,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": null,
+          "dose_in_study_mg": null,
+          "subject_n": 1,
+          "subject_demographics": "Single case report — intentional self-exposure",
+          "reference": "doi:10.1093/jat/bky072",
+          "notes": "Case-report-derived t½ 5.7h for carfentanil and 11.8h for norcarfentanyl (one-compartment model)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "norcarfentanyl",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.1093/jat/bky072",
+        "notes": "N-dealkylation to norcarfentanyl (inactive) is dominant pathway; also monohydroxylation of piperidine ring."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "sufentanil",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid; potentially severe due to extreme MOR engagement.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "diaphragm / chest wall (rigid chest)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome more frequent and severe than with fentanyl due to extreme potency and rapid onset.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-superagonist",
+      "beta-arrestin-biased",
+      "naloxone-partial-resistance",
+      "extreme-potency",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK (only case reports)",
+      "Volume of distribution"
+    ],
+    "notes": "Veterinary use only (Wildnil). ~10,000× morphine in-vivo. Detection in illicit supply since 2016. The β-arrestin bias + naloxone-resistant receptor conformation is a CRITICAL safety message — may need nalmefene or naltrexone instead of naloxone in pure carfentanil exposures.",
+    "references_consulted": [
+      "doi:10.3390/molecules24040740",
+      "doi:10.1111/bph.16084",
+      "doi:10.1097/MJT.0b013e3182691e8d",
+      "doi:10.1093/jat/bky072"
+    ]
+  },
+  {
+    "name": "Sufentanil",
+    "aliases_added": [
+      "Sufenta"
+    ],
+    "iupac_name": "N-[4-(methoxymethyl)-1-[2-(thiophen-2-yl)ethyl]piperidin-4-yl]-N-phenylpropanamide",
+    "smiles": "CCC(=O)N(C1(COC)CCN(CCC2=CC=CS2)CC1)C1=CC=CC=C1",
+    "inchikey": "GGCSSNBKKAUURC-UHFFFAOYSA-N",
+    "cas": "56030-54-7",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.138,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 0.4,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "Cell membrane preparation expressing recombinant hMOR",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1016/j.yrtph.2010.12.007",
+          "is_review": false,
+          "notes": "Lowest Ki of 19 approved opioids in Volpe 2011 uniform ranking — most-potent FDA-approved MOR ligand."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. ~7-10× fentanyl potency.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 5,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 164,
+          "vd_l_per_kg": 1.7,
+          "clearance_ml_per_min_per_kg": 12.7,
+          "protein_binding_pct": 92,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adult anaesthesia patients",
+          "reference": "doi:10.1097/00000542-198409000-00010",
+          "notes": "Bovill 1984. Approximately half the elimination t½ of fentanyl."
+        },
+        {
+          "route": "sublingual",
+          "bioavailability_pct": 59,
+          "cmax_ng_per_ml": 0.21,
+          "tmax_min": 60,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 150,
+          "vd_l_per_kg": null,
+          "clearance_ml_per_min_per_kg": null,
+          "protein_binding_pct": 92,
+          "dose_in_study_mg": 0.03,
+          "subject_n": null,
+          "subject_demographics": "Adults",
+          "reference": "doi:10.1177/0091270014547019",
+          "notes": "Sublingual sufentanil (Dsuvia) FDA-approved 2018 for acute pain."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 80,
+        "metabolite_name": "N-dealkylated and O-demethylated metabolites",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 10,
+        "reference": "doi:10.1124/dmd.106.014274",
+        "notes": "Predominantly CYP3A4 N-dealkylation. Desmethyl-sufentanil retains ~10% potency."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Reduced clearance, prolonged sedation.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "OPRM1"
+      ],
+      "phenotype_effects": "OPRM1 A118G affects analgesic response.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "morphine"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall (rigidity)",
+        "ki_or_ic50_nm": null,
+        "concern_level": "moderate",
+        "clinical_consequence": "Less than fentanyl due to slower iv-titration in clinical use, but possible.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Reduced clearance in elderly and neonates.",
+      "weight": "Dose by lean body mass.",
+      "renal_or_hepatic": "Hepatic impairment prolongs t½."
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "fentanyl-stronger"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "FDA-approved 1984. ~7-10× fentanyl. Approved sublingual form for acute pain (Dsuvia). High protein binding (92%) leads to ICU dose adjustments in hypoalbuminemia.",
+    "references_consulted": [
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1097/00000542-198409000-00010",
+      "doi:10.1124/dmd.106.014274"
+    ]
+  },
+  {
+    "name": "Alfentanil",
+    "aliases_added": [],
+    "iupac_name": "N-[1-[2-(4-ethyl-5-oxo-1H-tetrazol-1-yl)ethyl]-4-(methoxymethyl)piperidin-4-yl]-N-phenylpropanamide",
+    "smiles": "CCC(=O)N(C1(COC)CCN(CCN2N=NN(CC)C2=O)CC1)C1=CC=CC=C1",
+    "inchikey": "IDBPHNDTYPBSNI-UHFFFAOYSA-N",
+    "cas": "71195-58-9",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 14.3,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 38.9,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3390/molecules24040740",
+          "is_review": false,
+          "notes": "Volpe 2011: human MOR Ki 7.65 nM. Lower lipophilicity than fentanyl → faster onset due to high free-fraction at physiological pH."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Fast onset due to pKa (6.5) — 89% non-ionised at pH 7.4, vs fentanyl 9% non-ionised → much more rapid blood-brain transfer per molecule.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 2,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 94,
+          "vd_l_per_kg": 0.5,
+          "clearance_ml_per_min_per_kg": 6.4,
+          "protein_binding_pct": 92,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adults",
+          "reference": "doi:10.1097/00000542-198209000-00008",
+          "notes": "Smaller Vd than fentanyl; context-sensitive t½ 47 min after 3h infusion (vs remifentanil 3 min, fentanyl 250 min)."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": 95,
+        "metabolite_name": "noralfentanil and N-phenylpropanamide",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "pmid:8886601",
+        "notes": "Used clinically as CYP3A4 probe substrate."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "erythromycin / clarithromycin / fluconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Reduced clearance, prolonged effect.",
+        "reference": "doi:10.1097/00000542-199601000-00018"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5"
+      ],
+      "phenotype_effects": "CYP3A5*3/*3 (non-expressors) may have slightly reduced clearance.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": "Women clear ~30% slower than men.",
+      "age": "Reduced clearance in neonates and elderly.",
+      "weight": null,
+      "renal_or_hepatic": "Hepatic impairment markedly prolongs clearance."
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "rapid-onset",
+      "short-acting"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "FDA-approved 1986. ~1/4 to 1/10 fentanyl potency but ~3× faster onset and shorter duration. Clinically the CYP3A4 phenotyping probe substrate (alfentanil ER) because >95% CL via 3A4.",
+    "references_consulted": [
+      "doi:10.3390/molecules24040740",
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1097/00000542-198209000-00008"
+    ]
+  },
+  {
+    "name": "Remifentanil",
+    "aliases_added": [
+      "Ultiva"
+    ],
+    "iupac_name": "methyl 1-(3-methoxy-3-oxopropyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate",
+    "smiles": "CCC(=O)N(C1(C(=O)OC)CCN(CCC(=O)OC)CC1)C1=CC=CC=C1",
+    "inchikey": "IXTMWRCNAAVVAI-UHFFFAOYSA-N",
+    "cas": "132875-61-7",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 1.4,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 0.6,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3390/molecules24040740",
+          "is_review": false,
+          "notes": "Slightly more potent than fentanyl at binding. Methyl-ester structure designed to be hydrolysed by nonspecific tissue/plasma esterases."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Ester hydrolysis by nonspecific esterases (not CES1) gives inactive metabolite — terminates effect.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [
+        {
+          "route": "intravenous",
+          "bioavailability_pct": 100,
+          "cmax_ng_per_ml": null,
+          "tmax_min": 1,
+          "auc_0_inf_ng_h_per_ml": null,
+          "half_life_min": 10,
+          "vd_l_per_kg": 0.35,
+          "clearance_ml_per_min_per_kg": 40.0,
+          "protein_binding_pct": 70,
+          "dose_in_study_mg": null,
+          "subject_n": null,
+          "subject_demographics": "Adults",
+          "reference": "doi:10.1097/00000539-199907000-00004",
+          "notes": "Context-sensitive t½ ~3 min — independent of infusion duration. Cleared by nonspecific blood and tissue esterases; not affected by hepatic/renal failure."
+        }
+      ],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "nonspecific esterases (NOT CES1 or BChE)",
+        "fraction_of_clearance_pct": 95,
+        "metabolite_name": "GR90291 (remifentanil acid)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 1,
+        "reference": "doi:10.1097/00000539-199907000-00004",
+        "notes": "Carboxylic acid metabolite — ~1/4000th remifentanil potency."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": "BChE genotype does NOT affect clearance — different esterases.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Rapid-onset withdrawal after infusion cessation; opioid-induced hyperalgesia (OIH) is well-documented and clinically problematic.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": "Reduced infusion rate required in elderly.",
+      "weight": "Dose by lean body mass.",
+      "renal_or_hepatic": "Unaffected — esterase-mediated metabolism."
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "ester-hydrolysis-cleared",
+      "ultra-short-acting",
+      "OIH-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [],
+    "notes": "FDA-approved 1996. Unique among opioids: clearance by nonspecific esterases (not CYP). Context-sensitive t½ of 3 min regardless of infusion duration — by design. Clinical OIH risk after even short infusions.",
+    "references_consulted": [
+      "doi:10.3390/molecules24040740",
+      "doi:10.1097/00000539-199907000-00004"
+    ]
+  },
+  {
+    "name": "Lofentanil",
+    "aliases_added": [
+      "R-34995",
+      "3-methyl-4-carbomethoxyfentanyl"
+    ],
+    "iupac_name": "methyl (3S,4R)-3-methyl-1-(2-phenylethyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "61380-40-3",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": null,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": 0.21,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "rat",
+          "tissue_or_cell": "rat brain membrane",
+          "radioligand_or_probe": "[3H]DAMGO",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3390/molecules24040740",
+          "is_review": false,
+          "notes": "Among highest MOR affinity of fentanyl analogues. Carfentanil + 3-methyl substitution. Very slow dissociation kinetics — drove its abandonment as clinical anaesthetic (effect duration too long)."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist. Notable for very slow MOR off-rate.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "carfentanil"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-superagonist",
+      "extreme-potency",
+      "very-long-acting",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct Ki at human MOR",
+      "Human PK",
+      "Off-rate kinetics"
+    ],
+    "notes": "~6000× morphine. Janssen 1976. Never reached clinical practice due to extreme duration of action.",
+    "references_consulted": [
+      "doi:10.3390/molecules24040740"
+    ]
+  },
+  {
+    "name": "Acetylfentanyl",
+    "aliases_added": [
+      "a-f",
+      "acetyl-fentanyl"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acetamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "3258-84-2",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "~30% of fentanyl analgesic potency (rat hot-plate ED50 0.021 mg/kg vs fentanyl 0.0061). Acetyl group (vs fentanyl's propionyl) reduces MOR affinity. Killed many in 2013-2014 cluster before being scheduled.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Acrylfentanyl",
+    "aliases_added": [
+      "Acryloylfentanyl",
+      "Acryl-fentanyl"
+    ],
+    "iupac_name": "N-(1-phenethylpiperidin-4-yl)-N-phenylacrylamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "82003-75-6",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "~75% of fentanyl analgesic potency. α,β-unsaturated amide makes acrylfentanyl a potential covalent modifier (reactive Michael acceptor) — disputed. Fatalities 2016-2017.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Acryl-fentanyl",
+    "aliases_added": [
+      "Acrylfentanyl"
+    ],
+    "iupac_name": "N-(1-phenethylpiperidin-4-yl)-N-phenylacrylamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "82003-75-6",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "See Acrylfentanyl — same compound.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-acrylfentanyl"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "medium",
+    "data_gaps_remaining": [],
+    "notes": "DUPLICATE — same compound as Acrylfentanyl. Recommend dedup in upstream substance list.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238"
+    ]
+  },
+  {
+    "name": "Butyrfentanyl",
+    "aliases_added": [
+      "bf",
+      "butyrylfentanyl"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]butanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "1443-54-5",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 32.0,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": null,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
+          "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3389/fphar.2019.00238",
+          "is_review": false,
+          "notes": "Ki 32 nM at MOR (~32× weaker than fentanyl). Metabolised by CYP2D6 AND CYP3A4 (notable — most fentalogs are CYP3A4-dominant). Active metabolites include hydroxybutyrfentanyl and carboxybutyrfentanyl."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      },
+      {
+        "enzyme": "CYP2D6",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "hydroxybutyrfentanyl",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.1093/jat/bkx004",
+        "notes": "Steuer 2017 — CYP2D6 contribution makes PM/UM polymorphisms potentially relevant."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Ki 32 nM at MOR (~32× weaker than fentanyl). Metabolised by CYP2D6 AND CYP3A4 (notable — most fentalogs are CYP3A4-dominant). Active metabolites include hydroxybutyrfentanyl and carboxybutyrfentanyl.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "4-Methoxybutyrfentanyl",
+    "aliases_added": [
+      "4-MeO-BF",
+      "p-MeO-butyrylfentanyl",
+      "para-Methoxybutyrylfentanyl",
+      "4-Methoxy-butyrylfentanyl"
+    ],
+    "iupac_name": "N-(4-methoxyphenyl)-N-[1-(2-phenylethyl)-4-piperidinyl]butanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "1443-58-9",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Para-methoxy substitution on anilino phenyl + butyryl chain. No published direct human-MOR Ki; class-based fentanyl-like activity inferred.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "4-meo-butryfentanyl",
+    "aliases_added": [
+      "4-meo-bf",
+      "4-Methoxybutyrfentanyl"
+    ],
+    "iupac_name": "N-(4-methoxyphenyl)-N-[1-(2-phenylethyl)-4-piperidinyl]butanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "1443-58-9",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "See 4-Methoxybutyrfentanyl — same compound.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "duplicate-of-4-methoxybutyrfentanyl"
+    ],
+    "tags_to_remove": [
+      "tentative"
+    ],
+    "confidence": "low",
+    "data_gaps_remaining": [],
+    "notes": "DUPLICATE — same compound as 4-Methoxybutyrfentanyl. Recommend dedup.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238"
+    ]
+  },
+  {
+    "name": "4Cl-iBF",
+    "aliases_added": [
+      "p-Chloro-isobutyrylfentanyl",
+      "para-Chloroisobutyrylfentanyl"
+    ],
+    "iupac_name": "N-(4-chlorophenyl)-2-methyl-N-[1-(2-phenylethyl)piperidin-4-yl]propanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Para-chloro on anilino phenyl + isobutyryl chain. NPS supply 2018-2020. No direct Ki published.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Furanylfentanyl",
+    "aliases_added": [
+      "fu-f",
+      "furanyl-fentanyl"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]furan-2-carboxamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "101343-69-5",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 0.028,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 2.52,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
+          "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.3389/fphar.2019.00238",
+          "is_review": false,
+          "notes": "Ki 0.028 nM (Goggin 2017) — extremely high MOR affinity. EC50 2.52 nM in CHO hMOR GTPγS (7× more potent than fentanyl 17.9 nM in same assay). Hydroxy-furanyl metabolite is one of the major in-vivo species."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      },
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "dihydrodiol-furanylfentanyl + nor-furanylfentanyl",
+        "metabolite_active": null,
+        "metabolite_potency_vs_parent_pct": null,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Furan ring undergoes epoxidation then dihydrodiol formation — distinctive metabolic pathway."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Ki 0.028 nM (Goggin 2017) — extremely high MOR affinity. EC50 2.52 nM in CHO hMOR GTPγS (7× more potent than fentanyl 17.9 nM in same assay). Hydroxy-furanyl metabolite is one of the major in-vivo species.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Methoxyacetyl-fentanyl",
+    "aliases_added": [
+      "maf",
+      "desfluoroocfentanil"
+    ],
+    "iupac_name": "2-methoxy-N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acetamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "101345-67-9",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "medium",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "~30% of fentanyl potency (rat ED50 0.053 mg/kg vs 0.018). Major metabolites: O-demethyl-methoxyacetylfentanyl, 4-ANPP.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Cyclopentyl-fentanyl",
+    "aliases_added": [
+      "cp-f"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]cyclopentanecarboxamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Cyclopentanecarbonyl in place of propionyl. Detected 2017-2018. Metabolised to norcyclopentylfentanyl + hydroxylated species.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Tetrahydrofuran-fentanyl",
+    "aliases_added": [
+      "thf-f"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]oxolane-2-carboxamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Saturated furanyl analogue. Lower potency than furanylfentanyl (no ring epoxidation pathway).",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Valerylfentanyl",
+    "aliases_added": [
+      "vf"
+    ],
+    "iupac_name": "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]pentanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Pentanoyl (C5) chain — longer than fentanyl propionyl (C3) or butyrfentanyl butyryl (C4). Reduced MOR Ki vs butyrfentanyl per SAR.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Parafluorobutyrfentanyl",
+    "aliases_added": [
+      "4-fbf",
+      "4-fluorobutyrfentanyl",
+      "pfbf"
+    ],
+    "iupac_name": "N-(4-fluorophenyl)-N-[1-(2-phenylethyl)piperidin-4-yl]butanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "Direct human-MOR Ki",
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "4-F on anilino phenyl + butyryl chain. p-F substitution typically improves potency vs butyrfentanyl (SAR).",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Parafluorofentanyl",
+    "aliases_added": [
+      "4-fluorofentanyl",
+      "pff"
+    ],
+    "iupac_name": "N-(4-fluorophenyl)-N-[1-(2-phenylethyl)piperidin-4-yl]propanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": "90736-23-5",
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [
+        {
+          "target": "MOR",
+          "ki_nm": 4.2,
+          "ki_ci_nm": null,
+          "kd_nm": null,
+          "ec50_nm": 4.2,
+          "ic50_nm": null,
+          "intrinsic_activity_pct": 100,
+          "reference_agonist": "DAMGO",
+          "action": "agonist",
+          "species": "human",
+          "tissue_or_cell": "rat brain membrane or CHO hMOR depending on source",
+          "radioligand_or_probe": "[3H]DAMGO or [3H]diprenorphine",
+          "assay_buffer_notes": null,
+          "reference": "doi:10.1124/jpet.121.000866",
+          "is_review": false,
+          "notes": "Ki 4.2 nM at human MOR (~2.5× weaker than fentanyl Ki 1.6 nM). Changes selectivity from μ>κ>δ to μ>δ≥κ. EC50 4.2 nM (electrophysiology) or 79 nM (GTPγS). In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study."
+        }
+      ],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "Full MOR agonist via Gαi/o. β-arrestin bias not reliably established for most fentalogs — fentanyl class is broadly unbiased per Ramos-González 2023.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue (N-dealkylated)",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Class-default CYP3A4 N-dealkylation pathway shared with fentanyl. Also 4-ANPP (4-anilino-N-phenethylpiperidine) from amide hydrolysis is a marker of synthesis."
+      }
+    ],
+    "drug_interactions_pk": [
+      {
+        "with": "ritonavir / itraconazole / ketoconazole",
+        "mechanism": "CYP3A4 inhibition",
+        "ki_um": null,
+        "clinical_effect": "Increased AUC, overdose risk.",
+        "reference": "doi:10.1124/dmd.32.6.660"
+      }
+    ],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4",
+        "CYP3A5",
+        "OPRM1"
+      ],
+      "phenotype_effects": "Inferred from fentanyl-class — no analogue-specific human data.",
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl",
+        "other fentanyl analogues",
+        "morphine",
+        "heroin"
+      ],
+      "withdrawal_syndrome": "Classical opioid; typically shorter than morphine due to higher lipophilicity.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome — class-shared; rapid IV / smoked / IV illicit exposure.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-full-agonist",
+      "CYP3A4-substrate",
+      "wooden-chest-syndrome-risk"
+    ],
+    "tags_to_remove": [],
+    "confidence": "high",
+    "data_gaps_remaining": [
+      "Human PK",
+      "Bias factor"
+    ],
+    "notes": "Ki 4.2 nM at human MOR (~2.5× weaker than fentanyl Ki 1.6 nM). Changes selectivity from μ>κ>δ to μ>δ≥κ. EC50 4.2 nM (electrophysiology) or 79 nM (GTPγS). In rat brain Cmax exceeds fentanyl by 1.5× per Canfield 2024 PK study.",
+    "references_consulted": [
+      "doi:10.1124/jpet.121.000866",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1002/dta.2822"
+    ]
+  },
+  {
+    "name": "Benzodioxole-fentanyl",
+    "aliases_added": [],
+    "iupac_name": "N-(2H-1,3-benzodioxol-5-yl)-N-[1-(2-phenylethyl)piperidin-4-yl]propanamide",
+    "smiles": null,
+    "inchikey": null,
+    "cas": null,
+    "pubchem_cid": null,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "pharmacology": {
+      "primary_targets": [
+        "MOR"
+      ],
+      "binding": [],
+      "functional": [],
+      "biased_agonism": [],
+      "receptor_oligomerisation": [],
+      "downstream_signalling": "1,3-Benzodioxol-5-yl substituted on N-anilino position. No published direct Ki at human MOR.",
+      "neuroimaging": []
+    },
+    "human_pk": {
+      "routes": [],
+      "concentration_effect": []
+    },
+    "metabolism": [
+      {
+        "enzyme": "CYP3A4",
+        "fraction_of_clearance_pct": null,
+        "metabolite_name": "nor-analogue",
+        "metabolite_active": false,
+        "metabolite_potency_vs_parent_pct": 0,
+        "reference": "doi:10.3389/fphar.2019.00238",
+        "notes": "Methylenedioxy ring may also be cleaved by CYP1A2 (catechol formation) by analogy with MDMA/safrole."
+      }
+    ],
+    "drug_interactions_pk": [],
+    "pharmacogenetics": {
+      "relevant_genes": [
+        "CYP3A4"
+      ],
+      "phenotype_effects": null,
+      "reference": null
+    },
+    "tolerance_and_dependence": {
+      "receptor_downregulation_half_time": null,
+      "cross_tolerance": [
+        "fentanyl"
+      ],
+      "withdrawal_syndrome": "Classical opioid.",
+      "reference": null
+    },
+    "off_targets": [
+      {
+        "target": "chest wall",
+        "ki_or_ic50_nm": null,
+        "concern_level": "high",
+        "clinical_consequence": "Wooden chest syndrome class risk.",
+        "reference": "doi:10.1097/MJT.0b013e3182691e8d"
+      }
+    ],
+    "demographic_differences": {
+      "sex": null,
+      "age": null,
+      "weight": null,
+      "renal_or_hepatic": null
+    },
+    "tags_to_add": [
+      "mu-agonist-presumed"
+    ],
+    "tags_to_remove": [],
+    "confidence": "low",
+    "data_gaps_remaining": [
+      "No published Ki at human MOR",
+      "No human PK",
+      "No metabolism data",
+      "No casework"
+    ],
+    "notes": "Detected briefly in NPS supply ~2017. Minimal published pharmacological characterisation.",
+    "references_consulted": [
+      "doi:10.3389/fphar.2019.00238"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "benzimidazole-nitazenes",
+    "class_name": "Benzimidazole nitazenes (2-benzylbenzimidazoles)",
+    "shared_mechanism": "Full μ-opioid receptor agonists with structures derived from 1950s Ciba-Geigy analgesic research (original etonitazene). MOR engagement via a binding pose distinct from fentanyl — the 5-nitro group, alkoxy phenyl, and N-dialkylaminoethyl tail all contribute to picomolar affinity. Most subnanomolar in Ki and EC50 at human MOR with Emax 90-110% of DAMGO. NOT detected by fentanyl test strips — chemically unrelated scaffold. Naloxone reverses but cumulative doses ≥4 mg are often needed clinically (vs ≥1 mg typical fentanyl).",
+    "shared_pk_summary": "Limited human PK. Hepatic metabolism via CYP3A4 (N-deethylation, primary) and CYP1A2 (O-dealkylation of alkoxy chain). Many phase-I metabolites retain MOR activity (notably N-desethyl-isotonitazene and N-desethyl-protonitazene, which are themselves sold as designer opioids). Half-life appears intermediate between morphine and fentanyl (rat data only).",
+    "shared_safety": "Extreme potency + steep dose-response + onset within minutes of insufflation/IV. Respiratory depression dominates clinical picture. Naloxone is effective but high cumulative doses needed: emergency departments report 4-6 mg cumulative IV naloxone for nitazene reversal (vs 0.4-2 mg typical for morphine/oxycodone). Active metabolites can produce 'renarcotization' as naloxone wears off (t½ 1.5-2.5h) while parent + metabolite persist longer. Public-access intranasal Narcan (4 mg) may be insufficient as single dose. Despite being part of the 'designer opioid' class, evidence does NOT support uniform β-arrestin bias — Vandeputte/Connors studies show MOR-coupling characteristic of full agonists rather than arrestin-biased ligands. The 'biased toward respiratory depression' narrative is better explained by extreme efficacy (Emax >100% DAMGO at full receptor occupancy) plus extreme potency than by pathway bias.",
+    "sar_summary": "MOR potency rank by 4-position substituent on benzyl: ethoxy ≈ isopropoxy > propoxy > methoxy > butoxy > Cl > F. 5-nitro contributes ~5× potency vs des-nitro analogues. Pyrrolidine (N-pyrrolidino) replacement of diethylamine tail preserves potency but appears to alter MOR/KOR selectivity. N-deethylation of the tail amine produces active metabolites with maintained or even improved MOR EC50. The 2-benzylbenzimidazole scaffold provides a binding mode unrelated to fentanyl's anilidopiperidine — this is why fentanyl-test-strips (immunoassay-based) cannot detect nitazenes.",
+    "key_references": [
+      "doi:10.1124/jpet.123.002052",
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-021-03207-9",
+      "doi:10.1093/jat/bkaa092",
+      "doi:10.1038/s41386-022-01396-0",
+      "doi:10.3389/fpubh.2024.1346109"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "fentanyl-anilidopiperidines",
+    "class_name": "Fentanyl-family anilidopiperidines",
+    "shared_mechanism": "4-anilidopiperidine scaffold designed at Janssen (1960s) — full MOR agonists with sub- to low-nanomolar Ki at human MOR. β-arrestin recruitment is broadly proportional to G-protein activation (i.e., not biased) per Ramos-González 2023, except for carfentanil which is genuinely β-arrestin-biased. Activate Gαi/o → cAMP inhibition + GIRK opening + Ca²⁺ channel closure.",
+    "shared_pk_summary": "Extensive CYP3A4 N-dealkylation to inactive nor-metabolite + 4-ANPP marker (from amide hydrolysis). High lipophilicity → rapid BBB transfer, large Vd (3-5 L/kg), context-sensitive half-life that grows with infusion duration (except remifentanil — esterase-cleared). Protein binding 80-92% (albumin + α1-acid glycoprotein). CYP3A4 inhibitors (ritonavir, itraconazole) markedly increase exposure.",
+    "shared_safety": "Chest wall rigidity ('wooden chest syndrome') — class-specific complication driven by central MOR activation via dopaminergic pathway; risk highest with rapid-onset routes (IV bolus, smoked, IN). Reversible with naloxone OR neuromuscular blockade. Onset within seconds-to-minutes; can cause sudden ventilatory failure before classical respiratory depression manifests. Naloxone dose requirements rise with potency: fentanyl typically reverses with 0.4-2 mg cumulative; carfentanil-class exposures may need ≥4-8 mg and/or nalmefene/naltrexone given the unique receptor conformation stabilised by carfentanil (Faouzi 2024).",
+    "sar_summary": "4-position substituent on piperidine: methoxymethyl (sufentanil) or methyl ester (carfentanil, remifentanil) markedly increase MOR affinity. N-aryl ring substitution: para-F preserves activity; para-Cl, para-OMe also active; para-thienyl (sufentanil) increases potency. Amide acyl chain: propionyl (fentanyl) > butyryl (butyrfentanyl) > acetyl (acetylfentanyl) > pentanoyl in MOR Ki. Furanyl carbonyl (furanylfentanyl) preserves high potency. 3-methyl piperidine substitution + 4-carbomethoxy (lofentanil) gives extreme affinity + slow off-rate.",
+    "key_references": [
+      "doi:10.1002/dta.2822",
+      "doi:10.3390/molecules24040740",
+      "doi:10.3389/fphar.2019.00238",
+      "doi:10.1111/bph.16084",
+      "doi:10.1016/j.yrtph.2010.12.007",
+      "doi:10.1097/MJT.0b013e3182691e8d"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "u-series-benzamides",
+    "class_name": "U-series and benzamide opioids (U-47700, U-49900, AH-7921)",
+    "shared_mechanism": "trans-3,4-dichlorobenzamide + cyclohexyl-diamine scaffold designed at Upjohn 1970s (U-series) and Allen+Hanburys (AH-7921). Full MOR agonists with Ki 11-30 nM at human MOR. U-47700 shows ~25% MOR internalisation (DAMGO-like); AH-7921 shows ~5% (morphine-like) per Hsu 2019. Selectivity: μ >> δ > κ for U-47700; AH-7921 has mixed μ/κ.",
+    "shared_pk_summary": "Hepatic metabolism via CYP3A4 (and minor CYP3A5/2B6/2C19) → N-desmethyl-U-47700 (active) and further N,N-didesmethyl in urine. Rapid Cmax (rat Tmax 15-38 min IV). Human CL extrapolated 0.944-1.371 L/h/kg via PBPK. Half-life in rats ~2-3 hours; human estimates ~3-5 hours.",
+    "shared_safety": "Roughly 7-8× morphine potency in-vivo (U-47700). Fatalities reported with combination use, often with benzodiazepines. Naloxone-responsive with standard doses (lower-potency than fentanyl/nitazenes). Not detected by fentanyl test strips.",
+    "sar_summary": "trans-1,2-diamine geometry is required; 3,4-dichlorobenzamide is optimal — mono-Cl or mono-F reduce potency. N,N-dimethyl tail (U-47700) > N,N-diethyl tail (U-49900) at MOR. Modifications mostly explored as scheduling workarounds 2016-2019.",
+    "key_references": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1007/s00204-020-02766-7",
+      "doi:10.1093/jat/bkx028",
+      "doi:10.1002/prp2.511"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "mt-piperazines",
+    "class_name": "Diphenylethyl-piperazine opioids (MT-45)",
+    "shared_mechanism": "1-cyclohexyl-4-(1,2-diphenylethyl)piperazine. MOR full agonist with moderate potency (Ki 18-57 nM; cAMP EC50 1.3 μM) but strongly G-PROTEIN BIASED — β-arrestin recruitment is 18× weaker than expected from cAMP potency. Approximately morphine-equivalent in vivo. Not chemically related to fentanyl, U-series, or nitazenes — entirely distinct scaffold.",
+    "shared_pk_summary": "Hepatic CYP3A4 oxidation; multiple hydroxylated and N-dealkylated metabolites identified in human urine (Helander 2018). No formal human PK studies.",
+    "shared_safety": "Distinctive bilateral sensorineural hearing loss in MT-45 users (2014 Swedish cluster, 9 cases) — unique among opioids. Mechanism unclear, possibly via NMDA-related off-target activity. Classical opioid respiratory depression also; naloxone-responsive.",
+    "sar_summary": "Class so small (MT-45 + 2F-MT-45 + a handful of analogues) that no broad SAR. The ortho-fluorine in 2F-MT-45 markedly increases potency (cAMP EC50 42 nM vs 1300 nM for MT-45) and restores β-arrestin recruitment to DAMGO-like potency.",
+    "key_references": [
+      "doi:10.1111/bph.15064",
+      "doi:10.1002/dta.2358",
+      "doi:10.1097/MJT.0000000000000275"
+    ]
+  },
+  {
+    "is_class_context": true,
+    "class_context_id": "brorphine-benzimidazolones",
+    "class_name": "Piperidine-benzimidazolone opioids (Brorphine class)",
+    "shared_mechanism": "1-(piperidin-4-yl)-2,3-dihydro-1H-benzimidazol-2-one scaffold with arylethyl tail. Functional bridge between piperidine (fentanyl) and benzimidazole (nitazene) chemistries. Full MOR agonist with high β-arrestin2 recruitment (Emax 209% hydromorphone) but NOT biased (G-protein and arrestin scale proportionally). Halogen series (chlor-, brom-, iodo-rphine) all active; bromo (brorphine) is the marketed compound.",
+    "shared_pk_summary": "Hepatic CYP3A4 — multiple oxidative metabolites in hepatocyte studies. No formal human PK.",
+    "shared_safety": "Found in supply since 2019. Fatalities reported in US/EU. Naloxone-responsive but potency exceeds morphine. Not detected by fentanyl test strips. Resurgence post-2023 after initial decline.",
+    "sar_summary": "Para-halogen on arylethyl phenyl ring: H << F < Cl ≈ Br ≈ I at MOR. The 'orphine' parent (no para-halogen) is much weaker.",
+    "key_references": [
+      "doi:10.1016/j.drugalcdep.2023.109939",
+      "doi:10.1016/j.neuropharm.2024.110115"
+    ]
+  }
+]
