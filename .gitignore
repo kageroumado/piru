@@ -38,3 +38,9 @@ Specs/
 # Skills CLI working files
 .agents/
 skills-lock.json
+
+# Python build-script intermediates
+Exports/__pycache__/
+
+# Regenerable library dump for visual review (script: dump-substance-library.py)
+Exports/library-dump/
