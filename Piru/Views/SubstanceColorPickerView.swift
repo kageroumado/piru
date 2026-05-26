@@ -143,24 +143,17 @@ struct SubstanceColorPickerView: View {
         let isTaken = takenBy != nil
 
         Button {
-            if !isTaken {
-                selectedHex = hex
-            }
+            selectedHex = hex
         } label: {
             VStack(spacing: 4) {
                 Circle()
                     .fill(Color(hex: hex))
                     .frame(width: 38, height: 38)
-                    .opacity(isTaken ? 0.35 : 1.0)
                     .overlay {
                         if isSelected {
                             Image(systemName: "checkmark")
                                 .font(.caption.weight(.bold))
                                 .foregroundStyle(.white)
-                        } else if isTaken {
-                            Image(systemName: "lock.fill")
-                                .font(.system(size: 9))
-                                .foregroundStyle(.white.opacity(0.8))
                         }
                     }
                     .overlay {
@@ -170,13 +163,12 @@ struct SubstanceColorPickerView: View {
                     }
                 Text(isTaken ? (takenBy ?? name) : name)
                     .font(.system(size: 8))
-                    .foregroundStyle(isTaken ? .secondary : .tertiary)
+                    .foregroundStyle(.tertiary)
                     .lineLimit(1)
                     .frame(width: 44)
             }
         }
         .buttonStyle(.plain)
-        .allowsHitTesting(!isTaken)
     }
 
     // MARK: - Custom Color Creator
@@ -322,12 +314,6 @@ struct SubstanceColorPickerView: View {
         let hex = sanitizedHex
         guard hex.count == 6 else {
             customError = "Enter a valid 6-digit hex code"
-            return
-        }
-
-        // Check against taken substance colors
-        if let owner = takenColors[hex] {
-            customError = "Already used by \(owner)"
             return
         }
 
