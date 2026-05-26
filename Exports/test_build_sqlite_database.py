@@ -91,6 +91,15 @@ class TestParseDcRange(unittest.TestCase):
         self.assertAlmostEqual(result["lower"], 800.0)
         self.assertAlmostEqual(result["upper"], 1200.0)
 
+    def test_inline_unit_between_bound_and_dash_strips_correctly(self):
+        """drug.community writes "5 mg - 15 mg" with the unit repeated
+        between the lower bound and the dash. Without stripping the inline
+        unit ~100 ranges were silently returned as None."""
+        self.assertEqual(Builder._parse_dc_range("5 mg - 15 mg"), {"lower": 5.0, "upper": 15.0})
+        self.assertEqual(Builder._parse_dc_range("700 mg - 1,400 mg"), {"lower": 700.0, "upper": 1400.0})
+        # 0.5–1 g with default row_unit=mg should convert to 500–1000 mg.
+        self.assertEqual(Builder._parse_dc_range("0.5 g - 1 g"), {"lower": 500.0, "upper": 1000.0})
+
     def test_inline_unit_conversion_mg_in_ug_row(self):
         """Inline mg unit in a µg row should be converted: 1.0–1.5 mg = 1000–1500 µg."""
         result = Builder._parse_dc_range("1.0–1.5 mg", "µg")

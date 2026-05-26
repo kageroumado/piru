@@ -314,7 +314,6 @@ enum InteractionChecker {
 
         // Atypical antidepressants
         map["bupropion"] = [.stimulant]   // NDRI — stimulant-like, lowers seizure threshold
-        map["mirtazapine"] = [.antihistamine]  // NaSSA — potent H1 antagonist
         map["trazodone"] = [.ssri]        // SARI — serotonergic, reasonable SSRI proxy
         map["vortioxetine"] = [.ssri]     // Multimodal serotonergic
         map["vilazodone"] = [.ssri]       // SSRI + 5-HT1A partial agonist

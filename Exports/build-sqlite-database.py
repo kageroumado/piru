@@ -509,13 +509,7 @@ def is_chemistry_noise(name: str) -> bool:
     """True if the substance name looks like a IUPAC chemistry artefact rather
     than a substance someone would log in a harm-reduction tracker."""
     n = (name or "").strip()
-    if not n:
-        return True
-    if _CHEM_NOISE_PREFIX.search(n):
-        return True
-    if _CHEM_NOISE_BODY.search(n):
-        return True
-    return False
+    return not n or bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
 
 
 # Canonical category enum (mirrors SubstanceCategory in Swift). Keep in sync
@@ -1328,20 +1322,30 @@ class Build:
                 for k in ("onset", "peak", "offset", "after_effects", "total_duration"):
                     phase = curve.get(k)
                     if isinstance(phase, dict) and phase.get("min") is not None and phase.get("max") is not None:
-                        # drug.community emits in hours; convert to minutes
-                        normalised_phase = "afterglow" if k == "after_effects" else ("total" if k == "total_duration" else k)
-                        profile[normalised_phase] = {"min": float(phase["min"]) * 60, "max": float(phase["max"]) * 60}
+                        # drug.community emits durations in hours; convert to minutes
+                        profile[self._DC_PHASE_KEY.get(k, k)] = {"min": float(phase["min"]) * 60, "max": float(phase["max"]) * 60}
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
             for se in (s.get("subjective_effects") or []):
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
 
+    # drug.community phase-key aliases: source key → profile dict key.
+    _DC_PHASE_KEY = {"after_effects": "afterglow", "total_duration": "total"}
+
     # Unit-to-mg conversion factors. Anything not here keeps its row unit.
     _DC_UNIT_FACTORS = {
         "g": 1000.0, "mg": 1.0, "µg": 0.001, "ug": 0.001,
         "mcg": 0.001, "ng": 1e-6, "ml": 1.0, "l": 1000.0,
     }
+
+    # Inline unit between a number and a range dash ("5 mg - 15 mg").
+    # Stripped before the range regex so the trailing unit is the only one
+    # left; without this ~100 drug.community ranges parsed as None.
+    _DC_INLINE_UNIT_RE = re.compile(
+        r"(\d)\s*(?:mg|µg|ug|mcg|ng|g|ml|l)\s*(?=[-–])",
+        re.IGNORECASE,
+    )
 
     @classmethod
     def _dc_clean(cls, s: str) -> str:
@@ -1352,7 +1356,8 @@ class Build:
         cleaned = str(s).replace(",", "").replace(" ", " ")
         # Collapse whitespace BETWEEN digits ("1 000" → "1000") but
         # preserve number-unit spacing ("5 mg").
-        return re.sub(r"(?<=\d)\s+(?=\d)", "", cleaned)
+        cleaned = re.sub(r"(?<=\d)\s+(?=\d)", "", cleaned)
+        return cls._DC_INLINE_UNIT_RE.sub(r"\1", cleaned)
 
     @classmethod
     def _dc_unit_factor(cls, cleaned: str, row_unit: str) -> float:
@@ -1610,15 +1615,6 @@ def main() -> int:
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(timezone.utc).strftime("%Y-%m-%d.0")
     sources_summary = {
-        slug: db.execute(
-            "SELECT COUNT(*) FROM bindings WHERE source_id = (SELECT id FROM sources WHERE slug = ?) "
-            "UNION ALL SELECT COUNT(*) FROM dose_ranges WHERE source_id = (SELECT id FROM sources WHERE slug = ?)",
-            (slug, slug),
-        ).fetchall()
-        for slug, *_ in SOURCES
-    }
-    # Flatten the summary into something compact for the manifest row
-    sources_summary = {
         slug: {
             "dose_ranges": db.execute("SELECT COUNT(*) FROM dose_ranges WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0],
             "bindings":    db.execute("SELECT COUNT(*) FROM bindings    WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0],
@@ -1688,12 +1684,19 @@ def main() -> int:
     lines.append("")
     lines.append("| Source | Dose ranges | Bindings | Categories | Tags |")
     lines.append("|---|---|---|---|---|")
+    coverage_rows = db.execute("""
+        SELECT src.slug,
+               (SELECT COUNT(*) FROM dose_ranges WHERE source_id = src.id) AS dose_ranges,
+               (SELECT COUNT(*) FROM bindings    WHERE source_id = src.id) AS bindings,
+               (SELECT COUNT(*) FROM categories  WHERE source_id = src.id) AS categories,
+               (SELECT COUNT(*) FROM tags        WHERE source_id = src.id) AS tags
+          FROM sources src
+         ORDER BY src.default_priority
+    """).fetchall()
+    coverage_by_slug = {r[0]: r for r in coverage_rows}
     for slug, *_ in SOURCES:
-        dose = db.execute("SELECT COUNT(*) FROM dose_ranges WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0]
-        bind = db.execute("SELECT COUNT(*) FROM bindings    WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0]
-        cat  = db.execute("SELECT COUNT(*) FROM categories  WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0]
-        tag  = db.execute("SELECT COUNT(*) FROM tags        WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0]
-        lines.append(f"| {slug} | {dose:,} | {bind:,} | {cat:,} | {tag:,} |")
+        r = coverage_by_slug.get(slug, (slug, 0, 0, 0, 0))
+        lines.append(f"| {slug} | {r[1]:,} | {r[2]:,} | {r[3]:,} | {r[4]:,} |")
     db.close()
     OUT_REPORT.write_text("\n".join(lines))
 

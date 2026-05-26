@@ -362,9 +362,213 @@ final class SubstanceStore {
     /// substance so partial fills still benefit from prior work).
     var all: [Substance] {
         if let cached = allCache { return cached }
-        let resolved = allNames.compactMap { lookup($0) }
+        let resolved = loadAllSubstancesBatch()
         allCache = resolved
+        // Intentionally NOT writing to resolvedCache: the batch path omits
+        // mechanism / subjective effects / tolerance (loaded by lookup() on
+        // demand for the detail view). Poisoning the per-substance cache
+        // with partial data would make detail views miss those fields.
         return resolved
+    }
+
+    /// Batch-load every substance with ~12 SQL queries instead of ~21k
+    /// (12 per-substance × 1785). Uses `ROW_NUMBER() OVER (PARTITION BY …)`
+    /// to pick the highest-priority source per (substance, field) in a
+    /// single query, then groups the rows in memory.
+    private func loadAllSubstancesBatch() -> [Substance] {
+        guard !enabledSourceOrder.isEmpty else { return [] }
+        do {
+            return try substancesDB.read { db in
+                let allRows = try Row.fetchAll(db, sql:
+                    "SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                let ids: [Int64] = allRows.map { $0["id"] }
+                let names: [Int64: String] = Dictionary(uniqueKeysWithValues:
+                    allRows.map { ($0["id"], $0["canonical_name"] as String) })
+
+                // Aliases — union across sources.
+                var aliasesByID: [Int64: [String]] = [:]
+                for row in try Row.fetchAll(db, sql:
+                    "SELECT substance_id, alias FROM aliases ORDER BY alias") {
+                    let sid: Int64 = row["substance_id"]
+                    aliasesByID[sid, default: []].append(row["alias"])
+                }
+
+                // Category — priority-resolved.
+                let categoryRows = try Row.fetchAll(db, sql: """
+                    SELECT substance_id, category FROM (
+                        SELECT c.substance_id, c.category,
+                               ROW_NUMBER() OVER (PARTITION BY c.substance_id
+                                                  ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                          FROM categories c
+                          JOIN sources src ON src.id = c.source_id
+                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    ) WHERE rn = 1
+                """)
+                var categoryByID: [Int64: SubstanceCategory] = [:]
+                for row in categoryRows {
+                    let raw: String = row["category"]
+                    let cat = SubstanceCategory(rawValue: raw) ?? SubstanceCategory.from(tripSitCategory: raw)
+                    categoryByID[row["substance_id"]] = cat
+                }
+
+                // Tags — union across enabled sources.
+                var tagsByID: [Int64: [String]] = [:]
+                for row in try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT t.substance_id, t.tag
+                      FROM tags t
+                      JOIN sources src ON src.id = t.source_id
+                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                     ORDER BY t.tag
+                """) {
+                    tagsByID[row["substance_id"], default: []].append(row["tag"])
+                }
+
+                // Dose ranges — priority-resolved per (substance, route).
+                struct DoseKey: Hashable { let sid: Int64; let route: String }
+                var dosesByKey: [DoseKey: (unit: String, doses: DoseRange)] = [:]
+                for row in try Row.fetchAll(db, sql: """
+                    SELECT substance_id, route, unit, threshold,
+                           light_lower, light_upper, common_lower, common_upper,
+                           strong_lower, strong_upper, heavy
+                      FROM (
+                        SELECT d.*, ROW_NUMBER() OVER (
+                            PARTITION BY d.substance_id, d.route
+                            ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                          FROM dose_ranges d
+                          JOIN sources src ON src.id = d.source_id
+                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    ) WHERE rn = 1
+                """) {
+                    let sid: Int64 = row["substance_id"]
+                    let route: String = row["route"]
+                    let dose = DoseRange(
+                        threshold: row["threshold"],
+                        light:  self.rangeFrom(lower: row["light_lower"],  upper: row["light_upper"]),
+                        common: self.rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
+                        strong: self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
+                        heavy:  row["heavy"]
+                    )
+                    dosesByKey[DoseKey(sid: sid, route: route)] = (row["unit"] ?? "mg", dose)
+                }
+
+                // Durations — pick the winning source per (substance, route),
+                // then keep every phase that winning source supplies.
+                var durationByKey: [DoseKey: DurationProfile] = [:]
+                let durationPhases = try Row.fetchAll(db, sql: """
+                    SELECT du.substance_id, du.route, du.phase, du.min_minutes, du.max_minutes
+                      FROM durations du
+                      JOIN sources src ON src.id = du.source_id
+                      JOIN (
+                          SELECT substance_id, route, MIN(rank) AS rank
+                            FROM (
+                                SELECT du2.substance_id, du2.route,
+                                       \(self.priorityCaseSQL) AS rank
+                                  FROM durations du2
+                                  JOIN sources src ON src.id = du2.source_id
+                                 WHERE src.slug IN (\(self.enabledSourceListSQL))
+                            )
+                           GROUP BY substance_id, route
+                      ) winner ON winner.substance_id = du.substance_id
+                              AND winner.route        = du.route
+                              AND winner.rank         = \(self.priorityCaseSQL)
+                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                """)
+                var phasesByKey: [DoseKey: [String: DurationRange]] = [:]
+                for row in durationPhases {
+                    let key = DoseKey(sid: row["substance_id"], route: row["route"])
+                    phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
+                        min: row["min_minutes"], max: row["max_minutes"]
+                    )
+                }
+                for (key, phases) in phasesByKey {
+                    durationByKey[key] = DurationProfile(
+                        onset: phases["onset"], comeup: phases["comeup"],
+                        peak: phases["peak"], offset: phases["offset"],
+                        afterglow: phases["afterglow"], total: phases["total"]
+                    )
+                }
+
+                // Half-life — priority-resolved.
+                var halfLifeByID: [Int64: Double] = [:]
+                for row in try Row.fetchAll(db, sql: """
+                    SELECT substance_id, half_life_minutes FROM (
+                        SELECT h.substance_id, h.half_life_minutes,
+                               ROW_NUMBER() OVER (PARTITION BY h.substance_id
+                                                  ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                          FROM half_lives h
+                          JOIN sources src ON src.id = h.source_id
+                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    ) WHERE rn = 1
+                """) {
+                    halfLifeByID[row["substance_id"]] = row["half_life_minutes"]
+                }
+
+                // Effects — union (text).
+                var effectsByID: [Int64: [String]] = [:]
+                for row in try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT e.substance_id, e.text
+                      FROM effects e
+                      JOIN sources src ON src.id = e.source_id
+                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                     ORDER BY e.text
+                """) {
+                    effectsByID[row["substance_id"], default: []].append(row["text"])
+                }
+
+                // Cited sources — distinct slugs touching any per-substance row.
+                var sourcesByID: [Int64: [String]] = [:]
+                for row in try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT uses.substance_id, src.slug FROM (
+                        SELECT substance_id, source_id FROM categories
+                        UNION SELECT substance_id, source_id FROM dose_ranges
+                        UNION SELECT substance_id, source_id FROM durations
+                        UNION SELECT substance_id, source_id FROM half_lives
+                        UNION SELECT substance_id, source_id FROM mechanisms_summary
+                        UNION SELECT substance_id, source_id FROM bindings
+                    ) uses
+                    JOIN sources src ON src.id = uses.source_id
+                    WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    ORDER BY src.slug
+                """) {
+                    sourcesByID[row["substance_id"], default: []].append(row["slug"])
+                }
+
+                // Assemble. Mechanism / subjective effects / tolerance are
+                // lazily resolved on detail-view open via `lookup()` — they
+                // pull in 20-row binding lists and are too heavy to load for
+                // every substance in the library.
+                return ids.compactMap { sid in
+                    guard let name = names[sid] else { return nil }
+                    let aliases = aliasesByID[sid] ?? []
+                    let tags = tagsByID[sid] ?? []
+                    var routes: [SubstanceRoute] = []
+                    for (key, value) in dosesByKey where key.sid == sid {
+                        routes.append(SubstanceRoute(
+                            route: RouteOfAdministration.from(string: key.route),
+                            unit: value.unit, doses: value.doses,
+                            duration: durationByKey[key]
+                        ))
+                    }
+                    let defaultRoute = routes.first?.route
+                        ?? RouteOfAdministration.from(string: tags.contains("inhalation") ? "inhalation" : "oral")
+                    return Substance(
+                        name: name, aliases: aliases,
+                        category: categoryByID[sid] ?? .other,
+                        defaultRoute: defaultRoute, routes: routes,
+                        effects: effectsByID[sid] ?? [],
+                        subjectiveEffects: [],
+                        toleranceInfo: nil,
+                        halfLifeMinutes: halfLifeByID[sid],
+                        sources: sourcesByID[sid] ?? [],
+                        mechanismOfAction: nil,
+                        tags: tags
+                    )
+                }
+            }
+        } catch {
+            logger.error("loadAllSubstancesBatch failed: \(error.localizedDescription, privacy: .public). Falling back to per-substance resolve.")
+            return allNames.compactMap { lookup($0) }
+        }
     }
 
     var count: Int { allNames.count }
