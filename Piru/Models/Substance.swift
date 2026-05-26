@@ -329,6 +329,8 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case endocrine = "Endocrine"
     case immunological = "Immunological"
     case supplement = "Supplement"
+    case peptide = "Peptide"
+    case anticonvulsant = "Anticonvulsant"
     case other = "Other"
 
     /// Modifier categories that are flags, not substantive classifications
@@ -356,9 +358,10 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "antihistamine", "deliriant": return .antihistamine
         case "analgesic": return .analgesic
         case "supplement", "vitamin", "steroid": return .supplement
+        case "peptide", "peptide-mimetic": return .peptide
         case "gabapentinoid", "gabaergic": return .gabapentinoid
         case "anxiolytic", "hypnotic": return .depressant
-        case "anticonvulsant", "mood-stabilizer", "mood stabilizer": return .antidepressant
+        case "anticonvulsant", "mood-stabilizer", "mood stabilizer", "antiepileptic": return .anticonvulsant
         case "sympathomimetic": return .stimulant
         case "cardiovascular": return .cardiovascular
         case "antimicrobial", "antibiotic", "antifungal", "antiviral": return .antimicrobial
@@ -398,6 +401,8 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case .endocrine: "Endocrine"
         case .immunological: "Immunological"
         case .supplement: "Supplement"
+        case .peptide: "Peptide"
+        case .anticonvulsant: "Anticonvulsant"
         case .other: "Other"
         }
     }
@@ -660,7 +665,7 @@ extension SubstanceCategory {
         case .stimulant: "bolt.fill"
         case .psychedelic: "eye.fill"
         case .dissociative: "waveform.path"
-        case .dysdelic: "spiral"
+        case .dysdelic: "tornado"
         case .opioid: "cross.fill"
         case .benzodiazepine: "moon.fill"
         case .gabapentinoid: "waveform"
@@ -681,6 +686,8 @@ extension SubstanceCategory {
         case .endocrine: "atom"
         case .immunological: "shield.lefthalf.filled"
         case .supplement: "pill.fill"
+        case .peptide: "link.circle.fill"
+        case .anticonvulsant: "waveform.path.ecg"
         case .other: "pills.fill"
         }
     }
@@ -711,6 +718,8 @@ extension SubstanceCategory {
         case .endocrine: .purple.opacity(0.7)
         case .immunological: .blue.opacity(0.7)
         case .supplement: .green.opacity(0.7)
+        case .peptide: Color(red: 0.40, green: 0.65, blue: 0.85)
+        case .anticonvulsant: Color(red: 0.65, green: 0.55, blue: 0.85)
         case .other: Theme.secondaryLabel
         }
     }
