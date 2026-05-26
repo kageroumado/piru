@@ -58,7 +58,7 @@ struct CustomSubstanceFormView: View {
     }
 
     @ViewBuilder
-    private func durationRow(_ label: String, min: Binding<String>, max: Binding<String>) -> some View {
+    private func durationRow(_ label: LocalizedStringResource, min: Binding<String>, max: Binding<String>) -> some View {
         HStack {
             Text(label)
             Spacer()
@@ -71,7 +71,7 @@ struct CustomSubstanceFormView: View {
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 60)
-            Text("min").foregroundStyle(Theme.secondaryLabel)
+            Text("minutes").foregroundStyle(Theme.secondaryLabel)
         }
     }
 
@@ -114,7 +114,7 @@ struct CustomSubstanceFormView: View {
                 Section("Classification") {
                     Picker("Category", selection: $category) {
                         ForEach(SubstanceCategory.allCases) { cat in
-                            Label(cat.rawValue, systemImage: cat.icon)
+                            Label(cat.displayName, systemImage: cat.icon)
                                 .tag(cat)
                         }
                     }

@@ -368,13 +368,13 @@ struct HalfLifeCalculatorView: View {
     private func timeAgoText(_ date: Date?) -> String {
         guard let date else { return "" }
         let elapsed = Date.now.timeIntervalSince(date)
-        if elapsed < 60 { return "Just now" }
-        let minutes = elapsed / 60
-        if minutes < 60 { return "\(Int(minutes))m ago" }
+        if elapsed < 60 { return String(localized: "Just now") }
+        let minutes = Int(elapsed / 60)
+        if minutes < 60 { return String(localized: "\(minutes)m ago") }
         let hours = minutes / 60
-        if hours < 24 { return "\(Int(hours))h ago" }
+        if hours < 24 { return String(localized: "\(hours)h ago") }
         let days = hours / 24
-        return "\(Int(days))d ago"
+        return String(localized: "\(days)d ago")
     }
 
     // MARK: - Calculator Header
@@ -705,10 +705,13 @@ struct HalfLifeCalculatorView: View {
     }
 
     private func formatDuration(_ minutes: Double) -> String {
-        if minutes < 60 { return "\(Int(minutes)) min" }
+        if minutes < 60 {
+            let m = Int(minutes)
+            return String(localized: "\(m) min")
+        }
         let hours = Int(round(minutes / 60))
-        if hours < 24 { return "\(hours) hours" }
+        if hours < 24 { return String(localized: "\(hours) hours") }
         let days = Int(round(minutes / 1440))
-        return "\(days) days"
+        return String(localized: "\(days) days")
     }
 }

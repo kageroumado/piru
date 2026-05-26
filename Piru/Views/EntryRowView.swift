@@ -12,16 +12,16 @@ struct EntryRowView: View {
 
     private var relativeTime: String {
         let elapsed = Date.now.timeIntervalSince(entry.timestamp)
-        guard elapsed > 0 else { return "just now" }
+        guard elapsed > 0 else { return String(localized: "just now") }
         let totalMinutes = Int(elapsed / 60)
         let hours = totalMinutes / 60
         let minutes = totalMinutes % 60
         if hours > 0 && minutes > 0 {
-            return "\(hours)h \(minutes)m ago"
+            return String(localized: "\(hours)h \(minutes)m ago")
         } else if hours > 0 {
-            return "\(hours)h ago"
+            return String(localized: "\(hours)h ago")
         } else {
-            return "\(minutes)m ago"
+            return String(localized: "\(minutes)m ago")
         }
     }
 
