@@ -56,6 +56,14 @@ final class SubstanceStore {
     /// Cleared when the user changes source priority.
     private var resolvedCache: [String: Substance] = [:]
 
+    /// Cached `all`/`substances(in:)` results. Resolving 1600+ substances
+    /// individually on every view body invalidation is what was making the
+    /// Library tab feel laggy on entry. Cleared in lockstep with
+    /// `resolvedCache`.
+    private var allCache: [Substance]?
+    private var substancesByCategoryCache: [SubstanceCategory: [Substance]] = [:]
+    private var nonEmptyCategoriesCache: [SubstanceCategory]?
+
     /// All substance canonical names (lowercased) → row id. Built once at
     /// startup so `lookup` / `lookupByNameOrAlias` / `search` don't pay the
     /// full SQL scan tax.
@@ -115,6 +123,15 @@ final class SubstanceStore {
         reloadUserProfile()
         buildIndexes()
         logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources, profile=\(self.userProfile.rawValue, privacy: .public)")
+        // Eager-prefill the `all`/`substances(in:)` cache on a background
+        // queue. The first Library-tab tap was paying a 1-2s synchronous
+        // resolve of all 1700+ substances; doing it here keeps launch snappy
+        // and the tab responsive once the user gets there.
+        Task.detached(priority: .utility) { [self] in
+            await MainActor.run {
+                _ = self.all
+            }
+        }
     }
 
     // MARK: - User prefs schema + seed
@@ -180,6 +197,9 @@ final class SubstanceStore {
             enabledSourceOrder = []
         }
         resolvedCache.removeAll(keepingCapacity: true)
+        allCache = nil
+        substancesByCategoryCache.removeAll(keepingCapacity: true)
+        nonEmptyCategoriesCache = nil
     }
 
     /// Set the user's source priority order (highest priority first). Cleared
@@ -341,7 +361,10 @@ final class SubstanceStore {
     /// resolved array is *not* cached as a unit (resolvedCache caches per
     /// substance so partial fills still benefit from prior work).
     var all: [Substance] {
-        allNames.compactMap { lookup($0) }
+        if let cached = allCache { return cached }
+        let resolved = allNames.compactMap { lookup($0) }
+        allCache = resolved
+        return resolved
     }
 
     var count: Int { allNames.count }
@@ -350,13 +373,19 @@ final class SubstanceStore {
     /// resolver, so a substance whose categories differ across sources lands
     /// in whichever category the highest-priority enabled source assigns.
     func substances(in category: SubstanceCategory) -> [Substance] {
-        all.filter { $0.category == category }
+        if let cached = substancesByCategoryCache[category] { return cached }
+        let filtered = all.filter { $0.category == category }
+        substancesByCategoryCache[category] = filtered
+        return filtered
     }
 
     /// Categories that have at least one substance after source resolution.
     var nonEmptyCategories: [SubstanceCategory] {
+        if let cached = nonEmptyCategoriesCache { return cached }
         let cats = Set(all.map(\.category))
-        return SubstanceCategory.allCases.filter(cats.contains)
+        let result = SubstanceCategory.allCases.filter(cats.contains)
+        nonEmptyCategoriesCache = result
+        return result
     }
 
     // MARK: - Search
