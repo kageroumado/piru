@@ -375,6 +375,16 @@ final class SubstanceStore {
     /// (12 per-substance × 1785). Uses `ROW_NUMBER() OVER (PARTITION BY …)`
     /// to pick the highest-priority source per (substance, field) in a
     /// single query, then groups the rows in memory.
+    /// Rank routes by `RouteOfAdministration.allCases` order — oral first,
+    /// sublingual second, intravenous mid-list, etc. — so substances default
+    /// to the route a typical user would log first.
+    private static let routeRanks: [RouteOfAdministration: Int] = Dictionary(
+        uniqueKeysWithValues: RouteOfAdministration.allCases.enumerated().map { ($1, $0) }
+    )
+    private static func routeRank(_ r: RouteOfAdministration) -> Int {
+        routeRanks[r] ?? Int.max
+    }
+
     private func loadAllSubstancesBatch() -> [Substance] {
         guard !enabledSourceOrder.isEmpty else { return [] }
         do {
@@ -549,6 +559,13 @@ final class SubstanceStore {
                             duration: durationByKey[key]
                         ))
                     }
+                    // Sort by RouteOfAdministration.allCases order so the
+                    // default route is the most-common ROA (oral first,
+                    // then sublingual / insufflation / inhalation /
+                    // intravenous / etc.). Without this the dict iteration
+                    // is undefined and substances like Diazepam would
+                    // default to IV instead of oral.
+                    routes.sort { Self.routeRank($0.route) < Self.routeRank($1.route) }
                     let defaultRoute = routes.first?.route
                         ?? RouteOfAdministration.from(string: tags.contains("inhalation") ? "inhalation" : "oral")
                     return Substance(
@@ -675,7 +692,7 @@ final class SubstanceStore {
 
                 let category = try resolvedCategory(db: db, substanceID: id)
                 let tags = try resolvedTags(db: db, substanceID: id)
-                let routes = try resolvedRoutes(db: db, substanceID: id)
+                var routes = try resolvedRoutes(db: db, substanceID: id)
                 let effects = try resolvedEffects(db: db, substanceID: id)
                 let subjectiveEffects = try resolvedSubjectiveEffects(db: db, substanceID: id)
                 let halfLifeMinutes = try resolvedHalfLife(db: db, substanceID: id)
@@ -683,6 +700,7 @@ final class SubstanceStore {
                 let sources = try citedSources(db: db, substanceID: id)
                 let toleranceInfo = try resolvedTolerance(db: db, substanceID: id)
 
+                routes.sort { Self.routeRank($0.route) < Self.routeRank($1.route) }
                 let defaultRoute = routes.first?.route
                     ?? RouteOfAdministration.from(string: tags.contains("inhalation") ? "inhalation" : "oral")
 
