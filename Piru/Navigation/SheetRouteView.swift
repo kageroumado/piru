@@ -175,9 +175,11 @@ private struct ColorPickerHost: View {
     var body: some View {
         SubstanceColorPickerView(
             substanceName: substance,
-            takenColors: Dictionary(
-                uniqueKeysWithValues: substanceColors.map { ($0.hexColor, $0.substance) }
-            )
+            // `takenColorMap` uses `uniquingKeysWith:` so two substances
+            // sharing a hex don't crash here (build 11 TestFlight crash —
+            // user had a duplicate-hex assignment and tapped "add new
+            // substance", which hit `Dictionary(uniqueKeysWithValues:)`).
+            takenColors: Array(substanceColors).takenColorMap
         ) { hex in
             let color = SubstanceColor(substance: substance, hexColor: hex)
             modelContext.insert(color)
