@@ -417,6 +417,14 @@ enum InteractionChecker {
         case .respiratory: .other
         case .endocrine: .other
         case .immunological: .other
+        case .peptide: .other
+        // Anticonvulsants are pharmacologically heterogeneous (sodium-channel
+        // blockers, SV2A ligands, gabapentinoids, GABAergics) — no single
+        // safe class proxy. Route to `.other` and let
+        // `substanceClassOverrides` map specific drugs (gabapentin,
+        // pregabalin → `.gabapentinoid`; benzo-class anticonvulsants
+        // → `.benzodiazepine`) where the subtype is known.
+        case .anticonvulsant: .other
         case .other: .other
         }
     }

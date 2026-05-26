@@ -124,9 +124,9 @@ struct SubstanceCategoryTests {
 
     // MARK: - Enum properties
 
-    @Test("Has 25 cases")
+    @Test("Has 27 cases")
     func caseCount() {
-        #expect(SubstanceCategory.allCases.count == 25)
+        #expect(SubstanceCategory.allCases.count == 27)
     }
 
     @Test("ID matches raw value")
