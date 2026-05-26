@@ -439,6 +439,175 @@ def normalise(s: str) -> str:
     return s
 
 
+# Stereo/IUPAC prefixes that mark a name as a chemistry-noise variant.
+# e.g. "(+/-)-noradrenaline", "(R)-N-trans-feruloyloctopamine",
+# "(E,E)-bastadin 19", "(2E)-3-(...)", "(2R)-1-(3-chlorophenyl)-...",
+# "(−)-cathinone" (U+2212 minus), "(±)-adrenaline".
+_CHEM_NOISE_PREFIX = re.compile(
+    r"^\(\s*[+\-±−/RrSsEeZz0-9, ]+\s*\)\s*-",
+)
+# Square-bracket / fully-IUPAC body patterns.
+_CHEM_NOISE_BODY = re.compile(r"[\[\]]")
+
+
+# Three-letter+ acronyms that should be ALL CAPS even after title-casing.
+# Used by `smart_title_case` to handle entries that arrived all-lowercase
+# from drug.community / TripSit but represent acronyms (lsd, mdma, gbl).
+_ACRONYMS = {
+    "lsd", "mdma", "mda", "mde", "dmt", "dxm", "pcp", "mxe", "thc", "cbd",
+    "cbn", "cbg", "cbc", "cbdv", "thcv", "thcp", "hhc", "gbl", "ghb",
+    "gaba", "maoi", "ssri", "snri", "ndri", "sari", "lsa", "lsh", "amt",
+    "aet", "dpt", "dipt", "mipt", "dmd", "nbome", "nboh", "nbmd", "nbf",
+    "pmma", "pma", "mbdb", "tfmpp", "mcpp", "5-meo", "4-aco", "4-ho", "5-ho",
+    "5-ht", "4-fa", "4-ma", "2c", "25i", "25c", "25b", "25h", "25n",
+    "iv", "im", "po", "sl", "br", "us", "uk", "eu",
+}
+
+
+def smart_title_case(name: str) -> str:
+    """Title-case a substance name when the source supplied it all-lowercase.
+    Preserves chemical naming conventions: known acronyms (LSD, MDMA, GBL)
+    stay uppercase; words with embedded digits/hyphens get their first letter
+    of each alpha run capitalised.
+
+    Names already containing any uppercase letter are returned unchanged —
+    the source's casing is presumed intentional (preserves "MDMA", "5-MeO-DMT",
+    etc.).
+    """
+    if not name or any(c.isupper() for c in name):
+        return name
+    # Tokenise on word-separator characters, keeping the separators.
+    parts = re.split(r"([\s\-,;()/.])", name)
+    out: list[str] = []
+    for p in parts:
+        if not p or not p.isalpha() and not (p and p[0].isalpha()):
+            # Mixed-alpha tokens (e.g. "2c-b") handled by the alpha-run loop below.
+            if any(c.isalpha() for c in p):
+                # Title-case the first alpha character of the token
+                low = p.lower()
+                if low in _ACRONYMS:
+                    out.append(p.upper())
+                else:
+                    chars = list(p)
+                    for i, c in enumerate(chars):
+                        if c.isalpha():
+                            chars[i] = c.upper()
+                            break
+                    out.append("".join(chars))
+            else:
+                out.append(p)
+            continue
+        low = p.lower()
+        if low in _ACRONYMS:
+            out.append(p.upper())
+        else:
+            out.append(p[0].upper() + p[1:])
+    return "".join(out)
+
+
+def is_chemistry_noise(name: str) -> bool:
+    """True if the substance name looks like a IUPAC chemistry artefact rather
+    than a substance someone would log in a harm-reduction tracker."""
+    n = (name or "").strip()
+    if not n:
+        return True
+    if _CHEM_NOISE_PREFIX.search(n):
+        return True
+    if _CHEM_NOISE_BODY.search(n):
+        return True
+    return False
+
+
+# Canonical category enum (mirrors SubstanceCategory in Swift). Keep in sync
+# with Piru/Models/Substance.swift `SubstanceCategory` rawValue strings.
+_CATEGORY_ENUM = {
+    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Opioid",
+    "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic",
+    "AMPAkine", "Eugeroic", "Depressant", "Antidepressant", "Antipsychotic",
+    "Analgesic", "Antihistamine", "Cardiovascular", "Antimicrobial",
+    "Gastrointestinal", "Respiratory", "Endocrine", "Immunological",
+    "Supplement", "Peptide", "Anticonvulsant", "Other",
+}
+
+# Category normalization rules — (regex, canonical). FIRST match wins, so
+# order encodes priority. Substance-class identifiers like "MAOI", "tricyclic"
+# come before generic "antidepressant"; "NMDA antagonist" beats "psychedelic"
+# (dissociatives are NOT psychedelics in our taxonomy); psychedelic beats
+# stimulant/empathogen (per user: 2C-B is psychedelic first, not empathogen).
+_CATEGORY_RULES: list[tuple[re.Pattern, str]] = [
+    # --- Highest priority: medication classes ---
+    # Peptide first — GLP-1 agonists, GH secretagogues, etc. are categorised by
+    # delivery class, not by the Endocrine effect they have.
+    (re.compile(r"\b(peptide|peptide[\s-]?mimetic|GLP[\s-]?1[\s-]?agonist|GIP[\s-]?agonist|GHRH[\s-]?analogue|GH[\s-]?secretagogue|healing[\s-]?peptide|nootropic[\s-]?peptide|melanocortin[\s-]?agonist)\b", re.I), "Peptide"),
+    # Anticonvulsant / mood-stabilizer covers antiseizure meds AND lithium.
+    # Mood stabilizers used psychiatrically (lamotrigine, valproate, lithium)
+    # land here rather than Antidepressant — they aren't antidepressants.
+    (re.compile(r"\b(anticonvulsant|antiepileptic|mood[\s-]?(stabiliser|stabilizer)|antiseizure)\b", re.I), "Anticonvulsant"),
+    (re.compile(r"\b(antipsychotic|neuroleptic|atypical antipsychotic)\b", re.I), "Antipsychotic"),
+    (re.compile(r"\b(antihistamine|H[12][\s-]?antagonist|H[12][\s-]?blocker)\b", re.I), "Antihistamine"),
+    (re.compile(r"\b(SSRI|SNRI|MAOI|NDRI|SARI|NaSSA|TCA|tricyclic|tetracyclic|monoamine[\s-]?oxidase[\s-]?inhibitor)\b", re.I), "Antidepressant"),
+    (re.compile(r"\bantidepressant\b", re.I), "Antidepressant"),
+    # --- Cannabinoid & opioid (chemistry-defined, take precedence) ---
+    (re.compile(r"\bcannabinoid\b|\bCB[12][\s-]?agonist\b|\bphytocannabinoid\b", re.I), "Cannabinoid"),
+    (re.compile(r"\b(μ[\s-]?opioid|µ[\s-]?opioid|mu[\s-]?opioid|opioid|opiate|narcotic|nitazene|fentanyl|fentanyl[\s-]?class)\b", re.I), "Opioid"),
+    # --- Dissociative beats psychedelic (NMDA mechanism) ---
+    (re.compile(r"\bdissociative\b|\bNMDA[\s-]?(receptor[\s-]?)?antagonist\b|\bPCP[\s-]?(site|analogue|class)\b|\bketamine[\s-]?class\b", re.I), "Dissociative"),
+    # --- Dysdelic (κ-opioid hallucinogens) ---
+    (re.compile(r"\bdysdelic\b|\b(κ|kappa)[\s-]?opioid\b|\bsalvinorin\b", re.I), "Dysdelic"),
+    # --- Psychedelic beats empathogen + stimulant ---
+    (re.compile(r"\bpsychedelic\b|\bhallucinogen\b|\b5[\s-]?HT2A[\s-]?(agonist|partial[\s-]?agonist)\b|\bDOx\b|\b2C[\s-]?[xX]?\b", re.I), "Psychedelic"),
+    # --- Empathogen / entactogen ---
+    (re.compile(r"\b(empathogen|entactogen)\b", re.I), "Empathogen"),
+    # --- GABAergic & benzodiazepine ---
+    (re.compile(r"\bbenzodiazepine\b", re.I), "Benzodiazepine"),
+    (re.compile(r"\b(gabapentinoid|gabaergic|alpha[\s-]?2[\s-]?delta|α2δ)\b", re.I), "GABAergic"),
+    # --- Eugeroic before generic stimulant ---
+    (re.compile(r"\b(eugeroic|wakefulness[\s-]?promoting|afinil)\b", re.I), "Eugeroic"),
+    # --- AMPAkine (ampakine, AMPA PAM) ---
+    (re.compile(r"\b(AMPAkine|ampakine|AMPA[\s-]?(receptor[\s-]?)?(positive[\s-]?)?modulator|AMPA[\s-]?PAM)\b", re.I), "AMPAkine"),
+    # --- Nootropic ---
+    (re.compile(r"\b(nootropic|racetam)\b", re.I), "Nootropic"),
+    # --- Antimicrobial ---
+    (re.compile(r"\b(antimicrobial|antibiotic|antifungal|antiviral|antimalarial|antiparasitic)\b", re.I), "Antimicrobial"),
+    # --- Cardiovascular ---
+    (re.compile(r"\b(cardiovascular|beta[\s-]?blocker|β[\s-]?blocker|antihypertensive|alpha[\s-]?(1|2)[\s-]?(agonist|blocker)|calcium[\s-]?channel[\s-]?blocker|ACE[\s-]?inhibitor|ARB|statin|diuretic|antiarrhythmic|vasodilator)\b", re.I), "Cardiovascular"),
+    # --- Gastrointestinal / antiemetic ---
+    (re.compile(r"\b(antiemetic|antidiarrhe[ai]l|laxative|proton[\s-]?pump[\s-]?inhibitor|PPI|prokinetic)\b", re.I), "Gastrointestinal"),
+    # --- Respiratory ---
+    (re.compile(r"\b(bronchodilator|β2[\s-]?agonist|mucolytic|antitussive|expectorant)\b", re.I), "Respiratory"),
+    # --- Endocrine ---
+    (re.compile(r"\b(estrogen|androgen|progestin|insulin|thyroid|GLP[\s-]?1|GIP|aromatase|hormone|steroid|corticosteroid)\b", re.I), "Endocrine"),
+    # --- Analgesic (non-opioid) ---
+    (re.compile(r"\b(NSAID|paracetamol|acetaminophen|analgesic)\b", re.I), "Analgesic"),
+    # --- Supplement / vitamin ---
+    (re.compile(r"\b(supplement|vitamin|mineral|adaptogen|amino[\s-]?acid|herbal|nutraceutical)\b", re.I), "Supplement"),
+    # --- Stimulant (after all higher-priority classes) ---
+    (re.compile(r"\b(stimulant|sympathomimetic|monoamine[\s-]?releaser|DA[\s-]?releaser|NDRI[\s-]?stimulant|amphetamine|cathinone|piperazine[\s-]?stimulant|psychostimulant)\b", re.I), "Stimulant"),
+    # --- Depressant (catch-all for sedative-hypnotics not benzo/GABAergic) ---
+    (re.compile(r"\b(depressant|sedative|hypnotic|anxiolytic|barbiturate|GHB|GABA[\s-]?A[\s-]?(positive[\s-]?)?(allosteric[\s-]?)?modulator|GABAA[\s-]?PAM)\b", re.I), "Depressant"),
+    # --- Deliriant → Antihistamine bucket (deliriants are anticholinergic; bucket with antihistamines) ---
+    (re.compile(r"\b(deliriant|anticholinergic|muscarinic[\s-]?antagonist)\b", re.I), "Antihistamine"),
+]
+
+
+def normalize_category(raw: str | None) -> str:
+    """Map any free-form category string from any source to one of the
+    canonical SubstanceCategory rawValue strings. Used at build time so the
+    iOS app's `SubstanceCategory(rawValue:)` decode succeeds for every row
+    and substances land in the correct grouping instead of "Other"."""
+    if not raw:
+        return "Other"
+    s = str(raw).strip()
+    if not s:
+        return "Other"
+    if s in _CATEGORY_ENUM:
+        return s
+    for pat, canonical in _CATEGORY_RULES:
+        if pat.search(s):
+            return canonical
+    return "Other"
+
+
 def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None]:
     """Parse a 'doi:10.x/y' | 'pmid:12345' | 'https://...' reference string."""
     if not ref:
@@ -598,6 +767,11 @@ class Build:
         name = (name or "").strip()
         if not name:
             return None
+        # Single choke-point for blocking IUPAC chemistry noise from any
+        # ingester (wikidata SPARQL, drug.community, enrichment).
+        if is_chemistry_noise(name):
+            return None
+        name = smart_title_case(name)
         norm = normalise(name)
         if norm in self.substance_ids:
             sid = self.substance_ids[norm]
@@ -645,6 +819,12 @@ class Build:
     def add_category(self, sid: int, source_slug: str, category: str, confidence: str | None = None) -> None:
         if not category:
             return
+        # Normalise to the canonical SubstanceCategory enum at write time so
+        # the iOS app's `SubstanceCategory(rawValue:)` decode succeeds for
+        # every row. Without this, drug.community's long descriptive
+        # categories ("Antidepressant (NaSSA: noradrenergic...)") and the
+        # enrichment swarm's mechanism-heavy strings all fall into "Other".
+        category = normalize_category(category)
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
@@ -984,7 +1164,14 @@ class Build:
                                   cas: str | None = None) -> int | None:
         """Insert all facts from one BundledSubstance dict, attributing every
         row to the given source slug. Shared body for the merged-JSON and
-        sourced-JSON ingesters."""
+        sourced-JSON ingesters.
+
+        Records with chemistry-noise names ("(R)-...", "(+/-)-..." etc.) are
+        skipped at the source — they're IUPAC artefacts, not substances anyone
+        would log in a harm-reduction tracker.
+        """
+        if is_chemistry_noise(s.get("name") or ""):
+            return None
         sid = self.upsert_substance(
             s.get("name"),
             aliases=s.get("aliases") or [],
@@ -1035,13 +1222,32 @@ class Build:
     def ingest_sourced_substances(self, path: Path) -> None:
         """SubstanceCollector's per-record sourced output. Each record carries
         its provenance (mapped 1:1 to sources.slug) so every fact gets
-        attributed correctly without merge-time information loss."""
+        attributed correctly without merge-time information loss.
+
+        Wikidata's SPARQL net catches IUPAC chemistry noise that isn't useful
+        in a harm-reduction library: stereo-prefixed variants like
+        "(+/-)-noradrenaline", "(R)-N-trans-feruloyloctopamine",
+        "(E,E)-bastadin 19" — chemical curiosities, not consumed substances.
+        Skip wikidata records whose name matches the noise pattern UNLESS
+        another source also carries them (in which case the merged record
+        keeps real data and the wikidata row just adds aliases).
+        """
         if not path.exists():
             return
         data = json.loads(path.read_text())
         if not isinstance(data, list):
             return
-        # Process in (provenance ASC, name ASC) order for deterministic output.
+        # Index non-wikidata names so we can let wikidata enrich them but
+        # skip the wikidata-only noise rows.
+        non_wikidata_names: set[str] = set()
+        for rec in data:
+            substance = rec.get("substance")
+            slug = rec.get("provenance")
+            if isinstance(substance, dict) and slug and slug != "wikidata":
+                name = (substance.get("name") or "").strip()
+                if name:
+                    non_wikidata_names.add(normalise(name))
+
         records = sorted(
             data,
             key=lambda r: (r.get("provenance", ""), (r.get("substance") or {}).get("name", "").lower()),
@@ -1051,8 +1257,11 @@ class Build:
             slug = rec.get("provenance")
             if not isinstance(substance, dict) or not slug:
                 continue
+            if slug == "wikidata":
+                name = (substance.get("name") or "").strip()
+                if is_chemistry_noise(name) and normalise(name) not in non_wikidata_names:
+                    continue
             if slug not in self.source_ids:
-                # Unknown provenance — fall back to piru-curated so we don't drop data.
                 slug = "piru-curated"
             self._ingest_substance_record(
                 substance, slug,
@@ -1099,13 +1308,16 @@ class Build:
             dosages = (s.get("dosages") or {}).get("routes_of_administration") or []
             for r in dosages:
                 dr = r.get("dose_ranges") or {}
-                light = self._parse_dc_range(dr.get("light"))
-                common = self._parse_dc_range(dr.get("common"))
-                strong = self._parse_dc_range(dr.get("strong"))
-                self.add_dose(sid, slug, r.get("route", ""), r.get("units") or "mg",
-                              threshold=self._parse_dc_scalar(dr.get("threshold")),
+                row_unit = r.get("units") or "mg"
+                threshold = self._parse_dc_scalar(dr.get("threshold"), row_unit)
+                light = self._parse_dc_range(dr.get("light"), row_unit)
+                common = self._parse_dc_range(dr.get("common"), row_unit)
+                strong = self._parse_dc_range(dr.get("strong"), row_unit)
+                heavy = self._parse_dc_scalar(dr.get("heavy"), row_unit)
+                self.add_dose(sid, slug, r.get("route", ""), row_unit,
+                              threshold=threshold,
                               light=light, common=common, strong=strong,
-                              heavy=self._parse_dc_scalar(dr.get("heavy")),
+                              heavy=heavy,
                               notes=r.get("notes"))
             for dc in (s.get("duration_curves") or []):
                 curve = dc.get("duration_curve")
@@ -1125,21 +1337,137 @@ class Build:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
 
-    @staticmethod
-    def _parse_dc_scalar(s: str | None) -> float | None:
-        if not s:
-            return None
-        m = re.search(r"(\d+(?:\.\d+)?)", str(s))
-        return float(m.group(1)) if m else None
+    # Unit-to-mg conversion factors. Anything not here keeps its row unit.
+    _DC_UNIT_FACTORS = {
+        "g": 1000.0, "mg": 1.0, "µg": 0.001, "ug": 0.001,
+        "mcg": 0.001, "ng": 1e-6, "ml": 1.0, "l": 1000.0,
+    }
 
-    @staticmethod
-    def _parse_dc_range(s: str | None) -> dict | None:
+    @classmethod
+    def _dc_clean(cls, s: str) -> str:
+        # drug.community uses three thousand separators: comma ("1,000 mg"),
+        # non-breaking space ("1 200 µg"), and regular space
+        # ("1 000 µg"). Without normalising, `\d+` matches "1" and
+        # silently truncates the value to 1.0.
+        cleaned = str(s).replace(",", "").replace(" ", " ")
+        # Collapse whitespace BETWEEN digits ("1 000" → "1000") but
+        # preserve number-unit spacing ("5 mg").
+        return re.sub(r"(?<=\d)\s+(?=\d)", "", cleaned)
+
+    @classmethod
+    def _dc_unit_factor(cls, cleaned: str, row_unit: str) -> float:
+        """If the value string contains an explicit unit that differs from the
+        row's declared unit, return the conversion factor so the value can be
+        rescaled into `row_unit`. Otherwise 1.0.
+
+        drug.community occasionally switches units inside a single dose row
+        (e.g. row unit "µg" but strong="1.0–1.5 mg"). Without this, the parser
+        would record 1.0 µg where the source meant 1000 µg.
+        """
+        m = re.search(r"\d\s*(g|mg|µg|ug|mcg|ng|ml|l)\b", cleaned, re.IGNORECASE)
+        if not m:
+            return 1.0
+        inline = m.group(1).lower()
+        if inline == row_unit.lower():
+            return 1.0
+        f_in = cls._DC_UNIT_FACTORS.get(inline)
+        f_row = cls._DC_UNIT_FACTORS.get(row_unit.lower())
+        if f_in is None or f_row is None or f_row == 0:
+            return 1.0
+        return f_in / f_row
+
+    @classmethod
+    def _parse_dc_scalar(cls, s: str | None, row_unit: str = "mg") -> float | None:
         if not s:
             return None
-        m = re.search(r"(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)", str(s))
-        if m:
-            return {"lower": float(m.group(1)), "upper": float(m.group(2))}
-        return None
+        cleaned = cls._dc_clean(s)
+        m = re.search(r"(\d+(?:\.\d+)?)", cleaned)
+        if not m:
+            return None
+        return float(m.group(1)) * cls._dc_unit_factor(cleaned, row_unit)
+
+    @classmethod
+    def _parse_dc_range(cls, s: str | None, row_unit: str = "mg") -> dict | None:
+        if not s:
+            return None
+        cleaned = cls._dc_clean(s)
+        m = re.search(r"(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)", cleaned)
+        if not m:
+            return None
+        factor = cls._dc_unit_factor(cleaned, row_unit)
+        return {"lower": float(m.group(1)) * factor, "upper": float(m.group(2)) * factor}
+
+    def promote_via_tags(self) -> dict[str, int]:
+        """For each substance whose resolved category would be 'Other' (either
+        because no source supplied a category, or every supplied category
+        already normalised to 'Other'), check tags for a class-specific
+        signal and insert a piru-curated category row that wins resolution.
+
+        Returns counts of promotions per derived category.
+        """
+        # (priority-ordered tag predicates → canonical category)
+        tag_rules: list[tuple[set[str], str]] = [
+            ({"peptide", "peptide-mimetic"}, "Peptide"),
+            # GABAergic must come before Anticonvulsant — gabapentin/pregabalin
+            # carry both `gabapentinoid` AND `anticonvulsant` tags, but their
+            # primary class is gabapentinoid (α2δ ligand). Without this
+            # ordering they regress out of GABAergic into Anticonvulsant.
+            ({"gabapentinoid", "alpha2-delta-ligand", "GABAergic"}, "GABAergic"),
+            ({"anticonvulsant", "antiepileptic", "mood-stabilizer", "mood-stabiliser"}, "Anticonvulsant"),
+            ({"antipsychotic", "atypical-antipsychotic", "typical-antipsychotic"}, "Antipsychotic"),
+            ({"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "NDRI", "SARI", "NaSSA"}, "Antidepressant"),
+            ({"antihistamine", "H1-antagonist", "H2-antagonist", "deliriant"}, "Antihistamine"),
+            ({"cannabinoid", "phytocannabinoid", "synthetic-cannabinoid", "semi-synthetic-cannabinoid", "CB1-agonist", "CB1-partial-agonist"}, "Cannabinoid"),
+            ({"opioid", "mu-opioid-agonist", "designer-opioid", "nitazene", "fentanyl-class-potency"}, "Opioid"),
+            ({"dissociative", "NMDA-antagonist"}, "Dissociative"),
+            ({"benzodiazepine"}, "Benzodiazepine"),
+            ({"eugeroic", "wakefulness-promoting"}, "Eugeroic"),
+            ({"AMPAkine", "ampakine", "AMPA-PAM"}, "AMPAkine"),
+            ({"nootropic", "racetam", "nootropic-peptide"}, "Nootropic"),
+            ({"beta-blocker", "antihypertensive", "alpha2-agonist", "alpha1-blocker", "calcium-channel-blocker"}, "Cardiovascular"),
+            ({"supplement", "vitamin", "mineral", "adaptogen", "amino-acid", "herbal"}, "Supplement"),
+            ({"antiemetic"}, "Gastrointestinal"),
+            ({"stimulant", "psychostimulant", "amphetamine", "cathinone-derivative"}, "Stimulant"),
+            # Both `5HT2A-agonist` and `5-HT2A-agonist` (with hyphen) appear
+            # depending on source — accept both. `tryptamine-not-phenethylamine`
+            # is the peer-review-primary tag for classical tryptamine psychedelics.
+            ({"psychedelic", "5HT2A-agonist", "5-HT2A-agonist",
+              "phenethylamine-psychedelic", "tryptamine-not-phenethylamine",
+              "psilocybe-mushroom", "DMT-containing",
+              "PIHKAL", "TIHKAL"}, "Psychedelic"),
+            ({"empathogen", "entactogen"}, "Empathogen"),
+            ({"muscle-relaxant", "Z-drug", "orexin-antagonist", "sedative-hypnotic", "barbiturate"}, "Depressant"),
+        ]
+
+        # Substances whose effective resolved category is "Other" or absent.
+        rows = self.cur.execute("""
+            SELECT s.id
+              FROM substances s
+             WHERE NOT EXISTS (
+                 SELECT 1 FROM categories c
+                  WHERE c.substance_id = s.id AND c.category != 'Other'
+             )
+        """).fetchall()
+        target_sids = [r[0] for r in rows]
+        if not target_sids:
+            return {}
+
+        # Pull each substance's tag set (any source).
+        tags_by_sid: dict[int, set[str]] = {sid: set() for sid in target_sids}
+        for r in self.cur.execute(
+            f"SELECT substance_id, tag FROM tags WHERE substance_id IN ({','.join('?' * len(target_sids))})",
+            target_sids,
+        ):
+            tags_by_sid[r[0]].add(r[1])
+
+        counts: dict[str, int] = {}
+        for sid, tagset in tags_by_sid.items():
+            for required_tags, canonical in tag_rules:
+                if tagset & required_tags:
+                    self.add_category(sid, "piru-curated", canonical)
+                    counts[canonical] = counts.get(canonical, 0) + 1
+                    break
+        return counts
 
     def ingest_enrichment(self, path: Path) -> None:
         """Deep-pharma enrichment from the agent swarm. source = peer-review-primary
@@ -1271,6 +1599,13 @@ def main() -> int:
         build.ingest_enrichment(f)
         delta = {k: build.stats[k] - before.get(k, 0) for k in build.stats if build.stats[k] != before.get(k, 0)}
         print(f"  + {f.name}: {delta}", file=sys.stderr)
+
+    # Tag-fallback pass: any substance currently in (or resolving to) "Other"
+    # whose tags identify a specific class gets an additional piru-curated
+    # category row so it leaves the Other bucket. Peptide is the load-bearing
+    # case (28+ entries the agents tagged as 'peptide' but with category=Other).
+    promoted = build.promote_via_tags()
+    print(f"Tag-fallback promotion: {promoted}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(timezone.utc).strftime("%Y-%m-%d.0")

@@ -1,52 +1,52 @@
 # Piru SQLite build report
 
-Built 2026-05-25.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,268,032 bytes, sha256 `c5a41ad4be86d2f510c877a1f13175681fb06623eb0e685cef7e1497d3f3f72e`)
+Built 2026-05-26.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,562,944 bytes, sha256 `54055e24e3d1abdb62c89fdc5d66031be97f9b26f3ac6eca4ac4ccd4818e6b5a`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,629 |
-| aliases | 6,452 |
+| substances | 1,785 |
+| aliases | 6,822 |
 | sources | 12 |
-| citations | 1,007 |
-| categories | 2,055 |
-| tags | 6,603 |
-| dose_ranges | 1,800 |
-| durations | 2,273 |
-| half_lives | 46 |
+| citations | 1,005 |
+| categories | 2,249 |
+| tags | 7,805 |
+| dose_ranges | 2,050 |
+| durations | 3,276 |
+| half_lives | 258 |
 | mechanisms_summary | 0 |
-| effects | 4,432 |
+| effects | 5,657 |
 | subjective_effects | 4,624 |
-| tolerance | 343 |
-| bindings | 904 |
-| functional_assays | 223 |
+| tolerance | 342 |
+| bindings | 898 |
+| functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 850 |
+| downstream_signalling | 840 |
 | neuroimaging | 57 |
-| pk_routes | 397 |
+| pk_routes | 395 |
 | concentration_effects | 38 |
-| metabolism | 531 |
+| metabolism | 529 |
 | drug_interactions_pk | 229 |
 | pharmacogenetics | 275 |
 | off_targets | 227 |
 | class_contexts | 58 |
-| substance_classes | 245 |
+| substance_classes | 238 |
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 101 | 0 | 270 | 1,044 |
-| peer-review-primary | 0 | 904 | 0 | 1,803 |
+| piru-curated | 352 | 0 | 496 | 2,371 |
+| peer-review-primary | 0 | 898 | 0 | 1,781 |
 | psychonautwiki | 0 | 0 | 0 | 0 |
 | tripsit | 598 | 0 | 554 | 1,372 |
 | drug.community | 893 | 0 | 420 | 420 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 167 | 0 | 179 | 456 |
+| erowid-pihkal | 166 | 0 | 178 | 454 |
 | erowid-tihkal | 41 | 0 | 55 | 139 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 577 | 1,369 |
+| wikidata | 0 | 0 | 546 | 1,268 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
