@@ -73,20 +73,31 @@ struct DoseSuggestionCard: View {
     private var timeAgo: String {
         let minutes = Date.now.timeIntervalSince(lastDoseTimestamp) / 60
         if minutes < 60 {
-            return "\(Int(minutes))m ago"
+            let m = Int(minutes)
+            return String(localized: "\(m)m ago")
         }
         let hours = minutes / 60
         if hours < 24 {
-            return String(format: "%.1fh ago", hours).replacingOccurrences(of: ".0h", with: "h")
+            if hours == hours.rounded(.toNearestOrEven) {
+                let h = Int(hours)
+                return String(localized: "\(h)h ago")
+            }
+            return String(localized: "\(String(format: "%.1f", hours))h ago")
         }
-        return String(format: "%.0fd ago", hours / 24)
+        let d = Int(hours / 24)
+        return String(localized: "\(d)d ago")
     }
 
     private func formattedWait(_ minutes: Double) -> String {
         if minutes < 60 {
-            return "\(Int(minutes))m"
+            let m = Int(minutes)
+            return String(localized: "\(m)m")
         }
         let hours = minutes / 60
-        return String(format: "%.1fh", hours).replacingOccurrences(of: ".0h", with: "h")
+        if hours == hours.rounded(.toNearestOrEven) {
+            let h = Int(hours)
+            return String(localized: "\(h)h")
+        }
+        return String(localized: "\(String(format: "%.1f", hours))h")
     }
 }
