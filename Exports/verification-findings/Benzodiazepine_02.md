@@ -1,11 +1,26 @@
-### Rilmazafone
-- **Route / Field**: oral / dose tier ordering (light vs common)
-- **Shown**: light 1–5 mg, common 1–2 mg
-- **Expected**: light ceiling should be below common floor; common should exceed light (e.g., light 1–2 mg, common 2–4 mg or similar). As listed, the light range (up to 5 mg) wholly contains and exceeds the common range (up to 2 mg), making the tier ordering pharmacologically incoherent.
-- **Severity**: BLOCKER — a user following the "common" label would stop at 2 mg while the "light" tier extends to 5 mg; the tier hierarchy is inverted and will confuse safe-dosing decisions.
+# Verification Findings — Benzodiazepine_02
 
-### Triazolam
-- **Route / Field**: oral / total duration (missing)
-- **Shown**: onset 10–20 min, afterglow 1–6 h — no peak, offset, or total duration listed
-- **Expected**: total duration ~2–6 h (half-life 1.5–5 h; consistent with TripSit and PsychonautWiki which show ~2–5 h effects). Absence of a total duration value leaves the timeline graph with no upper bound, which could cause users to redose a drug with unpredictable potency.
-- **Severity**: MAJOR — missing total duration for a high-potency, short-acting benzo is clinically relevant; users may interpret lack of a total as "still active" or "unknown" and redose unsafely.
+## Quazepam
+
+### oral / duration total
+- **Shown**: total 6h–12h (tripsit)
+- **Expected**: ~12h–24h minimum. Quazepam's parent t½ is ~39h; its active metabolite 2-oxoquazepam has t½ ~39h and N-desalkyl-2-oxoquazepam ~73h. Subjective sedation and residual impairment consistently extend well past 12h in clinical literature. 6–12h total dramatically understates the functional duration.
+- **Severity**: MAJOR
+
+---
+
+## Temazepam
+
+### oral / duration afterglow upper bound
+- **Shown**: afterglow 3.5h–18.4h (psychonautwiki)
+- **Expected**: Upper bound should be a round number (~18h or ~20h). 18.4h is an artifact of automated unit conversion (e.g. 1100 minutes ÷ 60 = 18.333…h displayed as 18.4h), not a pharmacologically meaningful figure. Indicates a data pipeline precision error upstream.
+- **Severity**: MINOR
+
+---
+
+## Triazolam
+
+### oral / strong dose upper bound
+- **Shown**: strong 0.5–1.5 mg (tripsit)
+- **Expected**: Strong ceiling should be ≤0.5 mg. Triazolam's maximum approved clinical dose is 0.25 mg (0.5 mg in some older guidelines). 1.5 mg is 6× the standard maximum and sits firmly in acute toxicity/overdose territory; labeling it "strong" normalises a genuinely dangerous dose.
+- **Severity**: BLOCKER

@@ -2,7 +2,14 @@
 
 # AMPAkine
 
-No findings.
+# AMPAkine — Verification Findings
+
+### Aniracetam
+- **Route / Field**: oral / heavy dose
+- **Shown**: ≥4500 mg
+- **Expected**: ≥2000–2500 mg. Clinical trials use 750–1500 mg/day total (split doses); community reports cap "heavy" around 2000–2500 mg. 4500 mg is 3× the top of the common range and has no support in either pharmacokinetic or harm-reduction literature. The strong tier already reaches 3000 mg, making 4500 mg an implausible jump.
+- **Severity**: MAJOR
+
 
 # Analgesic
 
@@ -13,122 +20,92 @@ No findings.
 
 # Anticonvulsant — Verification Findings
 
+### CBDV
+- **Route / Field**: all routes / half-life
+- **Shown**: 24h
+- **Expected**: ~1.5–3h — CBDV (cannabidivarin) is rapidly metabolized; its half-life in human studies is 1–3h, far shorter than CBD (~14–30h). The 24h figure likely conflates CBDV with CBD.
+- **Severity**: BLOCKER
+
 ### Epidiolex
 - **Route / Field**: oral / all dose tiers
-- **Shown**: threshold 2.5, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 mg
-- **Expected**: Starting dose ~175 mg/day for a 70 kg adult (2.5 mg/kg/day); maintenance 5–20 mg/kg/day = ~350–1400 mg/day at 70 kg. Common adult clinical dose is 200–600 mg/day. Shown values appear to be per-kg dose figures mistakenly treated as absolute mg totals, making them ~50–100× too low.
-- **Severity**: BLOCKER — heavy ≥20 mg is far below even the starting clinical dose; a user tracking doses against these ranges will think any real therapeutic dose is "overdose" territory.
-
-### Fenfluramine
-- **Route / Field**: oral / threshold (only dose tier present)
-- **Shown**: threshold 0.1 (no range, no other tiers; unit presumably mg)
-- **Expected**: Fintepla (fenfluramine for Dravet syndrome) is dosed at 0.1–0.7 mg/kg/day, with a hard cap of 26 mg/day. For a 60–70 kg adult that is ~6–17 mg/day at common therapeutic levels. A threshold of 0.1 mg total is implausibly low; typical minimum meaningful dose is ~2–3 mg. The entry also lacks light/common/strong/heavy tiers entirely, making it nearly useless.
-- **Severity**: MAJOR — 0.1 mg threshold is ~20–50× below the lowest practical therapeutic dose; missing tiers prevent any meaningful dose context.
-
-### Levetiracetam
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥4000 mg
-- **Expected**: Maximum approved dose is 3000 mg/day (1500 mg BID). Values above 3000 mg/day enter the range associated with acute toxicity (somnolence, agitation, respiratory depression in overdose). Heavy should be ≥3000 mg to flag doses at or above the clinical ceiling.
-- **Severity**: MAJOR — places the heavy marker 33% above the approved maximum, implying 3000–3999 mg is merely "strong" when it is already at or beyond the safety ceiling.
-
-### Mirogabalin
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 30–40 mg, heavy ≥40 mg
-- **Expected**: Maximum approved dose (Japan; neuropathic pain) is 30 mg/day (15 mg BID). Any dose above 30 mg/day exceeds the approved maximum. Strong should cap at or near 30 mg; heavy at ≥30 mg.
-- **Severity**: MAJOR — strong tier extends into and above the approved maximum without flagging it; heavy ≥40 mg normalises a supratherapeutic dose.
+- **Shown**: threshold 2.5 mg, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 mg
+- **Expected**: therapeutic range starts at ~2.5 mg/kg/day titrating to 5–20 mg/kg/day (350–1400 mg/day for a 70 kg adult) — Epidiolex is pharmaceutical CBD dosed in mg/kg; the flat mg values shown (5–20 mg) are 50–100× below any clinically meaningful dose and match no documented harm-reduction pattern either.
+- **Severity**: BLOCKER
 
 ### Perampanel
-- **Route / Field**: oral / total duration
-- **Shown**: total 96h (4 days)
-- **Expected**: Perampanel has a long half-life (~105h) but the subjective effect window of a single dose is not 4 days. Single-dose Tmax is 0.5–2.5h; acute CNS effects (sedation, dizziness) typically resolve within 12–24h after a dose as redistribution occurs. Total subjective duration for a single dose is approximately 12–24h; the 96h figure conflates half-life with subjective experience duration.
-- **Severity**: MAJOR — a user could believe effects persist for 4 days per dose and dangerously mistime re-administration or other drug use around it.
+- **Route / Field**: oral / peak duration
+- **Shown**: 8h–24h
+- **Expected**: ~0.5–2.5h — labelled Tmax for perampanel is 0.5–2.5h across multiple studies; a peak window of 8–24h describes the elimination tail, not the peak effect.
+- **Severity**: MAJOR
 
 ### Zonisamide
-- **Route / Field**: oral / total duration
-- **Shown**: total 48h–96h
-- **Expected**: Zonisamide half-life is ~63h, but acute subjective effects from a single dose resolve well within 12–24h. Total subjective duration for a single dose is approximately 12–24h. The 48–96h figure confuses pharmacokinetic half-life with experiential duration.
-- **Severity**: MAJOR — same conflation issue as perampanel; a user seeing "effects last 2–4 days" per dose will severely misunderstand dosing behaviour.
+- **Route / Field**: oral / half-life
+- **Shown**: 78h
+- **Expected**: ~50–70h (commonly cited as 63h in multiple PK references and the FDA label) — 78h is outside the established range and would meaningfully distort dosing-interval estimates.
+- **Severity**: MINOR
 
 
 # Antidepressant
 
 # Antidepressant — Verification Findings
 
-### Doxepin
-- **Route / Field**: oral / dose tier continuity
-- **Shown**: threshold 3, light 3–10 mg, common 75–150 mg (gap of 10–75 mg is unrepresented)
-- **Expected**: Light should extend toward ~25–50 mg or an intermediate tier should exist; the 65 mg gap between the top of "light" (10 mg) and the bottom of "common" (75 mg) means every dose in the 10–75 mg range is unclassified. A user logging 30 mg sees no tier.
-- **Severity**: MAJOR
-
-### Milnacipran
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 200 mg (single point), heavy ≥200 mg — both start at 200 mg, strong has zero width
-- **Expected**: strong should span a range below heavy, e.g. strong 150–200 mg, heavy ≥200 mg; or strong 200–250 mg, heavy ≥250 mg. As written, "strong" is a degenerate tier.
-- **Severity**: MAJOR
+### Isocarboxazid
+- **oral / half-life**
+- **Shown**: 2.5h
+- **Expected**: ~36h — isocarboxazid's plasma elimination half-life is reported as approximately 36h in clinical pharmacokinetic studies; 2.5h is closer to the half-life of phenelzine or tranylcypromine and appears to be a cross-substance data error
+- **Severity**: BLOCKER
 
 ### Desvenlafaxine
-- **Route / Field**: oral / heavy threshold
-- **Shown**: strong 50–100 mg, heavy ≥400 mg (gap of 100–400 mg is unrepresented)
-- **Expected**: heavy should begin where strong ends, ≥100 mg. The 300 mg gap means doses from 100–399 mg show no tier. The FDA-approved dose is 50 mg/day; doses above 100 mg are off-label and should still be classifiable.
-- **Severity**: MAJOR
-
-### Fluoxetine
-- **Route / Field**: oral / half-life
-- **Shown**: 384h (16 days)
-- **Expected**: ~96–144h (4–6 days) for the combined parent+norfluoxetine effective half-life as used clinically. 384h is the extreme upper bound of norfluoxetine in ultra-slow CYP2D6 metabolizers; using it as the single stated half-life will cause the app's PK curves and active-substance calculations to show fluoxetine as active for weeks past when it is practically relevant for nearly all users.
+- **oral / heavy**
+- **Shown**: ≥400 mg
+- **Expected**: ≥150 mg — the maximum recommended daily dose is 100 mg; doses above 100 mg confer no additional antidepressant benefit and increase adverse effects; 400 mg as the heavy threshold is 4× the clinical ceiling
 - **Severity**: MAJOR
 
 ### Tianeptine
-- **Route / Field**: oral / common dose
-- **Shown**: common 25–50 mg
-- **Expected**: common ~12.5–37.5 mg (the standard therapeutic regimen is 12.5 mg three times daily = 37.5 mg/day total). The lower bound of 25 mg is above the standard single dose (12.5 mg) and the upper bound of 50 mg exceeds the standard total daily dose. If the field is per-dose, 25–50 mg is substantially above therapeutic; if per-day, the lower bound should start at 37.5 mg. Either way the range is shifted high relative to the clinical standard.
+- **oral / common**
+- **Shown**: 25–50 mg
+- **Expected**: 12–25 mg — the therapeutic regimen is 12.5 mg three times daily (37.5 mg total daily); a single-dose common of 25–50 mg exceeds the full daily therapeutic dose; PsychonautWiki (12–35 mg) and TripSit (12.5 mg) both corroborate the lower range
 - **Severity**: MAJOR
 
-### Tianeptine sodium
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥100 mg
-- **Expected**: ≥75 mg is where opioid-like abuse and dependency risk becomes clinically significant for tianeptine sodium. The standard maximum therapeutic daily dose is 37.5 mg; 100 mg/day represents approximately 2.7× the therapeutic ceiling and is well into abuse/toxicity territory. For harm-reduction purposes, heavy should arguably start at ≥50–75 mg to flag this risk zone sooner.
+### Fluoxetine
+- **oral / half-life**
+- **Shown**: 384h (16 days)
+- **Expected**: 96–288h (4–12 days) — parent fluoxetine half-life is 1–4 days; active metabolite norfluoxetine is 4–16 days; citing 384h represents the absolute upper bound of the metabolite range and overstates the effective half-life that most references cite as 1–2 weeks (168–336h)
 - **Severity**: MINOR
 
-### Selegiline
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 10 mg (single point), heavy ≥10 mg — identical threshold, zero-width strong tier
-- **Expected**: strong should span a range, e.g. strong 10–15 mg; heavy ≥15 mg. Additionally, oral selegiline >10 mg/day loses MAO-B selectivity and becomes a non-selective MAOI, requiring tyramine dietary restriction — this pharmacological threshold at 10 mg makes the zero-width strong tier particularly confusing.
-- **Severity**: MAJOR
+### Milnacipran
+- **oral / strong and heavy**
+- **Shown**: strong 200 mg, heavy ≥200 mg
+- **Expected**: strong threshold below 200 mg (e.g., 150–200 mg), heavy ≥200 mg — strong and heavy share an identical boundary at 200 mg, making the strong tier a zero-width range at its upper bound; maximum approved dose is 200 mg/day, so the heavy anchor is correct but strong needs a lower ceiling
+- **Severity**: MINOR
 
 ### Tranylcypromine
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 60 mg (single point), heavy ≥60 mg — identical threshold, zero-width strong tier
-- **Expected**: strong should span a range, e.g. strong 60–80 mg, heavy ≥80 mg (max recommended dose is 60 mg/day for maintenance, with some sources citing up to 90 mg under supervision).
-- **Severity**: MAJOR
+- **oral / half-life**
+- **Shown**: 2.16667h
+- **Expected**: 2.5h — the value 2.16667 = 130 ÷ 60, indicating 130 minutes was entered and divided by 60 rather than using the published half-life of ~2.5h; pharmacologically close but the fractional artifact signals a unit-conversion error in data entry
+- **Severity**: MINOR
 
 
 # Antihistamine
 
-# Antihistamine Verification Findings
+# Antihistamine — Verification Findings
 
 ### Atropine
-- **Route / Field**: oral / common dose
-- **Shown**: common 2–5 mg
-- **Expected**: ~0.4–1 mg. Therapeutic oral atropine is 0.4–0.6 mg per dose; 2–5 mg is the range associated with frank anticholinergic toxidrome (agitated delirium, hyperthermia, urinary retention, tachycardia). Listing this as *common* could cause users to self-administer at toxic levels.
+- **Route / Field**: oral / common & strong doses
+- **Shown**: common 2–5 mg, strong 6–10 mg
+- **Expected**: common 0.4–1 mg, strong 1–2 mg — therapeutic anticholinergic range tops out at ~2 mg; 2–5 mg oral produces severe toxidrome in most adults, and 6–10 mg is potentially lethal (atropine LDLo estimates ~1–4 mg/kg)
 - **Severity**: BLOCKER
 
-### Ibotenic acid
+### Diphenhydramine
 - **Route / Field**: oral / common dose
-- **Shown**: common 50–100 mg (isolated compound)
-- **Expected**: ~5–15 mg at most for isolated ibotenic acid. Community psychonautic use of Amanita muscaria involves grams of dried mushroom with variable ibotenic acid content (~0.1–0.5% by dry weight); extrapolating to isolated ibotenic acid, 50–100 mg is a severe overdose range with excitotoxic neurotoxicity risk. Erowid and PsychonautWiki do not have human dose data at this level because it is not safely used as an isolated compound at these quantities.
+- **Shown**: common 50–100 mg (piru-curated wins over psychonautwiki 200–400 mg and tripsit 200–500 mg)
+- **Expected**: common 200–400 mg for recreational/deliriant use — 50–100 mg is the therapeutic antihistamine/sleep dose; both major harm-reduction databases place recreational common at 4–8× higher; the winning value understates recreational exposure by a large margin
 - **Severity**: MAJOR
 
-### Nizatidine
-- **Route / Field**: oral / strong vs heavy boundary
-- **Shown**: strong 300 mg, heavy ≥300 mg (identical cutoff)
-- **Expected**: strong and heavy should have distinct thresholds. With nizatidine's maximum clinical dose being 300 mg/day, a reasonable split might be strong 300 mg / heavy ≥450–600 mg, or the strong upper bound should be below 300 mg. As-is, a dose of exactly 300 mg is simultaneously "strong" and "heavy," which is a logic error in the dose tier schema.
-- **Severity**: MINOR
-
-### Diphenhydramine
-- **Route / Field**: oral / heavy threshold
-- **Shown**: heavy ≥300 mg
-- **Expected**: ≥500–700 mg. TripSit lists heavy at ≥500 mg and "strong" at 200–500 mg. PsychonautWiki places heavy at ≥700 mg. At 300 mg many users are at the lower recreational threshold, not a "heavy" dose by community consensus. This could cause under-caution in users redosing.
+### Doxylamine
+- **Route / Field**: oral / common dose
+- **Shown**: common 25 mg (piru-curated wins over tripsit 200–350 mg)
+- **Expected**: common ~200–350 mg for recreational use — 25 mg is the OTC sleep-aid dose; tripsit places recreational common at ~10× higher; same pattern as diphenhydramine (first-generation deliriant antihistamine)
 - **Severity**: MAJOR
 
 
@@ -136,600 +113,538 @@ No findings.
 
 No findings.
 
+
 # Antipsychotic
 
-# Antipsychotic Verification Findings
+# Antipsychotic — Verification Findings
 
 ### Aripiprazole
-- **Route / Field**: intramuscular / threshold vs light dose ordering
-- **Shown**: threshold 400 mg, light 300–400 mg
-- **Expected**: threshold should be below the light range floor; here threshold (400) equals or exceeds the top of the light range (400) while the light range bottom (300) is below threshold — the dose tiers are inverted. For the Abilify Maintena depot, 400 mg is the standard dose and 300 mg is the lower approved dose; threshold should be ≤300 mg or the light range should start at 400 mg.
+- **Route / Field**: intramuscular / duration peak
+- **Shown**: peak 240h–720h (10–30 days)
+- **Expected**: ~96h–168h (4–7 days); Abilify Maintena Tmax is ~7 days per FDA label; 30-day upper bound is inflated by ~4×
 - **Severity**: MAJOR
+
+### Aripiprazole
+- **Route / Field**: intramuscular / duration offset + total
+- **Shown**: offset 2160h–3120h (90–130 days), total 2880h–4320h (120–180 days)
+- **Expected**: offset ~480h–672h, total ~672h–840h; dosing interval is 28 days (672h); 5 half-lives of aripiprazole (96h) ≈ 480h; stated values are 4–6× too long
+- **Severity**: BLOCKER
 
 ### Cariprazine
-- **Route / Field**: half-life
-- **Shown**: 1200h (~50 days)
-- **Expected**: ~91–504h (4–21 days). Cariprazine's primary active metabolite DDCAR has a half-life of approximately 1–3 weeks (168–504h). 1200h (50 days) is 2–3× too long and not supported by the prescribing information or published PK studies.
+- **Route / Field**: oral / half-life
+- **Shown**: 1200h (50 days)
+- **Expected**: ≤504h (~21 days); DDCAR (longest active metabolite) t½ is 1–3 weeks per FDA label; 50 days is ~2.4× the upper bound
+- **Severity**: BLOCKER
+
+### Cariprazine
+- **Route / Field**: oral / duration total
+- **Shown**: total 672h–1344h (28–56 days)
+- **Expected**: total ≤168h–504h; a single oral dose does not produce clinically meaningful effect for 28–56 days; this flows from the inflated half-life
 - **Severity**: MAJOR
-
-### Quetiapine
-- **Route / Field**: oral / common dose
-- **Shown**: 150–750 mg
-- **Expected**: common dose range of 150–400 mg (antipsychotic indication) or 50–150 mg (sedation/augmentation, which is the predominant recreational/tracking use case). A 5× span (150–750 mg) spanning from low therapeutic to near-maximum daily dose makes "common" meaningless and conflates multiple distinct indications. The PsychonautWiki value (50–150 mg) and TripSit value (50 mg) both flag this discrepancy.
-- **Severity**: MAJOR
-
-### Quetiapine
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 750–800 mg, heavy ≥800 mg
-- **Expected**: strong ≥400–600 mg, heavy ≥800 mg. Since common extends to 750 mg, the "strong" band is only 50 mg wide (750–800). This leaves effectively no daylight between common and heavy, making the strong tier pharmacologically uninformative.
-- **Severity**: MINOR
-
-### Pimavanserin
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 34 mg, heavy ≥34 mg
-- **Expected**: Pimavanserin is a fixed-dose drug (34 mg/day is the sole approved dose). Having strong = 34 mg and heavy = ≥34 mg means the standard therapeutic dose is simultaneously labeled "strong" and the floor of "heavy." Users seeing their prescribed dose flagged as heavy/strong could be alarmed without cause, or conversely could misinterpret the label. There is no meaningful supertherapeutic range to distinguish strong from heavy here; at minimum heavy should be ≥68 mg (2× standard dose).
-- **Severity**: MINOR
 
 ### Paliperidone
-- **Route / Field**: oral / total duration
-- **Shown**: 96–192h (4–8 days)
-- **Expected**: ~24–36h. Oral paliperidone (Invega) is a once-daily formulation with a half-life of ~23h. Per-dose duration should be approximately 24h. 4–8 days reflects steady-state accumulation over a dosing regimen, not the duration of effect of a single oral dose, and would mislead users about how long a single dose lasts.
+- **Route / Field**: oral / duration peak, offset, total
+- **Shown**: peak 24h–48h, offset 48h–96h, total 96h–192h (4–8 days per dose)
+- **Expected**: peak ~12h–24h, total ~24h–48h; oral paliperidone ER (Invega) has a 24h dosing window and ~23h half-life; multi-day total duration per dose is implausible
 - **Severity**: MAJOR
+
+### Paliperidone
+- **Route / Field**: intramuscular / duration offset + total
+- **Shown**: offset 1680h–2880h (70–120 days), total 2880h–4320h (120–180 days)
+- **Expected**: offset ~480h–840h, total ~672h–1008h; Invega Sustenna is a monthly injection (28-day cycle ≈ 672h); stated values are 4–6× the actual dosing interval
+- **Severity**: BLOCKER
+
+### Quetiapine
+- **Route / Field**: oral / common dose upper bound
+- **Shown**: common 150–750 mg
+- **Expected**: common upper bound ~400 mg; 750 mg is the near-maximum approved dose for schizophrenia; even community harm-reduction sources (cited in data) list common at 50–150 mg; the curated upper bound is anomalously high
+- **Severity**: MAJOR
+
+### Risperidone
+- **Route / Field**: intramuscular / duration total
+- **Shown**: total 1344h–2016h (56–84 days)
+- **Expected**: total ~336h–504h (2–3 weeks); Risperdal Consta dosing interval is 14 days (336h); microsphere drug release is complete by ~5–6 weeks at most; 56–84 days is 3–5× too long
+- **Severity**: BLOCKER
 
 
 # Benzodiazepine_01
 
-### Brotizolam
-- **Route / Field**: oral / threshold
-- **Shown**: threshold 80 (units shown as µg in context, so 80 µg)
-- **Expected**: ~125–250 µg threshold; the listing of "light 100 µg" with "threshold 80" is internally inconsistent — threshold must be ≤ light dose lower bound, and 80 µg is plausible but barely. The real issue is the light dose: "light 100 µg" is a single point rather than a range, which is atypical formatting and suspicious. However the common dose of 200–400 µg is consistent with TripSit and the [also: drug.community: common 0.125–0.25 mg] aligns. The threshold/light formatting looks malformed (light should be a range).
-- **Severity**: MINOR
-
-### Cloniprazepam
-- **Route / Field**: oral / dose range ordering
-- **Shown**: light 1–5 mg, common 1–2 mg
-- **Expected**: Light range (1–5 mg) overlaps and exceeds the common range (1–2 mg), which is pharmacologically inverted — common should be ≥ light lower bound and the upper bound of common should not be lower than the upper bound of light. The light upper bound of 5 mg is almost certainly the strong or heavy threshold for this potent nitro-benzodiazepine analogue. Literature suggests cloniprazepam is highly potent; common recreational doses around 1–2 mg and light starting around 0.5–1 mg.
-- **Severity**: MAJOR
+# Verification Findings — Benzodiazepine chunk 1/2
 
 ### Deschloroetizolam
-- **Route / Field**: oral / common dose (piru-curated winning value)
-- **Shown**: common 4–8 mg
-- **Expected**: ~1–2 mg; drug.community lists common 1–2 mg (shown as [also:]). Deschloroetizolam is a thienodiazepine close in potency to etizolam. Etizolam common is 1–2 mg. A common dose of 4–8 mg for deschloroetizolam would be 2–4× the etizolam-equivalent, which is implausibly high given their structural similarity and community reports consistently clustering around 1–4 mg total. 8 mg as common upper bound approaches heavy territory and respiratory depression risk.
-- **Severity**: BLOCKER
-
-### Flubromazepam
-- **Route / Field**: oral / common dose (piru-curated winning value)
-- **Shown**: common 4–8 mg
-- **Expected**: ~2–4 mg; drug.community lists common 1–4 mg (shown as [also:]). Flubromazepam is a long-acting (half-life ~106 h) benzodiazepine with significant potency. PsychonautWiki and community reports place common around 2–8 mg, but the lower end of that is more representative for naive users given the extreme half-life and accumulation risk. 8 mg as common upper bound is at the high end and with 106 h half-life creates serious accumulation risk if users treat it as a regular common dose. The [also: drug.community: common 1–4 mg] is the more conservative and appropriate anchor.
-- **Severity**: MAJOR
-
-### Flunitrazolam
 - **Route / Field**: oral / common dose
-- **Shown**: common 0.2–0.3 mg (psychonautwiki)
-- **Expected**: ~80–250 µg (0.08–0.25 mg); TripSit lists common 80–150 µg. Flunitrazolam is an extremely potent fluorinated nitro-triazolobenzodiazepine — one of the most potent in this class, with activity at sub-100 µg doses. A common upper bound of 0.3 mg (300 µg) is 2–4× what harm-reduction sources consider common and approaches heavy/blackout territory for most users.
+- **Shown**: 4–8 mg (piru-curated); [also: drug.community: common 1–2 mg]
+- **Expected**: ~1–3 mg. Deschloroetizolam is roughly equipotent to etizolam; community reports and the drug.community source converge on 1–2 mg common. The piru-curated value is 2–8× too high and risks harm.
 - **Severity**: BLOCKER
 
-### Midazolam
+### Midazolam — insufflation / total duration
 - **Route / Field**: insufflation / total duration
-- **Shown**: total 4h–8h
-- **Expected**: ~45m–2h; midazolam has a half-life of 1–4 hours and is specifically noted for its ultra-short duration of action (used clinically for procedural sedation precisely because it wears off in 1–2 hours). Intranasal bioavailability is high (~80%) and onset is fast, but total duration of 4–8 hours is 2–4× the expected window and could lead users to redose prematurely when the drug is still significantly active.
-- **Severity**: MAJOR
-
-### Midazolam
-- **Route / Field**: intramuscular / total duration
-- **Shown**: total 4h–8h
-- **Expected**: ~1–3h; same reasoning as insufflation — midazolam IM onset is 5–15 min, duration is typically 1–2 hours clinically. 4–8 h is grossly overestimated.
-- **Severity**: MAJOR
-
-### Nifoxipam
-- **Route / Field**: oral / total duration
-- **Shown**: total 10h–75h
-- **Expected**: 10–20h upper bound is plausible given nifoxipam's reported half-life (~25–40 h), but 75 hours as the upper total duration bound is extreme and likely represents residual impairment/afterglow being conflated with the primary effect window. A 75-hour duration listed as "total" without qualification as afterglow could mislead users into thinking subjective effects last over 3 days.
-- **Severity**: MAJOR
-
-### Norflurazepam
-- **Route / Field**: oral / common dose
-- **Shown**: common 4–8 mg
-- **Expected**: ~1–3 mg; norflurazepam is the active metabolite of flurazepam and has a half-life of ~75 hours (confirmed in the data). It is pharmacologically active at 1–2 mg. A common dose of 4–8 mg with this half-life creates serious accumulation risk over repeated dosing and 8 mg approaches heavy territory.
+- **Shown**: 4h–8h
+- **Expected**: 1h–2h (occasionally up to ~2.5h). Midazolam has a half-life of ~1.5–2.5 h and is specifically chosen clinically for its ultra-short action. Intranasal onset is rapid and total effect window is well under 2 h in virtually all reports. 4–8 h total is the duration of a long-acting benzo, not midazolam.
 - **Severity**: BLOCKER
+
+### Midazolam — intramuscular / total duration
+- **Route / Field**: intramuscular / total duration
+- **Shown**: 4h–8h
+- **Expected**: 1h–2.5h. Same pharmacokinetic rationale as above; IM midazolam onset in ~5–15 min, clinical sedation 30–90 min, total subjective effects rarely exceed 2 h.
+- **Severity**: MAJOR
+
+### Midazolam — intravenous / peak duration
+- **Route / Field**: intravenous / peak phase
+- **Shown**: peak 1h–4h
+- **Expected**: peak ~5–20 min. IV midazolam has near-instant onset; peak subjective effect lasts minutes, not 1–4 h. Total IV duration is typically 30–90 min. The peak range stated is off by an order of magnitude.
+- **Severity**: BLOCKER
+
+### Nifoxipam — oral / total duration
+- **Route / Field**: oral / total duration
+- **Shown**: 10h–75h (psychonautwiki)
+- **Expected**: upper bound ≤ ~24h. Nifoxipam is a short-to-intermediate acting nitrobenzodiazepine (half-life ~3–5 h estimated from structural analogy to flunitrazepam). 75 h total is pharmacokinetically implausible and will mislead users dramatically.
+- **Severity**: MAJOR
+
+### Bromazepam — oral / peak duration
+- **Route / Field**: oral / peak phase
+- **Shown**: peak 2h–12h
+- **Expected**: peak ~1h–3h. Bromazepam t½ ~10–20 h but peak subjective effect after oral dosing is 1–3 h; a 12 h peak window is implausible for a drug with a single Cmax.
+- **Severity**: MINOR
+
+### Medazepam — oral / afterglow
+- **Route / Field**: oral / afterglow
+- **Shown**: afterglow 1h–172h
+- **Expected**: upper bound ≤ ~48h. 172 h (> 7 days) is not a plausible afterglow even accounting for medazepam's active metabolites (diazepam, desmethyldiazepam). The value appears to be a data entry artifact (possibly 12h corrupted to 172h).
+- **Severity**: MAJOR
 
 
 # Benzodiazepine_02
 
-### Rilmazafone
-- **Route / Field**: oral / dose tier ordering (light vs common)
-- **Shown**: light 1–5 mg, common 1–2 mg
-- **Expected**: light ceiling should be below common floor; common should exceed light (e.g., light 1–2 mg, common 2–4 mg or similar). As listed, the light range (up to 5 mg) wholly contains and exceeds the common range (up to 2 mg), making the tier ordering pharmacologically incoherent.
-- **Severity**: BLOCKER — a user following the "common" label would stop at 2 mg while the "light" tier extends to 5 mg; the tier hierarchy is inverted and will confuse safe-dosing decisions.
+# Verification Findings — Benzodiazepine_02
 
-### Triazolam
-- **Route / Field**: oral / total duration (missing)
-- **Shown**: onset 10–20 min, afterglow 1–6 h — no peak, offset, or total duration listed
-- **Expected**: total duration ~2–6 h (half-life 1.5–5 h; consistent with TripSit and PsychonautWiki which show ~2–5 h effects). Absence of a total duration value leaves the timeline graph with no upper bound, which could cause users to redose a drug with unpredictable potency.
-- **Severity**: MAJOR — missing total duration for a high-potency, short-acting benzo is clinically relevant; users may interpret lack of a total as "still active" or "unknown" and redose unsafely.
+## Quazepam
+
+### oral / duration total
+- **Shown**: total 6h–12h (tripsit)
+- **Expected**: ~12h–24h minimum. Quazepam's parent t½ is ~39h; its active metabolite 2-oxoquazepam has t½ ~39h and N-desalkyl-2-oxoquazepam ~73h. Subjective sedation and residual impairment consistently extend well past 12h in clinical literature. 6–12h total dramatically understates the functional duration.
+- **Severity**: MAJOR
+
+---
+
+## Temazepam
+
+### oral / duration afterglow upper bound
+- **Shown**: afterglow 3.5h–18.4h (psychonautwiki)
+- **Expected**: Upper bound should be a round number (~18h or ~20h). 18.4h is an artifact of automated unit conversion (e.g. 1100 minutes ÷ 60 = 18.333…h displayed as 18.4h), not a pharmacologically meaningful figure. Indicates a data pipeline precision error upstream.
+- **Severity**: MINOR
+
+---
+
+## Triazolam
+
+### oral / strong dose upper bound
+- **Shown**: strong 0.5–1.5 mg (tripsit)
+- **Expected**: Strong ceiling should be ≤0.5 mg. Triazolam's maximum approved clinical dose is 0.25 mg (0.5 mg in some older guidelines). 1.5 mg is 6× the standard maximum and sits firmly in acute toxicity/overdose territory; labeling it "strong" normalises a genuinely dangerous dose.
+- **Severity**: BLOCKER
 
 
 # Cannabinoid
 
-### Cannabis
-- **Route / Field**: inhalation / common dose
-- **Shown**: 2–4 mg (THC)
-- **Expected**: ~5–20 mg THC; community consensus (Erowid, PsychonautWiki community data, TripSit) places a common inhaled cannabis dose at roughly 5–25 mg THC for most users. The 2–4 mg range is closer to a light/threshold experience for most people.
+# Cannabinoid Verification Findings
+
+### 4F-Neb
+- **Route / Field**: Insufflation — common dose; Oral — common dose
+- **Shown**: Insufflation common 75–150 mg; Oral common 100–150 mg (tripsit)
+- **Expected**: Sub-milligram to low-milligram range, consistent with all other synthetic cannabinoids in this list (next-highest common inhaled doses are ~1–5 mg)
+- **Severity**: BLOCKER — 75–300 mg is 50–300× higher than any comparable SC; if this is a synthetic cannabinoid these doses would be acutely life-threatening; likely a data entry error in TripSit conflating a different compound or using wrong units
+
+### CBN-O
+- **Route / Field**: Inhalation — onset duration
+- **Shown**: onset 5m–20m (piru-curated)
+- **Expected**: 1m–5m; CBN-O is cannabinol acetate ester, not a prodrug requiring hepatic deacetylation the way THC-O does — inhalation should produce near-immediate absorption; 5–20 min onset is inconsistent with pulmonary pharmacokinetics for a lipophilic cannabinoid
 - **Severity**: MAJOR
-
----
-
-### THC
-- **Route / Field**: inhalation / light dose
-- **Shown**: 2–5 mg, common 10–25 mg
-- **Expected**: The gap between light (2–5 mg) and common (10–25 mg) is unusually large — common should start closer to 5 mg. However the common range itself (10–25 mg) is plausible for experienced users; the lower bound of the light range being the same as oral threshold is internally consistent. Not flagging the range itself, but noting the discontinuity between light top (5 mg) and common bottom (10 mg) leaves 5–10 mg with no tier.
-- **Severity**: MINOR
-
----
-
-### Nabilone
-- **Route / Field**: oral / half-life
-- **Shown**: 2h
-- **Expected**: ~35h (nabilone t½ is 35 hours per FDA prescribing information / Cesamet label; its active metabolite has an even longer t½ of ~80h). A 2h half-life is off by roughly 17×.
-- **Severity**: BLOCKER
-
----
 
 ### JWH-073
-- **Route / Field**: inhalation / offset duration
-- **Shown**: offset 5m–10m
-- **Expected**: ~20–45 min; for a synthetic cannabinoid with a 1–2h total duration, a 5–10 minute offset phase is implausibly short and internally inconsistent (onset is listed as 5–10m, meaning offset equals onset time, which compresses the descending limb to essentially nothing relative to the overall 1–2h total).
-- **Severity**: MINOR
-
----
-
-### THJ-2201
-- **Route / Field**: inhalation / offset duration
-- **Shown**: offset 0s
-- **Expected**: non-zero; a 0-second offset is pharmacologically impossible — it implies instantaneous termination of effect with no come-down phase. Likely a data/ingester artifact (missing value parsed as zero).
+- **Route / Field**: Inhalation — offset duration
+- **Shown**: offset 5m–10m (psychonautwiki)
+- **Expected**: 30m–60m minimum; offset of 5–10 min is irreconcilable with the listed total of 1h–2h (onset 5–10 min + peak 1h–1.5h + offset 5–10 min far exceeds the stated total); likely a data entry error in PsychonautWiki (possibly comedown mislabeled as offset)
 - **Severity**: MAJOR
 
----
+### 5F-Pb-22
+- **Route / Field**: Oral — all dose tiers
+- **Shown**: threshold 1 mg, light 1–3 mg, common 3–5 mg, strong 5–8 mg, heavy ≥8 mg (psychonautwiki) — identical to inhalation doses
+- **Expected**: Oral doses should be higher than inhalation doses; synthetic cannabinoids have substantially lower oral bioavailability vs inhalation; identical ranges suggest the oral entry is a copy of the inhalation entry
+- **Severity**: MAJOR
 
-### AMB-CHMICA
-- **Route / Field**: inhalation / threshold dose
-- **Shown**: threshold 100 (unit ambiguous — appears to be µg given the range that follows is 100–250 µg)
-- **Expected**: The threshold value of "100" with no unit, followed by "light 100–250 µg", suggests the threshold field is missing its unit label. The numeric value of 100 µg is itself pharmacologically plausible for AMB-CHMICA (a potent indazole-3-carboxamide), but the display will show "threshold 100" without a unit, which is dangerous — a user could interpret it as 100 mg.
-- **Severity**: BLOCKER
+### Nabilone
+- **Route / Field**: Half-life
+- **Shown**: 35h (piru-curated)
+- **Expected**: ~2h for parent compound (per FDA label and published PK studies); active metabolites extend to ~35h, but storing the metabolite half-life as the compound half-life will cause the app to massively overestimate how long nabilone remains active; should be labeled as effective/metabolite half-life or corrected to ~2h parent + note
+- **Severity**: MAJOR
+
+### THC
+- **Route / Field**: Inhalation — light/common dose gap
+- **Shown**: light 2–5 mg, common 10–25 mg (piru-curated)
+- **Expected**: No gap between tiers; light top (5 mg) and common bottom (10 mg) leave an uncharacterized 5–10 mg band; minor compared to other findings but atypical formatting — common lower bound should be ~5 mg to be contiguous with light
+- **Severity**: MINOR
 
 
 # Cardiovascular
 
-# Cardiovascular — Verification Findings
+# Cardiovascular Verification Findings
 
 ### Propranolol
-- **Route / Field**: intravenous / strong and heavy dose thresholds
-- **Shown**: strong 10–20 mg, heavy ≥20 mg
-- **Expected**: strong ≤5–7 mg, heavy ≥10 mg — IV propranolol maximum is 0.1 mg/kg (≈7 mg for a 70 kg adult) for arrhythmia management; 10–20 mg IV would cause severe bradycardia, hypotension, and cardiac arrest risk. Standard IV dose is 0.5–3 mg given slowly; a cumulative ceiling of ~10 mg is an absolute limit under resuscitative conditions, not a "strong" recreational tier.
-- **Severity**: BLOCKER (could harm user)
+- **Route / Field**: oral / afterglow duration
+- **Shown**: afterglow 1h–8h
+- **Expected**: Propranolol is a non-psychoactive beta-blocker with no afterglow phase. "Afterglow" is a psychedelic/entactogen concept; its presence here is a tripsit template bleed-through and is clinically meaningless and misleading.
+- **Severity**: MAJOR
+
+### Labetalol
+- **Route / Field**: intravenous / strong–heavy tier boundary
+- **Shown**: strong 80–160 mg, heavy ≥300 mg
+- **Expected**: The gap between strong ceiling (160 mg) and heavy threshold (300 mg) is unclassified. Clinical IV labetalol is given as 20–80 mg boluses; cumulative max in hypertensive emergency is ~300 mg. A single-bolus heavy threshold of 300 mg is pharmacologically extreme and the 140 mg gap makes the tier ladder internally inconsistent.
+- **Severity**: MINOR
 
 
 # Depressant_01
 
-# Depressant_01 Verification Findings
+# Verification Findings — Depressant_01
 
 ### Allobarbital
-- **Route / Field**: oral / common dose and strong dose
-- **Shown**: common 1000–1500 mg, strong 1500–2000 mg
-- **Expected**: common ~100–200 mg, strong ~200–400 mg. Allobarbital's historical therapeutic/hypnotic dose was 100–200 mg; 1000–2000 mg is well into the lethal range for any barbiturate.
+- **Route / Field**: oral / doses
+- **Shown**: light 500–1000 mg, common 1000–1500 mg, strong 1500–2000 mg
+- **Expected**: light ~50–100 mg, common ~100–200 mg, strong ~200–400 mg — Allobarbital is a long-acting barbiturate; therapeutic hypnotic doses were 100–200 mg. Values shown are 5–10× above any plausible recreational range and overlap the lethal zone for barbiturates.
 - **Severity**: BLOCKER
 
 ### Gaboxadol
-- **Route / Field**: oral / offset and total duration
+- **Route / Field**: oral / duration offset and total
 - **Shown**: offset 1m–3m, total 2m–5m
-- **Expected**: offset ~1h–3h, total ~2h–5h. All other phase durations (onset 15m–1h, peak 1h–2h) are in hours; offset and total have clearly been entered as minutes instead of hours.
+- **Expected**: offset ~1h–2h, total ~3h–5h — unit should be hours not minutes. Gaboxadol (THIP) has a t½ ~1.5h and a clinical sleep-maintenance duration of ~4–6h. A 2–5 minute total duration is physiologically impossible for any orally absorbed CNS depressant.
 - **Severity**: BLOCKER
 
-### Hexobarbital
-- **Route / Field**: oral / all dose tiers
-- **Shown**: light 10–15 mg, common 15–20 mg, strong 20–30 mg
-- **Expected**: light ~100–200 mg, common ~200–400 mg, strong ~400–600 mg. Oral hypnotic dose of hexobarbital was historically 250–500 mg. The 10–30 mg range reflects IV anesthetic induction doses, not oral use. A user dosing 15 mg orally would feel nothing.
-- **Severity**: MAJOR
-
-### Marinol (Dronabinol)
-- **Route / Field**: oral / common and strong dose
-- **Shown**: common 20–30 mg, strong 30–50 mg
-- **Expected**: common ~5–15 mg, strong ~15–25 mg. FDA-approved therapeutic doses are 2.5–20 mg. Recreational use community reports suggest 10–20 mg as a strong experience. 30–50 mg is an extreme dose associated with significant adverse effects (paranoia, tachycardia, dysphoria) in opioid-naive individuals; presenting it as merely "strong" understates the risk.
-- **Severity**: MAJOR
-
 ### Mephenaqualone
-- **Route / Field**: oral / offset and total duration
+- **Route / Field**: oral / duration offset and total
 - **Shown**: offset 10h–15h, total 15h–20h
-- **Expected**: offset ~2h–4h, total ~4h–8h. Methaqualone analogs have half-lives in the range of 10–40 hours, but the active experiential duration is typically 4–8 hours. A 15–20 hour total duration would imply residual effects lasting the better part of a day, which is not consistent with community reports or the pharmacology of quaalude-class sedatives.
+- **Expected**: offset ~2h–4h, total ~5h–8h — Mephenaqualone is pharmacologically very similar to methaqualone (t½ ~2–3h). A 15–20h total duration is not supported by any primary source and would imply an elimination half-life comparable to a long-acting benzodiazepine, which is inconsistent with its quinazolinone structure.
 - **Severity**: MAJOR
+
+### Methocarbamol
+- **Route / Field**: oral / heavy dose
+- **Shown**: heavy ≥6000 mg
+- **Expected**: heavy ≥4500 mg (or continuous from strong 3000–4500 mg) — the strong tier already reaches 4500 mg, but the heavy threshold jumps to 6000 mg, leaving a 1500 mg gap. More critically, 6000 mg approaches the clinical maximum single dose (4500–6000 mg) used only in tetanus, so ≥6000 mg as a "heavy recreational" threshold is implausibly high for harm-reduction context. The gap between strong ceiling and heavy floor is also structurally anomalous.
+- **Severity**: MINOR
 
 
 # Depressant_02
 
 # Depressant_02 Verification Findings
 
-### Phenobarbital
-- **Route / Field**: oral / total duration
-- **Shown**: total 4h–6h
-- **Expected**: ~10h–16h (or listed as "long/days-long"). Phenobarbital has a half-life of 80–120 hours and a pharmacodynamic duration of 8–16+ hours at sedative doses. A 4–6h total duration is inconsistent with any published source and is internally contradicted by the offset field (12h–24h) shown in the same entry.
-- **Severity**: BLOCKER — a user seeing "4–6h total" will severely underestimate residual sedation and may redose dangerously.
-
-### Tizanidine
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥36 mg
-- **Expected**: heavy ≥12–16 mg. Tizanidine's prescribing maximum is 36 mg/day in divided doses (typically 3×12 mg). Presenting 36 mg as a single recreational "heavy" threshold implies a single 36 mg dose is the floor for heavy use, which is a lethal-range single dose — reports of severe toxicity and fatalities exist at doses of 25–40 mg taken at once.
-- **Severity**: BLOCKER — conflates a daily maximum with a single-dose threshold; could lead a user to take a day's worth in one sitting.
-
-### Zolpidem
+### Noctec (chloral hydrate)
 - **Route / Field**: oral / common dose
-- **Shown**: common 20–30 mg
-- **Expected**: common 5–10 mg. The therapeutic/recreational sweet spot is 5–10 mg; 10 mg is the approved maximum single dose. 20–30 mg is a strong-to-overdose range associated with anterograde amnesia, complex sleep behaviors, and respiratory depression especially with alcohol. Two alternative sources (TripSit, drug.community) both agree on 5–10 mg common.
-- **Severity**: BLOCKER — common dose is 2–6× above the clinically accepted range and the consensus of both alternative sources.
+- **Shown**: common 200–500 mg
+- **Expected**: common 500–1000 mg — the therapeutic hypnotic dose of chloral hydrate is 500–1000 mg; 200 mg is a threshold/light dose. The "common" tier appears shifted one step low.
+- **Severity**: MAJOR
 
 ### Secobarbital
 - **Route / Field**: oral / peak duration
 - **Shown**: peak 4h–8h
-- **Expected**: peak 1h–3h. Secobarbital is a short-acting barbiturate with total duration typically 4–6h. A peak of 4–8h would extend beyond or equal the total duration, which is pharmacologically impossible. Clinical references place peak effect at 1–3h after oral dosing.
-- **Severity**: MAJOR — internally inconsistent (peak cannot exceed or equal total) and misrepresents the drug's time course.
+- **Expected**: peak 1h–3h — secobarbital is a short-to-intermediate barbiturate; maximum CNS effect (peak) occurs within 1–3 h of ingestion. A 4–8 h peak window describes the offset/plateau phase, not the true peak.
+- **Severity**: MAJOR
 
-### Nicotine
+### Sonata (zaleplon)
 - **Route / Field**: oral / total duration
-- **Shown**: total 5h–7h
-- **Expected**: 1h–3h for a single oral dose (e.g., nicotine gum/lozenge). The 5–7h figure appears to reflect patch-like transdermal kinetics, not oral tablet/gum kinetics. Nicotine oral bioavailability is low (~20–35%) with Tmax ~1h; effects at typical doses last 1–2h. 5–7h would only apply to very slow-release formulations not covered by the dose range shown.
-- **Severity**: MAJOR — off by ~3× for conventional oral nicotine formats.
+- **Shown**: total 3h–6h
+- **Expected**: total 1h–3h — zaleplon is specifically marketed as an ultra-short-acting Z-drug with a clinical duration of approximately 1–2 h and a t½ of ~1 h. A 3–6 h total is roughly 2× the expected window and misrepresents its defining characteristic.
+- **Severity**: BLOCKER
 
-### Thiopental
-- **Route / Field**: intravenous / total duration
-- **Shown**: total 5h–15h
-- **Expected**: 5–15 minutes for induction dose (2–5 mg/kg IV bolus). Thiopental is an ultra-short-acting barbiturate; single IV induction doses produce unconsciousness for 5–15 minutes due to rapid redistribution, not 5–15 hours. The 5–15h figure reflects elimination half-life, not duration of effect — these are frequently confused for thiopental specifically.
-- **Severity**: BLOCKER — a user reading "5–15h duration" would dramatically underestimate how quickly thiopental wears off and the risk of redosing.
+### Zopiclone
+- **Route / Field**: oral / peak duration
+- **Shown**: peak 3h–4h
+- **Expected**: peak 0.75h–2h — zopiclone Tmax is ~1–2 h; subjective peak effect tracks plasma peak. A 3–4 h peak window is implausibly late and would overlap with what should be the offset phase.
+- **Severity**: MAJOR
 
 
 # Dissociative_01
 
-# Dissociative_01 Verification Findings
-
-### 2-MeO-Ketamine
-- **Route / Field**: insufflation / total duration AND intramuscular / total duration AND oral / total duration
-- **Shown**: insufflation 60h–150h, IM 60h–150h, oral 90h–180h
-- **Expected**: insufflation ~1–3h, IM ~45m–2h, oral ~2–4h — no ketamine analog has multi-day duration; values appear to be a unit error (minutes interpreted as hours, or decimal place shift). Even the longest-acting NMDA antagonists (memantine) plateau at ~24h.
-- **Severity**: BLOCKER (multi-day duration displayed for a short-acting dissociative would completely misrepresent active window and re-dose risk)
-
----
+# Verification Findings — Dissociative_01
 
 ### Deschloroketamine
-- **Route / Field**: insufflation / common dose
+- **Insufflation / Common dose**
 - **Shown**: 40–100 mg (piru-curated)
-- **Expected**: 15–25 mg — PsychonautWiki and drug.community independently agree on 15–25 mg. DCK is substantially more potent than ketamine; 40–100 mg insufflated is well into heavy/hole territory by community consensus. The winning source is ~3–4× above two independent references.
-- **Severity**: BLOCKER (significantly overstated common dose for a potent dissociative could lead users to dose into a k-hole believing it is a moderate experience)
-
----
+- **Expected**: 15–25 mg — psychonautwiki and drug.community agree on 15–25 mg; piru-curated value is 4–6× the tripartite community consensus for a notably potent ketamine analogue where overdose risk is real.
+- **Severity**: BLOCKER
 
 ### Deschloroketamine
-- **Route / Field**: oral / common dose
+- **Oral / Common dose**
 - **Shown**: 75–200 mg (piru-curated)
-- **Expected**: 15–30 mg — three independent sources (PsychonautWiki 20–30 mg, TripSit 15–25 mg, drug.community 20–30 mg) cluster tightly at 15–30 mg oral. The winning value is ~5–7× the independent consensus for a substance known to be significantly more potent than ketamine.
-- **Severity**: BLOCKER (a 5–7× overstatement of common oral dose for a potent NMDA antagonist represents serious harm potential)
+- **Expected**: 20–30 mg — three independent sources (psychonautwiki, tripsit, drug.community) all converge on 15–30 mg common oral; piru-curated value is 5–7× higher, dramatically outside the consensus harm-reduction window.
+- **Severity**: BLOCKER
 
----
+### Esketamine
+- **Half-life**
+- **Shown**: 7h
+- **Expected**: ~10–12 min — esketamine (Spravato) elimination half-life is 7–12 minutes for the parent compound; 7 hours corresponds to the noresketamine metabolite, not esketamine itself. Using 7h would produce wildly incorrect PK calculations.
+- **Severity**: BLOCKER
 
 ### HXE
-- **Route / Field**: insufflation / light dose
-- **Shown**: light 40–20 mg (inverted range, lower bound > upper bound)
-- **Expected**: light ~20–40 mg — the bounds are transposed; this is a data entry error.
-- **Severity**: MAJOR (inverted range is nonsensical and will display incorrectly to users)
+- **Insufflation / Light dose range**
+- **Shown**: light 40–20 mg
+- **Expected**: light 20–40 mg — range is inverted (upper bound < lower bound), a data entry error.
+- **Severity**: MAJOR
 
----
+### Bromoketamine
+- **Intramuscular / All doses**
+- **Shown**: threshold 0.3 mg, common 0.7–1 mg, strong 1–1.2 mg, heavy ≥1.2 mg
+- **Expected**: doses ~10–40× higher — bromoketamine is a ketamine analogue; IM ketamine analogue common doses are typically 20–75 mg range. Sub-milligram IM doses are implausibly low and suggest a mg/kg value was recorded as absolute mg or a decimal-place error occurred.
+- **Severity**: BLOCKER
 
-### Etoxadrol
-- **Route / Field**: intravenous / total duration
-- **Shown**: 14h–53h
-- **Expected**: ~1–4h IV — etoxadrol was studied clinically as an IV anesthetic/analgesic in the 1970s–80s. Its duration of action intravenously is on the order of 1–4 hours. A 14–53h range is inconsistent with clinical pharmacology data and is implausibly wide (>3× spread).
-- **Severity**: MAJOR (dramatically overstated duration for an IV-route substance misleads users about duration of impairment)
+### Memantine
+- **Oral / Common dose**
+- **Shown**: common 20–40 mg (piru-curated)
+- **Expected**: ~47–110 mg (recreational) — piru-curated matches the therapeutic Alzheimer's dosing range (10–20 mg/day maintenance), not the recreational dissociative range. Psychonautwiki (70–110 mg) and drug.community (47–62 mg) reflect actual recreational use; the curated value is the clinical dose, inappropriate context here.
+- **Severity**: MAJOR
+
+### MXP
+- **Intravenous route**
+- **Shown**: IV threshold 5 mg, common 20–40 mg
+- **Expected**: Route should not exist — MXP (methoxphenidine) is exclusively documented via oral and insufflation routes in all harm-reduction literature; no IV use is documented and the compound is not formulated or characterized for injection. Displaying IV doses is a patient-safety hazard.
+- **Severity**: BLOCKER
+
+### Diphenidine
+- **Inhalation / Onset duration**
+- **Shown**: onset 30s–1.5m
+- **Expected**: onset ~2–10 min — diphenidine has low vapor pressure and significant lipophilicity; even if vaporized, pulmonary absorption to CNS effect does not occur in 30 seconds (compare ketamine inhalation onset ~1–5 min for a far more volatile compound). A 30-second onset figure is not supported by any pharmacokinetic rationale and would lead users to redose dangerously early.
+- **Severity**: MAJOR
 
 
 # Dissociative_02
 
-### S-Ketamine
-- **Route / Field**: insufflation / total duration
-- **Shown**: 60h–120h
-- **Expected**: ~45–90 min; S-ketamine (esketamine) insufflated has the same ~45–90 min pharmacodynamic window as racemic ketamine — the source value appears to have a unit error (hours instead of minutes).
-- **Severity**: BLOCKER (could lead user to severely underestimate redosing risk or duration)
-
-### S-Ketamine
-- **Route / Field**: intravenous / total duration
-- **Shown**: 45h–90h
-- **Expected**: ~20–45 min; IV esketamine has a short half-life (~2–3 h) and dissociative effects resolve within 20–45 min. A value of 45–90 hours is implausible by 2–3 orders of magnitude.
-- **Severity**: BLOCKER (could harm user)
+# Dissociative_02 Verification Findings
 
 ### PCP
-- **Route / Field**: oral / common dose
-- **Shown**: 5–10 mg
-- **Expected**: ~5–10 mg is at the upper end but within range for street PCP; however the threshold of 1 mg oral is far too low — community and clinical reports place oral threshold closer to 3–5 mg. A 1 mg oral threshold alongside a 5–10 mg common dose implies an unusually shallow dose-response curve.
-- **Severity**: MAJOR (threshold value off ~3–5×, putting naïve users at risk of underestimating potency at threshold)
 
-### Tiletamine
-- **Route / Field**: intramuscular / afterglow duration
-- **Shown**: 1h–72h
-- **Expected**: tiletamine IM in veterinary use has a recovery time on the order of hours, not days; an afterglow extending to 72 h is inconsistent with its known pharmacokinetics (half-life ~3 h in most species). 1–8 h would be more appropriate.
-- **Severity**: MAJOR (upper bound wildly inflated)
+- **Route / Field**: Oral / total duration
+- **Shown**: 4h–8h (psychonautwiki)
+- **Expected**: 6h–24h — PCP oral duration is well-established in clinical pharmacology and toxicology literature; 6–24 hours is the accepted range, with prolonged effects common in recreational doses. 4–8h is consistent with insufflated/smoked routes but significantly underestimates the oral route.
+- **Severity**: BLOCKER
+
+---
+
+### PCP
+
+- **Route / Field**: Inhalation, Insufflation, Oral — all dose tiers
+- **Shown**: Identical values to PCE entry (psychonautwiki): threshold 1 mg, light 2–4 mg / 2–4 mg / 3–5 mg, common 4–8 mg / 4–8 mg / 5–10 mg, strong 8–12 mg / 8–15 mg / 10–15 mg
+- **Expected**: PCP and PCE should not be byte-for-byte identical across all three routes and all duration phases — PCE (N-ethyl-PCP) is generally considered slightly more potent than PCP, implying somewhat lower dose thresholds. Verbatim duplication across both substances is a strong signal of a data copy/propagation error in the PsychonautWiki source or the merge pipeline.
+- **Severity**: MAJOR
+
+---
+
+### S-Ketamine
+
+- **Route / Field**: Insufflation / strong and heavy tiers absent
+- **Shown**: threshold 28 mg, light 28–56 mg, common 56–84 mg — no strong or heavy tier listed
+- **Expected**: Esketamine is ~2× more potent than racemic ketamine; racemic ketamine insufflation strong tier is typically ~100–150 mg, implying S-ketamine strong ≈ 50–75 mg — meaning the listed "common" top end (84 mg) already overlaps the expected strong tier. The absence of strong/heavy tiers leaves users without a ceiling reference and misclassifies high doses as common.
+- **Severity**: MAJOR
 
 
 # Dysdelic
 
-### Benzydamine
-
-- **Route / Field**: oral / common dose
-- **Shown**: common 500–1000 mg
-- **Expected**: common ~300–500 mg. Benzydamine (Tantum Rosa / Difflam) recreational use is typically 300–600 mg; 500–1000 mg is the "strong" range and produces severe anticholinergic delirium. Having the *common* window start at 500 mg normalises a dose that causes dangerous toxicity in naive users.
-- **Severity**: BLOCKER
-
-- **Route / Field**: oral / strong dose
-- **Shown**: strong 1000–2000 mg
-- **Expected**: strong ~500–800 mg. Doses above 1 g are associated with seizures, severe tachycardia, and ICU admissions in case-series literature. Displaying 1000–2000 mg as merely "strong" understates the danger.
-- **Severity**: BLOCKER
-
-### Myristicin
-
-- **Route / Field**: oral / common dose
-- **Shown**: common 200–500 mg (pure myristicin)
-- **Expected**: community consensus for pure myristicin is roughly 100–200 mg for a common experience. 200–500 mg pushes well into doses linked to severe anticholinergic/serotonergic toxicity (tachycardia, panic, psychosis) lasting 24–48 h. The `[also: drug.community: common 5–10 g nutmeg]` note shows the community source expresses the dose in whole nutmeg equivalents (~5 g nutmeg ≈ 40–100 mg myristicin), so the two figures are not in conflict on underlying dose — but the winning 200–500 mg figure is approximately 2–5× too high for "common."
-- **Severity**: MAJOR
-
 ### Salvinorin A
-
-- **Route / Field**: sublingual / heavy dose lower bound
-- **Shown**: heavy ≥15 mg
-- **Expected**: heavy ≥12 mg (consistent with the strong upper bound shown as 12 mg). The gap between strong (6–12 mg) and heavy (≥15 mg) leaves a 12–15 mg range unclassified, which is an internal inconsistency rather than a literature error, but could mislead users into thinking 13 mg is sub-heavy.
-- **Severity**: MINOR
+- **Sublingual / common dose**
+- **Shown**: common 3–6 mg (piru-curated)
+- **Expected**: ~0.5–1 mg; the alternate source (drug.community: common 500–1000 µg) aligns with Erowid, PsychonautWiki sublingual entries, and the Hooker et al. (2008) human study — sublingual absorption is more efficient than combustion losses suggest, and 3–6 mg would be an extreme dose by virtually all community and clinical accounts.
+- **Severity**: MAJOR
 
 
 # Empathogen_01
 
 # Verification Findings — Empathogen_01
 
-## 4,4-Dmar
-- **Route / Field**: oral / common dose
-- **Shown**: common 60–120 mg
-- **Expected**: common 20–40 mg. 4,4-DMAR caused a cluster of deaths in Europe (EMCDDA early-warning, 2013). Forensic toxicology places lethal and near-lethal exposures in the range shown as "common" here. The substance has extreme monoamine toxicity; community harm-reduction sources consistently place active doses well below 60 mg.
-- **Severity**: BLOCKER
-
-## 5-It
-- **Route / Field**: oral / common dose
-- **Shown**: common 50–100 mg
-- **Expected**: common 15–25 mg. 5-IT (5-(2-aminopropyl)indole) caused multiple fatalities in Scandinavia (2012–2013); forensic case series implicate doses in the 50–100 mg range in cardiac arrest and hyperthermia deaths. Community harm-reduction literature places an active threshold around 10–15 mg and a cautious common dose of 15–25 mg.
-- **Severity**: BLOCKER
-
-## 3-Fea (insufflation)
-- **Route / Field**: insufflation / strong dose range
-- **Shown**: strong 50–60 mg (lower bound of strong is below the upper bound of common: common 35–60 mg, strong 50–60 mg — the ranges overlap and the strong upper bound equals the common upper bound)
-- **Expected**: strong range should start at or above the top of the common range, e.g. strong 60–80 mg. As listed, "strong" and "common" are nearly indistinguishable and the strong ceiling seems truncated.
+### 3-Fea
+- **Route / Field**: insufflation / dose brackets
+- **Shown**: common 35–60 mg, strong 50–60 mg
+- **Expected**: strong lower bound should be ≥ common upper bound (≥60 mg); current brackets place the entire strong range (50–60) inside the common range (35–60), making them indistinguishable
 - **Severity**: MAJOR
 
-## Dipentylone
-- **Route / Field**: insufflation / dose tiers
-- **Shown**: threshold 3, light 3–8 mg, [common and strong absent], heavy ≥50
-- **Expected**: intermediate tiers (common ~10–25 mg, strong ~25–40 mg) are missing, leaving a ~6× jump from light to heavy with no guidance. This is a data-completeness gap that leaves users without dose escalation context for a potent cathinone.
-- **Severity**: MAJOR
+### 4,4-DMAR
+- **Route / Field**: oral / common and strong doses
+- **Shown**: common 60–120 mg, strong 120–200 mg
+- **Expected**: common ≤~30–50 mg, strong ≤~60–80 mg; 4,4-DMAR was associated with multiple fatalities in the Netherlands and UK at estimated ingested doses of roughly 30–60 mg — listing 60–120 mg as "common" and up to 200 mg as "strong" dramatically overstates safe/typical use and presents a serious harm-reduction hazard
+- **Severity**: BLOCKER
 
-## Dipentylone
-- **Route / Field**: oral / dose tiers
-- **Shown**: threshold 5, [light/common/strong absent], heavy ≥80
-- **Expected**: similar to insufflation — all intermediate tiers are missing. Users see only threshold and heavy, making safe dose titration impossible.
+### A-PIHP
+- **Route / Field**: inhalation / afterglow duration
+- **Shown**: afterglow 6h–12h
+- **Expected**: ≤1h–2h; α-PiHP is a short-acting pyrovalerone/cathinone whose total active duration is approximately 1–3h by inhalation — an afterglow of 6–12h (equalling or exceeding the entire active window of the parent class) is pharmacologically inconsistent and likely a data-entry error or misattribution from a different compound
 - **Severity**: MAJOR
 
 
 # Empathogen_02
 
-### PMA (para-Methoxyamphetamine)
-- **Route / Field**: oral / common dose
-- **Shown**: common 40–60 mg
-- **Expected**: common dose should not exceed ~50 mg max with strong caution; the LD50 in humans is estimated around 60–100 mg, with confirmed fatalities at doses as low as 50 mg. Displaying 40–60 mg as "common" normalises a dose that sits at or within the lethal range.
-- **Severity**: BLOCKER (lethal dose overlap — PMA has an extremely narrow therapeutic margin; "common 60 mg" is within the reported fatal dose range)
-
-### PMMA (para-Methoxymethamphetamine)
-- **Route / Field**: oral / common dose
-- **Shown**: common 100–120 mg
-- **Expected**: PMMA is significantly more toxic than MDMA with a very narrow safety margin. Reported fatalities occur in the 100–150 mg range. Displaying 100–120 mg as "common" normalises a dose within the known lethal range. No "light" or "threshold" tier is shown, which further removes harm-reduction context.
-- **Severity**: BLOCKER (doses in the displayed "common" range have caused deaths; no lower tiers shown to anchor context)
-
 ### MDMA
-- **Route / Field**: insufflation / onset duration
-- **Shown**: onset 20m–1.16667h
-- **Expected**: onset 20m–60m (i.e., 1h). The value "1.16667h" is a floating-point artefact (70 minutes expressed as 70/60 hours). It should be rendered as "1h 10m" or clamped to "1h". The raw float leaks into the displayed value.
-- **Severity**: MAJOR (display artefact; the fractional hour value is nonsensical in a user-facing context and undermines trust in the data)
 
-### MDPV (Methylenedioxypyrovalerone)
-- **Route / Field**: oral / peak duration
-- **Shown**: peak 1h–4h
-- **Expected**: peak ~30m–1.5h. MDPV is a potent cathinone with a notably short, intense peak. Community reports and case literature consistently describe the peak as under 2 hours orally. A 4-hour upper bound for peak (distinct from total duration) is implausibly long.
-- **Severity**: MAJOR (overstates peak duration ~2–3×, which may give users a false sense of safety regarding redosing timing)
+- **Route / Field**: insufflation / duration onset
+- **Shown**: onset 20m–1.16667h
+- **Expected**: onset 5m–20m — insufflated MDMA reaches peak plasma rapidly; 70 minutes is the oral onset ceiling, not intranasal. The fractional hour (1.16667h) also signals a unit-conversion artifact (70 min ÷ 60).
+- **Severity**: MAJOR
+
+---
+
+### PMA
+
+- **Route / Field**: oral / doses (no strong/heavy tier shown)
+- **Shown**: threshold 10 mg, light 20–40 mg, common 40–60 mg
+- **Expected**: common ceiling should be ≤50 mg with an explicit "no strong dose — toxic threshold" note; 60 mg approaches the reported lethal range (fatalities documented at 50–130 mg). Displaying 60 mg as the top of "common" without a heavy/danger tier normalises a potentially lethal dose.
+- **Severity**: BLOCKER
+
+---
+
+### PMMA
+
+- **Route / Field**: oral / doses (single tier, no context)
+- **Shown**: common 100–120 mg
+- **Expected**: PMMA fatalities are documented at doses as low as 50–100 mg; 100–120 mg is within the range of reported lethal doses. No threshold or light tier is shown, and no heavy/danger ceiling, making this presentation misleading. The common range should not extend to 120 mg without explicit danger framing, or the range should be capped lower.
+- **Severity**: BLOCKER
+
+---
+
+### MDEA
+
+- **Route / Field**: oral / duration afterglow
+- **Shown**: afterglow 12h–48h
+- **Expected**: afterglow 2h–8h — MDEA has a shorter action and quicker resolution than MDMA; 48-hour afterglow is an MDMA value that appears to have bled across. Community reports consistently place MDEA afterglow under 12 hours.
+- **Severity**: MAJOR
+
+---
 
 ### Mephedrone
-- **Route / Field**: oral / peak duration
+
+- **Route / Field**: oral / duration peak
 - **Shown**: peak 2h–4h
-- **Expected**: peak ~1h–2h. Clinical reports and harm-reduction literature (including the EMCDDA mephedrone assessment) describe the oral peak as approximately 1–2 hours, not 4 hours. A 4-hour upper bound is 2× the commonly reported maximum.
-- **Severity**: MAJOR (overstates peak duration; could mislead users on redosing interval)
+- **Expected**: peak 30m–1.5h — oral mephedrone peaks rapidly (~1 h); a 4-hour peak window is inconsistent with its short half-life (~2 h) and community dose-timeline data.
+- **Severity**: MAJOR
 
 
 # Endocrine
 
-### Estradiol
-- **Route / Field**: intramuscular / total duration
-- **Shown**: 7h–28h
-- **Expected**: 4–14 days (96h–336h). Estradiol IM preparations (cypionate, valerate, benzoate) are depot injections with durations of several days to two weeks. Even the shortest-acting IM form (estradiol benzoate) lasts 2–3 days. 7–28 hours would only apply to IV administration, not IM depot injection.
-- **Severity**: BLOCKER (a user logging IM estradiol would be told their dose wears off in under 30 hours, potentially prompting dangerous re-dosing far too soon)
-
+No findings.
 
 # Eugeroic
 
+# Eugeroic Verification Findings
+
 ### Adrafinil
-- **Route / Field**: oral / common dose
-- **Shown**: 600–900 mg (piru-curated)
-- **Expected**: ~300–600 mg; both PsychonautWiki and TripSit (shown as `[also: …]`) agree on 250–400 mg as common, and the broader harm-reduction literature treats 600 mg as already a strong dose — the piru-curated value is roughly 2× the cross-source consensus.
+- **Oral / Common dose**
+- **Shown**: 600–900 mg
+- **Expected**: ~150–300 mg common. Both PsychonautWiki and TripSit agree on 250–400 mg; piru-curated overrides to nearly 3× that. Published harm-reduction and nootropic community consensus places common at 150–300 mg, with 600 mg being the upper bound of strong use. The piru-curated common tier is misaligned by ~2–3×.
+- **Severity**: BLOCKER
+
+### Adrafinil
+- **Oral / Strong and Heavy thresholds**
+- **Shown**: strong 900–1200 mg, heavy ≥1500 mg
+- **Expected**: strong ≤600 mg, heavy ≤900 mg. Adrafinil is a prodrug with known hepatotoxicity; doses above 900 mg carry meaningful liver risk and are not documented as "recreational" in any harm-reduction source. Listing 1500 mg as merely "heavy" normalises a hepatotoxic dose range.
+- **Severity**: BLOCKER
+
+### Modafinil
+- **Oral / Strong tier lower bound**
+- **Shown**: strong starts at 200 mg
+- **Expected**: strong should start at ≥300 mg. The WHO-approved and FDA-approved clinical dose for narcolepsy/shift-work disorder is 200 mg; labelling the standard therapeutic dose "strong" will mislead users into thinking they are taking more than a normal dose.
 - **Severity**: MAJOR
 
 
 # GABAergic
 
-# GABAergic — Verification Findings
-
 ### Gabapentin
 - **Route / Field**: oral / common dose
 - **Shown**: 900–1500 mg (psychonautwiki)
-- **Expected**: 300–900 mg — drug.community's alternative aligns with actual recreational practice; most users reporting pleasant recreational effects are in the 300–900 mg range. The PsychonautWiki 900–1500 mg figure conflates tolerant heavy-use with "common," and displaying this as the winning common value significantly over-represents what a naive or occasional user would take. At 900–1500 mg, adverse effects (sedation, ataxia, cognitive impairment) are much more pronounced and risk of dangerous CNS depression with alcohol/opioids is meaningfully elevated.
+- **Expected**: ~600–1200 mg. Harm-reduction community consensus (Erowid, drug.community: 300–900 mg, Bluelight) places recreational common well below 900 mg for most users; the 900–1500 mg range maps more accurately to "strong." The alternate source (drug.community common 300–900 mg) is more representative.
 - **Severity**: MAJOR
 
 ### Pregabalin
-- **Route / Field**: oral / strong dose
-- **Shown**: 600–900 mg (psychonautwiki)
-- **Expected**: ≤600 mg — 600 mg is the maximum approved therapeutic daily dose. A single recreational dose of 600–900 mg substantially exceeds this, places users in territory with documented seizure risk (especially on abrupt discontinuation after repeated dosing), respiratory depression risk when combined with CNS depressants, and severe hypotension. Many recreational harm-reduction sources treat anything above 450–600 mg as heavy/dangerous, not merely "strong." Displaying 600–900 mg as the "strong" band normalizes a clinically serious dose.
-- **Severity**: BLOCKER
-
-### Pregabalin
-- **Route / Field**: oral / heavy dose
-- **Shown**: ≥900 mg (psychonautwiki)
-- **Expected**: ≥600 mg — the heavy threshold should begin at or below 600 mg for an app context. 900 mg as the floor of "heavy" implies doses below 900 mg are sub-heavy, which contradicts clinical reality. This compounds the strong-dose issue above: users see 600–900 mg labelled "strong" (not "heavy/dangerous") and ≥900 mg as "heavy," suppressing risk perception across the entire upper range.
-- **Severity**: BLOCKER
+- **Route / Field**: oral / total duration upper bound
+- **Shown**: total 9h–17h (psychonautwiki)
+- **Expected**: total ~6h–12h. Pregabalin elimination t½ is ~6h; recreational experience consistently reported as 6–10h in community literature (Erowid, Bluelight). A 17h upper bound is inconsistent with this PK profile and is not corroborated by clinical or community sources.
+- **Severity**: MAJOR
 
 
 # Gastrointestinal
 
-# Gastrointestinal — Verification Findings
-
 ### Droperidol
-- **Route / Field**: intravenous / heavy dose
+- **IV / Heavy threshold**
 - **Shown**: heavy ≥10 mg
-- **Expected**: heavy ≥5 mg. FDA boxed warning exists for QTc prolongation; clinical antiemetic IV doses rarely exceed 2.5 mg (PONV) or 5 mg (rescue). Labeling a ≥10 mg threshold as merely "heavy" understates risk and could encourage a dose that causes fatal arrhythmia.
+- **Expected**: ≥5 mg; droperidol carries an FDA Black Box Warning for dose-dependent QTc prolongation/torsades — current clinical practice caps IV doses at 2.5 mg for antiemesis and rarely exceeds 5 mg even for sedation; ≥10 mg represents a genuinely dangerous dose, not merely a "heavy" recreational threshold.
 - **Severity**: BLOCKER
 
 ### Metoclopramide
-- **Route / Field**: oral / strong dose
+- **Oral / Duration total**
+- **Shown**: total 5h–8h
+- **Expected**: total 1h–3h; pharmacodynamic GI effect duration per dose is ~1–2h (consistent with standard 3–4×/day dosing schedules); the 5.5h half-life governs plasma concentration, not clinical action duration.
+- **Severity**: MAJOR
+
+### Metoclopramide
+- **Oral / Strong dose**
 - **Shown**: strong 20–40 mg
-- **Expected**: strong ~15–20 mg. Standard single antiemetic dose is 10 mg; 20 mg is already at the high end for a single administration. Labeling 20–40 mg as merely "strong" understates tardive dyskinesia risk.
+- **Expected**: strong ≤20 mg; the FDA-labeled maximum single dose is 10–20 mg and maximum daily dose is 40 mg — 40 mg as a single-dose upper bound of "strong" conflates daily maximum with single-dose ceiling and substantially elevates tardive dyskinesia risk.
 - **Severity**: MAJOR
-
-### Metoclopramide
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥60 mg
-- **Expected**: heavy ≥20–30 mg. The FDA-approved maximum daily dose is 40 mg/day (short-term use). Labeling ≥60 mg as "heavy" (implying a single-dose landmark) is well above the entire daily ceiling and carries high EPS/tardive dyskinesia risk.
-- **Severity**: BLOCKER
-
-### Prochlorperazine
-- **Route / Field**: oral / common dose
-- **Shown**: common 10–20 mg
-- **Expected**: common 5–10 mg. Standard single oral antiemetic dose is 5–10 mg q6–8h. A "common" range of 10–20 mg is 2× the typical single dose and approaches the single-dose ceiling for most guidelines.
-- **Severity**: MAJOR
-
-### Prochlorperazine
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥40 mg
-- **Expected**: heavy ≥25–30 mg. Many formularies cap single-dose oral prochlorperazine at 25 mg; ≥40 mg as a single dose risks severe EPS, NMS, and cardiovascular effects.
-- **Severity**: BLOCKER
 
 
 # Nootropic
 
-# Nootropic Verification Findings
+# Nootropic — Verification Findings
 
 ### Citicoline
-- **Route / Field**: oral / total duration
-- **Shown**: offset 30h–40h, total 58h–74h, afterglow 40h–60h
-- **Expected**: total ~6h–12h. Citicoline (CDP-choline) has a plasma half-life of ~56h for choline, but the subjective/cognitive duration of a single dose is 6–12h, not 58–74h. These duration figures appear to have conflated the pharmacokinetic elimination half-life of the choline metabolite with the subjective effect duration.
-- **Severity**: MAJOR
-
-### Meclofenoxate
-- **Route / Field**: oral / dose scale ordering
-- **Shown**: light 50–200 mg, common 400–800 mg, strong 800–1000 mg, heavy ≥600 mg
-- **Expected**: heavy ≥1000 mg (or ≥1200 mg). The heavy threshold of ≥600 mg is lower than the strong ceiling of 1000 mg, making the scale non-monotonic. Heavy must exceed the strong upper bound.
+- **oral / duration (total)**
+- **Shown**: total 58h–74h (onset 1h–2h, comeup 2h–3h, peak 2.5h–3.5h, offset 30h–40h)
+- **Expected**: total ~4h–8h. Citicoline's half-life is ~8h and its subjective/cognitive effects are typically reported as 4–6h; an offset of 30–40h and total of 58–74h appears to be a data-entry error — likely confusing cumulative choline-loading kinetics with a single-dose effect window.
 - **Severity**: BLOCKER
 
-### Noopept
-- **Route / Field**: oral / common dose
-- **Shown**: common 20–30 mg
-- **Expected**: common 10–20 mg. Noopept is active at very low doses (10 mg is the established standard dose; 20–30 mg is upper-end / strong territory). The `[also: tripsit: common 10 mg]` alternative is more consistent with the literature and the strong tier shown at 30–40 mg, which means "common" and "strong" overlap.
-- **Severity**: MAJOR
-
-### Huperzine A (duplicate entry as "Huperzine-a")
-- **Route / Field**: insufflation / route existence
-- **Shown**: light 50–75 µg, common 75–150 µg, heavy ≥150 µg via insufflation
-- **Expected**: Insufflation of huperzine A is not a recognized or documented route; it is a solid extract (sesquiterpene alkaloid) used exclusively orally. No community or clinical data supports intranasal use. This entry likely should not exist at all, or at minimum the duration afterglow of 1h–14h is implausibly wide.
-- **Severity**: MAJOR
-
-### Phenylpiracetam
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 200–400 mg, heavy ≥600 mg
-- **Expected**: strong ~200–250 mg, heavy ≥300–400 mg. Standard community doses are 100–200 mg; 400 mg oral is already well into territory associated with pronounced side effects (anxiety, hypertension). The strong/heavy cutoffs are approximately 2× higher than harm-reduction community consensus.
-- **Severity**: MAJOR
-
 ### Bromantane
-- **Route / Field**: oral / duration (peak and total)
-- **Shown**: peak 4h–10h, offset 10h–16h, total 16h–24h
-- **Expected**: total ~8h–12h. Bromantane has a half-life of ~11–12h but subjective stimulant/anxiolytic effects are typically 4–8h per dose. A total effect window of 16–24h is more consistent with persistent residual effects from accumulation on repeated dosing, not a single-dose timeline.
-- **Severity**: MINOR
+- **oral / duration (peak and total)**
+- **Shown**: peak 4h–10h, total 16h–24h
+- **Expected**: peak ~2h–5h, total ~6h–12h. Bromantane's reported half-life is ~10–12h, but subjective effects in community consensus and the limited published pharmacology are 6–10h total. The 16–24h total appears to be confusing elimination half-life (or terminal-phase AUC coverage) with subjective effect duration.
+- **Severity**: MAJOR
 
-### Vinpocetine
-- **Route / Field**: half-life
-- **Shown**: 1.5h
-- **Expected**: ~2–3h. Vinpocetine's terminal half-life is reported as 2–3h in pharmacokinetic studies (with some reporting up to 14h for the apovincaminic acid metabolite). 1.5h is at the very low end and may understate re-dosing intervals.
-- **Severity**: MINOR
+### Noopept
+- **oral / common dose**
+- **Shown**: common 20–30 mg (piru-curated) — note: alternate source shown as tripsit: common 10 mg
+- **Expected**: common 10 mg. The 10 mg oral dose is the universally established standard in every published human study, TripSit, PsychonautWiki, and community data. Doubling to 20–30 mg as the "common" value contradicts all reference sources and may mislead users into taking higher than established doses of a potent dipeptide.
+- **Severity**: MAJOR
 
 
 # Opioid_01
 
 # Opioid_01 Verification Findings
 
-### Butyrfentanyl
-- **Route / Field**: oral / light–strong doses
-- **Shown**: light 400–800 mg, common 800–1500 mg, strong 1.5–3 mg
-- **Expected**: all values should be in µg (micrograms), e.g. light ~400–800 µg, common ~800–1500 µg. The "strong 1.5–3 mg" also appears to be a unit switch mid-field — likely 1500–3000 µg — but the mixing of mg and µg within one row is an ingestion error. Butyrfentanyl is a fentanyl analogue; oral doses in the hundreds of milligrams would be instantly lethal.
+### Acetylfentanyl
+- **Sublingual / Common dose**
+- **Shown**: common 10–15 mg, strong 15–20 mg (psychonautwiki)
+- **Expected**: common ~0.25–0.75 mg, strong ~0.75–1.5 mg. Acetylfentanyl is ~15× more potent than morphine; documented fatal overdoses have occurred at doses of ~1–2 mg. A sublingual common of 10–15 mg is equivalent to ~150–225 mg oral morphine equivalents and is acutely lethal in opioid-naive individuals.
 - **Severity**: BLOCKER
 
-### Fentanyl
-- **Route / Field**: intravenous / heavy threshold
-- **Shown**: heavy ≥100 (drug.community) — in context the preceding values are in mg (0.005 mg threshold, 0.025–0.05 mg common), so "heavy ≥100" is ambiguous. If parsed as mg, 100 mg IV fentanyl is ~200× a lethal dose. If parsed as µg (which the field likely intends given the preceding mg values are low-end µg equivalents), the value is at least self-consistent but the unit label is missing.
-- **Expected**: heavy ≥0.1 mg (= ≥100 µg) with explicit µg unit, consistent with the rest of the row.
-- **Severity**: BLOCKER
-
-### Fentanyl
-- **Route / Field**: oral / heavy threshold
-- **Shown**: heavy ≥200 (drug.community) — same issue as IV. Preceding oral values are threshold 0.01 mg, light 0.025–0.05 mg, common 0.05–0.1 mg, strong 0.1–0.2 mg. "≥200" with no unit change would parse as ≥200 mg oral, which is tens of thousands of times a lethal dose.
-- **Expected**: heavy ≥0.2 mg (i.e. the natural continuation of the mg series), or explicit ≥200 µg.
+### Acetylfentanyl
+- **Oral / Common dose**
+- **Shown**: common 3–5 mg, strong 5–7 mg (tripsit)
+- **Expected**: common ~0.5–2 mg, strong ~2–4 mg. Oral bioavailability is low but acetylfentanyl remains highly potent. Multiple overdose deaths have been documented at oral doses in the 2–5 mg range. Presenting 3–5 mg as "common" normalises a dose at the upper boundary of reported lethal exposures.
 - **Severity**: BLOCKER
 
 ### Heroin
-- **Route / Field**: intravenous / onset and comeup durations
-- **Shown**: onset 0s–5s, comeup 0s–5s
-- **Expected**: IV heroin onset is typically felt within 5–15 seconds (rush within ~7–10 s); a 0-second lower bound for both onset and comeup is physiologically impossible for any IV drug — blood-brain transit takes a minimum of ~5 s even at maximal cardiac output. Lower bound should be at least 5s.
-- **Severity**: MINOR
-
-### Hydrocodone
-- **Route / Field**: oral / common dose
-- **Shown**: common 10–25 mg (psychonautwiki)
-- **Expected**: Hydrocodone standard therapeutic doses are 5–10 mg per dose (immediate release). A "common" recreational upper bound of 25 mg is about 2.5× the standard dose ceiling. While some tolerant users reach this range, listing 25 mg as the top of "common" (not "strong") could lead opioid-naive users to take dangerous doses. PsychonautWiki's own entry historically lists common as 10–20 mg. The 25 mg upper edge overstates by ~25%.
+- **Intravenous / Peak duration**
+- **Shown**: peak 1h–4h (psychonautwiki)
+- **Expected**: peak 15–30 min. IV heroin (diacetylmorphine) has an extremely short peak owing to rapid deacetylation to 6-MAM and morphine; the rush is 5–15 min, subjective peak effect is 15–30 min. A 1–4 h peak is pharmacologically inconsistent with IV diacetylmorphine kinetics and is characteristic of oral/slow-release opioids.
 - **Severity**: MAJOR
 
 ### Morphine
-- **Route / Field**: intravenous / onset
-- **Shown**: onset 0s–30s
-- **Expected**: IV morphine onset (first CNS effect) is typically 1–5 minutes — slower than heroin/fentanyl because morphine crosses the BBB poorly (low lipophilicity). A 0-second lower bound is implausible; 1m–5m is standard clinical teaching.
+- **Intravenous / Onset**
+- **Shown**: onset 0s–30s (psychonautwiki)
+- **Expected**: onset ~1–5 min. IV morphine requires pulmonary circulation time (~30–60 s) plus CNS penetration; analgesia onset is clinically measured at 1–5 min. Zero-second onset is physically impossible for any intravenously administered drug.
 - **Severity**: MAJOR
 
-### Morphine
-- **Route / Field**: oral / common dose
-- **Shown**: common 15–20 mg (psychonautwiki)
-- **Expected**: Oral morphine standard starting dose for opioid-naive adults is 5–15 mg q4h. A common recreational range of 15–20 mg is reasonable for someone with mild tolerance but low for truly naive users. More importantly the strong range (20–30 mg) flows naturally from this, so the tier calibration is acceptable. Not flagging as a strict error, but the lower bound of 15 mg is at the high end for naive users.
-- **Severity**: MINOR (noted for context; not a clear error)
-
-### Buprenorphine
-- **Route / Field**: oral / total duration
-- **Shown**: duration not shown (tripsit only provides onset and afterglow, no total)
-- **Expected**: Buprenorphine oral has a known total duration of 6–12 h (partial agonist ceiling effect extends duration vs full agonists). Missing total duration is a data gap, not a value error — not flagging.
+### Hydromorphone
+- **Oral / Peak**
+- **Shown**: comeup 1h–2h, peak 15m–20m (psychonautwiki)
+- **Expected**: peak 30–60 min. The stated peak (15–20 min) is shorter than the stated comeup (1–2 h), which is logically impossible — peak cannot precede the end of the rise phase. Hydromorphone oral Tmax is 30–60 min per pharmacokinetic literature.
+- **Severity**: MAJOR
 
 ### Furanylfentanyl
-- **Route / Field**: insufflation / common dose
-- **Shown**: light 200–400 µg, common 400–800 µg, strong 800–1600 µg (tripsit)
-- **Expected**: The drug.community alternative lists common as 75–200 µg — about 4× lower. Furanylfentanyl community reports consistently place active doses in the 200–500 µg range insufflated; 400–800 µg as "common" is plausible for tolerant users but very high for naive users. The tripsit values may represent an experienced-user baseline. The discrepancy is flagged by the `[also:]` annotation. The resolved (tripsit) value is on the high end but not impossible; however at 800–1600 µg "strong" this substance has caused overdose deaths. Given the fatality record, the winning source's upper bound warrants scrutiny.
+- **Oral / Common dose**
+- **Shown**: common 500–900 µg, strong 900–1600 µg (tripsit)
+- **Expected**: common ~100–300 µg. Furanylfentanyl potency is broadly comparable to fentanyl (perhaps 2–3× less potent). Oral fentanyl common is ~50–100 µg in this dataset. Oral furanylfentanyl at 500–900 µg common implies an ~10× potency discount vs. fentanyl with no established pharmacokinetic basis; community reports of overdose at sub-500 µg oral doses exist.
 - **Severity**: MAJOR
 
 
@@ -737,133 +652,92 @@ No findings.
 
 # Opioid_02 Verification Findings
 
-### Pethidine (Meperidine)
-- **Route / Field**: oral / strong dose & peak duration
-- **Shown**: strong 200–400 mg; peak 4h–6h
-- **Expected**: strong ~150–200 mg; peak ~1–2h. Standard single oral analgesic dose is 50–150 mg q3–4h (max ~600 mg/day). 400 mg in a single dose reaches normeperidine-toxic territory and carries meaningful seizure risk. The peak duration of 4–6h is copied from total duration — clinical peak effect is 1–2h post-ingestion.
-- **Severity**: BLOCKER (400 mg single-dose oral pethidine is clinically dangerous; the mislabelled peak duration compounds the harm by implying effect is still building hours later)
-
 ### Oxycodone
-- **Route / Field**: inhalation / dose range internal inconsistency
-- **Shown**: strong 20–35 mg, heavy ≥30 mg
-- **Expected**: heavy threshold should be ≥35 mg (or strong top should be ≤30 mg). As written, heavy (≥30) overlaps with and is lower than the top of the strong range (35), making the tiers logically inconsistent.
-- **Severity**: MAJOR (tier overlap creates ambiguity about what constitutes a dangerous dose)
+- **Route / Field**: intravenous / peak duration
+- **Shown**: peak 3h–5h (psychonautwiki)
+- **Expected**: ~5–15 min. IV oxycodone peak plasma concentration and clinical effect occur within minutes; 3–5h is the oral ER profile, not IV. The total and peak fields being identical (3h–5h) reinforces this is a copy-paste of the oral duration profile.
+- **Severity**: MAJOR
+
+---
+
+### Propoxyphene
+- **Route / Field**: oral / total duration
+- **Shown**: total 1h–3h (tripsit)
+- **Expected**: 4–6h. Propoxyphene has a t½ of 6–12h (norpropoxyphene active metabolite t½ ~30–36h); clinical duration of analgesia is 4–6h. 1–3h is about one-quarter of the true duration and could mislead users into re-dosing dangerously early.
+- **Severity**: BLOCKER
+
+---
 
 ### Sufentanil
-- **Route / Field**: oral / onset & total duration
-- **Shown**: onset 1m–2m, total 5m–10m
-- **Expected**: onset ~15–30 min, total ~2–4h. The oral duration data appears to be a verbatim copy of the IV duration profile. Oral sufentanil (including sublingual/buccal formulations) has an onset of 15–30 min and duration of several hours, not 5–10 minutes. A 5–10 min total duration for an oral dose would lead users to massively redose.
-- **Severity**: BLOCKER (a 5–10 min "total duration" for oral sufentanil will prompt dangerous redosing before peak effect is reached)
-
-### Valerylfentanyl
-- **Route / Field**: oral / light dose unit
-- **Shown**: light 50 mg
-- **Expected**: light ~50–100 µg (micrograms, not milligrams). Valerylfentanyl is a fentanyl analogue with potency in the microgram range. 50 mg oral would represent roughly 500–1000× a recreational dose and would be lethal. This is almost certainly a unit error (mg vs µg).
-- **Severity**: BLOCKER (unit error by factor of 1000 on a potent fentanyl analogue is directly lethal)
-
-### Parafluorobutyrfentanyl
 - **Route / Field**: oral / total duration
-- **Shown**: total 30m–1h
-- **Expected**: total ~2–5h. Para-fluorobutyrfentanyl is an oral-active fentanyl analogue; community reports consistently place oral duration at 2–5h. A 30–60 min total duration profile would drive dangerous redosing.
-- **Severity**: BLOCKER (vastly underestimated oral duration will drive redosing of a potent synthetic opioid)
+- **Shown**: total 5m–10m (tripsit)
+- **Expected**: 2–4h minimum. The 5–10 min duration is correct for IV sufentanil (ultra-short acting parenterally), not oral. Oral BA is ~12%; what reaches systemic circulation does so over 30–90 min and persists for hours. This entry appears to have inherited the IV duration profile verbatim. A user seeing 5–10 min total could fatally re-dose.
+- **Severity**: BLOCKER
 
-### Tramadol
-- **Route / Field**: oral / strong dose range
-- **Shown**: strong 250–300 mg
-- **Expected**: strong ~200–300 mg (i.e. lower bound ~200, not 250). The strong range spans only 50 mg (250–300), which is implausibly narrow. Community and clinical data place the onset of strong recreational effects around 200 mg, not 250 mg. The narrow window also means heavy (≥300) is immediately adjacent, creating a compressed/unsafe representation.
-- **Severity**: MINOR (the narrow 50 mg strong window understates where strong effects begin and compresses the tier spacing)
+---
+
+### Pethidine
+- **Route / Field**: oral / peak duration
+- **Shown**: peak 4h–6h (psychonautwiki)
+- **Expected**: 1–2h. Meperidine oral peak plasma level and subjective effect occur at 1–2h post-dose (t½ ~3–5h). The 4–6h figure describes total duration, not peak — these fields appear swapped or duplicated. Afterglow 2–10h is plausible.
+- **Severity**: MAJOR
 
 
 # Other
 
 # Verification Findings — Other
 
-### Aspirin
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥1.6 (no unit — implied mg by column context, which would be 1.6 mg)
-- **Expected**: ≥1600 mg (≥1.6 g); the value is almost certainly 1.6 g but the unit suffix was dropped, making it read as 1.6 mg — indistinguishable from a trace dose rather than a toxic threshold
-- **Severity**: BLOCKER — a user interpreting "≥1.6 mg" as the heavy threshold would massively overdose before reaching what they think is "heavy"; the missing "g" is a unit display bug with serious safety implications
+### APAP
+- **Route / Field**: oral / common dose
+- **Shown**: 200–500 mg
+- **Expected**: 325–1000 mg — standard single therapeutic dose is 325 mg (low), 500 mg (regular), up to 1000 mg (max single); 200 mg is sub-therapeutic and not a recognized dose tier
+- **Severity**: MINOR
+
+### Apomorphine
+- **Route / Field**: sublingual / threshold
+- **Shown**: threshold 10 mg, light 10–15 mg
+- **Expected**: threshold ~1–2 mg, light 2–4 mg — approved sublingual/buccal apomorphine (Kynmobi) is 10 mg as the *starting clinical dose for established Parkinson's patients*, not a threshold; naive-user threshold is far lower (~1–2 mg); listing 10 mg as threshold conflates a titrated maintenance dose with a true perceptual threshold
+- **Severity**: MAJOR
 
 ### Naloxone
-- **Route / Field**: oral / entire dose + duration profile
-- **Shown**: oral common 8–16 mg, onset 5–15 min, peak 1–2 h, afterglow 1–12 h
-- **Expected**: Oral naloxone has <2% bioavailability due to near-complete first-pass hepatic extraction. It is deliberately used in combination products (e.g. Suboxone) precisely because it is pharmacologically inert by the oral route. There is no meaningful systemic opioid-antagonist effect from oral naloxone at any dose; showing an onset/peak/offset timeline implies therapeutic activity that does not exist.
-- **Severity**: BLOCKER — a user or bystander might attempt oral naloxone for overdose reversal based on this profile, believing it will work within 5–15 minutes, when it will not
-
-### Phenylephrine
-- **Route / Field**: intravenous / total duration
-- **Shown**: total 5h–20h
-- **Expected**: ~15–20 minutes. IV phenylephrine has a plasma half-life of ~2.5 minutes and a clinical pressor duration of 15–20 minutes. This is a ~20–60× overestimate of duration.
-- **Severity**: BLOCKER — displaying a 5–20 hour duration for an IV vasopressor that wears off in under 30 minutes could cause someone to delay redosing or monitoring, with hemodynamic consequences
+- **Route / Field**: oral / all dose tiers + duration
+- **Shown**: threshold 4 mg, light 4–8 mg, common 8–16 mg, strong 16–28 mg, heavy ≥28 mg; onset 5m–15m, total 1h–2h
+- **Expected**: oral naloxone bioavailability is ~2% due to near-complete first-pass metabolism; it has no meaningful systemic opioid-antagonist effect at these doses via oral route (it is used orally specifically *because* it is inactive, e.g., in Suboxone). A 5–15 min onset and 1–2h duration for oral dosing is pharmacokinetically impossible for a systemic effect. The entire oral dose block should be flagged or removed.
+- **Severity**: BLOCKER
 
 ### Theobromine
 - **Route / Field**: oral / total duration
-- **Shown**: total 30h–40h
-- **Expected**: ~6h–10h. Theobromine's half-life in humans is approximately 6–10 hours, producing subjective effects for roughly that window. 30–40 hours is 4–5× too long and would alarm users unnecessarily.
-- **Severity**: MAJOR — while not acutely dangerous, a 30–40 hour duration vastly overstates the experience; users would expect effects to still be present well after they have resolved
+- **Shown**: 30h–40h
+- **Expected**: 6–10h — theobromine half-life is ~6–10h in humans; a 30–40h total duration would imply ~3–4 half-lives of accumulated effect, which is not consistent with single-dose subjective effects. Community reports and pharmacology literature describe effects lasting 6–10h. The 30–40h figure appears to be a confabulated value, possibly confused with theobromine's full metabolic clearance time rather than perceived effect duration.
+- **Severity**: BLOCKER
 
-### Apomorphine
-- **Route / Field**: sublingual / full dose range
-- **Shown**: threshold 10 mg, light 10–15 mg, common 15–25 mg, strong 25–30 mg, heavy ≥30 mg
-- **Expected**: Sublingual apomorphine (Kynmobi) is approved at 10–30 mg with 10 mg as the starting dose and 30 mg as the maximum — so this range is technically within approved bounds. However, the sublingual common dose (15–25 mg) being 3–4× higher than the subcutaneous common dose (2–6 mg) is not pharmacologically inconsistent given the different route bioavailabilities (~60% SL vs ~100% SC) and is within clinical use range. On reflection this is defensible and should not be flagged.
-- **Severity**: *(withdrawn — within approved clinical dose range)*
-
-### Naltrexone
-- **Route / Field**: oral / half-life
-- **Shown**: half-life 4h
-- **Expected**: ~4h for parent compound, but the active metabolite 6-β-naltrexol has a half-life of ~13h and drives the sustained 24–72h clinical duration. Displaying 4h would cause the app's PK curve to decay far too rapidly, showing "no drug remaining" many hours before the opioid-blocking effect actually ends. This is clinically meaningful because patients using low-dose naltrexone need to know the true duration of blockade.
-- **Severity**: MAJOR — the displayed 4h half-life will produce a PK curve showing near-zero drug by 20–24h, while actual receptor occupancy (via 6-β-naltrexol) persists 48–72h; a patient might incorrectly conclude blockade has ended
+### α-Pyrrolidinopropiophenone (α-PPP)
+- **Route / Field**: intravenous / threshold and common dose
+- **Shown**: threshold 20 mg, common 50–100 mg
+- **Expected**: threshold ~2–5 mg, common ~10–25 mg — IV route for cathinones delivers full bioavailability with rapid CNS entry; IV doses are consistently 3–5× lower than oral for this drug class (cf. α-PVP, MDPV IV reports). A 20 mg IV threshold and 50–100 mg IV common dose mirror the *oral* dose ranges listed for the same substance, suggesting the IV tier was not adjusted for route. At these IV doses, cardiovascular toxicity and overdose risk would be extreme.
+- **Severity**: MAJOR
 
 
 # Peptide
 
-# Peptide — Verification Findings
+# Peptide Verification Findings
 
-### DSIP
-- **Route / Field**: subcutaneous / half-life
-- **Shown**: 4 minutes
-- **Expected**: ~20–30 minutes — DSIP (delta sleep-inducing peptide) is a small nonapeptide that is rapidly cleared, but published pharmacokinetic data in humans put the terminal half-life at approximately 20–30 min following i.v. administration; 4 min would be more consistent with a distribution half-life (alpha phase), not the terminal half-life typically reported.
-- **Severity**: MAJOR
-
-### Epitalon
-- **Route / Field**: subcutaneous / duration — offset and total
-- **Shown**: offset 48h–168h, total 72h–168h
-- **Expected**: offset ~4h–24h, total ~8h–48h — Epitalon (Ala-Glu-Asp-Gly) is a tetrapeptide with a half-life of ~30 min (correctly listed). A 48–168 h offset window is physiologically inconsistent with a peptide that is essentially cleared within a few hours. The extended offset likely conflates downstream biological effects (e.g., telomerase induction) with pharmacodynamic duration, which is inappropriate for a dose-tracking context where offset should reflect subjective/observable effects waning.
-- **Severity**: MAJOR
-
-### Semaglutide (oral)
-- **Route / Field**: oral / common dose
-- **Shown**: 7–14 mg
-- **Expected**: 7–14 mg is correct for the Rybelsus (oral semaglutide) approved maintenance dose range. No flag.
-
-### Semaglutide (oral)
-- **Route / Field**: oral / strong and heavy doses
+### Semaglutide
+- **Oral / Strong & Heavy doses**
 - **Shown**: strong 14–25 mg, heavy ≥25 mg
-- **Expected**: Max approved oral dose is 14 mg/day (Rybelsus). Doses above 14 mg oral have not been studied for safety/efficacy; 25 mg+ is suprapharmacological and there is no published human data supporting these as a "strong" recreational/therapeutic tier. For a harm-reduction app, listing ≥25 mg as merely "heavy" without a blocker flag understates risk.
+- **Expected**: strong ≤14 mg, heavy tier should not exist or sit at ≥14 mg — the FDA-approved ceiling for oral semaglutide (Rybelsus) is 14 mg/day; the SNAC absorption-enhancer formulation is specifically engineered for ≤14 mg tablets, and no clinical data supports oral dosing above 14 mg
 - **Severity**: BLOCKER
 
-### Retatrutide
-- **Route / Field**: subcutaneous / common dose
-- **Shown**: 4–8 mg
-- **Expected**: ~2–4 mg — Phase 2 trials used weekly doses of 1 mg, 4 mg, 8 mg, and 12 mg; the 4 mg weekly dose was the lower mid-range exploratory arm. Listing 4–8 mg as "common" implies this is a typical starting/maintenance range, but most participants began at 1–2 mg with titration. A "common" dose for a weekly GLP-1/GIP/glucagon triple agonist in clinical context is closer to 2–4 mg; 8 mg is near the high end of studied doses.
-- **Severity**: MINOR
-
-### Tesamorelin
-- **Route / Field**: subcutaneous / strong and heavy doses
-- **Shown**: strong 2 mg, heavy ≥2 mg
-- **Expected**: The FDA-approved dose of tesamorelin (Egrifta) is 2 mg/day subcutaneous — this is the single approved dose. Listing it simultaneously as both "strong" and the threshold for "heavy" means the clinically standard dose is classified as strong/heavy, which is misleading and may discourage appropriate use or encourage users to under-dose to stay in a "light" tier. Light should be 1 mg, common 2 mg, strong/heavy would be speculative above 2 mg.
+### Epitalon
+- **Subcutaneous / Total duration**
+- **Shown**: total 72h–168h (offset 48h–168h)
+- **Expected**: total duration ≤12h — Epitalon is an unprotected tetrapeptide (Ala-Glu-Asp-Gly) with plasma half-life of ~1–2 min due to rapid peptidase cleavage; it has no known depot mechanism, sustained-release formulation, or receptor-mediated prolonged effect that would produce multi-day durations; the 72–168h total is inconsistent with the listed 30 min half-life and all available PK analogies for peptides of this class
 - **Severity**: MAJOR
 
-### Melanotan II
-- **Route / Field**: subcutaneous / heavy dose threshold
-- **Shown**: heavy ≥2 mg
-- **Expected**: ≥1.5 mg — Community harm-reduction sources (e.g., Eroids, Reddit peptide communities) consistently note that doses above 1–1.5 mg produce pronounced nausea, facial flushing, spontaneous erections, and cardiovascular effects in most users. Setting "heavy" at ≥2 mg may normalize doses that carry meaningful adverse effect burden for most individuals. Some sources put 1 mg as already a strong/borderline dose for naive users.
-- **Severity**: MINOR
-
 ### CJC-1295
-- **Route / Field**: subcutaneous / half-life
-- **Shown**: 168 hours (7 days)
-- **Expected**: CJC-1295 with DAC (drug affinity complex): ~6–8 days half-life is correct. CJC-1295 without DAC: ~30 minutes. The entry does not specify DAC vs. no-DAC, but 168h corresponds to the DAC formulation. If this entry covers both forms, the half-life should clarify the distinction, since the two are not interchangeable in dosing interval. As a data accuracy flag: 168h is only correct for the DAC form.
+- **Subcutaneous / Heavy dose**
+- **Shown**: heavy ≥2000 µg (gap: strong upper bound is 1000 µg)
+- **Expected**: heavy ≥1000 µg — the strong tier ends at 1000 µg but heavy skips to ≥2000 µg, a 2× discontinuity not seen in any other peptide entry; research/clinical doses top out at 1000–2000 µg and ≥1000 µg is already "heavy" by convention
 - **Severity**: MINOR
 
 
@@ -872,443 +746,551 @@ No findings.
 # Verification Findings — Psychedelic_01
 
 ### 25C-NBOH
-- **Route / Field**: sublingual / afterglow duration
+- **sublingual / afterglow duration**
 - **Shown**: 72h–144h (3–6 days)
-- **Expected**: 6h–24h; afterglow for NBOHs is typically a few hours to ~1 day, consistent with 25I-NBOH PsychonautWiki data and community reports. A 3–6 day afterglow would be clinically significant and is not supported by any literature source.
+- **Expected**: 4h–24h. NBOMe/NBOH afterglows are typically hours, not multi-day. 72–144h afterglow is inconsistent with the compound's short-to-moderate elimination profile and all community/harm-reduction reports. Compare 25I-NBOME sublingual afterglow on PsychonautWiki: 72h–144h — that value appears to have been copied incorrectly onto 25C-NBOH.
 - **Severity**: MAJOR
 
 ### 25E-NBOH
-- **Route / Field**: sublingual / afterglow duration
+- **sublingual / afterglow duration**
 - **Shown**: 120h–240h (5–10 days)
-- **Expected**: 6h–24h; no literature supports a 5–10 day afterglow for any NBOH compound. This is likely a data-entry error (hours confused with minutes, or wrong units).
-- **Severity**: BLOCKER (could cause a user to believe effects lasting days are normal rather than seeking help)
-
-### 25I-NBOME
-- **Route / Field**: insufflation / total duration
-- **Shown**: onset 5m–10m, comeup 10m–30m, peak 1h–2h, offset 2h–3h, total 4h–6h, afterglow 24h–168h (1–7 days)
-- **Expected**: afterglow 2h–12h; 1–7 day afterglow is pharmacologically implausible for a compound with a ~6h total duration. The 168h upper bound in particular is unsupported by any literature.
-- **Severity**: MAJOR
+- **Expected**: 4h–24h. Five to ten days of afterglow is pharmacologically implausible for any serotonergic phenethylamine; no elimination half-life mechanism could produce this. Likely a data entry error (hours confused with minutes, or field misassigned from a different row).
+- **Severity**: BLOCKER
 
 ### 25I-NBOH
-- **Route / Field**: sublingual / afterglow duration
+- **sublingual / afterglow duration**
 - **Shown**: 72h–288h (3–12 days)
-- **Expected**: 6h–24h; a 3–12 day afterglow is pharmacologically implausible. This is clearly erroneous — likely the same systematic data error as 25C-NBOH and 25E-NBOH.
-- **Severity**: BLOCKER (user seeing "afterglow 12 days" may not seek care for prolonged adverse effects)
+- **Expected**: 8h–48h. Even granting that 25I compounds can produce extended afterglows relative to other NBOHs, 12 days is not pharmacologically coherent. Community-reported afterglows for 25I-NBOH are hours to at most 1–2 days. The upper bound of 288h appears to be a magnitude error.
+- **Severity**: BLOCKER
 
 ### 2C-F
-- **Route / Field**: oral / all doses
+- **oral / threshold and full range**
 - **Shown**: threshold 100 mg, light 250–350 mg, common 350–500 mg, strong 500–750 mg, heavy ≥750 mg
-- **Expected**: threshold ~10–20 mg, common ~150–200 mg; per Shulgin's PIHKAL, 2C-F is active at low tens of milligrams (light ~50–100 mg, common ~100–200 mg). The shown values are 3–5× too high and put the "light" range at doses Shulgin describes as strong-to-heavy. At 500–750 mg this would be a grossly dangerous overdose.
+- **Expected**: threshold ~10–20 mg, common ~25–75 mg. 2C-F (2,5-dimethoxy-4-fluorophenethylamine) is a Shulgin compound from PIHKAL with activity in the 10–40 mg range (PIHKAL #26: "10 to 40 mg"). The values shown are 10–20× too high; a 500 mg oral dose would be severely toxic. This appears to be a mg→µg confusion or source data error.
 - **Severity**: BLOCKER
 
 ### 2C-G
-- **Route / Field**: oral / total duration
+- **oral / total duration**
 - **Shown**: total 15h–35h
-- **Expected**: ~8h–14h; per Shulgin PIHKAL and Erowid reports, 2C-G has a prolonged duration (~10–18h is plausible on the high end) but 35h total is well outside any reported range and would alarm users into thinking effects are pathologically prolonged.
-- **Severity**: MAJOR
+- **Expected**: 10h–20h. Shulgin's PIHKAL reports 2C-G lasting 18–30 hours at higher doses, which is unusually long but not entirely implausible given Shulgin's own notes. However, 35h at the upper bound exceeds even the longest anecdotal reports. MINOR concern — may reflect outlier reports.
+- **Severity**: MINOR
 
 
 # Psychedelic_02
 
-# Pharmacological Review — Psychedelic_02
-
-### 2C-T (2,5-dimethoxy-4-(methylthio)phenethylamine)
-- **Route / Field**: oral / peak duration
-- **Shown**: peak 30m–1.91667h (≈ 30m–115min)
-- **Expected**: peak ~2h–4h; total 4h–6h is plausible but the fractional "1.91667h" is a floating-point artefact (115/60), not a real data value — indicates a raw-minutes field was divided by 60 without rounding
-- **Severity**: MINOR (display artefact, not a dose safety issue, but will confuse users)
+# Verification Findings — Psychedelic_02
 
 ### 2C-N
-- **Route / Field**: oral / light and common dose
-- **Shown**: light 100 mg, common 100–125 mg
-- **Expected**: light dose should be below common; a light value equal to the bottom of common is internally inconsistent — typical 2C-N light is ~50–75 mg per community reports
-- **Severity**: MAJOR (light = common lower bound makes the tier meaningless and could mislead a first-time user into starting at an already-common dose)
+- **Route / Field**: oral / dose
+- **Shown**: light 100 mg, common 100–125 mg, strong 125–150 mg
+- **Expected**: light ~50–75 mg, common ~75–100 mg — PIHKAL gives active range 100–150 mg for common but the "light" tier should be below the common floor, not equal to it; light = common here is a tier-collision artifact, not a genuine pharmacological error, but the absolute values are consistent with Shulgin's report so the common dose range itself is plausible. Skipping.
 
-### 4-Aco-Det (4-AcO-DET)
+### 2C-T (the unsubstituted 2C-T)
+- **Route / Field**: oral / duration peak
+- **Shown**: peak 30m–1.91667h
+- **Expected**: peak is a display artifact from a fractional-hours conversion (1h 55m → 1.91667h); should render as ~2h. Not a pharmacological error but a formatting bug. Skipping (out of scope for this pass).
+
+### 2C-T-21
+- **Route / Field**: oral / total duration
+- **Shown**: total 10h–12h (psychonautwiki)
+- **Expected**: 2C-T-21 is reported as a relatively short-acting thio-2C with most trip reports citing 4–6 h total; 10–12 h is implausibly long and ~2× community consensus.
+- **Severity**: MAJOR
+
+### 4-Aco-Det (inhalation)
 - **Route / Field**: inhalation / total duration
-- **Shown**: total 30m–1.5h
-- **Expected**: 4-AcO-DET vaporized/smoked is short-acting but community reports consistently place total duration at 1.5h–4h; 30 minutes at the low end is implausibly brief for a tryptamine ester — even DMT vaped lasts 15–30 min; the acetylated tryptamine would be longer
-- **Severity**: MAJOR (understating duration could lead a user to redose prematurely)
+- **Shown**: total 30m–1.5h (drug.community)
+- **Expected**: 4-AcO-DET is a prodrug of 4-HO-DET; vaporized tryptamines typically last 1–3 h. A lower bound of 30 minutes is extremely short — Erowid and community reports consistently show 1–2 h minimum even by inhalation. 30 min lower bound is plausible only for a brief peak, not total duration.
+- **Severity**: MINOR
 
-### 4-HO-DMT / Psilocin (listed as "4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER")
+### 4-HO-DMT / Psilocin (oral)
 - **Route / Field**: oral / common dose
-- **Shown**: common 10–20 mg
-- **Expected**: 10–20 mg is correct for pure 4-AcO-DMT or psilocin; however this entry is labelled the phosphate ester (psilocybin). Psilocybin is ~1.4× the MW of psilocin, so the same molar dose is ~14–28 mg. If this entry actually represents the free base (psilocin/4-HO-DMT), 10–20 mg is accurate. The naming ambiguity could lead to a 40% underdose or overdose depending on which form is actually being logged. The slash naming conflating two different molecular forms is the core issue.
-- **Severity**: MAJOR (two chemically distinct compounds with meaningfully different dosing collapsed into one entry — could cause systematic dosing errors)
+- **Shown**: common 10–20 mg (erowid-tihkal)
+- **Expected**: Shulgin's own TIHKAL entry for psilocin lists active doses starting around 6–10 mg with a common range of 10–15 mg; 20 mg upper bound pushes into strong territory for most users. The range is defensible but slightly generous — not a clear blocker.
+- **Severity**: MINOR
 
-### 2C-P-NBOMe / sublingual
-- **Route / Field**: sublingual / common dose
-- **Shown**: common 250–600 µg
-- **Expected**: 2C-P-NBOMe sublingual community data is extremely thin and the compound is poorly characterised; however the range 250–600 µg spans 2.4× — an unusually wide common range. More importantly, 600 µg sublingual for any NBOMe compound approaches territory where cardiovascular toxicity (hypertensive crisis, seizures) has been reported for well-studied analogues (25I-NBOMe). Given 2C-P's own high potency and long duration (10–20h oral), the NBOMe derivative at 600 µg could be dangerous.
-- **Severity**: BLOCKER (upper bound of "common" for an NBOMe of an already-potent, long-duration compound — insufficient safety margin; upper common should probably be flagged as "strong" at minimum)
+### 4-HO-DPT (oral)
+- **Route / Field**: oral / threshold and dose tiers
+- **Shown**: threshold 20 mg, light 40–60 mg, common 60–90 mg, strong 90–130 mg, heavy ≥130 mg (psychonautwiki)
+- **Expected**: 4-HO-DPT threshold is consistent with trip reports (~15–25 mg), but the common dose of 60–90 mg oral is very high. Community data (Erowid, drug.community) places common oral at 20–40 mg; 60–90 mg is squarely in "strong to overwhelming" territory. The psychonautwiki figures appear to be systematically inflated by ~2×.
+- **Severity**: MAJOR
+
+### 3C-BZ (oral)
+- **Route / Field**: oral / common dose range
+- **Shown**: common 25–200 mg (erowid-pihkal)
+- **Expected**: An 8× spread within a single "common" tier (25–200 mg) is not a dose range — it spans threshold to heavy for virtually any psychedelic. PIHKAL describes 3C-BZ as highly variable but the range as presented is too wide to be useful and likely collapses multiple tiers into one. Flagging as a data-quality issue.
+- **Severity**: MINOR
+
+### 4-Fluorophenylpiperazine
+- **Route / Field**: oral / category classification
+- **Shown**: listed under Psychedelic category
+- **Expected**: 4-Fluorophenylpiperazine (4-FPP / pFPP) is a piperazine with primarily serotonergic/adrenergic activity; it is typically classified as a stimulant or entactogen, not a psychedelic. The dose ranges shown (40–80 mg common oral) are consistent with stimulant/piperazine literature. Misclassification under Psychedelic is an error, but dose values themselves are plausible for the compound.
+- **Severity**: MAJOR
 
 
 # Psychedelic_03
 
 # Verification Findings — Psychedelic_03
 
-### 4-Ho-Mpmi
-- **Route / Field**: oral / dose range unit inconsistency
-- **Shown**: threshold 500, light 750 µg, common 1–2 µg
-- **Expected**: common 1–2 **mg**. The threshold (500 µg) and light (750 µg) are in micrograms, but common drops to 1–2 µg — which is *lower* than threshold, pharmacologically impossible. Almost certainly a unit encoding error: common should be 1–2 mg (i.e., 1000–2000 µg), consistent with the ascending threshold → light → common sequence.
-- **Severity**: BLOCKER (common dose shown as 1–2 µg is sub-threshold by its own scale; if a user interprets this as micrograms they may radically overdose trying to "reach" the stated common dose)
-
----
-
-### 5-Bromo-DMT
-- **Route / Field**: inhalation / total duration
-- **Shown**: total 15h–90h
-- **Expected**: ~15 min–2 h. Vaporized tryptamines characteristically produce short-duration experiences (minutes to ~1–2 h). A 15–90 hour inhaled duration is pharmacologically implausible for any tryptamine; this figure may have been erroneously copied from a speculative oral/enteral dataset or confused with half-life data.
-- **Severity**: BLOCKER (a user could believe an hours-long crisis is still within expected duration and delay seeking help, or conversely panic unnecessarily)
-
----
-
-### 5-Meo-Dalt
-- **Route / Field**: inhalation / total duration
-- **Shown**: total 15m–20m
-- **Expected**: ~30 min–1 h. 5-MeO-DALT is a long-chain tryptamine; community reports for vaporized administration consistently indicate 30–60 min total. The 15–20 min figure matches vaporized DMT or 5-MeO-DMT, not 5-MeO-DALT, suggesting DMT duration data was applied here.
-- **Severity**: MAJOR (undershoots by ~2×; user may re-dose prematurely thinking the experience has ended)
-
----
+### 4-HO-MET
+- **Route / Field**: intravenous / duration total
+- **Shown**: total 3h–7h
+- **Expected**: ~1h–2h (possibly less). IV 4-HO-MET is extremely rarely documented; the few reports indicate a short, intense experience far shorter than oral. A 3–7h total for IV tryptamine is inconsistent with the route — IV tryptamines peak and resolve rapidly. Even oral 4-HO-MET is 4–6h; IV should be substantially shorter.
+- **Severity**: MAJOR
 
 ### 5-MEO-MIPT
-- **Route / Field**: inhalation / total duration
-- **Shown**: onset 20m–1h, peak 1h–2h, offset 1h–2h, total 5h–8h
-- **Expected**: total ~1–3 h for vaporized route. 5-MeO-MiPT inhaled produces a short, intense experience; a 5–8 hour total duration matches the *oral* profile, not inhalation. Onset of 20 min–1 h for an inhaled substance is also implausible (should be seconds to minutes).
-- **Severity**: MAJOR (oral duration data appears to be displayed for the inhalation route; onset and total duration are both wrong for this ROA)
+- **Route / Field**: inhalation / duration total
+- **Shown**: total 5h–8h (psychonautwiki)
+- **Expected**: ~30m–2h. Inhaled 5-MeO-MiPT (freebase volatilized) produces a short-duration experience analogous to other inhaled 5-MeO-tryptamines — typically under 2h. A 5–8h total duration for inhalation is implausible and contradicts TIHKAL data (3–6h oral). The [also: erowid-tihkal: common 4–6 mg] oral doses confirm this is likely a copy-paste of oral duration data into the inhalation route.
+- **Severity**: BLOCKER
+
+### 5-MEO-PYR-T
+- **Route / Field**: oral / doses
+- **Shown**: light 0.5–1 mg, common 1–1.5 mg, strong 1.5–2 mg
+- **Expected**: TIHKAL reports active range 0.5–2 mg, consistent. However, the afterglow of 1h–36h is extremely wide; 36h afterglow for a compound with a ~2h total is implausible.
+- **Route / Field**: oral / afterglow
+- **Shown**: 1h–36h
+- **Expected**: afterglow is typically proportional to experience length; a 36h ceiling for a sub-2mg, short-duration pyrrolidyl tryptamine is implausible. Same issue on inhalation route.
+- **Severity**: MAJOR
+
+### 5-MES-DMT
+- **Route / Field**: oral / duration total
+- **Shown**: total 15m
+- **Expected**: 5-MeS-DMT (5-methylthio-DMT) is oral-route active per TIHKAL at 15–30 mg with a duration of ~1–2h. A 15-minute total oral duration is implausible — this appears to be a unit error (likely 15 minutes was meant to be 1.5h or the value was truncated).
+- **Severity**: BLOCKER
+
+### 5-Meo-Dibf
+- **Route / Field**: oral / common dose
+- **Shown**: common 80–110 mg (psychonautwiki) [also: tripsit: common 20–40 mg]
+- **Expected**: 5-MeO-DIBF community reports cluster around 20–60 mg oral. The psychonautwiki 80–110 mg common dose is roughly 2–4× higher than tripsit and most documented experiences. The discrepancy is flagged by the [also:] note. The lower tripsit range is more consistent with the actual community data.
+- **Severity**: MAJOR
+
+### a-MT (alpha-methyltryptamine)
+- **Route / Field**: oral / duration total
+- **Shown**: total 12h–16h
+- **Expected**: α-MT is well-documented in TIHKAL at 12–16h total duration. This is correct and should NOT be flagged — consistent with Shulgin's data and community experience.
+- **Note**: No issue.
+
+### AEM
+- **Route / Field**: oral / doses
+- **Shown**: threshold 220 mg
+- **Expected**: AEM (4-acetoxy-N-ethyl-N-methyltryptamine or the phenethylamine AEM) — if this is the phenethylamine AEM (alpha-ethyl mescaline) from PIHKAL, doses in the 100–200 mg range are plausible. A threshold-only entry of 220 mg with no common/strong is sparse but not necessarily wrong. Insufficient data to flag.
+- **Note**: Skip.
 
 
 # Psychedelic_04
 
-### Bufotenin
-- **Route / Field**: insufflation / total duration
-- **Shown**: 45h–120h
-- **Expected**: ~45m–2h. Insufflated bufotenin produces an experience of similar length to inhalation (tens of minutes to under 2 hours). The resolved value is almost certainly a unit error (minutes rendered as hours, or a decimal-place slip).
-- **Severity**: BLOCKER (user sees "up to 120 hours" for an insufflated dose; they may redose repeatedly believing the substance has worn off when it has not, or panic thinking an effect lasting days is normal)
-
----
+# Verification Findings — Psychedelic_04
 
 ### Changa
-- **Route / Field**: oral / route label
-- **Shown**: oral: light 5–15 mg, common 15–30 mg, strong 30–50 mg
-- **Expected**: Changa is a DMT-infused smokable herb blend; the only recognised route is inhalation (smoking). Oral DMT without a co-ingested MAOI is inactive due to first-pass MAO metabolism. These dose values (which are consistent with smoked DMT) should be labelled inhalation, not oral.
-- **Severity**: BLOCKER (labelling smoked doses as oral could lead a user to swallow the blend; if the blend's herb carrier contains sufficient beta-carbolines to act as an MAOI, the result is an uncontrolled and potentially dangerous ayahuasca-like oral experience)
+- **Route / Field**: oral / all dose fields
+- **Shown**: light 5–15 mg, common 15–30 mg, strong 30–50 mg
+- **Expected**: Changa is a smoking blend (DMT-infused herbs) — it is not taken orally. Oral dose fields are a categorical error; the route should be inhalation/smoking only.
+- **Severity**: BLOCKER
 
----
+### Changa
+- **Route / Field**: oral / duration onset & total
+- **Shown**: onset 0s–2m, total 6m–12m
+- **Expected**: These durations match smoked Changa, not oral administration. Oral DMT-containing preparations with MAOI (ayahuasca model) have onset 20–60 min and total 4–8 h. The values here are simply the smoked values mis-assigned to the oral route.
+- **Severity**: BLOCKER
 
-### Doip
+### Cyclopropylmescaline
+- **Route / Field**: oral / duration total
+- **Shown**: total 12h–18h
+- **Expected**: CPM is a mescaline analogue; community reports (Erowid, Shulgin analogues) consistently place total duration at 8–12 h. 12–18 h is implausibly long and not supported by any documented source.
+- **Severity**: MAJOR
+
+### DMT
+- **Route / Field**: oral / common dose (drug.community winning)
+- **Shown**: common 50–75 mg (with MAOI)
+- **Expected**: Oral DMT with MAOI (ayahuasca equivalent) — common dose of 50–75 mg pure DMT is plausible and well-supported (Strassman, Riba). The erowid-tihkal alternate of 262.5–437.5 mg is almost certainly a unit/transcription error (those values make no pharmacological sense for pure freebase DMT). The winning value is correct; noting the alternate source is clearly wrong.
+- **Severity**: MINOR (winning value is fine; alternate [also:] value is egregiously wrong — flag for data hygiene)
+
+### DMPEA (3,4-Dimethoxyphenethylamine)
 - **Route / Field**: oral / common dose
-- **Shown**: threshold 800, light 800–1500 µg, common 1.5–3 µg, heavy ≥3
-- **Expected**: common 1.5–3 mg (i.e. 1500–3000 µg). The threshold and light tiers are correctly expressed in µg, so the common tier — which at 1.5–3 µg is lower than the light tier and 500× below threshold — is a unit-conversion error. Based on DOI/DOB analogue potency and the surrounding tier values, the intended unit is mg.
-- **Severity**: BLOCKER (common dose is displayed as 1.5–3 µg when it should be 1.5–3 mg; a user calibrating their dose from this display could ingest 1000× the intended amount)
+- **Shown**: common 750–1250 mg
+- **Expected**: DMPEA (3,4-DMPEA) is essentially inactive as a psychedelic; Shulgin (PIHKAL #78) reports doses up to 1500 mg with no effects. The value is not pharmacologically implausible *per Shulgin's own data* but displaying it alongside active psychedelics without a note that it is essentially inert is misleading. If the intent is to flag active dose, there is none.
+- **Severity**: MINOR
+
+### DOET
+- **Route / Field**: oral / duration afterglow
+- **Shown**: afterglow 12h–72h
+- **Expected**: DOET (Shulgin PIHKAL) has a total duration of 12–30 h. An afterglow of up to 72 h is extreme and not documented in PIHKAL or community sources; 12–24 h afterglow would be the outer limit.
+- **Severity**: MAJOR
+
+### DPT
+- **Route / Field**: oral / threshold and dose range
+- **Shown**: threshold 50 mg, light 75–150 mg, common 150–250 mg, strong 250–350 mg, heavy ≥350 mg
+- **Expected**: Oral DPT has poor and unpredictable bioavailability; the primary active routes are insufflation, IM, and inhalation. While some sources list oral doses at these levels, the route is generally considered pharmacologically inefficient. More critically, a common oral dose of 150–250 mg is at the high end of what any source documents and the heavy threshold of ≥350 mg oral is not well-supported. Community consensus (Erowid, TiHKAL) places oral activity thresholds much lower (~75–100 mg). The common range shown is ~2× higher than expected.
+- **Severity**: MAJOR
+
+### Bufotenin
+- **Route / Field**: inhalation / duration comeup
+- **Shown**: comeup 15s–30s
+- **Expected**: For smoked bufotenin, a comeup of 15–30 s is physiologically reasonable (similar to DMT inhalation). No issue here — skipping.
+
+### BOB (4-Bromo-2,5-dimethoxybenzylamine / PIHKAL)
+- **Route / Field**: oral / duration total
+- **Shown**: total 10h–20h
+- **Expected**: Shulgin reports BOB duration as 10–20 h in PIHKAL. Value is consistent with source.
+
+No further findings.
 
 
 # Psychedelic_05
 
-# Pharmacology Review — Psychedelic_05
-
-### Efavirenz
-- **Route / Field**: inhalation / common dose
-- **Shown**: 600–1800 mg
-- **Expected**: 50–200 mg smoked — Efavirenz (an antiretroviral) is reportedly smoked recreationally in South Africa at far lower doses; therapeutic oral doses are 600 mg once daily, but inhalation bioavailability is much higher and users typically smoke crushed 200 mg tablets or fractions thereof. 600–1800 mg inhaled would be an extraordinary and dangerous quantity — far exceeding any documented recreational use.
-- **Severity**: BLOCKER
-
-### HARMALINE
-- **Route / Field**: oral / common dose
-- **Shown**: 150–300 mg
-- **Expected**: 25–100 mg — Harmaline is a potent MAO inhibitor and tremorigenic alkaloid. PIHKAL/TIHKAL and harm-reduction literature consistently cite psychoactive doses of 25–75 mg oral; 300 mg approaches doses associated with severe tremor, ataxia, and toxic crisis in animal and case-series literature.
-- **Severity**: BLOCKER
-
 ### HARMINE
+
 - **Route / Field**: oral / common dose
 - **Shown**: 225–375 mg
-- **Expected**: 25–150 mg — Harmine shares the β-carboline MAOi pharmacophore with harmaline. Community and clinical literature (ayahuasca research, TIHKAL) cite psychoactive doses of 25–100 mg pure harmine. 225–375 mg pure harmine oral is a potentially dangerous overdose range.
-- **Severity**: BLOCKER
-
-### Lsa (Morning Glory / Hawaiian Baby Woodrose)
-- **Route / Field**: oral / common dose
-- **Shown**: 100–250 seeds
-- **Expected**: 5–10 seeds (Hawaiian Baby Woodrose, HBWR) or 200–400 morning glory seeds — The oral route entry says "100–250 seeds" without specifying species. If these are HBWR seeds (Argyreia nervosa, ~2–4 µg LSA/seed), 100–250 would be an extreme overdose; HBWR common doses are 4–8 seeds. If morning glory (Ipomoea violacea, ~0.02 µg LSA/seed), 100–250 is on the low end. The "other" route entry showing 2–6 seeds clearly describes HBWR. The oral route's "100–250 seeds" is internally inconsistent with the sublingual (5–7 seeds) and "other" (2–6 seeds) routes, strongly suggesting a species mismatch or magnitude error.
+- **Expected**: ~100–250 mg — Harmine is pharmacologically more potent than harmaline as a standalone psychedelic (higher CNS penetrance, direct 5-HT2A agonism, lower protein binding). Shulgin's TIHKAL notes harmine producing psychedelic effects at lower doses than harmaline; having harmine common (225–375 mg) exceed harmaline common (150–300 mg) inverts the potency relationship.
 - **Severity**: MAJOR
-
-### IBOGAINE
-- **Route / Field**: oral / common dose
-- **Shown**: 15–22 mg/kg of body weight
-- **Expected**: 10–15 mg/kg (flood dose) — The flood dose for addiction interruption is conventionally cited at 10–15 mg/kg; 15–22 mg/kg is at the upper boundary or beyond the documented flood dose range and overlaps with doses associated with cardiac arrhythmia and fatality. While 15 mg/kg appears in some protocols, 22 mg/kg as a "common" upper end is clinically concerning.
-- **Severity**: MAJOR
-
-### MDE (MDEA)
-- **Route / Field**: oral / total duration
-- **Shown**: 3h–5h
-- **Expected**: 4h–6h — MDE (N-ethyl MDA) duration is consistently reported at 4–6 hours in PIHKAL and community reports; 3 hours is below the lower bound of any credible source and could cause users to redose prematurely.
-- **Severity**: MINOR
 
 
 # Psychedelic_06
 
 # Verification Findings — Psychedelic_06
 
-### MEE (Psychedelic)
-- **Route / Field**: oral / common dose
+### MEE
+
+- **Oral / Common dose**
 - **Shown**: 3.45–5.75 mg
-- **Expected**: ~30–60 mg; MEE (3-methoxy-4,5-methylenedioxyamphetamine isomer) is a phenethylamine amphetamine analog from PIHKAL. Shulgin's actual entry reports active doses in the 30–60 mg range. The ~3–6 mg value looks like a 10× unit-conversion error (possibly µg or a decimal shift).
-- **Severity**: BLOCKER (if displayed to a user, 3–6 mg would appear subthreshold and encourage dangerous dose escalation to reach effects; actual doses at 10× could be harmful)
+- **Expected**: ~1000–1500 mg. PIHKAL #100 (MEE, 3,4-dimethoxy-β-methylphenethylamine) is a phenethylamine active in the gram range, consistent with other PIHKAL entries in this series (MDPEA ~225–375 mg, MEPEA ~225–375 mg). 3.45–5.75 mg is roughly 300× too low and appears to be a unit-conversion or scaling artifact.
+- **Severity**: BLOCKER
 
-### Met (Psychedelic) — oral route
-- **Route / Field**: oral / common dose
-- **Shown**: 120–150 mg (psychonautwiki)
-- **Expected**: ~20–30 mg; Met (N-methyl-tryptamine / MMT) by the oral route is active at 20–30 mg. 120–150 mg is a 4–6× overdose relative to community consensus and TripSit data (the `[also: tripsit: common 20–25 mg]` note flags the same discrepancy). At 120 mg+ oral MMT, severe serotonergic effects and cardiovascular toxicity are plausible.
-- **Severity**: BLOCKER (winning value is 4–6× above established community consensus; safety risk if user self-doses from this figure)
+---
 
-### PEA (Psychedelic) — oral route
-- **Route / Field**: oral / common dose
-- **Shown**: 1200–2000 mg
-- **Expected**: ~200–400 mg endogenous trace amine (essentially inert orally due to rapid MAO-A metabolism unless combined with an MAOI); if used with an MAOI the active dose is extremely low (~10–25 mg). 1200–2000 mg is far beyond any documented human use in PIHKAL or harm-reduction literature and is not a realistic "common dose" for any context.
-- **Severity**: MAJOR (no credible source documents 1200–2000 mg as a common dose; value appears implausible and could cause cardiovascular harm if taken literally, especially in any MAOI-adjacent context)
+### Met (oral)
 
-### Psilocybin mushrooms (Psychedelic) — oral route
-- **Route / Field**: oral / dose tiers (unit)
-- **Shown**: threshold 2.5, light 2.5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 mg
-- **Expected**: These values in **mg** match psilocybin *extract* dosing, not **mushroom** dosing (which is in grams). The entry title is "Psilocybin mushrooms" (the dried fungal material), so the unit should be grams (threshold ~0.5 g, light 0.5–1.5 g, common 1.5–3.5 g, strong 3.5–5 g, heavy ≥5 g). A user reading "common 10–25 mg" of dried mushrooms would consume a negligible amount and see no effect, or—if they misread mg as grams—a dangerous overdose.
-- **Severity**: MAJOR (unit mismatch between substance name and dose values; compare adjacent "Mushrooms" entry which correctly uses grams)
+- **Oral / Common dose**
+- **Shown**: 120–150 mg (psychonautwiki winning over tripsit 20–25 mg)
+- **Expected**: 10–30 mg common. "Met" in this psychedelic context is methamphetamine. Oral recreational common dosing is well-established at 10–30 mg; 120–150 mg oral is approaching acute toxicity territory, not a common recreational dose. The tripsit value (20–25 mg) is pharmacologically correct and should be the winner given the 6× discrepancy rule.
+- **Severity**: BLOCKER
 
-### Para-Methoxyamphetamine (Psychedelic) — oral / total duration
-- **Route / Field**: oral / total duration
+---
+
+### MiPLA (duration)
+
+- **Oral / Total duration**
+- **Shown**: total 4h–6h
+- **Expected**: 8h–12h. MiPLA (N-isopropyl-N-methyl-d-lysergamide) is a lysergamide. All characterized lysergamides (LSD, ETH-LAD, AL-LAD, PRO-LAD, 1P-LSD) have total durations of 6–12h; 4–6h is at the very short end and inconsistent with the class. Community trip reports for MiPLA consistently describe 8–12h experiences. The 4–6h figure likely reflects an erroneously short source.
+- **Severity**: MAJOR
+
+---
+
+### PARGY-LAD (oral / common dose)
+
+- **Oral / Common dose**
+- **Shown**: common 275–500 µg
+- **Expected**: ~100–200 µg common. Pargy-LAD is a potent lysergamide with potency comparable to AL-LAD and ETH-LAD. Community reports and harm-reduction sources place the common recreational dose at 75–200 µg. 275–500 µg sits firmly in strong–heavy territory and would be an unusually high common dose for any lysergamide.
+- **Severity**: MAJOR
+
+---
+
+### Para-Methoxyamphetamine (duration)
+
+- **Oral / Total duration**
 - **Shown**: 6h–24h
-- **Expected**: ~8–12h; the upper bound of 24h is highly implausible for PMA at any dose. PMA has a reported duration of 8–12h in overdose case literature. A 24h upper bound could cause a user to redose dangerously early thinking the drug has worn off. (The lower bound of 6h is plausible.)
-- **Severity**: MAJOR (wide range with an implausible 24h ceiling on a substance notorious for fatal overdoses from staggered redosing)
+- **Expected**: 6h–8h (rarely up to 10h). PMA has a well-documented narrow therapeutic index and delayed onset (1–3h), but its total duration in survivors is 6–8h. A 24h upper bound is not pharmacologically supported and conflates prolonged toxicity/recovery with normal duration; it could lead users to dangerously underestimate residual serotonergic load.
+- **Severity**: MAJOR
+
+---
+
+### T (tryptamine) — intravenous
+
+- **Intravenous / Common dose**
+- **Shown**: 187.5–312.5 mg IV
+- **Expected**: 5–30 mg IV. TIHKAL describes tryptamine IV doses of approximately 5–20 mg producing effects; Szara's original 1956 experiments used ~0.7 mg/kg IM (≈50 mg for a 70 kg person at the high end). 187.5–312.5 mg IV would be an extreme overdose. This value appears to be a scaling artifact (likely taken from an oral phenethylamine formula and misapplied).
+- **Severity**: BLOCKER
+
+---
+
+### Psilocin — insufflation / comeup (duration)
+
+- **Insufflation / Duration breakdown**
+- **Shown**: (no comeup listed — noted as absent, total via afterglow 3h–12h)
+- **Note**: No direct duration issue with insufflation route. Passing.
+
+---
+
+### Psilocin — oral comeup
+
+- **Oral / Comeup**
+- **Shown**: 1.5h–3h
+- **Expected**: 30m–1h. Psilocin (4-HO-DMT) does not require enzymatic dephosphorylation like psilocybin; it is the active compound directly. Oral comeup of 1.5–3h is characteristic of psilocybin mushrooms (where conversion is rate-limiting), not free psilocin. Free psilocin oral comeup is 20–45 min in clinical and community data.
+- **Severity**: MAJOR
 
 
 # Psychedelic_07
 
+# Verification Findings — Psychedelic_07
+
 ### Truffles
-- **Route / Field**: other / all dose tiers and heavy threshold
-- **Shown**: light 0.5–1.5 g, common 1.5–4 g, heavy ≥4 g
-- **Expected**: light 5–7 g, common 10–15 g, heavy ≥20 g — Magic truffles (Psilocybe sclerotia) are sold and consumed fresh; fresh truffle doses are approximately 4–5× higher than dried mushroom caps due to water content (~90% water). The shown values match dried *Psilocybe* mushroom doses, not fresh sclerotia. A user treating "heavy ≥4 g" as the upper bound for fresh truffles would be severely underdosed, while a user expecting the shown "common" range and consuming a standard 15 g fresh truffle pack could be alarmed thinking they've taken a massive overdose.
-- **Severity**: BLOCKER (unit/form confusion — dried mushroom thresholds applied to fresh truffles, off by ~4–5×)
+- **Route / Field**: other / duration total
+- **Shown**: total 3h–6h
+- **Expected**: 4h–7h. Magic truffles (Psilocybe sclerotia) contain psilocybin; the experience onset-to-resolution is consistently 4–6h at common doses across Erowid, TripSit, and PsychonautWiki, with 3h being implausibly short even at the listed light dose of 0.5–1.5 g. Lower bound should be 4h.
+- **Severity**: MINOR
 
 
 # Stimulant_01
 
-# Stimulant_01 Verification Findings
+# Verification Findings — Stimulant_01
 
-### 4-Methylaminorex (4-MAX / "U4Euh")
+### 4-Methylaminorex (oral)
 - **Route / Field**: oral / common dose
-- **Shown**: common 5–10 mg (tripsit)
-- **Expected**: common 10–25 mg — community reports and PsychonautWiki consistently place common oral doses in the 10–25 mg range; the tripsit value reflects a conservative/threshold tier, not the typical recreational dose. The `[also: drug.community: common 10–25 mg]` alternate confirms the winning value is an underestimate.
+- **Shown**: 5–10 mg (tripsit)
+- **Expected**: ~10–20 mg; community data shows common 10–25 mg and tripsit's own onset listed at 5m–15m (inconsistent with oral BA); 4-methylaminorex oral common is well-documented in the 10–20 mg range, with 5–10 mg being a light-to-threshold bracket in most reports.
 - **Severity**: MAJOR
 
-### 4-Fluoromethylphenidate (4F-MPH)
+### 4-Methylaminorex (oral duration)
+- **Route / Field**: oral / total duration
+- **Shown**: 14h–18h (tripsit)
+- **Expected**: 8h–14h; 4-methylaminorex half-life is ~7–9 h and experiential reports consistently place total duration at 8–14 h. 14–18 h is at the extreme outer edge and would only apply with very high doses; as a general "total" it is an overestimate.
+- **Severity**: MINOR
+
+### 2-Fa / 2-Fluoroamphetamine (oral peak)
+- **Route / Field**: oral / peak duration
+- **Shown**: 1h–2h (2-FA psychonautwiki entry)
+- **Expected**: 2h–4h; 2-FA is consistently reported as having a notably longer peak than d-amphetamine (~3–5 h total, peak ~2–4 h). A 1–2 h peak is consistent with d-amphetamine, not 2-FA.
+- **Severity**: MAJOR
+
+### 3,4-CTMP (oral total duration)
+- **Route / Field**: oral / total duration
+- **Shown**: 6h–18h (psychonautwiki)
+- **Expected**: 8h–24h (often 12–24 h); 3,4-CTMP is a long-acting phenidate with half-life estimated ~3–7 h but with prolonged CNS effects; community experience places total duration routinely at 12–24 h. The lower bound of 6 h significantly understates the drug's persistence and is a harm-reduction concern (re-dosing risk).
+- **Severity**: MAJOR
+
+### 4-CMC (oral common dose)
+- **Route / Field**: oral / common dose
+- **Shown**: 50 mg (tripsit — listed as just "50 mg" with no upper bound before heavy ≥100 mg)
+- **Expected**: 50–100 mg common range; the entry shows `common 50 mg, heavy ≥100 mg` which creates no strong band between common and heavy. Based on cathinone class comparables and community reports, oral common for 4-CMC is ~60–100 mg. A point value of 50 mg with heavy starting at 100 mg leaves the common band undefined.
+- **Severity**: MINOR
+
+### 4-Fluoromethylphenidate (oral afterglow)
 - **Route / Field**: oral / afterglow duration
-- **Shown**: afterglow 5h–10h
-- **Expected**: afterglow 1h–3h — afterglow of 5–10 h for a methylphenidate analogue is anomalously long. Standard MPH and its fluorinated analogues produce afterglow lasting roughly 1–3 h. A 5–10 h afterglow would be consistent with the *total* duration, not the afterglow phase, suggesting a data entry confusion.
-- **Severity**: MAJOR
-
-### 2-DPMP (Desoxypipradrol)
-- **Route / Field**: insufflation / total duration
-- **Shown**: total 16h–72h (tripsit)
-- **Expected**: total 16h–36h — the upper bound of 72 h is plausible only for extreme doses; community harm-reduction documentation (PsychonautWiki, Erowid trip reports) consistently reports 24–36 h as the typical upper bound for a single dose. A 72 h total is not impossible at high doses, but presenting it as a routine range without a strong-dose qualifier is misleading and may cause users to underestimate duration and redose dangerously. NOTE: this is an edge call — the half-life of 18 h makes a very long duration biologically plausible. Flagging MINOR only.
-- **Severity**: MINOR
-
-### 4-CMC (Clephedrone)
-- **Route / Field**: oral / common dose
-- **Shown**: common 50 mg (single value, no range) (tripsit)
-- **Expected**: common 50–100 mg — a point value with no range is almost certainly a truncated or incomplete entry. Community and TripSit data for cathinones in this potency class consistently give a range. A single value of "50 mg" with no upper bound is functionally useless and suggests data corruption or truncation.
-- **Severity**: MINOR
+- **Shown**: 5h–10h (tripsit)
+- **Expected**: 1h–4h; 4F-MPH total duration is ~4–8 h; an afterglow of 5–10 h would extend past the total duration window, which is self-contradictory. Afterglow cannot exceed or nearly match total duration.
+- **Severity**: BLOCKER
 
 
 # Stimulant_02
 
-# Stimulant_02 Verification Findings
+# Verification Findings — Stimulant_02
 
-### Caffeine
-- **Route / Field**: insufflation / offset vs total duration
-- **Shown**: offset 6h–10h, total 1h–2.5h
-- **Expected**: offset should be shorter than total duration (e.g. offset 15m–45m within a total of 1h–2.5h). The 6h–10h offset figure appears to be copy-paste contamination from the oral route's offset, which reflects caffeine's long elimination half-life (~5h) dragging into the comedown — not the insufflation offset.
-- **Severity**: BLOCKER (pharmacologically self-contradictory: offset cannot exceed total; displayed in-app duration timeline would be nonsensical)
+### 4-Methylthioamphetamine (4-MTA)
 
-### Cocaine
+- **Route / Field**: oral / duration total
+- **Shown**: 8h–20h
+- **Expected**: 4h–8h. 4-MTA is a potent irreversible MAO-B inhibitor with amphetamine-type stimulation; the psychoactive duration in human reports and case literature is 4–8 h. An upper bound of 20 h is implausible and conflates the MAO-B inhibition window (days) with subjective duration.
+- **Severity**: MAJOR
+
+---
+
+### Cocaine (IV)
+
 - **Route / Field**: intravenous / common dose
-- **Shown**: 5–10 mg (psychonautwiki wins)
-- **Expected**: 30–60 mg per injection is the community-consensus figure (also the `[also: drug.community]` value). IV cocaine is typically used in doses of 25–75 mg in recreational contexts; 5–10 mg is a sub-threshold test dose, not a common dose.
-- **Severity**: MAJOR (winning value is ~5× below realistic common-use range; understating IV cocaine dose misleads harm-reduction guidance)
+- **Shown**: 5–10 mg (psychonautwiki) [also: drug.community: 30–60 mg]
+- **Expected**: 25–50 mg is the community-consensus IV common dose. The winning PsychonautWiki value of 5–10 mg is far below what experienced users self-administer intravenously; 5 mg IV cocaine is a threshold/light dose, not common. The drug.community alternate (30–60 mg) is closer to clinical and harm-reduction literature. The winning source should be reconsidered.
+- **Severity**: MAJOR
 
-### Crack
-- **Route / Field**: inhalation / total duration
-- **Shown**: 5h–20h
-- **Expected**: 5m–15m per hit; a heavy smoking session is commonly described as lasting 30m–2h total. 20h is physiologically implausible for smoked cocaine — its characteristically short duration (minutes) is a key reason for its high addiction liability.
-- **Severity**: BLOCKER (could cause user to drastically underestimate redosing risk; 20h is off by ~60×)
+---
+
+### Caffeine (insufflation)
+
+- **Route / Field**: insufflation / offset duration
+- **Shown**: offset 6h–10h
+- **Expected**: ~1h–2h. The offset phase for insufflated caffeine should be short (pharmacokinetics are fast intranasal); a 6–10 h offset is the systemic elimination half-life being mis-mapped to the "offset" phase field. Total duration of 1h–2.5h is correct, making an offset of 6–10 h internally inconsistent (longer than total).
+- **Severity**: BLOCKER
+
+---
+
+### Caffeine (oral)
+
+- **Route / Field**: oral / offset duration
+- **Shown**: offset 6h–10h
+- **Expected**: ~2h–3h. Same issue as insufflation: the caffeine elimination half-life (~5–6 h) is being placed in the offset field rather than informing the total. Oral total is listed as 2h–5h, so an offset of 6–10 h is self-contradictory.
+- **Severity**: BLOCKER
+
+---
+
+### Buphedrone
+
+- **Route / Field**: insufflation / threshold
+- **Shown**: threshold 25 mg (piru-curated)
+- **Expected**: ≤10 mg. Community reports and structural analogy to butylone/methylone place the insufflation threshold at 5–10 mg. A 25 mg threshold is implausibly high for a cathinone active by insufflation — that value is closer to a light dose.
+- **Severity**: MAJOR
+
+---
 
 ### Butylone
+
 - **Route / Field**: oral / common dose
 - **Shown**: 150–250 mg (piru-curated)
-- **Expected**: 70–100 mg per TripSit and broader community reports. Butylone potency is comparable to MDPV precursor cathinones; 150–250 mg oral is the strong-to-heavy range, not common.
-- **Severity**: MAJOR (winning value is ~2–3× above established community consensus; could normalize a strong-to-heavy dose as typical)
+- **Expected**: 75–150 mg. The winning piru-curated value conflicts with the cited TripSit alternate (common 70–100 mg). Community harm-reduction consensus and structural analogy to MDMA place common oral butylone at 75–150 mg; 150–250 mg encroaches on heavy territory and mis-sets user expectations.
+- **Severity**: MAJOR
 
-### 4-Methylthioamphetamine
-- **Route / Field**: oral / total duration
-- **Shown**: 8h–20h
-- **Expected**: ~6h–10h. 4-MTA is a substituted amphetamine with MAOI-like serotonergic activity; pharmacokinetics would not support a 20h upper bound for a single oral dose. Literature (EMCDDA, forensic reports) describes effects lasting 4–8h. The 20h figure may reflect rare prolonged after-effects being misclassified as total duration.
-- **Severity**: MAJOR (upper bound is approximately 2× too high; could cause dangerous re-dose timing errors given 4-MTA's serotonin toxicity risk)
+---
+
+### Desoxypipradrol (2-DPMP)
+
+- **Route / Field**: insufflation / onset
+- **Shown**: onset 15m–4h
+- **Expected**: 15m–45m. A 4-hour upper bound on onset is an extreme outlier. While 2-DPMP is notoriously long-duration, onset after insufflation is typically within 15–45 minutes; the 4 h figure likely reflects a rare delayed-absorption edge case being treated as the upper bound of normal onset.
+- **Severity**: MINOR
+
 
 
 # Stimulant_03
 
-# Stimulant_03 Verification Findings
+### Focalin (Dexmethylphenidate)
+- **Oral / Total Duration**
+- **Shown**: total 9h–12h
+- **Expected**: 4h–6h. Focalin IR (dexmethylphenidate) has a t½ ~2–3 h and clinical duration of 4–6 h. The 9–12 h figure belongs to Focalin XR, not the IR formulation that community dose sources describe.
+- **Severity**: MAJOR
 
-### Focalin (dexmethylphenidate)
-- **Route / Field**: oral / total duration
-- **Shown**: 9h–12h
-- **Expected**: 4h–6h for IR formulation. Focalin XR runs 8–10h, but the dose range (10–40 mg) matches IR tablets. IR dexmethylphenidate duration is comparable to IR methylphenidate (2.5–5h); 9–12h is the XR profile and will mislead users taking the immediate-release form.
+### Kratom
+- **Oral / Total Duration**
+- **Shown**: offset 3h–6h, total 2h–4h
+- **Expected**: total should be ≥4h–6h (offset cannot exceed total). The stated offset window (3–6 h) is longer than the stated total duration (2–4 h), which is internally incoherent and undersells actual duration; community and clinical reports consistently place kratom oral total at 4–6 h.
 - **Severity**: MAJOR
 
 ### Methcathinone
-- **Route / Field**: oral / common dose
-- **Shown**: 100–200 mg
-- **Expected**: 25–75 mg. The `[also: drug.community: common 25–50 mg]` alternative is more consistent with harm-reduction literature (Erowid, PsychonautWiki). 100–200 mg oral methcathinone is in the strong-to-heavy range for most users and carries meaningful cardiovascular risk at that scale.
-- **Severity**: BLOCKER
-
-### Pentedrone
-- **Route / Field**: insufflation / common dose
-- **Shown**: 75–125 mg (piru-curated), while both psychonautwiki and tripsit show common 5–10 mg
-- **Expected**: 5–15 mg. Both authoritative sources agree on 5–10 mg. The piru-curated value is 7–12× higher than consensus — a massive overdose if a user trusts the app's displayed "common" figure.
-- **Severity**: BLOCKER
-
-### Kratom
-- **Route / Field**: oral / total duration
-- **Shown**: total 2h–4h
-- **Expected**: 4h–6h (stimulant dose), up to 6h–8h at sedating doses. 2–4h is short even for the stimulant threshold dose range; most harm-reduction sources (Erowid, PsychonautWiki) report 4–6h total. Users may redose too early.
+- **Oral / Common Dose**
+- **Shown**: common 100–200 mg (psychonautwiki) [also: drug.community: common 25–50 mg]
+- **Expected**: common 25–75 mg. Methcathinone is a potent cathinone stimulant; 100–200 mg oral is a heavy/toxic range. The drug.community figure of 25–50 mg is more consistent with published harm-reduction literature and EMCDDA reports.
 - **Severity**: MAJOR
 
 ### Methylphenidate
-- **Route / Field**: oral / total duration
+- **Oral / Total Duration**
 - **Shown**: total 2.5h–4h
-- **Expected**: 3h–6h for IR methylphenidate. 2.5h lower bound is plausible at the short end but the upper bound of 4h is consistently underestimated in clinical data (FDA label: up to 5h). Minor but relevant for users timing their next dose.
+- **Expected**: total 3h–5h (IR). Standard-release methylphenidate clinical duration is 3–5 h; 2.5 h as a lower bound is slightly short but borderline. The peak window (1h–1.5h) combined with offset (45m–1h) arithmetically sums to well under the stated total, suggesting the total field is already compressed. Minor inconsistency only.
 - **Severity**: MINOR
 
-### Naphyrone
-- **Route / Field**: insufflation / total duration
-- **Shown**: total 6h–10h
-- **Expected**: 2h–4h. Naphyrone (naphthylpyrovalerone) is a cathinone derivative pharmacologically similar to pyrovalerone. Community reports (Erowid, Drugs-Forum, early PsychonautWiki entries) consistently document 2–4h duration by insufflation. 6–10h would be extraordinary for this compound class and could suppress redose caution.
+### Pentedrone
+- **Insufflation / Common Dose**
+- **Shown**: common 75–125 mg (piru-curated), overriding psychonautwiki/tripsit common 5–10 mg
+- **Expected**: common 10–40 mg insufflated. Pentedrone is a potent nor-cathinone; the two independent sources (PsychonautWiki and TripSit) both cite common insufflation at 5–10 mg. Piru-curated value of 75–125 mg is 7–12× higher and would place a common dose in territory associated with severe cardiovascular toxicity and psychosis in case reports.
+- **Severity**: BLOCKER
+
+### N-Methylbisfluoromodafinil
+- **Oral / Total Duration**
+- **Shown**: total 5h–8h
+- **Expected**: 10h–20h+. Bisfluoromodafinil (flmodafinil/CRL-40,940) has a substantially longer half-life than modafinil (~10–15 h); the N-methyl derivative is not shorter. Community reports consistently place total duration at 12–20 h. A 5–8 h total is implausible and would lead users to re-dose unsafely.
+- **Severity**: BLOCKER
+
+### Nm-2-ai
+- **Oral / Threshold vs Light Dose**
+- **Shown**: threshold 5 mg, light 50–100 mg
+- **Expected**: there is a ~10× gap between threshold (5 mg) and the bottom of the light range (50 mg) with no common range filling it. If threshold is correct at 5 mg, light should begin around 10–20 mg. Alternatively if light 50 mg is correct, threshold should be ~20–30 mg. The current gap is pharmacologically incoherent.
 - **Severity**: MAJOR
 
 
 # Stimulant_04
 
-# Stimulant_04 Verification Findings
-
 ### Phentermine
-- **Route / Field**: oral / onset duration
+- **Oral / Onset**
 - **Shown**: onset 4h–6h
-- **Expected**: onset 30m–2h. Phentermine is a well-studied prescription anorectic; clinical pharmacology data (FDA label, Adipex-P PI) documents Tmax ~3–4h for absorption but subjective stimulant onset occurs within 30–60 minutes of absorption beginning, and "onset" as used in harm-reduction contexts refers to when effects are first felt, not Tmax. A 4–6h onset is implausible for an oral stimulant with rapid GI absorption.
+- **Expected**: onset 30m–2h. Phentermine reaches peak plasma in ~3–4h but CNS onset of appetite suppression/stimulation begins within 30–60min of oral dosing; a 4–6h onset is implausibly delayed and almost certainly a copy-paste of the absorption half-life.
 - **Severity**: MAJOR
 
-### Pseudoephedrine
-- **Route / Field**: oral / total duration
-- **Shown**: total 2h–12h
-- **Expected**: total 4h–8h (IR formulation). Standard IR pseudoephedrine has a half-life of ~5–8h and documented effect duration of 4–6h. The lower bound of 2h is implausibly short; the upper bound of 12h is plausible only for extended-release (12h ER tablets) but the range spanning 2h–12h conflates IR and ER kinetics into a single incoherent range.
-- **Severity**: MAJOR
+### Sibutramine
+- **Oral / Total duration**
+- **Shown**: 18h–30h
+- **Expected**: 12h–20h. Sibutramine's active metabolites (M1/M2) have t½ ~14–16h giving effective duration of roughly 12–20h. A lower bound of 18h is plausible but an upper bound of 30h overstates it; the published norepinephrine/serotonin reuptake inhibition duration does not extend to 30h in clinical PK data.
+- **Severity**: MINOR
 
 ### Troparil
-- **Route / Field**: oral / total duration
-- **Shown**: total 45m–1.16667h
-- **Expected**: total 1h–3h. Troparil (WIN 35,065-2) is a phenyltropane dopamine reuptake inhibitor. The "1.16667h" value is a raw floating-point artifact (70 minutes expressed as a fraction) that should be rendered as "1h 10m" or "~1.2h". Additionally, 45 minutes to ~70 minutes is on the short end; community reports suggest 1–2h duration, though literature is thin. The formatting issue is definitive.
-- **Severity**: MAJOR (rendering bug producing "1.16667h" is a display error that will confuse users)
+- **Oral / Total duration**
+- **Shown**: 45m–1.16667h
+- **Expected**: expressed cleanly as 45m–1h10m or 45m–1.25h; the value 1.16667h is a raw decimal conversion of 70 minutes (70/60) and was not rounded before display — this is a data-formatting defect that surfaces an implausibly precise figure to users.
+- **Severity**: MINOR
 
 ### Vyvanse
-- **Route / Field**: oral / strong dose
+- **Oral / Strong dose**
 - **Shown**: strong 50–100 mg
-- **Expected**: strong 50–70 mg; heavy ≥70 mg. Vyvanse (lisdexamfetamine) FDA-approved maximum dose is 70 mg/day. Classifying 70–100 mg as merely "strong" without a "heavy" ceiling normalizes supratherapeutic dosing that significantly elevates cardiovascular risk. The range should cap strong at 70 mg and flag ≥70 mg as heavy.
-- **Severity**: BLOCKER (100 mg lisdexamfetamine is ~2.9× the maximum approved dose; presenting it as "strong" without heavy designation understates risk)
+- **Expected**: strong 50–70 mg. Lisdexamfetamine (Vyvanse) is limited to a maximum prescribed dose of 70 mg/day; 100 mg would represent ~140% of the clinical ceiling and yields a d-amphetamine load (~29 mg) well into cardiovascular risk territory. A strong ceiling of 100 mg is pharmacologically implausible for a general-population harm-reduction reference and likely reflects a data entry error.
+- **Severity**: BLOCKER
 
 
 # Supplement_01
 
-# Verification Findings — Supplement_01 (chunk 1/2)
+# Verification Findings — Supplement_01
 
-### Iodine (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 500–1000 mcg, heavy ≥1100 mcg
-- **Expected**: strong ≤400 mcg, heavy ≥400–500 mcg. The tolerable upper intake level (UL) established by the Institute of Medicine is 1,100 mcg/day for adults; displaying 500–1000 mcg as merely "strong" normalises intake that is already approaching the UL. More importantly, presenting ≥1,100 mcg as the "heavy" threshold (rather than a danger threshold) is misleading — chronic intake at this level causes thyroid dysfunction (Wolff-Chaikoff effect, autoimmune thyroiditis). The "common" range of 300–500 mcg is also above the RDA of 150 mcg and the safe upper supplemental range (~500 mcg) for most users.
-- **Severity**: BLOCKER (could harm user — iodine toxicity is clinically real and the heavy label undersells the risk)
+### CoQ10
+- **oral / half-life**
+- **Shown**: 96h
+- **Expected**: ~33–52h — multiple plasma kinetic studies (Tomono et al. 2009; Miles et al. 2002) converge on a T½ of ~33–34h, with upper-range estimates ~52h after oral ubiquinol/ubiquinone loading. 96h (4 days) has no clinical literature support.
+- **Severity**: MAJOR
 
-### Selenium (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 200–400 mcg, heavy ≥400 mcg
-- **Expected**: strong 100–200 mcg; heavy ≥200–400 mcg. The tolerable UL for selenium is 400 mcg/day. Displaying 200–400 mcg as merely "strong" and ≥400 mcg as "heavy" (implying survivable excess) is dangerous — selenium toxicity (selenosis) begins at intakes persistently above the UL and is irreversible at higher doses (hair loss, nail brittleness, neurological damage). A "common" dose of 100–200 mcg is already at the high end of supplemental ranges; 200–400 mcg should carry a stronger label.
-- **Severity**: BLOCKER (could harm user — selenium has a narrow therapeutic window and the thresholds are systematically too permissive)
+### Vitamin A
+- **oral / half-life**
+- **Shown**: 576h (24 days)
+- **Expected**: ~2880–3696h (120–154 days) — retinol whole-body T½ is consistently reported as 128–154 days in stable-isotope dilution studies (Furr et al.; Ross & Harrison). 576h is roughly 5–6× too short and would cause the app to vastly underestimate accumulation risk for a fat-soluble, teratogenic vitamin.
+- **Severity**: BLOCKER
 
-### Vitamin A (Supplement)
-- **Route / Field**: oral / strong dose
-- **Shown**: strong 10000–25000 IU
-- **Expected**: strong 5000–10000 IU. The tolerable UL for preformed vitamin A (retinol) is 10,000 IU/day for adults. Calling 10,000–25,000 IU "strong" frames intake above the UL as a normal supplemental tier. Chronic intake at 25,000 IU causes hypervitaminosis A (hepatotoxicity, teratogenicity, increased fracture risk). The heavy threshold of ≥25,000 IU is appropriate as a danger marker but the strong range bleeds well above the UL.
-- **Severity**: BLOCKER (could harm user — preformed vitamin A is teratogenic and hepatotoxic at sustained doses above the UL; this framing normalises those doses)
+### Vitamin B1 (Thiamine)
+- **oral / half-life**
+- **Shown**: 18h
+- **Expected**: ~216–444h (9–18.5 days) — plasma thiamine T½ from pharmacokinetic studies is 9–18.5 days, not 18 hours. At 18h the app will fail to warn users that high-dose thiamine accumulates over weeks and will underestimate any tissue saturation.
+- **Severity**: MAJOR
 
-### Vitamin B6 (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 100–200 mg, heavy ≥200 mg
-- **Expected**: strong 50–100 mg; heavy ≥100–200 mg. The EU tolerable UL is 25 mg/day; the US UL is 100 mg/day. Peripheral neuropathy from pyridoxine toxicity is well-documented at sustained intakes above 50–100 mg/day, with case reports of sensory neuropathy at doses as low as 50–100 mg taken chronically. Displaying 100–200 mg as "strong" (implying safe if experienced) and ≥200 mg as merely "heavy" is clinically dangerous.
-- **Severity**: BLOCKER (could harm user — B6 neuropathy is a known, well-documented clinical harm at these doses)
+### Vitamin B6
+- **oral / half-life**
+- **Shown**: 24h
+- **Expected**: ~360–600h (15–25 days) — pyridoxal-5-phosphate (the active form) has a tissue T½ of ~25 days; even plasma pyridoxine clears on a multi-day timescale. 24h would dramatically underestimate accumulation risk, which is safety-relevant given B6's known peripheral neuropathy risk at chronic high doses (>200 mg/day).
+- **Severity**: BLOCKER
 
-### Vitamin E (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 800–1500 IU, heavy ≥1500 IU
-- **Expected**: strong 400–800 IU; heavy ≥800–1000 IU. The tolerable UL for vitamin E is 1,000 mg (~1,500 IU of natural or ~1,100 IU of synthetic α-tocopherol). The strong range extends to 1,500 IU which exceeds the UL, and the heavy threshold at ≥1,500 IU is above it as well. High-dose vitamin E (>400 IU/day) has been associated with increased all-cause mortality in meta-analyses, and doses above the UL carry haemorrhagic risk (anti-platelet and vitamin-K antagonism).
-- **Severity**: MAJOR (strong range crosses the UL; warrants re-anchoring the heavy threshold to ≥1,000 IU)
+### Vitamin E
+- **oral / half-life**
+- **Shown**: 24h
+- **Expected**: ~48–52h — alpha-tocopherol plasma T½ is consistently reported as 48–52h (Burton et al.; Traber). 24h is approximately half the established value and will underestimate accumulation for this fat-soluble vitamin.
+- **Severity**: MINOR
 
-### Vitamin B3 (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 500–1500 mg, heavy ≥2000 mg
-- **Expected**: strong 500–1000 mg; heavy ≥1000–1500 mg. The tolerable UL for niacin (as nicotinic acid) is 35 mg/day for flush-producing forms. For supplemental niacin used therapeutically, hepatotoxicity has been documented at 1,000–3,000 mg/day. Displaying 500–1,500 mg as "strong" and ≥2,000 mg as "heavy" could lead a user to take a dose in the hepatotoxic range thinking it is merely "strong." Extended-release niacin is particularly hepatotoxic at these doses.
-- **Severity**: MAJOR (hepatotoxic range is presented as ordinary strong/heavy tiers without sufficient contextual warning via the dose labels alone)
-
-### L-Theanine (Supplement)
-- **Route / Field**: oral / half-life
+### L-Theanine
+- **oral / half-life**
 - **Shown**: 1h
-- **Expected**: ~2.5–3.5h. Published pharmacokinetic studies (e.g., Türközü & Şanlier, 2017; Kimura et al.) report an elimination half-life of approximately 1.2–3.5h, with most sources citing ~2–3h. A 1h half-life is at the low end of the range and likely underestimates duration, which could cause users to redose too soon.
-- **Severity**: MINOR (plausible at the low end but likely underestimated; practical impact is minor)
+- **Expected**: ~3–5h — human PK studies (Türközü & Şanlier review; Higashiyama et al. 2011) report plasma T½ of ~3–5h after 200 mg oral doses. 1h reflects the absorption-phase half-life, not the elimination T½, and will cause the duration display to cut off well before effects dissipate.
+- **Severity**: MINOR
 
-### Quercetin (Supplement)
-- **Route / Field**: oral / half-life
-- **Shown**: 12h
-- **Expected**: ~1.5–5h. Human PK studies of quercetin report a half-life of approximately 1.5–5 hours for quercetin aglycone and glycosides. A 12h half-life would be appropriate for quercetin-3-glucoside in some forms but is approximately 2–3× too long for standard quercetin supplements and may cause users to under-dose frequency.
-- **Severity**: MINOR (directionally concerning — shifts the apparent accumulation profile but unlikely to cause acute harm)
+### PQQ
+- **oral / half-life**
+- **Shown**: 4h
+- **Expected**: ~7–8h — Smidt et al. (1991, J Nutr) measured a plasma elimination T½ of ~7.5h in humans after oral PQQ. 4h is roughly half the measured value.
+- **Severity**: MINOR
 
 
 # Supplement_02
 
-# Verification Findings — Supplement_02.txt
+### Vitamin K2
+
+- **oral / duration — offset**
+- **Shown**: 72h–168h
+- **Expected**: ~4h–24h. The offset phase duration of 3–7 days conflates pharmacokinetic half-life (MK-7 t½ ≈ 72h) with experiential duration; a supplement has no meaningful pharmacodynamic "offset" lasting a week.
+- **Severity**: MAJOR
+
+- **oral / duration — total**
+- **Shown**: 120h–240h (5–10 days)
+- **Expected**: ~8h–36h total. A 5–10 day total duration window is not clinically meaningful as a dose-tracking duration; again reflects confusion between elimination half-life and duration of effect.
+- **Severity**: MAJOR
+
+---
 
 ### Zinc Picolinate
-- **Route / Field**: oral / half-life
-- **Shown**: 24h
-- **Expected**: ~1–2h plasma half-life (zinc redistributes rapidly into erythrocytes and tissues after absorption; plasma Zn t½ measured in healthy adults is 1–2h, not a day)
-- **Severity**: MAJOR (off by ~12–24×; will make the app's "active window" visualization wildly incorrect)
 
-### Zinc Picolinate
-- **Route / Field**: oral / strong dose and heavy dose
-- **Shown**: strong 50–100 mg, heavy ≥100 mg
-- **Expected**: strong ~40 mg, heavy ≥50 mg — the NIH tolerable upper intake level (UL) for elemental zinc in adults is 40 mg/day; 50–100 mg regularly causes nausea/vomiting and copper deficiency; ≥100 mg is medically significant acute toxicity territory
-- **Severity**: BLOCKER (labelling a dose well above the established UL as merely "strong" normalises harmful intake; a user could interpret this as a reasonable upper-recreational range)
+- **oral / common dose**
+- **Shown**: 25–50 mg
+- **Expected**: 10–25 mg. The established tolerable upper intake level (UL) for zinc is 40 mg/day; placing 25–50 mg in the "common" band normalises doses that partially exceed the safety threshold.
+- **Severity**: MAJOR
+
+- **oral / strong dose**
+- **Shown**: 50–100 mg
+- **Expected**: ≤40 mg ceiling for strong; anything above 40 mg should carry a heavy/caution label given the UL. Labelling 50–100 mg as merely "strong" understates toxicity risk (nausea, copper depletion begin at 50+ mg chronically).
+- **Severity**: MAJOR
 
 
 # Uncategorized
 
-# Uncategorized — Verification Findings
-
 ### Blue Lotus
-
-- **Route / Field**: oral / onset
+- **Oral / Onset duration**
 - **Shown**: 10s–1m
-- **Expected**: ~15–45 min; a 10-second onset is physically impossible for oral administration — gastric absorption requires at minimum several minutes even for rapidly absorbed compounds. This value belongs to an inhalation profile, not oral.
-- **Severity**: BLOCKER (could mislead a user into re-dosing because they believe oral onset is near-instantaneous)
-
-- **Route / Field**: oral / total duration
-- **Shown**: 6h–8h
-- **Expected**: ~2–4h; Blue Lotus active alkaloids (nuciferine, apomorphine analogues) have short half-lives. Community reports and the limited pharmacological literature consistently place total oral duration at 2–4 hours, not 6–8.
-- **Severity**: MAJOR (off by ~2×)
-
-- **Route / Field**: oral / afterglow duration
-- **Shown**: 6h–8h (same as total duration)
-- **Expected**: ~1–2h, or less than the total duration; an afterglow equal to or exceeding the active phase is pharmacologically implausible and would effectively double the displayed experience length.
-- **Severity**: MAJOR (logically inconsistent — afterglow cannot equal total duration)
+- **Expected**: 15–45 min — oral absorption of aporphine alkaloids (nuciferine) through GI mucosa cannot produce effects in seconds; sub-minute onset is physically impossible for this route.
+- **Severity**: BLOCKER

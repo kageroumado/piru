@@ -1,49 +1,43 @@
-# Verification Findings — Supplement_01 (chunk 1/2)
+# Verification Findings — Supplement_01
 
-### Iodine (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 500–1000 mcg, heavy ≥1100 mcg
-- **Expected**: strong ≤400 mcg, heavy ≥400–500 mcg. The tolerable upper intake level (UL) established by the Institute of Medicine is 1,100 mcg/day for adults; displaying 500–1000 mcg as merely "strong" normalises intake that is already approaching the UL. More importantly, presenting ≥1,100 mcg as the "heavy" threshold (rather than a danger threshold) is misleading — chronic intake at this level causes thyroid dysfunction (Wolff-Chaikoff effect, autoimmune thyroiditis). The "common" range of 300–500 mcg is also above the RDA of 150 mcg and the safe upper supplemental range (~500 mcg) for most users.
-- **Severity**: BLOCKER (could harm user — iodine toxicity is clinically real and the heavy label undersells the risk)
+### CoQ10
+- **oral / half-life**
+- **Shown**: 96h
+- **Expected**: ~33–52h — multiple plasma kinetic studies (Tomono et al. 2009; Miles et al. 2002) converge on a T½ of ~33–34h, with upper-range estimates ~52h after oral ubiquinol/ubiquinone loading. 96h (4 days) has no clinical literature support.
+- **Severity**: MAJOR
 
-### Selenium (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 200–400 mcg, heavy ≥400 mcg
-- **Expected**: strong 100–200 mcg; heavy ≥200–400 mcg. The tolerable UL for selenium is 400 mcg/day. Displaying 200–400 mcg as merely "strong" and ≥400 mcg as "heavy" (implying survivable excess) is dangerous — selenium toxicity (selenosis) begins at intakes persistently above the UL and is irreversible at higher doses (hair loss, nail brittleness, neurological damage). A "common" dose of 100–200 mcg is already at the high end of supplemental ranges; 200–400 mcg should carry a stronger label.
-- **Severity**: BLOCKER (could harm user — selenium has a narrow therapeutic window and the thresholds are systematically too permissive)
+### Vitamin A
+- **oral / half-life**
+- **Shown**: 576h (24 days)
+- **Expected**: ~2880–3696h (120–154 days) — retinol whole-body T½ is consistently reported as 128–154 days in stable-isotope dilution studies (Furr et al.; Ross & Harrison). 576h is roughly 5–6× too short and would cause the app to vastly underestimate accumulation risk for a fat-soluble, teratogenic vitamin.
+- **Severity**: BLOCKER
 
-### Vitamin A (Supplement)
-- **Route / Field**: oral / strong dose
-- **Shown**: strong 10000–25000 IU
-- **Expected**: strong 5000–10000 IU. The tolerable UL for preformed vitamin A (retinol) is 10,000 IU/day for adults. Calling 10,000–25,000 IU "strong" frames intake above the UL as a normal supplemental tier. Chronic intake at 25,000 IU causes hypervitaminosis A (hepatotoxicity, teratogenicity, increased fracture risk). The heavy threshold of ≥25,000 IU is appropriate as a danger marker but the strong range bleeds well above the UL.
-- **Severity**: BLOCKER (could harm user — preformed vitamin A is teratogenic and hepatotoxic at sustained doses above the UL; this framing normalises those doses)
+### Vitamin B1 (Thiamine)
+- **oral / half-life**
+- **Shown**: 18h
+- **Expected**: ~216–444h (9–18.5 days) — plasma thiamine T½ from pharmacokinetic studies is 9–18.5 days, not 18 hours. At 18h the app will fail to warn users that high-dose thiamine accumulates over weeks and will underestimate any tissue saturation.
+- **Severity**: MAJOR
 
-### Vitamin B6 (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 100–200 mg, heavy ≥200 mg
-- **Expected**: strong 50–100 mg; heavy ≥100–200 mg. The EU tolerable UL is 25 mg/day; the US UL is 100 mg/day. Peripheral neuropathy from pyridoxine toxicity is well-documented at sustained intakes above 50–100 mg/day, with case reports of sensory neuropathy at doses as low as 50–100 mg taken chronically. Displaying 100–200 mg as "strong" (implying safe if experienced) and ≥200 mg as merely "heavy" is clinically dangerous.
-- **Severity**: BLOCKER (could harm user — B6 neuropathy is a known, well-documented clinical harm at these doses)
+### Vitamin B6
+- **oral / half-life**
+- **Shown**: 24h
+- **Expected**: ~360–600h (15–25 days) — pyridoxal-5-phosphate (the active form) has a tissue T½ of ~25 days; even plasma pyridoxine clears on a multi-day timescale. 24h would dramatically underestimate accumulation risk, which is safety-relevant given B6's known peripheral neuropathy risk at chronic high doses (>200 mg/day).
+- **Severity**: BLOCKER
 
-### Vitamin E (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 800–1500 IU, heavy ≥1500 IU
-- **Expected**: strong 400–800 IU; heavy ≥800–1000 IU. The tolerable UL for vitamin E is 1,000 mg (~1,500 IU of natural or ~1,100 IU of synthetic α-tocopherol). The strong range extends to 1,500 IU which exceeds the UL, and the heavy threshold at ≥1,500 IU is above it as well. High-dose vitamin E (>400 IU/day) has been associated with increased all-cause mortality in meta-analyses, and doses above the UL carry haemorrhagic risk (anti-platelet and vitamin-K antagonism).
-- **Severity**: MAJOR (strong range crosses the UL; warrants re-anchoring the heavy threshold to ≥1,000 IU)
+### Vitamin E
+- **oral / half-life**
+- **Shown**: 24h
+- **Expected**: ~48–52h — alpha-tocopherol plasma T½ is consistently reported as 48–52h (Burton et al.; Traber). 24h is approximately half the established value and will underestimate accumulation for this fat-soluble vitamin.
+- **Severity**: MINOR
 
-### Vitamin B3 (Supplement)
-- **Route / Field**: oral / strong and heavy doses
-- **Shown**: strong 500–1500 mg, heavy ≥2000 mg
-- **Expected**: strong 500–1000 mg; heavy ≥1000–1500 mg. The tolerable UL for niacin (as nicotinic acid) is 35 mg/day for flush-producing forms. For supplemental niacin used therapeutically, hepatotoxicity has been documented at 1,000–3,000 mg/day. Displaying 500–1,500 mg as "strong" and ≥2,000 mg as "heavy" could lead a user to take a dose in the hepatotoxic range thinking it is merely "strong." Extended-release niacin is particularly hepatotoxic at these doses.
-- **Severity**: MAJOR (hepatotoxic range is presented as ordinary strong/heavy tiers without sufficient contextual warning via the dose labels alone)
-
-### L-Theanine (Supplement)
-- **Route / Field**: oral / half-life
+### L-Theanine
+- **oral / half-life**
 - **Shown**: 1h
-- **Expected**: ~2.5–3.5h. Published pharmacokinetic studies (e.g., Türközü & Şanlier, 2017; Kimura et al.) report an elimination half-life of approximately 1.2–3.5h, with most sources citing ~2–3h. A 1h half-life is at the low end of the range and likely underestimates duration, which could cause users to redose too soon.
-- **Severity**: MINOR (plausible at the low end but likely underestimated; practical impact is minor)
+- **Expected**: ~3–5h — human PK studies (Türközü & Şanlier review; Higashiyama et al. 2011) report plasma T½ of ~3–5h after 200 mg oral doses. 1h reflects the absorption-phase half-life, not the elimination T½, and will cause the duration display to cut off well before effects dissipate.
+- **Severity**: MINOR
 
-### Quercetin (Supplement)
-- **Route / Field**: oral / half-life
-- **Shown**: 12h
-- **Expected**: ~1.5–5h. Human PK studies of quercetin report a half-life of approximately 1.5–5 hours for quercetin aglycone and glycosides. A 12h half-life would be appropriate for quercetin-3-glucoside in some forms but is approximately 2–3× too long for standard quercetin supplements and may cause users to under-dose frequency.
-- **Severity**: MINOR (directionally concerning — shifts the apparent accumulation profile but unlikely to cause acute harm)
+### PQQ
+- **oral / half-life**
+- **Shown**: 4h
+- **Expected**: ~7–8h — Smidt et al. (1991, J Nutr) measured a plasma elimination T½ of ~7.5h in humans after oral PQQ. 4h is roughly half the measured value.
+- **Severity**: MINOR

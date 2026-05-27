@@ -1,37 +1,49 @@
-# Antipsychotic Verification Findings
+# Antipsychotic — Verification Findings
 
 ### Aripiprazole
-- **Route / Field**: intramuscular / threshold vs light dose ordering
-- **Shown**: threshold 400 mg, light 300–400 mg
-- **Expected**: threshold should be below the light range floor; here threshold (400) equals or exceeds the top of the light range (400) while the light range bottom (300) is below threshold — the dose tiers are inverted. For the Abilify Maintena depot, 400 mg is the standard dose and 300 mg is the lower approved dose; threshold should be ≤300 mg or the light range should start at 400 mg.
+- **Route / Field**: intramuscular / duration peak
+- **Shown**: peak 240h–720h (10–30 days)
+- **Expected**: ~96h–168h (4–7 days); Abilify Maintena Tmax is ~7 days per FDA label; 30-day upper bound is inflated by ~4×
 - **Severity**: MAJOR
+
+### Aripiprazole
+- **Route / Field**: intramuscular / duration offset + total
+- **Shown**: offset 2160h–3120h (90–130 days), total 2880h–4320h (120–180 days)
+- **Expected**: offset ~480h–672h, total ~672h–840h; dosing interval is 28 days (672h); 5 half-lives of aripiprazole (96h) ≈ 480h; stated values are 4–6× too long
+- **Severity**: BLOCKER
 
 ### Cariprazine
-- **Route / Field**: half-life
-- **Shown**: 1200h (~50 days)
-- **Expected**: ~91–504h (4–21 days). Cariprazine's primary active metabolite DDCAR has a half-life of approximately 1–3 weeks (168–504h). 1200h (50 days) is 2–3× too long and not supported by the prescribing information or published PK studies.
+- **Route / Field**: oral / half-life
+- **Shown**: 1200h (50 days)
+- **Expected**: ≤504h (~21 days); DDCAR (longest active metabolite) t½ is 1–3 weeks per FDA label; 50 days is ~2.4× the upper bound
+- **Severity**: BLOCKER
+
+### Cariprazine
+- **Route / Field**: oral / duration total
+- **Shown**: total 672h–1344h (28–56 days)
+- **Expected**: total ≤168h–504h; a single oral dose does not produce clinically meaningful effect for 28–56 days; this flows from the inflated half-life
 - **Severity**: MAJOR
-
-### Quetiapine
-- **Route / Field**: oral / common dose
-- **Shown**: 150–750 mg
-- **Expected**: common dose range of 150–400 mg (antipsychotic indication) or 50–150 mg (sedation/augmentation, which is the predominant recreational/tracking use case). A 5× span (150–750 mg) spanning from low therapeutic to near-maximum daily dose makes "common" meaningless and conflates multiple distinct indications. The PsychonautWiki value (50–150 mg) and TripSit value (50 mg) both flag this discrepancy.
-- **Severity**: MAJOR
-
-### Quetiapine
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 750–800 mg, heavy ≥800 mg
-- **Expected**: strong ≥400–600 mg, heavy ≥800 mg. Since common extends to 750 mg, the "strong" band is only 50 mg wide (750–800). This leaves effectively no daylight between common and heavy, making the strong tier pharmacologically uninformative.
-- **Severity**: MINOR
-
-### Pimavanserin
-- **Route / Field**: oral / strong and heavy dose
-- **Shown**: strong 34 mg, heavy ≥34 mg
-- **Expected**: Pimavanserin is a fixed-dose drug (34 mg/day is the sole approved dose). Having strong = 34 mg and heavy = ≥34 mg means the standard therapeutic dose is simultaneously labeled "strong" and the floor of "heavy." Users seeing their prescribed dose flagged as heavy/strong could be alarmed without cause, or conversely could misinterpret the label. There is no meaningful supertherapeutic range to distinguish strong from heavy here; at minimum heavy should be ≥68 mg (2× standard dose).
-- **Severity**: MINOR
 
 ### Paliperidone
-- **Route / Field**: oral / total duration
-- **Shown**: 96–192h (4–8 days)
-- **Expected**: ~24–36h. Oral paliperidone (Invega) is a once-daily formulation with a half-life of ~23h. Per-dose duration should be approximately 24h. 4–8 days reflects steady-state accumulation over a dosing regimen, not the duration of effect of a single oral dose, and would mislead users about how long a single dose lasts.
+- **Route / Field**: oral / duration peak, offset, total
+- **Shown**: peak 24h–48h, offset 48h–96h, total 96h–192h (4–8 days per dose)
+- **Expected**: peak ~12h–24h, total ~24h–48h; oral paliperidone ER (Invega) has a 24h dosing window and ~23h half-life; multi-day total duration per dose is implausible
 - **Severity**: MAJOR
+
+### Paliperidone
+- **Route / Field**: intramuscular / duration offset + total
+- **Shown**: offset 1680h–2880h (70–120 days), total 2880h–4320h (120–180 days)
+- **Expected**: offset ~480h–840h, total ~672h–1008h; Invega Sustenna is a monthly injection (28-day cycle ≈ 672h); stated values are 4–6× the actual dosing interval
+- **Severity**: BLOCKER
+
+### Quetiapine
+- **Route / Field**: oral / common dose upper bound
+- **Shown**: common 150–750 mg
+- **Expected**: common upper bound ~400 mg; 750 mg is the near-maximum approved dose for schizophrenia; even community harm-reduction sources (cited in data) list common at 50–150 mg; the curated upper bound is anomalously high
+- **Severity**: MAJOR
+
+### Risperidone
+- **Route / Field**: intramuscular / duration total
+- **Shown**: total 1344h–2016h (56–84 days)
+- **Expected**: total ~336h–504h (2–3 weeks); Risperdal Consta dosing interval is 14 days (336h); microsphere drug release is complete by ~5–6 weeks at most; 56–84 days is 3–5× too long
+- **Severity**: BLOCKER
