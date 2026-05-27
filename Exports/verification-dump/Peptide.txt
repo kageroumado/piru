@@ -5,99 +5,99 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## 5-Amino-1MQ (Peptide)
-  oral: threshold 25, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–8h, offset 8h–24h, total 12h–48h
+  oral: threshold 25 mg, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–8h, offset 8h–24h, total 12h–48h
   half-life: 8h (piru-curated)
 
 ## CJC-1295 (Peptide)
-  subcutaneous: threshold 100, light 100–250 µg, common 250–500 µg, strong 500–1000 µg, heavy ≥2000 (piru-curated) | duration (piru-curated): onset 15m–1h, peak 2h–12h, offset 48h–240h, total 72h–336h
+  subcutaneous: threshold 100 µg, light 100–250 µg, common 250–500 µg, strong 500–1000 µg, heavy ≥2000 µg (piru-curated) | duration (piru-curated): onset 15m–1h, peak 2h–12h, offset 48h–240h, total 72h–336h
   half-life: 168h (piru-curated)
 
 ## DSIP (Peptide)
-  subcutaneous: threshold 100, light 100–250 µg, common 250–500 µg, strong 500–1000 µg, heavy ≥1000 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–4h, offset 4h–12h, total 5h–14h
+  subcutaneous: threshold 100 µg, light 100–250 µg, common 250–500 µg, strong 500–1000 µg, heavy ≥1000 µg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–4h, offset 4h–12h, total 5h–14h
   half-life: 4m (piru-curated)
 
 ## Dulaglutide (Peptide)
-  subcutaneous: threshold 0.75, light 0.75–1.5 mg, common 1.5–3 mg, strong 3–4.5 mg, heavy ≥4.5 (piru-curated) | duration (piru-curated): onset 24h–48h, peak 48h–96h, offset 168h–240h, total 168h–240h
+  subcutaneous: threshold 0.75 mg, light 0.75–1.5 mg, common 1.5–3 mg, strong 3–4.5 mg, heavy ≥4.5 mg (piru-curated) | duration (piru-curated): onset 24h–48h, peak 48h–96h, offset 168h–240h, total 168h–240h
   half-life: 120h (piru-curated)
 
 ## Epitalon (Peptide)
-  insufflation: threshold 1, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 1h–4h, offset 12h–72h, total 12h–72h
-  subcutaneous: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 3h–12h, offset 48h–168h, total 72h–168h
+  insufflation: threshold 1 mg, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 mg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 1h–4h, offset 12h–72h, total 12h–72h
+  subcutaneous: threshold 1 mg, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 mg (piru-curated) | duration (piru-curated): onset 30m–2h, peak 3h–12h, offset 48h–168h, total 72h–168h
   half-life: 30m (piru-curated)
 
 ## Exenatide (Peptide)
-  subcutaneous: threshold 5, light 5 µg, common 5–10 µg, strong 10 µg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–3h, offset 4h–6h, total 5h–8h
+  subcutaneous: threshold 5 µg, light 5 µg, common 5–10 µg, strong 10 µg, heavy ≥10 µg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–3h, offset 4h–6h, total 5h–8h
   half-life: 2.4h (piru-curated)
 
 ## GHK-Cu (Peptide)
-  subcutaneous: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–5 mg, heavy ≥5 (piru-curated) | duration (piru-curated): onset 15m–1h, peak 1h–6h, offset 12h–48h, total 12h–72h
-  transdermal: threshold 0.5, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 30m–3h, peak 4h–12h, offset 12h–48h, total 12h–72h
+  subcutaneous: threshold 0.5 mg, light 0.5–1 mg, common 1–2 mg, strong 2–5 mg, heavy ≥5 mg (piru-curated) | duration (piru-curated): onset 15m–1h, peak 1h–6h, offset 12h–48h, total 12h–72h
+  transdermal: threshold 0.5 mg, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 mg (piru-curated) | duration (piru-curated): onset 30m–3h, peak 4h–12h, offset 12h–48h, total 12h–72h
   half-life: 1h (piru-curated)
 
 ## GHRP-2 (Peptide)
-  subcutaneous: threshold 50, light 50–100 µg, common 100–200 µg, strong 200–300 µg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
+  subcutaneous: threshold 50 µg, light 50–100 µg, common 100–200 µg, strong 200–300 µg, heavy ≥300 µg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
   half-life: 30m (piru-curated)
 
 ## GHRP-6 (Peptide)
-  subcutaneous: threshold 50, light 50–100 µg, common 100–200 µg, strong 200–300 µg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
+  subcutaneous: threshold 50 µg, light 50–100 µg, common 100–200 µg, strong 200–300 µg, heavy ≥300 µg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
   half-life: 30m (piru-curated)
 
 ## Hexarelin (Peptide)
-  subcutaneous: threshold 50, light 50–100 µg, common 100–200 µg, strong 200–400 µg, heavy ≥400 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
+  subcutaneous: threshold 50 µg, light 50–100 µg, common 100–200 µg, strong 200–400 µg, heavy ≥400 µg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1.5h–4h, total 1.5h–6h
   half-life: 1h (piru-curated)
 
 ## Ipamorelin (Peptide)
-  subcutaneous: threshold 100, light 100–150 µg, common 150–300 µg, strong 300–500 µg, heavy ≥500 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 2h–4h, total 2h–6h
+  subcutaneous: threshold 100 µg, light 100–150 µg, common 150–300 µg, strong 300–500 µg, heavy ≥500 µg (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 2h–4h, total 2h–6h
   half-life: 2h (piru-curated)
 
 ## Liraglutide (Peptide)
-  subcutaneous: threshold 0.6, light 0.6–1.2 mg, common 1.2–1.8 mg, strong 1.8–2.4 mg, heavy ≥3 (piru-curated) | duration (piru-curated): onset 1h–4h, peak 8h–12h, offset 12h–24h, total 23h–25h
+  subcutaneous: threshold 0.6 mg, light 0.6–1.2 mg, common 1.2–1.8 mg, strong 1.8–2.4 mg, heavy ≥3 mg (piru-curated) | duration (piru-curated): onset 1h–4h, peak 8h–12h, offset 12h–24h, total 23h–25h
   half-life: 13h (piru-curated)
 
 ## Melanotan II (Peptide)
-  subcutaneous: threshold 0.25, light 0.25–0.5 mg, common 0.5–1 mg, strong 1–1.5 mg, heavy ≥2 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 1h–4h, offset 8h–24h, total 10h–48h
+  subcutaneous: threshold 0.25 mg, light 0.25–0.5 mg, common 0.5–1 mg, strong 1–1.5 mg, heavy ≥2 mg (piru-curated) | duration (piru-curated): onset 30m–2h, peak 1h–4h, offset 8h–24h, total 10h–48h
   half-life: 1h (piru-curated)
 
 ## MK-677 (Peptide)
-  oral: threshold 5, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–5h, offset 12h–24h, total 24h
+  oral: threshold 5 mg, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–5h, offset 12h–24h, total 24h
   half-life: 24h (piru-curated)
 
 ## MOTS-c (Peptide)
-  subcutaneous: threshold 5, light 5–10 mg, common 10–15 mg, strong 15–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–8h, offset 12h–48h, total 12h–72h
+  subcutaneous: threshold 5 mg, light 5–10 mg, common 10–15 mg, strong 15–20 mg, heavy ≥20 mg (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–8h, offset 12h–48h, total 12h–72h
   half-life: 4h (piru-curated)
 
 ## PT-141 (Peptide)
-  subcutaneous: threshold 0.75, light 0.75–1.25 mg, common 1.25–1.75 mg, strong 1.75–2 mg, heavy ≥2 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1h–3h, offset 6h–12h, total 8h–15h
+  subcutaneous: threshold 0.75 mg, light 0.75–1.25 mg, common 1.25–1.75 mg, strong 1.75–2 mg, heavy ≥2 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1h–3h, offset 6h–12h, total 8h–15h
   half-life: 2h (piru-curated)
 
 ## Retatrutide (Peptide)
-  subcutaneous: threshold 0.5, light 1–2 mg, common 4–8 mg, strong 8–12 mg, heavy ≥12 (piru-curated) | duration (piru-curated): onset 1h–6h, peak 48h–120h, offset 168h–336h, total 168h–336h
+  subcutaneous: threshold 0.5 mg, light 1–2 mg, common 4–8 mg, strong 8–12 mg, heavy ≥12 mg (piru-curated) | duration (piru-curated): onset 1h–6h, peak 48h–120h, offset 168h–336h, total 168h–336h
   half-life: 144h (piru-curated)
 
 ## Selank (Peptide)
-  insufflation: threshold 0.15, light 0.3–0.9 mg, common 0.9–2 mg, strong 2–3 mg, heavy ≥4 (piru-curated)
+  insufflation: threshold 0.15 mg, light 0.3–0.9 mg, common 0.9–2 mg, strong 2–3 mg, heavy ≥4 mg (piru-curated)
 
 ## Semaglutide (Peptide)
-  oral: threshold 3, light 3–7 mg, common 7–14 mg, strong 14–25 mg, heavy ≥25 (piru-curated) | duration (piru-curated): onset 1h–4h, peak 24h–72h, offset 168h–240h, total 168h–240h
-  subcutaneous: threshold 0.125, light 0.25–0.5 mg, common 0.5–1 mg, strong 1–2 mg, heavy ≥2.4 (piru-curated) | duration (piru-curated): onset 1h–4h, peak 24h–72h, offset 168h–240h, total 168h–240h
+  oral: threshold 3 mg, light 3–7 mg, common 7–14 mg, strong 14–25 mg, heavy ≥25 mg (piru-curated) | duration (piru-curated): onset 1h–4h, peak 24h–72h, offset 168h–240h, total 168h–240h
+  subcutaneous: threshold 0.125 mg, light 0.25–0.5 mg, common 0.5–1 mg, strong 1–2 mg, heavy ≥2.4 mg (piru-curated) | duration (piru-curated): onset 1h–4h, peak 24h–72h, offset 168h–240h, total 168h–240h
   half-life: 165h (piru-curated)
 
 ## Semax (Peptide)
-  insufflation: threshold 0.05, light 0.1–0.3 mg, common 0.3–0.9 mg, strong 0.9–2 mg, heavy ≥3 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 1h–4h, offset 4h–6h, total 6h–12h
+  insufflation: threshold 0.05 mg, light 0.1–0.3 mg, common 0.3–0.9 mg, strong 0.9–2 mg, heavy ≥3 mg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 1h–4h, offset 4h–6h, total 6h–12h
 
 ## Sermorelin (Peptide)
-  subcutaneous: threshold 100, light 100–200 µg, common 200–400 µg, strong 400–600 µg, heavy ≥1000 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1h–3h, total 1.5h–6h
+  subcutaneous: threshold 100 µg, light 100–200 µg, common 200–400 µg, strong 400–600 µg, heavy ≥1000 µg (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 1h–3h, total 1.5h–6h
   half-life: 15m (piru-curated)
 
 ## TB-500 (Peptide)
-  subcutaneous: threshold 0.5, light 1–2 mg, common 2–5 mg, strong 5–7.5 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 1h–4h, peak 4h–24h, offset 48h–168h, total 72h–336h
+  subcutaneous: threshold 0.5 mg, light 1–2 mg, common 2–5 mg, strong 5–7.5 mg, heavy ≥10 mg (piru-curated) | duration (piru-curated): onset 1h–4h, peak 4h–24h, offset 48h–168h, total 72h–336h
   half-life: 24h (piru-curated)
 
 ## Tesamorelin (Peptide)
-  subcutaneous: threshold 1, light 1 mg, common 2 mg, strong 2 mg, heavy ≥2 (piru-curated) | duration (piru-curated): onset 15m–1h, peak 1h–3h, offset 3h–8h, total 4h–12h
+  subcutaneous: threshold 1 mg, light 1 mg, common 2 mg, strong 2 mg, heavy ≥2 mg (piru-curated) | duration (piru-curated): onset 15m–1h, peak 1h–3h, offset 3h–8h, total 4h–12h
   half-life: 26m (piru-curated)
 
 ## Tirzepatide (Peptide)
-  subcutaneous: threshold 2.5, light 2.5–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥15 (piru-curated) | duration (piru-curated): onset 1h–6h, peak 24h–96h, offset 168h–240h, total 168h–240h
+  subcutaneous: threshold 2.5 mg, light 2.5–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥15 mg (piru-curated) | duration (piru-curated): onset 1h–6h, peak 24h–96h, offset 168h–240h, total 168h–240h
   half-life: 120h (piru-curated)
 

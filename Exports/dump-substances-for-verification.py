@@ -258,7 +258,7 @@ def _format_dose_resolved(row) -> str:
     unit = row["unit"] or "mg"
     tiers = []
     if row["threshold"] is not None:
-        tiers.append(f"threshold {_num(row['threshold'])}")
+        tiers.append(f"threshold {_num(row['threshold'])} {unit}")
     light = fmt_range(row["light_lower"], row["light_upper"], unit)
     if light:
         tiers.append(f"light {light}")
@@ -269,7 +269,7 @@ def _format_dose_resolved(row) -> str:
     if strong:
         tiers.append(f"strong {strong}")
     if row["heavy"] is not None:
-        tiers.append(f"heavy ≥{_num(row['heavy'])}")
+        tiers.append(f"heavy ≥{_num(row['heavy'])} {unit}")
     return ", ".join(tiers) if tiers else "(empty)"
 
 

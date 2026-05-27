@@ -5,10 +5,10 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## Vitamin K2 (Supplement)
-  oral: threshold 45, light 90–100 mcg, common 100–200 mcg, strong 200–360 mcg, heavy ≥500 (piru-curated) | duration (piru-curated): onset 1h–4h, peak 6h–12h, offset 72h–168h, total 120h–240h
+  oral: threshold 45 mcg, light 90–100 mcg, common 100–200 mcg, strong 200–360 mcg, heavy ≥500 mcg (piru-curated) | duration (piru-curated): onset 1h–4h, peak 6h–12h, offset 72h–168h, total 120h–240h
   half-life: 72h (piru-curated)
 
 ## Zinc Picolinate (Supplement)
-  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 12h–48h, total 24h–72h
+  oral: threshold 5 mg, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 12h–48h, total 24h–72h
   half-life: 24h (piru-curated)
 

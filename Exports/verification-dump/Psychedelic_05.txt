@@ -17,21 +17,21 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 37.5–62.5 mg (erowid-pihkal)
 
 ## Ept (Psychedelic)
-  insufflation: light 20–40 mg, common 40–80 mg, strong 80–110 mg, heavy ≥110 (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, total 2h–4h, afterglow 1h–3h
-  oral: light 50–75 mg, common 75–100 mg, heavy ≥100 (tripsit)
+  insufflation: light 20–40 mg, common 40–80 mg, strong 80–110 mg, heavy ≥110 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, total 2h–4h, afterglow 1h–3h
+  oral: light 50–75 mg, common 75–100 mg, heavy ≥100 mg (tripsit)
 
 ## Escaline (Psychedelic)
-  oral: threshold 20, light 30–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 1.5h–2h, total 8h–12h, afterglow 3h–5h
+  oral: threshold 20 mg, light 30–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 mg (psychonautwiki) | duration (psychonautwiki): onset 1.5h–2h, total 8h–12h, afterglow 3h–5h
 
 ## ETH-LAD (Psychedelic)
-  oral: threshold 15, light 30–60 µg, common 60–150 µg, strong 150–225 µg, heavy ≥225 (psychonautwiki) [also: erowid-tihkal: common 40–150 micrograms] | duration (psychonautwiki): onset 20m–40m, comeup 45m–1.5h, peak 4h–6h, offset 2h–4h, total 8h–12h, afterglow 8h–48h
+  oral: threshold 15 µg, light 30–60 µg, common 60–150 µg, strong 150–225 µg, heavy ≥225 µg (psychonautwiki) [also: erowid-tihkal: common 40–150 micrograms] | duration (psychonautwiki): onset 20m–40m, comeup 45m–1.5h, peak 4h–6h, offset 2h–4h, total 8h–12h, afterglow 8h–48h
 
 ## ETHYL-J (Psychedelic)
   oral: common 67.5–112.5 mg (erowid-pihkal)
 
 ## Ethylcathinone (Psychedelic)
-  insufflation: threshold 5, light 15–30 mg, common 35–70 mg, strong 75–100 mg (tripsit)
-  oral: threshold 30, light 50–80 mg, common 80–150 mg, strong 150–300 mg (tripsit)
+  insufflation: threshold 5 mg, light 15–30 mg, common 35–70 mg, strong 75–100 mg (tripsit)
+  oral: threshold 30 mg, light 50–80 mg, common 80–150 mg, strong 150–300 mg (tripsit)
 
 ## F-2 (Psychedelic)
   oral: common 11.25–18.75 mg (erowid-pihkal)
@@ -61,7 +61,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 70–120 mg (erowid-pihkal) | duration (erowid-pihkal): total 12h–18h
 
 ## HOT-2 (Psychedelic)
-  oral: threshold 8, light 10–12 mg, common 12–15 mg, strong 15–20 mg (tripsit) | duration (tripsit): onset 20m–40m, total 5h–12h, afterglow 1h–12h
+  oral: threshold 8 mg, light 10–12 mg, common 12–15 mg, strong 15–20 mg (tripsit) | duration (tripsit): onset 20m–40m, total 5h–12h, afterglow 1h–12h
 
 ## IBOGAINE (Psychedelic)
   oral: common 15–22 mg/kg of body weight (psychonautwiki) [also: tripsit: common 16–22 mg/kg; drug.community: common 200–800 mg (HCl) / mg·kg−1] | duration (psychonautwiki): onset 30m–3h, peak 18h–36h, afterglow 24h–72h
@@ -82,7 +82,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 6.75–11.25 mg (erowid-pihkal)
 
 ## Isoproscaline (Psychedelic)
-  oral: threshold 30, light 40–50 mg, common 50–60 mg, strong 60–80 mg (tripsit) | duration (tripsit): onset 1h–3h, total 10h–20h, afterglow 1h–12h
+  oral: threshold 30 mg, light 40–50 mg, common 50–60 mg, strong 60–80 mg (tripsit) | duration (tripsit): onset 1h–3h, total 10h–20h, afterglow 1h–12h
 
 ## J (Psychedelic)
   oral: common 150–230 mg (erowid-pihkal) | duration (erowid-pihkal): total 4h–8h
@@ -94,23 +94,23 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 150–250 mg (erowid-pihkal)
 
 ## Lsa (Psychedelic)
-  oral: threshold 20, light 50–100 seeds, common 100–250 seeds, strong 250–400 seeds, heavy ≥400 (psychonautwiki)
-  other: light 1–2 seeds, common 2–6 seeds, strong 6–14 seeds, heavy ≥14 (tripsit) | duration (tripsit): onset 30m–3h, total 4h–10h
-  sublingual: threshold 1, light 3–5 seeds, common 5–7 seeds, strong 7–12 seeds, heavy ≥12 (psychonautwiki)
+  oral: threshold 20 seeds, light 50–100 seeds, common 100–250 seeds, strong 250–400 seeds, heavy ≥400 seeds (psychonautwiki)
+  other: light 1–2 seeds, common 2–6 seeds, strong 6–14 seeds, heavy ≥14 seeds (tripsit) | duration (tripsit): onset 30m–3h, total 4h–10h
+  sublingual: threshold 1 seeds, light 3–5 seeds, common 5–7 seeds, strong 7–12 seeds, heavy ≥12 seeds (psychonautwiki)
 
 ## LSD (Psychedelic)
-  oral: light 50–100 µg, common 100–150 µg, strong 175–225 µg, heavy ≥250 (tripsit) | duration (tripsit): onset 45m–1.5h, total 9h–14h, afterglow 12h–24h
-  sublingual: threshold 15, light 15–75 µg, common 75–150 µg, strong 150–300 µg, heavy ≥300 (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, comeup 45m–1.5h, peak 3h–5h, offset 3h–5h, total 8h–12h, afterglow 12h–48h
+  oral: light 50–100 µg, common 100–150 µg, strong 175–225 µg, heavy ≥250 µg (tripsit) | duration (tripsit): onset 45m–1.5h, total 9h–14h, afterglow 12h–24h
+  sublingual: threshold 15 µg, light 15–75 µg, common 75–150 µg, strong 150–300 µg, heavy ≥300 µg (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, comeup 45m–1.5h, peak 3h–5h, offset 3h–5h, total 8h–12h, afterglow 12h–48h
   half-life: 4h (tripsit)
 
 ## LSD-25 (Psychedelic)
   oral: common 60–200 micrograms (erowid-tihkal) | duration (erowid-tihkal): total 8h–12h
 
 ## Lsm-775 (Psychedelic)
-  oral: threshold 250, light 500–750 µg, common 750–1250 µg, strong 1250–1500 µg, heavy ≥1500 (psychonautwiki) [also: tripsit: common 0.75–1 mg] | duration (psychonautwiki): onset 10m–30m, total 6h–10h
+  oral: threshold 250 µg, light 500–750 µg, common 750–1250 µg, strong 1250–1500 µg, heavy ≥1500 µg (psychonautwiki) [also: tripsit: common 0.75–1 mg] | duration (psychonautwiki): onset 10m–30m, total 6h–10h
 
 ## Lsz (Psychedelic)
-  oral: threshold 50, light 100–150 µg, common 150–300 µg, strong 300–400 µg, heavy ≥400 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 3h–5h, offset 2h–3h, total 6h–10h, afterglow 6h–24h
+  oral: threshold 50 µg, light 100–150 µg, common 150–300 µg, strong 300–400 µg, heavy ≥400 µg (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 3h–5h, offset 2h–3h, total 6h–10h, afterglow 6h–24h
 
 ## M (Psychedelic)
   oral: common 200–400 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–12h
@@ -125,7 +125,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 250–400 mg (erowid-tihkal) | duration (erowid-tihkal): total 4h–6h
 
 ## MDA (Psychedelic)
-  oral: threshold 20, light 40–60 mg, common 60–100 mg, strong 100–145 mg, heavy ≥145 (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, comeup 15m–45m, peak 2.5h–4h, offset 2h–3h, total 5h–8h, afterglow 4h–48h
+  oral: threshold 20 mg, light 40–60 mg, common 60–100 mg, strong 100–145 mg, heavy ≥145 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, comeup 15m–45m, peak 2.5h–4h, offset 2h–3h, total 5h–8h, afterglow 4h–48h
 
 ## MDAL (Psychedelic)
   oral: common 135–225 mg (erowid-pihkal)

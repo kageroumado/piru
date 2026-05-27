@@ -11,7 +11,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: light 5–10 mg, common 10–20 mg, strong 20–40 mg (tripsit) | duration (tripsit): onset 45m–2h, total 8h–20h, afterglow 8h–24h
 
 ## Pyrazolam (Benzodiazepine)
-  oral: threshold 0.25, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥4 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 6h–12h, total 12h–15h
+  oral: threshold 0.25 mg, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥4 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 6h–12h, total 12h–15h
   half-life: 15h (piru-curated)
 
 ## Quazepam (Benzodiazepine)
@@ -21,7 +21,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: light 1–5 mg, common 1–2 mg, strong 2–4 mg (tripsit) | duration (tripsit): onset 30m–1h, total 6h–8h, afterglow 6h–12h
 
 ## Temazepam (Benzodiazepine)
-  oral: threshold 2, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, total 7h–8h, afterglow 3.5h–18.4h
+  oral: threshold 2 mg, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, total 7h–8h, afterglow 3.5h–18.4h
 
 ## Tetrazepam (Benzodiazepine)
   oral: light 25–50 mg, common 50–100 mg, strong 100–200 mg (tripsit) | duration (tripsit): afterglow 1h–12h

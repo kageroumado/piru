@@ -5,141 +5,141 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## Agomelatine (Antidepressant)
-  oral: threshold 12.5, light 12.5–25 mg, common 25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 12.5 mg, light 12.5–25 mg, common 25 mg, strong 25–50 mg, heavy ≥50 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 1.5h (piru-curated)
 
 ## Amitriptyline (Antidepressant)
-  oral: threshold 10, light 10–25 mg, common 50–150 mg, strong 150–200 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 10 mg, light 10–25 mg, common 50–150 mg, strong 150–200 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 24h (piru-curated)
 
 ## Brexanolone (Antidepressant)
-  intravenous: threshold 30, light 30–60 mcg/kg/h, common 60–90 mcg/kg/h, strong 90 mcg/kg/h, heavy ≥90 (piru-curated) | duration (piru-curated): onset 1h–3h, peak 12h–24h, offset 12h–24h, total 72h
+  intravenous: threshold 30 mcg/kg/h, light 30–60 mcg/kg/h, common 60–90 mcg/kg/h, strong 90 mcg/kg/h, heavy ≥90 mcg/kg/h (piru-curated) | duration (piru-curated): onset 1h–3h, peak 12h–24h, offset 12h–24h, total 72h
   half-life: 4.5h (piru-curated)
 
 ## Bupropion (Antidepressant)
-  oral: threshold 37.5, light 75–150 mg, common 150–300 mg, strong 300–400 mg, heavy ≥450 (piru-curated) [also: tripsit: common 150–300 mg/day] | duration (piru-curated): onset 240h–480h, peak 480h–960h, offset 240h–480h, total 240h–960h
+  oral: threshold 37.5 mg, light 75–150 mg, common 150–300 mg, strong 300–400 mg, heavy ≥450 mg (piru-curated) [also: tripsit: common 150–300 mg/day] | duration (piru-curated): onset 240h–480h, peak 480h–960h, offset 240h–480h, total 240h–960h
   half-life: 21h (piru-curated)
 
 ## Citalopram (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 36h (piru-curated)
 
 ## Clomipramine (Antidepressant)
-  oral: threshold 10, light 25–50 mg, common 75–200 mg, strong 200–225 mg, heavy ≥250 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 10 mg, light 25–50 mg, common 75–200 mg, strong 200–225 mg, heavy ≥250 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 33h (piru-curated)
 
 ## Desipramine (Antidepressant)
-  oral: threshold 10, light 25–50 mg, common 100–200 mg, strong 200–250 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 10 mg, light 25–50 mg, common 100–200 mg, strong 200–250 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 27h (piru-curated)
 
 ## Desvenlafaxine (Antidepressant)
-  oral: threshold 25, light 25–50 mg, common 50 mg, strong 50–100 mg, heavy ≥400 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 25 mg, light 25–50 mg, common 50 mg, strong 50–100 mg, heavy ≥400 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 11h (piru-curated)
 
 ## Doxepin (Antidepressant)
-  oral: threshold 3, light 3–10 mg, common 75–150 mg, strong 150–200 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 3 mg, light 3–10 mg, common 75–150 mg, strong 150–200 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 17h (piru-curated)
 
 ## Duloxetine (Antidepressant)
-  oral: threshold 20, light 30–60 mg, common 60–90 mg, strong 90–120 mg, heavy ≥120 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 20 mg, light 30–60 mg, common 60–90 mg, strong 90–120 mg, heavy ≥120 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 12h (piru-curated)
 
 ## Escitalopram (Antidepressant)
-  oral: threshold 2.5, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 2.5 mg, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 30h (piru-curated)
 
 ## Fluoxetine (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 20–60 mg, strong 60–80 mg, heavy ≥80 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 20–60 mg, strong 60–80 mg, heavy ≥80 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 384h (piru-curated)
 
 ## Fluvoxamine (Antidepressant)
-  oral: threshold 25, light 50–100 mg, common 100–200 mg, strong 200–250 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 25 mg, light 50–100 mg, common 100–200 mg, strong 200–250 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 15h (piru-curated)
 
 ## Imipramine (Antidepressant)
-  oral: threshold 10, light 25–50 mg, common 75–200 mg, strong 200–250 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 10 mg, light 25–50 mg, common 75–200 mg, strong 200–250 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 18h (piru-curated)
 
 ## Isocarboxazid (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–50 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–50 mg, heavy ≥60 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 2.5h (piru-curated)
 
 ## Levomilnacipran (Antidepressant)
-  oral: threshold 20, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 20 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 12.5h (piru-curated)
 
 ## MD-PiHP (Antidepressant)
-  inhalation: threshold 1, light 1–5 mg, common 5–20 mg, strong 20–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 1.5h–4h
-  insufflation: threshold 2, light 2–10 mg, common 10–30 mg, strong 30–45 mg, heavy ≥45 (drug.community) | duration (drug.community): total 2h–5h
-  intravenous: threshold 1, light 1–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community)
-  oral: threshold 5, light 5–20 mg, common 20–50 mg, strong 50–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 3h–8h
-  rectal: threshold 3, light 3–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 (drug.community)
-  sublingual: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–70 mg, heavy ≥70 (drug.community)
+  inhalation: threshold 1 mg, light 1–5 mg, common 5–20 mg, strong 20–40 mg, heavy ≥40 mg (drug.community) | duration (drug.community): total 1.5h–4h
+  insufflation: threshold 2 mg, light 2–10 mg, common 10–30 mg, strong 30–45 mg, heavy ≥45 mg (drug.community) | duration (drug.community): total 2h–5h
+  intravenous: threshold 1 mg, light 1–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 mg (drug.community)
+  oral: threshold 5 mg, light 5–20 mg, common 20–50 mg, strong 50–80 mg, heavy ≥80 mg (drug.community) | duration (drug.community): total 3h–8h
+  rectal: threshold 3 mg, light 3–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 mg (drug.community)
+  sublingual: threshold 5 mg, light 5–15 mg, common 15–40 mg, strong 40–70 mg, heavy ≥70 mg (drug.community)
 
 ## Milnacipran (Antidepressant)
-  oral: threshold 12.5, light 25–50 mg, common 100–200 mg, strong 200 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 12.5 mg, light 25–50 mg, common 100–200 mg, strong 200 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 8h (piru-curated)
 
 ## Mirtazapine (Antidepressant)
-  oral: threshold 3.75, light 7.5–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 (piru-curated) [also: psychonautwiki: common 130–190 mg] | duration (piru-curated): onset 240h–480h, peak 480h–960h, offset 240h–480h, total 240h–960h
+  oral: threshold 3.75 mg, light 7.5–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 mg (piru-curated) [also: psychonautwiki: common 130–190 mg] | duration (piru-curated): onset 240h–480h, peak 480h–960h, offset 240h–480h, total 240h–960h
   half-life: 25h (piru-curated)
 
 ## Nefazodone (Antidepressant)
-  oral: threshold 50, light 100–200 mg, common 300–500 mg, strong 500–550 mg, heavy ≥600 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 50 mg, light 100–200 mg, common 300–500 mg, strong 500–550 mg, heavy ≥600 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 3h (piru-curated)
 
 ## Nortriptyline (Antidepressant)
-  oral: threshold 10, light 10–25 mg, common 50–100 mg, strong 100–125 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 10 mg, light 10–25 mg, common 50–100 mg, strong 100–125 mg, heavy ≥150 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 36h (piru-curated)
 
 ## Paroxetine (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–60 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 20–50 mg, strong 50–60 mg, heavy ≥60 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 21h (piru-curated)
 
 ## Phenelzine (Antidepressant)
-  oral: threshold 7.5, light 15–30 mg, common 45–60 mg, strong 60–75 mg, heavy ≥90 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 7.5 mg, light 15–30 mg, common 45–60 mg, strong 60–75 mg, heavy ≥90 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 1.5h (piru-curated)
 
 ## Pipradrol (Antidepressant)
   insufflation: (empty) (drug.community)
-  oral: threshold 0.5, common 2–4 mg, strong 5–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 6h–12h
+  oral: threshold 0.5 mg, common 2–4 mg, strong 5–10 mg, heavy ≥10 mg (drug.community) | duration (drug.community): total 6h–12h
 
 ## Selegiline (Antidepressant)
-  oral: threshold 2.5, light 5 mg, common 5–10 mg, strong 10 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
-  transdermal: threshold 6, light 6 mg/24h, common 6–9 mg/24h, strong 9–12 mg/24h, heavy ≥12 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 2.5 mg, light 5 mg, common 5–10 mg, strong 10 mg, heavy ≥10 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  transdermal: threshold 6 mg/24h, light 6 mg/24h, common 6–9 mg/24h, strong 9–12 mg/24h, heavy ≥12 mg/24h (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 2h (piru-curated)
 
 ## Serdexmethylphenidate (Antidepressant)
   oral: (empty) (drug.community) | duration (drug.community): total 10h–14h
 
 ## Sertraline (Antidepressant)
-  oral: threshold 12.5, light 25–50 mg, common 50–150 mg, strong 150–200 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 12.5 mg, light 25–50 mg, common 50–150 mg, strong 150–200 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 26h (piru-curated)
 
 ## Tianeptine (Antidepressant)
-  oral: threshold 6, light 12–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 (piru-curated) [also: psychonautwiki: common 12–35 mg; tripsit: common 12.5 mg] | duration (piru-curated): onset 15m–30m, peak 30m–1.5h, offset 1h–3h, total 2h–4h
+  oral: threshold 6 mg, light 12–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 mg (piru-curated) [also: psychonautwiki: common 12–35 mg; tripsit: common 12.5 mg] | duration (piru-curated): onset 15m–30m, peak 30m–1.5h, offset 1h–3h, total 2h–4h
   half-life: 2.5h (piru-curated)
 
 ## Tianeptine sodium (Antidepressant)
-  oral: threshold 6, light 12–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 (piru-curated)
+  oral: threshold 6 mg, light 12–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 mg (piru-curated)
 
 ## Tranylcypromine (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 30–60 mg, strong 60 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 30–60 mg, strong 60 mg, heavy ≥60 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 2.16667h (piru-curated)
 
 ## Trazodone (Antidepressant)
-  oral: threshold 25, light 25–50 mg, common 150–400 mg, strong 400–500 mg, heavy ≥600 (piru-curated) [also: tripsit: common 50–100 mg; drug.community: common 50–150 mg] | duration (piru-curated): onset 1h–2h, peak 1h–2h, offset 6h–12h, total 6h–12h
+  oral: threshold 25 mg, light 25–50 mg, common 150–400 mg, strong 400–500 mg, heavy ≥600 mg (piru-curated) [also: tripsit: common 50–100 mg; drug.community: common 50–150 mg] | duration (piru-curated): onset 1h–2h, peak 1h–2h, offset 6h–12h, total 6h–12h
   half-life: 7h (piru-curated)
 
 ## Venlafaxine (Antidepressant)
-  oral: threshold 18.75, light 37.5–75 mg, common 75–225 mg, strong 225–300 mg, heavy ≥375 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 18.75 mg, light 37.5–75 mg, common 75–225 mg, strong 225–300 mg, heavy ≥375 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 5h (piru-curated)
 
 ## Vilazodone (Antidepressant)
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40 mg, heavy ≥40 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 25h (piru-curated)
 
 ## Vortioxetine (Antidepressant)
-  oral: threshold 2.5, light 5–10 mg, common 10–20 mg, strong 20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
+  oral: threshold 2.5 mg, light 5–10 mg, common 10–20 mg, strong 20 mg, heavy ≥20 mg (piru-curated) | duration (piru-curated): onset 336h–672h, peak 480h–960h, offset 240h–480h, total 336h–960h
   half-life: 72h (piru-curated)
 

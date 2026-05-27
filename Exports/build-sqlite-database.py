@@ -877,11 +877,31 @@ class Build:
         ll, lu = (None, None) if not light else (to_float(light.get("lower")), to_float(light.get("upper")))
         cl, cu = (None, None) if not common else (to_float(common.get("lower")), to_float(common.get("upper")))
         sl, su = (None, None) if not strong else (to_float(strong.get("lower")), to_float(strong.get("upper")))
+        t = to_float(threshold)
+        h = to_float(heavy)
+
+        # Monotonicity sanity check. Source data occasionally mixes units
+        # within a row without any inline marker (e.g. Butyrfentanyl oral in
+        # sourced-substances.json: light 400–800, common 800–1500, strong
+        # 1.5–3 — the first two are in µg but the row's unit is "mg", so the
+        # app would show 800 mg as a "common" dose of a fentanyl analogue,
+        # an instantly lethal value). When the tiers are inverted by ≥10×
+        # (way beyond any legitimate overlap between adjacent tiers), the
+        # row is structurally untrustworthy; drop it rather than display
+        # potentially fatal values. Logged for follow-up.
+        tiers = [v for v in (t, ll, lu, cl, cu, sl, su, h) if v is not None and v > 0]
+        if len(tiers) >= 2:
+            for prev, nxt in zip(tiers, tiers[1:]):
+                if prev > nxt * 10:
+                    self.stats.setdefault("dropped_inverted_tiers", 0)
+                    self.stats["dropped_inverted_tiers"] += 1
+                    return
+
         try:
             self.cur.execute(
                 "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (sid, route, src, unit or "mg",
-                 to_float(threshold), ll, lu, cl, cu, sl, su, to_float(heavy),
+                 t, ll, lu, cl, cu, sl, su, h,
                  notes, self.cite(citation)),
             )
             self.stats["dose_ranges"] += 1
@@ -1427,17 +1447,32 @@ class Build:
         cleaned = re.sub(r"(?<=\d)\s+(?=\d)", "", cleaned)
         return cls._DC_INLINE_UNIT_RE.sub(r"\1", cleaned)
 
+    # Match the FIRST unit token following a digit, tolerating operators
+    # (+, >, <, ≥, ≤, ~, =, -) and whitespace between the number and unit.
+    # The original `\d\s*unit` pattern silently failed on "200+ µg",
+    # ">800 µg" etc. — those rows then inherited the row-level unit ("mg")
+    # and stored e.g. Fentanyl oral heavy as 200 mg (lethal) instead of
+    # 200 µg (= 0.2 mg). Using the first match (not last) is important
+    # because drug.community frequently annotates the primary value with a
+    # parenthetical equivalent — "0.01 mg (10 µg)" — and the primary unit
+    # is always the first one.
+    _DC_UNIT_TOKEN_RE = re.compile(
+        r"\d[+\->≥<≤~=\s]*(g|mg|µg|ug|mcg|ng|ml|l)(?![a-z])",
+        re.IGNORECASE,
+    )
+
     @classmethod
     def _dc_unit_factor(cls, cleaned: str, row_unit: str) -> float:
         """If the value string contains an explicit unit that differs from the
         row's declared unit, return the conversion factor so the value can be
         rescaled into `row_unit`. Otherwise 1.0.
 
-        drug.community occasionally switches units inside a single dose row
-        (e.g. row unit "µg" but strong="1.0–1.5 mg"). Without this, the parser
-        would record 1.0 µg where the source meant 1000 µg.
+        drug.community frequently switches units inside a single dose row
+        (e.g. row unit "mg" but heavy="200+ µg"). Without this conversion,
+        Fentanyl oral heavy would store as 200 mg — a lethal value hundreds
+        of times the actual 200 µg threshold.
         """
-        m = re.search(r"\d\s*(g|mg|µg|ug|mcg|ng|ml|l)\b", cleaned, re.IGNORECASE)
+        m = cls._DC_UNIT_TOKEN_RE.search(cleaned)
         if not m:
             return 1.0
         inline = m.group(1).lower()
