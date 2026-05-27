@@ -679,14 +679,37 @@ def split_compound_name(name: str) -> tuple[str, list[str]]:
 # Map source-specific route name spellings onto the canonical
 # RouteOfAdministration raw values used by the iOS app's enum. The query
 # layer relies on these strings matching across rows, so normalise here.
+#
+# Inhalation collapse: smoking, vaping, and vaporising are physiologically
+# the same route — the substance enters via the lungs. Sources disagree on
+# the label (PsychonautWiki "smoked", TripSit "inhalation", others "vaped"),
+# which split the resolver and caused Cannabis to lose its 2–4 mg common
+# dose data under "smoked" in favour of TripSit's 20–60 mg under "inhalation".
+# Map everything in this family to `inhalation`.
 _ROUTE_ALIASES = {
     "insufflated":     "insufflation",
+    "insufflated*":    "insufflation",
     "snorted":         "insufflation",
     "snorting":        "insufflation",
+    "nasal":           "insufflation",
+    "intranasal":      "insufflation",
+    "intra-nasal":     "insufflation",
     "inhaled":         "inhalation",
+    "smoked":          "inhalation",
+    "smoke":           "inhalation",
+    "smoking":         "inhalation",
+    "vaped":           "inhalation",
+    "vaping":          "inhalation",
+    "vape":            "inhalation",
+    "vaped / smoked":  "inhalation",
     "vaporized":       "inhalation",
     "vaporised":       "inhalation",
-    "smoke":           "smoked",
+    "vapourized":      "inhalation",
+    "vapourised":      "inhalation",
+    "vaporization":    "inhalation",
+    "nebulised":       "inhalation",
+    "nebulized":       "inhalation",
+    "plugged":         "rectal",
     "iv":              "intravenous",
     "im":              "intramuscular",
     "sc":              "subcutaneous",
@@ -696,6 +719,7 @@ _ROUTE_ALIASES = {
     "rectally":        "rectal",
     "po":              "oral",
     "by mouth":        "oral",
+    "in":              "",
 }
 
 
@@ -846,6 +870,7 @@ class Build:
     def add_dose(self, sid: int, source_slug: str, route: str, unit: str,
                  *, threshold=None, light=None, common=None, strong=None, heavy=None,
                  notes: str | None = None, citation: str | None = None) -> None:
+        route = normalise_route(route)
         if not route:
             return
         src = self.source_ids[source_slug]
@@ -855,7 +880,7 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, normalise_route(route), src, unit or "mg",
+                (sid, route, src, unit or "mg",
                  to_float(threshold), ll, lu, cl, cu, sl, su, to_float(heavy),
                  notes, self.cite(citation)),
             )
@@ -865,6 +890,7 @@ class Build:
 
     def add_duration_profile(self, sid: int, source_slug: str, route: str,
                              profile: dict, citation: str | None = None) -> None:
+        route = normalise_route(route)
         if not route or not profile:
             return
         src = self.source_ids[source_slug]
@@ -879,7 +905,7 @@ class Build:
             try:
                 self.cur.execute(
                     "INSERT INTO durations(substance_id, route, source_id, phase, min_minutes, max_minutes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (sid, normalise_route(route), src, phase, mn, mx, self.cite(citation)),
+                    (sid, route, src, phase, mn, mx, self.cite(citation)),
                 )
                 self.stats["durations"] += 1
             except sqlite3.IntegrityError:
@@ -1036,10 +1062,13 @@ class Build:
     def add_pk_route(self, sid: int, source_slug: str, r: dict) -> None:
         if not isinstance(r, dict) or not r.get("route"):
             return
+        route = normalise_route(r.get("route", ""))
+        if not route:
+            return
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, normalise_route(r.get("route", "")), src,
+            (sid, route, src,
              to_float(r.get("bioavailability_pct")), to_float(r.get("cmax_ng_per_ml")),
              to_float(r.get("tmax_min")), to_float(r.get("auc_0_inf_ng_h_per_ml")),
              to_float(r.get("half_life_min")), to_float(r.get("vd_l_per_kg")),
@@ -1340,12 +1369,29 @@ class Build:
                 if not isinstance(curve, dict):
                     continue
                 route = (dc.get("method") or "oral").lower()
+                # drug.community labels each curve with its own unit. Earlier
+                # versions assumed hours unconditionally, which inflated minute-
+                # denominated entries (e.g. 6-MAM IV 90 min → 5400 min = 90 h)
+                # by 60×. Always check the unit before converting.
+                unit = (curve.get("units") or "hours").lower()
+                if unit in ("h", "hour", "hours"):
+                    to_minutes = 60.0
+                elif unit in ("m", "min", "mins", "minute", "minutes"):
+                    to_minutes = 1.0
+                elif unit in ("s", "sec", "secs", "second", "seconds"):
+                    to_minutes = 1.0 / 60.0
+                elif unit in ("d", "day", "days"):
+                    to_minutes = 60.0 * 24.0
+                else:
+                    to_minutes = 60.0
                 profile = {}
                 for k in ("onset", "peak", "offset", "after_effects", "total_duration"):
                     phase = curve.get(k)
                     if isinstance(phase, dict) and phase.get("min") is not None and phase.get("max") is not None:
-                        # drug.community emits durations in hours; convert to minutes
-                        profile[self._DC_PHASE_KEY.get(k, k)] = {"min": float(phase["min"]) * 60, "max": float(phase["max"]) * 60}
+                        profile[self._DC_PHASE_KEY.get(k, k)] = {
+                            "min": float(phase["min"]) * to_minutes,
+                            "max": float(phase["max"]) * to_minutes,
+                        }
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
             for se in (s.get("subjective_effects") or []):

@@ -1,6 +1,6 @@
 {
-  "content_version": "2026-05-26.0",
-  "generated_at": "2026-05-26T23:59:50.162897+00:00",
+  "content_version": "2026-05-27.0",
+  "generated_at": "2026-05-27T07:54:01.302141+00:00",
   "generator_version": "build-sqlite-database.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
   "schema_version": 1,
@@ -18,7 +18,7 @@
     "drug.community": {
       "bindings": 0,
       "categories": 420,
-      "dose_ranges": 893
+      "dose_ranges": 888
     },
     "erowid-pihkal": {
       "bindings": 0,
@@ -67,7 +67,7 @@
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "891d5ed89a9f7d7867458ae2b45f6499ca5a07dddbaffec802d3ee443270b6b0",
-  "sqlite_size_bytes": 4808704,
+  "sqlite_sha256": "40ea9c9f29a2729c3cb19ca7b3052b589569daf1bc51dea8a0a3fe887b2e2313",
+  "sqlite_size_bytes": 4804608,
   "substance_count": 1826
 }
