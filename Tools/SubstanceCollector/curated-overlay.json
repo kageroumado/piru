@@ -3539,19 +3539,95 @@
     ],
     "category": "Stimulant",
     "defaultRoute": "insufflation",
-    "routes": [],
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mg",
+        "doses": {
+          "threshold": 30,
+          "light": {
+            "lower": 30,
+            "upper": 60
+          },
+          "common": {
+            "lower": 60,
+            "upper": 120
+          },
+          "strong": {
+            "lower": 120,
+            "upper": 200
+          },
+          "heavy": 250
+        },
+        "duration": {
+          "onset": {
+            "min": 5,
+            "max": 15
+          },
+          "peak": {
+            "min": 30,
+            "max": 90
+          },
+          "offset": {
+            "min": 60,
+            "max": 120
+          },
+          "total": {
+            "min": 120,
+            "max": 240
+          }
+        }
+      },
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {
+          "threshold": 75,
+          "light": {
+            "lower": 75,
+            "upper": 150
+          },
+          "common": {
+            "lower": 150,
+            "upper": 250
+          },
+          "strong": {
+            "lower": 250,
+            "upper": 400
+          },
+          "heavy": 500
+        },
+        "duration": {
+          "onset": {
+            "min": 20,
+            "max": 45
+          },
+          "peak": {
+            "min": 60,
+            "max": 180
+          },
+          "offset": {
+            "min": 90,
+            "max": 180
+          },
+          "total": {
+            "min": 180,
+            "max": 360
+          }
+        }
+      }
+    ],
     "effects": [
-      "2-methyl positional isomer of mephedrone",
-      "Reportedly less stimulating than 3-MMC/4-MMC",
-      "Limited human pharmacology data"
+      "Positional isomer of mephedrone",
+      "Anecdotally less stimulating than 3-MMC/4-MMC",
+      "Limited published pharmacology — values are community-derived"
     ],
     "sources": [
       "https://en.wikipedia.org/wiki/2-Methylmethcathinone"
     ],
     "tags": [
       "cathinone",
-      "research-chemical",
-      "no-human-data"
+      "research-chemical"
     ]
   },
   {
