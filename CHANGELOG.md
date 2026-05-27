@@ -139,6 +139,16 @@ gabapentinoids.
   fixes above as unit tests + end-to-end SQLite invariants.
 - `Exports/dump-substance-library.py` emits one `.txt` per resolved
   category for visual review.
+- `Exports/build-sqlite-database.py` ingest gate now drops dose rows that
+  violate per-class magnitude ceilings (fentanyl-class & nitazene ≤2 mg,
+  benzodiazepine ≤300 mg, lysergamide ≤5 mg) — catches single-tier rows
+  that pass structural checks but are physically inconsistent with the
+  substance class (e.g. TripSit's bare "Valerylfentanyl 50 mg oral").
+- `Exports/compare_to_pw.py` audits the resolved DB against
+  PsychonautWiki on dose, duration, and half-life. Used this build to
+  align piru-curated entries with PW for popular substances, leaving
+  only a handful of deliberate overrides (Gaboxadol, Pentedrone,
+  Mirtazapine, Adrafinil — each with a documented reason).
 - Test suite grew from ~470 to 499 tests across 47 suites.
 
 ---
