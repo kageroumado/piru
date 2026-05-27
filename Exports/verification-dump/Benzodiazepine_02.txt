@@ -18,7 +18,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: light 7.5–10 mg, common 10–15 mg, strong 15–30 mg (tripsit) | duration (tripsit): onset 10m–30m, total 6h–12h, afterglow 1h–24h
 
 ## Rilmazafone (Benzodiazepine)
-  oral: light 1–5 mg, common 1–2 mg, strong 2–4 mg (tripsit) | duration (tripsit): onset 30m–1h, total 6h–8h, afterglow 6h–12h
+  oral: (no dose data) | duration (tripsit): onset 30m–1h, total 6h–8h, afterglow 6h–12h
 
 ## Temazepam (Benzodiazepine)
   oral: threshold 2 mg, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, total 7h–8h, afterglow 3.5h–18.4h

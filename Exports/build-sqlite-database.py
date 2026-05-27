@@ -873,6 +873,18 @@ class Build:
         route = normalise_route(route)
         if not route:
             return
+
+        # Reject ambiguous unit strings. Sources occasionally store dose-row
+        # units as "mg (weighed) or µg (weighed)" or "mg (or mcg)" — the
+        # numeric tier values then become unintelligible since they could be
+        # in either unit (and the two differ by 1000×). The display has no
+        # way to reconcile this; safer to drop than to render ambiguous
+        # values for a harm-reduction app.
+        if unit and (" or " in unit.lower() or "(or " in unit.lower()):
+            self.stats.setdefault("dropped_ambiguous_unit", 0)
+            self.stats["dropped_ambiguous_unit"] += 1
+            return
+
         src = self.source_ids[source_slug]
         ll, lu = (None, None) if not light else (to_float(light.get("lower")), to_float(light.get("upper")))
         cl, cu = (None, None) if not common else (to_float(common.get("lower")), to_float(common.get("upper")))
@@ -880,21 +892,32 @@ class Build:
         t = to_float(threshold)
         h = to_float(heavy)
 
-        # Monotonicity sanity check. Source data occasionally mixes units
-        # within a row without any inline marker (e.g. Butyrfentanyl oral in
-        # sourced-substances.json: light 400–800, common 800–1500, strong
-        # 1.5–3 — the first two are in µg but the row's unit is "mg", so the
-        # app would show 800 mg as a "common" dose of a fentanyl analogue,
-        # an instantly lethal value). When the tiers are inverted by ≥10×
-        # (way beyond any legitimate overlap between adjacent tiers), the
-        # row is structurally untrustworthy; drop it rather than display
-        # potentially fatal values. Logged for follow-up.
-        tiers = [v for v in (t, ll, lu, cl, cu, sl, su, h) if v is not None and v > 0]
-        if len(tiers) >= 2:
-            for prev, nxt in zip(tiers, tiers[1:]):
+        # Monotonicity sanity check #1: gross inversion (≥10×). Catches
+        # unit-mixing within a row (e.g. Butyrfentanyl oral light 400–800,
+        # common 800–1500, strong 1.5–3 — first two are µg miscoded as mg).
+        # Source data is structurally untrustworthy; show nothing rather
+        # than a "common 800 mg" tier of a fentanyl analogue.
+        tiers_flat = [v for v in (t, ll, lu, cl, cu, sl, su, h) if v is not None and v > 0]
+        if len(tiers_flat) >= 2:
+            for prev, nxt in zip(tiers_flat, tiers_flat[1:]):
                 if prev > nxt * 10:
                     self.stats.setdefault("dropped_inverted_tiers", 0)
                     self.stats["dropped_inverted_tiers"] += 1
+                    return
+
+        # Monotonicity sanity check #2: tier-upper regression. Each tier's
+        # upper bound must be ≥ the previous tier's upper bound. Catches
+        # cases like Cloniprazepam oral light 1–5 mg, common 1–2 mg —
+        # `level(dose)` would classify a 3 mg dose as "light" even though
+        # it's above the common upper bound, which is misleading.
+        tier_uppers = [(name, val) for name, val in
+                       (("light", lu), ("common", cu), ("strong", su), ("heavy", h))
+                       if val is not None and val > 0]
+        if len(tier_uppers) >= 2:
+            for (_, prev), (_, nxt) in zip(tier_uppers, tier_uppers[1:]):
+                if prev > nxt:
+                    self.stats.setdefault("dropped_regressed_tiers", 0)
+                    self.stats["dropped_regressed_tiers"] += 1
                     return
 
         try:

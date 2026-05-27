@@ -25,7 +25,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: common 333–500 mg (tripsit) | duration (tripsit): afterglow 1h–12h
 
 ## Oxycodone (Opioid)
-  inhalation: threshold 1 mg, light 1.5–8 mg, common 8–20 mg, strong 20–35 mg, heavy ≥30 mg (psychonautwiki) | duration (psychonautwiki): total 1h–3h
+  inhalation: (no dose data) | duration (psychonautwiki): total 1h–3h
   insufflation: threshold 1 mg, light 2.5–7.5 mg, common 7.5–15 mg, strong 15–25 mg, heavy ≥25 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–7m, comeup 20m–40m, peak 1.5h–4h, offset 45m–2h, total 3h–5h
   intravenous: threshold 1 mg, light 2.5–5 mg, common 7.5–10 mg, strong 12.5–15 mg, heavy ≥15 mg (psychonautwiki) | duration (psychonautwiki): onset 0s–1m, peak 3h–5h, total 3h–5h
   oral: threshold 1 mg, light 2.5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 1h–2h, peak 1h–2h, offset 0s–2h, total 4h–8h
