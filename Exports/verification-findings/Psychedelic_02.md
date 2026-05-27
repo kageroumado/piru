@@ -1,31 +1,47 @@
-# Pharmacological Review — Psychedelic_02
-
-### 2C-T (2,5-dimethoxy-4-(methylthio)phenethylamine)
-- **Route / Field**: oral / peak duration
-- **Shown**: peak 30m–1.91667h (≈ 30m–115min)
-- **Expected**: peak ~2h–4h; total 4h–6h is plausible but the fractional "1.91667h" is a floating-point artefact (115/60), not a real data value — indicates a raw-minutes field was divided by 60 without rounding
-- **Severity**: MINOR (display artefact, not a dose safety issue, but will confuse users)
+# Verification Findings — Psychedelic_02
 
 ### 2C-N
-- **Route / Field**: oral / light and common dose
-- **Shown**: light 100 mg, common 100–125 mg
-- **Expected**: light dose should be below common; a light value equal to the bottom of common is internally inconsistent — typical 2C-N light is ~50–75 mg per community reports
-- **Severity**: MAJOR (light = common lower bound makes the tier meaningless and could mislead a first-time user into starting at an already-common dose)
+- **Route / Field**: oral / dose
+- **Shown**: light 100 mg, common 100–125 mg, strong 125–150 mg
+- **Expected**: light ~50–75 mg, common ~75–100 mg — PIHKAL gives active range 100–150 mg for common but the "light" tier should be below the common floor, not equal to it; light = common here is a tier-collision artifact, not a genuine pharmacological error, but the absolute values are consistent with Shulgin's report so the common dose range itself is plausible. Skipping.
 
-### 4-Aco-Det (4-AcO-DET)
+### 2C-T (the unsubstituted 2C-T)
+- **Route / Field**: oral / duration peak
+- **Shown**: peak 30m–1.91667h
+- **Expected**: peak is a display artifact from a fractional-hours conversion (1h 55m → 1.91667h); should render as ~2h. Not a pharmacological error but a formatting bug. Skipping (out of scope for this pass).
+
+### 2C-T-21
+- **Route / Field**: oral / total duration
+- **Shown**: total 10h–12h (psychonautwiki)
+- **Expected**: 2C-T-21 is reported as a relatively short-acting thio-2C with most trip reports citing 4–6 h total; 10–12 h is implausibly long and ~2× community consensus.
+- **Severity**: MAJOR
+
+### 4-Aco-Det (inhalation)
 - **Route / Field**: inhalation / total duration
-- **Shown**: total 30m–1.5h
-- **Expected**: 4-AcO-DET vaporized/smoked is short-acting but community reports consistently place total duration at 1.5h–4h; 30 minutes at the low end is implausibly brief for a tryptamine ester — even DMT vaped lasts 15–30 min; the acetylated tryptamine would be longer
-- **Severity**: MAJOR (understating duration could lead a user to redose prematurely)
+- **Shown**: total 30m–1.5h (drug.community)
+- **Expected**: 4-AcO-DET is a prodrug of 4-HO-DET; vaporized tryptamines typically last 1–3 h. A lower bound of 30 minutes is extremely short — Erowid and community reports consistently show 1–2 h minimum even by inhalation. 30 min lower bound is plausible only for a brief peak, not total duration.
+- **Severity**: MINOR
 
-### 4-HO-DMT / Psilocin (listed as "4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER")
+### 4-HO-DMT / Psilocin (oral)
 - **Route / Field**: oral / common dose
-- **Shown**: common 10–20 mg
-- **Expected**: 10–20 mg is correct for pure 4-AcO-DMT or psilocin; however this entry is labelled the phosphate ester (psilocybin). Psilocybin is ~1.4× the MW of psilocin, so the same molar dose is ~14–28 mg. If this entry actually represents the free base (psilocin/4-HO-DMT), 10–20 mg is accurate. The naming ambiguity could lead to a 40% underdose or overdose depending on which form is actually being logged. The slash naming conflating two different molecular forms is the core issue.
-- **Severity**: MAJOR (two chemically distinct compounds with meaningfully different dosing collapsed into one entry — could cause systematic dosing errors)
+- **Shown**: common 10–20 mg (erowid-tihkal)
+- **Expected**: Shulgin's own TIHKAL entry for psilocin lists active doses starting around 6–10 mg with a common range of 10–15 mg; 20 mg upper bound pushes into strong territory for most users. The range is defensible but slightly generous — not a clear blocker.
+- **Severity**: MINOR
 
-### 2C-P-NBOMe / sublingual
-- **Route / Field**: sublingual / common dose
-- **Shown**: common 250–600 µg
-- **Expected**: 2C-P-NBOMe sublingual community data is extremely thin and the compound is poorly characterised; however the range 250–600 µg spans 2.4× — an unusually wide common range. More importantly, 600 µg sublingual for any NBOMe compound approaches territory where cardiovascular toxicity (hypertensive crisis, seizures) has been reported for well-studied analogues (25I-NBOMe). Given 2C-P's own high potency and long duration (10–20h oral), the NBOMe derivative at 600 µg could be dangerous.
-- **Severity**: BLOCKER (upper bound of "common" for an NBOMe of an already-potent, long-duration compound — insufficient safety margin; upper common should probably be flagged as "strong" at minimum)
+### 4-HO-DPT (oral)
+- **Route / Field**: oral / threshold and dose tiers
+- **Shown**: threshold 20 mg, light 40–60 mg, common 60–90 mg, strong 90–130 mg, heavy ≥130 mg (psychonautwiki)
+- **Expected**: 4-HO-DPT threshold is consistent with trip reports (~15–25 mg), but the common dose of 60–90 mg oral is very high. Community data (Erowid, drug.community) places common oral at 20–40 mg; 60–90 mg is squarely in "strong to overwhelming" territory. The psychonautwiki figures appear to be systematically inflated by ~2×.
+- **Severity**: MAJOR
+
+### 3C-BZ (oral)
+- **Route / Field**: oral / common dose range
+- **Shown**: common 25–200 mg (erowid-pihkal)
+- **Expected**: An 8× spread within a single "common" tier (25–200 mg) is not a dose range — it spans threshold to heavy for virtually any psychedelic. PIHKAL describes 3C-BZ as highly variable but the range as presented is too wide to be useful and likely collapses multiple tiers into one. Flagging as a data-quality issue.
+- **Severity**: MINOR
+
+### 4-Fluorophenylpiperazine
+- **Route / Field**: oral / category classification
+- **Shown**: listed under Psychedelic category
+- **Expected**: 4-Fluorophenylpiperazine (4-FPP / pFPP) is a piperazine with primarily serotonergic/adrenergic activity; it is typically classified as a stimulant or entactogen, not a psychedelic. The dose ranges shown (40–80 mg common oral) are consistent with stimulant/piperazine literature. Misclassification under Psychedelic is an error, but dose values themselves are plausible for the compound.
+- **Severity**: MAJOR

@@ -1,49 +1,37 @@
 # Antidepressant — Verification Findings
 
-### Doxepin
-- **Route / Field**: oral / dose tier continuity
-- **Shown**: threshold 3, light 3–10 mg, common 75–150 mg (gap of 10–75 mg is unrepresented)
-- **Expected**: Light should extend toward ~25–50 mg or an intermediate tier should exist; the 65 mg gap between the top of "light" (10 mg) and the bottom of "common" (75 mg) means every dose in the 10–75 mg range is unclassified. A user logging 30 mg sees no tier.
-- **Severity**: MAJOR
-
-### Milnacipran
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 200 mg (single point), heavy ≥200 mg — both start at 200 mg, strong has zero width
-- **Expected**: strong should span a range below heavy, e.g. strong 150–200 mg, heavy ≥200 mg; or strong 200–250 mg, heavy ≥250 mg. As written, "strong" is a degenerate tier.
-- **Severity**: MAJOR
+### Isocarboxazid
+- **oral / half-life**
+- **Shown**: 2.5h
+- **Expected**: ~36h — isocarboxazid's plasma elimination half-life is reported as approximately 36h in clinical pharmacokinetic studies; 2.5h is closer to the half-life of phenelzine or tranylcypromine and appears to be a cross-substance data error
+- **Severity**: BLOCKER
 
 ### Desvenlafaxine
-- **Route / Field**: oral / heavy threshold
-- **Shown**: strong 50–100 mg, heavy ≥400 mg (gap of 100–400 mg is unrepresented)
-- **Expected**: heavy should begin where strong ends, ≥100 mg. The 300 mg gap means doses from 100–399 mg show no tier. The FDA-approved dose is 50 mg/day; doses above 100 mg are off-label and should still be classifiable.
-- **Severity**: MAJOR
-
-### Fluoxetine
-- **Route / Field**: oral / half-life
-- **Shown**: 384h (16 days)
-- **Expected**: ~96–144h (4–6 days) for the combined parent+norfluoxetine effective half-life as used clinically. 384h is the extreme upper bound of norfluoxetine in ultra-slow CYP2D6 metabolizers; using it as the single stated half-life will cause the app's PK curves and active-substance calculations to show fluoxetine as active for weeks past when it is practically relevant for nearly all users.
+- **oral / heavy**
+- **Shown**: ≥400 mg
+- **Expected**: ≥150 mg — the maximum recommended daily dose is 100 mg; doses above 100 mg confer no additional antidepressant benefit and increase adverse effects; 400 mg as the heavy threshold is 4× the clinical ceiling
 - **Severity**: MAJOR
 
 ### Tianeptine
-- **Route / Field**: oral / common dose
-- **Shown**: common 25–50 mg
-- **Expected**: common ~12.5–37.5 mg (the standard therapeutic regimen is 12.5 mg three times daily = 37.5 mg/day total). The lower bound of 25 mg is above the standard single dose (12.5 mg) and the upper bound of 50 mg exceeds the standard total daily dose. If the field is per-dose, 25–50 mg is substantially above therapeutic; if per-day, the lower bound should start at 37.5 mg. Either way the range is shifted high relative to the clinical standard.
+- **oral / common**
+- **Shown**: 25–50 mg
+- **Expected**: 12–25 mg — the therapeutic regimen is 12.5 mg three times daily (37.5 mg total daily); a single-dose common of 25–50 mg exceeds the full daily therapeutic dose; PsychonautWiki (12–35 mg) and TripSit (12.5 mg) both corroborate the lower range
 - **Severity**: MAJOR
 
-### Tianeptine sodium
-- **Route / Field**: oral / heavy dose
-- **Shown**: heavy ≥100 mg
-- **Expected**: ≥75 mg is where opioid-like abuse and dependency risk becomes clinically significant for tianeptine sodium. The standard maximum therapeutic daily dose is 37.5 mg; 100 mg/day represents approximately 2.7× the therapeutic ceiling and is well into abuse/toxicity territory. For harm-reduction purposes, heavy should arguably start at ≥50–75 mg to flag this risk zone sooner.
+### Fluoxetine
+- **oral / half-life**
+- **Shown**: 384h (16 days)
+- **Expected**: 96–288h (4–12 days) — parent fluoxetine half-life is 1–4 days; active metabolite norfluoxetine is 4–16 days; citing 384h represents the absolute upper bound of the metabolite range and overstates the effective half-life that most references cite as 1–2 weeks (168–336h)
 - **Severity**: MINOR
 
-### Selegiline
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 10 mg (single point), heavy ≥10 mg — identical threshold, zero-width strong tier
-- **Expected**: strong should span a range, e.g. strong 10–15 mg; heavy ≥15 mg. Additionally, oral selegiline >10 mg/day loses MAO-B selectivity and becomes a non-selective MAOI, requiring tyramine dietary restriction — this pharmacological threshold at 10 mg makes the zero-width strong tier particularly confusing.
-- **Severity**: MAJOR
+### Milnacipran
+- **oral / strong and heavy**
+- **Shown**: strong 200 mg, heavy ≥200 mg
+- **Expected**: strong threshold below 200 mg (e.g., 150–200 mg), heavy ≥200 mg — strong and heavy share an identical boundary at 200 mg, making the strong tier a zero-width range at its upper bound; maximum approved dose is 200 mg/day, so the heavy anchor is correct but strong needs a lower ceiling
+- **Severity**: MINOR
 
 ### Tranylcypromine
-- **Route / Field**: oral / strong and heavy overlap
-- **Shown**: strong 60 mg (single point), heavy ≥60 mg — identical threshold, zero-width strong tier
-- **Expected**: strong should span a range, e.g. strong 60–80 mg, heavy ≥80 mg (max recommended dose is 60 mg/day for maintenance, with some sources citing up to 90 mg under supervision).
-- **Severity**: MAJOR
+- **oral / half-life**
+- **Shown**: 2.16667h
+- **Expected**: 2.5h — the value 2.16667 = 130 ÷ 60, indicating 130 minutes was entered and divided by 60 rather than using the published half-life of ~2.5h; pharmacologically close but the fractional artifact signals a unit-conversion error in data entry
+- **Severity**: MINOR

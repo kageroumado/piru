@@ -1,37 +1,41 @@
-# Stimulant_03 Verification Findings
+### Focalin (Dexmethylphenidate)
+- **Oral / Total Duration**
+- **Shown**: total 9h–12h
+- **Expected**: 4h–6h. Focalin IR (dexmethylphenidate) has a t½ ~2–3 h and clinical duration of 4–6 h. The 9–12 h figure belongs to Focalin XR, not the IR formulation that community dose sources describe.
+- **Severity**: MAJOR
 
-### Focalin (dexmethylphenidate)
-- **Route / Field**: oral / total duration
-- **Shown**: 9h–12h
-- **Expected**: 4h–6h for IR formulation. Focalin XR runs 8–10h, but the dose range (10–40 mg) matches IR tablets. IR dexmethylphenidate duration is comparable to IR methylphenidate (2.5–5h); 9–12h is the XR profile and will mislead users taking the immediate-release form.
+### Kratom
+- **Oral / Total Duration**
+- **Shown**: offset 3h–6h, total 2h–4h
+- **Expected**: total should be ≥4h–6h (offset cannot exceed total). The stated offset window (3–6 h) is longer than the stated total duration (2–4 h), which is internally incoherent and undersells actual duration; community and clinical reports consistently place kratom oral total at 4–6 h.
 - **Severity**: MAJOR
 
 ### Methcathinone
-- **Route / Field**: oral / common dose
-- **Shown**: 100–200 mg
-- **Expected**: 25–75 mg. The `[also: drug.community: common 25–50 mg]` alternative is more consistent with harm-reduction literature (Erowid, PsychonautWiki). 100–200 mg oral methcathinone is in the strong-to-heavy range for most users and carries meaningful cardiovascular risk at that scale.
-- **Severity**: BLOCKER
-
-### Pentedrone
-- **Route / Field**: insufflation / common dose
-- **Shown**: 75–125 mg (piru-curated), while both psychonautwiki and tripsit show common 5–10 mg
-- **Expected**: 5–15 mg. Both authoritative sources agree on 5–10 mg. The piru-curated value is 7–12× higher than consensus — a massive overdose if a user trusts the app's displayed "common" figure.
-- **Severity**: BLOCKER
-
-### Kratom
-- **Route / Field**: oral / total duration
-- **Shown**: total 2h–4h
-- **Expected**: 4h–6h (stimulant dose), up to 6h–8h at sedating doses. 2–4h is short even for the stimulant threshold dose range; most harm-reduction sources (Erowid, PsychonautWiki) report 4–6h total. Users may redose too early.
+- **Oral / Common Dose**
+- **Shown**: common 100–200 mg (psychonautwiki) [also: drug.community: common 25–50 mg]
+- **Expected**: common 25–75 mg. Methcathinone is a potent cathinone stimulant; 100–200 mg oral is a heavy/toxic range. The drug.community figure of 25–50 mg is more consistent with published harm-reduction literature and EMCDDA reports.
 - **Severity**: MAJOR
 
 ### Methylphenidate
-- **Route / Field**: oral / total duration
+- **Oral / Total Duration**
 - **Shown**: total 2.5h–4h
-- **Expected**: 3h–6h for IR methylphenidate. 2.5h lower bound is plausible at the short end but the upper bound of 4h is consistently underestimated in clinical data (FDA label: up to 5h). Minor but relevant for users timing their next dose.
+- **Expected**: total 3h–5h (IR). Standard-release methylphenidate clinical duration is 3–5 h; 2.5 h as a lower bound is slightly short but borderline. The peak window (1h–1.5h) combined with offset (45m–1h) arithmetically sums to well under the stated total, suggesting the total field is already compressed. Minor inconsistency only.
 - **Severity**: MINOR
 
-### Naphyrone
-- **Route / Field**: insufflation / total duration
-- **Shown**: total 6h–10h
-- **Expected**: 2h–4h. Naphyrone (naphthylpyrovalerone) is a cathinone derivative pharmacologically similar to pyrovalerone. Community reports (Erowid, Drugs-Forum, early PsychonautWiki entries) consistently document 2–4h duration by insufflation. 6–10h would be extraordinary for this compound class and could suppress redose caution.
+### Pentedrone
+- **Insufflation / Common Dose**
+- **Shown**: common 75–125 mg (piru-curated), overriding psychonautwiki/tripsit common 5–10 mg
+- **Expected**: common 10–40 mg insufflated. Pentedrone is a potent nor-cathinone; the two independent sources (PsychonautWiki and TripSit) both cite common insufflation at 5–10 mg. Piru-curated value of 75–125 mg is 7–12× higher and would place a common dose in territory associated with severe cardiovascular toxicity and psychosis in case reports.
+- **Severity**: BLOCKER
+
+### N-Methylbisfluoromodafinil
+- **Oral / Total Duration**
+- **Shown**: total 5h–8h
+- **Expected**: 10h–20h+. Bisfluoromodafinil (flmodafinil/CRL-40,940) has a substantially longer half-life than modafinil (~10–15 h); the N-methyl derivative is not shorter. Community reports consistently place total duration at 12–20 h. A 5–8 h total is implausible and would lead users to re-dose unsafely.
+- **Severity**: BLOCKER
+
+### Nm-2-ai
+- **Oral / Threshold vs Light Dose**
+- **Shown**: threshold 5 mg, light 50–100 mg
+- **Expected**: there is a ~10× gap between threshold (5 mg) and the bottom of the light range (50 mg) with no common range filling it. If threshold is correct at 5 mg, light should begin around 10–20 mg. Alternatively if light 50 mg is correct, threshold should be ~20–30 mg. The current gap is pharmacologically incoherent.
 - **Severity**: MAJOR
