@@ -1,13 +1,13 @@
 # Piru SQLite build report
 
-Built 2026-05-27.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,796,416 bytes, sha256 `7cadd32dd5072f7b3b010950f67151d11746764bd4fb36d7c1b870aed9d670a0`)
+Built 2026-05-27.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,796,416 bytes, sha256 `28a495f719ae4dd852bc85adaaf7e4c3683e1f82780759f29e647df3d80d9d17`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,826 |
-| aliases | 7,202 |
+| substances | 1,823 |
+| aliases | 7,187 |
 | sources | 12 |
 | citations | 1,005 |
 | categories | 2,532 |

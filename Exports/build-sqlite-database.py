@@ -739,6 +739,52 @@ def normalise_route(route: str) -> str:
     return _ROUTE_ALIASES.get(r, r)
 
 
+# Name remap: when a source uses an alternate name for an existing canonical
+# substance, redirect to the canonical name BEFORE row insertion so the
+# duplicate substance row never gets created. Keyed by the lowercased
+# alternate name; value is the canonical name we want to use everywhere.
+#
+# drug.community ingested "Cannabidiol" as a separate substance from PW's
+# "CBD" entry, creating two parallel rows with different data attached.
+# This map collapses them at the ingester.
+_NAME_REMAP: dict[str, str] = {
+    "cannabidiol":    "CBD",
+    "cannabichromene": "CBC",
+    "cannabigerol":   "CBG",
+}
+
+
+# Per-substance alias blocklist: aliases that sources sometimes provide for
+# the keyed substance but that refer to a structurally distinct compound.
+# drug.community + a few other sources list "THC", "CBD", "Dronabinol",
+# "Epidiolex", and similar specific molecule names as aliases of "Cannabis"
+# (the plant). They're not — they're individual constituents OF the plant,
+# and the app already carries them as separate substance entries. Surfacing
+# them as Cannabis aliases makes the search results misleading and conflates
+# logging a joint with logging a pure-cannabinoid product.
+#
+# Keys are normalised canonical names (lowercase). Values are sets of
+# normalised alias strings to drop on insert.
+_ALIAS_BLOCKLIST: dict[str, set[str]] = {
+    "cannabis": {
+        # Δ⁹-THC and synonyms — distinct molecule, has its own entry
+        "thc", "delta-9-thc", "delta-9 thc", "delta 9 thc", "delta‑9 thc",
+        "delta-9-tetrahydrocannabinol", "tetrahydrocannabinol",
+        "δ9-thc", "δ9‑thc", "δ⁹-thc",
+        "dronabinol", "dronabinol (natural)", "marinol", "syndros",
+        # CBD and synonyms — distinct molecule, has its own entry
+        "cbd", "cannabidiol", "(-)-cannabidiol",
+        "epidiolex", "epidiolex (purified cbd)",
+        # Other cannabinoids — each has its own entry
+        "cbg", "cannabigerol", "cbn", "cannabinol",
+        "cbc", "cannabichromene", "cbdv", "cannabidivarin",
+        # Mixtures and prepared products — not synonyms for raw cannabis
+        "nabiximols", "nabiximols (sativex)", "sativex",
+        "thc+cbd", "tetrahydrocannabinol+cannabidiol",
+    },
+}
+
+
 # Class-keyed dose-magnitude invariants. Same family as the existing
 # tier-inversion / tier-regression / ambiguous-unit guards in `add_dose`,
 # but informed by chemistry rather than purely structural shape. The
@@ -876,6 +922,20 @@ class Build:
         # ingester (wikidata SPARQL, drug.community, enrichment).
         if is_chemistry_noise(name):
             return None
+        # Collapse known alt-names onto their canonical entry so a source
+        # supplying "Cannabidiol" merges into the existing "CBD" row instead
+        # of creating a parallel one. The original name still gets preserved
+        # as an alias of the canonical via the caller's aliases list.
+        remapped = _NAME_REMAP.get(name.lower())
+        if remapped is not None and remapped.lower() != name.lower():
+            original_name = name
+            name = remapped
+            # Keep the original as an alias so it's still searchable.
+            aliases = list(aliases or [])
+            if original_name not in aliases:
+                aliases.append(original_name)
+            self.stats.setdefault("name_remapped", 0)
+            self.stats["name_remapped"] += 1
         name = smart_title_case(name)
         norm = normalise(name)
         if norm in self.substance_ids:
@@ -909,6 +969,18 @@ class Build:
         alias = (alias or "").strip()
         if not alias:
             return
+        # Per-substance alias blocklist: drop aliases that name a structurally
+        # distinct compound (e.g. drug.community lists "THC" as a Cannabis
+        # alias — THC is its own substance, not a Cannabis synonym).
+        canon = self.cur.execute(
+            "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+        ).fetchone()
+        if canon:
+            blocked = _ALIAS_BLOCKLIST.get(canon[0].lower(), ())
+            if alias.lower() in blocked:
+                self.stats.setdefault("dropped_blocked_alias", 0)
+                self.stats["dropped_blocked_alias"] += 1
+                return
         source_id = self.source_ids.get(source_slug) if source_slug else None
         try:
             self.cur.execute(
