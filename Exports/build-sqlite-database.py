@@ -2,9 +2,13 @@
 """Build Piru/Data/piru-substances.sqlite from every JSON source we ship.
 
 Inputs (all already in the repo):
+  Piru/Data/sourced-substances.json       — SubstanceCollector per-record output
+                                             (already contains the piru-curated
+                                             overlay baked in via Swift)
   Piru/Data/substances-bundled.json       — SubstanceCollector merge output
+                                             (fallback when sourced is absent)
   Piru/Data/drug-community-data.json      — drug.community snapshot
-  Tools/SubstanceCollector/curated-overlay.json — hand-curated overlay
+  Piru/Data/psychonautwiki-snapshot.json  — PsychonautWiki GraphQL dump
   Exports/enrichment/*.json               — deep-pharma enrichment swarm output
   Exports/enrichment-class-context.json   — class-context summaries
 
@@ -41,8 +45,15 @@ SOURCED       = REPO / "Piru/Data/sourced-substances.json"
 BUNDLED       = REPO / "Piru/Data/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "Piru/Data/drug-community-data.json"
 PSYCHONAUTWIKI = REPO / "Piru/Data/psychonautwiki-snapshot.json"
-CURATED       = REPO / "Tools/SubstanceCollector/curated-overlay.json"
 ENRICHMENT_DIR = REPO / "Exports/enrichment"
+
+# Note: Tools/SubstanceCollector/curated-overlay.json used to be referenced
+# here, but the Python build pipeline reads sourced-substances.json — which
+# already has the curated overlay merged in by the Swift SubstanceCollector
+# (Curation/CuratedOverlay.swift, step 5/5 of the build). Keeping a separate
+# `CURATED` constant here was dead code and a second files-of-truth that
+# misled anyone reading the script. New curated overrides go into
+# sourced-substances.json as `provenance: "piru-curated"` records.
 
 # Default source priority. Lower number = higher priority. User can override.
 SOURCES = [
@@ -728,6 +739,77 @@ def normalise_route(route: str) -> str:
     return _ROUTE_ALIASES.get(r, r)
 
 
+# Class-keyed dose-magnitude invariants. Same family as the existing
+# tier-inversion / tier-regression / ambiguous-unit guards in `add_dose`,
+# but informed by chemistry rather than purely structural shape. The
+# guard targets the failure mode the audit caught most often: a row
+# with a single tier value, structurally consistent (no inversion, no
+# regression), but with the magnitude grossly wrong for the chemistry
+# (e.g. TripSit's Valerylfentanyl bare "50 mg" — a single tier, valid
+# unit, but ~100× lethal for a fentanyl-class opioid).
+#
+# Tags chosen for high precision: each identifies a class whose safe
+# maximum dose is well under the ceiling regardless of route. We
+# deliberately avoid broader tags (e.g. plain `nitazene` without an
+# explicit potency marker) because they include weaker analogs like
+# Clonitazene where upstream values may be legitimately higher.
+_CLASS_DOSE_CEILING_MG: dict[str, float] = {
+    # Fentanyl-class opioids: every clinically-used route fits in <2 mg.
+    "fentanyl-class-potency": 2.0,
+    "fentanyl-analog":        2.0,
+    # Nitazenes flagged as extreme-potency (etonitazene & friends).
+    # `extreme-potency` also covers designer-benzos (clonazolam etc.)
+    # whose heavy doses are at most ~2 mg, so the same ceiling fits.
+    "extreme-potency":        2.0,
+    "ultra-high-potency":     2.0,
+    # Benzodiazepines: most max-therapeutic single doses are ≤100 mg, but
+    # legacy compounds like Tetrazepam (50–200 mg) and Cinolazepam (≤120
+    # mg in some references) sit higher. Ceiling at 300 mg preserves
+    # those while still catching obvious unit confusion (e.g. Halazepam
+    # "3600 mg" from a row whose value is really a daily-total artefact).
+    "benzodiazepine":         300.0,
+    "designer-benzo":         300.0,
+    "triazolobenzodiazepine": 300.0,
+    # Lysergamides: LSD threshold ~15 µg, heavy ~300 µg. 5 mg = 5000 µg,
+    # which is well above every entry in the DB but flags obvious
+    # mg/µg unit confusion (e.g. a `light 100 mg` LSD row).
+    "class:lysergamides":     5.0,
+    "class:Lysergamide":      5.0,
+}
+
+
+# Convert a dose unit string to a milligram multiplier. Returns None
+# for non-mass units (mg/kg, per-day, seeds, IU, sprays, ml, %, etc.)
+# — those rows can't be magnitude-checked against the class ceiling
+# and pass through the invariant gate unchanged.
+def _unit_to_mg_factor(unit: str | None) -> float | None:
+    if unit is None:
+        return 1.0
+    u = unit.lower().strip()
+    if not u:
+        return 1.0
+    # Reject anything with per-kg, per-day, per-hour-of-non-mass,
+    # salt/freebase qualifiers — the bare numeric tier value is not a
+    # direct mass and the invariant doesn't apply cleanly. (Note: pure
+    # `µg/hr` patch units ARE handled below, since the numeric value
+    # is still a microgram quantity.)
+    if "/kg" in u or "/day" in u or "/24h" in u:
+        return None
+    if u in ("mg", "mgs"):
+        return 1.0
+    if u in ("g", "gram", "grams"):
+        return 1000.0
+    if u in ("µg", "ug", "mcg", "μg", "micrograms"):
+        return 0.001
+    # Patch / per-hour delivery rates: the numeric magnitude check still
+    # applies — a "100 µg/hr" patch's numeric is in micrograms.
+    if u in ("µg/hr", "ug/hr", "mcg/hr", "mcg/hour", "mcg/hr (patch)"):
+        return 0.001
+    # Anything else (seeds, drops, sprays, IU, ml, mg-with-qualifier-text,
+    # percentages) can't be safely interpreted — skip the check.
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Build pipeline
 # ---------------------------------------------------------------------------
@@ -739,6 +821,10 @@ class Build:
         self.source_ids: dict[str, int] = {}
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
+        # Per-substance union of tags seen across every source so far. The
+        # tag-keyed dose-magnitude gate in `add_dose` consults this; populated
+        # by `add_tag`.
+        self.substance_tags: dict[int, set[str]] = defaultdict(set)
         self.stats: dict[str, int] = defaultdict(int)
 
     # ---- seeds ----
@@ -858,6 +944,10 @@ class Build:
         if not tag:
             return
         src = self.source_ids[source_slug]
+        # Cache unconditionally so the dose-magnitude gate sees every tag
+        # any source asserts for this substance, even if the row was already
+        # inserted by an earlier pass.
+        self.substance_tags[sid].add(tag)
         try:
             self.cur.execute(
                 "INSERT INTO tags(substance_id, tag, source_id, confidence) VALUES (?, ?, ?, ?)",
@@ -919,6 +1009,27 @@ class Build:
                     self.stats.setdefault("dropped_regressed_tiers", 0)
                     self.stats["dropped_regressed_tiers"] += 1
                     return
+
+        # Class-keyed dose-magnitude sanity check. Each tag the substance
+        # carries (across every source seen so far) contributes a max-dose
+        # ceiling in mg; the effective ceiling for this row is the strictest
+        # of them. Any tier value that, once converted to mg, exceeds the
+        # ceiling indicates source-data unit confusion or a content error
+        # — the same failure mode as the BLOCKER curated overrides this
+        # session (Valerylfentanyl oral "50 mg", Acetylfentanyl insufflation
+        # "10–15 mg common", etc.) but caught at ingest rather than after
+        # the audit.
+        tags = self.substance_tags.get(sid, ())
+        ceilings = [_CLASS_DOSE_CEILING_MG[t] for t in tags if t in _CLASS_DOSE_CEILING_MG]
+        if ceilings:
+            factor = _unit_to_mg_factor(unit)
+            if factor is not None:
+                ceiling_mg = min(ceilings)
+                for v in tiers_flat:
+                    if v * factor > ceiling_mg:
+                        self.stats.setdefault("dropped_class_dose_ceiling", 0)
+                        self.stats["dropped_class_dose_ceiling"] += 1
+                        return
 
         try:
             self.cur.execute(

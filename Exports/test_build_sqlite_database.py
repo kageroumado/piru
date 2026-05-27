@@ -24,6 +24,8 @@ Builder = _mod.Build  # The class is named Build, not Builder
 is_chemistry_noise = _mod.is_chemistry_noise
 normalize_category = _mod.normalize_category
 smart_title_case = _mod.smart_title_case
+_unit_to_mg_factor = _mod._unit_to_mg_factor
+_CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 
 
 class TestDcClean(unittest.TestCase):
@@ -198,6 +200,150 @@ class TestSmartTitleCase(unittest.TestCase):
         self.assertEqual(smart_title_case(None), None)
 
 
+class TestUnitToMgFactor(unittest.TestCase):
+    """`_unit_to_mg_factor` is the mass-conversion lookup the class-dose
+    ceiling consults. Unparseable units must return None so the gate
+    skips them rather than misclassifying."""
+
+    def test_milligrams_pass_through(self):
+        self.assertEqual(_unit_to_mg_factor("mg"), 1.0)
+        self.assertEqual(_unit_to_mg_factor("mgs"), 1.0)
+        self.assertEqual(_unit_to_mg_factor(None), 1.0)
+        self.assertEqual(_unit_to_mg_factor(""), 1.0)
+
+    def test_micrograms_variants(self):
+        for u in ("µg", "ug", "mcg", "μg", "micrograms"):
+            with self.subTest(unit=u):
+                self.assertEqual(_unit_to_mg_factor(u), 0.001)
+
+    def test_grams_variants(self):
+        for u in ("g", "gram", "grams"):
+            with self.subTest(unit=u):
+                self.assertEqual(_unit_to_mg_factor(u), 1000.0)
+
+    def test_patch_per_hour_units(self):
+        """`µg/hr` patch numerics ARE microgram quantities — treat as µg."""
+        for u in ("µg/hr", "ug/hr", "mcg/hr", "mcg/hour", "mcg/hr (patch)"):
+            with self.subTest(unit=u):
+                self.assertEqual(_unit_to_mg_factor(u), 0.001)
+
+    def test_per_kg_and_per_day_return_none(self):
+        """mg/kg and mg/day numerics aren't direct masses — skip the check."""
+        self.assertIsNone(_unit_to_mg_factor("mg/kg"))
+        self.assertIsNone(_unit_to_mg_factor("µg/kg"))
+        self.assertIsNone(_unit_to_mg_factor("mg/day"))
+        self.assertIsNone(_unit_to_mg_factor("mg/24h"))
+
+    def test_non_mass_units_return_none(self):
+        for u in ("seeds", "drops", "IU", "ml", "sprays", "%", "x", "units"):
+            with self.subTest(unit=u):
+                self.assertIsNone(_unit_to_mg_factor(u))
+
+
+class TestClassDoseCeilingGate(unittest.TestCase):
+    """End-to-end: `add_dose` drops a row when any tier value (converted to
+    mg) exceeds the strictest applicable class ceiling."""
+
+    def _fresh_build(self):
+        db = sqlite3.connect(":memory:")
+        db.executescript(_mod.SCHEMA_SQL)
+        build = Builder(db)
+        build.seed_sources()
+        sid = build.upsert_substance("Testfentanyl", source_slug="piru-curated")
+        return build, sid
+
+    def test_fentanyl_class_50mg_oral_dropped(self):
+        """Valerylfentanyl-style bare 50 mg oral row gets rejected."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
+        before = build.stats.get("dose_ranges", 0)
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       common={"lower": 50.0, "upper": None})
+        self.assertEqual(build.stats.get("dose_ranges", 0), before,
+                         "row should have been dropped, not inserted")
+        self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
+
+    def test_fentanyl_class_under_ceiling_passes(self):
+        """A 0.5 mg oral row sits well under the 2 mg ceiling — passes."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       light={"lower": 0.1, "upper": 0.25},
+                       common={"lower": 0.25, "upper": 0.5})
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+        self.assertNotIn("dropped_class_dose_ceiling", build.stats)
+
+    def test_fentanyl_class_patch_units_pass(self):
+        """100 µg/hr fentanyl transdermal patch: numeric in µg → 0.1 mg, under ceiling."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
+        build.add_dose(sid, "piru-curated", "transdermal", "µg/hr",
+                       light={"lower": 12.0, "upper": 25.0},
+                       common={"lower": 25.0, "upper": 50.0},
+                       strong={"lower": 50.0, "upper": 75.0},
+                       heavy=100.0)
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+
+    def test_lysergamide_100mg_dropped(self):
+        """A 100 mg LSD-class row is clearly unit-confused. Ceiling = 5 mg."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "class:lysergamides")
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       light={"lower": 50.0, "upper": 100.0})
+        self.assertEqual(build.stats.get("dose_ranges", 0), 0)
+        self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
+
+    def test_lysergamide_microgram_passes(self):
+        """A normal LSD row in µg passes."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "class:lysergamides")
+        build.add_dose(sid, "piru-curated", "oral", "µg",
+                       threshold=15.0,
+                       light={"lower": 25.0, "upper": 75.0},
+                       common={"lower": 75.0, "upper": 150.0},
+                       strong={"lower": 150.0, "upper": 300.0},
+                       heavy=300.0)
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+
+    def test_untagged_substance_passes(self):
+        """Without a relevant class tag, the gate doesn't apply."""
+        build, sid = self._fresh_build()
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       common={"lower": 500.0, "upper": 1000.0})
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+
+    def test_unparseable_unit_skips_gate(self):
+        """A row with an unrecognisable unit ('drops', 'seeds') passes the
+        class-ceiling gate even when the magnitude looks suspicious — the
+        numeric value isn't a mass we can validate."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
+        build.add_dose(sid, "piru-curated", "oral", "drops",
+                       common={"lower": 100.0, "upper": 100.0})
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+
+    def test_benzodiazepine_3600mg_dropped(self):
+        """An obviously unit-confused 3600 mg benzo row (Halazepam-style)
+        violates the 300 mg ceiling and gets dropped."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "benzodiazepine")
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       threshold=5.0,
+                       heavy=3600.0)
+        self.assertEqual(build.stats.get("dose_ranges", 0), 0)
+        self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
+
+    def test_benzodiazepine_legacy_200mg_passes(self):
+        """Tetrazepam-style 50–200 mg dosing is legitimate and must survive."""
+        build, sid = self._fresh_build()
+        build.add_tag(sid, "piru-curated", "benzodiazepine")
+        build.add_dose(sid, "piru-curated", "oral", "mg",
+                       light={"lower": 25.0, "upper": 50.0},
+                       common={"lower": 50.0, "upper": 100.0},
+                       strong={"lower": 100.0, "upper": 200.0})
+        self.assertEqual(build.stats.get("dose_ranges", 0), 1)
+
+
 class TestNormalizeCategory(unittest.TestCase):
     """drug.community / enrichment supply long descriptive category strings
     that must collapse to one of the 25 SubstanceCategory enum values."""
@@ -363,6 +509,35 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         actual: dict[str, str | None] = {n: self._resolved_category(n) for n in expectations}
         wrong = {n: (actual[n], expected) for n, expected in expectations.items() if actual[n] != expected}
         self.assertEqual(wrong, {}, f"categorisation mismatches (got, expected): {wrong}")
+
+    def test_fentanyl_class_dose_ceiling_holds(self):
+        """No substance tagged `fentanyl-class-potency` or `fentanyl-analog`
+        should retain a dose row whose any-tier value, converted to mg, is
+        above 2 mg. The ingest gate should have dropped them."""
+        rows = self.db.execute("""
+            select s.canonical_name, dr.unit, dr.route, dr.threshold,
+                   dr.light_lower, dr.light_upper, dr.common_lower, dr.common_upper,
+                   dr.strong_lower, dr.strong_upper, dr.heavy
+            from dose_ranges dr
+            join substances s on s.id = dr.substance_id
+            where dr.substance_id in (
+                select substance_id from tags
+                where tag in ('fentanyl-class-potency', 'fentanyl-analog')
+            )
+        """).fetchall()
+        violations = []
+        for r in rows:
+            factor = _unit_to_mg_factor(r["unit"])
+            if factor is None:
+                continue  # unparseable unit — gate doesn't apply
+            tiers = [r[k] for k in ("threshold", "light_lower", "light_upper",
+                                     "common_lower", "common_upper",
+                                     "strong_lower", "strong_upper", "heavy")
+                     if r[k] is not None]
+            mx = max((t * factor for t in tiers), default=0.0)
+            if mx > 2.0:
+                violations.append((r["canonical_name"], r["route"], r["unit"], mx))
+        self.assertEqual(violations, [], f"fentanyl-class dose-ceiling violations survived: {violations}")
 
     def test_dose_ladder_monotonicity_within_tolerance(self):
         """Most dose rows should be monotonic. Some legacy source-data noise
