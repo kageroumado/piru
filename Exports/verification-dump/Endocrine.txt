@@ -1,0 +1,16 @@
+# Endocrine — chunk 1/1 — 2 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Arimistane (Endocrine)
+  oral: threshold 12.5, light 12.5–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥75 (drug.community) | duration (drug.community): total 24h–48h
+  sublingual: threshold 5, light 10–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 (drug.community) | duration (drug.community): total 24h–36h
+  transdermal: threshold 25, light 25–50 mg, common 50–75 mg, strong 75–100 mg, heavy ≥100 (drug.community)
+
+## Estradiol (Endocrine)
+  intramuscular: threshold 2, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 168h–672h
+  oral: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (drug.community) | duration (drug.community): total 12h–24h
+  transdermal: threshold 25, light 25–50 mcg/day, common 50–100 mcg/day, strong 100–200 mcg/day, heavy ≥200 (drug.community) | duration (drug.community): total 24h–72h
+

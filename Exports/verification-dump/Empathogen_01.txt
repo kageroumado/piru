@@ -1,0 +1,206 @@
+# Empathogen — chunk 1/2 — 50 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## 2-Bromo-4,5-MDMA (Empathogen)
+  insufflation: threshold 5, light 20–35 mg, common 35–60 mg, strong 60–90 mg, heavy ≥90 (drug.community)
+  oral: threshold 15, light 40–70 mg, common 70–120 mg, strong 120–160 mg, heavy ≥160 (drug.community) | duration (drug.community): total 5h–8h
+
+## 2-Fea (Empathogen)
+  insufflation: threshold 15, light 20–30 mg, common 30–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 5m–10m, peak 30m–1h, offset 30m–1h, total 1h–2.5h, afterglow 1h–3h
+
+## 2-Fluoroethamphetamine (Empathogen)
+  insufflation: threshold 5, light 10–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 (drug.community)
+  oral: threshold 10, light 15–25 mg, common 25–40 mg, strong 40–60 mg, heavy ≥60 (drug.community)
+  rectal: threshold 8, light 12–20 mg, common 20–32 mg, strong 32–45 mg, heavy ≥45 (drug.community)
+  sublingual: threshold 10, light 15–25 mg, common 25–35 mg, strong 35–50 mg, heavy ≥50 (drug.community)
+
+## 2-MAPB (Empathogen)
+  insufflation: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 (drug.community)
+  oral: threshold 10, light 20–60 mg, common 60–110 mg, strong 110–140 mg, heavy ≥140 (drug.community) | duration (drug.community): total 5h–8h
+
+## 2-Methylethcathinone (Empathogen)
+  insufflation: threshold 5, light 15–30 mg, common 30–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 1.5h–3h
+  oral: threshold 20, light 40–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 (drug.community) | duration (drug.community): total 2h–5h
+  rectal: threshold 15, light 30–75 mg, common 75–180 mg, strong 180–250 mg, heavy ≥250 (drug.community)
+  sublingual: threshold 15, light 30–80 mg, common 80–180 mg, strong 180–250 mg, heavy ≥250 (drug.community)
+
+## 2C-B-Fly-NBOME (Empathogen)
+  buccal: threshold 100, light 200–350 µg, common 350–650 µg, strong 650–950 µg, heavy ≥950 (drug.community)
+  insufflation: threshold 100 (tripsit) | duration (drug.community): total 4h–8h
+  sublingual: threshold 75, light 150–300 µg, common 300–600 µg, strong 600–900 µg, heavy ≥900 (drug.community) | duration (drug.community): total 6h–10h
+
+## 3,4-CFPP (Empathogen)
+  insufflation: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 3.5h–6h
+  oral: threshold 20, light 20–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 4h–7h
+
+## 3,4-DMMC (Empathogen)
+  insufflation: threshold 20, light 30–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 1.5h–3h
+  oral: threshold 50, light 100–150 mg, common 150–250 mg, strong 250–350 mg, heavy ≥350 (drug.community) | duration (drug.community): total 2h–4h
+
+## 3,4-Methylenedioxyphenmetrazine (Empathogen)
+  insufflation: threshold 10, light 25–60 mg, common 60–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 25, light 50–100 mg, common 100–180 mg, strong 180–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 4h–7h
+
+## 3,4-Trimethylenepentedrone (Empathogen)
+  insufflation: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 2.5h–5h
+  oral: threshold 10, light 15–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 (drug.community) | duration (drug.community): total 3h–6h
+  rectal: threshold 7, light 12–25 mg, common 25–45 mg, strong 45–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 3h–6h
+
+## 3-CAF (Empathogen)
+  insufflation: threshold 2, light 2–5 mg, common 5–12 mg, strong 12–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 4h–7h
+
+## 3-Chloromethcathinone (Empathogen)
+  insufflation: threshold 5, light 20–40 mg, common 40–80 mg, strong 80–100 mg, heavy ≥120 (drug.community) | duration (drug.community): total 1h–3.5h
+  oral: threshold 10, light 30–60 mg, common 60–100 mg, strong 100–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 2h–6h
+
+## 3-Fea (Empathogen)
+  insufflation: threshold 15, light 20–35 mg, common 35–60 mg, strong 50–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 5m–10m, peak 30m–1h, offset 30m–1h, total 1h–2h, afterglow 1h–3h
+  oral: threshold 15, light 20–35 mg, common 35–70 mg, strong 70–90 mg, heavy ≥90 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 1.5h–2.5h, offset 2h–3h, total 4h–6h, afterglow 6h–12h
+
+## 3-Fluoroethamphetamine (Empathogen)
+  insufflation: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 2.5h–5h
+  oral: threshold 10, light 10–25 mg, common 25–60 mg, strong 60–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 3h–6h
+
+## 3-Fluoromethcathinone (Empathogen)
+  insufflation: threshold 5, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 2h–5h
+  oral: threshold 10, light 20–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 2h–6h
+  rectal: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community)
+
+## 3-Fma (Empathogen)
+  oral: threshold 5, light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 2h–4h, offset 1h–3h, total 3h–7h, afterglow 6h–12h
+
+## 3-Meomc (Empathogen)
+  insufflation: light 25–50 mg, common 50–100 mg, strong 100–150 mg (tripsit) | duration (tripsit): total 5h–7h
+
+## 4,4-Dmar (Empathogen)
+  oral: light 30–60 mg, common 60–120 mg, strong 120–200 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+
+## 4-Bromoamphetamine (Empathogen)
+  oral: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥30 (drug.community)
+
+## 4-CBC (Empathogen)
+  insufflation: light 40–70 mg, common 50–80 mg, strong 80–100 mg (tripsit) | duration (tripsit): afterglow 2h–6h
+  oral: light 40–70 mg, common 70–100 mg, strong 100–130 mg (tripsit) | duration (tripsit): afterglow 2h–6h
+
+## 4-Chlorobuphedrone (Empathogen)
+  insufflation: threshold 5, light 30–50 mg, common 50–80 mg, strong 80–110 mg, heavy ≥110 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 15, light 40–70 mg, common 70–110 mg, strong 110–140 mg, heavy ≥140 (drug.community) | duration (drug.community): total 2h–4h
+
+## 4-EEC (Empathogen)
+  insufflation: threshold 15, light 30–60 mg, common 60–120 mg, strong 120–200 mg, heavy ≥200 (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 40, light 75–125 mg, common 125–250 mg, strong 250–350 mg, heavy ≥350 (drug.community) | duration (drug.community): total 4h–7h
+  rectal: threshold 30, light 60–100 mg, common 100–180 mg, strong 180–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 4h–7h
+
+## 4-Fa (Empathogen)
+  oral: threshold 40, light 40–100 mg, common 100–130 mg, strong 130–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 45m–1.25h, comeup 30m–1.25h, peak 2.5h–3.5h, offset 2h–3h, total 5h–8h, afterglow 6h–12h
+
+## 4-Fluoroamphetamine (Empathogen)
+  insufflation: threshold 5, light 5–15 mg, common 15–30 mg, strong 30–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 10, light 15–40 mg, common 40–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 5h–8h
+
+## 4-Fluoroethamphetamine (Empathogen)
+  insufflation: threshold 10, light 20–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 15, light 25–75 mg, common 75–150 mg, strong 150–220 mg, heavy ≥220 (drug.community) | duration (drug.community): total 4h–7h
+
+## 4-Fma (Empathogen)
+  oral: threshold 10, light 25–50 mg, common 50–75 mg, strong 100–125 mg, heavy ≥125 (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, comeup 20m–40m, peak 2h–5h, offset 1h–2h, total 4h–8h, afterglow 3h–12h
+
+## 4-Fpp (Empathogen)
+  insufflation: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 3h–6h
+  oral: light 20–40 mg, common 40–80 mg, strong 80–150 mg (tripsit) | duration (tripsit): onset 15m–45m, total 4h–8h
+
+## 4-MBC (Empathogen)
+  insufflation: threshold 10, light 25–60 mg, common 60–120 mg, strong 120–200 mg, heavy ≥200 (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 30, light 100–200 mg, common 200–350 mg, strong 350–500 mg, heavy ≥500 (drug.community) | duration (drug.community): total 4h–6h
+
+## 5-Apb (Empathogen)
+  insufflation: threshold 5, light 10–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 (drug.community) | duration (drug.community): total 4h–8h
+  oral: threshold 20, light 40–60 mg, common 60–80 mg, strong 80–100 mg, heavy ≥100 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 45m–1.5h, peak 2h–4h, offset 1.5h–3h, total 5h–8h, afterglow 6h–48h
+
+## 5-Apdb (Empathogen)
+  oral: light 50–75 mg, common 75–125 mg, heavy ≥125 (tripsit) | duration (tripsit): onset 20m–1h, total 4h–8h
+
+## 5-Apdi (Empathogen)
+  insufflation: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 6h–12h
+  intravenous: threshold 2, light 3–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥15 (drug.community)
+  oral: light 15–25 mg, common 25–50 mg, strong 50–75 mg (tripsit) | duration (tripsit): afterglow 1h–6h
+
+## 5-Eapb (Empathogen)
+  insufflation: light 30–40 mg, common 40–60 mg, strong 60–100 mg (tripsit) | duration (drug.community): total 3h–6h
+  oral: light 50–60 mg, common 60–100 mg, strong 100–150 mg (tripsit) | duration (drug.community): total 4h–8h
+
+## 5-Iai (Empathogen)
+  insufflation: threshold 20, light 30–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 2h–5h
+  oral: threshold 40, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 (drug.community) | duration (drug.community): total 2h–6h
+  rectal: threshold 30, light 40–80 mg, common 80–150 mg, strong 150–220 mg, heavy ≥220 (drug.community) | duration (drug.community): total 2.5h–6h
+
+## 5-It (Empathogen)
+  oral: light 50 mg, common 50–100 mg, strong 100–150 mg (tripsit) | duration (tripsit): onset 1.5h–2h, total 8h–12h, afterglow 1h–48h
+
+## 5-Mapb (Empathogen)
+  insufflation: threshold 7, light 15–20 mg, common 20–50 mg, strong 40–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 3h–5h
+  intramuscular: (empty) (drug.community)
+  oral: threshold 20, light 40–60 mg, common 60–80 mg, strong 80–100 mg, heavy ≥100 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 45m–1.5h, peak 2h–4h, offset 1.5h–3h, total 5h–8h, afterglow 6h–48h
+  rectal: threshold 15, light 25–40 mg, common 40–60 mg, strong 60–75 mg, heavy ≥75 (drug.community)
+
+## 5-Mapdb (Empathogen)
+  oral: light 50–75 mg, common 75–120 mg, strong 120–150 mg (tripsit) | duration (tripsit): onset 45m–1.16667h, total 5h–8h, afterglow 2h–4h
+
+## 5-Meo-AMT (Empathogen)
+  insufflation: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥3 (drug.community) | duration (drug.community): total 8h–14h
+  oral: threshold 0.5, light 1–2 mg, common 2–4 mg, strong 4–6 mg (tripsit) | duration (tripsit): onset 30m–2h, afterglow 4h–24h
+  rectal: threshold 0.5, light 0.8–1.5 mg, common 1.5–3 mg, strong 3–4 mg, heavy ≥4 (drug.community) | duration (drug.community): total 8h–12h
+
+## 6-Apdb (Empathogen)
+  oral: threshold 20, light 30–70 mg, common 70–100 mg, strong 100–130 mg, heavy ≥130 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, comeup 30m–1h, peak 2h–3h, offset 2h–3h, total 6h–8h
+
+## 6-Eapb (Empathogen)
+  oral: light 50–75 mg, common 75–100 mg, strong 100–150 mg (tripsit) | duration (tripsit): onset 20m–40m, total 4h–7h, afterglow 1h–10h
+
+## 6-Mapb (Empathogen)
+  insufflation: light 10–20 mg, common 20–40 mg, strong 40–100 mg (tripsit) | duration (tripsit): total 5h–10h, afterglow 2h–4h
+  oral: light 20–40 mg, common 40–80 mg, strong 80–100 mg (tripsit) | duration (tripsit): total 5h–10h, afterglow 2h–4h
+
+## A-pihp (Empathogen)
+  inhalation: threshold 1, light 2–10 mg, common 10–20 mg, strong 20–30 mg (tripsit) | duration (tripsit): afterglow 6h–12h
+  insufflation: threshold 1, light 3–10 mg, common 10–25 mg, strong 25–40 mg (tripsit) | duration (tripsit): afterglow 6h–12h
+  oral: threshold 3, light 5–15 mg, common 15–30 mg, strong 30–50 mg (tripsit) | duration (tripsit): afterglow 6h–12h
+
+## Aet (Empathogen)
+  oral: light 80–100 mg, common 100–125 mg, strong 125–150 mg (tripsit) | duration (tripsit): onset 1h–2h, total 5h–10h, afterglow 1h–24h
+
+## ALEPH (Empathogen)
+  oral: light 2–4 mg, common 4–6 mg, strong 6–12 mg (tripsit) | duration (tripsit): onset 30m–1.5h, total 5h–10h, afterglow 1h–24h
+
+## Brephedrone (Empathogen)
+  insufflation: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 2h–3h
+  oral: threshold 20, light 50–75 mg, common 75–150 mg, strong 150–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 3h–5h
+
+## Cyclo-methiodrone (Empathogen)
+  oral: light 30–45 mg, common 45–65 mg, strong 65–90 mg (tripsit) | duration (tripsit): onset 25m–45m, total 3h–5h
+
+## Cyputylone (Empathogen)
+  insufflation: threshold 10, light 10–30 mg, common 30–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 20, light 20–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 3h–6h
+  rectal: threshold 15, light 15–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 (drug.community)
+
+## Dimemebfe (Empathogen)
+  oral: light 25–50 mg, common 50–75 mg, strong 75–125 mg (tripsit) | duration (tripsit): onset 10m–40m, total 4h–6h
+
+## Dimethylpentylone (Empathogen)
+  insufflation: threshold 3, light 5–15 mg, common 15–40 mg, strong 40–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 5, light 10–30 mg, common 30–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–8h
+
+## Dipentylone (Empathogen)
+  insufflation: threshold 3, light 3–8 mg, heavy ≥50 (drug.community) | duration (drug.community): total 2h–3h
+  oral: threshold 5, heavy ≥80 (drug.community) | duration (drug.community): total 4h–6h
+
+## EDMC (Empathogen)
+  insufflation: threshold 10, light 20–60 mg, common 60–130 mg, strong 130–220 mg, heavy ≥220 (drug.community) | duration (drug.community): total 2.5h–4h
+  oral: threshold 20, light 40–100 mg, common 100–220 mg, strong 220–350 mg, heavy ≥350 (drug.community) | duration (drug.community): total 3h–5h
+  rectal: threshold 15, light 30–80 mg, common 80–180 mg, strong 180–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 3h–5h
+

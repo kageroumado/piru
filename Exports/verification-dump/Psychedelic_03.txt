@@ -1,0 +1,180 @@
+# Psychedelic — chunk 3/7 — 50 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## 4-Ho-Ept (Psychedelic)
+  oral: light 15–20 mg, common 30–40 mg, strong 40–60 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, peak 1h–2h, offset 1h–2h, total 3h–7h
+
+## 4-Ho-Mcpt (Psychedelic)
+  insufflation: (no dose data) | duration (drug.community): total 1h–2.5h
+  oral: threshold 5, light 10–15 mg, common 15–25 mg, strong 25–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 1.5h–4h
+
+## 4-HO-MET (Psychedelic)
+  inhalation: threshold 5, light 10–25 mg, common 25–35 mg, strong 35–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 15s–2m, total 25m–45m
+  insufflation: threshold 2, light 5–10 mg, common 9–15 mg, strong 15–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 2h–4h
+  intravenous: light 5 mg, common 10–15 mg, heavy ≥20 (tripsit) | duration (tripsit): total 3h–7h, afterglow 2h–8h
+  oral: threshold 5, light 5–15 mg, common 15–25 mg, strong 25–45 mg, heavy ≥45 (psychonautwiki) | duration (psychonautwiki): onset 15m–40m, comeup 30m–1h, peak 2h–3h, offset 1h–1.5h, total 4h–6h, afterglow 2h–12h
+
+## 4-HO-MIPT (Psychedelic)
+  oral: threshold 5, light 10–15 mg, common 15–25 mg, strong 25–35 mg, heavy ≥35 (psychonautwiki) | duration (psychonautwiki): onset 15m–45m, comeup 20m–1h, peak 1.5h–2.5h, offset 1h–2h, total 4h–6h, afterglow 2h–12h
+
+## 4-Ho-Mpmi (Psychedelic)
+  oral: threshold 500, light 750 µg, common 1–2 µg (tripsit) | duration (tripsit): onset 15m–1h, total 6h–8h
+
+## 4-HO-MPT (Psychedelic)
+  inhalation: light 3–5 mg, common 5–10 mg, strong 10–15 mg (tripsit) | duration (tripsit): afterglow 1h–6h
+  oral: threshold 5, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 1h–2h, peak 2h–3h, offset 1h–2h, total 5h–7h, afterglow 2h–12h
+
+## 4-HO-PiPT (Psychedelic)
+  oral: threshold 2, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 2h–4h
+
+## 4-HO-PYR-T (Psychedelic)
+  oral: common 15–25 mg (erowid-tihkal)
+
+## 4-MA (Psychedelic)
+  oral: common 50–80 mg (erowid-pihkal)
+
+## 4-MEO-MIPT (Psychedelic)
+  insufflation: threshold 2, light 2–4 mg, common 4–8 mg, strong 8–12 mg, heavy ≥12 (drug.community) | duration (drug.community): total 2.5h–5h
+  oral: light 10 mg, common 10–20 mg, heavy ≥20 (tripsit) | duration (tripsit): onset 20m–1h, total 3h–7h, afterglow 1h–4h
+
+## 4-PrO-DMT (Psychedelic)
+  inhalation: threshold 2, light 2–6 mg (freebase), common 6–12 mg (freebase), strong 12–20 mg (freebase), heavy ≥20 (drug.community) | duration (drug.community): total 2.5h–5h
+  insufflation: threshold 3, light 3–10 mg (salt), common 10–20 mg (salt), strong 20–30 mg (salt), heavy ≥30 (drug.community) | duration (drug.community): total 4h–6h
+  oral: threshold 5, light 5–15 mg (salt as sold; see notes), common 15–30 mg (salt as sold; see notes), strong 30–45 mg (salt as sold; see notes), heavy ≥45 (drug.community) | duration (drug.community): total 4h–7h
+
+## 4-PrO-MET (Psychedelic)
+  insufflation: threshold 2, light 5–10 mg, common 8–15 mg, strong 12–20 mg, heavy ≥20 (drug.community)
+  oral: threshold 2, light 3–7 mg, common 7–15 mg, strong 15–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 4h–6h
+
+## 4-T-TRIS (Psychedelic)
+  oral: common 150–250 mg (erowid-pihkal)
+
+## 4-TASB (Psychedelic)
+  oral: common 60–100 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–15h
+
+## 4-TIM (Psychedelic)
+  oral: common 120–200 mg (erowid-pihkal)
+
+## 4-TME (Psychedelic)
+  oral: common 60–100 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–15h
+
+## 4-TSB (Psychedelic)
+  oral: common 180–300 mg (erowid-pihkal)
+
+## 4F-5-MeO-DMT (Psychedelic)
+  inhalation: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30s–2m, peak 5m–15m, offset 10m–20m, total 30m–1h
+
+## 4T-MMDA-2 (Psychedelic)
+  oral: common 18.75–31.25 mg (erowid-pihkal)
+
+## 5,6-MDO-DMT (Psychedelic)
+  oral: common 3.75–6.25 mg (erowid-tihkal)
+
+## 5,6-MDO-MIPT (Psychedelic)
+  oral: common 37.5–62.5 mg (erowid-tihkal)
+
+## 5,6-MEO-MIPT (Psychedelic)
+  oral: common 56.25–93.75 mg (erowid-tihkal)
+
+## 5-Br-DMT (Psychedelic)
+  inhalation: light 10–25 mg, common 25–35 mg, strong 35–65 mg (tripsit) | duration (tripsit): onset 1m–2m, total 15m–1.5h
+
+## 5-Bromo-DMT (Psychedelic)
+  inhalation: threshold 5, light 10–25 mg, common 25–35 mg, strong 35–65 mg, heavy ≥65 (drug.community) | duration (drug.community): total 15m–1.5h
+  insufflation: (empty) (drug.community)
+
+## 5-HO-DMT (Psychedelic)
+  intravenous: common 8–16 mg (erowid-tihkal) | duration (erowid-tihkal): total 1h–2h
+
+## 5-Meo-Dalt (Psychedelic)
+  inhalation: threshold 3, common 5–10 mg (psychonautwiki) | duration (psychonautwiki): onset 15s–30s, comeup 15s–30s, peak 1m–5m, offset 5m–10m, total 15m–20m, afterglow 5m–10m
+  insufflation: threshold 3, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 1.5h–3.5h
+  oral: threshold 4, light 5–12 mg, common 12–25 mg, strong 25–35 mg, heavy ≥35 (psychonautwiki) | duration (psychonautwiki): onset 10m–15m, comeup 15m–20m, peak 1h–1.5h, offset 1h–2h, total 2h–4h
+
+## 5-MEO-DET (Psychedelic)
+  oral: common 1–3 mg (erowid-tihkal) | duration (erowid-tihkal): total 3h–4h
+
+## 5-Meo-Dibf (Psychedelic)
+  insufflation: light 5–10 mg, common 10–15 mg, strong 15–20 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+  oral: threshold 20, light 50–80 mg, common 80–110 mg, strong 110–140 mg, heavy ≥140 (psychonautwiki) [also: tripsit: common 20–40 mg] | duration (psychonautwiki): peak 30m–1h, total 4h–6h
+
+## 5-MEO-DIPT (Psychedelic)
+  oral: threshold 3, light 3–10 mg, common 10–15 mg, strong 15–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, total 4h–8h, afterglow 2h–6h
+
+## 5-MEO-DMT (Psychedelic)
+  inhalation: threshold 1, light 3–6 mg, common 6–12 mg, strong 12–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 5s–1m, comeup 30s–1m, peak 5m–15m, offset 10m–20m, total 20m–40m, afterglow 15m–1h
+  insufflation: threshold 3, light 5–8 mg, common 8–15 mg, strong 15–25 mg (psychonautwiki) | duration (psychonautwiki): onset 1m–10m, peak 10m–40m, offset 30m–1h, total 2h–3h, afterglow 1h–3h
+
+## 5-Meo-DPT (Psychedelic)
+  inhalation: threshold 0.5, light 1–3 mg, common 2–5 mg, strong 5–8 mg, heavy ≥8 (drug.community) | duration (drug.community): total 30m–2h
+  oral: light 3 mg, common 3–5 mg, strong 5–10 mg (tripsit) [also: drug.community: common 6–12 mg] | duration (tripsit): onset 30m–1h, total 2h–5h, afterglow 1h–2h
+
+## 5-Meo-Eipt (Psychedelic)
+  insufflation: threshold 1, light 3–7 mg, common 7–15 mg, strong 15–20 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+  oral: threshold 2, light 5–10 mg, common 10–20 mg, strong 20–25 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+
+## 5-Meo-Malt (Psychedelic)
+  inhalation: light 5–10 mg, common 10–15 mg, strong 15–20 mg (tripsit)
+  insufflation: light 5–10 mg, common 10–20 mg, heavy ≥20 (tripsit)
+  oral: light 15–25 mg, common 25–50 mg, heavy ≥50 (tripsit)
+
+## 5-Meo-Met (Psychedelic)
+  inhalation: light 1–5 mg, common 5–8 mg, strong 8–12 mg (tripsit) | duration (tripsit): afterglow 1h–2h
+  oral: light 13–15 mg, common 15–25 mg, heavy ≥25 (tripsit) | duration (tripsit): afterglow 1h–2h
+
+## 5-MEO-MIPT (Psychedelic)
+  inhalation: threshold 5, light 5–10 mg, common 10–15 mg, strong 15–20 mg, heavy ≥20 (psychonautwiki) [also: erowid-tihkal: common 4–6 mg] | duration (psychonautwiki): onset 20m–1h, peak 1h–2h, offset 1h–2h, total 5h–8h, afterglow 1h–3h
+  oral: threshold 3, light 3–7 mg, common 7–15 mg, strong 15–20 mg, heavy ≥20 (psychonautwiki) [also: drug.community: common 4–6 mg] | duration (psychonautwiki): onset 20m–40m, comeup 30m–1h, peak 2h–3h, offset 2h–3h, total 5h–8h, afterglow 2h–4h
+  sublingual: threshold 1, light 2–4 mg, common 4–6 mg, strong 6–10 mg, heavy ≥12 (drug.community)
+
+## 5-Meo-Nipt (Psychedelic)
+  oral: threshold 2, common 8–15 mg, strong 15–25 mg (tripsit) | duration (tripsit): onset 30m–1h, total 4h–6h, afterglow 1h–16h
+
+## 5-MEO-PYR-T (Psychedelic)
+  inhalation: light 0.5–1.5 mg, common 1.5–2 mg, strong 2–3 mg (tripsit) | duration (tripsit): afterglow 1h–36h
+  oral: light 0.5–1 mg, common 1–1.5 mg, strong 1.5–2 mg (tripsit) | duration (tripsit): afterglow 1h–36h
+
+## 5-MEO-TMT (Psychedelic)
+  oral: common 75–150 mg (erowid-tihkal) | duration (erowid-tihkal): total 5h–10h
+
+## 5-MES-DMT (Psychedelic)
+  oral: common 15–30 mg (erowid-tihkal) | duration (erowid-tihkal): total 15m
+
+## 5-TASB (Psychedelic)
+  oral: common 120–200 mg (erowid-pihkal) | duration (erowid-pihkal): total 8h
+
+## 5-TME (Psychedelic)
+  oral: common 150–250 mg (erowid-pihkal)
+
+## 5-TOET (Psychedelic)
+  oral: common 12–25 mg (erowid-pihkal) | duration (erowid-pihkal): total 8h–24h
+
+## 5-TOM (Psychedelic)
+  oral: common 30–50 mg (erowid-pihkal) | duration (erowid-pihkal): total 6h–10h
+
+## 6-Apb (Psychedelic)
+  insufflation: threshold 10, light 15–30 mg, common 30–50 mg, strong 50–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 15, light 30–60 mg, common 60–90 mg, strong 90–120 mg, heavy ≥120 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, comeup 1h–2h, peak 3h–4h, offset 2h–3h, total 7h–10h, afterglow 6h–48h
+  rectal: threshold 20, light 30–50 mg, common 50–80 mg, strong 80–110 mg, heavy ≥110 (drug.community)
+
+## a,N-DMT (Psychedelic)
+  oral: common 50–100 mg (erowid-tihkal) | duration (erowid-tihkal): total 6h–8h
+
+## a,O-DMS (Psychedelic)
+  oral: common 2.5–4.5 mg (erowid-tihkal) | duration (erowid-tihkal): total 12h–18h
+
+## a-ET (Psychedelic)
+  oral: common 100–150 mg (erowid-tihkal) | duration (erowid-tihkal): total 6h–8h
+
+## a-MT (Psychedelic)
+  oral: common 15–30 mg (erowid-tihkal) | duration (erowid-tihkal): total 12h–16h
+
+## AEM (Psychedelic)
+  oral: threshold 220 (drug.community)
+
+## AL (Psychedelic)
+  oral: common 20–35 mg (erowid-pihkal) | duration (erowid-pihkal): total 8h–12h
+

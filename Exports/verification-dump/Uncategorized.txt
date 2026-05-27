@@ -1,0 +1,10 @@
+# Uncategorized — chunk 1/1 — 1 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Blue Lotus (Uncategorized)
+  inhalation: threshold 0.5, light 0.75–1 g, common 1.25–2 g, strong 2.5–3 g, heavy ≥5 (psychonautwiki)
+  oral: (empty) (psychonautwiki) | duration (psychonautwiki): onset 10s–1m, comeup 5m–10m, peak 1h–2h, offset 2h–2.5h, total 6h–8h, afterglow 6h–8h
+

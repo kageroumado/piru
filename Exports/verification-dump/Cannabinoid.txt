@@ -1,0 +1,202 @@
+# Cannabinoid — chunk 1/1 — 47 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## 4F-MDMB-BINACA (Cannabinoid)
+  inhalation: threshold 0.1, light 0.1–0.3 mg (weighed) or µg (weighed), common 0.3–0.8 mg (weighed) or µg (weighed), strong 0.8–1.5 mg (weighed) or µg (weighed), heavy ≥1.5 (drug.community)
+  oral: threshold 0.05, light 0.05–0.15 mg, common 0.15–0.4 mg, strong 0.4–0.8 mg, heavy ≥0.8 (drug.community)
+
+## 4F-Neb (Cannabinoid)
+  insufflation: common 75–150 mg, strong 150–250 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+  oral: light 75–100 mg, common 100–150 mg, strong 150–300 mg (tripsit) | duration (tripsit): afterglow 1h–12h
+
+## 5F-Akb48 (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (psychonautwiki) | duration (psychonautwiki): onset 0s–20m, peak 10m–30m, offset 5m–10m, total 30m–1h, afterglow 15m–30m
+
+## 5F-Pb-22 (Cannabinoid)
+  inhalation: threshold 1, light 1–3 mg, common 3–5 mg, strong 5–8 mg, heavy ≥8 (psychonautwiki)
+  oral: threshold 1, light 1–3 mg, common 3–5 mg, strong 5–8 mg, heavy ≥8 (psychonautwiki) | duration (psychonautwiki): total 2h–3h
+
+## Ab-chminaca (Cannabinoid)
+  oral: light 50–100 µg, common 100–250 µg, strong 250–400 µg, heavy ≥400 (tripsit)
+
+## Ab-fubinaca (Cannabinoid)
+  inhalation: threshold 1, light 1–2 mg, common 2–3 mg, strong 3–5 mg, heavy ≥5 (psychonautwiki) [also: tripsit: common 0.5–1.5 mg] | duration (psychonautwiki): onset 0s–20m, peak 30m–1h, offset 10m–20m, total 1h–2h, afterglow 15m–30m
+  oral: light 0.25–0.5 mg, common 0.5–1.5 mg, strong 1.5–3 mg, heavy ≥3 (tripsit)
+
+## ADB-INACA (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1 mg, common 1–3 mg, strong 3–5 mg, heavy ≥5 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 1, light 1–3 mg, common 3–6 mg, strong 6–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 3h–8h
+
+## ADB-PINACA (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 1, light 1–2 mg, common 2–3 mg, strong 3–5 mg, heavy ≥5 (drug.community) | duration (drug.community): total 2h–4h
+
+## ADB-PINACA isomer 2 (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥3 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 0.5, light 0.5–1 mg, common 1–1.5 mg, strong 1.5–2 mg, heavy ≥2 (drug.community) | duration (drug.community): total 2h–4h
+
+## ADBICA (Cannabinoid)
+  inhalation: threshold 0.25, light 0.25–0.5 mg, common 0.5–1 mg, strong 1–1.5 mg, heavy ≥1.5 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 0.3, light 0.3–0.6 mg, common 0.6–1.2 mg, strong 1.2–2 mg, heavy ≥2 (drug.community) | duration (drug.community): total 3h–6h
+
+## AKB-57 (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1.5 mg (pure powder on inert herb or vaporised in e‑liquid), common 1.5–3 mg (pure powder on inert herb or vaporised in e‑liquid), strong 3–5 mg (pure powder on inert herb or vaporised in e‑liquid), heavy ≥5 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 0.5, light 1–2 mg, common 2–4 mg, strong 4–6 mg, heavy ≥6 (drug.community) | duration (drug.community): total 3h–6h
+
+## AM-1248 (Cannabinoid)
+  inhalation: threshold 0.3, light 0.3–1 mg, common 1–3 mg, strong 3–5 mg, heavy ≥5 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 1, light 1–3 mg, common 3–6 mg, strong 6–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 3h–6h
+
+## AM-2201 (Cannabinoid)
+  inhalation: light 250–500 µg, common 500–1000 µg, strong 1000–2000 µg (tripsit) | duration (tripsit): afterglow 15m–1h
+  oral: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥3 (drug.community) | duration (drug.community): total 1h–3h
+
+## AM-2233 (Cannabinoid)
+  inhalation: threshold 0.25, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 1, light 2–3 mg, common 3–5 mg, strong 5–8 mg, heavy ≥8 (drug.community) | duration (drug.community): total 3h–6h
+
+## AM-694 (Cannabinoid)
+  inhalation: threshold 0.05, light 0.1–0.25 mg, common 0.25–1 mg, strong 1–2 mg, heavy ≥2 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 0.3, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥3 (drug.community) | duration (drug.community): total 2h–4h
+
+## AMB-CHMICA (Cannabinoid)
+  inhalation: threshold 100, light 100–250 µg, common 250–500 µg, strong 500–800 µg, heavy ≥800 (drug.community) | duration (drug.community): total 1.5h–3h
+  oral: threshold 0.2, light 0.3–0.6 mg, common 0.6–1 mg, strong 1–1.5 mg, heavy ≥1.5 (drug.community) | duration (drug.community): total 4h–6h
+
+## APICA (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1.5 mg, common 1.5–2 mg, strong 2–4 mg, heavy ≥4 (psychonautwiki) | duration (psychonautwiki): onset 0s–20s, peak 10m–30m, offset 5m–10m, total 30m–1h, afterglow 15m–35m
+
+## Cannabichromene (Cannabinoid)
+  inhalation: threshold 1, light 1–5 mg, common 5–20 mg, strong 20–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 5, light 10–30 mg, common 30–70 mg, strong 70–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 4h–8h
+
+## Cannabidiol (Cannabinoid)
+  oral: threshold 2, light 5–15 mg, common 15–30 mg, strong 30–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): comeup 15m–30m, offset 1h–1.5h, total 1.5h–4h
+
+## Cannabidiolic acid (Cannabinoid)
+  oral: threshold 2, light 5–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 4h–8h
+  sublingual: threshold 1, light 2–6 mg, common 6–20 mg, strong 20–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 3h–6h
+
+## Cannabigerol (Cannabinoid)
+  inhalation: threshold 1, light 1–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 4h–6h
+  sublingual: threshold 3, light 3–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 (drug.community)
+
+## Cannabis (Cannabinoid)
+  inhalation: threshold 0.4, light 0.4–2 mg, common 2–4 mg, strong 4–10 mg, heavy ≥10 (psychonautwiki) [also: tripsit: common 20–60 mg; drug.community: common 3–10 mg] | duration (psychonautwiki): onset 6s–10m, comeup 5m–10m, peak 15m–45m, offset 3h–4h, total 2.5h–5h, afterglow 45m–3h
+  oral: threshold 1, light 2.5–5 mg, common 5–10 mg, strong 10–25 mg, heavy ≥25 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 1h–2h, offset 4h–6h, total 4h–10h, afterglow 6h–12h
+  sublingual: (empty) (psychonautwiki) | duration (psychonautwiki): onset 1m–10m, comeup 15m–30m, peak 30m–1h, offset 4h–6h, total 3h–7h
+
+## CB-13 (Cannabinoid)
+  inhalation: threshold 5, light 10–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 50, light 75–150 mg, common 150–300 mg, strong 300–450 mg, heavy ≥450 (drug.community) | duration (drug.community): total 6h–10h
+
+## CBC (Cannabinoid)
+  oral: threshold 5, light 10–25 mg, common 25–75 mg, strong 75–150 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–3h, offset 3h–5h, total 4h–7h
+  half-life: 12h (piru-curated)
+
+## CBD (Cannabinoid)
+  oral: threshold 5, light 10–25 mg, common 25–100 mg, strong 100–300 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–4h, offset 3h–6h, total 4h–8h
+  sublingual: threshold 5, light 10–25 mg, common 25–75 mg, strong 75–150 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 15m–45m, peak 1h–3h, offset 2h–5h, total 3h–6h
+  half-life: 30h (piru-curated)
+
+## CBG (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–45m, offset 1h–2h, total 1.5h–3h
+  oral: threshold 5, light 10–25 mg, common 25–75 mg, strong 75–150 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–3h, offset 3h–5h, total 4h–7h
+  half-life: 12h (piru-curated)
+
+## CBN (Cannabinoid)
+  inhalation: threshold 2, light 3–7 mg, common 7–15 mg, strong 15–30 mg, heavy ≥30 (piru-curated) [also: drug.community: common 3–10 mg (estimated inhaled)] | duration (piru-curated): onset 1m–5m, peak 15m–45m, offset 1h–2h, total 1.5h–3h
+  oral: threshold 2, light 5–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–3h, offset 3h–6h, total 4h–8h
+  sublingual: threshold 1, light 2–4 mg, common 4–15 mg, strong 15–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 3h–6h
+  half-life: 24h (piru-curated)
+
+## CBN-O (Cannabinoid)
+  inhalation: threshold 2, light 5–15 mg, common 15–30 mg, strong 30–60 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 5m–20m, peak 30m–1.5h, offset 2h–4h, total 3h–6h
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–3h, offset 3h–6h, total 4h–8h
+  half-life: 24h (piru-curated)
+
+## CBNA (Cannabinoid)
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–8h
+  sublingual: threshold 2, light 5–15 mg, common 15–30 mg, strong 30–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 3.5h–7h
+
+## Delta-10-THC (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–45m, offset 1.5h–3h, total 2h–4h
+  oral: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 1.5h–4h, offset 5h–8h, total 6h–10h
+  half-life: 30h (piru-curated)
+
+## Delta-8-THC (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–1h, offset 2h–4h, total 3h–6h
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–4h, offset 6h–8h, total 8h–12h
+  half-life: 30h (piru-curated)
+
+## Dronabinol (Cannabinoid)
+  oral: threshold 2.5, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–4h, offset 4h–8h, total 6h–10h
+  half-life: 30h (piru-curated)
+
+## H4CBD (Cannabinoid)
+  inhalation: threshold 2, light 5–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 30m–1.5h, offset 2h–4h, total 3h–6h
+  oral: threshold 5, light 10–25 mg, common 25–75 mg, strong 75–150 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–4h, offset 3h–6h, total 4h–8h
+  half-life: 30h (piru-curated)
+
+## HHC (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 20m–1h, offset 2h–4h, total 3h–6h
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–5h, offset 5h–8h, total 7h–11h
+  half-life: 20h (piru-curated)
+
+## HHC-O (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 5m–20m, peak 30m–1.5h, offset 2h–5h, total 3h–7h
+  half-life: 20h (piru-curated)
+
+## HHCP (Cannabinoid)
+  inhalation: threshold 0.5, light 1–3 mg, common 3–7 mg, strong 7–15 mg, heavy ≥15 (piru-curated) | duration (piru-curated): onset 2m–10m, peak 30m–1.5h, offset 3h–6h, total 4h–8h
+  half-life: 40h (piru-curated)
+
+## JWH-018 (Cannabinoid)
+  inhalation: threshold 0.5, light 1–2 mg, common 2–5 mg, strong 5–8 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 30m–1h, offset 1h–2h, total 2h–4h
+  oral: threshold 0.5, light 0.5–1.5 mg, common 1.5–3 mg, strong 3–5 mg, heavy ≥5 (drug.community) | duration (drug.community): total 3h–6h
+
+## JWH-073 (Cannabinoid)
+  inhalation: light 3–5 mg, common 5–10 mg, strong 10–15 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–10m, peak 1h–1.5h, offset 5m–10m, total 1h–2h, afterglow 1h–1.5h
+
+## Nabilone (Cannabinoid)
+  oral: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 4h–8h, total 6h–12h
+  half-life: 2h (piru-curated)
+
+## Nabiximols (Cannabinoid)
+  sublingual: threshold 1, light 1–2 sprays, common 2–6 sprays, strong 6–12 sprays, heavy ≥12 (piru-curated) | duration (piru-curated): onset 15m–45m, peak 1h–3h, offset 2h–5h, total 3h–7h
+  half-life: 30h (piru-curated)
+
+## STS-135 (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1.5 mg, common 1.5–2 mg, strong 2–4 mg, heavy ≥4 (psychonautwiki) | duration (psychonautwiki): onset 10s–45s, comeup 10m–45m, peak 10m–30m, offset 5m–10m, total 30m–1h, afterglow 15m–45m
+
+## THC (Cannabinoid)
+  inhalation: threshold 1, light 2–5 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–45m, offset 1h–2h, total 1.5h–3h
+  oral: threshold 2, light 2–5 mg, common 5–20 mg, strong 20–40 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–5h, offset 4h–8h, total 6h–10h
+  sublingual: threshold 1, light 2–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (piru-curated) | duration (piru-curated): onset 15m–45m, peak 1h–3h, offset 2h–5h, total 3h–6h
+  half-life: 30h (piru-curated)
+
+## THC-O (Cannabinoid)
+  inhalation: threshold 1, light 3–7 mg, common 7–20 mg, strong 20–40 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–2h, offset 3h–6h, total 4h–8h
+  oral: threshold 3, light 5–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (piru-curated) | duration (piru-curated): onset 45m–2h, peak 2h–5h, offset 5h–9h, total 7h–12h
+  half-life: 30h (piru-curated)
+
+## THCP (Cannabinoid)
+  inhalation: threshold 0.5, light 1–3 mg, common 3–7 mg, strong 7–15 mg, heavy ≥15 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 30m–1.5h, offset 3h–6h, total 4h–8h
+  oral: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–5h, offset 6h–9h, total 8h–12h
+  half-life: 40h (piru-curated)
+
+## THCV (Cannabinoid)
+  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–45m, offset 45m–1.5h, total 1h–2h
+  oral: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 1.5h–3h, offset 2h–4h, total 3h–6h
+  half-life: 16h (piru-curated)
+
+## THJ-018 (Cannabinoid)
+  inhalation: threshold 1, light 1–2 mg, common 2–3 mg, strong 3–5 mg, heavy ≥5 (psychonautwiki) | duration (psychonautwiki): onset 5m–10m, peak 1h–1.5h, offset 5m–10m, total 2h–3h, afterglow 1h–1.5h
+
+## THJ-2201 (Cannabinoid)
+  inhalation: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–5 mg, heavy ≥5 (psychonautwiki) | duration (psychonautwiki): onset 5m–10m, peak 30m–45m, offset 0s, total 1h–2h, afterglow 1h–1.5h
+

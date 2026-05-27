@@ -1,0 +1,161 @@
+# Nootropic — chunk 1/1 — 45 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## 4-Fluorodeprenyl (Nootropic)
+  oral: threshold 0.5, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 4h–8h
+  sublingual: threshold 0.25, light 0.5–1 mg, common 1–3 mg, strong 3–6 mg, heavy ≥6 (drug.community) | duration (drug.community): total 4h–8h
+
+## 5-Hydroxytryptophan (Nootropic)
+  oral: threshold 25, light 50–100 mg, common 100–300 mg, strong 300–500 mg, heavy ≥500 (psychonautwiki)
+
+## 9-Me-BC (Nootropic)
+  insufflation: threshold 1, light 1–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 (drug.community)
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥150 (piru-curated) [also: drug.community: common 10–25 mg] | duration (drug.community): total 6h–10h
+  sublingual: threshold 2, light 2–10 mg, common 10–25 mg, strong 25–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 5h–9h
+
+## Agmatine (Nootropic)
+  oral: threshold 250, light 500–1000 mg, common 1000–2000 mg, strong 2000–3000 mg, heavy ≥4000 (piru-curated) [also: drug.community: common 250–1000 mg] | duration (drug.community): total 3h–6h
+
+## Alpha-GPC (Nootropic)
+  oral: threshold 100, light 200–300 mg, common 300–600 mg, strong 600–1200 mg, heavy ≥1500 (piru-curated) | duration (psychonautwiki): onset 45m–1.25h, total 4h–8h
+
+## Bromantane (Nootropic)
+  oral: threshold 25, light 50–75 mg, common 75–100 mg, strong 100–150 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 4h–10h, offset 10h–16h, total 16h–24h
+  half-life: 12h (piru-curated)
+
+## Centrophenoxine (Nootropic)
+  oral: threshold 250, light 500–750 mg, common 750–1500 mg, strong 1500–2000 mg, heavy ≥2500 (piru-curated) [also: tripsit: common 1–6 x] | duration (tripsit): total 4h–8h
+
+## Choline bitartrate (Nootropic)
+  oral: threshold 50, light 100–250 mg, common 250–1000 mg, strong 1000–2000 mg, heavy ≥2000 (psychonautwiki) | duration (psychonautwiki): onset 45m–1.25h, comeup 15m–30m, peak 2h–4h, offset 1h–2h, total 4h–8h, afterglow 2h–8h
+
+## Citicoline (Nootropic)
+  oral: threshold 100, light 250–500 mg, common 500–1000 mg, strong 1000–2000 mg, heavy ≥2500 (piru-curated) | duration (psychonautwiki): onset 1h–2h, comeup 2h–3h, peak 2.5h–3.5h, offset 30h–40h, total 58h–74h, afterglow 40h–60h
+
+## Coluracetam (Nootropic)
+  insufflation: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 1m–5m, total 3h–6h
+  oral: threshold 3, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 1h–3h, total 3h–6h
+  sublingual: light 2–5 mg, common 5–10 mg, heavy ≥10 (tripsit) | duration (tripsit): total 3h–6h, afterglow 1h–4h
+
+## Creatine (Nootropic)
+  oral: threshold 0.25, light 1–5 g, common 5–10 g, strong 10–20 g, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, total 30h–36h
+
+## Cytisine (Nootropic)
+  oral: threshold 0.5, light 1–1.5 mg, common 1.5–3 mg, strong 3–6 mg, heavy ≥9 (piru-curated)
+
+## DMAE (Nootropic)
+  oral: threshold 100, light 200–350 mg, common 350–750 mg, strong 750–1000 mg, heavy ≥1500 (piru-curated)
+
+## Fasoracetam (Nootropic)
+  oral: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–100 mg, heavy ≥200 (piru-curated) [also: tripsit: common 5–10 mg] | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 2h–4h, total 4h–8h
+
+## Galantamine (Nootropic)
+  oral: threshold 2, light 4–8 mg, common 8–16 mg, strong 16–24 mg, heavy ≥32 (piru-curated) | duration (psychonautwiki): onset 20m–1h, total 6h–12h
+  half-life: 7h (piru-curated)
+
+## Huperzine A (Nootropic)
+  oral: threshold 50, light 100–200 µg, common 200–400 µg, strong 400–600 µg, heavy ≥800 (piru-curated)
+  half-life: 12h (piru-curated)
+
+## Huperzine-a (Nootropic)
+  insufflation: light 50–75 µg, common 75–150 µg, heavy ≥150 (tripsit) | duration (tripsit): afterglow 1h–14h
+
+## Hydergine (Nootropic)
+  oral: threshold 1, light 1.5–3 mg, common 3–6 mg, strong 6–9 mg, heavy ≥12 (piru-curated)
+
+## Idebenone (Nootropic)
+  oral: threshold 90, light 90–180 mg, common 180–360 mg, strong 360–540 mg, heavy ≥900 (piru-curated)
+
+## Meclofenoxate (Nootropic)
+  oral: light 50–200 mg, common 400–800 mg, strong 800–1000 mg, heavy ≥600 (psychonautwiki)
+
+## MELATONIN (Nootropic)
+  oral: threshold 0.25, light 0.5–1 mg, common 1–3 mg, strong 3–6 mg, heavy ≥6 (psychonautwiki) [also: erowid-tihkal: common 1–10 mg] | duration (psychonautwiki): onset 5m–20m, comeup 20m–1.16667h, peak 1h–2h, offset 2h–3h, total 3h–6h
+  sublingual: threshold 0.25, light 0.3–0.5 mg, common 0.5–2 mg, strong 2–3 mg, heavy ≥3 (drug.community) | duration (drug.community): total 3h–6h
+
+## Methylene blue (Nootropic)
+  oral: threshold 0.5, light 1–4 mg, common 4–8 mg, strong 8–16 mg, heavy ≥20 (piru-curated)
+
+## Methylliberine (Nootropic)
+  oral: threshold 25, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥400 (piru-curated)
+
+## N-Methyl-Cyclazodone (Nootropic)
+  oral: threshold 3, light 5–8 mg, common 10–15 mg, strong 20–25 mg, heavy ≥30 (drug.community) | duration (drug.community): total 6h–10h
+  sublingual: threshold 2, light 4–6 mg, common 8–12 mg, strong 15–20 mg, heavy ≥25 (drug.community) | duration (drug.community): total 6h–10h
+
+## Nefiracetam (Nootropic)
+  oral: threshold 100, light 150–300 mg, common 300–600 mg, strong 600–900 mg, heavy ≥1200 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–4h, offset 2h–4h, total 4h–8h
+
+## Noopept (Nootropic)
+  insufflation: light 2–5 mg, common 5–10 mg, heavy ≥10 (tripsit) | duration (tripsit): total 3h–6h, afterglow 1h–8h
+  oral: threshold 5, light 10–20 mg, common 20–30 mg, strong 30–40 mg, heavy ≥50 (piru-curated) [also: tripsit: common 10 mg] | duration (piru-curated): onset 15m–30m, peak 30m–1h, offset 1h–3h, total 2h–4h
+  sublingual: threshold 3, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 (piru-curated) | duration (tripsit): total 3h–6h, afterglow 1h–8h
+  half-life: 30m (piru-curated)
+
+## NSI-189 (Nootropic)
+  oral: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥160 (piru-curated)
+
+## Omberacetam (Nootropic)
+  insufflation: threshold 1, light 1–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 0s–5m, total 2h–5h
+  oral: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): total 3h–5h
+
+## Oxiracetam (Nootropic)
+  oral: threshold 400, light 600–800 mg, common 800–1600 mg, strong 1600–2400 mg, heavy ≥3000 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–4h, offset 2h–4h, total 4h–8h
+  half-life: 8h (piru-curated)
+
+## Phenethylamine (Nootropic)
+  oral: common 300–500 mg (tripsit) | duration (tripsit): onset 15m–30m, total 1h–4h, afterglow 10m–1h
+
+## Phenylpiracetam (Nootropic)
+  oral: threshold 50, light 75–100 mg, common 100–200 mg, strong 200–400 mg, heavy ≥600 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 2h–4h, offset 3h–5h, total 5h–10h
+  half-life: 5h (piru-curated)
+
+## Picamilon (Nootropic)
+  oral: threshold 50, light 100–200 mg, common 200–300 mg, strong 300–400 mg, heavy ≥500 (piru-curated) [also: tripsit: common 80–140 mg] | duration (tripsit): onset 10m–45m, total 2h–4h, afterglow 1h–12h
+
+## Piracetam (Nootropic)
+  oral: threshold 800, light 1200–1600 mg, common 1600–4800 mg, strong 4800–7200 mg, heavy ≥9600 (piru-curated) [also: psychonautwiki: common 2–3 g] | duration (piru-curated): onset 30m–1.5h, peak 1h–3h, offset 2h–4h, total 4h–8h
+  half-life: 5h (piru-curated)
+
+## Polygala tenuifolia (Nootropic)
+  oral: threshold 100, light 200–400 mg, common 400–800 mg, strong 800–1200 mg, heavy ≥1500 (piru-curated)
+
+## Pramiracetam (Nootropic)
+  oral: threshold 100, light 200–400 mg, common 400–800 mg, strong 800–1200 mg, heavy ≥1500 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 2h–5h, offset 3h–5h, total 5h–10h
+  half-life: 5h (piru-curated)
+
+## PRL-8-53 (Nootropic)
+  oral: threshold 1, light 2.5–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥20 (piru-curated) | duration (tripsit): afterglow 1h–12h
+
+## Pterostilbene (Nootropic)
+  oral: threshold 25, light 50–100 mg, common 100–250 mg, strong 250–400 mg, heavy ≥500 (piru-curated)
+
+## Pyritinol (Nootropic)
+  oral: threshold 200, light 300–600 mg, common 600–1200 mg, strong 1200–1800 mg, heavy ≥2400 (piru-curated)
+
+## Sabroxy (Nootropic)
+  oral: threshold 50, light 100–200 mg, common 200–400 mg, strong 400–600 mg, heavy ≥800 (piru-curated)
+
+## SAM-e (Nootropic)
+  oral: threshold 200, light 400–800 mg, common 800–1200 mg, strong 1200–1600 mg, heavy ≥1600 (psychonautwiki) | duration (psychonautwiki): onset 1.66667h–3h
+
+## Sulbutiamine (Nootropic)
+  oral: threshold 100, light 200–400 mg, common 400–600 mg, strong 600–800 mg, heavy ≥1000 (piru-curated) | duration (tripsit): onset 20m–40m, total 6h–10h
+
+## Sulforaphane (Nootropic)
+  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–90 mg, heavy ≥120 (piru-curated)
+
+## Theanine (Nootropic)
+  oral: threshold 50, light 75–175 mg, common 175–300 mg, strong 300–500 mg, heavy ≥500 (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, peak 1h–3h, total 3h–6h
+
+## Varenicline (Nootropic)
+  oral: threshold 0.25, light 0.5–1 mg, common 1–2 mg, strong 2–3 mg, heavy ≥4 (piru-curated)
+  half-life: 24h (piru-curated)
+
+## Vinpocetine (Nootropic)
+  oral: threshold 5, light 5–10 mg, common 10–30 mg, strong 30–45 mg, heavy ≥60 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 2h–4h, total 3h–6h
+  half-life: 1.5h (piru-curated)
+

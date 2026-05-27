@@ -1,0 +1,24 @@
+# Eugeroic — chunk 1/1 — 4 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Adrafinil (Eugeroic)
+  oral: threshold 150, light 300–600 mg, common 600–900 mg, strong 900–1200 mg, heavy ≥1500 (piru-curated) [also: psychonautwiki: common 250–400 mg; tripsit: common 250–400 mg] | duration (piru-curated): onset 45m–2h, peak 3h–6h, offset 6h–10h, total 10h–15h
+  half-life: 1h (piru-curated)
+
+## Armodafinil (Eugeroic)
+  oral: threshold 25, light 50–100 mg, common 100–150 mg, strong 150–250 mg, heavy ≥250 (piru-curated) | duration (piru-curated): onset 30m–2h, peak 2h–6h, offset 6h–10h, total 12h–16h
+  half-life: 15h (piru-curated)
+
+## Flmodafinil (Eugeroic)
+  insufflation: threshold 5, light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 6h–9h
+  oral: threshold 10, light 20–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 6h–10h
+  rectal: threshold 10, light 15–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 (drug.community)
+  sublingual: threshold 10, light 15–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community)
+
+## Modafinil (Eugeroic)
+  oral: threshold 50, light 100–150 mg, common 150–200 mg, strong 200–400 mg, heavy ≥400 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 4h–8h, total 10h–15h
+  half-life: 15h (piru-curated)
+

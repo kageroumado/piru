@@ -1,0 +1,64 @@
+# Empathogen — chunk 2/2 — 16 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Ephylone (Empathogen)
+  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–80 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, total 4h–8h, afterglow 6h–24h
+
+## Ethyl-pentedrone (Empathogen)
+  insufflation: light 10–20 mg, strong 40–60 mg (tripsit) | duration (tripsit): afterglow 1h–24h
+
+## Homarylamine (Empathogen)
+  insufflation: (empty) (drug.community) | duration (drug.community): total 15m–1h
+  oral: (empty) (drug.community) | duration (drug.community): total 15m–1.5h
+
+## HOT-7 (Empathogen)
+  oral: threshold 15, light 15–20 mg, common 20–30 mg, strong 30–40 mg (tripsit) | duration (tripsit): onset 1h–3h, total 5h–8h, afterglow 1h–12h
+
+## Mbdb (Empathogen)
+  oral: light 150–180 mg, common 180–210 mg, strong 210–250 mg (tripsit) | duration (tripsit): onset 30m–2h, total 3h–8h, afterglow 1h–12h
+
+## Mdai (Empathogen)
+  oral: threshold 40, light 40–100 mg, common 100–175 mg, strong 175–300 mg, heavy ≥300 (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, comeup 30m–1h, peak 2h–2.5h, offset 1h–2h
+
+## Mdea (Empathogen)
+  oral: threshold 40, light 70–120 mg, common 120–180 mg, strong 180–225 mg, heavy ≥225 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 15m–30m, peak 1.5h–2h, offset 1h–2h, total 3h–6h, afterglow 12h–48h
+
+## MDMA (Empathogen)
+  insufflation: light 30–70 mg, common 70–120 mg, strong 120–165 mg, heavy ≥165 (tripsit) [also: drug.community: common 25–60 mg] | duration (tripsit): onset 20m–1.16667h, total 3h–5h, afterglow 1h–72h
+  oral: threshold 20, light 20–80 mg, common 80–120 mg, strong 120–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 30m–45m, comeup 15m–30m, peak 1.5h–2.5h, offset 1h–1.5h, total 3h–6h, afterglow 12h–48h
+  rectal: light 30–70 mg, common 70–120 mg, strong 120–165 mg, heavy ≥165 (tripsit) | duration (tripsit): onset 20m–1.16667h, total 3h–5h, afterglow 1h–72h
+
+## MDOH (Empathogen)
+  oral: threshold 80, light 100–120 mg, common 120–150 mg, heavy ≥150 (tripsit) | duration (tripsit): onset 20m–40m, total 4h–6h, afterglow 1h–6h
+
+## Mdpa (Empathogen)
+  oral: light 75–125 mg, common 125–175 mg, strong 175–250 mg (tripsit) | duration (tripsit): onset 15m–45m, total 2h–4h
+
+## Mdpv (Empathogen)
+  inhalation: threshold 1, light 1–2 mg, common 2–4 mg, strong 4–8 mg, heavy ≥8 (drug.community) | duration (drug.community): total 1h–3h
+  insufflation: threshold 1, light 2–5 mg, common 5–11 mg, strong 10–20 mg (tripsit) | duration (tripsit): afterglow 2h–48h
+  oral: threshold 2, light 4–8 mg, common 8–14 mg, strong 14–25 mg, heavy ≥25 (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, peak 1h–4h, offset 30m–2h, total 2h–7h, afterglow 2h–48h
+  rectal: threshold 1, light 3–8 mg, common 6–12 mg, strong 10–25 mg (tripsit) | duration (tripsit): afterglow 2h–48h
+
+## Mephedrone (Empathogen)
+  insufflation: threshold 5, light 15–45 mg, common 45–80 mg, strong 80–125 mg, heavy ≥125 (psychonautwiki) [also: tripsit: common 20–80 mg; drug.community: common 20–80 mg] | duration (psychonautwiki): onset 5m–8m, comeup 15m–30m, peak 45m–1h, offset 30m–1.5h, total 1.5h–3h, afterglow 2h–4h
+  intravenous: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 1h–2h
+  oral: threshold 15, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 (psychonautwiki) | duration (psychonautwiki): onset 15m–45m, comeup 15m–30m, peak 2h–4h, offset 45m–1.5h, total 3h–6h, afterglow 2h–4h
+  rectal: threshold 15, light 15–40 mg, common 40–100 mg, strong 100–200 mg, heavy ≥200 (drug.community) | duration (drug.community): total 2h–4h
+
+## Mephenmetrazine (Empathogen)
+  insufflation: light 5–10 mg, common 10–20 mg, strong 20–25 mg (tripsit) | duration (tripsit): afterglow 1h–8h
+  oral: light 5–15 mg, common 15–25 mg, strong 25–40 mg (tripsit) | duration (tripsit): afterglow 1h–8h
+
+## Methamnetamine (Empathogen)
+  oral: light 60–80 mg, common 80–120 mg, strong 120–150 mg, heavy ≥150 (tripsit) | duration (tripsit): onset 10m–30m, total 3h–6h, afterglow 1h–6h
+
+## Pma (Empathogen)
+  oral: threshold 10, light 20–40 mg, common 40–60 mg (psychonautwiki)
+
+## PMMA (Empathogen)
+  oral: common 100–120 mg (psychonautwiki)
+
