@@ -37,7 +37,8 @@ Flag obvious errors: doses or durations that don't match clinical/community know
 
 ## Phenobarbital (Depressant)
   intravenous: threshold 10 mg, light 15–30 mg, common 30–60 mg, strong 60–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 4h–10h
-  oral: threshold 25 mg, light 50–100 mg, common 100–150 mg, strong 150–300 mg (psychonautwiki) [also: drug.community: common 30–100 mg] | duration (psychonautwiki): onset 15m–1h, comeup 1h–2h, peak 4h–6h, offset 12h–24h, total 4h–6h, afterglow 1h–48h
+  oral: threshold 30 mg, light 30–60 mg, common 60–120 mg, strong 120–200 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 4h–8h, offset 12h–24h, total 12h–30h, afterglow 24h–48h
+  half-life: 90h (piru-curated)
 
 ## Placdyl (Depressant)
   oral: light 100–200 mg, common 200–500 mg, strong 500–750 mg (tripsit) | duration (tripsit): onset 15m–45m, total 6h–9h, afterglow 1h–6h
@@ -74,7 +75,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   intravenous: threshold 1 mg/kg, light 2–3 mg/kg, common 3–5 mg/kg, strong 5–6 mg/kg (drug.community) | duration (drug.community): total 5m–15m
 
 ## Tizanidine (Depressant)
-  oral: threshold 2 mg, light 2–4 mg, common 4–8 mg, strong 8–12 mg, heavy ≥36 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 3h–6h, total 4h–8h
+  oral: threshold 2 mg, light 2–4 mg, common 4–8 mg, strong 8–16 mg, heavy ≥24 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 3h–6h, total 4h–8h
   half-life: 2.5h (piru-curated)
 
 ## Tuinal (Depressant)
@@ -85,8 +86,9 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   half-life: 1h (piru-curated)
 
 ## Zolpidem (Depressant)
-  oral: threshold 5 mg, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥50 mg (psychonautwiki) [also: tripsit: common 5–10 mg; drug.community: common 5–10 mg] | duration (psychonautwiki): onset 15m–45m, comeup 30m–45m, peak 3h–6h, offset 4h–5h, total 5h–10h, afterglow 2h–4h
+  oral: threshold 2.5 mg, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥30 mg (piru-curated) [also: psychonautwiki: common 20–30 mg] | duration (piru-curated): onset 15m–30m, peak 30m–1.5h, offset 3h–6h, total 4h–8h
   sublingual: threshold 1 mg, common 1.75–3.5 mg, strong 3.5–5 mg, heavy ≥5 mg (drug.community) | duration (drug.community): total 2h–4h
+  half-life: 2.5h (piru-curated)
 
 ## Zopiclone (Depressant)
   oral: threshold 2 mg, light 3.5–5 mg, common 5–7.5 mg, strong 7.5–15 mg, heavy ≥15 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, peak 3h–4h, total 3.5h–9h
