@@ -1255,13 +1255,57 @@ final class SubstanceStore {
 /// GRDB-backed. Inlined into call sites would be the long-term cleanup, but
 /// the façade is zero-cost so a one-line `enum` is the right level of
 /// abstraction for the migration to land cleanly.
+///
+/// ## User-defined overlay
+///
+/// Single-substance lookups (`lookup`, `lookupByNameOrAlias`) consult
+/// ``CustomSubstanceStore`` and overlay any user-defined entry on top of the
+/// library result. This is what makes the timeline / PK pipeline pick up
+/// user-corrected duration profiles for substances where the bundled DB has
+/// nothing useful (e.g. 2-MMC, where neither piru-curated nor TripSit ships
+/// duration data). The collection-level APIs (`all`, `substances(in:)`,
+/// `search`) deliberately stay library-only — the Library tab keeps its
+/// existing "Custom substances" section instead of folding them into the
+/// main listing, which would surprise users who expect that section to be
+/// authoritative.
 @MainActor
 enum SubstanceLibrary {
     static var all: [Substance] { SubstanceStore.shared.all }
     static var count: Int { SubstanceStore.shared.count }
     static var nonEmptyCategories: [SubstanceCategory] { SubstanceStore.shared.nonEmptyCategories }
     static func substances(in category: SubstanceCategory) -> [Substance] { SubstanceStore.shared.substances(in: category) }
-    static func lookup(_ name: String) -> Substance? { SubstanceStore.shared.lookup(name) }
-    static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? { SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias) }
-    static func search(_ query: String, limit: Int = 50) -> [Substance] { SubstanceStore.shared.search(query, limit: limit) }
+
+    static func lookup(_ name: String) -> Substance? {
+        overlayCustom(library: SubstanceStore.shared.lookup(name), query: name)
+    }
+
+    static func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
+        overlayCustom(library: SubstanceStore.shared.lookupByNameOrAlias(nameOrAlias), query: nameOrAlias)
+    }
+
+    static func search(_ query: String, limit: Int = 50) -> [Substance] {
+        SubstanceStore.shared.search(query, limit: limit)
+    }
+
+    /// Resolve the user-defined entry that should overlay (or replace) the
+    /// library result, then apply it. Looks up the custom by the library's
+    /// canonical name first — the canonical match is what the user is most
+    /// likely to recognise as "their" substance — and falls back to the raw
+    /// query so a custom-only entry (no library row at all) still resolves.
+    private static func overlayCustom(library: Substance?, query: String) -> Substance? {
+        let customs = CustomSubstanceStore.shared
+        let custom: CustomSubstanceEntry? = {
+            if let library, let byCanonical = customs.first(whereName: library.name) {
+                return byCanonical
+            }
+            return customs.first(whereName: query)
+        }()
+
+        switch (library, custom) {
+        case (nil, nil):              return nil
+        case (nil, let c?):           return c.asSubstance
+        case (let l?, nil):           return l
+        case (let l?, let c?):        return l.applyingOverride(from: c)
+        }
+    }
 }
