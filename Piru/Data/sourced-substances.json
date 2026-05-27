@@ -8281,26 +8281,6 @@
           },
           "route": "insufflation",
           "unit": "mg"
-        },
-        {
-          "doses": {
-            "common": {
-              "lower": 125,
-              "upper": 250
-            },
-            "heavy": 500,
-            "light": {
-              "lower": 75,
-              "upper": 125
-            },
-            "strong": {
-              "lower": 250,
-              "upper": 400
-            },
-            "threshold": 50
-          },
-          "route": "oral",
-          "unit": "mg"
         }
       ],
       "sources": [
@@ -8409,80 +8389,80 @@
       "name": "2-MMC",
       "routes": [
         {
-          "route": "insufflation",
-          "unit": "mg",
           "doses": {
-            "threshold": 30,
-            "light": {
-              "lower": 30,
-              "upper": 60
-            },
             "common": {
               "lower": 60,
               "upper": 120
+            },
+            "heavy": 250,
+            "light": {
+              "lower": 30,
+              "upper": 60
             },
             "strong": {
               "lower": 120,
               "upper": 200
             },
-            "heavy": 250
+            "threshold": 30
           },
           "duration": {
+            "offset": {
+              "max": 120,
+              "min": 60
+            },
             "onset": {
-              "min": 5,
-              "max": 15
+              "max": 15,
+              "min": 5
             },
             "peak": {
-              "min": 30,
-              "max": 90
-            },
-            "offset": {
-              "min": 60,
-              "max": 120
+              "max": 90,
+              "min": 30
             },
             "total": {
-              "min": 120,
-              "max": 240
+              "max": 240,
+              "min": 120
             }
-          }
+          },
+          "route": "insufflation",
+          "unit": "mg"
         },
         {
-          "route": "oral",
-          "unit": "mg",
           "doses": {
-            "threshold": 75,
-            "light": {
-              "lower": 75,
-              "upper": 150
-            },
             "common": {
               "lower": 150,
               "upper": 250
+            },
+            "heavy": 500,
+            "light": {
+              "lower": 75,
+              "upper": 150
             },
             "strong": {
               "lower": 250,
               "upper": 400
             },
-            "heavy": 500
+            "threshold": 75
           },
           "duration": {
+            "offset": {
+              "max": 180,
+              "min": 90
+            },
             "onset": {
-              "min": 20,
-              "max": 45
+              "max": 45,
+              "min": 20
             },
             "peak": {
-              "min": 60,
-              "max": 180
-            },
-            "offset": {
-              "min": 90,
-              "max": 180
+              "max": 180,
+              "min": 60
             },
             "total": {
-              "min": 180,
-              "max": 360
+              "max": 360,
+              "min": 180
             }
-          }
+          },
+          "route": "oral",
+          "unit": "mg"
         }
       ],
       "sources": [
@@ -10186,24 +10166,6 @@
             },
             "threshold": 12.5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -10633,24 +10595,6 @@
             },
             "threshold": 10
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -10818,24 +10762,6 @@
               "upper": 400
             },
             "threshold": 400
-          },
-          "duration": {
-            "offset": {
-              "max": 187200,
-              "min": 129600
-            },
-            "onset": {
-              "max": 4320,
-              "min": 1440
-            },
-            "peak": {
-              "max": 43200,
-              "min": 14400
-            },
-            "total": {
-              "max": 259200,
-              "min": 172800
-            }
           },
           "route": "intramuscular",
           "unit": "mg"
@@ -11072,24 +10998,6 @@
               "upper": 1500
             },
             "threshold": 150
-          },
-          "duration": {
-            "offset": {
-              "max": 86400,
-              "min": 43200
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 43200,
-              "min": 1440
-            },
-            "total": {
-              "max": 129600,
-              "min": 43200
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -11355,24 +11263,6 @@
               "upper": 900
             },
             "threshold": 150
-          },
-          "duration": {
-            "offset": {
-              "max": 259200,
-              "min": 129600
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 129600,
-              "min": 43200
-            },
-            "total": {
-              "max": 259200,
-              "min": 86400
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -12044,24 +11934,6 @@
             },
             "threshold": 25
           },
-          "duration": {
-            "offset": {
-              "max": 960,
-              "min": 600
-            },
-            "onset": {
-              "max": 90,
-              "min": 30
-            },
-            "peak": {
-              "max": 600,
-              "min": 240
-            },
-            "total": {
-              "max": 1440,
-              "min": 960
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -12358,24 +12230,6 @@
             },
             "threshold": 37.5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 14400
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -12668,24 +12522,6 @@
               "upper": 9
             },
             "threshold": 0.5
-          },
-          "duration": {
-            "offset": {
-              "max": 40320,
-              "min": 10080
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 480,
-              "min": 240
-            },
-            "total": {
-              "max": 80640,
-              "min": 40320
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -12981,7 +12817,7 @@
         "Analgesic via TRPV1/TRPA1 modulation",
         "Propyl analogue of CBD (shorter side chain)"
       ],
-      "halfLifeMinutes": 1440,
+      "halfLifeMinutes": 180,
       "name": "CBDV",
       "routes": [
         {
@@ -13025,7 +12861,8 @@
       ],
       "sources": [
         "https://en.wikipedia.org/wiki/Cannabidivarin",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/2877025"
+        "https://pubchem.ncbi.nlm.nih.gov/compound/2877025",
+        "https://pubmed.ncbi.nlm.nih.gov/22300505/"
       ],
       "tags": [
         "cannabinoid",
@@ -13874,24 +13711,6 @@
             },
             "threshold": 5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -13948,7 +13767,8 @@
         }
       ],
       "sources": [
-        "https://en.wikipedia.org/wiki/Citicoline"
+        "https://en.wikipedia.org/wiki/Citicoline",
+        "https://pubmed.ncbi.nlm.nih.gov/15005641/"
       ],
       "tags": [
         "nootropic",
@@ -14092,24 +13912,6 @@
             },
             "threshold": 10
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -14149,22 +13951,6 @@
       "name": "Clonazolam",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 0.25,
-              "upper": 0.5
-            },
-            "heavy": 1,
-            "light": {
-              "lower": 0.15,
-              "upper": 0.25
-            },
-            "strong": {
-              "lower": 0.5,
-              "upper": 0.75
-            },
-            "threshold": 0.1
-          },
           "duration": {
             "offset": {
               "max": 600,
@@ -14183,8 +13969,7 @@
               "min": 600
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -15497,22 +15282,6 @@
       "name": "Deschloroketamine",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 40,
-              "upper": 100
-            },
-            "heavy": 200,
-            "light": {
-              "lower": 20,
-              "upper": 40
-            },
-            "strong": {
-              "lower": 100,
-              "upper": 150
-            },
-            "threshold": 10
-          },
           "duration": {
             "offset": {
               "max": 120,
@@ -15531,26 +15300,9 @@
               "min": 120
             }
           },
-          "route": "insufflation",
-          "unit": "mg"
+          "route": "insufflation"
         },
         {
-          "doses": {
-            "common": {
-              "lower": 75,
-              "upper": 200
-            },
-            "heavy": 350,
-            "light": {
-              "lower": 50,
-              "upper": 75
-            },
-            "strong": {
-              "lower": 200,
-              "upper": 300
-            },
-            "threshold": 25
-          },
           "duration": {
             "offset": {
               "max": 180,
@@ -15569,8 +15321,7 @@
               "min": 180
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -15621,24 +15372,6 @@
               "upper": 250
             },
             "threshold": 10
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -15765,24 +15498,6 @@
               "upper": 100
             },
             "threshold": 25
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -15932,24 +15647,6 @@
               "upper": 6
             },
             "threshold": 0.5
-          },
-          "duration": {
-            "offset": {
-              "max": 1440,
-              "min": 720
-            },
-            "onset": {
-              "max": 60,
-              "min": 30
-            },
-            "peak": {
-              "max": 180,
-              "min": 90
-            },
-            "total": {
-              "max": 2880,
-              "min": 1440
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -16251,22 +15948,6 @@
       "name": "Diphenhydramine",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 50,
-              "upper": 100
-            },
-            "heavy": 300,
-            "light": {
-              "lower": 25,
-              "upper": 50
-            },
-            "strong": {
-              "lower": 100,
-              "upper": 300
-            },
-            "threshold": 12.5
-          },
           "duration": {
             "offset": {
               "max": 480,
@@ -16285,8 +15966,7 @@
               "min": 300
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         },
         {
           "doses": {
@@ -16771,24 +16451,6 @@
             },
             "threshold": 3
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -17221,24 +16883,6 @@
             },
             "threshold": 20
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -17583,24 +17227,6 @@
             },
             "threshold": 2.5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -17634,7 +17260,7 @@
         "Roughly twice the NMDA potency of racemic ketamine",
         "Requires REMS-monitored 2-hour observation post-dose"
       ],
-      "halfLifeMinutes": 420,
+      "halfLifeMinutes": 10,
       "name": "Esketamine",
       "routes": [
         {
@@ -17679,7 +17305,8 @@
       "sources": [
         "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211243lbl.pdf",
         "https://en.wikipedia.org/wiki/Esketamine",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/182137"
+        "https://pubchem.ncbi.nlm.nih.gov/compound/182137",
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/211243s004lbl.pdf"
       ],
       "tags": [
         "arylcyclohexylamine",
@@ -18632,24 +18259,6 @@
             },
             "threshold": 0.1
           },
-          "duration": {
-            "offset": {
-              "max": 720,
-              "min": 240
-            },
-            "onset": {
-              "max": 60,
-              "min": 20
-            },
-            "peak": {
-              "max": 180,
-              "min": 60
-            },
-            "total": {
-              "max": 1080,
-              "min": 720
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -18697,24 +18306,6 @@
             },
             "threshold": 1
           },
-          "duration": {
-            "offset": {
-              "max": 1440,
-              "min": 720
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 480,
-              "min": 180
-            },
-            "total": {
-              "max": 2880,
-              "min": 1440
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -18746,22 +18337,6 @@
       "name": "Flubromazolam",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 0.25,
-              "upper": 0.5
-            },
-            "heavy": 1,
-            "light": {
-              "lower": 0.1,
-              "upper": 0.25
-            },
-            "strong": {
-              "lower": 0.5,
-              "upper": 0.75
-            },
-            "threshold": 0.05
-          },
           "duration": {
             "offset": {
               "max": 1200,
@@ -18780,8 +18355,7 @@
               "min": 1080
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -18914,24 +18488,6 @@
             },
             "threshold": 5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -19026,24 +18582,6 @@
             },
             "threshold": 6.25
           },
-          "duration": {
-            "offset": {
-              "max": 20160,
-              "min": 10080
-            },
-            "onset": {
-              "max": 4320,
-              "min": 1440
-            },
-            "peak": {
-              "max": 7200,
-              "min": 2880
-            },
-            "total": {
-              "max": 28800,
-              "min": 14400
-            }
-          },
           "route": "intramuscular",
           "unit": "mg"
         }
@@ -19100,24 +18638,6 @@
               "upper": 250
             },
             "threshold": 25
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -21305,24 +20825,6 @@
             },
             "threshold": 10
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -21701,24 +21203,6 @@
             },
             "threshold": 10
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 2880
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 480,
-              "min": 240
-            },
-            "total": {
-              "max": 20160,
-              "min": 4320
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -21753,7 +21237,7 @@
         "Requires 14-day washout before/after serotonergic drugs",
         "Least commonly used classic MAOI \u2014 limited clinical data vs phenelzine/tranylcypromine"
       ],
-      "halfLifeMinutes": 150,
+      "halfLifeMinutes": 2160,
       "name": "Isocarboxazid",
       "routes": [
         {
@@ -21798,7 +21282,8 @@
       "sources": [
         "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf",
         "https://en.wikipedia.org/wiki/Isocarboxazid",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/3759"
+        "https://pubchem.ncbi.nlm.nih.gov/compound/3759",
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/010533s050lbl.pdf"
       ],
       "tags": [
         "antidepressant",
@@ -22917,24 +22402,6 @@
             },
             "threshold": 20
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -22989,24 +22456,6 @@
               "upper": 3000
             },
             "threshold": 250
-          },
-          "duration": {
-            "offset": {
-              "max": 604800,
-              "min": 172800
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 172800,
-              "min": 43200
-            },
-            "total": {
-              "max": 604800,
-              "min": 86400
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -24338,22 +23787,6 @@
       "name": "Memantine",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 20,
-              "upper": 40
-            },
-            "heavy": 100,
-            "light": {
-              "lower": 10,
-              "upper": 20
-            },
-            "strong": {
-              "lower": 40,
-              "upper": 80
-            },
-            "threshold": 5
-          },
           "duration": {
             "offset": {
               "max": 720,
@@ -24372,8 +23805,7 @@
               "min": 720
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -24607,22 +24039,6 @@
           "unit": "mg"
         },
         {
-          "doses": {
-            "common": {
-              "lower": 50,
-              "upper": 100
-            },
-            "heavy": 200,
-            "light": {
-              "lower": 25,
-              "upper": 50
-            },
-            "strong": {
-              "lower": 100,
-              "upper": 150
-            },
-            "threshold": 10
-          },
           "duration": {
             "offset": {
               "max": 240,
@@ -24641,8 +24057,7 @@
               "min": 300
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -25298,24 +24713,6 @@
             },
             "threshold": 12.5
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -25370,24 +24767,6 @@
               "upper": 45
             },
             "threshold": 3.75
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 14400
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -26029,12 +25408,66 @@
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Nabilone",
-      "defaultRoute": "oral",
-      "category": "Cannabinoid",
       "aliases": [
         "Cesamet",
         "Synthetic cannabinoid analogue"
+      ],
+      "category": "Cannabinoid",
+      "defaultRoute": "oral",
+      "effects": [
+        "FDA-approved for chemotherapy-induced nausea/vomiting",
+        "More potent and longer-acting than dronabinol",
+        "Antiemetic",
+        "Psychoactive \u2014 dysphoria, dizziness, and ataxia more common than with dronabinol",
+        "Starting dose: 1\u20132 mg BID per FDA label",
+        "Maximum dose: 6 mg/day in divided doses"
+      ],
+      "halfLifeMinutes": 2100,
+      "name": "Nabilone",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 1,
+              "upper": 2
+            },
+            "heavy": 4,
+            "light": {
+              "lower": 0.5,
+              "upper": 1
+            },
+            "strong": {
+              "lower": 2,
+              "upper": 4
+            },
+            "threshold": 0.5
+          },
+          "duration": {
+            "offset": {
+              "max": 480,
+              "min": 240
+            },
+            "onset": {
+              "max": 120,
+              "min": 60
+            },
+            "peak": {
+              "max": 240,
+              "min": 120
+            },
+            "total": {
+              "max": 720,
+              "min": 360
+            }
+          },
+          "route": "oral",
+          "unit": "mg"
+        }
+      ],
+      "sources": [
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
+        "https://en.wikipedia.org/wiki/Nabilone",
+        "https://pubchem.ncbi.nlm.nih.gov/compound/5284592"
       ],
       "tags": [
         "cannabinoid",
@@ -26045,60 +25478,6 @@
         "US-Schedule-II",
         "antiemetic",
         "synthetic-cannabinoid-analogue"
-      ],
-      "sources": [
-        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf",
-        "https://en.wikipedia.org/wiki/Nabilone",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/5284592"
-      ],
-      "halfLifeMinutes": 2100,
-      "effects": [
-        "FDA-approved for chemotherapy-induced nausea/vomiting",
-        "More potent and longer-acting than dronabinol",
-        "Antiemetic",
-        "Psychoactive \u2014 dysphoria, dizziness, and ataxia more common than with dronabinol",
-        "Starting dose: 1\u20132 mg BID per FDA label",
-        "Maximum dose: 6 mg/day in divided doses"
-      ],
-      "routes": [
-        {
-          "route": "oral",
-          "unit": "mg",
-          "doses": {
-            "threshold": 0.5,
-            "light": {
-              "lower": 0.5,
-              "upper": 1
-            },
-            "common": {
-              "lower": 1,
-              "upper": 2
-            },
-            "strong": {
-              "lower": 2,
-              "upper": 4
-            },
-            "heavy": 4
-          },
-          "duration": {
-            "onset": {
-              "min": 60,
-              "max": 120
-            },
-            "peak": {
-              "min": 120,
-              "max": 240
-            },
-            "offset": {
-              "min": 240,
-              "max": 480
-            },
-            "total": {
-              "min": 360,
-              "max": 720
-            }
-          }
-        }
       ]
     }
   },
@@ -26346,7 +25725,8 @@
       ],
       "sources": [
         "https://en.wikipedia.org/wiki/Naloxone",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/5284596"
+        "https://pubchem.ncbi.nlm.nih.gov/compound/5284596",
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/022410s033lbl.pdf"
       ],
       "tags": [
         "opioid-receptor-antagonist",
@@ -26537,24 +25917,6 @@
               "upper": 550
             },
             "threshold": 50
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -26955,24 +26317,6 @@
               "upper": 125
             },
             "threshold": 10
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -27490,24 +26834,6 @@
             },
             "threshold": 250
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 2880
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 720,
-              "min": 360
-            },
-            "total": {
-              "max": 20160,
-              "min": 4320
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -27822,24 +27148,6 @@
             },
             "threshold": 1.5
           },
-          "duration": {
-            "offset": {
-              "max": 5760,
-              "min": 2880
-            },
-            "onset": {
-              "max": 240,
-              "min": 120
-            },
-            "peak": {
-              "max": 2880,
-              "min": 1440
-            },
-            "total": {
-              "max": 11520,
-              "min": 5760
-            }
-          },
           "route": "oral",
           "unit": "mg"
         },
@@ -27859,24 +27167,6 @@
               "upper": 156
             },
             "threshold": 39
-          },
-          "duration": {
-            "offset": {
-              "max": 172800,
-              "min": 100800
-            },
-            "onset": {
-              "max": 4320,
-              "min": 1440
-            },
-            "peak": {
-              "max": 28800,
-              "min": 11520
-            },
-            "total": {
-              "max": 259200,
-              "min": 172800
-            }
           },
           "route": "intramuscular",
           "unit": "mg"
@@ -28017,24 +27307,6 @@
               "upper": 60
             },
             "threshold": 5
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -28481,22 +27753,6 @@
       "name": "Phenibut",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 500,
-              "upper": 1000
-            },
-            "heavy": 2000,
-            "light": {
-              "lower": 250,
-              "upper": 500
-            },
-            "strong": {
-              "lower": 1000,
-              "upper": 1500
-            },
-            "threshold": 100
-          },
           "duration": {
             "offset": {
               "max": 480,
@@ -28515,8 +27771,7 @@
               "min": 720
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -28682,24 +27937,6 @@
               "upper": 400
             },
             "threshold": 50
-          },
-          "duration": {
-            "offset": {
-              "max": 300,
-              "min": 180
-            },
-            "onset": {
-              "max": 60,
-              "min": 30
-            },
-            "peak": {
-              "max": 240,
-              "min": 120
-            },
-            "total": {
-              "max": 600,
-              "min": 300
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -29109,22 +28346,6 @@
       "name": "Piracetam",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 1600,
-              "upper": 4800
-            },
-            "heavy": 9600,
-            "light": {
-              "lower": 1200,
-              "upper": 1600
-            },
-            "strong": {
-              "lower": 4800,
-              "upper": 7200
-            },
-            "threshold": 800
-          },
           "duration": {
             "offset": {
               "max": 240,
@@ -29143,8 +28364,7 @@
               "min": 240
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -29643,24 +28863,6 @@
               "upper": 75
             },
             "threshold": 6.25
-          },
-          "duration": {
-            "offset": {
-              "max": 720,
-              "min": 360
-            },
-            "onset": {
-              "max": 60,
-              "min": 30
-            },
-            "peak": {
-              "max": 240,
-              "min": 120
-            },
-            "total": {
-              "max": 1440,
-              "min": 480
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -30288,22 +29490,6 @@
       "name": "Quetiapine",
       "routes": [
         {
-          "doses": {
-            "common": {
-              "lower": 150,
-              "upper": 750
-            },
-            "heavy": 800,
-            "light": {
-              "lower": 50,
-              "upper": 150
-            },
-            "strong": {
-              "lower": 750,
-              "upper": 800
-            },
-            "threshold": 25
-          },
           "duration": {
             "offset": {
               "max": 480,
@@ -30322,8 +29508,7 @@
               "min": 360
             }
           },
-          "route": "oral",
-          "unit": "mg"
+          "route": "oral"
         }
       ],
       "sources": [
@@ -30519,24 +29704,6 @@
               "upper": 6000
             },
             "threshold": 500
-          },
-          "duration": {
-            "offset": {
-              "max": 604800,
-              "min": 172800
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 172800,
-              "min": 43200
-            },
-            "total": {
-              "max": 604800,
-              "min": 86400
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -30907,24 +30074,6 @@
               "upper": 50
             },
             "threshold": 12.5
-          },
-          "duration": {
-            "offset": {
-              "max": 80640,
-              "min": 40320
-            },
-            "onset": {
-              "max": 20160,
-              "min": 10080
-            },
-            "peak": {
-              "max": 40320,
-              "min": 20160
-            },
-            "total": {
-              "max": 120960,
-              "min": 80640
-            }
           },
           "route": "intramuscular",
           "unit": "mg"
@@ -31366,24 +30515,6 @@
             },
             "threshold": 0.05
           },
-          "duration": {
-            "offset": {
-              "max": 15,
-              "min": 5
-            },
-            "onset": {
-              "max": 1,
-              "min": 0.5
-            },
-            "peak": {
-              "max": 5,
-              "min": 1
-            },
-            "total": {
-              "max": 30,
-              "min": 15
-            }
-          },
           "route": "inhalation",
           "unit": "mg"
         },
@@ -31784,24 +30915,6 @@
             },
             "threshold": 25
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 2880
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 360,
-              "min": 180
-            },
-            "total": {
-              "max": 20160,
-              "min": 4320
-            }
-          },
           "route": "oral",
           "unit": "mcg"
         }
@@ -32164,24 +31277,6 @@
               "upper": 200
             },
             "threshold": 12.5
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -33698,25 +32793,12 @@
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Tizanidine",
-      "defaultRoute": "oral",
-      "category": "Depressant",
       "aliases": [
         "Zanaflex",
         "Sirdalud"
       ],
-      "tags": [
-        "muscle-relaxant",
-        "alpha2-agonist",
-        "sedating",
-        "antispasmodic",
-        "prescription-only"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/Tizanidine",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/5484"
-      ],
-      "halfLifeMinutes": 150,
+      "category": "Depressant",
+      "defaultRoute": "oral",
       "effects": [
         "Central alpha-2 agonist \u2014 reduces muscle hypertonicity via spinal interneurons",
         "Significant sedation \u2014 often compared to a short-acting clonidine",
@@ -33724,45 +32806,58 @@
         "Hypotension, dry mouth",
         "Hepatotoxicity risk with chronic use"
       ],
+      "halfLifeMinutes": 150,
+      "name": "Tizanidine",
       "routes": [
         {
-          "route": "oral",
-          "unit": "mg",
           "doses": {
-            "threshold": 2,
-            "light": {
-              "lower": 2,
-              "upper": 4
-            },
             "common": {
               "lower": 4,
               "upper": 8
+            },
+            "heavy": 24,
+            "light": {
+              "lower": 2,
+              "upper": 4
             },
             "strong": {
               "lower": 8,
               "upper": 16
             },
-            "heavy": 24
+            "threshold": 2
           },
           "duration": {
+            "offset": {
+              "max": 360,
+              "min": 180
+            },
             "onset": {
-              "min": 30,
-              "max": 60
+              "max": 60,
+              "min": 30
             },
             "peak": {
-              "min": 60,
-              "max": 120
-            },
-            "offset": {
-              "min": 180,
-              "max": 360
+              "max": 120,
+              "min": 60
             },
             "total": {
-              "min": 240,
-              "max": 480
+              "max": 480,
+              "min": 240
             }
-          }
+          },
+          "route": "oral",
+          "unit": "mg"
         }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tizanidine",
+        "https://pubchem.ncbi.nlm.nih.gov/compound/5484"
+      ],
+      "tags": [
+        "muscle-relaxant",
+        "alpha2-agonist",
+        "sedating",
+        "antispasmodic",
+        "prescription-only"
       ]
     }
   },
@@ -34277,24 +33372,6 @@
             },
             "threshold": 18.75
           },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
-          },
           "route": "oral",
           "unit": "mg"
         }
@@ -34348,24 +33425,6 @@
               "upper": 40
             },
             "threshold": 5
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -34470,7 +33529,7 @@
         "Hypervitaminosis A: headache, nausea, bone pain, liver damage at chronic high doses",
         "Beta-carotene supplementation linked to lung cancer risk increase in smokers"
       ],
-      "halfLifeMinutes": 34560,
+      "halfLifeMinutes": 201600,
       "name": "Vitamin A",
       "routes": [
         {
@@ -34490,24 +33549,6 @@
             },
             "threshold": 1000
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 2880
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 720,
-              "min": 360
-            },
-            "total": {
-              "max": 20160,
-              "min": 4320
-            }
-          },
           "route": "oral",
           "unit": "IU"
         }
@@ -34515,7 +33556,9 @@
       "sources": [
         "https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/",
         "https://pubchem.ncbi.nlm.nih.gov/compound/445354",
-        "https://en.wikipedia.org/wiki/Vitamin_A"
+        "https://en.wikipedia.org/wiki/Vitamin_A",
+        "https://pubmed.ncbi.nlm.nih.gov/468662/",
+        "https://pubmed.ncbi.nlm.nih.gov/23303904/"
       ],
       "tags": [
         "supplement",
@@ -34645,24 +33688,6 @@
             },
             "threshold": 100
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 1440
-            },
-            "onset": {
-              "max": 30,
-              "min": 10
-            },
-            "peak": {
-              "max": 90,
-              "min": 30
-            },
-            "total": {
-              "max": 20160,
-              "min": 2880
-            }
-          },
           "route": "sublingual",
           "unit": "mcg"
         },
@@ -34682,24 +33707,6 @@
               "upper": 5000
             },
             "threshold": 500
-          },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 1440
-            },
-            "onset": {
-              "max": 180,
-              "min": 60
-            },
-            "peak": {
-              "max": 720,
-              "min": 360
-            },
-            "total": {
-              "max": 20160,
-              "min": 2880
-            }
           },
           "route": "oral",
           "unit": "mcg"
@@ -34822,7 +33829,7 @@
         "Irreversible neuropathy reported above 500mg/day long-term",
         "Used for morning sickness (B6 + doxylamine = Diclegis)"
       ],
-      "halfLifeMinutes": 1440,
+      "halfLifeMinutes": 21600,
       "name": "Vitamin B6",
       "routes": [
         {
@@ -34867,7 +33874,8 @@
       "sources": [
         "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
         "https://pubchem.ncbi.nlm.nih.gov/compound/1052",
-        "https://en.wikipedia.org/wiki/Pyridoxal_phosphate"
+        "https://en.wikipedia.org/wiki/Pyridoxal_phosphate",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3573665/"
       ],
       "tags": [
         "supplement",
@@ -34995,24 +34003,6 @@
               "upper": 10000
             },
             "threshold": 400
-          },
-          "duration": {
-            "offset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "onset": {
-              "max": 4320,
-              "min": 1440
-            },
-            "peak": {
-              "max": 10080,
-              "min": 4320
-            },
-            "total": {
-              "max": 100800,
-              "min": 28800
-            }
           },
           "route": "oral",
           "unit": "IU"
@@ -35148,24 +34138,6 @@
             },
             "threshold": 45
           },
-          "duration": {
-            "offset": {
-              "max": 10080,
-              "min": 4320
-            },
-            "onset": {
-              "max": 240,
-              "min": 60
-            },
-            "peak": {
-              "max": 720,
-              "min": 360
-            },
-            "total": {
-              "max": 14400,
-              "min": 7200
-            }
-          },
           "route": "oral",
           "unit": "mcg"
         }
@@ -35221,24 +34193,6 @@
               "upper": 20
             },
             "threshold": 2.5
-          },
-          "duration": {
-            "offset": {
-              "max": 28800,
-              "min": 14400
-            },
-            "onset": {
-              "max": 40320,
-              "min": 20160
-            },
-            "peak": {
-              "max": 57600,
-              "min": 28800
-            },
-            "total": {
-              "max": 57600,
-              "min": 20160
-            }
           },
           "route": "oral",
           "unit": "mg"
@@ -35323,8 +34277,8 @@
           },
           "duration": {
             "offset": {
-              "max": 180,
-              "min": 60
+              "max": 90,
+              "min": 30
             },
             "onset": {
               "max": 30,
@@ -35335,7 +34289,7 @@
               "min": 30
             },
             "total": {
-              "max": 240,
+              "max": 150,
               "min": 60
             }
           },
@@ -35345,7 +34299,8 @@
       ],
       "sources": [
         "https://en.wikipedia.org/wiki/Zaleplon",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/5719"
+        "https://pubchem.ncbi.nlm.nih.gov/compound/5719",
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020859s016lbl.pdf"
       ],
       "tags": [
         "sedative-hypnotic",
@@ -84381,9 +83336,37 @@
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Acetylfentanyl",
-      "defaultRoute": "insufflation",
+      "aliases": [],
       "category": "Opioid",
+      "defaultRoute": "insufflation",
+      "effects": [],
+      "name": "Acetylfentanyl",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 0.25,
+              "upper": 0.75
+            },
+            "heavy": 1.5,
+            "light": {
+              "lower": 0.1,
+              "upper": 0.25
+            },
+            "strong": {
+              "lower": 0.75,
+              "upper": 1.5
+            },
+            "threshold": 0.1
+          },
+          "route": "insufflation",
+          "unit": "mg"
+        }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Acetylfentanyl",
+        "https://www.emcdda.europa.eu/publications/risk-assessments/acetylfentanyl_en"
+      ],
       "tags": [
         "opioid",
         "mu-opioid-agonist",
@@ -84391,96 +83374,96 @@
         "fentanyl-class-potency",
         "designer-opioid",
         "fatalities-reported"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/Acetylfentanyl",
-        "https://www.emcdda.europa.eu/publications/risk-assessments/acetylfentanyl_en"
-      ],
-      "routes": [
-        {
-          "route": "insufflation",
-          "unit": "mg",
-          "doses": {
-            "threshold": 0.1,
-            "light": {
-              "lower": 0.1,
-              "upper": 0.25
-            },
-            "common": {
-              "lower": 0.25,
-              "upper": 0.75
-            },
-            "strong": {
-              "lower": 0.75,
-              "upper": 1.5
-            },
-            "heavy": 1.5
-          }
-        }
-      ],
-      "aliases": [],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Fentanyl",
-      "defaultRoute": "transdermal",
+      "aliases": [],
       "category": "Opioid",
+      "defaultRoute": "transdermal",
+      "effects": [],
+      "name": "Fentanyl",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 25,
+              "upper": 50
+            },
+            "heavy": 100,
+            "light": {
+              "lower": 12,
+              "upper": 25
+            },
+            "strong": {
+              "lower": 50,
+              "upper": 75
+            },
+            "threshold": 12
+          },
+          "duration": {
+            "onset": {
+              "max": 720,
+              "min": 360
+            },
+            "total": {
+              "max": 4320,
+              "min": 4320
+            }
+          },
+          "route": "transdermal",
+          "unit": "\u00b5g/hr"
+        }
+      ],
+      "sources": [
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/019813s039lbl.pdf",
+        "https://en.wikipedia.org/wiki/Fentanyl_transdermal_patch"
+      ],
       "tags": [
         "opioid",
         "mu-opioid-agonist",
         "fentanyl-class-potency",
         "prescription-only",
         "Schedule-II"
-      ],
-      "sources": [
-        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/019813s039lbl.pdf",
-        "https://en.wikipedia.org/wiki/Fentanyl_transdermal_patch"
-      ],
-      "routes": [
-        {
-          "route": "transdermal",
-          "unit": "\u00b5g/hr",
-          "doses": {
-            "threshold": 12,
-            "light": {
-              "lower": 12,
-              "upper": 25
-            },
-            "common": {
-              "lower": 25,
-              "upper": 50
-            },
-            "strong": {
-              "lower": 50,
-              "upper": 75
-            },
-            "heavy": 100
-          },
-          "duration": {
-            "onset": {
-              "min": 360,
-              "max": 720
-            },
-            "total": {
-              "min": 4320,
-              "max": 4320
-            }
-          }
-        }
-      ],
-      "aliases": [],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Furanylfentanyl",
-      "defaultRoute": "insufflation",
+      "aliases": [],
       "category": "Opioid",
+      "defaultRoute": "insufflation",
+      "effects": [],
+      "name": "Furanylfentanyl",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 75,
+              "upper": 200
+            },
+            "heavy": 500,
+            "light": {
+              "lower": 25,
+              "upper": 75
+            },
+            "strong": {
+              "lower": 200,
+              "upper": 500
+            },
+            "threshold": 25
+          },
+          "route": "insufflation",
+          "unit": "\u00b5g"
+        }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Furanylfentanyl",
+        "https://www.emcdda.europa.eu/publications/risk-assessments/furanylfentanyl_en"
+      ],
       "tags": [
         "opioid",
         "mu-opioid-agonist",
@@ -84488,88 +83471,107 @@
         "fentanyl-class-potency",
         "designer-opioid",
         "fatalities-reported"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/Furanylfentanyl",
-        "https://www.emcdda.europa.eu/publications/risk-assessments/furanylfentanyl_en"
-      ],
-      "routes": [
-        {
-          "route": "insufflation",
-          "unit": "\u00b5g",
-          "doses": {
-            "threshold": 25,
-            "light": {
-              "lower": 25,
-              "upper": 75
-            },
-            "common": {
-              "lower": 75,
-              "upper": 200
-            },
-            "strong": {
-              "lower": 200,
-              "upper": 500
-            },
-            "heavy": 500
-          }
-        }
-      ],
-      "aliases": [],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Valerylfentanyl",
-      "defaultRoute": "oral",
+      "aliases": [],
       "category": "Opioid",
+      "defaultRoute": "oral",
+      "effects": [],
+      "name": "Valerylfentanyl",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 50,
+              "upper": 200
+            },
+            "heavy": 500,
+            "light": {
+              "lower": 25,
+              "upper": 50
+            },
+            "strong": {
+              "lower": 200,
+              "upper": 500
+            },
+            "threshold": 25
+          },
+          "route": "oral",
+          "unit": "\u00b5g"
+        }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Valerylfentanyl"
+      ],
       "tags": [
         "opioid",
         "mu-opioid-agonist",
         "fentanyl-analog",
         "fentanyl-class-potency",
         "designer-opioid"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/Valerylfentanyl"
-      ],
-      "routes": [
-        {
-          "route": "oral",
-          "unit": "\u00b5g",
-          "doses": {
-            "threshold": 25,
-            "light": {
-              "lower": 25,
-              "upper": 50
-            },
-            "common": {
-              "lower": 50,
-              "upper": 200
-            },
-            "strong": {
-              "lower": 200,
-              "upper": 500
-            },
-            "heavy": 500
-          }
-        }
-      ],
-      "aliases": [],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "CB-13",
-      "defaultRoute": "oral",
-      "category": "Cannabinoid",
       "aliases": [
         "CRA-13",
         "CRA13"
+      ],
+      "category": "Cannabinoid",
+      "defaultRoute": "oral",
+      "effects": [],
+      "name": "CB-13",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 5,
+              "upper": 20
+            },
+            "heavy": 40,
+            "light": {
+              "lower": 2.5,
+              "upper": 5
+            },
+            "strong": {
+              "lower": 20,
+              "upper": 30
+            },
+            "threshold": 2.5
+          },
+          "route": "oral",
+          "unit": "mg"
+        },
+        {
+          "doses": {
+            "common": {
+              "lower": 1,
+              "upper": 3
+            },
+            "heavy": 8,
+            "light": {
+              "lower": 0.5,
+              "upper": 1
+            },
+            "strong": {
+              "lower": 3,
+              "upper": 5
+            },
+            "threshold": 0.5
+          },
+          "route": "inhalation",
+          "unit": "mg"
+        }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/CRA-13",
+        "https://www.ncbi.nlm.nih.gov/pubmed/19590477"
       ],
       "tags": [
         "cannabinoid",
@@ -84577,65 +83579,46 @@
         "CB2-agonist",
         "peripherally-selective",
         "research-chemical"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/CRA-13",
-        "https://www.ncbi.nlm.nih.gov/pubmed/19590477"
-      ],
-      "routes": [
-        {
-          "route": "oral",
-          "unit": "mg",
-          "doses": {
-            "threshold": 2.5,
-            "light": {
-              "lower": 2.5,
-              "upper": 5
-            },
-            "common": {
-              "lower": 5,
-              "upper": 20
-            },
-            "strong": {
-              "lower": 20,
-              "upper": 30
-            },
-            "heavy": 40
-          }
-        },
-        {
-          "route": "inhalation",
-          "unit": "mg",
-          "doses": {
-            "threshold": 0.5,
-            "light": {
-              "lower": 0.5,
-              "upper": 1
-            },
-            "common": {
-              "lower": 1,
-              "upper": 3
-            },
-            "strong": {
-              "lower": 3,
-              "upper": 5
-            },
-            "heavy": 8
-          }
-        }
-      ],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Phenobarbital",
-      "defaultRoute": "oral",
-      "category": "Depressant",
       "aliases": [
         "Luminal",
         "Phenobarbitone"
+      ],
+      "category": "Depressant",
+      "defaultRoute": "oral",
+      "effects": [],
+      "halfLifeMinutes": 5400,
+      "name": "Phenobarbital",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 60,
+              "upper": 120
+            },
+            "heavy": 200,
+            "light": {
+              "lower": 30,
+              "upper": 60
+            },
+            "strong": {
+              "lower": 120,
+              "upper": 200
+            },
+            "threshold": 30
+          },
+          "route": "oral",
+          "unit": "mg"
+        }
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Phenobarbital",
+        "https://pubchem.ncbi.nlm.nih.gov/compound/4763"
       ],
       "tags": [
         "barbiturate",
@@ -84643,69 +83626,48 @@
         "anticonvulsant",
         "long-acting",
         "prescription-only"
-      ],
-      "sources": [
-        "https://en.wikipedia.org/wiki/Phenobarbital",
-        "https://pubchem.ncbi.nlm.nih.gov/compound/4763"
-      ],
-      "halfLifeMinutes": 5400,
-      "routes": [
-        {
-          "route": "oral",
-          "unit": "mg",
-          "doses": {
-            "threshold": 30,
-            "light": {
-              "lower": 30,
-              "upper": 60
-            },
-            "common": {
-              "lower": 60,
-              "upper": 120
-            },
-            "strong": {
-              "lower": 120,
-              "upper": 200
-            },
-            "heavy": 200
-          },
-          "duration": {
-            "onset": {
-              "min": 30,
-              "max": 60
-            },
-            "peak": {
-              "min": 240,
-              "max": 480
-            },
-            "offset": {
-              "min": 720,
-              "max": 1440
-            },
-            "total": {
-              "min": 720,
-              "max": 1800
-            },
-            "afterglow": {
-              "min": 1440,
-              "max": 2880
-            }
-          }
-        }
-      ],
-      "effects": []
+      ]
     }
   },
   {
     "provenance": "piru-curated",
     "substance": {
-      "name": "Zolpidem",
-      "defaultRoute": "oral",
-      "category": "Depressant",
       "aliases": [
         "Ambien",
         "Stilnox",
         "Stilnoct"
+      ],
+      "category": "Depressant",
+      "defaultRoute": "oral",
+      "effects": [],
+      "halfLifeMinutes": 150,
+      "name": "Zolpidem",
+      "routes": [
+        {
+          "duration": {
+            "offset": {
+              "max": 360,
+              "min": 180
+            },
+            "onset": {
+              "max": 30,
+              "min": 15
+            },
+            "peak": {
+              "max": 90,
+              "min": 30
+            },
+            "total": {
+              "max": 480,
+              "min": 240
+            }
+          },
+          "route": "oral"
+        }
+      ],
+      "sources": [
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
+        "https://en.wikipedia.org/wiki/Zolpidem"
       ],
       "tags": [
         "z-drug",
@@ -84713,53 +83675,171 @@
         "sedative-hypnotic",
         "prescription-only",
         "Schedule-IV"
+      ]
+    }
+  },
+  {
+    "provenance": "piru-curated",
+    "substance": {
+      "aliases": [
+        "Sufenta",
+        "Dsuvia"
       ],
-      "sources": [
-        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf",
-        "https://en.wikipedia.org/wiki/Zolpidem"
-      ],
+      "category": "Opioid",
+      "defaultRoute": "intravenous",
+      "effects": [],
       "halfLifeMinutes": 150,
+      "name": "Sufentanil",
       "routes": [
         {
-          "route": "oral",
-          "unit": "mg",
           "doses": {
-            "threshold": 2.5,
+            "common": {
+              "lower": 5,
+              "upper": 15
+            },
+            "heavy": 50,
             "light": {
-              "lower": 2.5,
+              "lower": 1,
               "upper": 5
             },
+            "strong": {
+              "lower": 15,
+              "upper": 25
+            },
+            "threshold": 1
+          },
+          "duration": {
+            "offset": {
+              "max": 30,
+              "min": 15
+            },
+            "onset": {
+              "max": 2,
+              "min": 1
+            },
+            "peak": {
+              "max": 10,
+              "min": 5
+            },
+            "total": {
+              "max": 60,
+              "min": 30
+            }
+          },
+          "route": "intravenous",
+          "unit": "\u00b5g"
+        },
+        {
+          "doses": {
             "common": {
+              "lower": 30,
+              "upper": 30
+            },
+            "heavy": 60,
+            "light": {
+              "lower": 15,
+              "upper": 30
+            },
+            "threshold": 15
+          },
+          "duration": {
+            "offset": {
+              "max": 180,
+              "min": 90
+            },
+            "onset": {
+              "max": 30,
+              "min": 15
+            },
+            "peak": {
+              "max": 90,
+              "min": 60
+            },
+            "total": {
+              "max": 240,
+              "min": 120
+            }
+          },
+          "route": "sublingual",
+          "unit": "\u00b5g"
+        }
+      ],
+      "sources": [
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/019050s050lbl.pdf",
+        "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/209128s000lbl.pdf"
+      ],
+      "tags": [
+        "opioid",
+        "mu-opioid-agonist",
+        "mu-full-agonist",
+        "fentanyl-class-potency",
+        "fentanyl-analog",
+        "prescription-only",
+        "fatalities-reported"
+      ]
+    }
+  },
+  {
+    "provenance": "piru-curated",
+    "substance": {
+      "aliases": [
+        "THIP",
+        "4,5,6,7-tetrahydroisoxazolo[5,4-c]pyridin-3-ol"
+      ],
+      "category": "Depressant",
+      "defaultRoute": "oral",
+      "effects": [],
+      "halfLifeMinutes": 90,
+      "name": "Gaboxadol",
+      "routes": [
+        {
+          "doses": {
+            "common": {
+              "lower": 10,
+              "upper": 15
+            },
+            "heavy": 20,
+            "light": {
               "lower": 5,
               "upper": 10
             },
             "strong": {
-              "lower": 10,
+              "lower": 15,
               "upper": 20
             },
-            "heavy": 30
+            "threshold": 2.5
           },
           "duration": {
+            "offset": {
+              "max": 300,
+              "min": 180
+            },
             "onset": {
-              "min": 15,
-              "max": 30
+              "max": 30,
+              "min": 15
             },
             "peak": {
-              "min": 30,
-              "max": 90
-            },
-            "offset": {
-              "min": 180,
-              "max": 360
+              "max": 120,
+              "min": 60
             },
             "total": {
-              "min": 240,
-              "max": 480
+              "max": 480,
+              "min": 240
             }
-          }
+          },
+          "route": "oral",
+          "unit": "mg"
         }
       ],
-      "effects": []
+      "sources": [
+        "https://pubmed.ncbi.nlm.nih.gov/15863387/",
+        "https://en.wikipedia.org/wiki/Gaboxadol"
+      ],
+      "tags": [
+        "GABAA-PAM",
+        "hypnotic",
+        "investigational"
+      ]
     }
   }
 ]
