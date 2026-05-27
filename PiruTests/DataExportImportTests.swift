@@ -287,6 +287,136 @@ struct DataExportImportRoundTripTests {
         #expect(entries.isEmpty)
     }
 
+    // MARK: Custom substances — release-blocker overlay path
+
+    /// Isolated CustomSubstanceStore backed by a per-test UserDefaults suite
+    /// — running the round-trip against `.shared` would pollute the user's
+    /// real App Group on every CI run.
+    private func makeIsolatedCustomStore() -> CustomSubstanceStore {
+        let suite = "piru.tests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        return CustomSubstanceStore.forTesting(defaults: defaults)
+    }
+
+    @Test("Custom substances survive export → import with duration preserved")
+    func customSubstancesRoundTrip() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let store = makeIsolatedCustomStore()
+
+        let duration = DurationProfile(
+            onset: DurationRange(min: 5, max: 15),
+            comeup: DurationRange(min: 15, max: 30),
+            peak: DurationRange(min: 30, max: 90),
+            offset: DurationRange(min: 60, max: 120),
+            afterglow: nil,
+            total: DurationRange(min: 120, max: 240)
+        )
+        store.add(CustomSubstanceEntry(
+            name: "2-MMC",
+            category: .stimulant,
+            defaultRoute: .insufflation,
+            unit: "mg",
+            notes: "custom notes",
+            duration: duration
+        ))
+        // Need at least one DoseEntry — exportJSON's PsyLog shape groups
+        // experiences from entries; an empty journal can still export.
+        context.insert(DoseEntry(substance: "Caffeine", amount: 100, unit: "mg",
+                                  route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+
+        let data = try DataExportImport.exportJSON(context: context, customStore: store)
+
+        // The exported JSON should carry the custom as a structured object,
+        // not the legacy `customSubstances: []` placeholder.
+        let raw = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let customs = try #require(raw["customSubstances"] as? [[String: Any]])
+        #expect(customs.count == 1)
+        #expect(customs.first?["name"] as? String == "2-MMC")
+        #expect((customs.first?["duration"] as? [String: Any])?["peak"] != nil)
+
+        // Importing into a fresh store recreates the same entry.
+        let freshStore = makeIsolatedCustomStore()
+        let freshContext = ModelContext(try makeTestContainer())
+        try DataExportImport.importJSON(data: data, context: freshContext, customStore: freshStore)
+
+        #expect(freshStore.all.count == 1)
+        let imported = try #require(freshStore.all.first)
+        #expect(imported.name == "2-MMC")
+        #expect(imported.category == .stimulant)
+        #expect(imported.defaultRoute == .insufflation)
+        #expect(imported.duration?.peak?.midpoint == 60)
+        #expect(imported.notes == "custom notes")
+    }
+
+    @Test("Re-importing the same file is idempotent (no duplicate customs)")
+    func reimportIsIdempotent() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let store = makeIsolatedCustomStore()
+
+        store.add(CustomSubstanceEntry(name: "MyCustom", category: .stimulant))
+        context.insert(DoseEntry(substance: "Caffeine", amount: 50, unit: "mg",
+                                  route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        let data = try DataExportImport.exportJSON(context: context, customStore: store)
+
+        try DataExportImport.importJSON(data: data, context: context, customStore: store)
+        try DataExportImport.importJSON(data: data, context: context, customStore: store)
+
+        #expect(store.all.count == 1)
+    }
+
+    @Test("Imported custom replaces existing entry with the same name")
+    func customReplacesByName() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let store = makeIsolatedCustomStore()
+
+        // Existing custom — different category and no duration.
+        let preExisting = CustomSubstanceEntry(
+            name: "Foo",
+            category: .other,
+            defaultRoute: .oral,
+            unit: "mg",
+            notes: "stale notes",
+            duration: nil
+        )
+        store.add(preExisting)
+        let originalId = try #require(store.all.first).id
+
+        // Build a JSON containing a different "Foo" with a duration profile.
+        let exportContext = ModelContext(try makeTestContainer())
+        let sourceStore = makeIsolatedCustomStore()
+        sourceStore.add(CustomSubstanceEntry(
+            name: "Foo",
+            category: .stimulant,
+            defaultRoute: .insufflation,
+            unit: "mg",
+            notes: "imported notes",
+            duration: DurationProfile(
+                onset: DurationRange(min: 1, max: 5),
+                comeup: nil, peak: DurationRange(min: 30, max: 60),
+                offset: DurationRange(min: 30, max: 60),
+                afterglow: nil,
+                total: DurationRange(min: 120, max: 180)
+            )
+        ))
+        exportContext.insert(DoseEntry(substance: "Caffeine", amount: 50, unit: "mg",
+                                        route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        let data = try DataExportImport.exportJSON(context: exportContext, customStore: sourceStore)
+
+        try DataExportImport.importJSON(data: data, context: context, customStore: store)
+
+        #expect(store.all.count == 1, "Same-name custom should replace, not duplicate")
+        let merged = try #require(store.all.first)
+        #expect(merged.id == originalId, "Stored UUID should be preserved across the merge")
+        #expect(merged.category == .stimulant)
+        #expect(merged.defaultRoute == .insufflation)
+        #expect(merged.notes == "imported notes")
+        #expect(merged.duration?.peak?.midpoint == 45)
+    }
+
     // MARK: exportFilename format
 
     @Test("exportFilename has Piru prefix and ISO-ish timestamp")

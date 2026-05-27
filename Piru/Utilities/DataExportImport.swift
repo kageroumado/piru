@@ -139,16 +139,23 @@ private struct PsyLogFile: Codable {
     var experiences: [PsyLogExperience]
     var substanceCompanions: [PsyLogCompanion]
     var customUnits: [PsyLogCustomUnit]
+    var customSubstances: [PsyLogCustomSubstance]
     var dailyDoseItems: [PsyLogDailyDoseItem]
 
     private enum CodingKeys: String, CodingKey {
         case experiences, substanceCompanions, customUnits, customSubstances, dailyDoseItems
     }
 
-    init(experiences: [PsyLogExperience], companions: [PsyLogCompanion], dailyDoseItems: [PsyLogDailyDoseItem] = []) {
+    init(
+        experiences: [PsyLogExperience],
+        companions: [PsyLogCompanion],
+        dailyDoseItems: [PsyLogDailyDoseItem] = [],
+        customSubstances: [PsyLogCustomSubstance] = []
+    ) {
         self.experiences = experiences
         self.substanceCompanions = companions
         self.customUnits = []
+        self.customSubstances = customSubstances
         self.dailyDoseItems = dailyDoseItems
     }
 
@@ -158,6 +165,16 @@ private struct PsyLogFile: Codable {
         substanceCompanions = try c.decodeIfPresent([PsyLogCompanion].self, forKey: .substanceCompanions) ?? []
         customUnits = try c.decodeIfPresent([PsyLogCustomUnit].self, forKey: .customUnits) ?? []
         dailyDoseItems = try c.decodeIfPresent([PsyLogDailyDoseItem].self, forKey: .dailyDoseItems) ?? []
+        // PsyLog historically writes `customSubstances: []` (string array
+        // placeholder); Piru ≥ build 12 writes a proper array of custom
+        // substance objects. Decode whichever shape is present; treat anything
+        // unparseable as empty so a malformed `customSubstances` field never
+        // blocks an import that would otherwise succeed.
+        if let parsed = try? c.decodeIfPresent([PsyLogCustomSubstance].self, forKey: .customSubstances) {
+            customSubstances = parsed
+        } else {
+            customSubstances = []
+        }
     }
 
     func encode(to encoder: Encoder) throws {
@@ -165,7 +182,7 @@ private struct PsyLogFile: Codable {
         try c.encode(experiences, forKey: .experiences)
         try c.encode(substanceCompanions, forKey: .substanceCompanions)
         try c.encode([String](), forKey: .customUnits)
-        try c.encode([String](), forKey: .customSubstances)
+        try c.encode(customSubstances, forKey: .customSubstances)
         try c.encode(dailyDoseItems, forKey: .dailyDoseItems)
     }
 }
@@ -284,6 +301,47 @@ private struct PsyLogDailyDoseItem: Codable {
     var sortOrder: Int
 }
 
+/// Piru-native shape for a user-defined substance inside a PsyLog-format
+/// export. Mirrors ``CustomSubstanceEntry`` so Piru→Piru round-trips preserve
+/// every field — including the duration profile, which is what restores
+/// timeline-graph behaviour for substances the bundled library lacks data
+/// for. Cross-app PsyLog files typically omit this key or carry an empty
+/// string array; the file-level decoder treats both as "no customs".
+private struct PsyLogCustomSubstance: Codable {
+    var id: UUID
+    var name: String
+    var category: SubstanceCategory
+    var defaultRoute: RouteOfAdministration
+    var unit: String
+    var notes: String
+    var duration: DurationProfile?
+    var createdAt: Int64
+
+    init(_ entry: CustomSubstanceEntry) {
+        self.id = entry.id
+        self.name = entry.name
+        self.category = entry.category
+        self.defaultRoute = entry.defaultRoute
+        self.unit = entry.unit
+        self.notes = entry.notes
+        self.duration = entry.duration
+        self.createdAt = entry.createdAt.msSince1970
+    }
+
+    var asEntry: CustomSubstanceEntry {
+        CustomSubstanceEntry(
+            id: id,
+            name: name,
+            category: category,
+            defaultRoute: defaultRoute,
+            unit: unit,
+            notes: notes,
+            duration: duration,
+            createdAt: Date(ms: createdAt)
+        )
+    }
+}
+
 private struct PsyLogCustomUnit: Codable {
     var id: Int
     var name: String
@@ -352,10 +410,12 @@ private struct LegacyUserColor: Decodable {
 // MARK: - Export / Import
 
 enum DataExportImport {
-    static func exportJSON(context: ModelContext) throws -> Data {
+    @MainActor
+    static func exportJSON(context: ModelContext, customStore: CustomSubstanceStore = .shared) throws -> Data {
         let entries = try context.fetch(FetchDescriptor<DoseEntry>())
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
         let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
+        let customs = customStore.all
 
         let calendar = Calendar.current
         let grouped = Dictionary(grouping: entries) { calendar.sessionDayStart(for: $0.timestamp) }
@@ -404,23 +464,65 @@ enum DataExportImport {
             )
         }
 
-        let file = PsyLogFile(experiences: experiences, companions: companions, dailyDoseItems: exportedDailyDoses)
+        let exportedCustoms = customs.map(PsyLogCustomSubstance.init)
+        let file = PsyLogFile(
+            experiences: experiences,
+            companions: companions,
+            dailyDoseItems: exportedDailyDoses,
+            customSubstances: exportedCustoms
+        )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         return try encoder.encode(file)
     }
 
-    static func importJSON(data: Data, context: ModelContext) throws {
+    @MainActor
+    static func importJSON(data: Data, context: ModelContext, customStore: CustomSubstanceStore = .shared) throws {
         if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
            json["experiences"] != nil {
-            try importPsyLog(data: data, context: context)
+            try importPsyLog(data: data, context: context, customStore: customStore)
         } else {
             try importLegacy(data: data, context: context)
         }
     }
 
-    private static func importPsyLog(data: Data, context: ModelContext) throws {
+    @MainActor
+    private static func importPsyLog(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
         let file = try JSONDecoder().decode(PsyLogFile.self, from: data)
+
+        // User-defined substances win fully over library entries with the
+        // same name — the import is the user's explicit say-so. Adds new
+        // customs and updates existing matches (preserving the stored UUID
+        // when present so other models keep referencing the same row); skips
+        // exact duplicates so re-imports stay idempotent.
+        var existingByName: [String: CustomSubstanceEntry] = Dictionary(
+            uniqueKeysWithValues: customStore.all.map { ($0.name.lowercased(), $0) }
+        )
+        for imported in file.customSubstances {
+            let incoming = imported.asEntry
+            let key = incoming.name.lowercased()
+            if let existing = existingByName[key] {
+                guard existing != incoming else { continue }
+                // Preserve the existing row's UUID so other state referencing
+                // it (e.g. open form sheets) stays valid; re-init with the
+                // imported field values so the update goes through.
+                let merged = CustomSubstanceEntry(
+                    id: existing.id,
+                    name: incoming.name,
+                    category: incoming.category,
+                    defaultRoute: incoming.defaultRoute,
+                    unit: incoming.unit,
+                    notes: incoming.notes,
+                    duration: incoming.duration,
+                    createdAt: incoming.createdAt
+                )
+                customStore.update(merged)
+                existingByName[key] = merged
+            } else {
+                customStore.add(incoming)
+                existingByName[key] = incoming
+            }
+        }
 
         // Build custom unit lookup: id -> custom unit
         let customUnitMap = Dictionary(uniqueKeysWithValues: file.customUnits.map { ($0.id, $0) })

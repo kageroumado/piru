@@ -64,7 +64,64 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
             defaultRoute: defaultRoute,
             routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: DoseRange(), duration: duration)],
             effects: [],
-            sources: ["User-defined"]
+            sources: [Self.userDefinedSource]
+        )
+    }
+
+    /// Slug appended to ``Substance/sources`` whenever a user-defined entry has
+    /// contributed data to a resolved substance. Used by the detail view to
+    /// surface "User-defined" attribution and by import logic to recognise its
+    /// own writes on round-trip.
+    static let userDefinedSource = "user-defined"
+}
+
+// MARK: - Substance overlay
+
+extension Substance {
+    /// Returns a copy of this library substance with the user-defined entry's
+    /// data overlaid. Currently the custom's ``CustomSubstanceEntry/duration``
+    /// replaces the library duration for the matching route (or is appended as
+    /// a new route when the library has no route for it). All other library
+    /// fields are preserved — custom substances are meant to fill gaps in (or
+    /// correct) library data, not erase it.
+    func applyingOverride(from custom: CustomSubstanceEntry) -> Substance {
+        guard let customDuration = custom.duration else { return self }
+
+        var updatedRoutes = routes
+        if let idx = updatedRoutes.firstIndex(where: { $0.route == custom.defaultRoute }) {
+            let existing = updatedRoutes[idx]
+            updatedRoutes[idx] = SubstanceRoute(
+                route: existing.route,
+                unit: existing.unit,
+                doses: existing.doses,
+                duration: customDuration
+            )
+        } else {
+            updatedRoutes.append(SubstanceRoute(
+                route: custom.defaultRoute,
+                unit: custom.unit,
+                doses: DoseRange(),
+                duration: customDuration
+            ))
+        }
+
+        let mergedSources = sources.contains(CustomSubstanceEntry.userDefinedSource)
+            ? sources
+            : sources + [CustomSubstanceEntry.userDefinedSource]
+
+        return Substance(
+            name: name,
+            aliases: aliases,
+            category: category,
+            defaultRoute: defaultRoute,
+            routes: updatedRoutes,
+            effects: effects,
+            subjectiveEffects: subjectiveEffects,
+            toleranceInfo: toleranceInfo,
+            halfLifeMinutes: halfLifeMinutes,
+            sources: mergedSources,
+            mechanismOfAction: mechanismOfAction,
+            tags: tags
         )
     }
 }
