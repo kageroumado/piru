@@ -1,0 +1,128 @@
+# Antihistamine — chunk 1/1 — 29 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## 3-Quinuclidinyl benzilate (Antihistamine)
+  intramuscular: threshold 1, light 5.4–6 µg/kg, common 6–7 µg/kg, strong 7–8 µg/kg, heavy ≥9 (drug.community) | duration (drug.community): total 70h–80h
+  oral: threshold 0.2, light 0.5–0.75 mg, common 0.5–1 mg, heavy ≥1.5 (drug.community) | duration (drug.community): total 60h–96h
+
+## Atropine (Antihistamine)
+  intravenous: threshold 0.2, light 0.3–0.6 mg, common 0.6–1 mg, strong 1–2 mg, heavy ≥2 (drug.community) | duration (drug.community): total 4h–8h
+  ophthalmic: threshold 0.005, common 0.025–0.05 %, strong 0.5–1 % (drug.community) | duration (drug.community): total 24h–336h
+  oral: threshold 0.3, light 0.5–1 mg, common 2–5 mg, strong 6–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 6h–12h
+
+## Azelastine (Antihistamine)
+  insufflation: threshold 1, light 1–2 sprays, common 2 sprays, strong 2–4 sprays, heavy ≥4 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 8h–12h, total 12h–24h
+  ophthalmic: threshold 1, light 1 drops, common 1–2 drops, strong 2 drops, heavy ≥2 (piru-curated) | duration (piru-curated): onset 3m–10m, peak 30m–1h, offset 6h–12h, total 8h–12h
+  half-life: 23h (piru-curated)
+
+## Bilastine (Antihistamine)
+  oral: threshold 5, light 10 mg, common 20 mg, strong 20–40 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 8h–14h, total 24h
+  half-life: 14.5h (piru-curated)
+
+## Brompheniramine (Antihistamine)
+  oral: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–16 mg, heavy ≥24 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 4h–8h, total 6h–10h
+  half-life: 25h (piru-curated)
+
+## Cetirizine (Antihistamine)
+  oral: threshold 2.5, light 5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 6h–12h, total 24h
+  half-life: 8h (piru-curated)
+
+## Chlorpheniramine (Antihistamine)
+  oral: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–16 mg, heavy ≥24 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 4h–8h, total 6h–10h
+  half-life: 21h (piru-curated)
+
+## Cimetidine (Antihistamine)
+  oral: threshold 100, light 200–400 mg, common 400–800 mg, strong 800–1200 mg, heavy ≥1600 (piru-curated) | duration (piru-curated): onset 45m–1.5h, peak 1.5h–3h, offset 6h–12h, total 8h–16h
+  half-life: 2h (piru-curated)
+
+## Cyproheptadine (Antihistamine)
+  oral: threshold 2, light 2–4 mg, common 4–8 mg, strong 8–16 mg, heavy ≥32 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 4h–8h, total 6h–10h
+  half-life: 8h (piru-curated)
+
+## Desloratadine (Antihistamine)
+  oral: threshold 1.25, light 2.5 mg, common 5 mg, strong 5–10 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–5h, offset 8h–14h, total 24h
+  half-life: 27h (piru-curated)
+
+## Dimenhydrinate (Antihistamine)
+  oral: threshold 25, light 25–50 mg, common 50–100 mg, strong 100–400 mg, heavy ≥400 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1.5h–3h, offset 4h–8h, total 5h–9h
+  half-life: 9h (piru-curated)
+
+## Diphenhydramine (Antihistamine)
+  intramuscular: threshold 10, light 25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 10m–30m, peak 30m–1.5h, offset 3h–6h, total 4h–8h
+  intravenous: threshold 10, light 25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 1m–5m, peak 15m–1h, offset 3h–6h, total 4h–8h
+  oral: threshold 12.5, light 25–50 mg, common 50–100 mg, strong 100–300 mg, heavy ≥300 (piru-curated) [also: psychonautwiki: common 200–400 mg; tripsit: common 200–500 mg] | duration (piru-curated): onset 15m–1h, peak 1h–3h, offset 4h–8h, total 5h–10h
+  half-life: 9h (piru-curated)
+
+## Doxylamine (Antihistamine)
+  oral: threshold 6.25, light 12.5 mg, common 25 mg, strong 25–75 mg, heavy ≥75 (piru-curated) [also: tripsit: common 200–350 mg] | duration (piru-curated): onset 30m–1h, peak 2h–3h, offset 6h–10h, total 8h–12h
+  half-life: 10.5h (piru-curated)
+
+## EA-3167 (Antihistamine)
+  intramuscular: threshold 1, light 1–2.5 ug/kg, common 2.5–4 ug/kg, strong 4–6 ug/kg, heavy ≥6 (drug.community) | duration (drug.community): total 96h–240h
+
+## Famotidine (Antihistamine)
+  intravenous: threshold 5, light 10–20 mg, common 20 mg, strong 20–40 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 30m–1.5h, offset 8h–12h, total 12h–24h
+  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–80 mg, heavy ≥80 (piru-curated) | duration (piru-curated): onset 1h–3h, peak 3h–6h, offset 8h–12h, total 12h–24h
+  half-life: 2.75h (piru-curated)
+
+## Fexofenadine (Antihistamine)
+  oral: threshold 30, light 60 mg, common 120–180 mg, strong 180–360 mg, heavy ≥360 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 8h–12h, total 12h–24h
+  half-life: 14h (piru-curated)
+
+## Hydroxyzine (Antihistamine)
+  intramuscular: threshold 10, light 25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 4h–6h, total 5h–8h
+  oral: threshold 10, light 10–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 2h–4h, offset 4h–8h, total 6h–10h
+  half-life: 20h (piru-curated)
+
+## Ibotenic acid (Antihistamine)
+  oral: threshold 30, light 30–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 6h–8h
+
+## Ketotifen (Antihistamine)
+  ophthalmic: threshold 1, light 1 drops, common 1–2 drops, strong 2 drops, heavy ≥2 (piru-curated) | duration (piru-curated): onset 3m–10m, peak 10m–1h, offset 6h–12h, total 8h–12h
+  oral: threshold 0.5, light 0.5–1 mg, common 1–2 mg, strong 2–4 mg, heavy ≥4 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–6h, offset 8h–12h, total 12h–24h
+  half-life: 22h (piru-curated)
+
+## Lean (Antihistamine)
+  oral: threshold 5, light 10–20 mL, common 20–60 mL, strong 60–90 mL, heavy ≥90 (drug.community) | duration (drug.community): total 3h–6h
+
+## Levocetirizine (Antihistamine)
+  oral: threshold 1.25, light 2.5 mg, common 2.5–5 mg, strong 5–10 mg, heavy ≥10 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 8h–12h, total 24h
+  half-life: 8h (piru-curated)
+
+## Loratadine (Antihistamine)
+  oral: threshold 2.5, light 5 mg, common 10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–6h, offset 8h–14h, total 24h
+  half-life: 8h (piru-curated)
+
+## Meclizine (Antihistamine)
+  oral: threshold 12.5, light 12.5–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–6h, offset 12h–24h, total 24h
+  half-life: 6h (piru-curated)
+
+## Nizatidine (Antihistamine)
+  oral: threshold 75, light 75–150 mg, common 150–300 mg, strong 300 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 8h–12h, total 12h–24h
+  half-life: 1.5h (piru-curated)
+
+## Olopatadine (Antihistamine)
+  insufflation: threshold 1, light 1–2 sprays, common 2 sprays, strong 2–4 sprays, heavy ≥4 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 8h–12h, total 12h–24h
+  ophthalmic: threshold 1, light 1 drops, common 1–2 drops, strong 2 drops, heavy ≥2 (piru-curated) | duration (piru-curated): onset 3m–10m, peak 30m–2h, offset 6h–12h, total 8h–12h
+  half-life: 3.05h (piru-curated)
+
+## Promethazine (Antihistamine)
+  intramuscular: threshold 6.25, light 12.5–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥75 (piru-curated) | duration (piru-curated): onset 15m–30m, peak 1h–2h, offset 6h–10h, total 7h–12h
+  oral: threshold 6.25, light 12.5–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥75 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 2h–4h, offset 6h–12h, total 8h–24h
+  half-life: 12h (piru-curated)
+
+## Pyrilamine (Antihistamine)
+  oral: threshold 12.5, light 12.5–25 mg, common 25–50 mg, strong 50–100 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 4h–6h, total 5h–8h
+  half-life: 2.5h (piru-curated)
+
+## Ranitidine (Antihistamine)
+  oral: threshold 37.5, light 75 mg, common 150 mg, strong 150–300 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–3h, offset 8h–12h, total 12h–16h
+  half-life: 2.5h (piru-curated)
+
+## Rupatadine (Antihistamine)
+  oral: threshold 5, light 5 mg, common 10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 1.5h–3h, offset 8h–12h, total 24h
+  half-life: 6h (piru-curated)
+

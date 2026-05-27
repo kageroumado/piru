@@ -1,0 +1,47 @@
+# Dissociative — chunk 2/2 — 8 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## O-PCP (Dissociative)
+  inhalation: threshold 3, light 3–8 mg, common 8–15 mg, strong 15–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 2h–4h
+  insufflation: threshold 2, light 2–6 mg, common 6–12 mg, strong 12–22 mg, heavy ≥22 (drug.community) | duration (drug.community): total 3h–5h
+  intramuscular: threshold 1, light 1–4 mg, common 4–10 mg, strong 10–18 mg, heavy ≥18 (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 3, light 3–8 mg, common 8–18 mg, strong 18–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 3h–6h
+  rectal: threshold 2, light 2–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community)
+
+## O-PCPr (Dissociative)
+  insufflation: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 4h–7h
+  oral: threshold 15, light 25–45 mg, common 45–70 mg, strong 70–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 5h–9h
+
+## Pce (Dissociative)
+  inhalation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–12 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–20m, comeup 20m–40m, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  insufflation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–15 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–30m, comeup 30m–1.5h, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  oral: threshold 1, light 3–5 mg, common 5–10 mg, strong 10–15 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, comeup 40m–2h, peak 2h–3h, offset 1h–2h, total 4h–8h, afterglow 4h–48h
+
+## PCP (Dissociative)
+  inhalation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–12 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–20m, comeup 20m–40m, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  insufflation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–15 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–30m, comeup 30m–1.5h, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  oral: threshold 1, light 3–5 mg, common 5–10 mg, strong 10–15 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, comeup 40m–2h, peak 2h–3h, offset 1h–2h, total 4h–8h, afterglow 4h–48h
+
+## Rolicyclidine (Dissociative)
+  inhalation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–12 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–20m, comeup 20m–40m, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  insufflation: threshold 1, light 2–4 mg, common 4–8 mg, strong 8–15 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–30m, comeup 30m–1.5h, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 4h–48h
+  oral: threshold 1, light 3–5 mg, common 5–9 mg, strong 9–13 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1.5h, comeup 30m–2h, peak 2h–3h, offset 3h–4h, total 6h–12h, afterglow 12h–48h
+
+## S-Ketamine (Dissociative)
+  insufflation: threshold 28, light 28–56 mg, common 56–84 mg (drug.community) | duration (drug.community): total 1h–2h
+  intramuscular: threshold 0.15, light 0.15–0.3 mg/kg, common 0.3–0.5 mg/kg, strong 0.5–0.75 mg/kg, heavy ≥0.75 (drug.community)
+  intravenous: threshold 0.1, light 0.1–0.25 mg/kg, common 0.25–0.5 mg/kg, strong 0.5–0.8 mg/kg, heavy ≥0.8 (drug.community) | duration (drug.community): total 45m–1.5h
+
+## Tiletamine (Dissociative)
+  insufflation: threshold 2, light 2–7 mg, common 7–20 mg, strong 20–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 2h–4h
+  intramuscular: light 2.5–5 mg, common 5–10 mg, strong 10–20 mg (tripsit) | duration (tripsit): afterglow 1h–72h
+  oral: light 10–25 mg, common 25–50 mg, strong 50–100 mg (tripsit) [also: drug.community: common 12–30 mg] | duration (tripsit): afterglow 1h–72h
+  rectal: threshold 5, light 5–15 mg, common 15–25 mg, strong 25–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 2h–4h
+  sublingual: threshold 5, light 5–12 mg, common 12–25 mg, strong 25–40 mg, heavy ≥40 (drug.community)
+
+## Tilmetamine (Dissociative)
+  insufflation: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 8h–24h
+

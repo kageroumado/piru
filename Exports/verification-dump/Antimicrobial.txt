@@ -1,0 +1,13 @@
+# Antimicrobial — chunk 1/1 — 2 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Fluconazole (Antimicrobial)
+  intravenous: threshold 50, light 50–100 mg, common 100–200 mg, heavy ≥400 (drug.community)
+  oral: threshold 50, light 50–100 mg, common 100–200 mg, heavy ≥400 (drug.community) | duration (drug.community): total 24h–72h
+
+## Mefloquine (Antimicrobial)
+  oral: (empty) (drug.community)
+

@@ -1,0 +1,54 @@
+# Psychedelic — chunk 7/7 — 16 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## TETRAHYDROHARMINE (Psychedelic)
+  oral: common 225–375 mg (erowid-tihkal)
+
+## TM (Psychedelic)
+  oral: common 20–40 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–15h
+
+## TMA (Psychedelic)
+  oral: threshold 50, light 75–125 mg, common 100–200 mg, strong 200–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 6h–8h
+
+## TMA-2 (Psychedelic)
+  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 20m–2h, comeup 1.5h–3h, peak 4h–6h, offset 2h–4h, total 8h–12h, afterglow 4h–24h
+
+## TMA-3 (Psychedelic)
+  oral: common 75–125 mg (erowid-pihkal)
+
+## TMA-4 (Psychedelic)
+  oral: common 60–100 mg (erowid-pihkal) | duration (erowid-pihkal): total 6h
+
+## TMA-5 (Psychedelic)
+  oral: common 22.5–37.5 mg (erowid-pihkal) | duration (erowid-pihkal): total 8h–10h
+
+## TMA-6 (Psychedelic)
+  oral: threshold 5, light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, comeup 1.5h–3h, peak 5h–8h, offset 3h–5h, total 10h–16h, afterglow 6h–18h
+
+## TMPEA (Psychedelic)
+  oral: common 225–375 mg (erowid-pihkal)
+
+## TOMSO (Psychedelic)
+  oral: common 112.5–187.5 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–16h
+
+## TP (Psychedelic)
+  oral: common 20–25 mg (erowid-pihkal) | duration (erowid-pihkal): total 10h–15h
+
+## TRIS (Psychedelic)
+  oral: common 180–300 mg (erowid-pihkal)
+
+## Truffles (Psychedelic)
+  other: light 0.5–1.5 g, common 1.5–4 g, heavy ≥4 (tripsit) | duration (tripsit): onset 30m–1h, total 3h–6h
+
+## ΑMT (Psychedelic)
+  oral: threshold 5, light 10–25 mg, common 25–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 1h–3h, peak 4h–6h, total 13h–15h, afterglow 1h–5h
+
+## Βh-2c-b (Psychedelic)
+  oral: light 25–40 mg, common 40–60 mg, strong 60–75 mg, heavy ≥75 (tripsit) | duration (tripsit): onset 30m–50m, total 7h–10h, afterglow 1h–12h
+
+## Βk-2C-B (Psychedelic)
+  oral: threshold 50, light 60–80 mg, common 80–100 mg, strong 100–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 20m–1.16667h, total 8h–12h
+

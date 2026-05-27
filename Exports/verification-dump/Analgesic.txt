@@ -1,0 +1,10 @@
+# Analgesic — chunk 1/1 — 1 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Monotropa uniflora (Analgesic)
+  oral: threshold 0.2, light 0.3–0.6 g, common 0.6–2 g, strong 2–4 g, heavy ≥4 (drug.community) | duration (drug.community): total 2h–5h
+  sublingual: threshold 1, light 1–3 drops, common 3–10 drops, strong 10–20 drops, heavy ≥20 (drug.community) | duration (drug.community): total 2h–4h
+

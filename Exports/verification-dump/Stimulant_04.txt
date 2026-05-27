@@ -1,0 +1,92 @@
+# Stimulant — chunk 4/4 — 23 substances
+
+Format: each route shows the resolved value the app displays (winning source in parens).
+When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
+Flag obvious errors: doses or durations that don't match clinical/community knowledge.
+
+## Phentermine (Stimulant)
+  oral: light 15–20 mg, common 20–40 mg, strong 40–70 mg (tripsit) | duration (tripsit): onset 4h–6h, afterglow 1h–10h
+
+## Phentermine+Fenfluramine (Stimulant)
+  oral: threshold 5, light 5–15 mg (P/F), common 15–30 mg (P/F), strong 30–45 mg (P/F), heavy ≥45 (drug.community) | duration (drug.community): total 6h–12h
+
+## Phenylpropylaminopentane (Stimulant)
+  insufflation: threshold 2, light 2–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 3.5h–6h
+  intramuscular: threshold 2, light 2–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 (drug.community)
+  oral: threshold 5, light 5–20 mg, common 20–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–6h
+  sublingual: threshold 3, light 3–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (drug.community)
+
+## Prolintane (Stimulant)
+  insufflation: threshold 5, light 10–20 mg, common 20–35 mg, strong 35–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 1.5h–4h
+  oral: threshold 5, light 15–25 mg, common 25–45 mg, strong 45–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 20m–40m, peak 2h–3h, offset 1h–2h, total 4h–6h, afterglow 2h–6h
+  rectal: threshold 5, light 10–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 (drug.community)
+
+## Propylhexedrine (Stimulant)
+  insufflation: light 10–30 mg, common 30–75 mg, strong 75–100 mg (tripsit) | duration (tripsit): total 4h–8h, afterglow 1h–16h
+  oral: threshold 10, light 30–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 15m–1.5h, peak 2h–5h, offset 1h–3h, total 4h–10h, afterglow 2h–12h
+  other: light 5–15 mg, common 15–30 mg, strong 30–50 mg (tripsit) | duration (tripsit): total 4h–8h, afterglow 1h–16h
+
+## Propylphenidate (Stimulant)
+  oral: light 15–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 (tripsit) | duration (tripsit): onset 15m–25m, total 1.5h–3h, afterglow 1h–8h
+
+## Pseudoephedrine (Stimulant)
+  oral: light 30–60 mg, common 60–90 mg, strong 90–120 mg (tripsit) | duration (tripsit): onset 10m–1.5h, total 2h–12h
+
+## Pv-8 (Stimulant)
+  oral: light 10–20 mg, common 20–40 mg, strong 40–60 mg (tripsit)
+
+## Pyrophenidone (Stimulant)
+  inhalation: light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (tripsit) | duration (tripsit): afterglow 1h–3h
+  insufflation: light 20–40 mg, common 40–60 mg, strong 60–90 mg, heavy ≥90 (tripsit) | duration (tripsit): afterglow 1h–3h
+
+## Pyrovalerone (Stimulant)
+  insufflation: threshold 3, light 5–15 mg, common 15–40 mg, strong 40–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 2.5h–5h
+  intravenous: threshold 0.5, light 1–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 5, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 3h–6h
+  rectal: threshold 3, light 5–15 mg, common 15–35 mg, strong 35–70 mg, heavy ≥70 (drug.community)
+
+## Rti-111 (Stimulant)
+  insufflation: light 5–10 mg, common 10–20 mg, strong 20–40 mg (tripsit) | duration (tripsit): afterglow 1h–6h
+  oral: light 10–15 mg, common 15–30 mg, strong 30–50 mg (tripsit) | duration (tripsit): afterglow 1h–6h
+
+## Sibutramine (Stimulant)
+  oral: threshold 5, light 5–10 mg, common 10–15 mg, strong 15–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 18h–30h
+
+## Th-pvp (Stimulant)
+  inhalation: light 10–15 mg, common 15–25 mg, strong 25–35 mg (tripsit)
+  insufflation: light 10–15 mg, common 15–25 mg, strong 25–35 mg (tripsit)
+  oral: light 20–30 mg, common 30–50 mg, strong 50–70 mg (tripsit)
+
+## Theacrine (Stimulant)
+  insufflation: threshold 25, common 25–100 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–30m, total 1h–3h
+  oral: threshold 25, light 50–100 mg, common 100–150 mg, strong 150–300 mg, heavy ≥300 (psychonautwiki) [also: tripsit: common 25–50 mg] | duration (psychonautwiki): onset 30m–1h, total 6h–10h
+
+## Thiopropamine (Stimulant)
+  oral: light 20–50 mg, common 50–100 mg, strong 100–125 mg (tripsit)
+
+## Troparil (Stimulant)
+  oral: light 15–20 mg, common 20–30 mg, strong 30–60 mg (tripsit) | duration (tripsit): onset 10m, total 45m–1.16667h, afterglow 1h–2h
+
+## Tyrosine (Stimulant)
+  oral: threshold 300, light 500–1000 mg, common 1000–2000 mg, strong 2000–3000 mg, heavy ≥3000 (psychonautwiki) | duration (psychonautwiki): onset 30m–1.5h, peak 1h–3h, total 2h–4h, afterglow 6h–12h
+
+## Viloxazine (Stimulant)
+  oral: light 50–75 mg, common 75–150 mg, heavy ≥150 (tripsit) | duration (tripsit): onset 15m–30m, total 3h–6h
+
+## Vyvanse (Stimulant)
+  oral: light 20–30 mg, common 30–50 mg, strong 50–100 mg (tripsit)
+
+## Yerba-mate (Stimulant)
+  oral: common 1000–1500 mg (tripsit) | duration (tripsit): onset 10m–30m, total 4h–6h, afterglow 1h–4h
+
+## Α-pbp (Stimulant)
+  oral: light 10–25 mg, common 25–50 mg, heavy ≥50 (tripsit) | duration (tripsit): onset 20m–35m, total 3h–4h, afterglow 1h–24h
+
+## α-PCYP (Stimulant)
+  insufflation: threshold 2, light 2–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 2h–5h
+  oral: threshold 5, light 5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 4h–8h
+
+## Α-Pyrrolidinopentiophenone (Stimulant)
+  insufflation: threshold 3, light 3–8 mg, common 8–15 mg, strong 15–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 5, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 2h–5h
+
