@@ -5,66 +5,66 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## 2-Chloro-Ephenidine (Dissociative)
-  oral: light 100–130 mg, common 130–175 mg, strong 175–200 mg, heavy ≥200 (tripsit) | duration (tripsit): onset 10m–30m, total 3h–6h, afterglow 1h–6h
+  oral: light 100–130 mg, common 130–175 mg, strong 175–200 mg, heavy ≥200 mg (tripsit) | duration (tripsit): onset 10m–30m, total 3h–6h, afterglow 1h–6h
 
 ## 2-Fdck (Dissociative)
   insufflation: light 20–50 mg, common 50–100 mg, strong 100–175 mg (tripsit) | duration (tripsit): onset 20m–40m, total 1h–3h, afterglow 1h–3h
 
 ## 2-Fluorodeschloroketamine (Dissociative)
-  insufflation: threshold 20, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 (piru-curated) | duration (piru-curated): onset 5m–15m, peak 45m–1.5h, offset 45m–1.5h, total 2h–4h
-  oral: threshold 50, light 75–125 mg, common 125–250 mg, strong 250–400 mg, heavy ≥500 (piru-curated) [also: psychonautwiki: common 25–70 mg] | duration (psychonautwiki): onset 15m–50m, peak 50m–1.66667h, total 2.5h–5h, afterglow 3h–8h
+  insufflation: threshold 20 mg, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 mg (piru-curated) | duration (piru-curated): onset 5m–15m, peak 45m–1.5h, offset 45m–1.5h, total 2h–4h
+  oral: threshold 50 mg, light 75–125 mg, common 125–250 mg, strong 250–400 mg, heavy ≥500 mg (piru-curated) [also: psychonautwiki: common 25–70 mg] | duration (psychonautwiki): onset 15m–50m, peak 50m–1.66667h, total 2.5h–5h, afterglow 3h–8h
 
 ## 2-MeO-Ketamine (Dissociative)
-  insufflation: threshold 15, light 30–75 mg, common 75–200 mg, strong 200–400 mg, heavy ≥400 (drug.community) | duration (drug.community): total 1h–2.5h
-  intramuscular: threshold 10, light 20–40 mg, common 40–75 mg, strong 75–125 mg, heavy ≥125 (drug.community) | duration (drug.community): total 1h–2.5h
-  oral: threshold 20, light 40–80 mg, common 80–200 mg, strong 200–350 mg, heavy ≥350 (drug.community) | duration (drug.community): total 1.5h–3h
+  insufflation: threshold 15 mg, light 30–75 mg, common 75–200 mg, strong 200–400 mg, heavy ≥400 mg (drug.community) | duration (drug.community): total 1h–2.5h
+  intramuscular: threshold 10 mg, light 20–40 mg, common 40–75 mg, strong 75–125 mg, heavy ≥125 mg (drug.community) | duration (drug.community): total 1h–2.5h
+  oral: threshold 20 mg, light 40–80 mg, common 80–200 mg, strong 200–350 mg, heavy ≥350 mg (drug.community) | duration (drug.community): total 1.5h–3h
 
 ## 2-TFMXP (Dissociative)
-  insufflation: threshold 3, light 5–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 (drug.community) | duration (drug.community): total 5h–9h
-  oral: threshold 5, light 10–25 mg, common 25–45 mg, strong 45–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 6h–10h
-  sublingual: threshold 4, light 8–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 6h–10h
+  insufflation: threshold 3 mg, light 5–15 mg, common 15–30 mg, strong 30–45 mg, heavy ≥45 mg (drug.community) | duration (drug.community): total 5h–9h
+  oral: threshold 5 mg, light 10–25 mg, common 25–45 mg, strong 45–70 mg, heavy ≥70 mg (drug.community) | duration (drug.community): total 6h–10h
+  sublingual: threshold 4 mg, light 8–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 6h–10h
 
 ## 3,4-Methylenedioxy-phencyclidine (Dissociative)
-  insufflation: threshold 2, light 3–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 (drug.community) | duration (drug.community): total 3h–6h
-  oral: threshold 3, light 5–8 mg, common 8–20 mg, strong 20–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 3h–6h
+  insufflation: threshold 2 mg, light 3–5 mg, common 5–15 mg, strong 15–30 mg, heavy ≥30 mg (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 3 mg, light 5–8 mg, common 8–20 mg, strong 20–40 mg, heavy ≥40 mg (drug.community) | duration (drug.community): total 3h–6h
 
 ## 3-EtO-PCP (Dissociative)
-  inhalation: threshold 5, light 5–15 mg (free-base), common 15–30 mg (free-base), strong 30–50 mg (free-base), heavy ≥50 (drug.community)
-  insufflation: threshold 10, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 6h–7h
-  oral: threshold 20, light 30–50 mg, common 50–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 6h–8h
+  inhalation: threshold 5 mg (free-base), light 5–15 mg (free-base), common 15–30 mg (free-base), strong 30–50 mg (free-base), heavy ≥50 mg (free-base) (drug.community)
+  insufflation: threshold 10 mg, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 mg (drug.community) | duration (drug.community): total 6h–7h
+  oral: threshold 20 mg, light 30–50 mg, common 50–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 6h–8h
 
 ## 3-F-PCP (Dissociative)
-  insufflation: threshold 5, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 4h–10h
-  intramuscular: threshold 2, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (drug.community)
-  oral: threshold 10, light 10–20 mg, common 20–40 mg, strong 40–70 mg, heavy ≥70 (drug.community) | duration (drug.community): total 5h–12h
-  rectal: threshold 10, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 4h–10h
-  sublingual: threshold 8, light 10–20 mg, common 20–35 mg, strong 35–60 mg, heavy ≥60 (drug.community)
+  insufflation: threshold 5 mg, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 4h–10h
+  intramuscular: threshold 2 mg, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (drug.community)
+  oral: threshold 10 mg, light 10–20 mg, common 20–40 mg, strong 40–70 mg, heavy ≥70 mg (drug.community) | duration (drug.community): total 5h–12h
+  rectal: threshold 10 mg, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 mg (drug.community) | duration (drug.community): total 4h–10h
+  sublingual: threshold 8 mg, light 10–20 mg, common 20–35 mg, strong 35–60 mg, heavy ≥60 mg (drug.community)
 
 ## 3-Ho-Pce (Dissociative)
-  insufflation: threshold 5, light 10–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 4h–7h
-  oral: threshold 5, light 5–10 mg, common 10–15 mg, strong 15–25 mg, heavy ≥25 (psychonautwiki) [also: drug.community: common 25–45 mg] | duration (psychonautwiki): total 4h–6h
+  insufflation: threshold 5 mg, light 10–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (drug.community) | duration (drug.community): total 4h–7h
+  oral: threshold 5 mg, light 5–10 mg, common 10–15 mg, strong 15–25 mg, heavy ≥25 mg (psychonautwiki) [also: drug.community: common 25–45 mg] | duration (psychonautwiki): total 4h–6h
 
 ## 3-HO-PCP (Dissociative)
-  insufflation: threshold 1, light 2–4 mg, common 4–6 mg, strong 6–8 mg, heavy ≥8 (drug.community) | duration (drug.community): total 3h–5h
-  oral: threshold 1, light 2–4 mg, common 4–6 mg, strong 6–8 mg, heavy ≥8 (psychonautwiki) | duration (psychonautwiki): comeup 1h–1.5h, total 4h–6h
+  insufflation: threshold 1 mg, light 2–4 mg, common 4–6 mg, strong 6–8 mg, heavy ≥8 mg (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 1 mg, light 2–4 mg, common 4–6 mg, strong 6–8 mg, heavy ≥8 mg (psychonautwiki) | duration (psychonautwiki): comeup 1h–1.5h, total 4h–6h
 
 ## 3-Me-PCPy (Dissociative)
-  insufflation: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 2h–4h
-  oral: threshold 7, light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 2.5h–4h
-  rectal: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 (drug.community) | duration (drug.community): total 2.5h–4h
+  insufflation: threshold 5 mg, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 mg (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 7 mg, light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 mg (drug.community) | duration (drug.community): total 2.5h–4h
+  rectal: threshold 5 mg, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 mg (drug.community) | duration (drug.community): total 2.5h–4h
 
 ## 3-MeO-PCE (Dissociative)
-  insufflation: threshold 1, light 3–6 mg, common 6–12 mg, strong 12–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 3m–15m, comeup 45m–1.5h, peak 1.5h–2h, offset 45m–1h, total 3h–5h, afterglow 4h–48h
-  oral: threshold 3, light 5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥50 (piru-curated) [also: tripsit: common 5–10 mg] | duration (psychonautwiki): onset 30m–1.5h, comeup 1h–2h, peak 2h–3h, offset 1h–2h, total 4h–8h, afterglow 4h–48h
+  insufflation: threshold 1 mg, light 3–6 mg, common 6–12 mg, strong 12–20 mg, heavy ≥20 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–15m, comeup 45m–1.5h, peak 1.5h–2h, offset 45m–1h, total 3h–5h, afterglow 4h–48h
+  oral: threshold 3 mg, light 5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥50 mg (piru-curated) [also: tripsit: common 5–10 mg] | duration (psychonautwiki): onset 30m–1.5h, comeup 1h–2h, peak 2h–3h, offset 1h–2h, total 4h–8h, afterglow 4h–48h
 
 ## 3-Meo-Pcmo (Dissociative)
-  insufflation: threshold 30, light 50–100 mg, common 100–160 mg, strong 160–220 mg, heavy ≥220 (drug.community) | duration (drug.community): total 3h–4h
-  oral: threshold 50, light 100–200 mg, common 200–300 mg, strong 300–400 mg, heavy ≥400 (psychonautwiki) [also: tripsit: common 80–125 mg] | duration (psychonautwiki): onset 1h–2h, peak 2h–3h, offset 1h–2h, total 5h–6h, afterglow 2h–3h
+  insufflation: threshold 30 mg, light 50–100 mg, common 100–160 mg, strong 160–220 mg, heavy ≥220 mg (drug.community) | duration (drug.community): total 3h–4h
+  oral: threshold 50 mg, light 100–200 mg, common 200–300 mg, strong 300–400 mg, heavy ≥400 mg (psychonautwiki) [also: tripsit: common 80–125 mg] | duration (psychonautwiki): onset 1h–2h, peak 2h–3h, offset 1h–2h, total 5h–6h, afterglow 2h–3h
 
 ## 3-MeO-PCP (Dissociative)
-  inhalation: threshold 2, light 5–10 mg, common 10–20 mg, strong 20–25 mg, heavy ≥25 (psychonautwiki) | duration (psychonautwiki): total 45m–2h
-  insufflation: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥25 (piru-curated) | duration (psychonautwiki): onset 5m–30m, comeup 45m–1.5h, peak 1.5h–2h, offset 45m–1h, total 3h–5h, afterglow 4h–48h
-  oral: threshold 2, light 3–7 mg, common 7–15 mg, strong 15–25 mg, heavy ≥30 (piru-curated) | duration (piru-curated): onset 20m–1h, peak 1.5h–3h, offset 3h–6h, total 4h–8h
+  inhalation: threshold 2 mg, light 5–10 mg, common 10–20 mg, strong 20–25 mg, heavy ≥25 mg (psychonautwiki) | duration (psychonautwiki): total 45m–2h
+  insufflation: threshold 1 mg, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥25 mg (piru-curated) | duration (psychonautwiki): onset 5m–30m, comeup 45m–1.5h, peak 1.5h–2h, offset 45m–1h, total 3h–5h, afterglow 4h–48h
+  oral: threshold 2 mg, light 3–7 mg, common 7–15 mg, strong 15–25 mg, heavy ≥30 mg (piru-curated) | duration (piru-curated): onset 20m–1h, peak 1.5h–3h, offset 3h–6h, total 4h–8h
 
 ## 3-Meo-Pcpr (Dissociative)
   insufflation: light 1–3 mg, common 3–8 mg, strong 8–15 mg (tripsit) | duration (tripsit): afterglow 1h–4h
@@ -75,142 +75,142 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: light 2–4 mg, common 4–8 mg, strong 8–15 mg (tripsit) | duration (tripsit): afterglow 1h–6h
 
 ## 4-Meo-PCP (Dissociative)
-  insufflation: threshold 15, light 30–75 mg, common 75–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 15m–30m, peak 3h–6h, total 12h–18h
-  oral: threshold 25, light 75–100 mg, common 100–170 mg, strong 170–250 mg, heavy ≥250 (psychonautwiki) | duration (psychonautwiki): onset 45m–2h, comeup 1h–2h, peak 3h–7h, offset 6h–10h, total 12h–20h
+  insufflation: threshold 15 mg, light 30–75 mg, common 75–150 mg, heavy ≥150 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 15m–30m, peak 3h–6h, total 12h–18h
+  oral: threshold 25 mg, light 75–100 mg, common 100–170 mg, strong 170–250 mg, heavy ≥250 mg (psychonautwiki) | duration (psychonautwiki): onset 45m–2h, comeup 1h–2h, peak 3h–7h, offset 6h–10h, total 12h–20h
 
 ## Bromoketamine (Dissociative)
-  insufflation: threshold 20, light 40–90 mg, common 90–160 mg, strong 160–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 1h–2.5h
-  intramuscular: threshold 0.3, common 0.7–1 mg, strong 1–1.2 mg, heavy ≥1.2 (drug.community) | duration (drug.community): total 1.5h–3h
+  insufflation: threshold 20 mg, light 40–90 mg, common 90–160 mg, strong 160–250 mg, heavy ≥250 mg (drug.community) | duration (drug.community): total 1h–2.5h
+  intramuscular: threshold 0.3 mg, common 0.7–1 mg, strong 1–1.2 mg, heavy ≥1.2 mg (drug.community) | duration (drug.community): total 1.5h–3h
 
 ## Canket (Dissociative)
-  insufflation: threshold 3, light 8–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 1.5h–3h
-  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 2h–4h
+  insufflation: threshold 3 mg, light 8–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 1.5h–3h
+  oral: threshold 5 mg, light 10–25 mg, common 25–50 mg, strong 50–80 mg, heavy ≥80 mg (drug.community) | duration (drug.community): total 2h–4h
 
 ## Deoxymethoxetamine (Dissociative)
-  insufflation: threshold 15, light 25–40 mg, common 40–70 mg, strong 70–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–6h
-  oral: threshold 30, light 50–70 mg, common 70–110 mg, strong 110–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 5h–7h
+  insufflation: threshold 15 mg, light 25–40 mg, common 40–70 mg, strong 70–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 4h–6h
+  oral: threshold 30 mg, light 50–70 mg, common 70–110 mg, strong 110–150 mg, heavy ≥150 mg (drug.community) | duration (drug.community): total 5h–7h
 
 ## Deschloroketamine (Dissociative)
-  inhalation: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): total 30m–1.5h
-  insufflation: threshold 10, light 20–40 mg, common 40–100 mg, strong 100–150 mg, heavy ≥200 (piru-curated) [also: psychonautwiki: common 15–25 mg; drug.community: common 15–25 mg] | duration (piru-curated): onset 5m–20m, peak 1h–2h, offset 1h–2h, total 2h–5h
-  oral: threshold 25, light 50–75 mg, common 75–200 mg, strong 200–300 mg, heavy ≥350 (piru-curated) [also: psychonautwiki: common 20–30 mg; tripsit: common 15–25 mg; drug.community: common 20–30 mg] | duration (piru-curated): onset 20m–45m, peak 1.5h–3h, offset 1.5h–3h, total 3h–7h
+  inhalation: threshold 5 mg, light 5–10 mg, common 10–20 mg, strong 20–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): total 30m–1.5h
+  insufflation: threshold 10 mg, light 20–40 mg, common 40–100 mg, strong 100–150 mg, heavy ≥200 mg (piru-curated) [also: psychonautwiki: common 15–25 mg; drug.community: common 15–25 mg] | duration (piru-curated): onset 5m–20m, peak 1h–2h, offset 1h–2h, total 2h–5h
+  oral: threshold 25 mg, light 50–75 mg, common 75–200 mg, strong 200–300 mg, heavy ≥350 mg (piru-curated) [also: psychonautwiki: common 20–30 mg; tripsit: common 15–25 mg; drug.community: common 20–30 mg] | duration (piru-curated): onset 20m–45m, peak 1.5h–3h, offset 1.5h–3h, total 3h–7h
 
 ## Dextromethorphan (Dissociative)
-  oral: threshold 75, light 100–200 mg, common 200–400 mg, strong 400–700 mg, heavy ≥700 (psychonautwiki) [also: tripsit: common 2.5–7.5 mg/kg] | duration (psychonautwiki): onset 30m–2h, comeup 1h–2h, peak 3h–6h, offset 2h–4h, total 8h–12h, afterglow 4h–24h
+  oral: threshold 75 mg, light 100–200 mg, common 200–400 mg, strong 400–700 mg, heavy ≥700 mg (psychonautwiki) [also: tripsit: common 2.5–7.5 mg/kg] | duration (psychonautwiki): onset 30m–2h, comeup 1h–2h, peak 3h–6h, offset 2h–4h, total 8h–12h, afterglow 4h–24h
 
 ## Diphenidine (Dissociative)
-  inhalation: common 20–40 mg, strong 40–55 mg, heavy ≥55 (psychonautwiki) | duration (psychonautwiki): onset 30s–1.5m, peak 30m–2h, offset 20m–40m, total 1h–3h, afterglow 2h–5h
-  insufflation: threshold 5, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 2h–5h
-  oral: threshold 30, light 40–65 mg, common 65–100 mg, strong 100–130 mg, heavy ≥130 (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, total 2h–5h, afterglow 4h–24h
-  rectal: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–80 mg, heavy ≥80 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, total 5h–7h
-  sublingual: threshold 15, light 25–50 mg, common 50–100 mg, strong 100–140 mg, heavy ≥140 (drug.community)
+  inhalation: common 20–40 mg, strong 40–55 mg, heavy ≥55 mg (psychonautwiki) | duration (psychonautwiki): onset 30s–1.5m, peak 30m–2h, offset 20m–40m, total 1h–3h, afterglow 2h–5h
+  insufflation: threshold 5 mg, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 2h–5h
+  oral: threshold 30 mg, light 40–65 mg, common 65–100 mg, strong 100–130 mg, heavy ≥130 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, total 2h–5h, afterglow 4h–24h
+  rectal: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–80 mg, heavy ≥80 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, total 5h–7h
+  sublingual: threshold 15 mg, light 25–50 mg, common 50–100 mg, strong 100–140 mg, heavy ≥140 mg (drug.community)
 
 ## DMXE (Dissociative)
-  insufflation: threshold 10, light 15–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥120 (piru-curated) | duration (piru-curated): onset 5m–15m, peak 1h–2h, offset 1h–2h, total 3h–5h
+  insufflation: threshold 10 mg, light 15–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥120 mg (piru-curated) | duration (piru-curated): onset 5m–15m, peak 1h–2h, offset 1h–2h, total 3h–5h
 
 ## DXM Polistirex (Dissociative)
-  oral: threshold 30, light 45–150 mg (DXM base equivalent), common 150–360 mg (DXM base equivalent), strong 360–720 mg (DXM base equivalent), heavy ≥720 (drug.community) | duration (drug.community): total 8h–14h
+  oral: threshold 30 mg (DXM base equivalent), light 45–150 mg (DXM base equivalent), common 150–360 mg (DXM base equivalent), strong 360–720 mg (DXM base equivalent), heavy ≥720 mg (DXM base equivalent) (drug.community) | duration (drug.community): total 8h–14h
 
 ## Dxme (Dissociative)
-  oral: light 15–25 mg, common 30–50 mg, strong 50–80 mg, heavy ≥80 (tripsit) | duration (tripsit): onset 30m–1.5h, total 4h–8h, afterglow 6h–24h
+  oral: light 15–25 mg, common 30–50 mg, strong 50–80 mg, heavy ≥80 mg (tripsit) | duration (tripsit): onset 30m–1.5h, total 4h–8h, afterglow 6h–24h
 
 ## Ephenidine (Dissociative)
-  insufflation: threshold 5, light 15–40 mg, common 40–100 mg, strong 100–150 mg, heavy ≥150 (drug.community)
-  oral: threshold 30, light 30–70 mg, common 70–100 mg, strong 100–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, total 5h–7h
-  rectal: threshold 10, light 15–35 mg, common 35–90 mg, strong 90–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 3h–7h
+  insufflation: threshold 5 mg, light 15–40 mg, common 40–100 mg, strong 100–150 mg, heavy ≥150 mg (drug.community)
+  oral: threshold 30 mg, light 30–70 mg, common 70–100 mg, strong 100–150 mg, heavy ≥150 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, total 5h–7h
+  rectal: threshold 10 mg, light 15–35 mg, common 35–90 mg, strong 90–150 mg, heavy ≥150 mg (drug.community) | duration (drug.community): total 3h–7h
 
 ## Esketamine (Dissociative)
-  insufflation: threshold 14, light 28–42 mg, common 56–84 mg, strong 84–112 mg, heavy ≥140 (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–1h, offset 1h–1.5h, total 1.5h–3h
+  insufflation: threshold 14 mg, light 28–42 mg, common 56–84 mg, strong 84–112 mg, heavy ≥140 mg (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–1h, offset 1h–1.5h, total 1.5h–3h
   half-life: 7h (piru-curated)
 
 ## Ethketamine (Dissociative)
   oral: light 15–40 mg, common 40–90 mg, strong 90–160 mg (tripsit)
 
 ## Eticyclidone (Dissociative)
-  insufflation: threshold 3, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–1.5h, offset 1h–2h, total 2h–4h
-  oral: threshold 5, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥70 (piru-curated)
+  insufflation: threshold 3 mg, light 5–10 mg, common 10–20 mg, strong 20–30 mg, heavy ≥40 mg (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–1.5h, offset 1h–2h, total 2h–4h
+  oral: threshold 5 mg, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥70 mg (piru-curated)
 
 ## Etoxadrol (Dissociative)
-  intravenous: threshold 0.2, light 0.3–0.5 mg/kg, common 0.6–0.9 mg/kg, strong 1–1.5 mg/kg, heavy ≥2 (drug.community) | duration (drug.community): total 14m–53m
+  intravenous: threshold 0.2 mg/kg, light 0.3–0.5 mg/kg, common 0.6–0.9 mg/kg, strong 1–1.5 mg/kg, heavy ≥2 mg/kg (drug.community) | duration (drug.community): total 14m–53m
 
 ## Fluorexetamine (Dissociative)
-  insufflation: threshold 3, light 8–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 3h–5h
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 4h–6h
+  insufflation: threshold 3 mg, light 8–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (drug.community) | duration (drug.community): total 3h–5h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 4h–6h
 
 ## Fluorolintane (Dissociative)
-  oral: light 75–100 mg, common 100–150 mg, strong 150–250 mg, heavy ≥250 (tripsit) | duration (tripsit): onset 15m–45m, total 3h–6h, afterglow 2h–6h
+  oral: light 75–100 mg, common 100–150 mg, strong 150–250 mg, heavy ≥250 mg (tripsit) | duration (tripsit): onset 15m–45m, total 3h–6h, afterglow 2h–6h
 
 ## HXE (Dissociative)
-  insufflation: threshold 20, light 40–20 mg, common 40–70 mg, strong 70–120 mg, heavy ≥120 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 20m–40m, peak 1.5h–4h, offset 2h–4h, total 3h–6h, afterglow 2h–7h
-  oral: threshold 30, light 30–60 mg, common 60–100 mg, strong 100–130 mg, heavy ≥130 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 2h–4h, offset 3h–6h, total 3h–8h, afterglow 1h–12h
-  sublingual: threshold 30, light 30–60 mg, common 60–100 mg, strong 100–130 mg, heavy ≥130 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 2h–4h, offset 2h–6h, total 3h–6h, afterglow 1h–12h
+  insufflation: threshold 20 mg, light 40–20 mg, common 40–70 mg, strong 70–120 mg, heavy ≥120 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 20m–40m, peak 1.5h–4h, offset 2h–4h, total 3h–6h, afterglow 2h–7h
+  oral: threshold 30 mg, light 30–60 mg, common 60–100 mg, strong 100–130 mg, heavy ≥130 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 2h–4h, offset 3h–6h, total 3h–8h, afterglow 1h–12h
+  sublingual: threshold 30 mg, light 30–60 mg, common 60–100 mg, strong 100–130 mg, heavy ≥130 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 30m–1h, peak 2h–4h, offset 2h–6h, total 3h–6h, afterglow 1h–12h
 
 ## Hydroxetamine (Dissociative)
-  insufflation: threshold 5, light 15–30 mg, common 30–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–6h
-  oral: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 3h–5h
+  insufflation: threshold 5 mg, light 15–30 mg, common 30–60 mg, strong 60–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 4h–6h
+  oral: threshold 10 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 3h–5h
 
 ## Isophenidine (Dissociative)
-  insufflation: threshold 40, light 60–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 (drug.community) | duration (drug.community): total 1h–3h
-  oral: threshold 75, light 75–125 mg, common 125–200 mg, strong 200–250 mg, heavy ≥250 (drug.community) | duration (drug.community): total 3h–6h
+  insufflation: threshold 40 mg, light 60–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 mg (drug.community) | duration (drug.community): total 1h–3h
+  oral: threshold 75 mg, light 75–125 mg, common 125–200 mg, strong 200–250 mg, heavy ≥250 mg (drug.community) | duration (drug.community): total 3h–6h
 
 ## Ketamine (Dissociative)
-  insufflation: threshold 5, light 10–30 mg, common 30–75 mg, strong 75–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 1m–3m, comeup 5m–15m, peak 15m–45m, offset 30m–1h, total 1h–2h, afterglow 2h–12h
-  oral: threshold 50, light 50–100 mg, common 100–300 mg, strong 300–450 mg, heavy ≥450 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 5m–20m, peak 45m–1.5h, offset 3h–6h, afterglow 4h–8h
-  rectal: threshold 40, light 50–100 mg, common 75–300 mg, strong 200–450 mg, heavy ≥450 (drug.community) | duration (drug.community): total 1h–2h
+  insufflation: threshold 5 mg, light 10–30 mg, common 30–75 mg, strong 75–150 mg, heavy ≥150 mg (psychonautwiki) | duration (psychonautwiki): onset 1m–3m, comeup 5m–15m, peak 15m–45m, offset 30m–1h, total 1h–2h, afterglow 2h–12h
+  oral: threshold 50 mg, light 50–100 mg, common 100–300 mg, strong 300–450 mg, heavy ≥450 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 5m–20m, peak 45m–1.5h, offset 3h–6h, afterglow 4h–8h
+  rectal: threshold 40 mg, light 50–100 mg, common 75–300 mg, strong 200–450 mg, heavy ≥450 mg (drug.community) | duration (drug.community): total 1h–2h
 
 ## Memantine (Dissociative)
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–80 mg, heavy ≥100 (piru-curated) [also: psychonautwiki: common 70–110 mg; drug.community: common 47–62 mg] | duration (piru-curated): onset 1h–3h, peak 4h–8h, offset 8h–12h, total 12h–24h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–80 mg, heavy ≥100 mg (piru-curated) [also: psychonautwiki: common 70–110 mg; drug.community: common 47–62 mg] | duration (piru-curated): onset 1h–3h, peak 4h–8h, offset 8h–12h, total 12h–24h
   half-life: 70h (piru-curated)
 
 ## Methoxetamine (Dissociative)
-  insufflation: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 (piru-curated) | duration (piru-curated): onset 5m–20m, peak 1.5h–3h, offset 1.5h–3h, total 4h–6h
-  intramuscular: threshold 3, light 5–20 mg, common 15–30 mg, strong 20–80 mg, heavy ≥80 (drug.community) | duration (drug.community): total 3h–6h
-  oral: threshold 10, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥200 (piru-curated) [also: psychonautwiki: common 25–45 mg] | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 2h–4h, total 5h–8h
-  rectal: threshold 5, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 (drug.community)
-  sublingual: threshold 5, light 8–25 mg, common 15–50 mg, strong 40–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 3h–6h
+  insufflation: threshold 5 mg, light 10–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 mg (piru-curated) | duration (piru-curated): onset 5m–20m, peak 1.5h–3h, offset 1.5h–3h, total 4h–6h
+  intramuscular: threshold 3 mg, light 5–20 mg, common 15–30 mg, strong 20–80 mg, heavy ≥80 mg (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 10 mg, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥200 mg (piru-curated) [also: psychonautwiki: common 25–45 mg] | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 2h–4h, total 5h–8h
+  rectal: threshold 5 mg, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 mg (drug.community)
+  sublingual: threshold 5 mg, light 8–25 mg, common 15–50 mg, strong 40–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 3h–6h
   half-life: 5h (piru-curated)
 
 ## Methoxmetamine (Dissociative)
-  insufflation: threshold 20, light 20–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 (drug.community) | duration (drug.community): total 1.5h–3h
-  intramuscular: threshold 5, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 2h–3h
-  oral: threshold 15, light 15–40 mg, common 40–90 mg, strong 90–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 2h–4h
-  rectal: threshold 10, light 10–30 mg, common 30–70 mg, strong 70–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 2h–3.5h
-  sublingual: threshold 5, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 2h–4h
+  insufflation: threshold 20 mg, light 20–60 mg, common 60–120 mg, strong 120–180 mg, heavy ≥180 mg (drug.community) | duration (drug.community): total 1.5h–3h
+  intramuscular: threshold 5 mg, light 5–15 mg, common 15–35 mg, strong 35–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 2h–3h
+  oral: threshold 15 mg, light 15–40 mg, common 40–90 mg, strong 90–150 mg, heavy ≥150 mg (drug.community) | duration (drug.community): total 2h–4h
+  rectal: threshold 10 mg, light 10–30 mg, common 30–70 mg, strong 70–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 2h–3.5h
+  sublingual: threshold 5 mg, light 10–25 mg, common 25–60 mg, strong 60–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 2h–4h
 
 ## Methoxphenidine (Dissociative)
-  oral: threshold 25, light 50–80 mg, common 80–120 mg, strong 120–180 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 3h–4h, total 6h–8h
+  oral: threshold 25 mg, light 50–80 mg, common 80–120 mg, strong 120–180 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–4h, offset 3h–4h, total 6h–8h
 
 ## Methoxyketamine (Dissociative)
-  insufflation: threshold 5, light 15–60 mg, common 60–130 mg, strong 130–200 mg (tripsit) | duration (tripsit): onset 10m–20m, total 1h–2h, afterglow 2h–4h
+  insufflation: threshold 5 mg, light 15–60 mg, common 60–130 mg, strong 130–200 mg (tripsit) | duration (tripsit): onset 10m–20m, total 1h–2h, afterglow 2h–4h
 
 ## Mk-801 (Dissociative)
   oral: common 50–100 µg (tripsit) | duration (tripsit): total 20h–36h, afterglow 1h–72h
 
 ## MXE (Dissociative)
-  insufflation: threshold 5, light 10–20 mg, common 20–35 mg, strong 35–60 mg, heavy ≥60 (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
-  oral: threshold 10, light 15–25 mg, common 25–35 mg, strong 40–65 mg (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
-  sublingual: threshold 5, light 10–20 mg, common 40–60 mg, strong 60–75 mg (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
+  insufflation: threshold 5 mg, light 10–20 mg, common 20–35 mg, strong 35–60 mg, heavy ≥60 mg (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
+  oral: threshold 10 mg, light 15–25 mg, common 25–35 mg, strong 40–65 mg (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
+  sublingual: threshold 5 mg, light 10–20 mg, common 40–60 mg, strong 60–75 mg (tripsit) | duration (tripsit): total 3h–6h, afterglow 2h–48h
 
 ## MXiPr (Dissociative)
-  insufflation: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, total 1.5h–4h, afterglow 2h–12h
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, total 2h–5h, afterglow 4h–48h
+  insufflation: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, total 1.5h–4h, afterglow 2h–12h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, total 2h–5h, afterglow 4h–48h
 
 ## Mxm (Dissociative)
-  oral: threshold 10, light 20–40 mg, common 40–60 mg, strong 60–100 mg (tripsit) | duration (tripsit): total 3h–5h, afterglow 2h–4h
+  oral: threshold 10 mg, light 20–40 mg, common 40–60 mg, strong 60–100 mg (tripsit) | duration (tripsit): total 3h–5h, afterglow 2h–4h
 
 ## MXP (Dissociative)
-  intravenous: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 3h–6h
-  oral: threshold 15, light 30–50 mg, common 60–90 mg, strong 100–130 mg, heavy ≥150 (drug.community) | duration (drug.community): total 4h–7h
+  intravenous: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 15 mg, light 30–50 mg, common 60–90 mg, strong 100–130 mg, heavy ≥150 mg (drug.community) | duration (drug.community): total 4h–7h
 
 ## MXPCP (Dissociative)
-  insufflation: threshold 10, light 15–30 mg, common 30–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 3h–6h
-  oral: threshold 15, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 (drug.community) | duration (drug.community): total 3h–6h
-  rectal: threshold 10, light 20–40 mg, common 40–90 mg, strong 90–130 mg, heavy ≥130 (drug.community) | duration (drug.community): total 3h–6h
+  insufflation: threshold 10 mg, light 15–30 mg, common 30–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 3h–6h
+  oral: threshold 15 mg, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥150 mg (drug.community) | duration (drug.community): total 3h–6h
+  rectal: threshold 10 mg, light 20–40 mg, common 40–90 mg, strong 90–130 mg, heavy ≥130 mg (drug.community) | duration (drug.community): total 3h–6h
 
 ## Nitrous (Dissociative)
-  inhalation: threshold 4, light 4–8 g, common 8–16 g, strong 16–40 g, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): onset 5s–10s, comeup 5s–10s, peak 15s–30s, offset 1m–5m, total 1m–5m, afterglow 15m–30m
+  inhalation: threshold 4 g, light 4–8 g, common 8–16 g, strong 16–40 g, heavy ≥40 g (psychonautwiki) | duration (psychonautwiki): onset 5s–10s, comeup 5s–10s, peak 15s–30s, offset 1m–5m, total 1m–5m, afterglow 15m–30m
 
 ## O-pce (Dissociative)
-  insufflation: threshold 2, light 3–6 mg, common 6–12 mg, strong 12–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, total 3h–5h, afterglow 2h–12h
-  oral: threshold 1, light 3–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 (psychonautwiki) [also: drug.community: common 15–30 mg] | duration (psychonautwiki): onset 20m–40m, total 3h–6h, afterglow 4h–48h
+  insufflation: threshold 2 mg, light 3–6 mg, common 6–12 mg, strong 12–20 mg, heavy ≥20 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, total 3h–5h, afterglow 2h–12h
+  oral: threshold 1 mg, light 3–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 mg (psychonautwiki) [also: drug.community: common 15–30 mg] | duration (psychonautwiki): onset 20m–40m, total 3h–6h, afterglow 4h–48h
 

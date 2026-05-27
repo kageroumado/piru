@@ -5,51 +5,51 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## Atenolol (Cardiovascular)
-  oral: threshold 12.5, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥200 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 6h–12h, total 12h–24h
+  oral: threshold 12.5 mg, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥200 mg (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 6h–12h, total 12h–24h
   half-life: 6h (piru-curated)
 
 ## Bisoprolol (Cardiovascular)
-  oral: threshold 1.25, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–4h, offset 12h–24h, total 24h
+  oral: threshold 1.25 mg, light 2.5–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 mg (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–4h, offset 12h–24h, total 24h
   half-life: 10h (piru-curated)
 
 ## Carvedilol (Cardiovascular)
-  oral: threshold 3.125, light 6.25–12.5 mg, common 12.5–25 mg, strong 25–50 mg, heavy ≥50 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 6h–12h, total 8h–12h
+  oral: threshold 3.125 mg, light 6.25–12.5 mg, common 12.5–25 mg, strong 25–50 mg, heavy ≥50 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–2h, offset 6h–12h, total 8h–12h
   half-life: 8h (piru-curated)
 
 ## Guanfacine (Cardiovascular)
-  oral: threshold 0.5, light 1–2 mg, common 1–3 mg, strong 3–4 mg, heavy ≥4 (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–4h, offset 8h–24h, total 12h–24h
+  oral: threshold 0.5 mg, light 1–2 mg, common 1–3 mg, strong 3–4 mg, heavy ≥4 mg (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–4h, offset 8h–24h, total 12h–24h
   half-life: 17h (piru-curated)
 
 ## Labetalol (Cardiovascular)
-  intravenous: threshold 5, light 20–40 mg, common 40–80 mg, strong 80–160 mg, heavy ≥300 (piru-curated) | duration (piru-curated): onset 2m–5m, peak 5m–15m, offset 2h–6h, total 3h–6h
-  oral: threshold 50, light 100–200 mg, common 200–400 mg, strong 400–600 mg, heavy ≥800 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 8h–12h, total 8h–12h
+  intravenous: threshold 5 mg, light 20–40 mg, common 40–80 mg, strong 80–160 mg, heavy ≥300 mg (piru-curated) | duration (piru-curated): onset 2m–5m, peak 5m–15m, offset 2h–6h, total 3h–6h
+  oral: threshold 50 mg, light 100–200 mg, common 200–400 mg, strong 400–600 mg, heavy ≥800 mg (piru-curated) | duration (piru-curated): onset 1h–2h, peak 2h–4h, offset 8h–12h, total 8h–12h
   half-life: 6h (piru-curated)
 
 ## Lofexidine (Cardiovascular)
-  oral: threshold 0.18, light 0.18–0.36 mg, common 0.54–1.08 mg, strong 1.08–2.16 mg, heavy ≥2.88 (piru-curated) | duration (piru-curated): onset 2h–4h, peak 4h–6h, offset 8h–12h, total 12h–16h
+  oral: threshold 0.18 mg, light 0.18–0.36 mg, common 0.54–1.08 mg, strong 1.08–2.16 mg, heavy ≥2.88 mg (piru-curated) | duration (piru-curated): onset 2h–4h, peak 4h–6h, offset 8h–12h, total 12h–16h
   half-life: 12.5h (piru-curated)
 
 ## Methyldopa (Cardiovascular)
-  oral: threshold 125, light 250–500 mg, common 500–1000 mg, strong 1000–2000 mg, heavy ≥3000 (piru-curated) | duration (piru-curated): onset 2h–6h, peak 4h–8h, offset 12h–24h, total 12h–24h
+  oral: threshold 125 mg, light 250–500 mg, common 500–1000 mg, strong 1000–2000 mg, heavy ≥3000 mg (piru-curated) | duration (piru-curated): onset 2h–6h, peak 4h–8h, offset 12h–24h, total 12h–24h
   half-life: 1.75h (piru-curated)
 
 ## Metoprolol (Cardiovascular)
-  oral: threshold 12.5, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥400 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 1h–3h, offset 5h–12h, total 6h–12h
+  oral: threshold 12.5 mg, light 25–50 mg, common 50–100 mg, strong 100–200 mg, heavy ≥400 mg (piru-curated) | duration (piru-curated): onset 1h–2h, peak 1h–3h, offset 5h–12h, total 6h–12h
   half-life: 3.5h (piru-curated)
 
 ## Nadolol (Cardiovascular)
-  oral: threshold 20, light 40–80 mg, common 80–160 mg, strong 160–240 mg, heavy ≥320 (piru-curated) | duration (piru-curated): onset 1h–2h, peak 4h–8h, offset 12h–24h, total 24h–36h
+  oral: threshold 20 mg, light 40–80 mg, common 80–160 mg, strong 160–240 mg, heavy ≥320 mg (piru-curated) | duration (piru-curated): onset 1h–2h, peak 4h–8h, offset 12h–24h, total 24h–36h
   half-life: 20h (piru-curated)
 
 ## Prazosin (Cardiovascular)
-  oral: threshold 0.5, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥20 (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–3h, offset 6h–8h, total 6h–10h
+  oral: threshold 0.5 mg, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥20 mg (piru-curated) | duration (piru-curated): onset 30m–1.5h, peak 2h–3h, offset 6h–8h, total 6h–10h
   half-life: 3h (piru-curated)
 
 ## Propranolol (Cardiovascular)
-  intravenous: threshold 1, light 1–2 mg, common 2–10 mg, strong 10–20 mg, heavy ≥20 (drug.community)
+  intravenous: threshold 1 mg, light 1–2 mg, common 2–10 mg, strong 10–20 mg, heavy ≥20 mg (drug.community)
   oral: light 10–30 mg, common 40–80 mg, strong 80–140 mg (tripsit) | duration (tripsit): onset 10m–45m, total 3h–7h, afterglow 1h–8h
 
 ## Sotalol (Cardiovascular)
-  oral: threshold 40, light 80–120 mg, common 120–160 mg, strong 160–240 mg, heavy ≥320 (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–5h, offset 8h–12h, total 12h–24h
+  oral: threshold 40 mg, light 80–120 mg, common 120–160 mg, strong 160–240 mg, heavy ≥320 mg (piru-curated) | duration (piru-curated): onset 1h–3h, peak 2h–5h, offset 8h–12h, total 12h–24h
   half-life: 12h (piru-curated)
 

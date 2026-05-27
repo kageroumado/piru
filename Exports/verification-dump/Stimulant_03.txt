@@ -5,193 +5,193 @@ When sources disagree on common dose by ≥2×, the disagreement is shown as `[a
 Flag obvious errors: doses or durations that don't match clinical/community knowledge.
 
 ## Dmaa (Stimulant)
-  oral: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–100 mg (tripsit) | duration (tripsit): total 2h–4h
+  oral: threshold 5 mg, light 10–20 mg, common 20–50 mg, strong 50–100 mg (tripsit) | duration (tripsit): total 2h–4h
 
 ## DMHA (Stimulant)
-  insufflation: threshold 25, light 50–75 mg, common 75–100 mg, strong 100–150 mg, heavy ≥150 (drug.community)
-  oral: threshold 50, light 75–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 (drug.community) | duration (drug.community): total 4h–6h
+  insufflation: threshold 25 mg, light 50–75 mg, common 75–100 mg, strong 100–150 mg, heavy ≥150 mg (drug.community)
+  oral: threshold 50 mg, light 75–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 mg (drug.community) | duration (drug.community): total 4h–6h
 
 ## Ephedrine (Stimulant)
-  insufflation: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (drug.community)
-  oral: threshold 5, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 20m–1.5h, total 2h–5h, afterglow 2h–4h
+  insufflation: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community)
+  oral: threshold 5 mg, light 10–20 mg, common 20–30 mg, strong 30–50 mg, heavy ≥50 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1.5h, total 2h–5h, afterglow 2h–4h
 
 ## ETH-CAT (Stimulant)
-  insufflation: threshold 5, light 15–35 mg, common 35–70 mg, strong 70–100 mg, heavy ≥100 (psychonautwiki) | duration (psychonautwiki): onset 1m–5m, comeup 15m–30m, peak 1h–1.5h, offset 30m–1h, total 2h–3h
-  oral: threshold 60, light 100–150 mg, common 150–225 mg, strong 225–325 mg, heavy ≥325 (psychonautwiki) | duration (psychonautwiki): onset 15m–40m, comeup 15m–30m, peak 1h–1.5h, offset 1h–2h, total 3h–5h
+  insufflation: threshold 5 mg, light 15–35 mg, common 35–70 mg, strong 70–100 mg, heavy ≥100 mg (psychonautwiki) | duration (psychonautwiki): onset 1m–5m, comeup 15m–30m, peak 1h–1.5h, offset 30m–1h, total 2h–3h
+  oral: threshold 60 mg, light 100–150 mg, common 150–225 mg, strong 225–325 mg, heavy ≥325 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–40m, comeup 15m–30m, peak 1h–1.5h, offset 1h–2h, total 3h–5h
 
 ## Ethylone (Stimulant)
-  oral: threshold 75, light 100–150 mg, common 150–250 mg, strong 250–350 mg, heavy ≥400 (piru-curated) | duration (psychonautwiki): onset 15m–45m, peak 1h–1.5h, offset 1h–2h, total 2h–4h, afterglow 2h–12h
+  oral: threshold 75 mg, light 100–150 mg, common 150–250 mg, strong 250–350 mg, heavy ≥400 mg (piru-curated) | duration (psychonautwiki): onset 15m–45m, peak 1h–1.5h, offset 1h–2h, total 2h–4h, afterglow 2h–12h
 
 ## Ethylphenidate (Stimulant)
-  oral: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (psychonautwiki) | duration (psychonautwiki): onset 40m–2h, total 4h–7h
-  rectal: threshold 5, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, total 2h–6h
+  oral: threshold 10 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (psychonautwiki) | duration (psychonautwiki): onset 40m–2h, total 4h–7h
+  rectal: threshold 5 mg, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, total 2h–6h
 
 ## Eutylone (Stimulant)
-  insufflation: threshold 30, light 50–100 mg, common 100–150 mg, strong 150–250 mg, heavy ≥300 (piru-curated) [also: drug.community: common 25–50 mg] | duration (drug.community): total 3h–6h
-  oral: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 4h–8h
+  insufflation: threshold 30 mg, light 50–100 mg, common 100–150 mg, strong 150–250 mg, heavy ≥300 mg (piru-curated) [also: drug.community: common 25–50 mg] | duration (drug.community): total 3h–6h
+  oral: threshold 10 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 4h–8h
 
 ## Fenethylline (Stimulant)
-  insufflation: threshold 10, light 10–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community)
-  oral: threshold 10, light 20–40 mg, common 40–100 mg, strong 100–200 mg, heavy ≥200 (psychonautwiki) | duration (psychonautwiki): onset 1.5h–2h, total 3h–4h
+  insufflation: threshold 10 mg, light 10–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community)
+  oral: threshold 10 mg, light 20–40 mg, common 40–100 mg, strong 100–200 mg, heavy ≥200 mg (psychonautwiki) | duration (psychonautwiki): onset 1.5h–2h, total 3h–4h
 
 ## Flephedrone (Stimulant)
-  insufflation: threshold 25, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 (piru-curated) | duration (drug.community): total 1.5h–3h
-  oral: threshold 25, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 (drug.community) | duration (drug.community): total 2h–4h
+  insufflation: threshold 25 mg, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 mg (piru-curated) | duration (drug.community): total 1.5h–3h
+  oral: threshold 25 mg, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 mg (drug.community) | duration (drug.community): total 2h–4h
 
 ## Fluminorex (Stimulant)
-  inhalation: threshold 1, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 (drug.community) | duration (drug.community): total 3h–8h
-  insufflation: threshold 1, light 1–3 mg, common 3–10 mg, strong 10–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 4h–10h
-  oral: threshold 2, light 2–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 6h–12h
+  inhalation: threshold 1 mg, light 1–2 mg, common 2–5 mg, strong 5–10 mg, heavy ≥10 mg (drug.community) | duration (drug.community): total 3h–8h
+  insufflation: threshold 1 mg, light 1–3 mg, common 3–10 mg, strong 10–20 mg, heavy ≥20 mg (drug.community) | duration (drug.community): total 4h–10h
+  oral: threshold 2 mg, light 2–5 mg, common 5–15 mg, strong 15–25 mg, heavy ≥25 mg (drug.community) | duration (drug.community): total 6h–12h
 
 ## Focalin (Stimulant)
-  oral: light 10–20 mg, common 20–30 mg, strong 30–40 mg, heavy ≥40 (tripsit) | duration (tripsit): onset 45m–1.5h, total 9h–12h, afterglow 1h–12h
+  oral: light 10–20 mg, common 20–30 mg, strong 30–40 mg, heavy ≥40 mg (tripsit) | duration (tripsit): onset 45m–1.5h, total 9h–12h, afterglow 1h–12h
 
 ## Hdep-28 (Stimulant)
   insufflation: light 5–15 mg, common 15–35 mg, strong 35–60 mg (tripsit) | duration (tripsit): onset 1m–15m, total 2h–5h, afterglow 1h–8h
   oral: light 15–30 mg, common 30–50 mg, strong 50–100 mg (tripsit) | duration (tripsit): onset 1m–15m, total 2h–5h, afterglow 1h–8h
 
 ## Hdmp-28 (Stimulant)
-  oral: threshold 8, common 15–30 mg, strong 30–50 mg (tripsit) | duration (tripsit): onset 1m–10m, total 2h–4h, afterglow 1h–8h
+  oral: threshold 8 mg, common 15–30 mg, strong 30–50 mg (tripsit) | duration (tripsit): onset 1m–10m, total 2h–4h, afterglow 1h–8h
 
 ## Hexedrone (Stimulant)
-  oral: threshold 30, light 50–70 mg, common 70–100 mg, strong 100–125 mg, heavy ≥125 (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, total 1h–4h, afterglow 1h–12h
+  oral: threshold 30 mg, light 50–70 mg, common 70–100 mg, strong 100–125 mg, heavy ≥125 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, total 1h–4h, afterglow 1h–12h
 
 ## Hexen (Stimulant)
-  oral: threshold 5, light 15–25 mg, common 25–40 mg, strong 40–50 mg (tripsit) | duration (tripsit): onset 15m–30m, total 1h–4h, afterglow 2h–6h
+  oral: threshold 5 mg, light 15–25 mg, common 25–40 mg, strong 40–50 mg (tripsit) | duration (tripsit): onset 15m–30m, total 1h–4h, afterglow 2h–6h
 
 ## Indapyrophenidone (Stimulant)
-  inhalation: light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (tripsit) | duration (tripsit): afterglow 1h–4h
-  insufflation: light 20–40 mg, common 40–60 mg, strong 60–90 mg, heavy ≥90 (tripsit) | duration (tripsit): afterglow 1h–4h
+  inhalation: light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 mg (tripsit) | duration (tripsit): afterglow 1h–4h
+  insufflation: light 20–40 mg, common 40–60 mg, strong 60–90 mg, heavy ≥90 mg (tripsit) | duration (tripsit): afterglow 1h–4h
 
 ## Isophenmetrazine (Stimulant)
   insufflation: light 2–5 mg, common 5–15 mg, strong 20–40 mg (tripsit) | duration (tripsit): afterglow 1h–6h
   oral: light 5–10 mg, common 10–20 mg, strong 20–50 mg (tripsit) | duration (tripsit): afterglow 1h–6h
 
 ## Isopropylphenidate (Stimulant)
-  insufflation: threshold 2, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, comeup 10m–30m, peak 1h–2h, offset 1h–1.5h, total 2.5h–4h
-  oral: threshold 2, light 5–15 mg, common 15–25 mg, strong 25–45 mg, heavy ≥45 (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 20m–40m, peak 1.5h–2.5h, offset 1h–2h, total 3.5h–6h
+  insufflation: threshold 2 mg, light 5–10 mg, common 10–20 mg, strong 20–35 mg, heavy ≥35 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–5m, comeup 10m–30m, peak 1h–2h, offset 1h–1.5h, total 2.5h–4h
+  oral: threshold 2 mg, light 5–15 mg, common 15–25 mg, strong 25–45 mg, heavy ≥45 mg (psychonautwiki) | duration (psychonautwiki): onset 10m–30m, comeup 20m–40m, peak 1.5h–2.5h, offset 1h–2h, total 3.5h–6h
 
 ## Kratom (Stimulant)
-  oral: threshold 1, light 2–3 g, common 3–5 g, strong 5–8 g, heavy ≥8 (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, peak 1h–2h, offset 3h–6h, total 2h–4h
+  oral: threshold 1 g, light 2–3 g, common 3–5 g, strong 5–8 g, heavy ≥8 g (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, peak 1h–2h, offset 3h–6h, total 2h–4h
 
 ## Lisdexamfetamine (Stimulant)
-  oral: threshold 10, light 20–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 (psychonautwiki) | duration (psychonautwiki): onset 1h–1.5h, comeup 30m–1h, peak 3h–5h, offset 4h–6h, total 10h–14h, afterglow 2h–6h
+  oral: threshold 10 mg, light 20–30 mg, common 30–60 mg, strong 60–90 mg, heavy ≥90 mg (psychonautwiki) | duration (psychonautwiki): onset 1h–1.5h, comeup 30m–1h, peak 3h–5h, offset 4h–6h, total 10h–14h, afterglow 2h–6h
 
 ## Mazindol (Stimulant)
-  oral: threshold 0.5, light 1–1.5 mg, common 1.5–2 mg, strong 2–3 mg, heavy ≥4 (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 6h–10h, total 9h–12h
+  oral: threshold 0.5 mg, light 1–1.5 mg, common 1.5–2 mg, strong 2–3 mg, heavy ≥4 mg (piru-curated) | duration (piru-curated): onset 30m–1h, peak 1h–3h, offset 6h–10h, total 9h–12h
   half-life: 9h (piru-curated)
 
 ## Mbzp (Stimulant)
-  oral: light 50–80 mg, common 80–120 mg, strong 120–160 mg, heavy ≥160 (tripsit) | duration (tripsit): onset 30m–45m, total 4h–6h, afterglow 2h–4h
+  oral: light 50–80 mg, common 80–120 mg, strong 120–160 mg, heavy ≥160 mg (tripsit) | duration (tripsit): onset 30m–45m, total 4h–6h, afterglow 2h–4h
 
 ## Mcpp (Stimulant)
-  oral: threshold 15, light 20–50 mg, common 50–120 mg, strong 120–150 mg, heavy ≥150 (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 20m–1h, peak 2h–4h, offset 3h–8h
+  oral: threshold 15 mg, light 20–50 mg, common 50–120 mg, strong 120–150 mg, heavy ≥150 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–1h, comeup 20m–1h, peak 2h–4h, offset 3h–8h
 
 ## MD-PHP (Stimulant)
-  inhalation: threshold 2, light 5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 (drug.community) | duration (drug.community): total 30m–2h
-  insufflation: threshold 5, light 5–15 mg, common 15–40 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 2h–6h
-  oral: threshold 5, light 10–20 mg, common 20–60 mg, strong 60–100 mg, heavy ≥100 (drug.community) | duration (drug.community): total 4h–10h
+  inhalation: threshold 2 mg, light 5–10 mg, common 10–25 mg, strong 25–40 mg, heavy ≥40 mg (drug.community) | duration (drug.community): total 30m–2h
+  insufflation: threshold 5 mg, light 5–15 mg, common 15–40 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 2h–6h
+  oral: threshold 5 mg, light 10–20 mg, common 20–60 mg, strong 60–100 mg, heavy ≥100 mg (drug.community) | duration (drug.community): total 4h–10h
 
 ## Mdphp (Stimulant)
-  insufflation: light 5–10 mg, common 10–20 mg, heavy ≥20 (tripsit)
-  oral: light 10–20 mg, common 20–35 mg, heavy ≥35 (tripsit)
+  insufflation: light 5–10 mg, common 10–20 mg, heavy ≥20 mg (tripsit)
+  oral: light 10–20 mg, common 20–35 mg, heavy ≥35 mg (tripsit)
 
 ## Methamphetamine (Stimulant)
-  inhalation: threshold 5, light 5–10 mg, common 10–20 mg, strong 20–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 7s–10s, comeup 5s–10s, peak 1h–3h, offset 1h–3h, total 2h–6h, afterglow 2h–24h
-  insufflation: threshold 5, light 5–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 3m–5m, comeup 3m–5m, peak 1.5h–3h, offset 2h–4h, total 4h–7h, afterglow 6h–24h
-  intravenous: threshold 5, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): onset 15s–30s, comeup 1m–2m, peak 1h–3h, offset 3h–4h, total 4h–8h, afterglow 12h–24h
-  oral: threshold 5, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 15m–45m, comeup 1h–3h, peak 3h–5h, offset 3h–4h, total 8h–12h, afterglow 12h–24h
-  rectal: threshold 5, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 3m–5m, peak 2h–4h, offset 3h–5h, total 6h–10h, afterglow 12h–24h
+  inhalation: threshold 5 mg, light 5–10 mg, common 10–20 mg, strong 20–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 7s–10s, comeup 5s–10s, peak 1h–3h, offset 1h–3h, total 2h–6h, afterglow 2h–24h
+  insufflation: threshold 5 mg, light 5–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–5m, comeup 3m–5m, peak 1.5h–3h, offset 2h–4h, total 4h–7h, afterglow 6h–24h
+  intravenous: threshold 5 mg, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 15s–30s, comeup 1m–2m, peak 1h–3h, offset 3h–4h, total 4h–8h, afterglow 12h–24h
+  oral: threshold 5 mg, light 5–10 mg, common 10–25 mg, strong 25–50 mg, heavy ≥50 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–45m, comeup 1h–3h, peak 3h–5h, offset 3h–4h, total 8h–12h, afterglow 12h–24h
+  rectal: threshold 5 mg, light 5–10 mg, common 10–30 mg, strong 30–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–15m, comeup 3m–5m, peak 2h–4h, offset 3h–5h, total 6h–10h, afterglow 12h–24h
 
 ## Methcathinone (Stimulant)
-  insufflation: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥150 (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–2h, offset 30m–2h, total 2h–4h
-  oral: threshold 25, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 (psychonautwiki) [also: drug.community: common 25–50 mg] | duration (psychonautwiki): total 4h–6h
+  insufflation: threshold 10 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥150 mg (piru-curated) | duration (piru-curated): onset 5m–15m, peak 30m–2h, offset 30m–2h, total 2h–4h
+  oral: threshold 25 mg, light 50–100 mg, common 100–200 mg, strong 200–300 mg, heavy ≥300 mg (psychonautwiki) [also: drug.community: common 25–50 mg] | duration (psychonautwiki): total 4h–6h
 
 ## Methiopropamine (Stimulant)
-  insufflation: threshold 5, light 5–20 mg, common 20–40 mg, strong 40–60 mg (psychonautwiki)
-  oral: threshold 10, light 20–30 mg, common 30–50 mg, strong 50–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, peak 2h–4h, offset 2h–3h, total 6h–10h, afterglow 1h–2h
+  insufflation: threshold 5 mg, light 5–20 mg, common 20–40 mg, strong 40–60 mg (psychonautwiki)
+  oral: threshold 10 mg, light 20–30 mg, common 30–50 mg, strong 50–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, peak 2h–4h, offset 2h–3h, total 6h–10h, afterglow 1h–2h
 
 ## Methylenedioxypyrovalerone (Stimulant)
-  insufflation: threshold 1, light 2–5 mg, common 5–11 mg, strong 10–20 mg, heavy ≥20 (drug.community) | duration (drug.community): total 2h–3.5h
-  oral: threshold 2, light 4–10 mg, common 8–15 mg, strong 12–25 mg, heavy ≥25 (drug.community) | duration (drug.community): total 2h–7h
-  rectal: threshold 1, light 3–8 mg, common 6–12 mg, strong 10–25 mg, heavy ≥25 (drug.community)
+  insufflation: threshold 1 mg, light 2–5 mg, common 5–11 mg, strong 10–20 mg, heavy ≥20 mg (drug.community) | duration (drug.community): total 2h–3.5h
+  oral: threshold 2 mg, light 4–10 mg, common 8–15 mg, strong 12–25 mg, heavy ≥25 mg (drug.community) | duration (drug.community): total 2h–7h
+  rectal: threshold 1 mg, light 3–8 mg, common 6–12 mg, strong 10–25 mg, heavy ≥25 mg (drug.community)
 
 ## Methylnaphthidate (Stimulant)
-  insufflation: light 4–8 mg, common 8–14 mg, strong 14–28 mg, heavy ≥28 (psychonautwiki) | duration (psychonautwiki): onset 3m–6m, peak 1h–2h, offset 1h–2h, total 1.5h–3h, afterglow 1h–2h
-  oral: threshold 4, light 10–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): onset 1m–10m, peak 1.5h–2h, offset 1.5h–2h, total 2h–5h, afterglow 1h–8h
+  insufflation: light 4–8 mg, common 8–14 mg, strong 14–28 mg, heavy ≥28 mg (psychonautwiki) | duration (psychonautwiki): onset 3m–6m, peak 1h–2h, offset 1h–2h, total 1.5h–3h, afterglow 1h–2h
+  oral: threshold 4 mg, light 10–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (psychonautwiki) | duration (psychonautwiki): onset 1m–10m, peak 1.5h–2h, offset 1.5h–2h, total 2h–5h, afterglow 1h–8h
 
 ## Methylone (Stimulant)
-  insufflation: threshold 25, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 (piru-curated) | duration (drug.community): total 1.5h–3.5h
-  oral: threshold 50, light 75–125 mg, common 125–200 mg, strong 200–300 mg, heavy ≥350 (piru-curated) | duration (piru-curated): onset 20m–45m, peak 1h–2h, offset 1h–2h, total 3h–4h
+  insufflation: threshold 25 mg, light 40–75 mg, common 75–150 mg, strong 150–200 mg, heavy ≥250 mg (piru-curated) | duration (drug.community): total 1.5h–3.5h
+  oral: threshold 50 mg, light 75–125 mg, common 125–200 mg, strong 200–300 mg, heavy ≥350 mg (piru-curated) | duration (piru-curated): onset 20m–45m, peak 1h–2h, offset 1h–2h, total 3h–4h
   half-life: 1.5h (piru-curated)
 
 ## Methylphenidate (Stimulant)
-  insufflation: threshold 1, light 2–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, comeup 15m–40m, peak 30m–45m, offset 2h–4h, total 2h–4h, afterglow 1h–4h
-  oral: threshold 5, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, comeup 20m–45m, peak 1h–1.5h, offset 45m–1h, total 2.5h–4h, afterglow 2h–6h
+  insufflation: threshold 1 mg, light 2–10 mg, common 10–30 mg, strong 30–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 5m–20m, comeup 15m–40m, peak 30m–45m, offset 2h–4h, total 2h–4h, afterglow 1h–4h
+  oral: threshold 5 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, comeup 20m–45m, peak 1h–1.5h, offset 45m–1h, total 2.5h–4h, afterglow 2h–6h
 
 ## Mexedrone (Stimulant)
   insufflation: light 50–80 mg, common 80–120 mg, strong 120–200 mg (tripsit) | duration (tripsit): total 1h–3h
-  oral: threshold 50, light 100–150 mg, common 150–250 mg, strong 250–350 mg (psychonautwiki) | duration (psychonautwiki): total 4h–6h
+  oral: threshold 50 mg, light 100–150 mg, common 150–250 mg, strong 250–350 mg (psychonautwiki) | duration (psychonautwiki): total 4h–6h
 
 ## Mpa (Stimulant)
-  oral: threshold 5, light 5–15 mg, common 20–40 mg, strong 40–60 mg (tripsit) | duration (tripsit): afterglow 3h–5h
+  oral: threshold 5 mg, light 5–15 mg, common 20–40 mg, strong 40–60 mg (tripsit) | duration (tripsit): afterglow 3h–5h
 
 ## N-Ethylhexedrone (Stimulant)
-  inhalation: threshold 1, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 (psychonautwiki) | duration (psychonautwiki): onset 2m–10m, peak 10m–30m, offset 15m–30m, total 1h–4h, afterglow 2h–4h
-  insufflation: threshold 5, light 5–24 mg, common 24–30 mg, strong 30–40 mg, heavy ≥40 (psychonautwiki) | duration (psychonautwiki): onset 2m–8m, peak 30m–1.5h, offset 1h–4h, total 2h–5h, afterglow 1h–8h
+  inhalation: threshold 1 mg, light 2–5 mg, common 5–10 mg, strong 10–20 mg, heavy ≥20 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–10m, peak 10m–30m, offset 15m–30m, total 1h–4h, afterglow 2h–4h
+  insufflation: threshold 5 mg, light 5–24 mg, common 24–30 mg, strong 30–40 mg, heavy ≥40 mg (psychonautwiki) | duration (psychonautwiki): onset 2m–8m, peak 30m–1.5h, offset 1h–4h, total 2h–5h, afterglow 1h–8h
 
 ## N-Ethylpentedrone (Stimulant)
-  insufflation: threshold 5, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (drug.community) | duration (drug.community): total 2h–4h
-  oral: threshold 5, light 10–25 mg, common 20–50 mg, strong 40–60 mg, heavy ≥60 (drug.community) | duration (drug.community): total 3h–6h
+  insufflation: threshold 5 mg, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (drug.community) | duration (drug.community): total 2h–4h
+  oral: threshold 5 mg, light 10–25 mg, common 20–50 mg, strong 40–60 mg, heavy ≥60 mg (drug.community) | duration (drug.community): total 3h–6h
 
 ## N-Ethylpentylone (Stimulant)
-  insufflation: threshold 10, light 15–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 (piru-curated)
+  insufflation: threshold 10 mg, light 15–25 mg, common 25–50 mg, strong 50–75 mg, heavy ≥100 mg (piru-curated)
 
 ## N-Methylbisfluoromodafinil (Stimulant)
-  oral: threshold 25, light 50–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 (psychonautwiki) | duration (psychonautwiki): total 5h–8h
+  oral: threshold 25 mg, light 50–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 mg (psychonautwiki) | duration (psychonautwiki): total 5h–8h
 
 ## Naphyrone (Stimulant)
-  insufflation: threshold 5, light 10–20 mg, common 20–50 mg, strong 50–75 mg, heavy ≥100 (piru-curated) | duration (drug.community): total 6h–10h
+  insufflation: threshold 5 mg, light 10–20 mg, common 20–50 mg, strong 50–75 mg, heavy ≥100 mg (piru-curated) | duration (drug.community): total 6h–10h
   oral: common 20–35 mg, strong 35–50 mg (tripsit) | duration (tripsit): total 6h–12h
 
 ## Neb (Stimulant)
   insufflation: light 10–15 mg, common 15–30 mg, strong 30–45 mg (tripsit) | duration (tripsit): afterglow 1h–6h
-  oral: threshold 30, light 30–50 mg, common 50–80 mg, strong 80–100 mg (tripsit) | duration (tripsit): afterglow 1h–6h
+  oral: threshold 30 mg, light 30–50 mg, common 50–80 mg, strong 80–100 mg (tripsit) | duration (tripsit): afterglow 1h–6h
 
 ## NEP (Stimulant)
-  inhalation: threshold 5, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 (psychonautwiki) | duration (psychonautwiki): total 1.5h–3h
-  insufflation: threshold 10, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): onset 1m–8m, comeup 5m–15m, peak 30m–1h, offset 30m–1.5h, total 1h–3h, afterglow 1h–4h
-  oral: threshold 10, light 10–25 mg, common 25–40 mg, strong 40–60 mg, heavy ≥60 (psychonautwiki) | duration (psychonautwiki): total 4h–6h
+  inhalation: threshold 5 mg, light 5–15 mg, common 15–30 mg, strong 30–50 mg, heavy ≥50 mg (psychonautwiki) | duration (psychonautwiki): total 1.5h–3h
+  insufflation: threshold 10 mg, light 10–20 mg, common 20–40 mg, strong 40–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): onset 1m–8m, comeup 5m–15m, peak 30m–1h, offset 30m–1.5h, total 1h–3h, afterglow 1h–4h
+  oral: threshold 10 mg, light 10–25 mg, common 25–40 mg, strong 40–60 mg, heavy ≥60 mg (psychonautwiki) | duration (psychonautwiki): total 4h–6h
 
 ## Nitracaine (Stimulant)
-  insufflation: light 20–30 mg, common 30–40 mg, heavy ≥50 (tripsit)
+  insufflation: light 20–30 mg, common 30–40 mg, heavy ≥50 mg (tripsit)
   oral: light 100 mg, common 100–150 mg, strong 150–175 mg (tripsit)
 
 ## Nm-2-ai (Stimulant)
-  insufflation: threshold 10, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 (drug.community) | duration (drug.community): total 2.5h–5h
-  oral: threshold 5, light 50–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, total 2h–4h
+  insufflation: threshold 10 mg, light 20–40 mg, common 40–80 mg, strong 80–120 mg, heavy ≥120 mg (drug.community) | duration (drug.community): total 2.5h–5h
+  oral: threshold 5 mg, light 50–100 mg, common 100–150 mg, strong 150–200 mg, heavy ≥200 mg (psychonautwiki) | duration (psychonautwiki): onset 30m–1h, total 2h–4h
 
 ## Pemoline (Stimulant)
   oral: light 10–20 mg, common 20–40 mg, strong 40–80 mg (tripsit) | duration (tripsit): onset 15m–30m, total 4h–6h, afterglow 1h–6h
 
 ## Pentedrone (Stimulant)
-  insufflation: threshold 20, light 30–75 mg, common 75–125 mg, strong 125–175 mg, heavy ≥200 (piru-curated) [also: psychonautwiki: common 5–10 mg; tripsit: common 5–10 mg] | duration (psychonautwiki): onset 5m–10m, peak 30m–1.5h, offset 30m–1.5h, total 1h–4h, afterglow 1h–8h
-  oral: threshold 2, light 5–10 mg, common 10–15 mg, strong 15–25 mg, heavy ≥25 (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, peak 1h–2h, offset 1h–2h, total 2h–6h, afterglow 1h–10h
+  insufflation: threshold 20 mg, light 30–75 mg, common 75–125 mg, strong 125–175 mg, heavy ≥200 mg (piru-curated) [also: psychonautwiki: common 5–10 mg; tripsit: common 5–10 mg] | duration (psychonautwiki): onset 5m–10m, peak 30m–1.5h, offset 30m–1.5h, total 1h–4h, afterglow 1h–8h
+  oral: threshold 2 mg, light 5–10 mg, common 10–15 mg, strong 15–25 mg, heavy ≥25 mg (psychonautwiki) | duration (psychonautwiki): onset 15m–30m, peak 1h–2h, offset 1h–2h, total 2h–6h, afterglow 1h–10h
   rectal: light 2–5 mg, common 5–10 mg, strong 10–20 mg (tripsit) | duration (tripsit): afterglow 1h–12h
 
 ## Pentylone (Stimulant)
-  insufflation: threshold 15, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥200 (piru-curated)
+  insufflation: threshold 15 mg, light 25–50 mg, common 50–100 mg, strong 100–150 mg, heavy ≥200 mg (piru-curated)
   oral: light 10–20 mg, common 20–40 mg, strong 40–80 mg (tripsit) | duration (tripsit): total 3h–4h, afterglow 1h–6h
 
 ## Pfbt (Stimulant)
-  insufflation: threshold 10, light 20–50 mg, common 50–70 mg, strong 70–110 mg (tripsit) | duration (tripsit): afterglow 1h–24h
+  insufflation: threshold 10 mg, light 20–50 mg, common 50–70 mg, strong 70–110 mg (tripsit) | duration (tripsit): afterglow 1h–24h
 
 ## Phendimetrazine (Stimulant)
-  oral: light 17.5–35 mg, common 35–70 mg, strong 70–105 mg, heavy ≥105 (drug.community) | duration (drug.community): total 4h–12h
+  oral: light 17.5–35 mg, common 35–70 mg, strong 70–105 mg, heavy ≥105 mg (drug.community) | duration (drug.community): total 4h–12h
 
 ## Phenetrazine (Stimulant)
-  insufflation: light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 (tripsit)
-  oral: threshold 5, light 10–25 mg, common 25–50 mg, strong 50–70 mg, heavy ≥70 (tripsit)
+  insufflation: light 10–20 mg, common 20–35 mg, strong 35–50 mg, heavy ≥50 mg (tripsit)
+  oral: threshold 5 mg, light 10–25 mg, common 25–50 mg, strong 50–70 mg, heavy ≥70 mg (tripsit)
 
 ## Phenmetrazine (Stimulant)
   oral: common 25–50 mg (tripsit) | duration (tripsit): onset 15m–30m, total 4h–8h, afterglow 1h–12h
