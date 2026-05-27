@@ -13,7 +13,6 @@ Flag obvious errors: doses or durations that don't match clinical/community know
 ## Nicotine (Depressant)
   buccal: threshold 0.2 mg, light 0.5–2 mg, common 2–4 mg, strong 4–6 mg, heavy ≥6 mg (psychonautwiki) [also: drug.community: common 1–4 mg (absorbed)] | duration (psychonautwiki): onset 3m–15m, comeup 3m–15m, peak 5m–20m, offset 1h–2h, total 45m–1.5h, afterglow 2h–6h
   inhalation: threshold 0.2 mg, light 0.3–0.8 mg, common 0.8–1.5 mg, strong 1.5–3.5 mg, heavy ≥3.5 mg (psychonautwiki) [also: drug.community: common 0.6–1.5 mg (absorbed)] | duration (psychonautwiki): onset 5s–20s, comeup 5s–10s, peak 2m–5m, offset 1h–2h, total 1h–3h, afterglow 1h–3h
-  insufflation: threshold 0.2 mg (absorbed), light 0.3–1 mg (absorbed), common 0.8–2 mg (absorbed), strong 1.5–4 mg (absorbed), heavy ≥3 mg (absorbed) (drug.community)
   oral: threshold 0.2 mg, light 1–3 mg, common 3–5 mg, strong 5–7 mg, heavy ≥7 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–40m, comeup 1h–1.5h, peak 1h–1.5h, offset 2.5h–3.5h, total 5h–7h, afterglow 2h–4h
   transdermal: threshold 7 mg/day, light 7–14 mg/day, common 14–21 mg/day, strong 21–28 mg/day, heavy ≥35 mg/day (drug.community) | duration (drug.community): total 16h–24h
 

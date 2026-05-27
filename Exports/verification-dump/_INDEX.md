@@ -1,6 +1,6 @@
-# Substance verification dump — 1158 substances across 41 files
+# Substance verification dump — 1157 substances across 41 files
 
-Skipped 668 substances with no dose/duration data.
+Skipped 669 substances with no dose/duration data.
 
 Format: each route shows the resolved value the app displays (winning source in parens).
 When sources disagree on common dose by ≥2×, the disagreement is shown as `[also: …]`.
@@ -29,7 +29,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
 | Eugeroic | 4 | [Eugeroic.txt](Eugeroic.txt) |
 | GABAergic | 5 | [GABAergic.txt](GABAergic.txt) |
 | Gastrointestinal | 4 | [Gastrointestinal.txt](Gastrointestinal.txt) |
-| Nootropic | 45 | [Nootropic.txt](Nootropic.txt) |
+| Nootropic | 44 | [Nootropic.txt](Nootropic.txt) |
 | Opioid | 76 | [Opioid_01.txt](Opioid_01.txt), [Opioid_02.txt](Opioid_02.txt) |
 | Other | 31 | [Other.txt](Other.txt) |
 | Peptide | 24 | [Peptide.txt](Peptide.txt) |

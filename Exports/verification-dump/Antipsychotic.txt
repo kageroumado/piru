@@ -18,7 +18,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   half-life: 96h (piru-curated)
 
 ## Cariprazine (Antipsychotic)
-  oral: threshold 0.5 mg, light 1.5–3 mg, common 3–6 mg, strong 6–9 mg, heavy ≥6 mg (piru-curated) | duration (piru-curated): onset 1h–3h, peak 4h–8h, offset 168h–672h, total 672h–1344h
+  oral: (no dose data) | duration (piru-curated): onset 1h–3h, peak 4h–8h, offset 168h–672h, total 672h–1344h
   half-life: 1200h (piru-curated)
 
 ## Chlorpromazine (Antipsychotic)

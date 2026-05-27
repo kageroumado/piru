@@ -59,7 +59,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   half-life: 15h (piru-curated)
 
 ## Cloniprazepam (Benzodiazepine)
-  oral: light 1–5 mg, common 1–2 mg, strong 2–4 mg (tripsit) | duration (tripsit): onset 15m–45m, total 6h–9h, afterglow 1h–8h
+  oral: (no dose data) | duration (tripsit): onset 15m–45m, total 6h–9h, afterglow 1h–8h
 
 ## Clorazepate (Benzodiazepine)
   oral: light 5–10 mg, common 10–20 mg, strong 20–40 mg (tripsit) | duration (tripsit): onset 20m–1.33333h, total 8h–12h, afterglow 1h–8h
@@ -120,7 +120,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   oral: threshold 0.2 mg, light 0.5–1 mg, common 1–3 mg, strong 3–4 mg, heavy ≥4 mg (psychonautwiki) | duration (psychonautwiki): onset 20m–30m, total 4h–8h, afterglow 2h–24h
 
 ## Flunitrazolam (Benzodiazepine)
-  oral: threshold 0.1 mg, light 0.1–0.2 mg, common 0.2–0.3 mg, strong 0.3–0.5 mg, heavy ≥0.5 mg (psychonautwiki) [also: tripsit: common 80–150 µg; drug.community: common 0.125–0.25 mg (or mcg)] | duration (psychonautwiki): onset 20m–40m, peak 1h–2h, offset 2h–4h, total 4h–8h, afterglow 1h–12h
+  oral: threshold 0.1 mg, light 0.1–0.2 mg, common 0.2–0.3 mg, strong 0.3–0.5 mg, heavy ≥0.5 mg (psychonautwiki) [also: tripsit: common 80–150 µg] | duration (psychonautwiki): onset 20m–40m, peak 1h–2h, offset 2h–4h, total 4h–8h, afterglow 1h–12h
 
 ## Flurazepam (Benzodiazepine)
   oral: light 5–10 mg, common 15–30 mg, strong 30–60 mg (tripsit) | duration (tripsit): onset 45m–1.5h, total 12h–16h, afterglow 2h–48h

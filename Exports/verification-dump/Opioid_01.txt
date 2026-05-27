@@ -172,7 +172,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   half-life: 2.35h (tripsit)
 
 ## Levomethorphan (Opioid)
-  oral: threshold 1 mg, light 2–5 mg, common 5–10 mg, strong 10–15 mg, heavy ≥10 mg (drug.community) | duration (drug.community): total 4h–8h
+  oral: (no dose data) | duration (drug.community): total 4h–8h
 
 ## Lofentanil (Opioid)
   intravenous: threshold 0.1 µg, light 0.1–0.3 µg, common 0.3–1 µg, strong 1–2 µg, heavy ≥2 µg (drug.community) | duration (drug.community): total 4h–12h
