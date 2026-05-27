@@ -15,6 +15,9 @@ struct EntryRowView: View {
         guard elapsed > 0 else { return String(localized: "just now") }
         let totalMinutes = Int(elapsed / 60)
         let hours = totalMinutes / 60
+        if hours >= 24 {
+            return entry.timestamp.formatted(date: .abbreviated, time: .omitted)
+        }
         let minutes = totalMinutes % 60
         if hours > 0 && minutes > 0 {
             return String(localized: "\(hours)h \(minutes)m ago")
