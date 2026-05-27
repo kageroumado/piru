@@ -96,7 +96,7 @@ Flag obvious errors: doses or durations that don't match clinical/community know
   rectal: light 1–3 mg, common 3–5 mg, strong 5–10 mg (tripsit) | duration (tripsit): afterglow 3h–6h
 
 ## Valerylfentanyl (Opioid)
-  oral: light 50 mg (tripsit)
+  oral: threshold 25 µg, light 25–50 µg, common 50–200 µg, strong 200–500 µg, heavy ≥500 µg (piru-curated)
 
 ## W-15 (Opioid)
   oral: light 2–5 mg, common 5–10 mg, strong 10–15 mg (tripsit) | duration (tripsit): onset 15m–40m, total 4h–6h, afterglow 2h–4h

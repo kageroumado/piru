@@ -1,20 +1,20 @@
 # Piru SQLite build report
 
-Built 2026-05-27.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,804,608 bytes, sha256 `630c97ff3040c441c5eca02589907a3e624860a41e9e906a4f97e0c83c8c3c90`)
+Built 2026-05-27.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (4,804,608 bytes, sha256 `afe0f6313d6f66077ca3f376920af99bfb308bb20f515ef797683fab05581a0f`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
 | substances | 1,826 |
-| aliases | 7,199 |
+| aliases | 7,201 |
 | sources | 12 |
 | citations | 1,005 |
-| categories | 2,523 |
-| tags | 8,128 |
-| dose_ranges | 2,420 |
-| durations | 4,980 |
-| half_lives | 258 |
+| categories | 2,530 |
+| tags | 8,165 |
+| dose_ranges | 2,428 |
+| durations | 4,991 |
+| half_lives | 260 |
 | mechanisms_summary | 0 |
 | effects | 5,657 |
 | subjective_effects | 4,624 |
@@ -38,7 +38,7 @@ Built 2026-05-27.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 353 | 0 | 493 | 2,370 |
+| piru-curated | 361 | 0 | 500 | 2,407 |
 | peer-review-primary | 0 | 898 | 0 | 1,781 |
 | psychonautwiki | 389 | 0 | 277 | 324 |
 | tripsit | 589 | 0 | 554 | 1,372 |
