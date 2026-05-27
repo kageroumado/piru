@@ -302,7 +302,9 @@ struct DayDetailView: View {
         let name = entry.substance
         let timestamp = entry.timestamp
 
-        modelContext.delete(entry)
+        withAnimation {
+            modelContext.delete(entry)
+        }
 
         // Also remove from live activity if active
         ActiveSessionManager.shared.removeDose(
