@@ -510,6 +510,36 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         wrong = {n: (actual[n], expected) for n, expected in expectations.items() if actual[n] != expected}
         self.assertEqual(wrong, {}, f"categorisation mismatches (got, expected): {wrong}")
 
+    def test_cannabis_does_not_alias_distinct_molecules(self):
+        """Cannabis (the plant) should not have THC, CBD, Cannabidiol,
+        Dronabinol, etc. as aliases — those are distinct substances with
+        their own entries. Sources occasionally provide these as aliases
+        and the ingester's blocklist should drop them on insert."""
+        rows = self.db.execute("""
+            SELECT a.alias FROM aliases a
+            JOIN substances s ON s.id = a.substance_id
+            WHERE s.canonical_name = 'Cannabis'
+        """).fetchall()
+        bad_aliases = {'thc', 'cbd', 'cannabidiol', 'dronabinol',
+                       'tetrahydrocannabinol', 'delta-9-thc'}
+        leaked = [r['alias'] for r in rows if r['alias'].lower() in bad_aliases]
+        self.assertEqual(leaked, [],
+                         f"distinct-molecule aliases leaked onto Cannabis: {leaked}")
+
+    def test_cannabidiol_collapsed_to_cbd(self):
+        """`Cannabidiol` as a separate substance entry should not exist —
+        the name-remap collapses it into the canonical `CBD` row."""
+        row = self.db.execute(
+            "SELECT id FROM substances WHERE canonical_name = 'Cannabidiol'"
+        ).fetchone()
+        self.assertIsNone(row, "duplicate 'Cannabidiol' substance row exists; "
+                               "name-remap should have merged it into CBD")
+        # And CBD itself should still exist
+        cbd = self.db.execute(
+            "SELECT id FROM substances WHERE canonical_name = 'CBD'"
+        ).fetchone()
+        self.assertIsNotNone(cbd, "CBD canonical row missing after remap")
+
     def test_fentanyl_class_dose_ceiling_holds(self):
         """No substance tagged `fentanyl-class-potency` or `fentanyl-analog`
         should retain a dose row whose any-tier value, converted to mg, is
