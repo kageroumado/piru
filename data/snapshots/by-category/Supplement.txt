@@ -1,0 +1,54 @@
+# Supplement — 52 substances
+
+  5-HTP  [5-HTP|5-Hydroxytryptophan|5-hydroxytryptophan|5htp|L-5-HTP|Oxitriptan|l-tryptophan|oxitriptan|tryptophan]  (source: piru-curated)  #5HT-precursor  #AADC-substrate  #OTC  #amino-acid-derivative  #common  #mood  #serotonin-precursor  #serotonin-syndrome-risk  +2more
+  Acetyl-L-Carnitine  [ALCAR|Acetylcarnitine|L-Acetylcarnitine]  (source: piru-curated)  #OTC  #amino-acid-derivative  #cholinergic  #mitochondrial-support  #nootropic  #supplement
+  Alpha-Lipoic Acid  [ALA|Alpha Lipoic Acid|R-ALA|R-Lipoic Acid|Thioctic Acid]  (source: piru-curated)  #OTC  #antioxidant  #insulin-sensitizer  #neuroprotective  #supplement
+  Ashwagandha  [Indian Ginseng|KSM-66|Sensoril|Winter Cherry|Withania somnifera]  (source: piru-curated)  #HPA-modulator  #OTC  #adaptogen  #anxiolytic  #common  #cortisol-reducer  #herbal  #sleep  +2more
+  Bacopa Monnieri  [Bacopa|Brahmi|Synapsa|Water Hyssop]  (source: piru-curated)  #OTC  #adaptogen  #anxiolytic  #cholinergic  #cognitive-enhancement  #herbal  #nootropic  #supplement
+  Berberine  [Berberine HCl|Berberine Hydrochloride|Dihydroberberine|GlucoVantage]  (source: piru-curated)  #AMPK-activator  #CYP450-inhibitor  #GI-side-effects  #OTC  #herbal  #insulin-sensitizer  #metabolic  #supplement
+  Beta-Alanine  [3-Aminopropionic Acid|β-Alanine]  (source: piru-curated)  #OTC  #amino-acid  #athletic-performance  #carnosine-precursor  #supplement
+  CDP-Choline  [Citicoline|Cognizin|Cytidine Diphosphocholine]  (source: piru-curated)  #OTC  #acetylcholine-precursor  #choline-donor  #cholinergic  #cognitive-enhancement  #dopaminergic  #nootropic  #supplement
+  CoQ10  [CoQ|Coenzyme Q|Coenzyme Q10|Ubiquinol|Ubiquinone]  (source: piru-curated)  #OTC  #antioxidant  #cardiovascular  #energy-metabolism  #mitochondrial-support  #supplement
+  Cordyceps  [CS-4|Cordyceps militaris|Cordyceps sinensis|Dong Chong Xia Cao]  (source: piru-curated)  #OTC  #adaptogen  #athletic-performance  #energy-metabolism  #herbal  #immunomodulator  #mushroom  #supplement
+  Creatine Monohydrate  [Creapure|Creatine|Creatine Monohydrate]  (source: piru-curated)  #NMDA-modulator  #OTC  #amino-acid-derivative  #athletic-performance  #energy-metabolism  #nootropic  #supplement
+  Curcumin  [BCM-95|Curcuma longa|Curcumin with Piperine|Longvida|Meriva|Turmeric Extract]  (source: piru-curated)  #CYP450-inhibitor  #NF-kB-inhibitor  #OTC  #anti-inflammatory  #antioxidant  #herbal  #polyphenol  #supplement
+  DL-Phenylalanine  [DL-Phe|DL-Phenylalanine|DLPA|F|PHE|Phenylalanine]  (source: piru-curated)  #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #no-human-data  #opioid-modulator  #phenethylamine  #supplement
+  Folate  [5-MTHF|L-5-MTHF|L-Methylfolate|Metafolin|Methylfolate|Vitamin B9]  (source: piru-curated)  #B-vitamin  #OTC  #methylation  #prenatal  #supplement  #vitamin  #water-soluble
+  GABA  [Gamma-Amino Butyric Acid|Gamma-Aminobutyric Acid|γ-aminobutyric acid]  (source: piru-curated)  #GABAergic  #OTC  #amino-acid  #anxiolytic  #endogenous-neurotransmitter  #poor-BBB-penetration  #supplement  #supplement-questionable-efficacy
+  Ginkgo Biloba  [EGb 761|Ginkgo|Maidenhair Tree Extract]  (source: piru-curated)  #MAO-inhibitor-weak  #OTC  #anticoagulant  #antioxidant  #cognitive-enhancement  #herbal  #nootropic  #supplement
+  Glutathione  [GSH|L-Glutathione|Reduced Glutathione]  (source: piru-curated)  #OTC  #amino-acid-derivative  #antioxidant  #detoxification  #supplement
+  Glycine  [2-Aminoacetic Acid|Aminoacetic Acid|Gly]  (source: piru-curated)  #GABAergic  #NMDA-modulator  #OTC  #amino-acid  #collagen-precursor  #sleep  #supplement
+  Holy Basil  [Ocimum sanctum|Ocimum tenuiflorum|Sacred Basil|Tulsi]  (source: piru-curated)  #HPA-modulator  #OTC  #adaptogen  #anti-inflammatory  #anxiolytic  #herbal  #supplement
+  Inositol  [D-Chiro-Inositol|IP6|Inositol Hexaphosphate|Myo-Inositol]  (source: piru-curated)  #GABAergic  #OTC  #PCOS  #amino-acid-derivative  #anxiolytic  #insulin-sensitizer  #mood  #supplement
+  Iodine  [KI|Lugol's Iodine|Nascent Iodine|Potassium Iodide]  (source: piru-curated)  #OTC  #essential-mineral  #mineral  #supplement  #thyroid
+  Iron Bisglycinate  [Ferrochel|Ferrous Bisglycinate|Gentle Iron|Iron Glycinate]  (source: piru-curated)  #GI-side-effects  #OTC  #hematopoiesis  #mineral  #oxygen-transport  #supplement
+  L-Carnitine  [Carnitine|Carnitor|L-Carnitine Tartrate]  (source: piru-curated)  #OTC  #amino-acid-derivative  #cardiovascular  #mitochondrial-support  #supplement
+  L-Theanine  [L-γ-glutamylethylamide|Suntheanine|Theanine|theanine]  (source: piru-curated)  #AMPA-modulator  #GABAergic  #OTC  #adaptogen  #amino-acid-derivative  #anxiolytic  #common  #nootropic  +1more
+  L-Tryptophan  [L-Trp|Optimax|Tryptophan]  (source: piru-curated)  #5HT-precursor  #OTC  #amino-acid  #serotonin-syndrome-risk  #sleep  #supplement
+  L-Tyrosine  [4-Hydroxyphenylalanine|N-Acetyl-L-Tyrosine|NALT|Tyrosine]  (source: piru-curated)  #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #nootropic  #supplement
+  Lion's Mane  [Hericium erinaceus|Monkey Head Mushroom|Yamabushitake]  (source: piru-curated)  #NGF-stimulator  #OTC  #cognitive-enhancement  #herbal  #mushroom  #neuroprotective  #nootropic  #supplement
+  Maca  [Black Maca|Lepidium meyenii|Maca Root|Peruvian Ginseng|Red Maca]  (source: piru-curated)  #OTC  #adaptogen  #fertility  #herbal  #libido  #supplement
+  Magnesium Citrate  [Citrate of Magnesia|Magnesium Tri-Citrate]  (source: piru-curated)  #NMDA-modulator  #OTC  #anxiolytic  #laxative  #mineral  #sleep  #supplement
+  Magnesium Glycinate  [Bisglycinate Chelate|Magnesium Bisglycinate|Magnesium Diglycinate]  (source: piru-curated)  #NMDA-modulator  #OTC  #anxiolytic  #mineral  #muscle-relaxant  #sleep  #supplement
+  Magnesium Threonate  [Magnesium L-Threonate|Magtein|Mg-T]  (source: piru-curated)  #NMDA-modulator  #OTC  #cognitive-enhancement  #mineral  #nootropic  #supplement
+  N-Acetylcysteine  [Acetylcysteine|Fluimucil|Mucomyst|N-acetyl-L-cysteine|NAC]  (source: piru-curated)  #OTC  #amino-acid-derivative  #antioxidant  #glutathione-precursor  #mucolytic  #supplement
+  Omega-3 Fatty Acids  [Algal Oil|DHA|Docosahexaenoic Acid|EPA|Eicosapentaenoic Acid|Fish Oil|Krill Oil]  (source: piru-curated)  #OTC  #anti-inflammatory  #cardiovascular  #essential-fatty-acid  #nootropic  #supplement
+  Panax Ginseng  [American Ginseng|Asian Ginseng|Ginsenosides|Korean Ginseng|Panax quinquefolius|Red Ginseng]  (source: piru-curated)  #CYP450-inducer  #OTC  #adaptogen  #herbal  #immunomodulator  #insulin-sensitizer  #nootropic  #supplement
+  Phosphatidylserine  [PS|Phosphatidyl Serine|Sharp-PS|Soy-Derived Phosphatidylserine]  (source: piru-curated)  #HPA-modulator  #OTC  #cognitive-enhancement  #cortisol-reducer  #neuroprotective  #nootropic  #supplement
+  PQQ  [BioPQQ|Methoxatin|Pyrroloquinoline Quinone]  (source: piru-curated)  #OTC  #antioxidant  #mitochondrial-support  #neuroprotective  #nootropic  #supplement
+  Quercetin  [Quercetin Dihydrate|Quercetin Phytosome|Sophora japonica extract]  (source: piru-curated)  #OTC  #anti-inflammatory  #antihistamine  #antioxidant  #herbal  #polyphenol  #senolytic  #supplement
+  Reishi  [Ganoderma lucidum|Lingzhi|Mannentake]  (source: piru-curated)  #OTC  #adaptogen  #herbal  #immunomodulator  #mushroom  #sleep  #supplement
+  Resveratrol  [3,5,4'-Trihydroxystilbene|Polygonum cuspidatum extract|Trans-Resveratrol]  (source: piru-curated)  #OTC  #antioxidant  #cardiovascular  #polyphenol  #sirtuin-activator  #supplement
+  Rhodiola Rosea  [Arctic Root|Golden Root|Rosavin|Salidroside]  (source: piru-curated)  #MAO-inhibitor-weak  #OTC  #adaptogen  #anti-fatigue  #anxiolytic  #herbal  #nootropic  #supplement
+  Selenium  [Se|Selenium Yeast|Selenomethionine|Sodium Selenate]  (source: piru-curated)  #OTC  #antioxidant  #immunomodulator  #mineral  #supplement  #thyroid
+  Taurine  [2-Aminoethanesulfonic Acid]  (source: piru-curated)  #GABAergic  #OTC  #amino-acid  #antioxidant  #cardiovascular  #supplement
+  Vitamin A  [Beta-Carotene|Retinol|Retinyl Acetate|Retinyl Palmitate]  (source: piru-curated)  #OTC  #fat-soluble  #immunomodulator  #supplement  #vision  #vitamin
+  Vitamin B1  [Benfotiamine|TTFD|Thiamin|Thiamine|Thiamine HCl]  (source: piru-curated)  #B-vitamin  #OTC  #energy-metabolism  #neurological  #supplement  #vitamin  #water-soluble
+  Vitamin B12  [B12|Cobalamin|Cyanocobalamin|MeCbl|Methylcobalamin]  (source: piru-curated)  #B-vitamin  #OTC  #methylation  #neurological  #supplement  #vitamin  #water-soluble
+  Vitamin B3  [NMN|NR|Niacin|Niacinamide|Nicotinamide|Nicotinamide Mononucleotide|Nicotinamide Riboside|Nicotinic Acid]  (source: piru-curated)  #B-vitamin  #NAD-precursor  #OTC  #energy-metabolism  #hepatotoxic-at-high-dose  #supplement  #vitamin  #water-soluble
+  Vitamin B6  [P5P|Pyridoxal Phosphate|Pyridoxal-5-Phosphate|Pyridoxine]  (source: piru-curated)  #B-vitamin  #OTC  #energy-metabolism  #neurotransmitter-synthesis  #supplement  #vitamin  #water-soluble
+  Vitamin C  [Ascorbate|Ascorbic Acid|L-Ascorbic Acid|Liposomal Vitamin C|Sodium Ascorbate]  (source: piru-curated)  #OTC  #antioxidant  #collagen-precursor  #immune  #supplement  #vitamin  #water-soluble
+  Vitamin D3  [Cholecalciferol|Colecalciferol|Vitamin D]  (source: piru-curated)  #OTC  #bone-health  #fat-soluble  #hormonal  #immunomodulator  #supplement  #vitamin
+  Vitamin E  [Alpha-Tocopherol|Mixed Tocopherols|Tocopherol|d-Alpha Tocopherol]  (source: piru-curated)  #OTC  #antioxidant  #fat-soluble  #supplement  #vitamin
+  Vitamin K2  [MK-7|MenaQ7|Menaquinone-7|Vitamin K2 MK-7]  (source: piru-curated)  #OTC  #bone-health  #cardiovascular  #fat-soluble  #supplement  #vitamin
+  Zinc Picolinate  [Zinc|Zinc Bisglycinate|Zinc Gluconate|Zinc L-Carnosine]  (source: piru-curated)  #OTC  #antioxidant  #immune  #mineral  #supplement  #testosterone

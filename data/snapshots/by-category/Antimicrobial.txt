@@ -1,0 +1,4 @@
+# Antimicrobial — 2 substances
+
+  Fluconazole  [Diflucan|FLZ|Fluconazol|Fluconazole sodium (IV formulations)|Fluconazolum]  (source: drug.community)  #class:Triazole antifungal
+  Mefloquine  [(R*,S*)-2,8-bis(trifluoromethyl)quinolin-4-yl-(2-piperidyl)methanol|Lariam|Mefloquina|Mefloquinum|RO 21-5998|WR 142,490]  (source: drug.community)  #antimalarial  #class:Quinoline methanol derivative  #miscategorised  #neuropsychiatric-AE-risk

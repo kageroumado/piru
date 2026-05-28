@@ -1,0 +1,4 @@
+# Endocrine — 2 substances
+
+  Arimistane  [17-dione|5-diene-7|7-oxo-androst-3,5-diene-17-one|ADD|Androst-3,5-dien-7,17-dione|Androsta-3|Androsta-3,5-diene-7,17-dione]  (source: drug.community)  #class:Steroidal aromatase inhibitor (7-keto-DHEA–related androstane)
+  Estradiol  [(17β)-estra-1,3,5(10)-triene-3,17-diol|17-beta-estradiol|17β-estradiol|Estradiol-17β|Oestradiol|beta-Estradiol|cis-Estradiol]  (source: drug.community)  #class:Estrogenic steroid

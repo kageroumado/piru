@@ -1,0 +1,347 @@
+# Psychedelic — 345 substances
+
+  1-(2,3,4-Trimethoxybenzyl)piperazine  [1-(2,3,4-TMB) piperazine|1-(2,3,4-trimethoxybenzyl)-1,4-diazacyclohexane|2,3,4-TMBZP|2,3,4-trimethoxybenzyl-piperazine|2,3,4-trimethoxybenzylpiperazine]  (source: drug.community)  #class:Phenyl-/benzyl-piperazine derivative (trimethoxy-substituted)
+  1-methyl-DMT  [1,N,N-trimethyltryptamine|1-Me-DMT|1-methyl-N,N-dimethyltryptamine|Indole, 3-(2-(dimethylamino)ethyl)-1-methyl-]  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  1B-LSD  [1-Bu-LSD|1-butanoyl-LSD|1-butyryl-LSD|1B-LSD|1B‑LSD hemi‑tartrate|1b|1‑BuLSD|1‑Butanoyl‑N,N‑diethyl‑6‑methyl‑9,10‑didehydroergoline‑8β‑carboxamide|N1‑butanoyl‑LSD]  (source: tripsit)  #class:Lysergamide (ergoline derivative, N1-butanoyl analog of LSD)  #prodrug-of-LSD  #research-chemical  #tentative
+  1cP-AL-LAD  [1-cyclopropanecarbonyl-AL-LAD|1-cyclopropanoyl-AL-LAD|1cP‑AL‑LAD|AL‑LAD prodrug (presumed)|N1‑cyclopropanoyl AL‑LAD]  (source: drug.community)  #class:Lysergamide (1-substituted N1-cyclopropanoyl derivative of AL-LAD)
+  1Cp-LSD  [1-(cyclopropanoyl)-LSD|1-CPA-LSD|1-cyclopropanecarbonyl-LSD|1-cyclopropionyl-LSD|1cP|1cP-LSD|1cp|1cplsd|Curie|curie]  (source: tripsit)  #class:Lysergamide  #prodrug-of-LSD  #research-chemical  #tentative
+  1cP-MiPLA  [1cP‑MIPLA|1‑cP‑MiPLA|1‑cyclopropanecarbonyl‑N‑methyl‑N‑isopropyllysergamide|1‑cyclopropionyl‑MiPLA|LAMIDE 1‑cP (colloquial)|Lysergic acid 1‑cyclopropionyl‑N‑methyl‑N‑isopropylamide|MiPLA prodrug (putative)]  (source: drug.community)  #class:Lysergamides
+  1P-Eth-Lad  [1pethlad]  (source: tripsit)  #research-chemical  #tentative
+  1P-LSD  [1-propionyl-LSD|1-propionyl-lysergic acid diethylamide|1P|1P-LSD|1P‑LSD hemitartrate|1p|1plsd]  (source: tripsit)  #CES1-substrate  #class:Lysergamide  #prodrug-of-LSD  #research-chemical
+  1S-LSD  [1-(3-trimethylsilyl-propionyl)-LSD|1S‑LSD D‑tartrate|1‑(3‑(trimethylsilyl)propanoyl)‑lysergic acid diethylamide|N1‑TMS‑propionyl lysergamide]  (source: drug.community)  #class:Lysergamide
+  2,4-DMA  [1-(2,4-dimethoxyphenyl)-2-propanamine|1-(2,4-dimethoxyphenyl)propan-2-amine|2,4-dimethoxyamphetamine|2-(2,4-dimethoxy-phenyl)-1-methyl-ethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  2,5-Dimethoxy-4-ethoxyamphetamine  [1-(4-ethoxy-2,5-dimethoxyphenyl)propan-2-amine|2,5-dimethoxy-4-ethoxy-α-methylphenethylamine|MEM]  (source: drug.community)  #class:Phenethylamine (subclass: substituted amphetamine)
+  2,5-DMA  [1-(2,5-dimethoxyphenyl)-2-aminopropane|1-(2,5-dimethoxyphenyl)-2-propanamine|1-(2,5-dimethoxyphenyl)isopropylamine|1-(2,5-dimethoxyphenyl)propan-2-amine|2,5-dimethoxy-alpha-methylbenzeneethanamine|2,5-dimethoxy-alpha-methylphenethylamine|2,5-dimethoxyamphetamine|2-(2,5-dimethoxy-phenyl)-1-methyl-ethylamine|DOH]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  2,a-DMT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #tryptamine
+  2-BR-4,5-MDA  [1-(6-bromo-1,3-benzodioxol-5-yl)propan-2-amine|1-(6-bromo-2H-1,3-benzodioxol-5-yl)propan-2-amine|2-bromo-4,5-methylenedioxyamphetamine|6-Br-MDA]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine  #psychedelic-leaning
+  2-ME-DET  [2-methyl-diethyltryptamine]  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  2-ME-DMT  [2|2,N,N-TMT|2,N,N-Trimethyltryptamine|2-Methyl-N|2-methyl-DMT|2-methyl-N,N-dimethyltryptamine|N|N-TMT|N-dimethyltryptamine|TIHKAL #34]  (source: tripsit)  #5-HT2A-agonist  #TIHKAL  #class:substituted tryptamine  #research-chemical  #tentative  #tryptamine
+  2-TIM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  2-TOET  [1-[4-ethyl-5-methoxy-2-(methylsulfanyl)phenyl]propan-2-amine|4-ethyl-5-methoxy-2-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  2-TOM  [1-[5-methoxy-4-methyl-2-(methylsulfanyl)phenyl]propan-2-amine|5-methoxy-4-methyl-2-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  25B-NBOH  [25B NBOH|25B NBOH HCl|25bnboh|2C-B-NBOH|2c-b-nboh|2cb-nboh|N-(2-hydroxybenzyl)-2C-B|NBOH-25B|NBOH-2C-B|nboh-2cb]  (source: tripsit)  #5-HT2A-agonist  #NBOH  #class:Phenethylamine (N-benzyl phenethylamine; 2C-B derivative)  #phenethylamine  #research-chemical  #tentative
+  25B-NBOME  [2-(4-bromo-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine|25b|Cimbi-36|NBOMe-2C-B]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #NBOMe  #PET-tracer-Cimbi-36  #phenethylamine  #research-chemical  #sublingual-route
+  25C-NB3OMe  [25C-NB(3)OMe|25C-NB-3-OMe|2C-C-NB3OMe|N-(3-methoxybenzyl)-2C-C|NB3OMe-2C-C]  (source: drug.community)  #NBOMe-regioisomer  #class:phenethylamine (2C) / NB3OMe series  #likely-weaker-than-25C-NBOMe
+  25C-NBOH  [NBOH-2C-C]  (source: tripsit)  #5-HT2A-agonist  #NBOH  #phenethylamine  #research-chemical  #tentative
+  25C-NBOME  [25c|2c-nbome|Cimbi-82|NBOMe-2C-C]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #CYP3A4-substrate  #NBOMe  #common  #fatality-documented  #phenethylamine  #research-chemical  +1more
+  25CN-NBOH  [25CN NBOH|2C-CN-NBOH|4-cyano-2,5-dimethoxy-N-(2-hydroxybenzyl)phenethylamine|C18H20N2O3|NBOH-2C-CN|PubChem CID 90489020]  (source: drug.community)  #class:N-benzyl phenethylamine (NBOMe/NBOH family)  #misclassified-not-a-dissociative
+  25D-NBOME  [25d|2c-d-nbome|NBOMe-2C-D]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #NBOMe  #phenethylamine  #research-chemical
+  25E-NBOME  [25e|NBOMe-2C-E]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #NBOMe  #phenethylamine  #research-chemical
+  25G-NBOME  [2,5-dimethoxy-3,4-dimethyl-NBOMe|25g|25gnbome|NBOMe-2C-G]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #likely-inactive  #phenethylamine  #research-chemical  #tentative
+  25H-NBOME  [25-h-nbome|25H|25h|2C-H-NBOMe|N-(2-methoxybenzyl)-2,5-dimethoxyphenethylamine (systematic)|NBOMe-2C-H|NBOMe-H]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #class:Substituted phenethylamine (NBOMe series)  #phenethylamine  #research-chemical  #tentative
+  25I-NBF  [2C-I-NBF|N-(2-fluorobenzyl)-2C-I|N-benzyl-2-fluorobenzyl 2C-I|NBF-2C-I]  (source: tripsit)  #5-HT2A-agonist  #NBF  #class:Substituted phenethylamine (N-benzylfluoro analogue of the 2C family)  #phenethylamine  #research-chemical  #tentative
+  25I-NBMD  [25I-NB34MD|2C-I-NBMD|Cimbi-29|INBMDO|N-(2,3-methylenedioxybenzyl)-2C-I analog|N-(2,3-methylenedioxybenzyl)-4-iodo-2,5-dimethoxyphenethylamine|NBMD-2C-I]  (source: tripsit)  #NBMD  #class:Substituted phenethylamine (NBMD / 25-X family)  #phenethylamine  #research-chemical  #tentative
+  25I-NBOH  [2C-I-NBOH|Cimbi-27|N-(2-hydroxybenzyl)-2,5-dimethoxy-4-iodophenethylamine|N-(2-hydroxybenzyl)-4-iodo-2,5-dimethoxyphenethylamine|NBOH-2C-I|cimbi-27|nboh-2ci]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #NBOH  #class:Substituted phenethylamine (N-benzyl-oxy-phenethylamine)  #phenethylamine  #phenolic-glucuronidation  #research-chemical  #tentative
+  25I-NBOME  [2-(4-iodo-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine|2-c-i-nbome|25-i|25I|25i|2C-I-NBOMe|4-iodo-2,5-dimethoxy-N-(2-methoxybenzyl)phenethylamine|Cimbi-5|N-bomb|NBOMe-2C-I]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #CYP3A4-substrate  #NBOMe  #class:Phenethylamine (NBOMe series)  #common  #fatality-documented  #hERG-data-lacking  +3more
+  25Ip-NBOME  [25iP-NBMe|25ip|2C-iP-NBOMe|N-(2-methoxybenzyl)-2,5-dimethoxy-4-isopropylphenethylamine|NBOMe isopropyl-2,5-DMPEA|NBOMe-2C-iP]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #class:Substituted phenethylamine (NBOMe series)  #phenethylamine  #research-chemical  #tentative
+  25N-NBOME  [2-c-n-nbome|25n|NBOMe-2C-N]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #phenethylamine  #research-chemical  #tentative
+  25P-NBOME  [NBOMe-2C-P]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #phenethylamine  #research-chemical  #tentative
+  25T-2-NBOME  [25T2-NBOMe|25t2-nbome|2C-T-2-NBOMe|N-(2-methoxybenzyl)-2,5-dimethoxy-4-ethylthio-phenethylamine|N-(2-methoxybenzyl)-4-ethylthio-2,5-dimethoxyphenethylamine|NBOMe-2C-T-2|OZEBFZPAWCXEGK (InChIKey)]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #class:Substituted phenethylamine (NBOMe series, thioether-substituted)  #phenethylamine  #research-chemical  #tentative
+  25T-4-NBOME  [25t4-nbome|NBOMe-2C-T-4]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #phenethylamine  #research-chemical  #tentative
+  25T-NBOMe  [25T2-NBOMe|25T4-NBOMe|25T7-NBOMe|2C-T-NBOMe|N-(2-methoxybenzyl)-2,5-dimethoxy-4-(thioalkyl)phenethylamine (umbrella for 2C‑T homologues)|NBOMe-2C-T]  (source: drug.community)  #5-HT2A-superpotent  #NBOMe  #class:Substituted phenethylamine (NBOMe series; thio-ether substituted)
+  2C-B  [2,5-dimethoxy-4-bromophenethylamine|2-(4-bromo-2,5-dimethoxyphenyl)ethylamine|2-cb|2C‑B HBr|2C‑B HCl|2cb|4-bromo-2,5-DMPEA|4-bromo-2,5-dimethoxyphenethylamine|4-bromo-2,5-dimethoxyphenylethylamine|BDMPEA|Bees|Bromo-mescaline|Nexus|Venus|bees|nexus]  (source: piru-curated)  #2C-x  #5-HT2A-agonist  #5-HT2B-agonist  #5HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C series) psychedelic  #common  #no-human-data  +2more
+  2C-B-An  [2C-B AN|2C-B amino-nitrile|2C-B aminonitrile|2C-B-AN (aminonitrile)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #class:Phenethylamine; aminonitrile prodrug of 2C-B  #phenethylamine  #research-chemical  #tentative
+  2C-B-Fly  [1-(8-Bromo-2,3,6,7-tetrahydrobenzo[1,2-b:4,5-b']difuran-4-yl)-2-aminoethane (systematic)|2-(4-bromo-2,3,6,7-tetrahydrofuro[2,3-f][1]benzofuran-8-yl)ethanamine|2C-B-FLY HBr|2C-B-FLY HCl|2C-Bromo-FLY|2CBFLY|2cb-fly|2cbfly|8-bromo-2,3,6,7-tetrahydrobenzo[1,2-b:4,5-b']difuran-4-yl ethanamine (common name)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #5-HT2B-strong  #class:Phenethylamine (dihydrodifuran analog of 2C-B)  #phenethylamine  #research-chemical  #valvulopathy-concern
+  2C-BZ  ["2C-B Z" (spacing variant seen in posts)|2CBZ|Street label used for an unconfirmed 2C-B analogue]  (source: drug.community)  #class:Substituted phenethylamine (2C family, brominated dimethoxy-phenethylamine analogue; structure not analytically confirmed)
+  2C-C  [2,5-dimethoxy-4-chlorophenethylamine|2-(4-chloro-2,5-dimethoxyphenyl)ethan-1-amine|2CC|2C‑C freebase|2C‑C·HCl (hydrochloride salt)|2cc|4-chloro-2,5-dimethoxyphenethylamine|BDMCPA (rare; not standard)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine; 2,5-dimethoxy-4-chloro substitution (2C series)  #no-human-data  #phenethylamine  #research-chemical
+  2C-D  [2,5-dimethoxy-4-methylphenethylamine|2CD|2C‑D|2c-m|2cd|2cm|4-methyl-2,5-dimethoxyphenethylamine|LE-25]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #MAO-substrate  #PIHKAL  #class:Phenethylamine  #phenethylamine  #research-chemical
+  2C-E  [2,5-dimethoxy-4-ethylphenethylamine|2-(4-ethyl-2,5-dimethoxyphenyl)ethan-1-amine|2C‑E HCl|2C‑E freebase|2ce|4-ethyl-2,5-dimethoxyphenethylamine|4‑ethyl‑2,5‑dimethoxyphenethylamine|CAS 71539‑34‑9|aqua rust|aquarust]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C‑x series)  #common  #no-human-data  #phenethylamine  #research-chemical
+  2C-EF  [2,5-DMPEA-2F-Et|2-[4-(2-Fluoroethyl)-2,5-dimethoxyphenyl]ethan-1-amine|4-(2-Fluoroethyl)-2,5-dimethoxyphenethylamine|PiHKAL #370]  (source: drug.community)  #class:Phenethylamine (2,5‑dimethoxy‑4‑substituted phenethylamine)
+  2C-F  [2|2,5-dimethoxy-4-fluorophenethylamine|2-(4-fluoro-2,5-dimethoxyphenyl)ethan-1-amine|2C‑F|4-F-2,5-DMPEA|4-fluoro-2,5-dimethoxyphenethylamine|5-dimethoxy-4-fluorophenethylamine|CAS 207740-15-6 (free base)]  (source: piru-curated)  #2C-x  #5-HT2A-agonist  #5HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C family)  #no-human-data  #phenethylamine  #psychedelic
+  2C-G  [2,5-dimethoxy-3,4-dimethylphenethylamine|2-(2,5-dimethoxy-3,4-dimethylphenyl)ethan-1-amine|2cg|3,4-dimethyl-2,5-dimethoxy-PEA|3,4-dimethyl-2,5-dimethoxyphenethylamine|PiHKAL #27]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C family)  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  2C-G-3  [2,3-dihydro-4,7-dimethoxy-1H-indene-5-ethanamine|2,5-dimethoxy-3,4-(trimethylene)phenethylamine|2-(4,7-dimethoxy-2,3-dihydro-1H-inden-5-yl)ethan-1-amine|3,4-trimethylene-2,5-dimethoxyphenethylamine|5-(2-aminoethyl)-4,7-dimethoxyindane]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-G-4  [2,5-dimethoxy-3,4-(tetramethylene)phenethylamine|2-(1,4-dimethoxy-5,6,7,8-tetrahydro-2-naphthalenyl)ethylamine|2-(1,4-dimethoxy-5,6,7,8-tetrahydronaphthalen-2-yl)ethan-1-amine|3,4-tetramethylene-2,5-dimethoxyphenethylamine|6-(2-aminoethyl)-5,8-dimethoxytetralin]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-G-5  [2-(5,8-dimethoxy-1,2,3,4-tetrahydro-1,4-methanonaphthalen-6-yl)ethan-1-amine|2c-g-5|3,4-norbornyl-2,5-dimethoxyphenethylamine|3,6-dimethoxy-4-(2-aminoethyl)benzonorbornane]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine  #research-chemical
+  2C-G-N  [1,4-dimethoxynaphthyl-2-ethylamine|2-(1,4-dimethoxy-2-naphthalenyl)ethylamine|2-(1,4-dimethoxynaphthalen-2-yl)ethan-1-amine|2-(1,4-dimethoxynaphthalen-2-yl)ethanamine|2C-G-NPH]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-H  [2,5-DMPEA|2,5-dimethoxyphenethylamine|2-(2,5-dimethoxy-phenyl)-ethylamine|2-(2,5-dimethoxyphenyl)ethan-1-amine|2-(2,5-dimethoxyphenyl)ethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-I  [2,5-dimethoxy-4-iodophenethylamine|2,5‑DM‑4‑I‑PEA|2-(4-iodo-2,5-dimethoxyphenyl)ethan-1-amine|25I|2C I|2CI|2C‑I HCl|2ci|4-iodo-2,5-dimethoxy-beta-phenethylamine|4-iodo-2,5-dimethoxy-β-phenethylamine|4-iodo-2,5-dimethoxyphenethylamine|Cimbi-88|“Smiles” (media slang; note: has also been used to refer to 25I‑NBOMe)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine  #no-human-data  #phenethylamine  #research-chemical
+  2C-Ip  [2,5-dimethoxy-4-isopropylphenethylamine|2,5‑dimethoxy‑4‑isopropylphenethylamine|2C-iP|2C‑iP|4‑(propan‑2‑yl)‑2,5‑dimethoxyphenethylamine|4‑isopropyl‑2,5‑dimethoxyphenethylamine]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #MAO-substrate  #class:Substituted phenethylamine (2C series)  #phenethylamine  #research-chemical  #tentative
+  2C-N  [2,5-Dimethoxy-4-nitrophenethylamine|2,5-dimethoxy-4-nitrophenethylamine|2-(2,5-Dimethoxy-4-nitrophenyl)ethan-1-amine (IUPAC)|2-(2,5-dimethoxy-4-nitrophenyl)ethan-1-amine|2C-N HCl (hydrochloride)|2C-N freebase|2C-N nitrate (less potent than HCl salt, anecdotal)|2cn|4-nitro-2,5-dimethoxyphenethylamine]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C-x series)  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  2C-O-4  [2,5-dimethoxy-4-(1-methylethoxy)-benzeneethanamine|2,5-dimethoxy-4-isopropoxyphenethylamine|2-[2,5-dimethoxy-4-(propan-2-yloxy)phenyl]ethan-1-amine|2-{2,5-dimethoxy-4-[(propan-2-yl)oxy]phenyl}ethan-1-amine|4-isopropoxy-2,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #5-HT2A-presumed  #PIHKAL  #no-human-data  #phenethylamine  #weak-psychedelic  #wrong-group-classification
+  2C-P  [2,5-dimethoxy-4-n-propylphenethylamine|2,5-dimethoxy-4-propylphenethylamine|2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine|2-(2,5-dimethoxy-4-propylphenyl)ethan-1-amine|2CP|2C‑P (phenethylamine)|2C‑P HCl|2cp|4-propyl-2,5-dimethoxyphenethylamine|4‑propyl‑2,5‑dimethoxyphenethylamine|selene]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C family)  #no-human-data  #phenethylamine  #research-chemical
+  2C-P-NBOMe  [2-(4-propyl-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine|25P|25P-NBOMe|N-(2-methoxybenzyl)-2C-P|NBOMe (series)|NBOMe-2C-P|P‑NBOMe]  (source: drug.community)  #class:Phenethylamine; NBOMe (N‑methoxybenzyl) series; 2C family derivative (2C‑P analog)  #duplicate-of-25P-NBOMe
+  2C-SE  [2,5-dimethoxy-4-(methylseleno)benzeneethanamine|2,5-dimethoxy-4-(methylseleno)phenethylamine|2,5-dimethoxy-4-methylselenophenethylamine|2-[2,5-dimethoxy-4-(methylselanyl)phenyl]ethan-1-amine|4-methylseleno-2,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-T-13  [2,5-dimethoxy-4-(2-methoxyethylthio)phenethylamine|2,5-dimethoxy-4-[(2-methoxyethyl)thio]phenethylamine|2-[2,5-dimethoxy-4-(2-methoxyethylsulfanyl)phenyl]ethanamine|2-{2,5-dimethoxy-4-[(2-methoxyethyl)sulfanyl]phenyl}ethan-1-amine|4-(2-methoxyethylthio)-2,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-T-15  [2,5-dimethoxy-4-cyclopropylthiophenethylamine|2-[4-(cyclopropylsulfanyl)-2,5-dimethoxyphenyl]ethan-1-amine|4-(cyclopropylthio)-2,5-dimethoxyphenethylamine|4-cyclopropylthio-2,5-dimethoxyphenethylamine|SESQUI]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-T-17  [2,5-dimethoxy-4-sec-butylthiophenethylamine|2-(4-butan-2-ylsulfanyl-2,5-dimethoxyphenyl)ethanamine|2-[4-(butan-2-ylsulfanyl)-2,5-dimethoxyphenyl]ethan-1-amine|2-{4-[(butan-2-yl)sulfanyl]-2,5-dimethoxyphenyl}ethan-1-amine|4-(sec-butylthio)-2,5-dimethoxyphenethylamine|4-sec-butylthio-2,5-dimethoxyphenethylamine|NIMITZ]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-T-2  [2,5-dimethoxy-4-(ethylthio)phenethylamine|2,5-dimethoxy-4-ethylthiophenethylamine|2,5‑DM‑4‑ET‑PEA|2,5‑dimethoxy‑4‑ethylthio‑phenethylamine|2-[4-(ethylsulfanyl)-2,5-dimethoxyphenyl]ethan-1-amine|2CT2|2C‑T2|2ct2|4-ethylthio-2,5-dimethoxyphenethylamine|4‑ethylthio‑2,5‑dimethoxyphenethylamine|“T‑2” (deprecated nickname; not the T‑2 mycotoxin)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:2C family phenethylamine; 4-ethylthio-2,5-dimethoxy-phenethylamine  #no-human-data  #phenethylamine  #research-chemical
+  2C-T-21  [2,5-Dimethoxy-4-(2-fluoroethylthio)phenethylamine|2,5-dimethoxy-4-(2-fluoroethylthio)phenethylamine|2-[4-(2-fluoroethylsulfanyl)-2,5-dimethoxyphenyl]ethanamine|2-{4-[(2-Fluoroethyl)sulfanyl]-2,5-dimethoxyphenyl}ethan-1-amine|2-{4-[(2-fluoroethyl)sulfanyl]-2,5-dimethoxyphenyl}ethan-1-amine|2C‑T‑21 HCl|4-(2-Fluoroethylthio)-2,5-dimethoxyphenethylamine|4-(2-fluoroethylthio)-2,5-dimethoxyphenethylamine|T‑21]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C-series); thioether-substituted  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  2C-T-4  [2,5-dimethoxy-4-(isopropylthio)phenethylamine|2,5-dimethoxy-4-isopropylthiophenethylamine|2,5‑dimethoxy‑4‑isopropylthiophenethylamine|2-(2,5-dimethoxy-4-propan-2-ylsulfanylphenyl)ethanamine|2-[2,5-dimethoxy-4-(propan-2-ylsulfanyl)phenyl]ethan-1-amine|2-ct4|2-{2,5-dimethoxy-4-[(propan-2-yl)sulfanyl]phenyl}ethan-1-amine|2CT4|2C‑T‑4 HCl|2C‑T‑4 freebase|2c-t4|2ct-4|2ct4|4-Isopropylthio-2,5-dimethoxyphenethylamine|4‑isopropylthio‑2,5‑dimethoxyphenethylamine|psi‑2C‑T‑4 (distinct isomer; see note about mislabeling)]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Substituted phenethylamine (2,5‑dimethoxy‑4‑isopropylthio‑phenethylamine)  #no-human-data  #phenethylamine  #research-chemical
+  2C-T-4-NBOMe  [25T4-NBOMe|2C‑T‑4‑NBOMe|N-(2-methoxybenzyl)-2,5-dimethoxy-4-(isopropylthio)phenethylamine|NBOMe-2C-T-4]  (source: drug.community)  #class:Substituted phenethylamine (NBOMe series, thioalkyl-substituted)
+  2C-T-7-NBOMe  [25T7-NBOMe|N-(2-Methoxybenzyl)-4-propylthio-2,5-dimethoxyphenethylamine|NBOMe-2C-T-7]  (source: drug.community)  #class:Substituted phenethylamine (NBOMe series, thio-alkylated)
+  2C-T-8  [2,5-dimethoxy-4-[(cyclopropylmethyl)thio]phenethylamine|2,5-dimethoxy-4-cyclopropylmethylthiophenethylamine|2-{4-[(cyclopropylmethyl)sulfanyl]-2,5-dimethoxyphenyl}ethan-1-amine|4-cyclopropylmethylthio-2,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2C-T-9  [2,5-dimethoxy-4-tert-butylthiophenethylamine|2-(4-tert-butylsulfanyl-2,5-dimethoxyphenyl)ethanamine|2-[4-(tert-butylsulfanyl)-2,5-dimethoxyphenyl]ethan-1-amine|4-tert-butylthio-2,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine
+  2T-MMDA-3a  [1-[4-(methylsulfanyl)-1,3-benzodioxol-5-yl]propan-2-amine|1-[4-(methylsulfanyl)-2H-1,3-benzodioxol-5-yl]propan-2-amine|2-methylthio-3,4-methylenedioxyamphetamine|3,4-methylenedioxy-2-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine
+  3,4-DMA  [1-(3,4-dimethoxyphenyl)-2-aminopropane|1-(3,4-dimethoxyphenyl)-2-propanamine|1-(3,4-dimethoxyphenyl)propan-2-amine|2-(3,4-dimethoxy-phenyl)-1-methyl-ethylamine|3,4-dimethoxy-alpha-methylphenethylamine|3,4-dimethoxyamphetamine|3,4-dimethoxyphenylisopropylamine|3-(3,4-dimethoxyphenyl)-2-aminopropane|3-(3,4-dimethoxyphenyl)-2-propylamine|EA-1316]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  3,4-Methylenedioxyamphetamine  [3,4-MDA|3,4-Methylenedioxyamphetamine|EA-1299|MDA|SKF-5|Sally|Sass|Sassafras|Tenamfetamine|methylendioxyamphetamine]  (source: drug.community)  #DRI  #NDRI  #TAAR1  #class:Phenethylamine; Amphetamine (ring-substituted methylenedioxyamphetamine)  #duplicate-of-MDA  #no-human-data  #phenethylamine
+  3-T-TRIS  [2-[3,4-Diethoxy-5-(ethylsulfanyl)phenyl]ethanamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  3-TASB  [2-[4-ethoxy-3-(ethylsulfanyl)-5-methoxyphenyl]ethan-1-amine|3-thioasymbescaline|4-ethoxy-3-ethylthio-5-methoxyphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  3-TE  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  3-TIM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  3-TM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  3-TME  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  3-TSB  [2-[3-ethoxy-5-(ethylsulfanyl)-4-methoxyphenyl]ethan-1-amine|3-ethoxy-5-ethylthio-4-methoxyphenethylamine|3-thiosymbescaline]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  3C-BZ  [1-[4-(benzyloxy)-3,5-dimethoxyphenyl]propan-2-amine|3,5-dimethoxy-4-benzyloxyamphetamine|3,5-dimethoxy-alpha-methyl-4-(phenylmethoxy)benzeneethanamine|3,5-dimethoxy-α-methyl-4-(phenylmethoxy)benzeneethanamine|4-benzyloxy-3,5-dimethoxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  3C-E  [1-(3,5-dimethoxy-4-ethoxyphenyl)propan-2-amine|1-(4-ethoxy-3,5-dimethoxyphenyl)propan-2-amine|3|3,5-dimethoxy-4-ethoxyamphetamine|3CE|3C‑E|4-ethoxy-3,5-dimethoxyamphetamine|5-dimethoxy-4-ethoxy-amphetamine|alpha‑methyl escaline]  (source: tripsit)  #PIHKAL  #class:Substituted amphetamine (psychedelic phenethylamine; trimethoxy-amphetamine family)  #no-human-data  #phenethylamine  #research-chemical
+  3C-P  [1-(3,5-dimethoxy-4-propoxyphenyl)propan-2-amine|3,5‑DM‑4‑PO‑amphetamine|3C‑P|3cp|4-propoxy-3|4‑propoxy‑3,5‑dimethoxyamphetamine|5-dimethoxyamphetamine|amphetamine homolog of proscaline]  (source: tripsit)  #class:Phenethylamine (substituted amphetamine; 3C family)  #research-chemical
+  4,5-MDO-DIPT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #tryptamine
+  4,5-MDO-DMT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #no-human-data  #tryptamine
+  4-Aco-Dalt  [4acodalt]  (source: tripsit)  #research-chemical
+  4-Aco-Det  [4-AcO-DET HCl (less common)|4-AcO-DET fumarate (common salt)|4-Acetoxy-N,N-diethyltryptamine|4-acetoxy-DET|4-acetoxy-det|Ethacetin|O-acetyl-4-HO-DET|ethacetin|ethylacybin]  (source: tripsit)  #class:Tryptamine  #prodrug  #research-chemical  #tentative
+  4-Aco-DIPT  [4-acetoxy-DIPT|4-acetoxy-dipt|4acodipt|aces|ipracetin|iprocetyl]  (source: tripsit)  #5-HT2A-agonist  #prodrug  #research-chemical  #tryptamine
+  4-Aco-DMT  [4-AcO-DMT HCl|4-AcO-DMT fumarate|4-acetoxy-DMT|4-acetoxy-N,N-dimethyltryptamine|4-acetoxy-dmt|4-aco|4acodmt|O-Acetylpsilocin|O-acetylpsilocin|psilacetin]  (source: tripsit)  #5-HT2A-agonist  #CES1-substrate  #class:Tryptamine  #common  #prodrug-of-psilocin  #research-chemical  #tryptamine
+  4-Aco-DPT  [4-acetoxy-DPT|4acodpt]  (source: tripsit)  #prodrug  #research-chemical  #tentative
+  4-Aco-Met  [4-acetoxy-MET|4-acetoxy-met|4acomet|metacetin]  (source: tripsit)  #prodrug  #research-chemical
+  4-BR-3,5-DMA  [1-(4-bromo-3,5-dimethoxyphenyl)propan-2-amine|3,5-dimethoxy-4-bromoamphetamine|4,3,5-DOB|4-bromo-3,5-dimethoxyamphetamine|4-ethyl-2-methoxy-5-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  4-Br-DMT  [4-Bromo-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  4-Cl-DMT  [4-Chloro-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  4-D  [1-[3,5-dimethoxy-4-(2H3)methoxyphenyl]propan-2-amine|2-[3,5-dimethoxy-4-(trideuteriomethoxy)phenyl]ethanamine|2-{3,5-dimethoxy-4-[(2H3)methyloxy]phenyl}ethan-1-amine|3,5-dimethoxy-4-trideuteromethoxyphenethylamine|3,5-methoxy-4-trideuteromethoxyphenethylamine|4-trideuteromescaline|4-trideuteromethoxy-3,5-dimethoxyphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  4-fluoro-5-methoxy-DMT  [2-(4-fluoro-5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine]  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  4-fluoro-DMT  [4-fluoro-N,N-dimethyltryptamine]  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  4-Fluorophenylpiperazine  [1-(4-fluorophenyl)piperazine|4-FPP|pFPP|para-Fluorophenylpiperazine]  (source: drug.community)  #class:Arylpiperazine (para-fluoro analogue of TFMPP)
+  4-HO-DBT  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  4-HO-DET  [4-hydroxy-DET|4-hydroxy-det|4hodet|CZ-74|ethocin]  (source: tripsit)  #TIHKAL  #research-chemical  #tryptamine
+  4-HO-DIPT  [4-hydroxy-DiPT|iprocin]  (source: tripsit)  #5-HT2A-agonist  #5-HT2A-vs-2C-selective  #TIHKAL  #research-chemical  #tryptamine
+  4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER  [4-hydroxy-DMT|psilocin]  (source: erowid-tihkal)  #5-HT2A-agonist  #5-HT2A-full-efficacy  #MAO-A-substrate  #TIHKAL  #UGT1A10-substrate  #tryptamine
+  4-HO-DPT  [4-hydroxy-DPT|4-hydroxy-n|4hodpt|n-dipropyltryptamine|procin]  (source: tripsit)  #TIHKAL  #no-human-data  #research-chemical  #tentative  #tryptamine
+  4-Ho-Ept  (source: tripsit)  #tentative
+  4-Ho-Mcpt  [4-Hydroxy-N-methyl-N-cyclopropyltryptamine|4-hydroxy-McPT|IUPAC: 3-{2-[Cyclopropyl(methyl)amino]ethyl}-1H-indol-4-ol]  (source: tripsit)  #class:Tryptamine  #research-chemical  #tentative
+  4-HO-MET  [4-HO-MET (freebase)|4-HO-MET HCl|4-HO-MET fumarate|4-hydroxy-N-methyl-N-ethyltryptamine|4homet|Colour|Methylcybin|Metocin|ethocin|homet|metocin]  (source: tripsit)  #TIHKAL  #class:Tryptamine  #common  #research-chemical  #tryptamine
+  4-HO-MIPT  [4-ho|4-hydroxy-N-methyl-N-isopropyltryptamine|4homipt|ho-mipt|homipt|miprocin]  (source: tripsit)  #5-HT2A-selective-vs-2B  #TIHKAL  #research-chemical  #tryptamine
+  4-Ho-Mpmi  [lucigenol]  (source: tripsit)  #research-chemical  #tentative
+  4-HO-MPT  [4hompt]  (source: tripsit)  #TIHKAL  #no-human-data  #research-chemical  #tentative  #tryptamine
+  4-HO-PiPT  [3-{2-[(propan-2-yl)(propyl)amino]ethyl}-1H-indol-4-ol|4-hydroxy-N-propyl-N-isopropyltryptamine]  (source: drug.community)  #class:Tryptamine
+  4-HO-PYR-T  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  4-MA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  4-MEO-MIPT  [4-methoxy-N-methyl-N-isopropyltryptamine|Indole, 3-[2-(isopropylmethylamino)ethyl]-4-methoxy|N-[2-(4-methoxy-1H-indol-3-yl)ethyl]-N-methylpropan-2-amine|N-isopropyl-4-methoxy-N-methyltryptamine]  (source: tripsit)  #TIHKAL  #class:Tryptamine  #research-chemical  #tentative  #tryptamine
+  4-PrO-DMT  [4-ProO-DMT|4-Propanoyloxy-N,N-dimethyltryptamine|4-Propionyloxy-DMT|4-Propionyloxy-N,N-dimethyltryptamine|4-propionoxy-DMT|O-propionylpsilocin|propylpsilocin|psilypropynone]  (source: drug.community)  #class:Substituted tryptamine (psilocin ester)  #prodrug-of-psilocin
+  4-PrO-MET  [4-PrO-MET fumarate (common salt)|4-propanoyloxy-MET|4-propionoxy-4-HO-MET prodrug|4-propionoxy-MET|O-propionyl-4-HO-MET|O-propionyl-metocin]  (source: drug.community)  #class:Tryptamine; 4-substituted indole O-ester (putative prodrug to 4‑HO‑MET)  #prodrug
+  4-T-TRIS  [2-[3,5-Diethoxy-4-(ethylsulfanyl)phenyl]ethanamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  4-TASB  [2-[3-ethoxy-4-(ethylsulfanyl)-5-methoxyphenyl]ethan-1-amine|3-ethoxy-4-ethylthio-5-methoxyphenethylamine|4-thioasymbescaline]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  4-TIM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  4-TME  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  4-TSB  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  4F-5-MeO-DMT  [4-Fluoro-5-methoxy-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #research-chemical  #tryptamine  #tryptamine-halogen
+  4F-DMT  [4-Fluoro-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  4T-MMDA-2  [1-(5-methoxy-1,3-benzoxathiol-6-yl)propan-2-amine|1-(5-methoxy-2H-1,3-benzoxathiol-6-yl)propan-2-amine|2-methoxy-4,5-methylenethiooxyamphetamine|4,5-thiomethyleneoxy-2-methoxyamphetamine|6-(2-aminopropyl)-5-methoxy-1,3-benzoxathiol]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine
+  5,6-MDO-DIPT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #no-human-data  #tryptamine
+  5,6-MDO-DMT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #tryptamine
+  5,6-MDO-MIPT  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  5,6-MEO-MIPT  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  5-Br-DMT  [5-Bromo-N,N-dimethyltryptamine]  (source: piru-curated)  #5-HT2A-agonist  #experimental  #no-human-data  #research-chemical  #tentative  #tryptamine  #tryptamine-halogen
+  5-Bromo-DMT  [5-Br-DMT|5-bromo-N,N-dimethyltryptamine|SpongeBob DMT]  (source: drug.community)  #class:Tryptamine (halogenated indoleethylamine)
+  5-Ethoxy-DMT  [5-EtO-DMT]  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  5-ethyl-DMT  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  5-F-DMT  [5-Fluoro-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  5-HO-DMT  [bufotenin (alt spelling)]  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #tryptamine
+  5-Meo-Dalt  [3-[2-(diallylamino)ethyl]-5-methoxyindole|5-MeO DALT|5-methoxy-N,N-diallyltryptamine|5MeO-DALT|5meodalt|N,N-diallyl-5-methoxytryptamine]  (source: tripsit)  #class:Tryptamine  #promiscuous-binding  #research-chemical
+  5-MEO-DET  [5-methoxy-N,N-diethyltryptamine]  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  5-MEO-DMT  [2-(5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine|5-MeO-DMT|5-medmt|5-meo|5-methoxy-N,N-dimethyltryptamine|5meo|5meodmt|Bufo|MeODMT|N,N-dimethyl-5-methoxytryptamine|O-methylbufotenine|bufotenine methyl ether|methoxybufotenin|toad venom|toads]  (source: tripsit)  #5-HT1A-dominant  #5-HT2A-agonist  #CYP2D6-substrate  #G-protein-biased-5HT2A  #MAO-A-substrate  #TIHKAL  #class:Tryptamine (indolealkylamine)  #no-tachyphylaxis  +2more
+  5-Meo-DPT  [5-Methoxy-N,N-dipropyltryptamine|5-methoxy-N|5meodpt|N-dipropyltryptamine|O-Me-DiPS|O-methyl-N,N-dipropylserotonin]  (source: tripsit)  #class:Substituted tryptamine  #research-chemical
+  5-Meo-Eipt  [5meoeipt]  (source: tripsit)  #research-chemical  #tentative
+  5-Meo-Malt  (source: tripsit)  #research-chemical
+  5-Meo-Met  [5-methoxy-N-methyl-N-ethyltryptamine]  (source: tripsit)  #research-chemical
+  5-Meo-Nipt  [5-meo-nipt|5-methoxy-N-isopropyltryptamine|5meonipt]  (source: tripsit)  #research-chemical  #tentative
+  5-MEO-NMT  [5-methoxy-N-methyltryptamine]  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  5-MEO-PYR-T  [5-methoxy-pyrrolidinyltryptamine]  (source: tripsit)  #5-HT1A-selective  #TIHKAL  #research-chemical  #tentative  #tryptamine
+  5-MEO-TMT  [5-methoxy-2-methyl-DMT|5-methoxy-α-methyltryptamine alt-form]  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  5-MES-DMT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #no-human-data  #tryptamine
+  5-TASB  [2-[3,4-diethoxy-5-(methylsulfanyl)phenyl]ethan-1-amine|3,4-diethoxy-5-methylthiophenethylamine|5-thioasymbescaline]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  5-TFMO-DMT  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  5-TME  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  5-TOET  [1-[4-ethyl-2-methoxy-5-(methylsulfanyl)phenyl]propan-2-amine|4-ethyl-2-methoxy-5-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  5-TOM  [1-[2-methoxy-4-methyl-5-(methylsulfanyl)phenyl]propan-2-amine|2-methoxy-4-methyl-5-methylthioamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  6-F-DMT  [6-Fluoro-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  6-MEO-THH  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  7-Cl-DMT  [7-Chloro-N,N-dimethyltryptamine]  (source: piru-curated)  #experimental  #no-human-data  #research-chemical  #tryptamine  #tryptamine-halogen
+  7-hydroxy-DMT  [3-[2-(dimethylamino)ethyl]-1H-indol-7-ol]  (source: wikidata)  #5-HT2A-agonist  #no-human-data  #tryptamine
+  a,N,O-TMS  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  a,N-DMT  (source: erowid-tihkal)  #5-HT2A-agonist  #TIHKAL  #tryptamine
+  a,O-DMS  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  a-ET  [Monase|etryptamine|α-ethyltryptamine|αET]  (source: erowid-tihkal)  #TIHKAL  #agranulocytosis-risk-historical  #tryptamine
+  a-MT  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  AEM  [1-(3,4,5-trimethoxyphenyl)butan-2-amine|2-Amino-1-(3|2-Amino-1-(3,4,5-trimethoxyphenyl)butane|2-amino-1-(3,4,5-trimethoxyphenyl)butane|3,4,5-trimethoxy-α-ethylphenethylamine|4|5-trimethoxyphenyl)butane|alpha-Ethylmescaline|alpha-ethylmescaline|α-Ethylmescaline|α-ethyl-3,4,5-trimethoxybenzeneethanamine|α-ethyl-3,4,5-trimethoxyphenethylamine|α-ethylmescaline]  (source: drug.community)  #PIHKAL  #class:Phenethylamine; alpha-ethyl homolog of mescaline (not an amphetamine).  #no-human-data  #phenethylamine
+  AL  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  AL-LAD  [6-Allyl-6-nor-lysergic acid diethylamide|6-allyl-6-nor-LSD|6-allyl-N,N-diethyl-6-norlysergamide|Aladdin|N-allyl-nor-LSD|N6-allyl-6-norlysergic acid diethylamide|N6-allyl-nor-LSD|allad]  (source: tripsit)  #5-HT2A-partial-agonist  #TIHKAL  #class:Lysergamide (LSD analogue)  #research-chemical  #tryptamine
+  Ald-52  [1-acetyl-LSD|1a-lsd|1alsd|ALD-52|OAL-52|ald52]  (source: tripsit)  #prodrug-of-LSD  #research-chemical  #tentative
+  ALEPH-2  [1-[4-(Ethylsulfanyl)-2,5-dimethoxyphenyl]propan-2-amine|2|2,5-Dimethoxy-4-ethylthioamphetamine|2,5-dimethoxy-4-ethylthioamphetamine|4-(Ethylthio)-2,5-dimethoxy-alpha-methylbenzeneethanamine|4-Ethylthio-2,5-dimethoxyamphetamine|5-Dimethoxy-4-ethylthioamphetamine|aleph2|dot-2|dot2]  (source: tripsit)  #PIHKAL  #class:Phenylisopropylamine (substituted amphetamine; 2,5-dimethoxy, 4-ethylthio)  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  ALEPH-4  [1-[4-(Ethylsulfanyl)-2,5-dimethoxyphenyl]propan-2-amine|2,5-dimethoxy-4-iso-propylthioamphetamine|4-Ethylthio-2,5-dimethoxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  ALEPH-6  [1-[2,5-Dimethoxy-4-(phenylsulfanyl)phenyl]propan-2-amine|1-[2,5-dimethoxy-4-(phenylsulfanyl)phenyl]propan-2-amine|2|2,5-Dimethoxy-4-phenylthioamphetamine|2,5-dimethoxy-4-phenylthioamphetamine|4-Phenylthio-2,5-dimethoxyamphetamine|4-phenylthio-2,5-dimethoxyamphetamine|5-Dimethoxy-4-phenylthioamphetamine]  (source: drug.community)  #PIHKAL  #class:Phenethylamine (substituted amphetamine; thioether at 4-position)  #no-human-data  #phenethylamine
+  ALEPH-7  [1-[2,5-dimethoxy-4-(propylsulfanyl)phenyl]propan-2-amine|2,5-dimethoxy-4-n-propylthioamphetamine|2,5-dimethoxy-4-propylthioamphetamine|4-propylthio-2,5-dimethoxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  Allylescaline  [2-[3,5-dimethoxy-4-(prop-2-en-1-yloxy)phenyl]ethan-1-amine|2-[4-(allyloxy)-3,5-dimethoxyphenyl]ethan-1-amine|2-[4-(allyloxy)-3,5-dimethoxyphenyl]ethanamine|2-{3,5-dimethoxy-4-[(prop-2-en-1-yl)oxy]phenyl}ethan-1-amine|3,5-dimethoxy-4-allyloxyphenethylamine|4-allyloxy-3,5-dimethoxyphenethylamine|AL|al]  (source: tripsit)  #no-human-data  #phenethylamine  #research-chemical
+  alpha-Methyltryptamine  [3-(2-aminopropyl)indole|3-IT|AMT|Amthrax (slang)|Amtrak (slang)|IT-290|Indopan|U-14,164E|aMT|alpha-methyl-1H-indole-3-ethanamine|α-methyltryptamine|αMT]  (source: drug.community)  #MAO-A-inhibitor-weak  #class:Tryptamine  #monoamine-releaser-broad  #very-long-duration
+  AMT  [Alpha-methyltryptamine|alpha-methyltryptamine|alphamethyltryptamine|indopan|monase]  (source: tripsit)  #research-chemical
+  ARIADNE  [1-(2,5-dimethoxy-4-methylphenyl)-2-aminobutane|1-(2,5-dimethoxy-4-methylphenyl)butan-2-amine|2,5-dimethoxy-α-ethyl-4-methylphenethylamine|4C-D|4C-DOM|BL-3912|Dimoxamine|alpha-Et-2C-D|dimoxamine|α-Et-2C-D|α-ethyl-2C-D]  (source: drug.community)  #PIHKAL  #class:Phenethylamine (α-ethyl phenethylamine; “4C” homolog of 2C-D)  #no-human-data  #phenethylamine
+  ASB  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  B  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  BEATRICE  [1-(2,5-dimethoxy-4-methylphenyl)-N-methylpropan-2-amine|2,5-dimethoxy-4,N-dimethylamphetamine|4-methyl-2,5-dimethoxymethamphetamine|Bea|MDO-D|MDOM|N-Me-DOM|N-methyl-DOM]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  beta-D  [2,2-dideuterio-2-(3,4,5-trimethoxyphenyl)ethanamine|2-(3,4,5-trimethoxyphenyl)(2,2-2H2)ethan-1-amine|2-(3,4,5-trimethoxyphenyl)(2,2-2H2)ethanamine|3,4,5-trimethoxy-beta,beta-dideuterophenethylamine|3,4,5-trimethoxy-beta-dideuterophenethylamine|3,4,5-trimethoxy-β,β-dideuterophenethylamine|3,4,5-trimethoxy-β-dideuterophenethylamine|beta,beta-dideutero-3,4,5-trimethoxyphenethylamine|beta,beta-dideuteromescaline|β,β-dideutero-3,4,5-trimethoxyphenethylamine|β,β-dideuteromescaline|β-D]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  BIS-TOM  [1-[4-methyl-2,5-bis(methylsulfanyl)phenyl]propan-2-amine|2,5-bismethylthio-4-methylamphetamine|4-methyl-2,5-bis-(methylthio)amphetamine|4-methyl-2,5-dimethylthio-alpha-methylphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  Bk-2c-b  [BK-2C-B|b-k-2-c-b|b-k-2cb|b-k2-c-b|b-k2-cb|b-k2cb|bk-2-cb|bk-2cb|bk2cb|β-keto-2C-B]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #common  #phenethylamine  #research-chemical
+  Bk-2c-i  [β-keto-2C-I]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #phenethylamine  #research-chemical  #tentative
+  BOB  [2,5,beta-Trimethoxy-4-bromophenethylamine|2,5,β-trimethoxy-4-bromophenethylamine|2-(4-bromo-2,5-dimethoxyphenyl)-2-methoxyethan-1-amine|2-(4-bromo-2,5-dimethoxyphenyl)-2-methoxyethanamine|4-bromo-2,5,beta-trimethoxyphenethylamine|beta-methoxy-2C-B|β-methoxy-2C-B]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  BOD  [2,5,beta-trimethoxy-4-methylbenzeneethanamine|2,5,β-trimethoxy-4-methylbenzeneethanamine|2-(2,5-dimethoxy-4-methylphenyl)-2-methoxyethan-1-amine|4-methyl-2,5,beta-trimethoxyphenethylamine|4-methyl-2,5,β-trimethoxyphenethylamine|beta-methoxy-2C-D|β-methoxy-2C-D]  (source: tripsit)  #PIHKAL  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  BOH  [2-(1,3-benzodioxol-5-yl)-2-methoxyethan-1-amine|2-(2H-1,3-benzodioxol-5-yl)-2-methoxyethan-1-amine|3,4-methylenedioxy-beta-methoxyphenethylamine|3,4-methylenedioxy-β-methoxyphenethylamine|beta-methoxy-1,3-benzodioxole-5-ethanamine|beta-methoxy-3,4-methylenedioxyphenethylamine|β-methoxy-1,3-benzodioxole-5-ethanamine|β-methoxy-3,4-methylenedioxyphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  BOH-2C-B  [2-Amino-1-(4-bromo-2,5-dimethoxyphenyl)ethanol|2C-B-OH|2C-B-β-ol|BH2CB|BOH2CB|BOHB|beta-hydroxy-2C-B|β-Hydroxy-4-bromo-2,5-dimethoxyphenethylamine|βOH-2C-B]  (source: drug.community)  #class:Substituted phenethylamine (β-hydroxy 2C series)
+  BOHD  [2,5-dimethoxy-beta-hydroxy-4-methylphenethylamine|2,5-dimethoxy-β-hydroxy-4-methylphenethylamine|2-amino-1-(2,5-dimethoxy-4-methylphenyl)ethan-1-ol|2-amino-1-(2,5-dimethoxy-4-methylphenyl)ethanol|4-methyl-2,5-dimethoxy-beta-hydroxyphenethylamine|4-methyl-2,5-dimethoxy-β-hydroxyphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  BOM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Bromo-dragonfly  [1-(4-bromofuro[2,3-f][1]benzofuran-8-yl)propan-2-amine|BDFLY|DOB-DragonFLY|bdfly|bromo-d-fly|bromo-dragon-fly|dob-dragonfly]  (source: tripsit)  #5-HT2B-strong  #fatality-documented  #research-chemical  #ultra-potent  #vasospasm-risk  #α1-strong
+  Bufotenin  [5-HO-DMT|5-OH-DMT|5-hydroxy-DMT|5-hydroxy-N,N-dimethyltryptamine|Bufotenine|N,N-dimethylserotonin|bufotenine|cebilcin|dimethylserotonin|mappine]  (source: drug.community)  #5-HT3-agonist  #class:Indolealkylamine (substituted tryptamine)  #high-body-load
+  Cannabis  [Buds|CBD|Cannabidiol|Concentrates|Dabs|Delta-9-THC|Delta‑9 THC|Dronabinol|Epidiolex (purified CBD)|Flower|Hash|Hashish|Marijuana|Nabiximols (Sativex)|Pot|Shatter|THC|THC+CBD|Tetrahydrocannabinol+Cannabidiol|Wax|Weed|dagga|dronabinol|hash|marijuana|thc|weed|Δ9-THC|Δ9‑THC]  (source: tripsit)  #CYP2C9-substrate  #CYP3A4-substrate  #class:Cannabinoid (Δ9‑tetrahydrocannabinol)  #common  #habit-forming  #long-detection-window  #partial-agonist-CB1
+  Changa  (source: tripsit)  #tentative
+  Coronaridine  (source: tripsit)  #tentative
+  CPM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Cyclopropylmescaline  [2-[4-(cyclopropylmethoxy)-3,5-dimethoxyphenyl]ethan-1-amine|4-cyclopropylmethoxy-3|4-cyclopropylmethoxy-3,5-dimethoxyphenethylamine|4-cyclopropylmethoxy-3,5-methoxy-1-ethane|CPM|cpm]  (source: tripsit)  #no-human-data  #phenethylamine  #research-chemical  #tentative
+  Dalt  [diallyltryptamine|n,n-diallyltryptamine]  (source: tripsit)  #research-chemical  #tentative
+  DBT  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  DESOXY  [2-(3,5-dimethoxy-4-methyl-phenyl)-ethylamine|2-(3,5-dimethoxy-4-methylphenyl)ethan-1-amine|2-(3,5-dimethoxy-4-methylphenyl)ethanamine|2-DPMP|3,5-dimethoxy-4-methylbenzeneethanamine|3,5-dimethoxy-4-methylphenethylamine|4-desoxymescaline|4-methyl-3,5-dimethoxyphenethylamine|desoxypipradrol]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  DET  [N,N-diethyltryptamine|T-9|diethyltryptamine]  (source: tripsit)  #TIHKAL  #orally-active-tryptamine  #research-chemical  #tentative  #tryptamine
+  DIPT  [DIT|IUPAC: N-[2-(1H-indol-3-yl)ethyl]-N-isopropylpropan-2-amine|N|N,N-DiPT|N,N-diisopropyltryptamine|N-Diisopropyltryptamine|diisopropyltryptamine]  (source: tripsit)  #5-HT2A-agonist  #TIHKAL  #auditory-distortion  #class:Tryptamine  #no-human-data  #research-chemical  #tryptamine
+  DMCPA  [2,5-dimethoxy-4-methylphenylcyclopropylamine|2-(2,5-dimethoxy-4-methylphenyl)cyclopropan-1-amine|2-(2,5-dimethoxy-4-methylphenyl)cyclopropylamine|25D-CPA|4-methyl-2,5-methoxyphenylcyclopropylamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  DME  [2-amino-1-(3,4-dimethoxyphenyl)ethan-1-ol|2-amino-1-(3,4-dimethoxyphenyl)ethanol|3,4-dimethoxy-beta-hydroxyphenethylamine|3,4-dimethoxy-β-hydroxyphenethylamine|3,4-dimethoxynorepinephrine|3,4-dimethoxyphenylethanolamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  DMMDA  [1-(4,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine|1-(4,7-dimethoxy-2H-1,3-benzodioxol-5-yl)propan-2-amine|2,5-dimethoxy-3,4-methylenedioxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine  #psychedelic-leaning
+  DMMDA-2  [1-(6,7-dimethoxy-1,3-benzodioxol-5-yl)propan-2-amine|1-(6,7-dimethoxy-2H-1,3-benzodioxol-5-yl)propan-2-amine|1-(6,7-dimethoxybenzo[d][1,3]dioxol-5-yl)propan-2-amine|2,3-dimethoxy-4,5-methylenedioxyamphetamine|2-(6,7-dimethoxy-benzo[1,3]dioxol-5-yl)-1-methyl-ethylamine|6,7-dimethoxy-alpha-methyl-1,3-benzodioxole-5-ethanamine]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine
+  DMPEA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  DMT  [Dimethyltryptamine|Dimitri|Mimitryp (slang)|N,N-DMT|N,N-Dimethyltryptamine|N,N-dimethyltryptamine|N,N-dimetiltriptamina (ES/PT)|The Spirit Molecule|dimethyltryptamine|n,n-dmt]  (source: tripsit)  #5-HT2A-agonist  #MAO-A-substrate  #TIHKAL  #class:Indole alkaloid (tryptamine)  #common  #no-tolerance  #sigma1-agonist-endogenous  #tryptamine
+  DOAM  [2,5-dimethoxy-4-amylamphetamine]  (source: erowid-pihkal)  #PIHKAL  #likely-inactive  #phenethylamine
+  DOB  [2|2,5-dimethoxy-4-bromoamphetamine|4-Bromo-2,5-dimethoxyamphetamine|5-Dimethoxy-4-bromoamphetamine|Brolamfetamine|Brolamphetamine|Bromo-DMA]  (source: tripsit)  #5-HT2A-agonist  #DOx  #PIHKAL  #class:Phenethylamine (specifically, substituted amphetamine)  #long-duration  #phenethylamine  #research-chemical  #research-radioligand
+  DOBU  [2,5-dimethoxy-4-butylamphetamine]  (source: erowid-pihkal)  #5-HT2A-agonist  #DOx  #PIHKAL  #no-human-data  #phenethylamine
+  DOC  [1-(4-chloro-2,5-dimethoxyphenyl)propan-2-amine|2|2,5-Dimethoxy-4-chloroamphetamine|2,5-dimethoxy-4-chloroamphetamine|4-chloro-2,5-dimethoxyamphetamine|5-Dimethoxy-4-chloroamphetamine|DOC HCl]  (source: tripsit)  #5-HT2A-agonist  #DOx  #PIHKAL  #class:Phenethylamine (substituted amphetamine)  #common  #long-duration  #phenethylamine  #research-chemical
+  DOEF  [1-[4-(2-Fluoroethyl)-2,5-dimethoxyphenyl]propan-2-amine|2,5-Dimethoxy-4-(2-fluoroethyl)amphetamine|2,5-dimethoxy-4-(2-fluoroethyl)amphetamine|4-(2-Fluoroethyl)-2,5-dimethoxyamphetamine]  (source: drug.community)  #PIHKAL  #class:Substituted amphetamine; phenethylamine  #phenethylamine
+  DOET  [2,5-Dimethoxy-4-ethylamphetamine|2,5-dimethoxy-4-ethylamphetamine|4-Ethyl-2,5-dimethoxyamphetamine|DOE|DOET·HCl (salt)|HECATE|doe]  (source: tripsit)  #PIHKAL  #class:Substituted amphetamine (phenethylamine)  #long-duration  #phenethylamine  #research-chemical  #tentative
+  DOI  [1-(4-iodo-2,5-dimethoxyphenyl)propan-2-amine|2,5-dimethoxy-4-iodoamphetamine]  (source: tripsit)  #5-HT2A-agonist  #DOx  #Gq-biased  #PIHKAL  #head-twitch-standard  #phenethylamine  #radioligand-origin  #research-chemical  +1more
+  Doip  [2,5-dimethoxy-4-isopropylamphetamine|DOiP]  (source: tripsit)  #5-HT2A-agonist  #DOx  #phenethylamine  #radioligand-origin  #research-chemical  #tentative
+  DOM  [1-(2,5-dimethoxy-4-methylphenyl)propan-2-amine|2|2,5-dimethoxy-4-methylamphetamine|4-methyl-2,5-dimethoxyamphetamine|5-Dimethoxy-4-methylamphetamine|STP|Serenity, Tranquility & Peace|stp]  (source: tripsit)  #5-HT2A-agonist  #DOx  #PIHKAL  #class:Phenethylamine (substituted amphetamine)  #common  #long-duration  #phenethylamine  #research-chemical
+  DON  [2,5-dimethoxy-4-nitroamphetamine]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
+  DOPR  [2,5-dimethoxy-4-propylamphetamine]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
+  DPT  [Dipropyltryptamine|N|N,N-DPT|N,N-dipropyltryptamine|N-Dipropyltryptamine|The Light|dipropyltryptamine]  (source: tripsit)  #TIHKAL  #class:Tryptamine  #research-chemical  #tryptamine
+  E; ESCALINE  [Escaline]  (source: erowid-pihkal)  #PIHKAL  #duplicate-of-Escaline  #phenethylamine
+  EEE  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  EEM  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  EIPT  [N-ethyl-N-isopropyltryptamine|ethylisopropyltryptamine]  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  EME  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  EMM  [4,5-Dimethoxy-2-ethoxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  Endomorphin-1  [Tyr-Pro-Trp-Phe-NH2]  (source: wikidata)  #5-HT2A-agonist  #DOx  #MOR-agonist  #no-human-data  #opioid-peptide  #phenethylamine  #tryptamine
+  Ept  [ethylpropyltryptamine|n,n-ethylpropyltryptamine]  (source: tripsit)  #research-chemical  #tentative
+  Escaline  [3,5-dimethoxy-4-ethoxyphenethylamine]  (source: tripsit)  #research-chemical
+  ETH-LAD  [6-ethyl-6-nor-LSD|N6-ethyl-norlysergic acid diethylamide|ethlad]  (source: tripsit)  #5-HT2A-partial-agonist  #TIHKAL  #research-chemical  #tryptamine
+  ETHYL-J  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  ETHYL-K  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  Ethylcathinone  [ETH-cat|N-ethylcathinone|NEC|e-cat|eth-cat|ethcathinone]  (source: tripsit)  #DRI  #amfepramone-active-metabolite  #cathinone  #habit-forming  #research-chemical  #substrate-releaser
+  F-2  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  F-22  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  FLEA  [N-methyl-N-hydroxy-MDA]  (source: erowid-pihkal)  #PIHKAL  #entactogen-like  #phenethylamine
+  G-3  [1-(4,7-dimethoxy-2,3-dihydro-1H-inden-5-yl)propan-2-amine|2,5-dimethoxy-3,4-(trimethylene)amphetamine|3,4-trimethylene-2,5-dimethoxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  G-4  [1-(1,4-dimethoxy-5,6,7,8-tetrahydronaphthalen-2-yl)propan-2-amine|2,5-dimethoxy-3,4-(tetramethylene)amphetamine|3,4-tetramethylene-2,5-dimethoxyamphetamine|6-(2-aminopropyl)-5,8-dimethoxytetralin]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  G-5  [1-(5,8-dimethoxy-1,2,3,4-tetrahydro-1,4-methanonaphthalen-6-yl)propan-2-amine|3,4-norbornyl-2,5-dimethoxyamphetamine|3,6-dimethoxy-4-(2-aminopropyl)benzonorbornane]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  G-N  [1,4-dimethoxynaphthyl-2-isopropylamine|1-(1,4-dimethoxynaphthalen-2-yl)propan-2-amine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  GANESHA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  HARMALINE  [harmaline|harmidine]  (source: erowid-tihkal)  #CYP2D6-substrate  #RIMA  #TIHKAL  #tryptamine
+  HARMINE  [banisterine|harmine|yageine]  (source: erowid-tihkal)  #CYP1A2-substrate  #DYRK1A-inhibitor  #MAO-A-IC50-low-nM  #RIMA  #TIHKAL  #tryptamine
+  HOT-17  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  HOT-2  [hot2]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
+  IDNNA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  IM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Indapex  [5-meo-tmt]  (source: tripsit)  #research-chemical  #tentative
+  Indol-3-Ylacetaldoxime  [IAOx|indole-3-acetaldehyde oxime]  (source: wikidata)  #5-HT2A-agonist  #DOx  #no-human-data  #not-psychoactive  #phenethylamine  #plant-metabolite  #tryptamine
+  Indole-3-acetaldoxime N-oxide  [IAOx N-oxide]  (source: wikidata)  #5-HT2A-agonist  #DOx  #no-human-data  #not-psychoactive  #phenethylamine  #plant-metabolite  #tryptamine
+  IP  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  IRIS  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Isobutyrylvalindomycin  (source: wikidata)  #5-HT2A-agonist  #DOx  #natural-product  #no-human-data  #not-psychoactive  #phenethylamine  #tryptamine
+  Isoproscaline  [3,5-dimethoxy-4-isopropoxyphenethylamine|IP|ip]  (source: tripsit)  #research-chemical  #tentative
+  J  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  LHRH, N-epsilon-azidobenzoyl-lys(6)-  (source: wikidata)  #5-HT2A-agonist  #DOx  #no-human-data  #peptide  #phenethylamine  #research-tool  #tryptamine
+  LOPHOPHINE  [3-methoxy-4,5-methylenedioxyphenethylamine]  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Lsa  [LSA|Morning|d-lysergamide|d-lysergic acid amide|ergine|hbmg|hbw|hbwr|morning_glory|morningglory|ololiuqui]  (source: tripsit)  #common  #natural-ergot-alkaloid
+  LSD  [acid|cid|lsd-25|lucy]  (source: tripsit)  #common
+  LSD-25  [Delysid|LSD|d-lysergic acid diethylamide]  (source: erowid-tihkal)  #5-HT1A-full-agonist  #CYP3A4-substrate  #TAAR1-agonist  #TIHKAL  #arrestin-biased-5HT2A  #long-residence-time  #tryptamine
+  Lsm-775  [lsm]  (source: tripsit)  #research-chemical  #tentative
+  Lsz  [LSZ|lambda|lysergic acid 2,4-dimethylazetidide]  (source: tripsit)  #research-chemical
+  M  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MADAM-6  [2,N-dimethyl-4,5-methylenedioxyamphetamine|6-methyl-MDMA]  (source: erowid-pihkal)  #MISCLASSIFICATION  #PIHKAL  #PIHKAL-inactive  #phenethylamine  #phenethylamine-MDxx  #research-chemical  #synthetic-cannabinoid
+  MAL  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MBT  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  MDAL  [N-allyl-MDA]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #phenethylamine
+  MDBU  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDBZ  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDCPM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDDM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDE  [Eve|MDEA|N-ethyl-MDA]  (source: erowid-pihkal)  #PIHKAL  #SSRA-dominant  #Schedule-I  #low-DA-release  #phenethylamine
+  MDHOET  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDIP  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDMEO  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDMEOET  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDMP  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDPEA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDPH  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDPL  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MDPR  [N-propyl-MDA]  (source: erowid-pihkal)  #PIHKAL  #phenethylamine  #weak-activity
+  ME  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MEDA  [1-(8-methoxy-2,3-dihydro-1,4-benzodioxin-6-yl)propan-2-amine|3,4-ethylenedioxy-5-methoxyamphetamine|3-methoxy-4,5-ethylenedioxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #no-human-data  #phenethylamine
+  MEE  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MEM  [2,5-dimethoxy-4-ethoxyamphetamine]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
+  MEPEA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Mescaline  [1-amino-2-(3,4,5-trimethoxyphenyl)ethane|3,4,5-trimethoxybenzeneethanamine|3,4,5-trimethoxyphenethylamine|3,4,5-trimethoxyphenylethylamine|San Pedro/Trichocereus cactus alkaloid|TMPEA|buttons|mesc|mescaline HCl|mescaline sulfate|peyote alkaloid|san|san-pedro]  (source: tripsit)  #5-HT2A-partial-agonist  #class:Phenethylamine  #common  #no-human-data  #phenethylamine  #psychedelic
+  Met  [methylethyltryptamine]  (source: tripsit)  #research-chemical  #tentative
+  META-DOB  [meta-DOB]  (source: erowid-pihkal)  #5-HT2A-agonist  #DOx  #PIHKAL  #likely-weaker-than-DOB  #phenethylamine
+  META-DOT  [meta-DOT]  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Methallylescaline  [2-{3,5-Dimethoxy-4-[(2-methylprop-2-en-1-yl)oxy]phenyl}ethan-1-amine|3,5-Dimethoxy-4-methallyloxyphenethylamine|4-methallyloxy-3,5-dimethoxyphenethylamine|MAL|mal]  (source: tripsit)  #5-HT2C-selective  #class:Phenethylamine (3,5-dimethoxy-4-alkoxyphenethylamine; escaline analogue)  #research-chemical
+  Methoxydoisuthine  (source: wikidata)  #5-HT2A-agonist  #DOx  #no-human-data  #phenethylamine  #radioligand-origin
+  METHYL-DMA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  METHYL-DOB  [TMA-Br|α,α-dimethyl-DOB]  (source: erowid-pihkal)  #5-HT2A-agonist  #DOx  #PIHKAL  #phenethylamine
+  METHYL-J  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  METHYL-K  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  METHYL-MA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  METHYL-MMDA-2  [MMDMA-2]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #phenethylamine
+  Mexamine  [5-MT|5-MeO-T|5-methoxytryptamine]  (source: tripsit)  #endogenous  #radioprotectant-historical  #tentative
+  MIPT  [N-methyl-N-isopropyltryptamine|n-methyl-n-isopropyltryptamine]  (source: tripsit)  #TIHKAL  #research-chemical  #tentative  #tryptamine
+  MMDA  [3-methoxy-4,5-methylenedioxyamphetamine]  (source: erowid-pihkal)  #5-HT2A-agonist  #PIHKAL  #SNDRI  #myristicin-metabolite  #phenethylamine
+  MMDA-2  [2-methoxy-4,5-methylenedioxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #phenethylamine
+  MMDA-3a  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #phenethylamine
+  MMDA-3b  [1-(7-methoxy-1,3-benzodioxol-4-yl)propan-2-amine|1-(7-methoxy-2H-1,3-benzodioxol-4-yl)propan-2-amine|4-methoxy-2,3-methylenedioxyamphetamine]  (source: erowid-pihkal)  #PIHKAL  #SNDRI  #no-human-data  #phenethylamine
+  MME  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MP  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  MPM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Mushrooms  [Psilocybe cubensis|magic mushrooms|mushroom|psilocybin|psylocybin|shrooms]  (source: tripsit)  #common
+  Myristicin  [3-methoxy-4,5-methylenedioxyallylbenzene|5-allyl-1-methoxy-2,3-methylenedioxybenzene|MMDA-precursor|Nutmeg|constituent of Myristica fragrans (nutmeg) and mace|nutmeg principal|principal aromatic ether in nutmeg oil]  (source: drug.community)  #MMDA-precursor  #class:Phenylpropene (aromatic ether)  #deliriant  #natural-product  #weak-MAOI
+  NET  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  NMT  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  ORTHO-DOT  [ortho-DOT]  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  P  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Para-Methoxyamphetamine  [1-(4-methoxyphenyl)propan-2-amine|4-MA|4-methoxyamphetamine|Dr. Death|PMA|death|paramethoxyamphetamine]  (source: drug.community)  #CYP2D6-substrate  #MAO-A-inhibitor  #SERT-dominant  #class:Phenethylamine; substituted amphetamine  #deadly  #delayed-onset
+  PE  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  PEA  [Phenethylamine|β-PEA]  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Peyote  (source: tripsit)  #common
+  Pipt  (source: tripsit)  #research-chemical  #tentative
+  Podocarpamide  (source: wikidata)  #5-HT2A-agonist  #DOx  #natural-product  #no-human-data  #phenethylamine
+  PRO-LAD  [6-propyl-6-nor-LSD]  (source: tripsit)  #TIHKAL  #tentative  #tryptamine
+  Propionylvalindomycin  (source: wikidata)  #5-HT2A-agonist  #DOx  #natural-product  #no-human-data  #not-psychoactive  #phenethylamine  #tryptamine
+  PROPYNYL  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Proscaline  [3,5-dimethoxy-4-propoxyphenethylamine]  (source: tripsit)  #research-chemical
+  psi-2C-T-4  (source: erowid-pihkal)  #2C-x  #5-HT2A-agonist  #PIHKAL  #phenethylamine
+  psi-DOM  [1-(2,6-dimethoxy-4-methylphenyl)propan-2-amine|2,6-dimethoxy-4-methylamphetamine|Ψ-DOM]  (source: erowid-pihkal)  #5-HT2A-agonist  #DOx  #PIHKAL  #no-human-data  #phenethylamine
+  PYR-T  (source: erowid-tihkal)  #TIHKAL  #no-human-data  #tryptamine
+  SB  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Scorodocarpine B  (source: wikidata)  #5-HT2A-agonist  #DOx  #natural-product  #no-human-data  #phenethylamine  #tryptamine
+  Scorodocarpine C  (source: wikidata)  #5-HT2A-agonist  #DOx  #natural-product  #no-human-data  #phenethylamine  #tryptamine
+  Sinicuichi  [heimia-salicifolia|shrubby-yellowcrest|sini|sun-opener|willow-leaf-heimia]  (source: tripsit)  #tentative
+  T  (source: erowid-tihkal)  #TIHKAL  #tryptamine
+  TA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TB  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TE  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TETRAHYDROHARMINE  [THH|tetrahydroharmine]  (source: erowid-tihkal)  #SSRI  #TIHKAL  #tryptamine  #weak-MAO-A
+  TM  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TMA  [3|3,4,5-TMA|3,4,5-Trimethoxyamphetamine|4|5-Trimethoxyamphetamine|Mescaline amphetamine analog|TMA-1|Trimethoxyamphetamine]  (source: drug.community)  #PIHKAL  #class:Phenethylamine (substituted amphetamine)  #phenethylamine
+  TMA-2  [1-(2,4,5-trimethoxyphenyl)propan-2-amine|2|2,4,5-TMA|2,4,5-Trimethoxyamphetamine|2,4,5-trimethoxyamphetamine|4|5-Trimethoxyamphetamine]  (source: tripsit)  #PIHKAL  #class:Phenethylamine (subclass: substituted amphetamine, trimethoxyamphetamine)  #phenethylamine  #research-chemical  #tentative
+  TMA-3  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TMA-4  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TMA-5  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TMA-6  [2,4,6-trimethoxyamphetamine]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
+  TMPEA  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TOMSO  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TP  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  TRIS  (source: erowid-pihkal)  #PIHKAL  #phenethylamine
+  Truffles  (source: tripsit)
+  Zoptarelin Doxorubicin  [AEZS-108|AN-152]  (source: wikidata)  #5-HT2A-agonist  #DOx  #GnRH-targeted  #chemotherapy  #no-human-data  #phenethylamine  #tryptamine
+  Βh-2c-b  [beta-hydroxy-2c-b|bh-2c-b|bh-2cb|boh-2c-b|boh-2cb|bohb|β-hydroxy-2C-B|βOH-2C-B]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #phenethylamine  #research-chemical  #tentative
+  Ψ-2C-T-4  [2,6-dimethoxy-4-(isopropylthio)phenethylamine|2,6-dimethoxy-4-isopropylthiophenethylamine|2-[2,6-dimethoxy-4-(propan-2-ylsulfanyl)phenyl]ethan-1-amine|2-{2,6-dimethoxy-4-[(propan-2-yl)sulfanyl]phenyl}ethan-1-amine|4-isopropylthio-2,6-dimethoxyphenethylamine|psi-2C-T-4]  (source: wikidata)  #2C-x  #5-HT2A-agonist  #no-human-data  #phenethylamine

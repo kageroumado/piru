@@ -1,0 +1,24 @@
+# Antipsychotic — 22 substances
+
+  Aripiprazole  [Abilify|Abilify Maintena|Aristada]  (source: piru-curated)  #5HT1A-partial-agonist  #5HT2A-antagonist  #D2-partial-agonist  #D3-partial-agonist  #antipsychotic  #atypical-antipsychotic  #long-acting-injectable  #prescription-only
+  Asenapine  [Saphris|Secuado]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #H1-antagonist  #alpha1-blocker  #antipsychotic  #atypical-antipsychotic  #prescription-only  #sublingual
+  Brexpiprazole  [Rexulti]  (source: piru-curated)  #5HT1A-partial-agonist  #5HT2A-antagonist  #D2-partial-agonist  #D3-partial-agonist  #alpha1-blocker  #antipsychotic  #atypical-antipsychotic  #prescription-only
+  Cariprazine  [Vraylar]  (source: piru-curated)  #5HT1A-partial-agonist  #5HT2A-antagonist  #D2-partial-agonist  #D3-partial-agonist  #antipsychotic  #atypical-antipsychotic  #bipolar-depression  #prescription-only
+  Chlorpromazine  [CPZ|Largactil|Thorazine]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #alpha1-blocker  #antipsychotic  #muscarinic-antagonist  #phenothiazine  #prescription-only  #typical-antipsychotic
+  Clozapine  [Clozaril|FazaClo|Versacloz]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #H1-antagonist  #REMS-required  #alpha1-blocker  #antipsychotic  #atypical-antipsychotic  #dibenzodiazepine  +3more
+  Fluphenazine  [Fluphenazine Decanoate|Modecate|Prolixin]  (source: piru-curated)  #D2-antagonist  #antipsychotic  #high-EPS-risk  #long-acting-injectable  #phenothiazine  #prescription-only  #typical-antipsychotic
+  Haloperidol  [Haldol|Haloperidol Decanoate|Serenace]  (source: piru-curated)  #D2-antagonist  #antipsychotic  #butyrophenone  #high-EPS-risk  #prescription-only  #typical-antipsychotic
+  Iloperidone  [Fanapt]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #QTc-risk  #alpha1-blocker  #antipsychotic  #atypical-antipsychotic  #prescription-only
+  Loxapine  [Adasuve|Loxitane]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #antipsychotic  #dibenzoxazepine  #prescription-only  #typical-antipsychotic
+  Lurasidone  [Latuda]  (source: piru-curated)  #5HT1A-partial-agonist  #5HT2A-antagonist  #5HT7-antagonist  #D2-antagonist  #antipsychotic  #atypical-antipsychotic  #bipolar-depression  #prescription-only
+  Olanzapine  [2-methyl-4-(4-methylpiperazin-1-yl)-10H-thieno[2,3-b][1,5]benzodiazepine|LY170053|Zyprexa|Zyprexa Relprevv|Zyprexa Zydis]  (source: piru-curated)  #5-HT2A:D2-ratio-3:1  #5HT2A-antagonist  #D2-antagonist  #H1-antagonist  #alpha1-blocker  #anticholinergic  #antipsychotic  #atypical-antipsychotic  +6more
+  Paliperidone  [9-hydroxyrisperidone|Invega|Invega Sustenna|Invega Trinza]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #antipsychotic  #atypical-antipsychotic  #long-acting-injectable  #prescription-only
+  Perphenazine  [Etrafon (combination)|Trilafon]  (source: piru-curated)  #D2-antagonist  #antipsychotic  #phenothiazine  #prescription-only  #typical-antipsychotic
+  Pimavanserin  [Nuplazid]  (source: piru-curated)  #5HT2C-inverse-agonist  #QTc-risk  #antipsychotic  #atypical-antipsychotic  #inverse-agonist-5HT2A  #parkinsons-psychosis  #prescription-only
+  Pimozide  [Orap]  (source: piru-curated)  #D2-antagonist  #QTc-risk  #antipsychotic  #diphenylbutylpiperidine  #high-EPS-risk  #prescription-only  #tourette-syndrome  #typical-antipsychotic
+  Quetiapine  [Seroquel|Seroquel XR|seroquel]  (source: piru-curated)  #5HT2A-antagonist  #CYP3A4-substrate  #D2-antagonist  #H1-antagonist  #H1-strong  #alpha1-blocker  #antipsychotic  #atypical-antipsychotic  +5more
+  Rimcazole  [BW-234U]  (source: piru-curated)  #DAT-inhibitor  #DRI  #atypical-mechanism  #investigational  #research-chemical  #sigma-antagonist
+  Risperidone  [Risperdal|Risperdal Consta]  (source: piru-curated)  #5HT2A-antagonist  #D2-antagonist  #antipsychotic  #atypical-antipsychotic  #long-acting-injectable  #prescription-only
+  Thiothixene  [Navane]  (source: piru-curated)  #D2-antagonist  #antipsychotic  #high-EPS-risk  #prescription-only  #thioxanthene  #typical-antipsychotic
+  Trifluoperazine  [Stelazine]  (source: piru-curated)  #D2-antagonist  #antipsychotic  #high-EPS-risk  #phenothiazine  #prescription-only  #typical-antipsychotic
+  Ziprasidone  [Geodon|Ziprasidone HCl|Ziprasidone mesylate (IM)]  (source: piru-curated)  #5-HT2A-antagonist  #5HT2A-antagonist  #D2-antagonist  #QT-prolongation  #QTc-risk  #antipsychotic  #atypical-antipsychotic  #benzisothiazole  +3more

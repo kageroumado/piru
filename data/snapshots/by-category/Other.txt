@@ -1,0 +1,451 @@
+# Other — 449 substances
+
+  1-(2-Isocyanoethyl)-4-methoxybenzene  [2-(4-Methoxyphenyl)ethylisocyanide]  (source: wikidata)  #no-human-data  #phenethylamine
+  1-(4-Methoxy-2H-1,3-benzodioxol-5-yl)propan-2-amine  [1-(4-Methoxy-1,3-benzodioxol-5-yl)propan-2-amine|2-Methoxy-3,4-methylenedioxyamphetamine|MMDA-3a]  (source: wikidata)  #no-human-data  #phenethylamine
+  2'-alpha-mannosyl-L-tryptophan  [(2S)-2-amino-3-{2-[(2R,3S,4R,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]-1H-indol-3-yl}propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  2,N,N-trimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  2-(1H-INDOL-3-YL)ACETAMIDE  [1H-indole-3-acetamide|2-(1H-indol-3-yl)acetamide|2-(1H-indol-3-yl)ethanamide|3-indoleacetamide|Indole-3-acetamide|indoleacetamide]  (source: wikidata)  #no-human-data  #tryptamine
+  2-(2,5-Dimethoxy-4-Prop-2-Enylsulfanylphenyl)Ethanamine  [2-{2,5-dimethoxy-4-[(prop-2-en-1-yl)sulfanyl]phenyl}ethan-1-amine|4-allylthio-2,5-dimethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-(2-Aminoethyl)Phenol  [2-(2-Aminoethyl)phenol]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-(5-Chloro-1H-indol-3-yl)ethanamine hydrochloride  [5-Chloro-1H-indole-3-ethylamine monohydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  2-(5-methyl-1H-indol-3-yl)ethanamine  [2-(5-Methyl-1H-indol-3-yl)ethanamine|2-(5-Methyl-1H-indol-3-yl)ethylamine|2-(5-Methyl-indol-3-yl)ethyl amine|5-Methyltryptamine|NSC 90805]  (source: wikidata)  #no-human-data  #tryptamine
+  2-(Methylamine)-1-Phenyl-1-Propanol  [(±)-ephedrine|racemic ephedrine]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-(Phenethylamino)ethanol  [2-[(2-Phenylethyl)amino]ethan-1-ol]  (source: wikidata)  #miscategorised  #no-human-data  #phenethylamine
+  2-(Trifluoromethyl)-1H-indole-3-acetonitrile  [2-(2-(Trifluoromethyl)-1H-indol-3-yl)acetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Aminopropiophenone  [1-aminoethyl phenyl ketone]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-Bromo-N-methyltryptamine  [2-(2-bromo-1H-indol-3-yl)-N-methylethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  2-hydroxy-L-tryptophan  [(2S)-2-Amino-3-(2-hydroxy-1H-indol-3-yl)propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  2-hydroxy-N-methyltryptamine  [2-HO-NMT|2-hydroxy-N-methyl-1H-indole-3-ethaneamine|3-[2-(methylamino)ethyl]-1H-indol-2-ol]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Hydroxytryptophan  [2-hydroxy-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Imino-3-(Indol-3-Yl)Propanoate  [IPAimine]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Methoxyphenethylamine  [2-(2-methoxyphenyl)ethylamine|ortho-methoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-methyl-5-HT  [2-Me 5-HT|2-Me-5-HT|2-methyl-5-hydroxytryptamine|2-methylserotonin]  (source: wikidata)  #no-human-data  #tryptamine
+  2-methyl-L-tryptophan  [2-Methyltryptophan|L-2-Methyltryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  2-methylalanyl-D-tryptophan  [(2R)-2-[(2-amino-2-methylpropanoyl)amino]-3-(1H-indol-3-yl)propanoic acid|alpha-aminoisobutyryl-D-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Methylindole-3-Ethylamine  [2-(2-methyl-1H-indol-3-yl)-ethylamine|2-methyltryptamine|3-(2-aminoethyl)-2-methylindole]  (source: wikidata)  #no-human-data  #tryptamine
+  2-Nmc  [2'-Propionaphthone|2NMC|2‑(methylamino)‑1‑(naphthalen‑2‑yl)propan‑1‑one|2‑naphthyl methcathinone|2‑naphthylmethcathinone|2‑naphthyl‑N‑methylcathinone]  (source: tripsit)  #class:Substituted cathinone (β-keto amphetamine; naphthyl analogue of methcathinone)  #inactive
+  2-Phenethylamine  [(2-aminoethyl)benzene|1-amino-2-phenylethane|1-phenyl-2-aminoethane|2-phenylethan-1-amine|2-phenylethanamine|2-phenylethylamine|PEA|benzeneethanamine|beta-aminoethylbenzene|beta-phenethylamine|beta-phenylethylamine|phenethylamine|phenylethylamine|β-PEA|β-aminoethylbenzene|β-phenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-Phenylethyl Isocyanate  [2-Phenylethylisocyanate|Phenylethyl isocyanate|Phenylethylisocyanate|phenethyl isocyanate]  (source: wikidata)  #no-human-data  #phenethylamine
+  2-Thioisomescaline  [2-TIM|2-[3,4-dimethoxy-2-(methylsulfanyl)phenyl]ethan-1-amine|2-methylthio-3,4-dimethoxyphenethylamine|3,4-dimethoxy-2-methylthiophenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-(2-Amino-2,2-dimethylethyl)indole  [Ro 3-1638|alpha,alpha-Dimethyl-1H-indole-3-ethanamine|alpha,alpha-Dimethyl-3-indoleethanamine|alpha,alpha-Dimethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  3-(2-Amino-tert-butyl)indole  [beta,beta-Dimethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  3-Bromo-N-methyltyramine  [2-bromo-4-[2-(methylamino)ethyl]phenol]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-hydroxy-L-tryptophan  [beta-hydroxy-L-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  3-hydroxy-N,N-dimethylphenethylamine  [LSM-6]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-Hydroxytyramine hydrobromide  [4-(2-Aminoethyl)-1,2-benzenediol hydrobromide|Dopamine hydrobromide|dopamine hydrobromide]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-Methoxyphenylethylamine  [3-methoxyphenethylamine|meta-methoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-O-methyldopamine  [3-MT|3-Methoxy-4-hydroxyphenylethyl amine|3-O-Methyldopamine|3-methoxy-4-hydroxyphenethylamine|3-methoxytyramine|4-(2-Amino-ethyl)-2-methoxy-phenol|4-(2-aminoethyl)-2-methoxy-phenol|4-(2-aminoethyl)-2-methoxyphenol|4-(2-azanylethyl)-2-methoxy-phenol|5-(2-Aminoethyl)guaiacol]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-Thioisomescaline  [2,4-dimethoxy-3-methylthiophenethylamine|2-[2,4-dimethoxy-3-(methylsulfanyl)phenyl]ethan-1-amine|3-TIM|3-methylthio-2,4-dimethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  3-Thiomescaline  [2-[3,4-dimethoxy-5-(methylsulfanyl)phenyl]ethan-1-amine|3,4-dimethoxy-5-methylthiophenethylamine|3-TM|3-methylthio-4,5-dimethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  4'-Fluoro-4-methylaminorex  [4-FPO|4F-MAR|4′-F-4-MAR|p-F-4-MAR|para-fluoro-4-methylaminorex]  (source: drug.community)  #class:Aminorex (2-amino-5-aryloxazoline) stimulant
+  4'-O-methylnorbelladine  [4-O-methylnorbelladine]  (source: wikidata)  #no-human-data  #phenethylamine
+  4,5-Dihydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4,7-Dimethyl-5,6-dihydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-(3-methylbut-2-enyl)-L-tryptophan zwitterion  [(2S)-2-azaniumyl-3-[4-(3-methylbut-2-en-1-yl)-1H-indol-3-yl]propanoate]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Bromophenethylamine  [2-(4-Bromophenyl)ethylamine|p-Bromophenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  4-Cic  (source: tripsit)  #inactive
+  4-Cma  (source: tripsit)  #research-chemical
+  4-Fluorotryptamine  [2-(4-fluoro-1H-indol-3-yl)ethan-1-amine|4-FT|PAL-551]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Fpm  (source: tripsit)  #research-chemical
+  4-HO-MALT  [4-hydroxy-N-methyl-N-allyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  4-HO-NET  [4-hydroxy-N-ethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  4-HO-NiPT  [4-hydroxy-N-isopropyltryptamine,]  (source: wikidata)  #no-human-data  #tryptamine
+  4-HO-NPT  [4-hydroxy-N-propyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  4-HO-αMT  (source: wikidata)  #no-human-data  #tryptamine
+  4-Hydroxy-Indole-3-Carbonyl Nitrile  [4-hydroxy-α-oxo-1H-indole-3-acetonitrile|4-hydroxyindole-3-carboxylic acid cyanide]  (source: wikidata)  #no-human-data  #tryptamine
+  4-hydroxy-N,N diethyltryptamine  [4-hydroxy-diethyl-tryptamine|Этоцин]  (source: wikidata)  #no-human-data  #tryptamine
+  4-hydroxy-N-methyl-N-ethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-hydroxy-N-methyl-N-isopropyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-Hydroxyglucobrassicin  [4-Ohimg]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Hydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-Hydroxytryptophan  [4-hydroxy-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Me-αMT  [4,α-DMT|4,α-dimethyltryptamine|4-Methyl-α-methyltryptamine|4-methyl-AMT|MP-809]  (source: wikidata)  #no-human-data  #tryptamine
+  4-methoxy-N-methylbenzeneethanamine  [4-methoxy-N-methylphenethylamine|N-(4-methoxyphenethyl)methylamine|N-(p-methoxyphenethyl)methylamine|N-methyl-p-methoxyphenethylamine|p-methoxy-N-methylphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  4-Methoxyglucobrassicin  [4-Methoxy-3-indolylmethyl glucosinolate|4-Moimg|4-methoxy-3-indolylmethylglucosinolate|4-methoxyindol-3-ylmethylglucosinolate]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Methoxytryptamine  [3-(2-aminoethyl)-4-methoxyindole]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Methyl-α-ethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-Methylthiodimethyltryptamine  [4-MeS-DMT]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Nitro-5-methoxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  4-O-methyldopamine  [3-Hydroxy-4-methoxy-Benzeneethanamine|3-Hydroxy-4-methoxyphenethylamine|3-hydroxy-4-methoxyphenethylamine|4-(2-Aminoethyl)guaiacol hydrochloride|4-Methoxy-3-hydroxyphenethylamine hydrochloride|4-O-Methyldopamine|5-(2-Aminoethyl)-2-methoxyphenol|5-Hydroxy-4-methoxy-Benzeneethanamine|Lopac-H-3132]  (source: wikidata)  #no-human-data  #phenethylamine
+  4-propionoxy-N,N-dimethyltryptamine  [O-propionylpsilocin|{3-[2-(dimethylamino)ethyl]-1H-indol-4-yl} propanoate]  (source: wikidata)  #no-human-data  #tryptamine
+  4-Thioescaline  [2-[4-(ethylsulfanyl)-3,5-dimethoxyphenyl]ethan-1-amine|3,5-dimethoxy-4-ethylthiophenethylamine|4-TE|4-thioescaline]  (source: wikidata)  #no-human-data  #phenethylamine
+  4-Thioisomescaline  [2,3-dimethoxy-4-methylthiophenethylamine|2-[2,3-dimethoxy-4-(methylsulfanyl)phenyl]ethan-1-amine|4-TIM|4-methylthio-2,3-dimethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  4-Thiomescaline  [2-[3,5-dimethoxy-4-(methylsulfanyl)phenyl]ethan-1-amine|3,5-dimethoxy-4-methylthiophenethylamine|4-TM|4-methylthio-3,5-dimethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  5,6-dibromo-N-methyltryptamine  [2-(5,6-dibromo-1H-indol-3-yl)-N-methylethan-1-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  5,6-Dibromodimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5,6-Dibromotryptamine  [2-(5,6-dibromo-1H-indol-3-yl)ethan-1-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  5,6-Dihydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5,7-Dichlorotryptamine HCl  (source: wikidata)  #no-human-data  #tryptamine
+  5,7-Dihydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-(2-Aminoethyl)-2,3-Dimethoxyphenol  [3-O-desmethylmescaline|5-Hydroxy-2,3-dimethoxyphenethylamine]  (source: wikidata)  #metabolite  #no-human-data  #phenethylamine
+  5-(2-Aminoethyl)-3-Methoxybenzene-1,2-Diol  [3-methoxy-4,5-dihydroxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  5-(Trifluoromethoxy)-1H-indole-3-ethanamine  [5-Trifluoromethoxytryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Bromo-2-methoxyphenethylamine hydrobromide  [2-(5-Bromo-2-methoxyphenyl)ethylamine hydrobromide]  (source: wikidata)  #no-human-data  #phenethylamine
+  5-Bromodimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-Bromotryptamine  [2-(5-bromo-1H-indol-3-yl)ethan-1-amine|5-Br-T|PAL-518]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Bromotryptophan  [5-Bromo-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Carboxamidotryptamine  [5-CT|5-Carboxamide tryptamine|5-Carboxyamidotryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Chloro-1H-indole-3-ethanamine  [2-(5-Chloro-1H-indol-3-yl)ethanamine|2-(5-Chloro-1H-indol-3-yl)ethylamine|5-Chloro-3-indoleethanamine|5-Chlorotryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-chloro-N,N-dimethyltryptamine  [5-Chloro-DMT|5-chloro-DMT]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Chloro-αMT  [5-chloro-alpha-methyltryptamine|5-chloro-α-methyltryptamine|PAL-542]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Cyanotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-ethoxy-αMT  [1-(5-ethoxy-1H-indol-3-yl)propan-2-amine|5-EtO-AMT|5-ethoxy-alpha-methyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-fluoro-AET  [1-(5-fluoro-1H-indol-3-yl)butan-2-amine|5-F-AET]  (source: wikidata)  #no-human-data  #tryptamine
+  5-fluoro-DET  [5-fluoro-N,N-diethyltryptamine|5F-DET|N,N-diethyl-2-(5-fluoro-1H-indol-3-yl)ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-fluoro-MET  [5-F-MET|5-fluoro-N-methyl-N-ethyltryptamine|5F-MET|bretisilocin]  (source: wikidata)  #no-human-data  #tryptamine
+  5-fluoro-N,N-dimethyltryptamine  [5-Fluoro-DMT]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Fluoro-Α-Methyltryptamine  [5-fluoro-AMT|5-fluoro-alpha-methyltryptamine|5-fluoro-αMT]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Fluorotryptamine  [2-(5-fluoro-1H-indol-3-yl)ethanamine|2-(5-fluoro-1H-indol-3-yl)ethylamine|2-(5-fluoroindol-3-yl)ethylamine|3-(2-aminoethyl)-5-fluoro-1H-indole|5-Fluoro-1H-indole-3-ethylamine monohydrochloride|5-fluoro-1H-indole-3-ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Fluorotryptophan  [5-Fluoro-L-tryptophan|Fluorotryptophane]  (source: wikidata)  #no-human-data  #tryptamine
+  5-HO-MET  [5-OH-MET|5-hydroxy-N-methyl-N-ethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Hydroxy-Alpha-Methyltryptophan  [α-methyl-5-hydroxytryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  5-hydroxy-L-tryptophan zwitterion  [(2S)-2-azaniumyl-3-(5-hydroxy-1H-indol-3-yl)propanoate]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Hydroxydopamine  [3,4,5-Trihydroxyphenethylamine|3,4,5-Trihydroxyphenylethylamine|5-(2-Aminoethyl)-Pyrogallol|5-(2-Aminoethyl)1,2,3-Benzenetriol|5-(2-Aminoethyl)benzene-1,2,3-triol|5-OHDA]  (source: wikidata)  #neurotoxin-NE  #no-human-data  #phenethylamine  #research-only
+  5-hydroxymethyl-N,N-dimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-Hydroxytryptamine O-sulfate  (source: wikidata)  #no-human-data  #tryptamine
+  5-iso-Propyl-N,N-dimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-MeO-2-TMT  (source: wikidata)  #no-human-data  #tryptamine
+  5-MeO-AET  [5-methoxy-α-ethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-MeO-NET  [5-methoxy-N-ethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methoxy-7,N,N-trimethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  5-methoxy-N-isopropyltryptamine  [5-MeO-NiPT]  (source: wikidata)  #no-human-data  #tryptamine
+  5-methoxy-N-methyl-N-ethyltryptamine  [5-MeO-MET|N-ethyl-2-(5-methoxy-1H-indol-3-yl)-N-methylethan-1-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-methoxy-N-methyltryptamine  [5-Methoxy-N-methyltryptamine|5-methoxy-3-(2-methylamino)ethylindole|5-methoxy-N-methyl-1H-indole-3-ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methoxy-Α-Methyltryptamine  [5-MeO-AMT|5-meo-amt|α,O-Dimethylserotonin]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methoxyindole-3-acetonitrile  [(5-Methoxy-1H-indol-3-yl)acetonitrile|5-Methoxy-3-indolylacetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methoxytryptamine  [2-(5-methoxy-1H-indol-3-yl)ethan-1-amine|2-(5-methoxy-1H-indol-3-yl)ethanamine|2-(5-methoxy-1H-indol-3-yl)ethylamine|2-(5-methoxyindol-3-yl)ethylamine|3-(2-aminoethyl)-5-methoxyindole|5-MT HCl|5-methoxy-1H-indole-3-ethanamine|Lopac-M-6628|methoxytryptamine|mexamine|mexamine base]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methyl-1H-indole-2-ethanamine hydrochloride  [5-Methyl-1H-indole-2-ethanamine monohydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  5-methyl-D-tryptophan  [5-Methyl-D-tryptophan|D-5-Methyltryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  5-methyl-L-tryptophan  [5-Methyl-L-tryptophan|5-Methyltryptophan|L-5-Methyltryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  5-Methyltryptamine hydrochloride  [2-(5-Methyl-1H-indol-3-yl)ethanamine hydrochloride|3-(2-Aminoethyl)-5-methylindole hydrochloride|5-Methyl-1H-indole-3-ethylamine monohydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  5-nitro-N,N-dimethyltryptamine  [3-(2-DIMETHYLAMINOETHYL)-5-NITROINDOLE|5-nitro-DMT]  (source: wikidata)  #no-human-data  #tryptamine
+  5-S-Cysteinyldopa  [Cysteinyldopa]  (source: wikidata)  #no-human-data  #phenethylamine
+  5-TERT-BUTYLTRYPTAMINE  (source: wikidata)  #no-human-data  #tryptamine
+  6,7-dichloro-L-tryptophan  [(2S)-2-amino-3-(6,7-dichloro-1H-indol-3-yl)propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  6-(Trifluoromethoxy)-1H-indole-3-ethanamine  [6-Trifluoromethoxytryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Amino-1H-indole-3-acetonitrile  [(6-Amino-1H-indol-3-yl)acetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Bromo-1H-indole-3-ethanamine monohydrochloride  [6-Bromo-3-(2-aminoethyl)-1H-indole hydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Bromo-2-Mercaptomethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  6-Bromo-2-Mercaptotryptamine  [BrMT]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Bromo-N-methyltryptamine  [2-(6-bromo-1H-indol-3-yl)-N-methylethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  6-bromo-N-propionyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  6-Bromotryptamine  [2-(6-bromo-1H-indol-3-yl)ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  6-chloro-L-tryptophan  [6-Chloro-L-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  6-fluoro-DET  [6-fluoro-N,N-diethyltryptamine|6F-DET|N,N-diethyl-2-(6-fluoro-1H-indol-3-yl)ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Fluorotryptamine  [6-Fluoro-1H-indole-3-ethylamine monohydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Hydroxy-1H-indole-3-acetamide  [6-hydroxy- 1H-indole-3-acetamide|NSC 144995]  (source: wikidata)  #no-human-data  #tryptamine
+  6-hydroxy-N-acetyl-ss-oxotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  6-Hydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  6-Methoxytryptamine  [3-(2-aminoethyl)-6-methoxyindole]  (source: wikidata)  #no-human-data  #tryptamine
+  6-Methyltryptamine  [2-(6-methyl-1H-indol-3-yl)ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  7-chloro-AMT  [1-(7-chloro-1H-indol-3-yl)propan-2-amine|7-Cl-AMT]  (source: wikidata)  #no-human-data  #tryptamine
+  7-chloro-L-tryptophan  [7-chlorotryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  7-Chlorotryptamine  [1H-indole-3-ethanamine, 7-chloro-|7-chloro-1H-indole-3-ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  7-Chlorotryptophan  [7-chloro-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  7-Fluorotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  7-Hydroxytryptophan  [7-hydroxy-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  7-Methyl-Α-Ethyltryptamine  [7-methyl-αET]  (source: wikidata)  #no-human-data  #tryptamine
+  7-Methyltryptamine  [7-methyl-1H-indole-3-ethylamine]  (source: wikidata)  #no-human-data  #tryptamine
+  A-443654  [(2S)-1-(1H-INDOL-3-YL)-3-{[5-(3-METHYL-1H-INDAZOL-5-YL)PYRIDIN-3-YL]OXY}PROPAN-2-AMINE|(alphaS)-alpha-[[[5-(3-Methyl-1H-indazol-5-yl)-3-pyridinyl]oxy]methyl]-(S)-1H-indole-3-ethanamine|A 443654|A443654]  (source: wikidata)  #no-human-data  #tryptamine
+  A-71623  [A 71623|A71623|L-phenylalaninamide]  (source: wikidata)  #no-human-data  #tryptamine
+  Abrine  [3-(1H-indol-3-yl)-2-(methylamino)propanoic acid|N(alpha)-methyl-L-tryptophan|N-methyl-L-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  Ac-178335  (source: wikidata)  #no-human-data  #tryptamine
+  Acamprosate  [Acetyl homotaurine|Campral]  (source: piru-curated)  #AUD-treatment  #GABA-modulator  #NMDA-modulator  #anti-craving  #prescription-only
+  Acetildenafil  [Hongdenafil]  (source: tripsit)  #class:Pyrazolopyrimidinone phosphodiesterase-5 inhibitor (sildenafil analogue)  #research-chemical
+  Acetryptine  [5-AT|5-acetyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Aduncamide  [2-hydroxy-N-[2-(4-hydroxy-3-methoxyphenyl)ethyl]-5-methoxybenzamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  Afamelanotide  [MT-I|NDP-MSH|[Nle4,dPhe7]α-MSH|melanotan 1|melanotan I|α-NDP-MSH]  (source: wikidata)  #no-human-data  #tryptamine
+  alpha,alpha-Dimethylindole-3-acetonitrile  [alpha,alpha-Dimethyl-1H-indole-3-acetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  Alpha,Beta-Didehydrotryptophan  [(2Z)-2-amino-3-(1H-indol-3-yl)prop-2-enoic acid|α,β-didehydrotryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  alpha-Methyl-5-hydroxytryptamine maleate  (source: wikidata)  #no-human-data  #tryptamine
+  Alpha-Methyltryptophan  [(2S)-2-amino-3-(1H-indol-3-yl)-2-methylpropanoic acid|α-methyl-L-tryptophan|α-methyltryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  alpha-N,N-trimethyltryptamine  [1-(1H-indol-3-yl)-N,N-dimethylpropan-2-amine|ATMT]  (source: wikidata)  #no-human-data  #tryptamine
+  Alsactide  (source: wikidata)  #no-human-data  #tryptamine
+  Aminotadalafil  (source: tripsit)
+  Anamorelin  [Adlumiz|Anamorelin]  (source: wikidata)  #no-human-data  #tryptamine
+  Apap  [acetaminophen|paracetamol|tylenol]  (source: tripsit)  #common
+  Apomorphine  [Apo-Go PEN|Apo-Go pump|Apo-go|Apokyn|Ixense (discontinued)|Kynmobi|Kynmobi (discontinued 2023 in US)|Movapo|Onapgo|Uprima (discontinued)]  (source: drug.community)  #D2/D3-agonist  #Parkinsons-rescue  #QT-moderate  #class:Morphine derivative (non-ergoline)  #not-opioid
+  App-018  (source: wikidata)  #no-human-data  #tryptamine
+  Arvelexin  [4-methoxyindole-3-acetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  Aspirin  [acetylsalicylate]  (source: tripsit)  #common
+  Asymbescaline  [2-(3,4-diethoxy-5-methoxyphenyl)ethan-1-amine|3,4-diethoxy-5-methoxyphenethylamine|ASB]  (source: wikidata)  #no-human-data  #phenethylamine
+  Avorelin Acetate  [AZD5928]  (source: wikidata)  #no-human-data  #tryptamine
+  Azagly-Nafarelin  [Gonazon]  (source: wikidata)  #no-human-data  #tryptamine
+  BC-264  [BC 264|BC264]  (source: wikidata)  #no-human-data  #tryptamine
+  Beta-Hydroxytryptophane  [(2S,3S)-2-amino-3-hydroxy-3-(1H-indol-3-yl)propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  beta-Methoxy phenethylamine hydrochloride  [NSC 23563]  (source: wikidata)  #no-human-data  #phenethylamine
+  Boc-L-tryptophan N-hydroxysuccinimide ester  [Boc-Trp-Osu|tert-Butyl (S)-[2-[(2,5-dioxo-1-pyrrolidinyl)oxy]-1-(1H-indol-3-ylmethyl)-2-oxoethyl]carbamate]  (source: wikidata)  #no-human-data  #tryptamine
+  Bufotenine  [3-[2-(dimethylamino)ethyl]-5-indolol|3-[2-(dimethylamino)ethyl]indol-5-ol|3-[beta-(dimethylamino)ethyl]-5-hydroxyindole|3-[β-(dimethylamino)ethyl]-5-hydroxyindole|5-OH-DMT|5-hydroxy-N,N-dimethyltryptamine|Bufotenin|Bufotenine|Cinobufotenine|DM5-HT|Mappin|N,N-Dimethyl-5-hydroxytryptamine|N,N-dimethyl-5-HT|N,N-dimethylserotonin|dimethylserotonin]  (source: wikidata)  #no-human-data  #tryptamine
+  Bufoviridine  [1H-Indol-5-ol, 3-[2-(dimethylamino)ethyl]-, 5-(hydrogen sulfate)|5-sulfooxy-DMT|5-sulfooxy-N,N-dimethyltryptamine|bufotenine O-sulfate|dihydrobufothionine]  (source: wikidata)  #no-human-data  #tryptamine
+  Buscaline  [2-(3,5-dimethoxy-4-butoxyphenyl)ethan-1-amine|2-(4-butoxy-3,5-dimethoxyphenyl)ethan-1-amine|3,5-dimethoxy-4-butoxyphenethylamine|4-butoxy-3,5-dimethoxyphenethylamine|4-n-butoxy-3,5-dimethoxyphenethylamine|B]  (source: wikidata)  #no-human-data  #phenethylamine
+  Buserelin  [HOE 766|HOE 766A|ICI 123215|Metrelef®|Suprefact®|buserelin acetate]  (source: wikidata)  #no-human-data  #tryptamine
+  Buspirone  [BuSpar|Buspar]  (source: piru-curated)  #5HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist
+  C-Glycosyltryptophan  [(2S)-2-amino-3-[2-[3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl]-1H-indol-3-yl]propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  C30-nbome  [C-30 NBOMe|C30|NBOMe-C30|vendor alias; identity unverified]  (source: tripsit)  #5-HT2A-agonist  #NBOMe  #class:Substituted phenethylamine (NBOMe series)  #inactive  #phenethylamine  #research-chemical
+  Candicine  [Ammonium, (p-hydroxyphenethyl)trimethyl-|Candicin|maltoxin]  (source: wikidata)  #no-human-data  #phenethylamine
+  Cannabicyclol  [CBL|Cannabicyclolic acid (CBLA) [acid precursor/related compound]|Cannabipinol]  (source: drug.community)  #class:Phytocannabinoid
+  cannabisin B  [(1S,2R)-1-(3,4-dihydroxyphenyl)-6,7-dihydroxy-N-[2-(4-hydroxyphenyl)ethyl]-3-{[2-(4-hydroxyphenyl)ethyl]carbamoyl}-1,2-dihydronaphthalene-2-carboximidic acid|144506-17-2|2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N,N'-bis(2-(4-hydroxyphenyl)ethyl)-, (1R,2S)-rel-|2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N,N'-bis(2-(4-hydroxyphenyl)ethyl)-, trans-(+/-)-|2,3-Naphthalenedicarboxamide, 1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N2,N3-bis(2-(4-hydroxyphenyl)ethyl)-, (1R,2S)-rel-|C17906|CS-0528644|Cannabisin B|Cannabisin-b|HY-N10419|Rel-(1R,2S)-1-(3,4-dihydroxyphenyl)-1,2-dihydro-6,7-dihydroxy-N2,N3-bis(2-(4-hydroxyphenyl)ethyl)-2,3-naphthalenedicarboxamide|UNII-MBD34RU9GR component XENYXHLAFMZULS-ACHIHNKUSA-N]  (source: wikidata)  #no-human-data  #phenethylamine
+  Cannabisin D  [CHEMBL445592|cannabisin D]  (source: wikidata)  #no-human-data  #phenethylamine
+  Cbp-501  (source: wikidata)  #no-human-data  #tryptamine
+  CCK-4  [Cholecystokinin tetrapeptide|Tetragastrin]  (source: wikidata)  #no-human-data  #tryptamine
+  Ceruletide  [Caerulein|Cerulein|Ceruletida|Ceruletide|Ceruletidum|Tymtran®|caerulein|cerulein|ceruletide diethylamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Ceruletide Diethylamine  [caerulein diethylamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Cgs-35601  (source: wikidata)  #no-human-data  #tryptamine
+  CI-1015  [CI 1015|CI1015|PD 144598]  (source: wikidata)  #no-human-data  #tryptamine
+  Cialis  (source: tripsit)
+  Cinnamoyl Tryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  Cuscuta propenamide 1  [7'-(3',4'-dihydroxyphenyl)-N-[(4-methoxyphenyl)ethyl]propenamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  Cys(IAN)-Gly  [S-[cyano(1H-indol-3-yl)methyl]-L-cysteinylglycine]  (source: wikidata)  #no-human-data  #tryptamine
+  D-5-hydroxytryptophan  [5-hydroxy-D-tryptophan|5-hydroxytryptophan D-form]  (source: wikidata)  #no-human-data  #tryptamine
+  D-dopa  [(+)-3,4-dihydroxyphenylalanine|(+)-3-(3,4-dihydroxyphenyl)alanine|3,4-dihydroxy-D-phenylalanine|3-hydroxy-D-tyrosine|D-3,4-dihydroxyphenylalanine|D-3-(3,4-dihydroxyphenyl)alanine|dopa D-form]  (source: wikidata)  #no-human-data  #phenethylamine
+  D-phenylalanine  [D-(+)-phenylalanine|D-phenyl alanine]  (source: wikidata)  #no-human-data  #phenethylamine
+  D-synephrine(1+)  [(R)-synephrine|(R)-synephrine(1+)|D-(-)-synephrine|D-(-)-synephrine(1+)|d-synephrine cation]  (source: wikidata)  #no-human-data  #phenethylamine
+  D-Tryptophan methyl ester hydrochloride  [(S)-2-Amino-3-(1H-indol-3-yl)-propionic acid methyl ester hydrochloride|Methyl (2R)-2-amino-3-(1H-indol-3-yl)propanoate hydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  D-tryptophan zwitterion  [(2R)-2-azaniumyl-3-(1H-indol-3-yl)propanoate]  (source: wikidata)  #no-human-data  #tryptamine
+  D-tryptophanate  [(2R)-2-amino-3-(1H-indol-3-yl)propanoate|D-tryptophan anion]  (source: wikidata)  #no-human-data  #tryptamine
+  D-tryptophanium  [(1R)-1-carboxy-2-(1H-indol-3-yl)ethanaminium|D-tryptophan cation]  (source: wikidata)  #no-human-data  #tryptamine
+  D-Tryptophyl-D-tryptophan  [D-Trp-D-Trp]  (source: wikidata)  #no-human-data  #tryptamine
+  Dacinostat  [LAQ-824|LAQ824|NVP-LAQ824]  (source: wikidata)  #no-human-data  #tryptamine
+  Db-mdbp  (source: tripsit)  #inactive
+  Deoxyepinephrine  [1-(3,4-dihydroxyphenyl)-2-methylaminoethane|3,4-dihydroxy-N-methylphenethylamine|4-(2-methylamino-ethyl)-benzene-1,2-diol|4-(2-methylaminoethyl)pyrocatechol|Deoxyephinephrine|Deoxyepinephrine|Desoxyepinephrine|Epinin|Epinine|Epyamine|N-methyl-3,4-dihydroxyphenethylamine|N-methyldopamine|deoxyepinephrine|epinine]  (source: wikidata)  #no-human-data  #phenethylamine
+  dermaseptin s3(1-16)-NH2  [ALWKNMLKGIGKLAGK-NH2|Ala-Leu-Trp-Lys-Asn-Met-Leu-Lys-Gly-Ile-Gly-Lys-Leu-Ala-Gly-Lys-NH2|L-Ala-L-Leu-L-Trp-L-Lys-L-Asn-L-Met-L-Leu-L-Lys-Gly-L-Ile-Gly-L-Lys-L-Leu-L-Ala-Gly-L-Lys-NH2]  (source: wikidata)  #no-human-data  #tryptamine
+  Desglymidodrine  [(+-)-2-amino-1-(2,5-dimethoxyphenyl)ethanol|(+/-)-2-amino-1-(2,5-dimethoxyphenyl)ethanol|1-(2',5'-dimethoxyphenyl)aminoethanol|ST-1059|alpha-(aminomethyl)-2,5-dimethoxybenzenemethanol|de-glymidodrine|rac-2-amino-1-(2,5-dimethoxyphenyl)ethanol]  (source: wikidata)  #alpha-1-agonist  #miscategorised  #no-human-data  #phenethylamine
+  Desoxyfructose-5-methoxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  didemnidine A  [N-{3-[(4-Aminobutyl)amino]propyl}-2-(1H-indol-3-yl)-2-oxoacetamide]  (source: wikidata)  #no-human-data  #tryptamine
+  Didemnidine B  [N-[3-(4-aminobutylamino)propyl]-2-(6-bromo-1H-indol-3-yl)-2-oxo-acetamide]  (source: wikidata)  #no-human-data  #tryptamine
+  Dihydroergotamine  [DHE 45|Migranal|Trudhesa]  (source: piru-curated)  #antimigraine  #ergot-alkaloid  #prescription-only  #serotonin-agonist  #vasoconstrictor
+  Dimethylone  [bk-MDDMA]  (source: tripsit)  #inactive  #weak-potency-predicted
+  Dimethyltryptamine  [(2-Indol-3-ylethyl)dimethylamine|(psychogenic)|2-(1H-Indol-3-yl)-N,N-dimethylethan-1-amine--hydrogen chloride (1/1)|2-(1H-Indol-3-yl)-N,N-dimethylethanamine|2-(1H-Indol-3-yl)-N,N-dimethylethanamine (ACD/Name 4.0)|2-(3-indolyl)ethyldimethylamine|3-(2-(Dimethylamino)ethyl)-Indole|3-(2-dimethylaminoethyl)indole|3-[2- (Dimethylamino)ethyl]-Indole|3-[2-(dimethylamino)ethyl]indole|DMT|DMT HCl|DMT fumarate|Dimethyltryptamine|Dimethyltryptamine(DMT)|Indolalkylamine der|N,N-DMT|N,N-Dimethyl-1H-Indole-3-ethanamine|N,N-Dimethyl-1H-Indole-3-ethanamine (9CI)|N,N-dimethyl-1H-indole-3-ethylamine|N,N-dimethyltryptamine|N-(2-(1H-Indol-3-yl)ethyl)-N,N-dimethylamine (ACD/Name 4.0)|[2-(1H-indol-3-yl)ethyl]dimethylamine]  (source: wikidata)  #DMT-salt-form  #no-human-data  #tryptamine
+  Dimethyltryptamine Methiodide  (source: wikidata)  #no-human-data  #tryptamine
+  Dimethyltryptamine-N-oxide  (source: wikidata)  #no-human-data  #tryptamine
+  Disitertide  [L-Threonyl-L-seryl-L-leucyl-L-alpha-aspartyl-L-alanyl-L-seryl-L-isoleucyl-L-isoleucyl-L-tryptophyl-L-alanyl-L-methionyl-L-methionyl-L-glutaminyl-L-asparagine]  (source: wikidata)  #no-human-data  #tryptamine
+  Disulfiram  [Antabuse|Tetraethylthiuram disulfide]  (source: piru-curated)  #ALDH-inhibitor  #AUD-treatment  #aversive-conditioning  #prescription-only
+  Dizocilpine  [(+)-MK-801|(-)-MK-801|CID 180081 (PubChem)|Dizocilpine HCl|Dizocilpine maleate|MK-801]  (source: drug.community)  #Olney-lesion-positive  #class:Diarycycloheptene; NMDA-channel blocker (PCP-site ligand)  #high-affinity-NMDA-blocker  #research-tool-only  #trapping-blocker
+  DL-5-fluorotryptophan  [2-amino-3-(5-fluoro-1H-indol-3-yl)propanoic acid|5-fluoro-DL-tryptophan|DL-5-Fluorotryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-5-hydroxytryptophan  [(+-)-5-hydroxytryptophan|5-Hydroxytryptophan|5-hydroxy-DL-tryptophan|5-hydroxytryptophan DL-form|DL-2-Amino-3-(5-hydroxyindolyl)propionic acid|DL-5-HTP|DL-5-Hydroxytryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-6-fluorotryptophan  [(+-)-6-Fluorotryptophan|2-amino-3-(6-fluoro-1H-indol-3-yl)propanoic acid|2-amino-3-(6-fluoroindol-3-yl)propanoic acid|343-92-0|6-Fluoro-DL-tryptophan|6-Fluorotryptophan, DL-|6-fluoro-D,L-tryptophan|6-fluorotryptophan|7730-20-3|AC1L3T80|AC1Q5S5W|ACMC-20mbi4|AK325543|AKOS015916432|AM003618|AM012015|AR-1H1713|BRN 0482552|CHEMBL472222|CTK8F7137|D-Tryptophan, 6-fluoro-|DB-015701|DL-6-Fluorotryptophane|DL-Tryptophan, 6-fluoro-|EINECS 231-788-6|F-6880|F7626|F7626_SIGMA|FT-0621130|GTPL5126|H-Trp(6-F)-OH|I14-51278|KB-87162|KM1838|LS-158140|MCULE-1286010028|MFCD00005653|NSC 9364|NSC-9364|NSC9364|PS-6938|RP05236|SBB096294|SCHEMBL248870|ST072163|Tryptophan, 6-fluoro-|Tryptophan, 6-fluoro-, DL-|VZ30759|Y4063|YMEXGEAJNZRQEH-UHFFFAOYSA-N|dl-6-Fluorotryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-acetyltryptophan  [Acetyltryptophan|N-acetyl-DL-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-dopa  [(+-)-3-(3,4-dihydroxyphenyl)alanine|(+-)-dopa|(+/-) 3-(3,4-Dihydroxyphenyl)alanine|(R,S)-dopa|2-Amino-3-(3,4-dihydroxyphenyl)propanoate|2-Amino-3-(3,4-dihydroxyphenyl)propanoic acid|3',4'-dihydroxyphenylalanine|3,4-Dihydroxy-DL-phenylalanine|3,4-Dihydroxyphenylalanine|3-(3,4-Dihydroxyphenyl)-DL-alanine|3-hydroxy-DL-tyrosine|3-hydroxytyrosine|DL-3',4'-Dihydroxyphenylalanine|DL-3,4-Dihydroxyphenylalanine|DL-3,4-dopa|DL-3-Hydroxytyrosine|DL-4,5-Dihydroxyphenylalanine|DL-b-(3,4-Dihydroxyphenyl)alanine|DL-beta-(3,4-dihydroxyphenyl)alanine|DL-dihydroxyphenylalanine|DL-dioxyphenylalanine|a-Amino-3,4-dihydroxy-Benzenepropanoate|a-Amino-3,4-dihydroxy-Benzenepropanoic acid|alpha-Amino-3,4-dihydroxy-Benzenepropanoate|alpha-Amino-3,4-dihydroxy-Benzenepropanoic acid|alpha-Amino-Hydrocaffeic acid|b-(3,4-Dihydroxyphenyl)-a-alanine|beta-(3,4-Dihydroxyphenyl)-alpha-alanine|beta-(3,4-dihydroxyphenyl)-DL-alpha-alanine|dl-beta-(3,4-dihydroxyphenyl)-alpha-alanine]  (source: wikidata)  #no-human-data  #phenethylamine
+  DL-tryptophan  [2-amino-3-(1H-indol-3-yl)propanoic acid|Htrp|Trp|W|alpha-amino-beta-3-indolepropionic acid|beta-3-indolylalanine]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-Tryptophan methyl ester hydrochloride  [Methyl 2-amino-3-(1H-indol-3-yl)propanoate hydrochloride]  (source: wikidata)  #no-human-data  #tryptamine
+  DL-tryptophanol  [2-amino-3-(1H-indol-3-yl)propan-1-ol]  (source: wikidata)  #no-human-data  #tryptamine
+  Dopamine  [2-(3,4-dihydroxyphenyl)ethylamine|3,4-Dihydroxyphenethylamine|3,4-Dihydroxyphenylethylamine|3-Hydroxytyramine|3-hydroxytyramine|4-(2-Aminoethyl)-1,2-benzenediol|4-(2-Aminoethyl)-Pyrocatechol|4-(2-Aminoethyl)benzene-1,2-diol|4-(2-aminoethyl)-1,2-benzenediol|4-(2-aminoethyl)catechol|4-(2-aminoethyl)pyrocatechol|4-(2-azanylethyl)benzene-1,2-diol|DA|Deoxyepinephrine|Dopamin|Dopamina|Dopamine|Dopaminum|Dopastat|Dophamine|Dynatra|Hydroxytyramin|Hydroxytyramine|Intropin|Oxytyramine|Revivan|a-(3,4-Dihydroxyphenyl)-b-aminoethane|alpha-(3,4-Dihydroxyphenyl)-beta-aminoethane]  (source: wikidata)  #IV-pressor  #neurotransmitter  #no-human-data  #phenethylamine
+  dopamine 3-O-sulfate  [4-(2-Aminoethyl)-1,2-Benzenediol 2-(hydrogen sulphate)|Dopamine 3-sulfate|[5-(2-aminoethyl)-2-hydroxyphenyl]oxidanesulfonic acid]  (source: wikidata)  #no-human-data  #phenethylamine
+  Dopaminium(1+)  [2-(3,4-dihydroxyphenyl)ethan-1-aminium|dopaminium cation]  (source: wikidata)  #no-human-data  #phenethylamine
+  Droxidopa  [(-)-(2S,3R)-2-amino-3-hydroxy-3-(3,4-dihydroxyphenyl)propanoic acid|(2S,3R)-3,4-dihydroxy-phenylserine|DOPS|Droxidopa|Droxydopa|L-DOPS|L-Dihydroxyphenylserine|L-Threodops|L-threo-dihydroxyphenylserine|Northera®|SM 5688|SM-5688|threo-Dopaserine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Dynorphin A (2-17)  [Dynorphin (2-17)]  (source: wikidata)  #no-human-data  #tryptamine
+  EDMA  [1-(2,3-dihydro-1,4-benzodioxin-6-yl)-N-methylpropan-2-amine|3,4-ethylenedioxy-N-methylamphetamine|ethylenedioxymethylamphetamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Eletriptan  [Relpax]  (source: piru-curated)  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  Epinephrine  [(-)-(R)-epinephrine|(-)-3,4-dihydroxy-a-[2-(methylamino)ethyl]benzene alcohol|(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]-Benzyl alcohol|(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]benzyl alcohol(-)-3,4-dihydroxy-alpha-[(methylamino)methyl]-Benzyl alcohol|(-)-3,4-dihydroxy-alpha-[2-(methylamino)ethyl]benzene alcohol|(-)-adrenaline|(-)-epinephrine|(R)-(-)-adnephrine|(R)-(-)-adrenaline|(R)-(-)-epinephrine|(R)-(-)-epirenamine|(R)-(−)-adrenaline|(R)-4-[1-hydroxy-2-(methylamino)ethyl]-1,2-benzenediol|(R)-adrenaline|(R)-epinephrine|(−)-adrenaline|4-[(1R)-1-hydroxy-2-(methylamino)ethyl]-1,2-benzenediol|4-[(1R)-1-hydroxy-2-methylamino-ethyl]benzene-1,2-diol|4-[(1R)-1-hydroxy-2-methylamino-ethyl]pyrocatechol|4-[(1R)-1-hydroxy-2-methylaminoethyl]benzene-1,2-diol|L-1-(3,4-dihydroxyphenyl)-2-methylaminoethanol|L-adrenaline|L-dethylaminoethanolcatechol|L-epinephrine|L-epirenamine|R-(-)-epinephrine|adrenalin|adrenaline|l-adrenaline|levoepinephrine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Ergotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  Ethylisopropyltryptamine  [N-ethyl-N-[2-(1H-indol-3-yl)ethyl]propan-2-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  Ethylpropyltryptamine  [EPT|N-ethyl-N-propyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Etryptamine  [3-(2-aminobutyl)indole|alpha-ethyltryptamine|α-ethyltryptamine|αET]  (source: wikidata)  #no-human-data  #tryptamine
+  Examorelin  [EP 23905|EP-23905|EP23905|Exarelin|Hexamorelin|Hexarelin|MF 6003|MF-6003|MF6003]  (source: wikidata)  #no-human-data  #tryptamine
+  Fertirelin  [Fertirelin]  (source: wikidata)  #no-human-data  #tryptamine
+  Feruloyl-3-Methoxytyramine Glycoside  [2-(3,4-dihydroxyphenyl)-5,7-dihydroxy-4-oxo-4H-chromen-3-yl 2-O-{6-O-[(2E)-3-(3,4-dihydroxyphenyl)prop-2-enoyl]-beta-D-glucopyranosyl}-beta-D-glucopyranoside]  (source: wikidata)  #no-human-data  #phenethylamine
+  Fmoc-D-tryptophan  [Fmoc-D-Trp-OH|N-(9-fluorenylmethoxycarbonyl)-D-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  Gamma-Glutamyltyramine  [N-(gamma-L-glutamyl)tyramine|N-(gamma-glutamyl)tyramine|gamma-L-glutamyltyramine]  (source: wikidata)  #no-human-data  #phenethylamine
+  gammaGluCys(IAN)  [L-gamma-Glu-L-Cys-(IAN)|indole-3-acetonitrile-L-gamma-glutamyl-L-cysteine conjugate|indole-3-acetonitrile-gamma-glutamylcysteine conjugate]  (source: wikidata)  #no-human-data  #tryptamine
+  gammaGluCys(IAN)Glu  [gamma-L-Glu-L-Cys-(IAN)-L-Glu]  (source: wikidata)  #no-human-data  #tryptamine
+  Gastrin-14  [22-34-Gastrin|Gastrin (21-34)|Gastrin tetradecapeptide|Minigastrin|Trp-Leu-Glu-Glu-Glu-Glu-Glu-Ala-Tyr-Gly-Trp-Met-Asp-Phe]  (source: wikidata)  #no-human-data  #tryptamine
+  Gastrin-17  [G 17|Gastrin heptadecapeptide|Glp-Gly-Pro-Trp-Leu-Glu-Glu-Glu-Glu-Glu-Ala-Tyr-Gly-Trp-Met-Asp-Phe-NH2|Heptadecapeptide gastrin|Little gastrin|Little gastrin I]  (source: wikidata)  #no-human-data  #tryptamine
+  Gepirone  [Ariza|Exxua]  (source: piru-curated)  #5HT1A-agonist  #anxiolytic  #azapirone  #prescription-only  #serotonin-agonist
+  Glucobrassicin  [3-IMG|3-Indolylmethyl glucosinolate|3-Indolylmethylglucosinolate|Indolylmethyl glucosinolate|indol-3-ylmethylglucosinolate]  (source: wikidata)  #no-human-data  #tryptamine
+  Glucobrassicin(1-)  [glucobrassicin anion]  (source: wikidata)  #no-human-data  #tryptamine
+  glycyl-L-tryptophan 2-naphthylamide  [Gly-L-Trp 2-naphthylamide|Gly-Trp 2-naphthylamide|glycyltryptophan 2-naphthylamide]  (source: wikidata)  #no-human-data  #tryptamine
+  Glycyltryptophan  [GW|Gly-L-Trp|Glycyl-Tryptophan|N-glycyltryptophan|Nalpha-glycyl-L-tryptophan|alpha-glycyltryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  GnRH I  [GnRH|LH-RH (LHRH)|gonadoliberin|gonadotropin releasing hormone]  (source: wikidata)  #no-human-data  #tryptamine
+  Gonadorelin  [Fertagyl|GnRH|GnRH-I|Gonadoliberin I|Gonadorelin decapeptide|Gonadorelina|Gonadorelinum|Gonadoréline|Gonadotropin-releasing hormone|Luteinizing Hormone-releasing Factor Diacetate Tetrahydrate]  (source: wikidata)  #no-human-data  #tryptamine
+  Goserelin Acetate  [Goserelin acetate]  (source: wikidata)  #no-human-data  #tryptamine
+  GR100679  [GR 100679|GR-100679]  (source: wikidata)  #no-human-data  #tryptamine
+  GR94800  [GR 94800|GR-94800]  (source: wikidata)  #no-human-data  #tryptamine
+  Growth hormone releasing hexapeptide  [SKF-110679|growth hormone-releasing hexapeptide]  (source: wikidata)  #no-human-data  #tryptamine
+  Guaifenesin  [Humibid|Mucinex|Robitussin]  (source: piru-curated)  #OTC  #expectorant  #muscle-relaxant-mild
+  Halostachine  [(-)-halostachine|(R)-halostachine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Histrelin  [5-oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-N(tau)-benzyl-D-histidyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide|L-pyroglutamyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-D-N(im)-benzyl-histidyl-L-leucyl-L-arginyl-L-proline ethylamide|ORF 17070|RWJ 17070|Vantas®|[(im-Bzl)-D-His(6),Pro(9)-NEt]-gonadotropin releasing hormone]  (source: wikidata)  #no-human-data  #tryptamine
+  Histrelin Acetate  [5-Oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tyrosyl-1-benzyl-D-histidyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide acetate (1:2)]  (source: wikidata)  #no-human-data  #tryptamine
+  Homosildenafil  (source: tripsit)  #research-chemical
+  Homoveratrylamine  [3,4-Di-O-methyldopamine|3,4-Dimethoxy-beta-phenylethylamine|3,4-Dimethoxybenzeneethanamine|3,4-Dimethoxydopamine|3,4-Dimethoxyphenethylamine|DIMPEA|DMPEA|Dimethoxydopamine|Dimethoxyphenylethylamine|Dimethylmescaline|Dopamine dimethyl ether|Homoveratrylamine|O,O-Dimethyldopamine|beta-(3,4-Dimethyoxyphenyl)ethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Hordenine  [4-[2-(Dimethylamino)ethyl]phenol|Hordenine|N,N-Dimethyl-2-(4-hydroxyphenyl)ethylamine|N,N-Dimethyl-4-hydroxy-beta-phenethylamine|N,N-Dimethyltyramine|N,N-dimethyltyramine|anhaline|dimethyltyramine|hordenine|p-(2-Dimethylaminoethyl)phenol]  (source: wikidata)  #MAO-B-substrate  #TAAR1-agonist  #no-human-data  #phenethylamine
+  Hunteriatryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  Hypaphorine  [Lenticin|Trimethyl-tryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  Ibuprofen  (source: tripsit)  #common
+  Ilomastat  [GM6001]  (source: wikidata)  #no-human-data  #tryptamine
+  Indole-3-Acetonitrile  [(Indol-3-yl)acetonitrile|2-(1H-indol-3-yl)acetonitrile|2-(1H-indol-3-yl)ethanenitrile|3-(cyanomethyl)indole|3-indolylacetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  Indolylmethylglucosinolate  [indolyl glucosinolate|indolylglucosinolate|indolylmethyl glucosinolate|indolylmethylglucosinolates]  (source: wikidata)  #no-human-data  #tryptamine
+  Indopan  [1-(1H-Indol-3-yl)-2-propanamine|164E|3-(2-Aminopropyl)indole|3-IT|AMT|Alpha-methyltryptamine|DL-3-(2-Aminopropyl)indole|IT-290|IT-403|Indopan|alpha-Methyl-1H-indole-3-ethanamine|alpha-Methyl-3-indoleethanamine|alpha-Methyl-beta-indoleethylamine|alpha-methyltryptamine|α-methyltryptamine|αMT]  (source: wikidata)  #no-human-data  #tryptamine
+  IQM-97423  [IQM-97,423]  (source: wikidata)  #no-human-data  #tryptamine
+  IRL 2500  [IRL-2500|IRL2500]  (source: wikidata)  #no-human-data  #tryptamine
+  IS-159  [2-[(2-{[3-(2-Aminoethyl)-1H-indol-5-yl]oxy}-1-hydroxyethylidene)amino]-N-(2-hydroxy-2-iminoethyl)-3-(4-hydroxyphenyl)propanimidic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  Isovaleric Acid; Tryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  Jmv-2810  (source: wikidata)  #no-human-data  #tryptamine
+  Julocrotine  [N-[2,6-Dioxo-1-(2-phenylethyl)-3-piperidinyl]-2-methylbutanamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  L-779,976  [L 779976|L-779976]  (source: wikidata)  #no-human-data  #tryptamine
+  L-acetyltryptophan  [(2S)-2-acetamido-3-(1H-indol-3-yl)propanoic acid|(S)-N-Acetyltryptophan|Ac-Try|Acetyl-L-trp|Acetyl-L-tryptophan|AcetylL-Tryptophan|Acetyltryptophan|N-Acetyl-L-Tryptophan|N-Acetyltryptophan (ACD/Name 4.0)|Tryptophan, acetyl]  (source: wikidata)  #no-human-data  #tryptamine
+  L-dopa(1-)  [L-dopa carboxylate]  (source: wikidata)  #no-human-data  #phenethylamine
+  L-tryptophan 2-naphthylamide  [(S)-2-amino-3-(1-indol-3-yl)-naphthalen-2-yl-propionamide|(S)-alpha-Amino-N-2-naphthyl-1H-indole-3-propionamide|L-tryptophan beta-naphthylamide|N-(2-naphthyl)-L-tryptophanamide|N-(beta-naphthyl)-L-tryptophanamide|N-tryptophyl-2-aminonaphthalene]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophan polyoxin C  [1-[5'-(L-tryptophanylamino)-5'-deoxy-beta-D-allofuranosyluronic acid]uracil|tryptophan polyoxin C]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophan zwitterion  [(2S)-2-azaniumyl-3-(1H-indol-3-yl)propanoate]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophanamide(1+)  [L-tryptophanamide cation|L-tryptophaniumamide]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophanate  [(2S)-2-amino-3-(1H-indol-3-yl)propanoate|L-tryptophan anion]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophanium  [(1S)-1-carboxy-2-(1H-indol-3-yl)ethanaminium|L-tryptophan cation]  (source: wikidata)  #no-human-data  #tryptamine
+  L-tryptophanol  [(S)-tryptophanol|2-amino-3-(1H-indol-3-yl)-propan-1-ol|tryptophanol]  (source: wikidata)  #no-human-data  #tryptamine
+  Lanepitant  [LY 303870|LY-303870|LY303870]  (source: wikidata)  #no-human-data  #tryptamine
+  Lecirelin  [6-(3-Methyl-D-valine)-9-(N-ethyl-L-prolinamide)-10-deglycinamide-luteinizing hormone-releasing factor (pig)|Dalmarelin|Lecirelin|Ovucron|Reproreline|Supergestran]  (source: wikidata)  #no-human-data  #tryptamine
+  Lespedamine  [2-(1-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Leuprolide Acetate  [5-Oxo-L-prolyl-L-histidyl-L-tryptophyl-L-seryl-L-tryosyl-D-leucyl-L-leucyl-L-arginyl-N-ethyl-L-prolinamide monoacetate|Leuprorelin acetate|Pyr-His-Trp-Ser-Tyr-D-Leu-Leu-Arg-Pro-NHEt.HOAc]  (source: wikidata)  #no-human-data  #tryptamine
+  Levodopa  [(−)-3-(3,4-dihydroxyphenyl)-L-alanine|(−)-dopa|3,4-Dihydroxy-L-phenylalanine|3,4-dihydroxy-L-phenylalanine|3-Hydroxy-L-tyrosine|Dihydroxy-L-phenylalanine|L-3,4-dihydroxyphenylalanine|L-beta-(3,4-Dihydroxyphenyl)alanine|L-dopa|LDP540|Levodopa|Levodopum|Sinemet®|β-(3,4-dihydroxyphenyl)-L-alanine|β-(3,4-dihydroxyphenyl)alanine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Ltx-315  [LTX-315]  (source: wikidata)  #no-human-data  #tryptamine
+  Lysergic Acid Diethylamide  [(+)-LSD|(+)-lysergic acid diethylamide|9,10-didehydro-N,N-diethyl-6-methylergoline-8b-carboxamide|D-LSD|D-LSD-25|D-lysergic acid N,N-diethylamide|D-lysergic acid dethylamide|D-lysergic acid diethylamide|LSD|LSD 25|LSD-25|N,N-diethyl-(+)-lysergamide|N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide|N,N-diethyl-D-lysergamide|N,N-diethyllysergamide|acid|blotter acid|delysid|dextrolysergic acid diethylamide|dots|hits|lysergamide|lysergic acid amide|lysergic acid diethylamide-25|lysergide|mellow yellow|microdot|window pane]  (source: wikidata)  #no-human-data  #phenethylamine
+  M-Tyramine  [2-(3-Hydroxyphenyl)ethylamine|3-(2-Aminoethyl)phenol|3-Hydroxyphenethylamine|3-Hydroxyphenylethylamine|3-Tyramine|3-hydroxyphenethylamine|3-tyramine|M-Hydroxyphenethylamine|Meta-tyramine|Metatyramine|meta-tyramine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Macimorelin  [Macimorelin]  (source: wikidata)  #no-human-data  #tryptamine
+  Marinacarboline A  [1-acetyl-N-[2-(4-methoxyphenyl)ethyl]-9H-pyrido[3,4-b]indole-3-carboxamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  marinacarboline B  [4'O - desmethyl marinacarboline A]  (source: wikidata)  #no-human-data  #phenethylamine
+  Marinacarboline C  [1-Acetyl-N-(2-phenylethyl)-9H-beta-carboline-3-carboxamide|4'deshydroxy-marinacarboline B]  (source: wikidata)  #no-human-data  #phenethylamine
+  Marinacarboline D  [1-Acetyl-N-[2-(1H-indol-3-yl)ethyl]-9H-beta-carboline-3-carboxamide]  (source: wikidata)  #no-human-data  #tryptamine
+  mastoparan-A  [Ile-Lys-Trp-Lys-Ala-Ile-Leu-Asp-Ala-Val-Lys-Lys-Val-Ile-NH2|MP-A|Mast cell degranulating peptide (Vespa analis)]  (source: wikidata)  #no-human-data  #tryptamine
+  mastoparan-B  [Leu-Lys-Leu-Lys-Ser-Ile-Val-Ser-Trp-Ala-Lys-Lys-Val-Leu-NH2|MP-B|Mast cell degranulating peptide (Vespa basalis)]  (source: wikidata)  #no-human-data  #tryptamine
+  mastoparan-V  [Ile-Asn-Trp-Lys-Gly-Ile-Ala-Ala-Met-Ala-Lys-Lys-Leu-Leu-NH2|MP-V|mast cell degranulating peptide (Vespa velutina)]  (source: wikidata)  #no-human-data  #tryptamine
+  MEN 10376  [MEN-10,376|MEN-10376|[Tyr5,D-Trp6,8,9,Lys10]-alpha-NEUROKININ A, Fragment 4-10|neurokinin A(4-10), Tyr(5)-Trp(6,8,9)-Lys(10)-]  (source: wikidata)  #no-human-data  #tryptamine
+  Mephtetramine  [mtta]  (source: tripsit)  #research-chemical  #tentative
+  Metanephrine  [(+/-)-Metanephrine|3-Methoxy-adrenaline|3-Methoxyadrenaline|3-O-Methyl-Adrenaline|3-O-Methylepinephrine|4-Hydroxy-3-methoxy-N-methylphenethanolamine|DL-3-O-Methyladrenaline|DL-Metanephrine|Metanephrine, metadrenaline|m-O-Methyladrenaline|metadrenaline]  (source: wikidata)  #biomarker  #catecholamine-metabolite  #miscategorised  #no-human-data  #phenethylamine
+  Methanofuranate(4-)  [methanofuranate tetraanion]  (source: wikidata)  #no-human-data  #phenethylamine
+  Methoxypiperamide  (source: tripsit)  #inactive  #research-chemical
+  methyl L-tryptophanate  [(S)-2-Amino-3-(1H-indol-3-yl)propionic acid methyl ester|(S)-Tryptophan methyl ester|L-Tryptophan methyl ester|Methyl L-tryptophanate]  (source: wikidata)  #no-human-data  #tryptamine
+  Methylbutyltryptamine  [N-butyl-N-methyl-1H-indole-3-ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Methylenedioxydeschlorobupropion  [3,4-Methylenedioxy-N-tert-butylcathinone|3′,4′-Methylenedioxy-N-tert-butylcathinone|D-Tertylone|MDPT|N-Tert-butyl-methylone|Tertylone|tBuONE]  (source: wikidata)  #DAT-NET-blocker-predicted  #bupropion-analog  #no-human-data  #phenethylamine
+  Methylethyltryptamine  [N-methyl-N-ethyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  Mipracetin  [4-acetoxy-MiPT|4-acetoxy-N-methyl-N-isopropyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  ML-18  (source: wikidata)  #no-human-data  #tryptamine
+  Mmi-166  (source: wikidata)  #no-human-data  #tryptamine
+  Moclobemide  [4-chloro-N-(2-morpholinoethyl)benzamide|Aurorex|Aurorix|Manerix|Ro 11-1163]  (source: tripsit)  #CYP2C19-substrate  #MAO-A-selective  #MAOI-A  #RIMA  #class:Benzamide; reversible monoamine oxidase-A inhibitor (RIMA)  #tyramine-safe
+  Mrz-99030  (source: wikidata)  #no-human-data  #tryptamine
+  N,alpha-dimethyltryptamine  [1-(1H-indol-3-yl)-N-methylpropan-2-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  N,N-Diacyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N,N-diethyltryptamine  [3-(2-Diethylaminoethyl)indole|DET|DET fumarate|Diethyltryptamine|N,N-Diethyl-2-(1H-indol-3-yl)ethanamine]  (source: wikidata)  #no-human-data  #tryptamine
+  N,N-dimethyl-2-phenethylamine  [N,N-DMPEA|N,N-dimethyl-2-phenylethan-1-amine|N,N-dimethyl-2-phenylethanamine|N,N-dimethyl-β-phenylethylamine|N,N-dimethylphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  N,N-dimethyl-5-methoxytryptamine  [3-(2-(N,N-Dimethyl)aminoethyl)-5-methoxyindole|3-(2-dimethylaminoethyl)-5-methoxyindole|3-[2-(N,N-Dimethylamino)ethyl]-5-methoxy-indole|5-MeO-DMT|5-Methoxy-N,N-dimethyl-1H-indole-3-ethylamine|5-Methoxy-N,N-dimethyltryptamine|5-Methoxyindole 3-(2-(N,N-Dimethylamino)ethyl)|5-methoxy-N,N-dimethyl-1H-indole-3-ethanamine|5-methoxy-N,N-dimethyltryptamine|5-methoxydimethyltryptamine|Bufotenine, 5-Methoxydimethyltryptamine|Indole, 3-(2-(N,N-dimethylamino)ethyl)-5-methoxy-|MeODMT|Methoxybufotenin|Methylbufotenine|N,N-Dimethyl-5-methoxy tryptamine|O-methylbufotenine|[2-(5-methoxy-1H-indol-3-yl)ethyl]dimethylamine|methoxybufotenin]  (source: wikidata)  #no-human-data  #tryptamine
+  N,N-Dimethyl-O-glucopyranuronosyl-5-hydroxytryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-(1-Deoxy-1-fructosyl)tryptophan  [(2S)-3-(1H-indol-3-yl)-2-[[(3S,4S,5R)-2,3,4-trihydroxy-5-(hydroxymethyl)oxolan-2-yl]methylamino]propanoic acid]  (source: wikidata)  #no-human-data  #tryptamine
+  N-(carbomethoxyacetyl)-4-S-chlorotryptophan  [N(2)-acetyl-D-glutamine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-1-isopropyl-5-MeOT  [N-1-isopropyl-5-methoxytryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-1-isopropyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-acetyl-alpha-hydroxy-beta-oxotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-acetyl-D-tryptophanate  [N-acetyl-D-tryptophanate anion|N-acetyl-D-tryptophanate(1-)]  (source: wikidata)  #no-human-data  #tryptamine
+  N-acetyl-β-oxotryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-acetylserotonin  [N-(2-(5-Hydroxy-1H-indol-3-yl)ethyl)acetamide|N-Acetyl Serotonin|N-acetyl-5-hydroxytryptamine|NAS|O-demethylmelatonin]  (source: wikidata)  #no-human-data  #tryptamine
+  N-acetyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-benzyl-N,alpha-dimethylphenethylamine  [(+/-)-benzphetamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-caffeoyltyramine  [(2E)-3-(3,4-DIHYDROXYPHENYL)-N-[2-(4-HYDROXYPHENYL)ETHYL]ACRYLAMIDE]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-Cbz-L-Tryptophan  [(2S)-3-(1H-indol-3-yl)-2-(phenylmethoxycarbonylamino)propanoic acid|N-Benzyloxycarbonyl-L-tryptophane|N-Carbobenzyloxy-L-tryptophan|Z-Trp-OH]  (source: wikidata)  #no-human-data  #tryptamine
+  N-Cbz-L-tryptophanamide  [N-(Benzyloxycarbonyl)tryptophanamide|N-Carbobenzoxy-L-tryptophanamide|N-[(1S)-2-Amino-1-(1H-indol-3-ylmethyl)-2-oxoethyl]carbamic acid phenylmethyl ester|Z-L-Trp-NH2]  (source: wikidata)  #no-human-data  #tryptamine
+  N-desmethyl zolmitriptan  [(4S)-4-({3-[2-(methylamino)ethyl]-1H-indol-5-yl}methyl)-1,3-oxazolidin-2-one|183C91|N-desmethylzolmitriptan]  (source: wikidata)  #no-human-data  #tryptamine  #zolmitriptan-active-metabolite
+  N-Ethylphenethylamine hydrochloride  [N-(2-Phenylethyl)-N-ethylamine hydrochloride|N-Ethylbenzeneethanamine hydrochloride|N-ethyl-β-PEA|NEPEA]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-Ethyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-Feruloyloctopamine  [N-trans-Feruloyloctopamine|trans-N-Feruloyl octopamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-Hydroxyl-tryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-Isopropylphenylethylamine hydrochloride  [WIN 5523 hydrochloride]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-mesyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-methyl-4-dimethylallyltryptophan  [4-dimethylallyl-L-abrine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-methyl-N-allyltryptamine  [N,N-methylallyltryptamine|N-[2-(1H-Indol-3-yl)ethyl]-N-methylprop-2-en-1-amine|N-allyl-N-methyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-methyl-N-isopropyltryptamine  (source: wikidata)  #no-human-data  #tryptamine
+  N-methylphenethylamine  [N-methyl-β-PEA|NMPEA]  (source: wikidata)  #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #phenethylamine
+  N-methylphenylethanolaminium  [(2-hydroxy-2-phenylethyl)(methyl)azanium|N-methylphenylethanolaminium cation|N-methylphenylethanolaminium(1+)|alpha-(Methylaminomethyl)benzyl alcohol]  (source: wikidata)  #miscategorised  #no-human-data  #phenethylamine
+  N-methyltryptamine  [2-(1H-Indol-3-yl)-N-methylethanamine|3-(2-(Methylamino)ethyl)indole|3-(2-methylaminoethyl)indole|Dipterine|Dl-Methyltryptamine|Methyltryptamine|N(omega)-methyltryptamine|N-Omega-methyltryptamine|N-methyl-1H-indole-3-ethanamine|N-monomethyltryptamine|NMT|[2-(1H-indol-3-yl)ethyl](methyl)amine]  (source: wikidata)  #endogenous  #no-human-data  #tryptamine
+  N-methyltyramine  [4-Hydroxy-N-methylphenethylamine|Methyl-4-tyramine|NMT|p-(2-Methylaminoethyl)phenol|p-NMT]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-methyltyraminium  [N-methyltyraminium cation|N-methyltyraminium(1+)]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-pentyltryptamine  [N-amyltrytamine|amyltrytamine|pentyltryptamine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-phenethylacetamide  [N-acetylphenethylamine|N-beta-phenylethylacetamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  N-t-butyltryptamine  [N-[2-(1H-indol-3-yl)ethyl]-2-methylpropan-2-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  N-trans-sinapoyltyramine  [(E)-3-(4-hydroxy-3,5-dimethoxyphenyl)-N-[2-(4-hydroxyphenyl)ethyl]prop-2-enamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  Nafarelin Acetate  [nafarelin acetate anhydrous]  (source: wikidata)  #no-human-data  #tryptamine
+  Naloxone  [Kloxxado|Narcan|Revia nasal|Zimhi]  (source: piru-curated)  #OTC-available  #harm-reduction  #opioid-precipitated-withdrawal  #opioid-receptor-antagonist  #overdose-reversal
+  Naltrexone  [Contrave|ReVia|Vivitrol]  (source: piru-curated)  #AUD-treatment  #OUD-treatment  #opioid-precipitated-withdrawal  #opioid-receptor-antagonist  #prescription-only
+  Naproxen  (source: tripsit)  #common
+  Norbaeocystin  [4-PO-T|4-phosphoryloxytryptamine|norbaeocystin]  (source: wikidata)  #mushroom-minor-alkaloid  #no-human-data  #no-psychedelic-activity  #tryptamine
+  Norepinephrine  [(-)-(R)-Norepinephrine|(-)-Arterenol|(-)-Noradrenaline|(-)-Norepinephrine|(-)-alpha-(Aminomethyl)protocatechuyl alcohol|(-)-arterenol|(-)-noradrenaline|(-)-norepinephrine|(R)-(-)-Norepinephrine|(R)-(-)-norepinephrine|(R)-4-(2-amino-1-Hydroxyethyl)-1,2-benzenediol|(R)-4-(2-amino-1-hydroxyethyl)-1,2-benzenediol|(R)-Noradrenaline|(R)-Norepinephrine|(R)-norepinephrine|4-(2-Amino-1-hydroxyethyl)-1,2-benzenediol|4-[(1R)-2-Amino-1-hydroxyethyl]-1,2-benzenediol|4-[(1R)-2-amino-1-hydroxy-ethyl]benzene-1,2-diol|4-[(1R)-2-amino-1-hydroxy-ethyl]pyrocatechol|4-[(1R)-2-amino-1-hydroxyethyl]benzene-1,2-diol|Adrenor|Aktamin|Arterenol|L-2-Amino-1-(3,4-dihydroxyphenyl)ethanol|L-3,4-Dihydroxyphenylethanolamine|L-Arterenol|L-Norepinephrine|L-alpha-(Aminomethyl)-3,4-dihydroxybenzyl alcohol|L-noradrenaline|Levarterenol|Levarterenol®|Levoarterenol|Levonor|Levonoradrenaline|Levonorepinephrine|Levophed|Nor-Epirenan|Nor-adrenaline|Noradrenalin|Noradrenaline|Norartrinal|Norepinefrina|Norepinephrine|Norepinephrinum|Norepirenamine|Sympathin E|noradrenaline]  (source: wikidata)  #catecholamine  #miscategorised  #no-human-data  #phenethylamine
+  Norfenefrine  [3-Octopamine|m-Octopamine|meta-Octopamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Normetanephrine  [(+/-)-Normetanephrine|(+/-)-alpha-(aminomethyl)-4-hydroxy-3-methoxy-Benzenemethanol|3-Methoxy-Noradrenaline|3-O-Methyl-Noradrenaline|4-(2-Amino-1-hydroxyethyl)-2-methoxyphenol|Dl-N-Normetanephrine|Dl-Normetanephrine|L-Normetanephrine|N111|Normetadrenaline|O-Methylnoradrenaline|alpha-(Aminomethyl)-4-hydroxy-3-methoxy-Benzenemethanol|m-O-Methylnorepinephrine]  (source: wikidata)  #biomarker  #catecholamine-metabolite  #miscategorised  #no-human-data  #phenethylamine
+  Norpsilocin  [3-[2-(methylamino)ethyl]-1H-indol-4-ol|4-HO-NMT|4-hydroxy-N-methyltryptamine|Norpsilocin]  (source: wikidata)  #no-HTR  #no-human-data  #peripherally-restricted-5-HT2A  #tryptamine
+  O-acetylpsilocin  [4-AcO-DMT|acetylpsilocin|psilacetin]  (source: wikidata)  #no-human-data  #tryptamine
+  O-Methylsakambullin  (source: wikidata)  #no-human-data  #phenethylamine
+  O-Methylsakerinol A  (source: wikidata)  #no-human-data  #phenethylamine
+  Octopamine  [(-)-octopamine|1-(p-hydroxyphenyl)-2-aminoethanol|alpha-(aminomethyl)-4-hydroxybenzenemethanol|alpha-(aminomethyl)-p-hydroxybenzyl alcohol|beta-hydroxytyramine|norsynephrine|p-octopamine]  (source: wikidata)  #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #phenethylamine
+  Oglufanide  [Glutamyltryptophan|L-Glu-L-Trp|L-alpha-Glu-L-Trp|L-glutamyl-L-tryptophan|L-α-Glu-L-Trp|Oglufanide|alpha-Glu-Trp|alpha-Glutamyltryptophan|α-Glu-Trp]  (source: wikidata)  #no-human-data  #tryptamine
+  Oxedrine  [(+/-)-Synephrine|(±)-Synephrine|1-(4-Hydroxyphenyl)-2-(methylamino)ethanol|1-(4-hydroxyphenyl)-2-methylaminoethanol|4-Hydroxy-alpha-(methylaminomethyl)benzyl alcohol|4-hydroxy-alpha-[(methylamino)methyl]benzenemethanol|Oxedrine|Sympatol|Synephrine|beta-methylamino-alpha-(4-hydroxyphenyl)ethyl alcohol|p-hydroxy-alpha-[(methylamino)methyl]benzyl alcohol|p-synephrine|synephrine]  (source: wikidata)  #no-human-data  #phenethylamine  #trace-amine  #α1-agonist-weak
+  Oxidopamine  [2,4,5-trihydroxyphenethylamine|5-(2-Aminoethyl)-1,2,4-benzenetriol|6-Hydroxy-Dopamine|6-OHDA|6-hydroxydopamine|hydroxydopamine|topamine]  (source: wikidata)  #neurotoxin  #no-human-data  #phenethylamine  #research-only
+  P-1946  (source: wikidata)  #no-human-data  #tryptamine
+  P-Methoxyphenethylamine  [2-(4-Methoxyphenyl)ethanamine|2-(4-Methoxyphenyl)ethylamine|2-(p-Methoxyphenyl)ethylamine|4-Methoxy-2-phenethylamine|4-Methoxy-beta-phenylethylamine|4-Methoxybenzeneethanamine|4-Methoxyphenethylamine|EA-1291|Homoanisylamine|O-Methyltyramine|p-Methoxyphenethylamine|p-Methoxyphenylethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Paprotrain  [(alphaZ)-alpha-(3-Pyridinylmethylene)-1H-indole-3-acetonitrile]  (source: wikidata)  #no-human-data  #tryptamine
+  PBC-264  [pBC 264|propionyl-BC264]  (source: wikidata)  #no-human-data  #tryptamine
+  PD 165929  [PD-165929|PD165929]  (source: wikidata)  #no-human-data  #tryptamine
+  PD 168368  [PD-168368|PD168368]  (source: wikidata)  #no-human-data  #tryptamine
+  PD-135666  [PD 135666|PD135666]  (source: wikidata)  #no-human-data  #tryptamine
+  PD-140548  [PD 140548|PD-140,548|PD140548]  (source: wikidata)  #no-human-data  #tryptamine
+  PD-149163  (source: wikidata)  #no-human-data  #tryptamine
+  Pd-176252  [PD-176252]  (source: wikidata)  #no-human-data  #tryptamine
+  PD136450  [CAM 1189|PD 136450|PD-136,450|PD-136450]  (source: wikidata)  #no-human-data  #tryptamine
+  penta-L-tryptophan  [H-Trp-Trp-Trp-Trp-Trp-OH|L-tryptophyl-L-tryptophyl-L-tryptophyl-L-tryptophyl-L-tryptophan|Trp-Trp-Trp-Trp-Trp|WWWWW|pentatryptophan]  (source: wikidata)  #no-human-data  #tryptamine
+  Pentagastrin  [AY-6608|ICI-50123|Pentagastrin|Peptavlon]  (source: wikidata)  #no-human-data  #tryptamine
+  Phenazocine  [phenazocine, (-)-]  (source: wikidata)  #no-human-data  #phenethylamine
+  Phenethyl Isothiocyanate  [(2-Isothiocyanatoethyl)benzene|2-Phenylethyl isothiocyanate|PEITC|Phenethyl mustard oil|Phenylethyl isothiocyanate|beta-phenethyl isothiocyanate|beta-phenylethyl isothiocyanate]  (source: wikidata)  #no-human-data  #phenethylamine
+  Phenylalanine  [(S)-2-Amino-3-phenylpropionic acid|(S)-alpha-Amino-beta-phenylpropionic acid|3-phenyl-L-alanine|F|L-Phe|L-phenylalanine|Phe|beta-Phenyl-L-alanine|β-phenyl-L-alanine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Phenylephrine  [(-)-m-hydroxy-alpha-(methylaminomethyl)benzyl alcohol|(-)-m-hydroxy-alpha-[(methylamino)methyl]-benzyl alcohol|(-)-m-hydroxy-α-(methylaminomethyl)benzyl alcohol|(R)-3-[-1-hydroxy-2-(methylamino)ethyl]phenol|(R)-3-hydroxy-alpha-[(methylamino)methyl]-benzenemethanol|(R)-phenylephrine|DayQuil Sinex (phenylephrine-containing variants)|Mydcombi (tropicamide/phenylephrine)|Mydfrin|Neo-Synephrine|Omidria (phenylephrine/ketorolac)|PEF100|R(-)-phenylephrine|Sudafed PE|Vazculep|l-(3-hydroxyphenyl)-N-methylethanolamine|m-oxedrine|m-synephrine|metasynephrine]  (source: piru-curated)  #OTC  #alpha1-agonist  #class:Phenylethanolamine  #decongestant  #ineffective-oral  #no-human-data  #phenethylamine  #vasoconstrictor  +1more
+  Phenylephrine(1+)  [phenylephrine cation]  (source: wikidata)  #no-human-data  #phenethylamine
+  Phenylethanolamine  [2-Amino-1-phenyl-1-ethanol|2-Amino-1-phenylethanol-1|2-Hydroxy-2-phenylethylamine|2-Hydroxyphenethylamine|2-Phenyl-2-hydroxyethylamine|2-amino-1-phenyl-ethanol|2-amino-1-phenylethan-1-ol|Bisnorephedrine|Dl-beta-Phenyl-beta-hydroxyethylamine|Hydroxyethylamine|Phenethanolamine|Phenylethanolamine|alpha-(aminomethyl)benzyl alcohol|b-Hydroxyphenethylamine|beta-Hydroxy-Phenethylamine|beta-Hydroxy-beta-phenyl-Ethylamine|beta-Hydroxy-beta-phenylethylamine|beta-Hydroxyphenethylamine|beta-Hydroxyphenylethylamine|beta-Phenethanolamine|beta-Phenylethanolamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Phenylethanolaminium  [2-ammonio-1-phenylethanol|2-azaniumyl-1-phenylethanol|2-hydroxy-2-phenylethan-1-aminium|phenylethanolaminium cation]  (source: wikidata)  #miscategorised  #no-human-data  #phenethylamine
+  Phenylethylisocyanide  [(2-Isocyanoethyl)benzene]  (source: wikidata)  #no-human-data  #phenethylamine
+  Pisoniamide  [N-(4-methoxyphenethyl)cinnamamide|N-[2-(4-methoxyphenyl)ethyl]-3-phenylacrylamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  Pr-924  (source: wikidata)  #no-human-data  #tryptamine
+  Pralmorelin  [GHRP 2|GHRP KAKEN 100|GHRP Kaken 100|GHRP-2|GHRP2|GPA 748|GPA-748|GPA748|Growth hormone releasing peptide 2|Growth hormone-releasing peptide 2|KP 102|KP-102|KP102|Pralmorelin dihydrochloride|Pralmorelin hydrochloride|WAY GPA 748|WAY-GPA-748]  (source: wikidata)  #no-human-data  #tryptamine
+  Pre-084  [2-(4-morpholino)ethyl 1-phenylcyclohexane-1-carboxylate|2-(4-morpholinyl)ethyl 1-phenylcyclohexanecarboxylate|2-morpholin-4-ylethyl 1-phenylcyclohexane-1-carboxylate|PRE-084 hydrochloride|Research ligand PRE-084]  (source: tripsit)  #class:Selective sigma-1 (σ1) receptor agonist; cyclohexane carboxylate structurally related to PCP derivatives.  #tentative
+  Propylisopropyltryptamine  [N-[2-(1H-indol-3-yl)ethyl]-N-propan-2-ylpropan-1-amine]  (source: wikidata)  #no-human-data  #tryptamine
+  Psilocybin  [3-(2-(dimethylamino)ethyl)-1H-indol-4-ol dihydrogen phosphate ester|3-(2-dimethylaminoethyl)indol-4-yl dihydrogen phosphate|4-PO-DMT|4-phosphoryloxy-N,N-dimethyltryptamine|O-phosphoryl-4-hydroxy-N,N-dimethyltryptamine|indocybin|psilocin phosphate ester|psilocybine]  (source: wikidata)  #no-human-data  #prodrug  #tryptamine  #tryptamine-not-phenethylamine
+  Pv-10  (source: tripsit)  #inactive
+  Pv-9  (source: tripsit)  #inactive
+  R396  [R 396|R-396]  (source: wikidata)  #no-human-data  #tryptamine
+  RB-400  [RB 400|RB400]  (source: wikidata)  #no-human-data  #tryptamine
+  Relamorelin  [BIM 28131|BIM 28163|BIM-28131|BIM-28163|BIM28131|BIM28163|RM 131|RM-131|RM131]  (source: wikidata)  #no-human-data  #tryptamine
+  Resedine  [5-Phenyl-2-oxazolidone|5-phenyl-2-oxazolidone]  (source: wikidata)  #no-human-data  #phenethylamine
+  Rhosin  [(2R)-2-amino-3-(1H-indol-3-yl)-N'-[(E)-(quinoxalin-6-yl)methylidene]propanehydrazide]  (source: wikidata)  #no-human-data  #tryptamine
+  riparin A  [N-benzoyl-2-phenylethylamine|N-phenethylbenzamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  riparin II  [2-hydroxy-N-[2-(4-methoxyphenyl)ethyl]benzamide|N-(2-hydroxybenzoyl)tyramine]  (source: wikidata)  #no-human-data  #phenethylamine
+  riparin III  [2,6-Dihydroxy-N-[2-(4-methoxyphenyl)ethyl]benzamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  Rizatriptan  [Maxalt|Maxalt-MLT]  (source: piru-curated)  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  Ro 23-7014  (source: wikidata)  #no-human-data  #tryptamine
+  S-3304  (source: wikidata)  #no-human-data  #tryptamine
+  santacruzamate A  [CAY10683]  (source: wikidata)  #no-human-data  #phenethylamine
+  Ser-100  (source: wikidata)  #no-human-data  #tryptamine
+  Serotonin  [3-(2-Aminoethyl)-1H-indol-5-ol|3-(2-Aminoethyl)indol-5-ol|3-(2-azanylethyl)-1H-indol-5-ol|3-(b-Aminoethyl)-5-hydroxyindole|5-HT|5-HTA|5-Hydroxy-3-(b-aminoethyl)indole|5-Hydroxyltryptamine|5-Hydroxytryptamine|5-hydroxy-tryptamine|5-hydroxytryptamine|7-GTA|Antemoqua|Antemovis|DS substance|Enteramin|Enteramine|Hippophaine|Serotonin|sérotonine|thrombocytin|thrombotonin]  (source: wikidata)  #endogenous-neurotransmitter  #no-human-data  #tryptamine
+  Serotonin(1+)  [protonated serotonin|serotonin cation]  (source: wikidata)  #no-human-data  #tryptamine
+  Sirpiglenastat  [DRP-104|N-acetyl-L-tryptophyl-6-diazo-5-oxo-L-norleucine 1-methylethyl ester]  (source: wikidata)  #no-human-data  #tryptamine
+  ST-1936  (source: wikidata)  #no-human-data  #tryptamine
+  Sumatriptan  [Imitrex|Sumavel DosePro|Treximet|Zembrace]  (source: piru-curated)  #5HT1B-agonist  #antimigraine  #prescription-only  #serotonin-agonist  #triptan
+  T22  [[Tyr5,12,Lys7]-polyphemusin II]  (source: wikidata)  #no-human-data  #tryptamine
+  TAK-448  [MVT-602|RVT-602]  (source: wikidata)  #no-human-data  #tryptamine
+  Theobromine  (source: tripsit)
+  TMC-2A  (source: wikidata)  #no-human-data  #tryptamine
+  TMC-2B  (source: wikidata)  #no-human-data  #tryptamine
+  trans-N-p-coumaroyl tyramine  [(2E)-3-(4-Hydroxyphenyl)-N-[2-(4-hydroxyphenyl)ethyl]acrylamide|(E)-3-(4-hydroxyphenyl)-N-[2-(4-hydroxyphenyl)ethyl]prop-2-enamide|N-(4-hydroxy-beta-phenethyl)-4-hydroxycinnamide]  (source: wikidata)  #no-human-data  #phenethylamine
+  tri-L-tryptophan  [H-Trp-Trp-Trp-OH|L-tryptophyl-L-tryptophyl-L-tryptophan|Trp-Trp-Trp|WWW]  (source: wikidata)  #no-human-data  #tryptamine
+  Trichocereine  [N,N-dimethyl-2-(3,4,5-trimethoxyphenyl)ethanamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  Tryptamine  [(3-Indolyl)ethylamine|1H-indole-3-ethanamine|2-(1H-INDOL-3-YL)ETHANAMINE|2-(1H-Indol-3-yl)ethylamine|2-(1H-indol-3-yl)ethan-1-amine|2-(1H-indol-3-yl)ethanamine|2-(3-indolyl)ethylamine|2-Indol-3-yl-aethylamin|2-Indol-3-yl-ethylamine|3-(2-Aminoethyl)-1H-indole|3-Indoleethanamine|3-Indoleethylamine|Abramovitch–Shapiro tryptamine synthesis|Tryptamin]  (source: wikidata)  #TAAR1-agonist  #endogenous-trace-amine  #no-human-data  #tryptamine
+  Tryptamine-d4 Hydrochloride  (source: wikidata)  #no-human-data  #tryptamine
+  Tryptaminium  [tryptaminium cation|tryptaminium(1+)]  (source: wikidata)  #no-human-data  #tryptamine
+  Tryptophanamide  [(S)-alpha-Amino-1H-indole-3-propionamide|2-Amino-3-(3-indolyl)-Propanamide|2-amino-3-(1H-indol-3-yl)propanamide|L-Tryptophanamide|alpha-Amino-(S)-1H-Indole-3-propanamide|alpha-Amino-1H-indole-3-propanamide]  (source: wikidata)  #no-human-data  #tryptamine
+  Tryptophanate  [2-amino-3-(1H-indol-3-yl)propanoate|trp(-)|tryptophan anion]  (source: wikidata)  #no-human-data  #tryptamine
+  Tryptophanium  [1-carboxy-2-(1H-indol-3-yl)ethanaminium|Htrp(+)|tryptophan cation]  (source: wikidata)  #no-human-data  #tryptamine
+  Tryptophylglycine  [L-Trp-Gly|N-L-Tryptophylglycine|Tryptophyl-Glycine|WG]  (source: wikidata)  #no-human-data  #tryptamine
+  Tyramine  [2-(4'-Hydroxyphenyl)ethylamine|2-(4-Hydroxyphenyl)ethylamine|4- (2-Aminoethyl)-Phenol|4-(2-Aminoethyl)-Phenol|4-(2-Aminoethyl)-phenol(thyramin)|4-(2-aminoethyl)phenol|4-Hydroxy-Benzeneethanamine|4-Hydroxy-b-phenylethylamine|4-Hydroxy-beta-phenylethylamine|4-Hydroxyphenylethylamine|4-hydroxyphenethylamine|P-Hydroxy-b-phenethylamine|P-Hydroxy-b-phenylethylamine|P-Hydroxy-beta-phenethylamine|P-Hydroxy-beta-phenylethylamine|P-beta-Aminoethylphenol|Systogene|Tenosin-wirkstoff|Tocosine|Tyramine|Tyramine base|Tyrosamine|Uteramine|a-(4-Hydroxyphenyl)-b-aminoethane|alpha-(4-Hydroxyphenyl)-beta-aminoethane|alpha.-(4-Hydroxyphenyl)-beta-aminoethane|b-(4-Hydroxyphenyl)ethylamine|beta-(4-Hydroxyphenyl)ethylamine|p-(2-Aminoethyl)-Phenol|p-(2-Aminoethyl)phenol|p-hydroxyphenethylamine|p-hydroxyphenylethylamine|p-tyramine|tyramin]  (source: wikidata)  #TAAR1-agonist  #cheese-reaction-MAOI  #endogenous-trace-amine  #no-human-data  #phenethylamine
+  Tyraminium  [tyraminium cation|tyraminium(1+)]  (source: wikidata)  #no-human-data  #phenethylamine
+  Viagra  (source: tripsit)
+  Xenopsin (Xenopus amieti)  [5-Oxo-L-prolylglycyl-L-lysyl-L-arginyl-L-prolyl-L-tryptophyl-L-isoleucyl-L-leucine]  (source: wikidata)  #no-human-data  #tryptamine
+  xenortide C  [(2S)-2-[(2S)-N,3-dimethyl-2-(methylamino)butanamido]-3-phenyl-N-(2-phenylethyl)propanimidic acid]  (source: wikidata)  #no-human-data  #phenethylamine
+  YM-280193  (source: wikidata)  #no-human-data  #tryptamine
+  Zep-3  (source: wikidata)  #no-human-data  #tryptamine
+  Zolmitriptan  [(S)-4-({3-[2-(dimethylamino)ethyl]-1H-indol-5-yl}methyl)-1,3-oxazolidin-2-one|4-{[3-(2-Dimethylaminoethyl)-1H-indol-5-yl]methyl}oxazolidin-2-one|4-{[3-(2-dimethylaminoethyl)-1H-indol-5-yl]methyl}oxazolidin-2-one|Zomig]  (source: wikidata)  #5HT1B-1D-agonist  #CYP1A2-substrate  #MAO-A-substrate  #no-human-data  #triptan  #tryptamine
+  Β-Methoxymescaline  [3,4,5,beta-tetramethoxyphenethylamine]  (source: wikidata)  #no-human-data  #phenethylamine
+  α-methyl-5-HT  [alpha-methyl-5-HT|alpha-methyl-5-hydroxytryptamine|α-Me-5-HT|α-methylserotonin]  (source: wikidata)  #no-human-data  #tryptamine
+  α-PHiP  [4-methyl-alpha-pyrrolidinopentanophenone|α-PiHP]  (source: wikidata)  #no-human-data  #phenethylamine
+  α-Pyrrolidinopropiophenone  [1-phenyl-2-(pyrrolidin-1-yl)propan-1-one|APPP|a-PPP|alpha-PPP|α-PPP HCl|α-pyrrolidinopropiophenone freebase]  (source: drug.community)  #class:Pyrrolidinophenone cathinone stimulant

@@ -40,7 +40,16 @@ Specs/
 skills-lock.json
 
 # Python build-script intermediates
-Exports/__pycache__/
+pipeline/**/__pycache__/
 
-# Regenerable library dump for visual review (script: dump-substance-library.py)
-Exports/library-dump/
+# Regenerable verification dump (script: pipeline/audit/dump_for_verification.py).
+# The audit findings under docs/audit/verification-findings/ are tracked; the
+# raw per-substance dump itself is regenerable working output.
+docs/audit/verification-dump/
+
+# Regenerable merge outputs from pipeline/enrichment/merge.py — pure derivatives
+# of data/enrichment/raw/*.json (which is tracked), not consumed by any
+# downstream pipeline step. Re-run merge.py locally to inspect them.
+data/enrichment/merged.json
+data/enrichment/class-context.json
+data/enrichment/coverage.csv

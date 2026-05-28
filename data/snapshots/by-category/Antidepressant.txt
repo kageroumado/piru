@@ -1,0 +1,44 @@
+# Antidepressant — 42 substances
+
+  Agomelatine  [Melitor|Thymanax|Valdoxan]  (source: piru-curated)  #MT1-MT2-agonist  #antidepressant  #hepatotoxicity-risk  #melatonergic-antidepressant  #prescription-only
+  Amitriptyline  [Elavil|Endep|Tryptanol]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
+  Befuraline  (source: piru-curated)  #BZP-metabolite  #antidepressant  #discontinued  #non-tricyclic  #phosphodiesterase-inhibitor
+  Brexanolone  [SAGE-547|Zulresso]  (source: piru-curated)  #GABA-A-PAM  #REMS-required  #antidepressant  #inpatient-only  #neurosteroid  #postpartum-depression  #prescription-only
+  Bupropion  [(±)-2-tert-butylamino-3'-chloropropiophenone|Aplenzin|Forfivo XL|Wellbutrin|Wellbutrin SR|Wellbutrin XL|Zyban|amfebutamone|wellbutrin|zyban]  (source: piru-curated)  #CYP2B6-substrate  #CYP2D6-inhibitor-strong  #NDRI  #antidepressant  #nAChR-antagonist  #prescription-only  #seizure-risk  #smoking-cessation
+  Citalopram  [Celexa|Cipram|Cipramil|Talohexal|celexa|cipramil]  (source: piru-curated)  #CYP2C19-substrate  #QTc-prolongation-risk  #QTc-risk  #SRI  #SSRI  #antidepressant  #common  #hERG-strong  +2more
+  Clomipramine  [Anafranil]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #seizure-risk  #serotonin-syndrome-risk
+  Desipramine  [Norpramin|Pertofrane]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #antidepressant  #overdose-risk  #prescription-only
+  Desvenlafaxine  [Khedezla|Pristiq]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
+  Doxepin  [Adapin|Silenor|Sinequan]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only
+  Duloxetine  [Cymbalta|Irenka]  (source: piru-curated)  #SNRI  #antidepressant  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk
+  Escitalopram  [Cipralex|Lexapro|S-citalopram|Seroplex|cipralex|lexapro]  (source: piru-curated)  #CYP2C19-substrate  #QTc-prolongation-risk  #SRI  #SSRI  #allosteric-self-potentiation  #antidepressant  #prescription-only  #serotonin-syndrome-risk
+  EXP-561  [1-amino-4-phenylbicyclo[2.2.2]octane]  (source: piru-curated)  #NDRI  #bicyclic-amine  #failed-clinical  #investigational  #research-chemical  #triple-reuptake-inhibitor
+  Fluoxetine  [Fontex|Prozac|Sarafem|Selfemra|Symbyax (w/ olanzapine)|prozac|sarafem]  (source: piru-curated)  #5-HT2C-antagonist  #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #CYP3A4-inhibitor-moderate  #SRI  #SSRI  #activating-SSRI  #antidepressant  +2more
+  Fluvoxamine  [Dumirox|Fevarin|Floxyfral|Luvox|faverin|luvox]  (source: piru-curated)  #CYP1A2-inhibitor  #CYP1A2-inhibitor-strong  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-agonist  #sigma1-agonist
+  Imipramine  [Janimine|Tofranil]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
+  Isocarboxazid  [Marplan]  (source: piru-curated)  #MAOI  #antidepressant  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  #prescription-only  #serotonin-syndrome-risk
+  JNJ-7925476  (source: piru-curated)  #SNDRI  #investigational  #research-chemical
+  Levomilnacipran  [Fetzima]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
+  Lys-MDA  [L-Lys-MDA|Lysine-MDA|N-(L-lysinamidyl)-3,4-methylenedioxyamphetamine]  (source: wikidata)  #SNDRI  #investigational  #no-human-data  #phase-1-data  #phenethylamine  #prodrug
+  MD-PiHP  [(putative EMCDDA framework class: methylenedioxy-pyrrolidinophenone; isohexanophenone side chain)|3,4-MD-PiHP|3,4-methylenedioxy-α-pyrrolidinoisohexanophenone|MD-PiHP HCl|MD-PiHP freebase|MDPiHP]  (source: drug.community)  #NDRI  #class:Synthetic cathinone (pyrrolidinophenone)  #pyrovalerone-cathinone  #stimulant-not-entactogen
+  Medifoxamine  [Cledial|Gerdaxyl]  (source: piru-curated)  #DRI  #antidepressant  #diphenoxy-scaffold  #hepatotoxic  #withdrawn
+  Milnacipran  [Ixel|Savella|Toledomin]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
+  Mirtazapine  [6-Azamianserin|Avanza|Mepirzapine|Mirtazapinum|Org 3770|Remeron|Remeron SolTab|Zispin]  (source: piru-curated)  #5-HT3-antagonist  #H1-strong-antagonist  #NaSSA  #alpha2-antagonist  #antidepressant  #antihistamine  #class:Tetracyclic (piperazino-azepine) antidepressant  #minimal-sexual-dysfunction  +1more
+  Nefazodone  [Serzone]  (source: piru-curated)  #CYP3A4-inhibitor  #SARI  #antidepressant  #black-box-warning  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk
+  Nortriptyline  [Aventyl|Pamelor]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
+  Paroxetine  [Aropax|Brisdelle|Paxil|Paxil CR|Seroxat|paxil|seroxat]  (source: piru-curated)  #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #NOS-inhibitor  #SRI  #SSRI  #anticholinergic  #anticholinergic-SSRI  #antidepressant  +3more
+  Phenelzine  [2-phenylethylhydrazine|Nardil|Nardil®|Phenelzine|Phenelzinum|W-1544a|phenelzine sulfate|phenethyl-hydrazine|phenethylhydrazine|β-phenylethylhydrazine]  (source: piru-curated)  #GABA-T-inhibitor  #MAOI  #MAOI-A  #MAOI-B  #aldehyde-scavenger  #antidepressant  #class:Hydrazine derivative (β-phenylethylhydrazine)  #dietary-restriction  +7more
+  Pipradrol  [Meratran|Meratran (former brand)|Pipradrol HCl|diphenyl(piperidin-2-yl)methanol (IUPAC)]  (source: drug.community)  #NDRI  #class:Diphenylmethylpiperidine (pipradrol family)  #stimulant-miscategorised
+  Pridefine  [AHR-1118]  (source: piru-curated)  #SNDRI  #investigational  #noncompetitive-inhibitor  #research-chemical
+  R-(-)-MDMA  [(R)-(−)-MDMA|(R)-1-(Benzo[d] [1,3]dioxol-5-yl)-N-methylpropan-2-amine|(R)-methylenedioxymethamphetamine|R-MDMA]  (source: wikidata)  #SNDRI  #SSRA-dominant  #investigational  #long-half-life  #no-human-data  #phenethylamine
+  S-(+)-MDMA  [(2S)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine|(S)-(+)-MDMA|(S)-methylenedioxymethamphetamine|S-MDMA]  (source: wikidata)  #SNDRI  #fast-clearance  #no-human-data  #phenethylamine  #stimulant-enantiomer
+  Selegiline  [Eldepryl|Emsam (patch)|L-deprenyl|Zelapar]  (source: piru-curated)  #MAO-B-selective  #MAOI  #antidepressant  #dietary-restriction  #dopamine-enhancer  #prescription-only  #serotonin-syndrome-risk
+  Serdexmethylphenidate  [Azstarys SDX component|KP-415 inner salt|SDX|Serdexmethylphenidate chloride (inner salt)]  (source: drug.community)  #class:Piperidine-derived phenidate prodrug (quaternary pyridinium carbamate of dexmethylphenidate)  #extended-duration  #low-IV-abuse-liability  #prodrug
+  Sertraline  [Lustral|Zoloft|lustral|zoloft]  (source: piru-curated)  #CYP2B6-substrate  #DAT-affinity  #SRI  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-inverse-agonist
+  Tianeptine  [Coaxil|Stablon|Tatinol|Tianeptin]  (source: piru-curated)  #OPRM1-substrate  #antidepressant  #habit-forming  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #non-CYP-metabolized  +2more
+  Tianeptine sodium  [Stablon sodium salt|tianeptine Na]  (source: piru-curated)  #antidepressant  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #nootropic
+  Tranylcypromine  [(±)-trans-2-phenylcyclopropylamine|Parnate|Racemic tranylcypromine|SKF-385|Tranylcypromine sulfate|trans-2-phenylcyclopropan-1-amine]  (source: piru-curated)  #LSD1-inhibitor  #MAOI  #amphetamine-scaffold  #antidepressant  #class:Phenethylamine (substituted amphetamine; cyclopropylamine)  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  +3more
+  Trazodone  [AF-1161|Desyrel|Molipaxin|Oleptro|Thombran|Trazolan|Trittico]  (source: piru-curated)  #5-HT2A-antagonist  #CYP3A4-substrate  #SARI  #SERT-inhibitor  #antidepressant  #class:Triazolopyridine derivative  #prescription-only  #priapism-risk  +1more
+  Venlafaxine  [Effexor|Effexor XR]  (source: piru-curated)  #SNRI  #antidepressant  #hypertension-risk  #prescription-only  #serotonin-syndrome-risk
+  Vilazodone  [EMD-68843|SB-659746A|Viibryd]  (source: piru-curated)  #5-HT1A-partial-agonist  #CYP3A4-substrate  #SPARI  #SSRI  #antidepressant  #class:Indole-derived benzofuran; serotonergic antidepressant  #prescription-only  #serotonin-syndrome-risk
+  Vortioxetine  [Brintellix|Trintellix]  (source: piru-curated)  #SSRI  #antidepressant  #prescription-only  #serotonin-modulator  #serotonin-syndrome-risk

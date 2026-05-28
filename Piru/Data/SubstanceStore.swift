@@ -12,7 +12,7 @@ nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// **Bundled `piru-substances.sqlite`** — ships with the app, read-only,
 /// replaced atomically on opt-in update. Holds every fact-bearing row from
 /// every source with explicit `source_id` attribution. Schema documented in
-/// `Exports/sqlite-schema.md`.
+/// `docs/sqlite-schema.md`.
 ///
 /// **User `piru-user-prefs.sqlite`** — lives in `Documents/`, writable, survives
 /// bundled-DB updates. Holds the user's source-priority order, profile level
@@ -86,7 +86,7 @@ final class SubstanceStore {
             return applied
         }
         guard let bundleURL = Bundle.main.url(forResource: "piru-substances", withExtension: "sqlite") else {
-            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 Exports/build-sqlite-database.py` and add the result to the Piru target.")
+            fatalError("Bundled piru-substances.sqlite missing from app bundle. Run `python3 pipeline/build/sqlite.py` and add the result to the Piru target.")
         }
         return bundleURL
     }
