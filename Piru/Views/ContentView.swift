@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var lastContentTab: AppTab = .journal
 
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
+    @State private var showDiscordPrompt = false
 
     var body: some View {
         @Bindable var navigator = navigator
@@ -31,6 +33,18 @@ struct ContentView: View {
                 set: { if !$0 { hasCompletedOnboarding = true } }
             )) {
                 OnboardingView()
+            }
+            .sheet(isPresented: $showDiscordPrompt) {
+                DiscordPromptView()
+            }
+            .task {
+                // Invite to Discord once per launch (after onboarding, so modals
+                // don't stack) until the user dismisses it forever.
+                guard hasCompletedOnboarding, !discordDismissed else { return }
+                try? await Task.sleep(for: .seconds(0.8))
+                if hasCompletedOnboarding, !discordDismissed {
+                    showDiscordPrompt = true
+                }
             }
             .onOpenURL { url in
                 handleDeepLink(url)
