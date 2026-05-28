@@ -15,17 +15,17 @@ struct Build: AsyncParsableCommand {
         abstract: "Run the full collector pipeline (TripSit + Wikidata + PubChem + Erowid + DEA + curated overlay) and write the result to substances-bundled.json."
     )
 
-    @Option(name: .long, help: "Output JSON path for the merged dataset (kept for compatibility with the JSON-fed app path until iOS migrates to SQLite).")
-    var output: String = "../../Piru/Data/substances-bundled.json"
+    @Option(name: .long, help: "Output JSON path for the merged dataset. Input to pipeline/build/sqlite.py.")
+    var output: String = "../../data/intermediate/substances-bundled.json"
 
     @Option(name: .long, help: "Output JSON path for the per-record sourced dataset. Each entry retains its provenance + dedup identifiers so the SQLite builder can attribute every fact to the right source. Pre-merge.")
-    var sourcedOutput: String = "../../Piru/Data/sourced-substances.json"
+    var sourcedOutput: String = "../../data/intermediate/sourced-substances.json"
 
     @Option(name: .long, help: "HTTP cache directory.")
     var cacheDir: String = ".cache"
 
     @Option(name: .long, help: "Curated overlay JSON.")
-    var curatedOverlay: String = "curated-overlay.json"
+    var curatedOverlay: String = "../../data/curated/overlay.json"
 
     @Flag(name: .long, help: "Don't make any network requests; rely solely on the cache.")
     var noNetwork: Bool = false

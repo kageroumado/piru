@@ -1,0 +1,14 @@
+# Eugeroic — 12 substances
+
+  Adrafinil  [CRL-40,028|Olmifon]  (source: piru-curated)  #afinil  #eugeroic  #habit-forming  #hepatotoxic-monitor  #hepatotoxic-potential  #prodrug  #research-chemical
+  Armodafinil  [(R)-(−)-modafinil|(R)-modafinil|(−)-2-[(R)-(diphenylmethyl)sulfinyl]acetamide|Nuvigil|Nuvigil (brand)|R-modafinil|nuvigil]  (source: piru-curated)  #CYP2C19-inhibitor-weak  #CYP3A4-inducer-moderate  #DAT-inhibitor  #US-Schedule-IV  #afinil  #atypical-DAT-inhibitor  #class:Benzhydryl sulfoxide (R-enantiomer of modafinil)  #eugeroic  +2more
+  Bisfluoromodafinil  [CRL-40,940|Flmodafinil|Lauflumide|NLS-4]  (source: piru-curated)  #DAT-selective  #afinil  #atypical-DAT-inhibitor  #eugeroic  #no-human-data  #research-chemical
+  CRL-40,940  [Flmodafinil|Lauflumide]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #research-chemical
+  CRL-40,941  [Bisfluoroadrafinil|Fladrafinil|Fluorafinil]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #prodrug  #research-chemical
+  Fladrafinil  [Bisfluoroadrafinil|CRL-40,941|Fluorafinil]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #research-chemical
+  Flmodafinil  [Bisfluoromodafinil|CRL-40,940|Flodafinil|Fluoromodafinil|Lauflumide|NLS-4|bisfluoromodafinil]  (source: piru-curated)  #afinil  #class:Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)  #eugeroic  #no-human-data  #research-chemical
+  Fluorenol  [9-fluorenol|9H-fluoren-9-ol|hydrafinil]  (source: piru-curated)  #eugeroic  #no-human-data  #research-chemical
+  Hydrafinil  [9-Hydroxyfluorene|9-fluorenol|9-hydroxyfluorene|Fluorenol|fluorenol]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #poorly-characterized  #research-chemical  #weak-DAT
+  Modafinil  [2-(diphenylmethylsulfinyl)acetamide|Alertec|Modavigil|Provigil|provigil]  (source: piru-curated)  #DAT-inhibitor  #DAT-inhibitor-weak  #US-Schedule-IV  #afinil  #common  #eugeroic  #habit-forming  #prescription-only
+  Modafinil acid  [CRL-40,467|Modafinilic acid|modafinilic acid]  (source: piru-curated)  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data
+  Modafinil sulfone  [Modafinil sulphone|modafinil sulphone]  (source: piru-curated)  #accumulating  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data

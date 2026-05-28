@@ -1,0 +1,19 @@
+# AMPAkine — 17 substances
+
+  Aniracetam  [1-(4-methoxybenzoyl)-2-pyrrolidinone|Ampamet|Draganon|Memodrin|N-anisoyl-2-pyrrolidinone (structural descriptor)|Ro 13-5057|Sarple/Sarpul|Sarpul]  (source: piru-curated)  #AMPA-PAM  #class:Racetam (pyrrolidone derivative)  #nootropic  #racetam  #research-chemical
+  CX-1739  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #low-impact-AMPAkine  #research-chemical  #respiratory-depression-rescue
+  CX-1942  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #no-human-data  #no-published-binding-data  #preclinical-only  #research-chemical
+  CX-516  [Ampalex|BDP-12]  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #abandoned-clinical-development  #deactivation-slower  #high-impact-AMPAkine  #investigational  #research-chemical
+  CX-546  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #TARP-dependent-modulation  #desensitization-blocker  #investigational  #no-human-data  #preclinical-only  #research-chemical
+  CX-614  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #Gq-coupled  #convulsant-liability  #desensitization-blocker  #high-impact-AMPAkine  #investigational  #no-human-data  +1more
+  CX-691  [Farampator|Org 24448]  (source: piru-curated)  #AMPA-PAM  #Cortex-Pharmaceuticals  #benzothiadiazine  #cardiotoxicity-signal  #high-impact-AMPAkine  #investigational  #research-chemical  #schizophrenia-failed
+  CX-717  (source: piru-curated)  #ADHD-investigational  #AMPA-PAM  #Cortex-Pharmaceuticals  #investigational  #low-impact-AMPAkine  #research-chemical  #sleep-deprivation-reversal
+  IDRA-21  [7-Chloro-3-methyl-3-4-dihydro-2H-1,2,4-benzothiadiazine S,S-dioxide]  (source: piru-curated)  #AMPA-PAM  #AMPA-PAM-prototype  #benzothiadiazine  #investigational  #no-human-PK  #no-human-data  #research-chemical  #research-chemical-popular
+  LY-404187  (source: piru-curated)  #AMPA-PAM  #biarylpropylsulfonamide  #flip-selective  #high-impact-AMPAkine  #investigational  #no-human-data  #research-chemical  #research-tool
+  LY-451646  [Mibampator (R-enantiomer)|Pesampator (alternative compound name in series)]  (source: piru-curated)  #AMPA-PAM  #biarylpropylsulfonamide  #high-impact-AMPAkine  #investigational  #preclinical  #research-chemical
+  LY-503430  (source: piru-curated)  #AMPA-PAM  #BDNF-inducer  #biarylpropylsulfonamide  #high-impact-AMPAkine  #investigational  #no-human-data  #preclinical  #research-chemical
+  Org 26576  [MK-8777]  (source: piru-curated)  #AMPA-PAM  #Merck-abandoned  #failed-MDD-Phase2  #investigational  #low-impact-AMPAkine  #research-chemical
+  PEPA  [4-[2-(Phenylsulfonylamino)ethylthio]-2,6-difluorophenoxyacetamide]  (source: piru-curated)  #AMPA-PAM  #desensitization-blocker  #flop-selective  #investigational  #no-human-data  #preclinical-only  #research-chemical  #sulfonamide-AMPAkine
+  S-18986  (source: piru-curated)  #AMPA-PAM  #Servier-tool  #anti-aging-cognitive  #benzothiadiazine  #investigational  #no-human-data  #preclinical-only  #research-chemical
+  Sunifiram  [DM-235]  (source: piru-curated)  #AMPA-PAM  #investigational  #mechanism-uncertain  #no-direct-AMPA-binding-shown  #no-human-data  #racetam-adjacent  #research-chemical  #research-chemical-popular
+  Unifiram  [DM-232]  (source: piru-curated)  #AMPA-PAM  #investigational  #mechanism-uncertain  #no-direct-AMPA-binding-shown  #no-human-data  #preclinical-only  #racetam-adjacent  #research-chemical

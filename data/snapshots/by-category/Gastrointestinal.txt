@@ -1,0 +1,6 @@
+# Gastrointestinal — 4 substances
+
+  Droperidol  [Inapsine]  (source: piru-curated)  #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #butyrophenone  #dopamine-antagonist  #prescription-only  #sedating
+  Metoclopramide  [Metozolv ODT|Reglan]  (source: piru-curated)  #D2-antagonist  #EPS-risk  #antiemetic  #dopamine-antagonist  #prescription-only  #tardive-dyskinesia-risk
+  Ondansetron  [Ondansetron HCl|Ondansetron ODT (orally disintegrating tablet)|Zofran|Zuplenz]  (source: drug.community)  #class:Carbazole derivative (selective serotonin 5-HT3 receptor antagonist)
+  Prochlorperazine  [Compazine|Compro|Stemetil]  (source: piru-curated)  #D2-antagonist  #EPS-risk  #QT-prolonging  #antiemetic  #dopamine-antagonist  #phenothiazine  #prescription-only

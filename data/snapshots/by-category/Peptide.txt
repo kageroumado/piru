@@ -1,0 +1,30 @@
+# Peptide — 28 substances
+
+  5-Amino-1MQ  [5-Amino-1-methylquinolinium|5A1MQ]  (source: piru-curated)  #NNMT-inhibitor  #anti-obesity  #grey-market  #metabolic  #peptide  #peptide-mimetic  #research-chemical  #weight-loss
+  BPC-157  [BPC 15|Bepecin|Body Protection Compound 157|PL 14736|PL-14736]  (source: piru-curated)  #WADA-banned  #WADA-banned-S0  #gut-healing  #no-human-data  #no-published-human-pk  #nootropic  #peptide  #research-chemical  +1more
+  Cerebrolysin  [Cerebrolisin|FPF-1070]  (source: piru-curated)  #nootropic  #parenteral-only  #peptide  #porcine-brain-hydrolysate  #prescription-only  #undefined-active-component
+  CJC-1295  [CJC-1295 DAC|Drug Affinity Complex-GRF 1-29|Modified GRF 1-29 DAC]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
+  Dihexa  [N-hexanoic-Tyr-Ile-(6) aminohexanoic amide|PNB-0408]  (source: piru-curated)  #HGF-augmenter  #c-Met-signaling  #investigational  #no-human-data  #nootropic  #oncogenic-theoretical-concern  #peptide  #research-chemical
+  DSIP  [Delta Sleep-Inducing Peptide|delta sleep peptide]  (source: piru-curated)  #anxiolytic  #grey-market  #peptide  #research-chemical  #sleep-peptide
+  Dulaglutide  [Trulicity]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #peptide  #prescription-only
+  Epitalon  [Ala-Glu-Asp-Gly|Epithalon|Epithalone|Tetrapeptide-5]  (source: piru-curated)  #anti-aging  #grey-market  #longevity-research  #peptide  #research-chemical  #telomerase-activator
+  Exenatide  [Bydureon|Bydureon BCise|Byetta]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #peptide  #prescription-only
+  GHK-Cu  [Copper peptide GHK-Cu|Copper tripeptide-1|Glycyl-L-histidyl-L-lysine copper]  (source: piru-curated)  #anti-aging  #dermatological  #grey-market  #healing-peptide  #peptide  #research-chemical
+  GHRP-2  [Growth Hormone Releasing Peptide 2|KP-102|Pralmorelin]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
+  GHRP-6  [GH-releasing hexapeptide 6|Growth Hormone Releasing Peptide 6|His-DTrp-Ala-Trp-DPhe-Lys-NH2|Skf 110679|growth hormone releasing hexapeptide|growth hormone releasing peptide-6]  (source: piru-curated)  #GH-secretagogue  #grey-market  #no-human-data  #peptide  #performance-enhancing  #research-chemical  #tryptamine
+  Hexarelin  [EP-23905|Examorelin|MF-6003]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
+  Ipamorelin  [NNC 26-0161]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
+  Liraglutide  [Saxenda|Victoza]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
+  Melanotan II  [MT-2|MT-II|Melanotan 2]  (source: piru-curated)  #aphrodisiac  #grey-market  #melanocortin-agonist  #peptide  #research-chemical  #tanning
+  MK-677  [Ibutamoren|Ibutamoren mesylate|L-163,191|Nutrobal]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #peptide-mimetic  #performance-enhancing  #research-chemical
+  MOTS-c  [MOTS c peptide|Mitochondrial Open Reading Frame of 12S rRNA-c]  (source: piru-curated)  #grey-market  #longevity-research  #metabolic  #mitochondrial  #peptide  #research-chemical
+  P21  [Ac-DGGL-amide|CNTF mimetic peptide|Ciliary neurotrophic factor peptide mimetic|P021]  (source: piru-curated)  #CNTF-derived-peptide  #investigational  #no-human-data  #nootropic  #peptide  #research-chemical  #single-lab-data-only
+  PT-141  [Bremelanotide|Vyleesi]  (source: piru-curated)  #HSDD-treatment  #aphrodisiac  #melanocortin-agonist  #peptide  #prescription-only
+  Retatrutide  [LY3437943]  (source: piru-curated)  #GIP-agonist  #GLP-1-agonist  #anti-obesity  #peptide  #research-chemical  #weight-loss
+  Selank  [TKPRPGP|Thr-Lys-Pro-Arg-Pro-Gly-Pro|Threonyl-lysyl-prolyl-arginyl-prolyl-glycyl-proline]  (source: piru-curated)  #Russian-clinical-only  #anxiolytic  #indirect-GABAergic  #intranasal-only-practical-route  #nootropic  #peptide  #tuftsin-analog
+  Semaglutide  [Ozempic|Rybelsus|Wegovy]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
+  Semax  [MEHFPGP|Met-Glu-His-Phe-Pro-Gly-Pro|Methionyl-glutamyl-histidyl-phenylalanyl-prolyl-glycyl-proline]  (source: piru-curated)  #ACTH-4-10-analog  #BDNF-upregulator  #Russian-clinical-only  #intranasal-only-practical-route  #neurotrophic  #nootropic  #peptide
+  Sermorelin  [GHRH(1-29)|GRF 1-29|Geref]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #anti-aging  #grey-market  #peptide  #research-chemical
+  TB-500  [Thymosin Beta-4|Tβ4]  (source: piru-curated)  #anti-inflammatory  #grey-market  #healing-peptide  #peptide  #research-chemical
+  Tesamorelin  [Egrifta|Egrifta SV|TH9507]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #anti-lipodystrophy  #peptide  #prescription-only
+  Tirzepatide  [Mounjaro|Zepbound]  (source: piru-curated)  #GIP-agonist  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss

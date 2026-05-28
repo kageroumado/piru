@@ -1,0 +1,14 @@
+# Cardiovascular — 12 substances
+
+  Atenolol  [Tenormin]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
+  Bisoprolol  [Concor|Zebeta]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
+  Carvedilol  [Coreg|Coreg CR]  (source: piru-curated)  #alpha1-blocker  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
+  Guanfacine  [Intuniv|Tenex]  (source: piru-curated)  #ADHD  #alpha2-agonist  #antihypertensive  #anxiolytic  #prescription-only
+  Labetalol  [Normodyne|Trandate]  (source: piru-curated)  #alpha1-blocker  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
+  Lofexidine  [BritLofex|Lucemyra]  (source: piru-curated)  #QT-prolonging  #alpha2-agonist  #antihypertensive  #opioid-withdrawal  #prescription-only
+  Methyldopa  [Aldomet|Dopamet]  (source: piru-curated)  #alpha2-agonist  #antihypertensive  #prescription-only  #sedating
+  Metoprolol  [Lopressor|Metoprolol Succinate|Metoprolol Tartrate|Toprol-XL]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
+  Nadolol  [Corgard]  (source: piru-curated)  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
+  Prazosin  [Minipress]  (source: piru-curated)  #PTSD-nightmares  #alpha1-blocker  #antihypertensive  #prescription-only
+  Propranolol  [Hemangeol|Hemangiol|IUPAC: 1-(isopropylamino)-3-(1-naphthyloxy)propan-2-ol|Inderal|Inderal LA|Innopran XL|hemangeol|inderal|innopran]  (source: piru-curated)  #CYP1A2-substrate  #CYP2D6-MBI  #anti-anxiety-physical  #antihypertensive  #beta-blocker  #class:Beta-adrenergic antagonist (non-selective); Naphthalene derivative  #common  #non-selective-beta-blocker  +2more
+  Sotalol  [Betapace|Sorine|Sotylize]  (source: piru-curated)  #QT-prolonging  #antiarrhythmic  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
