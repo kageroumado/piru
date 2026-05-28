@@ -46,6 +46,17 @@ DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 
+# External datasource extractions (Substance-shaped JSON with x_* extension
+# fields). Produced out-of-repo by pipeline/fetch/brushers/extract.py from the
+# raw files in ~/Developer/piru-datasources. Kept out of the repo by design —
+# the built SQLite is the committed artifact, the raw extractions are not.
+# Override with PIRU_EXTERNAL_DIR if regenerated elsewhere.
+EXTERNAL_DIR = Path(os.environ.get("PIRU_EXTERNAL_DIR", "/tmp/piru-extract"))
+PYRLS_EXT    = EXTERNAL_DIR / "pyrls.substances.json"
+MEDTAP_EXT   = EXTERNAL_DIR / "medtap.substances.json"
+BENZOS_EXT   = EXTERNAL_DIR / "benzos_cited.substances.json"
+NPS_EXT      = EXTERNAL_DIR / "nps_datahub.substances.json"
+
 # Note: data/curated/overlay.json used to be referenced here, but the Python
 # build pipeline reads data/intermediate/sourced-substances.json — which
 # already has the curated overlay merged in by the Swift SubstanceCollector
@@ -69,6 +80,15 @@ SOURCES = [
     ("pubchem",            "PubChem",                            "NIH chemical compound identifiers."),
     ("wikidata",           "Wikidata",                           "CC0 structured data; identifier-only for long-tail compounds."),
     ("dea-orange-book",    "DEA Orange Book",                    "US controlled-substance scheduling."),
+    # Appended at lowest priority so they only FILL GAPS (existing recreational
+    # sources win on conflict). pyrls/medtap supply regulatory status,
+    # indications, contraindications, and per-compound mechanism for the
+    # medication side; benzos-cited supplies diazepam-equivalency; nps-datahub
+    # supplies chemical identifiers (identifier-only, never new substances).
+    ("pyrls",              "Pyrls clinical reference",           "Prescription-drug clinical reference: mechanism, indications, contraindications, regulatory status."),
+    ("medtap",             "MedTAP FDA labels",                  "FDA structured product labels: indications, contraindications, OTC/Rx status."),
+    ("benzos-cited",       "TripSit benzo equivalency",          "TripSit-format benzodiazepine data; source of cross-benzo diazepam-equivalency."),
+    ("nps-datahub",        "NPS Data Hub",                       "Forensic NPS chemistry catalogue; chemical identifiers (CAS/InChIKey/SMILES/formula/MW) only."),
 ]
 
 
@@ -113,7 +133,16 @@ CREATE TABLE substances (
     iupac_name      TEXT,
     smiles          TEXT,
     formula         TEXT,
-    molecular_weight REAL
+    molecular_weight REAL,
+    -- Display-policy classification, baked at build by classify_compounds().
+    -- One of: recreational | dual_use | otc | medical_rx | non_recreational.
+    -- Gates dose/duration visibility and recreational-browse surfacing in the app.
+    display_class       TEXT,
+    -- rx | otc | rx_otc_dependent | controlled_schedule_N (parsed from pyrls/medtap).
+    regulatory_status   TEXT,
+    -- 1 when total duration > 24h (the vitamin problem); OTC durations are
+    -- suppressed when set. Recreational/dual-use are exempt (long psychedelics).
+    duration_implausible INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -432,6 +461,34 @@ CREATE TABLE interaction_rules (
     UNIQUE (class_a, class_b)
 );
 
+CREATE TABLE indications (
+    id           INTEGER PRIMARY KEY,
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    source_id    INTEGER NOT NULL REFERENCES sources(id),
+    text         TEXT NOT NULL,
+    UNIQUE (substance_id, source_id, text)
+);
+CREATE INDEX idx_indications_substance ON indications(substance_id);
+
+CREATE TABLE contraindications (
+    id               INTEGER PRIMARY KEY,
+    substance_id     INTEGER NOT NULL REFERENCES substances(id),
+    source_id        INTEGER NOT NULL REFERENCES sources(id),
+    text             TEXT NOT NULL,
+    is_boxed_warning INTEGER NOT NULL DEFAULT 0,
+    UNIQUE (substance_id, source_id, text)
+);
+CREATE INDEX idx_contraindications_substance ON contraindications(substance_id);
+
+CREATE TABLE diazepam_equivalents (
+    substance_id          INTEGER NOT NULL REFERENCES substances(id),
+    source_id             INTEGER NOT NULL REFERENCES sources(id),
+    dose_mg               REAL,
+    equivalent_diazepam_mg REAL,
+    display_text          TEXT,
+    PRIMARY KEY (substance_id, source_id)
+);
+
 CREATE TABLE manifest (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -517,11 +574,126 @@ def smart_title_case(name: str) -> str:
     return "".join(out)
 
 
+# Names that leaked from an LLM enrichment prompt into the data (e.g. the
+# row "AMB-FUBINACA (AMB) — augmentation plan and justifications BEFORE JSON
+# changes"). Never a real substance.
+_LEAKED_PROMPT_RE = re.compile(
+    r"augmentation plan|before json|justifications? before|enter section text",
+    re.IGNORECASE,
+)
+
+
 def is_chemistry_noise(name: str) -> bool:
     """True if the substance name looks like a IUPAC chemistry artefact rather
     than a substance someone would log in a harm-reduction tracker."""
     n = (name or "").strip()
-    return not n or bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
+    if not n or _LEAKED_PROMPT_RE.search(n):
+        return True
+    return bool(_CHEM_NOISE_PREFIX.search(n)) or bool(_CHEM_NOISE_BODY.search(n))
+
+
+# ---------------------------------------------------------------------------
+# Display-policy classification vocab (consumed by Build.classify_compounds)
+# ---------------------------------------------------------------------------
+
+# STRONG recreational provenance — the harm-reduction wikis. A dose/duration
+# here is the authoritative recreational signal AND the literal "if PsychonautWiki
+# has the data, show it" dual-use rule: a medical-category drug appearing here is
+# dual_use (dose shown). drug.community is deliberately EXCLUDED — it is a
+# long-tail dataset that also carries CLINICAL doses for prescription meds, so
+# trusting it would promote SSRIs/MAOIs/antipsychotics to a recreational ladder.
+REC_SOURCE_SLUGS = {"psychonautwiki", "tripsit", "erowid-pihkal", "erowid-tihkal"}
+# WEAK recreational provenance: confers recreational status only to NON-medical
+# compounds (long-tail research chemicals), never promotes a medical drug.
+WEAK_REC_SOURCE_SLUGS = {"drug.community"}
+
+# Resolved categories that are recreational by nature.
+RECREATIONAL_CATEGORIES = {
+    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Opioid",
+    "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic",
+    "AMPAkine", "Eugeroic", "Depressant",
+}
+# Resolved categories that are medical/therapeutic. A compound here with a
+# recreational dose signal is DUAL_USE; without one it is MEDICAL_RX.
+MEDICAL_CATEGORIES = {
+    "Antidepressant", "Antipsychotic", "Anticonvulsant", "Antihistamine",
+    "Analgesic", "Cardiovascular", "Antimicrobial", "Gastrointestinal",
+    "Respiratory", "Endocrine", "Immunological", "Peptide",
+}
+# Tags that establish recreational lineage even with no dose data (the RC
+# stubs — novel psychedelics/cathinones/etc. catalogued without human dosing).
+REC_TAGS = {
+    "research-chemical", "no-human-data", "PIHKAL", "TIHKAL", "tryptamine",
+    "phenethylamine", "cathinone", "arylcyclohexylamine", "designer-benzo",
+    "designer-dissociative", "fentanyl-analog", "nitazene", "synthetic-cannabinoid",
+    "semi-synthetic-cannabinoid", "lysergamide", "NBOMe", "psychedelic",
+    "dissociative", "mu-opioid-agonist", "NMDA-antagonist", "salvinorin",
+}
+# Tags / category that mark a compound as having NO recreational value: it stays
+# trackable for medication adherence but is hidden from recreational browsing.
+ANTIBIOTIC_TAGS = {"antibiotic", "antiviral", "antifungal", "antiparasitic", "antimicrobial"}
+
+# OTC compounds whose dose is on the package — dose may be shown even without a
+# recreational signal (the developer's explicit exception to dose-suppression).
+OTC_ALLOWLIST = {
+    "melatonin", "caffeine", "ibuprofen", "acetaminophen", "paracetamol",
+    "aspirin", "naproxen", "diphenhydramine", "doxylamine", "loratadine",
+    "cetirizine", "famotidine", "loperamide", "dextromethorphan", "pseudoephedrine",
+    "phenylephrine", "guaifenesin", "nicotine", "dimenhydrinate", "meclizine",
+    "ranitidine", "omeprazole", "bismuth subsalicylate", "simethicone",
+}
+
+
+# ---------------------------------------------------------------------------
+# Name normalisation helpers (chirality, chemical-abbreviation casing)
+# ---------------------------------------------------------------------------
+
+# Leading chirality/optical prefix. Two names equal after stripping it but
+# different before are stereoisomers (distinct compounds). Single-letter forms
+# require a following hyphen/space so they can't eat the first letter of an
+# ordinary name (lsd, dmt). Operates on a normalise()d (lowercased) string.
+_STEREO_PREFIX_RE = re.compile(r"^(dextro|laevo|levo|dex|lev|rac|racemic|meso|es|ar|[dlrs](?=[\-\s]))[\-\s]*")
+
+
+def strip_stereo(normalised: str) -> str:
+    return _STEREO_PREFIX_RE.sub("", normalised)
+
+
+# Short morphemes that must stay lowercase even inside a chemical code (so we
+# don't render "2-oxo-PCE" as "2-OXO-PCE"). Everything else ≤4 chars in a
+# code-style name is treated as an acronym and upper-cased.
+# Note: chemical locant prefixes N-, O-, S- ARE upper-case ("N-methyl"), so they
+# are deliberately NOT kept lower. "bk" (beta-keto) is the main lowercase prefix.
+_CHEM_KEEP_LOWER = {
+    "bk", "cis", "oxo", "keto", "aza", "oxa", "nor", "iso", "neo",
+    "di", "tri", "bis", "mono", "homo", "seco", "nido", "para", "meta",
+    "iodo", "endo", "exo", "syn", "thia", "sec", "tert",
+}
+# Chemical-code names contain a digit (2-FMA, 4-HO-MET, bk-MDMA, 1P-LSD).
+_CHEM_SEG_RE = re.compile(r"([\-/])")
+
+
+def chem_caps(name: str) -> str:
+    """Upper-case acronym segments in a chemical-code name so abbreviations read
+    correctly: '2-Fma' → '2-FMA', '4-Ho-Met' → '4-HO-MET', 'bk-Mdma' → 'bk-MDMA'.
+    Only touches names containing a digit (true chemical codes), and only short
+    (≤4-char) alpha segments that aren't known lowercase morphemes — long word
+    segments like '2-Aminoindane' are left title-cased."""
+    if not any(c.isdigit() for c in name):
+        return name
+    out = []
+    for seg in _CHEM_SEG_RE.split(name):
+        if seg in ("-", "/") or not seg.isalpha():
+            out.append(seg)
+            continue
+        low = seg.lower()
+        if low in _CHEM_KEEP_LOWER:
+            out.append(low)
+        elif len(seg) <= 4:
+            out.append(seg.upper())
+        else:
+            out.append(seg)
+    return "".join(out)
 
 
 # Canonical category enum (mirrors SubstanceCategory in Swift). Keep in sync
@@ -751,6 +923,29 @@ _NAME_REMAP: dict[str, str] = {
     "cannabidiol":    "CBD",
     "cannabichromene": "CBC",
     "cannabigerol":   "CBG",
+    # Adderall is a brand of mixed amphetamine salts — PsychonautWiki treats it
+    # as an Amphetamine alias. Merge so it isn't a parallel standalone entry.
+    "adderall":       "Amphetamine",
+    "adderall ir":    "Amphetamine",
+    "adderall xr":    "Amphetamine",
+    "mydayis":        "Amphetamine",
+    # Brand → generic for compounds whose brand record carries no InChIKey, so
+    # the structural auto-dedup can't catch them. (The InChIKey connectivity
+    # match handles all structurally-confirmed duplicates automatically.)
+    "vyvanse":        "Lisdexamfetamine",
+    "elvanse":        "Lisdexamfetamine",
+    "focalin":        "Dexmethylphenidate",
+    "focalin xr":     "Dexmethylphenidate",
+}
+
+# Force a specific canonical display casing for names that arrive mis-cased and
+# that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
+# chemistry conventions like AcO / NBOMe). Keyed on normalise(name).
+_CANONICAL_CASE: dict[str, str] = {
+    "melatonin":  "Melatonin",   # was all-caps MELATONIN
+    "lsa":        "LSA",         # was Lsa
+    "4-aco-dmt":  "4-AcO-DMT",   # acetoxy = AcO
+    "25i-nbome":  "25I-NBOMe",   # NBOMe convention
 }
 
 
@@ -781,6 +976,27 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         # Mixtures and prepared products — not synonyms for raw cannabis
         "nabiximols", "nabiximols (sativex)", "sativex",
         "thc+cbd", "tetrahydrocannabinol+cannabidiol",
+    },
+    # Plant / preparation aliased onto the active MOLECULE (each has its own entry).
+    "mescaline": {
+        "peyote", "san pedro", "san-pedro", "san", "peyote alkaloid",
+        "san pedro/trichocereus cactus alkaloid",
+    },
+    "mushrooms": {"psilocybin", "psilocin"},
+    "caffeine": {"coffee"},
+    # Distinct compounds wrongly cross-aliased (dangerous in a HR tracker).
+    "mdma": {"ma"},                                      # MA = methamphetamine abbrev
+    "methylone": {"molly", "bath salt", "bath salts"},  # Molly = MDMA slang
+    "5-htp": {"l-tryptophan", "tryptophan"},            # distinct precursor
+    "melatonin": {"5-mt", "5-methoxytryptamine", "ramelteon"},
+    "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
+    "4-ho-met": {"ethocin"},                             # ethocin = 4-HO-DET
+    "dextromethorphan": {"duract"},                      # bromfenac (an NSAID)
+    # Methylphenidate (racemate) ≠ dexmethylphenidate (d-isomer, Focalin) — a
+    # distinct, ~2x-potency compound with its own entry. Don't cross-alias.
+    "methylphenidate": {
+        "dexmethylphenidate", "focalin", "focalin xr",
+        "dexmethylphenidate hydrochloride extended-release",
     },
 }
 
@@ -914,7 +1130,10 @@ class Build:
     def upsert_substance(self, name: str, *, aliases: list[str] | None = None,
                          inchikey: str | None = None, pubchem_cid: int | None = None,
                          cas: str | None = None, iupac: str | None = None,
-                         smiles: str | None = None, source_slug: str | None = None) -> int | None:
+                         smiles: str | None = None, formula: str | None = None,
+                         molecular_weight: float | None = None,
+                         regulatory_status: str | None = None,
+                         source_slug: str | None = None) -> int | None:
         name = (name or "").strip()
         if not name:
             return None
@@ -937,19 +1156,21 @@ class Build:
             self.stats.setdefault("name_remapped", 0)
             self.stats["name_remapped"] += 1
         name = smart_title_case(name)
+        name = _CANONICAL_CASE.get(normalise(name), name)
+        name = chem_caps(name)
         norm = normalise(name)
         if norm in self.substance_ids:
             sid = self.substance_ids[norm]
             # Backfill identifier columns if we now have something better
             self.cur.execute(
-                "UPDATE substances SET inchikey = COALESCE(inchikey, ?), pubchem_cid = COALESCE(pubchem_cid, ?), cas = COALESCE(cas, ?), iupac_name = COALESCE(iupac_name, ?), smiles = COALESCE(smiles, ?) WHERE id = ?",
-                (inchikey, pubchem_cid, cas, iupac, smiles, sid),
+                "UPDATE substances SET inchikey = COALESCE(inchikey, ?), pubchem_cid = COALESCE(pubchem_cid, ?), cas = COALESCE(cas, ?), iupac_name = COALESCE(iupac_name, ?), smiles = COALESCE(smiles, ?), formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?), regulatory_status = COALESCE(regulatory_status, ?) WHERE id = ?",
+                (inchikey, pubchem_cid, cas, iupac, smiles, formula, molecular_weight, regulatory_status, sid),
             )
         else:
             try:
                 self.cur.execute(
-                    "INSERT INTO substances(canonical_name, normalized_name, inchikey, pubchem_cid, cas, iupac_name, smiles) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (name, norm, inchikey, pubchem_cid, cas, iupac, smiles),
+                    "INSERT INTO substances(canonical_name, normalized_name, inchikey, pubchem_cid, cas, iupac_name, smiles, formula, molecular_weight, regulatory_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (name, norm, inchikey, pubchem_cid, cas, iupac, smiles, formula, molecular_weight, regulatory_status),
                 )
                 sid = self.cur.lastrowid
             except sqlite3.IntegrityError:
@@ -965,27 +1186,57 @@ class Build:
             self._add_alias(sid, alias, source_slug)
         return sid
 
+    # A trailing "(...)" annotation sources tack onto brand names, e.g.
+    # "OxyContin (ER oxycodone)" → "OxyContin", "Nicorette (gum, brand)".
+    _ALIAS_PAREN_RE = re.compile(r"\s*\([^()]*\)\s*$")
+
     def _add_alias(self, sid: int, alias: str, source_slug: str | None) -> None:
-        alias = (alias or "").strip()
+        alias = (alias or "").strip().strip('"“”').strip()
+        # Strip a trailing parenthetical annotation, then drop descriptive /
+        # list / fragment junk that leaked in as aliases: colons ("Counterfeit
+        # slang: M30 blues"), braces ("{N-[2-...]} Acetamide"), ", "-separated
+        # combo-product lists ("Brompheniramine Maleate, Pseudoephedrine ..."),
+        # and absurdly long systematic strings. Chemical names with bare commas
+        # ("1,3,7-trimethylxanthine") are kept — only comma+space is a list.
+        alias = self._ALIAS_PAREN_RE.sub("", alias).strip()
         if not alias:
             return
+        if ":" in alias or "{" in alias or "}" in alias or ", " in alias or len(alias) > 70:
+            self.stats["dropped_junk_alias"] = self.stats.get("dropped_junk_alias", 0) + 1
+            return
         # Per-substance alias blocklist: drop aliases that name a structurally
-        # distinct compound (e.g. drug.community lists "THC" as a Cannabis
-        # alias — THC is its own substance, not a Cannabis synonym).
+        # distinct compound (e.g. "psilocybin" on the Mushrooms plant record).
         canon = self.cur.execute(
             "SELECT canonical_name FROM substances WHERE id=?", (sid,)
         ).fetchone()
         if canon:
-            blocked = _ALIAS_BLOCKLIST.get(canon[0].lower(), ())
-            if alias.lower() in blocked:
-                self.stats.setdefault("dropped_blocked_alias", 0)
-                self.stats["dropped_blocked_alias"] += 1
+            if alias.lower() in _ALIAS_BLOCKLIST.get(canon[0].lower(), ()):
+                self.stats["dropped_blocked_alias"] = self.stats.get("dropped_blocked_alias", 0) + 1
                 return
+            if alias.lower() == canon[0].lower():
+                return  # don't alias a substance to its own canonical name
+            # Strip chiral/optical variants of the base canonical name — pure
+            # clutter ("(±)-MDMA"; "Dextroamphetamine" on the "Amphetamine"
+            # base). Only when the canonical is itself the prefix-free base, so
+            # the Dextroamphetamine record keeps its own name.
+            cnorm = normalise(canon[0])
+            anorm = normalise(alias)
+            if anorm != cnorm and strip_stereo(anorm) == cnorm and strip_stereo(cnorm) == cnorm:
+                self.stats["dropped_chiral_alias"] = self.stats.get("dropped_chiral_alias", 0) + 1
+                return
+        norm = normalise(alias)
+        # Case-/salt-insensitive dedup: skip if a variant alias already exists
+        # (collapses "Acid"/"acid", "Robitussin"/"robitussin", "X"/"X HCl").
+        if self.cur.execute(
+            "SELECT 1 FROM aliases WHERE substance_id=? AND alias_normalized=?", (sid, norm)
+        ).fetchone():
+            self.stats["dropped_dup_alias"] = self.stats.get("dropped_dup_alias", 0) + 1
+            return
         source_id = self.source_ids.get(source_slug) if source_slug else None
         try:
             self.cur.execute(
                 "INSERT INTO aliases(substance_id, alias, alias_normalized, source_id) VALUES (?, ?, ?, ?)",
-                (sid, alias, normalise(alias), source_id),
+                (sid, alias, norm, source_id),
             )
             self.stats["aliases"] += 1
         except sqlite3.IntegrityError:
@@ -1161,6 +1412,46 @@ class Build:
                 (sid, src, summary, description, self.cite(citation)),
             )
             self.stats["mechanisms_summary"] += 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_indication(self, sid: int, source_slug: str, text: str) -> None:
+        text = (text or "").strip()
+        if not text:
+            return
+        src = self.source_ids[source_slug]
+        try:
+            self.cur.execute(
+                "INSERT INTO indications(substance_id, source_id, text) VALUES (?, ?, ?)",
+                (sid, src, text),
+            )
+            self.stats["indications"] += 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_contraindication(self, sid: int, source_slug: str, text: str, *, boxed: bool = False) -> None:
+        text = (text or "").strip()
+        if not text:
+            return
+        src = self.source_ids[source_slug]
+        try:
+            self.cur.execute(
+                "INSERT INTO contraindications(substance_id, source_id, text, is_boxed_warning) VALUES (?, ?, ?, ?)",
+                (sid, src, text, 1 if boxed else 0),
+            )
+            self.stats["contraindications"] += 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_diazepam_equivalent(self, sid: int, source_slug: str, *, dose_mg: float | None,
+                                equivalent_diazepam_mg: float | None, display_text: str | None) -> None:
+        src = self.source_ids[source_slug]
+        try:
+            self.cur.execute(
+                "INSERT INTO diazepam_equivalents(substance_id, source_id, dose_mg, equivalent_diazepam_mg, display_text) VALUES (?, ?, ?, ?, ?)",
+                (sid, src, dose_mg, equivalent_diazepam_mg, display_text),
+            )
+            self.stats["diazepam_equivalents"] += 1
         except sqlite3.IntegrityError:
             pass
 
@@ -1783,6 +2074,431 @@ class Build:
                     break
         return counts
 
+    # ---- external datasource ingesters (pyrls / medtap / benzos / nps) ----
+
+    @staticmethod
+    def _parse_regulatory(raw: str | None) -> str | None:
+        """Normalise pyrls/medtap regulatory strings into a canonical token.
+        pyrls: 'rx; Prescription only', 'otc; ...'; medtap: 'OTC' / 'Rx'."""
+        if not raw:
+            return None
+        s = raw.lower()
+        has_otc = "otc" in s or "over-the-counter" in s or "over the counter" in s
+        has_rx = "rx" in s or "prescription" in s
+        m = re.search(r"\bc([1-5])\b", s)
+        if m:
+            return f"controlled_schedule_{m.group(1)}"
+        if has_otc and has_rx:
+            return "rx_otc_dependent"
+        if has_otc:
+            return "otc"
+        if has_rx:
+            return "rx"
+        return None
+
+    @staticmethod
+    def _as_text_list(value) -> list[str]:
+        """pyrls indications are arrays; medtap are single strings. Normalise to
+        a clean list, dropping placeholder text."""
+        if value is None:
+            return []
+        items = value if isinstance(value, list) else [value]
+        out: list[str] = []
+        for it in items:
+            t = (str(it) if it is not None else "").strip()
+            if not t or t.lower() in ("enter section text here", "n/a", "none"):
+                continue
+            out.append(t)
+        return out
+
+    def ingest_pyrls(self, path: Path) -> None:
+        """Prescription-drug clinical reference. Adds NEW medical substances
+        (trackable, dose-suppressed by policy) plus regulatory status,
+        mechanism, indications, contraindications. No recreational dose."""
+        if not path.exists():
+            return
+        slug = "pyrls"
+        for rec in json.loads(path.read_text()):
+            name = rec.get("name")
+            if not name:
+                continue
+            reg = self._parse_regulatory(rec.get("x_regulatory_status"))
+            sid = self.upsert_substance(name, aliases=rec.get("aliases") or [],
+                                        regulatory_status=reg, source_slug=slug)
+            if sid is None:
+                continue
+            cat = rec.get("category")
+            if cat and cat != "Other":
+                self.add_category(sid, slug, cat)
+            for t in (rec.get("tags") or []):
+                self.add_tag(sid, slug, t)
+            moa = rec.get("mechanismOfAction") or {}
+            if moa.get("summary"):
+                self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
+            for ind in self._as_text_list(rec.get("x_indications")):
+                self.add_indication(sid, slug, ind)
+            for c in self._as_text_list(rec.get("x_contraindications")):
+                self.add_contraindication(sid, slug, c)
+            for b in self._as_text_list(rec.get("x_boxed_warning")):
+                self.add_contraindication(sid, slug, b, boxed=True)
+
+    # Protein-target / non-drug junk rows in medtap (e.g. "Mu-type opioid
+    # receptor", "5-hydroxytryptamine receptor 2A", "30S ribosomal protein S12",
+    # "Sodium channel protein type 5 subunit alpha", "Penicillin-binding
+    # protein 2"). The keyword can sit anywhere in the name, not just the end,
+    # so match on word boundaries rather than endswith.
+    _MEDTAP_JUNK_RE = re.compile(
+        r"\b(receptor|transporter|channel|subunit|ribosomal|topoisomerase|atpase|"
+        r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease)\b",
+        re.IGNORECASE,
+    )
+
+    def ingest_medtap(self, path: Path) -> None:
+        """FDA structured product labels. Like pyrls but lower priority and with
+        a junk/combo filter. Category intentionally NOT ingested (322/387 'Other'
+        with mislabels). Supplies regulatory status, mechanism, indications."""
+        if not path.exists():
+            return
+        slug = "medtap"
+        for rec in json.loads(path.read_text()):
+            name = (rec.get("name") or "").strip()
+            if not name or rec.get("x_is_combination"):
+                continue
+            if self._MEDTAP_JUNK_RE.search(name):
+                continue
+            reg = self._parse_regulatory(rec.get("x_regulatory_status"))
+            sid = self.upsert_substance(name, aliases=rec.get("aliases") or [],
+                                        regulatory_status=reg, source_slug=slug)
+            if sid is None:
+                continue
+            moa = rec.get("mechanismOfAction") or {}
+            if moa.get("summary"):
+                self.add_mechanism_summary(sid, slug, moa["summary"], moa.get("description"))
+            for ind in self._as_text_list(rec.get("x_indications")):
+                self.add_indication(sid, slug, ind)
+            for c in self._as_text_list(rec.get("x_contraindications")):
+                self.add_contraindication(sid, slug, c)
+
+    # "Alprazolam - 0.5mg ~=10mg Diazepam." → (0.5, 10.0)
+    _DIAZ_RE = re.compile(r"(\d+(?:\.\d+)?)\s*mg\b.*?(\d+(?:\.\d+)?)\s*mg", re.IGNORECASE)
+
+    def ingest_benzos_cited(self, path: Path) -> None:
+        """Enrichment-only (0 novel). Attaches cross-benzo diazepam-equivalency
+        to existing benzodiazepine records — data Piru has nowhere else."""
+        if not path.exists():
+            return
+        slug = "benzos-cited"
+        # name/alias → sid index. benzos-cited is 0-novel: every record already
+        # exists in Piru (often as an alias, not a canonical name), so we match
+        # against both and NEVER mint a new substance — minting brand-named rows
+        # like "Ativan" was the bug this guards against.
+        name_to_sid: dict[str, int] = dict(self.substance_ids)
+        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            name_to_sid.setdefault(row[1], row[0])
+        for rec in json.loads(path.read_text()):
+            name = rec.get("name")
+            prose = rec.get("x_dose_to_diazepam")
+            if not name or not prose:
+                continue
+            candidates = [normalise(name)] + [normalise(a) for a in (rec.get("aliases") or [])]
+            sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+            if sid is None:
+                continue
+            dose_mg = equiv_mg = None
+            m = self._DIAZ_RE.search(prose)
+            if m:
+                dose_mg = float(m.group(1))
+                equiv_mg = float(m.group(2))
+            self.add_diazepam_equivalent(sid, slug, dose_mg=dose_mg,
+                                         equivalent_diazepam_mg=equiv_mg,
+                                         display_text=prose.strip())
+
+    def ingest_nps(self, path: Path) -> None:
+        """IDENTIFIER-ONLY backfill. Matches nps records to EXISTING Piru
+        substances by normalised name/alias and donates chemical identifiers
+        (CAS/InChIKey/SMILES/formula/MW) via COALESCE — never overwrites an
+        existing value, never mints a new substance (avoids catalog pollution
+        from ~5000 forensic one-off names)."""
+        if not path.exists():
+            return
+        # name/alias → sid index over what's already in the DB.
+        name_to_sid: dict[str, int] = dict(self.substance_ids)
+        for row in self.cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            name_to_sid.setdefault(row[1], row[0])
+        matched = 0
+        for rec in json.loads(path.read_text()):
+            candidates = [normalise(rec.get("name") or "")]
+            candidates += [normalise(a) for a in (rec.get("aliases") or [])]
+            sid = next((name_to_sid[c] for c in candidates if c and c in name_to_sid), None)
+            if sid is None:
+                continue
+            self.cur.execute(
+                "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
+                "smiles = COALESCE(smiles, ?), iupac_name = COALESCE(iupac_name, ?), "
+                "formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?) WHERE id = ?",
+                (rec.get("x_inchikey") or None, rec.get("x_cas") or None,
+                 rec.get("x_smiles") or None, rec.get("x_iupac") or None,
+                 rec.get("x_chemical_formula") or None, to_float(rec.get("x_mw")), sid),
+            )
+            matched += 1
+        self.stats["nps_identifier_matches"] = matched
+
+    def dedup_substances(self) -> dict[str, int]:
+        """Merge substance records that are the SAME compound under different
+        names — typically a brand and its generic that came from different
+        sources and never matched (e.g. Vyvanse→Lisdexamfetamine,
+        Focalin→Dexmethylphenidate).
+
+        Detection: an edge links substance A and B when A's normalized canonical
+        name equals one of B's normalized aliases (B names A explicitly). Linked
+        substances form a group via union-find.
+
+        Safety: within a group we only merge a member that is a DATA-POOR STUB
+        (no dose/duration/binding/effect of its own — i.e. a brand entry, not an
+        independently-characterised compound). This prevents wrongly merging two
+        real compounds that happen to share a slang alias (e.g. 'speed'). Stubs
+        merge into the richest member; their aliases + clinical text + identifiers
+        carry over. Non-stub collisions are logged for manual review, not merged.
+
+        Runs after all ingest + promote_via_tags, before classify_compounds.
+        """
+        cur = self.cur
+        canon_norm = {norm: sid for sid, norm in cur.execute("SELECT id, normalized_name FROM substances")}
+        alias_owners: dict[str, set[int]] = defaultdict(set)
+        for sid, anorm in cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
+            alias_owners[anorm].add(sid)
+
+        parent: dict[int, int] = {}
+        def find(x: int) -> int:
+            parent.setdefault(x, x)
+            root = x
+            while parent[root] != root:
+                root = parent[root]
+            while parent[x] != root:
+                parent[x], x = root, parent[x]
+            return root
+        def union(a: int, b: int) -> None:
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[ra] = rb
+
+        # Link a substance to another whose canonical name it lists as an alias.
+        # Only via SPECIFIC names: if a name is an alias of >3 distinct compounds
+        # it's ambiguous slang (e.g. "speed"), not a dup link — skip it so it
+        # can't fuse distinct compounds into one mega-group.
+        for anorm, owners in alias_owners.items():
+            gen = canon_norm.get(anorm)        # substance whose canonical IS this name
+            if gen is None:
+                continue
+            others = owners - {gen}
+            if not others or len(others) > 3:
+                continue
+            for b in others:
+                union(gen, b)
+
+        groups: dict[int, set[int]] = defaultdict(set)
+        for sid in canon_norm.values():
+            if sid in parent:
+                groups[find(sid)].add(sid)
+        groups = {k: v for k, v in groups.items() if len(v) > 1}
+        if not groups:
+            return {"groups": 0, "merged": 0}
+
+        # Richness picks the surviving record (the characterised compound); the
+        # merged-in members contribute their unique aliases / clinical text /
+        # identifiers, and any extra dose rows resolve by source priority later.
+        def total_richness(sid: int) -> int:
+            n = 0
+            for t in ("dose_ranges", "durations", "bindings", "effects",
+                      "subjective_effects", "mechanisms_summary", "metabolism", "pk_routes", "indications"):
+                n += cur.execute(f"SELECT COUNT(*) FROM {t} WHERE substance_id=?", (sid,)).fetchone()[0]
+            return n
+
+        inchikey = {sid: ik for sid, ik in cur.execute("SELECT id, inchikey FROM substances")}
+
+        # Stereoisomers (dexmethylphenidate≠methylphenidate, escitalopram≠
+        # citalopram, armodafinil≠modafinil, dextroamphetamine≠amphetamine) are
+        # distinct compounds that must never merge even though one lists the
+        # other as an alias: names equal after stripping a chirality prefix but
+        # different before it. Uses the module-level strip_stereo.
+        def stereoisomer_pair(a_name: str, b_name: str) -> bool:
+            na, nb = normalise(a_name), normalise(b_name)
+            sa, sb = strip_stereo(na), strip_stereo(nb)
+            return na != nb and sa == sb and bool(sa)
+
+        def mergeable(w: int, l: int) -> bool:
+            # SAFE BY DEFAULT: merge only with POSITIVE proof of same molecule —
+            # an identical InChIKey connectivity block (first 14 chars: same
+            # skeleton, salt/abbreviation-independent) AND not a stereoisomer
+            # pair (those share a block but are distinct drugs). Without a
+            # structural match we do NOT merge: two different compounds often
+            # cross-list each other as aliases (loratadine↔fexofenadine), and a
+            # wrong merge is worse than a leftover duplicate. Known brands that
+            # lack an InChIKey are handled explicitly in _NAME_REMAP instead.
+            if stereoisomer_pair(names[w], names[l]):
+                return False
+            iw, il = inchikey.get(w), inchikey.get(l)
+            return bool(iw) and bool(il) and iw[:14] == il[:14]
+
+        # Materialise the table list BEFORE issuing PRAGMA on the same cursor
+        # (reusing the cursor mid-iteration would truncate the outer query).
+        tnames = [r[0] for r in cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+        sub_tables = []
+        for tname in tnames:
+            if tname == "substances":
+                continue
+            cols = [c[1] for c in cur.execute(f"PRAGMA table_info({tname})").fetchall()]
+            if "substance_id" in cols:
+                sub_tables.append(tname)
+
+        merged, review = 0, []
+        for members in groups.values():
+            # A very large cluster usually means a bad linking alias fused
+            # distinct compounds — don't auto-merge it, surface for review.
+            if len(members) > 6:
+                names = [cur.execute("SELECT canonical_name FROM substances WHERE id=?", (m,)).fetchone()[0] for m in members]
+                review.append("cluster:" + "/".join(names))
+                continue
+            ranked = sorted(members, key=lambda s: (total_richness(s), -s), reverse=True)
+            winner = ranked[0]
+            names = {m: cur.execute("SELECT canonical_name FROM substances WHERE id=?", (m,)).fetchone()[0] for m in members}
+            for loser in ranked[1:]:
+                # Merge only with positive structural proof (see mergeable);
+                # everything else is surfaced for review, never auto-merged.
+                if not mergeable(winner, loser):
+                    review.append(f"{names[loser]} ~ {names[winner]}")
+                    continue
+                lname = cur.execute("SELECT canonical_name FROM substances WHERE id=?", (loser,)).fetchone()
+                laliases = [r[0] for r in cur.execute("SELECT alias FROM aliases WHERE substance_id=?", (loser,))]
+                cur.execute("DELETE FROM aliases WHERE substance_id=?", (loser,))
+                cur.execute(
+                    "UPDATE substances SET "
+                    "inchikey=COALESCE(inchikey,(SELECT inchikey FROM substances WHERE id=:l)), "
+                    "pubchem_cid=COALESCE(pubchem_cid,(SELECT pubchem_cid FROM substances WHERE id=:l)), "
+                    "cas=COALESCE(cas,(SELECT cas FROM substances WHERE id=:l)), "
+                    "smiles=COALESCE(smiles,(SELECT smiles FROM substances WHERE id=:l)), "
+                    "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
+                    "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
+                    "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)) "
+                    "WHERE id=:w", {"l": loser, "w": winner},
+                )
+                for t in sub_tables:
+                    if t == "aliases":
+                        continue
+                    cur.execute(f"UPDATE OR IGNORE {t} SET substance_id=? WHERE substance_id=?", (winner, loser))
+                    cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (loser,))
+                cur.execute("DELETE FROM substances WHERE id=?", (loser,))
+                self.substance_ids.pop(normalise(lname[0]) if lname else "", None)
+                if lname:
+                    self._add_alias(winner, lname[0], "piru-curated")
+                for a in laliases:
+                    self._add_alias(winner, a, None)
+                merged += 1
+        if review:
+            print(f"  dedup: {len(review)} non-stub collisions NOT merged (manual review): {review[:15]}", file=sys.stderr)
+        return {"groups": len(groups), "merged": merged, "needs_review": len(review)}
+
+    def classify_compounds(self) -> dict[str, int]:
+        """Bake each substance's display_class + duration_implausible from the
+        resolved signals. Runs AFTER all ingest + promote_via_tags so category
+        and regulatory_status are final. See REC_SOURCE_SLUGS / *_CATEGORIES /
+        REC_TAGS / OTC_ALLOWLIST for the vocab and docs/ for the policy."""
+        cur = self.cur
+        rec_slugs = tuple(REC_SOURCE_SLUGS)
+        placeholders = ",".join("?" * len(rec_slugs))
+        rec_dose = {r[0] for r in cur.execute(f"""
+            SELECT DISTINCT d.substance_id FROM dose_ranges d
+              JOIN sources s ON s.id = d.source_id
+             WHERE s.slug IN ({placeholders})
+               AND (d.threshold IS NOT NULL OR d.light_lower IS NOT NULL
+                    OR d.common_lower IS NOT NULL OR d.strong_lower IS NOT NULL
+                    OR d.heavy IS NOT NULL)
+        """, rec_slugs)}
+        rec_dur = {r[0] for r in cur.execute(f"""
+            SELECT DISTINCT du.substance_id FROM durations du
+              JOIN sources s ON s.id = du.source_id
+             WHERE s.slug IN ({placeholders})
+               AND (du.min_minutes IS NOT NULL OR du.max_minutes IS NOT NULL)
+        """, rec_slugs)}
+        # Weak signal (drug.community) — recreational only for non-medical compounds.
+        weak_slugs = tuple(WEAK_REC_SOURCE_SLUGS)
+        weak_ph = ",".join("?" * len(weak_slugs))
+        weak_rec = {r[0] for r in cur.execute(f"""
+            SELECT DISTINCT substance_id FROM (
+                SELECT d.substance_id FROM dose_ranges d JOIN sources s ON s.id = d.source_id
+                 WHERE s.slug IN ({weak_ph})
+                   AND (d.threshold IS NOT NULL OR d.light_lower IS NOT NULL
+                        OR d.common_lower IS NOT NULL OR d.strong_lower IS NOT NULL OR d.heavy IS NOT NULL)
+                UNION
+                SELECT du.substance_id FROM durations du JOIN sources s ON s.id = du.source_id
+                 WHERE s.slug IN ({weak_ph})
+                   AND (du.min_minutes IS NOT NULL OR du.max_minutes IS NOT NULL)
+            )
+        """, weak_slugs + weak_slugs)}
+        cat_by_sid: dict[int, str] = {}
+        for r in cur.execute("""
+            SELECT substance_id, category FROM (
+              SELECT c.substance_id, c.category,
+                     ROW_NUMBER() OVER (PARTITION BY c.substance_id
+                                        ORDER BY s.default_priority ASC) AS rn
+                FROM categories c JOIN sources s ON s.id = c.source_id
+            ) WHERE rn = 1
+        """):
+            cat_by_sid[r[0]] = r[1]
+        tags_by_sid: dict[int, set[str]] = defaultdict(set)
+        for r in cur.execute("SELECT substance_id, tag FROM tags"):
+            tags_by_sid[r[0]].add(r[1])
+        total_by_sid: dict[int, float] = {}
+        for r in cur.execute("SELECT substance_id, MAX(max_minutes) FROM durations WHERE phase='total' GROUP BY substance_id"):
+            total_by_sid[r[0]] = r[1]
+
+        counts: dict[str, int] = defaultdict(int)
+        rows = cur.execute("SELECT id, canonical_name, regulatory_status FROM substances").fetchall()
+        for sid, canonical, reg_raw in rows:
+            cat = cat_by_sid.get(sid)
+            tags = tags_by_sid.get(sid, set())
+            reg = (reg_raw or "").lower()
+            name = (canonical or "").lower()
+            rec_signal = sid in rec_dose or sid in rec_dur   # strong: harm-reduction wikis
+            weak_signal = sid in weak_rec                     # drug.community (non-medical only)
+            is_medical_cat = cat in MEDICAL_CATEGORIES
+            is_rec_cat = cat in RECREATIONAL_CATEGORIES
+            rec_tag = bool(tags & REC_TAGS)
+            is_antibiotic = (cat == "Antimicrobial") or bool(tags & ANTIBIOTIC_TAGS)
+            is_supplement = (cat == "Supplement")
+            is_otc = reg in ("otc", "rx_otc_dependent") or name in OTC_ALLOWLIST
+
+            if rec_signal:
+                # Genuine harm-reduction-wiki dose/duration → show it. A medical
+                # drug here is dual_use (the literal "if PW has the data" rule).
+                cls = "dual_use" if is_medical_cat else "recreational"
+            elif is_antibiotic:
+                # Antimicrobials are never recreational without a wiki signal —
+                # checked before the weak/medical branches so a drug.community
+                # clinical dose can't leak an antibiotic into recreational browse.
+                cls = "non_recreational"
+            elif is_medical_cat:
+                # Medical drug with no wiki signal: dose is a prescriber's domain,
+                # so medical_rx — even if drug.community lists a clinical dose.
+                # OTC drugs (ibuprofen, cetirizine, …) keep their on-package dose.
+                cls = "otc" if is_otc else "medical_rx"
+            elif weak_signal or is_rec_cat or rec_tag:
+                # Non-medical: drug.community dose / recreational category / RC tag.
+                cls = "recreational"
+            elif is_otc or is_supplement:
+                cls = "otc"
+            else:
+                cls = "medical_rx"
+
+            total = total_by_sid.get(sid)
+            implausible = 1 if (total is not None and total > 1440) else 0
+            cur.execute(
+                "UPDATE substances SET display_class = ?, duration_implausible = ? WHERE id = ?",
+                (cls, implausible, sid),
+            )
+            counts[cls] += 1
+        return dict(counts)
+
     def ingest_enrichment(self, path: Path) -> None:
         """Deep-pharma enrichment from the agent swarm. source = peer-review-primary
         for per-compound records (they cite primary literature per fact). For PDSP-sourced
@@ -1873,7 +2589,7 @@ class Build:
 
     def finalise(self, content_version: str, generator_version: str, substance_count: int, sources_summary: dict) -> None:
         for k, v in [
-            ("schema_version",    "1"),
+            ("schema_version",    "2"),
             ("content_version",   content_version),
             ("generated_at",      datetime.now(timezone.utc).isoformat()),
             ("generator_version", generator_version),
@@ -1917,12 +2633,39 @@ def main() -> int:
         delta = {k: build.stats[k] - before.get(k, 0) for k in build.stats if build.stats[k] != before.get(k, 0)}
         print(f"  + {f.name}: {delta}", file=sys.stderr)
 
+    # External datasource ingest (pyrls/medtap = medical catalog + regulatory +
+    # indications/contraindications/mechanism; benzos = diazepam-equivalency;
+    # nps = chemical identifiers only). Runs before promote_via_tags so pyrls
+    # categories participate in tag-fallback, and before classify_compounds so
+    # regulatory_status is final.
+    build.ingest_pyrls(PYRLS_EXT)
+    print(f"After pyrls: {build.stats}", file=sys.stderr)
+    build.ingest_medtap(MEDTAP_EXT)
+    print(f"After medtap: {build.stats}", file=sys.stderr)
+    build.ingest_benzos_cited(BENZOS_EXT)
+    print(f"After benzos-cited: diazepam_equivalents={build.stats.get('diazepam_equivalents', 0)}", file=sys.stderr)
+    build.ingest_nps(NPS_EXT)
+    print(f"After nps (identifier backfill): {build.stats.get('nps_identifier_matches', 0)} matches", file=sys.stderr)
+
     # Tag-fallback pass: any substance currently in (or resolving to) "Other"
     # whose tags identify a specific class gets an additional piru-curated
     # category row so it leaves the Other bucket. Peptide is the load-bearing
     # case (28+ entries the agents tagged as 'peptide' but with category=Other).
     promoted = build.promote_via_tags()
     print(f"Tag-fallback promotion: {promoted}", file=sys.stderr)
+
+    # Merge brand/generic duplicate records (Vyvanse→Lisdexamfetamine, …) that
+    # arrived from different sources and never matched. Must run after all
+    # ingest so both members exist, and before classify so the survivor is
+    # classified once.
+    deduped = build.dedup_substances()
+    print(f"Substance dedup: {deduped}", file=sys.stderr)
+
+    # Display-policy classification — bakes display_class + duration_implausible
+    # from the now-final signals (recreational dose/duration provenance,
+    # category, tags, regulatory status). Must run LAST.
+    classified = build.classify_compounds()
+    print(f"Display classification: {classified}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
     content_version = datetime.now(timezone.utc).strftime("%Y-%m-%d.0")
@@ -1953,7 +2696,7 @@ def main() -> int:
     size = OUT_SQLITE.stat().st_size
 
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "content_version": content_version,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
@@ -1981,6 +2724,7 @@ def main() -> int:
         "substances", "aliases", "sources", "citations", "categories", "tags",
         "dose_ranges", "durations", "half_lives", "mechanisms_summary",
         "effects", "subjective_effects", "tolerance",
+        "indications", "contraindications", "diazepam_equivalents",
         "bindings", "functional_assays", "biased_agonism", "receptor_oligomers",
         "downstream_signalling", "neuroimaging",
         "pk_routes", "concentration_effects", "metabolism", "drug_interactions_pk",

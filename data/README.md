@@ -35,7 +35,6 @@ them directly.
 | `psychonautwiki.json` | [PsychonautWiki](https://psychonautwiki.org) GraphQL API | `psychonautwiki` | Per-substance dose ranges, duration phases, tolerance info. Refreshed by `pipeline/fetch/psychonautwiki.py`. |
 | `drug-community.json` | drug.community dump | `drug.community` | User-reported dose ranges across many compounds. |
 | `drug-community-names.json` | drug.community | — | Name-only catalog used for alias detection. |
-| `brushers/*.csv` | TripSit / MedTAP / NPS DataHub / Pyrls | various | Tabular CSVs brushed from external datasets by `pipeline/fetch/brushers/`. |
 
 ### `curated/` — hand-maintained overrides
 

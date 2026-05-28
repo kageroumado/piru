@@ -495,6 +495,63 @@ struct MechanismOfAction: Codable {
     }
 }
 
+/// How a compound is surfaced under the display policy. Baked at build time
+/// into `substances.display_class`. Gates dose/duration visibility and whether
+/// the compound appears in recreational category browsing. See
+/// `docs/` and `pipeline/build/sqlite.py:classify_compounds`.
+enum CompoundDisplayClass: String, Codable, Sendable {
+    /// Recreational use is the primary frame — full dose ladder + duration.
+    case recreational
+    /// A medical drug that PsychonautWiki/TripSit also document recreationally
+    /// (mirtazapine, DXM, gabapentin, …). Shown like recreational.
+    case dualUse = "dual_use"
+    /// Over-the-counter — dose is on the package, so dose may be shown without
+    /// a recreational signal. Duration suppressed when implausible (>24h).
+    case otc
+    /// Prescription medication, no recreational value — show mechanism /
+    /// indications / warnings, but NEVER dose or duration (a doctor's domain).
+    case medicalRx = "medical_rx"
+    /// No recreational value at all (antibiotics, …). Trackable + recognisable
+    /// but hidden from recreational browsing; no dose/duration.
+    case nonRecreational = "non_recreational"
+
+    /// Dose ladder visible. Suppressed for medical/non-recreational compounds.
+    var showsDoseLadder: Bool {
+        switch self {
+        case .recreational, .dualUse, .otc: true
+        case .medicalRx, .nonRecreational: false
+        }
+    }
+
+    /// Duration profile visible. (OTC additionally requires a plausible
+    /// duration — gate on `Substance.durationImplausible` at the call site.)
+    var showsDuration: Bool {
+        switch self {
+        case .recreational, .dualUse, .otc: true
+        case .medicalRx, .nonRecreational: false
+        }
+    }
+
+    /// Whether this compound appears in recreational category browsing. Non-
+    /// recreational compounds stay searchable (for medication tracking) but are
+    /// not surfaced in the browse grid.
+    var surfacesInBrowse: Bool { self != .nonRecreational }
+}
+
+/// A single contraindication or boxed warning sourced from a clinical label.
+struct Contraindication: Codable, Hashable, Sendable {
+    let text: String
+    let isBoxedWarning: Bool
+}
+
+/// Cross-benzodiazepine dose equivalency (relative to 10 mg diazepam). Sourced
+/// from the TripSit benzo dataset; the only such data in Piru.
+struct DiazepamEquivalent: Codable, Hashable, Sendable {
+    let doseMg: Double?
+    let equivalentDiazepamMg: Double?
+    let displayText: String?
+}
+
 struct Substance: Identifiable {
     let id: UUID
     let name: String
@@ -508,6 +565,24 @@ struct Substance: Identifiable {
     let halfLifeMinutes: Double?
     let sources: [String]
     let mechanismOfAction: MechanismOfAction?
+    /// Display-policy classification governing dose/duration/browse visibility.
+    let displayClass: CompoundDisplayClass
+    /// Parsed OTC/Rx/controlled status, when known (`rx`, `otc`,
+    /// `rx_otc_dependent`, `controlled_schedule_N`).
+    let regulatoryStatus: String?
+    /// True when the total duration exceeds 24h (the vitamin problem); OTC
+    /// duration is suppressed when set. Recreational/dual-use are exempt.
+    let durationImplausible: Bool
+    /// Clinical indications (what it's prescribed for), for medical/OTC display.
+    let indications: [String]
+    /// Contraindications + boxed warnings, for medical/OTC display.
+    let contraindications: [Contraindication]
+    /// Cross-benzo diazepam equivalency (benzodiazepines only).
+    let diazepamEquivalent: DiazepamEquivalent?
+    /// Chemical identifiers (detail-only; nil in the batch/browse path).
+    let cas: String?
+    let inchikey: String?
+    let formula: String?
     /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
     /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,
     /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
@@ -526,7 +601,16 @@ struct Substance: Identifiable {
         halfLifeMinutes: Double? = nil,
         sources: [String] = [],
         mechanismOfAction: MechanismOfAction? = nil,
-        tags: [String] = []
+        tags: [String] = [],
+        displayClass: CompoundDisplayClass = .recreational,
+        regulatoryStatus: String? = nil,
+        durationImplausible: Bool = false,
+        indications: [String] = [],
+        contraindications: [Contraindication] = [],
+        diazepamEquivalent: DiazepamEquivalent? = nil,
+        cas: String? = nil,
+        inchikey: String? = nil,
+        formula: String? = nil
     ) {
         self.id = UUID()
         self.name = name
@@ -541,6 +625,15 @@ struct Substance: Identifiable {
         self.sources = sources
         self.mechanismOfAction = mechanismOfAction
         self.tags = tags
+        self.displayClass = displayClass
+        self.regulatoryStatus = regulatoryStatus
+        self.durationImplausible = durationImplausible
+        self.indications = indications
+        self.contraindications = contraindications
+        self.diazepamEquivalent = diazepamEquivalent
+        self.cas = cas
+        self.inchikey = inchikey
+        self.formula = formula
     }
 
     /// True when no route on this substance has any usable dose data. Used by
@@ -604,6 +697,9 @@ extension Substance: Codable {
         case name, aliases, category, defaultRoute, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
         case mechanismOfAction, tags
+        case displayClass, regulatoryStatus, durationImplausible
+        case indications, contraindications, diazepamEquivalent
+        case cas, inchikey, formula
     }
 
     init(from decoder: Decoder) throws {
@@ -621,6 +717,15 @@ extension Substance: Codable {
         sources = try c.decodeIfPresent([String].self, forKey: .sources) ?? []
         mechanismOfAction = try c.decodeIfPresent(MechanismOfAction.self, forKey: .mechanismOfAction)
         tags = try c.decodeIfPresent([String].self, forKey: .tags) ?? []
+        displayClass = try c.decodeIfPresent(CompoundDisplayClass.self, forKey: .displayClass) ?? .recreational
+        regulatoryStatus = try c.decodeIfPresent(String.self, forKey: .regulatoryStatus)
+        durationImplausible = try c.decodeIfPresent(Bool.self, forKey: .durationImplausible) ?? false
+        indications = try c.decodeIfPresent([String].self, forKey: .indications) ?? []
+        contraindications = try c.decodeIfPresent([Contraindication].self, forKey: .contraindications) ?? []
+        diazepamEquivalent = try c.decodeIfPresent(DiazepamEquivalent.self, forKey: .diazepamEquivalent)
+        cas = try c.decodeIfPresent(String.self, forKey: .cas)
+        inchikey = try c.decodeIfPresent(String.self, forKey: .inchikey)
+        formula = try c.decodeIfPresent(String.self, forKey: .formula)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -643,6 +748,23 @@ extension Substance: Codable {
         if !tags.isEmpty {
             try c.encode(tags, forKey: .tags)
         }
+        if displayClass != .recreational {
+            try c.encode(displayClass, forKey: .displayClass)
+        }
+        try c.encodeIfPresent(regulatoryStatus, forKey: .regulatoryStatus)
+        if durationImplausible {
+            try c.encode(durationImplausible, forKey: .durationImplausible)
+        }
+        if !indications.isEmpty {
+            try c.encode(indications, forKey: .indications)
+        }
+        if !contraindications.isEmpty {
+            try c.encode(contraindications, forKey: .contraindications)
+        }
+        try c.encodeIfPresent(diazepamEquivalent, forKey: .diazepamEquivalent)
+        try c.encodeIfPresent(cas, forKey: .cas)
+        try c.encodeIfPresent(inchikey, forKey: .inchikey)
+        try c.encodeIfPresent(formula, forKey: .formula)
     }
 }
 

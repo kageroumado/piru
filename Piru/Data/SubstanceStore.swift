@@ -180,6 +180,24 @@ final class SubstanceStore {
                 }
                 logger.info("Seeded source_preferences with \(defaults.count) defaults")
             }
+
+            // Reconcile: a bundled-DB upgrade can introduce new sources (e.g.
+            // pyrls/medtap/benzos-cited/nps-datahub) that an existing user's
+            // already-seeded prefs table lacks. Insert any missing slugs at
+            // their bundled default priority/enabled so their data resolves.
+            let bundledSources = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: "SELECT slug, default_priority, default_enabled FROM sources ORDER BY default_priority")
+            }
+            try userPrefsDB.write { db in
+                let known = try String.fetchAll(db, sql: "SELECT source_slug FROM source_preferences")
+                let knownSet = Set(known)
+                for row in bundledSources where !knownSet.contains(row["slug"] as String) {
+                    try db.execute(
+                        sql: "INSERT OR IGNORE INTO source_preferences(source_slug, priority, enabled) VALUES (?, ?, ?)",
+                        arguments: [row["slug"] as String, row["default_priority"] as Int, row["default_enabled"] as Int]
+                    )
+                }
+            }
         } catch {
             logger.error("Failed to seed user prefs: \(error.localizedDescription, privacy: .public)")
         }
@@ -390,10 +408,23 @@ final class SubstanceStore {
         do {
             return try substancesDB.read { db in
                 let allRows = try Row.fetchAll(db, sql:
-                    "SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                    "SELECT id, canonical_name, display_class, regulatory_status, duration_implausible FROM substances ORDER BY canonical_name COLLATE NOCASE")
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(uniqueKeysWithValues:
                     allRows.map { ($0["id"], $0["canonical_name"] as String) })
+                // Display-policy fields — loaded in the cheap batch path because
+                // every browse row needs the class for filtering + dose gating.
+                var displayClassByID: [Int64: CompoundDisplayClass] = [:]
+                var regulatoryByID: [Int64: String] = [:]
+                var durationImplausibleByID: [Int64: Bool] = [:]
+                for row in allRows {
+                    let sid: Int64 = row["id"]
+                    if let raw: String = row["display_class"], let cls = CompoundDisplayClass(rawValue: raw) {
+                        displayClassByID[sid] = cls
+                    }
+                    if let reg: String = row["regulatory_status"] { regulatoryByID[sid] = reg }
+                    durationImplausibleByID[sid] = (row["duration_implausible"] as Int64? ?? 0) != 0
+                }
 
                 // Aliases — union across sources.
                 var aliasesByID: [Int64: [String]] = [:]
@@ -576,7 +607,10 @@ final class SubstanceStore {
                         halfLifeMinutes: halfLifeByID[sid],
                         sources: sourcesByID[sid] ?? [],
                         mechanismOfAction: nil,
-                        tags: tags
+                        tags: tags,
+                        displayClass: displayClassByID[sid] ?? .recreational,
+                        regulatoryStatus: regulatoryByID[sid],
+                        durationImplausible: durationImplausibleByID[sid] ?? false
                     )
                 }
             }
@@ -593,15 +627,17 @@ final class SubstanceStore {
     /// in whichever category the highest-priority enabled source assigns.
     func substances(in category: SubstanceCategory) -> [Substance] {
         if let cached = substancesByCategoryCache[category] { return cached }
-        let filtered = all.filter { $0.category == category }
+        // Non-recreational compounds (antibiotics, …) stay searchable for
+        // medication tracking but are hidden from recreational category browse.
+        let filtered = all.filter { $0.category == category && $0.displayClass.surfacesInBrowse }
         substancesByCategoryCache[category] = filtered
         return filtered
     }
 
-    /// Categories that have at least one substance after source resolution.
+    /// Categories that have at least one browsable substance after resolution.
     var nonEmptyCategories: [SubstanceCategory] {
         if let cached = nonEmptyCategoriesCache { return cached }
-        let cats = Set(all.map(\.category))
+        let cats = Set(all.lazy.filter { $0.displayClass.surfacesInBrowse }.map(\.category))
         let result = SubstanceCategory.allCases.filter(cats.contains)
         nonEmptyCategoriesCache = result
         return result
@@ -681,10 +717,16 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
+                let displayClass = (coreRow["display_class"] as String?).flatMap(CompoundDisplayClass.init(rawValue:)) ?? .recreational
+                let regulatoryStatus: String? = coreRow["regulatory_status"]
+                let durationImplausible = (coreRow["duration_implausible"] as Int64? ?? 0) != 0
+                let cas: String? = coreRow["cas"]
+                let inchikey: String? = coreRow["inchikey"]
+                let formula: String? = coreRow["formula"]
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
 
@@ -697,6 +739,9 @@ final class SubstanceStore {
                 let mechanism = try resolvedMechanism(db: db, substanceID: id)
                 let sources = try citedSources(db: db, substanceID: id)
                 let toleranceInfo = try resolvedTolerance(db: db, substanceID: id)
+                let indications = try self.resolvedIndications(db: db, substanceID: id)
+                let contraindications = try self.resolvedContraindications(db: db, substanceID: id)
+                let diazepamEquivalent = try self.resolvedDiazepamEquivalent(db: db, substanceID: id)
 
                 routes.sort { Self.routeRank($0.route) < Self.routeRank($1.route) }
                 let defaultRoute = routes.first?.route
@@ -714,7 +759,16 @@ final class SubstanceStore {
                     halfLifeMinutes: halfLifeMinutes,
                     sources: sources,
                     mechanismOfAction: mechanism,
-                    tags: tags
+                    tags: tags,
+                    displayClass: displayClass,
+                    regulatoryStatus: regulatoryStatus,
+                    durationImplausible: durationImplausible,
+                    indications: indications,
+                    contraindications: contraindications,
+                    diazepamEquivalent: diazepamEquivalent,
+                    cas: cas,
+                    inchikey: inchikey,
+                    formula: formula
                 )
             }
             if let resolved {
@@ -770,6 +824,51 @@ final class SubstanceStore {
                AND src.slug IN (\(enabledSourceListSQL))
              ORDER BY tag
         """, arguments: [substanceID])
+    }
+
+    /// Clinical indications — additive union across enabled sources.
+    private func resolvedIndications(db: Database, substanceID: Int64) throws -> [String] {
+        try String.fetchAll(db, sql: """
+            SELECT DISTINCT text
+              FROM indications i
+              JOIN sources src ON src.id = i.source_id
+             WHERE i.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+             ORDER BY text
+        """, arguments: [substanceID])
+    }
+
+    /// Contraindications + boxed warnings — boxed warnings sorted first.
+    private func resolvedContraindications(db: Database, substanceID: Int64) throws -> [Contraindication] {
+        let rows = try Row.fetchAll(db, sql: """
+            SELECT DISTINCT text, is_boxed_warning
+              FROM contraindications c
+              JOIN sources src ON src.id = c.source_id
+             WHERE c.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+             ORDER BY is_boxed_warning DESC, text
+        """, arguments: [substanceID])
+        return rows.map {
+            Contraindication(text: $0["text"], isBoxedWarning: ($0["is_boxed_warning"] as Int64? ?? 0) != 0)
+        }
+    }
+
+    /// Diazepam-equivalency (benzodiazepines only) — highest-priority source.
+    private func resolvedDiazepamEquivalent(db: Database, substanceID: Int64) throws -> DiazepamEquivalent? {
+        guard let row = try Row.fetchOne(db, sql: """
+            SELECT dose_mg, equivalent_diazepam_mg, display_text
+              FROM diazepam_equivalents d
+              JOIN sources src ON src.id = d.source_id
+             WHERE d.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+             ORDER BY \(priorityCaseSQL) ASC
+             LIMIT 1
+        """, arguments: [substanceID]) else { return nil }
+        return DiazepamEquivalent(
+            doseMg: row["dose_mg"],
+            equivalentDiazepamMg: row["equivalent_diazepam_mg"],
+            displayText: row["display_text"]
+        )
     }
 
     private func resolvedRoutes(db: Database, substanceID: Int64) throws -> [SubstanceRoute] {
