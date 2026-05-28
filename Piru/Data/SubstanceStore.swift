@@ -461,27 +461,25 @@ final class SubstanceStore {
                     dosesByKey[DoseKey(sid: sid, route: route)] = (row["unit"] ?? "mg", dose)
                 }
 
-                // Durations — pick the winning source per (substance, route),
-                // then keep every phase that winning source supplies.
+                // Durations — pick the highest-priority source *per phase* so
+                // different sources can contribute different phases (e.g. the
+                // curated source supplies onset/peak/offset while PsychonautWiki
+                // fills comeup/afterglow). Picking a single winning source per
+                // (substance, route) makes any phase that source happens to omit
+                // render as a zero-width step in the timeline curve.
                 var durationByKey: [DoseKey: DurationProfile] = [:]
                 let durationPhases = try Row.fetchAll(db, sql: """
-                    SELECT du.substance_id, du.route, du.phase, du.min_minutes, du.max_minutes
-                      FROM durations du
-                      JOIN sources src ON src.id = du.source_id
-                      JOIN (
-                          SELECT substance_id, route, MIN(rank) AS rank
-                            FROM (
-                                SELECT du2.substance_id, du2.route,
-                                       \(self.priorityCaseSQL) AS rank
-                                  FROM durations du2
-                                  JOIN sources src ON src.id = du2.source_id
-                                 WHERE src.slug IN (\(self.enabledSourceListSQL))
-                            )
-                           GROUP BY substance_id, route
-                      ) winner ON winner.substance_id = du.substance_id
-                              AND winner.route        = du.route
-                              AND winner.rank         = \(self.priorityCaseSQL)
-                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    SELECT substance_id, route, phase, min_minutes, max_minutes
+                      FROM (
+                        SELECT du.substance_id, du.route, du.phase,
+                               du.min_minutes, du.max_minutes,
+                               ROW_NUMBER() OVER (
+                                   PARTITION BY du.substance_id, du.route, du.phase
+                                   ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                          FROM durations du
+                          JOIN sources src ON src.id = du.source_id
+                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    ) WHERE rn = 1
                 """)
                 var phasesByKey: [DoseKey: [String: DurationRange]] = [:]
                 for row in durationPhases {
@@ -838,22 +836,17 @@ final class SubstanceStore {
 
     private func resolvedDurationForRoute(db: Database, substanceID: Int64, route: String) throws -> DurationProfile? {
         let rows = try Row.fetchAll(db, sql: """
-            SELECT du.phase, du.min_minutes, du.max_minutes
-              FROM durations du
-              JOIN sources src ON src.id = du.source_id
-             WHERE du.substance_id = ? AND du.route = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-               AND du.source_id = (
-                   SELECT du2.source_id FROM durations du2
-                   JOIN sources src2 ON src2.id = du2.source_id
-                   WHERE du2.substance_id = ? AND du2.route = ?
-                     AND src2.slug IN (\(enabledSourceListSQL))
-                   ORDER BY CASE src2.slug
-                       \(enabledSourceOrder.enumerated().map { "WHEN '\($1.replacingOccurrences(of: "'", with: "''"))' THEN \($0)" }.joined(separator: " "))
-                       ELSE 999 END
-                   LIMIT 1
-               )
-        """, arguments: [substanceID, route, substanceID, route])
+            SELECT phase, min_minutes, max_minutes
+              FROM (
+                SELECT du.phase, du.min_minutes, du.max_minutes,
+                       ROW_NUMBER() OVER (PARTITION BY du.phase
+                                          ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM durations du
+                  JOIN sources src ON src.id = du.source_id
+                 WHERE du.substance_id = ? AND du.route = ?
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
+        """, arguments: [substanceID, route])
 
         guard !rows.isEmpty else { return nil }
 
