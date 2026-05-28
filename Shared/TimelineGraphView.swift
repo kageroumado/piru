@@ -47,8 +47,16 @@ struct TimelineGraphView: View {
             let offset = marker.timestamp.timeIntervalSince(earliestDose) / 60
             maxEnd = max(maxEnd, offset + 60) // Give markers 1h of visual space
         }
-        return max(maxEnd, 1)
+        // Cap the window so a single long-half-life compound (e.g. levothyroxine,
+        // ~7-day t½ → ~1000h of modelled activity) can't stretch the axis to
+        // weeks and crush everything else into the left edge. Long tails are
+        // clipped at the cap; pinch-to-zoom still works within it.
+        return min(max(maxEnd, 1), Self.maxDisplayMinutes)
     }
+
+    /// Hard cap on the timeline window (48h). Activity past this is clipped so
+    /// the meaningful first two days stay legible.
+    private static let maxDisplayMinutes: Double = 48 * 60
 
     /// Target number of time labels on the x-axis for consistency.
     private static let targetTickCount: Int = 8
@@ -91,6 +99,32 @@ struct TimelineGraphView: View {
         }
         return max(0.05, scale)
     }
+
+    /// Highest curve peak across all substances/groups. Used to normalize the
+    /// y-axis so the tallest curve fills the height — a lone low dose then
+    /// reaches the top instead of rendering as a flat sliver, and multiple
+    /// curves keep their relative proportions.
+    private var peakCurveValue: Double {
+        if stackRedoses {
+            var maxV = 0.0
+            for group in stackedGroups {
+                let (s, e) = stackedGroupRange(group)
+                guard e > s else { continue }
+                let steps = 48
+                for i in 0...steps {
+                    let t = s + Double(i) / Double(steps) * (e - s)
+                    maxV = max(maxV, stackedIntensity(atGlobalMinutes: t, group: group))
+                }
+            }
+            return max(maxV, 0.0001)
+        } else {
+            return max(substances.map { heightScale(for: $0) }.max() ?? 1, 0.0001)
+        }
+    }
+
+    /// Multiplier mapping the tallest curve to full height (capped so a tiny
+    /// floor value can't blow up beyond the graph).
+    private var yNormalization: Double { min(1.0 / peakCurveValue, 20.0) }
 
     private var effectiveZoom: CGFloat {
         compact ? 1 : max(1, zoom)
@@ -272,10 +306,11 @@ struct TimelineGraphView: View {
                     graphTop: graphTop
                 )
             } else {
+                let yNorm = yNormalization
                 for substance in substances {
                     let color = Color(hex: substance.colorHex)
                     let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    let scale = heightScale(for: substance)
+                    let scale = heightScale(for: substance) * yNorm
 
                     let fillPath = intensityFillPath(
                         for: substance,
@@ -513,6 +548,7 @@ struct TimelineGraphView: View {
     ) {
         let baseline = graphTop + graphHeight
         let steps = compact ? 60 : 200
+        let yNorm = yNormalization
 
         for group in stackedGroups {
             guard let first = group.first else { continue }
@@ -525,7 +561,8 @@ struct TimelineGraphView: View {
             func point(at i: Int) -> CGPoint {
                 let t = gStart + Double(i) / Double(steps) * gSpan
                 let x = graphInset + CGFloat((t - visibleStart) / visibleSpan) * graphWidth
-                let y = baseline - CGFloat(stackedIntensity(atGlobalMinutes: t, group: group)) * graphHeight * 0.93
+                let v = min(1.0, stackedIntensity(atGlobalMinutes: t, group: group) * yNorm)
+                let y = baseline - CGFloat(v) * graphHeight * 0.93
                 return CGPoint(x: x, y: y)
             }
 
