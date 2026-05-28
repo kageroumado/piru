@@ -1,10 +1,15 @@
 {
-  "content_version": "2026-05-27.0",
-  "generated_at": "2026-05-27T16:17:47.791990+00:00",
-  "generator_version": "build-sqlite-database.py 0.1.0",
+  "content_version": "2026-05-28.0",
+  "generated_at": "2026-05-28T23:23:32.025726+00:00",
+  "generator_version": "pipeline/build/sqlite.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
+    "benzos-cited": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
     "dailymed": {
       "bindings": 0,
       "categories": 0,
@@ -17,8 +22,8 @@
     },
     "drug.community": {
       "bindings": 0,
-      "categories": 420,
-      "dose_ranges": 881
+      "categories": 417,
+      "dose_ranges": 875
     },
     "erowid-pihkal": {
       "bindings": 0,
@@ -30,44 +35,59 @@
       "categories": 55,
       "dose_ranges": 41
     },
+    "medtap": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
+    "nps-datahub": {
+      "bindings": 0,
+      "categories": 0,
+      "dose_ranges": 0
+    },
     "pdsp": {
       "bindings": 0,
       "categories": 0,
       "dose_ranges": 0
     },
     "peer-review-primary": {
-      "bindings": 898,
+      "bindings": 896,
       "categories": 0,
       "dose_ranges": 0
     },
     "piru-curated": {
       "bindings": 0,
-      "categories": 502,
-      "dose_ranges": 363
+      "categories": 518,
+      "dose_ranges": 354
     },
     "psychonautwiki": {
       "bindings": 0,
       "categories": 277,
-      "dose_ranges": 387
+      "dose_ranges": 389
     },
     "pubchem": {
       "bindings": 0,
       "categories": 0,
       "dose_ranges": 0
     },
+    "pyrls": {
+      "bindings": 0,
+      "categories": 193,
+      "dose_ranges": 0
+    },
     "tripsit": {
       "bindings": 0,
-      "categories": 554,
+      "categories": 553,
       "dose_ranges": 587
     },
     "wikidata": {
       "bindings": 0,
-      "categories": 546,
+      "categories": 541,
       "dose_ranges": 0
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "28a495f719ae4dd852bc85adaaf7e4c3683e1f82780759f29e647df3d80d9d17",
-  "sqlite_size_bytes": 4796416,
-  "substance_count": 1823
+  "sqlite_sha256": "51ea355ac9dad779965d22c15f189a147b895e7520d2f6b098b4ffd0490ca62c",
+  "sqlite_size_bytes": 14880768,
+  "substance_count": 2237
 }

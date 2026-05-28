@@ -582,6 +582,76 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         """).fetchone()
         self.assertLess(rows["c"], 120, f"dose_ranges monotonicity regressions: {rows['c']} violations")
 
+    # ---- duplicate-substance / alias dedup invariants ----
+
+    def _resolve_ids(self, name: str):
+        """All substance ids a name resolves to (as canonical or alias)."""
+        n = name.lower()
+        return sorted({r["id"] for r in self.db.execute(
+            "select s.id from substances s where lower(s.canonical_name)=? "
+            "union select a.substance_id from aliases a where lower(a.alias)=?",
+            (n, n))})
+
+    def test_reported_brand_generic_pairs_merged(self):
+        """Regression for the reported duplicates: a brand and its generic must
+        resolve to ONE substance, and the brand must not survive as its own
+        canonical record."""
+        for brand, generic in [("Vyvanse", "Lisdexamfetamine"),
+                               ("Focalin", "Dexmethylphenidate"),
+                               ("Adderall", "Amphetamine")]:
+            gids = self._resolve_ids(generic)
+            self.assertTrue(gids, f"{generic} missing from DB")
+            self.assertIn(gids[0], self._resolve_ids(brand),
+                          f"{brand} does not resolve to {generic}")
+            self.assertIsNone(
+                self.db.execute("select 1 from substances where lower(canonical_name)=lower(?)", (brand,)).fetchone(),
+                f"{brand} still exists as a separate substance — dedup regressed")
+
+    def test_no_exact_duplicate_canonical_names(self):
+        """No two substances share a normalized canonical name."""
+        dups = [r["normalized_name"] for r in self.db.execute(
+            "select normalized_name, count(*) c from substances group by normalized_name having c>1")]
+        self.assertEqual(dups, [], f"duplicate normalized canonical names: {dups}")
+
+    def test_no_intra_substance_duplicate_aliases(self):
+        """A substance must not carry the same alias twice (case/salt variants);
+        the alias-level dedup collapses them."""
+        n = self.db.execute(
+            "select count(*) c from (select 1 from aliases group by substance_id, alias_normalized having count(*)>1)"
+        ).fetchone()["c"]
+        self.assertEqual(n, 0, f"{n} substances carry case/salt-duplicate aliases")
+
+    def test_stereoisomers_not_over_merged(self):
+        """Dedup must NOT fuse enantiomer/racemate pairs — they are distinct
+        drugs with different potency/dosing."""
+        for a, b in [("Methylphenidate", "Dexmethylphenidate"),
+                     ("Amphetamine", "Dextroamphetamine"),
+                     ("Citalopram", "Escitalopram"),
+                     ("Modafinil", "Armodafinil")]:
+            ra = self.db.execute("select id from substances where lower(canonical_name)=lower(?)", (a,)).fetchone()
+            rb = self.db.execute("select id from substances where lower(canonical_name)=lower(?)", (b,)).fetchone()
+            self.assertIsNotNone(ra, f"{a} missing")
+            self.assertIsNotNone(rb, f"{b} missing")
+            self.assertNotEqual(ra["id"], rb["id"], f"{a} and {b} were wrongly merged")
+
+    def test_unmerged_duplicate_debt_bounded(self):
+        """Tracks the safe-baseline duplicate debt: data-poor records whose
+        canonical name is another substance's alias but which lack the InChIKey
+        confirmation required to merge them safely (auto-merge needs positive
+        structural proof, since distinct drugs sometimes cross-list each other —
+        loratadine↔fexofenadine). Bounded so a real dedup REGRESSION (which would
+        spike this into the hundreds) is caught; the residual ~50 are obscure RC
+        abbreviation/salt variants awaiting InChIKey backfill or curated remap."""
+        n = self.db.execute("""
+            select count(*) c from substances s
+            join aliases a on a.alias_normalized = s.normalized_name and a.substance_id != s.id
+            where not exists (select 1 from dose_ranges  d where d.substance_id=s.id)
+              and not exists (select 1 from durations    d where d.substance_id=s.id)
+              and not exists (select 1 from bindings     d where d.substance_id=s.id)
+              and not exists (select 1 from effects      d where d.substance_id=s.id)
+        """).fetchone()["c"]
+        self.assertLess(n, 75, f"unmerged duplicate debt spiked to {n} — dedup likely regressed")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

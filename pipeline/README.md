@@ -21,8 +21,6 @@ pipeline/
                                                   ┌─ data/curated/overlay.json (hand-maintained)
                                                   │
   PsychonautWiki API ──► fetch/psychonautwiki.py ──► data/sources/psychonautwiki.json ──┐
-  TripSit / MedTAP /                                                                    │
-  NPS / Pyrls       ──► fetch/brushers/*.py     ──► data/sources/brushers/*.csv         │
   drug.community    ──► (manual snapshot)       ──► data/sources/drug-community.json    │
                                                                                         ▼
                                               Tools/SubstanceCollector (Swift CLI)
@@ -33,8 +31,10 @@ pipeline/
                                               data/intermediate/substances-bundled.json
                                                                                         │
                                                                                         │ + data/enrichment/raw/*.json
-                                                                                        │   (from agent-swarm research,
-                                                                                        │    see enrichment/README below)
+                                                                                        │   (agent-swarm research)
+                                                                                        │ + <out-of-repo>/*.substances.json
+                                                                                        │   (TripSit-benzos / MedTAP / NPS /
+                                                                                        │    Pyrls, via fetch/brushers/extract.py)
                                                                                         ▼
                                               build/sqlite.py
                                                                                         │
@@ -57,32 +57,38 @@ From the repo root, in order:
 ```bash
 # 1. Optionally refresh upstream snapshots (only when external data has changed)
 python3 pipeline/fetch/psychonautwiki.py        # ~30 min, paginated GraphQL
-python3 pipeline/fetch/brushers/brush_all.py    # quick — local CSVs
 
 # 2. Merge raw sources + apply curated overlay (Swift)
 cd Tools/SubstanceCollector && swift run SubstanceCollector && cd ../..
 
 # 3. (Optional) Run an enrichment pass — see pipeline/enrichment/ for the multi-step workflow
 
-# 4. Build the bundled SQLite the app reads
+# 4. Extract the out-of-repo external datasets (TripSit-benzos / MedTAP / NPS / Pyrls)
+#    Needs ~/Developer/piru-datasources present; writes JSON to /tmp/piru-extract.
+python3 pipeline/fetch/brushers/extract.py
+
+# 5. Build the bundled SQLite the app reads
 python3 pipeline/build/sqlite.py
 
-# 5. Build the human-readable snapshots committed under data/snapshots/
+# 6. Build the human-readable snapshots committed under data/snapshots/
 python3 pipeline/build/snapshots.py
 ```
 
-After step 5, commit `data/intermediate/`, `data/snapshots/`,
+After step 6, commit `data/intermediate/`, `data/snapshots/`,
 `Piru/Data/piru-substances.sqlite`, and `Piru/Data/manifest.json`.
+The raw `piru-datasources` files and the `/tmp/piru-extract` JSON are
+deliberately NOT committed — only the built SQLite is.
 
 ## Sub-pipeline overviews
 
 ### `fetch/`
 - **`psychonautwiki.py`** — paginated GraphQL crawl of psychonautwiki.org;
   writes `data/sources/psychonautwiki.json`.
-- **`brushers/`** — small Python brushers per non-API source (TripSit
-  combo data, MedTAP NDC dump, NPS DataHub, Pyrls). Each `brush_<name>.py`
-  writes one CSV to `data/sources/brushers/`. `brush_all.py` runs them
-  all in sequence.
+- **`brushers/extract.py`** — extracts the four out-of-repo datasets
+  (`~/Developer/piru-datasources`: TripSit-benzos, MedTAP, NPS DataHub,
+  Pyrls) into `Substance`-shaped JSON written to `/tmp/piru-extract`
+  (out of repo). `build/sqlite.py` ingests those directly. `_common.py`
+  holds the shared category/route/dose parsing helpers.
 
 ### `enrichment/`
 LLM-assisted research used to fill gaps external sources don't cover

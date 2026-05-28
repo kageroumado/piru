@@ -363,6 +363,78 @@ struct SubstanceDetailView: View {
 
     private var profile: UserProfile { store.userProfile }
     private var policy: DisclosurePolicy { .init(profile: profile) }
+    private var displayClass: CompoundDisplayClass { substance.displayClass }
+
+    /// Human-readable availability label from the parsed regulatory_status.
+    private func regulatoryDisplay(_ raw: String) -> String {
+        switch raw {
+        case "otc": return String(localized: "Over-the-counter")
+        case "rx": return String(localized: "Prescription only")
+        case "rx_otc_dependent": return String(localized: "OTC / Prescription")
+        default:
+            if raw.hasPrefix("controlled_schedule_"), let n = raw.split(separator: "_").last {
+                return String(localized: "Schedule \(String(n)) (controlled)")
+            }
+            return raw
+        }
+    }
+
+    /// Net-new clinical section: indications + contraindications + boxed
+    /// warnings. Renders only when the compound carries that data (medical/OTC
+    /// compounds from pyrls/medtap).
+    @ViewBuilder private var medicalInfoSection: some View {
+        if !substance.indications.isEmpty {
+            Section("Medical Uses") {
+                ForEach(substance.indications, id: \.self) { ind in
+                    Label(ind, systemImage: "stethoscope")
+                        .font(.subheadline)
+                        .labelStyle(EffectLabelStyle())
+                }
+            }
+        }
+        let boxed = substance.contraindications.filter(\.isBoxedWarning)
+        let cautions = substance.contraindications.filter { !$0.isBoxedWarning }
+        if !boxed.isEmpty {
+            Section("Boxed Warning") {
+                ForEach(boxed, id: \.text) { c in
+                    Label(c.text, systemImage: "exclamationmark.octagon.fill")
+                        .font(.subheadline)
+                        .foregroundStyle(.red)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        if !cautions.isEmpty {
+            Section("Contraindications & Cautions") {
+                ForEach(cautions, id: \.text) { c in
+                    Label(c.text, systemImage: "exclamationmark.triangle")
+                        .font(.subheadline)
+                        .labelStyle(EffectLabelStyle())
+                }
+            }
+        }
+    }
+
+    /// Compact chemical-identity section (formula / CAS / InChIKey). Reference
+    /// data, surfaced above the casual tier when present.
+    @ViewBuilder private var chemistrySection: some View {
+        if policy.showsMechanism,
+           substance.formula != nil || substance.cas != nil || substance.inchikey != nil {
+            Section("Chemistry") {
+                if let f = substance.formula {
+                    LabeledContent("Formula") { Text(f) }
+                }
+                if let c = substance.cas {
+                    LabeledContent("CAS") { Text(c) }
+                }
+                if let k = substance.inchikey {
+                    LabeledContent("InChIKey") {
+                        Text(k).font(.caption.monospaced()).multilineTextAlignment(.trailing)
+                    }
+                }
+            }
+        }
+    }
 
     init(substance: Substance) {
         self.substance = substance
@@ -411,6 +483,16 @@ struct SubstanceDetailView: View {
                 LabeledContent("Default Route") {
                     Text(substance.defaultRoute.localizedName)
                 }
+                if let reg = substance.regulatoryStatus {
+                    LabeledContent("Availability") {
+                        Text(regulatoryDisplay(reg)).multilineTextAlignment(.trailing)
+                    }
+                }
+                if displayClass.showsDoseLadder, let dz = substance.diazepamEquivalent, let text = dz.displayText {
+                    LabeledContent("Diazepam equivalent") {
+                        Text(text).multilineTextAlignment(.trailing)
+                    }
+                }
                 if !substance.tags.isEmpty {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
                         .padding(.vertical, 4)
@@ -423,7 +505,21 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if substance.hasNoDoseData {
+            if displayClass == .medicalRx || displayClass == .nonRecreational {
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label(displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
+                              systemImage: "cross.case.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.blue)
+                        Text("Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only.")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.vertical, 4)
+                }
+            } else if substance.hasNoDoseData {
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
                         Label("Limited human data", systemImage: "exclamationmark.triangle.fill")
@@ -479,7 +575,7 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if !substance.effects.isEmpty {
+            if !substance.effects.isEmpty && displayClass != .nonRecreational {
                 Section("Effects") {
                     ForEach(substance.effects, id: \.self) { effect in
                         Label(effect, systemImage: "circle.fill")
@@ -489,41 +585,53 @@ struct SubstanceDetailView: View {
                 }
             }
 
+            // Medical context (indications / contraindications / boxed warnings)
+            // — shown for any compound that has clinical data. Net-new surface.
+            medicalInfoSection
+
+            // Dose ladder + duration are gated by the compound's display class:
+            // suppressed entirely for medical_rx / non_recreational (a doctor's
+            // domain), shown for recreational / dual_use / otc. OTC durations are
+            // additionally hidden when implausible (the >24h vitamin case).
             ForEach(substance.routes, id: \.route) { substanceRoute in
-                Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
-                    let unit = substanceRoute.unit
-                    let doses = substanceRoute.doses
+                if displayClass.showsDoseLadder {
+                    Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
+                        let unit = substanceRoute.unit
+                        let doses = substanceRoute.doses
 
-                    DoseLevelIndicator(doseRange: doses, currentDose: nil)
-                        .padding(.vertical, 4)
-
-                    if let threshold = doses.threshold {
-                        doseRow("Threshold", value: "\(threshold.doseFormatted) \(unit)", level: .threshold)
-                    }
-                    if let light = doses.light {
-                        doseRow("Light", value: "\(light.lowerBound.doseFormatted) – \(light.upperBound.doseFormatted) \(unit)", level: .light)
-                    }
-                    if let common = doses.common {
-                        doseRow("Common", value: "\(common.lowerBound.doseFormatted) – \(common.upperBound.doseFormatted) \(unit)", level: .common)
-                    }
-                    if let strong = doses.strong {
-                        doseRow("Strong", value: "\(strong.lowerBound.doseFormatted) – \(strong.upperBound.doseFormatted) \(unit)", level: .strong)
-                    }
-                    if let heavy = doses.heavy {
-                        doseRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
-                    }
-
-                    if doses.requiresVolumetricDosing(unit: unit) {
-                        VolumetricDosingDisclaimer()
+                        DoseLevelIndicator(doseRange: doses, currentDose: nil)
                             .padding(.vertical, 4)
-                    }
 
-                    if let slug = doseSourceSlug(for: substanceRoute.route) {
-                        SourceAttributionRow(slug: slug, label: "Dose data")
+                        if let threshold = doses.threshold {
+                            doseRow("Threshold", value: "\(threshold.doseFormatted) \(unit)", level: .threshold)
+                        }
+                        if let light = doses.light {
+                            doseRow("Light", value: "\(light.lowerBound.doseFormatted) – \(light.upperBound.doseFormatted) \(unit)", level: .light)
+                        }
+                        if let common = doses.common {
+                            doseRow("Common", value: "\(common.lowerBound.doseFormatted) – \(common.upperBound.doseFormatted) \(unit)", level: .common)
+                        }
+                        if let strong = doses.strong {
+                            doseRow("Strong", value: "\(strong.lowerBound.doseFormatted) – \(strong.upperBound.doseFormatted) \(unit)", level: .strong)
+                        }
+                        if let heavy = doses.heavy {
+                            doseRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
+                        }
+
+                        if doses.requiresVolumetricDosing(unit: unit) {
+                            VolumetricDosingDisclaimer()
+                                .padding(.vertical, 4)
+                        }
+
+                        if let slug = doseSourceSlug(for: substanceRoute.route) {
+                            SourceAttributionRow(slug: slug, label: "Dose data")
+                        }
                     }
                 }
 
-                if let duration = substanceRoute.duration {
+                if let duration = substanceRoute.duration,
+                   displayClass.showsDuration,
+                   !(displayClass == .otc && substance.durationImplausible) {
                     Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
                         DurationInfoView(duration: duration)
                             .padding(.vertical, 4)
@@ -535,7 +643,8 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if policy.showsRichSubjective && !substance.subjectiveEffects.isEmpty {
+            if policy.showsRichSubjective && !substance.subjectiveEffects.isEmpty
+                && (displayClass == .recreational || displayClass == .dualUse) {
                 Section {
                     DisclosureGroup(
                         isExpanded: Binding(
@@ -561,6 +670,8 @@ struct SubstanceDetailView: View {
                     }
                 }
             }
+
+            chemistrySection
 
             if policy.showsSources && !substance.sources.isEmpty {
                 Section {
