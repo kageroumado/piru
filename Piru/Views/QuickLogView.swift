@@ -175,7 +175,7 @@ struct QuickLogView: View {
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
-            .navigationTitle("Quick Log")
+            .navigationTitle("Log")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

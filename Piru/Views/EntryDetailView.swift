@@ -13,9 +13,12 @@ struct EntryDetailView: View {
     @State private var showingDeleteConfirmation = false
     @State private var showColorPicker = false
 
+    private var substanceInfo: Substance? {
+        SubstanceLibrary.lookupByNameOrAlias(entry.substance)
+    }
+
     private var resolvedDuration: DurationProfile? {
-        SubstanceLibrary.lookupByNameOrAlias(entry.substance)?
-            .resolveDuration(for: entry.route)
+        substanceInfo?.resolveDuration(for: entry.route)
     }
 
     private var hasActiveRampDown: Bool {
@@ -32,26 +35,43 @@ struct EntryDetailView: View {
         ActiveSubstanceState.from(entry: entry, colorHex: currentColorHex)
     }
 
+    /// Whether the dose's effect window still includes the current moment.
+    /// The "Live Activity" action only makes sense while a session is live —
+    /// once the curve has fully decayed there's nothing to track.
+    private var isSessionActive: Bool {
+        guard let state = substanceState else { return false }
+        return Date.now < state.doseTimestamp.addingTimeInterval(state.totalMinutes * 60)
+    }
+
     var body: some View {
         List {
             Group {
             if let state = substanceState {
                 Section {
                     VStack(spacing: 8) {
-                        HStack {
-                            Spacer()
-                            Button("Live Activity") {
-                                ActiveSessionManager.shared.restartFromEntries(
-                                    [entry],
-                                    allColors: Array(substanceColors)
-                                )
-                                LiveActivityManager.shared.sessionDidChange()
+                        if isSessionActive {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    ActiveSessionManager.shared.restartFromEntries(
+                                        [entry],
+                                        allColors: Array(substanceColors)
+                                    )
+                                    LiveActivityManager.shared.sessionDidChange()
+                                } label: {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "dot.radiowaves.up.forward")
+                                        Text("Live Activity")
+                                    }
+                                    .font(.caption2.weight(.semibold))
+                                }
+                                .buttonStyle(.bordered)
+                                .buttonBorderShape(.capsule)
+                                .controlSize(.mini)
+                                .tint(Theme.accent)
                             }
-                            .font(.caption)
-                            .buttonStyle(.plain)
-                            .foregroundStyle(Theme.accent)
+                            .padding(.top, 2)
                         }
-                        .padding(.horizontal, 12)
                         TimelineGraphView(
                             substances: [state],
                             currentTime: .now,
@@ -104,6 +124,29 @@ struct EntryDetailView: View {
 
             Section("Timing") {
                 LabeledContent("Date", value: entry.timestamp.formatted(date: .long, time: .shortened))
+            }
+
+            if let info = substanceInfo {
+                if info.displayClass.showsDoseLadder, let doses = info.doseRange(for: entry.route) {
+                    let refUnit = info.unit(for: entry.route)
+                    Section("Dose Ranges") {
+                        DoseLevelIndicator(
+                            doseRange: doses,
+                            currentDose: entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame ? entry.amount : nil
+                        )
+                        .padding(.vertical, 4)
+                        DoseRangeRows(doseRange: doses, unit: refUnit)
+                    }
+                }
+
+                if info.displayClass.showsDuration,
+                   !(info.displayClass == .otc && info.durationImplausible),
+                   let duration = info.resolveDuration(for: entry.route) {
+                    Section("Duration") {
+                        DurationInfoView(duration: duration)
+                            .padding(.vertical, 4)
+                    }
+                }
             }
 
             if let notes = entry.notes, !notes.isEmpty {

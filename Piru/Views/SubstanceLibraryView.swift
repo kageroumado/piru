@@ -610,21 +610,7 @@ struct SubstanceDetailView: View {
                         DoseLevelIndicator(doseRange: doses, currentDose: nil)
                             .padding(.vertical, 4)
 
-                        if let threshold = doses.threshold {
-                            doseRow("Threshold", value: "\(threshold.doseFormatted) \(unit)", level: .threshold)
-                        }
-                        if let light = doses.light {
-                            doseRow("Light", value: "\(light.lowerBound.doseFormatted) – \(light.upperBound.doseFormatted) \(unit)", level: .light)
-                        }
-                        if let common = doses.common {
-                            doseRow("Common", value: "\(common.lowerBound.doseFormatted) – \(common.upperBound.doseFormatted) \(unit)", level: .common)
-                        }
-                        if let strong = doses.strong {
-                            doseRow("Strong", value: "\(strong.lowerBound.doseFormatted) – \(strong.upperBound.doseFormatted) \(unit)", level: .strong)
-                        }
-                        if let heavy = doses.heavy {
-                            doseRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
-                        }
+                        DoseRangeRows(doseRange: doses, unit: unit)
 
                         if doses.requiresVolumetricDosing(unit: unit) {
                             VolumetricDosingDisclaimer()
@@ -944,24 +930,6 @@ struct SubstanceDetailView: View {
                 }
             }
         }
-    }
-
-    @ViewBuilder
-    private func doseRow(_ label: LocalizedStringResource, value: String, level: DoseLevel) -> some View {
-        HStack {
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(level.swiftUIColor)
-                    .frame(width: 8, height: 8)
-                Text(label)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            Spacer()
-            Text(value)
-                .monospacedDigit()
-                .foregroundStyle(.primary)
-        }
-        .font(.subheadline)
     }
 
 }

@@ -1,7 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {},
+    "" : {
+
+    },
     "--" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6791,6 +6793,22 @@
         }
       }
     },
+    "Dose Ranges" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量范围"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量範圍"
+          }
+        }
+      }
+    },
     "Dose Reference" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10655,6 +10673,22 @@
         }
       }
     },
+    "Log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄"
+          }
+        }
+      }
+    },
     "Log %@" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13554,6 +13588,7 @@
       }
     },
     "Quick Log" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
