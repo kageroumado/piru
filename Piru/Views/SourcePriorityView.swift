@@ -57,7 +57,7 @@ private struct SourceRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            Toggle(isOn: Binding(get: { state.enabled }, set: toggle)) {
+            Toggle(isOn: Binding(get: { state.enabled }, set: { toggle($0) })) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(state.displayName)
                         .font(.body)
