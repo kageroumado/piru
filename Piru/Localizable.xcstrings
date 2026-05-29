@@ -4,6 +4,22 @@
     "" : {
 
     },
+    "View on PubChem" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 PubChem 上查看"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 PubChem 上檢視"
+          }
+        }
+      }
+    },
     "--" : {
       "localizations" : {
         "zh-Hans" : {

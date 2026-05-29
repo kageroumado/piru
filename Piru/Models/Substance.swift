@@ -555,6 +555,11 @@ struct DiazepamEquivalent: Codable, Hashable, Sendable {
 struct Substance: Identifiable {
     let id: UUID
     let name: String
+    /// Optional human-facing title override (e.g. "2,3-MDMA" for the compound
+    /// whose canonical `name` is "2,3-Methylenedioxymethamphetamine"). When set,
+    /// the UI shows this as the primary title and demotes `name` to the subtitle.
+    /// `name` stays canonical for search/dedup/logging. See `displayTitle`/`displaySubtitle`.
+    let displayName: String?
     let aliases: [String]
     let category: SubstanceCategory
     let defaultRoute: RouteOfAdministration
@@ -583,6 +588,9 @@ struct Substance: Identifiable {
     let cas: String?
     let inchikey: String?
     let formula: String?
+    /// PubChem Compound ID, for linking out to the curated chemistry record.
+    /// Detail-only (nil in the batch/browse path), like the other identifiers.
+    let pubchemCID: Int?
     /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
     /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,
     /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
@@ -591,6 +599,7 @@ struct Substance: Identifiable {
 
     init(
         name: String,
+        displayName: String? = nil,
         aliases: [String],
         category: SubstanceCategory,
         defaultRoute: RouteOfAdministration,
@@ -610,10 +619,12 @@ struct Substance: Identifiable {
         diazepamEquivalent: DiazepamEquivalent? = nil,
         cas: String? = nil,
         inchikey: String? = nil,
-        formula: String? = nil
+        formula: String? = nil,
+        pubchemCID: Int? = nil
     ) {
         self.id = UUID()
         self.name = name
+        self.displayName = displayName
         self.aliases = aliases
         self.category = category
         self.defaultRoute = defaultRoute
@@ -634,6 +645,30 @@ struct Substance: Identifiable {
         self.cas = cas
         self.inchikey = inchikey
         self.formula = formula
+        self.pubchemCID = pubchemCID
+    }
+
+    /// Title shown in lists and the detail header — the curated override when
+    /// present, otherwise the canonical `name`.
+    var displayTitle: String { displayName ?? name }
+
+    /// Secondary line for rows: when a display-name override is active, the
+    /// canonical (expanded) name; otherwise the cleaned aliases (up to 3).
+    var displaySubtitle: String? {
+        if displayName != nil { return name }
+        guard !aliases.isEmpty else { return nil }
+        return aliases.prefix(3).joined(separator: ", ")
+    }
+
+    /// External chemistry reference, preferring an exact PubChem CID, then an
+    /// InChIKey search, then a name search — so every substance resolves.
+    var pubChemURL: URL? {
+        if let cid = pubchemCID {
+            return URL(string: "https://pubchem.ncbi.nlm.nih.gov/compound/\(cid)")
+        }
+        let query = inchikey ?? name
+        guard let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return nil }
+        return URL(string: "https://pubchem.ncbi.nlm.nih.gov/#query=\(encoded)")
     }
 
     /// True when no route on this substance has any usable dose data. Used by
@@ -694,18 +729,19 @@ struct Substance: Identifiable {
 
 extension Substance: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, aliases, category, defaultRoute, routes, effects
+        case name, displayName, aliases, category, defaultRoute, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
         case mechanismOfAction, tags
         case displayClass, regulatoryStatus, durationImplausible
         case indications, contraindications, diazepamEquivalent
-        case cas, inchikey, formula
+        case cas, inchikey, formula, pubchemCID
     }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = UUID()
         name = try c.decode(String.self, forKey: .name)
+        displayName = try c.decodeIfPresent(String.self, forKey: .displayName)
         aliases = try c.decode([String].self, forKey: .aliases)
         category = try c.decode(SubstanceCategory.self, forKey: .category)
         defaultRoute = try c.decode(RouteOfAdministration.self, forKey: .defaultRoute)
@@ -726,11 +762,13 @@ extension Substance: Codable {
         cas = try c.decodeIfPresent(String.self, forKey: .cas)
         inchikey = try c.decodeIfPresent(String.self, forKey: .inchikey)
         formula = try c.decodeIfPresent(String.self, forKey: .formula)
+        pubchemCID = try c.decodeIfPresent(Int.self, forKey: .pubchemCID)
     }
 
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(name, forKey: .name)
+        try c.encodeIfPresent(displayName, forKey: .displayName)
         try c.encode(aliases, forKey: .aliases)
         try c.encode(category, forKey: .category)
         try c.encode(defaultRoute, forKey: .defaultRoute)
@@ -765,6 +803,7 @@ extension Substance: Codable {
         try c.encodeIfPresent(cas, forKey: .cas)
         try c.encodeIfPresent(inchikey, forKey: .inchikey)
         try c.encodeIfPresent(formula, forKey: .formula)
+        try c.encodeIfPresent(pubchemCID, forKey: .pubchemCID)
     }
 }
 
