@@ -1,9 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
+    "" : {},
     "--" : {
       "localizations" : {
         "zh-Hans" : {
@@ -85,10 +83,36 @@
       }
     },
     "· DOI" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· DOI"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· DOI"
+          }
+        }
+      }
     },
     "· PMID %lld" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· PMID %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· PMID %lld"
+          }
+        }
+      }
     },
     "(%@)" : {
       "localizations" : {
@@ -511,6 +535,18 @@
             "state" : "new",
             "value" : "%1$@ → %2$@"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ → %@"
+          }
         }
       }
     },
@@ -618,6 +654,18 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@, source: %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，来源：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，來源：%@"
           }
         }
       }
@@ -775,7 +823,20 @@
       }
     },
     "%lld enabled" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用 %lld 个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已啟用 %lld 個"
+          }
+        }
+      }
     },
     "%lld entr%@" : {
       "localizations" : {
@@ -2825,7 +2886,20 @@
       }
     },
     "All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物质数据均随应用一同提供。当多个来源对同一事实存在分歧时，可重新排序来源以决定优先采用哪一个。更新为可选项，并通过 sha256 校验。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有物質資料均隨應用程式一同提供。當多個來源對同一事實存在分歧時，可重新排序來源以決定優先採用哪一個。更新為可選項目，並透過 sha256 驗證。"
+          }
+        }
+      }
     },
     "All taken" : {
       "localizations" : {
@@ -2940,7 +3014,20 @@
       }
     },
     "AMPAkine" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMPA 增强剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMPA 增強劑"
+          }
+        }
+      }
     },
     "An amino acid analogue of glutamate found in tea leaves. Crosses the blood-brain barrier and increases brain levels of GABA, serotonin, and dopamine. May antagonize glutamate at AMPA receptors and modulate α-wave brain activity. Promotes relaxation without sedation, and may attenuate the anxiogenic effects of caffeine when co-administered." : {
       "localizations" : {
@@ -3119,7 +3206,20 @@
       }
     },
     "Anticonvulsant" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗惊厥药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗驚厥藥"
+          }
+        }
+      }
     },
     "Antidepressant" : {
       "localizations" : {
@@ -3218,7 +3318,20 @@
       }
     },
     "Any" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任意"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任意"
+          }
+        }
+      }
     },
     "Appetite changes and sleep disruption are common after heavy sessions." : {
       "localizations" : {
@@ -3264,6 +3377,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在此時間點,這些物質未同時高於閾值活躍。"
+          }
+        }
+      }
+    },
+    "Availability" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "获取方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取得方式"
           }
         }
       }
@@ -3892,6 +4021,22 @@
         }
       }
     },
+    "Boxed Warning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑框警告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑框警告"
+          }
+        }
+      }
+    },
     "Breathe slowly: 4 seconds in, hold for 4, out for 4." : {
       "localizations" : {
         "zh-Hans" : {
@@ -4196,8 +4341,37 @@
         }
       }
     },
+    "CAS" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CAS 号"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CAS 號"
+          }
+        }
+      }
+    },
     "Casual" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普通"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "普通"
+          }
+        }
+      }
     },
     "Categories" : {
       "localizations" : {
@@ -4440,7 +4614,20 @@
       }
     },
     "Check for Updates" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新"
+          }
+        }
+      }
     },
     "Checked every %@." : {
       "localizations" : {
@@ -4539,7 +4726,36 @@
       }
     },
     "Checking…" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在检查…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在檢查…"
+          }
+        }
+      }
+    },
+    "Chemistry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "化学信息"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "化學資訊"
+          }
+        }
+      }
     },
     "Cholinergic Precursor" : {
       "localizations" : {
@@ -5081,6 +5297,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "含多種活性成分,包括金絲桃素和貫葉金絲桃素。貫葉金絲桃素透過激活 TRPC6 離子通道(增加細胞內鈉並降低轉運體功能)抑制血清素、去甲腎上腺素、多巴胺、GABA 和麩胺酸的再攝取。也弱抑制 MAO-A。強效 CYP3A4 誘導劑,與許多藥物產生臨床顯著的相互作用。"
+          }
+        }
+      }
+    },
+    "Contraindications & Cautions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁忌与注意事项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁忌與注意事項"
           }
         }
       }
@@ -5647,10 +5879,36 @@
       }
     },
     "Data Sources" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料來源"
+          }
+        }
+      }
     },
     "Database Build" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据库版本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料庫版本"
+          }
+        }
+      }
     },
     "Date" : {
       "localizations" : {
@@ -5908,6 +6166,22 @@
         }
       }
     },
+    "Diazepam equivalent" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮等效剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地西泮等效劑量"
+          }
+        }
+      }
+    },
     "Die Dargebotene Hand" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5941,7 +6215,20 @@
       }
     },
     "Disclosure Tier" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信息披露级别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資訊披露等級"
+          }
+        }
+      }
     },
     "Dissociative" : {
       "localizations" : {
@@ -6008,7 +6295,20 @@
       }
     },
     "DOI" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DOI"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DOI"
+          }
+        }
+      }
     },
     "Don't 'hair of the dog' — more depressant just delays recovery." : {
       "localizations" : {
@@ -6460,10 +6760,36 @@
       }
     },
     "Dose data" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量資料"
+          }
+        }
+      }
     },
     "Dose ladders, durations, top-line warnings. Skip the deep pharmacology." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量阶梯、持续时间与主要警告，略去深入的药理学内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量階梯、持續時間與主要警告，略去深入的藥理學內容。"
+          }
+        }
+      }
     },
     "Dose Reference" : {
       "localizations" : {
@@ -6561,11 +6887,53 @@
         }
       }
     },
+    "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该药物的用量由医疗专业人员决定，此处不予显示。以下信息仅供识别与参考。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該藥物的用量由醫療專業人員決定，此處不予顯示。以下資訊僅供辨識與參考。"
+          }
+        }
+      }
+    },
     "Download" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下載"
+          }
+        }
+      }
     },
     "Downloading…" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在下载…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在下載…"
+          }
+        }
+      }
     },
     "Drink some water. Stimulants mask thirst — your body needs more fluids than you realize." : {
       "localizations" : {
@@ -6792,10 +7160,36 @@
       }
     },
     "Duration data" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持续时间数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持續時間資料"
+          }
+        }
+      }
     },
     "Dysdelic" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "致烦剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "致煩劑"
+          }
+        }
+      }
     },
     "e.g. Morning, Noon, Night" : {
       "localizations" : {
@@ -6942,7 +7336,20 @@
       }
     },
     "EC50 %@ nM" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EC50 %@ nM"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EC50 %@ nM"
+          }
+        }
+      }
     },
     "Edit" : {
       "localizations" : {
@@ -7009,7 +7416,20 @@
       }
     },
     "Effects" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果"
+          }
+        }
+      }
     },
     "Effects should start within %lld-%lld minutes." : {
       "localizations" : {
@@ -7451,7 +7871,20 @@
       }
     },
     "Eugeroic" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "促醒剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "促醒劑"
+          }
+        }
+      }
     },
     "Evening\n18–0" : {
       "localizations" : {
@@ -7518,7 +7951,20 @@
       }
     },
     "Everything — receptor binding tables, biased agonism, CYP metabolism, citations down to DOI." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部内容 — 受体结合表、偏向性激动、CYP 代谢，以及精确到 DOI 的文献引用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部內容 — 受體結合表、偏向性激動、CYP 代謝，以及精確到 DOI 的文獻引用。"
+          }
+        }
+      }
     },
     "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting inositol and modulating phosphoinositide signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), regulating neuroplasticity, circadian rhythm, and neuroprotection. Modulates glutamate neurotransmission by reducing NMDA receptor activity. Also affects protein kinase C, cAMP, and arachidonic acid metabolism." : {
       "localizations" : {
@@ -7829,7 +8275,20 @@
       }
     },
     "Filters" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筛选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "篩選"
+          }
+        }
+      }
     },
     "First effects starting now. Find your spot." : {
       "localizations" : {
@@ -7843,6 +8302,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "初步效果開始出現。找一個舒適的位置。"
+          }
+        }
+      }
+    },
+    "Formula" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分子式"
           }
         }
       }
@@ -8430,7 +8905,20 @@
       }
     },
     "Half-life" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期"
+          }
+        }
+      }
     },
     "Half-life data not available for %@." : {
       "localizations" : {
@@ -8492,6 +8980,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hatanumero"
+          }
+        }
+      }
+    },
+    "Have feedback, questions, or want to discuss the app? Join our Discord — we'd love to hear from you." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有反馈、疑问，或想讨论这款应用？加入我们的 Discord — 期待听到你的声音。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有回饋、疑問，或想討論這款應用程式？加入我們的 Discord — 期待聽到你的聲音。"
           }
         }
       }
@@ -9046,6 +9550,22 @@
         }
       }
     },
+    "InChIKey" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "InChIKey"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "InChIKey"
+          }
+        }
+      }
+    },
     "Increased anxiety and vasoconstriction — stimulants can intensify difficult trips." : {
       "localizations" : {
         "zh-Hans" : {
@@ -9400,7 +9920,20 @@
       }
     },
     "Interactions, mechanisms, subjective effects, and source citations." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相互作用、作用机制、主观效果，以及来源引用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交互作用、作用機制、主觀效果，以及來源引用。"
+          }
+        }
+      }
     },
     "Intihar Onleme Hatti" : {
       "localizations" : {
@@ -9562,6 +10095,38 @@
         }
       }
     },
+    "Join Discord" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入 Discord"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入 Discord"
+          }
+        }
+      }
+    },
+    "Join the community" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入社区"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入社群"
+          }
+        }
+      }
+    },
     "Journal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9643,13 +10208,52 @@
       }
     },
     "Ki %@ nM" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki %@ nM"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki %@ nM"
+          }
+        }
+      }
     },
     "Ki ≤ %lld nM" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki ≤ %lld nM"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki ≤ %lld nM"
+          }
+        }
+      }
     },
     "Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki/EC50 数值来自原始文献，并标注明确来源。Ki 越低表示结合越紧密。解读时请区分人体与动物数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki/EC50 數值來自原始文獻，並標註明確來源。Ki 越低表示結合越緊密。解讀時請區分人體與動物數據。"
+          }
+        }
+      }
     },
     "Klimaka Crisis Line" : {
       "localizations" : {
@@ -9908,7 +10512,20 @@
       }
     },
     "Limited human data" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人体数据有限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "人體數據有限"
+          }
+        }
+      }
     },
     "Linea 113 Salud" : {
       "localizations" : {
@@ -10157,7 +10774,20 @@
       }
     },
     "Lower Ki means tighter binding. Affinity below ~100 nM is usually considered high." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki 越低表示结合越紧密。亲和力低于约 100 nM 通常被视为较高。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ki 越低表示結合越緊密。親和力低於約 100 nM 通常被視為較高。"
+          }
+        }
+      }
     },
     "Macrolide Antibiotic (Protein Synthesis Inhibitor)" : {
       "localizations" : {
@@ -10208,7 +10838,20 @@
       }
     },
     "Mechanism" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用机制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用機制"
+          }
+        }
+      }
     },
     "Mechanism incompletely understood despite widespread use. Weakly inhibits COX peripherally but primarily acts centrally. Its active metabolite AM404 inhibits endocannabinoid reuptake, increasing anandamide levels and activating CB1 and TRPV1 receptors. Also inhibits prostaglandin synthesis in the CNS, producing antipyretic effects via the hypothalamus. Lacks significant anti-inflammatory activity." : {
       "localizations" : {
@@ -10274,6 +10917,22 @@
         }
       }
     },
+    "Medical information only" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅供医学信息参考"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅供醫學資訊參考"
+          }
+        }
+      }
+    },
     "Medical Report" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10286,6 +10945,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "醫療報告"
+          }
+        }
+      }
+    },
+    "Medical Uses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "医疗用途"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "醫療用途"
           }
         }
       }
@@ -10958,6 +11633,22 @@
         }
       }
     },
+    "Never show again" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再顯示"
+          }
+        }
+      }
+    },
     "New Custom Substance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11087,7 +11778,20 @@
       }
     },
     "No bindings match these filters." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有符合这些筛选条件的结合数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有符合這些篩選條件的結合資料。"
+          }
+        }
+      }
     },
     "No Custom Substances" : {
       "localizations" : {
@@ -11745,6 +12449,22 @@
         }
       }
     },
+    "OTC / Prescription" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非处方 / 处方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非處方 / 處方"
+          }
+        }
+      }
+    },
     "Other" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11789,6 +12509,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "接下來幾小時"
+          }
+        }
+      }
+    },
+    "Over-the-counter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非处方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非處方"
           }
         }
       }
@@ -12018,7 +12754,20 @@
       }
     },
     "Peptide" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽類"
+          }
+        }
+      }
     },
     "Per day" : {
       "localizations" : {
@@ -12069,13 +12818,52 @@
       }
     },
     "Pharma" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理"
+          }
+        }
+      }
     },
     "Pharma Nerd" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理达人"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理達人"
+          }
+        }
+      }
     },
     "Pharma Search" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理搜索"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理搜尋"
+          }
+        }
+      }
     },
     "Pharmacological" : {
       "localizations" : {
@@ -12270,7 +13058,20 @@
       }
     },
     "PMID %lld" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PMID %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PMID %lld"
+          }
+        }
+      }
     },
     "Poison Centre" : {
       "localizations" : {
@@ -12364,6 +13165,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "物質消退時照顧自己的實用建議。每個類別都不同 — 點擊下方任意一項查看具體指導。"
+          }
+        }
+      }
+    },
+    "Prescription medication" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处方药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "處方藥"
+          }
+        }
+      }
+    },
+    "Prescription only" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅限处方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅限處方"
           }
         }
       }
@@ -12465,7 +13298,20 @@
       }
     },
     "Priority Order" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "优先级顺序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優先順序"
+          }
+        }
+      }
     },
     "Prodrug → GHB (GABA-B Agonist)" : {
       "localizations" : {
@@ -12596,7 +13442,20 @@
       }
     },
     "Profile" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用户类型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用者類型"
+          }
+        }
+      }
     },
     "Proton Pump Inhibitor (PPI)" : {
       "localizations" : {
@@ -12823,10 +13682,36 @@
       }
     },
     "Receptor Literature" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體文獻"
+          }
+        }
+      }
     },
     "Receptor target" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受体靶点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "受體標靶"
+          }
+        }
+      }
     },
     "Recovery" : {
       "localizations" : {
@@ -13246,13 +14131,52 @@
       }
     },
     "Restart Piru to use the new database." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重启 Piru 以使用新数据库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新啟動 Piru 以使用新資料庫。"
+          }
+        }
+      }
     },
     "Results (%lld)" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结果 (%lld)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果 (%lld)"
+          }
+        }
+      }
     },
     "Retry" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重試"
+          }
+        }
+      }
     },
     "Reuptake Inhibitor" : {
       "localizations" : {
@@ -13654,6 +14578,22 @@
         }
       }
     },
+    "Schedule %@ (controlled)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 类管制药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 類管制藥物"
+          }
+        }
+      }
+    },
     "Search" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13703,6 +14643,7 @@
       }
     },
     "Search Journal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13719,6 +14660,7 @@
       }
     },
     "Search Library" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13730,6 +14672,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋物質庫"
+          }
+        }
+      }
+    },
+    "Search scope" : {
+      "comment" : "Accessibility label for the Library/Journal search scope picker",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索范围"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋範圍"
           }
         }
       }
@@ -15031,7 +15990,20 @@
       }
     },
     "Sources at the top take precedence when a fact is reported by multiple sources. Disabled sources are hidden from resolved values but still searchable in advanced views." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当多个来源报告同一事实时，位于顶部的来源优先。已禁用的来源不会出现在解析后的数值中，但在高级视图中仍可搜索。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當多個來源報告同一事實時，位於頂部的來源優先。已停用的來源不會出現在解析後的數值中，但在進階檢視中仍可搜尋。"
+          }
+        }
+      }
     },
     "Specific days" : {
       "localizations" : {
@@ -15580,10 +16552,36 @@
       }
     },
     "Substance contains…" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物质包含…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物質包含…"
+          }
+        }
+      }
     },
     "Substance Database" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物质数据库"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物質資料庫"
+          }
+        }
+      }
     },
     "Substance Library" : {
       "localizations" : {
@@ -16259,7 +17257,20 @@
       }
     },
     "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该化合物没有经过验证的人体剂量数据。以下信息仅供参考 — 原始文献请参阅所链接的来源。请勿根据相关化合物推算剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該化合物沒有經過驗證的人體劑量數據。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。"
+          }
+        }
+      }
     },
     "This is a rebound effect, not a return to baseline anxiety. It passes." : {
       "localizations" : {
@@ -16894,16 +17905,68 @@
       }
     },
     "Up to date" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已是最新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已是最新"
+          }
+        }
+      }
     },
     "Update Applied" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新已应用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新已套用"
+          }
+        }
+      }
     },
     "Update Available" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有可用更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有可用更新"
+          }
+        }
+      }
     },
     "Update Failed" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新失敗"
+          }
+        }
+      }
     },
     "Urgences" : {
       "localizations" : {

@@ -105,6 +105,7 @@ struct DoseEntryTests {
 
 ## Conventions
 
+- **Localization**: The app ships **English, Simplified Chinese (`zh-Hans`), and Traditional Chinese (`zh-Hant`)** via `Piru/Localizable.xcstrings`. **Every user-facing string must be localized** — use `Text("...")`, `LocalizedStringKey`, or `String(localized:)`; never hardcode a bare `String` into UI. When you add a new user-facing string, also add its `zh-Hans` and `zh-Hant` translations to the catalog (reuse an existing key if one matches). Strings passed to non-localizing APIs (e.g. accessibility labels taking `String`) still need `String(localized:)`.
 - **iOS 26+** minimum deployment target (Liquid Glass UI throughout)
 - **Swift 6** strict concurrency (`default-isolation=MainActor`)
 - Colors: accent from `Assets.xcassets` (soft pink light / hot pink dark), substances get user-assignable `PresetColor`s
