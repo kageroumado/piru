@@ -376,17 +376,8 @@ private extension View {
                 TimelineView(.periodic(from: .now, by: 60)) { context in
                     SessionAccessoryView(
                         states: ActiveSessionManager.shared.activeSubstanceStates,
-                        isLiveActivityRunning: LiveActivityManager.shared.isLiveActivityRunning,
                         currentTime: context.date,
                         onTapSession: { showingSessionDetail.wrappedValue = true },
-                        onToggleActivity: {
-                            let manager = LiveActivityManager.shared
-                            if manager.isLiveActivityRunning {
-                                manager.hideLiveActivity()
-                            } else {
-                                manager.restartLiveActivity()
-                            }
-                        },
                         onAdd: { showingForm.wrappedValue = true }
                     )
                 }
@@ -404,10 +395,8 @@ private struct SessionAccessoryView: View {
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     let states: [ActiveSubstanceState]
-    let isLiveActivityRunning: Bool
     let currentTime: Date
     var onTapSession: () -> Void
-    var onToggleActivity: () -> Void
     var onAdd: () -> Void
 
     var body: some View {
@@ -443,20 +432,23 @@ private struct SessionAccessoryView: View {
 
             Spacer(minLength: 0)
 
-            HStack(spacing: 20) {
-                Button(action: onToggleActivity) {
-                    Image(systemName: isLiveActivityRunning ? "stop.fill" : "play.fill")
-                        .font(.body)
-                }
-
-                Button(action: onAdd) {
-                    Image(systemName: "plus")
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(Theme.accent)
-                }
+            // Primary action: log another dose. No background fill — a bare
+            // accent glyph avoids any glass-on-glass or concentricity issues
+            // against the accessory's own capsule. The 44pt hit box matches the
+            // tab bar's search button (44pt wide, 12pt trailing) so their
+            // centres line up.
+            Button(action: onAdd) {
+                Image(systemName: "plus")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Circle())
             }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Log dose"))
         }
-        .padding(.horizontal, 16)
+        .padding(.leading, 16)
+        .padding(.trailing, 11)
     }
 
     private var uniqueNames: String {

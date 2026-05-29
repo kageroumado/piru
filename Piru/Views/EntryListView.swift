@@ -12,7 +12,7 @@ enum JournalGrouping: String, CaseIterable {
     var icon: String {
         switch self {
         case .recent: "clock"
-        case .byDay: "calendar"
+        case .byDay: "calendar.day.timeline.left"
         case .bySubstance: "pill"
         case .byCategory: "square.grid.2x2"
         }
@@ -254,58 +254,72 @@ struct EntryListView: View {
 
     private var filterBar: some View {
         HStack(spacing: 8) {
-            // Grouping picker
+            // Grouping picker — the primary control. The trailing chevron marks
+            // it as a pull-down menu (not a selected segment), the accent tint
+            // and label set it apart from the neutral action buttons, and the
+            // embedded `Picker` gives the active mode an automatic checkmark.
             Menu {
-                ForEach(JournalGrouping.allCases, id: \.self) { mode in
-                    Button {
-                        grouping = mode
-                    } label: {
-                        Label(mode.displayName, systemImage: mode.icon)
+                Picker("Group by", selection: $grouping) {
+                    ForEach(JournalGrouping.allCases, id: \.self) { mode in
+                        Label(mode.displayName, systemImage: mode.icon).tag(mode)
                     }
                 }
             } label: {
-                Label(grouping.displayName, systemImage: grouping.icon)
-                    .font(.subheadline.weight(.medium))
-                    .frame(height: 28)
-                    .padding(.horizontal, 10)
-                    .background(Color(.secondarySystemFill))
-                    .clipShape(Capsule())
+                HStack(spacing: 5) {
+                    Image(systemName: grouping.icon)
+                    Text(grouping.displayName)
+                    Image(systemName: "chevron.down")
+                        .font(.caption2.weight(.bold))
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.accent)
+                .frame(height: 34)
+                .padding(.horizontal, 12)
+                .background(Color(.secondarySystemFill), in: Capsule())
             }
 
-            // Calendar button
+            Spacer()
+
+            // View actions — jump-to-date and filter. Matched neutral circles so
+            // they read as a pair of secondary actions, distinct from the picker.
             Button {
                 showingCalendar = true
             } label: {
-                Image(systemName: "calendar")
-                    .font(.subheadline.weight(.medium))
-                    .frame(height: 28)
-                    .padding(.horizontal, 10)
-                    .background(Color(.secondarySystemFill))
-                    .clipShape(Capsule())
-                    .contentShape(Capsule())
+                actionGlyph("calendar")
             }
             .buttonStyle(.plain)
 
-            // Filter button
+            // Filter reflects active state by filling and tinting (Mail's funnel
+            // idiom), so a narrowed list never looks like the full one.
             Button {
                 showingFilters = true
             } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.subheadline.weight(.medium))
-                    .frame(height: 28)
-                    .padding(.horizontal, 10)
-                    .background(hasActiveFilters ? Theme.accent.opacity(0.2) : Color(.secondarySystemFill))
-                    .foregroundStyle(hasActiveFilters ? Theme.accent : .secondary)
-                    .clipShape(Capsule())
-                    .contentShape(Capsule())
+                actionGlyph(
+                    hasActiveFilters ? "line.3.horizontal.decrease.circle.fill"
+                                     : "line.3.horizontal.decrease",
+                    tint: hasActiveFilters ? Theme.accent : .secondary,
+                    fill: hasActiveFilters ? Theme.accent.opacity(0.18) : nil
+                )
             }
             .buttonStyle(.plain)
             .animation(.snappy, value: hasActiveFilters)
-
-            Spacer()
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 8)
+        .padding(.top, 14)
+        .padding(.bottom, 8)
+    }
+
+    private func actionGlyph(
+        _ systemName: String,
+        tint: Color = .secondary,
+        fill: Color? = nil
+    ) -> some View {
+        Image(systemName: systemName)
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(tint)
+            .frame(width: 34, height: 34)
+            .background(fill ?? Color(.secondarySystemFill), in: Circle())
+            .contentShape(Circle())
     }
 
     // MARK: - Tag Chip Bar
