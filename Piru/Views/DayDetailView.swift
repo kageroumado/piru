@@ -105,14 +105,15 @@ struct DayDetailView: View {
                         if graphExpanded {
                             VStack(spacing: 8) {
                                 if isToday && hasOngoingDose {
+                                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
                                     HStack {
                                         Spacer()
                                         Button {
-                                            restartLiveActivity()
+                                            toggleLiveActivity()
                                         } label: {
                                             HStack(spacing: 4) {
-                                                Image(systemName: "dot.radiowaves.up.forward")
-                                                Text("Live Activity")
+                                                Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
+                                                Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
                                             }
                                             .font(.caption2.weight(.semibold))
                                         }
@@ -363,12 +364,16 @@ struct DayDetailView: View {
         }
     }
 
-    private func restartLiveActivity() {
-        ActiveSessionManager.shared.restartFromEntries(
-            entries,
-            allColors: Array(substanceColors)
-        )
-        LiveActivityManager.shared.sessionDidChange()
+    private func toggleLiveActivity() {
+        if LiveActivityManager.shared.isLiveActivityRunning {
+            LiveActivityManager.shared.hideLiveActivity()
+        } else {
+            ActiveSessionManager.shared.restartFromEntries(
+                entries,
+                allColors: Array(substanceColors)
+            )
+            LiveActivityManager.shared.startLiveActivity()
+        }
     }
 
 }

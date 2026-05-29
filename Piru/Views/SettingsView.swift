@@ -8,7 +8,7 @@ struct SettingsView: View {
     @State private var customSubstanceStore = CustomSubstanceStore.shared
     @Environment(\.modelContext) private var modelContext
 
-    @AppStorage("liveActivityEnabled") private var liveActivityEnabled = false
+    @AppStorage("liveActivityEnabled") private var autoLiveActivity = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
     @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
@@ -72,19 +72,14 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle(isOn: $liveActivityEnabled) {
-                    Label("Live Activity", systemImage: "bolt.heart")
+                Toggle(isOn: $autoLiveActivity) {
+                    Label("Automatic Live Activity", systemImage: "bolt.heart")
                 }
                 .tint(Theme.accent)
-                .onChange(of: liveActivityEnabled) {
-                    if !liveActivityEnabled {
-                        LiveActivityManager.shared.endSession()
-                    }
-                }
             } header: {
                 Text("Live Activity")
             } footer: {
-                Text("Show a Live Activity on the Lock Screen and Dynamic Island when tracking active substances.")
+                Text("Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view.")
             }
 
             Section {
