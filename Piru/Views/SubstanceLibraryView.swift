@@ -94,6 +94,7 @@ struct SubstanceLibraryView: View {
                 }
             }
         }
+        .listSectionSeparator(.hidden, edges: .top)
     }
 
     // MARK: - Search Results
@@ -300,6 +301,7 @@ struct SubstanceCategoryListView: View {
                     .tint(.yellow)
                 }
             }
+            .listSectionSeparator(.hidden, edges: .top)
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
