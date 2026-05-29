@@ -126,6 +126,11 @@ CREATE INDEX idx_citations_pmid ON citations(pmid) WHERE pmid IS NOT NULL;
 CREATE TABLE substances (
     id              INTEGER PRIMARY KEY,
     canonical_name  TEXT NOT NULL UNIQUE,
+    -- Optional human-facing title override. When set, the app shows this as the
+    -- primary name and demotes canonical_name to the subtitle (e.g. show
+    -- "2,3-MDMA" with "2,3-Methylenedioxymethamphetamine" beneath). canonical_name
+    -- stays the UNIQUE dedup/merge key; only presentation changes. NULL = use canonical.
+    display_name    TEXT,
     normalized_name TEXT NOT NULL,
     inchikey        TEXT,
     pubchem_cid     INTEGER,
@@ -551,6 +556,23 @@ def is_chemnoise_alias(alias: str) -> bool:
     if a.count("-") >= 3 and len(a) > 16:     # long multi-locant systematic name
         return True
     return False
+
+
+# Human-facing title overrides: canonical_name → display_name. For compounds
+# whose canonical (and only) name is a systematic/IUPAC string but which are
+# commonly known by a short code, show the code as the title and demote the
+# long name to the subtitle. canonical_name stays the UNIQUE dedup key — this is
+# presentation only. Hand-verified; seeded from pipeline analysis but reviewed by
+# a human (auto-derivation mis-picks famous acronyms, e.g. AMT vs 3-IT). Edit the
+# JSON to add/correct entries; missing file → no overrides.
+_DISPLAY_NAME_OVERRIDES_PATH = REPO / "data/curated/display-name-overrides.json"
+
+
+def load_display_name_overrides() -> dict[str, str]:
+    if not _DISPLAY_NAME_OVERRIDES_PATH.exists():
+        return {}
+    with _DISPLAY_NAME_OVERRIDES_PATH.open() as f:
+        return json.load(f)
 
 
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
@@ -2706,6 +2728,20 @@ def main() -> int:
             build.cur.execute("DELETE FROM aliases WHERE rowid=?", (rowid,))
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
+
+    # Apply hand-curated display-name title overrides (presentation only). The
+    # canonical (long) name stays in canonical_name → the app keeps it as
+    # `substance.name` and remains searchable by it, so no alias is needed.
+    overrides = load_display_name_overrides()
+    overridden = 0
+    for canon, display in overrides.items():
+        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not row:
+            print(f"  WARNING: display-name override target not found: {canon!r}", file=sys.stderr)
+            continue
+        build.cur.execute("UPDATE substances SET display_name=? WHERE id=?", (display, row[0]))
+        overridden += 1
+    print(f"Display-name overrides: {overridden}/{len(overrides)}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,

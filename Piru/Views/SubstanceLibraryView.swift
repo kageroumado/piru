@@ -319,11 +319,11 @@ struct SubstanceRowView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(substance.name)
+                Text(substance.displayTitle)
                     .font(.body)
                     .foregroundStyle(.primary)
-                if !substance.aliases.isEmpty {
-                    Text(substance.aliases.prefix(3).joined(separator: ", "))
+                if let subtitle = substance.displaySubtitle {
+                    Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                 }
@@ -368,6 +368,9 @@ struct SubstanceDetailView: View {
     @State private var subjectiveExpanded: Bool?
     @State private var sourcesExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
+    /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
+    /// collapsed by default — few users need the chemical identity up front.
+    @State private var infoExpanded = false
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
@@ -472,14 +475,51 @@ struct SubstanceDetailView: View {
         try? modelContext.save()
     }
 
-    var body: some View {
-        List {
-            Group {
-            if !historyEntries.isEmpty {
-                historySection
+    /// Dose ladder + duration per route. Surfaced near the top of the detail
+    /// view — the primary thing people open a substance for.
+    @ViewBuilder private var doseDurationSections: some View {
+        ForEach(substance.routes, id: \.route) { substanceRoute in
+            if displayClass.showsDoseLadder {
+                Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
+                    let unit = substanceRoute.unit
+                    let doses = substanceRoute.doses
+
+                    DoseLevelIndicator(doseRange: doses, currentDose: nil)
+                        .padding(.vertical, 4)
+
+                    DoseRangeRows(doseRange: doses, unit: unit)
+
+                    if doses.requiresVolumetricDosing(unit: unit) {
+                        VolumetricDosingDisclaimer()
+                            .padding(.vertical, 4)
+                    }
+
+                    if let slug = doseSourceSlug(for: substanceRoute.route) {
+                        SourceAttributionRow(slug: slug, label: "Dose data")
+                    }
+                }
             }
 
-            Section("Info") {
+            if let duration = substanceRoute.duration,
+               displayClass.showsDuration,
+               !(displayClass == .otc && substance.durationImplausible) {
+                Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
+                    DurationInfoView(duration: duration)
+                        .padding(.vertical, 4)
+
+                    if let slug = durationSourceSlug(for: substanceRoute.route) {
+                        SourceAttributionRow(slug: slug, label: "Duration data")
+                    }
+                }
+            }
+        }
+    }
+
+    /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
+    /// Chemists who want the full identity follow the PubChem link.
+    @ViewBuilder private var infoDisclosure: some View {
+        Section {
+            DisclosureGroup(isExpanded: $infoExpanded) {
                 LabeledContent("Name", value: substance.name)
                 if !substance.aliases.isEmpty {
                     LabeledContent("Also known as") {
@@ -507,13 +547,33 @@ struct SubstanceDetailView: View {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
                         .padding(.vertical, 4)
                 }
+                if let url = substance.pubChemURL {
+                    Link(destination: url) {
+                        Label("View on PubChem", systemImage: "atom")
+                    }
+                    .font(.subheadline)
+                }
                 if let slug = provenance?.categorySource {
                     SourceAttributionRow(slug: slug, label: "Category")
                 }
                 if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
                     SourceAttributionRow(slug: slug, label: "Half-life")
                 }
+            } label: {
+                Label("Info", systemImage: "info.circle")
+                    .font(.subheadline.weight(.semibold))
             }
+        }
+    }
+
+    var body: some View {
+        List {
+            Group {
+            if !historyEntries.isEmpty {
+                historySection
+            }
+
+            doseDurationSections
 
             if displayClass == .medicalRx || displayClass == .nonRecreational {
                 Section {
@@ -599,45 +659,9 @@ struct SubstanceDetailView: View {
             // — shown for any compound that has clinical data. Net-new surface.
             medicalInfoSection
 
-            // Dose ladder + duration are gated by the compound's display class:
-            // suppressed entirely for medical_rx / non_recreational (a doctor's
-            // domain), shown for recreational / dual_use / otc. OTC durations are
-            // additionally hidden when implausible (the >24h vitamin case).
-            ForEach(substance.routes, id: \.route) { substanceRoute in
-                if displayClass.showsDoseLadder {
-                    Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
-                        let unit = substanceRoute.unit
-                        let doses = substanceRoute.doses
-
-                        DoseLevelIndicator(doseRange: doses, currentDose: nil)
-                            .padding(.vertical, 4)
-
-                        DoseRangeRows(doseRange: doses, unit: unit)
-
-                        if doses.requiresVolumetricDosing(unit: unit) {
-                            VolumetricDosingDisclaimer()
-                                .padding(.vertical, 4)
-                        }
-
-                        if let slug = doseSourceSlug(for: substanceRoute.route) {
-                            SourceAttributionRow(slug: slug, label: "Dose data")
-                        }
-                    }
-                }
-
-                if let duration = substanceRoute.duration,
-                   displayClass.showsDuration,
-                   !(displayClass == .otc && substance.durationImplausible) {
-                    Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
-                        DurationInfoView(duration: duration)
-                            .padding(.vertical, 4)
-
-                        if let slug = durationSourceSlug(for: substanceRoute.route) {
-                            SourceAttributionRow(slug: slug, label: "Duration data")
-                        }
-                    }
-                }
-            }
+            // Name / aliases / route / chemistry — demoted here, below dosing,
+            // and collapsed by default.
+            infoDisclosure
 
             if policy.showsRichSubjective && !substance.subjectiveEffects.isEmpty
                 && (displayClass == .recreational || displayClass == .dualUse) {
@@ -693,7 +717,7 @@ struct SubstanceDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle(substance.name)
+        .navigationTitle(substance.displayTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

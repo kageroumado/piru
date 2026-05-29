@@ -408,10 +408,12 @@ final class SubstanceStore {
         do {
             return try substancesDB.read { db in
                 let allRows = try Row.fetchAll(db, sql:
-                    "SELECT id, canonical_name, display_class, regulatory_status, duration_implausible FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible FROM substances ORDER BY canonical_name COLLATE NOCASE")
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(uniqueKeysWithValues:
                     allRows.map { ($0["id"], $0["canonical_name"] as String) })
+                // Display-name overrides — browse rows show this as the title when set.
+                var displayNameByID: [Int64: String] = [:]
                 // Display-policy fields — loaded in the cheap batch path because
                 // every browse row needs the class for filtering + dose gating.
                 var displayClassByID: [Int64: CompoundDisplayClass] = [:]
@@ -424,6 +426,7 @@ final class SubstanceStore {
                     }
                     if let reg: String = row["regulatory_status"] { regulatoryByID[sid] = reg }
                     durationImplausibleByID[sid] = (row["duration_implausible"] as Int64? ?? 0) != 0
+                    if let dn: String = row["display_name"] { displayNameByID[sid] = dn }
                 }
 
                 // Aliases — union across sources.
@@ -598,7 +601,7 @@ final class SubstanceStore {
                     let defaultRoute = routes.first?.route
                         ?? RouteOfAdministration.from(string: tags.contains("inhalation") ? "inhalation" : "oral")
                     return Substance(
-                        name: name, aliases: aliases,
+                        name: name, displayName: displayNameByID[sid], aliases: aliases,
                         category: categoryByID[sid] ?? .other,
                         defaultRoute: defaultRoute, routes: routes,
                         effects: effectsByID[sid] ?? [],
@@ -717,16 +720,18 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
+                let displayName: String? = coreRow["display_name"]
                 let displayClass = (coreRow["display_class"] as String?).flatMap(CompoundDisplayClass.init(rawValue:)) ?? .recreational
                 let regulatoryStatus: String? = coreRow["regulatory_status"]
                 let durationImplausible = (coreRow["duration_implausible"] as Int64? ?? 0) != 0
                 let cas: String? = coreRow["cas"]
                 let inchikey: String? = coreRow["inchikey"]
                 let formula: String? = coreRow["formula"]
+                let pubchemCID = (coreRow["pubchem_cid"] as Int64?).map(Int.init)
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
 
@@ -749,6 +754,7 @@ final class SubstanceStore {
 
                 return Substance(
                     name: name,
+                    displayName: displayName,
                     aliases: aliases,
                     category: category ?? .other,
                     defaultRoute: defaultRoute,
@@ -768,7 +774,8 @@ final class SubstanceStore {
                     diazepamEquivalent: diazepamEquivalent,
                     cas: cas,
                     inchikey: inchikey,
-                    formula: formula
+                    formula: formula,
+                    pubchemCID: pubchemCID
                 )
             }
             if let resolved {
