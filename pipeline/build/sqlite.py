@@ -518,6 +518,40 @@ _CHEM_NOISE_PREFIX = re.compile(
 # Square-bracket / fully-IUPAC body patterns.
 _CHEM_NOISE_BODY = re.compile(r"[\[\]]")
 
+# Salt/descriptor suffixes that make an alias a redundant chemistry variant
+# rather than a name anyone searches by ("Lisdexamfetamine dimesylate",
+# "… freebase", "Dextroamphetamine prodrug"). `normalise()` already strips a
+# few salts for *dedup*, but these survive as separately-displayed aliases, so
+# we drop them outright from the alias list.
+_ALIAS_SALT_SUFFIX = re.compile(
+    r"\b(free\s*base|hydrochlorides?|dihydrochloride|hydrobromide|hbr|hcl|"
+    r"di?mesylate|besylate|sulfates?|sulphates?|bisulfate|fumarate|"
+    r"hemifumarate|tartrate|bitartrate|maleate|malate|citrate|phosphate|"
+    r"acetate|oxalate|succinate|lactate|napsylate|pamoate|prodrug)\s*$",
+    re.IGNORECASE,
+)
+
+
+def is_chemnoise_alias(alias: str) -> bool:
+    """True for aliases that are systematic/IUPAC chemistry noise rather than a
+    common name, brand, or short code. Drops salt forms ("… dimesylate"),
+    stereo-prefixed and bracketed IUPAC names ("(R)-…", "…[…]…"), parenthetical
+    locant names ("1-(2,5-dimethoxybenzyl)…"), and long multi-locant systematic
+    strings ("L-lysine-d-amphetamine"). Keeps brands (Vyvanse) and short codes
+    (LDX, 2,5-DMBZP, 2,3-MDMA, 5-MeO-DMT)."""
+    a = (alias or "").strip()
+    if not a:
+        return False
+    if _ALIAS_SALT_SUFFIX.search(a):
+        return True
+    if _CHEM_NOISE_PREFIX.match(a) or _CHEM_NOISE_BODY.search(a):
+        return True
+    if re.search(r"\(\s*\d", a):              # parenthetical locant: "(2,5-", "(1-"
+        return True
+    if a.count("-") >= 3 and len(a) > 16:     # long multi-locant systematic name
+        return True
+    return False
+
 
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
 # Used by `smart_title_case` to handle entries that arrived all-lowercase
@@ -2660,6 +2694,18 @@ def main() -> int:
     # classified once.
     deduped = build.dedup_substances()
     print(f"Substance dedup: {deduped}", file=sys.stderr)
+
+    # Purge systematic/IUPAC/salt-form chemistry-noise aliases from the FINAL
+    # table. Runs AFTER dedup so these still served as merge match keys
+    # (e.g. "Lisdexamfetamine dimesylate" linking brand→generic) but never reach
+    # the app as alias-subtitle clutter. Chemists get the IUPAC/CID via the
+    # detail view's dedicated chemistry fields instead.
+    purged = 0
+    for rowid, alias in build.cur.execute("SELECT rowid, alias FROM aliases").fetchall():
+        if is_chemnoise_alias(alias):
+            build.cur.execute("DELETE FROM aliases WHERE rowid=?", (rowid,))
+            purged += 1
+    print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
