@@ -106,7 +106,15 @@ struct SubstanceLibraryView: View {
 
     private var isHelpSearch: Bool {
         let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
-        return Self.helpKeywords.contains(where: { query.contains($0) })
+        guard !query.isEmpty else { return false }
+        // Match single-word keywords on whole-word boundaries so a substance
+        // name that merely *contains* a keyword as a substring (e.g. "armod"
+        // contains "od") doesn't trip the crisis panel. Multi-word keywords
+        // ("bad trip", "call 911") are matched as phrases.
+        let words = Set(query.split(whereSeparator: { !$0.isLetter && !$0.isNumber }).map(String.init))
+        return Self.helpKeywords.contains { keyword in
+            keyword.contains(" ") ? query.contains(keyword) : words.contains(keyword)
+        }
     }
 
     @ViewBuilder
