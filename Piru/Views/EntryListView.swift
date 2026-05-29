@@ -242,11 +242,13 @@ struct EntryListView: View {
                 availableCategories: allUsedCategories
             )
             .presentationDetents([.medium, .large])
+            .presentationBackground(.regularMaterial)
             .onDisappear { rebuildGroups() }
         }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet
                 .presentationDetents([.medium])
+                .presentationBackground(.regularMaterial)
         }
     }
 
@@ -305,7 +307,6 @@ struct EntryListView: View {
             .animation(.snappy, value: hasActiveFilters)
         }
         .padding(.horizontal, 16)
-        .padding(.top, 14)
         .padding(.bottom, 8)
     }
 
@@ -713,7 +714,6 @@ struct JournalFilterSheet: View {
                 .listRowBackground(Theme.cardBackground)
             }
             .scrollContentBackground(.hidden)
-            .background(Theme.background)
             .navigationTitle("Filter Journal")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -818,9 +818,9 @@ struct JournalCalendarView: View {
                 }
 
                 // Calendar days
-                ForEach(daysInMonth(), id: \.self) { item in
+                ForEach(daysInMonth()) { item in
                     if item.day == 0 {
-                        Color.clear.frame(height: 36)
+                        Color.clear.frame(height: 40)
                     } else {
                         let date = calendar.date(from: DateComponents(year: item.year, month: item.month, day: item.day))!
                         let count = entriesFor(date: date)
@@ -840,14 +840,13 @@ struct JournalCalendarView: View {
                                     Color.clear.frame(width: 5, height: 5)
                                 }
                             }
-                            .frame(height: 36)
+                            .frame(width: 40, height: 40)
+                            .background {
+                                if calendar.isDateInToday(date) {
+                                    Circle().fill(Theme.accent.opacity(0.15))
+                                }
+                            }
                             .frame(maxWidth: .infinity)
-                            .background(
-                                calendar.isDateInToday(date)
-                                    ? Theme.accent.opacity(0.15)
-                                    : Color.clear,
-                                in: RoundedRectangle(cornerRadius: 8)
-                            )
                         }
                     }
                 }
@@ -859,7 +858,8 @@ struct JournalCalendarView: View {
         .padding(.top)
     }
 
-    private struct CalendarDay: Hashable {
+    private struct CalendarDay: Identifiable, Hashable {
+        let id: Int // unique within the grid (slot index); negative for leading placeholders
         let year: Int
         let month: Int
         let day: Int // 0 = placeholder
@@ -874,11 +874,11 @@ struct JournalCalendarView: View {
         let leadingBlanks = (firstWeekday - calendar.firstWeekday + 7) % 7
 
         var days: [CalendarDay] = []
-        for _ in 0..<leadingBlanks {
-            days.append(CalendarDay(year: comps.year!, month: comps.month!, day: 0))
+        for blank in 0..<leadingBlanks {
+            days.append(CalendarDay(id: -(blank + 1), year: comps.year!, month: comps.month!, day: 0))
         }
         for day in range {
-            days.append(CalendarDay(year: comps.year!, month: comps.month!, day: day))
+            days.append(CalendarDay(id: day, year: comps.year!, month: comps.month!, day: day))
         }
         return days
     }
