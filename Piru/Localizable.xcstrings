@@ -3383,6 +3383,38 @@
         }
       }
     },
+    "Automatic Live Activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动实时活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動即時動態"
+          }
+        }
+      }
+    },
+    "Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始追踪某种物质时，自动在锁定屏幕和灵动岛上显示实时活动。你也可以在某一天或某条记录的详情页中手动开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始追蹤某種物質時，自動在鎖定畫面和動態島上顯示即時動態。你也可以在某一天或某筆記錄的詳情頁中手動開啟。"
+          }
+        }
+      }
+    },
     "Availability" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8922,6 +8954,22 @@
         }
       }
     },
+    "Group by" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分组方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分組方式"
+          }
+        }
+      }
+    },
     "Half-life" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10739,6 +10787,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仍要記錄"
+          }
+        }
+      }
+    },
+    "Log dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄劑量"
           }
         }
       }
@@ -13684,38 +13748,6 @@
         }
       }
     },
-    "Group by" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分组方式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分組方式"
-          }
-        }
-      }
-    },
-    "Log dose" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录剂量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記錄劑量"
-          }
-        }
-      }
-    },
     "Recent" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15545,6 +15577,7 @@
       }
     },
     "Show a Live Activity on the Lock Screen and Dynamic Island when tracking active substances." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16216,6 +16249,22 @@
         }
       }
     },
+    "Start Live Activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启实时活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟即時動態"
+          }
+        }
+      }
+    },
     "Starting from" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16437,6 +16486,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "興奮劑會掩蓋過量的徵兆 — 一旦消退,呼吸抑制可能浮現。"
+          }
+        }
+      }
+    },
+    "Stop Live Activity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止实时活动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止即時動態"
           }
         }
       }

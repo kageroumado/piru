@@ -50,18 +50,23 @@ struct EntryDetailView: View {
                 Section {
                     VStack(spacing: 8) {
                         if isSessionActive {
+                            let isRunning = LiveActivityManager.shared.isLiveActivityRunning
                             HStack {
                                 Spacer()
                                 Button {
-                                    ActiveSessionManager.shared.restartFromEntries(
-                                        [entry],
-                                        allColors: Array(substanceColors)
-                                    )
-                                    LiveActivityManager.shared.sessionDidChange()
+                                    if isRunning {
+                                        LiveActivityManager.shared.hideLiveActivity()
+                                    } else {
+                                        ActiveSessionManager.shared.restartFromEntries(
+                                            [entry],
+                                            allColors: Array(substanceColors)
+                                        )
+                                        LiveActivityManager.shared.startLiveActivity()
+                                    }
                                 } label: {
                                     HStack(spacing: 4) {
-                                        Image(systemName: "dot.radiowaves.up.forward")
-                                        Text("Live Activity")
+                                        Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
+                                        Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
                                     }
                                     .font(.caption2.weight(.semibold))
                                 }

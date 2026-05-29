@@ -55,20 +55,20 @@ final class LiveActivityManager {
     private var currentActivity: Activity<PiruActivityAttributes>?
     private var updateTimer: Timer?
 
-    /// Whether live activities are enabled by the user in Settings.
-    var isEnabled: Bool {
+    /// Whether a Live Activity is started *automatically* when a session begins.
+    /// This gates only auto-start; the user can always start one manually from a
+    /// day/entry detail view (see `startLiveActivity()`), regardless of this flag.
+    var isAutoStartEnabled: Bool {
         UserDefaults.standard.object(forKey: "liveActivityEnabled") as? Bool ?? false
     }
 
     private init() {
-        // Resume reference to any existing activity on app launch
+        // Resume reference to any existing activity on app launch. We deliberately
+        // do NOT end it when auto-start is disabled: a manually-started activity
+        // must survive relaunch, and the auto-start preference governs *creation*,
+        // not teardown — tearing down here is what used to wipe the live session.
         if let existing = Activity<PiruActivityAttributes>.activities.first {
             currentActivity = existing
-        }
-
-        // If live activities are disabled, end any recovered activity
-        if !isEnabled, currentActivity != nil {
-            endSession()
         }
     }
 
@@ -94,16 +94,32 @@ final class LiveActivityManager {
 
     // MARK: - Session Notifications
 
-    /// Called by `ActiveSessionManager` when session entries change.
-    /// Starts or updates the Live Activity if enabled.
+    /// Called by `ActiveSessionManager` when session entries change. A *running*
+    /// activity (auto or manual) is always kept up to date; a new one is only
+    /// started automatically when `isAutoStartEnabled` is set.
     func sessionDidChange() {
-        guard isEnabled else { return }
-
         let session = ActiveSessionManager.shared
         guard !session.activeEntries.isEmpty else {
-            endSession()
+            if currentActivity != nil { endSession() }
             return
         }
+
+        let state = session.buildContentState(colorMap: session.cachedColorMap)
+
+        if currentActivity != nil {
+            startUpdateTimer()
+            pushUpdate(ActivityContent(state: state, staleDate: staleDate()))
+        } else if isAutoStartEnabled {
+            startActivity(state: state)
+        }
+    }
+
+    /// Manually start (or refresh) the Live Activity for the current session,
+    /// independent of the automatic-start preference. Driven by the Start button
+    /// in the day/entry detail views.
+    func startLiveActivity() {
+        let session = ActiveSessionManager.shared
+        guard !session.activeEntries.isEmpty else { return }
 
         let state = session.buildContentState(colorMap: session.cachedColorMap)
 
@@ -136,7 +152,7 @@ final class LiveActivityManager {
     }
 
     /// Hide the iOS Live Activity widget while keeping the underlying session
-    /// (active substances) intact, so `restartLiveActivity()` can re-show it.
+    /// (active substances) intact, so `startLiveActivity()` can re-show it.
     func hideLiveActivity() {
         guard currentActivity != nil else { return }
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.backgroundTaskIdentifier)
@@ -144,16 +160,6 @@ final class LiveActivityManager {
         pushEnd(ActivityContent(state: state, staleDate: nil))
         self.currentActivity = nil
         // Keep session alive — only the widget is stopped
-    }
-
-    /// Restart the iOS Live Activity from currently tracked entries.
-    func restartLiveActivity() {
-        guard isEnabled else { return }
-        ActiveSessionManager.shared.refresh()
-        let session = ActiveSessionManager.shared
-        guard !session.activeEntries.isEmpty, currentActivity == nil else { return }
-        let state = session.buildContentState(colorMap: session.cachedColorMap)
-        startActivity(state: state)
     }
 
     /// Whether the iOS Live Activity (Lock Screen widget) is currently running.
@@ -164,7 +170,9 @@ final class LiveActivityManager {
     // MARK: - Background Refresh
 
     func handleBackgroundRefresh(_ task: BGAppRefreshTask) {
-        guard isEnabled else {
+        // Refresh whenever an activity is live (auto-started or manual), not just
+        // when auto-start is enabled — otherwise a manual activity would go stale.
+        guard currentActivity != nil else {
             task.setTaskCompleted(success: true)
             return
         }
