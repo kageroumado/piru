@@ -212,7 +212,7 @@ struct ContentView: View {
                 guard navigator.sheetStack.isEmpty else { return }
                 navigator.present(.help)
             } label: {
-                Image(systemName: "staroflife")
+                Image(systemName: "lifepreserver")
             }
         }
     }
