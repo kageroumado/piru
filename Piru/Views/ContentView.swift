@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -9,9 +10,19 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var librarySearchText = ""
 
-    /// Remembers the last content tab so the Search tab can mirror Library or
-    /// Journal depending on what the user was browsing.
-    @State private var lastContentTab: AppTab = .journal
+    /// Which dataset the Search tab is currently querying. Seeded from the tab
+    /// the user came from (Library → library, anything else → library), then
+    /// user-switchable via the scope picker.
+    @State private var searchScope: SearchTabScope = .library
+
+    /// Bumped to rebuild the search scope picker after its (global) title-font
+    /// appearance changes — see ``applyScopePickerFont(forSearchActive:)``.
+    @State private var scopePickerToken = 0
+
+    /// The tab the user was on before entering Search. Cancelling search returns
+    /// here, matching the Music app (the X exits the search surface entirely
+    /// rather than leaving you stranded on a dismissed Search tab).
+    @State private var tabBeforeSearch: AppTab = .library
 
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
@@ -22,10 +33,19 @@ struct ContentView: View {
         liquidGlassBody
             .onChange(of: navigator.selectedTab) { oldValue, newValue in
                 if newValue == .search {
-                    lastContentTab = oldValue
+                    // Seed the scope from where the user came from; Library is
+                    // the natural default from Tools/Insights/Search itself.
+                    searchScope = (oldValue == .journal) ? .journal : .library
+                    tabBeforeSearch = oldValue
                 }
                 searchText = ""
                 librarySearchText = ""
+                applyScopePickerFont(forSearchActive: newValue == .search)
+            }
+            .task {
+                // Initial application — `onChange` doesn't fire for the tab the
+                // app launches on, so cover the launch-onto-Search case here.
+                applyScopePickerFont(forSearchActive: navigator.selectedTab == .search)
             }
             .sheetStackPresenter(navigator)
             .fullScreenCover(isPresented: .init(
@@ -115,20 +135,14 @@ struct ContentView: View {
             }
             Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
                 NavigationStack(path: navigator.pathBinding(for: .search)) {
-                    Group {
-                        if lastContentTab == .library {
-                            SubstanceLibraryView(searchText: $librarySearchText)
-                                .navigationTitle("Search Library")
-                                .toolbar { sharedToolbar }
-                                .searchable(text: $librarySearchText, prompt: "Search substances...")
-                        } else {
-                            EntryListView(searchText: $searchText)
-                                .navigationTitle("Search Journal")
-                                .toolbar { sharedToolbar }
-                                .searchable(text: $searchText, prompt: "Search entries...")
-                        }
-                    }
-                    .withAppDestinations()
+                    SearchView(
+                        scope: $searchScope,
+                        searchText: $searchText,
+                        pickerRebuildToken: scopePickerToken,
+                        onExitSearch: { navigator.selectedTab = tabBeforeSearch }
+                    )
+                        .toolbar { sharedToolbar }
+                        .withAppDestinations()
                 }
             }
         }
@@ -208,6 +222,143 @@ struct ContentView: View {
     private func handleDeepLink(_ url: URL) {
         guard let outcome = DeepLink.decode(url) else { return }
         navigator.apply(outcome)
+    }
+
+    /// Enlarges the search scope picker's title font while Search is active and
+    /// restores the default otherwise. SwiftUI's segmented `Picker` ignores a
+    /// `.font` on its labels, so the global `UISegmentedControl` appearance
+    /// proxy is the only lever. Managing it here on the always-mounted root —
+    /// rather than inside `SearchView` — means the restore runs in the tab-change
+    /// transaction *before* a sibling tab's picker is created, so the app's other
+    /// segmented controls (Tools, Insights, …) never inherit the larger font.
+    private func applyScopePickerFont(forSearchActive active: Bool) {
+        let attributes: [NSAttributedString.Key: Any]? = active
+            ? [.font: UIFont.preferredFont(forTextStyle: .body)]
+            : nil
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
+        if active { scopePickerToken += 1 }
+    }
+}
+
+// MARK: - Unified Search
+
+/// The two datasets the Search tab can query. Surfaced as a native search-scope
+/// segmented control so the user can search across everything from one place,
+/// regardless of which tab they entered search from.
+enum SearchTabScope: String, CaseIterable, Identifiable {
+    // Order matters: `allCases` drives the segmented picker, and Journal-left /
+    // Library-right mirrors the tab bar (Journal precedes Library there).
+    case journal
+    case library
+
+    var id: Self { self }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .library: return "Library"
+        case .journal: return "Journal"
+        }
+    }
+
+    var prompt: LocalizedStringKey {
+        switch self {
+        case .library: return "Search substances..."
+        case .journal: return "Search entries..."
+        }
+    }
+}
+
+/// Single search surface shared by the catalog and the journal. A native
+/// full-width segmented `Picker` selects the dataset (Library/Journal); the
+/// search field auto-activates on tab entry so the keyboard appears without a
+/// second tap (matching the Music app).
+private struct SearchView: View {
+    @Environment(\.appNavigator) private var navigator
+    @Binding var scope: SearchTabScope
+    @Binding var searchText: String
+
+    /// Forces the segmented `Picker` to rebuild whenever the parent changes the
+    /// global `UISegmentedControl` title-font appearance — the proxy only
+    /// affects controls created *after* it's set, so an existing instance won't
+    /// pick up the larger font without being re-created.
+    let pickerRebuildToken: Int
+
+    /// Invoked when the user cancels search (taps the X) so the parent can leave
+    /// the Search tab and return to where they came from.
+    let onExitSearch: () -> Void
+
+    /// Drives the system search field's presented/focused state. Set true when
+    /// the Search tab becomes active so the keyboard rises immediately.
+    @State private var isSearchActive = false
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Full-width scope selector pinned above the results, matching the
+            // Music app's prominent top toggle. A native segmented Picker (not
+            // `.searchScopes`, whose bar can't be widened/enlarged and renders
+            // inconsistently with a tab-bar search field).
+            Picker("Search scope", selection: $scope) {
+                ForEach(SearchTabScope.allCases) { scope in
+                    Text(scope.title).tag(scope)
+                }
+            }
+            .pickerStyle(.segmented)
+            .controlSize(.large)
+            .labelsHidden()
+            .id(pickerRebuildToken)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+
+            content
+        }
+            .searchable(
+                text: $searchText,
+                isPresented: $isSearchActive,
+                prompt: Text(scope.prompt)
+            )
+            .navigationTitle("Search")
+            .navigationBarTitleDisplayMode(.inline)
+            // Raise the search field (and keyboard) whenever the Search tab is
+            // active. `.task(id:)` runs after first render and re-runs on every
+            // tab change, so it catches both the initial mount and later
+            // re-entries.
+            //
+            // Leaving the tab resets `isSearchActive` to false: the system hides
+            // the presentation without flipping our binding, so without this a
+            // re-entry would write true→true — no published change, field stays
+            // collapsed. The brief sleep lets the `.searchable` field finish
+            // installing on first mount before we present it.
+            .task(id: navigator.selectedTab) {
+                guard navigator.selectedTab == .search else {
+                    isSearchActive = false
+                    return
+                }
+                try? await Task.sleep(for: .milliseconds(50))
+                guard navigator.selectedTab == .search else { return }
+                isSearchActive = true
+            }
+            // Tapping the search field's cancel (X) flips `isSearchActive` to
+            // false while we're still on the Search tab — that's the user
+            // exiting search, so leave the tab entirely (Music behaviour) rather
+            // than stranding them on a dismissed search surface. Our own
+            // programmatic dismissal only happens once `selectedTab` has already
+            // left `.search`, so guarding on it avoids a feedback loop.
+            .onChange(of: isSearchActive) { _, active in
+                if !active, navigator.selectedTab == .search {
+                    onExitSearch()
+                }
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch scope {
+        case .library:
+            SubstanceLibraryView(searchText: $searchText)
+        case .journal:
+            EntryListView(searchText: $searchText)
+        }
     }
 }
 
