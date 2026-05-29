@@ -220,7 +220,7 @@ final class SubstanceDBUpdater {
         // The trade-off is no fine-grained progress without a delegate; the
         // DB is small enough (<10 MB) that a single intermediate update is
         // honest and avoids the complexity of a downloadTask delegate.
-        await onProgress(0)
+        onProgress(0)
         let (downloadedURL, response) = try await URLSession.shared.download(from: url)
         if let http = response as? HTTPURLResponse, http.statusCode != 200 {
             try? FileManager.default.removeItem(at: downloadedURL)
@@ -237,7 +237,7 @@ final class SubstanceDBUpdater {
             try? FileManager.default.removeItem(at: downloadedURL)
             throw UpdaterError.diskWrite(error.localizedDescription)
         }
-        await onProgress(1)
+        onProgress(1)
         return temp
     }
 
