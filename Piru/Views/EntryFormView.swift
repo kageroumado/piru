@@ -291,6 +291,7 @@ struct EntryFormView: View {
         }()
 
         if let entry {
+            let previousTimestamp = entry.timestamp
             entry.substance = substance
             entry.amount = storedAmount
             entry.unit = storedUnit
@@ -299,6 +300,10 @@ struct EntryFormView: View {
             entry.notes = notes.isEmpty ? nil : notes
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             entry.tags = allTags
+            // The detail/edit screens are keyed by timestamp; if the edit moved
+            // the dose in time, repoint the originating route so it doesn't go
+            // blank when we dismiss back to it.
+            navigator.remapEntryRoute(from: previousTimestamp, to: timestamp)
         } else {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             let newEntry = DoseEntry(

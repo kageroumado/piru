@@ -294,6 +294,24 @@ struct TimelineGraphView: View {
                 )
             }
 
+            // "Now" indicator — a full-height vertical line at the current
+            // moment. The per-curve dot alone reads poorly against the filled
+            // area, so the line answers "where are we now" at a glance. Drawn
+            // behind the curves (Health-style) so the dose dots still sit on
+            // top of it.
+            let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
+            let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
+            if nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
+                var nowLine = Path()
+                nowLine.move(to: CGPoint(x: nowX, y: graphTop))
+                nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight))
+                context.stroke(
+                    nowLine,
+                    with: .color(.primary.opacity(0.4)),
+                    lineWidth: compact ? 1 : 1.5
+                )
+            }
+
             // Substance curves
             if stackRedoses {
                 drawStackedCurves(

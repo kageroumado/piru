@@ -267,6 +267,51 @@ struct DurationTimelineBar: View {
     }
 }
 
+// MARK: - Dose Range Rows
+
+/// The labelled threshold/light/common/strong/heavy rows that accompany a
+/// ``DoseLevelIndicator``. Shared between the substance detail screen and the
+/// logged-entry detail screen so both render the dose ladder identically.
+struct DoseRangeRows: View {
+    let doseRange: DoseRange
+    let unit: String
+
+    var body: some View {
+        if let threshold = doseRange.threshold {
+            row("Threshold", value: "\(threshold.doseFormatted) \(unit)", level: .threshold)
+        }
+        if let light = doseRange.light {
+            row("Light", value: "\(light.lowerBound.doseFormatted) – \(light.upperBound.doseFormatted) \(unit)", level: .light)
+        }
+        if let common = doseRange.common {
+            row("Common", value: "\(common.lowerBound.doseFormatted) – \(common.upperBound.doseFormatted) \(unit)", level: .common)
+        }
+        if let strong = doseRange.strong {
+            row("Strong", value: "\(strong.lowerBound.doseFormatted) – \(strong.upperBound.doseFormatted) \(unit)", level: .strong)
+        }
+        if let heavy = doseRange.heavy {
+            row("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", level: .heavy)
+        }
+    }
+
+    private func row(_ label: LocalizedStringResource, value: String, level: DoseLevel) -> some View {
+        HStack {
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(level.swiftUIColor)
+                    .frame(width: 8, height: 8)
+                Text(label)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            Text(value)
+                .monospacedDigit()
+                .foregroundStyle(.primary)
+        }
+        .font(.subheadline)
+    }
+}
+
 // MARK: - Duration Info View
 
 struct DurationInfoView: View {

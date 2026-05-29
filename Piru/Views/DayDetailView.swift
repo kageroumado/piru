@@ -81,6 +81,14 @@ struct DayDetailView: View {
         Calendar.current.isDateInToday(date)
     }
 
+    /// Any dose on this day whose effect window still includes now. Gates the
+    /// "Live Activity" action so it only appears while a session is actually
+    /// live, not once every dose has fully worn off.
+    private var hasOngoingDose: Bool {
+        let now = Date.now
+        return substanceStates.contains { now < $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }
+    }
+
     var body: some View {
         List {
             Group {
@@ -96,17 +104,24 @@ struct DayDetailView: View {
                     Section {
                         if graphExpanded {
                             VStack(spacing: 8) {
-                                if isToday {
+                                if isToday && hasOngoingDose {
                                     HStack {
                                         Spacer()
-                                        Button("Live Activity") {
+                                        Button {
                                             restartLiveActivity()
+                                        } label: {
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "dot.radiowaves.up.forward")
+                                                Text("Live Activity")
+                                            }
+                                            .font(.caption2.weight(.semibold))
                                         }
-                                        .font(.caption)
-                                        .buttonStyle(.plain)
-                                        .foregroundStyle(Theme.accent)
+                                        .buttonStyle(.bordered)
+                                        .buttonBorderShape(.capsule)
+                                        .controlSize(.mini)
+                                        .tint(Theme.accent)
                                     }
-                                    .padding(.horizontal, 12)
+                                    .padding(.top, 2)
                                 }
                                 TimelineGraphView(
                                     substances: substanceStates,
@@ -255,7 +270,7 @@ struct DayDetailView: View {
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    navigator.present(.entryForm(prefill: nil))
+                    navigator.present(.quickLog)
                 } label: {
                     Image(systemName: "plus")
                 }
