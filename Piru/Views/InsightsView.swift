@@ -27,6 +27,7 @@ struct InsightsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
+        .scrollEdgeEffectStyle(.soft, for: .top)
         .toolbar(.hidden, for: .navigationBar)
         .task(id: changeToken) { recompute() }
     }
