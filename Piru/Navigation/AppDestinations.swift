@@ -69,6 +69,18 @@ private struct PushRouteView: View {
             toolView(for: tool)
                 .navigationTitle(Text(tool.name))
                 .navigationBarTitleDisplayMode(.inline)
+
+        case .insight(let insight):
+            insightView(for: insight)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ViewBuilder
+    private func insightView(for insight: Insight) -> some View {
+        switch insight {
+        case .adherence: AdherenceView().navigationTitle("Adherence")
+        case .usage: UsageStatsView().navigationTitle("Usage")
         }
     }
 

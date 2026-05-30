@@ -834,6 +834,22 @@
         }
       }
     },
+    "%lld active right now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前 %lld 种活性"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前 %lld 種活性"
+          }
+        }
+      }
+    },
     "%lld daily reminder%@ scheduled." : {
       "localizations" : {
         "en" : {
@@ -928,6 +944,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 條記錄,涉及 %lld 種物質"
+          }
+        }
+      }
+    },
+    "%lld entries · %@/day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 条记录 · 每天 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 筆記錄 · 每天 %2$@"
           }
         }
       }
@@ -1129,6 +1161,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld-%@ 平均"
+          }
+        }
+      }
+    },
+    "%lld-day streak · %@ this month" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连续 %1$lld 天 · 本月 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連續 %1$lld 天 · 本月 %2$@"
           }
         }
       }
@@ -9760,6 +9808,22 @@
         }
       }
     },
+    "In your system" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内残留"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內殘留"
+          }
+        }
+      }
+    },
     "InChIKey" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11603,6 +11667,22 @@
         }
       }
     },
+    "Most logged: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最常记录:%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最常記錄:%@"
+          }
+        }
+      }
+    },
     "Motor coordination and spatial awareness may still be impaired." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12019,6 +12099,22 @@
         }
       }
     },
+    "No adherence data yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无依从性数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無依從性數據"
+          }
+        }
+      }
+    },
     "No bindings match these filters." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12095,6 +12191,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無記錄"
+          }
+        }
+      }
+    },
+    "No doses logged yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未记录任何剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未記錄任何劑量"
           }
         }
       }
@@ -12463,6 +12575,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "備註（可選）"
+          }
+        }
+      }
+    },
+    "Nothing active right now" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前无活性物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前無活性物質"
           }
         }
       }
