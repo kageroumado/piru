@@ -50,25 +50,23 @@ nonisolated enum Tool: String, Hashable, Codable, Sendable, CaseIterable, Identi
 struct ToolsView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
-                ScreenHeaderBar("Tools")
-
-                VStack(spacing: 14) {
-                    ForEach(Tool.allCases) { tool in
-                        NavigationLink(value: PushRoute.tool(tool)) {
-                            NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
-                                Text(tool.subtitle)
-                            }
+            VStack(spacing: 14) {
+                ForEach(Tool.allCases) { tool in
+                    NavigationLink(value: PushRoute.tool(tool)) {
+                        NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
+                            Text(tool.subtitle)
                         }
-                        .buttonStyle(.plain)
                     }
+                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
+            .padding(.top, 4)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
         .scrollEdgeEffectStyle(.soft, for: .top)
+        .safeAreaBar(edge: .top) { ScreenHeaderBar("Tools") }
         .toolbar(.hidden, for: .navigationBar)
     }
 }
