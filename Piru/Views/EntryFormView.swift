@@ -292,6 +292,7 @@ struct EntryFormView: View {
 
         if let entry {
             let previousTimestamp = entry.timestamp
+            let previousSubstanceName = entry.substance
             entry.substance = substance
             entry.amount = storedAmount
             entry.unit = storedUnit
@@ -304,6 +305,21 @@ struct EntryFormView: View {
             // the dose in time, repoint the originating route so it doesn't go
             // blank when we dismiss back to it.
             navigator.remapEntryRoute(from: previousTimestamp, to: timestamp)
+
+            // The session accessory & Live Activity read from ActiveSessionManager's
+            // snapshot, not SwiftData — without this, the bottom mini-graph keeps
+            // showing the dose's pre-edit time/amount.
+            let colorHex = substanceColors.first {
+                $0.substance.lowercased() == substance.lowercased()
+            }?.hexColor ?? "007AFF"
+            ActiveSessionManager.shared.updateDose(
+                previousSubstanceName: previousSubstanceName,
+                previousTimestamp: previousTimestamp,
+                entry: entry,
+                substance: selectedSubstance,
+                colorHex: colorHex,
+                allColors: Array(substanceColors)
+            )
         } else {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             let newEntry = DoseEntry(

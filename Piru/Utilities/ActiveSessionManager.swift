@@ -149,6 +149,51 @@ final class ActiveSessionManager {
         }
     }
 
+    /// Update a tracked dose after the user edits its `DoseEntry`.
+    ///
+    /// The dose is matched by the substance name + timestamp it had *before*
+    /// the edit (the values stored in its snapshot). When found, the snapshot
+    /// and resolved duration are rebuilt from the edited entry; if no match
+    /// exists — e.g. the dose had expired and been pruned but the edit moved it
+    /// back into an active window — the refreshed snapshot is appended instead.
+    /// Newly-expired results are pruned, keeping the session accessory and Live
+    /// Activity in sync with SwiftData without waiting for an app relaunch.
+    func updateDose(
+        previousSubstanceName: String,
+        previousTimestamp: Date,
+        entry: DoseEntry,
+        substance: Substance?,
+        colorHex: String,
+        allColors: [SubstanceColor]
+    ) {
+        let colorMap = Self.buildColorMap(from: allColors)
+        cachedColorMap = colorMap
+
+        let snapshot = DoseSnapshot(entry: entry)
+        let duration = Self.resolveDuration(substance: substance, route: entry.route)
+        let hex = colorMap[snapshot.substance.lowercased()] ?? colorHex
+        let updated = (snapshot: snapshot, duration: duration, colorHex: hex)
+
+        if let index = activeEntries.firstIndex(where: { item in
+            item.snapshot.substance == previousSubstanceName &&
+            abs(item.snapshot.timestamp.timeIntervalSince(previousTimestamp)) < 1
+        }) {
+            activeEntries[index] = updated
+        } else {
+            activeEntries.append(updated)
+        }
+
+        pruneCompleted()
+
+        if activeEntries.isEmpty {
+            pruneTask?.cancel()
+            pruneTask = nil
+            LiveActivityManager.shared.sessionCleared()
+        } else {
+            LiveActivityManager.shared.sessionDidChange()
+        }
+    }
+
     /// Rebuild session from a set of existing day entries (e.g. after restart from DayDetailView).
     func restartFromEntries(
         _ doseEntries: [DoseEntry],
