@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct VolumetricDosingView: View {
-    var toolsSection: Binding<ToolsView.Section>?
-
     enum Mode: String, CaseIterable, Identifiable {
         case solventNeeded = "Solvent Needed"
         case concentration = "Concentration"

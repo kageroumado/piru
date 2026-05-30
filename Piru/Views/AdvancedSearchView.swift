@@ -22,8 +22,6 @@ struct AdvancedSearchView: View {
             filterSection
             resultsSection
         }
-        .navigationTitle("Pharma Search")
-        .navigationBarTitleDisplayMode(.inline)
         .task { reloadTargets() }
         .onChange(of: selectedTarget) { _, _ in runQuery() }
         .onChange(of: kiCeilingEnabled) { _, _ in runQuery() }

@@ -2,7 +2,6 @@ import SwiftData
 import SwiftUI
 
 struct HalfLifeCalculatorView: View {
-    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 

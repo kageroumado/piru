@@ -64,6 +64,22 @@ private struct PushRouteView: View {
 
         case .libraryFavorites:
             SubstanceCategoryListView(title: "Favorites", category: nil)
+
+        case .tool(let tool):
+            toolView(for: tool)
+                .navigationTitle(Text(tool.name))
+                .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ViewBuilder
+    private func toolView(for tool: Tool) -> some View {
+        switch tool {
+        case .interactions: InteractionCheckerView()
+        case .calculator: HalfLifeCalculatorView()
+        case .volumetric: VolumetricDosingView()
+        case .recovery: ComedownGuideView()
+        case .pharma: AdvancedSearchView()
         }
     }
 
