@@ -84,11 +84,23 @@ struct SubstanceLibraryTests {
         }
     }
 
-    @Test("Sum of substances across non-empty categories equals total count")
+    @Test("Non-empty categories partition every browsable substance exactly once")
     func nonEmptyCategoriesCoverAll() {
+        // Category browse only surfaces browsable substances — `.nonRecreational`
+        // compounds (antibiotics, …) stay searchable for medication tracking but
+        // are hidden from browse (see `substances(in:)` / `nonEmptyCategories`,
+        // both filtered by `displayClass.surfacesInBrowse`). So the grouped sum
+        // must equal the browsable count, NOT `all.count` (which also includes
+        // the hidden non-recreational substances).
+        let browsableCount = SubstanceLibrary.all
+            .filter { $0.displayClass.surfacesInBrowse }
+            .count
         let totalGrouped = SubstanceLibrary.nonEmptyCategories
             .reduce(0) { $0 + SubstanceLibrary.substances(in: $1).count }
-        #expect(totalGrouped == SubstanceLibrary.all.count)
+        #expect(totalGrouped == browsableCount)
+        // Everything left out of browse is exactly the non-browsable set.
+        #expect(SubstanceLibrary.all.count - totalGrouped
+                == SubstanceLibrary.all.filter { !$0.displayClass.surfacesInBrowse }.count)
     }
 
     // MARK: - Search ranking edge cases
