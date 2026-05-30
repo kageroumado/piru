@@ -785,7 +785,7 @@ def chem_caps(name: str) -> str:
 # Canonical category enum (mirrors SubstanceCategory in Swift). Keep in sync
 # with Piru/Models/Substance.swift `SubstanceCategory` rawValue strings.
 _CATEGORY_ENUM = {
-    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Opioid",
+    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Deliriant", "Opioid",
     "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic",
     "AMPAkine", "Eugeroic", "Depressant", "Antidepressant", "Antipsychotic",
     "Analgesic", "Antihistamine", "Cardiovascular", "Antimicrobial",
@@ -849,8 +849,9 @@ _CATEGORY_RULES: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\b(stimulant|sympathomimetic|monoamine[\s-]?releaser|DA[\s-]?releaser|NDRI[\s-]?stimulant|amphetamine|cathinone|piperazine[\s-]?stimulant|psychostimulant)\b", re.I), "Stimulant"),
     # --- Depressant (catch-all for sedative-hypnotics not benzo/GABAergic) ---
     (re.compile(r"\b(depressant|sedative|hypnotic|anxiolytic|barbiturate|GHB|GABA[\s-]?A[\s-]?(positive[\s-]?)?(allosteric[\s-]?)?modulator|GABAA[\s-]?PAM)\b", re.I), "Depressant"),
-    # --- Deliriant → Antihistamine bucket (deliriants are anticholinergic; bucket with antihistamines) ---
-    (re.compile(r"\b(deliriant|anticholinergic|muscarinic[\s-]?antagonist)\b", re.I), "Antihistamine"),
+    # --- Deliriant (anticholinergic/antimuscarinic hallucinogens: tropane alkaloids,
+    # glycolate-ester incapacitants, and the deliriant first-gen antihistamines) ---
+    (re.compile(r"\b(deliriant|anticholinergic|antimuscarinic|muscarinic[\s-]?antagonist)\b", re.I), "Deliriant"),
 ]
 
 
@@ -2788,11 +2789,19 @@ def main() -> int:
     # Apply curated category corrections via a piru-curated row that wins resolution.
     cat_overrides = load_category_overrides()
     recategorized = 0
+    curated_src = build.source_ids["piru-curated"]
     for canon, category in cat_overrides.items():
         row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
         if not row:
             print(f"  WARNING: category-override target not found: {canon!r}", file=sys.stderr)
             continue
+        # Drop any pre-existing piru-curated category row so the override wins:
+        # add_category silently swallows the PRIMARY KEY conflict, so without this
+        # an earlier curated row (e.g. promote_via_tags) would keep the old value.
+        build.cur.execute(
+            "DELETE FROM categories WHERE substance_id=? AND source_id=?",
+            (row[0], curated_src),
+        )
         build.add_category(row[0], "piru-curated", category)
         recategorized += 1
     print(f"Category overrides: {recategorized}/{len(cat_overrides)}", file=sys.stderr)

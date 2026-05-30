@@ -410,6 +410,11 @@ enum InteractionChecker {
         case .depressant: .other
         case .analgesic: .other
         case .antihistamine: .antihistamine
+        // Deliriants are anticholinergic/antimuscarinic; their dominant interaction
+        // concern is additive anticholinergic toxicity, the same profile as the
+        // first-gen antihistamines they were split out of. Route to `.antihistamine`
+        // so those rules (and the sedative/anticholinergic stacking warnings) apply.
+        case .deliriant: .antihistamine
         case .cardiovascular: .other
         case .antimicrobial: .other
         case .gastrointestinal: .other

@@ -420,7 +420,7 @@ class TestNormalizeCategory(unittest.TestCase):
             ("Stimulant; serotonergic neurotoxin", "Stimulant"),
             ("Serotonergic entactogen / mild psychedelic", "Psychedelic"),  # psychedelic wins over entactogen
             ("Sedative-hypnotic depressant", "Depressant"),
-            ("Anticholinergic deliriant incapacitant", "Antihistamine"),
+            ("Anticholinergic deliriant incapacitant", "Deliriant"),
             ("Hormone (Estrogen)", "Endocrine"),
             ("Mood stabiliser / anticonvulsant", "Anticonvulsant"),  # mood-stab + antiepileptic both → Anticonvulsant
             ("GLP-1 agonist (peptide)", "Peptide"),
@@ -526,10 +526,20 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "Sertraline": "Antidepressant",
             "Venlafaxine": "Antidepressant",
             "Bupropion": "Antidepressant",  # piru-curated overrides tripsit's "Stimulant"
-            # Antihistamines
+            # Antihistamines — pure peripheral H1 antagonists must NOT be pulled
+            # into the Deliriant bucket (they aren't anticholinergic deliriants).
             "Cetirizine": "Antihistamine",
             "Loratadine": "Antihistamine",
-            "Diphenhydramine": "Antihistamine",
+            # Deliriants — anticholinergic/antimuscarinic + the deliriant first-gen
+            # antihistamines, split out of Antihistamine via curated overrides.
+            "Diphenhydramine": "Deliriant",
+            "Doxylamine": "Deliriant",
+            "Datura": "Deliriant",  # was Dysdelic; it's a deliriant, not a κ-hallucinogen
+            "Scopolamine": "Deliriant",
+            # Dysdelics — Salvia and selective κ-agonist RCs join the salvinorins
+            "Salvia": "Dysdelic",  # curated override beats tripsit's "Dissociative"
+            "Salvinorin A": "Dysdelic",
+            "U-51754": "Dysdelic",
             # Cannabinoids
             "THC": "Cannabinoid",
             "CBD": "Cannabinoid",

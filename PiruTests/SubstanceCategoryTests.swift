@@ -69,10 +69,16 @@ struct SubstanceCategoryTests {
         #expect(SubstanceCategory.from(tripSitCategory: "antipsychotic") == .antipsychotic)
     }
 
-    @Test("Maps antihistamine and deliriant")
+    @Test("Maps antihistamine")
     func antihistamine() {
         #expect(SubstanceCategory.from(tripSitCategory: "antihistamine") == .antihistamine)
-        #expect(SubstanceCategory.from(tripSitCategory: "deliriant") == .antihistamine)
+    }
+
+    @Test("Maps deliriant and anticholinergic variants")
+    func deliriant() {
+        #expect(SubstanceCategory.from(tripSitCategory: "deliriant") == .deliriant)
+        #expect(SubstanceCategory.from(tripSitCategory: "anticholinergic") == .deliriant)
+        #expect(SubstanceCategory.from(tripSitCategory: "muscarinic-antagonist") == .deliriant)
     }
 
     @Test("Maps supplement variants")
@@ -124,9 +130,9 @@ struct SubstanceCategoryTests {
 
     // MARK: - Enum properties
 
-    @Test("Has 27 cases")
+    @Test("Has 28 cases")
     func caseCount() {
-        #expect(SubstanceCategory.allCases.count == 27)
+        #expect(SubstanceCategory.allCases.count == 28)
     }
 
     @Test("ID matches raw value")
