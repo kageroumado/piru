@@ -27,6 +27,15 @@ nonisolated enum PushRoute: Hashable, Codable, Sendable {
     case libraryCategory(SubstanceCategory)
     case libraryFavorites
     case tool(Tool)
+    case insight(Insight)
+}
+
+/// A detail screen reachable from the Insights overview.
+nonisolated enum Insight: String, Hashable, Codable, Sendable, CaseIterable, Identifiable {
+    case adherence
+    case usage
+
+    var id: String { rawValue }
 }
 
 // MARK: - Sheet Routes
