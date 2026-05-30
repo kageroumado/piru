@@ -4711,6 +4711,22 @@
         }
       }
     },
+    "Check how substances interact" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看物质间的相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看物質間的相互作用"
+          }
+        }
+      }
+    },
     "Checked every %@." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5139,6 +5155,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期提醒"
+          }
+        }
+      }
+    },
+    "Comedown and aftercare tips" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复期的护理建议"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復期的護理建議"
           }
         }
       }
@@ -6292,6 +6324,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "膳食補充劑"
+          }
+        }
+      }
+    },
+    "Dilute and measure precise doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稀释并精确测量剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稀釋並精確測量劑量"
           }
         }
       }
@@ -7964,6 +8012,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "僅供參考"
+          }
+        }
+      }
+    },
+    "Estimate active levels over time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算活性水平随时间的变化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "估算活性水平隨時間的變化"
           }
         }
       }
@@ -14801,6 +14865,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋"
+          }
+        }
+      }
+    },
+    "Search by receptor and affinity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按受体与亲和力搜索"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按受體與親和力搜尋"
           }
         }
       }
