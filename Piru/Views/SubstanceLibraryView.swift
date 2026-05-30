@@ -28,6 +28,11 @@ struct SubstanceLibraryView: View {
 
     var body: some View {
         List {
+            ScreenHeaderBar("Library")
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+
             if searchText.isEmpty {
                 categoryGrid
             } else {
@@ -37,7 +42,7 @@ struct SubstanceLibraryView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Substance Library")
+        .toolbar(.hidden, for: .navigationBar)
         .task(id: searchText) {
             guard !searchText.isEmpty else {
                 searchResults = []

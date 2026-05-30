@@ -80,12 +80,10 @@ struct ContentView: View {
 
     private var journalContent: some View {
         EntryListView(searchText: $searchText)
-            .toolbar { sharedToolbar }
     }
 
     private var libraryContent: some View {
         SubstanceLibraryView(searchText: $librarySearchText)
-            .toolbar { sharedToolbar }
     }
 
     private var toolsContent: some View {

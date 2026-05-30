@@ -15,18 +15,19 @@ struct InsightsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                ScreenHeader("Insights")
+                ScreenHeaderBar("Insights")
 
-                adherenceCard
-                usageCard
-                inSystemCard
+                Group {
+                    adherenceCard
+                    usageCard
+                    inSystemCard
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar { AppToolbarButtons() }
+        .toolbar(.hidden, for: .navigationBar)
         .task(id: changeToken) { recompute() }
     }
 
@@ -95,31 +96,10 @@ struct InsightsView: View {
         icon: String,
         title: LocalizedStringKey,
         route: PushRoute,
-        @ViewBuilder detail: () -> Detail
+        @ViewBuilder detail: @escaping () -> Detail
     ) -> some View {
         NavigationLink(value: route) {
-            HStack(spacing: 14) {
-                Image(systemName: icon)
-                    .font(.title2)
-                    .foregroundStyle(Theme.accent)
-                    .frame(width: 32)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(title)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                    detail()
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer(minLength: 8)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .themeCard()
-            .contentShape(Rectangle())
+            NavCardLabel(icon: icon, title: Text(title), detail: detail)
         }
         .buttonStyle(.plain)
     }
