@@ -46,9 +46,10 @@ struct InteractionCheckerView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                searchSection
                 selectedSection
                 resultsSection
-                suggestionsSection
+                frequentlyUsedSection
             }
             .padding(.horizontal)
             .padding(.top, 12)
@@ -58,21 +59,54 @@ struct InteractionCheckerView: View {
         .background(Theme.background)
     }
 
+    // MARK: - Search
+
+    private var searchSection: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(Theme.secondaryLabel)
+                TextField("Search substances...", text: $searchText)
+                    .autocorrectionDisabled()
+                    .focused($isSearchFocused)
+                    .onChange(of: searchText) {
+                        if searchText.isEmpty {
+                            searchResults = []
+                            showSearchResults = false
+                        } else {
+                            searchTrigger += 1
+                        }
+                    }
+                    .task(id: searchTrigger) {
+                        guard searchTrigger > 0 else { return }
+                        try? await Task.sleep(for: .milliseconds(150))
+                        guard !Task.isCancelled, !searchText.isEmpty else { return }
+                        searchResults = SubstanceLibrary.search(searchText, limit: 8)
+                        showSearchResults = true
+                    }
+                    .onSubmit {
+                        if let first = searchResults.first {
+                            addSubstance(first.name)
+                        } else if !searchText.isEmpty {
+                            addSubstance(searchText)
+                        }
+                    }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .themeCapsule()
+
+            if showSearchResults && !searchResults.isEmpty {
+                searchDropdown
+            }
+        }
+    }
+
     // MARK: - Selected Capsules
 
     @ViewBuilder
     private var selectedSection: some View {
-        if selected.isEmpty {
-            HStack(spacing: 8) {
-                Image(systemName: "hand.tap")
-                    .foregroundStyle(Theme.secondaryLabel)
-                Text("Choose at least 2 substances")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 20)
-        } else {
+        if !selected.isEmpty {
             FlowLayout(spacing: 8) {
                 ForEach(selected, id: \.self) { name in
                     substanceCapsule(name, removable: true) {
@@ -84,6 +118,16 @@ struct InteractionCheckerView: View {
                 }
             }
             .padding(.vertical, 4)
+        } else if !showSearchResults {
+            HStack(spacing: 8) {
+                Image(systemName: "hand.tap")
+                    .foregroundStyle(Theme.secondaryLabel)
+                Text("Choose at least 2 substances")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
         }
     }
 
@@ -152,11 +196,12 @@ struct InteractionCheckerView: View {
         }
     }
 
-    // MARK: - Suggestions & Search
+    // MARK: - Frequently Used
 
-    private var suggestionsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if !mostUsed.isEmpty {
+    @ViewBuilder
+    private var frequentlyUsedSection: some View {
+        if !mostUsed.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
                 Text("Frequently used")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
@@ -170,54 +215,20 @@ struct InteractionCheckerView: View {
                     }
                 }
             }
-
-            // Search field
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 8) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Theme.secondaryLabel)
-                    TextField("Search substances...", text: $searchText)
-                        .autocorrectionDisabled()
-                        .focused($isSearchFocused)
-                        .onChange(of: searchText) {
-                            if searchText.isEmpty {
-                                searchResults = []
-                                showSearchResults = false
-                            } else {
-                                searchTrigger += 1
-                            }
-                        }
-                        .task(id: searchTrigger) {
-                            guard searchTrigger > 0 else { return }
-                            try? await Task.sleep(for: .milliseconds(150))
-                            guard !Task.isCancelled, !searchText.isEmpty else { return }
-                            searchResults = SubstanceLibrary.search(searchText, limit: 8)
-                            showSearchResults = true
-                        }
-                        .onSubmit {
-                            if let first = searchResults.first {
-                                addSubstance(first.name)
-                            } else if !searchText.isEmpty {
-                                addSubstance(searchText)
-                            }
-                        }
-                }
-                .padding(10)
-                .themeCard(cornerRadius: 12)
-
-                if showSearchResults && !searchResults.isEmpty {
-                    searchDropdown
-                }
-            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
     private var searchDropdown: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            let selectedLower = Set(selected.map { $0.lowercased() })
-            let filtered = searchResults.filter { !selectedLower.contains($0.name.lowercased()) }
+        let selectedLower = Set(selected.map { $0.lowercased() })
+        let shown = Array(searchResults.filter { !selectedLower.contains($0.name.lowercased()) }.prefix(6))
+        let showCustom = !searchText.isEmpty && !hasExactMatch
 
-            ForEach(filtered.prefix(6)) { substance in
+        return VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(shown.enumerated()), id: \.element.id) { index, substance in
+                if index > 0 {
+                    Divider().padding(.leading, 16)
+                }
                 Button {
                     addSubstance(substance.name)
                 } label: {
@@ -239,16 +250,17 @@ struct InteractionCheckerView: View {
                             .padding(.vertical, 2)
                             .background(.fill.secondary, in: Capsule())
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-
-                Divider().padding(.leading, 12)
             }
 
-            if !searchText.isEmpty && !hasExactMatch {
+            if showCustom {
+                if !shown.isEmpty {
+                    Divider().padding(.leading, 16)
+                }
                 Button {
                     addSubstance(searchText)
                 } label: {
@@ -266,16 +278,14 @@ struct InteractionCheckerView: View {
                             .background(Theme.accent.opacity(0.25), in: Capsule())
                             .foregroundStyle(Theme.accent)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
         }
-        .background(Theme.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+        .themeCard(cornerRadius: 16)
     }
 
     // MARK: - Capsule View
@@ -284,13 +294,13 @@ struct InteractionCheckerView: View {
         let color = colorMap[name.lowercased()] ?? Theme.accent
 
         return Button(action: action) {
-            HStack(spacing: 4) {
+            HStack(spacing: 5) {
+                if removable {
+                    Image(systemName: "xmark")
+                        .font(.caption.weight(.bold))
+                }
                 Text(name)
                     .font(.subheadline.weight(.medium))
-                if removable {
-                    Text("×")
-                        .font(.caption2.weight(.bold))
-                }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
@@ -298,6 +308,7 @@ struct InteractionCheckerView: View {
             .foregroundStyle(color)
             .clipShape(Capsule())
         }
+        .accessibilityLabel(removable ? Text("Remove \(name)") : Text(name))
     }
 
     // MARK: - Actions
