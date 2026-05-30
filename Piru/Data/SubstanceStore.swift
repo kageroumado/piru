@@ -408,12 +408,14 @@ final class SubstanceStore {
         do {
             return try substancesDB.read { db in
                 let allRows = try Row.fetchAll(db, sql:
-                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity FROM substances ORDER BY canonical_name COLLATE NOCASE")
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(uniqueKeysWithValues:
                     allRows.map { ($0["id"], $0["canonical_name"] as String) })
                 // Display-name overrides — browse rows show this as the title when set.
                 var displayNameByID: [Int64: String] = [:]
+                // Curated popularity scores — drives the category-browse sort.
+                var popularityByID: [Int64: Double] = [:]
                 // Display-policy fields — loaded in the cheap batch path because
                 // every browse row needs the class for filtering + dose gating.
                 var displayClassByID: [Int64: CompoundDisplayClass] = [:]
@@ -427,6 +429,7 @@ final class SubstanceStore {
                     if let reg: String = row["regulatory_status"] { regulatoryByID[sid] = reg }
                     durationImplausibleByID[sid] = (row["duration_implausible"] as Int64? ?? 0) != 0
                     if let dn: String = row["display_name"] { displayNameByID[sid] = dn }
+                    popularityByID[sid] = row["popularity"] as Double? ?? 0
                 }
 
                 // Aliases — union across sources.
@@ -613,7 +616,8 @@ final class SubstanceStore {
                         tags: tags,
                         displayClass: displayClassByID[sid] ?? .recreational,
                         regulatoryStatus: regulatoryByID[sid],
-                        durationImplausible: durationImplausibleByID[sid] ?? false
+                        durationImplausible: durationImplausibleByID[sid] ?? false,
+                        popularity: popularityByID[sid] ?? 0
                     )
                 }
             }
@@ -720,7 +724,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, popularity FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -732,6 +736,7 @@ final class SubstanceStore {
                 let inchikey: String? = coreRow["inchikey"]
                 let formula: String? = coreRow["formula"]
                 let pubchemCID = (coreRow["pubchem_cid"] as Int64?).map(Int.init)
+                let popularity = coreRow["popularity"] as Double? ?? 0
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
 
@@ -775,7 +780,8 @@ final class SubstanceStore {
                     cas: cas,
                     inchikey: inchikey,
                     formula: formula,
-                    pubchemCID: pubchemCID
+                    pubchemCID: pubchemCID,
+                    popularity: popularity
                 )
             }
             if let resolved {

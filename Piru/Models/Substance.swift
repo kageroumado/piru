@@ -591,6 +591,9 @@ struct Substance: Identifiable {
     /// PubChem Compound ID, for linking out to the curated chemistry record.
     /// Detail-only (nil in the batch/browse path), like the other identifiers.
     let pubchemCID: Int?
+    /// Hand-curated popularity score in [0,1] (0 = not curated). Drives the
+    /// "Popularity" sort in category browse; loaded in the batch path.
+    let popularity: Double
     /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
     /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,
     /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
@@ -620,7 +623,8 @@ struct Substance: Identifiable {
         cas: String? = nil,
         inchikey: String? = nil,
         formula: String? = nil,
-        pubchemCID: Int? = nil
+        pubchemCID: Int? = nil,
+        popularity: Double = 0
     ) {
         self.id = UUID()
         self.name = name
@@ -646,6 +650,7 @@ struct Substance: Identifiable {
         self.inchikey = inchikey
         self.formula = formula
         self.pubchemCID = pubchemCID
+        self.popularity = popularity
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -734,7 +739,7 @@ extension Substance: Codable {
         case mechanismOfAction, tags
         case displayClass, regulatoryStatus, durationImplausible
         case indications, contraindications, diazepamEquivalent
-        case cas, inchikey, formula, pubchemCID
+        case cas, inchikey, formula, pubchemCID, popularity
     }
 
     init(from decoder: Decoder) throws {
@@ -763,6 +768,7 @@ extension Substance: Codable {
         inchikey = try c.decodeIfPresent(String.self, forKey: .inchikey)
         formula = try c.decodeIfPresent(String.self, forKey: .formula)
         pubchemCID = try c.decodeIfPresent(Int.self, forKey: .pubchemCID)
+        popularity = try c.decodeIfPresent(Double.self, forKey: .popularity) ?? 0
     }
 
     func encode(to encoder: Encoder) throws {
@@ -804,6 +810,7 @@ extension Substance: Codable {
         try c.encodeIfPresent(inchikey, forKey: .inchikey)
         try c.encodeIfPresent(formula, forKey: .formula)
         try c.encodeIfPresent(pubchemCID, forKey: .pubchemCID)
+        if popularity != 0 { try c.encode(popularity, forKey: .popularity) }
     }
 }
 
