@@ -60,29 +60,25 @@ struct ToolsView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(availableTools) { tool in
-                NavigationLink(value: PushRoute.tool(tool)) {
-                    HStack(spacing: 14) {
-                        Image(systemName: tool.icon)
-                            .font(.title3)
-                            .foregroundStyle(Theme.accent)
-                            .frame(width: 30)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(tool.name)
-                            Text(tool.subtitle)
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                ScreenHeaderBar("Tools")
+
+                VStack(spacing: 14) {
+                    ForEach(availableTools) { tool in
+                        NavigationLink(value: PushRoute.tool(tool)) {
+                            NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
+                                Text(tool.subtitle)
+                            }
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding(.vertical, 6)
                 }
+                .padding(.horizontal)
             }
-            .listRowBackground(Theme.cardBackground)
+            .padding(.bottom, 80)
         }
-        .listStyle(.insetGrouped)
-        .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Tools")
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
