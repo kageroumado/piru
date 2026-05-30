@@ -213,9 +213,7 @@ struct EntryListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .scrollEdgeEffectStyle(.soft, for: .top)
-        .safeAreaBar(edge: .top) { ScreenHeaderBar("Journal") }
-        .toolbar(.hidden, for: .navigationBar)
+        .appHeader("Journal")
         .overlay {
             if filteredEntries.isEmpty {
                 emptyState

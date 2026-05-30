@@ -65,8 +65,6 @@ struct ToolsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
-        .scrollEdgeEffectStyle(.soft, for: .top)
-        .safeAreaBar(edge: .top) { ScreenHeaderBar("Tools") }
-        .toolbar(.hidden, for: .navigationBar)
+        .appHeader("Tools")
     }
 }
