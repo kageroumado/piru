@@ -218,6 +218,7 @@ struct EntryListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .scrollEdgeEffectStyle(.soft, for: .top)
         .toolbar(.hidden, for: .navigationBar)
         .overlay {
             if filteredEntries.isEmpty {

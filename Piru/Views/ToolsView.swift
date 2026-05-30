@@ -44,28 +44,17 @@ nonisolated enum Tool: String, Hashable, Codable, Sendable, CaseIterable, Identi
         }
     }
 
-    /// Tools always available regardless of disclosure tier.
-    static let coreTools: [Tool] = [.interactions, .calculator, .volumetric, .recovery]
 }
 
 /// The Tools tab root: a hub list of tools, each pushing a full-screen view.
-/// Pharma search is only exposed on the pharma-nerd tier.
 struct ToolsView: View {
-    @Environment(\.appNavigator) private var navigator
-
-    private var availableTools: [Tool] {
-        SubstanceStore.shared.userProfile == .pharmaNerd
-            ? Tool.coreTools + [.pharma]
-            : Tool.coreTools
-    }
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
                 ScreenHeaderBar("Tools")
 
                 VStack(spacing: 14) {
-                    ForEach(availableTools) { tool in
+                    ForEach(Tool.allCases) { tool in
                         NavigationLink(value: PushRoute.tool(tool)) {
                             NavCardLabel(icon: tool.icon, title: Text(tool.name)) {
                                 Text(tool.subtitle)
@@ -79,6 +68,7 @@ struct ToolsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
+        .scrollEdgeEffectStyle(.soft, for: .top)
         .toolbar(.hidden, for: .navigationBar)
     }
 }

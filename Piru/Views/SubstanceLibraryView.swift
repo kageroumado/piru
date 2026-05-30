@@ -42,6 +42,7 @@ struct SubstanceLibraryView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
+        .scrollEdgeEffectStyle(.soft, for: .top)
         .toolbar(.hidden, for: .navigationBar)
         .task(id: searchText) {
             guard !searchText.isEmpty else {
