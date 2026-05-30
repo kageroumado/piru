@@ -187,11 +187,6 @@ struct EntryListView: View {
 
     var body: some View {
         List {
-            ScreenHeaderBar("Journal")
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-
             // Filters + tag chips header
             VStack(alignment: .leading, spacing: 0) {
                 filterBar
@@ -219,6 +214,7 @@ struct EntryListView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .scrollEdgeEffectStyle(.soft, for: .top)
+        .safeAreaBar(edge: .top) { ScreenHeaderBar("Journal") }
         .toolbar(.hidden, for: .navigationBar)
         .overlay {
             if filteredEntries.isEmpty {

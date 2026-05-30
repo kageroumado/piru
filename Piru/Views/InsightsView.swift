@@ -15,19 +15,17 @@ struct InsightsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                ScreenHeaderBar("Insights")
-
-                Group {
-                    adherenceCard
-                    usageCard
-                    inSystemCard
-                }
-                .padding(.horizontal)
+                adherenceCard
+                usageCard
+                inSystemCard
             }
+            .padding(.horizontal)
+            .padding(.top, 4)
             .padding(.bottom, 80)
         }
         .background(Theme.background)
         .scrollEdgeEffectStyle(.soft, for: .top)
+        .safeAreaBar(edge: .top) { ScreenHeaderBar("Insights") }
         .toolbar(.hidden, for: .navigationBar)
         .task(id: changeToken) { recompute() }
     }
