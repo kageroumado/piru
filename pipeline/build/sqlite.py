@@ -1088,6 +1088,92 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
 }
 
 
+# Curated Chinese (CJK) search aliases for the most-searched substances.
+# Substance display names are English-only, and the source datasets carry no
+# CJK names, so a Simplified/Traditional Chinese query ("大麻", "冰毒", "笑气")
+# matched nothing — the gap a zh-Hans user hit asking "cannabis 怎么记录".
+# Search normalisation preserves CJK (both the Python build normaliser and the
+# app's alias index keep CJK codepoints), so these become directly searchable.
+#
+# Keyed by exact canonical_name. Values are added via _add_alias on the
+# "piru-curated" source, so the per-substance blocklist and dedup still apply.
+# Bias: unambiguous formal pharmacological names + only well-established slang.
+# Where Simplified and Traditional differ, both forms are listed; where they
+# share characters (大麻, 咖啡因, 海洛因, K粉, 莫莉…) one entry covers both.
+_CURATED_CJK_ALIASES: dict[str, list[str]] = {
+    "Cannabis":        ["大麻", "大麻草"],
+    "THC":             ["四氢大麻酚", "四氫大麻酚"],
+    "CBD":             ["大麻二酚"],
+    "Nicotine":        ["尼古丁", "烟碱", "菸鹼"],
+    "Caffeine":        ["咖啡因"],
+    "Alcohol":         ["酒精", "乙醇", "酒"],
+    "Cocaine":         ["可卡因", "古柯碱", "古柯鹼"],
+    "MDMA":            ["摇头丸", "搖頭丸", "莫莉", "快乐丸", "快樂丸"],
+    "Methamphetamine": ["冰毒", "甲基苯丙胺", "甲基安非他命"],
+    "Amphetamine":     ["苯丙胺", "安非他命", "安非他明"],
+    "Heroin":          ["海洛因", "白粉"],
+    "Ketamine":        ["氯胺酮", "K粉", "K他命", "克他命"],
+    "Morphine":        ["吗啡", "嗎啡"],
+    "Codeine":         ["可待因"],
+    "Fentanyl":        ["芬太尼", "吩坦尼"],
+    "Methadone":       ["美沙酮", "美沙冬"],
+    "Oxycodone":       ["羟考酮", "羥考酮"],
+    "Hydrocodone":     ["氢可酮", "氫可酮"],
+    "Tramadol":        ["曲马多", "曲馬多"],
+    "Diazepam":        ["地西泮", "安定"],
+    "Alprazolam":      ["阿普唑仑", "阿普唑侖", "赞安诺", "贊安諾"],
+    "Clonazepam":      ["氯硝西泮", "氯硝安定"],
+    "Zolpidem":        ["唑吡坦"],
+    "Melatonin":       ["褪黑素", "褪黑激素"],
+    "Methylphenidate": ["哌甲酯", "利他林"],
+    "Psilocybin":      ["裸盖菇素", "裸蓋菇素", "赛洛西宾", "賽洛西賓"],
+    "LSD-25":          ["麦角酸二乙酰胺", "麥角酸二乙醯胺"],
+    "DMT":             ["二甲基色胺"],
+    "Mescaline":       ["麦司卡林", "麥司卡林", "仙人掌毒碱", "仙人掌毒鹼", "三甲氧苯乙胺"],
+    "Nitrous":         ["笑气", "笑氣", "一氧化二氮", "氧化亚氮", "氧化亞氮"],
+    "Kratom":          ["卡痛", "卡痛叶", "卡痛葉", "帽柱木"],
+    "GHB":             ["γ-羟基丁酸", "γ-羥基丁酸"],
+    "Gabapentin":      ["加巴喷丁", "加巴噴丁"],
+    "Pregabalin":      ["普瑞巴林"],
+    "Naloxone":        ["纳洛酮", "納洛酮"],
+    "Mephedrone":      ["甲基甲卡西酮", "喵喵"],
+}
+
+
+# Curated dose overrides for substances where the upstream sources express
+# doses in the WRONG basis for what the entry represents. Injected on the
+# `piru-curated` source (priority 1), so they win route resolution.
+#
+# The plant-vs-molecule principle: a PLANT entry doses in plant weight, a
+# MOLECULE entry doses in mg of the compound.
+#  - Cannabis (plant): PsychonautWiki/TripSit/drug.community all quote mg of
+#    Δ9-THC, not flower weight (flower THC% spans 5–30% and smoking loses
+#    50–80% to combustion, so a single flower-gram figure is 10–20× uncertain).
+#    Keep the accurate THC-mg ladder but label the unit "mg THC" so it reads as
+#    molecule content; the app shows a flower-conversion note for "…THC" units.
+#  - Mitragynine (molecule): drug.community dosed it in "g (leaf powder)" — that
+#    is Kratom (the plant), which keeps its gram dosing. Pure mitragynine
+#    (extracts, tinctures, gummies) is dosed in mg; ladder derived from the
+#    leaf's 12–21 mg/g alkaloid content and extract-product labeling.
+#
+# Keyed by exact canonical_name. light/common/strong are (lower, upper) tuples.
+_CURATED_DOSES: dict[str, list[dict]] = {
+    "Cannabis": [
+        {"route": "inhalation", "unit": "mg THC",
+         "threshold": 0.4, "light": (0.4, 2), "common": (2, 4), "strong": (4, 10), "heavy": 10,
+         "notes": "Doses are mg of Δ9-THC, not flower weight. Flower needed ≈ desired THC ÷ strain %THC; smoking loses ~50–80% to combustion, so real flower amounts run higher."},
+        {"route": "oral", "unit": "mg THC",
+         "threshold": 1, "light": (2.5, 5), "common": (5, 10), "strong": (10, 25), "heavy": 25,
+         "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose."},
+    ],
+    "Mitragynine": [
+        {"route": "oral", "unit": "mg",
+         "threshold": 5, "light": (10, 25), "common": (25, 50), "strong": (50, 80), "heavy": 80,
+         "notes": "Pure mitragynine (extracts/tinctures/gummies). Derived from the ~12–21 mg/g alkaloid content of dried leaf and extract-product labeling. Kratom leaf itself is dosed in grams — see the Kratom entry."},
+    ],
+}
+
+
 # Class-keyed dose-magnitude invariants. Same family as the existing
 # tier-inversion / tier-regression / ambiguous-unit guards in `add_dose`,
 # but informed by chemistry rather than purely structural shape. The
@@ -2805,6 +2891,47 @@ def main() -> int:
         build.add_category(row[0], "piru-curated", category)
         recategorized += 1
     print(f"Category overrides: {recategorized}/{len(cat_overrides)}", file=sys.stderr)
+
+    # Curated CJK search aliases — make the most-searched substances reachable
+    # by Simplified/Traditional Chinese name. Additive; per-substance blocklist
+    # and dedup are enforced by _add_alias.
+    cjk_added = 0
+    cjk_missing = 0
+    for canon, aliases in _CURATED_CJK_ALIASES.items():
+        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not row:
+            print(f"  WARNING: CJK-alias target not found: {canon!r}", file=sys.stderr)
+            cjk_missing += 1
+            continue
+        before = build.stats.get("aliases", 0)
+        for alias in aliases:
+            build._add_alias(row[0], alias, "piru-curated")
+        cjk_added += build.stats.get("aliases", 0) - before
+    print(f"CJK aliases: +{cjk_added} across {len(_CURATED_CJK_ALIASES) - cjk_missing} substances", file=sys.stderr)
+
+    # Curated dose overrides — correct entries whose upstream doses use the
+    # wrong basis (plant weight vs molecule mg). piru-curated wins resolution.
+    dose_rows = 0
+    for canon, rows in _CURATED_DOSES.items():
+        sub = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not sub:
+            print(f"  WARNING: curated-dose target not found: {canon!r}", file=sys.stderr)
+            continue
+        for r in rows:
+            lo_hi = lambda pair: {"lower": pair[0], "upper": pair[1]} if pair else None
+            before = build.stats.get("dose_ranges", 0)
+            build.add_dose(
+                sub[0], "piru-curated", r["route"], r["unit"],
+                threshold=r.get("threshold"),
+                light=lo_hi(r.get("light")), common=lo_hi(r.get("common")),
+                strong=lo_hi(r.get("strong")), heavy=r.get("heavy"),
+                notes=r.get("notes"),
+            )
+            added = build.stats.get("dose_ranges", 0) - before
+            dose_rows += added
+            if not added:
+                print(f"  WARNING: curated dose dropped by guard: {canon} {r['route']}", file=sys.stderr)
+    print(f"Curated doses: +{dose_rows} rows", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
