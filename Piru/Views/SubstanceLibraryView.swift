@@ -560,7 +560,7 @@ struct SubstanceDetailView: View {
     /// view — the primary thing people open a substance for.
     @ViewBuilder private var doseDurationSections: some View {
         ForEach(substance.routes, id: \.route) { substanceRoute in
-            if displayClass.showsDoseLadder {
+            if displayClass.showsDoseLadder, substanceRoute.doses.hasAnyValue {
                 Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
                     let unit = substanceRoute.unit
                     let doses = substanceRoute.doses
@@ -570,9 +570,20 @@ struct SubstanceDetailView: View {
 
                     DoseRangeRows(doseRange: doses, unit: unit)
 
-                    if doses.requiresVolumetricDosing(unit: unit) {
-                        VolumetricDosingDisclaimer()
+                    if unit.localizedCaseInsensitiveContains("THC") {
+                        THCContentNote()
                             .padding(.vertical, 4)
+                    } else {
+                        switch doses.dosingPrecision(unit: unit) {
+                        case .critical:
+                            VolumetricDosingDisclaimer()
+                                .padding(.vertical, 4)
+                        case .recommended:
+                            PreciseScaleNote()
+                                .padding(.vertical, 4)
+                        case .none:
+                            EmptyView()
+                        }
                     }
 
                     if let slug = doseSourceSlug(for: substanceRoute.route) {
@@ -687,6 +698,7 @@ struct SubstanceDetailView: View {
 
             if policy.showsMechanism,
                let moa = substance.mechanismOfAction
+                ?? MechanismOfActionDatabase.mechanism(for: substance.name)
                 ?? MechanismOfActionDatabase.categoryFallback(for: substance.category) {
                 Section {
                     DisclosureGroup(

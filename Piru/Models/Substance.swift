@@ -41,6 +41,13 @@ struct DoseRange {
         self.heavy = heavy
     }
 
+    /// `true` when at least one dose tier is populated. Routes that ship a
+    /// duration but no dose ladder (e.g. Cannabis sublingual from PsychonautWiki)
+    /// would otherwise render an empty "Dosage" card.
+    var hasAnyValue: Bool {
+        threshold != nil || light != nil || common != nil || strong != nil || heavy != nil
+    }
+
     func level(for dose: Double) -> DoseLevel {
         if let heavy, dose >= heavy { return .heavy }
         if let strong, strong.contains(dose) || dose > strong.upperBound { return .strong }
@@ -50,19 +57,38 @@ struct DoseRange {
         return .sub
     }
 
-    /// Returns `true` when the average reference dose (converted to mg) is below 5 mg,
-    /// indicating the substance is extremely potent and requires volumetric dosing.
-    func requiresVolumetricDosing(unit: String) -> Bool {
+    /// How precisely a substance must be measured, derived from its average
+    /// reference dose. `critical` substances are active in sub-milligram amounts
+    /// where a normal scale can't be trusted; `recommended` substances are
+    /// low-milligram enough that a precise scale is worth using but the "active
+    /// in micrograms" framing would be false.
+    enum DosingPrecision {
+        case none
+        case recommended
+        case critical
+    }
+
+    /// Classifies the route by average reference dose (converted to mg):
+    /// `< 1 mg` → `.critical` (true µg/sub-mg potency, e.g. fentanyl, nitazenes),
+    /// `1–5 mg` → `.recommended` (precise scale advised, e.g. DOx psychedelics),
+    /// otherwise `.none`.
+    func dosingPrecision(unit: String) -> DosingPrecision {
         var values: [Double] = []
         if let threshold { values.append(threshold) }
         if let light { values.append((light.lowerBound + light.upperBound) / 2) }
         if let common { values.append((common.lowerBound + common.upperBound) / 2) }
         if let strong { values.append((strong.lowerBound + strong.upperBound) / 2) }
         if let heavy { values.append(heavy) }
-        guard !values.isEmpty else { return false }
+        guard !values.isEmpty else { return .none }
         let average = values.reduce(0, +) / Double(values.count)
-        let averageInMg = DoseUnit.convert(average, from: unit, to: "mg") ?? average
-        return averageInMg < 5
+        // Only reason about potency when the unit is a convertible mass unit.
+        // Annotated/colloquial units ("g (leaf powder)", "mL", "IU") can't map
+        // to mg; treating the raw number as mg would wrongly flag gram-dosed
+        // botanicals (kratom leaf, mushrooms) as microgram-potent. Skip then.
+        guard let averageInMg = DoseUnit.convert(average, from: unit, to: "mg") else { return .none }
+        if averageInMg < 1 { return .critical }
+        if averageInMg < 5 { return .recommended }
+        return .none
     }
 }
 
@@ -684,10 +710,7 @@ struct Substance: Identifiable {
     /// research chemicals whose only available information is the literature.
     var hasNoDoseData: Bool {
         guard !routes.isEmpty else { return true }
-        return routes.allSatisfy { route in
-            let d = route.doses
-            return d.threshold == nil && d.light == nil && d.common == nil && d.strong == nil && d.heavy == nil
-        }
+        return routes.allSatisfy { !$0.doses.hasAnyValue }
     }
 
     var defaultUnit: String {
