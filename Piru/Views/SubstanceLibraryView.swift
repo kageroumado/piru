@@ -556,6 +556,27 @@ struct SubstanceDetailView: View {
         try? modelContext.save()
     }
 
+    /// Mechanism shown in the detail card, composed from three sources by
+    /// precedence so real receptor data isn't hidden behind a generic template:
+    ///
+    /// - **Summary text**: a curated DB `mechanisms_summary` row wins; otherwise
+    ///   the hand-curated per-name entry, then the per-category fallback.
+    /// - **Bindings**: a hand-curated per-name entry wins (its targets are
+    ///   deliberately complete — e.g. mitragynine's α2-adrenergic activity that
+    ///   the measured opioid panel omits); otherwise measured DB bindings (real
+    ///   actions like `releasingAgent`) beat the category fallback's generic
+    ///   `.modulator` placeholders.
+    ///
+    /// This keeps substances with clear receptor data (mephedrone, the MMC
+    /// cathinones) from showing a generic "Monoamine Modulator" mechanism.
+    private var composedMechanism: MechanismOfAction? {
+        MechanismOfActionDatabase.resolvedMechanism(
+            dbMechanism: substance.mechanismOfAction,
+            substanceName: substance.name,
+            category: substance.category
+        )
+    }
+
     /// Dose ladder + duration per route. Surfaced near the top of the detail
     /// view — the primary thing people open a substance for.
     @ViewBuilder private var doseDurationSections: some View {
@@ -696,10 +717,7 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if policy.showsMechanism,
-               let moa = substance.mechanismOfAction
-                ?? MechanismOfActionDatabase.mechanism(for: substance.name)
-                ?? MechanismOfActionDatabase.categoryFallback(for: substance.category) {
+            if policy.showsMechanism, let moa = composedMechanism {
                 Section {
                     DisclosureGroup(
                         isExpanded: Binding(

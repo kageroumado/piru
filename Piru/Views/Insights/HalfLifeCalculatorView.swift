@@ -16,6 +16,11 @@ struct HalfLifeCalculatorView: View {
     @State private var selectedRoute: RouteOfAdministration = .oral
     @State private var expandedSubstance: String?
 
+    /// Cap on individual ingestion rows shown per active substance — a daily
+    /// medication can accumulate dozens of in-system doses; show the most
+    /// recent few and summarise the rest.
+    private static let maxDosesShown = 10
+
     private var effectiveHalfLife: Double? {
         if useCustomHalfLife {
             guard let hours = Double(customHalfLifeHours), hours > 0 else { return nil }
@@ -147,10 +152,12 @@ struct HalfLifeCalculatorView: View {
             .frame(height: 4)
             .padding(.top, 10)
 
-            // Show individual doses if more than one
+            // Show individual doses if more than one, capped so a substance with
+            // dozens of recent ingestions (e.g. a daily medication) doesn't render
+            // an unbounded list. The most recent `maxDosesShown` are shown.
             if active.doses.count > 1 {
                 VStack(spacing: 4) {
-                    ForEach(active.doses) { d in
+                    ForEach(active.doses.prefix(Self.maxDosesShown)) { d in
                         HStack {
                             Text("\(d.amount.doseFormatted) \(active.unit)")
                                 .font(.caption2)
@@ -162,6 +169,14 @@ struct HalfLifeCalculatorView: View {
                             Text("\(d.remaining.doseFormatted) \(active.unit) left")
                                 .font(.caption2)
                                 .foregroundStyle(active.color.opacity(0.8))
+                        }
+                    }
+                    if active.doses.count > Self.maxDosesShown {
+                        HStack {
+                            Text("+\(active.doses.count - Self.maxDosesShown) earlier")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.secondaryLabel)
+                            Spacer()
                         }
                     }
                 }

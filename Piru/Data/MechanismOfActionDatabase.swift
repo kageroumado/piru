@@ -12,6 +12,51 @@ enum MechanismOfActionDatabase {
         categoryData[category]
     }
 
+    /// Composes the mechanism shown in the substance detail card from the three
+    /// available sources by precedence, so real receptor data is never hidden
+    /// behind a generic template:
+    ///
+    /// - **Summary text**: a curated DB `mechanisms_summary` (non-empty summary on
+    ///   `dbMechanism`) wins; otherwise the hand-curated per-name entry, then the
+    ///   per-category fallback.
+    /// - **Bindings**: a hand-curated per-name entry wins (its target list is
+    ///   deliberately complete — e.g. mitragynine's α2-adrenergic activity that
+    ///   the measured opioid panel omits); otherwise measured DB bindings (real
+    ///   actions like `releasingAgent`) beat the category fallback's generic
+    ///   `.modulator` placeholders.
+    ///
+    /// Pure and deterministic so it can be unit-tested without a database.
+    static func resolvedMechanism(
+        dbMechanism: MechanismOfAction?,
+        substanceName: String,
+        category: SubstanceCategory
+    ) -> MechanismOfAction? {
+        let hand = mechanism(for: substanceName)
+        let categoryMoa = categoryFallback(for: category)
+
+        let hasDBSummary = !(dbMechanism?.summary.isEmpty ?? true)
+        let textSource: MechanismOfAction? = hasDBSummary ? dbMechanism : (hand ?? categoryMoa ?? dbMechanism)
+        guard let textSource else { return nil }
+
+        let bindings: [ReceptorBinding]
+        if hasDBSummary {
+            bindings = dbMechanism?.bindings ?? []
+        } else if let hand, !hand.bindings.isEmpty {
+            bindings = hand.bindings
+        } else if let dbBindings = dbMechanism?.bindings, !dbBindings.isEmpty {
+            bindings = dbBindings
+        } else {
+            bindings = textSource.bindings
+        }
+
+        return MechanismOfAction(
+            summary: textSource.summary,
+            description: textSource.description,
+            bindings: bindings,
+            references: textSource.references
+        )
+    }
+
     // MARK: - Helpers
 
     private static func moa(
@@ -123,10 +168,20 @@ enum MechanismOfActionDatabase {
          b("TAAR1", .agonist, .significant), b("VMAT2", .modulator, .significant)],
         [gg, stahl])
 
-    private static let cathinone = moa(
-        "Substituted Cathinone (Synthetic Monoamine Modulator)",
-        "Structurally related to amphetamine, acts on monoamine transporters as either a releasing agent, reuptake inhibitor, or both, depending on the specific compound. Generally increases synaptic dopamine, norepinephrine, and/or serotonin. The ratio of dopamine to serotonin activity varies significantly between compounds and determines whether effects are more stimulant-like or empathogenic.",
-        [b("DAT", .modulator, .primary), b("NET", .modulator, .primary), b("SERT", .modulator, .significant)],
+    /// Substrate-type (releaser) cathinones — mephedrone, methylone, the MMC
+    /// series, etc. Enter the terminal via the transporter and reverse it.
+    private static let cathinoneReleaser = moa(
+        "Non-selective Monoamine Releaser (Substituted Cathinone)",
+        "A β-keto amphetamine that enters dopamine, norepinephrine, and serotonin nerve terminals through their transporters (DAT/NET/SERT) and reverses them, releasing all three monoamines. The dopamine-to-serotonin release ratio sets the character — balanced (e.g. mephedrone) is entactogenic-stimulant, dopamine-dominant is more purely stimulating.",
+        [b("DAT", .releasingAgent, .primary), b("NET", .releasingAgent, .primary), b("SERT", .releasingAgent, .significant)],
+        [pw, gg])
+
+    /// Pyrovalerone (pyrrolidinophenone) cathinones — MDPV, α-PVP, α-PHP, etc.
+    /// Potent DAT/NET reuptake inhibitors with little/no monoamine release.
+    private static let cathinonePyrovalerone = moa(
+        "Dopamine–Norepinephrine Reuptake Inhibitor (Pyrovalerone Cathinone)",
+        "A pyrrolidine cathinone that potently blocks the dopamine and norepinephrine transporters (DAT/NET) without releasing monoamines and with little serotonergic activity. The strong, long-lasting rise in dopamine and norepinephrine is intensely stimulating and carries a high risk of compulsive redosing.",
+        [b("DAT", .reuptakeInhibitor, .primary), b("NET", .reuptakeInhibitor, .primary)],
         [pw, gg])
 
     private static let classicalPsychedelic = moa(
@@ -529,10 +584,17 @@ enum MechanismOfActionDatabase {
             [gg, stahl])
 
         // ── Substituted Cathinones ────────────────────────────────
-        for n in ["mephedrone", "methylone"] { d[n] = cathinone }
-        for n in ["mdpv", "α-pvp", "a-pvp"] { d[n] = cathinone }
-        for n in ["cathinone", "methcathinone"] { d[n] = cathinone }
-        for n in ["4-mmc", "3-mmc"] { d[n] = cathinone }
+        // Releasers (substrate-type: DA/NE/5-HT release via transporter reversal)
+        for n in ["mephedrone", "4-mmc", "3-mmc", "2-mmc", "methcathinone", "cathinone",
+                  "methylone", "ethylone", "butylone", "eutylone", "mexedrone",
+                  "4-mec", "4-cmc", "3-cmc", "4-cec", "3-mmc", "n-ethylpentylone"] {
+            d[n] = cathinoneReleaser
+        }
+        // Pyrovalerones (DAT/NET reuptake inhibitors, no monoamine release)
+        for n in ["mdpv", "α-pvp", "a-pvp", "α-php", "a-php", "α-pvt", "mdphp",
+                  "mdpep", "naphyrone", "pyrovalerone", "mphp"] {
+            d[n] = cathinonePyrovalerone
+        }
 
         // ── Empathogens ───────────────────────────────────────────
         d["mdma"] = moa(

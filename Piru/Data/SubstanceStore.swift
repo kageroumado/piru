@@ -995,7 +995,7 @@ final class SubstanceStore {
     }
 
     private func resolvedMechanism(db: Database, substanceID: Int64) throws -> MechanismOfAction? {
-        guard let row = try Row.fetchOne(db, sql: """
+        let row = try Row.fetchOne(db, sql: """
             SELECT m.summary, m.description
               FROM mechanisms_summary m
               JOIN sources src ON src.id = m.source_id
@@ -1003,7 +1003,7 @@ final class SubstanceStore {
                AND src.slug IN (\(enabledSourceListSQL))
              ORDER BY \(priorityCaseSQL) ASC
              LIMIT 1
-        """, arguments: [substanceID]) else { return nil }
+        """, arguments: [substanceID])
 
         let bindingRows = try Row.fetchAll(db, sql: """
             SELECT b.target, b.action,
@@ -1027,9 +1027,17 @@ final class SubstanceStore {
             return ReceptorBinding(target: target, action: action, affinity: affinity)
         }
 
+        // Surface measured bindings even when no curated summary row exists —
+        // the detail view's mechanism composer fills missing summary text from
+        // the per-name / category fallback, so substances with real receptor
+        // data (e.g. mephedrone: DAT/NET/SERT releasingAgent) no longer fall
+        // through to a generic "Modulator" placeholder. Return nil only when we
+        // have neither a summary nor any binding.
+        guard row != nil || !bindings.isEmpty else { return nil }
+
         return MechanismOfAction(
-            summary: row["summary"],
-            description: row["description"] ?? "",
+            summary: row?["summary"] ?? "",
+            description: row?["description"] ?? "",
             primaryTargets: bindings.map(\.target),
             bindings: bindings,
             references: []
