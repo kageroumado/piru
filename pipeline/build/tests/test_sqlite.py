@@ -21,10 +21,18 @@ _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
 Builder = _mod.Build  # The class is named Build, not Builder
 is_chemistry_noise = _mod.is_chemistry_noise
+is_chemnoise_alias = _mod.is_chemnoise_alias
 normalize_category = _mod.normalize_category
 smart_title_case = _mod.smart_title_case
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
+_REPO = Path(__file__).resolve().parents[3]
+
+
+def _load_curated(name: str) -> dict:
+    """Load a data/curated/<name>.json override file (empty dict if absent)."""
+    p = _REPO / "data/curated" / f"{name}.json"
+    return __import__("json").loads(p.read_text()) if p.exists() else {}
 
 
 class TestDcClean(unittest.TestCase):
@@ -170,6 +178,52 @@ class TestIsChemistryNoise(unittest.TestCase):
     def test_empty_is_noise(self):
         self.assertTrue(is_chemistry_noise(""))
         self.assertTrue(is_chemistry_noise(None))
+
+
+class TestIsChemnoiseAlias(unittest.TestCase):
+    """`is_chemnoise_alias` decides which aliases are systematic/IUPAC/salt-form
+    chemistry clutter (purged from the alias subtitle) vs. names people actually
+    search by (brands, short codes). Over-filtering would hide real names;
+    under-filtering re-clutters the Library rows."""
+
+    def test_salt_and_descriptor_suffixes_are_noise(self):
+        for a in [
+            "Lisdexamfetamine dimesylate",
+            "1-(2,5-dimethoxybenzyl)piperazine freebase",
+            "amphetamine hydrochloride",
+            "ketamine HCl",
+            "Dextroamphetamine prodrug",
+            "morphine sulfate",
+            "cocaine hydrochloride",
+        ]:
+            with self.subTest(a=a):
+                self.assertTrue(is_chemnoise_alias(a), f"should purge: {a!r}")
+
+    def test_iupac_and_systematic_names_are_noise(self):
+        for a in [
+            "1-(2,5-dimethoxybenzyl)piperazine",   # parenthetical locant
+            "(R)-3-Chloromethcathinone",           # stereo prefix
+            "N-[2-(4-hydroxyphenyl)ethyl]acetamide",  # bracketed body
+            "L-lysine-d-amphetamine",              # long multi-locant systematic
+        ]:
+            with self.subTest(a=a):
+                self.assertTrue(is_chemnoise_alias(a), f"should purge: {a!r}")
+
+    def test_brands_and_short_codes_are_kept(self):
+        for a in [
+            "Vyvanse", "Elvanse", "LDX", "Xanax", "Adderall",
+            "2,3-MDMA", "2,5-DMBZP", "MDPV", "2C-B", "5-MeO-DMT",
+            "molly", "ecstasy", "AMT", "PMA",
+            "freebase cocaine",   # trailing word is the drug, not a salt → keep
+            "N-allyl-nor-LSD",    # 3 hyphens but short (≤16) recognizable code → keep
+        ]:
+            with self.subTest(a=a):
+                self.assertFalse(is_chemnoise_alias(a), f"should keep: {a!r}")
+
+    def test_empty_is_not_noise(self):
+        # Empty/blank is dropped by upstream guards, not flagged as chemnoise.
+        self.assertFalse(is_chemnoise_alias(""))
+        self.assertFalse(is_chemnoise_alias(None))
 
 
 class TestSmartTitleCase(unittest.TestCase):
@@ -488,6 +542,7 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "2C-B": "Psychedelic",
             # Opioids
             "Methadone": "Opioid",
+            "Kratom": "Opioid",  # curated override beats PsychonautWiki's "Stimulant"
             # Benzo
             "Diazepam": "Benzodiazepine",
             # Peptides (new category)
@@ -651,6 +706,59 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
               and not exists (select 1 from effects      d where d.substance_id=s.id)
         """).fetchone()["c"]
         self.assertLess(n, 75, f"unmerged duplicate debt spiked to {n} — dedup likely regressed")
+
+    # ---- curated override files (display-name / popularity / category) ----
+    #
+    # These three files key on canonical_name. A data refetch can rename a
+    # canonical, leaving an override pointing at nothing — the build only prints
+    # a WARNING and succeeds, so the override silently stops working. These tests
+    # turn that silent rot into a failure.
+
+    def _canonical_set(self) -> set[str]:
+        return {r["canonical_name"].lower() for r in
+                self.db.execute("select canonical_name from substances")}
+
+    def test_display_name_overrides_resolve(self):
+        canon = self._canonical_set()
+        overrides = _load_curated("display-name-overrides")
+        missing = [k for k in overrides if k.lower() not in canon]
+        self.assertEqual(missing, [], f"display-name override targets no longer exist: {missing}")
+        # And the override actually landed on the row.
+        for canonical, display in list(overrides.items())[:5]:
+            row = self.db.execute(
+                "select display_name from substances where canonical_name=?", (canonical,)).fetchone()
+            self.assertEqual(row and row["display_name"], display,
+                             f"display_name for {canonical!r} not applied")
+
+    def test_popularity_overrides_resolve_and_in_range(self):
+        canon = self._canonical_set()
+        pop = _load_curated("popularity")
+        missing = [k for k in pop if k.lower() not in canon]
+        self.assertEqual(missing, [], f"popularity targets no longer exist: {missing}")
+        oob = {k: v for k, v in pop.items() if not (0.0 <= float(v) <= 1.0)}
+        self.assertEqual(oob, {}, f"popularity scores outside [0,1]: {oob}")
+        # A well-known substance should carry a positive baked score.
+        row = self.db.execute("select popularity from substances where canonical_name='Cocaine'").fetchone()
+        self.assertGreater(row["popularity"], 0.0, "popularity not baked into the substances table")
+
+    def test_category_overrides_resolve_and_are_valid_enums(self):
+        canon = self._canonical_set()
+        overrides = _load_curated("category-overrides")
+        missing = [k for k in overrides if k.lower() not in canon]
+        self.assertEqual(missing, [], f"category override targets no longer exist: {missing}")
+        bad = {k: v for k, v in overrides.items() if v not in _mod._CATEGORY_ENUM}
+        self.assertEqual(bad, {}, f"category overrides use non-enum categories: {bad}")
+        # Each override must actually win source-priority resolution.
+        for canonical, category in overrides.items():
+            self.assertEqual(self._resolved_category(canonical), category,
+                             f"{canonical!r} did not resolve to overridden category {category!r}")
+
+    def test_no_chemnoise_aliases_survive(self):
+        """The post-dedup purge should leave zero IUPAC/salt-form chemistry-noise
+        aliases in the shipped table (the Library alias subtitle stays clean)."""
+        survivors = [r["alias"] for r in self.db.execute("select alias from aliases")
+                     if is_chemnoise_alias(r["alias"])]
+        self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
 
 if __name__ == "__main__":
