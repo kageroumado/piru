@@ -40,7 +40,7 @@ struct ScreenHeaderBar: View {
     private func iconButton(_ name: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: name)
-                .font(.body)
+                .font(.system(size: 22))
                 .foregroundStyle(Theme.accent)
                 .frame(width: 44, height: 44)
                 .contentShape(Rectangle())
