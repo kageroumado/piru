@@ -26,6 +26,7 @@ nonisolated enum PushRoute: Hashable, Codable, Sendable {
     case substance(name: String)
     case libraryCategory(SubstanceCategory)
     case libraryFavorites
+    case tool(Tool)
 }
 
 // MARK: - Sheet Routes

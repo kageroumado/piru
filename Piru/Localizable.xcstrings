@@ -9034,6 +9034,22 @@
         }
       }
     },
+    "Half-Life Calculator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期计算器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "半衰期計算器"
+          }
+        }
+      }
+    },
     "Half-life" : {
       "localizations" : {
         "zh-Hans" : {

@@ -32,11 +32,11 @@ struct InsightsView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .controlSize(.large)
             .padding(.horizontal)
             .padding(.vertical, 8)
             .background(Theme.background)
         }
-        .navigationTitle("Insights")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

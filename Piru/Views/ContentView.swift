@@ -90,12 +90,10 @@ struct ContentView: View {
 
     private var toolsContent: some View {
         ToolsView()
-            .toolbar { sharedToolbar }
     }
 
     private var insightsContent: some View {
         InsightsView()
-            .toolbar { sharedToolbar }
     }
 
     // MARK: - Tab View

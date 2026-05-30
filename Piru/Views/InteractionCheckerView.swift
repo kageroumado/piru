@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct InteractionCheckerView: View {
-    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 

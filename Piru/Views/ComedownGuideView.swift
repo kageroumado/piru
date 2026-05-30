@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct ComedownGuideView: View {
-    var toolsSection: Binding<ToolsView.Section>?
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
     @State private var expandedCategories: Set<SubstanceCategory> = []
 
@@ -52,7 +51,6 @@ struct ComedownGuideView: View {
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Recovery Guide")
     }
 
     // MARK: - About
