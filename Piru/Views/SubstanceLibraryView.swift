@@ -265,11 +265,31 @@ struct SubstanceCategoryListView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
 
+    enum SortMode: String, CaseIterable { case popularity, name }
+    @State private var sortMode: SortMode = .popularity
+
     private var substances: [Substance] {
         if let category {
             return SubstanceLibrary.substances(in: category)
         }
         return favorites.compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
+    }
+
+    /// Category browse is sortable (popularity surfaces well-known substances
+    /// above obscure research chemicals); Favorites keep the user's own order.
+    private var sortedSubstances: [Substance] {
+        let list = substances
+        guard category != nil else { return list }
+        switch sortMode {
+        case .name:
+            return list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
+        case .popularity:
+            return list.sorted {
+                $0.popularity != $1.popularity
+                    ? $0.popularity > $1.popularity
+                    : $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending
+            }
+        }
     }
 
     private var favoriteNames: Set<String> {
@@ -287,7 +307,7 @@ struct SubstanceCategoryListView: View {
 
     var body: some View {
         List {
-            ForEach(substances) { substance in
+            ForEach(sortedSubstances) { substance in
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
                     SubstanceRowView(substance: substance)
                 }
@@ -308,6 +328,20 @@ struct SubstanceCategoryListView: View {
         .background(Theme.background)
         .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            if category != nil {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Picker("Sort", selection: $sortMode) {
+                            Label("Popularity", systemImage: "chart.bar.fill").tag(SortMode.popularity)
+                            Label("Name", systemImage: "textformat").tag(SortMode.name)
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                    }
+                }
+            }
+        }
     }
 }
 

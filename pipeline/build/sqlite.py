@@ -147,7 +147,12 @@ CREATE TABLE substances (
     regulatory_status   TEXT,
     -- 1 when total duration > 24h (the vitamin problem); OTC durations are
     -- suppressed when set. Recreational/dual-use are exempt (long psychedelics).
-    duration_implausible INTEGER NOT NULL DEFAULT 0
+    duration_implausible INTEGER NOT NULL DEFAULT 0,
+    -- Hand-curated popularity score [0,1] from data/curated/popularity.json
+    -- (seeded from NSDUH/UNODC/EMCDDA prevalence). Drives the "Popularity" sort
+    -- in category browse — well-known substances on top, the rest fall to 0 and
+    -- sort alphabetically. 0 = not curated.
+    popularity REAL NOT NULL DEFAULT 0
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -573,6 +578,18 @@ def load_display_name_overrides() -> dict[str, str]:
         return {}
     with _DISPLAY_NAME_OVERRIDES_PATH.open() as f:
         return json.load(f)
+
+
+# Curated popularity scores: canonical_name → score in [0,1]. Hand-maintained,
+# seeded from drug-monitoring prevalence (NSDUH/UNODC/EMCDDA). Missing → 0.
+_POPULARITY_PATH = REPO / "data/curated/popularity.json"
+
+
+def load_popularity() -> dict[str, float]:
+    if not _POPULARITY_PATH.exists():
+        return {}
+    with _POPULARITY_PATH.open() as f:
+        return {k: float(v) for k, v in json.load(f).items()}
 
 
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
@@ -2742,6 +2759,18 @@ def main() -> int:
         build.cur.execute("UPDATE substances SET display_name=? WHERE id=?", (display, row[0]))
         overridden += 1
     print(f"Display-name overrides: {overridden}/{len(overrides)}", file=sys.stderr)
+
+    # Apply curated popularity scores (drives the category-browse Popularity sort).
+    popularity = load_popularity()
+    scored = 0
+    for canon, score in popularity.items():
+        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not row:
+            print(f"  WARNING: popularity target not found: {canon!r}", file=sys.stderr)
+            continue
+        build.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (score, row[0]))
+        scored += 1
+    print(f"Popularity scores: {scored}/{len(popularity)}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,

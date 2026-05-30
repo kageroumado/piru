@@ -1652,16 +1652,16 @@
     "source": "drug.community",
     "name": "1,4-BDO",
     "aliases": [
+      "one comma four",
       "one-four bee",
-      "tetramethylene glycol",
       "4-Butanediol",
       "1",
-      "1,4-B",
-      "one comma four",
-      "1,4-butylene glycol",
-      "butane-1,4-diol",
+      "liquid fantasy",
       "BDO",
-      "liquid fantasy"
+      "1,4-butylene glycol",
+      "tetramethylene glycol",
+      "butane-1,4-diol",
+      "1,4-B"
     ],
     "category": "Depressant / GHB prodrug",
     "tags": [],
@@ -1762,11 +1762,11 @@
     "source": "drug.community",
     "name": "1-(2,3,4-Trimethoxybenzyl)piperazine",
     "aliases": [
-      "2,3,4-trimethoxybenzyl-piperazine",
       "2,3,4-TMBZP",
-      "2,3,4-trimethoxybenzylpiperazine",
+      "1-(2,3,4-TMB) piperazine",
+      "2,3,4-trimethoxybenzyl-piperazine",
       "1-(2,3,4-trimethoxybenzyl)-1,4-diazacyclohexane",
-      "1-(2,3,4-TMB) piperazine"
+      "2,3,4-trimethoxybenzylpiperazine"
     ],
     "category": "Poorly-studied; presumed stimulant / entactogen with possible mild psychedelic activity (extrapolated from related benzyl/phenyl-piperazines)",
     "tags": [],
@@ -1815,12 +1815,12 @@
     "source": "drug.community",
     "name": "1-(2,5-Dimethoxybenzyl) piperazine",
     "aliases": [
-      "2,5-dimethoxybenzylpiperazine",
-      "2,5-DMBZP",
-      "1-(2,5-dimethoxybenzyl)piperazine hydrochloride",
-      "DMBZP",
       "1-(2,5-dimethoxybenzyl)piperazine freebase",
-      "1-(2,5-dimethoxybenzyl)piperazine"
+      "2,5-DMBZP",
+      "1-(2,5-dimethoxybenzyl)piperazine",
+      "2,5-dimethoxybenzylpiperazine",
+      "1-(2,5-dimethoxybenzyl)piperazine hydrochloride",
+      "DMBZP"
     ],
     "category": "stimulant with serotonergic activity (putative 5-HT activity; human data scarce)",
     "tags": [],
@@ -2115,13 +2115,13 @@
     "name": "1b-lsd",
     "aliases": [
       "1b",
-      "1‑BuLSD",
+      "1-butanoyl-LSD",
       "N1‑butanoyl‑LSD",
       "1B‑LSD hemi‑tartrate",
-      "1-butanoyl-LSD",
+      "1-Bu-LSD",
       "1‑Butanoyl‑N,N‑diethyl‑6‑methyl‑9,10‑didehydroergoline‑8β‑carboxamide",
-      "1-butyryl-LSD",
-      "1-Bu-LSD"
+      "1‑BuLSD",
+      "1-butyryl-LSD"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -2162,11 +2162,11 @@
     "source": "drug.community",
     "name": "1cP-AL-LAD",
     "aliases": [
-      "1-cyclopropanecarbonyl-AL-LAD",
+      "1cP‑AL‑LAD",
       "AL‑LAD prodrug (presumed)",
-      "N1‑cyclopropanoyl AL‑LAD",
       "1-cyclopropanoyl-AL-LAD",
-      "1cP‑AL‑LAD"
+      "1-cyclopropanecarbonyl-AL-LAD",
+      "N1‑cyclopropanoyl AL‑LAD"
     ],
     "category": "Serotonergic psychedelic; presumed 5‑HT2A agonist primarily via in vivo deacylation to AL‑LAD",
     "tags": [],
@@ -2216,9 +2216,9 @@
       "1cp",
       "1cplsd",
       "curie",
-      "1-CPA-LSD",
+      "1-cyclopropionyl-LSD",
       "1-(cyclopropanoyl)-LSD",
-      "1-cyclopropionyl-LSD"
+      "1-CPA-LSD"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -2259,13 +2259,13 @@
     "source": "drug.community",
     "name": "1cP-MiPLA",
     "aliases": [
-      "LAMIDE 1‑cP (colloquial)",
-      "1‑cyclopropionyl‑MiPLA",
-      "1cP‑MIPLA",
-      "1‑cyclopropanecarbonyl‑N‑methyl‑N‑isopropyllysergamide",
-      "1‑cP‑MiPLA",
       "Lysergic acid 1‑cyclopropionyl‑N‑methyl‑N‑isopropylamide",
-      "MiPLA prodrug (putative)"
+      "MiPLA prodrug (putative)",
+      "LAMIDE 1‑cP (colloquial)",
+      "1cP‑MIPLA",
+      "1‑cyclopropionyl‑MiPLA",
+      "1‑cP‑MiPLA",
+      "1‑cyclopropanecarbonyl‑N‑methyl‑N‑isopropyllysergamide"
     ],
     "category": "Psychedelic",
     "tags": [],
@@ -2361,8 +2361,8 @@
       "1p",
       "1plsd",
       "1-propionyl-LSD",
-      "1P‑LSD hemitartrate",
-      "1-propionyl-lysergic acid diethylamide"
+      "1-propionyl-lysergic acid diethylamide",
+      "1P‑LSD hemitartrate"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -2450,10 +2450,10 @@
     "source": "drug.community",
     "name": "1S-LSD",
     "aliases": [
-      "N1‑TMS‑propionyl lysergamide",
-      "1‑(3‑(trimethylsilyl)propanoyl)‑lysergic acid diethylamide",
+      "1-(3-trimethylsilyl-propionyl)-LSD",
       "1S‑LSD D‑tartrate",
-      "1-(3-trimethylsilyl-propionyl)-LSD"
+      "N1‑TMS‑propionyl lysergamide",
+      "1‑(3‑(trimethylsilyl)propanoyl)‑lysergic acid diethylamide"
     ],
     "category": "Serotonergic psychedelic (5‑HT2A partial agonist via LSD after deacylation)",
     "tags": [],
@@ -2870,9 +2870,9 @@
     "source": "drug.community",
     "name": "2,5-Dimethoxy-4-ethoxyamphetamine",
     "aliases": [
-      "1-(4-ethoxy-2,5-dimethoxyphenyl)propan-2-amine",
       "MEM",
-      "2,5-dimethoxy-4-ethoxy-α-methylphenethylamine"
+      "2,5-dimethoxy-4-ethoxy-α-methylphenethylamine",
+      "1-(4-ethoxy-2,5-dimethoxyphenyl)propan-2-amine"
     ],
     "category": "Psychedelic (subclass: substituted amphetamine psychedelic)",
     "tags": [],
@@ -3636,10 +3636,10 @@
     "source": "drug.community",
     "name": "2-Aminoindane",
     "aliases": [
-      "2‑indanamine",
-      "2-aminoindan",
       "2-AI",
-      "2,3‑dihydro‑1H‑inden‑2‑amine"
+      "2-aminoindan",
+      "2,3‑dihydro‑1H‑inden‑2‑amine",
+      "2‑indanamine"
     ],
     "category": "Selective NET/DAT releasing stimulant with α2‑adrenergic activity; weak serotonergic activity",
     "tags": [],
@@ -3776,10 +3776,10 @@
     "source": "drug.community",
     "name": "2-Bromo-4,5-MDMA",
     "aliases": [
-      "2-Br-4,5-MDMA",
       "2-bromo-4,5-methylenedioxymethamphetamine",
-      "6-Br-MDMA",
-      "2-bromo-4,5-methylenedioxy-N-methylamphetamine"
+      "2-Br-4,5-MDMA",
+      "2-bromo-4,5-methylenedioxy-N-methylamphetamine",
+      "6-Br-MDMA"
     ],
     "category": "Empathogen-entactogen / stimulant",
     "tags": [],
@@ -4092,10 +4092,10 @@
       "2-fluoroamphetamine",
       "2-fmp",
       "2fa",
-      "1-(2-fluorophenyl)propan-2-amine",
-      "ortho-fluoroamphetamine",
+      "2-F-amphetamine",
       "o-FA",
-      "2-F-amphetamine"
+      "1-(2-fluorophenyl)propan-2-amine",
+      "ortho-fluoroamphetamine"
     ],
     "category": "Stimulant",
     "tags": [
@@ -4183,17 +4183,17 @@
       "Canket",
       "Fluorexetamine",
       "Fluoroketamine",
-      "2‑FXE",
-      "2F‑2′‑Oxo‑PCE",
-      "3‑FXE (name sometimes used online; see identity note)",
-      "2′-Fluoro-2-oxo-PCE",
-      "FXE",
-      "2F‑NENDCK",
-      "2‑Fluoro‑2‑oxo‑PCE",
-      "2F‑NENK",
-      "2F-NENDCK",
       "Canberra ketamine",
-      "2-F-2'-Oxo-PCE"
+      "FXE",
+      "2F‑2′‑Oxo‑PCE",
+      "2F‑NENK",
+      "3‑FXE (name sometimes used online; see identity note)",
+      "2-F-2'-Oxo-PCE",
+      "2F‑NENDCK",
+      "2‑FXE",
+      "2F-NENDCK",
+      "2‑Fluoro‑2‑oxo‑PCE",
+      "2′-Fluoro-2-oxo-PCE"
     ],
     "category": "Dissociative",
     "tags": [
@@ -4247,9 +4247,9 @@
     "source": "drug.community",
     "name": "2-Fluoroethamphetamine",
     "aliases": [
-      "N-ethyl-1-(2-fluorophenyl)propan-2-amine",
       "2-FEA",
       "2-F-ethylamphetamine",
+      "N-ethyl-1-(2-fluorophenyl)propan-2-amine",
       "1-(2-fluorophenyl)-N-ethylpropan-2-amine"
     ],
     "category": "Stimulant / entactogen",
@@ -4605,9 +4605,9 @@
     "source": "drug.community",
     "name": "2-MAPB",
     "aliases": [
-      "1-(1-benzofuran-2-yl)-N-methylpropan-2-amine",
+      "2-(methylamino)propylbenzofuran",
       "(±)-2-MAPB",
-      "2-(methylamino)propylbenzofuran"
+      "1-(1-benzofuran-2-yl)-N-methylpropan-2-amine"
     ],
     "category": "Entactogen / empathogen with stimulant properties",
     "tags": [],
@@ -4705,16 +4705,16 @@
     "source": "curated",
     "name": "2-ME-DMT",
     "aliases": [
-      "2-methyl-N,N-dimethyltryptamine",
-      "2,N,N-Trimethyltryptamine",
-      "2",
       "2-Methyl-N",
-      "2,N,N-TMT",
-      "2-methyl-DMT",
       "N-dimethyltryptamine",
+      "2-methyl-N,N-dimethyltryptamine",
       "N",
       "TIHKAL #34",
-      "N-TMT"
+      "N-TMT",
+      "2,N,N-Trimethyltryptamine",
+      "2-methyl-DMT",
+      "2",
+      "2,N,N-TMT"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -5060,13 +5060,13 @@
     "name": "2-methylamphetamine",
     "aliases": [
       "2-ma",
-      "2-Methyl-1-phenylpropan-2-amine",
-      "o-Methylamphetamine",
-      "2-MeA",
       "Ortetamine",
-      "o-Tolylaminopropane",
       "o-TAP",
-      "2-Me-AMP"
+      "o-Methylamphetamine",
+      "2-Methyl-1-phenylpropan-2-amine",
+      "2-MeA",
+      "2-Me-AMP",
+      "o-Tolylaminopropane"
     ],
     "category": "Stimulant",
     "tags": [
@@ -5113,11 +5113,11 @@
     "source": "drug.community",
     "name": "2-Methylethcathinone",
     "aliases": [
-      "2-methyl-N-ethylcathinone",
-      "ortho-methylethcathinone",
-      "o-methyl-N-ethylcathinone",
       "N-ethyl-2-methylcathinone",
-      "2-MEC"
+      "2-MEC",
+      "o-methyl-N-ethylcathinone",
+      "2-methyl-N-ethylcathinone",
+      "ortho-methylethcathinone"
     ],
     "category": "Stimulant / empathogen (monoaminergic)",
     "tags": [],
@@ -5264,8 +5264,8 @@
     "aliases": [
       "n-piperidinecathinone",
       "piperidinyl ketone (β‑keto phenylpiperidine)",
-      "2‑MPPP (stimulant; not the opioid “MPPP”/desmethylprodine)",
-      "2-methyl-1-phenyl-3-(piperidin-1-yl)propan-1-one"
+      "2-methyl-1-phenyl-3-(piperidin-1-yl)propan-1-one",
+      "2‑MPPP (stimulant; not the opioid “MPPP”/desmethylprodine)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -5309,12 +5309,12 @@
     "source": "curated",
     "name": "2-nmc",
     "aliases": [
-      "2‑naphthyl methcathinone",
-      "2'-Propionaphthone",
-      "2‑naphthyl‑N‑methylcathinone",
-      "2‑naphthylmethcathinone",
       "2NMC",
-      "2‑(methylamino)‑1‑(naphthalen‑2‑yl)propan‑1‑one"
+      "2'-Propionaphthone",
+      "2‑(methylamino)‑1‑(naphthalen‑2‑yl)propan‑1‑one",
+      "2‑naphthylmethcathinone",
+      "2‑naphthyl methcathinone",
+      "2‑naphthyl‑N‑methylcathinone"
     ],
     "category": "Other",
     "tags": [
@@ -5353,13 +5353,13 @@
     "name": "2-pa",
     "aliases": [
       "2-phenylacetamide",
-      "bk-AMP",
-      "2-PA (market name; ambiguous)",
-      "beta-keto-amphetamine",
       "cathinone (parent)",
-      "bk-amphetamine",
       "2-amino-1-phenyl-1-propanone",
-      "2-aminopropiophenone"
+      "beta-keto-amphetamine",
+      "2-PA (market name; ambiguous)",
+      "2-aminopropiophenone",
+      "bk-amphetamine",
+      "bk-AMP"
     ],
     "category": "Stimulant",
     "tags": [
@@ -5485,11 +5485,11 @@
     "source": "drug.community",
     "name": "2-TFMXP",
     "aliases": [
-      "2‑TFM‑MXP",
-      "TFMXP",
-      "2‑trifluoromethyl‑MXP",
       "2‑TFM‑diphenidine",
-      "2-(trifluoromethyl)‑methoxphenidine"
+      "2‑trifluoromethyl‑MXP",
+      "2-(trifluoromethyl)‑methoxphenidine",
+      "2‑TFM‑MXP",
+      "TFMXP"
     ],
     "category": "Dissociative NMDA‑receptor antagonist",
     "tags": [],
@@ -5727,11 +5727,11 @@
       "25bnboh",
       "2cb-nboh",
       "nboh-2cb",
+      "2C-B-NBOH",
+      "25B NBOH",
+      "NBOH-2C-B",
       "NBOH-25B",
       "N-(2-hydroxybenzyl)-2C-B",
-      "2C-B-NBOH",
-      "NBOH-2C-B",
-      "25B NBOH",
       "25B NBOH HCl"
     ],
     "category": "Psychedelic",
@@ -5863,10 +5863,10 @@
     "name": "25C-NB3OMe",
     "aliases": [
       "2C-C-NB3OMe",
+      "25C-NB(3)OMe",
       "NB3OMe-2C-C",
       "N-(3-methoxybenzyl)-2C-C",
-      "25C-NB-3-OMe",
-      "25C-NB(3)OMe"
+      "25C-NB-3-OMe"
     ],
     "category": "psychedelic hallucinogen (5-HT2A partial agonist)",
     "tags": [],
@@ -6053,10 +6053,10 @@
     "source": "drug.community",
     "name": "25CN-NBOH",
     "aliases": [
-      "NBOH-2C-CN",
-      "4-cyano-2,5-dimethoxy-N-(2-hydroxybenzyl)phenethylamine",
-      "PubChem CID 90489020",
       "2C-CN-NBOH",
+      "4-cyano-2,5-dimethoxy-N-(2-hydroxybenzyl)phenethylamine",
+      "NBOH-2C-CN",
+      "PubChem CID 90489020",
       "C18H20N2O3",
       "25CN NBOH"
     ],
@@ -6244,10 +6244,10 @@
     "aliases": [
       "25-h-nbome",
       "25h",
-      "N-(2-methoxybenzyl)-2,5-dimethoxyphenethylamine (systematic)",
-      "NBOMe-2C-H",
       "NBOMe-H",
-      "2C-H-NBOMe"
+      "NBOMe-2C-H",
+      "2C-H-NBOMe",
+      "N-(2-methoxybenzyl)-2,5-dimethoxyphenethylamine (systematic)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6289,9 +6289,9 @@
     "source": "curated",
     "name": "25i-nbf",
     "aliases": [
+      "2C-I-NBF",
       "N-benzyl-2-fluorobenzyl 2C-I",
-      "N-(2-fluorobenzyl)-2C-I",
-      "2C-I-NBF"
+      "N-(2-fluorobenzyl)-2C-I"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6333,12 +6333,12 @@
     "source": "curated",
     "name": "25i-nbmd",
     "aliases": [
-      "INBMDO",
-      "25I-NB34MD",
-      "Cimbi-29",
-      "N-(2,3-methylenedioxybenzyl)-4-iodo-2,5-dimethoxyphenethylamine",
+      "N-(2,3-methylenedioxybenzyl)-2C-I analog",
       "2C-I-NBMD",
-      "N-(2,3-methylenedioxybenzyl)-2C-I analog"
+      "INBMDO",
+      "N-(2,3-methylenedioxybenzyl)-4-iodo-2,5-dimethoxyphenethylamine",
+      "Cimbi-29",
+      "25I-NB34MD"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6432,10 +6432,10 @@
     "aliases": [
       "2-c-i-nbome",
       "25i",
-      "N-bomb",
       "4-iodo-2,5-dimethoxy-N-(2-methoxybenzyl)phenethylamine",
-      "2C-I-NBOMe",
-      "NBOMe-2C-I"
+      "N-bomb",
+      "NBOMe-2C-I",
+      "2C-I-NBOMe"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6527,11 +6527,11 @@
     "name": "25ip-nbome",
     "aliases": [
       "25ip",
-      "NBOMe isopropyl-2,5-DMPEA",
+      "N-(2-methoxybenzyl)-2,5-dimethoxy-4-isopropylphenethylamine",
       "25iP-NBMe",
       "NBOMe-2C-iP",
-      "2C-iP-NBOMe",
-      "N-(2-methoxybenzyl)-2,5-dimethoxy-4-isopropylphenethylamine"
+      "NBOMe isopropyl-2,5-DMPEA",
+      "2C-iP-NBOMe"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6665,9 +6665,9 @@
     "name": "25t-2-nbome",
     "aliases": [
       "25t2-nbome",
-      "2C-T-2-NBOMe",
       "N-(2-methoxybenzyl)-4-ethylthio-2,5-dimethoxyphenethylamine",
       "NBOMe-2C-T-2",
+      "2C-T-2-NBOMe",
       "OZEBFZPAWCXEGK (InChIKey)",
       "N-(2-methoxybenzyl)-2,5-dimethoxy-4-ethylthio-phenethylamine"
     ],
@@ -6757,12 +6757,12 @@
     "source": "drug.community",
     "name": "25T-NBOMe",
     "aliases": [
-      "25T2-NBOMe",
       "NBOMe-2C-T",
       "N-(2-methoxybenzyl)-2,5-dimethoxy-4-(thioalkyl)phenethylamine (umbrella for 2C‑T homologues)",
-      "25T7-NBOMe",
       "25T4-NBOMe",
-      "2C-T-NBOMe"
+      "2C-T-NBOMe",
+      "25T7-NBOMe",
+      "25T2-NBOMe"
     ],
     "category": "Psychedelic phenethylamine (5-HT2A agonist)",
     "tags": [],
@@ -6823,11 +6823,11 @@
       "bees",
       "nexus",
       "4-bromo-2,5-DMPEA",
+      "Venus",
+      "BDMPEA",
       "2C‑B HCl",
       "2C‑B HBr",
-      "Bromo-mescaline",
-      "BDMPEA",
-      "Venus"
+      "Bromo-mescaline"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6935,10 +6935,10 @@
     "source": "curated",
     "name": "2c-b-an",
     "aliases": [
-      "2C-B aminonitrile",
-      "2C-B-AN (aminonitrile)",
       "2C-B AN",
-      "2C-B amino-nitrile"
+      "2C-B-AN (aminonitrile)",
+      "2C-B amino-nitrile",
+      "2C-B aminonitrile"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -6983,12 +6983,12 @@
     "name": "2c-b-fly",
     "aliases": [
       "2cb-fly",
-      "2C-Bromo-FLY",
-      "2C-B-FLY HCl",
+      "2C-B-FLY HBr",
       "2CBFLY",
       "1-(8-Bromo-2,3,6,7-tetrahydrobenzo[1,2-b:4,5-b']difuran-4-yl)-2-aminoethane (systematic)",
-      "8-bromo-2,3,6,7-tetrahydrobenzo[1,2-b:4,5-b']difuran-4-yl ethanamine (common name)",
-      "2C-B-FLY HBr"
+      "2C-Bromo-FLY",
+      "2C-B-FLY HCl",
+      "8-bromo-2,3,6,7-tetrahydrobenzo[1,2-b:4,5-b']difuran-4-yl ethanamine (common name)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7078,8 +7078,8 @@
     "name": "2C-BZ",
     "aliases": [
       "\"2C-B Z\" (spacing variant seen in posts)",
-      "2CBZ",
-      "Street label used for an unconfirmed 2C-B analogue"
+      "Street label used for an unconfirmed 2C-B analogue",
+      "2CBZ"
     ],
     "category": "Psychedelic / hallucinogen",
     "tags": [],
@@ -7228,8 +7228,8 @@
       "2cd",
       "2,5-dimethoxy-4-methylphenethylamine",
       "2C‑D",
-      "LE-25",
-      "4-methyl-2,5-dimethoxyphenethylamine"
+      "4-methyl-2,5-dimethoxyphenethylamine",
+      "LE-25"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7314,10 +7314,10 @@
       "2ce",
       "4-ethyl-2,5-dimethoxyphenethylamine",
       "aquarust",
-      "CAS 71539‑34‑9",
-      "4‑ethyl‑2,5‑dimethoxyphenethylamine",
+      "2C‑E freebase",
       "2C‑E HCl",
-      "2C‑E freebase"
+      "CAS 71539‑34‑9",
+      "4‑ethyl‑2,5‑dimethoxyphenethylamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7416,10 +7416,10 @@
     "source": "drug.community",
     "name": "2C-EF",
     "aliases": [
-      "4-(2-Fluoroethyl)-2,5-dimethoxyphenethylamine",
       "2-[4-(2-Fluoroethyl)-2,5-dimethoxyphenyl]ethan-1-amine",
+      "PiHKAL #370",
       "2,5-DMPEA-2F-Et",
-      "PiHKAL #370"
+      "4-(2-Fluoroethyl)-2,5-dimethoxyphenethylamine"
     ],
     "category": "Psychedelic hallucinogen",
     "tags": [],
@@ -7471,11 +7471,11 @@
       "2,5-dimethoxy-4-fluorophenethylamine",
       "2-(4-fluoro-2,5-dimethoxyphenyl)ethan-1-amine",
       "4-fluoro-2,5-dimethoxyphenethylamine",
-      "4-F-2,5-DMPEA",
-      "2",
       "5-dimethoxy-4-fluorophenethylamine",
+      "2C‑F",
       "CAS 207740-15-6 (free base)",
-      "2C‑F"
+      "4-F-2,5-DMPEA",
+      "2"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7531,8 +7531,8 @@
       "2-(2,5-dimethoxy-3,4-dimethylphenyl)ethan-1-amine",
       "2cg",
       "3,4-dimethyl-2,5-dimethoxyphenethylamine",
-      "PiHKAL #27",
-      "3,4-dimethyl-2,5-dimethoxy-PEA"
+      "3,4-dimethyl-2,5-dimethoxy-PEA",
+      "PiHKAL #27"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7845,9 +7845,9 @@
       "4-iodo-2,5-dimethoxy-β-phenethylamine",
       "4-iodo-2,5-dimethoxyphenethylamine",
       "Cimbi-88",
+      "2C‑I HCl",
       "2,5‑DM‑4‑I‑PEA",
       "“Smiles” (media slang; note: has also been used to refer to 25I‑NBOMe)",
-      "2C‑I HCl",
       "2C I"
     ],
     "category": "Psychedelic",
@@ -7941,9 +7941,9 @@
     "name": "2c-ip",
     "aliases": [
       "4‑isopropyl‑2,5‑dimethoxyphenethylamine",
-      "2,5‑dimethoxy‑4‑isopropylphenethylamine",
       "2C‑iP",
-      "4‑(propan‑2‑yl)‑2,5‑dimethoxyphenethylamine"
+      "4‑(propan‑2‑yl)‑2,5‑dimethoxyphenethylamine",
+      "2,5‑dimethoxy‑4‑isopropylphenethylamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -7992,9 +7992,9 @@
       "2cn",
       "4-nitro-2,5-dimethoxyphenethylamine",
       "2C-N freebase",
-      "2C-N nitrate (less potent than HCl salt, anecdotal)",
+      "2-(2,5-Dimethoxy-4-nitrophenyl)ethan-1-amine (IUPAC)",
       "2C-N HCl (hydrochloride)",
-      "2-(2,5-Dimethoxy-4-nitrophenyl)ethan-1-amine (IUPAC)"
+      "2C-N nitrate (less potent than HCl salt, anecdotal)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -8104,10 +8104,10 @@
       "2cp",
       "4-propyl-2,5-dimethoxyphenethylamine",
       "selene",
-      "2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine",
-      "2C‑P (phenethylamine)",
       "4‑propyl‑2,5‑dimethoxyphenethylamine",
-      "2C‑P HCl"
+      "2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine",
+      "2C‑P HCl",
+      "2C‑P (phenethylamine)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -8210,12 +8210,12 @@
     "name": "2C-P-NBOMe",
     "aliases": [
       "P‑NBOMe",
-      "25P-NBOMe",
-      "2-(4-propyl-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine",
       "N-(2-methoxybenzyl)-2C-P",
+      "25P-NBOMe",
       "NBOMe (series)",
       "25P",
-      "NBOMe-2C-P"
+      "NBOMe-2C-P",
+      "2-(4-propyl-2,5-dimethoxyphenyl)-N-(2-methoxybenzyl)ethanamine"
     ],
     "category": "Psychedelic / hallucinogen (5‑HT2A receptor agonist)",
     "tags": [],
@@ -8537,8 +8537,8 @@
       "2-[4-(ethylsulfanyl)-2,5-dimethoxyphenyl]ethan-1-amine",
       "2ct2",
       "4-ethylthio-2,5-dimethoxyphenethylamine",
-      "2,5‑dimethoxy‑4‑ethylthio‑phenethylamine",
       "2C‑T2",
+      "2,5‑dimethoxy‑4‑ethylthio‑phenethylamine",
       "2,5‑DM‑4‑ET‑PEA",
       "“T‑2” (deprecated nickname; not the T‑2 mycotoxin)",
       "4‑ethylthio‑2,5‑dimethoxyphenethylamine"
@@ -8698,11 +8698,11 @@
       "2-{2,5-dimethoxy-4-[(propan-2-yl)sulfanyl]phenyl}ethan-1-amine",
       "2ct4",
       "4-Isopropylthio-2,5-dimethoxyphenethylamine",
+      "2,5‑dimethoxy‑4‑isopropylthiophenethylamine",
       "4‑isopropylthio‑2,5‑dimethoxyphenethylamine",
       "psi‑2C‑T‑4 (distinct isomer; see note about mislabeling)",
-      "2C‑T‑4 HCl",
-      "2,5‑dimethoxy‑4‑isopropylthiophenethylamine",
-      "2C‑T‑4 freebase"
+      "2C‑T‑4 freebase",
+      "2C‑T‑4 HCl"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -8753,10 +8753,10 @@
     "source": "drug.community",
     "name": "2C-T-4-NBOMe",
     "aliases": [
-      "N-(2-methoxybenzyl)-2,5-dimethoxy-4-(isopropylthio)phenethylamine",
       "NBOMe-2C-T-4",
       "2C‑T‑4‑NBOMe",
-      "25T4-NBOMe"
+      "25T4-NBOMe",
+      "N-(2-methoxybenzyl)-2,5-dimethoxy-4-(isopropylthio)phenethylamine"
     ],
     "category": "Psychedelic phenethylamine",
     "tags": [],
@@ -8819,10 +8819,10 @@
       "7th heaven",
       "blue mystic",
       "tweety-bird mescaline",
-      "PT‑DM‑PEA",
-      "T7",
-      "2C‑T7",
       "7‑Up",
+      "T7",
+      "PT‑DM‑PEA",
+      "2C‑T7",
       "Tripstasy",
       "Beautiful"
     ],
@@ -8918,9 +8918,9 @@
     "source": "drug.community",
     "name": "2C-T-7-NBOMe",
     "aliases": [
-      "25T7-NBOMe",
       "NBOMe-2C-T-7",
-      "N-(2-Methoxybenzyl)-4-propylthio-2,5-dimethoxyphenethylamine"
+      "N-(2-Methoxybenzyl)-4-propylthio-2,5-dimethoxyphenethylamine",
+      "25T7-NBOMe"
     ],
     "category": "Psychedelic / 5-HT2A agonist",
     "tags": [],
@@ -9120,11 +9120,11 @@
     "source": "drug.community",
     "name": "3,3-Diphenylcyclobutanamine",
     "aliases": [
-      "3",
       "3,3-Diphenylcyclobutan-1-amine",
       "3,3-Diphenylcyclobutylamine",
-      "3-DPCB",
-      "DPCB"
+      "3",
+      "DPCB",
+      "3-DPCB"
     ],
     "category": "CNS stimulant; putative monoamine reuptake inhibitor/releaser",
     "tags": [],
@@ -9168,12 +9168,12 @@
     "source": "drug.community",
     "name": "3,4-CFPP",
     "aliases": [
+      "3-chloro-4-fluorophenylpiperazine",
       "1-(3-chloro-4-fluorophenyl)piperazine",
       "Kleferein",
-      "3-chloro-4-fluorophenylpiperazine",
       "CFPP",
-      "phenylpiperazine, 3‑chloro‑4‑fluoro‑",
-      "3,4‑CFPP"
+      "3,4‑CFPP",
+      "phenylpiperazine, 3‑chloro‑4‑fluoro‑"
     ],
     "category": "Serotonergic stimulant / empathogen-like (phenylpiperazine)",
     "tags": [],
@@ -9263,12 +9263,12 @@
     "source": "drug.community",
     "name": "3,4-Dimethoxy-α-PHP",
     "aliases": [
+      "3,4-DiMeO-α-PHP",
       "DMO-PHP",
       "1-(3,4-dimethoxyphenyl)-2-(pyrrolidin-1-yl)hexan-1-one",
-      "3,4-DiMeO-α-PHP",
-      "3',4'-Dimethoxy-α-PHP",
       "“3,4-DMPV” (online usage varies; sometimes used ambiguously for dimethoxy α-PVP vs α-PHP—lab confirmation required)",
-      "3,4-Dimethoxy-α-pyrrolidinohexiophenone"
+      "3,4-Dimethoxy-α-pyrrolidinohexiophenone",
+      "3',4'-Dimethoxy-α-PHP"
     ],
     "category": "stimulant",
     "tags": [],
@@ -9417,10 +9417,10 @@
     "aliases": [
       "3",
       "3,4-dimethyl methcathinone",
-      "M2",
-      "3,4-dimethylmethcathinone",
       "DMMC",
-      "4-dimethyl-methcathinone"
+      "M2",
+      "4-dimethyl-methcathinone",
+      "3,4-dimethylmethcathinone"
     ],
     "category": "Stimulant / entactogen",
     "tags": [],
@@ -9474,13 +9474,13 @@
     "name": "3,4-Methylenedioxy-phencyclidine",
     "aliases": [
       "3",
-      "3,4-MD-PCP hydrochloride",
-      "MDPCP",
       "3,4-MD-PCP",
-      "3,4-methylenedioxy-PCP",
-      "3,4-benzodioxole-PCP",
+      "3,4-MD-PCP hydrochloride",
       "3,4-MDPCP HCl",
-      "4-MD-PCP"
+      "3,4-methylenedioxy-PCP",
+      "4-MD-PCP",
+      "3,4-benzodioxole-PCP",
+      "MDPCP"
     ],
     "category": "Dissociative NMDA-receptor antagonist",
     "tags": [],
@@ -9531,8 +9531,8 @@
       "3,4-MD-phenmetrazine",
       "3,4-MDPM",
       "MDPM",
-      "Methylenedioxyphenmetrazine",
-      "3-MDPM"
+      "3-MDPM",
+      "Methylenedioxyphenmetrazine"
     ],
     "category": "Stimulant / mild empathogen",
     "tags": [],
@@ -9788,12 +9788,12 @@
     "source": "drug.community",
     "name": "3-CAF",
     "aliases": [
-      "MCA",
+      "m-CA",
       "3-CA",
       "meta-chloroamphetamine",
-      "3-chloroamphetamine",
-      "m-CA",
-      "3-CAF (vendor code; more common shorthand is 3-CA)"
+      "MCA",
+      "3-CAF (vendor code; more common shorthand is 3-CA)",
+      "3-chloroamphetamine"
     ],
     "category": "Stimulant / entactogen (monoamine releasing agent)",
     "tags": [],
@@ -9845,12 +9845,12 @@
     "source": "drug.community",
     "name": "3-CEC",
     "aliases": [
-      "3-chloroethcathinone",
-      "3-Cl-ethcathinone",
       "3-CEC HCl",
       "3-chloro-NEC",
-      "3-Chloroethcathinone",
-      "1-(3-chlorophenyl)-2-(ethylamino)propan-1-one"
+      "3-Cl-ethcathinone",
+      "1-(3-chlorophenyl)-2-(ethylamino)propan-1-one",
+      "3-chloroethcathinone",
+      "3-Chloroethcathinone"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -9904,11 +9904,11 @@
     "name": "3-chloromethcathinone",
     "aliases": [
       "clophedrone",
-      "3-CMC",
-      "3-CMC HCl",
       "3-chloro-N-methylcathinone",
+      "3-CMC HCl",
+      "1-(3-chlorophenyl)-2-(methylamino)propan-1-one",
       "m-chloro-methcathinone",
-      "1-(3-chlorophenyl)-2-(methylamino)propan-1-one"
+      "3-CMC"
     ],
     "category": "Stimulant",
     "tags": [
@@ -9950,9 +9950,9 @@
     "name": "3-Chlorophenmetrazine",
     "aliases": [
       "PAL594",
+      "PAL-594",
       "3-CPM",
-      "3-chloro-phenmetrazine",
-      "PAL-594"
+      "3-chloro-phenmetrazine"
     ],
     "category": "Stimulant; primarily a norepinephrine–dopamine releasing agent with weaker serotonergic releasing activity",
     "tags": [],
@@ -10193,11 +10193,11 @@
     "name": "3-Fluoro-PCP",
     "aliases": [
       "3-F-PCP",
-      "1-[1-(3-fluorophenyl)cyclohexyl]piperidine",
+      "3FPCP",
       "3′-F-PCP",
       "3F-PCP",
       "3-fluoro phencyclidine",
-      "3FPCP"
+      "1-[1-(3-fluorophenyl)cyclohexyl]piperidine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -10243,10 +10243,10 @@
     "aliases": [
       "1-(3-fluorophenyl)propan-2-amine",
       "3-FA",
-      "m-fluoroamphetamine",
+      "PAL-353",
       "meta-fluoroamphetamine",
       "3F-AMP",
-      "PAL-353"
+      "m-fluoroamphetamine"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -10298,10 +10298,10 @@
     "source": "drug.community",
     "name": "3-Fluoroethamphetamine",
     "aliases": [
-      "N-ethyl-1-(3-fluorophenyl)propan-2-amine",
-      "meta-fluoro ethylamphetamine",
       "3-FEA",
-      "3-fluoro-N-ethylamphetamine"
+      "3-fluoro-N-ethylamphetamine",
+      "N-ethyl-1-(3-fluorophenyl)propan-2-amine",
+      "meta-fluoro ethylamphetamine"
     ],
     "category": "Stimulant / empathogen (dopamine–serotonin releasing agent)",
     "tags": [],
@@ -10350,14 +10350,14 @@
     "source": "drug.community",
     "name": "3-Fluorophenmetrazine",
     "aliases": [
-      "3-FPH",
-      "PAL-593",
-      "3f-phenmetrazine",
+      "3-FPM",
       "3FPM",
+      "3-FPH",
+      "3fp",
       "3-fpm",
       "3f-p",
-      "3fp",
-      "3-FPM"
+      "3f-phenmetrazine",
+      "PAL-593"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -10457,9 +10457,9 @@
     "aliases": [
       "3-Fluoromethcathinone",
       "NOTE: often confused with 4-FMC (flephedrone); verify isomer via analytical data",
-      "1-(3-fluorophenyl)-2-(methylamino)propan-1-one",
+      "3′-fluoro-2-(methylamino)propiophenone",
       "3F-MC",
-      "3′-fluoro-2-(methylamino)propiophenone"
+      "1-(3-fluorophenyl)-2-(methylamino)propan-1-one"
     ],
     "category": "Stimulant",
     "tags": [
@@ -10569,12 +10569,12 @@
     "name": "3-ho-pce",
     "aliases": [
       "3hopce",
-      "3‑(1‑(ethylamino)cyclohexyl)phenol",
-      "3‑HO‑Eticyclidine",
-      "3‑hydroxy‑PCE",
       "3‑hydroxyeticyclidine",
+      "3-HO‑PCE",
+      "3‑hydroxy‑PCE",
       "HO‑PCE",
-      "3-HO‑PCE"
+      "3‑(1‑(ethylamino)cyclohexyl)phenol",
+      "3‑HO‑Eticyclidine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -10620,10 +10620,10 @@
     "aliases": [
       "3-Hydroxyphencyclidine",
       "3hopcp",
-      "3‑HOP",
-      "3-Hydroxy-PCP",
       "3‑HOPCP",
-      "3‑HO‑PCP HCl"
+      "3‑HOP",
+      "3‑HO‑PCP HCl",
+      "3-Hydroxy-PCP"
     ],
     "category": "Dissociative",
     "tags": [
@@ -10751,9 +10751,9 @@
     "source": "curated",
     "name": "3-Hydroxyphenazepam",
     "aliases": [
-      "3-HO-Phenazepam",
       "7-bromo-5-(2-chlorophenyl)-3-hydroxy-1,3-dihydro-2H-1,4-benzodiazepin-2-one",
-      "3-OH-Phenazepam"
+      "3-OH-Phenazepam",
+      "3-HO-Phenazepam"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -10836,9 +10836,9 @@
     "source": "drug.community",
     "name": "3-Me-PCPy",
     "aliases": [
-      "3-MePCPy",
       "3-methyl-1-(1-phenylcyclohexyl)pyrrolidine (informal)",
       "3-methyl-PCPy",
+      "3-MePCPy",
       "1-[1-(3-methylphenyl)cyclohexyl]pyrrolidine"
     ],
     "category": "Stimulating dissociative / psychotomimetic",
@@ -10945,10 +10945,10 @@
       "3-Methoxy-eticyclidine",
       "3meopce",
       "methoxyieticyclidine",
-      "3-methoxyeticyclidine",
-      "3-MeO-PCE HCl",
       "methoxieticyclidine",
-      "3-MeO-Eticyclidine"
+      "3-methoxyeticyclidine",
+      "3-MeO-Eticyclidine",
+      "3-MeO-PCE HCl"
     ],
     "category": "Dissociative",
     "tags": [
@@ -11000,9 +11000,9 @@
     "name": "3-meo-pcmo",
     "aliases": [
       "3-MeO-PCMo HCl",
-      "4-[1-(3-methoxyphenyl)cyclohexyl]morpholine",
       "PCMo (morpholine PCP analogue)",
-      "3-methoxy-PCMo"
+      "3-methoxy-PCMo",
+      "4-[1-(3-methoxyphenyl)cyclohexyl]morpholine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -11045,9 +11045,9 @@
     "aliases": [
       "3-Methoxyphencyclidine",
       "3meopcp",
+      "3-MeO PCP",
       "3-OMe-PCP",
-      "1-[1-(3-methoxyphenyl)cyclohexyl]piperidine",
-      "3-MeO PCP"
+      "1-[1-(3-methoxyphenyl)cyclohexyl]piperidine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -11152,9 +11152,9 @@
     "source": "curated",
     "name": "3-meo-pcpr",
     "aliases": [
-      "3-methoxy-PCPr",
       "1-(3-Methoxyphenyl)-N-propylcyclohexan-1-amine (IUPAC)",
-      "3-MeO-PCPr HCl (salt form)"
+      "3-MeO-PCPr HCl (salt form)",
+      "3-methoxy-PCPr"
     ],
     "category": "Dissociative",
     "tags": [
@@ -11324,14 +11324,14 @@
     "source": "drug.community",
     "name": "3-Methyl-4-fluoro-α-pyrrolidinovalerophenone",
     "aliases": [
-      "MFPVP",
       "4F-3Me-PVP",
-      "3-Me-4-F-α-PVP",
-      "MF-PVP",
-      "4-fluoro-3-methyl-alpha-PVP",
+      "MFPVP",
       "4F-3Me-α-PVP",
       "4-fluoro-3-methyl-α-PVP",
-      "4F-3-methyl-α-PVP"
+      "4F-3-methyl-α-PVP",
+      "3-Me-4-F-α-PVP",
+      "MF-PVP",
+      "4-fluoro-3-methyl-alpha-PVP"
     ],
     "category": "Norepinephrine–dopamine re-uptake inhibitor (stimulant)",
     "tags": [],
@@ -11381,8 +11381,8 @@
     "source": "drug.community",
     "name": "3-Methylaminorex",
     "aliases": [
-      "3-MAR",
       "3-methyl-5-phenyl-1,3-oxazolidin-2-imine",
+      "3-MAR",
       "5-phenyl-2-amino-N-methyl-oxazoline"
     ],
     "category": "Stimulant (likely dopamine/norepinephrine releaser; possible minor serotonergic activity uncertain)",
@@ -11627,12 +11627,12 @@
     "source": "drug.community",
     "name": "3-Quinuclidinyl benzilate",
     "aliases": [
-      "QNB",
-      "3-QNB",
-      "EA-2277",
+      "Substance 78 (Soviet code)",
       "Agent Buzz",
       "BZ",
-      "Substance 78 (Soviet code)"
+      "3-QNB",
+      "EA-2277",
+      "QNB"
     ],
     "category": "Deliriant (anticholinergic)",
     "tags": [],
@@ -12056,12 +12056,12 @@
       "1-(4-ethoxy-3,5-dimethoxyphenyl)propan-2-amine",
       "3,5-dimethoxy-4-ethoxyamphetamine",
       "4-ethoxy-3,5-dimethoxyamphetamine",
+      "alpha‑methyl escaline",
       "3",
       "3CE",
-      "alpha‑methyl escaline",
+      "1-(3,5-dimethoxy-4-ethoxyphenyl)propan-2-amine",
       "5-dimethoxy-4-ethoxy-amphetamine",
-      "3C‑E",
-      "1-(3,5-dimethoxy-4-ethoxyphenyl)propan-2-amine"
+      "3C‑E"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -12113,10 +12113,10 @@
       "3cp",
       "5-dimethoxyamphetamine",
       "4-propoxy-3",
-      "4‑propoxy‑3,5‑dimethoxyamphetamine",
-      "1-(3,5-dimethoxy-4-propoxyphenyl)propan-2-amine",
-      "3,5‑DM‑4‑PO‑amphetamine",
       "amphetamine homolog of proscaline",
+      "1-(3,5-dimethoxy-4-propoxyphenyl)propan-2-amine",
+      "4‑propoxy‑3,5‑dimethoxyamphetamine",
+      "3,5‑DM‑4‑PO‑amphetamine",
       "3C‑P"
     ],
     "category": "Psychedelic",
@@ -12157,15 +12157,15 @@
     "source": "drug.community",
     "name": "3F-PiHP",
     "aliases": [
+      "3F-α-PiHP",
       "3F-Alpha-PHIP",
+      "3F-alpha-PiHP",
+      "3-Fluoro-PiHP",
       "3F-Alpha-PHIP hydrochloride",
       "3F-α-PHIP HCl (salt)",
-      "3F-PHIP",
-      "3F-alpha-PiHP",
+      "3-fluoro-PiHP",
       "3-Fluoro-α-pyrrolidinoisohexanophenone",
-      "3F-α-PiHP",
-      "3-Fluoro-PiHP",
-      "3-fluoro-PiHP"
+      "3F-PHIP"
     ],
     "category": "Stimulant (primarily dopamine/norepinephrine reuptake inhibition; class inference)",
     "tags": [],
@@ -12215,9 +12215,9 @@
     "source": "drug.community",
     "name": "4'-Fluoro-4-methylaminorex",
     "aliases": [
-      "4F-MAR",
       "4-FPO",
       "p-F-4-MAR",
+      "4F-MAR",
       "4′-F-4-MAR",
       "para-fluoro-4-methylaminorex"
     ],
@@ -12305,12 +12305,12 @@
     "source": "drug.community",
     "name": "4,4'-Dimethylaminorex",
     "aliases": [
-      "4-methyl-U4Euh",
-      "Serotoni",
-      "para-methyl-4-methylaminorex",
       "4-methyl-euphoria",
+      "4-M-4-MAR",
+      "Serotoni",
       "4,4′-DMAR",
-      "4-M-4-MAR"
+      "para-methyl-4-methylaminorex",
+      "4-methyl-U4Euh"
     ],
     "category": "Stimulant with mixed monoamine-releasing (including serotonergic) properties",
     "tags": [],
@@ -12638,10 +12638,10 @@
       "4-acetoxy-det",
       "ethacetin",
       "ethylacybin",
-      "4-AcO-DET HCl (less common)",
       "4-Acetoxy-N,N-diethyltryptamine",
+      "4-AcO-DET fumarate (common salt)",
       "O-acetyl-4-HO-DET",
-      "4-AcO-DET fumarate (common salt)"
+      "4-AcO-DET HCl (less common)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -12733,11 +12733,11 @@
       "4acodmt",
       "acetylpsilocin",
       "psilacetin",
+      "4-AcO-DMT HCl",
       "O-Acetylpsilocin",
       "4-AcO-DMT fumarate",
-      "O-acetylpsilocin",
       "4-acetoxy-N,N-dimethyltryptamine",
-      "4-AcO-DMT HCl"
+      "O-acetylpsilocin"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -13143,13 +13143,13 @@
     "source": "drug.community",
     "name": "4-Bromoamphetamine",
     "aliases": [
-      "4-Br-AMP",
       "para-Bromoamphetamine",
       "p-Bromoamphetamine",
-      "p-BA",
+      "1-(4-bromophenyl)propan-2-amine",
       "4-BA",
       "PBA",
-      "1-(4-bromophenyl)propan-2-amine"
+      "p-BA",
+      "4-Br-AMP"
     ],
     "category": "Stimulant, entactogen (with neurotoxic potential)",
     "tags": [],
@@ -13278,12 +13278,12 @@
     "source": "drug.community",
     "name": "4-CEC",
     "aliases": [
-      "p-chloro-ethcathinone",
       "4-Chloroethcathinone",
-      "4′-chloro-N-ethylcathinone",
       "4-chloroethcathinone",
       "1-(4-chlorophenyl)-2-(ethylamino)propan-1-one",
-      "para-chloro-ethcathinone"
+      "4′-chloro-N-ethylcathinone",
+      "para-chloro-ethcathinone",
+      "p-chloro-ethcathinone"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -13328,11 +13328,11 @@
     "name": "4-Chloroamphetamine",
     "aliases": [
       "4-Chloroamphetamine hydrochloride",
-      "4-CA",
       "p-Chloroamphetamine",
       "PCA",
-      "para-Chloroamphetamine",
       "pCA",
+      "para-Chloroamphetamine",
+      "4-CA",
       "(RS)-1-(4-chlorophenyl)propan-2-amine"
     ],
     "category": "Stimulant; potent serotonergic neurotoxin",
@@ -13377,12 +13377,12 @@
     "source": "drug.community",
     "name": "4-Chlorobuphedrone",
     "aliases": [
+      "4-CBC",
       "4-chloro-α-methylamino-butyrophenone",
-      "4-chloro-α-methylaminobutyrophenone",
-      "4-chloro-butyrophenone cathinone",
       "para-Chloro-buphedrone",
+      "4-chloro-butyrophenone cathinone",
       "4-chloro-buphedrone",
-      "4-CBC"
+      "4-chloro-α-methylaminobutyrophenone"
     ],
     "category": "Stimulant / Empathogen / Entactogen",
     "tags": [],
@@ -13432,10 +13432,10 @@
     "aliases": [
       "4'-chlorodiazepam",
       "ro5-4864",
-      "Ro 5-4864",
-      "4'-Chlordiazepam",
+      "Chlorodiazepam (Ro5-4864; not to be confused with other similarly named benzodiazepines)",
       "4′-Chlorodiazepam",
-      "Chlorodiazepam (Ro5-4864; not to be confused with other similarly named benzodiazepines)"
+      "4'-Chlordiazepam",
+      "Ro 5-4864"
     ],
     "category": "Other",
     "tags": [
@@ -13476,14 +13476,14 @@
     "source": "drug.community",
     "name": "4-Chloromethamphetamine",
     "aliases": [
-      "Ro 4-6861",
-      "N-methyl-4-chloroamphetamine",
-      "para-Chloromethamphetamine",
       "PCMA",
-      "4-CMA",
+      "N-methyl-4-chloroamphetamine",
       "p-Chloromethamphetamine",
-      "CMA",
-      "1-(4-chlorophenyl)-N-methylpropan-2-amine"
+      "para-Chloromethamphetamine",
+      "4-CMA",
+      "Ro 4-6861",
+      "1-(4-chlorophenyl)-N-methylpropan-2-amine",
+      "CMA"
     ],
     "category": "Stimulant; serotonergic neurotoxin",
     "tags": [],
@@ -13647,11 +13647,11 @@
     "source": "drug.community",
     "name": "4-Cl-PPP",
     "aliases": [
-      "4-chloro-PPP",
-      "4-Cl-PPP HCl (common salt)",
       "4-chloro-α-pyrrolidinopropiophenone",
+      "4-chloro-PPP",
+      "4-Cl-α-PPP",
       "p-chloro-α-PPP",
-      "4-Cl-α-PPP"
+      "4-Cl-PPP HCl (common salt)"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -13740,9 +13740,9 @@
       "4-Chloromethcathinone",
       "4cmc",
       "Clephedrone",
-      "4′-Chloro-2-(methylamino)propanophenone",
       "4-Cl-MC",
-      "p-Chloromethcathinone"
+      "p-Chloromethcathinone",
+      "4′-Chloro-2-(methylamino)propanophenone"
     ],
     "category": "Stimulant",
     "tags": [
@@ -13854,10 +13854,10 @@
     "name": "4-EEC",
     "aliases": [
       "4‑Ethyl‑N‑ethylcathinone",
-      "4‑EEC",
+      "2‑(ethylamino)‑1‑(4‑ethylphenyl)propan‑1‑one",
       "4‑Ethyl‑ethcathinone",
       "para‑ethyl ethcathinone",
-      "2‑(ethylamino)‑1‑(4‑ethylphenyl)propan‑1‑one",
+      "4‑EEC",
       "4-Ethylethcathinone",
       "p‑ethyl ethcathinone"
     ],
@@ -13913,10 +13913,10 @@
     "name": "4-EMC",
     "aliases": [
       "4-Ethylmethcathinone",
-      "4′‑Ethyl‑2‑(methylamino)propiophenone",
-      "4‑Ethylmethcathinone",
       "4Et‑MC",
-      "1‑(4‑Ethylphenyl)‑2‑(methylamino)propan‑1‑one"
+      "4‑Ethylmethcathinone",
+      "1‑(4‑Ethylphenyl)‑2‑(methylamino)propan‑1‑one",
+      "4′‑Ethyl‑2‑(methylamino)propiophenone"
     ],
     "category": "Stimulant",
     "tags": [
@@ -14006,11 +14006,11 @@
       "4-Fluoroamphetamine",
       "4-fmp",
       "4fa",
-      "p-fluoroamphetamine",
-      "PFA",
       "Flux",
+      "p-fluoroamphetamine",
+      "para-fluoroamphetamine",
       "PAL-303",
-      "para-fluoroamphetamine"
+      "PFA"
     ],
     "category": "Empathogen",
     "tags": [
@@ -14200,8 +14200,8 @@
       "4-fluoro-α-pyrrolidinohexanophenone",
       "4F-PHP",
       "4F-α-PHP",
-      "4-fluoro-alpha-pyrrolidinohexanophenone",
-      "4′-fluoro-α-PHP"
+      "4′-fluoro-α-PHP",
+      "4-fluoro-alpha-pyrrolidinohexanophenone"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -14295,12 +14295,12 @@
     "source": "drug.community",
     "name": "4-Fluoro-α-pyrrolidinopropiophenone",
     "aliases": [
-      "4′-fluoro-α-pyrrolidinopropiophenone",
-      "1-(4-fluorophenyl)-2-(pyrrolidin-1-yl)propan-1-one",
-      "4F-PPP",
-      "pFPPP",
       "para‑fluoro‑α‑PPP",
-      "4‑FPPP"
+      "pFPPP",
+      "4F-PPP",
+      "4‑FPPP",
+      "4′-fluoro-α-pyrrolidinopropiophenone",
+      "1-(4-fluorophenyl)-2-(pyrrolidin-1-yl)propan-1-one"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -14350,12 +14350,12 @@
     "source": "drug.community",
     "name": "4-Fluorodeprenyl",
     "aliases": [
-      "pFSL",
-      "p‑Fluoroselegiline",
       "pF‑Deprenyl",
-      "p‑F‑Deprenyl",
       "4‑F‑Deprenyl",
-      "4‑Fluoroselegiline"
+      "4‑Fluoroselegiline",
+      "pFSL",
+      "p‑F‑Deprenyl",
+      "p‑Fluoroselegiline"
     ],
     "category": "Stimulant; irreversible MAO‑B inhibitor; nootropic",
     "tags": [],
@@ -14406,11 +14406,11 @@
     "source": "drug.community",
     "name": "4-Fluoroethamphetamine",
     "aliases": [
-      "p-FEA",
-      "p-fluoro-N-ethylamphetamine",
-      "para-fluoroethamphetamine",
       "4-FEA",
-      "4-FNEA"
+      "4-FNEA",
+      "p-fluoro-N-ethylamphetamine",
+      "p-FEA",
+      "para-fluoroethamphetamine"
     ],
     "category": "Stimulant / Entactogen",
     "tags": [],
@@ -14507,12 +14507,12 @@
       "4-fl-mph",
       "4-fluoro-mph",
       "4f-mph",
-      "para‑fluoromethylphenidate",
-      "4‑FMPH",
       "4F Ritalin (colloquial; not a brand)",
-      "threo‑4F‑MPH (active diastereomer)",
-      "4‑Fluoro‑methylphenidate",
+      "4‑FMPH",
       "pF‑MPH",
+      "para‑fluoromethylphenidate",
+      "4‑Fluoro‑methylphenidate",
+      "threo‑4F‑MPH (active diastereomer)",
       "erythro‑4F‑MPH (less active diastereomer)"
     ],
     "category": "Stimulant",
@@ -14598,13 +14598,13 @@
     "source": "drug.community",
     "name": "4-Fluorophenibut",
     "aliases": [
+      "Fluorophenibut",
       "F-Phenibut HCl",
+      "F-Phenibut FAA",
+      "4-amino-3-(4-fluorophenyl)butanoic acid",
       "F-Phenibut",
       "Fluorobut",
-      "4-amino-3-(4-fluorophenyl)butanoic acid",
-      "4-F-Phenibut",
-      "Fluorophenibut",
-      "F-Phenibut FAA"
+      "4-F-Phenibut"
     ],
     "category": "Depressant, Anxiolytic, Gabapentinoid",
     "tags": [],
@@ -14655,10 +14655,10 @@
     "source": "drug.community",
     "name": "4-Fluorophenylpiperazine",
     "aliases": [
-      "1-(4-fluorophenyl)piperazine",
       "4-FPP",
-      "pFPP",
-      "para-Fluorophenylpiperazine"
+      "para-Fluorophenylpiperazine",
+      "1-(4-fluorophenyl)piperazine",
+      "pFPP"
     ],
     "category": "Serotonergic entactogen / mild psychedelic (5-HT1A agonist ≫ 5-HT2A/2C agonist; weak SERT/NET releaser; negligible DAT activity)",
     "tags": [],
@@ -14874,8 +14874,8 @@
     "source": "curated",
     "name": "4-fpp",
     "aliases": [
-      "1-(4-fluorophenyl)piperazine",
       "pFPP",
+      "1-(4-fluorophenyl)piperazine",
       "para-Fluorophenylpiperazine"
     ],
     "category": "Empathogen",
@@ -15261,10 +15261,10 @@
       "ethocin",
       "homet",
       "metocin",
-      "Methylcybin",
       "4-HO-MET fumarate",
-      "Colour",
       "4-hydroxy-N-methyl-N-ethyltryptamine",
+      "Methylcybin",
+      "Colour",
       "4-HO-MET HCl",
       "4-HO-MET (freebase)"
     ],
@@ -15646,8 +15646,8 @@
     "source": "drug.community",
     "name": "4-HO-PiPT",
     "aliases": [
-      "4-hydroxy-N-propyl-N-isopropyltryptamine",
-      "3-{2-[(propan-2-yl)(propyl)amino]ethyl}-1H-indol-4-ol"
+      "3-{2-[(propan-2-yl)(propyl)amino]ethyl}-1H-indol-4-ol",
+      "4-hydroxy-N-propyl-N-isopropyltryptamine"
     ],
     "category": "Psychedelic",
     "tags": [],
@@ -16081,13 +16081,13 @@
     "source": "drug.community",
     "name": "4-MBC",
     "aliases": [
-      "4‑MBC (cathinone)",
       "4‑methyl‑N‑benzylcathinone",
       "N‑benzyl‑4‑methylcathinone",
       "(colloquial) benzyl‑mephedrone",
+      "Do not confuse with: 4‑methylbenzylidene camphor (also called 4‑MBC; a sunscreen filter)",
       "Benzedrone",
       "4‑methylbenzylcathinone",
-      "Do not confuse with: 4‑methylbenzylidene camphor (also called 4‑MBC; a sunscreen filter)"
+      "4‑MBC (cathinone)"
     ],
     "category": "stimulant / mild empathogen",
     "tags": [],
@@ -16326,10 +16326,10 @@
     "source": "curated",
     "name": "4-MEO-MIPT",
     "aliases": [
-      "4-methoxy-N-methyl-N-isopropyltryptamine",
-      "Indole, 3-[2-(isopropylmethylamino)ethyl]-4-methoxy",
       "N-isopropyl-4-methoxy-N-methyltryptamine",
-      "N-[2-(4-methoxy-1H-indol-3-yl)ethyl]-N-methylpropan-2-amine"
+      "Indole, 3-[2-(isopropylmethylamino)ethyl]-4-methoxy",
+      "N-[2-(4-methoxy-1H-indol-3-yl)ethyl]-N-methylpropan-2-amine",
+      "4-methoxy-N-methyl-N-isopropyltryptamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -16462,10 +16462,10 @@
     "source": "drug.community",
     "name": "4-Methoxybutyrfentanyl",
     "aliases": [
-      "4-MeO-BF",
-      "para-Methoxybutyrylfentanyl",
       "4-Methoxy-butyrylfentanyl",
       "p-MeO-butyrylfentanyl",
+      "para-Methoxybutyrylfentanyl",
+      "4-MeO-BF",
       "N-(4-methoxyphenyl)-N-[1-(2-phenylethyl)-4-piperidinyl]butanamide"
     ],
     "category": "µ-opioid receptor agonist (opioid analgesic)",
@@ -16635,11 +16635,11 @@
     "source": "curated",
     "name": "4-methylaminorex",
     "aliases": [
-      "McN-822",
-      "U4Euh",
       "McN822",
+      "4-MAR",
+      "U4Euh",
       "4-MAX",
-      "4-MAR"
+      "McN-822"
     ],
     "category": "Stimulant",
     "tags": [
@@ -16683,9 +16683,9 @@
     "aliases": [
       "4-me-tmp",
       "4-mmph",
-      "4'-Methylmethylphenidate",
-      "4M-TMP",
       "p-Methyl methylphenidate",
+      "4M-TMP",
+      "4'-Methylmethylphenidate",
       "Threo-4-methylmethylphenidate"
     ],
     "category": "Stimulant",
@@ -16770,12 +16770,12 @@
     "source": "curated",
     "name": "4-mpd",
     "aliases": [
+      "1-(4-methylphenyl)-2-(methylamino)pentan-1-one",
+      "4-MPD HCl",
       "para-methyl pentedrone",
       "4-Methylpentedrone",
-      "4-MPD HCl",
       "p-methyl pentedrone",
-      "4-methylpentedrone",
-      "1-(4-methylphenyl)-2-(methylamino)pentan-1-one"
+      "4-methylpentedrone"
     ],
     "category": "Stimulant",
     "tags": [
@@ -16815,11 +16815,11 @@
     "name": "4-mta",
     "aliases": [
       "4-methylthioamphetamine",
+      "Flatliners (historical street name for some tablets)",
       "MTA",
+      "p-methylthioamphetamine",
       "para-methylthioamphetamine",
       "4-MTA HCl",
-      "Flatliners (historical street name for some tablets)",
-      "p-methylthioamphetamine",
       "4-(methylthio)amphetamine"
     ],
     "category": "Empathogen",
@@ -16943,11 +16943,11 @@
     "source": "drug.community",
     "name": "4-PrO-DMT",
     "aliases": [
-      "4-Propanoyloxy-N,N-dimethyltryptamine",
-      "4-ProO-DMT",
       "4-Propionyloxy-N,N-dimethyltryptamine",
+      "O-propionylpsilocin",
       "4-Propionyloxy-DMT",
-      "O-propionylpsilocin"
+      "4-ProO-DMT",
+      "4-Propanoyloxy-N,N-dimethyltryptamine"
     ],
     "category": "Classical psychedelic (5-HT2A agonist; pro-drug to psilocin)",
     "tags": [],
@@ -16996,12 +16996,12 @@
     "source": "drug.community",
     "name": "4-PrO-MET",
     "aliases": [
-      "4-PrO-MET fumarate (common salt)",
       "4-propionoxy-4-HO-MET prodrug",
-      "4-propionoxy-MET",
       "O-propionyl-4-HO-MET",
       "4-propanoyloxy-MET",
-      "O-propionyl-metocin"
+      "O-propionyl-metocin",
+      "4-PrO-MET fumarate (common salt)",
+      "4-propionoxy-MET"
     ],
     "category": "Serotonergic psychedelic (effects presumed mainly via 5‑HT2A agonism after in‑vivo hydrolysis to 4‑HO‑MET; possible minor parent-compound activity)",
     "tags": [],
@@ -17394,13 +17394,13 @@
     "source": "drug.community",
     "name": "4B-MAR",
     "aliases": [
-      "p‑bromo‑4‑methylaminorex",
       "para‑bromo‑4‑methylaminorex",
-      "4′‑Br‑4‑MAR",
+      "4B‑MAR",
       "4′-Bromo-4-methylaminorex",
-      "4‑bromo‑4‑methylaminorex",
       "4-Bromo Aminorex",
-      "4B‑MAR"
+      "4′‑Br‑4‑MAR",
+      "4‑bromo‑4‑methylaminorex",
+      "p‑bromo‑4‑methylaminorex"
     ],
     "category": "Presumed monoamine releasing agent / re‑uptake inhibitor (amphetamine‑like)",
     "tags": [],
@@ -17452,13 +17452,13 @@
     "source": "drug.community",
     "name": "4Cl-iBF",
     "aliases": [
-      "4-Cl-iBF",
-      "p-Cl-iBF",
-      "para-Chloroisobutyrylfentanyl",
-      "p-Chloroisobutyrylfentanyl",
-      "p-Cl-IBF",
       "p-Chloro-isobutyrylfentanyl",
-      "4-Cl-IBF"
+      "4-Cl-iBF",
+      "4-Cl-IBF",
+      "p-Cl-iBF",
+      "p-Cl-IBF",
+      "p-Chloroisobutyrylfentanyl",
+      "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid (μ-opioid receptor agonist)",
     "tags": [],
@@ -17881,11 +17881,11 @@
     "name": "4′-Chloro-4-methylaminorex",
     "aliases": [
       "para‑chloro‑4‑MAR",
-      "4-Cl-MAR",
       "4C-MAR",
-      "4-Cl‑MAR",
+      "p‑chloro‑4‑methylaminorex",
       "4C‑MAR",
-      "p‑chloro‑4‑methylaminorex"
+      "4-Cl-MAR",
+      "4-Cl‑MAR"
     ],
     "category": "Stimulant; monoamine-releasing agent",
     "tags": [],
@@ -18494,12 +18494,12 @@
     "name": "5-apb",
     "aliases": [
       "5apb",
+      "Benzo Fury (brand; may also refer to 6‑APB)",
+      "5‑APB (benzofuran-5-yl)propan-2-amine",
       "5‑APB HCl",
       "5‑APB succinate",
-      "5-(2-aminopropyl)benzofuran",
       "5‑APB freebase",
-      "Benzo Fury (brand; may also refer to 6‑APB)",
-      "5‑APB (benzofuran-5-yl)propan-2-amine"
+      "5-(2-aminopropyl)benzofuran"
     ],
     "category": "Empathogen",
     "tags": [
@@ -18580,10 +18580,10 @@
     "name": "5-apdi",
     "aliases": [
       "iap",
-      "5-IAP",
       "Indanyl-aminopropane",
-      "Indanylaminopropane",
-      "Indanylamphetamine"
+      "5-IAP",
+      "Indanylamphetamine",
+      "Indanylaminopropane"
     ],
     "category": "Empathogen",
     "tags": [
@@ -18624,8 +18624,8 @@
     "source": "curated",
     "name": "5-bpdi",
     "aliases": [
-      "Indanyl-alpha-PHP",
-      "Indanyl-α-PHP"
+      "Indanyl-α-PHP",
+      "Indanyl-alpha-PHP"
     ],
     "category": "Stimulant",
     "tags": [
@@ -19123,9 +19123,9 @@
     "source": "curated",
     "name": "5-dbfpv",
     "aliases": [
-      "3-desoxy-MDPV",
-      "5-DBF-PV",
       "5-DBFPV hydrochloride",
+      "5-DBF-PV",
+      "3-desoxy-MDPV",
       "5,6-dihydrobenzofuran-α-pyrrolidinovalerophenone"
     ],
     "category": "Stimulant",
@@ -19169,10 +19169,10 @@
     "name": "5-eapb",
     "aliases": [
       "5eapb",
+      "5‑EAPB HCl (common salt form)",
       "1-(1-benzofuran-5-yl)-N-ethylpropan-2-amine",
-      "5-(2-ethylamino)propyl benzofuran (informal expansion of acronym)",
       "Aminoalkylbenzofuran (class descriptor)",
-      "5‑EAPB HCl (common salt form)"
+      "5-(2-ethylamino)propyl benzofuran (informal expansion of acronym)"
     ],
     "category": "Empathogen",
     "tags": [
@@ -20043,13 +20043,13 @@
     "name": "5-iai",
     "aliases": [
       "5iai",
-      "5-iodo-2-aminoindane",
+      "5-iodo-2-aminoindan",
       "CAS 132367-76-1",
-      "PubChem CID 131506",
       "2-aminoindane derivative (5-iodo)",
+      "PubChem CID 131506",
+      "5-iodo-2-aminoindane",
       "5-iodo-2,3-dihydro-1H-inden-2-amine",
-      "NRG-5",
-      "5-iodo-2-aminoindan"
+      "NRG-5"
     ],
     "category": "Empathogen",
     "tags": [
@@ -20167,8 +20167,8 @@
     "name": "5-mapb",
     "aliases": [
       "5mapb",
-      "1-(benzofuran-5-yl)-N-methylpropan-2-amine",
-      "5-(2-methylaminopropyl)benzofuran"
+      "5-(2-methylaminopropyl)benzofuran",
+      "1-(benzofuran-5-yl)-N-methylpropan-2-amine"
     ],
     "category": "Empathogen",
     "tags": [
@@ -20325,11 +20325,11 @@
     "aliases": [
       "5meoamt",
       "α,O-Dimethylserotonin",
+      "Alpha-O",
       "5-Methoxy-α-methyltryptamine",
-      "alpha-O",
       "5-MeO-AMT HCl (salt form)",
       "α,O-DMS",
-      "Alpha-O",
+      "alpha-O",
       "5-MeO-αMT"
     ],
     "category": "Empathogen",
@@ -20377,11 +20377,11 @@
     "name": "5-meo-dalt",
     "aliases": [
       "5meodalt",
-      "5-MeO DALT",
-      "5-methoxy-N,N-diallyltryptamine",
       "5MeO-DALT",
+      "3-[2-(diallylamino)ethyl]-5-methoxyindole",
       "N,N-diallyl-5-methoxytryptamine",
-      "3-[2-(diallylamino)ethyl]-5-methoxyindole"
+      "5-MeO DALT",
+      "5-methoxy-N,N-diallyltryptamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -20491,9 +20491,9 @@
     "source": "curated",
     "name": "5-meo-dibf",
     "aliases": [
-      "5-Methoxy-diisopropylbenzofuranethylamine",
-      "5-methoxy-diisopropylbenzofuran-ethylamine",
       "N-[2-(5-methoxy-1-benzofuran-3-yl)ethyl]-N,N-diisopropylamine",
+      "5-methoxy-diisopropylbenzofuran-ethylamine",
+      "5-Methoxy-diisopropylbenzofuranethylamine",
       "benzofuran analogue of 5-MeO-DiPT"
     ],
     "category": "Empathogen",
@@ -20606,9 +20606,9 @@
       "N,N-Dimethyl-5-methoxy tryptamine",
       "O-methylbufotenine",
       "toads",
-      "2-(5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine",
+      "bufotenine methyl ether",
       "N,N-dimethyl-5-methoxytryptamine",
-      "bufotenine methyl ether"
+      "2-(5-methoxy-1H-indol-3-yl)-N,N-dimethylethanamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -20694,11 +20694,11 @@
     "name": "5-meo-dpt",
     "aliases": [
       "5meodpt",
-      "O-methyl-N,N-dipropylserotonin",
       "5-methoxy-N",
-      "O-Me-DiPS",
+      "O-methyl-N,N-dipropylserotonin",
+      "5-Methoxy-N,N-dipropyltryptamine",
       "N-dipropyltryptamine",
-      "5-Methoxy-N,N-dipropyltryptamine"
+      "O-Me-DiPS"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -22237,8 +22237,8 @@
     "name": "6-apb",
     "aliases": [
       "6apb",
-      "6-(2-aminopropyl)benzofuran",
-      "Benzo Fury"
+      "Benzo Fury",
+      "6-(2-aminopropyl)benzofuran"
     ],
     "category": "Empathogen",
     "tags": [
@@ -23098,10 +23098,10 @@
     "name": "6-Monoacetylmorphine",
     "aliases": [
       "6-AM",
-      "6-Acetylmorphine",
+      "6-ACM",
       "6-acetyl morphine",
-      "6-MAM",
-      "6-ACM"
+      "6-Acetylmorphine",
+      "6-MAM"
     ],
     "category": "Opioid analgesic / euphoric depressant",
     "tags": [],
@@ -23432,8 +23432,8 @@
     "name": "7-Hydroxymitragynine",
     "aliases": [
       "7-HMG",
-      "7-OHM",
-      "7-OH"
+      "7-OH",
+      "7-OHM"
     ],
     "category": "Atypical μ-opioid receptor agonist (G-protein-biased)",
     "tags": [],
@@ -23597,10 +23597,10 @@
     "name": "9-Me-BC",
     "aliases": [
       "9-Methyl-β-carboline",
+      "9-methyl-beta-carboline",
       "9-methylpyrido[3,4-b]indole",
       "9‑MeBC",
-      "9‑MBC",
-      "9-methyl-beta-carboline"
+      "9‑MBC"
     ],
     "category": "Nootropic",
     "tags": [
@@ -23912,10 +23912,10 @@
       "monase",
       "αMT",
       "U-14,164E",
-      "3-(2-aminopropyl)indole",
-      "Amtrak (slang)",
+      "α-methyltryptamine",
       "Amthrax (slang)",
-      "α-methyltryptamine"
+      "Amtrak (slang)",
+      "3-(2-aminopropyl)indole"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -24426,11 +24426,11 @@
     "source": "drug.community",
     "name": "Aceburic acid",
     "aliases": [
-      "4-acetoxybutyric acid",
-      "4-OAc-GHB",
-      "GHB acetate (prodrug)",
       "4-acetoxybutanoic acid",
-      "Butanoic acid, 4-acetoxy-"
+      "4-acetoxybutyric acid",
+      "Butanoic acid, 4-acetoxy-",
+      "4-OAc-GHB",
+      "GHB acetate (prodrug)"
     ],
     "category": "Central nervous system depressant; GHB/GABA-B receptor agonist prodrug",
     "tags": [],
@@ -24521,9 +24521,9 @@
     "source": "drug.community",
     "name": "Acetorphine",
     "aliases": [
+      "Acetorfina",
       "Acetylpropylorvinol",
-      "7α-etorphine 3-acetate",
-      "Acetorfina"
+      "7α-etorphine 3-acetate"
     ],
     "category": "Opioid (narcotic analgesic)",
     "tags": [],
@@ -24661,10 +24661,10 @@
     "source": "drug.community",
     "name": "Acetyldihydrocodeine",
     "aliases": [
-      "ADC",
-      "6-acetyldihydrocodeine",
       "dihydrocodeine acetate",
+      "6-acetyldihydrocodeine",
       "dihydrocodeine 6-acetate",
+      "ADC",
       "6-ADC"
     ],
     "category": "opioid analgesic/antitussive",
@@ -24812,10 +24812,10 @@
     "source": "drug.community",
     "name": "Acrylfentanyl",
     "aliases": [
+      "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acrylamide",
       "Acryl-fentanyl",
       "N-(1-phenethylpiperidin-4-yl)-N-phenylacrylamide",
-      "Acryloylfentanyl",
-      "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acrylamide"
+      "Acryloylfentanyl"
     ],
     "category": "Opioid (µ-agonist)",
     "tags": [],
@@ -25012,11 +25012,11 @@
     "source": "curated",
     "name": "ADB-PINACA",
     "aliases": [
-      "“Spice”/“K2” product ingredient (brand-dependent label)",
-      "indazole-3-carboxamide SCRA (tert-leucinate amide)",
       "isomer 1",
       "ADB-PINACA positional isomer (vendor-labelled “isomer 1”)",
-      "N-(1-amino-3,3-dimethyl-1-oxobutan-2-yl)-1-pentyl-1H-indazole-3-carboxamide"
+      "N-(1-amino-3,3-dimethyl-1-oxobutan-2-yl)-1-pentyl-1H-indazole-3-carboxamide",
+      "indazole-3-carboxamide SCRA (tert-leucinate amide)",
+      "“Spice”/“K2” product ingredient (brand-dependent label)"
     ],
     "category": "Cannabinoid",
     "tags": [
@@ -25061,9 +25061,9 @@
     "source": "drug.community",
     "name": "ADB-PINACA isomer 2",
     "aliases": [
+      "ADB-PINACA positional isomer (isomer 2)",
       "ADB-PINACA structural isomer (non-parent)",
-      "ADB-PINACA iso-2",
-      "ADB-PINACA positional isomer (isomer 2)"
+      "ADB-PINACA iso-2"
     ],
     "category": "Cannabinoid (full CB1/CB2 agonist)",
     "tags": [],
@@ -25119,8 +25119,8 @@
     "name": "ADBICA",
     "aliases": [
       "ADB-ICA",
-      "N-(1-amino-3,3-dimethyl-1-oxobutan-2-yl)-1-pentylindole-3-carboxamide",
-      "N-(1-(Aminocarbonyl)-2,2-dimethylpropyl)-1-pentyl-1H-indole-3-carboxamide"
+      "N-(1-(Aminocarbonyl)-2,2-dimethylpropyl)-1-pentyl-1H-indole-3-carboxamide",
+      "N-(1-amino-3,3-dimethyl-1-oxobutan-2-yl)-1-pentylindole-3-carboxamide"
     ],
     "category": "Cannabinoid receptor agonist (synthetic cannabinoid)",
     "tags": [],
@@ -25178,10 +25178,10 @@
       "aderall",
       "d-amph",
       "d-amphetamine",
-      "Adderall XR",
       "Speed (colloquial)",
-      "Adderall IR",
       "Addys (slang)",
+      "Adderall IR",
+      "Adderall XR",
       "dextroamphetamine/amphetamine",
       "mixed amphetamine salts; MAS",
       "Dex/Levo-amphetamine (75:25 in XR; 3:1 in IR)",
@@ -25403,8 +25403,8 @@
       "α-ethyl-3,4,5-trimethoxyphenethylamine",
       "α-ethylmescaline",
       "4",
-      "5-trimethoxyphenyl)butane",
       "2-Amino-1-(3",
+      "5-trimethoxyphenyl)butane",
       "alpha-Ethylmescaline"
     ],
     "category": "Psychedelic",
@@ -25493,13 +25493,13 @@
     "source": "curated",
     "name": "Afloqualone",
     "aliases": [
-      "6-amino-2-(fluoromethyl)-3-(2-methylphenyl)quinazolin-4-one",
-      "HQ-495",
       "HQ 495",
-      "Aflocualona",
       "Arofuto (brand name reported in user communities)",
+      "Aflocualona",
       "Afloqualon",
-      "6-amino-2-(fluoromethyl)-3-(o-tolyl)quinazolin-4-one"
+      "HQ-495",
+      "6-amino-2-(fluoromethyl)-3-(o-tolyl)quinazolin-4-one",
+      "6-amino-2-(fluoromethyl)-3-(2-methylphenyl)quinazolin-4-one"
     ],
     "category": "Depressant",
     "tags": [
@@ -25542,11 +25542,11 @@
     "aliases": [
       "Agmatine sulfate",
       "Decarboxylated L-arginine",
-      "AGS",
-      "1-Amino-4-guanidinobutane",
       "AGM",
-      "Agmatine sulfate (salt form)",
-      "Decarboxylated arginine"
+      "Decarboxylated arginine",
+      "1-Amino-4-guanidinobutane",
+      "AGS",
+      "Agmatine sulfate (salt form)"
     ],
     "category": "Nootropic",
     "tags": [
@@ -25728,10 +25728,10 @@
     "source": "drug.community",
     "name": "AKB-57",
     "aliases": [
-      "“Spice”/“K2”-type synthetic cannabinoid (marketing category; not a chemical name)",
-      "AKB57",
       "5F‑AKB‑57 (vendor-reported variant; identity unconfirmed)",
-      "AKB-57 (vendor/designation; identity unconfirmed)"
+      "AKB-57 (vendor/designation; identity unconfirmed)",
+      "AKB57",
+      "“Spice”/“K2”-type synthetic cannabinoid (marketing category; not a chemical name)"
     ],
     "category": "Cannabinoid receptor agonist (likely CB1/CB2 agonism; exact efficacy/potency unknown)",
     "tags": [],
@@ -25868,11 +25868,11 @@
     "name": "AL-LAD",
     "aliases": [
       "allad",
-      "6-Allyl-6-nor-lysergic acid diethylamide",
-      "Aladdin",
-      "N-allyl-nor-LSD",
       "N6-allyl-nor-LSD",
-      "6-allyl-N,N-diethyl-6-norlysergamide"
+      "Aladdin",
+      "6-Allyl-6-nor-lysergic acid diethylamide",
+      "6-allyl-N,N-diethyl-6-norlysergamide",
+      "N-allyl-nor-LSD"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -26343,13 +26343,13 @@
     "source": "drug.community",
     "name": "Alfentanil",
     "aliases": [
-      "Alfentanil hydrochloride",
-      "Fanaxal",
-      "R-39209",
-      "R 39209",
       "Alfenta",
+      "Fanaxal",
       "Alfentanyl",
-      "Rapifen"
+      "R-39209",
+      "Rapifen",
+      "Alfentanil hydrochloride",
+      "R 39209"
     ],
     "category": "Opioid",
     "tags": [],
@@ -26553,13 +26553,13 @@
     "source": "drug.community",
     "name": "alpha-D2PV",
     "aliases": [
-      "alpha D2PV",
       "2-Diphenylmethylpyrrolidin-1-ylpentan-1-one",
       "A-D2PV",
-      "α-D2PV",
       "a-D2PV",
-      "α‑D2PV HCl",
+      "α-D2PV",
+      "alpha D2PV",
       "1,2-diphenyl-2-(pyrrolidin-1-yl)ethanone",
+      "α‑D2PV HCl",
       "1-(2-oxo-1,2-diphenylethyl)pyrrolidin-1-ium chloride (salt form)"
     ],
     "category": "Psychostimulant; primarily dopamine/norepinephrine reuptake inhibition is presumed by structural analogy to other pyrrolidinophenones.",
@@ -26888,13 +26888,13 @@
       "4-methyl-alpha-pyrrolidinopentanophenone",
       "α-PiHP",
       "α-Pyrrolidinoisohexaphenone",
-      "α‑pyrrolidinoisohexanophenone",
-      "alpha-PHiP",
       "alpha‑pyrrolidinoisohexanophenone",
-      "α-PHiP",
-      "4-methyl-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+      "A-PiHP",
       "A-PHiP",
-      "A-PiHP"
+      "α-PHiP",
+      "alpha-PHiP",
+      "4-methyl-1-phenyl-2-(pyrrolidin-1-yl)pentan-1-one",
+      "α‑pyrrolidinoisohexanophenone"
     ],
     "category": "Stimulant",
     "tags": [
@@ -26953,11 +26953,11 @@
       "α-Pyrrolidinopentiophenone",
       "α-Pyrrolidinovalerophenone",
       "β-keto-prolintane",
-      "α‑pyrrolidinovalerophenone",
-      "a-PVP",
       "A‑PVP",
-      "α‑PVP",
-      "O‑2387"
+      "a-PVP",
+      "O‑2387",
+      "α‑pyrrolidinovalerophenone",
+      "α‑PVP"
     ],
     "category": "Stimulant",
     "tags": [
@@ -27011,14 +27011,14 @@
     "source": "drug.community",
     "name": "alpha-Pyrrolidinohexiophenone",
     "aliases": [
-      "PV-7",
+      "α-PHP",
       "1-phenyl-2-(pyrrolidin-1-yl)hexan-1-one",
+      "alpha-PHP",
       "a-PHP",
       "PV7",
-      "aphp",
-      "alpha-PHP",
       "α-Pyrrolidinohexiophenone",
-      "α-PHP"
+      "PV-7",
+      "aphp"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -27074,12 +27074,12 @@
       "niravam",
       "prazolam",
       "xanax",
-      "Alprazolamum",
-      "Cassadan",
       "Zopax",
+      "Cassadan",
+      "Alprazolamum",
+      "Tafil",
       "Alprax",
-      "Trankimazin",
-      "Tafil"
+      "Trankimazin"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -27175,11 +27175,11 @@
     "name": "AM-1248",
     "aliases": [
       "1-[(N-methylpiperidin-2-yl)methyl]-3-(adamant-1-oyl)indole",
-      "CAS: 335160-66-2",
       "IUPAC: {1-[1-methylpiperidin-2-yl]-1H‑indol‑3‑yl}(tricyclo[3.3.1.13,7]dec‑1‑yl)methanone",
-      "adamantan-1-yl{1-[(1-methyl-2-piperidinyl)methyl]-1H-indol-3-yl}methanone",
       "AM-1248 (adamantoylindole)",
-      "AM 1248"
+      "AM 1248",
+      "adamantan-1-yl{1-[(1-methyl-2-piperidinyl)methyl]-1H-indol-3-yl}methanone",
+      "CAS: 335160-66-2"
     ],
     "category": "Synthetic cannabinoid receptor agonist (CB1/CB2)",
     "tags": [],
@@ -27228,8 +27228,8 @@
     "name": "AM-2201",
     "aliases": [
       "am2201",
-      "1-(5-Fluoropentyl)-3-(1-naphthoyl)indole",
       "NA-5F-PIMO",
+      "1-(5-Fluoropentyl)-3-(1-naphthoyl)indole",
       "JWH-2201 (misapplied synonym seen in user communities)"
     ],
     "category": "Cannabinoid",
@@ -27280,11 +27280,11 @@
     "source": "drug.community",
     "name": "AM-2233",
     "aliases": [
-      "1-[(N-methylpiperidin-2-yl)methyl]-3-(2-iodobenzoyl)indole",
-      "CAS 444912-75-8",
+      "AM2233",
       "R(+)-AM-2233 (active enantiomer)",
+      "1-[(N-methylpiperidin-2-yl)methyl]-3-(2-iodobenzoyl)indole",
       "1-((N-Methyl-2-piperidinyl)methyl)-3-(2-iodobenzoyl)-1H-indole",
-      "AM2233"
+      "CAS 444912-75-8"
     ],
     "category": "synthetic cannabinoid agonist",
     "tags": [],
@@ -27340,8 +27340,8 @@
     "name": "AM-694",
     "aliases": [
       "[18F]AM-694 (radiotracer derivative)",
-      "1-[(5-fluoropentyl)-1H-indol-3-yl]-(2-iodophenyl)methanone",
-      "1-(5-fluoropentyl)-3-(2-iodobenzoyl)indole"
+      "1-(5-fluoropentyl)-3-(2-iodobenzoyl)indole",
+      "1-[(5-fluoropentyl)-1H-indol-3-yl]-(2-iodophenyl)methanone"
     ],
     "category": "synthetic cannabinoid",
     "tags": [],
@@ -27394,10 +27394,10 @@
     "source": "drug.community",
     "name": "AMB-CHMICA",
     "aliases": [
-      "MMB-CHMICA (common community alias)",
       "MDMB-CHM (short form)",
+      "Often confused with: AMB-CHMINACA (indazole valinate; a different SCRA)",
       "MDMB-CHMICA (correct name for the indole tert‑leucinate; most literature, labs, and regulators use this)",
-      "Often confused with: AMB-CHMINACA (indazole valinate; a different SCRA)"
+      "MMB-CHMICA (common community alias)"
     ],
     "category": "Cannabinoid agonist / hallucinogen",
     "tags": [],
@@ -27483,11 +27483,11 @@
     "source": "curated",
     "name": "Amfecloral",
     "aliases": [
-      "Acutran",
-      "(E)-(1-phenylpropan-2-yl)(2,2,2-trichloroethylidene)amine",
-      "DB08924",
       "N-(2,2,2-trichloroethylidene)amphetamine",
-      "Amphecloral"
+      "Acutran",
+      "Amphecloral",
+      "DB08924",
+      "(E)-(1-phenylpropan-2-yl)(2,2,2-trichloroethylidene)amine"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -27523,21 +27523,21 @@
     "source": "drug.community",
     "name": "Amfepramone",
     "aliases": [
-      "Diethylpropion",
-      "Tenuate",
+      "Nobesine",
+      "Regibon",
       "2-(diethylamino)propiophenone",
-      "Tenuate Dospan",
-      "Phepranon",
+      "Diethylcathinone",
+      "Préfamone",
+      "Tenuate",
       "Amfepramon",
+      "Tenuate Dospan",
+      "Tepanil",
+      "Regenon",
+      "Diethylpropion",
       "Neobes",
       "1-phenyl-2-(diethylamino)-1-propanone",
-      "Tepanil",
-      "Nobesine",
-      "Préfamone",
       "2-(Diethylamino)-1-phenylpropan-1-one",
-      "Regenon",
-      "Regibon",
-      "Diethylcathinone"
+      "Phepranon"
     ],
     "category": "Stimulant; anorectic (sympathomimetic)",
     "tags": [],
@@ -27641,9 +27641,9 @@
     "source": "curated",
     "name": "Aminorex",
     "aliases": [
-      "5-phenyl-4,5-dihydro-1,3-oxazol-2-amine (IUPAC)",
       "Menocil (brand; historical, 1960s)",
-      "Aminorex fumarate (salt form, potency differs from freebase)"
+      "Aminorex fumarate (salt form, potency differs from freebase)",
+      "5-phenyl-4,5-dihydro-1,3-oxazol-2-amine (IUPAC)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -27775,12 +27775,12 @@
     "source": "curated",
     "name": "Amobarbital",
     "aliases": [
+      "Blue Heavens/Blues (historical street names used for some amobarbital products)",
       "Amytal (former brand)",
       "5-ethyl-5-isoamylbarbituric acid",
       "5-ethyl-5-(3-methylbutyl)barbituric acid",
-      "Blue Heavens/Blues (historical street names used for some amobarbital products)",
-      "Sodium amobarbital",
-      "Amylobarbitone (INN)"
+      "Amylobarbitone (INN)",
+      "Sodium amobarbital"
     ],
     "category": "Depressant",
     "tags": [
@@ -27845,19 +27845,19 @@
       "α-methylphenethylamine",
       "β-aminopropylbenzene",
       "β-phenylisopropylamine",
-      "whizz",
-      "Mydayis",
-      "bennies",
-      "black beauties",
-      "amfetaminum",
-      "base",
-      "pep pills",
-      "amphetamine sulfate",
       "Adderall (mixed amphetamine salts)",
-      "Dexedrine (dextroamphetamine)",
+      "base",
+      "black beauties",
+      "Mydayis",
       "Evekeo",
+      "bennies",
+      "amfetaminum",
       "dexies",
-      "alpha-methylphenethylamine"
+      "alpha-methylphenethylamine",
+      "pep pills",
+      "whizz",
+      "amphetamine sulfate",
+      "Dexedrine (dextroamphetamine)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -27982,8 +27982,8 @@
       "Ro 13-5057",
       "Sarpul",
       "Sarple/Sarpul",
-      "N-anisoyl-2-pyrrolidinone (structural descriptor)",
-      "1-(4-methoxybenzoyl)-2-pyrrolidinone"
+      "1-(4-methoxybenzoyl)-2-pyrrolidinone",
+      "N-anisoyl-2-pyrrolidinone (structural descriptor)"
     ],
     "category": "AMPAkine",
     "tags": [
@@ -28074,15 +28074,15 @@
     "source": "drug.community",
     "name": "Apomorphine",
     "aliases": [
-      "Apokyn",
       "Kynmobi (discontinued 2023 in US)",
-      "Onapgo",
       "Uprima (discontinued)",
-      "Movapo",
+      "Apokyn",
       "Apo-Go PEN",
-      "Apo-go",
       "Apo-Go pump",
-      "Ixense (discontinued)"
+      "Apo-go",
+      "Onapgo",
+      "Ixense (discontinued)",
+      "Movapo"
     ],
     "category": "Dopamine agonist (primarily D2/D3 agonist)",
     "tags": [],
@@ -28230,8 +28230,8 @@
       "BL-3912",
       "dimoxamine",
       "α-Et-2C-D",
-      "alpha-Et-2C-D",
-      "α-ethyl-2C-D"
+      "α-ethyl-2C-D",
+      "alpha-Et-2C-D"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -28275,13 +28275,13 @@
     "source": "drug.community",
     "name": "Arimistane",
     "aliases": [
-      "17-dione",
-      "ADD",
+      "5-diene-7",
       "Androsta-3",
       "Androsta-3,5-diene-7,17-dione",
+      "ADD",
       "7-oxo-androst-3,5-diene-17-one",
-      "5-diene-7",
-      "Androst-3,5-dien-7,17-dione"
+      "Androst-3,5-dien-7,17-dione",
+      "17-dione"
     ],
     "category": "Endocrine modulator (aromatase inhibitor)",
     "tags": [],
@@ -28393,16 +28393,16 @@
       "kitty",
       "R-ketamine",
       "special k",
-      "racemic ketamine",
-      "horse tranquilizer",
-      "Ketaset",
-      "esketamine / S-ketamine",
-      "arketamine / R-ketamine",
+      "Ketalar",
       "(±)-ketamine",
       "wonk",
-      "2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
-      "Ketalar",
+      "esketamine / S-ketamine",
       "vitamin K",
+      "Ketaset",
+      "2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+      "horse tranquilizer",
+      "arketamine / R-ketamine",
+      "racemic ketamine",
       "ketamine hydrochloride"
     ],
     "category": "Dissociative",
@@ -28511,8 +28511,8 @@
       "Provigil",
       "R-modafinil",
       "(−)-2-[(R)-(diphenylmethyl)sulfinyl]acetamide",
-      "Nuvigil (brand)",
-      "(R)-(−)-modafinil"
+      "(R)-(−)-modafinil",
+      "Nuvigil (brand)"
     ],
     "category": "Eugeroic",
     "tags": [
@@ -28915,16 +28915,16 @@
     "source": "drug.community",
     "name": "Atropine",
     "aliases": [
-      "Isopto Atropine (ophthalmic brand)",
-      "dl-Hyoscyamine",
-      "Atropina",
-      "dl-tropyltropate",
-      "Lomotil/Motofen co-formulated atropine (very low dose for deterrence)",
       "Tropine tropate",
-      "Atropen (auto-injector brand)",
-      "(±)-Atropine",
-      "Atropinum",
       "Duodote (atropine/pralidoxime combo)",
+      "Atropen (auto-injector brand)",
+      "Atropinum",
+      "dl-Hyoscyamine",
+      "(±)-Atropine",
+      "Lomotil/Motofen co-formulated atropine (very low dose for deterrence)",
+      "dl-tropyltropate",
+      "Isopto Atropine (ophthalmic brand)",
+      "Atropina",
       "Atropin"
     ],
     "category": "Deliriant anticholinergic",
@@ -28977,10 +28977,10 @@
     "source": "drug.community",
     "name": "Avizafone",
     "aliases": [
+      "RO 03-7355",
+      "Ro03-7355",
       "Pro-diazepam",
       "RO-03-7355/000",
-      "Ro03-7355",
-      "RO 03-7355",
       "Avizafone dihydrochloride"
     ],
     "category": "Sedative-hypnotic / anxiolytic (benzodiazepine)",
@@ -29667,11 +29667,11 @@
       "D-N-methyl-N-benzyl-beta-phenylisopropylamine",
       "d-N-methyl-N-benzyl-β-phenylisopropylamine",
       "N-methyl-1-phenyl-N-(phenylmethyl)propan-2-amine",
-      "Benzfetamine",
+      "(+)-N-benzyl-N,α-dimethylphenethylamine",
       "Benzfetamina",
       "Didrex",
-      "Benzfetaminum",
-      "(+)-N-benzyl-N,α-dimethylphenethylamine"
+      "Benzfetamine",
+      "Benzfetaminum"
     ],
     "category": "Other",
     "tags": [
@@ -29972,11 +29972,11 @@
     "source": "drug.community",
     "name": "Beta-meprodine",
     "aliases": [
-      "CAS 468-50-8",
       "(3R,4R)-3-ethyl-1-methyl-4-phenylpiperidin-4-yl propanoate",
       "Betameprodine",
       "β-Meprodine",
-      "DB01552"
+      "DB01552",
+      "CAS 468-50-8"
     ],
     "category": "Opioid analgesic",
     "tags": [],
@@ -30067,12 +30067,12 @@
     "source": "drug.community",
     "name": "Bezitramide",
     "aliases": [
-      "Burgodin",
+      "R-4845",
       "R 4845",
-      "Despropionyl‑bezitramide (active metabolite; R‑4618)",
+      "Burgodin",
       "Bezitramida",
       "Bezitramidum",
-      "R-4845"
+      "Despropionyl‑bezitramide (active metabolite; R‑4618)"
     ],
     "category": "Opioid analgesic (long-acting, high-potency)",
     "tags": [],
@@ -30219,9 +30219,9 @@
       "CRL-40,940",
       "Flmodafinil",
       "Lauflumide",
+      "Flodafinil",
       "NLS-4",
-      "Fluoromodafinil",
-      "Flodafinil"
+      "Fluoromodafinil"
     ],
     "category": "Eugeroic",
     "tags": [
@@ -30825,9 +30825,9 @@
     "aliases": [
       "BrMcat",
       "1-(4-bromophenyl)-2-(methylamino)propan-1-one",
-      "4-BMC",
       "para-Bromomethcathinone",
-      "4-Bromomethcathinone"
+      "4-Bromomethcathinone",
+      "4-BMC"
     ],
     "category": "Stimulant / Entactogen",
     "tags": [],
@@ -31076,10 +31076,10 @@
     "aliases": [
       "ADK-709",
       "Ladasten",
-      "87913-26-6",
-      "N-(4-bromophenyl)adamantan-2-amine",
       "Bromantan",
-      "4-bromophenyladamantan-2-amine"
+      "87913-26-6",
+      "4-bromophenyladamantan-2-amine",
+      "N-(4-bromophenyl)adamantan-2-amine"
     ],
     "category": "Nootropic",
     "tags": [
@@ -31146,16 +31146,16 @@
       "lexotan",
       "lexotanil",
       "Lexaurin",
-      "RO-5-3350",
       "Bromazepamum",
-      "Ultramidol",
-      "Normoc",
-      "Lekotam",
-      "Calmepam",
+      "7-bromo-5-(pyridin-2-yl)-1H-benzo[e][1,4]diazepin-2(3H)-one",
+      "RO-5-3350",
       "RO 5-3350",
+      "Ultramidol",
       "Lexomil",
+      "Calmepam",
       "Creosedin",
-      "7-bromo-5-(pyridin-2-yl)-1H-benzo[e][1,4]diazepin-2(3H)-one"
+      "Lekotam",
+      "Normoc"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -31292,12 +31292,12 @@
     "name": "Bromoketamine",
     "aliases": [
       "2‑bromodeschloroketamine",
-      "BDCK",
-      "2-Bromodeschloroketamine",
+      "2‑BDCK",
+      "Bromo‑DCK",
       "2‑BrDCK",
       "2‑(2‑bromophenyl)‑2‑(methylamino)cyclohexan‑1‑one",
-      "2‑BDCK",
-      "Bromo‑DCK"
+      "2-Bromodeschloroketamine",
+      "BDCK"
     ],
     "category": "Dissociative anesthetic",
     "tags": [],
@@ -31442,12 +31442,12 @@
     "name": "Brotizolam",
     "aliases": [
       "lendormin",
-      "Sintonal",
-      "Lendorm",
-      "2-bromo-4-(o-chlorophenyl)-9-methyl-6H-thieno[3,2-f]-s-triazolo[4,3-a][1,4]diazepine",
+      "Nimbisan",
       "WE-941-BS",
       "Mederantil",
-      "Nimbisan"
+      "Lendorm",
+      "Sintonal",
+      "2-bromo-4-(o-chlorophenyl)-9-methyl-6H-thieno[3,2-f]-s-triazolo[4,3-a][1,4]diazepine"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -31551,8 +31551,8 @@
       "N,N-Dimethyl-5-hydroxytryptamine",
       "N,N-dimethylserotonin",
       "mappine",
-      "5-HO-DMT",
-      "cebilcin"
+      "cebilcin",
+      "5-HO-DMT"
     ],
     "category": "Other",
     "tags": [
@@ -31685,14 +31685,14 @@
       "bupe",
       "suboxone",
       "subs",
-      "Belbuca",
-      "Sublocade (extended‑release injection)",
-      "Buprenex",
-      "Subutex",
-      "Suboxone (buprenorphine/naloxone)",
-      "Brixadi / Buvidal (extended‑release injection)",
-      "Butrans",
       "Zubsolv",
+      "Suboxone (buprenorphine/naloxone)",
+      "Buprenex",
+      "Brixadi / Buvidal (extended‑release injection)",
+      "Subutex",
+      "Belbuca",
+      "Butrans",
+      "Sublocade (extended‑release injection)",
       "Bunavail"
     ],
     "category": "Opioid",
@@ -31929,10 +31929,10 @@
     "source": "drug.community",
     "name": "Butorphanol",
     "aliases": [
-      "Stadol",
+      "Butorphanolum",
       "LEVO-BC-2627",
       "(−)-17-(cyclobutylmethyl)morphinan-3,14-diol",
-      "Butorphanolum",
+      "Stadol",
       "(−)-N-cyclobutylmethyl-3,14-dihydroxymorphinan",
       "Butorphanol tartrate"
     ],
@@ -32030,13 +32030,13 @@
       "bk-MBDB",
       "bk-methyl-j",
       "β-Keto-MBDB",
-      "butylone hydrochloride",
       "βk‑MBDB",
-      "β‑keto‑MBDB",
-      "1-(1,3-benzodioxol-5-yl)-2-(methylamino)butan-1-one",
       "βk-MBDB",
+      "beta‑keto‑MBDB",
+      "butylone hydrochloride",
+      "β‑keto‑MBDB",
       "2‑methylamino‑1‑(3,4‑methylenedioxyphenyl)butan‑1‑one",
-      "beta‑keto‑MBDB"
+      "1-(1,3-benzodioxol-5-yl)-2-(methylamino)butan-1-one"
     ],
     "category": "Stimulant",
     "tags": [
@@ -32131,14 +32131,14 @@
     "source": "curated",
     "name": "Bzp",
     "aliases": [
-      "BZP HCl",
       "A2",
-      "Frenzy",
-      "Nemesis",
-      "Benzylpiperazine",
+      "BZP HCl",
       "party pills",
+      "N-benzylpiperazine",
       "1-benzylpiperazine",
-      "N-benzylpiperazine"
+      "Nemesis",
+      "Frenzy",
+      "Benzylpiperazine"
     ],
     "category": "Stimulant",
     "tags": [
@@ -32217,10 +32217,10 @@
     "source": "curated",
     "name": "C30-nbome",
     "aliases": [
-      "NBOMe-C30",
+      "C-30 NBOMe",
       "C30",
-      "vendor alias; identity unverified",
-      "C-30 NBOMe"
+      "NBOMe-C30",
+      "vendor alias; identity unverified"
     ],
     "category": "Other",
     "tags": [
@@ -32263,19 +32263,19 @@
     "name": "Caffeine",
     "aliases": [
       "coffee",
-      "Cafeína",
+      "Koffein",
+      "Mateine",
       "Caféine",
       "Caffeinum",
-      "1,3,7-trimethylxanthine",
       "1,3,7-trimethyl-2,6-dioxopurine",
-      "Koffein",
-      "Methyltheobromine",
-      "Theine",
-      "Guaranine",
-      "7-methyltheophylline",
+      "Cafeína",
       "Coffein",
+      "7-methyltheophylline",
+      "Theine",
+      "1,3,7-trimethylxanthine",
       "1,3,7-trimethylpurine-2,6-dione",
-      "Mateine"
+      "Guaranine",
+      "Methyltheobromine"
     ],
     "category": "Stimulant",
     "tags": [
@@ -32423,8 +32423,8 @@
     "name": "Cannabicyclol",
     "aliases": [
       "CBL",
-      "Cannabipinol",
-      "Cannabicyclolic acid (CBLA) [acid precursor/related compound]"
+      "Cannabicyclolic acid (CBLA) [acid precursor/related compound]",
+      "Cannabipinol"
     ],
     "category": "Unclear/likely non-intoxicating; no established psychoactive activity in humans",
     "tags": [],
@@ -32467,8 +32467,8 @@
     "source": "drug.community",
     "name": "Cannabidiolic acid",
     "aliases": [
-      "cannabidiolic acid (CBD‑A)",
       "CBD-A",
+      "cannabidiolic acid (CBD‑A)",
       "CBDA"
     ],
     "category": "non-intoxicating cannabinoid",
@@ -32515,27 +32515,27 @@
     "source": "drug.community",
     "name": "Cannabis",
     "aliases": [
-      "Dabs",
-      "Marijuana",
-      "Concentrates",
+      "Hashish",
+      "Wax",
+      "Tetrahydrocannabinol+Cannabidiol",
+      "Weed",
+      "Pot",
+      "THC+CBD",
       "Buds",
       "Δ9‑THC",
-      "THC+CBD",
-      "THC",
       "CBD",
-      "Wax",
-      "Delta‑9 THC",
-      "Flower",
-      "Epidiolex (purified CBD)",
-      "Cannabidiol",
-      "Shatter",
-      "Nabiximols (Sativex)",
-      "Pot",
-      "Hash",
-      "Weed",
-      "Tetrahydrocannabinol+Cannabidiol",
       "Dronabinol",
-      "Hashish"
+      "Flower",
+      "Cannabidiol",
+      "Dabs",
+      "Delta‑9 THC",
+      "Epidiolex (purified CBD)",
+      "Marijuana",
+      "Hash",
+      "Concentrates",
+      "THC",
+      "Nabiximols (Sativex)",
+      "Shatter"
     ],
     "category": "Psychoactive cannabinoid",
     "tags": [],
@@ -32724,9 +32724,9 @@
     "name": "Carfentanil",
     "aliases": [
       "R-33799",
+      "Wildnil (veterinary brand)",
       "4-methoxycarbonylfentanyl",
       "Carfentanyl",
-      "Wildnil (veterinary brand)",
       "methyl 1-(2-phenylethyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate"
     ],
     "category": "Opioid analgesic",
@@ -32831,13 +32831,13 @@
     "name": "Carisoprodol",
     "aliases": [
       "soma",
+      "Vanadom",
+      "Carisoprodolum",
       "Carisoprodolo",
+      "Isopropyl meprobamate",
       "Somadril",
       "Isomeprobamate",
-      "Vanadom",
-      "Isopropyl meprobamate",
-      "Carisoma",
-      "Carisoprodolum"
+      "Carisoma"
     ],
     "category": "Depressant",
     "tags": [
@@ -33084,8 +33084,8 @@
     "aliases": [
       "Cannabidivarin",
       "CBD-varin",
-      "GWP42006",
-      "varinic CBD"
+      "varinic CBD",
+      "GWP42006"
     ],
     "category": "Anticonvulsant",
     "tags": [
@@ -33135,9 +33135,9 @@
     "name": "CBG",
     "aliases": [
       "Cannabigerol",
-      "2-[(2E)-3,7-dimethylocta-2,6-dien-1-yl]-5-pentylbenzene-1,3-diol (IUPAC)",
+      "Cannabigerol (phytocannabinoid)",
       "CBG isolate",
-      "Cannabigerol (phytocannabinoid)"
+      "2-[(2E)-3,7-dimethylocta-2,6-dien-1-yl]-5-pentylbenzene-1,3-diol (IUPAC)"
     ],
     "category": "Cannabinoid",
     "tags": [
@@ -33192,8 +33192,8 @@
       "6,6,9-trimethyl-3-pentyl-6H-benzo[c]chromen-1-ol",
       "Cannabinol",
       "6H-Dibenzo[b,d]pyran-1-ol, 6,6,9-trimethyl-3-pentyl-",
-      "6,6,9-Trimethyl-3-pentyl-6H-dibenzo[b,d]pyran-1-ol",
-      "C21H26O2"
+      "C21H26O2",
+      "6,6,9-Trimethyl-3-pentyl-6H-dibenzo[b,d]pyran-1-ol"
     ],
     "category": "Cannabinoid",
     "tags": [
@@ -33297,10 +33297,10 @@
     "source": "drug.community",
     "name": "CBNA",
     "aliases": [
-      "CBNA (cannabinol-2-carboxylic acid)",
-      "Cannabinolic acid",
       "2-carboxy-cannabinol",
-      "CBN-A"
+      "CBN-A",
+      "Cannabinolic acid",
+      "CBNA (cannabinol-2-carboxylic acid)"
     ],
     "category": "Cannabinoid (largely non-intoxicating; precursor to CBN)",
     "tags": [],
@@ -33828,13 +33828,13 @@
     "source": "drug.community",
     "name": "Chloral Hydrate",
     "aliases": [
-      "Somnote",
-      "1,1,1-trichloro-2,2-ethanediol",
-      "Mickey Finn",
-      "Noctec",
-      "Welldorm",
-      "Trichloroacetaldehyde monohydrate",
       "Knockout drops",
+      "Trichloroacetaldehyde monohydrate",
+      "1,1,1-trichloro-2,2-ethanediol",
+      "Welldorm",
+      "Noctec",
+      "Mickey Finn",
+      "Somnote",
       "Aquachloral"
     ],
     "category": "Sedative-hypnotic",
@@ -33959,13 +33959,13 @@
       "Chlortab",
       "Piriton",
       "Chlorphenaminum",
+      "Chlorphenamine",
+      "Chlorpheniramine polistirex",
       "Chlorpheniramine maleate",
       "Chlorphenamine maleate",
-      "Chlorpheniramine polistirex",
-      "Chlorphenamine",
+      "Chlorpheniramine Maleate",
       "Clorfeniramina",
-      "Aller-Chlor",
-      "Chlorpheniramine Maleate"
+      "Aller-Chlor"
     ],
     "category": "Antihistamine",
     "tags": [
@@ -34385,18 +34385,18 @@
     "name": "Clobazam",
     "aliases": [
       "frisium",
-      "Noiafren",
-      "Clobam",
-      "1,5-benzodiazepine",
       "Onfi",
-      "Urbanol",
-      "Sympazan",
-      "Urbanyl",
-      "Mystan",
+      "Noiafren",
       "Clobamax",
-      "Castilium",
+      "Mystan",
       "Aedon",
-      "Urbanil"
+      "Sympazan",
+      "Urbanol",
+      "Urbanil",
+      "Castilium",
+      "1,5-benzodiazepine",
+      "Clobam",
+      "Urbanyl"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -34438,11 +34438,11 @@
     "source": "drug.community",
     "name": "Clobenzorex",
     "aliases": [
-      "Itravil",
-      "Finedal",
       "Asenlix",
+      "Itravil",
       "SD-271-12",
-      "Dinintel"
+      "Dinintel",
+      "Finedal"
     ],
     "category": "Catecholaminergic stimulant; prodrug that yields d-amphetamine (~15 % conversion)",
     "tags": [],
@@ -34491,8 +34491,8 @@
     "name": "Clobromazolam",
     "aliases": [
       "DM-ii-90",
-      "Phenazolam",
       "DM-II-90",
+      "Phenazolam",
       "8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine",
       "RC/triazolobenzodiazepine",
       "Clobromazolam (common vendor synonym; community treats as the same compound)"
@@ -34681,11 +34681,11 @@
     "aliases": [
       "klonopin",
       "kpin",
-      "RO 5-4023",
+      "Clonapam",
       "\"K-pins\" (slang)",
       "Rivotril",
-      "Clonapam",
-      "Iktorivil"
+      "Iktorivil",
+      "RO 5-4023"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -35126,17 +35126,17 @@
     "name": "Cocaine",
     "aliases": [
       "coke",
-      "yeyo",
       "yayo",
-      "flake",
-      "blow",
-      "crack",
       "base",
-      "snow",
       "white",
-      "rock",
       "perico",
-      "charlie"
+      "flake",
+      "snow",
+      "rock",
+      "yeyo",
+      "charlie",
+      "blow",
+      "crack"
     ],
     "category": "Stimulant",
     "tags": [
@@ -35520,14 +35520,14 @@
     "source": "drug.community",
     "name": "Crack",
     "aliases": [
-      "rocks",
+      "Cocaine",
+      "freebase cocaine",
       "base",
       "supercoke",
-      "freebase cocaine",
-      "Cocaine",
+      "rocks",
       "rock",
-      "Roxanne",
-      "hard"
+      "hard",
+      "Roxanne"
     ],
     "category": "Powerful CNS stimulant (DAT/NET/SERT reuptake inhibitor; sodium‑channel blocker)",
     "tags": [],
@@ -36075,8 +36075,8 @@
     "source": "drug.community",
     "name": "Cychlorphine",
     "aliases": [
-      "piperidinyl-benzimidazolone (“orphine”) opioid",
-      "Cyclorphine"
+      "Cyclorphine",
+      "piperidinyl-benzimidazolone (“orphine”) opioid"
     ],
     "category": "Synthetic opioid",
     "tags": [],
@@ -36125,8 +36125,8 @@
     "source": "drug.community",
     "name": "Cyclazodone",
     "aliases": [
-      "N-cyclopropylpemoline",
       "N-cyclopropyl-pemoline",
+      "N-cyclopropylpemoline",
       "NCP-pemoline"
     ],
     "category": "Stimulant",
@@ -36257,13 +36257,13 @@
       "fexmid",
       "flexeril",
       "novo-cycloprine",
-      "TNX-102",
-      "N,N-dimethyl-5H-dibenzo(a,d)cycloheptene-Δ5,γ-propylamine",
       "MK-130",
-      "Amrix (ER)",
+      "N,N-dimethyl-5H-dibenzo(a,d)cycloheptene-Δ5,γ-propylamine",
+      "TNX-102",
       "Cyclobenzaprinum",
+      "(3-dibenzo[a,d]cyclohepten-5-ylidene-propyl)-dimethylamine",
       "Cycoflex",
-      "(3-dibenzo[a,d]cyclohepten-5-ylidene-propyl)-dimethylamine"
+      "Amrix (ER)"
     ],
     "category": "Depressant",
     "tags": [
@@ -36433,11 +36433,11 @@
     "aliases": [
       "Periactin",
       "Vimicon",
-      "Cyprodine",
-      "Ciplactin",
-      "Peritol",
       "4-(5H-dibenzo[a,d]cyclohepten-5-ylidene)-1-methylpiperidine",
-      "Cyproheptadinum"
+      "Peritol",
+      "Cyprodine",
+      "Cyproheptadinum",
+      "Ciplactin"
     ],
     "category": "Antihistamine",
     "tags": [
@@ -36489,12 +36489,12 @@
     "source": "drug.community",
     "name": "Cyputylone",
     "aliases": [
-      "N-Cyclohexylmethylone",
+      "1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one",
       "common misspelling: Cuiputylone",
-      "N-CMC",
       "BDCP (vendor/colloquial label)",
+      "N-Cyclohexylmethylone",
       "N-cyclohexylmethylone",
-      "1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one"
+      "N-CMC"
     ],
     "category": "Stimulant / entactogen (likely mixed monoamine release and reuptake inhibition; precise human pharmacology uncharacterised)",
     "tags": [],
@@ -37515,10 +37515,10 @@
     "name": "Dehydroxyfluorafinil",
     "aliases": [
       "modafiendz",
-      "2-((bis(4-fluorophenyl)methyl)sulfinyl)-N-methylacetamide",
       "N-Me-4,4'-difluoromodafinil",
+      "N-methyl-4,4'-difluoromodafinil",
       "Dehydroxy-fluorafinil",
-      "N-methyl-4,4'-difluoromodafinil"
+      "2-((bis(4-fluorophenyl)methyl)sulfinyl)-N-methylacetamide"
     ],
     "category": "Stimulant",
     "tags": [
@@ -37844,8 +37844,8 @@
     "name": "Deschloroetizolam",
     "aliases": [
       "etizolam-2",
-      "DCE",
-      "Deschloro-etizolam"
+      "Deschloro-etizolam",
+      "DCE"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -37913,8 +37913,8 @@
       "DCK",
       "DXE",
       "O-PCM",
-      "Deschloroketamine hydrochloride",
-      "2′-Oxo-PCM"
+      "2′-Oxo-PCM",
+      "Deschloroketamine hydrochloride"
     ],
     "category": "Dissociative",
     "tags": [
@@ -38160,9 +38160,9 @@
       "fonazepam",
       "norflunitrazepam",
       "ro05-4435",
-      "Ro 5‑4435",
+      "N-Desmethylflunitrazepam",
       "Ro05‑4435",
-      "N-Desmethylflunitrazepam"
+      "Ro 5‑4435"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -38205,14 +38205,14 @@
     "source": "drug.community",
     "name": "Desomorphine",
     "aliases": [
-      "Crocodile",
-      "Permonid",
-      "Dihydrodeoxymorphine",
-      "Desomorphine hydrochloride (salt)",
-      "6‑Deoxy‑7,8‑dihydromorphine",
-      "Dihydrodesoxymorphine D",
       "Deoxydihydromorphine D",
-      "Krokodil"
+      "Dihydrodesoxymorphine D",
+      "6‑Deoxy‑7,8‑dihydromorphine",
+      "Dihydrodeoxymorphine",
+      "Krokodil",
+      "Permonid",
+      "Crocodile",
+      "Desomorphine hydrochloride (salt)"
     ],
     "category": "Opioid analgesic; CNS depressant",
     "tags": [],
@@ -38463,11 +38463,11 @@
       "Dexedrine",
       "dextroamphetamine",
       "Dextrostat",
-      "\"dexies\" (street)",
-      "Dextroamphetamine sulfate",
       "ProCentra",
       "Zenzedi",
-      "Xelstrym"
+      "Xelstrym",
+      "Dextroamphetamine sulfate",
+      "\"dexies\" (street)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -38579,13 +38579,13 @@
       "robo",
       "robotussin",
       "syrup",
-      "Delsym (brand; polistirex)",
-      "Robotripping",
       "Tussin",
       "Robitussin (brand; various)",
+      "Robotripping",
+      "Dextromethorphan HBr",
+      "Delsym (brand; polistirex)",
       "Dextromethorphan polistirex",
-      "Coricidin/CCC (brand; WARNING contains CPM in many SKUs)",
-      "Dextromethorphan HBr"
+      "Coricidin/CCC (brand; WARNING contains CPM in many SKUs)"
     ],
     "category": "Dissociative",
     "tags": [
@@ -38668,13 +38668,13 @@
     "source": "drug.community",
     "name": "Dextromethorphan Hydrobromide",
     "aliases": [
+      "DM",
+      "Robo",
       "CCC / Triple C (Coricidin HBP Cough & Cold; dangerous combo)",
-      "Robotripping",
       "DXM",
       "Delsym (DXM polistirex, ER formulation)",
       "DXM HBr",
-      "DM",
-      "Robo"
+      "Robotripping"
     ],
     "category": "Dissociative",
     "tags": [],
@@ -38771,12 +38771,12 @@
     "aliases": [
       "valium",
       "Relanium",
-      "Libervant",
-      "Diastat",
-      "Valtoco",
-      "Dzp",
       "Diazemuls",
-      "NRL-1"
+      "Valtoco",
+      "Diastat",
+      "Dzp",
+      "NRL-1",
+      "Libervant"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -38882,9 +38882,9 @@
     "aliases": [
       "2'-Chloro-diazepam",
       "Chlorodiazepam",
-      "Ro5-3448",
+      "2-chloro-diazepam",
       "2'-Chlorodiazepam",
-      "2-chloro-diazepam"
+      "Ro5-3448"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -39146,10 +39146,10 @@
     "name": "Dihydrocodeine",
     "aliases": [
       "dhc",
-      "DF118 (legacy UK brand)",
-      "Panlor DC (combo product)",
-      "Dihydrocodeine bitartrate",
       "DHC Continus (controlled‑release brand)",
+      "Panlor DC (combo product)",
+      "DF118 (legacy UK brand)",
+      "Dihydrocodeine bitartrate",
       "Dihydrocodeine phosphate"
     ],
     "category": "Opioid",
@@ -39299,13 +39299,13 @@
       "Dramamine",
       "Driminate",
       "Gravol",
-      "Diphenhydramine theoclate",
-      "O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate",
-      "Vomex A",
+      "Diphenhydramine 8-chlorotheophyllinate",
       "Dramamine (Original Formula)",
       "Triptone",
+      "Diphenhydramine theoclate",
       "Dinate",
-      "Diphenhydramine 8-chlorotheophyllinate"
+      "Vomex A",
+      "O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate"
     ],
     "category": "Antihistamine",
     "tags": [
@@ -39484,12 +39484,12 @@
     "name": "Dimethylpentylone",
     "aliases": [
       "N-Dimethylpentylone",
-      "BU crystal",
       "DM-Pentylone",
       "N,N-Dimethylpentylone",
+      "BU crystal",
       "Dimethylpentylone HCl",
-      "KU",
       "N",
+      "KU",
       "KU crystals"
     ],
     "category": "Stimulant, empathogen",
@@ -39733,12 +39733,12 @@
     "source": "drug.community",
     "name": "Dipentylone",
     "aliases": [
-      "DMBDP",
-      "N,N-dimethylpentylone",
-      "dimethylpentylone",
-      "bk-DMBDP",
       "KU (street name reported)",
-      "1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one"
+      "N,N-dimethylpentylone",
+      "1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one",
+      "bk-DMBDP",
+      "DMBDP",
+      "dimethylpentylone"
     ],
     "category": "Stimulant–empathogen",
     "tags": [],
@@ -39904,8 +39904,8 @@
     "name": "Diphenidine",
     "aliases": [
       "dpd",
-      "1-(1,2-diphenylethyl)piperidine",
-      "DPH (not to be confused with diphenhydramine)"
+      "DPH (not to be confused with diphenhydramine)",
+      "1-(1,2-diphenylethyl)piperidine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -40034,12 +40034,12 @@
     "name": "DIPT",
     "aliases": [
       "diisopropyltryptamine",
-      "DIT",
-      "N,N-DiPT",
       "IUPAC: N-[2-(1H-indol-3-yl)ethyl]-N-isopropylpropan-2-amine",
+      "N,N-DiPT",
       "N-Diisopropyltryptamine",
       "N,N-diisopropyltryptamine",
-      "N"
+      "N",
+      "DIT"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -40854,17 +40854,17 @@
     "source": "drug.community",
     "name": "DMHA",
     "aliases": [
+      "6-methyl-2-heptylamine",
       "2-amino-6-methylheptane",
-      "1,5-dimethylhexylamine",
+      "2-aminoisoheptane",
+      "Vaporpac",
+      "SKF-51",
       "Hexylamine, 1,5-dimethyl-",
       "Octodrine",
-      "Vaporpac",
-      "2-aminoisoheptane",
-      "1,5-DMHA",
-      "Amidrine",
-      "SKF-51",
       "SK&F-51",
-      "6-methyl-2-heptylamine"
+      "1,5-dimethylhexylamine",
+      "Amidrine",
+      "1,5-DMHA"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -41132,8 +41132,8 @@
       "n,n-dmt",
       "N-(2-(1H-Indol-3-yl)ethyl)-N,N-dimethylamine (ACD/Name 4.0)",
       "The Spirit Molecule",
-      "N,N-dimetiltriptamina (ES/PT)",
-      "Mimitryp (slang)"
+      "Mimitryp (slang)",
+      "N,N-dimetiltriptamina (ES/PT)"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -41361,11 +41361,11 @@
     "name": "DOB",
     "aliases": [
       "Brolamfetamine",
-      "2",
+      "5-Dimethoxy-4-bromoamphetamine",
       "4-Bromo-2,5-dimethoxyamphetamine",
-      "Brolamphetamine",
       "Bromo-DMA",
-      "5-Dimethoxy-4-bromoamphetamine"
+      "Brolamphetamine",
+      "2"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -41455,11 +41455,11 @@
     "name": "DOC",
     "aliases": [
       "2,5-Dimethoxy-4-chloroamphetamine",
+      "DOC HCl",
       "5-Dimethoxy-4-chloroamphetamine",
       "1-(4-chloro-2,5-dimethoxyphenyl)propan-2-amine",
-      "DOC HCl",
-      "2",
-      "4-chloro-2,5-dimethoxyamphetamine"
+      "4-chloro-2,5-dimethoxyamphetamine",
+      "2"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -41507,9 +41507,9 @@
     "source": "curated",
     "name": "DOEF",
     "aliases": [
-      "2,5-Dimethoxy-4-(2-fluoroethyl)amphetamine",
       "4-(2-Fluoroethyl)-2,5-dimethoxyamphetamine",
-      "1-[4-(2-Fluoroethyl)-2,5-dimethoxyphenyl]propan-2-amine"
+      "1-[4-(2-Fluoroethyl)-2,5-dimethoxyphenyl]propan-2-amine",
+      "2,5-Dimethoxy-4-(2-fluoroethyl)amphetamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -41552,10 +41552,10 @@
     "name": "DOET",
     "aliases": [
       "doe",
-      "DOET·HCl (salt)",
-      "4-Ethyl-2,5-dimethoxyamphetamine",
       "HECATE",
-      "2,5-Dimethoxy-4-ethylamphetamine"
+      "DOET·HCl (salt)",
+      "2,5-Dimethoxy-4-ethylamphetamine",
+      "4-Ethyl-2,5-dimethoxyamphetamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -41692,11 +41692,11 @@
     "name": "DOM",
     "aliases": [
       "stp",
-      "Serenity, Tranquility & Peace",
       "5-Dimethoxy-4-methylamphetamine",
       "4-methyl-2,5-dimethoxyamphetamine",
-      "2",
-      "1-(2,5-dimethoxy-4-methylphenyl)propan-2-amine"
+      "Serenity, Tranquility & Peace",
+      "1-(2,5-dimethoxy-4-methylphenyl)propan-2-amine",
+      "2"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -42088,11 +42088,11 @@
     "source": "drug.community",
     "name": "DPP-26",
     "aliases": [
-      "1-(4-(ethylsulfonyl)-4,4-diphenylbutan-2-yl)piperidine",
       "dipipanone–sulfone analogue",
+      "DPP-26 (dipipanone-sulfone analogue)",
       "DPP26",
-      "IC‑26/dipipanone hybrid (community nickname; not formal)",
-      "DPP-26 (dipipanone-sulfone analogue)"
+      "1-(4-(ethylsulfonyl)-4,4-diphenylbutan-2-yl)piperidine",
+      "IC‑26/dipipanone hybrid (community nickname; not formal)"
     ],
     "category": "Opioid analgesic",
     "tags": [],
@@ -42141,10 +42141,10 @@
     "name": "DPT",
     "aliases": [
       "dipropyltryptamine",
-      "N-Dipropyltryptamine",
       "N,N-DPT",
       "The Light",
-      "N"
+      "N",
+      "N-Dipropyltryptamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -42547,10 +42547,10 @@
     "source": "drug.community",
     "name": "DXM Polistirex",
     "aliases": [
-      "Delsym (12‑hour)",
-      "Dextromethorphan polistirex",
       "DXM extended‑release",
+      "Delsym (12‑hour)",
       "DXM Poli",
+      "Dextromethorphan polistirex",
       "DXM polistirex ER"
     ],
     "category": "Dissociative, Antitussive",
@@ -42717,10 +42717,10 @@
     "source": "drug.community",
     "name": "EA-3167",
     "aliases": [
-      "EA 3167",
-      "3-Quinuclidinyl-(phenylcyclopentyl)-glycolate",
       "Quinuclidinyl phenylcyclopentyl glycolate",
-      "Edgewood Agent EA-3167"
+      "Edgewood Agent EA-3167",
+      "EA 3167",
+      "3-Quinuclidinyl-(phenylcyclopentyl)-glycolate"
     ],
     "category": "Anticholinergic deliriant incapacitant",
     "tags": [],
@@ -42807,13 +42807,13 @@
     "source": "drug.community",
     "name": "EDMC",
     "aliases": [
-      "3",
       "1-(2,3-dihydro-1,4-benzodioxin-6-yl)-2-(methylamino)propan-1-one",
-      "βk-EDMA",
-      "4-Ethylenedioxymethcathinone",
+      "3",
       "3′,4′-Ethylenedioxy-2-(methylamino)propiophenone",
-      "ED-MC",
       "4-EDMC",
+      "ED-MC",
+      "4-Ethylenedioxymethcathinone",
+      "βk-EDMA",
       "3,4-EDMC"
     ],
     "category": "Serotonin–norepinephrine–dopamine releasing agent; stimulant–entactogen",
@@ -43242,11 +43242,11 @@
       "L-erythro-2-(methylamino)-1-phenylpropan-1-ol",
       "Mahuang",
       "Mormon Tea",
-      "Ephedrine HCl",
-      "(1R,2S)-2-(methylamino)-1-phenylpropan-1-ol",
-      "Ephedrine sulfate",
       "Efedrina",
       "(-)-Ephedrine",
+      "Ephedrine sulfate",
+      "(1R,2S)-2-(methylamino)-1-phenylpropan-1-ol",
+      "Ephedrine HCl",
       "Ma huang (Ephedra alkaloids)"
     ],
     "category": "Stimulant",
@@ -43292,14 +43292,14 @@
     "source": "curated",
     "name": "Ephenidine",
     "aliases": [
-      "2-DP-E",
-      "NEDPA",
-      "1",
-      "N-ethyl-1,2-diphenylethanamine",
+      "DPD-E",
       "EPE",
-      "1,2-DP-E",
       "N-ethyl-1,2-diphenylethylamine",
-      "DPD-E"
+      "N-ethyl-1,2-diphenylethanamine",
+      "2-DP-E",
+      "1",
+      "1,2-DP-E",
+      "NEDPA"
     ],
     "category": "Dissociative",
     "tags": [
@@ -43775,11 +43775,11 @@
       "(S)-ketamine",
       "S-ketamine",
       "Spravato",
-      "L-ketamine",
       "Spravato (intranasal brand)",
-      "S-ketamine HCl",
+      "Ketanest S (parenteral brand)",
+      "L-ketamine",
       "S-(−)-ketamine",
-      "Ketanest S (parenteral brand)"
+      "S-ketamine HCl"
     ],
     "category": "Dissociative",
     "tags": [
@@ -43871,13 +43871,13 @@
     "source": "drug.community",
     "name": "Estradiol",
     "aliases": [
-      "cis-Estradiol",
-      "(17β)-estra-1,3,5(10)-triene-3,17-diol",
-      "beta-Estradiol",
+      "17β-estradiol",
       "Estradiol-17β",
+      "beta-Estradiol",
+      "cis-Estradiol",
       "Oestradiol",
-      "17-beta-estradiol",
-      "17β-estradiol"
+      "(17β)-estra-1,3,5(10)-triene-3,17-diol",
+      "17-beta-estradiol"
     ],
     "category": "Hormone (Estrogen)",
     "tags": [],
@@ -44222,11 +44222,11 @@
     "aliases": [
       "n-ethylpentedrone",
       "nep",
-      "α-ethylaminopentiophenone",
       "NEPD (misused abbreviation seen in forums)",
-      "N-ethylnorpentedrone",
-      "2-(ethylamino)-1-phenylpentan-1-one",
+      "α-ethylaminopentiophenone",
       "alpha-ethylaminopentiophenone",
+      "2-(ethylamino)-1-phenylpentan-1-one",
+      "N-ethylnorpentedrone",
       "α‑EAPP"
     ],
     "category": "Empathogen",
@@ -44565,14 +44565,14 @@
       "eticyclidone",
       "N-Ethyldeschloroketamine",
       "O-PCE",
-      "O‑PCE",
-      "2‑DCNEK",
-      "eticyclidon",
+      "2′‑Oxo‑PCE",
       "OPCE",
-      "2‑Oxo‑PCE",
       "deschloro‑N‑ethyl‑ketamine",
-      "N‑ethyldeschloroketamine",
-      "2′‑Oxo‑PCE"
+      "O‑PCE",
+      "2‑Oxo‑PCE",
+      "eticyclidon",
+      "2‑DCNEK",
+      "N‑ethyldeschloroketamine"
     ],
     "category": "Dissociative",
     "tags": [
@@ -44716,14 +44716,14 @@
       "sedekopan",
       "towa",
       "zoly",
-      "Capsafe",
-      "Y-7131",
-      "Arophalm",
+      "4-(2-chlorophenyl)-2-ethyl-9-methyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepine",
       "AHR-3219",
       "Eticalm",
+      "Y-7131",
       "Pasaden",
       "Dezolam",
-      "4-(2-chlorophenyl)-2-ethyl-9-methyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepine"
+      "Arophalm",
+      "Capsafe"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -44839,10 +44839,10 @@
     "source": "curated",
     "name": "Etonitazene",
     "aliases": [
+      "IDS-NE-006",
       "BA-20684",
       "Benzimidazole opioid; nitazene class",
       "(2-{2-[(4-ethoxyphenyl)methyl]-5-nitro-1H-1,3-benzodiazol-1-yl}ethyl)diethylamine",
-      "IDS-NE-006",
       "NIH 7607"
     ],
     "category": "Opioid",
@@ -44890,10 +44890,10 @@
     "source": "drug.community",
     "name": "Etoxadrol",
     "aliases": [
-      "CL-1848C",
+      "U-37862A",
       "U-37862A hydrochloride",
-      "Etoxadrol hydrochloride",
-      "U-37862A"
+      "CL-1848C",
+      "Etoxadrol hydrochloride"
     ],
     "category": "Uncompetitive NMDA receptor antagonist (PCP-site channel blocker)",
     "tags": [],
@@ -45017,10 +45017,10 @@
     "aliases": [
       "bk-EBDB",
       "N-Ethylbutylone",
-      "1-(1,3-benzodioxol-5-yl)-2-(ethylamino)-1-butanone (HCl salt)",
-      "EDB",
+      "β-keto-ethylbenzodioxolylbutanamine",
       "ED-DB",
-      "β-keto-ethylbenzodioxolylbutanamine"
+      "1-(1,3-benzodioxol-5-yl)-2-(ethylamino)-1-butanone (HCl salt)",
+      "EDB"
     ],
     "category": "Stimulant",
     "tags": [
@@ -45387,13 +45387,13 @@
     "source": "drug.community",
     "name": "Fenethylline",
     "aliases": [
-      "Captagon (original brand; historic)",
       "Ethyltheophylline-amphetamine codrug",
       "Fenethylline hydrochloride",
       "Fenetyllinum",
-      "Amfetyline",
+      "Fenetylline",
       "Captagon",
-      "Fenetylline"
+      "Amfetyline",
+      "Captagon (original brand; historic)"
     ],
     "category": "Stimulant (amphetamine-like)",
     "tags": [],
@@ -45442,13 +45442,13 @@
     "source": "drug.community",
     "name": "Fenfluramine",
     "aliases": [
-      "Pondimin",
-      "Adifax",
       "Fintepla",
       "DL-fenfluramine",
-      "Ponderax",
+      "(±)-fenfluramine",
       "Rotondin",
-      "(±)-fenfluramine"
+      "Adifax",
+      "Pondimin",
+      "Ponderax"
     ],
     "category": "Serotonin releasing agent and 5‑HT receptor agonist; sigma‑1 receptor modulator; anorectic; antiepileptic",
     "tags": [],
@@ -45731,10 +45731,10 @@
     "aliases": [
       "4-Fluoromethcathinone",
       "4-FMC",
-      "4-FMC·HCl (salt)",
       "RS-1-(4-fluorophenyl)-2-methylaminopropan-1-one",
       "CAS 7589-39-7",
-      "1-(4-fluorophenyl)-2-(methylamino)propan-1-one"
+      "1-(4-fluorophenyl)-2-(methylamino)propan-1-one",
+      "4-FMC·HCl (salt)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -45836,11 +45836,11 @@
     "source": "curated",
     "name": "Flubromazepam",
     "aliases": [
-      "JYI-42",
-      "iso-flubromazepam (positional isomer sometimes mis-sold)",
-      "F-bromazepam",
+      "Fluorobromazepam (common mislabel)",
       "7-bromo-5-(2-fluorophenyl)-1,3-dihydro-1,4-benzodiazepin-2-one",
-      "Fluorobromazepam (common mislabel)"
+      "F-bromazepam",
+      "JYI-42",
+      "iso-flubromazepam (positional isomer sometimes mis-sold)"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -46059,11 +46059,11 @@
     "source": "drug.community",
     "name": "Fluconazole",
     "aliases": [
+      "Fluconazole sodium (IV formulations)",
       "FLZ",
       "Fluconazol",
       "Fluconazolum",
-      "Diflucan",
-      "Fluconazole sodium (IV formulations)"
+      "Diflucan"
     ],
     "category": "Not psychoactive (antifungal medication)",
     "tags": [],
@@ -46158,9 +46158,9 @@
     "name": "Fluminorex",
     "aliases": [
       "4-(trifluoromethyl)aminorex",
+      "Fluminorex (INN)",
       "5-[4-(trifluoromethyl)phenyl]-4,5-dihydro-1,3-oxazol-2-amine",
-      "4-CF3-aminorex",
-      "Fluminorex (INN)"
+      "4-CF3-aminorex"
     ],
     "category": "Stimulant; presumed monoamine-releasing agent with DAT/NET > SERT (class inference from aminorex/4-MAR).",
     "tags": [],
@@ -46252,16 +46252,16 @@
     "aliases": [
       "rohypnol",
       "roofies",
-      "RO-5-4200",
-      "Mexican Valium",
+      "Forget-me pill",
+      "Narcozep",
+      "Roche",
+      "RO 5-4200",
       "Rophies",
       "Ruffies",
+      "Mexican Valium",
       "Hipnosedon",
-      "Narcozep",
-      "Forget-me pill",
-      "RO 5-4200",
-      "Roche",
-      "Hypnodorm"
+      "Hypnodorm",
+      "RO-5-4200"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -46391,10 +46391,10 @@
       "3-Fluoro-2-Oxo-PCE",
       "FXE",
       "3-F-2-oxo-PCE",
-      "3F-2'-Oxo-PCE",
-      "3-F-2'-Oxo-PCE",
+      "3'-Fluoro-2-oxo-PCE",
       "3-FXE",
-      "3'-Fluoro-2-oxo-PCE"
+      "3-F-2'-Oxo-PCE",
+      "3F-2'-Oxo-PCE"
     ],
     "category": "Dissociative",
     "tags": [
@@ -46630,13 +46630,13 @@
     "name": "Flurazepam",
     "aliases": [
       "dalmane",
-      "Flunox",
-      "Valdorm",
       "Ro 5-6901",
-      "Flurazepam hydrochloride",
       "Dalmadorm",
-      "Sompan",
-      "Felison"
+      "Flurazepam hydrochloride",
+      "Felison",
+      "Valdorm",
+      "Flunox",
+      "Sompan"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -46720,10 +46720,10 @@
     "name": "Flutoprazepam",
     "aliases": [
       "restas",
-      "7-chloro-5-(2-fluorophenyl)-1-propyl-1,3-dihydro-2H-1,4-benzodiazepin-2-one (likely IUPAC; structural analogue of flurazepam)",
-      "FZP",
+      "Restas (reported JP brand)",
       "N-desalkylflutoprazepam (active metabolite known as norflurazepam)",
-      "Restas (reported JP brand)"
+      "7-chloro-5-(2-fluorophenyl)-1-propyl-1,3-dihydro-2H-1,4-benzodiazepin-2-one (likely IUPAC; structural analogue of flurazepam)",
+      "FZP"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -46963,8 +46963,8 @@
     "aliases": [
       "fu-f",
       "furanyl-fentanyl",
-      "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]furan-2-carboxamide",
-      "Furanyl fentanyl"
+      "Furanyl fentanyl",
+      "N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]furan-2-carboxamide"
     ],
     "category": "Opioid",
     "tags": [
@@ -47281,12 +47281,12 @@
     "name": "Gabapentin",
     "aliases": [
       "neurontin",
-      "Gabapentinum",
       "Gralise",
-      "DM-1796",
-      "Gabarone",
       "1-(Aminomethyl)cyclohexaneacetic acid",
-      "CI-945"
+      "Gabarone",
+      "DM-1796",
+      "CI-945",
+      "Gabapentinum"
     ],
     "category": "GABAergic",
     "tags": [
@@ -47340,12 +47340,12 @@
     "source": "drug.community",
     "name": "Gaboxadol",
     "aliases": [
-      "4,5,6,7-tetrahydroisoxazolo[5,4-c]pyridin-3-ol",
-      "Lu 02-030",
       "MK-0928",
+      "4,5,6,7-tetrahydroisoxazolo[5,4-c]pyridin-3-ol",
       "THIP",
       "MK0928",
-      "2H,3H,4H,5H,6H,7H-[1,2]oxazolo[5,4-c]pyridin-3-one"
+      "2H,3H,4H,5H,6H,7H-[1,2]oxazolo[5,4-c]pyridin-3-one",
+      "Lu 02-030"
     ],
     "category": "Sedative-hypnotic; GABAergic (GABA-A orthosteric agonist with extrasynaptic δ-subunit preference)",
     "tags": [],
@@ -47395,12 +47395,12 @@
     "aliases": [
       "Razadyne",
       "Reminyl",
-      "Galamer",
       "Razadyne (US brand; formerly Reminyl)",
-      "Galantamine HBr",
+      "Galamer",
       "Nivalin",
-      "Galanthamine (older spelling)",
-      "Galantamine hydrobromide"
+      "Galantamine HBr",
+      "Galantamine hydrobromide",
+      "Galanthamine (older spelling)"
     ],
     "category": "Nootropic",
     "tags": [
@@ -47691,20 +47691,20 @@
     "source": "curated",
     "name": "GBL",
     "aliases": [
-      "1,2-Butanolide",
-      "Easy Lay",
-      "Geebs",
       "Grievous Bodily Harm",
+      "Geebs",
       "Scoop",
-      "Gamma-Butyrolactone",
       "Juice",
-      "Butyrolactone",
       "Gamma-butyrolactone",
+      "G",
       "Goop",
+      "1,2-Butanolide",
       "Dihydro-2(3H)-furanone",
       "Liquid Ecstasy",
-      "G",
-      "Liquid X"
+      "Easy Lay",
+      "Liquid X",
+      "Butyrolactone",
+      "Gamma-Butyrolactone"
     ],
     "category": "Depressant",
     "tags": [
@@ -47794,17 +47794,17 @@
     "source": "curated",
     "name": "GHB",
     "aliases": [
-      "1,4-BD (1,4-butanediol, prodrug)",
-      "Gamma-Hydroxybutyric Acid",
       "Scoop",
+      "G",
       "GBL (gamma-butyrolactone, prodrug)",
+      "Gamma-Hydroxybutyric Acid",
+      "4-hydroxybutanoic acid",
       "γ-hydroxybutyrate",
       "Liquid Ecstasy",
-      "4-hydroxybutanoic acid",
-      "G",
-      "Sodium oxybate (Xyrem/Xywav)",
+      "Liquid X",
+      "1,4-BD (1,4-butanediol, prodrug)",
       "NaGHB (sodium salt)",
-      "Liquid X"
+      "Sodium oxybate (Xyrem/Xywav)"
     ],
     "category": "Depressant",
     "tags": [
@@ -48024,12 +48024,12 @@
     "source": "drug.community",
     "name": "Gidazepam",
     "aliases": [
-      "Hydazepam",
-      "Desalkylgidazepam (active metabolite; aka bromonordiazepam)",
-      "Hidazepam",
-      "Bromonordiazepam (active metabolite)",
       "Gidazepam IC",
-      "Gidazepam monohydrate"
+      "Hidazepam",
+      "Gidazepam monohydrate",
+      "Desalkylgidazepam (active metabolite; aka bromonordiazepam)",
+      "Bromonordiazepam (active metabolite)",
+      "Hydazepam"
     ],
     "category": "Depressant, Anxiolytic",
     "tags": [],
@@ -48913,12 +48913,12 @@
     "name": "Halazepam",
     "aliases": [
       "paxipam",
-      "SCH-12041",
-      "Sch 12041",
-      "Halazpam (alt. spelling)",
-      "Alapryl",
       "Pacinone",
-      "7-chloro-5-phenyl-1-(2,2,2-trifluoroethyl)-3H-1,4-benzodiazepin-2-one"
+      "SCH-12041",
+      "Halazpam (alt. spelling)",
+      "7-chloro-5-phenyl-1-(2,2,2-trifluoroethyl)-3H-1,4-benzodiazepin-2-one",
+      "Alapryl",
+      "Sch 12041"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -49304,15 +49304,15 @@
     "name": "Heroin",
     "aliases": [
       "diamorphine",
-      "Smack",
-      "No.3 (base heroin)",
-      "Black tar",
       "H",
-      "3,6‑Diacetylmorphine",
-      "Diacetylmorphine",
-      "Horse",
       "Brown",
-      "No.4 (hydrochloride salt)"
+      "Diacetylmorphine",
+      "Black tar",
+      "Horse",
+      "No.4 (hydrochloride salt)",
+      "3,6‑Diacetylmorphine",
+      "No.3 (base heroin)",
+      "Smack"
     ],
     "category": "Opioid",
     "tags": [
@@ -49854,9 +49854,9 @@
     "name": "Homarylamine",
     "aliases": [
       "Homarylamine hydrochloride",
-      "N-methyl-PEA",
       "N-methyl-2-phenylethanamine",
       "MDMPEA",
+      "N-methyl-PEA",
       "N-methyl-beta-phenethylamine"
     ],
     "category": "Putative stimulant / weak entactogen (speculative)",
@@ -50335,15 +50335,15 @@
       "hydro",
       "vicodin",
       "Dihydrocodeinone",
-      "Hydrocodone polistirex",
-      "Norco (hydrocodone/APAP)",
       "Hydrocodone bitartrate",
-      "Lortab (hydrocodone/APAP)",
-      "Vicodin (hydrocodone/APAP)",
-      "Hysingla ER (hydrocodone bitartrate, extended-release)",
+      "Hydrocodone polistirex",
       "Tussionex (hydrocodone polistirex/chlorpheniramine)",
-      "Co-Gesic (hydrocodone/APAP)",
-      "Zohydro ER (hydrocodone bitartrate, extended-release)"
+      "Zohydro ER (hydrocodone bitartrate, extended-release)",
+      "Hysingla ER (hydrocodone bitartrate, extended-release)",
+      "Vicodin (hydrocodone/APAP)",
+      "Lortab (hydrocodone/APAP)",
+      "Norco (hydrocodone/APAP)",
+      "Co-Gesic (hydrocodone/APAP)"
     ],
     "category": "Opioid",
     "tags": [
@@ -50398,14 +50398,14 @@
     "aliases": [
       "dilaudid",
       "diluadid",
-      "Hidromorfona",
-      "Dimorphone",
-      "Dihydromorphinone",
-      "Hydromorph-Contin",
       "Idromorfone",
-      "Exalgo",
+      "Hydromorph-Contin",
+      "Dihydromorphinone",
       "Hydromorphonum",
-      "Palladone"
+      "Hidromorfona",
+      "Palladone",
+      "Dimorphone",
+      "Exalgo"
     ],
     "category": "Opioid",
     "tags": [
@@ -50637,11 +50637,11 @@
     "aliases": [
       "iboga",
       "T. iboga root bark",
-      "Ibogaine HCl",
+      "Ibogamine-class indole alkaloid",
       "12-methoxyibogamine",
-      "Tabernanthe iboga (plant source)",
       "Iboga TA (total alkaloid) extract",
-      "Ibogamine-class indole alkaloid"
+      "Tabernanthe iboga (plant source)",
+      "Ibogaine HCl"
     ],
     "category": "Dysdelic",
     "tags": [
@@ -52081,10 +52081,10 @@
     "source": "drug.community",
     "name": "Isophenidine",
     "aliases": [
-      "N-(propan-2-yl)-1,2-diphenylethylamine",
       "NPDPA",
       "isopropylphenidine",
       "N-isopropyl-1,2-diphenylethylamine",
+      "N-(propan-2-yl)-1,2-diphenylethylamine",
       "NSC 34569"
     ],
     "category": "dissociative",
@@ -52772,11 +52772,11 @@
     "aliases": [
       "K2",
       "Spice",
+      "NA-PIMO",
+      "1-pentyl-3-(1-naphthoyl)-indole",
       "(Naphthalen-1-yl)(1-pentyl-1H-indol-3-yl)methanone",
       "1-pentyl-3-(1-naphthoyl)indole",
       "‘Spice’/‘K2’ active (brand ingredient; may vary)",
-      "1-pentyl-3-(1-naphthoyl)-indole",
-      "NA-PIMO",
       "AM-678"
     ],
     "category": "Cannabinoid",
@@ -53997,9 +53997,9 @@
     "source": "drug.community",
     "name": "Lamotrigine",
     "aliases": [
-      "Lamictal",
       "LTG",
       "6-(2,3-dichlorophenyl)-1,2,4-triazine-3,5-diamine",
+      "Lamictal",
       "3,5-diamino-6-(2,3-dichlorophenyl)-1,2,4-triazine"
     ],
     "category": "Mood stabiliser / anticonvulsant",
@@ -54083,15 +54083,15 @@
     "name": "Lean",
     "aliases": [
       "sizzurp",
-      "purple drank",
-      "Purple Drank",
-      "syrup",
-      "texas tea",
       "pint (slang for ~473 mL bottle)",
       "Promethazine+Codeine",
+      "drank",
+      "texas tea",
+      "Purple Drank",
       "barre",
+      "syrup",
       "wock",
-      "drank"
+      "purple drank"
     ],
     "category": "Opioid depressant / antihistamine sedative",
     "tags": [],
@@ -54455,10 +54455,10 @@
     "source": "drug.community",
     "name": "Levomethorphan",
     "aliases": [
-      "(-)-3-methoxy-17-methylmorphinan",
-      "Levomethorphanum",
       "L-methorphan",
+      "(-)-3-methoxy-17-methylmorphinan",
       "Levometorfano",
+      "Levomethorphanum",
       "LVM"
     ],
     "category": "Opioid",
@@ -54594,9 +54594,9 @@
     "name": "Librium",
     "aliases": [
       "chlordiazepoxide",
-      "CDP",
       "Clopoxide",
       "Chloradiazepoxide",
+      "CDP",
       "Chlordiazepoxidum"
     ],
     "category": "Benzodiazepine",
@@ -54842,9 +54842,9 @@
     "name": "Lofentanil",
     "aliases": [
       "3-methylcarfentanil",
-      "levo-cis-3-methylcarfentanil",
       "R-34995",
-      "3-methyl-4-carbomethoxyfentanyl"
+      "3-methyl-4-carbomethoxyfentanyl",
+      "levo-cis-3-methylcarfentanil"
     ],
     "category": "Opioid analgesic (ultra-potent μ- and κ-receptor agonist)",
     "tags": [],
@@ -55112,10 +55112,10 @@
     "name": "Lorazepam",
     "aliases": [
       "ativan",
-      "o-Chloroxazepam",
+      "Loreev XR",
       "Tavor",
       "Temesta",
-      "Loreev XR"
+      "o-Chloroxazepam"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -56549,9 +56549,9 @@
     "aliases": [
       "Mazanor",
       "Sanorex",
-      "Teronac",
-      "AN-448",
       "42-548",
+      "AN-448",
+      "Teronac",
       "Mazindol hydrochloride"
     ],
     "category": "Stimulant",
@@ -56716,13 +56716,13 @@
     "source": "drug.community",
     "name": "MD-PHP",
     "aliases": [
-      "MDPH (old/misapplied name)",
-      "zombie dust",
-      "monkey dust",
-      "3,4-MDPHP",
       "MDPHP",
       "3,4-methylenedioxy-α-pyrrolidinohexiophenone",
-      "methylenedioxypyrolidinohexiophenone"
+      "methylenedioxypyrolidinohexiophenone",
+      "3,4-MDPHP",
+      "monkey dust",
+      "MDPH (old/misapplied name)",
+      "zombie dust"
     ],
     "category": "Noradrenaline–dopamine reuptake inhibitor (stimulant)",
     "tags": [],
@@ -56774,12 +56774,12 @@
     "source": "drug.community",
     "name": "MD-PiHP",
     "aliases": [
-      "(putative EMCDDA framework class: methylenedioxy-pyrrolidinophenone; isohexanophenone side chain)",
-      "MD-PiHP freebase",
-      "3,4-methylenedioxy-α-pyrrolidinoisohexanophenone",
+      "3,4-MD-PiHP",
       "MD-PiHP HCl",
       "MDPiHP",
-      "3,4-MD-PiHP"
+      "(putative EMCDDA framework class: methylenedioxy-pyrrolidinophenone; isohexanophenone side chain)",
+      "3,4-methylenedioxy-α-pyrrolidinoisohexanophenone",
+      "MD-PiHP freebase"
     ],
     "category": "Norepinephrine–dopamine re-uptake inhibitor (NDRI) stimulant",
     "tags": [],
@@ -56840,12 +56840,12 @@
       "3,4-Methylenedioxyamphetamine",
       "MDA",
       "methylendioxyamphetamine",
-      "Sassafras",
+      "Sass",
+      "Tenamfetamine",
       "Sally",
       "EA-1299",
-      "Sass",
-      "SKF-5",
-      "Tenamfetamine"
+      "Sassafras",
+      "SKF-5"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -57966,13 +57966,13 @@
     "name": "Mdpv",
     "aliases": [
       "bath_salts",
-      "MDPK (rare/misattributed)",
       "MDPV freebase",
+      "Ivory Wave (historical product name)",
+      "bath salts (misleading retail label)",
       "MDPV HCl",
       "3,4-methylenedioxypyrovalerone",
-      "NRG-1 (street name)",
-      "Ivory Wave (historical product name)",
-      "bath salts (misleading retail label)"
+      "MDPK (rare/misattributed)",
+      "NRG-1 (street name)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -58249,15 +58249,15 @@
       "raporan",
       "rudotel",
       "talis",
-      "Lerisum",
-      "Nobritol",
-      "Ansilan",
-      "Megasedan",
+      "Tranko‑Buskas (medazepam + butylscopolamine)",
       "Debrum",
       "Medacepan",
-      "Tranko‑Buskas (medazepam + butylscopolamine)",
+      "Tranquirax",
+      "Megasedan",
+      "Nobritol",
+      "Ansilan",
       "Rusedal",
-      "Tranquirax"
+      "Lerisum"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -58380,12 +58380,12 @@
     "source": "drug.community",
     "name": "Mefloquine",
     "aliases": [
+      "RO 21-5998",
       "Mefloquinum",
       "Mefloquina",
-      "(R*,S*)-2,8-bis(trifluoromethyl)quinolin-4-yl-(2-piperidyl)methanol",
       "Lariam",
       "WR 142,490",
-      "RO 21-5998"
+      "(R*,S*)-2,8-bis(trifluoromethyl)quinolin-4-yl-(2-piperidyl)methanol"
     ],
     "category": "Antimalarial; not intended as psychoactive, but can produce neuropsychiatric adverse effects in susceptible individuals",
     "tags": [],
@@ -58508,12 +58508,12 @@
       "N-Acetyl-5-methoxy-tryptamine",
       "N-Acetyl-5-methoxy-tryptamine Melatonine",
       "Regulin",
+      "Pineal hormone",
       "Circadin (modified-release brand)",
       "Ramelteon is a distinct prescription melatonin receptor agonist, not melatonin itself",
-      "Melatoninum",
-      "5-MT",
       "N-acetyl-5-methoxytryptamine",
-      "Pineal hormone"
+      "Melatoninum",
+      "5-MT"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -58610,14 +58610,14 @@
       "Axura",
       "Ebixa",
       "Namenda",
-      "Akatinol",
-      "1-amino-3,5-dimethyladamantane",
-      "3,5-dimethyl-1-adamantanamine",
       "Memantina",
-      "Memantinum",
       "D-145",
+      "3,5-dimethyl-1-adamantanamine",
       "3,5-dimethyltricyclo(3.3.1.1(3,7))decan-1-amine",
-      "DRG-0267"
+      "DRG-0267",
+      "1-amino-3,5-dimethyladamantane",
+      "Memantinum",
+      "Akatinol"
     ],
     "category": "Dissociative",
     "tags": [
@@ -58753,10 +58753,10 @@
       "meow",
       "meow meow",
       "meph",
+      "4‑MMC",
       "Bubbles",
-      "Drone",
       "M‑Cat",
-      "4‑MMC"
+      "Drone"
     ],
     "category": "Empathogen",
     "tags": [
@@ -58835,10 +58835,10 @@
     "aliases": [
       "4-methylphenmetrazine",
       "4-mpm",
+      "4-Me-phenmetrazine",
       "3-methyl-2-(4-methylphenyl)morpholine",
       "para-methylphenmetrazine",
-      "p-Methylphenmetrazine",
-      "4-Me-phenmetrazine"
+      "p-Methylphenmetrazine"
     ],
     "category": "Empathogen",
     "tags": [
@@ -58921,12 +58921,12 @@
     "source": "drug.community",
     "name": "Mescaline",
     "aliases": [
+      "mescaline HCl",
       "peyote alkaloid",
+      "mescaline sulfate",
       "San Pedro/Trichocereus cactus alkaloid",
       "3,4,5-trimethoxyphenethylamine",
-      "3,4,5-trimethoxybenzeneethanamine",
-      "mescaline HCl",
-      "mescaline sulfate"
+      "3,4,5-trimethoxybenzeneethanamine"
     ],
     "category": "Psychedelic",
     "tags": [],
@@ -59264,22 +59264,22 @@
     "source": "curated",
     "name": "Methadone",
     "aliases": [
-      "Metadol",
-      "Diskets",
-      "Heptanon",
-      "Mephenon",
+      "dl-methadone",
       "Physeptone",
-      "Methadose",
       "Depridol",
       "Heptadon",
-      "Dolophine",
-      "Ketalgin",
       "6-(dimethylamino)-4,4-diphenylheptan-3-one (IUPAC)",
-      "6-Dimethylamino-4,4-diphenyl-3-heptanone",
+      "Ketalgin",
+      "Methadonum",
+      "Dolophine",
+      "Metadol",
+      "Diskets",
       "Metadol-D",
-      "dl-methadone",
-      "Adolan",
-      "Methadonum"
+      "Heptanon",
+      "6-Dimethylamino-4,4-diphenyl-3-heptanone",
+      "Mephenon",
+      "Methadose",
+      "Adolan"
     ],
     "category": "Opioid",
     "tags": [
@@ -59321,8 +59321,8 @@
     "name": "Methallylescaline",
     "aliases": [
       "mal",
-      "3,5-Dimethoxy-4-methallyloxyphenethylamine",
-      "2-{3,5-Dimethoxy-4-[(2-methylprop-2-en-1-yl)oxy]phenyl}ethan-1-amine"
+      "2-{3,5-Dimethoxy-4-[(2-methylprop-2-en-1-yl)oxy]phenyl}ethan-1-amine",
+      "3,5-Dimethoxy-4-methallyloxyphenethylamine"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -59447,17 +59447,17 @@
       "ice",
       "meth",
       "tik",
-      "crystal",
-      "metamfetamine",
+      "shabu",
       "d-methamphetamine (S-(+)-methamphetamine)",
-      "tweak",
       "Desoxyn (Rx brand)",
+      "glass",
+      "tweak",
+      "shards",
       "crank",
       "yaba (meth + caffeine tablets)",
-      "shabu",
-      "shards",
-      "glass",
-      "tina"
+      "tina",
+      "metamfetamine",
+      "crystal"
     ],
     "category": "Stimulant",
     "tags": [
@@ -59584,15 +59584,15 @@
       "mandrax",
       "quaaludes",
       "qualudes",
-      "Quaalude",
-      "2-methyl-3-(2-methylphenyl)-4(3H)-quinazolinone",
       "2-methyl-3-o-tolyl-4(3H)-quinazolinone",
       "Sopes",
-      "Sopor",
-      "Quacks",
       "Mandrakes",
       "Dr. Jekyll and Mr. Hyde",
-      "714s"
+      "Quacks",
+      "Quaalude",
+      "Sopor",
+      "714s",
+      "2-methyl-3-(2-methylphenyl)-4(3H)-quinazolinone"
     ],
     "category": "Depressant",
     "tags": [
@@ -59667,14 +59667,14 @@
       "Wonder Star",
       "α-methylamino-propiophenone",
       "2-(methylamino)-1-phenylpropan-1-one",
-      "UR-1431 (UR(W)1431)",
-      "Cosmos",
-      "AL-422 (racemate)",
-      "AL-463 (d-isomer)",
-      "α-methylaminopropiophenone",
       "AL-464 (one isomer)",
+      "monomethylpropion",
+      "α-methylaminopropiophenone",
+      "Cosmos",
+      "AL-463 (d-isomer)",
       "N-methylcathinone",
-      "monomethylpropion"
+      "AL-422 (racemate)",
+      "UR-1431 (UR(W)1431)"
     ],
     "category": "Stimulant",
     "tags": [
@@ -59763,8 +59763,8 @@
     "source": "drug.community",
     "name": "Methiodone",
     "aliases": [
-      "IC-26",
-      "Ethyl 1,1-diphenyl-3-dimethylaminobutyl sulfone"
+      "Ethyl 1,1-diphenyl-3-dimethylaminobutyl sulfone",
+      "IC-26"
     ],
     "category": "μ-Opioid receptor agonist analgesic",
     "tags": [],
@@ -59863,10 +59863,10 @@
       "methoxetamine",
       "MXE",
       "KMAX",
-      "M-ket",
+      "Methoxetamine hydrochloride",
       "Mexxy",
       "Special",
-      "Methoxetamine hydrochloride"
+      "M-ket"
     ],
     "category": "Dissociative",
     "tags": [
@@ -59971,11 +59971,11 @@
       "3-MeO-2-Oxo-PCM",
       "methoxmetamine",
       "MXM",
-      "N-methyl-nor-methoxetamine (proposed)",
       "Methoxymetamine",
       "E-MXE",
+      "e-Methoxetamine",
       "3-MeO-2'-Oxo-PCM",
-      "e-Methoxetamine"
+      "N-methyl-nor-methoxetamine (proposed)"
     ],
     "category": "Dissociative",
     "tags": [
@@ -60200,11 +60200,11 @@
     "aliases": [
       "2-meo-ketamine",
       "2‑MeO‑2‑deschloroketamine",
+      "2-(2‑Methoxyphenyl)-2-(methylamino)cyclohexanone",
       "2‑MeO‑K",
-      "O‑methoxyketamine",
       "2‑MeO‑ketamine",
-      "MXM (community abbreviation; ambiguous)",
-      "2-(2‑Methoxyphenyl)-2-(methylamino)cyclohexanone"
+      "O‑methoxyketamine",
+      "MXM (community abbreviation; ambiguous)"
     ],
     "category": "Dissociative",
     "tags": [
@@ -60769,13 +60769,13 @@
     "source": "drug.community",
     "name": "Methylenedioxypyrovalerone",
     "aliases": [
-      "NRG-1",
-      "Vanilla Sky",
-      "bath salts",
       "3,4-Methylenedioxypyrovalerone",
+      "Vanilla Sky",
+      "MDPV",
       "Cloud Nine",
-      "Ivory Wave",
-      "MDPV"
+      "NRG-1",
+      "bath salts",
+      "Ivory Wave"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -61042,15 +61042,15 @@
       "bk-MDMA",
       "M1",
       "MDMC",
-      "3,4-methylenedioxy-N-methylcathinone",
-      "Molly",
-      "beta-keto-MDMA",
-      "MDMCAT",
-      "Explosion",
-      "bath salt",
-      "1-(1,3-benzodioxol-5-yl)-2-(methylamino)propan-1-one",
       "βk-MDMA",
-      "Ease"
+      "MDMCAT",
+      "beta-keto-MDMA",
+      "Ease",
+      "Molly",
+      "bath salt",
+      "Explosion",
+      "1-(1,3-benzodioxol-5-yl)-2-(methylamino)propan-1-one",
+      "3,4-methylenedioxy-N-methylcathinone"
     ],
     "category": "Stimulant",
     "tags": [
@@ -61129,18 +61129,18 @@
       "concerta",
       "mph",
       "ritalin",
-      "Jornay PM",
-      "Biphentin/Equasym XL/Medikinet XL (various markets)",
-      "Relexxii",
+      "Daytrana (transdermal)",
       "Riphenidate",
+      "Jornay PM",
+      "Concerta (OROS-MPH)",
       "Metadate",
       "Rubifen SR",
-      "Focalin (dexmethylphenidate)",
-      "Concerta (OROS-MPH)",
-      "Daytrana (transdermal)",
       "Aptensio XR",
-      "Quillivant/QuilliChew",
-      "Methylin"
+      "Relexxii",
+      "Methylin",
+      "Focalin (dexmethylphenidate)",
+      "Biphentin/Equasym XL/Medikinet XL (various markets)",
+      "Quillivant/QuilliChew"
     ],
     "category": "Stimulant",
     "tags": [
@@ -61684,10 +61684,10 @@
     "source": "drug.community",
     "name": "MGM-15",
     "aliases": [
-      "Matsumoto MGM-15",
       "MGM-15 free base / salts (vendor labels vary)",
-      "dihydro-7-hydroxymitragynine (1,2-dihydro 7-OH)",
       "7-OH derivative (Matsumoto series)",
+      "Matsumoto MGM-15",
+      "dihydro-7-hydroxymitragynine (1,2-dihydro 7-OH)",
       "MGM15"
     ],
     "category": "Opioid receptor agonist (mu/delta dual agonist)",
@@ -61736,13 +61736,13 @@
     "source": "curated",
     "name": "Midazolam",
     "aliases": [
-      "Midazolam hydrochloride",
-      "Buccolam",
-      "Seizalam",
-      "Dormicum",
       "Hypnovel",
+      "Dormicum",
+      "Seizalam",
+      "Buccolam",
+      "Versed",
       "Nayzilam",
-      "Versed"
+      "Midazolam hydrochloride"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -61933,10 +61933,10 @@
     "source": "drug.community",
     "name": "Mirogabalin",
     "aliases": [
-      "(1R,5S,6S)-6-(aminomethyl)-3-ethylbicyclo[3.2.0]hept-3-ene-6-acetic acid",
-      "Mirogabalin besylate",
       "Tarlige",
-      "DS-5565"
+      "Mirogabalin besylate",
+      "DS-5565",
+      "(1R,5S,6S)-6-(aminomethyl)-3-ethylbicyclo[3.2.0]hept-3-ene-6-acetic acid"
     ],
     "category": "Anticonvulsant, Analgesic",
     "tags": [],
@@ -61983,12 +61983,12 @@
     "aliases": [
       "Remeron",
       "Remeron SolTab",
-      "Org 3770",
-      "Zispin",
-      "Mirtazapinum",
       "Mepirzapine",
+      "6-Azamianserin",
+      "Org 3770",
+      "Mirtazapinum",
       "Avanza",
-      "6-Azamianserin"
+      "Zispin"
     ],
     "category": "Antidepressant",
     "tags": [
@@ -62039,11 +62039,11 @@
     "source": "drug.community",
     "name": "Mitragynine",
     "aliases": [
+      "SK&F 12711",
+      "(αE,2S,3S,12bS)-3-ethyl-1,2,3,4,6,7,12,12b-octahydro-8-methoxy-α-(methoxymethylene)-indolo[2,3-a]quinolizine-2-acetic acid methyl ester",
       "MIT",
       "MG",
-      "9-methoxycorynantheidine",
-      "SK&F 12711",
-      "(αE,2S,3S,12bS)-3-ethyl-1,2,3,4,6,7,12,12b-octahydro-8-methoxy-α-(methoxymethylene)-indolo[2,3-a]quinolizine-2-acetic acid methyl ester"
+      "9-methoxycorynantheidine"
     ],
     "category": "Opioid agonist; stimulant (low doses); sedative/analgesic (higher doses)",
     "tags": [],
@@ -62147,11 +62147,11 @@
     "aliases": [
       "dizocilpine",
       "mk801",
+      "CID 180081 (PubChem)",
+      "(-)-MK-801",
       "Dizocilpine HCl",
       "(+)-MK-801",
-      "CID 180081 (PubChem)",
-      "Dizocilpine maleate",
-      "(-)-MK-801"
+      "Dizocilpine maleate"
     ],
     "category": "Dissociative",
     "tags": [
@@ -62556,8 +62556,8 @@
     "source": "curated",
     "name": "Moclobemide",
     "aliases": [
-      "Manerix",
       "Aurorix",
+      "Manerix",
       "4-chloro-N-(2-morpholinoethyl)benzamide",
       "Ro 11-1163",
       "Aurorex"
@@ -62689,14 +62689,14 @@
     "source": "drug.community",
     "name": "Monotropa uniflora",
     "aliases": [
+      "Ghost plant",
       "Ghost Pipe",
       "Ghost flower",
       "Ghost pipe",
-      "Indian pipe",
-      "Corpse plant",
       "Ice plant",
+      "Corpse plant",
+      "Indian pipe",
       "Convulsion root",
-      "Ghost plant",
       "Indian Pipe"
     ],
     "category": "Herbal co-analgesic/sedative with anxiolytic reports; likely mediated by general CNS dampening and possible salicylate-type analgesia; sodium-channel toxin involvement is unproven in this species (treat as uncertain).",
@@ -62780,27 +62780,27 @@
     "source": "curated",
     "name": "Morphine",
     "aliases": [
-      "Unkie",
-      "Morphium",
-      "Mister Blue",
-      "God’s Drug",
       "Arymo ER",
+      "Morphia",
+      "Avinza",
+      "Roxanol",
       "Infumorph",
       "M",
-      "MSIR",
-      "MS Contin",
-      "Morf",
-      "M.S.",
-      "Miss Emma",
-      "Statex",
-      "Morpho",
-      "Oramorph SR / Oramorph",
-      "Embeda (morphine/naltrexone)",
-      "Roxanol",
-      "Avinza",
       "Kadian",
-      "Morphia",
-      "Duramorph"
+      "Morf",
+      "MSIR",
+      "Duramorph",
+      "M.S.",
+      "God’s Drug",
+      "Statex",
+      "Morphium",
+      "Mister Blue",
+      "Embeda (morphine/naltrexone)",
+      "Morpho",
+      "MS Contin",
+      "Oramorph SR / Oramorph",
+      "Miss Emma",
+      "Unkie"
     ],
     "category": "Opioid",
     "tags": [
@@ -63274,10 +63274,10 @@
     "name": "MXiPr",
     "aliases": [
       "N-Isopropyl-MXE",
-      "3-MeO-2-oxo-PCiPr",
       "methoxipropamine",
       "3-MeO-2′-oxo-PCiPr",
-      "2-(isopropylamino)-2-(3-methoxyphenyl)cyclohexan-1-one"
+      "2-(isopropylamino)-2-(3-methoxyphenyl)cyclohexan-1-one",
+      "3-MeO-2-oxo-PCiPr"
     ],
     "category": "Dissociative",
     "tags": [
@@ -63319,12 +63319,12 @@
     "source": "drug.community",
     "name": "MXPCP",
     "aliases": [
+      "3-MeO-O-PCP (market misnaming seen)",
       "2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one",
-      "3-MeO-2'-Oxo-PCP HCl",
       "3-MeO-2'-oxo-PCP; 2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one",
       "3-MeO-PCP-2-oxo analogue",
-      "3-MeO-O-PCP (market misnaming seen)",
-      "3-MeO-2'-oxo-PCP"
+      "3-MeO-2'-oxo-PCP",
+      "3-MeO-2'-Oxo-PCP HCl"
     ],
     "category": "Dissociative; NMDA receptor antagonist (presumed)",
     "tags": [],
@@ -63418,11 +63418,11 @@
     "source": "drug.community",
     "name": "Myristicin",
     "aliases": [
-      "3-methoxy-4,5-methylenedioxyallylbenzene",
+      "principal aromatic ether in nutmeg oil",
       "constituent of Myristica fragrans (nutmeg) and mace",
       "Nutmeg",
       "5-allyl-1-methoxy-2,3-methylenedioxybenzene",
-      "principal aromatic ether in nutmeg oil"
+      "3-methoxy-4,5-methylenedioxyallylbenzene"
     ],
     "category": "Deliriant, sedative-hypnotic, hallucinogen (primarily at high doses)",
     "tags": [],
@@ -64341,12 +64341,12 @@
     "source": "drug.community",
     "name": "N-Desethylprotonitazene",
     "aliases": [
-      "Nitazene (subclass)",
-      "N-desethyl-protonitazene",
       "N-desethyl-protonitazene HCl",
       "NDP",
-      "Desethyl-protonitazene",
-      "N-desethyl protonitazene"
+      "N-desethyl-protonitazene",
+      "Nitazene (subclass)",
+      "N-desethyl protonitazene",
+      "Desethyl-protonitazene"
     ],
     "category": "Opioid analgesic / μ-opioid receptor agonist",
     "tags": [],
@@ -64796,12 +64796,12 @@
     "name": "N-Methyl-Cyclazodone",
     "aliases": [
       "N-methylcyclazodone",
-      "NMC",
-      "N‑methyl‑cyclazodone",
-      "NMCY",
-      "N‑methyl‑cyclazadone (common misspelling)",
       "N‑methyl‑cyclaz",
-      "Cyclazodone N‑methyl analogue"
+      "NMCY",
+      "N‑methyl‑cyclazodone",
+      "Cyclazodone N‑methyl analogue",
+      "N‑methyl‑cyclazadone (common misspelling)",
+      "NMC"
     ],
     "category": "Stimulant / Nootropic",
     "tags": [],
@@ -65719,9 +65719,9 @@
       "Naphthylpyrovalerone",
       "NRG-1",
       "Energy-1",
+      "β‑naphyrone",
       "α‑naphyrone (isomer found as impurity in some samples)",
-      "O-2482",
-      "β‑naphyrone"
+      "O-2482"
     ],
     "category": "Stimulant",
     "tags": [
@@ -66072,14 +66072,14 @@
     "source": "curated",
     "name": "Nicotine",
     "aliases": [
-      "(S)-nicotine",
       "Nicotrol (patch, brand)",
-      "Nicorette (gum/lozenge, brand)",
-      "(S)-3-(1-methylpyrrolidin-2-yl)pyridine",
       "nicotinic acetylcholine receptor agonist",
-      "NRT (collective term for nicotine replacement therapy)",
+      "(S)-3-(1-methylpyrrolidin-2-yl)pyridine",
       "Nicoderm CQ (patch, brand)",
-      "tobacco alkaloid"
+      "Nicorette (gum/lozenge, brand)",
+      "tobacco alkaloid",
+      "NRT (collective term for nicotine replacement therapy)",
+      "(S)-nicotine"
     ],
     "category": "Nootropic",
     "tags": [
@@ -66196,9 +66196,9 @@
     "name": "Nimetazepam",
     "aliases": [
       "erimin",
+      "Erimin 5",
       "Happy 5",
-      "Hypnon",
-      "Erimin 5"
+      "Hypnon"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -66390,9 +66390,9 @@
       "RO 4-5360",
       "N05CD02",
       "1,3-dihydro-7-nitro-5-phenyl-2H-1,4-benzodiazepin-2-one",
-      "Nitrazepamum",
       "RO 5-3059",
-      "Nitrazépam"
+      "Nitrazépam",
+      "Nitrazepamum"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -66597,10 +66597,10 @@
     "name": "Nm-2-ai",
     "aliases": [
       "NM-2AI",
+      "N-methyl-2-aminoindane",
       "NM2AI",
       "NMe-2-AI",
-      "N-methyl-2-AI",
-      "N-methyl-2-aminoindane"
+      "N-methyl-2-AI"
     ],
     "category": "Empathogen",
     "tags": [],
@@ -66720,8 +66720,8 @@
       "GVS-111",
       "N-Phenylacetyl-L-prolylglycine ethyl ester",
       "DVD-111",
-      "SGS-111",
-      "Omberacetam"
+      "Omberacetam",
+      "SGS-111"
     ],
     "category": "Nootropic",
     "tags": [
@@ -66974,14 +66974,14 @@
     "aliases": [
       "Desmethylflurazepam",
       "n-desalkylflurazepam",
-      "Dealkylflurazepam",
-      "Descarbethoxyloflazepate",
-      "N-desalkylflutoprazepam",
-      "N-desalkyl-2-oxoquazepam",
       "Desalkylflurazepam",
       "Ro-05-3367",
+      "N-desalkyl-2-oxoquazepam",
+      "Norflutoprazepam",
       "Norfludiazepam",
-      "Norflutoprazepam"
+      "Dealkylflurazepam",
+      "Descarbethoxyloflazepate",
+      "N-desalkylflutoprazepam"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -67305,10 +67305,10 @@
       "o-dsmt",
       "o-smt",
       "odt",
-      "O‑SMT",
       "O‑desmethyl tramadol",
-      "desmetramadol",
-      "O‑DSMT"
+      "O‑DSMT",
+      "O‑SMT",
+      "desmetramadol"
     ],
     "category": "Opioid",
     "tags": [
@@ -67634,11 +67634,11 @@
     "source": "drug.community",
     "name": "O-PCP",
     "aliases": [
+      "2-Oxo‑PCP",
       "2‑Keto‑PCP",
-      "2′-Oxo‑PCP",
-      "2-Keto-PCP",
       "2‑Phenyl‑2‑(piperidin‑1‑yl)cyclohexan‑1‑one",
-      "2-Oxo‑PCP"
+      "2′-Oxo‑PCP",
+      "2-Keto-PCP"
     ],
     "category": "Uncompetitive NMDA receptor antagonist; probable weak monoamine re-uptake inhibitor",
     "tags": [],
@@ -67693,11 +67693,11 @@
     "aliases": [
       "2'-Oxo-PCPr",
       "N-Propyl-DCK",
-      "O‑PCPr",
-      "Deschloro‑N‑propyl ketamine",
-      "2-Keto-PCPr",
       "2-oxo-PCPr",
-      "2′-Oxo-PCPr"
+      "2′-Oxo-PCPr",
+      "2-Keto-PCPr",
+      "Deschloro‑N‑propyl ketamine",
+      "O‑PCPr"
     ],
     "category": "Dissociative",
     "tags": [
@@ -68000,10 +68000,10 @@
     "source": "drug.community",
     "name": "Ondansetron",
     "aliases": [
-      "Zuplenz",
-      "Ondansetron ODT (orally disintegrating tablet)",
+      "Ondansetron HCl",
       "Zofran",
-      "Ondansetron HCl"
+      "Zuplenz",
+      "Ondansetron ODT (orally disintegrating tablet)"
     ],
     "category": "Antiemetic (not psychoactive in the traditional sense; centrally and peripherally acts on emesis pathways)",
     "tags": [],
@@ -68221,8 +68221,8 @@
     "aliases": [
       "serax",
       "Serepax",
-      "Sobril",
-      "Seresta"
+      "Seresta",
+      "Sobril"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -68502,17 +68502,17 @@
       "oxycontin",
       "oxynorm",
       "percocet",
-      "Oxycodone HCl",
-      "Counterfeit slang: “M30 blues” (often fake)",
-      "“Oxy”, “Oxys”",
-      "Roxicodone (IR oxycodone)",
-      "“Percs”",
-      "Oxycodonum",
-      "Percodan (oxycodone + aspirin)",
       "(-)-14-Hydroxydihydrocodeinone",
+      "“Percs”",
+      "“Oxy”, “Oxys”",
+      "Dihydrohydroxycodeinone",
       "OxyContin (ER oxycodone)",
       "Percocet (oxycodone + acetaminophen)",
-      "Dihydrohydroxycodeinone"
+      "Oxycodone HCl",
+      "Roxicodone (IR oxycodone)",
+      "Oxycodonum",
+      "Counterfeit slang: “M30 blues” (often fake)",
+      "Percodan (oxycodone + aspirin)"
     ],
     "category": "Opioid",
     "tags": [
@@ -69013,11 +69013,11 @@
     "source": "drug.community",
     "name": "Para-Methoxyamphetamine",
     "aliases": [
+      "4-methoxyamphetamine",
       "1-(4-methoxyphenyl)propan-2-amine",
-      "PMA",
       "4-MA",
-      "paramethoxyamphetamine",
-      "4-methoxyamphetamine"
+      "PMA",
+      "paramethoxyamphetamine"
     ],
     "category": "Stimulant; hallucinogen",
     "tags": [],
@@ -69298,21 +69298,21 @@
       "dust",
       "phencyclidine",
       "wet",
-      "KW",
-      "Goon",
       "Hog",
-      "Tic",
-      "Embalming Fluid (slang for PCP, not actual formaldehyde)",
-      "Crystal",
-      "Fry",
-      "Peace Pill",
       "Rocket Fuel",
       "Angel Dust",
-      "Monkey Dust",
-      "Killer Weed",
+      "Goon",
+      "Fry",
+      "Tic",
       "Boat",
-      "Love Boat",
+      "Peace Pill",
       "Sherm",
+      "Crystal",
+      "Monkey Dust",
+      "Love Boat",
+      "Embalming Fluid (slang for PCP, not actual formaldehyde)",
+      "KW",
+      "Killer Weed",
       "Mintweed"
     ],
     "category": "Dissociative",
@@ -69769,15 +69769,15 @@
     "source": "curated",
     "name": "Pemoline",
     "aliases": [
-      "Betanamin",
-      "Pemoline magnesium",
-      "Phenoxazole",
-      "Ceractiv",
-      "Magnesium pemoline",
-      "Tradon",
-      "Phenylisohydantoin",
       "Cylert",
-      "PemADD"
+      "Phenoxazole",
+      "Tradon",
+      "Betanamin",
+      "Magnesium pemoline",
+      "Phenylisohydantoin",
+      "PemADD",
+      "Pemoline magnesium",
+      "Ceractiv"
     ],
     "category": "Stimulant",
     "tags": [
@@ -70323,9 +70323,9 @@
     "aliases": [
       "Bonsai supersleep",
       "Bromdihydrochlorphenylbenzodiazepine",
-      "Fenazepam",
-      "7-bromo-5-(2-chlorophenyl)-1,3-dihydro-2H-1,4-benzodiazepin-2-one",
       "Phenzitat",
+      "7-bromo-5-(2-chlorophenyl)-1,3-dihydro-2H-1,4-benzodiazepin-2-one",
+      "Fenazepam",
       "Феназепам"
     ],
     "category": "Benzodiazepine",
@@ -70415,13 +70415,13 @@
     "source": "drug.community",
     "name": "Phendimetrazine",
     "aliases": [
-      "Melfiat",
+      "Phendimetrazine tartrate",
       "Statobex",
-      "Fendique ER",
-      "Adipost",
       "(2S,3S)-3,4-dimethyl-2-phenylmorpholine",
+      "Melfiat",
+      "Fendique ER",
       "Bontril (legacy brand)",
-      "Phendimetrazine tartrate"
+      "Adipost"
     ],
     "category": "Stimulant, Sympathomimetic amine",
     "tags": [],
@@ -70470,10 +70470,10 @@
       "Nardil",
       "phenelzine sulfate",
       "phenethylhydrazine",
-      "Phenelzinum",
-      "β-phenylethylhydrazine",
       "W-1544a",
-      "2-phenylethylhydrazine"
+      "2-phenylethylhydrazine",
+      "Phenelzinum",
+      "β-phenylethylhydrazine"
     ],
     "category": "Antidepressant",
     "tags": [
@@ -70577,13 +70577,13 @@
     "source": "drug.community",
     "name": "Phenethylamine",
     "aliases": [
-      "β-Phenethylamine",
       "β-aminoethylbenzene",
-      "Benzeneethanamine",
-      "2-Phenylethylamine",
-      "PEA",
+      "β-Phenethylamine",
+      "Phenylethylamine",
       "beta-Phenylethylamine",
-      "Phenylethylamine"
+      "PEA",
+      "2-Phenylethylamine",
+      "Benzeneethanamine"
     ],
     "category": "Stimulant; trace amine; TAAR1 agonist (indirect sympathomimetic)",
     "tags": [],
@@ -70791,11 +70791,11 @@
       "luminal",
       "pheno",
       "phenobarbitone",
-      "5-ethyl-5-phenylbarbituric acid",
-      "Phenobarb",
-      "PB",
       "Phenobarbitol",
-      "Sezaby"
+      "5-ethyl-5-phenylbarbituric acid",
+      "Sezaby",
+      "PB",
+      "Phenobarb"
     ],
     "category": "Depressant",
     "tags": [
@@ -70874,14 +70874,14 @@
     "source": "drug.community",
     "name": "Phentermine+Fenfluramine",
     "aliases": [
-      "phentermine + (dex)fenfluramine",
-      "phentermine/fenfluramine",
-      "Adipex-P + Pondimin",
-      "Phen/Fen",
-      "Redux (dexfenfluramine) + phentermine",
       "Pondimin + phentermine",
-      "phentermine + fenfluramine",
-      "Fen-Phen"
+      "phentermine/fenfluramine",
+      "Redux (dexfenfluramine) + phentermine",
+      "phentermine + (dex)fenfluramine",
+      "Phen/Fen",
+      "Fen-Phen",
+      "Adipex-P + Pondimin",
+      "phentermine + fenfluramine"
     ],
     "category": "Stimulant anorectic (DA/NE releaser) + serotonergic releasing agent",
     "tags": [],
@@ -71063,11 +71063,11 @@
       "PEF100",
       "R(-)-phenylephrine",
       "Sudafed PE",
-      "Omidria (phenylephrine/ketorolac)",
+      "Vazculep",
       "Mydfrin",
+      "Omidria (phenylephrine/ketorolac)",
       "Mydcombi (tropicamide/phenylephrine)",
-      "DayQuil Sinex (phenylephrine-containing variants)",
-      "Vazculep"
+      "DayQuil Sinex (phenylephrine-containing variants)"
     ],
     "category": "Other",
     "tags": [
@@ -71386,13 +71386,13 @@
     "source": "drug.community",
     "name": "Phenylpropylaminopentane",
     "aliases": [
-      "1-phenyl-2-propylaminopentane",
-      "(-)-PPAP",
       "(2R)-1-phenyl-N-propylpentan-2-amine",
-      "DPPEA",
-      "MK-306",
       "PPAP",
-      "α,N-dipropylphenethylamine"
+      "MK-306",
+      "DPPEA",
+      "α,N-dipropylphenethylamine",
+      "1-phenyl-2-propylaminopentane",
+      "(-)-PPAP"
     ],
     "category": "Catecholaminergic activity enhancer (CAE); mild psychostimulant",
     "tags": [],
@@ -71744,9 +71744,9 @@
     "source": "drug.community",
     "name": "Pipradrol",
     "aliases": [
-      "diphenyl(piperidin-2-yl)methanol (IUPAC)",
       "Pipradrol HCl",
-      "Meratran (former brand)"
+      "Meratran (former brand)",
+      "diphenyl(piperidin-2-yl)methanol (IUPAC)"
     ],
     "category": "Stimulant (primarily NDRI)",
     "tags": [],
@@ -71841,25 +71841,25 @@
       "Nootropil",
       "oikamid",
       "UCB-6215",
-      "Psycotron",
-      "Cetam",
-      "Dinagen",
-      "Encetrop",
-      "Memo-Puren",
-      "Normabrain",
       "Encefalux",
-      "Norzetam",
+      "Psycotron",
       "Pirroxil",
-      "Memotopil",
-      "Euvifor",
-      "Cerebroforte",
-      "Cerebrospan",
-      "Stimucortex",
       "Gabacet",
-      "Nootropyl",
-      "Nootron",
+      "Memotopil",
+      "Cerebrospan",
+      "Memo-Puren",
+      "Avigilen",
+      "Cerebroforte",
+      "Encetrop",
+      "Dinagen",
       "Genogris",
-      "Avigilen"
+      "Nootropyl",
+      "Norzetam",
+      "Normabrain",
+      "Cetam",
+      "Nootron",
+      "Euvifor",
+      "Stimucortex"
     ],
     "category": "Nootropic",
     "tags": [
@@ -72312,8 +72312,8 @@
       "prazene",
       "reapam",
       "trepidan",
-      "Sedapran",
-      "Prazepamum"
+      "Prazepamum",
+      "Sedapran"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -72402,11 +72402,11 @@
     "source": "curated",
     "name": "Pre-084",
     "aliases": [
+      "2-(4-morpholino)ethyl 1-phenylcyclohexane-1-carboxylate",
       "Research ligand PRE-084",
       "2-(4-morpholinyl)ethyl 1-phenylcyclohexanecarboxylate",
-      "2-(4-morpholino)ethyl 1-phenylcyclohexane-1-carboxylate",
-      "PRE-084 hydrochloride",
-      "2-morpholin-4-ylethyl 1-phenylcyclohexane-1-carboxylate"
+      "2-morpholin-4-ylethyl 1-phenylcyclohexane-1-carboxylate",
+      "PRE-084 hydrochloride"
     ],
     "category": "Other",
     "tags": [
@@ -72446,13 +72446,13 @@
     "aliases": [
       "lyrica",
       "pregablin",
-      "α2δ calcium-channel ligand",
-      "(S)-(+)-4-amino-3-(2-methylpropyl)butanoic acid",
-      "PGB",
       "CI-1008",
-      "PD-144723",
+      "PGB",
       "DB00230",
-      "(S)-3-isobutyl GABA"
+      "(S)-3-isobutyl GABA",
+      "PD-144723",
+      "(S)-(+)-4-amino-3-(2-methylpropyl)butanoic acid",
+      "α2δ calcium-channel ligand"
     ],
     "category": "GABAergic",
     "tags": [
@@ -72706,11 +72706,11 @@
       "catovit",
       "promotil",
       "villescon",
-      "ATC N06BX14",
-      "Katovit",
       "prolintane hydrochloride",
-      "1-(α-propylphenethyl)pyrrolidine",
+      "ATC N06BX14",
       "1-(1-phenylpentan-2-yl)pyrrolidine",
+      "Katovit",
+      "1-(α-propylphenethyl)pyrrolidine",
       "βk‑Prolintane analog class relates to α‑PVP (desmethylpyrovalerone)"
     ],
     "category": "Stimulant",
@@ -72935,9 +72935,9 @@
       "hemangeol",
       "inderal",
       "innopran",
-      "Inderal LA",
-      "IUPAC: 1-(isopropylamino)-3-(1-naphthyloxy)propan-2-ol",
       "Hemangiol",
+      "IUPAC: 1-(isopropylamino)-3-(1-naphthyloxy)propan-2-ol",
+      "Inderal LA",
       "Innopran XL"
     ],
     "category": "Cardiovascular",
@@ -73234,11 +73234,11 @@
     "source": "curated",
     "name": "Protonitazene",
     "aliases": [
-      "Propoxynitazene",
-      "Protonitazene freebase",
-      "N,N-diethyl-2-[5-nitro-2-((4-propoxyphenyl)methyl)benzimidazol-1-yl]ethanamine",
       "Pronitazene",
-      "Protonitazene HCl"
+      "Protonitazene HCl",
+      "Protonitazene freebase",
+      "Propoxynitazene",
+      "N,N-diethyl-2-[5-nitro-2-((4-propoxyphenyl)methyl)benzimidazol-1-yl]ethanamine"
     ],
     "category": "Opioid",
     "tags": [
@@ -73885,8 +73885,8 @@
     "source": "curated",
     "name": "Pyrazolam",
     "aliases": [
-      "8-bromo-1-methyl-6-(pyridin-2-yl)-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine",
       "IUPAC: 12-bromo-3-methyl-9-(pyridin-2-yl)-2,4,5,8-tetraazatricyclo[8.4.0.0^{2,6}]tetradeca-1(10),3,5,8,11,13-hexaene",
+      "8-bromo-1-methyl-6-(pyridin-2-yl)-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine",
       "Pirazolam"
     ],
     "category": "Benzodiazepine",
@@ -74085,10 +74085,10 @@
     "name": "Pyrovalerone",
     "aliases": [
       "1-(4-methylphenyl)-2-(pyrrolidin-1-yl)pentan-1-one",
-      "O-2371",
-      "1-(p-tolyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+      "beta-keto-prolintane",
       "Desmethyl analog: α‑PVP (class relation)",
-      "beta-keto-prolintane"
+      "1-(p-tolyl)-2-(pyrrolidin-1-yl)pentan-1-one",
+      "O-2371"
     ],
     "category": "Norepinephrine–dopamine reuptake inhibitor (stimulant)",
     "tags": [],
@@ -76020,10 +76020,10 @@
     "aliases": [
       "Sal A",
       "Salvia divinorum extract",
-      "(2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(3-furanyl)dodecahydro-6a,10b-dimethyl-4,10-dioxo-2H-naphtho[2,1-c]pyran-7-carboxylic acid methyl ester",
       "Salvinorin (original Ortega name for salvinorin A)",
-      "Divinorin A",
-      "CAS 83729-01-5"
+      "CAS 83729-01-5",
+      "(2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(3-furanyl)dodecahydro-6a,10b-dimethyl-4,10-dioxo-2H-naphtho[2,1-c]pyran-7-carboxylic acid methyl ester",
+      "Divinorin A"
     ],
     "category": "Dysdelic",
     "tags": [
@@ -76933,10 +76933,10 @@
     "source": "drug.community",
     "name": "Serdexmethylphenidate",
     "aliases": [
-      "SDX",
       "KP-415 inner salt",
-      "Serdexmethylphenidate chloride (inner salt)",
-      "Azstarys SDX component"
+      "Azstarys SDX component",
+      "SDX",
+      "Serdexmethylphenidate chloride (inner salt)"
     ],
     "category": "Stimulant (prodrug of dexmethylphenidate; NDRI downstream)",
     "tags": [],
@@ -77221,11 +77221,11 @@
     "source": "drug.community",
     "name": "Sibutramine",
     "aliases": [
-      "Butramin",
+      "Reductil",
       "Medaria",
-      "Meridia",
+      "Butramin",
       "Sibutramine hydrochloride monohydrate",
-      "Reductil"
+      "Meridia"
     ],
     "category": "Stimulant, Anorectic",
     "tags": [],
@@ -77351,11 +77351,11 @@
     "source": "drug.community",
     "name": "SL-164",
     "aliases": [
-      "SL164",
-      "methaqualone analogue",
-      "Dicloqualone",
       "SL 164",
-      "quinazolinone sedative"
+      "Dicloqualone",
+      "methaqualone analogue",
+      "quinazolinone sedative",
+      "SL164"
     ],
     "category": "Sedative-hypnotic depressant; presumed GABAA positive allosteric modulator (by class analogy to methaqualone).",
     "tags": [],
@@ -77496,9 +77496,9 @@
     "source": "drug.community",
     "name": "Spirochlorphine",
     "aliases": [
-      "R6890",
+      "SPC",
       "R-6890",
-      "SPC"
+      "R6890"
     ],
     "category": "Opioid analgesic (μ-opioid/NOP agonist)",
     "tags": [],
@@ -77546,8 +77546,8 @@
     "source": "drug.community",
     "name": "SR-14968",
     "aliases": [
-      "SR14968",
       "1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-5,6-dichloro-1H-benzo[d]imidazol-2(3H)-one",
+      "SR14968",
       "SR-14"
     ],
     "category": "Opioid analgesic (atypical, biased)",
@@ -77596,9 +77596,9 @@
     "name": "SR-17018",
     "aliases": [
       "SR 17018",
+      "5,6-dichloro-3-(1-((4-chlorophenyl)methyl)piperidin-4-yl)-1H-benzimidazol-2-one",
       "SR17018",
-      "SR‑17",
-      "5,6-dichloro-3-(1-((4-chlorophenyl)methyl)piperidin-4-yl)-1H-benzimidazol-2-one"
+      "SR‑17"
     ],
     "category": "Opioid analgesic (atypical, biased)",
     "tags": [],
@@ -78167,8 +78167,8 @@
     "source": "curated",
     "name": "Tapentadol",
     "aliases": [
-      "Nucynta",
-      "Palexia"
+      "Palexia",
+      "Nucynta"
     ],
     "category": "Opioid",
     "tags": [
@@ -78393,13 +78393,13 @@
     "name": "Temazepam",
     "aliases": [
       "restoril",
-      "Apo-Temazepam",
-      "Normison",
+      "Euhypnos",
       "jellies (street)",
       "Remestan",
       "duck eggs (street)",
-      "Temaze",
-      "Euhypnos"
+      "Apo-Temazepam",
+      "Normison",
+      "Temaze"
     ],
     "category": "Benzodiazepine",
     "tags": [
@@ -79008,15 +79008,15 @@
     "source": "curated",
     "name": "Thiopental",
     "aliases": [
-      "Thionembutal",
-      "Penthiobarbital",
-      "Trapanal",
-      "Thiomebumal",
-      "Thiopentobarbital",
-      "Thiopental Sodium",
-      "Pentothal",
-      "Thiopentone",
       "Sodipental",
+      "Pentothal",
+      "Thiopentobarbital",
+      "Penthiobarbital",
+      "Thiopental Sodium",
+      "Thiopentone",
+      "Trapanal",
+      "Thionembutal",
+      "Thiomebumal",
       "Nesdonal"
     ],
     "category": "Depressant",
@@ -79264,11 +79264,11 @@
       "CI-634",
       "telazol",
       "Telazol component",
+      "Tiletamine HCl",
+      "Tiletaminum",
       "Telazol (tiletamine + zolazepam, 1:1)",
       "2-(ethylamino)-2-(2-thienyl)cyclohexanone",
-      "Zoletil (tiletamine + zolazepam, 1:1)",
-      "Tiletamine HCl",
-      "Tiletaminum"
+      "Zoletil (tiletamine + zolazepam, 1:1)"
     ],
     "category": "Dissociative",
     "tags": [
@@ -79551,14 +79551,14 @@
     "source": "curated",
     "name": "TMA",
     "aliases": [
-      "3",
-      "4",
       "Trimethoxyamphetamine",
       "Mescaline amphetamine analog",
-      "TMA-1",
+      "3",
       "5-Trimethoxyamphetamine",
+      "4",
       "3,4,5-TMA",
-      "3,4,5-Trimethoxyamphetamine"
+      "3,4,5-Trimethoxyamphetamine",
+      "TMA-1"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -79600,12 +79600,12 @@
     "source": "curated",
     "name": "TMA-2",
     "aliases": [
-      "4",
-      "2",
+      "2,4,5-Trimethoxyamphetamine",
       "2,4,5-TMA",
+      "4",
       "5-Trimethoxyamphetamine",
       "1-(2,4,5-trimethoxyphenyl)propan-2-amine",
-      "2,4,5-Trimethoxyamphetamine"
+      "2"
     ],
     "category": "Psychedelic",
     "tags": [
@@ -80185,11 +80185,11 @@
     "name": "Tramadol",
     "aliases": [
       "tram",
-      "Tramadol HCl",
-      "Tramal",
       "Tramadolum",
+      "Tramal",
+      "Ultracet",
       "Ultram",
-      "Ultracet"
+      "Tramadol HCl"
     ],
     "category": "Opioid",
     "tags": [
@@ -80286,11 +80286,11 @@
     "name": "Tranylcypromine",
     "aliases": [
       "Parnate",
-      "SKF-385",
+      "trans-2-phenylcyclopropan-1-amine",
       "(±)-trans-2-phenylcyclopropylamine",
-      "Racemic tranylcypromine",
       "Tranylcypromine sulfate",
-      "trans-2-phenylcyclopropan-1-amine"
+      "SKF-385",
+      "Racemic tranylcypromine"
     ],
     "category": "Antidepressant",
     "tags": [
@@ -80345,10 +80345,10 @@
       "Desyrel",
       "Oleptro",
       "Trittico",
-      "Thombran",
-      "AF-1161",
+      "Trazolan",
       "Molipaxin",
-      "Trazolan"
+      "AF-1161",
+      "Thombran"
     ],
     "category": "Antidepressant",
     "tags": [
@@ -81631,8 +81631,8 @@
     "name": "Vilazodone",
     "aliases": [
       "Viibryd",
-      "SB-659746A",
-      "EMD-68843"
+      "EMD-68843",
+      "SB-659746A"
     ],
     "category": "Antidepressant",
     "tags": [
@@ -82317,9 +82317,9 @@
       "lisdextroamfetamine",
       "lisdextroamphetamine",
       "Dextroamphetamine prodrug",
-      "Lisdexamfetamine dimesylate",
+      "LDX",
       "Lisdexamphetamine (INTL)",
-      "LDX"
+      "Lisdexamfetamine dimesylate"
     ],
     "category": "Stimulant",
     "tags": [
@@ -82921,17 +82921,17 @@
     "aliases": [
       "ambien",
       "stilnox",
+      "Zolsana",
+      "Zoltis",
+      "Zolpimist",
+      "Stilnoct",
+      "Stilnox CR",
+      "Ivedal",
+      "Ambien CR",
       "Intermezzo",
       "Hypnogen",
-      "Stilnox CR",
-      "Zoltis",
-      "Stilnoct",
-      "Ambien CR",
-      "Zolsana",
-      "Nimadorm",
       "Edluar",
-      "Zolpimist",
-      "Ivedal"
+      "Nimadorm"
     ],
     "category": "Depressant",
     "tags": [
@@ -83043,20 +83043,20 @@
     "aliases": [
       "imovane",
       "zimovane",
-      "Zopiclon Stada",
-      "Zopiclon TAD",
-      "Siaten",
-      "Limovan",
       "Somnosan",
       "Rhovane",
-      "Ximovan",
-      "Optidorm",
-      "Zopiclon-ratiopharm",
-      "Zopitan",
-      "Zileze",
+      "Zopiclon AL",
       "Nu‑Zopiclone",
+      "Zopiclon TAD",
+      "Ximovan",
+      "Siaten",
       "Zopiclon-neuraxpharm",
-      "Zopiclon AL"
+      "Zopitan",
+      "Zopiclon-ratiopharm",
+      "Zopiclon Stada",
+      "Zileze",
+      "Optidorm",
+      "Limovan"
     ],
     "category": "Depressant",
     "tags": [
@@ -83233,10 +83233,10 @@
     "source": "drug.community",
     "name": "α-PCYP",
     "aliases": [
-      "alpha-PyrrolidinoCyclohexanoPhenone",
+      "alpha-PCyP",
       "A‑PCYP",
-      "alpha-Pyrrolidinocyclohexanophenone",
-      "alpha-PCyP"
+      "alpha-PyrrolidinoCyclohexanoPhenone",
+      "alpha-Pyrrolidinocyclohexanophenone"
     ],
     "category": "Stimulant",
     "tags": [],
@@ -83289,11 +83289,11 @@
     "source": "drug.community",
     "name": "α-Pyrrolidinopropiophenone",
     "aliases": [
-      "APPP",
-      "α-PPP HCl",
       "1-phenyl-2-(pyrrolidin-1-yl)propan-1-one",
-      "alpha-PPP",
       "a-PPP",
+      "α-PPP HCl",
+      "alpha-PPP",
+      "APPP",
       "α-pyrrolidinopropiophenone freebase"
     ],
     "category": "Dopamine- and norepinephrine-transport reuptake inhibitor (DNRI); minimal SERT activity based on class data",
@@ -83389,13 +83389,13 @@
       "bh-2c-b",
       "boh-2c-b",
       "bohb",
-      "2C-B-OH",
-      "βOH-2C-B",
       "2-Amino-1-(4-bromo-2,5-dimethoxyphenyl)ethanol",
-      "BOH2CB",
       "2C-B-β-ol",
       "β-Hydroxy-4-bromo-2,5-dimethoxyphenethylamine",
-      "BH2CB"
+      "2C-B-OH",
+      "βOH-2C-B",
+      "BH2CB",
+      "BOH2CB"
     ],
     "category": "Psychedelic",
     "tags": [
