@@ -19473,6 +19473,22 @@
           }
         }
       }
+    },
+    "+%lld earlier": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还有 %lld 次更早"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還有 %lld 次更早"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
