@@ -24,9 +24,7 @@ struct InsightsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
-        .scrollEdgeEffectStyle(.soft, for: .top)
-        .safeAreaBar(edge: .top) { ScreenHeaderBar("Insights") }
-        .toolbar(.hidden, for: .navigationBar)
+        .appHeader("Insights")
         .task(id: changeToken) { recompute() }
     }
 
