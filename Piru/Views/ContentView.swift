@@ -351,9 +351,9 @@ private struct SearchView: View {
     private var content: some View {
         switch scope {
         case .library:
-            SubstanceLibraryView(searchText: $searchText)
+            SubstanceLibraryView(searchText: $searchText, isSearchSurface: true)
         case .journal:
-            EntryListView(searchText: $searchText)
+            EntryListView(searchText: $searchText, isSearchSurface: true)
         }
     }
 }
