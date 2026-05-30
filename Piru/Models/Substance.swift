@@ -309,6 +309,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     case psychedelic = "Psychedelic"
     case dissociative = "Dissociative"
     case dysdelic = "Dysdelic"
+    case deliriant = "Deliriant"
     case opioid = "Opioid"
     case benzodiazepine = "Benzodiazepine"
     case gabapentinoid = "GABAergic"
@@ -345,6 +346,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "psychedelic", "hallucinogen": return .psychedelic
         case "dissociative": return .dissociative
         case "dysdelic", "kappa-agonist", "kappa-opioid-agonist", "salvinorin": return .dysdelic
+        case "deliriant", "anticholinergic", "muscarinic-antagonist": return .deliriant
         case "opioid", "opiate": return .opioid
         case "benzodiazepine": return .benzodiazepine
         case "depressant", "barbiturate", "sedative": return .depressant
@@ -355,7 +357,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case "eugeroic", "afinil", "wake-promoting": return .eugeroic
         case "ssri", "snri", "maoi", "antidepressant": return .antidepressant
         case "antipsychotic": return .antipsychotic
-        case "antihistamine", "deliriant": return .antihistamine
+        case "antihistamine": return .antihistamine
         case "analgesic": return .analgesic
         case "supplement", "vitamin", "steroid": return .supplement
         case "peptide", "peptide-mimetic": return .peptide
@@ -381,6 +383,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case .psychedelic: "Psychedelic"
         case .dissociative: "Dissociative"
         case .dysdelic: "Dysdelic"
+        case .deliriant: "Deliriant"
         case .opioid: "Opioid"
         case .benzodiazepine: "Benzodiazepine"
         case .gabapentinoid: "GABAergic"
@@ -834,6 +837,7 @@ extension SubstanceCategory {
         case .psychedelic: "eye.fill"
         case .dissociative: "waveform.path"
         case .dysdelic: "tornado"
+        case .deliriant: "cloud.fog.fill"
         case .opioid: "cross.fill"
         case .benzodiazepine: "moon.fill"
         case .gabapentinoid: "waveform"
@@ -866,6 +870,7 @@ extension SubstanceCategory {
         case .psychedelic: .purple
         case .dissociative: .cyan
         case .dysdelic: Color(red: 0.55, green: 0.25, blue: 0.55)
+        case .deliriant: Color(red: 0.52, green: 0.48, blue: 0.32)
         case .opioid: .red
         case .benzodiazepine: .blue
         case .gabapentinoid: .indigo
