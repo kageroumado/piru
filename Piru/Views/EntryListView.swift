@@ -36,6 +36,11 @@ struct EntryListView: View {
     @Query private var substanceColors: [SubstanceColor]
 
     @Binding var searchText: String
+
+    /// When embedded in the Search tab: drop the "Journal" header + filter bar,
+    /// showing only the (recent / searched) entries.
+    var isSearchSurface = false
+
     @State private var selectedTag: String? = nil
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingFilters = false
@@ -187,19 +192,21 @@ struct EntryListView: View {
 
     var body: some View {
         List {
-            // Filters + tag chips header
-            VStack(alignment: .leading, spacing: 0) {
-                filterBar
+            if !isSearchSurface {
+                // Filters + tag chips header
+                VStack(alignment: .leading, spacing: 0) {
+                    filterBar
 
-                if !allUsedTags.isEmpty && grouping == .byDay {
-                    tagChipBar
-                        .transition(.opacity)
+                    if !allUsedTags.isEmpty && grouping == .byDay {
+                        tagChipBar
+                            .transition(.opacity)
+                    }
                 }
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .animation(.easeInOut(duration: 0.2), value: grouping == .byDay)
             }
-            .listRowInsets(EdgeInsets())
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-            .animation(.easeInOut(duration: 0.2), value: grouping == .byDay)
 
             // Main content
             switch grouping {
@@ -213,7 +220,7 @@ struct EntryListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appHeader("Journal")
+        .appHeader("Journal", enabled: !isSearchSurface)
         .overlay {
             if filteredEntries.isEmpty {
                 emptyState

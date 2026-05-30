@@ -82,6 +82,17 @@ extension View {
     func appHeader(_ title: LocalizedStringKey) -> some View {
         modifier(AppHeaderModifier(title: title))
     }
+
+    /// Applies ``appHeader(_:)`` only when `enabled` — e.g. a view used both as
+    /// a tab root (header on) and embedded in the Search surface (header off).
+    @ViewBuilder
+    func appHeader(_ title: LocalizedStringKey, enabled: Bool) -> some View {
+        if enabled {
+            appHeader(title)
+        } else {
+            self
+        }
+    }
 }
 
 /// Reusable content for a tappable overview card — leading icon, title, one or

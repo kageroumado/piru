@@ -8516,6 +8516,22 @@
         }
       }
     },
+    "Find any substance by name or alias." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按名称或别名查找任意物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "依名稱或別名尋找任何物質。"
+          }
+        }
+      }
+    },
     "First effects starting now. Find your spot." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14993,6 +15009,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋"
+          }
+        }
+      }
+    },
+    "Search Substances" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋物質"
           }
         }
       }

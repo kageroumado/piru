@@ -4,8 +4,29 @@ import SwiftUI
 struct SubstanceLibraryView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var searchText: String
+
+    /// When embedded in the Search tab: drop the "Library" header + category
+    /// browse, showing only recent substances (empty) or results (typed).
+    var isSearchSurface = false
+
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
     @State private var searchResults: [Substance] = []
+
+    /// Up to 10 most recently logged substances, de-duplicated, resolved to the
+    /// library entry. Drives the Search surface's empty state.
+    private var recentSubstances: [Substance] {
+        var seen = Set<String>()
+        var result: [Substance] = []
+        for entry in recentEntries {
+            let key = entry.substance.lowercased()
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+                result.append(substance)
+                if result.count >= 10 { break }
+            }
+        }
+        return result
+    }
 
     private var favoriteSubstances: [Substance] {
         favorites.compactMap { fav in
@@ -29,7 +50,11 @@ struct SubstanceLibraryView: View {
     var body: some View {
         List {
             if searchText.isEmpty {
-                categoryGrid
+                if isSearchSurface {
+                    recentSection
+                } else {
+                    categoryGrid
+                }
             } else {
                 searchResultsList
             }
@@ -37,7 +62,7 @@ struct SubstanceLibraryView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appHeader("Library")
+        .appHeader("Library", enabled: !isSearchSurface)
         .task(id: searchText) {
             guard !searchText.isEmpty else {
                 searchResults = []
@@ -46,6 +71,28 @@ struct SubstanceLibraryView: View {
             try? await Task.sleep(for: .milliseconds(150))
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
+        }
+    }
+
+    // MARK: - Recent (Search surface)
+
+    @ViewBuilder
+    private var recentSection: some View {
+        if recentSubstances.isEmpty {
+            ContentUnavailableView(
+                "Search Substances",
+                systemImage: "magnifyingglass",
+                description: Text("Find any substance by name or alias.")
+            )
+        } else {
+            Section("Recent") {
+                ForEach(recentSubstances) { substance in
+                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                        SubstanceRowView(substance: substance)
+                    }
+                }
+            }
+            .listSectionSeparator(.hidden, edges: .top)
         }
     }
 
