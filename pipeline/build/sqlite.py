@@ -592,6 +592,19 @@ def load_popularity() -> dict[str, float]:
         return {k: float(v) for k, v in json.load(f).items()}
 
 
+# Curated category corrections: canonical_name → SubstanceCategory. Inserted as a
+# piru-curated category row, which wins resolution over the source feeds (e.g.
+# Kratom: PsychonautWiki says Stimulant, but it's primarily a µ-opioid agonist).
+_CATEGORY_OVERRIDES_PATH = REPO / "data/curated/category-overrides.json"
+
+
+def load_category_overrides() -> dict[str, str]:
+    if not _CATEGORY_OVERRIDES_PATH.exists():
+        return {}
+    with _CATEGORY_OVERRIDES_PATH.open() as f:
+        return json.load(f)
+
+
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
 # Used by `smart_title_case` to handle entries that arrived all-lowercase
 # from drug.community / TripSit but represent acronyms (lsd, mdma, gbl).
@@ -2771,6 +2784,18 @@ def main() -> int:
         build.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (score, row[0]))
         scored += 1
     print(f"Popularity scores: {scored}/{len(popularity)}", file=sys.stderr)
+
+    # Apply curated category corrections via a piru-curated row that wins resolution.
+    cat_overrides = load_category_overrides()
+    recategorized = 0
+    for canon, category in cat_overrides.items():
+        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not row:
+            print(f"  WARNING: category-override target not found: {canon!r}", file=sys.stderr)
+            continue
+        build.add_category(row[0], "piru-curated", category)
+        recategorized += 1
+    print(f"Category overrides: {recategorized}/{len(cat_overrides)}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
