@@ -23,6 +23,17 @@ nonisolated enum Tool: String, Hashable, Codable, Sendable, CaseIterable, Identi
         }
     }
 
+    /// One-line description shown under the name in the hub list.
+    var subtitle: LocalizedStringResource {
+        switch self {
+        case .interactions: "Check how substances interact"
+        case .calculator: "Estimate active levels over time"
+        case .volumetric: "Dilute and measure precise doses"
+        case .recovery: "Comedown and aftercare tips"
+        case .pharma: "Search by receptor and affinity"
+        }
+    }
+
     var icon: String {
         switch self {
         case .interactions: "exclamationmark.triangle"
@@ -52,11 +63,17 @@ struct ToolsView: View {
         List {
             ForEach(availableTools) { tool in
                 NavigationLink(value: PushRoute.tool(tool)) {
-                    Label {
-                        Text(tool.name)
-                    } icon: {
+                    HStack(spacing: 14) {
                         Image(systemName: tool.icon)
+                            .font(.title3)
                             .foregroundStyle(Theme.accent)
+                            .frame(width: 30)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(tool.name)
+                            Text(tool.subtitle)
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                     }
                     .padding(.vertical, 6)
                 }
