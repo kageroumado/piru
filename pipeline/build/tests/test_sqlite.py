@@ -886,6 +886,25 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
         (d / fname).write_text(json.dumps(entry))
         return d
 
+    def test_override_only_file_is_valid(self):
+        # A scraped-substance override: just a name + popularity, no full definition.
+        e = {"name": "Cocaine", "popularity": 0.95}
+        self.assertEqual(self._check(e, "cocaine.json"), [])
+
+    def test_display_name_only_override_valid(self):
+        e = {"name": "AMT", "displayName": "AMT"}
+        self.assertEqual(self._check(e, "amt.json"), [])
+
+    def test_popularity_out_of_range_rejected(self):
+        for bad in (1.5, -0.1, "high"):
+            e = {"name": "Foo", "popularity": bad}
+            self.assertTrue(any("popularity must be" in x for x in self._check(e, "foo.json")),
+                            f"should reject popularity={bad!r}")
+
+    def test_empty_display_name_rejected(self):
+        e = {"name": "Foo", "displayName": "  "}
+        self.assertTrue(any("displayName" in x for x in self._check(e, "foo.json")))
+
 
 class TestCuratedDirIngest(unittest.TestCase):
     """The curated dir must be the single source of curated data in the built DB,

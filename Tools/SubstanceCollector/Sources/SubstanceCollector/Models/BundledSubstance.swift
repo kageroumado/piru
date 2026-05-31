@@ -124,8 +124,12 @@ struct JSONMechanismOfAction: Codable, Hashable {
 struct BundledSubstance: Codable, Hashable {
     var name: String
     var aliases: [String]
-    var category: String           // SubstanceCategory raw value (e.g. "Stimulant")
-    var defaultRoute: String       // RouteOfAdministration raw value
+    // Optional so an override-only curated file (e.g. just a popularity score or
+    // display name for a scraped substance) need not restate a full definition.
+    var category: String           // SubstanceCategory raw value (e.g. "Stimulant"); "" if omitted
+    var defaultRoute: String       // RouteOfAdministration raw value; "" if omitted
+    var displayName: String?
+    var popularity: Double?
     var routes: [JSONRoute]
     var effects: [String]
     var subjectiveEffects: [JSONSubjectiveEffect]
@@ -160,8 +164,10 @@ struct BundledSubstance: Codable, Hashable {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(name, forKey: .name)
         try c.encode(aliases, forKey: .aliases)
-        try c.encode(category, forKey: .category)
-        try c.encode(defaultRoute, forKey: .defaultRoute)
+        if !category.isEmpty { try c.encode(category, forKey: .category) }
+        if !defaultRoute.isEmpty { try c.encode(defaultRoute, forKey: .defaultRoute) }
+        try c.encodeIfPresent(displayName, forKey: .displayName)
+        try c.encodeIfPresent(popularity, forKey: .popularity)
         try c.encode(routes, forKey: .routes)
         try c.encode(effects, forKey: .effects)
         if !subjectiveEffects.isEmpty {
@@ -187,8 +193,10 @@ struct BundledSubstance: Codable, Hashable {
     init(
         name: String,
         aliases: [String] = [],
-        category: String,
-        defaultRoute: String,
+        category: String = "",
+        defaultRoute: String = "",
+        displayName: String? = nil,
+        popularity: Double? = nil,
         routes: [JSONRoute] = [],
         effects: [String] = [],
         subjectiveEffects: [JSONSubjectiveEffect] = [],
@@ -208,6 +216,8 @@ struct BundledSubstance: Codable, Hashable {
         self.aliases = aliases
         self.category = category
         self.defaultRoute = defaultRoute
+        self.displayName = displayName
+        self.popularity = popularity
         self.routes = routes
         self.effects = effects
         self.subjectiveEffects = subjectiveEffects
@@ -228,8 +238,10 @@ struct BundledSubstance: Codable, Hashable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         name = try c.decode(String.self, forKey: .name)
         aliases = (try? c.decode([String].self, forKey: .aliases)) ?? []
-        category = try c.decode(String.self, forKey: .category)
-        defaultRoute = try c.decode(String.self, forKey: .defaultRoute)
+        category = (try? c.decode(String.self, forKey: .category)) ?? ""
+        defaultRoute = (try? c.decode(String.self, forKey: .defaultRoute)) ?? ""
+        displayName = try? c.decodeIfPresent(String.self, forKey: .displayName)
+        popularity = try? c.decodeIfPresent(Double.self, forKey: .popularity)
         routes = (try? c.decode([JSONRoute].self, forKey: .routes)) ?? []
         effects = (try? c.decode([String].self, forKey: .effects)) ?? []
         subjectiveEffects = (try? c.decode([JSONSubjectiveEffect].self, forKey: .subjectiveEffects)) ?? []
@@ -247,7 +259,7 @@ struct BundledSubstance: Codable, Hashable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case name, aliases, category, defaultRoute, routes, effects
+        case name, aliases, category, defaultRoute, displayName, popularity, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
         case mechanismOfAction, tags
         case cas, inchikey, formula, pubchemCID, molarMass, peptideProfile
