@@ -1,0 +1,59 @@
+# SwiftLint configuration for Piru — relaxed, since most style rules are a
+# matter of taste. Formatting (whitespace, wrapping, commas) is owned by
+# SwiftFormat; SwiftLint keeps the genuinely useful signals.
+
+disabled_rules:
+  # Formatting handled by SwiftFormat
+  - trailing_whitespace
+  - trailing_comma
+
+  # Taste / too restrictive for this codebase
+  - identifier_name
+  - type_name
+  - large_tuple
+  - nesting
+  - for_where
+  - implicit_optional_initialization
+  - type_body_length
+  - todo
+  - line_length            # structure owned by SwiftFormat; long SQL/strings are fine
+  - function_body_length   # SwiftUI `body` and builders run long by nature
+  - cyclomatic_complexity  # likewise for view/route dispatch
+
+  # Conflicts with SwiftUI idioms
+  - multiple_closures_with_trailing_closure
+
+  # "blocklist"/"whitelist" are accurate technical terms here
+  - inclusive_language
+
+# force_try / force_cast are legitimate signals but often intentional (regex
+# literals, bundled-resource decode, tests) — keep them visible as warnings
+# rather than commit/CI-blocking errors.
+force_try:
+  severity: warning
+force_cast:
+  severity: warning
+
+# Generous limits for the larger views / data store.
+file_length:
+  warning: 1800
+  error: 2500
+
+function_parameter_count:
+  warning: 8
+  error: 12
+
+indentation: 4
+
+included:
+  - Piru
+  - PiruTests
+  - PiruWidget
+  - PiruLiveActivityExtension
+  - Shared
+  - Tools/SubstanceCollector/Sources
+
+excluded:
+  - .build
+  - .claude
+  - DerivedData

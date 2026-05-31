@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# IMPORTANT: CI runs ONLY offline checks against data already committed to the
+# repo. It never runs the data-fetch / scrape passes (the Swift collector,
+# pipeline/fetch/*, or `pipeline/build.sh full`), so it never hits the upstream
+# APIs (PsychonautWiki, etc.). Re-fetching is a manual, intentional act.
+
+jobs:
+  python:
+    name: Python (lint + data + tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install ruff==0.15.15
+      - name: Ruff format check
+        run: ruff format --check .
+      - name: Ruff lint
+        run: ruff check .
+      - name: Validate curated substances
+        run: python3 pipeline/build/validate_curated.py
+      - name: Pipeline tests (parsers, validators, built-DB invariants)
+        run: python3 pipeline/build/tests/test_sqlite.py
+
+  swift-lint:
+    name: Swift (format + lint)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install swiftformat swiftlint
+      - name: SwiftFormat (check only)
+        run: swiftformat --lint .
+      - name: SwiftLint
+        run: swiftlint lint --quiet
+
+  swift-build:
+    name: Swift (build + test)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select latest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+      - name: Build SubstanceCollector (SPM)
+        run: swift build --package-path Tools/SubstanceCollector
+      # Requires a runner Xcode with the iOS 26 SDK + an iPhone 17 Pro simulator.
+      - name: Build & test the app
+        run: |
+          xcodebuild -scheme Piru \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            test | tail -40
