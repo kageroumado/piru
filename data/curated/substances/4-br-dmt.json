@@ -1,0 +1,24 @@
+{
+  "name": "4-Br-DMT",
+  "aliases": [
+    "4-Bromo-N,N-dimethyltryptamine"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Halogenated tryptamine SAR poorly characterized — extreme caution, doses are extrapolations.",
+    "4-bromo DMT analog",
+    "No published human pharmacology"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "tryptamine",
+    "tryptamine-halogen",
+    "research-chemical",
+    "no-human-data",
+    "experimental"
+  ]
+}

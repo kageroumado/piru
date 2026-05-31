@@ -1,0 +1,109 @@
+{
+  "name": "Hydroxyzine",
+  "aliases": [
+    "Vistaril",
+    "Atarax"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 600
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 25,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 240,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Sedation and anxiolysis",
+    "Antipruritic — widely used for chronic urticaria",
+    "Antiemetic",
+    "Anticholinergic: dry mouth, blurred vision",
+    "No respiratory depression at therapeutic doses"
+  ],
+  "halfLifeMinutes": 1200,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf",
+    "https://en.wikipedia.org/wiki/Hydroxyzine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3658"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "anxiolytic",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Reishi",
+  "aliases": [
+    "Ganoderma lucidum",
+    "Lingzhi",
+    "Mannentake"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "common": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "strong": {
+          "lower": 4000,
+          "upper": 6000
+        },
+        "heavy": 6000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 43200,
+          "max": 172800
+        },
+        "offset": {
+          "min": 172800,
+          "max": 604800
+        },
+        "total": {
+          "min": 86400,
+          "max": 604800
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Immunomodulatory polysaccharides (beta-glucans) and triterpenes",
+    "Adaptogenic — stress response modulation via HPA axis",
+    "Investigated for fatigue, sleep quality, and immune support",
+    "Mild antihypertensive properties",
+    "Antiplatelet/anticoagulant activity — caution with blood thinners",
+    "Powder vs extract potency varies widely — standardized extracts preferred"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5361257",
+    "https://en.wikipedia.org/wiki/Ganoderma_lucidum",
+    "https://examine.com/supplements/ganoderma-lucidum/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "immunomodulator",
+    "mushroom",
+    "sleep"
+  ]
+}

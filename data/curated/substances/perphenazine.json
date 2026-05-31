@@ -1,0 +1,70 @@
+{
+  "name": "Perphenazine",
+  "aliases": [
+    "Trilafon",
+    "Etrafon (combination)"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 2,
+          "upper": 8
+        },
+        "common": {
+          "lower": 8,
+          "upper": 24
+        },
+        "strong": {
+          "lower": 24,
+          "upper": 48
+        },
+        "heavy": 64
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mid-potency typical antipsychotic with D2 and H1 blockade",
+    "Moderate EPS risk — lower than haloperidol",
+    "Moderate sedation",
+    "Comparable efficacy to atypicals in the CATIE trial",
+    "Hyperprolactinemia",
+    "Some antiemetic properties at low doses"
+  ],
+  "halfLifeMinutes": 540,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012013s074lbl.pdf",
+    "https://en.wikipedia.org/wiki/Perphenazine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4748"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "prescription-only",
+    "phenothiazine"
+  ]
+}

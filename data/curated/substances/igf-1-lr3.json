@@ -1,0 +1,69 @@
+{
+  "name": "IGF-1 LR3",
+  "aliases": [
+    "Long R3 IGF-1"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 20,
+        "highAmount": 50,
+        "frequency": "once daily",
+        "notes": "community/research protocol; no validated human dosing. Hypoglycemia risk"
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mcg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "muscle hyperplasia/hypertrophy",
+    "anabolism",
+    "hypoglycemia risk"
+  ],
+  "halfLifeMinutes": 1500,
+  "mechanismOfAction": {
+    "summary": "Modified recombinant IGF-1 (83-aa analog) — IGF-1R agonist.",
+    "description": "Human IGF-1 with an Arg3→Glu substitution and a 13-residue N-terminal extension that sharply reduce IGF-binding-protein affinity, increasing potency and duration. Agonism of IGF-1R drives anabolic hyperplasia/hypertrophy; hypoglycemia is a key risk.",
+    "primaryTargets": [
+      "IGF-1R"
+    ],
+    "bindings": [
+      {
+        "target": "IGF-1R",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/IGF-1_LR3"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "growth-factor",
+    "wada-prohibited",
+    "no-human-data"
+  ],
+  "cas": "946870-92-4",
+  "molarMass": 9111,
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "CAS 946870-92-4",
+    "https://en.wikipedia.org/wiki/IGF-1_LR3"
+  ]
+}

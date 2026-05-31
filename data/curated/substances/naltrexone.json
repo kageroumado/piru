@@ -1,0 +1,70 @@
+{
+  "name": "Naltrexone",
+  "aliases": [
+    "ReVia",
+    "Vivitrol",
+    "Contrave"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1.5,
+          "upper": 4.5
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Competitive opioid receptor antagonist — used for AUD and OUD",
+    "Blocks euphoria from opioids and alcohol (endorphin-mediated reward)",
+    "Low-dose naltrexone (LDN 1.5–4.5 mg) used off-label: immune modulation, fibromyalgia, autoimmune conditions",
+    "Precipitates withdrawal if opioids present — must be opioid-free 7–10 days before starting",
+    "Nausea, headache, fatigue; hepatotoxicity at very high doses",
+    "Monthly injectable form (Vivitrol) improves adherence"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Naltrexone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5360515"
+  ],
+  "tags": [
+    "opioid-receptor-antagonist",
+    "AUD-treatment",
+    "OUD-treatment",
+    "opioid-precipitated-withdrawal",
+    "prescription-only"
+  ]
+}

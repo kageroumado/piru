@@ -1,0 +1,20 @@
+{
+  "name": "1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Piperazine stimulant",
+    "Research tool compound"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "stimulant",
+    "piperazine",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

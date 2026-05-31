@@ -1,0 +1,59 @@
+{
+  "name": "Pyrazolam",
+  "aliases": [],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 900
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Triazolobenzodiazepine selective for α2/α3 subunits",
+    "Anxiolytic with less sedation than typical benzos",
+    "Limited metabolism — excreted largely unchanged in urine"
+  ],
+  "halfLifeMinutes": 900,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pyrazolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "triazolobenzodiazepine"
+  ]
+}

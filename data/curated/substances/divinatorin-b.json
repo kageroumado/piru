@@ -1,0 +1,19 @@
+{
+  "name": "Divinatorin B",
+  "aliases": [],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Minor neoclerodane diterpenoid from Salvia divinorum",
+    "No reported kappa-opioid activity"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/15670653/"
+  ],
+  "tags": [
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "AM-2201",
+  "aliases": [],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Fluorinated JWH-018 analog from Alexandros Makriyannis lab",
+    "DEA Schedule I 2012"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/AM-2201"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "aminoalkylindole",
+    "high-risk",
+    "US-Schedule-I"
+  ]
+}

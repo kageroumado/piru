@@ -1,0 +1,58 @@
+{
+  "name": "RU58841",
+  "aliases": [
+    "PSK-3841",
+    "HMR-3841"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 50,
+        "highAmount": 50,
+        "frequency": "once daily",
+        "notes": "applied as ~1 mL of 5% solution to scalp; no completed human clinical trials; development abandoned by Roussel Uclaf/Hoechst; systemic t½ ~1 h (designed for rapid clearance)"
+      }
+    }
+  ],
+  "effects": [
+    "potential reduction in hair shedding (anecdotal)",
+    "hair retention (anecdotal user reports)",
+    "systemic AR antagonism risk at high topical absorption (gynecomastia, libido effects)"
+  ],
+  "halfLifeMinutes": 60,
+  "mechanismOfAction": {
+    "summary": "Topical nonsteroidal competitive AR antagonist; designed for scalp application with minimal systemic exposure.",
+    "description": "Competitive androgen receptor antagonist targeting scalp follicle ARs to block DHT-mediated miniaturization in androgenetic alopecia. Designed for minimal systemic absorption — rapid systemic clearance (t½ ~1 h parenteral) when absorbed, intentional design to reduce systemic antiandrogen effects. Development abandoned; no completed randomized controlled trials.",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "antagonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 132981",
+      "https://en.wikipedia.org/wiki/RU-58841"
+    ]
+  },
+  "tags": [
+    "research-chemical"
+  ],
+  "cas": "154992-24-2",
+  "inchikey": "ARBYGDBJECGMGA-UHFFFAOYSA-N",
+  "formula": "C17H18F3N3O3",
+  "pubchemCID": 132981,
+  "molarMass": 369.34,
+  "sources": [
+    "PubChem CID 132981",
+    "https://en.wikipedia.org/wiki/RU-58841"
+  ]
+}

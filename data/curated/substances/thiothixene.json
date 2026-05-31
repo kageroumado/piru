@@ -1,0 +1,69 @@
+{
+  "name": "Thiothixene",
+  "aliases": [
+    "Navane"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "High-potency thioxanthene antipsychotic",
+    "High EPS risk comparable to haloperidol",
+    "Moderate sedation",
+    "Some activating properties at low doses",
+    "Hyperprolactinemia",
+    "QTc prolongation risk"
+  ],
+  "halfLifeMinutes": 2040,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Thiothixene",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5567"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "prescription-only",
+    "high-EPS-risk",
+    "thioxanthene"
+  ]
+}

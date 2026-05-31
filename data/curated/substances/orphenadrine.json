@@ -1,0 +1,68 @@
+{
+  "name": "Orphenadrine",
+  "aliases": [
+    "Norflex",
+    "Disipal",
+    "Norgesic"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Anticholinergic and NMDA antagonist — dual mechanism muscle relaxation",
+    "Euphoria and mild stimulation at supratherapeutic doses",
+    "Anticholinergic: dry mouth, blurred vision, urinary retention, constipation",
+    "Sedation; abuse potential due to euphoric properties"
+  ],
+  "halfLifeMinutes": 840,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Orphenadrine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4601"
+  ],
+  "tags": [
+    "muscle-relaxant",
+    "anticholinergic",
+    "NMDA-antagonist",
+    "abuse-potential",
+    "prescription-only"
+  ]
+}

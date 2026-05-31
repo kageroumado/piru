@@ -1,0 +1,21 @@
+{
+  "name": "3-pip-OH-BTCP",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Hydroxylated BTCP metabolite",
+    "Research tool compound"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "DRI",
+    "arylcyclohexylamine",
+    "research-chemical",
+    "no-human-data",
+    "metabolite"
+  ]
+}

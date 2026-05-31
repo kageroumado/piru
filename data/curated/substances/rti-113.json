@@ -1,0 +1,21 @@
+{
+  "name": "RTI-113",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Phenyltropane DAT-selective inhibitor",
+    "Cocaine-substitution research tool"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenyltropane"
+  ],
+  "tags": [
+    "DRI",
+    "radioligand-origin",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "Melanotan II",
+  "aliases": [
+    "MT-II",
+    "MT-2",
+    "Melanotan 2"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.25,
+          "upper": 0.5
+        },
+        "common": {
+          "lower": 0.5,
+          "upper": 1.0
+        },
+        "strong": {
+          "lower": 1.0,
+          "upper": 1.5
+        },
+        "heavy": 2.0
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 600,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Cyclic synthetic melanocortin agonist (MC1R, MC3R, MC4R) — tanning and sexual function",
+    "Stimulates melanogenesis — skin darkening without UV; persists weeks after stopping",
+    "Potent aphrodisiac via MC4R in CNS — spontaneous erections in men; libido increase in both sexes",
+    "Nausea (often severe at first dose — start low); facial flushing, fatigue, yawning",
+    "Risk of existing mole/nevi darkening or new pigmented lesions — monitor skin carefully",
+    "Elevated blood pressure; potential cardiovascular risk",
+    "Not FDA approved; unscheduled in most jurisdictions but sold illegally; sold as 'tanning peptide'",
+    "High contamination risk from unregulated suppliers — fake/underdosed products common",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/9867539/",
+    "https://en.wikipedia.org/wiki/Melanotan_II",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/92432"
+  ],
+  "tags": [
+    "peptide",
+    "melanocortin-agonist",
+    "grey-market",
+    "research-chemical",
+    "aphrodisiac",
+    "tanning"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "3-Hydroxyphenazepam",
+  "aliases": [],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      }
+    }
+  ],
+  "effects": [
+    "Active metabolite of phenazepam now sold standalone",
+    "Long half-life with cumulative dosing risk"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/3-Hydroxyphenazepam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "metabolite-as-drug"
+  ]
+}

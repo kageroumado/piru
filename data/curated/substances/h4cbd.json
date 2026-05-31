@@ -1,0 +1,108 @@
+{
+  "name": "H4CBD",
+  "aliases": [
+    "Hexahydrocannabidiol",
+    "Tetrahydrocannabidiol",
+    "Hydrogenated CBD"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 75
+        },
+        "strong": {
+          "lower": 75,
+          "upper": 150
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 240
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 5,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 5
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-intoxicating in most users (no significant CB1 agonism)",
+    "Anxiolytic and anti-inflammatory (similar to CBD)",
+    "Some reports of mild euphoria distinguishing it from CBD",
+    "Hydrogenated analog of CBD — more chemically stable",
+    "Limited clinical research available"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hexahydrocannabidiol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/162640304"
+  ],
+  "tags": [
+    "cannabinoid",
+    "semi-synthetic",
+    "non-intoxicating",
+    "hydrogenated",
+    "therapeutic",
+    "limited-research"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "Pynazolam",
+  "aliases": [
+    "pinazolam"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anxiolysis",
+    "sedation",
+    "amnesia"
+  ],
+  "mechanismOfAction": {
+    "summary": "GABA-A positive allosteric modulator (triazolobenzodiazepine); in-silico QSAR suggests high potency. First described 1970s (Sternbach); never marketed.",
+    "description": "Triazolo-fused 1,4-benzodiazepine; enhances GABA-A chloride currents at the benzodiazepine site. In-silico QSAR indicates triazolobenzodiazepines are among the most potent BZD subclass. No published binding affinity data; no human pharmacokinetic data. First described by Sternbach in the 1970s; never developed or marketed.",
+    "primaryTargets": [
+      "GABA-A"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Pynazolam",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7569319/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "designer-benzo",
+    "no-human-data"
+  ],
+  "cas": "2034366-97-5",
+  "pubchemCID": 20368157,
+  "formula": "C16H12N6O2",
+  "molarMass": 320.31,
+  "inchikey": "TULLJLNDPPOHKC-UHFFFAOYSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pynazolam",
+    "PubChem CID 20368157",
+    "PMC7569319"
+  ]
+}

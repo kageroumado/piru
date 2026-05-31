@@ -1,0 +1,79 @@
+{
+  "name": "Vitamin B3",
+  "aliases": [
+    "Niacin",
+    "Nicotinic Acid",
+    "Nicotinamide",
+    "Niacinamide",
+    "NMN",
+    "NR",
+    "Nicotinamide Riboside",
+    "Nicotinamide Mononucleotide"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 15,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 1500
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 180,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "NAD+ precursor — central to cellular energy metabolism and sirtuin activation",
+    "Niacin (nicotinic acid): prostaglandin-mediated flushing at >50mg — harmless but intense",
+    "Niacinamide form: no flush but also less vasodilatory effect",
+    "High-dose niacin (>2g/day): hepatotoxicity risk, especially extended-release forms",
+    "NMN and NR: more direct NAD+ precursors under active longevity research — evidence still emerging",
+    "HDL-raising effect at pharmacological doses (1-3g/day)"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Niacin-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/938",
+    "https://en.wikipedia.org/wiki/Niacin"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "B-vitamin",
+    "NAD-precursor",
+    "hepatotoxic-at-high-dose",
+    "energy-metabolism"
+  ]
+}

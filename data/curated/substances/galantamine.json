@@ -1,0 +1,47 @@
+{
+  "name": "Galantamine",
+  "aliases": [
+    "Razadyne",
+    "Reminyl"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 4,
+          "upper": 8
+        },
+        "common": {
+          "lower": 8,
+          "upper": 16
+        },
+        "strong": {
+          "lower": 16,
+          "upper": 24
+        },
+        "heavy": 32
+      }
+    }
+  ],
+  "effects": [
+    "AChE inhibitor + nicotinic PAM",
+    "FDA-approved for mild-to-moderate Alzheimer's",
+    "Used to potentiate lucid dreaming"
+  ],
+  "halfLifeMinutes": 420,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Galantamine",
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021169s032lbl.pdf"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "AChE-inhibitor",
+    "prescription-only"
+  ]
+}

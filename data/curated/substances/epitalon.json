@@ -1,0 +1,113 @@
+{
+  "name": "Epitalon",
+  "aliases": [
+    "Epithalon",
+    "Epithalone",
+    "Ala-Glu-Asp-Gly",
+    "Tetrapeptide-5"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1.0,
+        "light": {
+          "lower": 2.0,
+          "upper": 5.0
+        },
+        "common": {
+          "lower": 5.0,
+          "upper": 10.0
+        },
+        "strong": {
+          "lower": 10.0,
+          "upper": 20.0
+        },
+        "heavy": 20.0
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 180,
+          "max": 720
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 10080
+        }
+      }
+    },
+    {
+      "route": "intranasal",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1.0,
+        "light": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "common": {
+          "lower": 2.0,
+          "upper": 5.0
+        },
+        "strong": {
+          "lower": 5.0,
+          "upper": 10.0
+        },
+        "heavy": 10.0
+      },
+      "duration": {
+        "onset": {
+          "min": 10,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 720,
+          "max": 4320
+        },
+        "total": {
+          "min": 720,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Synthetic tetrapeptide derived from bovine pineal gland (epithalamin) — developed by V. Khavinson",
+    "Activates telomerase expression — extends telomere length in cell culture studies",
+    "Longevity research: rodent studies show life extension 20–50%; no human RCT longevity data",
+    "Normalizes circadian rhythms and melatonin production via pineal regulation",
+    "Anti-oxidant, anti-cancer effects in animal models; may reduce tumor incidence",
+    "Typical cycle: 5–10 mg/day SC × 10–20 days, repeated 2–3x/year",
+    "No established safety profile in humans; no serious adverse events reported in small studies",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 30,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/34960435/",
+    "https://en.wikipedia.org/wiki/Epitalon",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/219042"
+  ],
+  "tags": [
+    "peptide",
+    "longevity-research",
+    "grey-market",
+    "research-chemical",
+    "anti-aging",
+    "telomerase-activator"
+  ]
+}

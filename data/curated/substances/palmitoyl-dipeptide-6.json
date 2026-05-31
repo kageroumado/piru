@@ -1,0 +1,39 @@
+{
+  "name": "Palmitoyl Dipeptide-6",
+  "aliases": [],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anti-aging"
+  ],
+  "mechanismOfAction": {
+    "summary": "Anti-aging matrikine.",
+    "description": "Palmitoylated dipeptide used topically as a matrikine signal for dermal renewal and anti-aging.",
+    "primaryTargets": [
+      "Dermal fibroblasts"
+    ],
+    "references": [
+      "INCI/CosIng database"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "INCI/CosIng; manufacturer tech sheet"
+  ]
+}

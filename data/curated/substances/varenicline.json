@@ -1,0 +1,47 @@
+{
+  "name": "Varenicline",
+  "aliases": [
+    "Chantix",
+    "Champix"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      }
+    }
+  ],
+  "effects": [
+    "α4β2 partial nicotinic agonist + α7 full agonist",
+    "FDA-approved smoking cessation",
+    "Neuropsychiatric warnings (depression, suicidality)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Varenicline",
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf"
+  ],
+  "tags": [
+    "nootropic",
+    "nAChR-partial-agonist",
+    "prescription-only",
+    "smoking-cessation"
+  ]
+}

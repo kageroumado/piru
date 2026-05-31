@@ -1,0 +1,22 @@
+{
+  "name": "4-Benzylpiperidine",
+  "aliases": [
+    "4-BP"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "DAT-selective dopamine reuptake inhibitor",
+    "Lower abuse-liability than cocaine in animal studies",
+    "Sometimes encountered as research chemical"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/4-Benzylpiperidine"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

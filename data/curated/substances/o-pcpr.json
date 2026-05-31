@@ -1,0 +1,24 @@
+{
+  "name": "O-PCPr",
+  "aliases": [
+    "2'-Oxo-PCPr",
+    "N-Propyl-DCK"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Propyl analog of O-PCE",
+    "No published human dosing",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

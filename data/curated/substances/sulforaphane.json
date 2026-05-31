@@ -1,0 +1,43 @@
+{
+  "name": "Sulforaphane",
+  "aliases": [
+    "1-Isothiocyanato-4-(methylsulfinyl)butane"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 90
+        },
+        "heavy": 120
+      }
+    }
+  ],
+  "effects": [
+    "Broccoli-sprout isothiocyanate",
+    "Nrf2 activator — antioxidant gene expression",
+    "Studied in autism and schizophrenia adjunct therapy"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sulforaphane"
+  ],
+  "tags": [
+    "nootropic",
+    "supplement",
+    "Nrf2-activator"
+  ]
+}

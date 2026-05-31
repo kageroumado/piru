@@ -1,0 +1,68 @@
+{
+  "name": "Nizatidine",
+  "aliases": [
+    "Axid",
+    "Tazac"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 75,
+        "light": {
+          "lower": 75,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 300
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces gastric acid secretion",
+    "GERD and peptic ulcer relief",
+    "Similar efficacy to ranitidine",
+    "No significant CYP450 inhibition",
+    "No anticholinergic or CNS effects"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Nizatidine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4497"
+  ],
+  "tags": [
+    "antihistamine",
+    "H2-antagonist",
+    "acid-reducer",
+    "non-sedating",
+    "OTC"
+  ]
+}

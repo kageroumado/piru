@@ -1,0 +1,67 @@
+{
+  "name": "Oxcarbazepine",
+  "aliases": [
+    "Trileptal",
+    "Oxtellar XR"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 150,
+        "light": {
+          "lower": 300,
+          "upper": 600
+        },
+        "common": {
+          "lower": 600,
+          "upper": 1200
+        },
+        "strong": {
+          "lower": 1200,
+          "upper": 1800
+        },
+        "heavy": 2400
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Sodium channel blocker — keto-analog of carbamazepine",
+    "Mood stabilization, anticonvulsant, neuropathic pain",
+    "Sedation, dizziness, diplopia",
+    "Hyponatremia risk (more common than carbamazepine)",
+    "Less drug-drug interaction than carbamazepine"
+  ],
+  "halfLifeMinutes": 570,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Oxcarbazepine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/34312"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "mood-stabilizer",
+    "sodium-channel-blocker",
+    "prescription-only"
+  ]
+}

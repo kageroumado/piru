@@ -1,0 +1,25 @@
+{
+  "name": "N-Pyrrolidino-metonitazene",
+  "aliases": [
+    "Metonitazepyne"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "Identified in NPS market 2023"
+  ],
+  "sources": [
+    "https://www.emcdda.europa.eu/publications/eu-drug-markets/nps_en"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

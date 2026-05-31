@@ -1,0 +1,66 @@
+{
+  "name": "SR-9011",
+  "aliases": [],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 15,
+        "highAmount": 30,
+        "frequency": "2–3×/day",
+        "courseDuration": "4–8 week cycle",
+        "notes": "community/anecdotal; no human studies; preclinical t½ ~4 h applies to preclinical route only; poor oral bioavailability in preclinical models"
+      }
+    }
+  ],
+  "effects": [
+    "increased endurance (mouse data)",
+    "reduced fat mass (mouse data)",
+    "circadian/metabolic modulation"
+  ],
+  "halfLifeMinutes": 240,
+  "mechanismOfAction": {
+    "summary": "REV-ERBα/β agonist; represses Bmal1/Clock gene expression to alter circadian rhythms and metabolic gene programs.",
+    "description": "Nuclear receptor REV-ERB (NR1D1/NR1D2) agonist with EC50 ~790 nM REV-ERBα and ~560 nM REV-ERBβ. Represses clock gene Bmal1 expression; upregulates fatty acid oxidation genes; reduces inflammatory gene expression. Better oral bioavailability than SR9009. Human PK not established; t½ ~4 h is preclinical only.",
+    "primaryTargets": [
+      "REV-ERBα",
+      "REV-ERBβ"
+    ],
+    "bindings": [
+      {
+        "target": "REV-ERBα",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "REV-ERBβ",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 57394021",
+      "https://en.wikipedia.org/wiki/SR9011",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5085709/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "wada-prohibited"
+  ],
+  "cas": "1379686-29-9",
+  "formula": "C24H25ClN4O3S",
+  "pubchemCID": 57394021,
+  "sources": [
+    "PubChem CID 57394021",
+    "DrugBank DB14014",
+    "https://en.wikipedia.org/wiki/SR9011",
+    "PMC10623616",
+    "PMC5085709"
+  ]
+}

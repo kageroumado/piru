@@ -1,0 +1,47 @@
+{
+  "name": "FOXO4-DRI",
+  "aliases": [
+    "FOXO4-D-Retro-Inverso peptide",
+    "senolytic peptide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "intravenous",
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "senolytic"
+  ],
+  "mechanismOfAction": {
+    "summary": "Senolytic D-retro-inverso peptide that disrupts FOXO4-p53 binding.",
+    "description": "FOXO4 DNA-binding-domain fragment synthesized as an all-D, reversed (D-retro-inverso) peptide fused to a TAT cell-penetrating sequence, conferring proteolytic resistance. Disrupts FOXO4-p53 interaction in senescent cells, causing p53 nuclear exclusion and selective apoptosis (senolysis). Renal-clearance concerns; mouse data only.",
+    "primaryTargets": [
+      "FOXO4",
+      "p53"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/FOXO4"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "longevity",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "Baar 2017 Cell; https://en.wikipedia.org/wiki/FOXO4"
+  ]
+}

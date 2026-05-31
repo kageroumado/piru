@@ -1,0 +1,68 @@
+{
+  "name": "Desvenlafaxine",
+  "aliases": [
+    "Pristiq",
+    "Khedezla"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Active metabolite of venlafaxine — reduces depressive symptoms",
+    "Minimal CYP enzyme inhibition (cleaner DDI profile than venlafaxine)",
+    "Nausea, hyperhidrosis, sexual dysfunction",
+    "Blood pressure elevation (dose-dependent)",
+    "Discontinuation syndrome on abrupt stop"
+  ],
+  "halfLifeMinutes": 660,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf",
+    "https://en.wikipedia.org/wiki/Desvenlafaxine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3415532"
+  ],
+  "tags": [
+    "antidepressant",
+    "SNRI",
+    "prescription-only",
+    "serotonin-syndrome-risk"
+  ]
+}

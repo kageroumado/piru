@@ -1,0 +1,43 @@
+{
+  "name": "Flephedrone",
+  "aliases": [
+    "4-FMC",
+    "4-Fluoromethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 40,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 250
+      }
+    }
+  ],
+  "effects": [
+    "Fluorinated cathinone with weaker dopaminergic activity than mephedrone",
+    "Sympathomimetic stimulant effects",
+    "Cardiovascular strain at high doses"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Flephedrone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical"
+  ]
+}

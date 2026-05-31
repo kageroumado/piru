@@ -1,0 +1,51 @@
+{
+  "name": "CL-218,872",
+  "aliases": [
+    "3-methyl-6-[3-(trifluoromethyl)phenyl]-triazolopyridazine"
+  ],
+  "category": "GABAergic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "sedation and amnesia (animal studies only)",
+    "alpha-1 selective — predicted minimal anxiolysis",
+    "not intended for human use"
+  ],
+  "mechanismOfAction": {
+    "summary": "α1(BZ1)-selective partial agonist at the GABA-A benzodiazepine binding site; triazolopyridazine scaffold (NOT a benzodiazepine structurally). Historical tool compound for dissecting α1-mediated sedation from α2-mediated anxiolysis.",
+    "description": "Triazolopyridazine (not a benzodiazepine). Historically used as a research tool to pharmacologically dissect α1 (BZ1)-mediated sedation/amnesia from α2 (BZ2)-mediated anxiolysis — preceding zolpidem as a selective α1 tool. Zolpidem-like selectivity profile but lower maximal efficacy (partial agonism). No human studies.",
+    "primaryTargets": [
+      "GABA-A"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/CL-218,872",
+      "https://pubmed.ncbi.nlm.nih.gov/7902274/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "lab-reagent",
+    "gaba-a-tool-compound"
+  ],
+  "cas": "66548-69-4",
+  "pubchemCID": 107950,
+  "sources": [
+    "https://en.wikipedia.org/wiki/CL-218,872",
+    "PMID 7902274",
+    "PubChem CID 107950"
+  ]
+}

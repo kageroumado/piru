@@ -1,0 +1,44 @@
+{
+  "name": "Alpha-GPC",
+  "aliases": [
+    "Choline alfoscerate",
+    "L-Alpha glycerylphosphorylcholine"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 300
+        },
+        "common": {
+          "lower": 300,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 1200
+        },
+        "heavy": 1500
+      }
+    }
+  ],
+  "effects": [
+    "High-bioavailability choline source",
+    "ACh precursor — supports cholinergic neurotransmission",
+    "Used as racetam adjunct to prevent cholinergic headache"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Alpha-GPC"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "supplement"
+  ]
+}

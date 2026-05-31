@@ -1,0 +1,106 @@
+{
+  "name": "Methoxetamine",
+  "aliases": [
+    "MXE",
+    "3-MeO-2-Oxo-PCE"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 20
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 90,
+          "max": 180
+        },
+        "total": {
+          "min": 240,
+          "max": 360
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 150
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 300,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Long-acting designer dissociative",
+    "Cerebellar toxicity reported with chronic use",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)",
+    "Compulsive redose risk reported",
+    "Linked to fatalities — long duration prevents reliable redose timing"
+  ],
+  "halfLifeMinutes": 300,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methoxetamine",
+    "https://psychonautwiki.org/wiki/Methoxetamine"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative",
+    "fatalities-reported"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Herkinorin",
+  "aliases": [
+    "Salvinorin B benzoate"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Salvinorin-derived mu-opioid agonist (NOT kappa)",
+    "G-protein biased — reduced beta-arrestin recruitment",
+    "Bryan Roth lab tool compound for biased opioid research"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/15870423/",
+    "https://en.wikipedia.org/wiki/Herkinorin"
+  ],
+  "tags": [
+    "mu-opioid-agonist",
+    "salvinorin-derivative",
+    "biased-agonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

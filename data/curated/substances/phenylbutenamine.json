@@ -1,0 +1,20 @@
+{
+  "name": "Phenylbutenamine",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Amphetamine-related stimulant",
+    "Limited published pharmacology"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "NDRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

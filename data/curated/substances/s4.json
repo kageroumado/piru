@@ -1,0 +1,62 @@
+{
+  "name": "S4",
+  "aliases": [
+    "Andarine",
+    "GTx-007"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 25,
+        "highAmount": 50,
+        "frequency": "2–3×/day",
+        "courseDuration": "6–8 week cycle",
+        "notes": "split dosing required due to short t½ (~4–6 h); reversible yellow-tint vision risk increases at ≥50 mg/day"
+      }
+    }
+  ],
+  "effects": [
+    "anabolic (muscle, bone)",
+    "HPTA suppression",
+    "reversible xanthopsia/yellow-tint vision (ocular AR binding, esp. ≥50 mg/day; resolves ~2–3 days post-cessation)",
+    "night-vision impairment (dose-dependent)"
+  ],
+  "halfLifeMinutes": 300,
+  "mechanismOfAction": {
+    "summary": "Oral androgen receptor partial agonist (Ki ~4 nM); tissue-selective; notable ocular AR binding.",
+    "description": "Nonsteroidal SARM; AR partial agonist with Ki ~4 nM; weaker androgenic activity at prostate vs full agonists. Critically binds ocular ARs causing reversible yellow-tint vision and night-vision impairment, especially at doses ≥50 mg/day. Short t½ (~4–6 h) requires split dosing.",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "partialAgonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 9824562",
+      "https://en.wikipedia.org/wiki/Andarine"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical"
+  ],
+  "cas": "401900-40-1",
+  "formula": "C19H18F3N3O6",
+  "pubchemCID": 9824562,
+  "molarMass": 441.36,
+  "sources": [
+    "PubChem CID 9824562",
+    "https://en.wikipedia.org/wiki/Andarine",
+    "https://bscg.org"
+  ]
+}

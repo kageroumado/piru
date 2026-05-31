@@ -1,0 +1,20 @@
+{
+  "name": "Imuracetam",
+  "aliases": [],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Investigational racetam with immune-modulating effects in animals",
+    "No human data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Racetam"
+  ],
+  "tags": [
+    "racetam",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

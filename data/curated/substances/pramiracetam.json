@@ -1,0 +1,66 @@
+{
+  "name": "Pramiracetam",
+  "aliases": [
+    "CI-879",
+    "Pramistar",
+    "Neupramir"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1200
+        },
+        "heavy": 1500
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 180,
+          "max": 300
+        },
+        "total": {
+          "min": 300,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Lipid-soluble racetam — higher potency by mass",
+    "High-affinity choline uptake potentiation",
+    "Cognitive enhancement in vascular dementia studies"
+  ],
+  "halfLifeMinutes": 300,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pramiracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4842"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "cholinergic",
+    "lipophilic"
+  ]
+}

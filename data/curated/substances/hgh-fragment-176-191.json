@@ -1,0 +1,56 @@
+{
+  "name": "HGH Fragment 176-191",
+  "aliases": [
+    "HGH Frag 176-191",
+    "Lipolytic fragment"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 250,
+        "highAmount": 500,
+        "frequency": "once daily",
+        "notes": "community/research protocol, fasted; no validated human dosing"
+      }
+    }
+  ],
+  "effects": [
+    "lipolysis"
+  ],
+  "halfLifeMinutes": 30,
+  "mechanismOfAction": {
+    "summary": "C-terminal HGH fragment — lipolytic, no growth/IGF effect.",
+    "description": "hGH(176-191), a 15-residue C-terminal fragment of growth hormone (parent of AOD-9604 minus the added Tyr). Promotes lipolysis via a fat-cell β3 pathway without growth or IGF-1 effects.",
+    "primaryTargets": [
+      "β3-adrenergic pathway"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/AOD9604"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "hgh-fragment",
+    "lipolytic"
+  ],
+  "cas": "66004-57-7",
+  "formula": "C78H125N23O23S2",
+  "molarMass": 1817.1,
+  "peptideProfile": {
+    "sequence": "LRIVQCRSVEGSCGF",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "CAS 66004-57-7"
+  ]
+}

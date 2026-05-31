@@ -1,0 +1,25 @@
+{
+  "name": "Unifiram",
+  "aliases": [
+    "DM-232"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Piperazine cognition-enhancer related to sunifiram",
+    "Rodent active doses ~0.001-1 mg/kg",
+    "No published human dose data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Unifiram",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/197305"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "no-human-data",
+    "investigational",
+    "racetam-adjacent"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Nefazodone",
+  "aliases": [
+    "Serzone"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 300,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 550
+        },
+        "heavy": 600
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "SARI mechanism similar to trazodone — 5-HT2A antagonism + SERT inhibition",
+    "Brand name Serzone withdrawn due to hepatotoxicity; generic available",
+    "BLACK BOX WARNING: life-threatening hepatic failure (risk ~1 in 250,000 patient-years)",
+    "Minimal sexual dysfunction and sedation vs SSRIs",
+    "Potent CYP3A4 inhibitor — significant drug interaction potential (simvastatin, triazolam, etc.)",
+    "Risk of serotonin syndrome with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 180,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf",
+    "https://en.wikipedia.org/wiki/Nefazodone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4432"
+  ],
+  "tags": [
+    "antidepressant",
+    "SARI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "hepatotoxicity-risk",
+    "CYP3A4-inhibitor",
+    "black-box-warning"
+  ]
+}

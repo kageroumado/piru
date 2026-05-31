@@ -1,0 +1,25 @@
+{
+  "name": "Etonitazene",
+  "aliases": [],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "Estimated 60-100x potency of morphine",
+    "Original CIBA nitazene synthesised in 1957"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Etonitazene"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "US-Schedule-I",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

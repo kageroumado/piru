@@ -1,0 +1,23 @@
+{
+  "name": "Bisfluoromodafinil",
+  "aliases": [
+    "Flmodafinil",
+    "CRL-40,940"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Synonym for Flmodafinil",
+    "No human dosing standard"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Flmodafinil"
+  ],
+  "tags": [
+    "eugeroic",
+    "research-chemical",
+    "no-human-data",
+    "afinil"
+  ]
+}

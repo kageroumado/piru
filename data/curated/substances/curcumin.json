@@ -1,0 +1,77 @@
+{
+  "name": "Curcumin",
+  "aliases": [
+    "Turmeric Extract",
+    "BCM-95",
+    "Meriva",
+    "Longvida",
+    "Curcumin with Piperine",
+    "Curcuma longa"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "heavy": 8000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Polyphenol with broad anti-inflammatory and antioxidant activity — NF-kB inhibition",
+    "Bioavailability extremely poor without formulation enhancement",
+    "Piperine (BioPerine) increases absorption ~20-fold but may interact with many drugs via CYP3A4 and P-gp inhibition",
+    "Liposomal, phytosome (Meriva), and nanoparticle (Longvida) forms preferred for absorption",
+    "Investigated for arthritis, depression, and metabolic syndrome",
+    "Iron chelating — may impair iron absorption with chronic high-dose use"
+  ],
+  "halfLifeMinutes": 420,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/969516",
+    "https://en.wikipedia.org/wiki/Curcumin",
+    "https://examine.com/supplements/curcumin/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "antioxidant",
+    "polyphenol",
+    "anti-inflammatory",
+    "herbal",
+    "CYP450-inhibitor",
+    "NF-kB-inhibitor"
+  ]
+}

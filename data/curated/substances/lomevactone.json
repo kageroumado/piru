@@ -1,0 +1,19 @@
+{
+  "name": "Lomevactone",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Mild psychostimulant",
+    "Limited modern pharmacological data"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "stimulant",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

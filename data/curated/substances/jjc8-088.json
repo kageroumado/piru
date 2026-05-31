@@ -1,0 +1,22 @@
+{
+  "name": "JJC8-088",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Atypical DAT inhibitor candidate for cocaine use disorder",
+    "Cocaine-like effects but hERG channel inhibition makes high doses dangerous",
+    "Investigational"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/30403295/"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational",
+    "hERG-liability"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Alpha-Lipoic Acid",
+  "aliases": [
+    "ALA",
+    "R-ALA",
+    "R-Lipoic Acid",
+    "Thioctic Acid",
+    "Alpha Lipoic Acid"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 1200
+        },
+        "heavy": 1800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Universal antioxidant — active in both aqueous and lipid compartments",
+    "Regenerates vitamins C and E, glutathione",
+    "Insulin sensitizing — modest evidence for blood glucose reduction",
+    "Investigated for diabetic peripheral neuropathy",
+    "R-isomer has ~3-5x greater bioavailability than racemic ALA",
+    "Nausea on empty stomach; biotin depletion at high chronic doses"
+  ],
+  "halfLifeMinutes": 30,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Antioxidants-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/864",
+    "https://en.wikipedia.org/wiki/Lipoic_acid"
+  ],
+  "tags": [
+    "supplement",
+    "antioxidant",
+    "OTC",
+    "insulin-sensitizer",
+    "neuroprotective"
+  ]
+}

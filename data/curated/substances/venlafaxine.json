@@ -1,0 +1,70 @@
+{
+  "name": "Venlafaxine",
+  "aliases": [
+    "Effexor",
+    "Effexor XR"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 18.75,
+        "light": {
+          "lower": 37.5,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 225
+        },
+        "strong": {
+          "lower": 225,
+          "upper": 300
+        },
+        "heavy": 375
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive, anxious, and neuropathic symptoms over 2–6 weeks",
+    "NE reuptake inhibition becomes meaningful at ≥150 mg/day",
+    "Dose-dependent blood pressure elevation — monitor BP at higher doses",
+    "Nausea, sexual dysfunction, diaphoresis",
+    "Severe discontinuation syndrome — taper very slowly (worst among SNRIs)",
+    "Risk of serotonin syndrome with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 300,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf",
+    "https://en.wikipedia.org/wiki/Venlafaxine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/39​44"
+  ],
+  "tags": [
+    "antidepressant",
+    "SNRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "hypertension-risk"
+  ]
+}

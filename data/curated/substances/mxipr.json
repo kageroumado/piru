@@ -1,0 +1,22 @@
+{
+  "name": "MXiPr",
+  "aliases": [
+    "N-Isopropyl-MXE"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "N-isopropyl analog of methoxetamine",
+    "No published human pharmacology"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Indatraline",
+  "aliases": [
+    "Lu-19-005"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Lundbeck SNDRI (cis-isomer)",
+    "Pharmacological tool compound",
+    "Discontinued antidepressant"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Indatraline"
+  ],
+  "tags": [
+    "SNDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

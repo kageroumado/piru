@@ -1,0 +1,71 @@
+{
+  "name": "PT-141",
+  "aliases": [
+    "Bremelanotide",
+    "Vyleesi"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.75,
+        "light": {
+          "lower": 0.75,
+          "upper": 1.25
+        },
+        "common": {
+          "lower": 1.25,
+          "upper": 1.75
+        },
+        "strong": {
+          "lower": 1.75,
+          "upper": 2.0
+        },
+        "heavy": 2.0
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 900
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Melanocortin receptor agonist (MC3R/MC4R) — FDA-approved as Vyleesi for HSDD in premenopausal women (2019)",
+    "Increases sexual desire via central CNS mechanism — unique non-hormonal HSDD treatment",
+    "FDA-approved dose: 1.75 mg SC auto-injector 45 min before anticipated sexual activity; max 1x/day, 1x/8 weeks",
+    "Nausea most common (40%); flushing, headache, vomiting; transient blood pressure increase (~6 mmHg)",
+    "Hyperpigmentation (face, gums, breasts) with repeated use — monitor",
+    "Contraindicated with high cardiovascular disease risk; avoid with antihypertensives on same day",
+    "Grey-market versions often Melanotan II mislabeled — dose verification critical"
+  ],
+  "halfLifeMinutes": 120,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Bremelanotide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9941379"
+  ],
+  "tags": [
+    "peptide",
+    "melanocortin-agonist",
+    "prescription-only",
+    "HSDD-treatment",
+    "aphrodisiac"
+  ]
+}

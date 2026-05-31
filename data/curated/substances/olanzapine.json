@@ -1,0 +1,114 @@
+{
+  "name": "Olanzapine",
+  "aliases": [
+    "Zyprexa",
+    "Zyprexa Zydis",
+    "Zyprexa Relprevv"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 15
+        },
+        "strong": {
+          "lower": 15,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 180,
+          "max": 360
+        },
+        "offset": {
+          "min": 480,
+          "max": 960
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Broad receptor antagonism: D2, 5HT2A, H1, muscarinic, alpha-1",
+    "Greatest metabolic burden of any atypical: weight gain, diabetes, dyslipidemia",
+    "Strong sedation — used off-label for insomnia and agitation",
+    "Low EPS risk at therapeutic doses",
+    "Minimal hyperprolactinemia",
+    "Post-injection delirium/sedation syndrome risk with depot IM formulation",
+    "Orthostatic hypotension at initiation"
+  ],
+  "halfLifeMinutes": 1980,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf",
+    "https://en.wikipedia.org/wiki/Olanzapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/135398745"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "muscarinic-antagonist",
+    "H1-antagonist",
+    "alpha1-blocker",
+    "prescription-only",
+    "thienobenzodiazepine"
+  ]
+}

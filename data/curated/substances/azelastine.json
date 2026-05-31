@@ -1,0 +1,112 @@
+{
+  "name": "Azelastine",
+  "aliases": [
+    "Astelin",
+    "Astepro",
+    "Optivar",
+    "Dymista (with fluticasone)"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "nasal",
+  "routes": [
+    {
+      "route": "nasal",
+      "unit": "sprays",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 4
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "ophthalmic",
+      "unit": "drops",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 2
+        },
+        "heavy": 2
+      },
+      "duration": {
+        "onset": {
+          "min": 3,
+          "max": 10
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Rapid relief of nasal allergy symptoms",
+    "Mast cell stabilization",
+    "H1 antagonism — topically active",
+    "Mild systemic absorption — some sedation possible",
+    "Bitter taste noted with nasal form"
+  ],
+  "halfLifeMinutes": 1380,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/020975s013lbl.pdf",
+    "https://en.wikipedia.org/wiki/Azelastine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2267"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "mast-cell-stabilizer",
+    "nasal",
+    "ophthalmic",
+    "prescription-only"
+  ]
+}

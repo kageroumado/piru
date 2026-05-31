@@ -1,0 +1,43 @@
+{
+  "name": "Hydergine",
+  "aliases": [
+    "Ergoloid mesylates",
+    "Dihydroergotoxine"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1.5,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 9
+        },
+        "heavy": 12
+      }
+    }
+  ],
+  "effects": [
+    "Mixture of dihydroergocornine, dihydroergocristine, dihydroergocryptine",
+    "Used historically in dementia",
+    "Modern evidence weak — withdrawn from many markets"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ergoloid"
+  ],
+  "tags": [
+    "nootropic",
+    "ergot-derivative"
+  ]
+}

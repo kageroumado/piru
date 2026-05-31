@@ -1,0 +1,64 @@
+{
+  "name": "3-Me-PCP",
+  "aliases": [
+    "3-methyl-PCP",
+    "3-methyl-phencyclidine",
+    "meta-methyl-PCP"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    },
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "dissociation",
+    "NMDA antagonism",
+    "more stimulating than ketamine per case reports",
+    "psychosis and mania risk",
+    "bladder toxicity with chronic use"
+  ],
+  "mechanismOfAction": {
+    "summary": "NMDA receptor antagonist (arylcyclohexylamine class); possible additional NE/DA reuptake inhibition inferred from structural analogues.",
+    "description": "Piperidine-substituted arylcyclohexylamine; 3-methyl substitution on the phenyl ring (meta). Confirmed NMDA antagonist by class pharmacology. Structurally distinct from 3-MeO-PCP (methoxy vs methyl) — do not transfer doses. First reported to UK forensic services. PCP-family dissociatives carry high psychosis/mania risk, bladder toxicity with chronic use, and dangerous respiratory depression with CNS depressants/opioids.",
+    "primaryTargets": [
+      "NMDA receptor"
+    ],
+    "bindings": [
+      {
+        "target": "NMDA receptor",
+        "action": "channelBlocker",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/3-Methyl-PCP",
+      "https://cfsre.org/nps-discovery/monographs/3-methyl-pcp"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "dissociative",
+    "pcp-analog",
+    "psychosis-risk"
+  ],
+  "cas": "2201-30-1",
+  "pubchemCID": 611899,
+  "formula": "C18H27N",
+  "molarMass": 257.42,
+  "inchikey": "BMFKUCGCXMDGBK-UHFFFAOYSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/3-Methyl-PCP",
+    "https://cfsre.org/nps-discovery/monographs/3-methyl-pcp",
+    "PubChem CID 611899"
+  ]
+}

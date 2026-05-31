@@ -1,0 +1,73 @@
+{
+  "name": "Quetiapine",
+  "aliases": [
+    "Seroquel",
+    "Seroquel XR"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 750
+        },
+        "strong": {
+          "lower": 750,
+          "upper": 800
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Transient D2 blockade plus strong H1/5HT2A antagonism",
+    "Strong sedation at low doses (H1 dominant) — widely misused for insomnia",
+    "Moderate metabolic effects: weight gain, dyslipidemia, glucose elevation",
+    "Very low EPS risk due to rapid D2 dissociation",
+    "Active metabolite norquetiapine has norepinephrine reuptake inhibition",
+    "Orthostatic hypotension, particularly in elderly"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022047s019lbl.pdf",
+    "https://en.wikipedia.org/wiki/Quetiapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5978"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "H1-antagonist",
+    "alpha1-blocker",
+    "prescription-only",
+    "dibenzothiazepine"
+  ]
+}

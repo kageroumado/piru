@@ -1,0 +1,111 @@
+{
+  "name": "CBD",
+  "aliases": [
+    "Cannabidiol",
+    "(-)-Cannabidiol",
+    "2-[(1R,6R)-3-Methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-5-pentylbenzene-1,3-diol"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 300
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 240
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "sublingual",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 75
+        },
+        "strong": {
+          "lower": 75,
+          "upper": 150
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 300
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Anxiolytic (therapeutic)",
+    "Anti-inflammatory",
+    "Anticonvulsant (high doses, FDA-approved for Dravet/LGS syndrome)",
+    "Non-intoxicating — no euphoria",
+    "May reduce THC-induced anxiety when co-administered",
+    "Mild sedation at high doses",
+    "Potential drug-drug interactions via CYP3A4/CYP2C19 inhibition"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cannabidiol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/644019",
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/210365lbl.pdf"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "non-intoxicating",
+    "CB2-agonist",
+    "5-HT1A-agonist",
+    "therapeutic"
+  ]
+}

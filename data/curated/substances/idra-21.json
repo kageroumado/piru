@@ -1,0 +1,25 @@
+{
+  "name": "IDRA-21",
+  "aliases": [
+    "7-Chloro-3-methyl-3-4-dihydro-2H-1,2,4-benzothiadiazine S,S-dioxide"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Benzothiadiazine AMPA PAM",
+    "Rodent memory enhancement at 2-10 mg/kg",
+    "No published human pharmacokinetic data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/IDRA-21",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3035020"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "no-human-data",
+    "investigational",
+    "benzothiadiazine"
+  ]
+}

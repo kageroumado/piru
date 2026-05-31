@@ -1,0 +1,71 @@
+{
+  "name": "Meclizine",
+  "aliases": [
+    "Antivert",
+    "Bonine",
+    "Dramamine Less Drowsy"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Antivertigo and antiemetic",
+    "Motion sickness prevention",
+    "Mild sedation",
+    "Anticholinergic: dry mouth"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf",
+    "https://en.wikipedia.org/wiki/Meclizine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4034"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "antiemetic",
+    "OTC"
+  ]
+}

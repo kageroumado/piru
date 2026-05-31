@@ -1,0 +1,63 @@
+{
+  "name": "Letrozole",
+  "aliases": [
+    "Femara",
+    "CGS-20267"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 0.25,
+        "highAmount": 2.5,
+        "frequency": "every 2–3 days",
+        "notes": "FDA-approved oncology dose is 2.5 mg once daily; physique/endocrine off-label micro-dosing 0.25–2.5 mg q2–3d is unvalidated patient-derived practice; t½ ~48 h → steady state at 2–6 weeks"
+      }
+    }
+  ],
+  "effects": [
+    "↓ estradiol 75–95% at 2.5 mg/day",
+    "reduces gynecomastia",
+    "increases testosterone/LH",
+    "joint pain/stiffness (estrogen reduction)",
+    "decreased bone mineral density (chronic use)",
+    "decreased HDL cholesterol",
+    "mood disturbance, libido impairment (estrogen crash)"
+  ],
+  "halfLifeMinutes": 2880,
+  "mechanismOfAction": {
+    "summary": "Nonsteroidal (type II/triazole) aromatase inhibitor; competitive and reversible CYP19 inhibitor.",
+    "description": "Competitively and reversibly inhibits CYP19 (aromatase), reducing estradiol synthesis by 75–95% at 2.5 mg/day. No effect on adrenal steroidogenesis at therapeutic doses. Selectivity >10,000× for aromatase over other CYPs. FDA-approved for breast cancer. WADA S4.1 prohibited in sport. CYP3A4 and CYP2A6 metabolism.",
+    "primaryTargets": [
+      "CYP19 (Aromatase)"
+    ],
+    "bindings": [
+      {
+        "target": "CYP19 (Aromatase)",
+        "action": "enzymeInhibitor",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 3902",
+      "FDA Femara prescribing information",
+      "PMID 11745921"
+    ]
+  },
+  "tags": [
+    "wada-prohibited"
+  ],
+  "cas": "112809-51-5",
+  "formula": "C17H11N5",
+  "pubchemCID": 3902,
+  "molarMass": 285.3,
+  "sources": [
+    "PubChem CID 3902",
+    "FDA Femara prescribing information",
+    "PMID 11745921"
+  ]
+}

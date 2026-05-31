@@ -1,0 +1,72 @@
+{
+  "name": "L-Tryptophan",
+  "aliases": [
+    "Tryptophan",
+    "L-Trp",
+    "Optimax"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "heavy": 6000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Serotonin and melatonin precursor via 5-HTP intermediate",
+    "Used for sleep, mood support, and PMS — modest clinical evidence",
+    "Kynurenine pathway diversion reduces conversion under inflammation",
+    "Sedation at higher doses",
+    "Combining with SSRIs/SNRIs/MAOIs/MDMA can cause serotonin syndrome",
+    "Eosinophilia-myalgia syndrome historically linked to contaminated batches (1989)"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/6305",
+    "https://ods.od.nih.gov/factsheets/Tryptophan-HealthProfessional/",
+    "https://en.wikipedia.org/wiki/Tryptophan"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid",
+    "5HT-precursor",
+    "serotonin-syndrome-risk",
+    "sleep"
+  ]
+}

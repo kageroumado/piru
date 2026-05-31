@@ -1,0 +1,23 @@
+{
+  "name": "Methylethylketamine",
+  "aliases": [
+    "N-Methyl-N-ethyl-norketamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "N-methyl-N-ethyl ketamine analog",
+    "Abelian 2024 SAR paper",
+    "No human dosing data"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

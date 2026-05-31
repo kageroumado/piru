@@ -1,0 +1,41 @@
+{
+  "name": "Deschloroetizolam",
+  "aliases": [],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 12
+        },
+        "heavy": 15
+      }
+    }
+  ],
+  "effects": [
+    "Etizolam analog lacking the chloro substituent",
+    "Less potent than etizolam but similar profile",
+    "Limited human pharmacokinetic data"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/Deschloroetizolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "thienodiazepine",
+    "research-chemical"
+  ]
+}

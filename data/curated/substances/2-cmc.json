@@ -1,0 +1,23 @@
+{
+  "name": "2-CMC",
+  "aliases": [
+    "2-Chloromethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "2-position chloro mephedrone analog",
+    "Emerging in-vitro evidence suggests neurotoxicity beyond other cathinones; data is preliminary but the user should be aware.",
+    "Very limited human exposure data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/2-Chloromethcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "no-human-data",
+    "neurotoxic-evidence-preliminary"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Selenium",
+  "aliases": [
+    "Selenomethionine",
+    "Selenium Yeast",
+    "Sodium Selenate",
+    "Se"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 55,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 400
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 180,
+          "max": 360
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential trace element — selenoprotein cofactor (glutathione peroxidase, thioredoxin reductase)",
+    "Thyroid hormone metabolism (T4 to T3 conversion) requires selenoproteins",
+    "Selenomethionine form has superior bioavailability and retention vs inorganic forms",
+    "Narrow therapeutic window — UL 400 mcg/day; chronic excess causes selenosis",
+    "Selenosis: garlic breath, hair loss, nail brittleness, neurological symptoms",
+    "Antioxidant defense system support"
+  ],
+  "halfLifeMinutes": 14400,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Selenium-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/107689",
+    "https://en.wikipedia.org/wiki/Selenium#Biological_role"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "antioxidant",
+    "thyroid",
+    "immunomodulator"
+  ]
+}

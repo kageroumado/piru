@@ -1,0 +1,108 @@
+{
+  "name": "Famotidine",
+  "aliases": [
+    "Pepcid",
+    "Pepcid AC",
+    "Zantac 360"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 180,
+          "max": 360
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces gastric acid secretion via H2 blockade",
+    "GERD, peptic ulcer, and heartburn relief",
+    "No CNS effects at therapeutic doses",
+    "No anticholinergic burden",
+    "Does not inhibit CYP450 enzymes (unlike cimetidine)"
+  ],
+  "halfLifeMinutes": 165,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf",
+    "https://en.wikipedia.org/wiki/Famotidine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5702160"
+  ],
+  "tags": [
+    "antihistamine",
+    "H2-antagonist",
+    "acid-reducer",
+    "non-sedating",
+    "OTC"
+  ]
+}

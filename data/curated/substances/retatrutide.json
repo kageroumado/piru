@@ -1,0 +1,70 @@
+{
+  "name": "Retatrutide",
+  "aliases": [
+    "LY3437943"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "common": {
+          "lower": 4.0,
+          "upper": 8.0
+        },
+        "strong": {
+          "lower": 8.0,
+          "upper": 12.0
+        },
+        "heavy": 12.0
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 360
+        },
+        "peak": {
+          "min": 2880,
+          "max": 7200
+        },
+        "offset": {
+          "min": 10080,
+          "max": 20160
+        },
+        "total": {
+          "min": 10080,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Triple agonist: GLP-1 + GIP + glucagon receptors — investigational, not FDA approved",
+    "Phase 2 trial: ~24% body weight reduction at 12 mg over 48 weeks — highest reported for any obesity drug",
+    "Glucagon component increases energy expenditure beyond appetite suppression alone",
+    "GI side effects (nausea, vomiting, diarrhea) similar to or slightly greater than tirzepatide",
+    "Long half-life ~6 days enables once-weekly dosing",
+    "Currently in Phase 3 trials (TRIUMPH program); not available outside trials"
+  ],
+  "halfLifeMinutes": 8640,
+  "sources": [
+    "https://www.nejm.org/doi/10.1056/NEJMoa2301972",
+    "https://en.wikipedia.org/wiki/Retatrutide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2723944"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "GIP-agonist",
+    "research-chemical",
+    "anti-obesity",
+    "weight-loss"
+  ]
+}

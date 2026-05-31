@@ -1,0 +1,72 @@
+{
+  "name": "Topiramate",
+  "aliases": [
+    "Topamax",
+    "Trokendi XR",
+    "Qudexy XR",
+    "Topiragen"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 120,
+          "max": 360
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Blocks sodium channels, enhances GABA, inhibits carbonic anhydrase, antagonizes AMPA/kainate",
+    "Cognitive blunting — called 'Dopamax' colloquially for word-finding difficulty",
+    "Significant appetite suppression and weight loss",
+    "Kidney stones risk; metabolic acidosis",
+    "Teratogenic (cleft palate risk)",
+    "Used for epilepsy, migraine prevention, binge eating, AUD off-label"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Topiramate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5284627"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "mood-stabilizer",
+    "GABA-modulator",
+    "appetite-suppressant",
+    "teratogenic",
+    "prescription-only"
+  ]
+}

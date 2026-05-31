@@ -1,0 +1,71 @@
+{
+  "name": "Mirtazapine",
+  "aliases": [
+    "Remeron",
+    "Remeron SolTab"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3.75,
+        "light": {
+          "lower": 7.5,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 45
+        },
+        "heavy": 45
+      },
+      "duration": {
+        "onset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 14400,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms via alpha-2 antagonism and 5-HT2A/5-HT3 blockade",
+    "Paradox: MORE sedating at lower doses (15 mg) due to dominant H1 antihistamine effect; higher doses (30–45 mg) are activating due to noradrenergic increase",
+    "Significant appetite stimulation and weight gain — useful in anorexic/cachectic patients",
+    "Effective antiemetic (5-HT3 antagonism) — sometimes used in palliative care",
+    "Minimal sexual dysfunction and GI side effects",
+    "Agranulocytosis (rare but serious — monitor for infection symptoms)",
+    "Sedation makes it useful as a hypnotic"
+  ],
+  "halfLifeMinutes": 1500,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf",
+    "https://en.wikipedia.org/wiki/Mirtazapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4205"
+  ],
+  "tags": [
+    "antidepressant",
+    "NaSSA",
+    "prescription-only",
+    "alpha2-antagonist",
+    "antihistamine"
+  ]
+}

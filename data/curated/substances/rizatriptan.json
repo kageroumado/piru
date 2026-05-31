@@ -1,0 +1,68 @@
+{
+  "name": "Rizatriptan",
+  "aliases": [
+    "Maxalt",
+    "Maxalt-MLT"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 10
+        },
+        "heavy": 30
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 300
+        }
+      }
+    }
+  ],
+  "effects": [
+    "5-HT1B/1D agonist — faster oral absorption than sumatriptan",
+    "Aborts acute migraine, including orally disintegrating tablet (MLT)",
+    "Chest heaviness, dizziness, somnolence",
+    "Propranolol increases rizatriptan exposure — dose reduce to 5 mg",
+    "Contraindicated with MAOIs and cardiovascular disease"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Rizatriptan",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/493570"
+  ],
+  "tags": [
+    "triptan",
+    "serotonin-agonist",
+    "5HT1B-agonist",
+    "antimigraine",
+    "prescription-only"
+  ]
+}

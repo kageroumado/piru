@@ -1,0 +1,65 @@
+{
+  "name": "Thozalinone",
+  "aliases": [
+    "CL-39808",
+    "Stimsen"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "common": {
+          "lower": 30,
+          "upper": 50
+        }
+      }
+    }
+  ],
+  "effects": [
+    "sympathomimetic stimulation",
+    "mild antidepressant effect (historical clinical trials)",
+    "presumed MAOI interaction risk (hypertensive crisis)"
+  ],
+  "mechanismOfAction": {
+    "summary": "NE and DA releaser (amphetamine-like mechanism); milder stimulant profile than amphetamine with minimal serotonergic activity.",
+    "description": "Oxazolinone CNS stimulant/antidepressant developed by Lederle Laboratories in the 1960s. Mechanism: norepinephrine and dopamine release (amphetamine-like), minimal serotonergic activity. Clinical antidepressant effect demonstrated at ~40 mg/day in historical trials. Discontinued. DEA controlled substance status indicated by multiple secondary sources (exact schedule unconfirmed in primary DEA sources).",
+    "primaryTargets": [
+      "NET",
+      "DAT"
+    ],
+    "bindings": [
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity": 3
+      },
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Thozalinone",
+      "https://pubmed.ncbi.nlm.nih.gov/4962734/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "historical",
+    "discontinued",
+    "stimulant"
+  ],
+  "cas": "655-05-0",
+  "pubchemCID": 12602,
+  "formula": "C11H12N2O2",
+  "molarMass": 204.23,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Thozalinone",
+    "PMID 4962734",
+    "PubChem CID 12602"
+  ]
+}

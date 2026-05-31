@@ -1,0 +1,25 @@
+{
+  "name": "Modafinil acid",
+  "aliases": [
+    "Modafinilic acid",
+    "CRL-40,467"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Primary inactive metabolite of modafinil",
+    "Negligible wake-promoting activity",
+    "Not used therapeutically"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/68859",
+    "https://en.wikipedia.org/wiki/Modafinil"
+  ],
+  "tags": [
+    "eugeroic",
+    "metabolite",
+    "inactive",
+    "no-human-data"
+  ]
+}

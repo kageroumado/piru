@@ -1,0 +1,70 @@
+{
+  "name": "CBC",
+  "aliases": [
+    "Cannabichromene",
+    "(+)-Cannabichromene",
+    "Cannabichrome"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 75
+        },
+        "strong": {
+          "lower": 75,
+          "upper": 150
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 300
+        },
+        "total": {
+          "min": 240,
+          "max": 420
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-intoxicating — does not produce euphoria",
+    "Anti-inflammatory",
+    "Antidepressant (preclinical)",
+    "Analgesic via TRPA1/TRPV1 agonism",
+    "May synergize with THC and CBD (entourage effect)"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cannabichromene",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/12304"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "non-intoxicating",
+    "TRPV1-agonist",
+    "TRPA1-agonist",
+    "therapeutic"
+  ]
+}

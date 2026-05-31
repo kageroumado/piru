@@ -1,0 +1,72 @@
+{
+  "name": "Pimozide",
+  "aliases": [
+    "Orap"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 360,
+          "max": 720
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 1440,
+          "max": 2880
+        },
+        "total": {
+          "min": 2880,
+          "max": 5760
+        }
+      }
+    }
+  ],
+  "effects": [
+    "High-potency D2 antagonist with calcium channel blockade",
+    "FDA-approved for Tourette syndrome; off-label delusional disorder",
+    "Significant QTc prolongation — strong CYP3A4 interaction risk (macrolides, azoles)",
+    "High EPS risk including tardive dyskinesia",
+    "Requires baseline and periodic ECG monitoring",
+    "Should not be used for simple tics or conditions responsive to other treatments"
+  ],
+  "halfLifeMinutes": 3360,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf",
+    "https://en.wikipedia.org/wiki/Pimozide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/16362"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "prescription-only",
+    "QTc-risk",
+    "high-EPS-risk",
+    "tourette-syndrome",
+    "diphenylbutylpiperidine"
+  ]
+}

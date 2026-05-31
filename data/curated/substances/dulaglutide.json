@@ -1,0 +1,68 @@
+{
+  "name": "Dulaglutide",
+  "aliases": [
+    "Trulicity"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.75,
+        "light": {
+          "lower": 0.75,
+          "upper": 1.5
+        },
+        "common": {
+          "lower": 1.5,
+          "upper": 3.0
+        },
+        "strong": {
+          "lower": 3.0,
+          "upper": 4.5
+        },
+        "heavy": 4.5
+      },
+      "duration": {
+        "onset": {
+          "min": 1440,
+          "max": 2880
+        },
+        "peak": {
+          "min": 2880,
+          "max": 5760
+        },
+        "offset": {
+          "min": 10080,
+          "max": 14400
+        },
+        "total": {
+          "min": 10080,
+          "max": 14400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GLP-1 receptor agonist — weekly injection, Fc-fusion prolongs half-life to ~5 days",
+    "HbA1c reduction in T2DM; modest weight loss (~3 kg at 4.5 mg)",
+    "Proven cardiovascular benefit — REWIND trial: reduced major adverse cardiovascular events",
+    "Nausea, diarrhea, vomiting common on initiation; generally well tolerated long-term",
+    "Pancreatitis, gallbladder disease risk; thyroid C-cell tumor concern",
+    "Auto-injector pen — no reconstitution required"
+  ],
+  "halfLifeMinutes": 7200,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf",
+    "https://en.wikipedia.org/wiki/Dulaglutide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/90487791"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "prescription-only",
+    "anti-diabetic"
+  ]
+}

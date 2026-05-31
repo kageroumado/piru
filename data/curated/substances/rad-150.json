@@ -1,0 +1,58 @@
+{
+  "name": "RAD-150",
+  "aliases": [
+    "TLB-150",
+    "Testolone Benzoate"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "highAmount": 30,
+        "frequency": "once daily",
+        "courseDuration": "8–12 week cycle",
+        "notes": "community/anecdotal; no human PK; claimed t½ ~48–60 h is unverified"
+      }
+    }
+  ],
+  "effects": [
+    "anabolic (presumed RAD-140-like)",
+    "HPTA suppression (presumed)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed AR agonist prodrug — benzoate ester hydrolysis releases RAD-140-like moiety.",
+    "description": "Nonsteroidal SARM; benzoate ester prodrug of a RAD-140 structural analog. Carboxylesterase hydrolysis presumed to yield active AR-agonist metabolite. No published receptor binding data for RAD-150 itself. Distinct molecule from RAD-140 (CAS 1208070-53-4 vs 1182367-47-0).",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "agonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "PubChem CID 68547459"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "1208070-53-4",
+  "inchikey": "NQUKIBBKKLFEQU-BXKMTCNYSA-N",
+  "formula": "C27H20ClN5O3",
+  "pubchemCID": 68547459,
+  "molarMass": 497.9,
+  "sources": [
+    "PubChem CID 68547459"
+  ]
+}

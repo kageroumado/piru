@@ -1,0 +1,45 @@
+{
+  "name": "Cytisine",
+  "aliases": [
+    "Cytisinicline",
+    "Tabex"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 1.5
+        },
+        "common": {
+          "lower": 1.5,
+          "upper": 3
+        },
+        "strong": {
+          "lower": 3,
+          "upper": 6
+        },
+        "heavy": 9
+      }
+    }
+  ],
+  "effects": [
+    "Plant-derived nicotinic partial agonist",
+    "Used for smoking cessation in Eastern Europe",
+    "Lower cost than varenicline"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cytisine"
+  ],
+  "tags": [
+    "nootropic",
+    "nAChR-partial-agonist",
+    "smoking-cessation",
+    "natural"
+  ]
+}

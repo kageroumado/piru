@@ -1,0 +1,63 @@
+{
+  "name": "GW-501516",
+  "aliases": [
+    "Cardarine",
+    "Endurobol",
+    "GW-1516"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "highAmount": 20,
+        "frequency": "once daily",
+        "courseDuration": "6–8 weeks",
+        "notes": "CARCINOGENICITY WARNING: multi-organ cancers in 2-year rodent studies at human-equivalent doses; GSK halted development 2007; WADA issued safety warning"
+      }
+    }
+  ],
+  "effects": [
+    "increased endurance",
+    "increased fat oxidation",
+    "CRITICAL: multi-organ carcinogenicity in rodent studies (liver, stomach, bladder, skin, tongue, testes, ovaries)"
+  ],
+  "halfLifeMinutes": 1320,
+  "mechanismOfAction": {
+    "summary": "Selective PPARδ agonist (EC50 ~1.2 nM); upregulates fatty acid oxidation genes and increases endurance. NOT a SARM.",
+    "description": "Peroxisome proliferator-activated receptor delta (PPARδ/PPARβ) agonist; does not bind the androgen receptor. Upregulates genes for fatty acid oxidation and mitochondrial biogenesis. Human PK is sparse — GSK discontinued development in 2007 due to multi-organ carcinogenicity in 2-year rodent studies at human-equivalent doses. WADA issued a specific safety warning.",
+    "primaryTargets": [
+      "PPARδ"
+    ],
+    "bindings": [
+      {
+        "target": "PPARδ",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 9803963",
+      "https://en.wikipedia.org/wiki/GW501516",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6475847/"
+    ]
+  },
+  "tags": [
+    "wada-prohibited",
+    "research-chemical"
+  ],
+  "cas": "317318-70-0",
+  "formula": "C21H18F3NO3S2",
+  "pubchemCID": 9803963,
+  "molarMass": 453.5,
+  "sources": [
+    "PubChem CID 9803963",
+    "https://en.wikipedia.org/wiki/GW501516",
+    "PMC6475847",
+    "GSK development termination (2007)"
+  ]
+}

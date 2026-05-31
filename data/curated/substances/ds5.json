@@ -1,0 +1,24 @@
+{
+  "name": "DS5",
+  "aliases": [],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "research only",
+        "notes": "no validated dosing — insufficient independent data; research/community protocol"
+      }
+    }
+  ],
+  "tags": [
+    "peptide",
+    "no-human-data"
+  ],
+  "sources": [
+    "thepeptidelist.com (enumeration only)"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://piru.app/schema/curated-substance.json",
+  "title": "Piru curated substance",
+  "description": "One hand-curated substance. One file per compound in data/curated/substances/<slug>.json, where <slug> == slugify(name). The authoritative enforced validator is pipeline/build/validate_curated.py (stdlib, build-consistent route normalisation); this schema is for editor support.",
+  "type": "object",
+  "required": ["name", "aliases", "category", "defaultRoute", "routes"],
+  "additionalProperties": true,
+  "properties": {
+    "name": {"type": "string", "minLength": 1, "description": "Canonical name (also the display title)."},
+    "aliases": {"type": "array", "items": {"type": "string"}},
+    "category": {"type": "string", "enum": [
+      "Stimulant","Psychedelic","Dissociative","Dysdelic","Deliriant","Opioid","Benzodiazepine",
+      "GABAergic","Empathogen","Cannabinoid","Nootropic","AMPAkine","Eugeroic","Depressant",
+      "Antidepressant","Antipsychotic","Analgesic","Antihistamine","Cardiovascular","Antimicrobial",
+      "Gastrointestinal","Respiratory","Endocrine","Immunological","Supplement","Peptide","Anticonvulsant","Other"]},
+    "defaultRoute": {"type": "string"},
+    "routes": {"type": "array", "items": {"$ref": "#/$defs/route"}},
+    "effects": {"type": "array", "items": {"type": "string"}},
+    "halfLifeMinutes": {"type": "number"},
+    "sources": {"type": "array", "items": {"type": "string"}},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "cas": {"type": "string"},
+    "inchikey": {"type": "string"},
+    "formula": {"type": "string"},
+    "pubchemCID": {"type": "integer"},
+    "molarMass": {"type": "number"},
+    "mechanismOfAction": {"$ref": "#/$defs/moa"},
+    "peptideProfile": {"$ref": "#/$defs/peptideProfile"}
+  },
+  "$defs": {
+    "range": {"type": "object", "required": ["lower", "upper"], "properties": {
+      "lower": {"type": "number"}, "upper": {"type": "number"}}},
+    "route": {
+      "type": "object", "required": ["route", "unit"],
+      "properties": {
+        "route": {"type": "string", "description": "RouteOfAdministration raw value (source aliases like nasal/iv are normalised at build)."},
+        "unit": {"type": "string", "enum": ["mg", "mcg", "µg", "g", "IU", "mL"]},
+        "doses": {"type": "object", "properties": {
+          "threshold": {"type": "number"}, "heavy": {"type": "number"},
+          "light": {"$ref": "#/$defs/range"}, "common": {"$ref": "#/$defs/range"}, "strong": {"$ref": "#/$defs/range"}}},
+        "duration": {"type": "object", "additionalProperties": {"type": "object",
+          "required": ["min", "max"], "properties": {"min": {"type": "number"}, "max": {"type": "number"}}}},
+        "protocolDosing": {"$ref": "#/$defs/protocolDosing"}
+      }
+    },
+    "protocolDosing": {
+      "type": "object", "required": ["frequency"],
+      "properties": {
+        "lowAmount": {"type": "number"}, "highAmount": {"type": "number"},
+        "frequency": {"type": "string", "minLength": 1},
+        "courseDuration": {"type": "string"}, "notes": {"type": "string"},
+        "titration": {"type": "array", "items": {"type": "object", "required": ["amount", "label"],
+          "properties": {"amount": {"type": "number"}, "label": {"type": "string"}}}}
+      }
+    },
+    "peptideProfile": {
+      "type": "object",
+      "properties": {
+        "sequence": {"type": ["string", "null"]},
+        "suppliedForm": {"type": "string", "enum": ["lyophilized_vial", "solution", "topical", "implant", "oral_capsule"]},
+        "typicalVialMg": {"type": ["number", "null"]},
+        "reconstitutionSolvent": {"type": ["string", "null"]},
+        "iuPerMg": {"type": ["number", "null"]},
+        "storage": {"type": "object", "properties": {
+          "temperature": {"type": "string", "enum": ["room_temp", "refrigerate", "freeze"]},
+          "lightSensitive": {"type": "boolean"},
+          "reconstitutedStabilityDays": {"type": ["number", "null"]}}}
+      }
+    },
+    "moa": {
+      "type": "object",
+      "properties": {
+        "summary": {"type": "string"}, "description": {"type": "string"},
+        "primaryTargets": {"type": "array", "items": {"type": "string"}},
+        "references": {"type": "array", "items": {"type": "string"}},
+        "bindings": {"type": "array", "items": {"type": "object",
+          "required": ["target", "action", "affinity"],
+          "properties": {
+            "target": {"type": "string"},
+            "action": {"type": "string", "enum": ["agonist", "partialAgonist", "antagonist", "inverseAgonist",
+              "positiveAllostericModulator", "negativeAllostericModulator", "reuptakeInhibitor",
+              "releasingAgent", "enzymeInhibitor", "channelBlocker", "modulator"]},
+            "affinity": {"type": "integer", "enum": [1, 2, 3]}}}}
+      }
+    }
+  }
+}

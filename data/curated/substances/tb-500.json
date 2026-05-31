@@ -1,0 +1,71 @@
+{
+  "name": "TB-500",
+  "aliases": [
+    "Thymosin Beta-4",
+    "Tβ4"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "common": {
+          "lower": 2.0,
+          "upper": 5.0
+        },
+        "strong": {
+          "lower": 5.0,
+          "upper": 7.5
+        },
+        "heavy": 10.0
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 240,
+          "max": 1440
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "43-amino acid actin-sequestering peptide — promotes cell migration and tissue repair",
+    "Reduces inflammation and fibrosis in cardiac and skeletal muscle (animal models)",
+    "Promotes angiogenesis and neuronal regeneration in preclinical studies",
+    "Popular in athletic recovery for soft-tissue injuries — no human RCT evidence",
+    "Typically dosed 2–5 mg twice weekly for loading phase, then once weekly maintenance",
+    "Not FDA approved for human use; classified as banned in competitive sport (WADA)",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/18393251/",
+    "https://en.wikipedia.org/wiki/Thymosin_beta-4",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/16133099"
+  ],
+  "tags": [
+    "peptide",
+    "healing-peptide",
+    "grey-market",
+    "research-chemical",
+    "anti-inflammatory"
+  ]
+}

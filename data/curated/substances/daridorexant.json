@@ -1,0 +1,67 @@
+{
+  "name": "Daridorexant",
+  "aliases": [
+    "Quviviq"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 25,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 300,
+          "max": 480
+        },
+        "total": {
+          "min": 420,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dual orexin receptor antagonist — shortest half-life of approved DORAs",
+    "Sleep onset and maintenance with lower next-day impairment",
+    "Somnolence, headache, dizziness",
+    "US Schedule IV; FDA approved 2023",
+    "Improved next-day driving performance vs lemborexant in studies"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Daridorexant",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/145996610"
+  ],
+  "tags": [
+    "sedative-hypnotic",
+    "orexin-antagonist",
+    "DORA",
+    "US-Schedule-IV",
+    "prescription-only"
+  ]
+}

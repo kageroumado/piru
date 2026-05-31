@@ -1,0 +1,52 @@
+{
+  "name": "NBOC-DMT",
+  "aliases": [
+    "NB-DMT",
+    "N1-Boc-DMT"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "presumed DMT-class if Boc cleavage occurs",
+    "actual oral/smoked delivery rate unstudied",
+    "claimed ~25% DMT equivalence by weight (unverified)"
+  ],
+  "mechanismOfAction": {
+    "summary": "N1-Boc thermolabile prodrug of DMT; inactive until pyrolysis (~150–200 °C) or acid conditions cleave the Boc group, releasing DMT (5-HT2A agonist, σ1 ligand).",
+    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). The intact molecule is not itself active; the Boc group must be cleaved (pyrolysis/smoking or acid) to release DMT. Oral administration is inactive with or without an MAOI, because any absorbed intact compound must still be cleaved to DMT — claimed oral activity is unvalidated. Because the Boc-protected form is unscheduled, it is a common legal precursor form of DMT. No pharmacokinetic study or validated human dosing for the Boc compound.",
+    "primaryTargets": [
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/NBoc-DMT"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "prodrug",
+    "n1-boc-prodrug",
+    "tryptamine"
+  ],
+  "cas": "2210243-51-7",
+  "formula": "C17H24N2O2",
+  "molarMass": 288.39,
+  "inchikey": "IKVMWFRRDDILJA-UHFFFAOYSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/NBoc-DMT"
+  ]
+}

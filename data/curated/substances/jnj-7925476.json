@@ -1,0 +1,20 @@
+{
+  "name": "JNJ-7925476",
+  "aliases": [],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Janssen triple monoamine reuptake inhibitor",
+    "Investigated for depression",
+    "Discontinued"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "SNDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "2-FXiPr",
+  "aliases": [
+    "2-F-2-oxo-PCiPr",
+    "2-fluoro-2-oxo-PCiPr",
+    "FXiPr"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "dissociation",
+    "NMDA antagonism (presumed)",
+    "rapid tolerance development"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed NMDA receptor antagonist; 2-oxo-arylcyclohexylamine (methoxetamine/MXiPr relative with 2-fluoro substituent replacing 2-methoxy of MXE).",
+    "description": "Tentative IUPAC: 2-(2-fluorophenyl)-2-(isopropylamino)cyclohexan-1-one. The ortho-fluoro isomer replaces the methoxy group of MXE's pharmacophore. NMR-confirmed as ortho-F isomer. Sibling: 2-FXPr (n-propyl variant). Only a single anecdotal intranasal report exists (nervewing blog, 2025) — not a validated dose source; rapid tolerance noted in that report. No CAS/CID available.",
+    "primaryTargets": [
+      "NMDA receptor"
+    ],
+    "bindings": [
+      {
+        "target": "NMDA receptor",
+        "action": "channelBlocker",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/2-FXPr",
+      "https://nervewing.blogspot.com/2025/10/fxipr.html"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "dissociative",
+    "oxo-arylcyclohexylamine"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/2-FXPr",
+    "https://nervewing.blogspot.com/2025/10/fxipr.html"
+  ]
+}

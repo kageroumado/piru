@@ -1,0 +1,72 @@
+{
+  "name": "Nabiximols",
+  "aliases": [
+    "Sativex",
+    "THC:CBD oromucosal spray",
+    "GW-1000-02"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "sublingual",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "sprays",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 12
+        },
+        "heavy": 12
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 300
+        },
+        "total": {
+          "min": 180,
+          "max": 420
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Approved in Canada, EU, and UK for multiple sclerosis-related spasticity",
+    "Each spray delivers 2.7 mg THC + 2.5 mg CBD",
+    "Analgesic and antispasmodic",
+    "Psychoactive (THC component) — titrated slowly to minimize intoxication",
+    "Titration: start 1 spray/day, increase by 1 spray every 2 days; max 12 sprays/day",
+    "Not FDA-approved in the US as of 2025"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Nabiximols",
+    "https://www.ema.europa.eu/en/medicines/human/EPAR/sativex"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "CB1-partial-agonist",
+    "psychoactive",
+    "prescription-only",
+    "antispasmodic",
+    "combination-product"
+  ]
+}

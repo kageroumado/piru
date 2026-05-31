@@ -1,0 +1,112 @@
+{
+  "name": "Aripiprazole",
+  "aliases": [
+    "Abilify",
+    "Abilify Maintena",
+    "Aristada"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 2,
+          "upper": 5
+        },
+        "common": {
+          "lower": 10,
+          "upper": 15
+        },
+        "strong": {
+          "lower": 15,
+          "upper": 25
+        },
+        "heavy": 30
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 180,
+          "max": 300
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 2880,
+          "max": 5760
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 400,
+        "light": {
+          "lower": 300,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 400
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "peak": {
+          "min": 14400,
+          "max": 43200
+        },
+        "offset": {
+          "min": 129600,
+          "max": 187200
+        },
+        "total": {
+          "min": 172800,
+          "max": 259200
+        }
+      }
+    }
+  ],
+  "effects": [
+    "D2/D3 partial agonist and 5HT2A antagonist — third-generation profile",
+    "Activating rather than sedating — akathisia is the main side effect",
+    "Favorable metabolic profile: minimal weight gain, no significant dyslipidemia",
+    "No hyperprolactinemia (actually slightly lowers prolactin)",
+    "Monthly IM depot (Abilify Maintena) for adherence",
+    "Augmentation agent in depression at sub-antipsychotic doses"
+  ],
+  "halfLifeMinutes": 4680,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021436s038lbl.pdf",
+    "https://en.wikipedia.org/wiki/Aripiprazole",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/60795"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-partial-agonist",
+    "D3-partial-agonist",
+    "5HT2A-antagonist",
+    "5HT1A-partial-agonist",
+    "prescription-only",
+    "long-acting-injectable"
+  ]
+}

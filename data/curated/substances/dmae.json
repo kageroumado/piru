@@ -1,0 +1,44 @@
+{
+  "name": "DMAE",
+  "aliases": [
+    "Dimethylethanolamine",
+    "Deanol"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 350
+        },
+        "common": {
+          "lower": 350,
+          "upper": 750
+        },
+        "strong": {
+          "lower": 750,
+          "upper": 1000
+        },
+        "heavy": 1500
+      }
+    }
+  ],
+  "effects": [
+    "Choline precursor",
+    "Subtle mood-elevating effects reported",
+    "Minimal cognitive enhancement evidence in trials"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dimethylethanolamine"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "supplement"
+  ]
+}

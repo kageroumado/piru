@@ -1,0 +1,70 @@
+{
+  "name": "Lithium Carbonate",
+  "aliases": [
+    "Eskalith",
+    "Lithobid",
+    "Lithonate"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 150,
+        "light": {
+          "lower": 300,
+          "upper": 600
+        },
+        "common": {
+          "lower": 600,
+          "upper": 900
+        },
+        "strong": {
+          "lower": 900,
+          "upper": 1200
+        },
+        "heavy": 1800
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mood stabilizer — classic first-line for bipolar disorder",
+    "Mechanism incompletely understood; modulates inositol signaling, GSK-3β, neuroprotection",
+    "Tremor (fine intention tremor), polyuria, polydipsia, cognitive dulling, weight gain",
+    "Narrow therapeutic index — toxicity at >1.5 mEq/L: ataxia, confusion, seizure, renal failure",
+    "Requires regular serum level, renal, and thyroid monitoring",
+    "Antisuicidal properties — strongest evidence of any psychiatric medication",
+    "Teratogenic (Ebstein's anomaly — smaller risk than historically stated)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lithium_(medication)",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/11610"
+  ],
+  "tags": [
+    "mood-stabilizer",
+    "antimanic",
+    "narrow-therapeutic-index",
+    "prescription-only"
+  ]
+}

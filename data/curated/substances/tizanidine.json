@@ -1,0 +1,68 @@
+{
+  "name": "Tizanidine",
+  "aliases": [
+    "Zanaflex",
+    "Sirdalud"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 12
+        },
+        "heavy": 36
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Central alpha-2 agonist — reduces muscle hypertonicity via spinal interneurons",
+    "Significant sedation — often compared to a short-acting clonidine",
+    "Short duration; frequently used at night",
+    "Hypotension, dry mouth",
+    "Hepatotoxicity risk with chronic use"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tizanidine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5484"
+  ],
+  "tags": [
+    "muscle-relaxant",
+    "alpha2-agonist",
+    "sedating",
+    "antispasmodic",
+    "prescription-only"
+  ]
+}

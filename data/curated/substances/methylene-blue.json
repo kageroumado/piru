@@ -1,0 +1,46 @@
+{
+  "name": "Methylene blue",
+  "aliases": [
+    "Methylthioninium chloride",
+    "MB"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 16
+        },
+        "heavy": 20
+      }
+    }
+  ],
+  "effects": [
+    "Mitochondrial electron transport enhancer",
+    "Reversible MAOI-A — dangerous with serotonergic drugs",
+    "FDA-approved for methemoglobinemia at higher doses",
+    "Turns urine and tears blue-green"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methylene_blue"
+  ],
+  "tags": [
+    "nootropic",
+    "MAOI-A",
+    "mitochondrial",
+    "prescription-OTC-mixed"
+  ]
+}

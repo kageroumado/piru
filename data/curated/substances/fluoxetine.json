@@ -1,0 +1,73 @@
+{
+  "name": "Fluoxetine",
+  "aliases": [
+    "Prozac",
+    "Sarafem",
+    "Symbyax (w/ olanzapine)",
+    "Selfemra"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 60
+        },
+        "strong": {
+          "lower": 60,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms over 2–6 weeks",
+    "Activating/energizing — may cause insomnia and agitation early in treatment",
+    "Nausea, GI upset (common early, often resolves)",
+    "Sexual dysfunction (decreased libido, anorgasmia, delayed ejaculation)",
+    "Minimal discontinuation syndrome due to ultralong half-life",
+    "Risk of serotonin syndrome in combination with other serotonergic drugs",
+    "Potent CYP2D6 inhibitor — significant drug interaction potential"
+  ],
+  "halfLifeMinutes": 23040,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/018936s114lbl.pdf",
+    "https://en.wikipedia.org/wiki/Fluoxetine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3386"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "CYP2D6-inhibitor"
+  ]
+}

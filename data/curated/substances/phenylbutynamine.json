@@ -1,0 +1,20 @@
+{
+  "name": "Phenylbutynamine",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Alkyne analog of phenylbutenamine",
+    "No published human pharmacology"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "NDRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

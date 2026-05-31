@@ -1,0 +1,72 @@
+{
+  "name": "PQQ",
+  "aliases": [
+    "Pyrroloquinoline Quinone",
+    "Methoxatin",
+    "BioPQQ"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Redox cofactor — antioxidant with mitochondrial biogenesis promotion (PGC-1alpha)",
+    "Often combined with CoQ10 for synergistic mitochondrial support",
+    "Investigated for cognitive function and neuroprotection — early-stage evidence",
+    "May improve sleep quality — small RCT data",
+    "Very low doses studied in humans (10-20mg) — higher doses understudied",
+    "Safety profile good in short-term studies"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/1024",
+    "https://en.wikipedia.org/wiki/Pyrroloquinoline_quinone",
+    "https://examine.com/supplements/pyrroloquinoline-quinone/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "antioxidant",
+    "nootropic",
+    "mitochondrial-support",
+    "neuroprotective"
+  ]
+}

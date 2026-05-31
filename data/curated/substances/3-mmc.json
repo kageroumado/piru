@@ -1,0 +1,103 @@
+{
+  "name": "3-MMC",
+  "aliases": [
+    "3-Methylmethcathinone",
+    "Metaphedrone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 30,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 250
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 75,
+          "upper": 125
+        },
+        "common": {
+          "lower": 125,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 350
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 90,
+          "max": 180
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Empathogenic stimulant — milder than mephedrone",
+    "Compulsive redose risk",
+    "Cardiovascular strain at high doses",
+    "Linked to dependency syndromes with repeated weekly use"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/3-MMC",
+    "https://en.wikipedia.org/wiki/3-Methylmethcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "stimulant",
+    "empathogen-adjacent"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Rimcazole",
+  "aliases": [
+    "BW-234U"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Sigma receptor antagonist with DAT inhibition",
+    "Trialled as antipsychotic — discontinued",
+    "Animal studies show cocaine-attenuating effects"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Rimcazole"
+  ],
+  "tags": [
+    "DRI",
+    "sigma-antagonist",
+    "research-chemical",
+    "investigational"
+  ]
+}

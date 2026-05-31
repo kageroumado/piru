@@ -1,0 +1,24 @@
+{
+  "name": "Salvinorin B",
+  "aliases": [
+    "Sal B"
+  ],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Deacetyl analog of salvinorin A — inactive at kappa receptor",
+    "Synthetic scaffold for modified derivatives",
+    "Not psychoactive on its own"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Salvinorin_B",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/637359"
+  ],
+  "tags": [
+    "kappa-opioid-inactive",
+    "salvinorin",
+    "research-chemical",
+    "inactive"
+  ]
+}

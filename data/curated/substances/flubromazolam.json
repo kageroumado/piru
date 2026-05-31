@@ -1,0 +1,65 @@
+{
+  "name": "Flubromazolam",
+  "aliases": [
+    "FBZ"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.05,
+        "light": {
+          "lower": 0.1,
+          "upper": 0.25
+        },
+        "common": {
+          "lower": 0.25,
+          "upper": 0.5
+        },
+        "strong": {
+          "lower": 0.5,
+          "upper": 0.75
+        },
+        "heavy": 1
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 600,
+          "max": 1200
+        },
+        "total": {
+          "min": 1080,
+          "max": 1800
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
+    "Extreme potency and very long half-life",
+    "Case report of 28-day intoxication after 3 mg dose",
+    "Volumetric dosing required"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Flubromazolam",
+    "https://psychonautwiki.org/wiki/Flubromazolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "triazolobenzodiazepine",
+    "extreme-potency",
+    "fatalities-reported"
+  ]
+}

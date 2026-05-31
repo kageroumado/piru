@@ -1,0 +1,64 @@
+{
+  "name": "Oxiracetam",
+  "aliases": [
+    "ISF-2522",
+    "Hydroxypiracetam"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 400,
+        "light": {
+          "lower": 600,
+          "upper": 800
+        },
+        "common": {
+          "lower": 800,
+          "upper": 1600
+        },
+        "strong": {
+          "lower": 1600,
+          "upper": 2400
+        },
+        "heavy": 3000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mildly stimulating racetam",
+    "Cognitive enhancement studied in dementia",
+    "Cholinergic — pair with choline"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Oxiracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4626"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "cholinergic"
+  ]
+}

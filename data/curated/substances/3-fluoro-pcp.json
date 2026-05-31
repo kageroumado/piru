@@ -1,0 +1,24 @@
+{
+  "name": "3-Fluoro-PCP",
+  "aliases": [
+    "3-F-PCP"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Fluorinated PCP analog",
+    "No characterised human dosing — extreme caution due to PCP-class potency",
+    "Psychosis risk extrapolated from 3-MeO-PCP"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/3-Fluoro-PCP"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data",
+    "PCP-analog"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "Flualprazolam",
+  "aliases": [
+    "Flualp"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.1,
+        "light": {
+          "lower": 0.25,
+          "upper": 0.5
+        },
+        "common": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "strong": {
+          "lower": 1,
+          "upper": 1.5
+        },
+        "heavy": 2
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1080
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
+    "Fluorinated alprazolam analog",
+    "Frequently mixed with opioids in counterfeit pills — fatal respiratory depression",
+    "DEA-scheduled Schedule IV 2022"
+  ],
+  "halfLifeMinutes": 1080,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Flualprazolam",
+    "https://www.deadiversion.usdoj.gov/drug_chem_info/flualprazolam.pdf"
+  ],
+  "tags": [
+    "designer-benzo",
+    "triazolobenzodiazepine",
+    "fatalities-reported",
+    "US-Schedule-IV"
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "name": "Haloperidol",
+  "aliases": [
+    "Haldol",
+    "Serenace",
+    "Haloperidol Decanoate"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 0.5,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 1080,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 2,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 40
+        },
+        "peak": {
+          "min": 20,
+          "max": 60
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Potent D2 receptor blockade — strong antipsychotic efficacy",
+    "High EPS risk: akathisia, dystonia, parkinsonism, tardive dyskinesia",
+    "Sedation at higher doses",
+    "Minimal metabolic side effects compared to atypicals",
+    "QTc prolongation risk",
+    "Hyperprolactinemia"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf",
+    "https://en.wikipedia.org/wiki/Haloperidol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3559"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "prescription-only",
+    "high-EPS-risk",
+    "butyrophenone"
+  ]
+}

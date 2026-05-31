@@ -1,0 +1,45 @@
+{
+  "name": "Huperzine A",
+  "aliases": [
+    "HupA"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "µg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 800
+      }
+    }
+  ],
+  "effects": [
+    "Reversible AChE inhibitor from Huperzia serrata",
+    "NMDA antagonist activity at higher doses",
+    "Daily use causes choline depletion — cycle with rest days"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Huperzine_A"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "AChE-inhibitor",
+    "NMDA-antagonist"
+  ]
+}

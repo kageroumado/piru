@@ -1,0 +1,25 @@
+{
+  "name": "Brorphine",
+  "aliases": [
+    "1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-1,3-dihydro-2H-benzo[d]imidazol-2-one"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Not a nitazene — benzimidazolone scaffold but similar fatality cluster.",
+    "Naloxone may require multiple doses",
+    "Implicated in US overdose deaths 2020-2021",
+    "DEA-scheduled Schedule I 2021"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Brorphine",
+    "https://www.deadiversion.usdoj.gov/fed_regs/rules/2020/fr1209_2.htm"
+  ],
+  "tags": [
+    "benzimidazole-opioid",
+    "extreme-potency",
+    "US-Schedule-I",
+    "fatalities-reported"
+  ]
+}

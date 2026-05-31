@@ -1,0 +1,70 @@
+{
+  "name": "Exenatide",
+  "aliases": [
+    "Byetta",
+    "Bydureon",
+    "Bydureon BCise"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "µg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GLP-1 receptor agonist (exendin-4 from Gila monster) — twice-daily IR or weekly ER formulation",
+    "HbA1c reduction; weight loss ~2–3 kg",
+    "Nausea and vomiting highest of the class — most common reason for discontinuation",
+    "Extended-release (Bydureon): subcutaneous microspheres, therapeutic levels for ~10 weeks from single dose",
+    "Pancreatitis, renal impairment (caution in CrCl <45 mL/min)",
+    "No proven cardiovascular benefit in EXSCEL trial (non-inferior, not superior)"
+  ],
+  "halfLifeMinutes": 144,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf",
+    "https://en.wikipedia.org/wiki/Exenatide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/45588096"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "prescription-only",
+    "anti-diabetic"
+  ]
+}

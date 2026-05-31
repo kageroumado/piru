@@ -1,0 +1,51 @@
+{
+  "name": "1BP-LSD",
+  "aliases": [
+    "1-(pinacol-boronate-benzoyl)-LSD"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "sublingual",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "µg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "presumed LSD-class",
+    "visual distortion",
+    "cognitive amplification",
+    "boron-ester byproducts unknown"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed LSD prodrug via boronate ester hydrolysis → 5-HT2A partial agonist; boron toxicology completely unstudied.",
+    "description": "First boron-containing LSD prodrug (distinct from 1B-LSD which is 1-butanoyl-LSD). Boronate ester hydrolysis rate unknown; potency vs LSD empirically uncharacterized (mass-ratio claims of ≈100 µg LSD-equivalents are unvalidated). Emerged Dec 2025 as successor to banned 1S-LSD. Boron-specific toxicological profile is entirely unstudied.",
+    "primaryTargets": [
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/1BP-LSD"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "psychedelic",
+    "lsd-prodrug",
+    "no-human-data",
+    "boron-compound"
+  ],
+  "formula": "C37H48BN3O4",
+  "molarMass": 609.62,
+  "inchikey": "WTJNMHVFTSXKOI-HYBUGGRVSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1BP-LSD"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "ADB-PINACA",
+  "aliases": [],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Indazole-3-carboxamide cannabinoid",
+    "Implicated in 2013 acute kidney injury cluster",
+    "DEA Schedule I"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/ADB-PINACA"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk",
+    "fatalities-reported",
+    "US-Schedule-I"
+  ]
+}

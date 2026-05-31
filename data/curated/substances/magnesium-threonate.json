@@ -1,0 +1,72 @@
+{
+  "name": "Magnesium Threonate",
+  "aliases": [
+    "Magnesium L-Threonate",
+    "Magtein",
+    "Mg-T"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 1000,
+          "upper": 1500
+        },
+        "common": {
+          "lower": 1500,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 2500
+        },
+        "heavy": 3000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 1440,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Patented form developed at MIT — claimed superior CNS penetration vs other forms",
+    "Animal studies show increased synaptic density and improved memory",
+    "Human RCT data limited but positive trend for cognitive function in older adults",
+    "Doses listed are for the compound (elemental Mg content ~144mg per 2g)",
+    "May cause headache or fatigue during adaptation period",
+    "Mild GI tolerance vs oxide; less laxative than citrate"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/44351086",
+    "https://en.wikipedia.org/wiki/Magnesium_L-threonate",
+    "https://examine.com/supplements/magnesium-l-threonate/"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "nootropic",
+    "NMDA-modulator",
+    "cognitive-enhancement"
+  ]
+}

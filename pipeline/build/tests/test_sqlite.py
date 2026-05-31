@@ -771,5 +771,129 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
 
+_vspec = importlib.util.spec_from_file_location(
+    "validate_curated", Path(__file__).resolve().parent.parent / "validate_curated.py"
+)
+_vmod = importlib.util.module_from_spec(_vspec)
+_vspec.loader.exec_module(_vmod)
+
+
+class TestCuratedSlugify(unittest.TestCase):
+    """slugify is the canonical filename ↔ name mapping. Drift here means files
+    become unfindable by name and re-splitting silently creates duplicates."""
+
+    def test_basic(self):
+        self.assertEqual(_vmod.slugify("Semaglutide"), "semaglutide")
+        self.assertEqual(_vmod.slugify("2C-B"), "2c-b")
+        self.assertEqual(_vmod.slugify("BPC-157"), "bpc-157")
+        self.assertEqual(_vmod.slugify("GHK-Cu"), "ghk-cu")
+
+    def test_greek_and_symbols(self):
+        self.assertEqual(_vmod.slugify("α-PiHP"), "alpha-pihp")
+        self.assertEqual(_vmod.slugify("BPC-157 + TB-500"), "bpc-157-plus-tb-500")
+        self.assertEqual(_vmod.slugify("μ-opioid"), "mu-opioid")
+
+    def test_distinct_greek_no_collision(self):
+        # The whole point: α-PVP and PVP must not collapse to the same slug.
+        self.assertNotEqual(_vmod.slugify("α-PVP"), _vmod.slugify("PVP"))
+
+
+class TestCuratedFilesValid(unittest.TestCase):
+    """The shipped curated dir must pass the enforced validator with zero errors.
+    This is the build/CI gate — a malformed file would otherwise only surface as
+    missing/merged data after a full rebuild."""
+
+    def test_no_validation_errors(self):
+        errors, _warnings = _vmod.validate_dir()
+        self.assertEqual(errors, [], "curated files have validation errors:\n  " + "\n  ".join(errors))
+
+
+class TestCuratedValidatorCatchesBadData(unittest.TestCase):
+    """Synthetic edge cases — prove the validator actually flags each silent-
+    failure mode (testing the safety net itself). Each writes one bad file to a
+    temp dir and asserts a matching error is raised."""
+
+    def _check(self, entry, fname="x.json"):
+        import json, tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / fname).write_text(json.dumps(entry))
+        return _vmod.validate_dir(d)[0]
+
+    _base = {"name": "Foo", "aliases": [], "category": "Stimulant",
+             "defaultRoute": "oral", "routes": [{"route": "oral", "unit": "mg", "doses": {}}]}
+
+    def test_bad_category(self):
+        e = dict(self._base, category="Wonderdrug")
+        self.assertTrue(any("bad category" in x for x in self._check(e, "foo.json")))
+
+    def test_bad_route(self):
+        e = dict(self._base, routes=[{"route": "telepathy", "unit": "mg", "doses": {}}])
+        self.assertTrue(any("bad route" in x for x in self._check(e, "foo.json")))
+
+    def test_inverted_dose_range(self):
+        e = dict(self._base, routes=[{"route": "oral", "unit": "mg",
+                 "doses": {"common": {"lower": 50, "upper": 10}}}])
+        self.assertTrue(any("lower > upper" in x for x in self._check(e, "foo.json")))
+
+    def test_protocol_without_frequency(self):
+        e = dict(self._base, routes=[{"route": "oral", "unit": "mg", "doses": {},
+                 "protocolDosing": {"lowAmount": 10}}])
+        self.assertTrue(any("no 'frequency'" in x for x in self._check(e, "foo.json")))
+
+    def test_bad_binding_affinity(self):
+        e = dict(self._base, mechanismOfAction={"summary": "s", "description": "d", "references": [],
+                 "bindings": [{"target": "DAT", "action": "reuptakeInhibitor", "affinity": 5}]})
+        self.assertTrue(any("affinity must be" in x for x in self._check(e, "foo.json")))
+
+    def test_filename_slug_mismatch(self):
+        # File named wrong.json but name "Foo" → slug "foo": must flag drift.
+        self.assertTrue(any("does not match slugify" in x for x in self._check(self._base, "wrong.json")))
+
+    def test_invalid_json(self):
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / "broken.json").write_text("{not valid json")
+        self.assertTrue(any("invalid JSON" in x for x in _vmod.validate_dir(d)[0]))
+
+    def test_duplicate_compound_across_files(self):
+        import json, tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / "foo.json").write_text(json.dumps(self._base))
+        # Same compound, different file (e.g. "Foo" vs "foo "): normalised collision.
+        (d / "foo-2.json").write_text(json.dumps(dict(self._base, name="foo ")))
+        errs = _vmod.validate_dir(d)[0]
+        self.assertTrue(any("duplicate compound" in x for x in errs))
+
+
+class TestCuratedDirIngest(unittest.TestCase):
+    """The curated dir must be the single source of curated data in the built DB,
+    and a known curated-only compound must be present (proves direct ingest ran)."""
+
+    @classmethod
+    def setUpClass(cls):
+        p = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
+        if not p.exists():
+            raise unittest.SkipTest("piru-substances.sqlite not built")
+        cls.db = sqlite3.connect(p)
+        cls.db.row_factory = sqlite3.Row
+
+    @classmethod
+    def tearDownClass(cls):
+        if hasattr(cls, "db"):
+            cls.db.close()
+
+    def test_curated_only_compound_present(self):
+        # Pynazolam exists only in the curated layer — its presence proves the
+        # per-substance dir was ingested.
+        row = self.db.execute("select id from substances where canonical_name='Pynazolam'").fetchone()
+        self.assertIsNotNone(row, "curated-only compound missing — curated dir not ingested")
+
+    def test_deleted_obscure_entries_absent(self):
+        for name in ("PiP-Tapentadol", "DPDMC", "DM-DED", "DMP"):
+            row = self.db.execute(
+                "select 1 from substances where canonical_name=?", (name,)).fetchone()
+            self.assertIsNone(row, f"{name} should have been removed from the curated set")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

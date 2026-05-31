@@ -1,0 +1,44 @@
+{
+  "name": "Pyritinol",
+  "aliases": [
+    "Pyridoxine disulfide",
+    "Encephabol"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 200,
+        "light": {
+          "lower": 300,
+          "upper": 600
+        },
+        "common": {
+          "lower": 600,
+          "upper": 1200
+        },
+        "strong": {
+          "lower": 1200,
+          "upper": 1800
+        },
+        "heavy": 2400
+      }
+    }
+  ],
+  "effects": [
+    "Dimer of pyridoxine (vitamin B6) bridged by disulfide",
+    "Cholinergic and glucose-uptake enhancement",
+    "Rare hepatotoxicity and pancreatitis reported"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pyritinol"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "B6-derivative"
+  ]
+}

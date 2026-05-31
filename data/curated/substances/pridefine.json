@@ -1,0 +1,21 @@
+{
+  "name": "Pridefine",
+  "aliases": [
+    "AHR-1118"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Triple-reuptake inhibitor antidepressant candidate",
+    "Discontinued in clinical development"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pridefine"
+  ],
+  "tags": [
+    "SNDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

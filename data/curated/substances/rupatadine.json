@@ -1,0 +1,70 @@
+{
+  "name": "Rupatadine",
+  "aliases": [
+    "Rupafin",
+    "Rinialer",
+    "Rupa"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 10,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "H1 and PAF antagonism — dual mechanism",
+    "Reduces allergic rhinitis and chronic urticaria",
+    "Mild sedation possible at higher doses",
+    "Not approved in the US; used widely in Europe and Canada"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://www.ema.europa.eu/en/documents/product-information/rupafin-epar-product-information_en.pdf",
+    "https://en.wikipedia.org/wiki/Rupatadine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/129651"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "PAF-antagonist",
+    "prescription-only"
+  ]
+}

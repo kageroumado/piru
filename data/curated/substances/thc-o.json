@@ -1,0 +1,111 @@
+{
+  "name": "THC-O",
+  "aliases": [
+    "THC-O-Acetate",
+    "THC acetate ester",
+    "O-acetyl-THC",
+    "ATHC"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 3,
+          "upper": 7
+        },
+        "common": {
+          "lower": 7,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 10,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 5,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 45,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 300,
+          "max": 540
+        },
+        "total": {
+          "min": 420,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reported 3x potency of Δ9-THC (prodrug — hydrolyzed to THC in vivo)",
+    "Delayed onset characteristic — may cause accidental overdose",
+    "Intense euphoria and psychedelic-adjacent effects at high doses",
+    "Inhalation of acetate esters associated with EVALI/lipoid pneumonia risk",
+    "DEA classified as Schedule I (2023)"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://en.wikipedia.org/wiki/THC-O-acetate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/30905"
+  ],
+  "tags": [
+    "cannabinoid",
+    "semi-synthetic",
+    "CB1-partial-agonist",
+    "psychoactive",
+    "prodrug",
+    "evali-risk",
+    "US-Schedule-I",
+    "high-potency"
+  ]
+}

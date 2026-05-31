@@ -1,0 +1,21 @@
+{
+  "name": "22-Thiocyanatosalvinorin A",
+  "aliases": [],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Synthetic salvinorin A derivative",
+    "Kappa-opioid potency comparable to parent",
+    "Tool compound only"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/16108680/"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

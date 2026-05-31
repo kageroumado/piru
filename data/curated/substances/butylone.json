@@ -1,0 +1,65 @@
+{
+  "name": "Butylone",
+  "aliases": [
+    "bk-MBDB",
+    "β-Keto-MBDB"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 30,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 250
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 75,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 250
+        },
+        "strong": {
+          "lower": 250,
+          "upper": 350
+        },
+        "heavy": 400
+      }
+    }
+  ],
+  "effects": [
+    "β-keto MBDB — entactogen-stimulant hybrid",
+    "Less empathogenic than MDMA, more stimulating",
+    "Cardiovascular strain at high doses"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Butylone",
+    "https://psychonautwiki.org/wiki/Butylone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "MDMA-analog"
+  ]
+}

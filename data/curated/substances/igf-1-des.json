@@ -1,0 +1,66 @@
+{
+  "name": "IGF-1 DES",
+  "aliases": [
+    "DES(1-3) IGF-1"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 50,
+        "highAmount": 150,
+        "frequency": "per protocol",
+        "notes": "community/research protocol; no validated human dosing. Localized potent action"
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mcg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "localized muscle anabolism",
+    "hyperplasia"
+  ],
+  "mechanismOfAction": {
+    "summary": "Truncated IGF-1 (DES 1-3) — IGF-1R agonist.",
+    "description": "Native IGF-1 lacking its first three N-terminal residues (Gly-Pro-Glu), giving ~10× lower IGF-binding-protein affinity and short, potent, localized action at IGF-1R.",
+    "primaryTargets": [
+      "IGF-1R"
+    ],
+    "bindings": [
+      {
+        "target": "IGF-1R",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Insulin-like_growth_factor_1"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "growth-factor",
+    "wada-prohibited",
+    "no-human-data"
+  ],
+  "cas": "112603-35-3",
+  "molarMass": 7372,
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "CAS 112603-35-3"
+  ]
+}

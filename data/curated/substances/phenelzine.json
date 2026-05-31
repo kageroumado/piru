@@ -1,0 +1,72 @@
+{
+  "name": "Phenelzine",
+  "aliases": [
+    "Nardil"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 7.5,
+        "light": {
+          "lower": 15,
+          "upper": 30
+        },
+        "common": {
+          "lower": 45,
+          "upper": 60
+        },
+        "strong": {
+          "lower": 60,
+          "upper": 75
+        },
+        "heavy": 90
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Irreversible non-selective MAO-A/B inhibitor — effective for atypical depression, social anxiety, PTSD",
+    "Tyramine dietary restriction MANDATORY — hypertensive crisis risk (can be fatal)",
+    "GABA-B agonist properties may contribute to anxiolytic effect",
+    "Sedation, weight gain, orthostatic hypotension, edema",
+    "Pyridoxine (B6) antagonism — may require B6 supplementation",
+    "Requires 14-day washout before/after serotonergic drugs",
+    "Hepatotoxic (rare but serious)"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf",
+    "https://en.wikipedia.org/wiki/Phenelzine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3675"
+  ],
+  "tags": [
+    "antidepressant",
+    "MAOI",
+    "irreversible-MAOI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "dietary-restriction",
+    "hypertensive-crisis-risk"
+  ]
+}

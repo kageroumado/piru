@@ -1,0 +1,23 @@
+{
+  "name": "LY-404187",
+  "aliases": [],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Eli Lilly biarylpropylsulfonamide AMPA PAM",
+    "BDNF induction in rodents",
+    "Preclinical only"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/LY-404187",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3035975"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "no-human-data",
+    "investigational",
+    "biarylpropylsulfonamide"
+  ]
+}

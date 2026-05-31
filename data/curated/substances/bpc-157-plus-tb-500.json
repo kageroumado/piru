@@ -1,0 +1,41 @@
+{
+  "name": "BPC-157 + TB-500",
+  "aliases": [
+    "BPC-157/TB-500 stack"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "per component protocol",
+        "notes": "popular co-administered healing stack: BPC-157 (~250–500 mcg/day) + TB-500 (~2–5 mg/week). Blend note referencing both; no validated human dosing"
+      }
+    }
+  ],
+  "effects": [
+    "tissue repair",
+    "healing"
+  ],
+  "mechanismOfAction": {
+    "summary": "Co-administered tissue-repair stack (BPC-157 + Thymosin β4 fragment).",
+    "description": "Combination of the pentadecapeptide BPC-157 and the Thymosin β4 fragment TB-500, commonly stacked for soft-tissue and connective-tissue repair. Effects derive from each component's individual healing/angiogenic activity.",
+    "primaryTargets": [],
+    "references": [
+      "https://en.wikipedia.org/wiki/BPC-157"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "tissue-repair",
+    "blend",
+    "no-human-data",
+    "wada-prohibited"
+  ],
+  "sources": [
+    "Community healing-stack protocols"
+  ]
+}

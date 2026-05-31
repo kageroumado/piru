@@ -1,0 +1,69 @@
+{
+  "name": "Aniracetam",
+  "aliases": [
+    "Draganon",
+    "Sarpul",
+    "Ampamet",
+    "Memodrin",
+    "Ro 13-5057"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 200,
+        "light": {
+          "lower": 400,
+          "upper": 750
+        },
+        "common": {
+          "lower": 750,
+          "upper": 1500
+        },
+        "strong": {
+          "lower": 1500,
+          "upper": 3000
+        },
+        "heavy": 4500
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "AMPA receptor positive allosteric modulator",
+    "Anxiolytic and pro-cognitive effects reported",
+    "Fat-soluble — take with dietary fat",
+    "Mild stimulation with reduced anxiety"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Aniracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2196",
+    "https://pubmed.ncbi.nlm.nih.gov/14744474/"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "racetam",
+    "nootropic"
+  ]
+}

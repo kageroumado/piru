@@ -1,0 +1,72 @@
+{
+  "name": "Magnesium Citrate",
+  "aliases": [
+    "Magnesium Tri-Citrate",
+    "Citrate of Magnesia"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 800
+        },
+        "heavy": 1000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 1440
+        },
+        "total": {
+          "min": 480,
+          "max": 2160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Good bioavailability (~16% elemental Mg content)",
+    "Mild laxative effect — useful for constipation at higher doses",
+    "High-dose liquid form used for bowel prep before colonoscopy",
+    "Cost-effective and widely available",
+    "Anxiety and sleep support consistent with other Mg forms",
+    "Osmotic diarrhea threshold lower than glycinate"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/24511",
+    "https://en.wikipedia.org/wiki/Magnesium_citrate"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "NMDA-modulator",
+    "laxative",
+    "sleep",
+    "anxiolytic"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Psilocybin",
+  "aliases": [],
+  "category": "Psychedelic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Psilocybin"
+  ],
+  "tags": [
+    "psychedelic",
+    "tryptamine",
+    "5HT2A-agonist",
+    "5-HT2A-agonist",
+    "prodrug-to-psilocin",
+    "natural-product",
+    "psilocybe-mushroom"
+  ]
+}

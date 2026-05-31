@@ -1,0 +1,44 @@
+{
+  "name": "PAL-GHK",
+  "aliases": [
+    "Palmitoyl Tripeptide-1"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anti-aging",
+    "collagen/ECM stimulation"
+  ],
+  "mechanismOfAction": {
+    "summary": "Matrikine; increases collagen and ECM synthesis.",
+    "description": "Palmitoylated Gly-His-Lys tripeptide. Acts as a matrikine signal to fibroblasts, upregulating collagen and extracellular-matrix components.",
+    "primaryTargets": [
+      "Dermal fibroblasts"
+    ],
+    "references": [
+      "INCI/CosIng database"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "cas": "147732-56-7",
+  "peptideProfile": {
+    "sequence": "Pal-Gly-His-Lys",
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "INCI/CosIng; manufacturer tech sheet"
+  ]
+}

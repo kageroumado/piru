@@ -1,0 +1,25 @@
+{
+  "name": "Amfonelic acid",
+  "aliases": [
+    "WIN 25,978",
+    "AFA"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Selective dopamine reuptake inhibitor",
+    "Stimulant effects without significant peripheral sympathomimetic activity",
+    "Synthesised in antibiotic research"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Amfonelic_acid",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3033"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

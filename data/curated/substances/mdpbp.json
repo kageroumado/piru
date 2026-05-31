@@ -1,0 +1,22 @@
+{
+  "name": "MDPBP",
+  "aliases": [
+    "3,4-Methylenedioxy-α-pyrrolidinobutiophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Pyrrolidinophenone cathinone",
+    "Strong reuptake inhibitor — compulsive redose risk"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/MDPBP"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

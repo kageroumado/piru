@@ -1,0 +1,19 @@
+{
+  "name": "Isotonitazepyne",
+  "aliases": [],
+  "category": "Opioid",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Isotonitazepyne"
+  ],
+  "tags": [
+    "opioid",
+    "mu-opioid-agonist",
+    "designer-opioid",
+    "nitazene",
+    "fatalities-reported",
+    "fentanyl-class-potency"
+  ]
+}

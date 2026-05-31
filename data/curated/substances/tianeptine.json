@@ -1,0 +1,66 @@
+{
+  "name": "Tianeptine",
+  "aliases": [
+    "Stablon",
+    "Coaxil"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 6,
+        "light": {
+          "lower": 12,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mu-opioid activity; addiction and overdose risk. Banned in several US states.",
+    "Atypical antidepressant — glutamate modulator",
+    "Therapeutic dose 37.5 mg/day — abuse doses are 10-100x higher",
+    "Severe withdrawal mimicking opioid withdrawal"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tianeptine",
+    "https://www.fda.gov/consumers/consumer-updates/tianeptine-products-linked-serious-harm-overdoses-death"
+  ],
+  "tags": [
+    "antidepressant",
+    "mu-opioid-agonist",
+    "nootropic",
+    "high-dependence-risk"
+  ]
+}

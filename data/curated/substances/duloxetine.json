@@ -1,0 +1,71 @@
+{
+  "name": "Duloxetine",
+  "aliases": [
+    "Cymbalta",
+    "Irenka"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 30,
+          "upper": 60
+        },
+        "common": {
+          "lower": 60,
+          "upper": 90
+        },
+        "strong": {
+          "lower": 90,
+          "upper": 120
+        },
+        "heavy": 120
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive, anxious, and neuropathic/musculoskeletal pain symptoms",
+    "Approved for fibromyalgia, diabetic peripheral neuropathy, chronic musculoskeletal pain",
+    "Nausea (most common), dry mouth, constipation, hyperhidrosis",
+    "Moderate CYP2D6 inhibitor",
+    "Hepatotoxicity risk — avoid in significant alcohol use or liver disease",
+    "Discontinuation syndrome on abrupt stop — taper recommended",
+    "Risk of serotonin syndrome with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf",
+    "https://en.wikipedia.org/wiki/Duloxetine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/60835"
+  ],
+  "tags": [
+    "antidepressant",
+    "SNRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "hepatotoxicity-risk"
+  ]
+}

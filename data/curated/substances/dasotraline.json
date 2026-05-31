@@ -1,0 +1,23 @@
+{
+  "name": "Dasotraline",
+  "aliases": [
+    "SEP-225289",
+    "(1R,4S)-Sertraline analog"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Sunovion NDRI candidate for ADHD and binge eating disorder",
+    "Long elimination half-life (47-77 h)",
+    "Phase III completed — development discontinued 2020"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dasotraline"
+  ],
+  "tags": [
+    "NDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "Holy Basil",
+  "aliases": [
+    "Tulsi",
+    "Ocimum tenuiflorum",
+    "Ocimum sanctum",
+    "Sacred Basil"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 150,
+        "light": {
+          "lower": 300,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 1500
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Ayurvedic adaptogen — cortisol and anxiety reduction",
+    "Eugenol and ursolic acid primary active compounds",
+    "Mild COX-2 inhibition — anti-inflammatory",
+    "Blood glucose modulation in type 2 diabetes — small trials",
+    "Antiplatelet activity — caution pre-surgery",
+    "Evidence base is preliminary — mostly small trials and animal data"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/689726",
+    "https://en.wikipedia.org/wiki/Ocimum_tenuiflorum",
+    "https://examine.com/supplements/holy-basil/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "anxiolytic",
+    "anti-inflammatory",
+    "HPA-modulator"
+  ]
+}

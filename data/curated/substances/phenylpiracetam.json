@@ -1,0 +1,67 @@
+{
+  "name": "Phenylpiracetam",
+  "aliases": [
+    "Carphedon",
+    "Phenotropil",
+    "Fonturacetam"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 75,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 400
+        },
+        "heavy": 600
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 180,
+          "max": 300
+        },
+        "total": {
+          "min": 300,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Stimulating racetam — phenyl analog of piracetam",
+    "Tolerance to stimulation builds within days",
+    "WADA-banned in competitive sport",
+    "Mild dopaminergic activity"
+  ],
+  "halfLifeMinutes": 300,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenylpiracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/108048"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "WADA-banned",
+    "stimulant-adjacent"
+  ]
+}

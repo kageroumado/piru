@@ -1,0 +1,65 @@
+{
+  "name": "SLU-PP-332",
+  "aliases": [
+    "SR9861"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "increased endurance (mouse data)",
+    "increased oxidative muscle fibers (mouse data)",
+    "metabolic improvements (mouse data)",
+    "mitochondrial biogenesis"
+  ],
+  "mechanismOfAction": {
+    "summary": "Pan-ERR agonist (ERRα/ERRβ/ERRγ); recruits PGC-1α → mitochondrial biogenesis and fatty acid oxidation.",
+    "description": "Small molecule pan-estrogen-related receptor agonist (ERRα EC50 ~98 nM, ERRβ ~230 nM, ERRγ ~430 nM); recruits PGC-1α coactivator to increase mitochondrial biogenesis, fatty acid oxidation, and OXPHOS gene expression. Increases Type IIa muscle fibers and exercise endurance in mice. ERRα-dependent mechanism confirmed by knockout. No human studies; poor drug-like properties (no published oral bioavailability in humans).",
+    "primaryTargets": [
+      "ERRα",
+      "ERRβ",
+      "ERRγ"
+    ],
+    "bindings": [
+      {
+        "target": "ERRα",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "ERRβ",
+        "action": "agonist",
+        "affinity": 2
+      },
+      {
+        "target": "ERRγ",
+        "action": "agonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "PubChem CID 5338394",
+      "https://en.wikipedia.org/wiki/SLU-PP-332",
+      "PMC11584170"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "303760-60-3",
+  "formula": "C18H14N2O2",
+  "pubchemCID": 5338394,
+  "molarMass": 290.3,
+  "sources": [
+    "PubChem CID 5338394",
+    "https://en.wikipedia.org/wiki/SLU-PP-332",
+    "PMC11584170"
+  ]
+}

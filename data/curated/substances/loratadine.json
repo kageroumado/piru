@@ -1,0 +1,69 @@
+{
+  "name": "Loratadine",
+  "aliases": [
+    "Claritin",
+    "Alavert",
+    "Clarityn"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 10,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 480,
+          "max": 840
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces allergic rhinitis symptoms",
+    "Non-sedating at standard doses",
+    "Urticaria relief",
+    "Minimal anticholinergic effects"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf",
+    "https://en.wikipedia.org/wiki/Loratadine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3954"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "OTC"
+  ]
+}

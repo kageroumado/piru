@@ -1,0 +1,72 @@
+{
+  "name": "Acetyl-L-Carnitine",
+  "aliases": [
+    "ALCAR",
+    "Acetylcarnitine",
+    "L-Acetylcarnitine"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 3000
+        },
+        "heavy": 4000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Crosses blood-brain barrier — donates acetyl group for acetylcholine synthesis",
+    "Mitochondrial fatty acid transport support",
+    "Investigated for cognitive decline, neuropathy, and depression (modest evidence)",
+    "May improve sperm motility and male fertility",
+    "Can cause fishy body odor (TMAO metabolism)",
+    "Stimulating at higher doses — may worsen insomnia"
+  ],
+  "halfLifeMinutes": 285,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/7045767",
+    "https://en.wikipedia.org/wiki/Acetylcarnitine",
+    "https://examine.com/supplements/acetyl-l-carnitine/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "OTC",
+    "amino-acid-derivative",
+    "mitochondrial-support",
+    "cholinergic"
+  ]
+}

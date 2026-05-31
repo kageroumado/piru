@@ -1,0 +1,60 @@
+{
+  "name": "Bretazenil",
+  "aliases": [
+    "Ro16-6028",
+    "bretazenilum"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anxiolysis",
+    "sedation",
+    "hypnosis at higher doses",
+    "amnesia at higher doses",
+    "lower euphoria and abuse potential vs full agonists",
+    "can precipitate withdrawal in BZD-tolerant patients"
+  ],
+  "halfLifeMinutes": 180,
+  "mechanismOfAction": {
+    "summary": "Non-selective GABA-A BZD-site partial agonist (~35–58% intrinsic efficacy vs full agonist); wide therapeutic window with reduced tolerance/dependence potential compared to full agonists.",
+    "description": "Imidazo[1,2-a]-pyrrolo[2,3-d]-benzodiazepine; partial agonist at BZD binding site across α1–α6 subunit-containing GABA-A receptors (~35–58% maximal efficacy). Can precipitate withdrawal in BZD-tolerant users by occupying the site without full agonism. Never marketed. Potency: 0.5 mg ≈ 10 mg diazepam (psychomotor impairment studies). t½ ~2–4.5 h across multiple human PK studies.",
+    "primaryTargets": [
+      "GABA-A"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Bretazenil",
+      "https://pubmed.ncbi.nlm.nih.gov/8799523/",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12858478/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "designer-benzo",
+    "partial-agonist"
+  ],
+  "cas": "84379-13-5",
+  "pubchemCID": 107926,
+  "formula": "C19H20BrN3O3",
+  "molarMass": 420.29,
+  "inchikey": "LWUDDYHYYNNIQI-ZDUSSCGKSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bretazenil",
+    "PubChem CID 107926",
+    "PMID 8799523",
+    "PMC12858478"
+  ]
+}

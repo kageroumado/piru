@@ -1,0 +1,72 @@
+{
+  "name": "Vitamin E",
+  "aliases": [
+    "Tocopherol",
+    "Mixed Tocopherols",
+    "Alpha-Tocopherol",
+    "d-Alpha Tocopherol"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "IU",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1500
+        },
+        "heavy": 1500
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "total": {
+          "min": 2880,
+          "max": 10080
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Lipid-soluble chain-breaking antioxidant — protects cell membranes",
+    "Mixed tocopherols preferred over isolated alpha-tocopherol",
+    "High-dose isolated alpha-tocopherol may displace gamma-tocopherol",
+    "Meta-analysis: high-dose supplementation (>400 IU/day) associated with slight all-cause mortality increase",
+    "Anticoagulant properties — caution with warfarin and pre-surgery",
+    "Take with fat-containing meal"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminE-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/14985",
+    "https://en.wikipedia.org/wiki/Vitamin_E"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "fat-soluble",
+    "antioxidant"
+  ]
+}

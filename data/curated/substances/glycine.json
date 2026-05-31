@@ -1,0 +1,73 @@
+{
+  "name": "Glycine",
+  "aliases": [
+    "Gly",
+    "Aminoacetic Acid",
+    "2-Aminoacetic Acid"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 1000,
+          "upper": 3000
+        },
+        "common": {
+          "lower": 3000,
+          "upper": 5000
+        },
+        "strong": {
+          "lower": 5000,
+          "upper": 10000
+        },
+        "heavy": 10000
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 45
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-essential inhibitory neurotransmitter — also NMDA co-agonist",
+    "Collagen synthesis precursor",
+    "3g before bed associated with improved sleep quality (small RCTs)",
+    "Creatine biosynthesis substrate",
+    "Very safe profile — naturally sweet taste",
+    "Methylation metabolism interaction with TMG"
+  ],
+  "halfLifeMinutes": 75,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/750",
+    "https://en.wikipedia.org/wiki/Glycine",
+    "https://examine.com/supplements/glycine/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid",
+    "NMDA-modulator",
+    "GABAergic",
+    "sleep",
+    "collagen-precursor"
+  ]
+}

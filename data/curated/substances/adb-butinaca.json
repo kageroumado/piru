@@ -1,0 +1,25 @@
+{
+  "name": "ADB-BUTINACA",
+  "aliases": [
+    "ADMB-BUTINACA"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Indazole-3-carboxamide synthetic cannabinoid",
+    "Linked to mass intoxication events in UK prisons 2021-2023",
+    "Schedule I in US 2023"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/ADB-BUTINACA",
+    "https://www.emcdda.europa.eu/publications/eu-drug-markets/nps_en"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk",
+    "fatalities-reported"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "name": "Olopatadine",
+  "aliases": [
+    "Patanol",
+    "Pataday",
+    "Pazeo"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "ophthalmic",
+  "routes": [
+    {
+      "route": "ophthalmic",
+      "unit": "drops",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 2
+        },
+        "heavy": 2
+      },
+      "duration": {
+        "onset": {
+          "min": 3,
+          "max": 10
+        },
+        "peak": {
+          "min": 30,
+          "max": 120
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    },
+    {
+      "route": "nasal",
+      "unit": "sprays",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 4
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Allergic conjunctivitis relief",
+    "Mast cell stabilization",
+    "H1 antagonism — selectively topical",
+    "Minimal systemic absorption",
+    "Intranasal form for allergic rhinitis"
+  ],
+  "halfLifeMinutes": 183,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf",
+    "https://en.wikipedia.org/wiki/Olopatadine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/152165"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "mast-cell-stabilizer",
+    "ophthalmic",
+    "nasal",
+    "prescription-only"
+  ]
+}

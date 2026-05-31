@@ -1,0 +1,23 @@
+{
+  "name": "Encenicline",
+  "aliases": [
+    "EVP-6124"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "α7 nicotinic PAM/agonist",
+    "Phase III for cognitive symptoms of schizophrenia",
+    "Halted due to GI adverse events"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Encenicline"
+  ],
+  "tags": [
+    "nootropic",
+    "alpha7-nAChR-agonist",
+    "research-chemical",
+    "investigational"
+  ]
+}

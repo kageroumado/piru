@@ -1,0 +1,109 @@
+{
+  "name": "Risperidone",
+  "aliases": [
+    "Risperdal",
+    "Risperdal Consta"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 4
+        },
+        "strong": {
+          "lower": 4,
+          "upper": 8
+        },
+        "heavy": 16
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 37.5
+        },
+        "strong": {
+          "lower": 37.5,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 10080,
+          "max": 20160
+        },
+        "peak": {
+          "min": 20160,
+          "max": 40320
+        },
+        "offset": {
+          "min": 40320,
+          "max": 80640
+        },
+        "total": {
+          "min": 80640,
+          "max": 120960
+        }
+      }
+    }
+  ],
+  "effects": [
+    "D2 and 5HT2A antagonism — reduces positive symptoms",
+    "Highest hyperprolactinemia risk among atypicals",
+    "EPS risk at doses above 6 mg/day",
+    "Moderate metabolic burden: weight gain, dyslipidemia",
+    "Sedation especially at initiation",
+    "Long-acting injectable (Risperdal Consta) dosed every 2 weeks"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020272s056lbl.pdf",
+    "https://en.wikipedia.org/wiki/Risperidone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5073"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "prescription-only",
+    "long-acting-injectable"
+  ]
+}

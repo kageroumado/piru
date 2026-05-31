@@ -1,0 +1,26 @@
+{
+  "name": "Flmodafinil",
+  "aliases": [
+    "CRL-40,940",
+    "Lauflumide",
+    "Bisfluoromodafinil"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Bis-fluoro analog of modafinil",
+    "Reported higher potency than modafinil in animal studies",
+    "No published human trials"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Flmodafinil",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/57347836"
+  ],
+  "tags": [
+    "eugeroic",
+    "research-chemical",
+    "no-human-data",
+    "afinil"
+  ]
+}

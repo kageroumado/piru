@@ -1,0 +1,69 @@
+{
+  "name": "Desloratadine",
+  "aliases": [
+    "Clarinex",
+    "Aerius",
+    "NeoClarityn"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1.25,
+        "light": {
+          "lower": 2.5,
+          "upper": 2.5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 5
+        },
+        "strong": {
+          "lower": 5,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 480,
+          "max": 840
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Active metabolite of loratadine — more potent",
+    "Reduces allergic rhinitis and urticaria",
+    "Non-sedating at therapeutic doses",
+    "Minimal anticholinergic burden"
+  ],
+  "halfLifeMinutes": 1620,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf",
+    "https://en.wikipedia.org/wiki/Desloratadine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/124087"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "prescription-only"
+  ]
+}

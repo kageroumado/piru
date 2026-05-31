@@ -1,0 +1,70 @@
+{
+  "name": "Taurine",
+  "aliases": [
+    "2-Aminoethanesulfonic Acid"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 3000
+        },
+        "strong": {
+          "lower": 3000,
+          "upper": 6000
+        },
+        "heavy": 6000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Conditionally essential amino acid — synthesized endogenously in limited amounts",
+    "GABA-ergic modulation — mild anxiolytic properties",
+    "Cardiac function support; important in feline nutrition",
+    "Investigated for exercise performance and cardiovascular health",
+    "Very well-tolerated; GI upset rare even at high doses",
+    "2023 Nature study linked taurine depletion to aging"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/1123",
+    "https://en.wikipedia.org/wiki/Taurine",
+    "https://examine.com/supplements/taurine/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid",
+    "GABAergic",
+    "cardiovascular",
+    "antioxidant"
+  ]
+}

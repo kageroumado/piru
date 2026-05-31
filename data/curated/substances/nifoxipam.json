@@ -1,0 +1,42 @@
+{
+  "name": "Nifoxipam",
+  "aliases": [
+    "3-Hydroxydesmethylflunitrazepam"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      }
+    }
+  ],
+  "effects": [
+    "Flunitrazepam metabolite sold standalone",
+    "Long half-life",
+    "Sedative-hypnotic profile"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/Nifoxipam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "metabolite-as-drug"
+  ]
+}

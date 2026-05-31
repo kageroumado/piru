@@ -1,0 +1,65 @@
+{
+  "name": "Etizolam",
+  "aliases": [
+    "Etilaam",
+    "Etizest",
+    "Etizex"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 4
+        },
+        "heavy": 5
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 360
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Thienodiazepine — bioisostere of benzodiazepines",
+    "Approved in Japan, Italy, India for anxiety/sleep",
+    "Rapid tolerance — schedule with breaks",
+    "Lower euphoria than triazolams, similar dependence liability"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Etizolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "thienodiazepine",
+    "prescription-some-countries"
+  ]
+}

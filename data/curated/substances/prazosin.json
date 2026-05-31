@@ -1,0 +1,66 @@
+{
+  "name": "Prazosin",
+  "aliases": [
+    "Minipress"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 5
+        },
+        "strong": {
+          "lower": 5,
+          "upper": 10
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Alpha-1 antagonist — blocks noradrenergic signaling during nightmares",
+    "Used off-label for PTSD nightmares and hyperarousal",
+    "Sedation, orthostatic hypotension, dizziness",
+    "First-dose syncope risk — must titrate slowly",
+    "No direct CNS excitatory or inhibitory action; reduces peripheral adrenergic response"
+  ],
+  "halfLifeMinutes": 180,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Prazosin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4893"
+  ],
+  "tags": [
+    "alpha1-blocker",
+    "antihypertensive",
+    "PTSD-nightmares",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "4-MEC",
+  "aliases": [
+    "4-Methyl-N-ethylcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 400
+      }
+    }
+  ],
+  "effects": [
+    "Mephedrone N-ethyl analog",
+    "Slightly less euphoric than mephedrone",
+    "Linked to fatalities in mixed-drug contexts"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/4-Methyl-N-ethylcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "fatalities-reported"
+  ]
+}

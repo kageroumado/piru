@@ -1,0 +1,21 @@
+{
+  "name": "Etiracetam",
+  "aliases": [
+    "UCB-6474"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Racemic precursor to levetiracetam",
+    "Superseded by single-enantiomer levetiracetam"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Etiracetam"
+  ],
+  "tags": [
+    "racetam",
+    "research-chemical",
+    "investigational"
+  ]
+}

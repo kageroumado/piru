@@ -1,0 +1,71 @@
+{
+  "name": "Modafinil",
+  "aliases": [
+    "Provigil",
+    "Alertec",
+    "Modavigil",
+    "2-(diphenylmethylsulfinyl)acetamide"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 400
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 600,
+          "max": 900
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Wakefulness promotion",
+    "Improved focus and motivation",
+    "Reduced fatigue",
+    "Possible Stevens-Johnson syndrome (rare but serious)",
+    "Headache and insomnia common"
+  ],
+  "halfLifeMinutes": 900,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/020717s037s038lbl.pdf",
+    "https://en.wikipedia.org/wiki/Modafinil",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4236"
+  ],
+  "tags": [
+    "eugeroic",
+    "prescription-only",
+    "US-Schedule-IV",
+    "DAT-inhibitor-weak",
+    "afinil"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "NB-5-MeO-MiPT",
+  "aliases": [
+    "5-MeO-MiPT-Boc",
+    "N1-Boc-5-MeO-MiPT"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "inactive in Boc form",
+    "thermal deprotection yields 5-MeO-MiPT",
+    "parent: potent entactogenic/psychedelic",
+    "parent: tactile enhancement and euphoria",
+    "vasoconstriction",
+    "serotonin syndrome risk"
+  ],
+  "mechanismOfAction": {
+    "summary": "N1-Boc thermolabile prodrug of 5-MeO-MiPT ('moxy'); inactive until Boc cleavage releases the potent 5-HT1A/2A agonist.",
+    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). Parent 5-MeO-MiPT: 5-HT1A Ki ~12–143 nM, 5-HT2A Ki ~113–449 nM (assay-dependent). Parent oral: onset 20–40 min, total 5–8 h, t½ ~2–3 h, CYP2D6 metabolism. Delivered parent dose from the Boc form is unpredictable. No validated dosing exists for the Boc compound.",
+    "primaryTargets": [
+      "5-HT1A",
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/NB-5-MeO-MiPT",
+      "https://psychonautwiki.org/wiki/5-MeO-MiPT"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "prodrug",
+    "n1-boc-prodrug",
+    "tryptamine"
+  ],
+  "formula": "C20H30N2O3",
+  "molarMass": 346.47,
+  "sources": [
+    "https://en.wikipedia.org/wiki/NB-5-MeO-MiPT",
+    "https://psychonautwiki.org/wiki/5-MeO-MiPT"
+  ]
+}

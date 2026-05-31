@@ -1,0 +1,68 @@
+{
+  "name": "Enclomiphene",
+  "aliases": [
+    "Enclomifene",
+    "Androxal",
+    "trans-Clomiphene",
+    "(E)-Clomifene"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 12.5,
+        "highAmount": 50,
+        "frequency": "once daily",
+        "notes": "25 mg/day robustly elevates testosterone in trial data; used for PCT after AAS/SARM cycles; not FDA-approved (NDA failed 2013); compounding-pharmacy Rx"
+      }
+    }
+  ],
+  "effects": [
+    "increased LH and FSH",
+    "increased endogenous testosterone production",
+    "potential visual disturbance (SERM-class retinal effect)",
+    "mood changes",
+    "theoretical VTE risk (ER-mediated coagulation)"
+  ],
+  "halfLifeMinutes": 600,
+  "mechanismOfAction": {
+    "summary": "SERM; ER antagonist at hypothalamus/pituitary → disinhibition of LH/FSH secretion → increased endogenous testosterone.",
+    "description": "Trans-isomer (E-isomer) of clomiphene; blocks estrogen receptor at hypothalamus and pituitary, removing negative feedback and raising endogenous LH/FSH/testosterone. Differs from cis-isomer (zuclomiphene) which is a weak ER agonist. CYP2D6 metabolism; Tmax ~2–3 h; t½ ~10 h.",
+    "primaryTargets": [
+      "Estrogen receptor α",
+      "Estrogen receptor β"
+    ],
+    "bindings": [
+      {
+        "target": "Estrogen receptor α",
+        "action": "antagonist",
+        "affinity": 3
+      },
+      {
+        "target": "Estrogen receptor β",
+        "action": "antagonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "PubChem CID 1548953",
+      "Wiehle 2013 BJU Int DOI:10.1111/bju.12363"
+    ]
+  },
+  "tags": [
+    "wada-prohibited",
+    "research-chemical"
+  ],
+  "cas": "7599-79-3",
+  "formula": "C26H28ClNO",
+  "pubchemCID": 1548953,
+  "molarMass": 405.96,
+  "sources": [
+    "PubChem CID 1548953",
+    "Wiehle 2013 BJU Int DOI:10.1111/bju.12363"
+  ]
+}

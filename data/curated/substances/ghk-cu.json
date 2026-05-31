@@ -1,0 +1,111 @@
+{
+  "name": "GHK-Cu",
+  "aliases": [
+    "Copper peptide GHK-Cu",
+    "Glycyl-L-histidyl-L-lysine copper",
+    "Copper tripeptide-1"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "common": {
+          "lower": 2.0,
+          "upper": 5.0
+        },
+        "strong": {
+          "lower": 5.0,
+          "upper": 10.0
+        },
+        "heavy": 10.0
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 180
+        },
+        "peak": {
+          "min": 240,
+          "max": 720
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 720,
+          "max": 4320
+        }
+      }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 0.5,
+          "upper": 1.0
+        },
+        "common": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "strong": {
+          "lower": 2.0,
+          "upper": 5.0
+        },
+        "heavy": 5.0
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 360
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 720,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Copper-chelating tripeptide — naturally present in human plasma, urine, saliva",
+    "Stimulates collagen synthesis, wound healing, and skin remodeling",
+    "Anti-inflammatory; promotes production of antioxidant enzymes (SOD, catalase)",
+    "Dermatological use: anti-wrinkle, hair growth stimulation, scar reduction",
+    "Antifibrotic effects in animal models",
+    "Systemic safety data limited; topical use well-tolerated",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination (for injection use)"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/30681787/",
+    "https://en.wikipedia.org/wiki/GHK-Cu",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/73587"
+  ],
+  "tags": [
+    "peptide",
+    "healing-peptide",
+    "grey-market",
+    "research-chemical",
+    "anti-aging",
+    "dermatological"
+  ]
+}

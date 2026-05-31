@@ -1,0 +1,22 @@
+{
+  "name": "O-PCA",
+  "aliases": [
+    "O-Phenylcyclohexylamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Unsubstituted parent N-H DCK",
+    "Limited pharmacology data"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

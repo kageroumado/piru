@@ -1,0 +1,43 @@
+{
+  "name": "Pterostilbene",
+  "aliases": [
+    "trans-3,5-Dimethoxy-4'-hydroxystilbene"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 250
+        },
+        "strong": {
+          "lower": 250,
+          "upper": 400
+        },
+        "heavy": 500
+      }
+    }
+  ],
+  "effects": [
+    "Methylated resveratrol analog with higher bioavailability",
+    "SIRT1 activation",
+    "Mild LDL elevation reported at high doses"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pterostilbene"
+  ],
+  "tags": [
+    "nootropic",
+    "supplement",
+    "sirtuin-activator"
+  ]
+}

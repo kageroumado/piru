@@ -1,0 +1,21 @@
+{
+  "name": "Brasofensine",
+  "aliases": [
+    "NS-2214"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "DAT/SERT/NET triple inhibitor",
+    "Trialled for Parkinson's disease — discontinued"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Brasofensine"
+  ],
+  "tags": [
+    "SNDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

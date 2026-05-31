@@ -1,0 +1,29 @@
+{
+  "name": "Isotonitazene",
+  "aliases": [
+    "Iso",
+    "ISO"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "DEA-scheduled Schedule I 2020",
+    "Implicated in hundreds of US overdose deaths"
+  ],
+  "sources": [
+    "https://www.deadiversion.usdoj.gov/fed_regs/rules/2020/fr0617_2.htm",
+    "https://en.wikipedia.org/wiki/Isotonitazene"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "US-Schedule-I",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

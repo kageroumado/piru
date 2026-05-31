@@ -1,0 +1,74 @@
+{
+  "name": "Phosphatidylserine",
+  "aliases": [
+    "PS",
+    "Sharp-PS",
+    "Phosphatidyl Serine",
+    "Soy-Derived Phosphatidylserine"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Phospholipid component of cell membranes — concentrated in brain neurons",
+    "Cortisol blunting effect — reduces HPA axis response to exercise and psychological stress",
+    "FDA qualified health claim for cognitive dysfunction and dementia (limited evidence)",
+    "Memory improvement in elderly with age-related decline — multiple RCTs",
+    "Anticoagulant properties — mild platelet aggregation inhibition",
+    "Well-tolerated; soy-derived preferred (sunflower-derived also available)"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5497103",
+    "https://en.wikipedia.org/wiki/Phosphatidylserine",
+    "https://examine.com/supplements/phosphatidylserine/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "OTC",
+    "cognitive-enhancement",
+    "cortisol-reducer",
+    "HPA-modulator",
+    "neuroprotective"
+  ]
+}

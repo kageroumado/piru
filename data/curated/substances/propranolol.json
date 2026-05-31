@@ -1,0 +1,17 @@
+{
+  "name": "Propranolol",
+  "aliases": [],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Propranolol"
+  ],
+  "tags": [
+    "beta-blocker",
+    "antihypertensive",
+    "anti-anxiety-physical",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "Quercetin",
+  "aliases": [
+    "Quercetin Dihydrate",
+    "Sophora japonica extract",
+    "Quercetin Phytosome"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "heavy": 2500
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Flavonoid — inhibits histamine release (mast cell stabilization), antioxidant",
+    "Investigated for seasonal allergies, immune support, and senolytic activity",
+    "Senolytic protocol typically uses high-dose quercetin + dasatinib cyclically",
+    "Bioavailability is poor without phytosome or piperine formulation",
+    "Mild COMT inhibition — may extend catecholamine half-life",
+    "Zinc ionophore — may enhance zinc intracellular uptake"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5280343",
+    "https://en.wikipedia.org/wiki/Quercetin",
+    "https://examine.com/supplements/quercetin/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "antioxidant",
+    "polyphenol",
+    "anti-inflammatory",
+    "antihistamine",
+    "senolytic",
+    "herbal"
+  ]
+}

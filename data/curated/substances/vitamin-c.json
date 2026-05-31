@@ -1,0 +1,75 @@
+{
+  "name": "Vitamin C",
+  "aliases": [
+    "Ascorbic Acid",
+    "Ascorbate",
+    "L-Ascorbic Acid",
+    "Sodium Ascorbate",
+    "Liposomal Vitamin C"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential water-soluble antioxidant — cofactor for collagen synthesis, carnitine synthesis, neurotransmitter synthesis",
+    "Immune function support — modest reduction in cold duration, not prevention",
+    "Dose-absorption saturation: above 1000mg, intestinal saturation limits uptake (osmotic diarrhea)",
+    "Liposomal and buffered (sodium ascorbate) forms reduce GI side effects",
+    "Enhances non-heme iron absorption — separate from calcium/antacids",
+    "Oxalate kidney stone risk with chronic megadosing (>2g/day)"
+  ],
+  "halfLifeMinutes": 900,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/54670067",
+    "https://en.wikipedia.org/wiki/Vitamin_C"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "antioxidant",
+    "immune",
+    "collagen-precursor"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "Follistatin 344",
+  "aliases": [
+    "FST-344"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "myostatin inhibition (claimed)",
+    "anabolic (claimed)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Activin/myostatin-binding glycoprotein isoform (cell-surface form).",
+    "description": "Follistatin splice isoform with the acidic C-terminal tail, associating with the cell surface/heparan sulfate. Binds and neutralizes activin and myostatin (GDF-8). Human evidence is from AAV gene therapy, not injected peptide; injectable gray-market form has no human PK.",
+    "primaryTargets": [
+      "Myostatin",
+      "Activin"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Follistatin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "wada-prohibited",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PNAS; https://en.wikipedia.org/wiki/Follistatin"
+  ]
+}

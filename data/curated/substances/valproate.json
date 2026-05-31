@@ -1,0 +1,74 @@
+{
+  "name": "Valproate",
+  "aliases": [
+    "Depakote",
+    "Depakene",
+    "Depacon",
+    "Valproic Acid",
+    "Divalproex",
+    "Epilim"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 125,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 1500
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Enhances GABA activity; blocks sodium and calcium channels",
+    "Mood stabilization, anticonvulsant, migraine prophylaxis",
+    "Sedation, weight gain, hair loss, tremor",
+    "Teratogenic — neural tube defects (major contraindication in pregnancy)",
+    "Hepatotoxicity and pancreatitis risk",
+    "Narrow therapeutic index — blood level monitoring required"
+  ],
+  "halfLifeMinutes": 900,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Valproate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3121"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "mood-stabilizer",
+    "GABA-modulator",
+    "narrow-therapeutic-index",
+    "teratogenic",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "3-CMC",
+  "aliases": [
+    "3-Chloromethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 40,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 250
+      }
+    }
+  ],
+  "effects": [
+    "Chlorinated mephedrone positional isomer",
+    "Emerging in-vitro evidence suggests neurotoxicity beyond other cathinones; data is preliminary but the user should be aware.",
+    "Implicated in fatalities in EU NPS surveillance reports"
+  ],
+  "sources": [
+    "https://www.emcdda.europa.eu/publications/risk-assessments/3-cmc_en"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "neurotoxic-evidence-preliminary",
+    "fatalities-reported"
+  ]
+}

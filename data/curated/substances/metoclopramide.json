@@ -1,0 +1,70 @@
+{
+  "name": "Metoclopramide",
+  "aliases": [
+    "Reglan",
+    "Metozolv ODT"
+  ],
+  "category": "Gastrointestinal",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 300
+        },
+        "total": {
+          "min": 300,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dopamine D2 antagonist + 5-HT3 antagonist + 5-HT4 agonist",
+    "Antiemetic and gastroprokinetic",
+    "Extrapyramidal symptoms (EPS): akathisia, dystonia, tardive dyskinesia with chronic use",
+    "Sedation; may cause anxiety and restlessness (akathisia)",
+    "Tardive dyskinesia risk with use >12 weeks — FDA black box warning",
+    "Elevates prolactin"
+  ],
+  "halfLifeMinutes": 330,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Metoclopramide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4168"
+  ],
+  "tags": [
+    "antiemetic",
+    "dopamine-antagonist",
+    "D2-antagonist",
+    "EPS-risk",
+    "tardive-dyskinesia-risk",
+    "prescription-only"
+  ]
+}

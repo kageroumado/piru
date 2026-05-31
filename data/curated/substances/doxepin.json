@@ -1,0 +1,71 @@
+{
+  "name": "Doxepin",
+  "aliases": [
+    "Sinequan",
+    "Adapin",
+    "Silenor"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 3,
+          "upper": 10
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms; at 3–6 mg/day used specifically for insomnia (Silenor)",
+    "Strongest H1 antagonist among TCAs — profound sedation",
+    "Strong anticholinergic, orthostatic hypotension",
+    "QTc prolongation, cardiotoxic in overdose",
+    "Also available as topical cream (Zonalon) for pruritus — systemic absorption possible"
+  ],
+  "halfLifeMinutes": 1020,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/022036lbl.pdf",
+    "https://en.wikipedia.org/wiki/Doxepin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3158"
+  ],
+  "tags": [
+    "antidepressant",
+    "TCA",
+    "prescription-only",
+    "anticholinergic",
+    "QTc-prolongation-risk",
+    "overdose-risk"
+  ]
+}

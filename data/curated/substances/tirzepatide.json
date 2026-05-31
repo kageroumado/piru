@@ -1,0 +1,72 @@
+{
+  "name": "Tirzepatide",
+  "aliases": [
+    "Mounjaro",
+    "Zepbound"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5.0
+        },
+        "common": {
+          "lower": 5.0,
+          "upper": 10.0
+        },
+        "strong": {
+          "lower": 10.0,
+          "upper": 15.0
+        },
+        "heavy": 15.0
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 360
+        },
+        "peak": {
+          "min": 1440,
+          "max": 5760
+        },
+        "offset": {
+          "min": 10080,
+          "max": 14400
+        },
+        "total": {
+          "min": 10080,
+          "max": 14400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dual GLP-1 and GIP receptor agonist — synergistic appetite suppression",
+    "Superior weight loss vs. semaglutide in head-to-head trials (SURPASS-CVOT): ~22% body weight at 15 mg",
+    "Lowers HbA1c; approved for T2DM (Mounjaro) and obesity (Zepbound)",
+    "Nausea, vomiting, diarrhea, constipation — titrate over 20 weeks",
+    "Risk of pancreatitis; gallbladder disease; thyroid C-cell tumors (rodent data)",
+    "Hypoglycemia risk when combined with insulin or sulfonylureas"
+  ],
+  "halfLifeMinutes": 7200,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/215866s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Tirzepatide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2723949"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "GIP-agonist",
+    "prescription-only",
+    "anti-obesity",
+    "anti-diabetic",
+    "weight-loss"
+  ]
+}

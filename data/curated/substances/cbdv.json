@@ -1,0 +1,69 @@
+{
+  "name": "CBDV",
+  "aliases": [
+    "Cannabidivarin",
+    "(-)-Cannabidivarin"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 300
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 240
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-intoxicating",
+    "Anticonvulsant (being investigated for Rett syndrome and autism spectrum disorder)",
+    "Anti-nausea",
+    "Analgesic via TRPV1/TRPA1 modulation",
+    "Propyl analogue of CBD (shorter side chain)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cannabidivarin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2877025"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "non-intoxicating",
+    "anticonvulsant",
+    "therapeutic",
+    "TRPV1-agonist"
+  ]
+}

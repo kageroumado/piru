@@ -1,0 +1,80 @@
+{
+  "name": "Oxytocin",
+  "aliases": [
+    "Pitocin",
+    "Syntocinon"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "IU",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 24,
+        "frequency": "per protocol",
+        "notes": "intranasal research dose ~24 IU for social/CNS effects"
+      }
+    },
+    {
+      "route": "intravenous",
+      "unit": "IU",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "titrated",
+        "notes": "obstetric IV titrated in mIU/min"
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "IU",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "uterine contraction",
+    "milk letdown",
+    "social bonding (intranasal)"
+  ],
+  "halfLifeMinutes": 3,
+  "mechanismOfAction": {
+    "summary": "Oxytocin receptor (OXTR) agonist.",
+    "description": "Cyclic nonapeptide neurohypophyseal hormone (disulfide-bridged, C-amide). OXTR agonism drives uterine contraction and milk letdown peripherally and, via intranasal delivery, social/bonding effects in the CNS.",
+    "primaryTargets": [
+      "OXTR"
+    ],
+    "bindings": [
+      {
+        "target": "OXTR",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Oxytocin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "neuropeptide",
+    "hormone"
+  ],
+  "cas": "50-56-6",
+  "formula": "C43H66N12O12S2",
+  "pubchemCID": 439302,
+  "molarMass": 1007.19,
+  "peptideProfile": {
+    "sequence": "Cys-Tyr-Ile-Gln-Asn-Cys-Pro-Leu-Gly-NH2",
+    "suppliedForm": "solution",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 439302",
+    "Pitocin SmPC",
+    "https://en.wikipedia.org/wiki/Oxytocin"
+  ]
+}

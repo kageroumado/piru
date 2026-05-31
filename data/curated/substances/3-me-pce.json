@@ -1,0 +1,60 @@
+{
+  "name": "3-Me-PCE",
+  "aliases": [
+    "3-methyl-PCE",
+    "3-methyl-eticyclidine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    },
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "dissociation",
+    "NMDA antagonism",
+    "psychosis risk",
+    "bladder toxicity with chronic use"
+  ],
+  "mechanismOfAction": {
+    "summary": "NMDA receptor antagonist (arylcyclohexylamine class); ethyl-substituted N-substituent vs piperidine ring of 3-Me-PCP.",
+    "description": "N-ethyl-substituted arylcyclohexylamine with 3-methyl phenyl ring substitution. NMDA antagonism confirmed by Wallach et al. 2015. Secondary pharmacology unstudied. First reported to EUDA March 2024. Structurally distinct from 3-MeO-PCE — do not transfer doses. Same arylcyclohexylamine risk profile as 3-Me-PCP.",
+    "primaryTargets": [
+      "NMDA receptor"
+    ],
+    "bindings": [
+      {
+        "target": "NMDA receptor",
+        "action": "channelBlocker",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/3-Me-PCE"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "dissociative",
+    "pcp-analog",
+    "psychosis-risk"
+  ],
+  "cas": "2201-64-1",
+  "pubchemCID": 154133693,
+  "formula": "C15H23N",
+  "molarMass": 217.35,
+  "inchikey": "USOQORZXGGZQGO-UHFFFAOYSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/3-Me-PCE",
+    "PubChem CID 154133693"
+  ]
+}

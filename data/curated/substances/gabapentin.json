@@ -1,0 +1,17 @@
+{
+  "name": "Gabapentin",
+  "aliases": [],
+  "category": "GABAergic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gabapentin"
+  ],
+  "tags": [
+    "gabapentinoid",
+    "alpha2-delta-ligand",
+    "prescription-only",
+    "anticonvulsant"
+  ]
+}

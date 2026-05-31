@@ -1,0 +1,66 @@
+{
+  "name": "Bisoprolol",
+  "aliases": [
+    "Zebeta",
+    "Concor"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1.25,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Highly beta-1 selective — minimal bronchoconstriction risk",
+    "Slows heart rate and lowers blood pressure",
+    "Low CNS penetration — less fatigue and depression than older beta-blockers",
+    "Mild fatigue at higher doses"
+  ],
+  "halfLifeMinutes": 600,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bisoprolol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2405"
+  ],
+  "tags": [
+    "beta-blocker",
+    "beta-1-selective",
+    "antihypertensive",
+    "prescription-only"
+  ]
+}

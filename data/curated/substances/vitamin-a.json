@@ -1,0 +1,73 @@
+{
+  "name": "Vitamin A",
+  "aliases": [
+    "Retinol",
+    "Retinyl Palmitate",
+    "Beta-Carotene",
+    "Retinyl Acetate"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "IU",
+      "doses": {
+        "threshold": 1000,
+        "light": {
+          "lower": 2500,
+          "upper": 5000
+        },
+        "common": {
+          "lower": 5000,
+          "upper": 10000
+        },
+        "strong": {
+          "lower": 10000,
+          "upper": 25000
+        },
+        "heavy": 25000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Fat-soluble vitamin — vision (rhodopsin), immune function, epithelial integrity",
+    "Preformed retinol is teratogenic in excess — strict avoidance in pregnancy above 10,000 IU/day",
+    "Beta-carotene (provitamin A) non-toxic in excess — conversion is regulated",
+    "Carotenodermia (yellow-orange skin) with excess beta-carotene — harmless",
+    "Hypervitaminosis A: headache, nausea, bone pain, liver damage at chronic high doses",
+    "Beta-carotene supplementation linked to lung cancer risk increase in smokers"
+  ],
+  "halfLifeMinutes": 34560,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/445354",
+    "https://en.wikipedia.org/wiki/Vitamin_A"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "fat-soluble",
+    "vision",
+    "immunomodulator"
+  ]
+}

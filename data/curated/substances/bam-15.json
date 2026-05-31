@@ -1,0 +1,47 @@
+{
+  "name": "BAM-15",
+  "aliases": [],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "decreased body weight (mouse data)",
+    "decreased fat mass (mouse data)",
+    "improved insulin sensitivity (mouse data)",
+    "increased energy expenditure without hyperthermia (mouse data)",
+    "reduced liver fat (mouse data)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Selective mitochondrial uncoupler; transports protons across the inner mitochondrial membrane without depolarizing the plasma membrane.",
+    "description": "Lipophilic weak acid protonophore; dissipates the inner mitochondrial membrane proton-motive force, increasing energy expenditure. Key distinction from DNP: does not depolarize the plasma membrane at therapeutic concentrations in mice, and does not raise body temperature. Mouse data: oral bioavailability ~67%, t½ ~1.7 h (oral gavage) or ~3 h (food admixture) in C57BL/6J mice. No human PK. Community dosing speculation is based on allometric scaling from mouse and is highly speculative.",
+    "primaryTargets": [
+      "Mitochondrial inner membrane proton gradient"
+    ],
+    "references": [
+      "PubChem CID 565708",
+      "PMC7224297",
+      "PMC7338798",
+      "PMC10600450"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data"
+  ],
+  "inchikey": "OEGJBRZAJRPPHL-UHFFFAOYSA-N",
+  "formula": "C16H10F2N6O",
+  "pubchemCID": 565708,
+  "molarMass": 340.29,
+  "sources": [
+    "PubChem CID 565708",
+    "PMC7224297 (Nature Comms, mouse DIO reversal)",
+    "PMC7338798 (BAM15 uncoupling, mouse)",
+    "PMC10600450"
+  ]
+}

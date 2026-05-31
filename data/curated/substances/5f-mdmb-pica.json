@@ -1,0 +1,26 @@
+{
+  "name": "5F-MDMB-PICA",
+  "aliases": [
+    "5F-MDMB-2201",
+    "5F-MMB-PICA"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Indole-3-carboxamide synthetic cannabinoid",
+    "Linked to multiple fatalities in US and Europe",
+    "DEA Schedule I"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/5F-MDMB-PICA"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indole-carboxamide",
+    "high-risk",
+    "fatalities-reported",
+    "US-Schedule-I"
+  ]
+}

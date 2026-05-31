@@ -1,0 +1,107 @@
+{
+  "name": "CBN",
+  "aliases": [
+    "Cannabinol",
+    "6,6,9-trimethyl-3-pentyl-6H-benzo[c]chromen-1-ol"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 60
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 3,
+          "upper": 7
+        },
+        "common": {
+          "lower": 7,
+          "upper": 15
+        },
+        "strong": {
+          "lower": 15,
+          "upper": 30
+        },
+        "heavy": 30
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 5
+        },
+        "peak": {
+          "min": 15,
+          "max": 45
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 90,
+          "max": 180
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mild sedation (often marketed as a sleep aid, though evidence is limited)",
+    "Weak CB1 partial agonism — mildly psychoactive at high doses",
+    "Analgesic",
+    "Antibacterial",
+    "Degradation product of THC via oxidation/UV exposure"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cannabinol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2543"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "CB1-partial-agonist",
+    "CB2-agonist",
+    "mildly-psychoactive",
+    "sedative"
+  ]
+}

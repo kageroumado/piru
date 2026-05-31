@@ -1,0 +1,44 @@
+{
+  "name": "Idebenone",
+  "aliases": [
+    "Raxone",
+    "Catena"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 90,
+        "light": {
+          "lower": 90,
+          "upper": 180
+        },
+        "common": {
+          "lower": 180,
+          "upper": 360
+        },
+        "strong": {
+          "lower": 360,
+          "upper": 540
+        },
+        "heavy": 900
+      }
+    }
+  ],
+  "effects": [
+    "CoQ10 analog with antioxidant effects",
+    "EMA-approved for Leber's hereditary optic neuropathy",
+    "Investigational for Friedreich's ataxia"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Idebenone"
+  ],
+  "tags": [
+    "nootropic",
+    "antioxidant",
+    "mitochondrial"
+  ]
+}

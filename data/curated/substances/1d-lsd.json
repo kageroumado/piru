@@ -1,0 +1,108 @@
+{
+  "name": "1D-LSD",
+  "aliases": [
+    "Valerie",
+    "SYN-L-229",
+    "1-(1,2-dimethylcyclobutane-1-carbonyl)-LSD"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "sublingual",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "µg",
+      "doses": {
+        "threshold": 15,
+        "light": {
+          "lower": 25,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 250
+        },
+        "heavy": 250
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 40
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "µg",
+      "doses": {
+        "threshold": 15,
+        "light": {
+          "lower": 25,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 250
+        },
+        "heavy": 250
+      }
+    }
+  ],
+  "effects": [
+    "visual distortion",
+    "cognitive amplification",
+    "emotional amplification",
+    "synesthesia",
+    "ego dissolution",
+    "HPPD risk"
+  ],
+  "halfLifeMinutes": 216,
+  "mechanismOfAction": {
+    "summary": "LSD prodrug — strained cyclobutane ring hydrolyzes to release LSD → 5-HT2A partial agonist.",
+    "description": "N1-acyl LSD prodrug bearing a 1,2-dimethylcyclobutane-1-carbonyl group. The strained cyclobutane ring reportedly accelerates ester hydrolysis relative to most acyl-LSD prodrugs, producing faster onset (~20–30 min vs ~45–60 min for LSD). Pharmacological activity is attributed entirely to released LSD. Prodrug conversion t½ estimated ~3–4 h (not formally measured). All LSD-class risks apply: serotonin syndrome with MAOIs/SSRIs/lithium/tramadol, HPPD, full 5-HT2A cross-tolerance.",
+    "primaryTargets": [
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/1D-LSD",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9191647/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "psychedelic",
+    "lsd-prodrug",
+    "anecdotal-dose-only"
+  ],
+  "pubchemCID": 170703347,
+  "formula": "C27H35N3O2",
+  "molarMass": 433.6,
+  "inchikey": "RNVFVHAKGPSAIU-ZRCBXKLVSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1D-LSD",
+    "PubChem CID 170703347",
+    "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9191647/"
+  ]
+}

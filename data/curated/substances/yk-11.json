@@ -1,0 +1,67 @@
+{
+  "name": "YK-11",
+  "aliases": [
+    "Myostine"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "highAmount": 15,
+        "frequency": "1–2×/day",
+        "courseDuration": "8–12 week cycle",
+        "notes": "community/anecdotal; no human studies; t½ ~6–12 h is unverified community claim; women use 0.5–2 mg/day"
+      }
+    }
+  ],
+  "effects": [
+    "anabolic (muscle/bone)",
+    "myostatin inhibition via follistatin upregulation",
+    "HPTA suppression",
+    "plausible hepatotoxicity (steroidal backbone)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Steroidal SARM with dual mechanism: partial AR agonism plus functional myostatin inhibition via follistatin upregulation.",
+    "description": "5α-DHT C17-methyl ester derivative; partial AR agonist (does not induce full N/C-terminal AR interaction unlike DHT) plus functional myostatin inhibitor via follistatin (FST) upregulation — the only characterized SARM with this dual mechanism. FST induction more potent than DHT in C2C12 myoblasts. CAS discrepancy: 1370003-76-1 confirmed by PubChem CID 119058028; 431579-34-9 is an unverified alternate.",
+    "primaryTargets": [
+      "Androgen receptor",
+      "Myostatin/follistatin pathway"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "partialAgonist",
+        "affinity": 3
+      },
+      {
+        "target": "Myostatin",
+        "action": "modulator",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "PubChem CID 119058028",
+      "https://en.wikipedia.org/wiki/YK-11"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "1370003-76-1",
+  "inchikey": "KCQHQCDHFVGNMK-PQUNLUOYSA-N",
+  "formula": "C25H34O6",
+  "pubchemCID": 119058028,
+  "molarMass": 430.5,
+  "sources": [
+    "PubChem CID 119058028",
+    "https://en.wikipedia.org/wiki/YK-11"
+  ]
+}

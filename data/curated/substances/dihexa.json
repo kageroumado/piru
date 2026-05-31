@@ -1,0 +1,24 @@
+{
+  "name": "Dihexa",
+  "aliases": [
+    "N-hexanoic-Tyr-Ile-(6) aminohexanoic amide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Angiotensin IV analog peptide",
+    "HGF/c-Met receptor activator — synaptogenesis in rodents",
+    "Sold as research chemical — no human data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dihexa"
+  ],
+  "tags": [
+    "nootropic",
+    "peptide",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "name": "VIP",
+  "aliases": [
+    "Vasoactive Intestinal Peptide",
+    "Aviptadil"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 50,
+        "frequency": "multiple times daily",
+        "notes": "intranasal community use (CIRS/mold-illness lore); no validated dosing. Very labile in solution"
+      }
+    },
+    {
+      "route": "intravenous",
+      "unit": "mcg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "vasodilation",
+    "bronchodilation",
+    "immune modulation",
+    "neuroprotection"
+  ],
+  "halfLifeMinutes": 2,
+  "mechanismOfAction": {
+    "summary": "VPAC1/VPAC2 GPCR agonist.",
+    "description": "28-residue neuropeptide of the secretin/glucagon family. Agonism of the VPAC1 and VPAC2 G-protein-coupled receptors produces vasodilation, bronchodilation, immune modulation and neuroprotection.",
+    "primaryTargets": [
+      "VPAC1",
+      "VPAC2"
+    ],
+    "bindings": [
+      {
+        "target": "VPAC1",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "VPAC2",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Vasoactive_intestinal_peptide"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "neuropeptide"
+  ],
+  "cas": "37221-79-7",
+  "formula": "C147H237N43O43S",
+  "pubchemCID": 6918155,
+  "molarMass": 3326.8,
+  "peptideProfile": {
+    "sequence": "HSDAVFTDNYTRLRKQMAVKKYLNSILN-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 6918155",
+    "https://en.wikipedia.org/wiki/Vasoactive_intestinal_peptide"
+  ]
+}

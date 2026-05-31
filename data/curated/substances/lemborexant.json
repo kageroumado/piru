@@ -1,0 +1,67 @@
+{
+  "name": "Lemborexant",
+  "aliases": [
+    "Dayvigo"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 420,
+          "max": 600
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dual orexin receptor antagonist — more potent OX2 selectivity vs suvorexant",
+    "Sleep onset and maintenance; rapid onset",
+    "Next-day somnolence, sleep paralysis, and hypnagogic hallucinations",
+    "US Schedule IV controlled substance",
+    "Does not significantly suppress slow-wave sleep"
+  ],
+  "halfLifeMinutes": 1680,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lemborexant",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/49803313"
+  ],
+  "tags": [
+    "sedative-hypnotic",
+    "orexin-antagonist",
+    "DORA",
+    "US-Schedule-IV",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "4F-MDMB-BUTINACA",
+  "aliases": [
+    "4F-MDMB-BINACA"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Major presence in 2019-2021 NPS surveillance",
+    "DEA Schedule I"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/4F-MDMB-BINACA"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk",
+    "fatalities-reported",
+    "US-Schedule-I"
+  ]
+}

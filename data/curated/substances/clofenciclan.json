@@ -1,0 +1,19 @@
+{
+  "name": "Clofenciclan",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Mild stimulant developed in the 1960s",
+    "Limited published clinical data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Clofenciclan"
+  ],
+  "tags": [
+    "stimulant",
+    "research-chemical",
+    "investigational"
+  ]
+}

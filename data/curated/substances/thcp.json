@@ -1,0 +1,109 @@
+{
+  "name": "THCP",
+  "aliases": [
+    "Tetrahydrocannabiphorol",
+    "Δ9-THCP",
+    "(-)-Trans-Δ9-tetrahydrocannabiphorol"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 7
+        },
+        "strong": {
+          "lower": 7,
+          "upper": 15
+        },
+        "heavy": 15
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 5
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 360,
+          "max": 540
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "~33x higher CB1 binding affinity than Δ9-THC (in vitro)",
+    "Intense euphoria and sedation at very low doses",
+    "Prolonged duration",
+    "High overdose/anxiety risk due to extreme potency",
+    "Naturally present in Cannabis sativa at trace levels"
+  ],
+  "halfLifeMinutes": 2400,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tetrahydrocannabiphorol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/137702438"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "semi-synthetic",
+    "CB1-full-agonist",
+    "psychoactive",
+    "ultra-potent",
+    "high-risk"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Sotalol",
+  "aliases": [
+    "Betapace",
+    "Sorine",
+    "Sotylize"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 40,
+        "light": {
+          "lower": 80,
+          "upper": 120
+        },
+        "common": {
+          "lower": 120,
+          "upper": 160
+        },
+        "strong": {
+          "lower": 160,
+          "upper": 240
+        },
+        "heavy": 320
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-selective beta-blocker with class III antiarrhythmic properties",
+    "Prolongs QT interval — proarrhythmic at high doses",
+    "Fatigue, dizziness, mild CNS effects",
+    "Requires monitoring due to torsades de pointes risk"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sotalol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5253"
+  ],
+  "tags": [
+    "beta-blocker",
+    "non-selective",
+    "antiarrhythmic",
+    "antihypertensive",
+    "QT-prolonging",
+    "prescription-only"
+  ]
+}

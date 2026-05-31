@@ -1,0 +1,67 @@
+{
+  "name": "Guaifenesin",
+  "aliases": [
+    "Mucinex",
+    "Robitussin",
+    "Humibid"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1200
+        },
+        "heavy": 2400
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Expectorant — reduces mucus viscosity",
+    "Mild muscle relaxant properties at high doses (historically used as such)",
+    "Often combined with DXM in OTC cold products — combination may contribute to dissociative effects",
+    "Low abuse potential on its own; minimal CNS effects at normal doses",
+    "Nausea at high doses"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Guaifenesin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3516"
+  ],
+  "tags": [
+    "expectorant",
+    "OTC",
+    "muscle-relaxant-mild"
+  ]
+}

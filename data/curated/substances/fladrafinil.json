@@ -1,0 +1,26 @@
+{
+  "name": "Fladrafinil",
+  "aliases": [
+    "CRL-40,941",
+    "Fluorafinil",
+    "Bisfluoroadrafinil"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Bis-fluorinated adrafinil analog",
+    "Anti-aggressive effects in animal studies",
+    "No standardised human dosing"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fladrafinil",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/57347837"
+  ],
+  "tags": [
+    "eugeroic",
+    "research-chemical",
+    "no-human-data",
+    "afinil"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Carbamazepine",
+  "aliases": [
+    "Tegretol",
+    "Carbatrol",
+    "Equetro",
+    "Epitol"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1200
+        },
+        "heavy": 1600
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 180,
+          "max": 480
+        },
+        "offset": {
+          "min": 480,
+          "max": 960
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Sodium channel blocker — reduces neuronal firing",
+    "Mood stabilizer, anticonvulsant, trigeminal neuralgia",
+    "Sedation, ataxia, diplopia, cognitive blunting",
+    "Strong CYP450 inducer — major drug interactions",
+    "Rare but life-threatening Stevens-Johnson syndrome (especially HLA-B*1502 carriers)",
+    "Aplastic anemia and agranulocytosis risk — blood monitoring required"
+  ],
+  "halfLifeMinutes": 750,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Carbamazepine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2554"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "mood-stabilizer",
+    "sodium-channel-blocker",
+    "narrow-therapeutic-index",
+    "prescription-only"
+  ]
+}

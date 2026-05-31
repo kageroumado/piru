@@ -1,0 +1,68 @@
+{
+  "name": "Buspirone",
+  "aliases": [
+    "BuSpar",
+    "Buspar"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 15,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 45
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "5-HT1A partial agonist — anxiolytic without GABA activity or sedation",
+    "2–4 week onset for full anxiolytic effect — not acute/PRN",
+    "No abuse potential, no physical dependence",
+    "Dizziness, nausea, headache; mild stimulant-like agitation in some users",
+    "Less sedation than benzodiazepines — does not impair driving or cognition"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Buspirone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2477"
+  ],
+  "tags": [
+    "anxiolytic",
+    "serotonin-agonist",
+    "5HT1A-agonist",
+    "azapirone",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "Mushrooms",
+  "aliases": [
+    "Magic mushrooms",
+    "Shrooms",
+    "Psilocybe cubensis"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "g",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1.0
+        },
+        "common": {
+          "lower": 1.0,
+          "upper": 2.5
+        },
+        "strong": {
+          "lower": 2.5,
+          "upper": 5.0
+        },
+        "heavy": 5.0
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 45
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [],
+  "sources": [
+    "https://psychonautwiki.org/wiki/Psilocybin_mushrooms"
+  ],
+  "tags": [
+    "psilocybin-containing"
+  ]
+}

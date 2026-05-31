@@ -1,0 +1,68 @@
+{
+  "name": "alpha-PVP",
+  "aliases": [
+    "α-PVP",
+    "Flakka",
+    "Gravel",
+    "α-Pyrrolidinopentiophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 7,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 40
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 420
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Extremely strong DAT/NET inhibitor — compulsive redose risk",
+    "Severe agitation, psychosis, hyperthermia at heavy doses",
+    "Multiple fatalities reported",
+    "Start very low — milligram differences matter"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Alpha-Pyrrolidinopentiophenone",
+    "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "fatalities-reported",
+    "high-risk"
+  ]
+}

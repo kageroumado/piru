@@ -1,0 +1,75 @@
+{
+  "name": "Vitamin B1",
+  "aliases": [
+    "Thiamine",
+    "Thiamin",
+    "Thiamine HCl",
+    "Benfotiamine",
+    "TTFD"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 25,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 1000
+        },
+        "heavy": 1500
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Coenzyme for pyruvate dehydrogenase and alpha-ketoglutarate dehydrogenase — central to energy metabolism",
+    "Deficiency causes Wernicke-Korsakoff syndrome — critical in alcohol use disorder",
+    "Benfotiamine (fat-soluble form) has superior bioavailability — investigated for diabetic neuropathy",
+    "High-dose thiamine investigated for fatigue syndromes (IBD, fibromyalgia) — anecdotal evidence",
+    "Generally very safe; water-soluble with low toxicity",
+    "Alcohol and raw fish (thiaminase) are thiamine antagonists"
+  ],
+  "halfLifeMinutes": 1080,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Thiamin-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/1130",
+    "https://en.wikipedia.org/wiki/Thiamine"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "B-vitamin",
+    "energy-metabolism",
+    "neurological"
+  ]
+}

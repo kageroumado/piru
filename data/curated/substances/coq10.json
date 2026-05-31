@@ -1,0 +1,74 @@
+{
+  "name": "CoQ10",
+  "aliases": [
+    "Coenzyme Q10",
+    "Ubiquinol",
+    "Ubiquinone",
+    "Coenzyme Q",
+    "CoQ"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 1200
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "total": {
+          "min": 2880,
+          "max": 10080
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mitochondrial electron transport chain component — ATP synthesis",
+    "Ubiquinol (reduced form) has superior bioavailability, especially in older adults",
+    "Statin-induced CoQ10 depletion hypothesis — evidence for supplementation mixed",
+    "Investigated for heart failure, migraine prevention, and male fertility",
+    "Take with fat-containing meal — highly lipophilic",
+    "Very safe; mild GI symptoms occasionally reported"
+  ],
+  "halfLifeMinutes": 5760,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Coenzyme-Q10-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5281915",
+    "https://en.wikipedia.org/wiki/Coenzyme_Q10"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "antioxidant",
+    "mitochondrial-support",
+    "energy-metabolism",
+    "cardiovascular"
+  ]
+}

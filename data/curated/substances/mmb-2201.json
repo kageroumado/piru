@@ -1,0 +1,24 @@
+{
+  "name": "MMB-2201",
+  "aliases": [
+    "AMB-FUBINACA",
+    "5F-AMB"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Fluorinated indazole-3-carboxamide cannabinoid",
+    "Multiple mass-overdose events"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/AMB-FUBINACA"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk",
+    "fatalities-reported"
+  ]
+}
