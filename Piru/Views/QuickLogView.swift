@@ -127,11 +127,18 @@ struct QuickLogView: View {
         return customSubstanceStore.all
             .filter { custom in
                 let nameLower = custom.name.lowercased()
-                return nameLower.contains(query)
+                let displayLower = custom.displayName?.lowercased() ?? ""
+                // Match the canonical name OR the personal display name, so a
+                // relabelled substance is findable by the name the user gave it.
+                let matches = nameLower.contains(query) || (!displayLower.isEmpty && displayLower.contains(query))
+                return matches
                     && !cachedHistoryNames.contains(nameLower)
                     && !libraryNames.contains(nameLower)
             }
-            .map(\.asSubstance)
+            // Resolve through the library so an override of a shipped substance
+            // carries its full dose/duration data (labelled with the personal
+            // name); a net-new custom falls back to its own asSubstance.
+            .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.name) ?? $0.asSubstance }
     }
 
     private func toggleFavorite(_ name: String) {
@@ -456,7 +463,7 @@ struct QuickLogView: View {
                 Circle()
                     .fill(color)
                     .frame(width: 10, height: 10)
-                Text(card.substanceName)
+                Text(customSubstanceStore.displayName(for: card.substanceName))
                     .font(.headline)
                 Spacer()
                 Button {

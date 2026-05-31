@@ -86,9 +86,15 @@ struct RecentDoseProvider: TimelineProvider {
         let colors = (try? context.fetch(colorDescriptor)) ?? []
         let hex = colors.first { $0.substance.lowercased() == entry.substance.lowercased() }?.hexColor ?? "F56297"
 
+        // Apply a personal display-name override (e.g. THC → "joint") from the
+        // lightweight app-group map the main app maintains.
+        let displayNames = (UserDefaults(suiteName: Self.appGroupID)?
+            .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String]) ?? [:]
+        let shownSubstance = displayNames[entry.substance.lowercased()] ?? entry.substance
+
         return RecentDoseEntry(
             date: .now,
-            substance: entry.substance,
+            substance: shownSubstance,
             amount: entry.amount,
             unit: entry.unit,
             route: entry.route.displayName,

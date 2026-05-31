@@ -396,14 +396,23 @@ struct SubstanceCategoryListView: View {
 
 struct SubstanceRowView: View {
     let substance: Substance
+    @State private var customStore = CustomSubstanceStore.shared
+
+    /// Personal display-name override, if it differs from the library title.
+    private var personalName: String? {
+        let resolved = customStore.displayName(for: substance.name, fallback: substance.displayTitle)
+        return resolved == substance.displayTitle ? nil : resolved
+    }
 
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
-                Text(substance.displayTitle)
+                Text(personalName ?? substance.displayTitle)
                     .font(.body)
                     .foregroundStyle(.primary)
-                if let subtitle = substance.displaySubtitle {
+                // When personalized, show the canonical name as the subtitle so
+                // the user can tell what "joint" actually maps to.
+                if let subtitle = personalName != nil ? substance.name : substance.displaySubtitle {
                     Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
@@ -428,12 +437,30 @@ struct SubstanceRowView: View {
 // MARK: - Substance Detail
 
 struct SubstanceDetailView: View {
-    let substance: Substance
+    /// The library substance as resolved by the browse list (no personal
+    /// override applied). Overrides are layered on reactively via `substance`,
+    /// so personalizations show on entry and update live after editing.
+    let baseSubstance: Substance
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @Query private var historyEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
+    @State private var customStore = CustomSubstanceStore.shared
     @State private var showAllHistory = false
     @State private var showEntries = false
+    @State private var showingPersonalize = false
+
+    /// The user's personal override for this substance, if any (keyed by canonical name).
+    private var personalOverride: CustomSubstanceEntry? {
+        customStore.first(whereName: baseSubstance.name)
+    }
+
+    /// The substance with any personal override applied — display name, dose
+    /// ladder, duration, and half-life. Used throughout the view so the detail
+    /// reflects the user's customizations and updates live when they change.
+    private var substance: Substance {
+        personalOverride.map { baseSubstance.applyingOverride(from: $0) } ?? baseSubstance
+    }
 
     // Holding the @Observable store as @State (rather than reading
     // `SubstanceStore.shared.userProfile` via a plain computed) is what makes
@@ -531,7 +558,7 @@ struct SubstanceDetailView: View {
     }
 
     init(substance: Substance) {
-        self.substance = substance
+        self.baseSubstance = substance
         let name = substance.name
         _historyEntries = Query(
             filter: #Predicate<DoseEntry> { entry in
@@ -688,6 +715,16 @@ struct SubstanceDetailView: View {
 
             doseDurationSections
 
+            if let notes = personalOverride?.notes,
+               !notes.trimmingCharacters(in: .whitespaces).isEmpty {
+                Section("Your Notes") {
+                    Text(notes)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
             if displayClass == .medicalRx || displayClass == .nonRecreational {
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
@@ -839,6 +876,27 @@ struct SubstanceDetailView: View {
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                 }
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button {
+                        navigator.present(.personalizeSubstance(name: baseSubstance.name))
+                    } label: {
+                        Label(personalOverride == nil ? "Personalize…" : "Edit Personalization…",
+                              systemImage: "slider.horizontal.3")
+                    }
+                    if let override = personalOverride {
+                        Button(role: .destructive) {
+                            customStore.delete(override)
+                        } label: {
+                            Label("Reset Personalization", systemImage: "arrow.uturn.backward")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                        .foregroundStyle(personalOverride == nil ? Theme.secondaryLabel : Theme.accent)
+                }
+                .accessibilityLabel("Personalize substance")
             }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {

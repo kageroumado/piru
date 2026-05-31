@@ -189,6 +189,7 @@ nonisolated enum DeepLink {
              .dailyDoseItemForm,
              .customSubstancesList,
              .customSubstanceForm,
+             .personalizeSubstance,
              .colorPicker,
              .journalFilters,
              .journalCalendar,
