@@ -123,6 +123,79 @@ struct SubstanceCustomOverlayTests {
         #expect(twice.sources.filter { $0 == CustomSubstanceEntry.userDefinedSource }.count == 1)
     }
 
+    @Test("Display-name override sets displayTitle, keeps canonical name")
+    func displayNameOverride() {
+        let library = Self.libraryStub()
+        let custom = CustomSubstanceEntry(name: "2-MMC", displayName: "joint", defaultRoute: .oral)
+        let result = library.applyingOverride(from: custom)
+        #expect(result.name == "2-MMC", "Canonical identity unchanged")
+        #expect(result.displayTitle == "joint")
+        #expect(result.sources.contains(CustomSubstanceEntry.userDefinedSource))
+    }
+
+    @Test("Blank display name does not override")
+    func blankDisplayNameIgnored() {
+        let library = Self.libraryStub()
+        let custom = CustomSubstanceEntry(name: "2-MMC", displayName: "   ", defaultRoute: .oral)
+        let result = library.applyingOverride(from: custom)
+        #expect(result.displayTitle == "2-MMC")
+    }
+
+    @Test("Dose-range override replaces matching route's doses")
+    func doseOverride() {
+        let library = Self.libraryStub()
+        let custom = CustomSubstanceEntry(
+            name: "2-MMC", defaultRoute: .oral, unit: "mg",
+            doses: DoseRange(threshold: 10, light: 25...60, common: 60...120, strong: 120...180, heavy: 200)
+        )
+        let result = library.applyingOverride(from: custom)
+        let oral = result.routes.first { $0.route == .oral }
+        #expect(oral?.doses.common == 60...120, "Custom dose range applied")
+        #expect(oral?.doses.threshold == 10)
+        let insufflation = result.routes.first { $0.route == .insufflation }
+        #expect(insufflation?.doses.common == 15...30, "Non-matching route's doses untouched")
+    }
+
+    @Test("Half-life override replaces library half-life")
+    func halfLifeOverride() {
+        let library = Self.libraryStub()
+        let custom = CustomSubstanceEntry(name: "2-MMC", defaultRoute: .oral, halfLifeMinutes: 200)
+        let result = library.applyingOverride(from: custom)
+        #expect(result.halfLifeMinutes == 200)
+    }
+
+    @Test("Empty override is a true no-op")
+    func emptyOverrideNoOp() {
+        let library = Self.libraryStub()
+        let custom = CustomSubstanceEntry(name: "2-MMC", defaultRoute: .oral)
+        let result = library.applyingOverride(from: custom)
+        #expect(result.halfLifeMinutes == 90)
+        #expect(result.displayTitle == "2-MMC")
+        #expect(!result.sources.contains(CustomSubstanceEntry.userDefinedSource))
+    }
+
+    @Test("Pre-1.4 entries decode with nil overrides (backward compatible)")
+    func backwardCompatibleDecode() throws {
+        // Simulate a pre-1.4 stored entry by encoding a modern one and stripping
+        // the fields added in v1.4 — decoding must tolerate their absence.
+        let modern = CustomSubstanceEntry(name: "Foo", category: .stimulant, defaultRoute: .oral, unit: "mg")
+        var obj = try JSONSerialization.jsonObject(with: JSONEncoder().encode(modern)) as! [String: Any]
+        for key in ["displayName", "doses", "halfLifeMinutes"] { obj.removeValue(forKey: key) }
+        let legacy = try JSONSerialization.data(withJSONObject: obj)
+        let entry = try JSONDecoder().decode(CustomSubstanceEntry.self, from: legacy)
+        #expect(entry.name == "Foo")
+        #expect(entry.displayName == nil)
+        #expect(entry.doses == nil)
+        #expect(entry.halfLifeMinutes == nil)
+    }
+
+    @Test("resolvedDisplayName prefers the personal label")
+    func resolvedDisplayNameHelper() {
+        #expect(CustomSubstanceEntry(name: "THC", displayName: "joint").resolvedDisplayName == "joint")
+        #expect(CustomSubstanceEntry(name: "THC").resolvedDisplayName == "THC")
+        #expect(CustomSubstanceEntry(name: "THC", displayName: "  ").resolvedDisplayName == "THC")
+    }
+
     @Test("ActiveSubstanceState.from succeeds for the overlaid substance")
     func activeStateBuildsFromOverlaid() {
         let library = Self.libraryStub()

@@ -1418,18 +1418,23 @@ enum SubstanceLibrary {
     /// query so a custom-only entry (no library row at all) still resolves.
     private static func overlayCustom(library: Substance?, query: String) -> Substance? {
         let customs = CustomSubstanceStore.shared
-        let custom: CustomSubstanceEntry? = {
-            if let library, let byCanonical = customs.first(whereName: library.name) {
-                return byCanonical
-            }
-            return customs.first(whereName: query)
-        }()
 
-        switch (library, custom) {
-        case (nil, nil):              return nil
-        case (nil, let c?):           return c.asSubstance
-        case (let l?, nil):           return l
-        case (let l?, let c?):        return l.applyingOverride(from: c)
+        if let library {
+            let custom = customs.first(whereName: library.name)
+            return custom.map { library.applyingOverride(from: $0) } ?? library
         }
+
+        // No library row matched the query. Try a custom by its canonical name,
+        // then by its personal display name — so a relabelled substance is
+        // resolvable by the name the user gave it ("joint" → the THC override).
+        guard let custom = customs.first(whereName: query) ?? customs.first(whereDisplayName: query) else {
+            return nil
+        }
+        // A personal override of a library substance still has that substance's
+        // canonical name; re-resolve and overlay so dose/duration come through.
+        if let underlying = SubstanceStore.shared.lookupByNameOrAlias(custom.name) {
+            return underlying.applyingOverride(from: custom)
+        }
+        return custom.asSubstance
     }
 }
