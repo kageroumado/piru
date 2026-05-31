@@ -22,8 +22,6 @@ Run from the repo root:
 
 from __future__ import annotations
 
-import csv
-import glob
 import hashlib
 import json
 import os
@@ -32,20 +30,20 @@ import sqlite3
 import sys
 import unicodedata
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-OUT_SQLITE   = REPO / "Piru/Data/piru-substances.sqlite"
+OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
-OUT_REPORT   = REPO / "docs/audit/sqlite-build-report.md"
+OUT_REPORT = REPO / "docs/audit/sqlite-build-report.md"
 
-SOURCED        = REPO / "data/intermediate/sourced-substances.json"
+SOURCED = REPO / "data/intermediate/sourced-substances.json"
 # Curated substances, one JSON file per compound (authoritative hand-curated
 # layer). Ingested directly as the `piru-curated` source — sqlite.py is the
 # single consumer, so there is no overlay→sourced bake step to drift out of sync.
-CURATED_DIR    = REPO / "data/curated/substances"
-BUNDLED        = REPO / "data/intermediate/substances-bundled.json"
+CURATED_DIR = REPO / "data/curated/substances"
+BUNDLED = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
 ENRICHMENT_DIR = REPO / "data/enrichment/raw"
@@ -56,10 +54,10 @@ ENRICHMENT_DIR = REPO / "data/enrichment/raw"
 # the built SQLite is the committed artifact, the raw extractions are not.
 # Override with PIRU_EXTERNAL_DIR if regenerated elsewhere.
 EXTERNAL_DIR = Path(os.environ.get("PIRU_EXTERNAL_DIR", "/tmp/piru-extract"))
-PYRLS_EXT    = EXTERNAL_DIR / "pyrls.substances.json"
-MEDTAP_EXT   = EXTERNAL_DIR / "medtap.substances.json"
-BENZOS_EXT   = EXTERNAL_DIR / "benzos_cited.substances.json"
-NPS_EXT      = EXTERNAL_DIR / "nps_datahub.substances.json"
+PYRLS_EXT = EXTERNAL_DIR / "pyrls.substances.json"
+MEDTAP_EXT = EXTERNAL_DIR / "medtap.substances.json"
+BENZOS_EXT = EXTERNAL_DIR / "benzos_cited.substances.json"
+NPS_EXT = EXTERNAL_DIR / "nps_datahub.substances.json"
 
 # Note: data/curated/overlay.json used to be referenced here, but the Python
 # build pipeline reads data/intermediate/sourced-substances.json — which
@@ -72,27 +70,55 @@ NPS_EXT      = EXTERNAL_DIR / "nps_datahub.substances.json"
 
 # Default source priority. Lower number = higher priority. User can override.
 SOURCES = [
-    ("piru-curated",       "Piru hand-curated overlay",          "Curated by the Piru maintainers, prioritised for accuracy on harm-reduction-critical compounds."),
-    ("peer-review-primary","Primary peer-reviewed literature",   "Cited DOI/PMID from primary journal articles. Deep-pharma enrichment swarm output."),
-    ("psychonautwiki",     "PsychonautWiki",                     "Community harm-reduction wiki."),
-    ("tripsit",            "TripSit factsheets",                 "Community harm-reduction factsheets and combo matrix."),
-    ("drug.community",     "drug.community",                     "Curated long-tail research-chemical dataset."),
-    ("dailymed",           "FDA DailyMed",                       "FDA-approved prescribing labels."),
-    ("erowid-pihkal",      "Erowid PIHKAL Part 2",               "Shulgin phenethylamine compendium, Erowid Part 2 only (non-commercial redistribution permitted)."),
-    ("erowid-tihkal",      "Erowid TIHKAL Part 2",               "Shulgin tryptamine compendium, Erowid Part 2 only."),
-    ("pdsp",               "UNC PDSP Ki database",               "Canonical receptor affinity database (Roth lab)."),
-    ("pubchem",            "PubChem",                            "NIH chemical compound identifiers."),
-    ("wikidata",           "Wikidata",                           "CC0 structured data; identifier-only for long-tail compounds."),
-    ("dea-orange-book",    "DEA Orange Book",                    "US controlled-substance scheduling."),
+    (
+        "piru-curated",
+        "Piru hand-curated overlay",
+        "Curated by the Piru maintainers, prioritised for accuracy on harm-reduction-critical compounds.",
+    ),
+    (
+        "peer-review-primary",
+        "Primary peer-reviewed literature",
+        "Cited DOI/PMID from primary journal articles. Deep-pharma enrichment swarm output.",
+    ),
+    ("psychonautwiki", "PsychonautWiki", "Community harm-reduction wiki."),
+    ("tripsit", "TripSit factsheets", "Community harm-reduction factsheets and combo matrix."),
+    ("drug.community", "drug.community", "Curated long-tail research-chemical dataset."),
+    ("dailymed", "FDA DailyMed", "FDA-approved prescribing labels."),
+    (
+        "erowid-pihkal",
+        "Erowid PIHKAL Part 2",
+        "Shulgin phenethylamine compendium, Erowid Part 2 only (non-commercial redistribution permitted).",
+    ),
+    ("erowid-tihkal", "Erowid TIHKAL Part 2", "Shulgin tryptamine compendium, Erowid Part 2 only."),
+    ("pdsp", "UNC PDSP Ki database", "Canonical receptor affinity database (Roth lab)."),
+    ("pubchem", "PubChem", "NIH chemical compound identifiers."),
+    ("wikidata", "Wikidata", "CC0 structured data; identifier-only for long-tail compounds."),
+    ("dea-orange-book", "DEA Orange Book", "US controlled-substance scheduling."),
     # Appended at lowest priority so they only FILL GAPS (existing recreational
     # sources win on conflict). pyrls/medtap supply regulatory status,
     # indications, contraindications, and per-compound mechanism for the
     # medication side; benzos-cited supplies diazepam-equivalency; nps-datahub
     # supplies chemical identifiers (identifier-only, never new substances).
-    ("pyrls",              "Pyrls clinical reference",           "Prescription-drug clinical reference: mechanism, indications, contraindications, regulatory status."),
-    ("medtap",             "MedTAP FDA labels",                  "FDA structured product labels: indications, contraindications, OTC/Rx status."),
-    ("benzos-cited",       "TripSit benzo equivalency",          "TripSit-format benzodiazepine data; source of cross-benzo diazepam-equivalency."),
-    ("nps-datahub",        "NPS Data Hub",                       "Forensic NPS chemistry catalogue; chemical identifiers (CAS/InChIKey/SMILES/formula/MW) only."),
+    (
+        "pyrls",
+        "Pyrls clinical reference",
+        "Prescription-drug clinical reference: mechanism, indications, contraindications, regulatory status.",
+    ),
+    (
+        "medtap",
+        "MedTAP FDA labels",
+        "FDA structured product labels: indications, contraindications, OTC/Rx status.",
+    ),
+    (
+        "benzos-cited",
+        "TripSit benzo equivalency",
+        "TripSit-format benzodiazepine data; source of cross-benzo diazepam-equivalency.",
+    ),
+    (
+        "nps-datahub",
+        "NPS Data Hub",
+        "Forensic NPS chemistry catalogue; chemical identifiers (CAS/InChIKey/SMILES/formula/MW) only.",
+    ),
 ]
 
 
@@ -563,10 +589,15 @@ CREATE TABLE manifest (
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def normalise(s: str) -> str:
     s = unicodedata.normalize("NFKD", s or "").lower().strip()
     s = re.sub(r"^\(\s*[+\-±rs]\s*\)\s*-?\s*", "", s)
-    s = re.sub(r"\s*[·.]?\s*(hcl|hydrochloride|sulfate|sulphate|fumarate|tartrate|maleate|mesylate|citrate|hbr|hydrobromide)\s*$", "", s)
+    s = re.sub(
+        r"\s*[·.]?\s*(hcl|hydrochloride|sulfate|sulphate|fumarate|tartrate|maleate|mesylate|citrate|hbr|hydrobromide)\s*$",
+        "",
+        s,
+    )
     s = re.sub(r"\s+", " ", s)
     return s
 
@@ -609,11 +640,10 @@ def is_chemnoise_alias(alias: str) -> bool:
         return True
     if _CHEM_NOISE_PREFIX.match(a) or _CHEM_NOISE_BODY.search(a):
         return True
-    if re.search(r"\(\s*\d", a):              # parenthetical locant: "(2,5-", "(1-"
+    if re.search(r"\(\s*\d", a):  # parenthetical locant: "(2,5-", "(1-"
         return True
-    if a.count("-") >= 3 and len(a) > 16:     # long multi-locant systematic name
-        return True
-    return False
+    # long multi-locant systematic name
+    return a.count("-") >= 3 and len(a) > 16
 
 
 # Display-name overrides, popularity scores, category corrections, peptide
@@ -629,13 +659,69 @@ def is_chemnoise_alias(alias: str) -> bool:
 # Used by `smart_title_case` to handle entries that arrived all-lowercase
 # from drug.community / TripSit but represent acronyms (lsd, mdma, gbl).
 _ACRONYMS = {
-    "lsd", "mdma", "mda", "mde", "dmt", "dxm", "pcp", "mxe", "thc", "cbd",
-    "cbn", "cbg", "cbc", "cbdv", "thcv", "thcp", "hhc", "gbl", "ghb",
-    "gaba", "maoi", "ssri", "snri", "ndri", "sari", "lsa", "lsh", "amt",
-    "aet", "dpt", "dipt", "mipt", "dmd", "nbome", "nboh", "nbmd", "nbf",
-    "pmma", "pma", "mbdb", "tfmpp", "mcpp", "5-meo", "4-aco", "4-ho", "5-ho",
-    "5-ht", "4-fa", "4-ma", "2c", "25i", "25c", "25b", "25h", "25n",
-    "iv", "im", "po", "sl", "br", "us", "uk", "eu",
+    "lsd",
+    "mdma",
+    "mda",
+    "mde",
+    "dmt",
+    "dxm",
+    "pcp",
+    "mxe",
+    "thc",
+    "cbd",
+    "cbn",
+    "cbg",
+    "cbc",
+    "cbdv",
+    "thcv",
+    "thcp",
+    "hhc",
+    "gbl",
+    "ghb",
+    "gaba",
+    "maoi",
+    "ssri",
+    "snri",
+    "ndri",
+    "sari",
+    "lsa",
+    "lsh",
+    "amt",
+    "aet",
+    "dpt",
+    "dipt",
+    "mipt",
+    "dmd",
+    "nbome",
+    "nboh",
+    "nbmd",
+    "nbf",
+    "pmma",
+    "pma",
+    "mbdb",
+    "tfmpp",
+    "mcpp",
+    "5-meo",
+    "4-aco",
+    "4-ho",
+    "5-ho",
+    "5-ht",
+    "4-fa",
+    "4-ma",
+    "2c",
+    "25i",
+    "25c",
+    "25b",
+    "25h",
+    "25n",
+    "iv",
+    "im",
+    "po",
+    "sl",
+    "br",
+    "us",
+    "uk",
+    "eu",
 }
 
 
@@ -715,25 +801,60 @@ WEAK_REC_SOURCE_SLUGS = {"drug.community"}
 
 # Resolved categories that are recreational by nature.
 RECREATIONAL_CATEGORIES = {
-    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Opioid",
-    "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic",
-    "AMPAkine", "Eugeroic", "Depressant",
+    "Stimulant",
+    "Psychedelic",
+    "Dissociative",
+    "Dysdelic",
+    "Opioid",
+    "Benzodiazepine",
+    "GABAergic",
+    "Empathogen",
+    "Cannabinoid",
+    "Nootropic",
+    "AMPAkine",
+    "Eugeroic",
+    "Depressant",
 }
 # Resolved categories that are medical/therapeutic. A compound here with a
 # recreational dose signal is DUAL_USE; without one it is MEDICAL_RX.
 MEDICAL_CATEGORIES = {
-    "Antidepressant", "Antipsychotic", "Anticonvulsant", "Antihistamine",
-    "Analgesic", "Cardiovascular", "Antimicrobial", "Gastrointestinal",
-    "Respiratory", "Endocrine", "Immunological", "Peptide",
+    "Antidepressant",
+    "Antipsychotic",
+    "Anticonvulsant",
+    "Antihistamine",
+    "Analgesic",
+    "Cardiovascular",
+    "Antimicrobial",
+    "Gastrointestinal",
+    "Respiratory",
+    "Endocrine",
+    "Immunological",
+    "Peptide",
 }
 # Tags that establish recreational lineage even with no dose data (the RC
 # stubs — novel psychedelics/cathinones/etc. catalogued without human dosing).
 REC_TAGS = {
-    "research-chemical", "no-human-data", "PIHKAL", "TIHKAL", "tryptamine",
-    "phenethylamine", "cathinone", "arylcyclohexylamine", "designer-benzo",
-    "designer-dissociative", "fentanyl-analog", "nitazene", "synthetic-cannabinoid",
-    "semi-synthetic-cannabinoid", "lysergamide", "NBOMe", "psychedelic",
-    "dissociative", "mu-opioid-agonist", "NMDA-antagonist", "salvinorin",
+    "research-chemical",
+    "no-human-data",
+    "PIHKAL",
+    "TIHKAL",
+    "tryptamine",
+    "phenethylamine",
+    "cathinone",
+    "arylcyclohexylamine",
+    "designer-benzo",
+    "designer-dissociative",
+    "fentanyl-analog",
+    "nitazene",
+    "synthetic-cannabinoid",
+    "semi-synthetic-cannabinoid",
+    "lysergamide",
+    "NBOMe",
+    "psychedelic",
+    "dissociative",
+    "mu-opioid-agonist",
+    "NMDA-antagonist",
+    "salvinorin",
 }
 # Tags / category that mark a compound as having NO recreational value: it stays
 # trackable for medication adherence but is hidden from recreational browsing.
@@ -742,11 +863,30 @@ ANTIBIOTIC_TAGS = {"antibiotic", "antiviral", "antifungal", "antiparasitic", "an
 # OTC compounds whose dose is on the package — dose may be shown even without a
 # recreational signal (the developer's explicit exception to dose-suppression).
 OTC_ALLOWLIST = {
-    "melatonin", "caffeine", "ibuprofen", "acetaminophen", "paracetamol",
-    "aspirin", "naproxen", "diphenhydramine", "doxylamine", "loratadine",
-    "cetirizine", "famotidine", "loperamide", "dextromethorphan", "pseudoephedrine",
-    "phenylephrine", "guaifenesin", "nicotine", "dimenhydrinate", "meclizine",
-    "ranitidine", "omeprazole", "bismuth subsalicylate", "simethicone",
+    "melatonin",
+    "caffeine",
+    "ibuprofen",
+    "acetaminophen",
+    "paracetamol",
+    "aspirin",
+    "naproxen",
+    "diphenhydramine",
+    "doxylamine",
+    "loratadine",
+    "cetirizine",
+    "famotidine",
+    "loperamide",
+    "dextromethorphan",
+    "pseudoephedrine",
+    "phenylephrine",
+    "guaifenesin",
+    "nicotine",
+    "dimenhydrinate",
+    "meclizine",
+    "ranitidine",
+    "omeprazole",
+    "bismuth subsalicylate",
+    "simethicone",
 }
 
 
@@ -758,7 +898,9 @@ OTC_ALLOWLIST = {
 # different before are stereoisomers (distinct compounds). Single-letter forms
 # require a following hyphen/space so they can't eat the first letter of an
 # ordinary name (lsd, dmt). Operates on a normalise()d (lowercased) string.
-_STEREO_PREFIX_RE = re.compile(r"^(dextro|laevo|levo|dex|lev|rac|racemic|meso|es|ar|[dlrs](?=[\-\s]))[\-\s]*")
+_STEREO_PREFIX_RE = re.compile(
+    r"^(dextro|laevo|levo|dex|lev|rac|racemic|meso|es|ar|[dlrs](?=[\-\s]))[\-\s]*"
+)
 
 
 def strip_stereo(normalised: str) -> str:
@@ -771,9 +913,31 @@ def strip_stereo(normalised: str) -> str:
 # Note: chemical locant prefixes N-, O-, S- ARE upper-case ("N-methyl"), so they
 # are deliberately NOT kept lower. "bk" (beta-keto) is the main lowercase prefix.
 _CHEM_KEEP_LOWER = {
-    "bk", "cis", "oxo", "keto", "aza", "oxa", "nor", "iso", "neo",
-    "di", "tri", "bis", "mono", "homo", "seco", "nido", "para", "meta",
-    "iodo", "endo", "exo", "syn", "thia", "sec", "tert",
+    "bk",
+    "cis",
+    "oxo",
+    "keto",
+    "aza",
+    "oxa",
+    "nor",
+    "iso",
+    "neo",
+    "di",
+    "tri",
+    "bis",
+    "mono",
+    "homo",
+    "seco",
+    "nido",
+    "para",
+    "meta",
+    "iodo",
+    "endo",
+    "exo",
+    "syn",
+    "thia",
+    "sec",
+    "tert",
 }
 # Alkyl-group morphemes that read as title-case in RC codes ("2-Me-PiHP",
 # "N-Et-…"), NOT acronyms — so they aren't upper-cased to ME/ET. Distinct from
@@ -786,9 +950,18 @@ _CHEM_KEEP_TITLE = {"me", "et", "pr", "bu"}
 # by lowercased segment. (Names that arrive already cased are preserved by the
 # interior-uppercase rule and never reach here.)
 _CHEM_CAMEL = {
-    "meo": "MeO", "aco": "AcO", "eto": "EtO", "tho": "ThO",
-    "mipt": "MiPT", "dipt": "DiPT", "eipt": "EiPT", "pipt": "PiPT", "pihp": "PiHP",
-    "nbome": "NBOMe", "nboh": "NBOH", "ipr": "iPr",
+    "meo": "MeO",
+    "aco": "AcO",
+    "eto": "EtO",
+    "tho": "ThO",
+    "mipt": "MiPT",
+    "dipt": "DiPT",
+    "eipt": "EiPT",
+    "pipt": "PiPT",
+    "pihp": "PiHP",
+    "nbome": "NBOMe",
+    "nboh": "NBOH",
+    "ipr": "iPr",
 }
 # Chemical-code names contain a digit (2-FMA, 4-HO-MET, bk-MDMA, 1P-LSD).
 _CHEM_SEG_RE = re.compile(r"([\-/])")
@@ -833,12 +1006,34 @@ def chem_caps(name: str) -> str:
 # Canonical category enum (mirrors SubstanceCategory in Swift). Keep in sync
 # with Piru/Models/Substance.swift `SubstanceCategory` rawValue strings.
 _CATEGORY_ENUM = {
-    "Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Deliriant", "Opioid",
-    "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic",
-    "AMPAkine", "Eugeroic", "Depressant", "Antidepressant", "Antipsychotic",
-    "Analgesic", "Antihistamine", "Cardiovascular", "Antimicrobial",
-    "Gastrointestinal", "Respiratory", "Endocrine", "Immunological",
-    "Supplement", "Peptide", "Anticonvulsant", "Other",
+    "Stimulant",
+    "Psychedelic",
+    "Dissociative",
+    "Dysdelic",
+    "Deliriant",
+    "Opioid",
+    "Benzodiazepine",
+    "GABAergic",
+    "Empathogen",
+    "Cannabinoid",
+    "Nootropic",
+    "AMPAkine",
+    "Eugeroic",
+    "Depressant",
+    "Antidepressant",
+    "Antipsychotic",
+    "Analgesic",
+    "Antihistamine",
+    "Cardiovascular",
+    "Antimicrobial",
+    "Gastrointestinal",
+    "Respiratory",
+    "Endocrine",
+    "Immunological",
+    "Supplement",
+    "Peptide",
+    "Anticonvulsant",
+    "Other",
 }
 
 # Category normalization rules — (regex, canonical). FIRST match wins, so
@@ -850,24 +1045,66 @@ _CATEGORY_RULES: list[tuple[re.Pattern, str]] = [
     # --- Highest priority: medication classes ---
     # Peptide first — GLP-1 agonists, GH secretagogues, etc. are categorised by
     # delivery class, not by the Endocrine effect they have.
-    (re.compile(r"\b(peptide|peptide[\s-]?mimetic|GLP[\s-]?1[\s-]?agonist|GIP[\s-]?agonist|GHRH[\s-]?analogue|GH[\s-]?secretagogue|healing[\s-]?peptide|nootropic[\s-]?peptide|melanocortin[\s-]?agonist)\b", re.I), "Peptide"),
+    (
+        re.compile(
+            r"\b(peptide|peptide[\s-]?mimetic|GLP[\s-]?1[\s-]?agonist|GIP[\s-]?agonist|GHRH[\s-]?analogue|GH[\s-]?secretagogue|healing[\s-]?peptide|nootropic[\s-]?peptide|melanocortin[\s-]?agonist)\b",
+            re.I,
+        ),
+        "Peptide",
+    ),
     # Anticonvulsant / mood-stabilizer covers antiseizure meds AND lithium.
     # Mood stabilizers used psychiatrically (lamotrigine, valproate, lithium)
     # land here rather than Antidepressant — they aren't antidepressants.
-    (re.compile(r"\b(anticonvulsant|antiepileptic|mood[\s-]?(stabiliser|stabilizer)|antiseizure)\b", re.I), "Anticonvulsant"),
+    (
+        re.compile(
+            r"\b(anticonvulsant|antiepileptic|mood[\s-]?(stabiliser|stabilizer)|antiseizure)\b",
+            re.I,
+        ),
+        "Anticonvulsant",
+    ),
     (re.compile(r"\b(antipsychotic|neuroleptic|atypical antipsychotic)\b", re.I), "Antipsychotic"),
-    (re.compile(r"\b(antihistamine|H[12][\s-]?antagonist|H[12][\s-]?blocker)\b", re.I), "Antihistamine"),
-    (re.compile(r"\b(SSRI|SNRI|MAOI|NDRI|SARI|NaSSA|TCA|tricyclic|tetracyclic|monoamine[\s-]?oxidase[\s-]?inhibitor)\b", re.I), "Antidepressant"),
+    (
+        re.compile(r"\b(antihistamine|H[12][\s-]?antagonist|H[12][\s-]?blocker)\b", re.I),
+        "Antihistamine",
+    ),
+    (
+        re.compile(
+            r"\b(SSRI|SNRI|MAOI|NDRI|SARI|NaSSA|TCA|tricyclic|tetracyclic|monoamine[\s-]?oxidase[\s-]?inhibitor)\b",
+            re.I,
+        ),
+        "Antidepressant",
+    ),
     (re.compile(r"\bantidepressant\b", re.I), "Antidepressant"),
     # --- Cannabinoid & opioid (chemistry-defined, take precedence) ---
-    (re.compile(r"\bcannabinoid\b|\bCB[12][\s-]?agonist\b|\bphytocannabinoid\b", re.I), "Cannabinoid"),
-    (re.compile(r"\b(μ[\s-]?opioid|µ[\s-]?opioid|mu[\s-]?opioid|opioid|opiate|narcotic|nitazene|fentanyl|fentanyl[\s-]?class)\b", re.I), "Opioid"),
+    (
+        re.compile(r"\bcannabinoid\b|\bCB[12][\s-]?agonist\b|\bphytocannabinoid\b", re.I),
+        "Cannabinoid",
+    ),
+    (
+        re.compile(
+            r"\b(μ[\s-]?opioid|µ[\s-]?opioid|mu[\s-]?opioid|opioid|opiate|narcotic|nitazene|fentanyl|fentanyl[\s-]?class)\b",
+            re.I,
+        ),
+        "Opioid",
+    ),
     # --- Dissociative beats psychedelic (NMDA mechanism) ---
-    (re.compile(r"\bdissociative\b|\bNMDA[\s-]?(receptor[\s-]?)?antagonist\b|\bPCP[\s-]?(site|analogue|class)\b|\bketamine[\s-]?class\b", re.I), "Dissociative"),
+    (
+        re.compile(
+            r"\bdissociative\b|\bNMDA[\s-]?(receptor[\s-]?)?antagonist\b|\bPCP[\s-]?(site|analogue|class)\b|\bketamine[\s-]?class\b",
+            re.I,
+        ),
+        "Dissociative",
+    ),
     # --- Dysdelic (κ-opioid hallucinogens) ---
     (re.compile(r"\bdysdelic\b|\b(κ|kappa)[\s-]?opioid\b|\bsalvinorin\b", re.I), "Dysdelic"),
     # --- Psychedelic beats empathogen + stimulant ---
-    (re.compile(r"\bpsychedelic\b|\bhallucinogen\b|\b5[\s-]?HT2A[\s-]?(agonist|partial[\s-]?agonist)\b|\bDOx\b|\b2C[\s-]?[xX]?\b", re.I), "Psychedelic"),
+    (
+        re.compile(
+            r"\bpsychedelic\b|\bhallucinogen\b|\b5[\s-]?HT2A[\s-]?(agonist|partial[\s-]?agonist)\b|\bDOx\b|\b2C[\s-]?[xX]?\b",
+            re.I,
+        ),
+        "Psychedelic",
+    ),
     # --- Empathogen / entactogen ---
     (re.compile(r"\b(empathogen|entactogen)\b", re.I), "Empathogen"),
     # --- GABAergic & benzodiazepine ---
@@ -876,30 +1113,84 @@ _CATEGORY_RULES: list[tuple[re.Pattern, str]] = [
     # --- Eugeroic before generic stimulant ---
     (re.compile(r"\b(eugeroic|wakefulness[\s-]?promoting|afinil)\b", re.I), "Eugeroic"),
     # --- AMPAkine (ampakine, AMPA PAM) ---
-    (re.compile(r"\b(AMPAkine|ampakine|AMPA[\s-]?(receptor[\s-]?)?(positive[\s-]?)?modulator|AMPA[\s-]?PAM)\b", re.I), "AMPAkine"),
+    (
+        re.compile(
+            r"\b(AMPAkine|ampakine|AMPA[\s-]?(receptor[\s-]?)?(positive[\s-]?)?modulator|AMPA[\s-]?PAM)\b",
+            re.I,
+        ),
+        "AMPAkine",
+    ),
     # --- Nootropic ---
     (re.compile(r"\b(nootropic|racetam)\b", re.I), "Nootropic"),
     # --- Antimicrobial ---
-    (re.compile(r"\b(antimicrobial|antibiotic|antifungal|antiviral|antimalarial|antiparasitic)\b", re.I), "Antimicrobial"),
+    (
+        re.compile(
+            r"\b(antimicrobial|antibiotic|antifungal|antiviral|antimalarial|antiparasitic)\b", re.I
+        ),
+        "Antimicrobial",
+    ),
     # --- Cardiovascular ---
-    (re.compile(r"\b(cardiovascular|beta[\s-]?blocker|β[\s-]?blocker|antihypertensive|alpha[\s-]?(1|2)[\s-]?(agonist|blocker)|calcium[\s-]?channel[\s-]?blocker|ACE[\s-]?inhibitor|ARB|statin|diuretic|antiarrhythmic|vasodilator)\b", re.I), "Cardiovascular"),
+    (
+        re.compile(
+            r"\b(cardiovascular|beta[\s-]?blocker|β[\s-]?blocker|antihypertensive|alpha[\s-]?(1|2)[\s-]?(agonist|blocker)|calcium[\s-]?channel[\s-]?blocker|ACE[\s-]?inhibitor|ARB|statin|diuretic|antiarrhythmic|vasodilator)\b",
+            re.I,
+        ),
+        "Cardiovascular",
+    ),
     # --- Gastrointestinal / antiemetic ---
-    (re.compile(r"\b(antiemetic|antidiarrhe[ai]l|laxative|proton[\s-]?pump[\s-]?inhibitor|PPI|prokinetic)\b", re.I), "Gastrointestinal"),
+    (
+        re.compile(
+            r"\b(antiemetic|antidiarrhe[ai]l|laxative|proton[\s-]?pump[\s-]?inhibitor|PPI|prokinetic)\b",
+            re.I,
+        ),
+        "Gastrointestinal",
+    ),
     # --- Respiratory ---
-    (re.compile(r"\b(bronchodilator|β2[\s-]?agonist|mucolytic|antitussive|expectorant)\b", re.I), "Respiratory"),
+    (
+        re.compile(r"\b(bronchodilator|β2[\s-]?agonist|mucolytic|antitussive|expectorant)\b", re.I),
+        "Respiratory",
+    ),
     # --- Endocrine ---
-    (re.compile(r"\b(estrogen|androgen|progestin|insulin|thyroid|GLP[\s-]?1|GIP|aromatase|hormone|steroid|corticosteroid)\b", re.I), "Endocrine"),
+    (
+        re.compile(
+            r"\b(estrogen|androgen|progestin|insulin|thyroid|GLP[\s-]?1|GIP|aromatase|hormone|steroid|corticosteroid)\b",
+            re.I,
+        ),
+        "Endocrine",
+    ),
     # --- Analgesic (non-opioid) ---
     (re.compile(r"\b(NSAID|paracetamol|acetaminophen|analgesic)\b", re.I), "Analgesic"),
     # --- Supplement / vitamin ---
-    (re.compile(r"\b(supplement|vitamin|mineral|adaptogen|amino[\s-]?acid|herbal|nutraceutical)\b", re.I), "Supplement"),
+    (
+        re.compile(
+            r"\b(supplement|vitamin|mineral|adaptogen|amino[\s-]?acid|herbal|nutraceutical)\b", re.I
+        ),
+        "Supplement",
+    ),
     # --- Stimulant (after all higher-priority classes) ---
-    (re.compile(r"\b(stimulant|sympathomimetic|monoamine[\s-]?releaser|DA[\s-]?releaser|NDRI[\s-]?stimulant|amphetamine|cathinone|piperazine[\s-]?stimulant|psychostimulant)\b", re.I), "Stimulant"),
+    (
+        re.compile(
+            r"\b(stimulant|sympathomimetic|monoamine[\s-]?releaser|DA[\s-]?releaser|NDRI[\s-]?stimulant|amphetamine|cathinone|piperazine[\s-]?stimulant|psychostimulant)\b",
+            re.I,
+        ),
+        "Stimulant",
+    ),
     # --- Depressant (catch-all for sedative-hypnotics not benzo/GABAergic) ---
-    (re.compile(r"\b(depressant|sedative|hypnotic|anxiolytic|barbiturate|GHB|GABA[\s-]?A[\s-]?(positive[\s-]?)?(allosteric[\s-]?)?modulator|GABAA[\s-]?PAM)\b", re.I), "Depressant"),
+    (
+        re.compile(
+            r"\b(depressant|sedative|hypnotic|anxiolytic|barbiturate|GHB|GABA[\s-]?A[\s-]?(positive[\s-]?)?(allosteric[\s-]?)?modulator|GABAA[\s-]?PAM)\b",
+            re.I,
+        ),
+        "Depressant",
+    ),
     # --- Deliriant (anticholinergic/antimuscarinic hallucinogens: tropane alkaloids,
     # glycolate-ester incapacitants, and the deliriant first-gen antihistamines) ---
-    (re.compile(r"\b(deliriant|anticholinergic|antimuscarinic|muscarinic[\s-]?antagonist)\b", re.I), "Deliriant"),
+    (
+        re.compile(
+            r"\b(deliriant|anticholinergic|antimuscarinic|muscarinic[\s-]?antagonist)\b", re.I
+        ),
+        "Deliriant",
+    ),
 ]
 
 
@@ -1005,43 +1296,43 @@ def split_compound_name(name: str) -> tuple[str, list[str]]:
 # dose data under "smoked" in favour of TripSit's 20–60 mg under "inhalation".
 # Map everything in this family to `inhalation`.
 _ROUTE_ALIASES = {
-    "insufflated":     "insufflation",
-    "insufflated*":    "insufflation",
-    "snorted":         "insufflation",
-    "snorting":        "insufflation",
-    "nasal":           "insufflation",
-    "intranasal":      "insufflation",
-    "intra-nasal":     "insufflation",
-    "inhaled":         "inhalation",
-    "smoked":          "inhalation",
-    "smoke":           "inhalation",
-    "smoking":         "inhalation",
-    "vaped":           "inhalation",
-    "vaping":          "inhalation",
-    "vape":            "inhalation",
-    "vaped / smoked":  "inhalation",
-    "vaporized":       "inhalation",
-    "vaporised":       "inhalation",
-    "vapourized":      "inhalation",
-    "vapourised":      "inhalation",
-    "vaporization":    "inhalation",
-    "nebulised":       "inhalation",
-    "nebulized":       "inhalation",
-    "plugged":         "rectal",
-    "iv":              "intravenous",
-    "im":              "intramuscular",
-    "sc":              "subcutaneous",
-    "subq":            "subcutaneous",
-    "sublingually":    "sublingual",
-    "buccally":        "buccal",
-    "rectally":        "rectal",
-    "po":              "oral",
-    "by mouth":        "oral",
-    "in":              "",
+    "insufflated": "insufflation",
+    "insufflated*": "insufflation",
+    "snorted": "insufflation",
+    "snorting": "insufflation",
+    "nasal": "insufflation",
+    "intranasal": "insufflation",
+    "intra-nasal": "insufflation",
+    "inhaled": "inhalation",
+    "smoked": "inhalation",
+    "smoke": "inhalation",
+    "smoking": "inhalation",
+    "vaped": "inhalation",
+    "vaping": "inhalation",
+    "vape": "inhalation",
+    "vaped / smoked": "inhalation",
+    "vaporized": "inhalation",
+    "vaporised": "inhalation",
+    "vapourized": "inhalation",
+    "vapourised": "inhalation",
+    "vaporization": "inhalation",
+    "nebulised": "inhalation",
+    "nebulized": "inhalation",
+    "plugged": "rectal",
+    "iv": "intravenous",
+    "im": "intramuscular",
+    "sc": "subcutaneous",
+    "subq": "subcutaneous",
+    "sublingually": "sublingual",
+    "buccally": "buccal",
+    "rectally": "rectal",
+    "po": "oral",
+    "by mouth": "oral",
+    "in": "",
     # Eye drops: no dedicated route in the 10-value enum — surface as "other"
     # rather than leaking a non-enum "ophthalmic" string the app decodes to .other anyway.
-    "ophthalmic":      "other",
-    "ocular":          "other",
+    "ophthalmic": "other",
+    "ocular": "other",
 }
 
 
@@ -1059,37 +1350,37 @@ def normalise_route(route: str) -> str:
 # "CBD" entry, creating two parallel rows with different data attached.
 # This map collapses them at the ingester.
 _NAME_REMAP: dict[str, str] = {
-    "cannabidiol":    "CBD",
+    "cannabidiol": "CBD",
     "cannabichromene": "CBC",
-    "cannabigerol":   "CBG",
+    "cannabigerol": "CBG",
     # Adderall is a brand of mixed amphetamine salts — PsychonautWiki treats it
     # as an Amphetamine alias. Merge so it isn't a parallel standalone entry.
-    "adderall":       "Amphetamine",
-    "adderall ir":    "Amphetamine",
-    "adderall xr":    "Amphetamine",
-    "mydayis":        "Amphetamine",
+    "adderall": "Amphetamine",
+    "adderall ir": "Amphetamine",
+    "adderall xr": "Amphetamine",
+    "mydayis": "Amphetamine",
     # Brand → generic for compounds whose brand record carries no InChIKey, so
     # the structural auto-dedup can't catch them. (The InChIKey connectivity
     # match handles all structurally-confirmed duplicates automatically.)
-    "vyvanse":        "Lisdexamfetamine",
-    "elvanse":        "Lisdexamfetamine",
-    "focalin":        "Dexmethylphenidate",
-    "focalin xr":     "Dexmethylphenidate",
+    "vyvanse": "Lisdexamfetamine",
+    "elvanse": "Lisdexamfetamine",
+    "focalin": "Dexmethylphenidate",
+    "focalin xr": "Dexmethylphenidate",
 }
 
 # Force a specific canonical display casing for names that arrive mis-cased and
 # that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
 # chemistry conventions like AcO / NBOMe). Keyed on normalise(name).
 _CANONICAL_CASE: dict[str, str] = {
-    "melatonin":  "Melatonin",   # was all-caps MELATONIN
-    "lsa":        "LSA",         # was Lsa
-    "4-aco-dmt":  "4-AcO-DMT",   # acetoxy = AcO
-    "25i-nbome":  "25I-NBOMe",   # NBOMe convention
+    "melatonin": "Melatonin",  # was all-caps MELATONIN
+    "lsa": "LSA",  # was Lsa
+    "4-aco-dmt": "4-AcO-DMT",  # acetoxy = AcO
+    "25i-nbome": "25I-NBOMe",  # NBOMe convention
     # 2C = phenethylamine class, uppercase C (the fused "2c" segment carries a
     # digit so chem_caps skips it; bare 2C-B/2C-I arrive cased from source).
-    "bk-2c-b":    "bk-2C-B",
-    "bk-2c-i":    "bk-2C-I",
-    "βh-2c-b":    "βH-2C-B",      # β-hydroxy-2C-B
+    "bk-2c-b": "bk-2C-B",
+    "bk-2c-i": "bk-2C-I",
+    "βh-2c-b": "βH-2C-B",  # β-hydroxy-2C-B
 }
 
 
@@ -1107,39 +1398,67 @@ _CANONICAL_CASE: dict[str, str] = {
 _ALIAS_BLOCKLIST: dict[str, set[str]] = {
     "cannabis": {
         # Δ⁹-THC and synonyms — distinct molecule, has its own entry
-        "thc", "delta-9-thc", "delta-9 thc", "delta 9 thc", "delta‑9 thc",
-        "delta-9-tetrahydrocannabinol", "tetrahydrocannabinol",
-        "δ9-thc", "δ9‑thc", "δ⁹-thc",
-        "dronabinol", "dronabinol (natural)", "marinol", "syndros",
+        "thc",
+        "delta-9-thc",
+        "delta-9 thc",
+        "delta 9 thc",
+        "delta‑9 thc",
+        "delta-9-tetrahydrocannabinol",
+        "tetrahydrocannabinol",
+        "δ9-thc",
+        "δ9‑thc",
+        "δ⁹-thc",
+        "dronabinol",
+        "dronabinol (natural)",
+        "marinol",
+        "syndros",
         # CBD and synonyms — distinct molecule, has its own entry
-        "cbd", "cannabidiol", "(-)-cannabidiol",
-        "epidiolex", "epidiolex (purified cbd)",
+        "cbd",
+        "cannabidiol",
+        "(-)-cannabidiol",
+        "epidiolex",
+        "epidiolex (purified cbd)",
         # Other cannabinoids — each has its own entry
-        "cbg", "cannabigerol", "cbn", "cannabinol",
-        "cbc", "cannabichromene", "cbdv", "cannabidivarin",
+        "cbg",
+        "cannabigerol",
+        "cbn",
+        "cannabinol",
+        "cbc",
+        "cannabichromene",
+        "cbdv",
+        "cannabidivarin",
         # Mixtures and prepared products — not synonyms for raw cannabis
-        "nabiximols", "nabiximols (sativex)", "sativex",
-        "thc+cbd", "tetrahydrocannabinol+cannabidiol",
+        "nabiximols",
+        "nabiximols (sativex)",
+        "sativex",
+        "thc+cbd",
+        "tetrahydrocannabinol+cannabidiol",
     },
     # Plant / preparation aliased onto the active MOLECULE (each has its own entry).
     "mescaline": {
-        "peyote", "san pedro", "san-pedro", "san", "peyote alkaloid",
+        "peyote",
+        "san pedro",
+        "san-pedro",
+        "san",
+        "peyote alkaloid",
         "san pedro/trichocereus cactus alkaloid",
     },
     "mushrooms": {"psilocybin", "psilocin"},
     "caffeine": {"coffee"},
     # Distinct compounds wrongly cross-aliased (dangerous in a HR tracker).
-    "mdma": {"ma"},                                      # MA = methamphetamine abbrev
+    "mdma": {"ma"},  # MA = methamphetamine abbrev
     "methylone": {"molly", "bath salt", "bath salts"},  # Molly = MDMA slang
-    "5-htp": {"l-tryptophan", "tryptophan"},            # distinct precursor
+    "5-htp": {"l-tryptophan", "tryptophan"},  # distinct precursor
     "melatonin": {"5-mt", "5-methoxytryptamine", "ramelteon"},
     "diphenhydramine": {"dimenhydrinate", "fexofenadine", "meclizine"},
-    "4-ho-met": {"ethocin"},                             # ethocin = 4-HO-DET
-    "dextromethorphan": {"duract"},                      # bromfenac (an NSAID)
+    "4-ho-met": {"ethocin"},  # ethocin = 4-HO-DET
+    "dextromethorphan": {"duract"},  # bromfenac (an NSAID)
     # Methylphenidate (racemate) ≠ dexmethylphenidate (d-isomer, Focalin) — a
     # distinct, ~2x-potency compound with its own entry. Don't cross-alias.
     "methylphenidate": {
-        "dexmethylphenidate", "focalin", "focalin xr",
+        "dexmethylphenidate",
+        "focalin",
+        "focalin xr",
         "dexmethylphenidate hydrochloride extended-release",
     },
 }
@@ -1162,25 +1481,25 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
 _CLASS_DOSE_CEILING_MG: dict[str, float] = {
     # Fentanyl-class opioids: every clinically-used route fits in <2 mg.
     "fentanyl-class-potency": 2.0,
-    "fentanyl-analog":        2.0,
+    "fentanyl-analog": 2.0,
     # Nitazenes flagged as extreme-potency (etonitazene & friends).
     # `extreme-potency` also covers designer-benzos (clonazolam etc.)
     # whose heavy doses are at most ~2 mg, so the same ceiling fits.
-    "extreme-potency":        2.0,
-    "ultra-high-potency":     2.0,
+    "extreme-potency": 2.0,
+    "ultra-high-potency": 2.0,
     # Benzodiazepines: most max-therapeutic single doses are ≤100 mg, but
     # legacy compounds like Tetrazepam (50–200 mg) and Cinolazepam (≤120
     # mg in some references) sit higher. Ceiling at 300 mg preserves
     # those while still catching obvious unit confusion (e.g. Halazepam
     # "3600 mg" from a row whose value is really a daily-total artefact).
-    "benzodiazepine":         300.0,
-    "designer-benzo":         300.0,
+    "benzodiazepine": 300.0,
+    "designer-benzo": 300.0,
     "triazolobenzodiazepine": 300.0,
     # Lysergamides: LSD threshold ~15 µg, heavy ~300 µg. 5 mg = 5000 µg,
     # which is well above every entry in the DB but flags obvious
     # mg/µg unit confusion (e.g. a `light 100 mg` LSD row).
-    "class:lysergamides":     5.0,
-    "class:Lysergamide":      5.0,
+    "class:lysergamides": 5.0,
+    "class:Lysergamide": 5.0,
 }
 
 
@@ -1219,6 +1538,7 @@ def _unit_to_mg_factor(unit: str | None) -> float | None:
 # ---------------------------------------------------------------------------
 # Build pipeline
 # ---------------------------------------------------------------------------
+
 
 class Build:
     def __init__(self, db: sqlite3.Connection):
@@ -1271,13 +1591,21 @@ class Build:
 
     # ---- substances ----
 
-    def upsert_substance(self, name: str, *, aliases: list[str] | None = None,
-                         inchikey: str | None = None, pubchem_cid: int | None = None,
-                         cas: str | None = None, iupac: str | None = None,
-                         smiles: str | None = None, formula: str | None = None,
-                         molecular_weight: float | None = None,
-                         regulatory_status: str | None = None,
-                         source_slug: str | None = None) -> int | None:
+    def upsert_substance(
+        self,
+        name: str,
+        *,
+        aliases: list[str] | None = None,
+        inchikey: str | None = None,
+        pubchem_cid: int | None = None,
+        cas: str | None = None,
+        iupac: str | None = None,
+        smiles: str | None = None,
+        formula: str | None = None,
+        molecular_weight: float | None = None,
+        regulatory_status: str | None = None,
+        source_slug: str | None = None,
+    ) -> int | None:
         name = (name or "").strip()
         if not name:
             return None
@@ -1308,25 +1636,48 @@ class Build:
             # Backfill identifier columns if we now have something better
             self.cur.execute(
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), pubchem_cid = COALESCE(pubchem_cid, ?), cas = COALESCE(cas, ?), iupac_name = COALESCE(iupac_name, ?), smiles = COALESCE(smiles, ?), formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?), regulatory_status = COALESCE(regulatory_status, ?) WHERE id = ?",
-                (inchikey, pubchem_cid, cas, iupac, smiles, formula, molecular_weight, regulatory_status, sid),
+                (
+                    inchikey,
+                    pubchem_cid,
+                    cas,
+                    iupac,
+                    smiles,
+                    formula,
+                    molecular_weight,
+                    regulatory_status,
+                    sid,
+                ),
             )
         else:
             try:
                 self.cur.execute(
                     "INSERT INTO substances(canonical_name, normalized_name, inchikey, pubchem_cid, cas, iupac_name, smiles, formula, molecular_weight, regulatory_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    (name, norm, inchikey, pubchem_cid, cas, iupac, smiles, formula, molecular_weight, regulatory_status),
+                    (
+                        name,
+                        norm,
+                        inchikey,
+                        pubchem_cid,
+                        cas,
+                        iupac,
+                        smiles,
+                        formula,
+                        molecular_weight,
+                        regulatory_status,
+                    ),
                 )
                 sid = self.cur.lastrowid
             except sqlite3.IntegrityError:
                 # Race on canonical_name — happens when name normalises to existing entry
-                row = self.cur.execute("SELECT id FROM substances WHERE canonical_name = ?", (name,)).fetchone()
+                row = self.cur.execute(
+                    "SELECT id FROM substances WHERE canonical_name = ?", (name,)
+                ).fetchone()
                 if not row:
                     return None
                 sid = row[0]
             self.substance_ids[norm] = sid
             self.stats["substances"] += 1
 
-        for alias in (aliases or []):
+        for alias in aliases or []:
             self._add_alias(sid, alias, source_slug)
         return sid
 
@@ -1388,7 +1739,9 @@ class Build:
 
     # ---- per-source field inserters ----
 
-    def add_category(self, sid: int, source_slug: str, category: str, confidence: str | None = None) -> None:
+    def add_category(
+        self, sid: int, source_slug: str, category: str, confidence: str | None = None
+    ) -> None:
         if not category:
             return
         # Normalise to the canonical SubstanceCategory enum at write time so
@@ -1424,9 +1777,21 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_dose(self, sid: int, source_slug: str, route: str, unit: str,
-                 *, threshold=None, light=None, common=None, strong=None, heavy=None,
-                 notes: str | None = None, citation: str | None = None) -> None:
+    def add_dose(
+        self,
+        sid: int,
+        source_slug: str,
+        route: str,
+        unit: str,
+        *,
+        threshold=None,
+        light=None,
+        common=None,
+        strong=None,
+        heavy=None,
+        notes: str | None = None,
+        citation: str | None = None,
+    ) -> None:
         route = normalise_route(route)
         if not route:
             return
@@ -1443,9 +1808,21 @@ class Build:
             return
 
         src = self.source_ids[source_slug]
-        ll, lu = (None, None) if not light else (to_float(light.get("lower")), to_float(light.get("upper")))
-        cl, cu = (None, None) if not common else (to_float(common.get("lower")), to_float(common.get("upper")))
-        sl, su = (None, None) if not strong else (to_float(strong.get("lower")), to_float(strong.get("upper")))
+        ll, lu = (
+            (None, None)
+            if not light
+            else (to_float(light.get("lower")), to_float(light.get("upper")))
+        )
+        cl, cu = (
+            (None, None)
+            if not common
+            else (to_float(common.get("lower")), to_float(common.get("upper")))
+        )
+        sl, su = (
+            (None, None)
+            if not strong
+            else (to_float(strong.get("lower")), to_float(strong.get("upper")))
+        )
         t = to_float(threshold)
         h = to_float(heavy)
 
@@ -1456,7 +1833,7 @@ class Build:
         # than a "common 800 mg" tier of a fentanyl analogue.
         tiers_flat = [v for v in (t, ll, lu, cl, cu, sl, su, h) if v is not None and v > 0]
         if len(tiers_flat) >= 2:
-            for prev, nxt in zip(tiers_flat, tiers_flat[1:]):
+            for prev, nxt in zip(tiers_flat, tiers_flat[1:], strict=False):
                 if prev > nxt * 10:
                     self.stats.setdefault("dropped_inverted_tiers", 0)
                     self.stats["dropped_inverted_tiers"] += 1
@@ -1467,11 +1844,13 @@ class Build:
         # cases like Cloniprazepam oral light 1–5 mg, common 1–2 mg —
         # `level(dose)` would classify a 3 mg dose as "light" even though
         # it's above the common upper bound, which is misleading.
-        tier_uppers = [(name, val) for name, val in
-                       (("light", lu), ("common", cu), ("strong", su), ("heavy", h))
-                       if val is not None and val > 0]
+        tier_uppers = [
+            (name, val)
+            for name, val in (("light", lu), ("common", cu), ("strong", su), ("heavy", h))
+            if val is not None and val > 0
+        ]
         if len(tier_uppers) >= 2:
-            for (_, prev), (_, nxt) in zip(tier_uppers, tier_uppers[1:]):
+            for (_, prev), (_, nxt) in zip(tier_uppers, tier_uppers[1:], strict=False):
                 if prev > nxt:
                     self.stats.setdefault("dropped_regressed_tiers", 0)
                     self.stats["dropped_regressed_tiers"] += 1
@@ -1501,9 +1880,22 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, route, src, unit or "mg",
-                 t, ll, lu, cl, cu, sl, su, h,
-                 notes, self.cite(citation)),
+                (
+                    sid,
+                    route,
+                    src,
+                    unit or "mg",
+                    t,
+                    ll,
+                    lu,
+                    cl,
+                    cu,
+                    sl,
+                    su,
+                    h,
+                    notes,
+                    self.cite(citation),
+                ),
             )
             self.stats["dose_ranges"] += 1
         except sqlite3.IntegrityError:
@@ -1516,9 +1908,12 @@ class Build:
             return
         storage = profile.get("storage") if isinstance(profile.get("storage"), dict) else {}
         fields = (
-            profile.get("sequence"), profile.get("suppliedForm"),
-            to_float(profile.get("typicalVialMg")), profile.get("reconstitutionSolvent"),
-            storage.get("temperature"), to_float(profile.get("iuPerMg")),
+            profile.get("sequence"),
+            profile.get("suppliedForm"),
+            to_float(profile.get("typicalVialMg")),
+            profile.get("reconstitutionSolvent"),
+            storage.get("temperature"),
+            to_float(profile.get("iuPerMg")),
         )
         if not any(v is not None for v in fields):
             return
@@ -1529,19 +1924,26 @@ class Build:
                 "typical_vial_mg, reconstitution_solvent, storage_temperature, "
                 "storage_light_sensitive, reconstituted_stability_days, iu_per_mg) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, src, profile.get("sequence"), profile.get("suppliedForm"),
-                 to_float(profile.get("typicalVialMg")), profile.get("reconstitutionSolvent"),
-                 storage.get("temperature"),
-                 1 if storage.get("lightSensitive") else 0,
-                 to_float(storage.get("reconstitutedStabilityDays")),
-                 to_float(profile.get("iuPerMg"))),
+                (
+                    sid,
+                    src,
+                    profile.get("sequence"),
+                    profile.get("suppliedForm"),
+                    to_float(profile.get("typicalVialMg")),
+                    profile.get("reconstitutionSolvent"),
+                    storage.get("temperature"),
+                    1 if storage.get("lightSensitive") else 0,
+                    to_float(storage.get("reconstitutedStabilityDays")),
+                    to_float(profile.get("iuPerMg")),
+                ),
             )
             self.stats["peptide_profiles"] = self.stats.get("peptide_profiles", 0) + 1
         except sqlite3.IntegrityError:
             pass
 
-    def add_protocol_dosing(self, sid: int, source_slug: str, route: str, unit: str,
-                            protocol: dict) -> None:
+    def add_protocol_dosing(
+        self, sid: int, source_slug: str, route: str, unit: str, protocol: dict
+    ) -> None:
         """Insert a clinical-protocol dosing row (peptides/Rx). Requires a
         frequency — that's the minimum that makes a schedule meaningful. An
         optional `source` ref on the protocol is recorded as its citation."""
@@ -1559,10 +1961,19 @@ class Build:
                 "INSERT INTO protocol_dosing(substance_id, route, source_id, unit, low_amount, "
                 "high_amount, frequency, titration_json, course_duration, notes, citation_id) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (sid, route, src, unit or None, to_float(protocol.get("lowAmount")),
-                 to_float(protocol.get("highAmount")), freq, titration_json,
-                 protocol.get("courseDuration"), protocol.get("notes"),
-                 self.cite(protocol.get("source"))),
+                (
+                    sid,
+                    route,
+                    src,
+                    unit or None,
+                    to_float(protocol.get("lowAmount")),
+                    to_float(protocol.get("highAmount")),
+                    freq,
+                    titration_json,
+                    protocol.get("courseDuration"),
+                    protocol.get("notes"),
+                    self.cite(protocol.get("source")),
+                ),
             )
             self.stats["protocol_dosing"] = self.stats.get("protocol_dosing", 0) + 1
         except sqlite3.IntegrityError:
@@ -1583,8 +1994,9 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_duration_profile(self, sid: int, source_slug: str, route: str,
-                             profile: dict, citation: str | None = None) -> None:
+    def add_duration_profile(
+        self, sid: int, source_slug: str, route: str, profile: dict, citation: str | None = None
+    ) -> None:
         route = normalise_route(route)
         if not route or not profile:
             return
@@ -1606,7 +2018,9 @@ class Build:
             except sqlite3.IntegrityError:
                 pass
 
-    def add_half_life(self, sid: int, source_slug: str, minutes: float, citation: str | None = None) -> None:
+    def add_half_life(
+        self, sid: int, source_slug: str, minutes: float, citation: str | None = None
+    ) -> None:
         if minutes is None:
             return
         src = self.source_ids[source_slug]
@@ -1619,8 +2033,14 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_mechanism_summary(self, sid: int, source_slug: str, summary: str,
-                              description: str | None = None, citation: str | None = None) -> None:
+    def add_mechanism_summary(
+        self,
+        sid: int,
+        source_slug: str,
+        summary: str,
+        description: str | None = None,
+        citation: str | None = None,
+    ) -> None:
         if not summary:
             return
         src = self.source_ids[source_slug]
@@ -1647,7 +2067,9 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_contraindication(self, sid: int, source_slug: str, text: str, *, boxed: bool = False) -> None:
+    def add_contraindication(
+        self, sid: int, source_slug: str, text: str, *, boxed: bool = False
+    ) -> None:
         text = (text or "").strip()
         if not text:
             return
@@ -1661,8 +2083,15 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
-    def add_diazepam_equivalent(self, sid: int, source_slug: str, *, dose_mg: float | None,
-                                equivalent_diazepam_mg: float | None, display_text: str | None) -> None:
+    def add_diazepam_equivalent(
+        self,
+        sid: int,
+        source_slug: str,
+        *,
+        dose_mg: float | None,
+        equivalent_diazepam_mg: float | None,
+        display_text: str | None,
+    ) -> None:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
@@ -1683,7 +2112,9 @@ class Build:
         )
         self.stats["effects"] += 1
 
-    def add_subjective_effect(self, sid: int, source_slug: str, name: str, description: str | None = None) -> None:
+    def add_subjective_effect(
+        self, sid: int, source_slug: str, name: str, description: str | None = None
+    ) -> None:
         if not name:
             return
         src = self.source_ids[source_slug]
@@ -1700,10 +2131,14 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO tolerance(substance_id, source_id, half_life_days, full_reset_days, build_rate, notes) VALUES (?, ?, ?, ?, ?, ?)",
-                (sid, src, to_float(t.get("halfLife") or t.get("half_life_days")),
-                 to_float(t.get("fullResetDays") or t.get("full_reset_days")),
-                 t.get("buildRate") or t.get("build_rate"),
-                 t.get("notes")),
+                (
+                    sid,
+                    src,
+                    to_float(t.get("halfLife") or t.get("half_life_days")),
+                    to_float(t.get("fullResetDays") or t.get("full_reset_days")),
+                    t.get("buildRate") or t.get("build_rate"),
+                    t.get("notes"),
+                ),
             )
             self.stats["tolerance"] += 1
         except sqlite3.IntegrityError:
@@ -1718,16 +2153,28 @@ class Build:
         ki_ci = b.get("ki_ci_nm") or [None, None]
         self.cur.execute(
             "INSERT INTO bindings(substance_id, target, action, ki_nm, ki_ci_lower_nm, ki_ci_upper_nm, kd_nm, ec50_nm, ic50_nm, emax_pct, intrinsic_activity_pct, reference_agonist, species, tissue_or_cell, radioligand, assay_notes, source_id, citation_id, is_review, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, b.get("target"), b.get("action") or "modulator",
-             to_float(b.get("ki_nm")), to_float(ki_ci[0]) if isinstance(ki_ci, list) and len(ki_ci) > 0 else None,
-             to_float(ki_ci[1]) if isinstance(ki_ci, list) and len(ki_ci) > 1 else None,
-             to_float(b.get("kd_nm")), to_float(b.get("ec50_nm")), to_float(b.get("ic50_nm")),
-             to_float(b.get("emax_pct")), to_float(b.get("intrinsic_activity_pct")),
-             b.get("reference_agonist"), b.get("species"), b.get("tissue_or_cell"),
-             b.get("radioligand_or_probe") or b.get("radioligand"),
-             b.get("assay_buffer_notes") or b.get("assay_notes"),
-             src, self.cite(b.get("reference")), 1 if b.get("is_review") else 0,
-             b.get("notes")),
+            (
+                sid,
+                b.get("target"),
+                b.get("action") or "modulator",
+                to_float(b.get("ki_nm")),
+                to_float(ki_ci[0]) if isinstance(ki_ci, list) and len(ki_ci) > 0 else None,
+                to_float(ki_ci[1]) if isinstance(ki_ci, list) and len(ki_ci) > 1 else None,
+                to_float(b.get("kd_nm")),
+                to_float(b.get("ec50_nm")),
+                to_float(b.get("ic50_nm")),
+                to_float(b.get("emax_pct")),
+                to_float(b.get("intrinsic_activity_pct")),
+                b.get("reference_agonist"),
+                b.get("species"),
+                b.get("tissue_or_cell"),
+                b.get("radioligand_or_probe") or b.get("radioligand"),
+                b.get("assay_buffer_notes") or b.get("assay_notes"),
+                src,
+                self.cite(b.get("reference")),
+                1 if b.get("is_review") else 0,
+                b.get("notes"),
+            ),
         )
         self.stats["bindings"] += 1
 
@@ -1737,10 +2184,20 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO functional_assays(substance_id, target, readout, ec50_nm, ic50_nm, emax_pct, reference_agonist, species, cell_system, source_id, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, f.get("target"), f.get("readout") or "unspecified",
-             to_float(f.get("ec50_nm")), to_float(f.get("ic50_nm")), to_float(f.get("emax_pct")),
-             f.get("reference_agonist"), f.get("species"), f.get("cell_system"),
-             src, self.cite(f.get("reference")), f.get("notes")),
+            (
+                sid,
+                f.get("target"),
+                f.get("readout") or "unspecified",
+                to_float(f.get("ec50_nm")),
+                to_float(f.get("ic50_nm")),
+                to_float(f.get("emax_pct")),
+                f.get("reference_agonist"),
+                f.get("species"),
+                f.get("cell_system"),
+                src,
+                self.cite(f.get("reference")),
+                f.get("notes"),
+            ),
         )
         self.stats["functional_assays"] += 1
 
@@ -1753,9 +2210,16 @@ class Build:
             pathways = ",".join(pathways)
         self.cur.execute(
             "INSERT INTO biased_agonism(substance_id, target, pathways_compared, bias_factor_log, bias_reference_compound, interpretation, source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, b.get("target"), pathways, to_float(b.get("bias_factor_log")),
-             b.get("bias_reference_compound"), b.get("interpretation"),
-             src, self.cite(b.get("reference"))),
+            (
+                sid,
+                b.get("target"),
+                pathways,
+                to_float(b.get("bias_factor_log")),
+                b.get("bias_reference_compound"),
+                b.get("interpretation"),
+                src,
+                self.cite(b.get("reference")),
+            ),
         )
         self.stats["biased_agonism"] += 1
 
@@ -1765,8 +2229,14 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO receptor_oligomers(substance_id, complex_description, evidence_type, functional_consequence, source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?)",
-            (sid, o.get("complex"), o.get("evidence"), o.get("functional_consequence"),
-             src, self.cite(o.get("reference"))),
+            (
+                sid,
+                o.get("complex"),
+                o.get("evidence"),
+                o.get("functional_consequence"),
+                src,
+                self.cite(o.get("reference")),
+            ),
         )
         self.stats["receptor_oligomers"] += 1
 
@@ -1789,8 +2259,7 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO neuroimaging(substance_id, modality, finding, source_id, citation_id) VALUES (?, ?, ?, ?, ?)",
-            (sid, n.get("modality"), n.get("finding") or "",
-             src, self.cite(n.get("reference"))),
+            (sid, n.get("modality"), n.get("finding") or "", src, self.cite(n.get("reference"))),
         )
         self.stats["neuroimaging"] += 1
 
@@ -1803,14 +2272,24 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO pk_routes(substance_id, route, source_id, bioavailability_pct, cmax_ng_per_ml, tmax_min, auc_0_inf_ng_h_per_ml, half_life_min, vd_l_per_kg, clearance_ml_per_min_per_kg, protein_binding_pct, dose_in_study_mg, subject_n, demographics, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, route, src,
-             to_float(r.get("bioavailability_pct")), to_float(r.get("cmax_ng_per_ml")),
-             to_float(r.get("tmax_min")), to_float(r.get("auc_0_inf_ng_h_per_ml")),
-             to_float(r.get("half_life_min")), to_float(r.get("vd_l_per_kg")),
-             to_float(r.get("clearance_ml_per_min_per_kg")), to_float(r.get("protein_binding_pct")),
-             to_float(r.get("dose_in_study_mg")), to_int(r.get("subject_n")),
-             r.get("subject_demographics") or r.get("demographics"),
-             self.cite(r.get("reference")), r.get("notes")),
+            (
+                sid,
+                route,
+                src,
+                to_float(r.get("bioavailability_pct")),
+                to_float(r.get("cmax_ng_per_ml")),
+                to_float(r.get("tmax_min")),
+                to_float(r.get("auc_0_inf_ng_h_per_ml")),
+                to_float(r.get("half_life_min")),
+                to_float(r.get("vd_l_per_kg")),
+                to_float(r.get("clearance_ml_per_min_per_kg")),
+                to_float(r.get("protein_binding_pct")),
+                to_float(r.get("dose_in_study_mg")),
+                to_int(r.get("subject_n")),
+                r.get("subject_demographics") or r.get("demographics"),
+                self.cite(r.get("reference")),
+                r.get("notes"),
+            ),
         )
         self.stats["pk_routes"] += 1
 
@@ -1820,9 +2299,15 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO concentration_effects(substance_id, source_id, effect, concentration_unit, threshold, peak_effect, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (sid, src, c.get("effect"), c.get("concentration_unit") or "ng/mL",
-             to_float(c.get("threshold")), to_float(c.get("peak_effect")),
-             self.cite(c.get("reference"))),
+            (
+                sid,
+                src,
+                c.get("effect"),
+                c.get("concentration_unit") or "ng/mL",
+                to_float(c.get("threshold")),
+                to_float(c.get("peak_effect")),
+                self.cite(c.get("reference")),
+            ),
         )
         self.stats["concentration_effects"] += 1
 
@@ -1832,12 +2317,19 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO metabolism(substance_id, source_id, enzyme, fraction_of_clearance_pct, metabolite_name, metabolite_active, metabolite_potency_vs_parent_pct, citation_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (sid, src, m.get("enzyme"),
-             to_float(m.get("fraction_of_clearance_pct")),
-             m.get("metabolite_name"),
-             1 if m.get("metabolite_active") else (0 if m.get("metabolite_active") is False else None),
-             to_float(m.get("metabolite_potency_vs_parent_pct")),
-             self.cite(m.get("reference")), m.get("notes")),
+            (
+                sid,
+                src,
+                m.get("enzyme"),
+                to_float(m.get("fraction_of_clearance_pct")),
+                m.get("metabolite_name"),
+                1
+                if m.get("metabolite_active")
+                else (0 if m.get("metabolite_active") is False else None),
+                to_float(m.get("metabolite_potency_vs_parent_pct")),
+                self.cite(m.get("reference")),
+                m.get("notes"),
+            ),
         )
         self.stats["metabolism"] += 1
 
@@ -1847,12 +2339,21 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO drug_interactions_pk(substance_id, with_substance, mechanism, ki_um, clinical_effect, source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (sid, d.get("with"), d.get("mechanism"), to_float(d.get("ki_um")),
-             d.get("clinical_effect"), src, self.cite(d.get("reference"))),
+            (
+                sid,
+                d.get("with"),
+                d.get("mechanism"),
+                to_float(d.get("ki_um")),
+                d.get("clinical_effect"),
+                src,
+                self.cite(d.get("reference")),
+            ),
         )
         self.stats["drug_interactions_pk"] += 1
 
-    def add_pgx(self, sid: int, source_slug: str, gene: str, phenotype: str, citation: str | None = None) -> None:
+    def add_pgx(
+        self, sid: int, source_slug: str, gene: str, phenotype: str, citation: str | None = None
+    ) -> None:
         if not gene or not phenotype:
             return
         src = self.source_ids[source_slug]
@@ -1868,9 +2369,15 @@ class Build:
         src = self.source_ids[source_slug]
         self.cur.execute(
             "INSERT INTO off_targets(substance_id, target, ki_or_ic50_nm, concern_level, clinical_consequence, source_id, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (sid, o.get("target"), to_float(o.get("ki_or_ic50_nm")),
-             o.get("concern_level"), o.get("clinical_consequence"),
-             src, self.cite(o.get("reference"))),
+            (
+                sid,
+                o.get("target"),
+                to_float(o.get("ki_or_ic50_nm")),
+                o.get("concern_level"),
+                o.get("clinical_consequence"),
+                src,
+                self.cite(o.get("reference")),
+            ),
         )
         self.stats["off_targets"] += 1
 
@@ -1885,15 +2392,24 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO class_contexts(slug, display_name, shared_mechanism, shared_pk, shared_safety, sar_summary, source_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (slug, name, ctx.get("shared_mechanism"), ctx.get("shared_pk_summary") or ctx.get("shared_pk"),
-                 ctx.get("shared_safety"), ctx.get("sar_summary"), src),
+                (
+                    slug,
+                    name,
+                    ctx.get("shared_mechanism"),
+                    ctx.get("shared_pk_summary") or ctx.get("shared_pk"),
+                    ctx.get("shared_safety"),
+                    ctx.get("sar_summary"),
+                    src,
+                ),
             )
             cid = self.cur.lastrowid
         except sqlite3.IntegrityError:
-            row = self.cur.execute("SELECT id FROM class_contexts WHERE slug = ?", (slug,)).fetchone()
+            row = self.cur.execute(
+                "SELECT id FROM class_contexts WHERE slug = ?", (slug,)
+            ).fetchone()
             cid = row[0] if row else None
         if cid:
-            for ref in (ctx.get("key_references") or []):
+            for ref in ctx.get("key_references") or []:
                 citation_id = self.cite(ref)
                 if citation_id:
                     try:
@@ -1917,10 +2433,15 @@ class Build:
 
     # ---- file ingesters ----
 
-    def _ingest_substance_record(self, s: dict, slug: str, *,
-                                  inchikey: str | None = None,
-                                  pubchem_cid: int | None = None,
-                                  cas: str | None = None) -> int | None:
+    def _ingest_substance_record(
+        self,
+        s: dict,
+        slug: str,
+        *,
+        inchikey: str | None = None,
+        pubchem_cid: int | None = None,
+        cas: str | None = None,
+    ) -> int | None:
         """Insert all facts from one BundledSubstance dict, attributing every
         row to the given source slug. Shared body for the merged-JSON and
         sourced-JSON ingesters.
@@ -1950,42 +2471,60 @@ class Build:
         # Curated presentation/sort overrides (also valid on override-only files).
         if slug == "piru-curated":
             if s.get("displayName"):
-                self.cur.execute("UPDATE substances SET display_name = ? WHERE id = ?",
-                                 (s["displayName"], sid))
+                self.cur.execute(
+                    "UPDATE substances SET display_name = ? WHERE id = ?", (s["displayName"], sid)
+                )
             if s.get("popularity") is not None:
-                self.cur.execute("UPDATE substances SET popularity = ? WHERE id = ?",
-                                 (to_float(s["popularity"]), sid))
+                self.cur.execute(
+                    "UPDATE substances SET popularity = ? WHERE id = ?",
+                    (to_float(s["popularity"]), sid),
+                )
         if s.get("category"):
             self.add_category(sid, slug, s["category"])
-        for tag in (s.get("tags") or []):
+        for tag in s.get("tags") or []:
             self.add_tag(sid, slug, tag)
-        for r in (s.get("routes") or []):
+        for r in s.get("routes") or []:
             if not isinstance(r, dict):
                 continue
             doses = r.get("doses") or {}
             route_ref = r.get("source")  # optional per-route citation (dose + duration)
-            self.add_dose(sid, slug, r.get("route", ""), r.get("unit", "mg"),
-                          threshold=doses.get("threshold"),
-                          light=doses.get("light"),
-                          common=doses.get("common"),
-                          strong=doses.get("strong"),
-                          heavy=doses.get("heavy"),
-                          notes=r.get("notes"),
-                          citation=route_ref)
+            self.add_dose(
+                sid,
+                slug,
+                r.get("route", ""),
+                r.get("unit", "mg"),
+                threshold=doses.get("threshold"),
+                light=doses.get("light"),
+                common=doses.get("common"),
+                strong=doses.get("strong"),
+                heavy=doses.get("heavy"),
+                notes=r.get("notes"),
+                citation=route_ref,
+            )
             if r.get("duration"):
-                self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"], citation=route_ref)
+                self.add_duration_profile(
+                    sid, slug, r.get("route", ""), r["duration"], citation=route_ref
+                )
             if r.get("protocolDosing"):
-                self.add_protocol_dosing(sid, slug, r.get("route", ""), r.get("unit", "mg"), r["protocolDosing"])
+                self.add_protocol_dosing(
+                    sid, slug, r.get("route", ""), r.get("unit", "mg"), r["protocolDosing"]
+                )
         if s.get("peptideProfile"):
             self.add_peptide_profile(sid, slug, s["peptideProfile"])
         if s.get("halfLifeMinutes") is not None:
-            self.add_half_life(sid, slug, float(s["halfLifeMinutes"]), citation=s.get("halfLifeSource"))
+            self.add_half_life(
+                sid, slug, float(s["halfLifeMinutes"]), citation=s.get("halfLifeSource")
+            )
         if s.get("mechanismOfAction"):
             moa = s["mechanismOfAction"]
-            self.add_mechanism_summary(sid, slug, moa.get("summary") or moa.get("description") or "",
-                                       description=moa.get("description"),
-                                       citation=(moa.get("references") or [None])[0])
-            for b in (moa.get("bindings") or []):
+            self.add_mechanism_summary(
+                sid,
+                slug,
+                moa.get("summary") or moa.get("description") or "",
+                description=moa.get("description"),
+                citation=(moa.get("references") or [None])[0],
+            )
+            for b in moa.get("bindings") or []:
                 if not isinstance(b, dict):
                     continue
                 # Pass the binding through intact so a per-binding `reference`
@@ -1998,9 +2537,9 @@ class Build:
         for ref in refs:
             if isinstance(ref, str) and ref.strip():
                 self.add_substance_citation(sid, ref.strip())
-        for e in (s.get("effects") or []):
+        for e in s.get("effects") or []:
             self.add_effect(sid, slug, e)
-        for se in (s.get("subjectiveEffects") or []):
+        for se in s.get("subjectiveEffects") or []:
             if isinstance(se, dict):
                 self.add_subjective_effect(sid, slug, se.get("name"), se.get("description"))
             elif isinstance(se, str):
@@ -2029,11 +2568,14 @@ class Build:
                 print(f"  WARNING: curated file {fp.name} failed to load: {exc}", file=sys.stderr)
                 continue
             if not isinstance(entry, dict) or not entry.get("name"):
-                print(f"  WARNING: curated file {fp.name} is not a substance object", file=sys.stderr)
+                print(
+                    f"  WARNING: curated file {fp.name} is not a substance object", file=sys.stderr
+                )
                 continue
             names.append(normalise(entry["name"]))
             self._ingest_substance_record(
-                entry, "piru-curated",
+                entry,
+                "piru-curated",
                 inchikey=entry.get("inchikey"),
                 pubchem_cid=to_int(entry.get("pubchemCID")),
                 cas=entry.get("cas"),
@@ -2081,7 +2623,10 @@ class Build:
 
         records = sorted(
             data,
-            key=lambda r: (r.get("provenance", ""), (r.get("substance") or {}).get("name", "").lower()),
+            key=lambda r: (
+                r.get("provenance", ""),
+                (r.get("substance") or {}).get("name", "").lower(),
+            ),
         )
         for rec in records:
             substance = rec.get("substance")
@@ -2099,7 +2644,8 @@ class Build:
             if slug not in self.source_ids:
                 slug = "piru-curated"
             self._ingest_substance_record(
-                substance, slug,
+                substance,
+                slug,
                 inchikey=rec.get("inchiKey"),
                 pubchem_cid=to_int(rec.get("pubchemCID")),
                 cas=rec.get("cas"),
@@ -2127,7 +2673,10 @@ class Build:
         coverage compared to the pre-merge runtime-fetch era.
         """
         if not path.exists():
-            print(f"  (no psychonautwiki snapshot at {path}; run fetch-psychonautwiki.py)", file=sys.stderr)
+            print(
+                f"  (no psychonautwiki snapshot at {path}; run fetch-psychonautwiki.py)",
+                file=sys.stderr,
+            )
             return
         data = json.loads(path.read_text())
         if not isinstance(data, list):
@@ -2170,12 +2719,19 @@ class Build:
                 common = self._parse_dc_range(dr.get("common"), row_unit)
                 strong = self._parse_dc_range(dr.get("strong"), row_unit)
                 heavy = self._parse_dc_scalar(dr.get("heavy"), row_unit)
-                self.add_dose(sid, slug, r.get("route", ""), row_unit,
-                              threshold=threshold,
-                              light=light, common=common, strong=strong,
-                              heavy=heavy,
-                              notes=r.get("notes"))
-            for dc in (s.get("duration_curves") or []):
+                self.add_dose(
+                    sid,
+                    slug,
+                    r.get("route", ""),
+                    row_unit,
+                    threshold=threshold,
+                    light=light,
+                    common=common,
+                    strong=strong,
+                    heavy=heavy,
+                    notes=r.get("notes"),
+                )
+            for dc in s.get("duration_curves") or []:
                 curve = dc.get("duration_curve")
                 if not isinstance(curve, dict):
                     continue
@@ -2244,7 +2800,7 @@ class Build:
                     }
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
-            for se in (s.get("subjective_effects") or []):
+            for se in s.get("subjective_effects") or []:
                 if isinstance(se, str):
                     self.add_subjective_effect(sid, slug, se)
 
@@ -2270,8 +2826,14 @@ class Build:
 
     # Unit-to-mg conversion factors. Anything not here keeps its row unit.
     _DC_UNIT_FACTORS = {
-        "g": 1000.0, "mg": 1.0, "µg": 0.001, "ug": 0.001,
-        "mcg": 0.001, "ng": 1e-6, "ml": 1.0, "l": 1000.0,
+        "g": 1000.0,
+        "mg": 1.0,
+        "µg": 0.001,
+        "ug": 0.001,
+        "mcg": 0.001,
+        "ng": 1e-6,
+        "ml": 1.0,
+        "l": 1000.0,
     }
 
     # Inline unit between a number and a range dash ("5 mg - 15 mg").
@@ -2368,30 +2930,86 @@ class Build:
             # primary class is gabapentinoid (α2δ ligand). Without this
             # ordering they regress out of GABAergic into Anticonvulsant.
             ({"gabapentinoid", "alpha2-delta-ligand", "GABAergic"}, "GABAergic"),
-            ({"anticonvulsant", "antiepileptic", "mood-stabilizer", "mood-stabiliser"}, "Anticonvulsant"),
+            (
+                {"anticonvulsant", "antiepileptic", "mood-stabilizer", "mood-stabiliser"},
+                "Anticonvulsant",
+            ),
             ({"antipsychotic", "atypical-antipsychotic", "typical-antipsychotic"}, "Antipsychotic"),
-            ({"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "NDRI", "SARI", "NaSSA"}, "Antidepressant"),
+            (
+                {"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "NDRI", "SARI", "NaSSA"},
+                "Antidepressant",
+            ),
             ({"antihistamine", "H1-antagonist", "H2-antagonist", "deliriant"}, "Antihistamine"),
-            ({"cannabinoid", "phytocannabinoid", "synthetic-cannabinoid", "semi-synthetic-cannabinoid", "CB1-agonist", "CB1-partial-agonist"}, "Cannabinoid"),
-            ({"opioid", "mu-opioid-agonist", "designer-opioid", "nitazene", "fentanyl-class-potency"}, "Opioid"),
+            (
+                {
+                    "cannabinoid",
+                    "phytocannabinoid",
+                    "synthetic-cannabinoid",
+                    "semi-synthetic-cannabinoid",
+                    "CB1-agonist",
+                    "CB1-partial-agonist",
+                },
+                "Cannabinoid",
+            ),
+            (
+                {
+                    "opioid",
+                    "mu-opioid-agonist",
+                    "designer-opioid",
+                    "nitazene",
+                    "fentanyl-class-potency",
+                },
+                "Opioid",
+            ),
             ({"dissociative", "NMDA-antagonist"}, "Dissociative"),
             ({"benzodiazepine"}, "Benzodiazepine"),
             ({"eugeroic", "wakefulness-promoting"}, "Eugeroic"),
             ({"AMPAkine", "ampakine", "AMPA-PAM"}, "AMPAkine"),
             ({"nootropic", "racetam", "nootropic-peptide"}, "Nootropic"),
-            ({"beta-blocker", "antihypertensive", "alpha2-agonist", "alpha1-blocker", "calcium-channel-blocker"}, "Cardiovascular"),
-            ({"supplement", "vitamin", "mineral", "adaptogen", "amino-acid", "herbal"}, "Supplement"),
+            (
+                {
+                    "beta-blocker",
+                    "antihypertensive",
+                    "alpha2-agonist",
+                    "alpha1-blocker",
+                    "calcium-channel-blocker",
+                },
+                "Cardiovascular",
+            ),
+            (
+                {"supplement", "vitamin", "mineral", "adaptogen", "amino-acid", "herbal"},
+                "Supplement",
+            ),
             ({"antiemetic"}, "Gastrointestinal"),
             ({"stimulant", "psychostimulant", "amphetamine", "cathinone-derivative"}, "Stimulant"),
             # Both `5HT2A-agonist` and `5-HT2A-agonist` (with hyphen) appear
             # depending on source — accept both. `tryptamine-not-phenethylamine`
             # is the peer-review-primary tag for classical tryptamine psychedelics.
-            ({"psychedelic", "5HT2A-agonist", "5-HT2A-agonist",
-              "phenethylamine-psychedelic", "tryptamine-not-phenethylamine",
-              "psilocybe-mushroom", "DMT-containing",
-              "PIHKAL", "TIHKAL"}, "Psychedelic"),
+            (
+                {
+                    "psychedelic",
+                    "5HT2A-agonist",
+                    "5-HT2A-agonist",
+                    "phenethylamine-psychedelic",
+                    "tryptamine-not-phenethylamine",
+                    "psilocybe-mushroom",
+                    "DMT-containing",
+                    "PIHKAL",
+                    "TIHKAL",
+                },
+                "Psychedelic",
+            ),
             ({"empathogen", "entactogen"}, "Empathogen"),
-            ({"muscle-relaxant", "Z-drug", "orexin-antagonist", "sedative-hypnotic", "barbiturate"}, "Depressant"),
+            (
+                {
+                    "muscle-relaxant",
+                    "Z-drug",
+                    "orexin-antagonist",
+                    "sedative-hypnotic",
+                    "barbiturate",
+                },
+                "Depressant",
+            ),
         ]
 
         # Substances whose effective resolved category is "Other" or absent.
@@ -2473,14 +3091,15 @@ class Build:
             if not name:
                 continue
             reg = self._parse_regulatory(rec.get("x_regulatory_status"))
-            sid = self.upsert_substance(name, aliases=rec.get("aliases") or [],
-                                        regulatory_status=reg, source_slug=slug)
+            sid = self.upsert_substance(
+                name, aliases=rec.get("aliases") or [], regulatory_status=reg, source_slug=slug
+            )
             if sid is None:
                 continue
             cat = rec.get("category")
             if cat and cat != "Other":
                 self.add_category(sid, slug, cat)
-            for t in (rec.get("tags") or []):
+            for t in rec.get("tags") or []:
                 self.add_tag(sid, slug, t)
             moa = rec.get("mechanismOfAction") or {}
             if moa.get("summary"):
@@ -2517,8 +3136,9 @@ class Build:
             if self._MEDTAP_JUNK_RE.search(name):
                 continue
             reg = self._parse_regulatory(rec.get("x_regulatory_status"))
-            sid = self.upsert_substance(name, aliases=rec.get("aliases") or [],
-                                        regulatory_status=reg, source_slug=slug)
+            sid = self.upsert_substance(
+                name, aliases=rec.get("aliases") or [], regulatory_status=reg, source_slug=slug
+            )
             if sid is None:
                 continue
             moa = rec.get("mechanismOfAction") or {}
@@ -2559,9 +3179,13 @@ class Build:
             if m:
                 dose_mg = float(m.group(1))
                 equiv_mg = float(m.group(2))
-            self.add_diazepam_equivalent(sid, slug, dose_mg=dose_mg,
-                                         equivalent_diazepam_mg=equiv_mg,
-                                         display_text=prose.strip())
+            self.add_diazepam_equivalent(
+                sid,
+                slug,
+                dose_mg=dose_mg,
+                equivalent_diazepam_mg=equiv_mg,
+                display_text=prose.strip(),
+            )
 
     def ingest_nps(self, path: Path) -> None:
         """IDENTIFIER-ONLY backfill. Matches nps records to EXISTING Piru
@@ -2586,9 +3210,15 @@ class Build:
                 "UPDATE substances SET inchikey = COALESCE(inchikey, ?), cas = COALESCE(cas, ?), "
                 "smiles = COALESCE(smiles, ?), iupac_name = COALESCE(iupac_name, ?), "
                 "formula = COALESCE(formula, ?), molecular_weight = COALESCE(molecular_weight, ?) WHERE id = ?",
-                (rec.get("x_inchikey") or None, rec.get("x_cas") or None,
-                 rec.get("x_smiles") or None, rec.get("x_iupac") or None,
-                 rec.get("x_chemical_formula") or None, to_float(rec.get("x_mw")), sid),
+                (
+                    rec.get("x_inchikey") or None,
+                    rec.get("x_cas") or None,
+                    rec.get("x_smiles") or None,
+                    rec.get("x_iupac") or None,
+                    rec.get("x_chemical_formula") or None,
+                    to_float(rec.get("x_mw")),
+                    sid,
+                ),
             )
             matched += 1
         self.stats["nps_identifier_matches"] = matched
@@ -2613,12 +3243,15 @@ class Build:
         Runs after all ingest + promote_via_tags, before classify_compounds.
         """
         cur = self.cur
-        canon_norm = {norm: sid for sid, norm in cur.execute("SELECT id, normalized_name FROM substances")}
+        canon_norm = {
+            norm: sid for sid, norm in cur.execute("SELECT id, normalized_name FROM substances")
+        }
         alias_owners: dict[str, set[int]] = defaultdict(set)
         for sid, anorm in cur.execute("SELECT substance_id, alias_normalized FROM aliases"):
             alias_owners[anorm].add(sid)
 
         parent: dict[int, int] = {}
+
         def find(x: int) -> int:
             parent.setdefault(x, x)
             root = x
@@ -2627,6 +3260,7 @@ class Build:
             while parent[x] != root:
                 parent[x], x = root, parent[x]
             return root
+
         def union(a: int, b: int) -> None:
             ra, rb = find(a), find(b)
             if ra != rb:
@@ -2637,7 +3271,7 @@ class Build:
         # it's ambiguous slang (e.g. "speed"), not a dup link — skip it so it
         # can't fuse distinct compounds into one mega-group.
         for anorm, owners in alias_owners.items():
-            gen = canon_norm.get(anorm)        # substance whose canonical IS this name
+            gen = canon_norm.get(anorm)  # substance whose canonical IS this name
             if gen is None:
                 continue
             others = owners - {gen}
@@ -2659,12 +3293,23 @@ class Build:
         # identifiers, and any extra dose rows resolve by source priority later.
         def total_richness(sid: int) -> int:
             n = 0
-            for t in ("dose_ranges", "durations", "bindings", "effects",
-                      "subjective_effects", "mechanisms_summary", "metabolism", "pk_routes", "indications"):
-                n += cur.execute(f"SELECT COUNT(*) FROM {t} WHERE substance_id=?", (sid,)).fetchone()[0]
+            for t in (
+                "dose_ranges",
+                "durations",
+                "bindings",
+                "effects",
+                "subjective_effects",
+                "mechanisms_summary",
+                "metabolism",
+                "pk_routes",
+                "indications",
+            ):
+                n += cur.execute(
+                    f"SELECT COUNT(*) FROM {t} WHERE substance_id=?", (sid,)
+                ).fetchone()[0]
             return n
 
-        inchikey = {sid: ik for sid, ik in cur.execute("SELECT id, inchikey FROM substances")}
+        inchikey = dict(cur.execute("SELECT id, inchikey FROM substances"))
 
         # Stereoisomers (dexmethylphenidate≠methylphenidate, escitalopram≠
         # citalopram, armodafinil≠modafinil, dextroamphetamine≠amphetamine) are
@@ -2676,7 +3321,7 @@ class Build:
             sa, sb = strip_stereo(na), strip_stereo(nb)
             return na != nb and sa == sb and bool(sa)
 
-        def mergeable(w: int, l: int) -> bool:
+        def mergeable(w: int, o: int) -> bool:
             # SAFE BY DEFAULT: merge only with POSITIVE proof of same molecule —
             # an identical InChIKey connectivity block (first 14 chars: same
             # skeleton, salt/abbreviation-independent) AND not a stereoisomer
@@ -2685,14 +3330,17 @@ class Build:
             # cross-list each other as aliases (loratadine↔fexofenadine), and a
             # wrong merge is worse than a leftover duplicate. Known brands that
             # lack an InChIKey are handled explicitly in _NAME_REMAP instead.
-            if stereoisomer_pair(names[w], names[l]):
+            if stereoisomer_pair(names[w], names[o]):
                 return False
-            iw, il = inchikey.get(w), inchikey.get(l)
-            return bool(iw) and bool(il) and iw[:14] == il[:14]
+            iw, io = inchikey.get(w), inchikey.get(o)
+            return bool(iw) and bool(io) and iw[:14] == io[:14]
 
         # Materialise the table list BEFORE issuing PRAGMA on the same cursor
         # (reusing the cursor mid-iteration would truncate the outer query).
-        tnames = [r[0] for r in cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+        tnames = [
+            r[0]
+            for r in cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+        ]
         sub_tables = []
         for tname in tnames:
             if tname == "substances":
@@ -2706,20 +3354,35 @@ class Build:
             # A very large cluster usually means a bad linking alias fused
             # distinct compounds — don't auto-merge it, surface for review.
             if len(members) > 6:
-                names = [cur.execute("SELECT canonical_name FROM substances WHERE id=?", (m,)).fetchone()[0] for m in members]
+                names = [
+                    cur.execute(
+                        "SELECT canonical_name FROM substances WHERE id=?", (m,)
+                    ).fetchone()[0]
+                    for m in members
+                ]
                 review.append("cluster:" + "/".join(names))
                 continue
             ranked = sorted(members, key=lambda s: (total_richness(s), -s), reverse=True)
             winner = ranked[0]
-            names = {m: cur.execute("SELECT canonical_name FROM substances WHERE id=?", (m,)).fetchone()[0] for m in members}
+            names = {
+                m: cur.execute("SELECT canonical_name FROM substances WHERE id=?", (m,)).fetchone()[
+                    0
+                ]
+                for m in members
+            }
             for loser in ranked[1:]:
                 # Merge only with positive structural proof (see mergeable);
                 # everything else is surfaced for review, never auto-merged.
                 if not mergeable(winner, loser):
                     review.append(f"{names[loser]} ~ {names[winner]}")
                     continue
-                lname = cur.execute("SELECT canonical_name FROM substances WHERE id=?", (loser,)).fetchone()
-                laliases = [r[0] for r in cur.execute("SELECT alias FROM aliases WHERE substance_id=?", (loser,))]
+                lname = cur.execute(
+                    "SELECT canonical_name FROM substances WHERE id=?", (loser,)
+                ).fetchone()
+                laliases = [
+                    r[0]
+                    for r in cur.execute("SELECT alias FROM aliases WHERE substance_id=?", (loser,))
+                ]
                 cur.execute("DELETE FROM aliases WHERE substance_id=?", (loser,))
                 cur.execute(
                     "UPDATE substances SET "
@@ -2730,12 +3393,16 @@ class Build:
                     "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
                     "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
                     "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)) "
-                    "WHERE id=:w", {"l": loser, "w": winner},
+                    "WHERE id=:w",
+                    {"l": loser, "w": winner},
                 )
                 for t in sub_tables:
                     if t == "aliases":
                         continue
-                    cur.execute(f"UPDATE OR IGNORE {t} SET substance_id=? WHERE substance_id=?", (winner, loser))
+                    cur.execute(
+                        f"UPDATE OR IGNORE {t} SET substance_id=? WHERE substance_id=?",
+                        (winner, loser),
+                    )
                     cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (loser,))
                 cur.execute("DELETE FROM substances WHERE id=?", (loser,))
                 self.substance_ids.pop(normalise(lname[0]) if lname else "", None)
@@ -2745,7 +3412,10 @@ class Build:
                     self._add_alias(winner, a, None)
                 merged += 1
         if review:
-            print(f"  dedup: {len(review)} non-stub collisions NOT merged (manual review): {review[:15]}", file=sys.stderr)
+            print(
+                f"  dedup: {len(review)} non-stub collisions NOT merged (manual review): {review[:15]}",
+                file=sys.stderr,
+            )
         return {"groups": len(groups), "merged": merged, "needs_review": len(review)}
 
     def classify_compounds(self) -> dict[str, int]:
@@ -2756,24 +3426,39 @@ class Build:
         cur = self.cur
         rec_slugs = tuple(REC_SOURCE_SLUGS)
         placeholders = ",".join("?" * len(rec_slugs))
-        rec_dose = {r[0] for r in cur.execute(f"""
+        rec_dose = {
+            r[0]
+            for r in cur.execute(
+                f"""
             SELECT DISTINCT d.substance_id FROM dose_ranges d
               JOIN sources s ON s.id = d.source_id
              WHERE s.slug IN ({placeholders})
                AND (d.threshold IS NOT NULL OR d.light_lower IS NOT NULL
                     OR d.common_lower IS NOT NULL OR d.strong_lower IS NOT NULL
                     OR d.heavy IS NOT NULL)
-        """, rec_slugs)}
-        rec_dur = {r[0] for r in cur.execute(f"""
+        """,
+                rec_slugs,
+            )
+        }
+        rec_dur = {
+            r[0]
+            for r in cur.execute(
+                f"""
             SELECT DISTINCT du.substance_id FROM durations du
               JOIN sources s ON s.id = du.source_id
              WHERE s.slug IN ({placeholders})
                AND (du.min_minutes IS NOT NULL OR du.max_minutes IS NOT NULL)
-        """, rec_slugs)}
+        """,
+                rec_slugs,
+            )
+        }
         # Weak signal (drug.community) — recreational only for non-medical compounds.
         weak_slugs = tuple(WEAK_REC_SOURCE_SLUGS)
         weak_ph = ",".join("?" * len(weak_slugs))
-        weak_rec = {r[0] for r in cur.execute(f"""
+        weak_rec = {
+            r[0]
+            for r in cur.execute(
+                f"""
             SELECT DISTINCT substance_id FROM (
                 SELECT d.substance_id FROM dose_ranges d JOIN sources s ON s.id = d.source_id
                  WHERE s.slug IN ({weak_ph})
@@ -2784,7 +3469,10 @@ class Build:
                  WHERE s.slug IN ({weak_ph})
                    AND (du.min_minutes IS NOT NULL OR du.max_minutes IS NOT NULL)
             )
-        """, weak_slugs + weak_slugs)}
+        """,
+                weak_slugs + weak_slugs,
+            )
+        }
         cat_by_sid: dict[int, str] = {}
         for r in cur.execute("""
             SELECT substance_id, category FROM (
@@ -2799,23 +3487,27 @@ class Build:
         for r in cur.execute("SELECT substance_id, tag FROM tags"):
             tags_by_sid[r[0]].add(r[1])
         total_by_sid: dict[int, float] = {}
-        for r in cur.execute("SELECT substance_id, MAX(max_minutes) FROM durations WHERE phase='total' GROUP BY substance_id"):
+        for r in cur.execute(
+            "SELECT substance_id, MAX(max_minutes) FROM durations WHERE phase='total' GROUP BY substance_id"
+        ):
             total_by_sid[r[0]] = r[1]
 
         counts: dict[str, int] = defaultdict(int)
-        rows = cur.execute("SELECT id, canonical_name, regulatory_status FROM substances").fetchall()
+        rows = cur.execute(
+            "SELECT id, canonical_name, regulatory_status FROM substances"
+        ).fetchall()
         for sid, canonical, reg_raw in rows:
             cat = cat_by_sid.get(sid)
             tags = tags_by_sid.get(sid, set())
             reg = (reg_raw or "").lower()
             name = (canonical or "").lower()
-            rec_signal = sid in rec_dose or sid in rec_dur   # strong: harm-reduction wikis
-            weak_signal = sid in weak_rec                     # drug.community (non-medical only)
+            rec_signal = sid in rec_dose or sid in rec_dur  # strong: harm-reduction wikis
+            weak_signal = sid in weak_rec  # drug.community (non-medical only)
             is_medical_cat = cat in MEDICAL_CATEGORIES
             is_rec_cat = cat in RECREATIONAL_CATEGORIES
             rec_tag = bool(tags & REC_TAGS)
             is_antibiotic = (cat == "Antimicrobial") or bool(tags & ANTIBIOTIC_TAGS)
-            is_supplement = (cat == "Supplement")
+            is_supplement = cat == "Supplement"
             is_otc = reg in ("otc", "rx_otc_dependent") or name in OTC_ALLOWLIST
 
             if rec_signal:
@@ -2876,44 +3568,53 @@ class Build:
             name = rec.get("name")
             if not name:
                 continue
-            sid = self.upsert_substance(name, aliases=rec.get("aliases_added") or [],
-                                        inchikey=rec.get("inchikey"),
-                                        pubchem_cid=to_int(rec.get("pubchem_cid")),
-                                        cas=rec.get("cas"),
-                                        iupac=rec.get("iupac_name"),
-                                        smiles=rec.get("smiles"),
-                                        source_slug=slug)
+            sid = self.upsert_substance(
+                name,
+                aliases=rec.get("aliases_added") or [],
+                inchikey=rec.get("inchikey"),
+                pubchem_cid=to_int(rec.get("pubchem_cid")),
+                cas=rec.get("cas"),
+                iupac=rec.get("iupac_name"),
+                smiles=rec.get("smiles"),
+                source_slug=slug,
+            )
             if sid is None:
                 continue
-            for tag in (rec.get("tags_to_add") or []):
+            for tag in rec.get("tags_to_add") or []:
                 self.add_tag(sid, slug, tag, confidence=rec.get("confidence"))
             pharm = rec.get("pharmacology") or {}
-            for b in (pharm.get("binding") or []):
+            for b in pharm.get("binding") or []:
                 self.add_binding(sid, slug, b)
-            for f in (pharm.get("functional") or []):
+            for f in pharm.get("functional") or []:
                 self.add_functional(sid, slug, f)
-            for b in (pharm.get("biased_agonism") or []):
+            for b in pharm.get("biased_agonism") or []:
                 self.add_biased(sid, slug, b)
-            for o in (pharm.get("receptor_oligomerisation") or []):
+            for o in pharm.get("receptor_oligomerisation") or []:
                 self.add_oligomer(sid, slug, o)
             if pharm.get("downstream_signalling"):
                 self.add_downstream(sid, slug, pharm["downstream_signalling"])
-            for n in (pharm.get("neuroimaging") or []):
+            for n in pharm.get("neuroimaging") or []:
                 self.add_neuroimaging(sid, slug, n)
             human_pk = rec.get("human_pk") or {}
-            for r in (human_pk.get("routes") or []):
+            for r in human_pk.get("routes") or []:
                 self.add_pk_route(sid, slug, r)
-            for c in (human_pk.get("concentration_effect") or []):
+            for c in human_pk.get("concentration_effect") or []:
                 self.add_conc_effect(sid, slug, c)
-            for m in (rec.get("metabolism") or []):
+            for m in rec.get("metabolism") or []:
                 self.add_metabolism(sid, slug, m)
-            for d in (rec.get("drug_interactions_pk") or []):
+            for d in rec.get("drug_interactions_pk") or []:
                 self.add_ddi(sid, slug, d)
-            for o in (rec.get("off_targets") or []):
+            for o in rec.get("off_targets") or []:
                 self.add_off_target(sid, slug, o)
             pgx = rec.get("pharmacogenetics") or {}
-            for gene in (pgx.get("relevant_genes") or []):
-                self.add_pgx(sid, slug, gene, pgx.get("phenotype_effects") or "", citation=pgx.get("reference"))
+            for gene in pgx.get("relevant_genes") or []:
+                self.add_pgx(
+                    sid,
+                    slug,
+                    gene,
+                    pgx.get("phenotype_effects") or "",
+                    citation=pgx.get("reference"),
+                )
             tol = rec.get("tolerance_and_dependence")
             if isinstance(tol, dict):
                 summary_parts = []
@@ -2926,7 +3627,13 @@ class Build:
                     try:
                         self.cur.execute(
                             "INSERT INTO tolerance(substance_id, source_id, build_rate, notes, citation_id) VALUES (?, ?, ?, ?, ?)",
-                            (sid, src, None, " | ".join(summary_parts), self.cite(tol.get("reference"))),
+                            (
+                                sid,
+                                src,
+                                None,
+                                " | ".join(summary_parts),
+                                self.cite(tol.get("reference")),
+                            ),
                         )
                         self.stats["tolerance"] += 1
                     except sqlite3.IntegrityError:
@@ -2937,21 +3644,31 @@ class Build:
 
     # ---- manifest ----
 
-    def finalise(self, content_version: str, generator_version: str, substance_count: int, sources_summary: dict) -> None:
+    def finalise(
+        self,
+        content_version: str,
+        generator_version: str,
+        substance_count: int,
+        sources_summary: dict,
+    ) -> None:
         for k, v in [
-            ("schema_version",    "2"),
-            ("content_version",   content_version),
-            ("generated_at",      datetime.now(timezone.utc).isoformat()),
+            ("schema_version", "2"),
+            ("content_version", content_version),
+            ("generated_at", datetime.now(UTC).isoformat()),
             ("generator_version", generator_version),
-            ("substance_count",   str(substance_count)),
+            ("substance_count", str(substance_count)),
         ]:
             self.cur.execute("INSERT INTO manifest(key, value) VALUES (?, ?)", (k, v))
-        self.cur.execute("INSERT INTO manifest(key, value) VALUES (?, ?)", ("sources_summary", json.dumps(sources_summary, sort_keys=True)))
+        self.cur.execute(
+            "INSERT INTO manifest(key, value) VALUES (?, ?)",
+            ("sources_summary", json.dumps(sources_summary, sort_keys=True)),
+        )
 
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def main() -> int:
     OUT_SQLITE.parent.mkdir(parents=True, exist_ok=True)
@@ -2966,13 +3683,19 @@ def main() -> int:
     # Curated per-substance files first, so curated chemical identifiers win the
     # COALESCE in upsert_substance and curated names seed the wikidata allowlist.
     curated_names = set(build.ingest_curated_substances(CURATED_DIR))
-    print(f"After curated ({build.stats.get('curated_files', 0)} files): {build.stats}", file=sys.stderr)
+    print(
+        f"After curated ({build.stats.get('curated_files', 0)} files): {build.stats}",
+        file=sys.stderr,
+    )
 
     if SOURCED.exists():
         build.ingest_sourced_substances(SOURCED, known_names=curated_names)
         print(f"After sourced (per-record attribution): {build.stats}", file=sys.stderr)
     else:
-        print(f"WARNING: {SOURCED} not found; falling back to merged JSON with piru-curated attribution.", file=sys.stderr)
+        print(
+            f"WARNING: {SOURCED} not found; falling back to merged JSON with piru-curated attribution.",
+            file=sys.stderr,
+        )
         build.ingest_bundled_substances(BUNDLED)
         print(f"After bundled (fallback): {build.stats}", file=sys.stderr)
 
@@ -2985,7 +3708,11 @@ def main() -> int:
     for f in sorted(ENRICHMENT_DIR.glob("*.json")):
         before = dict(build.stats)
         build.ingest_enrichment(f)
-        delta = {k: build.stats[k] - before.get(k, 0) for k in build.stats if build.stats[k] != before.get(k, 0)}
+        delta = {
+            k: build.stats[k] - before.get(k, 0)
+            for k in build.stats
+            if build.stats[k] != before.get(k, 0)
+        }
         print(f"  + {f.name}: {delta}", file=sys.stderr)
 
     # External datasource ingest (pyrls/medtap = medical catalog + regulatory +
@@ -2998,9 +3725,15 @@ def main() -> int:
     build.ingest_medtap(MEDTAP_EXT)
     print(f"After medtap: {build.stats}", file=sys.stderr)
     build.ingest_benzos_cited(BENZOS_EXT)
-    print(f"After benzos-cited: diazepam_equivalents={build.stats.get('diazepam_equivalents', 0)}", file=sys.stderr)
+    print(
+        f"After benzos-cited: diazepam_equivalents={build.stats.get('diazepam_equivalents', 0)}",
+        file=sys.stderr,
+    )
     build.ingest_nps(NPS_EXT)
-    print(f"After nps (identifier backfill): {build.stats.get('nps_identifier_matches', 0)} matches", file=sys.stderr)
+    print(
+        f"After nps (identifier backfill): {build.stats.get('nps_identifier_matches', 0)} matches",
+        file=sys.stderr,
+    )
 
     # Tag-fallback pass: any substance currently in (or resolving to) "Other"
     # whose tags identify a specific class gets an additional piru-curated
@@ -3042,16 +3775,27 @@ def main() -> int:
     print(f"Display classification: {classified}", file=sys.stderr)
 
     substance_count = db.execute("SELECT COUNT(*) FROM substances").fetchone()[0]
-    content_version = datetime.now(timezone.utc).strftime("%Y-%m-%d.0")
+    content_version = datetime.now(UTC).strftime("%Y-%m-%d.0")
     sources_summary = {
         slug: {
-            "dose_ranges": db.execute("SELECT COUNT(*) FROM dose_ranges WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0],
-            "bindings":    db.execute("SELECT COUNT(*) FROM bindings    WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0],
-            "categories":  db.execute("SELECT COUNT(*) FROM categories  WHERE source_id = (SELECT id FROM sources WHERE slug = ?)", (slug,)).fetchone()[0],
+            "dose_ranges": db.execute(
+                "SELECT COUNT(*) FROM dose_ranges WHERE source_id = (SELECT id FROM sources WHERE slug = ?)",
+                (slug,),
+            ).fetchone()[0],
+            "bindings": db.execute(
+                "SELECT COUNT(*) FROM bindings    WHERE source_id = (SELECT id FROM sources WHERE slug = ?)",
+                (slug,),
+            ).fetchone()[0],
+            "categories": db.execute(
+                "SELECT COUNT(*) FROM categories  WHERE source_id = (SELECT id FROM sources WHERE slug = ?)",
+                (slug,),
+            ).fetchone()[0],
         }
         for slug, *_ in SOURCES
     }
-    build.finalise(content_version, "build-sqlite-database.py 0.1.0", substance_count, sources_summary)
+    build.finalise(
+        content_version, "build-sqlite-database.py 0.1.0", substance_count, sources_summary
+    )
     db.commit()
 
     # Vacuum + analyze for deterministic, optimised output
@@ -3072,7 +3816,7 @@ def main() -> int:
     manifest = {
         "schema_version": 2,
         "content_version": content_version,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
         "substance_count": substance_count,
         "sources": sources_summary,
@@ -3085,25 +3829,46 @@ def main() -> int:
 
     # Build report
     lines = [
-        f"# Piru SQLite build report",
-        f"",
+        "# Piru SQLite build report",
+        "",
         f"Built {content_version} → `{OUT_SQLITE}` ({size:,} bytes, sha256 `{sha}`)",
-        f"",
-        f"## Row counts",
-        f"",
-        f"| Table | Rows |",
-        f"|---|---|",
+        "",
+        "## Row counts",
+        "",
+        "| Table | Rows |",
+        "|---|---|",
     ]
     tables = [
-        "substances", "aliases", "sources", "citations", "categories", "tags",
-        "dose_ranges", "durations", "half_lives", "mechanisms_summary",
-        "effects", "subjective_effects", "tolerance",
-        "indications", "contraindications", "diazepam_equivalents",
-        "bindings", "functional_assays", "biased_agonism", "receptor_oligomers",
-        "downstream_signalling", "neuroimaging",
-        "pk_routes", "concentration_effects", "metabolism", "drug_interactions_pk",
-        "pharmacogenetics", "off_targets",
-        "class_contexts", "substance_classes",
+        "substances",
+        "aliases",
+        "sources",
+        "citations",
+        "categories",
+        "tags",
+        "dose_ranges",
+        "durations",
+        "half_lives",
+        "mechanisms_summary",
+        "effects",
+        "subjective_effects",
+        "tolerance",
+        "indications",
+        "contraindications",
+        "diazepam_equivalents",
+        "bindings",
+        "functional_assays",
+        "biased_agonism",
+        "receptor_oligomers",
+        "downstream_signalling",
+        "neuroimaging",
+        "pk_routes",
+        "concentration_effects",
+        "metabolism",
+        "drug_interactions_pk",
+        "pharmacogenetics",
+        "off_targets",
+        "class_contexts",
+        "substance_classes",
     ]
     db = sqlite3.connect(str(OUT_SQLITE))
     for t in tables:
@@ -3130,7 +3895,7 @@ def main() -> int:
     db.close()
     OUT_REPORT.write_text("\n".join(lines))
 
-    print(f"\nDone:", file=sys.stderr)
+    print("\nDone:", file=sys.stderr)
     print(f"  {OUT_SQLITE}     ({size:,} bytes, sha256 {sha[:16]}...)", file=sys.stderr)
     print(f"  {OUT_MANIFEST}", file=sys.stderr)
     print(f"  {OUT_REPORT}", file=sys.stderr)
