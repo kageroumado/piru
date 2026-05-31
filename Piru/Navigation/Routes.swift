@@ -69,6 +69,10 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     // Substances
     case customSubstancesList
     case customSubstanceForm(id: UUID?)
+    /// Personalize a shipped substance (override its display name, dose ladder,
+    /// duration, half-life, notes). Carries the canonical name; the dispatcher
+    /// resolves the library substance + any existing override.
+    case personalizeSubstance(name: String)
 
     // Substance database settings
     case sourcePriority

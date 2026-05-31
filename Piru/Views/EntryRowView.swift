@@ -3,6 +3,7 @@ import SwiftUI
 struct EntryRowView: View {
     let entry: DoseEntry
     var color: Color? = nil
+    @State private var customStore = CustomSubstanceStore.shared
 
     private var doseLevel: DoseLevel? {
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
@@ -36,7 +37,7 @@ struct EntryRowView: View {
                     .frame(width: 3)
             }
             VStack(alignment: .leading, spacing: 4) {
-                Text(entry.substance)
+                Text(customStore.displayName(for: entry.substance))
                     .font(.headline)
                 HStack(spacing: 4) {
                     Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")

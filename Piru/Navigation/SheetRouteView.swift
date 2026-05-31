@@ -88,6 +88,9 @@ struct SheetRouteView: View {
                     .withCancellationCloseButton()
             }
 
+        case .personalizeSubstance(let name):
+            PersonalizeSubstanceHost(name: name)
+
         case .dailyDoseSettings,
              .dailyDoseItemForm,
              .customSubstancesList,
@@ -208,6 +211,23 @@ private struct ColorPickerHost: View {
             navigator.dismissAll()
         } else {
             navigator.dismiss()
+        }
+    }
+}
+
+/// Resolves a canonical substance name to its library substance + any existing
+/// personal override, then hosts the personalize form. Lives here so the form
+/// is presented as a navigator sheet (its `navigator.dismiss()` then works).
+private struct PersonalizeSubstanceHost: View {
+    let name: String
+    @State private var customStore = CustomSubstanceStore.shared
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        if let base = SubstanceLibrary.all.first(where: { $0.name == name }) {
+            CustomSubstanceFormView(existing: customStore.first(whereName: name), personalizing: base)
+        } else {
+            UnmigratedRoutePlaceholder(route: .personalizeSubstance(name: name))
         }
     }
 }
