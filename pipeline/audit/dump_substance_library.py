@@ -84,7 +84,7 @@ def main() -> int:
                     line += f"  [{aliases}]"
                 line += f"  (source: {slug})"
                 if tags:
-                    line += f"  #" + "  #".join(tags[:8])
+                    line += "  #" + "  #".join(tags[:8])
                     if len(tags) > 8:
                         line += f"  +{len(tags) - 8}more"
                 f.write(line + "\n")

@@ -11,8 +11,8 @@ from __future__ import annotations
 import csv
 import html
 import re
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 OUTPUT_DIR = Path(__file__).resolve().parents[3] / "data" / "sources" / "brushers"
 
@@ -290,6 +290,6 @@ def open_csv(path: Path):
 def empty_row(source: str) -> dict[str, str]:
     """A blank row pre-filled with the column keys so any missing column is
     serialised as an empty string rather than `None`."""
-    row = {col: "" for col in CSV_COLUMNS}
+    row = dict.fromkeys(CSV_COLUMNS, "")
     row["source"] = source
     return row

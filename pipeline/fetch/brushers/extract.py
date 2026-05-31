@@ -29,7 +29,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _common import (  # noqa: E402
-    join_unique,
     parse_range,
     piru_category,
     piru_route,
@@ -317,7 +316,9 @@ def extract_pyrls():
         reg_str = "; ".join(
             (reg.get("labels") or []) + ([reg.get("description")] if reg.get("description") else [])
         )
-        tags = sorted({*(l.lower() for l in labels), (e.get("dosageForm") or "").lower()} - {""})
+        tags = sorted(
+            {*(lbl.lower() for lbl in labels), (e.get("dosageForm") or "").lower()} - {""}
+        )
 
         out.append(
             substance(

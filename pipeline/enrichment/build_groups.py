@@ -60,7 +60,7 @@ def route_substance(entry: dict) -> str:
     all_names = [name] + aliases
     tags = set(entry.get("tags") or [])
     category = entry.get("category", "")
-    chemical_class = normalise(entry.get("chemical_class", "") or "")
+    normalise(entry.get("chemical_class", "") or "")
 
     def has_name(*patterns) -> bool:
         for p in patterns:
@@ -114,9 +114,8 @@ def route_substance(entry: dict) -> str:
         "butonitazene",
         "flunitazene",
         "pyrrolidino",
-    ):
-        if any("nitazene" in n or "etazene" in n for n in all_names):
-            return "designer-opioids"
+    ) and any("nitazene" in n or "etazene" in n for n in all_names):
+        return "designer-opioids"
 
     # 3. Classical opioids
     if category == "Opioid":
