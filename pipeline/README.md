@@ -9,74 +9,90 @@ bundled SQLite database lives here. The data itself lives in
 
 ```
 pipeline/
+├── build.sh      The ordered, invocable build manifest — start here
 ├── fetch/        Ingesters that pull from external sources
 ├── enrichment/   LLM-driven deep-pharma research workflow
-├── build/        Produces the bundled SQLite + the human-readable snapshots
+├── build/        Produces the bundled SQLite + validates the curated layer
 └── audit/        After-the-fact inspection + comparison tools
 ```
+
+`pipeline/build.sh` is the single answer to "how is the DB built?" — every step
+is a real script and that file sequences them in order. `pipeline/build.sh fast`
+rebuilds from committed inputs (offline, reproducible); `pipeline/build.sh full`
+re-runs the upstream scrape/extract first.
+
+## Curated data
+
+Hand-curated substance data lives in [`../data/curated/substances/`](../data/curated/substances/)
+as **one JSON file per compound** (`<slug>.json`, where `slug == slugify(name)`).
+A file is either a **full definition** (compounds the scrapers miss — RCs,
+peptides) or an **override-only** record (just the fields we adjust on a scraped
+substance — a popularity score, a display-name, a category correction, CJK search
+aliases, a dose-basis fix). There is no separate overlay/override file and no
+in-code curation dict: one file fully describes one substance.
+
+- Schema: [`../data/curated/substances.schema.json`](../data/curated/) (editor support).
+- Enforced validator: `build/validate_curated.py` (stdlib, build-consistent route
+  normalisation). Run before every build; CI/test gate via `tests/test_sqlite.py`.
+- `build/sqlite.py` ingests this directory **directly** as the `piru-curated`
+  source, FIRST — so curated chemical identifiers win the COALESCE and a curated
+  category beats a later tag-promotion. (The Swift collector also reads the dir,
+  but any `piru-curated` rows it leaves in `sourced-substances.json` are ignored.)
 
 ## End-to-end flow
 
 ```
-                                                  ┌─ data/curated/overlay.json (hand-maintained)
-                                                  │
-  PsychonautWiki API ──► fetch/psychonautwiki.py ──► data/sources/psychonautwiki.json ──┐
-  drug.community    ──► (manual snapshot)       ──► data/sources/drug-community.json    │
-                                                                                        ▼
-                                              Tools/SubstanceCollector (Swift CLI)
-                                              merges all sources + applies curated overlay
-                                                                                        │
-                                                                                        ▼
-                                              data/intermediate/sourced-substances.json
-                                              data/intermediate/substances-bundled.json
-                                                                                        │
-                                                                                        │ + data/enrichment/raw/*.json
-                                                                                        │   (agent-swarm research)
-                                                                                        │ + <out-of-repo>/*.substances.json
-                                                                                        │   (TripSit-benzos / MedTAP / NPS /
-                                                                                        │    Pyrls, via fetch/brushers/extract.py)
-                                                                                        ▼
-                                              build/sqlite.py
-                                                                                        │
-                                                                                        ▼
+  PsychonautWiki API ─► fetch/psychonautwiki.py ─► data/sources/psychonautwiki.json ─┐
+  drug.community     ─► (manual snapshot)        ─► data/sources/drug-community.json  │
+  TripSit/Wikidata/PubChem/Erowid/DEA ─► Tools/SubstanceCollector (Swift) ─►          │
+                                          data/intermediate/sourced-substances.json   │
+                                                                                      ▼
+  data/curated/substances/*.json  ──────────────────────────────────────────►  build/sqlite.py
+  (hand-curated; validated by                                                    (ingest order: curated
+   build/validate_curated.py)                                                     FIRST, then web sources,
+                                  data/enrichment/raw/*.json  ─────────────────►  PW, drug.community,
+                                  (agent-swarm research)                          enrichment, external
+                                  /tmp/piru-extract/*.json  ───────────────────►  extracts; then promote,
+                                  (Pyrls/MedTAP/NPS/benzos,                        dedup, classify)
+                                   via fetch/brushers/extract.py)                          │
+                                                                                          ▼
                                               Piru/Data/piru-substances.sqlite  ← app ships this
                                               Piru/Data/manifest.json
-                                                                                        │
-                                                                                        ▼
-                                              build/snapshots.py
-                                                                                        │
-                                                                                        ▼
+                                              docs/audit/sqlite-build-report.md
+                                                                                          │
+                                                                          build/snapshots.py
+                                                                                          ▼
                                               data/snapshots/substances.{json,csv}  ← humans read this
-                                              data/snapshots/gaps.csv
 ```
+
+Note: `snapshots.py` reads the upstream **source feeds**, not the built SQLite,
+so curated overrides do not appear in the snapshots (and its alias ordering is
+nondeterministic). Treat the snapshots as a source-feed mirror; the shipped
+truth is the SQLite. Don't commit snapshot churn unless source data changed.
 
 ## Running the pipeline
 
-From the repo root, in order:
+From the repo root, use the ordered manifest:
 
 ```bash
-# 1. Optionally refresh upstream snapshots (only when external data has changed)
-python3 pipeline/fetch/psychonautwiki.py        # ~30 min, paginated GraphQL
-
-# 2. Merge raw sources + apply curated overlay (Swift)
-cd Tools/SubstanceCollector && swift run SubstanceCollector && cd ../..
-
-# 3. (Optional) Run an enrichment pass — see pipeline/enrichment/ for the multi-step workflow
-
-# 4. Extract the out-of-repo external datasets (TripSit-benzos / MedTAP / NPS / Pyrls)
-#    Needs ~/Developer/piru-datasources present; writes JSON to /tmp/piru-extract.
-python3 pipeline/fetch/brushers/extract.py
-
-# 5. Build the bundled SQLite the app reads
-python3 pipeline/build/sqlite.py
-
-# 6. Build the human-readable snapshots committed under data/snapshots/
-python3 pipeline/build/snapshots.py
+pipeline/build.sh          # fast: validate curated → build SQLite → snapshots → tests
+pipeline/build.sh full     # also re-run upstream scrape/extract first (network + datasources)
 ```
 
-After step 6, commit `data/intermediate/`, `data/snapshots/`,
-`Piru/Data/piru-substances.sqlite`, and `Piru/Data/manifest.json`.
-The raw `piru-datasources` files and the `/tmp/piru-extract` JSON are
+`build.sh` is the source of truth for the steps and their order; it just
+invokes the per-step scripts (`fetch/psychonautwiki.py`, the Swift collector,
+`fetch/brushers/extract.py`, `build/validate_curated.py`, `build/sqlite.py`,
+`build/snapshots.py`, `tests/test_sqlite.py`). Each is runnable standalone from
+the repo root with no arguments.
+
+Most curation changes only touch `data/curated/substances/` — for those, the
+fast path is enough (it's offline and reproducible from committed inputs). A
+`full` run is only needed when upstream external data has actually changed; it
+requires network and `~/Developer/piru-datasources`.
+
+After a build, commit `Piru/Data/piru-substances.sqlite`, `Piru/Data/manifest.json`,
+and `docs/audit/sqlite-build-report.md` (+ any `data/` inputs that genuinely
+changed). The raw `piru-datasources` files and `/tmp/piru-extract` JSON are
 deliberately NOT committed — only the built SQLite is.
 
 ## Sub-pipeline overviews
@@ -106,14 +122,21 @@ LLM-assisted research used to fill gaps external sources don't cover
    `class-context.json`, `coverage.csv`).
 
 ### `build/`
-- **`sqlite.py`** — the main build script. Ingests every input source,
-  resolves per-field priority, writes `Piru/Data/piru-substances.sqlite`
-  + `manifest.json` + `docs/audit/sqlite-build-report.md`.
-- **`snapshots.py`** — produces the GitHub-friendly mirror of the shipped
-  data at `data/snapshots/`.
-- **`tests/test_sqlite.py`** — regression tests for dose-string parsing
-  bugs + end-to-end invariants on the built database. Run with
-  `python3 pipeline/build/tests/test_sqlite.py`.
+- **`validate_curated.py`** — stdlib validator for `data/curated/substances/`.
+  Catches the silent-failure modes (bad enums, inverted dose ranges, protocol
+  dosing with no frequency, duplicate compounds across files, slug/filename
+  drift, out-of-range popularity). Run before every build; importable as
+  `validate_dir()`. Exits non-zero on any error.
+- **`sqlite.py`** — the main build script. Ingests the curated dir first, then
+  every web/enrichment/external source, resolves per-field priority, writes
+  `Piru/Data/piru-substances.sqlite` + `manifest.json` +
+  `docs/audit/sqlite-build-report.md`.
+- **`snapshots.py`** — source-feed mirror at `data/snapshots/` (see the flow
+  note above — does not reflect curated overrides; commit only on real change).
+- **`tests/test_sqlite.py`** — dose-string parsing regressions, curated-file
+  validation (incl. synthetic edge cases), and end-to-end invariants on the
+  built database (categories, dedup, dose ceilings, curated-override
+  resolution, citations). Run with `python3 pipeline/build/tests/test_sqlite.py`.
 
 ### `audit/`
 - **`compare_to_pw.py`** — compares resolved DB values to PsychonautWiki
