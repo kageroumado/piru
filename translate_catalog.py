@@ -1,4 +1,4 @@
-##!/usr/bin/env python3
+#!/usr/bin/env python3
 """Apply zh-Hans and zh-Hant translations to a Localizable.xcstrings catalog."""
 import json
 import sys
@@ -1007,8 +1007,17 @@ def apply_translations(catalog_path: Path, translations: dict):
             if key.strip():
                 missing.append(key)
 
+    # Emit Xcode's String Catalog format: `" : "` key separator (not Python's
+    # default `": "`). Preserve the existing key order (sort_keys=False) rather
+    # than re-sorting — Xcode orders keys by localized Unicode collation, which
+    # Python's sort can't reproduce, so re-sorting would churn the entire file
+    # and Xcode would just churn it back. In-place updates keep the diff to the
+    # strings whose translations actually changed.
     catalog_path.write_text(
-        json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+        json.dumps(
+            data, indent=2, ensure_ascii=False, sort_keys=False,
+            separators=(",", " : "),
+        ) + "\n"
     )
     return translated_count, missing
 
