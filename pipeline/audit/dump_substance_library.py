@@ -29,15 +29,18 @@ def main() -> int:
     db = sqlite3.connect(DB)
     db.row_factory = sqlite3.Row
 
-    sources = {r["slug"]: r["default_priority"] for r in db.execute(
-        "select slug, default_priority from sources"
-    )}
-    subs = list(db.execute("""
+    sources = {
+        r["slug"]: r["default_priority"]
+        for r in db.execute("select slug, default_priority from sources")
+    }
+    subs = list(
+        db.execute("""
         select s.id, s.canonical_name,
                (select group_concat(a.alias, '|') from (select distinct alias from aliases where substance_id=s.id) a) as aliases
         from substances s
         order by s.canonical_name collate nocase
-    """))
+    """)
+    )
 
     cats_by_sub: dict[int, list[tuple[int, str, str]]] = defaultdict(list)
     for r in db.execute(
@@ -61,12 +64,14 @@ def main() -> int:
             winning_slug, winning_cat = pairs[0][1], pairs[0][2]
         else:
             winning_slug, winning_cat = "—", "(no category)"
-        by_cat[winning_cat].append((
-            s["canonical_name"],
-            s["aliases"] or "",
-            winning_slug,
-            sorted(tags_by_sub.get(sid, set())),
-        ))
+        by_cat[winning_cat].append(
+            (
+                s["canonical_name"],
+                s["aliases"] or "",
+                winning_slug,
+                sorted(tags_by_sub.get(sid, set())),
+            )
+        )
 
     # Per-category files
     for cat, items in by_cat.items():
@@ -81,7 +86,7 @@ def main() -> int:
                 if tags:
                     line += f"  #" + "  #".join(tags[:8])
                     if len(tags) > 8:
-                        line += f"  +{len(tags)-8}more"
+                        line += f"  +{len(tags) - 8}more"
                 f.write(line + "\n")
 
     # Index

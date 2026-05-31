@@ -35,7 +35,7 @@ import Foundation
 /// present a sheet. Distinct from `NavigatorSnapshot` because deep links
 /// don't speak about *unchanged* state — a URL like `piru://quicklog`
 /// shouldn't clobber the user's current tab.
-nonisolated struct DeepLinkOutcome: Hashable, Sendable {
+nonisolated struct DeepLinkOutcome: Hashable {
     /// `nil` means "preserve the current tab".
     var tab: AppTab?
     /// `nil` means "no sheet to present" (the URL is tab-only or
@@ -49,7 +49,6 @@ nonisolated struct DeepLinkOutcome: Hashable, Sendable {
 }
 
 nonisolated enum DeepLink {
-
     static let scheme = "piru"
 
     // MARK: - Decode
@@ -101,7 +100,7 @@ nonisolated enum DeepLink {
             let timestamp = Date(timeIntervalSince1970: ts)
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
-                sheet: .entryDetail(timestamp: timestamp)
+                sheet: .entryDetail(timestamp: timestamp),
             )
 
         case "entryform":
@@ -116,14 +115,14 @@ nonisolated enum DeepLink {
             }()
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
-                sheet: .entryForm(prefill: prefill)
+                sheet: .entryForm(prefill: prefill),
             )
 
         case "meds":
             guard let category = pathSegments.first else { return nil }
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
-                sheet: .dailyDoseLog(category: category)
+                sheet: .dailyDoseLog(category: category),
             )
 
         default:
@@ -165,11 +164,11 @@ nonisolated enum DeepLink {
         case .sessionDetail:
             components.host = "day"
 
-        case .entryDetail(let timestamp):
+        case let .entryDetail(timestamp):
             components.host = "entry"
             components.path = "/\(timestamp.timeIntervalSince1970)"
 
-        case .entryForm(let prefill):
+        case let .entryForm(prefill):
             components.host = "entryform"
             if let prefill {
                 components.queryItems = [
@@ -179,7 +178,7 @@ nonisolated enum DeepLink {
                 ]
             }
 
-        case .dailyDoseLog(let category):
+        case let .dailyDoseLog(category):
             components.host = "meds"
             components.path = "/\(category)"
 

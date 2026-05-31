@@ -1,6 +1,6 @@
-import SwiftUI
-import SwiftData
 import ActivityKit
+import SwiftData
+import SwiftUI
 
 struct LogMedicationsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -21,12 +21,12 @@ struct LogMedicationsView: View {
 
     init(category: String) {
         self.category = category
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { e in
                 e.timestamp >= cutoff
             },
-            sort: \DoseEntry.timestamp
+            sort: \DoseEntry.timestamp,
         )
     }
 
@@ -35,7 +35,7 @@ struct LogMedicationsView: View {
     }
 
     private var selectedCount: Int {
-        items.filter { toggleStates[$0.substance + String($0.sortOrder)] ?? true }.count
+        items.count(where: { toggleStates[$0.substance + String($0.sortOrder)] ?? true })
     }
 
     private var selectedSubstanceNames: [String] {
@@ -96,7 +96,7 @@ struct LogMedicationsView: View {
                     },
                     onCancel: {
                         showInteractionSheet = false
-                    }
+                    },
                 )
                 .presentationDetents([.medium, .large])
             }
@@ -111,7 +111,7 @@ struct LogMedicationsView: View {
         let key = itemKey(for: item)
         return Binding(
             get: { toggleStates[key] ?? true },
-            set: { toggleStates[key] = $0 }
+            set: { toggleStates[key] = $0 },
         )
     }
 
@@ -144,7 +144,7 @@ struct LogMedicationsView: View {
                 amount: item.amount,
                 unit: item.unit,
                 route: item.route,
-                timestamp: now
+                timestamp: now,
             )
             modelContext.insert(entry)
 
@@ -154,7 +154,7 @@ struct LogMedicationsView: View {
             loggedDoseEntries.append(entry)
             loggedSubstances.append(matchedSubstance)
 
-            if !hasColor(for: item.substance) && !needsColor.contains(item.substance) {
+            if !hasColor(for: item.substance), !needsColor.contains(item.substance) {
                 needsColor.append(item.substance)
             }
         }
@@ -176,9 +176,9 @@ struct LogMedicationsView: View {
                 .colorPicker(
                     substance: needsColor[0],
                     remaining: Array(needsColor.dropFirst()),
-                    dismissAllOnComplete: true
+                    dismissAllOnComplete: true,
                 ),
-                replacingTop: true
+                replacingTop: true,
             )
         }
     }
@@ -188,7 +188,7 @@ struct LogMedicationsView: View {
         let entries = zip(loggedDoseEntries, loggedSubstances).map { (entry: $0, substance: $1) }
         ActiveSessionManager.shared.addDoses(
             entries: entries,
-            allColors: Array(substanceColors)
+            allColors: Array(substanceColors),
         )
     }
 }

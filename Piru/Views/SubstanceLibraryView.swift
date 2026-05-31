@@ -82,7 +82,7 @@ struct SubstanceLibraryView: View {
             ContentUnavailableView(
                 "Search Substances",
                 systemImage: "magnifyingglass",
-                description: Text("Find any substance by name or alias.")
+                description: Text("Find any substance by name or alias."),
             )
         } else {
             Section("Recent") {
@@ -98,7 +98,6 @@ struct SubstanceLibraryView: View {
 
     // MARK: - Category Grid
 
-    @ViewBuilder
     private var categoryGrid: some View {
         Section {
             if !favoriteSubstances.isEmpty {
@@ -149,7 +148,7 @@ struct SubstanceLibraryView: View {
     private static let helpKeywords: Set<String> = [
         "help", "emergency", "overdose", "bad trip", "dying", "scared",
         "panic", "ambulance", "hospital", "not okay", "freaking out",
-        "call 911", "911", "poisoning", "too much", "od", "can't breathe"
+        "call 911", "911", "poisoning", "too much", "od", "can't breathe",
     ]
 
     private var isHelpSearch: Bool {
@@ -171,11 +170,11 @@ struct SubstanceLibraryView: View {
             helpResourcesSection
         }
 
-        if searchResults.isEmpty && !isHelpSearch {
+        if searchResults.isEmpty, !isHelpSearch {
             ContentUnavailableView(
                 "No Results",
                 systemImage: "magnifyingglass",
-                description: Text("No substances match \"\(searchText)\"")
+                description: Text("No substances match \"\(searchText)\""),
             )
         } else if !searchResults.isEmpty {
             Section("\(searchResults.count) results") {
@@ -226,35 +225,35 @@ struct SubstanceLibraryView: View {
                         color: .red,
                         title: "Emergency Services",
                         detail: "Call 911 (US) or your local emergency number",
-                        url: "tel:911"
+                        url: "tel:911",
                     )
                     helpLink(
                         icon: "cross.case.fill",
                         color: .orange,
                         title: "Poison Control",
                         detail: "1-800-222-1222 (US)",
-                        url: "tel:18002221222"
+                        url: "tel:18002221222",
                     )
                     helpLink(
                         icon: "phone.badge.waveform.fill",
                         color: .purple,
                         title: "988 Suicide & Crisis Lifeline",
                         detail: "Call or text 988",
-                        url: "tel:988"
+                        url: "tel:988",
                     )
                     helpLink(
                         icon: "message.fill",
                         color: .green,
                         title: "Crisis Text Line",
                         detail: "Text HOME to 741741",
-                        url: "sms:741741&body=HOME"
+                        url: "sms:741741&body=HOME",
                     )
                     helpLink(
                         icon: "heart.fill",
                         color: .pink,
                         title: "SAMHSA Helpline",
                         detail: "1-800-662-4357 — Free, confidential, 24/7",
-                        url: "tel:18006624357"
+                        url: "tel:18006624357",
                     )
                 }
 
@@ -462,9 +461,9 @@ struct SubstanceDetailView: View {
         personalOverride.map { baseSubstance.applyingOverride(from: $0) } ?? baseSubstance
     }
 
-    // Holding the @Observable store as @State (rather than reading
-    // `SubstanceStore.shared.userProfile` via a plain computed) is what makes
-    // SwiftUI re-render this view when the user changes profile in Settings.
+    /// Holding the @Observable store as @State (rather than reading
+    /// `SubstanceStore.shared.userProfile` via a plain computed) is what makes
+    /// SwiftUI re-render this view when the user changes profile in Settings.
     @State private var store = SubstanceStore.shared
 
     // Section expansion state. `nil` means "use the policy default for the
@@ -483,9 +482,15 @@ struct SubstanceDetailView: View {
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
-    private var profile: UserProfile { store.userProfile }
-    private var policy: DisclosurePolicy { .init(profile: profile) }
-    private var displayClass: CompoundDisplayClass { substance.displayClass }
+    private var profile: UserProfile {
+        store.userProfile
+    }
+    private var policy: DisclosurePolicy {
+        .init(profile: profile)
+    }
+    private var displayClass: CompoundDisplayClass {
+        substance.displayClass
+    }
 
     /// Human-readable availability label from the parsed regulatory_status.
     private func regulatoryDisplay(_ raw: String) -> String {
@@ -569,7 +574,7 @@ struct SubstanceDetailView: View {
                 entry.substance == name
             },
             sort: \DoseEntry.timestamp,
-            order: .reverse
+            order: .reverse,
         )
     }
 
@@ -604,13 +609,13 @@ struct SubstanceDetailView: View {
         MechanismOfActionDatabase.resolvedMechanism(
             dbMechanism: substance.mechanismOfAction,
             substanceName: substance.name,
-            category: substance.category
+            category: substance.category,
         )
     }
 
     /// Dose ladder + duration per route. Surfaced near the top of the detail
     /// view — the primary thing people open a substance for.
-    @ViewBuilder private var doseDurationSections: some View {
+    private var doseDurationSections: some View {
         ForEach(substance.routes, id: \.route) { substanceRoute in
             if displayClass.showsDoseLadder, substanceRoute.doses.hasAnyValue {
                 Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
@@ -662,13 +667,13 @@ struct SubstanceDetailView: View {
     /// Primary references for the compound's curated claims — DOIs / PMIDs /
     /// URLs render as tappable links; free-text labels as plain text.
     @ViewBuilder private var referencesSection: some View {
-        if policy.showsSources && !substance.references.isEmpty {
+        if policy.showsSources, !substance.references.isEmpty {
             Section {
                 DisclosureGroup(
                     isExpanded: Binding(
                         get: { referencesExpanded ?? policy.sourcesDefaultExpanded },
-                        set: { referencesExpanded = $0 }
-                    )
+                        set: { referencesExpanded = $0 },
+                    ),
                 ) {
                     ForEach(substance.references, id: \.self) { ref in
                         if let url = ref.resolvedURL {
@@ -733,7 +738,7 @@ struct SubstanceDetailView: View {
                 title: "Peptide — protocol reference",
                 systemImage: "syringe.fill",
                 tint: .blue,
-                message: "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below."
+                message: "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below.",
             )
         } else if displayClass == .medicalRx || displayClass == .nonRecreational {
             if substance.primaryProtocolDosing != nil {
@@ -741,14 +746,14 @@ struct SubstanceDetailView: View {
                     title: "Research / performance compound",
                     systemImage: "flask.fill",
                     tint: .orange,
-                    message: "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data."
+                    message: "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data.",
                 )
             } else {
                 banner(
                     title: displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
                     systemImage: "cross.case.fill",
                     tint: .blue,
-                    message: "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only."
+                    message: "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only.",
                 )
             }
         } else if substance.hasNoDoseData {
@@ -756,7 +761,7 @@ struct SubstanceDetailView: View {
                 title: "Limited human data",
                 systemImage: "exclamationmark.triangle.fill",
                 tint: .orange,
-                message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds."
+                message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.",
             )
         }
     }
@@ -778,7 +783,7 @@ struct SubstanceDetailView: View {
 
     /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
     /// Chemists who want the full identity follow the PubChem link.
-    @ViewBuilder private var infoDisclosure: some View {
+    private var infoDisclosure: some View {
         Section {
             DisclosureGroup(isExpanded: $infoExpanded) {
                 LabeledContent("Name", value: substance.name)
@@ -830,134 +835,134 @@ struct SubstanceDetailView: View {
     var body: some View {
         List {
             Group {
-            if !historyEntries.isEmpty {
-                historySection
-            }
-
-            doseDurationSections
-
-            peptideSections
-
-            if let notes = personalOverride?.notes,
-               !notes.trimmingCharacters(in: .whitespaces).isEmpty {
-                Section("Your Notes") {
-                    Text(notes)
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
+                if !historyEntries.isEmpty {
+                    historySection
                 }
-            }
 
-            statusBanner
+                doseDurationSections
 
-            if policy.showsMechanism, let moa = composedMechanism {
-                Section {
-                    DisclosureGroup(
-                        isExpanded: Binding(
-                            get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
-                            set: { mechanismExpanded = $0 }
-                        )
-                    ) {
-                        mechanismBody(moa)
-                    } label: {
-                        Label("Mechanism of Action", systemImage: "atom")
-                            .font(.subheadline.weight(.semibold))
-                    }
-                    if let slug = provenance?.mechanismSource {
-                        SourceAttributionRow(slug: slug, label: "Mechanism")
-                    }
-                }
-            }
+                peptideSections
 
-            if policy.showsReceptorLiterature && !literatureBindings.isEmpty {
-                Section {
-                    DisclosureGroup(
-                        isExpanded: Binding(
-                            get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
-                            set: { receptorLitExpanded = $0 }
-                        )
-                    ) {
-                        receptorLiteratureBody
-                    } label: {
-                        Label("Receptor Literature", systemImage: "function")
-                            .font(.subheadline.weight(.semibold))
-                    }
-                } footer: {
-                    Text("Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting.")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-
-            if !substance.effects.isEmpty && displayClass != .nonRecreational {
-                Section("Effects") {
-                    ForEach(substance.effects, id: \.self) { effect in
-                        Label(effect, systemImage: "circle.fill")
+                if let notes = personalOverride?.notes,
+                   !notes.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Section("Your Notes") {
+                        Text(notes)
                             .font(.subheadline)
-                            .labelStyle(EffectLabelStyle())
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-            }
 
-            // Medical context (indications / contraindications / boxed warnings)
-            // — shown for any compound that has clinical data. Net-new surface.
-            medicalInfoSection
+                statusBanner
 
-            // Name / aliases / route / chemistry — demoted here, below dosing,
-            // and collapsed by default.
-            infoDisclosure
+                if policy.showsMechanism, let moa = composedMechanism {
+                    Section {
+                        DisclosureGroup(
+                            isExpanded: Binding(
+                                get: { mechanismExpanded ?? policy.mechanismDefaultExpanded },
+                                set: { mechanismExpanded = $0 },
+                            ),
+                        ) {
+                            mechanismBody(moa)
+                        } label: {
+                            Label("Mechanism of Action", systemImage: "atom")
+                                .font(.subheadline.weight(.semibold))
+                        }
+                        if let slug = provenance?.mechanismSource {
+                            SourceAttributionRow(slug: slug, label: "Mechanism")
+                        }
+                    }
+                }
 
-            if policy.showsRichSubjective && !substance.subjectiveEffects.isEmpty
-                && (displayClass == .recreational || displayClass == .dualUse) {
-                Section {
-                    DisclosureGroup(
-                        isExpanded: Binding(
-                            get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
-                            set: { subjectiveExpanded = $0 }
-                        )
-                    ) {
-                        ForEach(substance.subjectiveEffects, id: \.name) { effect in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(effect.name)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                Text(effect.description)
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                    .fixedSize(horizontal: false, vertical: true)
+                if policy.showsReceptorLiterature, !literatureBindings.isEmpty {
+                    Section {
+                        DisclosureGroup(
+                            isExpanded: Binding(
+                                get: { receptorLitExpanded ?? policy.receptorLitDefaultExpanded },
+                                set: { receptorLitExpanded = $0 },
+                            ),
+                        ) {
+                            receptorLiteratureBody
+                        } label: {
+                            Label("Receptor Literature", systemImage: "function")
+                                .font(.subheadline.weight(.semibold))
+                        }
+                    } footer: {
+                        Text("Ki/EC50 values from primary literature with explicit source attribution. Lower Ki = tighter binding. Distinguish human vs. animal data when interpreting.")
+                            .font(.caption2)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
+
+                if !substance.effects.isEmpty, displayClass != .nonRecreational {
+                    Section("Effects") {
+                        ForEach(substance.effects, id: \.self) { effect in
+                            Label(effect, systemImage: "circle.fill")
+                                .font(.subheadline)
+                                .labelStyle(EffectLabelStyle())
+                        }
+                    }
+                }
+
+                // Medical context (indications / contraindications / boxed warnings)
+                // — shown for any compound that has clinical data. Net-new surface.
+                medicalInfoSection
+
+                // Name / aliases / route / chemistry — demoted here, below dosing,
+                // and collapsed by default.
+                infoDisclosure
+
+                if policy.showsRichSubjective, !substance.subjectiveEffects.isEmpty,
+                   displayClass == .recreational || displayClass == .dualUse {
+                    Section {
+                        DisclosureGroup(
+                            isExpanded: Binding(
+                                get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
+                                set: { subjectiveExpanded = $0 },
+                            ),
+                        ) {
+                            ForEach(substance.subjectiveEffects, id: \.name) { effect in
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(effect.name)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                    Text(effect.description)
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                .padding(.vertical, 2)
                             }
-                            .padding(.vertical, 2)
+                        } label: {
+                            Label("Reported Subjective Effects", systemImage: "person.wave.2")
+                                .font(.subheadline.weight(.semibold))
                         }
-                    } label: {
-                        Label("Reported Subjective Effects", systemImage: "person.wave.2")
-                            .font(.subheadline.weight(.semibold))
                     }
                 }
-            }
 
-            chemistrySection
+                chemistrySection
 
-            if policy.showsSources && !substance.sources.isEmpty {
-                Section {
-                    DisclosureGroup(
-                        isExpanded: Binding(
-                            get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
-                            set: { sourcesExpanded = $0 }
-                        )
-                    ) {
-                        ForEach(substance.sources, id: \.self) { source in
-                            sourceRow(source)
+                if policy.showsSources, !substance.sources.isEmpty {
+                    Section {
+                        DisclosureGroup(
+                            isExpanded: Binding(
+                                get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
+                                set: { sourcesExpanded = $0 },
+                            ),
+                        ) {
+                            ForEach(substance.sources, id: \.self) { source in
+                                sourceRow(source)
+                            }
+                        } label: {
+                            Label("Sources", systemImage: "book.closed")
+                                .font(.subheadline.weight(.semibold))
                         }
-                    } label: {
-                        Label("Sources", systemImage: "book.closed")
-                            .font(.subheadline.weight(.semibold))
+                    } footer: {
+                        Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
                     }
-                } footer: {
-                    Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
                 }
-            }
 
-            referencesSection
+                referencesSection
             }
             .listRowBackground(Theme.cardBackground)
         }
@@ -980,8 +985,10 @@ struct SubstanceDetailView: View {
                     Button {
                         navigator.present(.personalizeSubstance(name: baseSubstance.name))
                     } label: {
-                        Label(personalOverride == nil ? "Personalize…" : "Edit Personalization…",
-                              systemImage: "slider.horizontal.3")
+                        Label(
+                            personalOverride == nil ? "Personalize…" : "Edit Personalization…",
+                            systemImage: "slider.horizontal.3",
+                        )
                     }
                     if let override = personalOverride {
                         Button(role: .destructive) {
@@ -1067,7 +1074,7 @@ struct SubstanceDetailView: View {
                             Text(binding.action.displayName)
                                 .foregroundStyle(.secondary)
                             HStack(spacing: 2) {
-                                ForEach(0..<3, id: \.self) { i in
+                                ForEach(0 ..< 3, id: \.self) { i in
                                     Circle()
                                         .fill(i < binding.affinity.rawValue ? substance.category.color : substance.category.color.opacity(0.15))
                                         .frame(width: 6, height: 6)
@@ -1105,7 +1112,6 @@ struct SubstanceDetailView: View {
         }
     }
 
-    @ViewBuilder
     private var receptorLiteratureBody: some View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(literatureBindings) { hit in
@@ -1156,7 +1162,9 @@ struct SubstanceDetailView: View {
         // Most common dose
         let mostCommon: Double = {
             var freq: [Double: Int] = [:]
-            for a in amounts { freq[a, default: 0] += 1 }
+            for a in amounts {
+                freq[a, default: 0] += 1
+            }
             return freq.max(by: { $0.value < $1.value })?.key ?? 0
         }()
 
@@ -1182,7 +1190,7 @@ struct SubstanceDetailView: View {
                             .foregroundStyle(Theme.secondaryLabel)
                     }
                 }
-                if entries.count > 10 && !showAllHistory {
+                if entries.count > 10, !showAllHistory {
                     Button {
                         showAllHistory = true
                     } label: {
@@ -1225,7 +1233,6 @@ struct SubstanceDetailView: View {
             }
         }
     }
-
 }
 
 // MARK: - Source Attribution
@@ -1333,7 +1340,7 @@ private struct ReceptorLiteratureRow: View {
 
     private func formatNm(_ value: Double) -> String {
         if value >= 100 { return String(format: "%.0f", value) }
-        if value >= 10  { return String(format: "%.1f", value) }
+        if value >= 10 { return String(format: "%.1f", value) }
         return String(format: "%.2f", value)
     }
 }
@@ -1380,19 +1387,19 @@ struct SubstanceTagFlow: View {
 private struct TagFlowLayout: Layout {
     var spacing: CGFloat = 6
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
         let width = proposal.width ?? .infinity
         let arrangement = arrange(subviews: subviews, in: width)
         return CGSize(width: arrangement.size.width, height: arrangement.size.height)
     }
 
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+    func placeSubviews(in bounds: CGRect, proposal _: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
         let arrangement = arrange(subviews: subviews, in: bounds.width)
         for (idx, sub) in subviews.enumerated() {
             let origin = arrangement.offsets[idx]
             sub.place(
                 at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y),
-                proposal: .unspecified
+                proposal: .unspecified,
             )
         }
     }

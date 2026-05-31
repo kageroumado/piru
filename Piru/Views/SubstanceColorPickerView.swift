@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct SubstanceColorPickerView: View {
     let substanceName: String
@@ -73,7 +73,6 @@ struct SubstanceColorPickerView: View {
 
     // MARK: - Preview
 
-    @ViewBuilder
     private var previewSection: some View {
         HStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 3)
@@ -106,7 +105,6 @@ struct SubstanceColorPickerView: View {
 
     // MARK: - User Colors
 
-    @ViewBuilder
     private var userColorsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Divider()
@@ -173,7 +171,6 @@ struct SubstanceColorPickerView: View {
 
     // MARK: - Custom Color Creator
 
-    @ViewBuilder
     private var customColorSection: some View {
         VStack(spacing: 12) {
             Divider()
@@ -186,7 +183,6 @@ struct SubstanceColorPickerView: View {
         }
     }
 
-    @ViewBuilder
     private var customPickerButton: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.25)) {
@@ -206,7 +202,6 @@ struct SubstanceColorPickerView: View {
         .padding(.horizontal)
     }
 
-    @ViewBuilder
     private var customPickerExpanded: some View {
         VStack(spacing: 16) {
             // Color picker
@@ -255,7 +250,6 @@ struct SubstanceColorPickerView: View {
         .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
-    @ViewBuilder
     private var hexInputRow: some View {
         HStack(spacing: 8) {
             Text("#")
@@ -266,7 +260,7 @@ struct SubstanceColorPickerView: View {
                 .textInputAutocapitalization(.characters)
                 .autocorrectionDisabled()
                 .onChange(of: hexInput) {
-                    let cleaned = hexInput.filter { $0.isHexDigit }
+                    let cleaned = hexInput.filter(\.isHexDigit)
                     if cleaned != hexInput {
                         hexInput = String(cleaned.prefix(6))
                     } else {
@@ -303,7 +297,7 @@ struct SubstanceColorPickerView: View {
     }
 
     private var sanitizedHex: String {
-        hexInput.filter { $0.isHexDigit }.prefix(6).uppercased()
+        hexInput.filter(\.isHexDigit).prefix(6).uppercased()
     }
 
     private var isHexValid: Bool {

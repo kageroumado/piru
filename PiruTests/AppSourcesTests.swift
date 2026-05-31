@@ -3,14 +3,13 @@ import Testing
 
 @Suite("AppSources")
 struct AppSourcesTests {
-
-    @Test("Has expected number of sources")
-    func sourceCount() {
+    @Test
+    func `Has expected number of sources`() {
         #expect(AppSources.all.count == 14)
     }
 
-    @Test("All sources have name and description")
-    func allSourcesHaveData() {
+    @Test
+    func `All sources have name and description`() {
         for source in AppSources.all {
             #expect(!source.name.isEmpty, "\(source.name) should have a name")
             #expect(!source.description.isEmpty, "\(source.name) should have a description")
@@ -18,27 +17,27 @@ struct AppSourcesTests {
         }
     }
 
-    @Test("Lookup by name returns correct source")
-    func lookupByName() {
+    @Test
+    func `Lookup by name returns correct source`() {
         let tripSit = AppSources.info(for: "TripSit")
         #expect(tripSit != nil)
         #expect(tripSit?.url == "https://tripsit.me")
     }
 
-    @Test("Lookup OpenFDA")
-    func lookupOpenFDA() {
+    @Test
+    func `Lookup OpenFDA`() {
         let fda = AppSources.info(for: "OpenFDA")
         #expect(fda != nil)
         #expect(fda?.url == "https://open.fda.gov")
     }
 
-    @Test("Lookup unknown returns nil")
-    func lookupUnknown() {
+    @Test
+    func `Lookup unknown returns nil`() {
         #expect(AppSources.info(for: "NotASource") == nil)
     }
 
-    @Test("All expected sources are present")
-    func expectedSourcesPresent() {
+    @Test
+    func `All expected sources are present`() {
         let names = Set(AppSources.all.map(\.name))
         #expect(names.contains("TripSit"))
         #expect(names.contains("OpenFDA"))
@@ -47,8 +46,8 @@ struct AppSourcesTests {
         #expect(names.contains("PubMed"))
     }
 
-    @Test("Source names are unique")
-    func uniqueNames() {
+    @Test
+    func `Source names are unique`() {
         let names = AppSources.all.map(\.name)
         #expect(Set(names).count == names.count)
     }

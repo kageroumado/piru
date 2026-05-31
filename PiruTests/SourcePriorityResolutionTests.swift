@@ -12,10 +12,9 @@ import Testing
 /// leak state across tests.
 @Suite("Source priority resolution", .serialized)
 struct SourcePriorityResolutionTests {
-
-    @Test("Reordering changes the resolved category source")
+    @Test
     @MainActor
-    func reorderingChangesCategorySource() {
+    func `Reordering changes the resolved category source`() {
         let store = SubstanceStore.shared
         let original = store.enabledSourceOrder
         defer { store.setSourcePriority(orderedSlugs: original) }
@@ -38,9 +37,9 @@ struct SourcePriorityResolutionTests {
         if let b = categorySourceB { #expect(store.enabledSourceOrder.contains(b)) }
     }
 
-    @Test("Disabled source never appears in resolved provenance")
+    @Test
     @MainActor
-    func disabledSourceExcludedFromProvenance() {
+    func `Disabled source never appears in resolved provenance`() {
         let store = SubstanceStore.shared
         defer { store.setSource("tripsit", enabled: true) }
 
@@ -54,5 +53,4 @@ struct SourcePriorityResolutionTests {
             #expect(route.durationSource != "tripsit")
         }
     }
-
 }

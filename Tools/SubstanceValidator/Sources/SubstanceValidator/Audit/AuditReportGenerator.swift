@@ -13,11 +13,12 @@ enum AuditReportGenerator {
         findings: [AuditFinding],
         substances: [AuditSubstance],
         cachePath: String,
-        timestamp: Date = Date()
+        timestamp: Date = Date(),
     ) -> String {
         var out = ""
 
         // MARK: Header
+
         out += "# Piru Substance Library Audit\n\n"
         out += "**Cache:** `\(cachePath)`  \n"
         out += "**Generated:** \(ISO8601DateFormatter().string(from: timestamp))  \n"
@@ -45,6 +46,7 @@ enum AuditReportGenerator {
         out += "**Findings:** \(errors.count) error(s), \(warnings.count) warning(s), \(infos.count) info\n\n"
 
         // MARK: Findings by severity → check
+
         for severity in [AuditSeverity.error, .warning, .info] {
             let bucket = findings.filter { $0.severity == severity }
             guard !bucket.isEmpty else { continue }
@@ -60,6 +62,7 @@ enum AuditReportGenerator {
         }
 
         // MARK: Summary by category
+
         out += "## Summary by category\n\n"
         var byCategory: [String: Int] = [:]
         for finding in findings {

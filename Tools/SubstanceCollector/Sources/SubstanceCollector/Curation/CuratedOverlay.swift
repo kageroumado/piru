@@ -44,7 +44,7 @@ enum CuratedOverlayLoader {
                 } else {
                     return Loaded(
                         entries: [],
-                        warning: "Curated overlay at \(path.path) failed to decode as either [Substance] or {substances: [...]}; ignored."
+                        warning: "Curated overlay at \(path.path) failed to decode as either [Substance] or {substances: [...]}; ignored.",
                     )
                 }
             }
@@ -58,14 +58,14 @@ enum CuratedOverlayLoader {
                     provenance: .curated,
                     inchiKey: $0.inchikey,
                     pubchemCID: $0.pubchemCID,
-                    cas: $0.cas
+                    cas: $0.cas,
                 )
             }
             return Loaded(entries: entries, warning: nil)
         } catch {
             return Loaded(
                 entries: [],
-                warning: "Curated overlay at \(path.path) errored: \(error.localizedDescription); ignored."
+                warning: "Curated overlay at \(path.path) errored: \(error.localizedDescription); ignored.",
             )
         }
     }

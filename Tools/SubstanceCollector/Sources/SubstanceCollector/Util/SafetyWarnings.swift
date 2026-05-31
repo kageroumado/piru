@@ -15,31 +15,44 @@ enum SafetyWarnings {
         Rule(
             predicate: { name, _ in
                 let n = name.lowercased()
-                return ["4-cmc", "3-cmc", "2-cmc", "4cmc", "3cmc", "2cmc",
-                        "clephedrone"].contains(where: n.contains)
+                return [
+                    "4-cmc",
+                    "3-cmc",
+                    "2-cmc",
+                    "4cmc",
+                    "3cmc",
+                    "2cmc",
+                    "clephedrone",
+                ].contains(where: n.contains)
             },
-            warning: "Emerging in-vitro evidence suggests neurotoxicity beyond other cathinones"
+            warning: "Emerging in-vitro evidence suggests neurotoxicity beyond other cathinones",
         ),
         // Nitazenes — extreme opioid potency
         Rule(
             predicate: { name, tags in
                 tags.contains("nitazene") || name.lowercased().contains("nitazene")
             },
-            warning: "Extreme potency, 10-100x fentanyl. Naloxone may require multiple doses"
+            warning: "Extreme potency, 10-100x fentanyl. Naloxone may require multiple doses",
         ),
         // PMA / PMMA / 4-MTA — delayed onset
         Rule(
             predicate: { name, _ in
                 let n = name.lowercased()
-                return ["pmma", "pma", "4-mta", "4mta", "para-methoxyamphetamine",
-                        "para-methoxymethamphetamine"].contains(where: { n == $0 || n.contains($0) })
+                return [
+                    "pmma",
+                    "pma",
+                    "4-mta",
+                    "4mta",
+                    "para-methoxyamphetamine",
+                    "para-methoxymethamphetamine",
+                ].contains(where: { n == $0 || n.contains($0) })
             },
-            warning: "Delayed onset leads to redose overdose deaths — DO NOT redose"
+            warning: "Delayed onset leads to redose overdose deaths — DO NOT redose",
         ),
         // Tianeptine
         Rule(
             predicate: { name, _ in name.lowercased().contains("tianeptine") },
-            warning: "Mu-opioid agonist activity; addiction and overdose risk"
+            warning: "Mu-opioid agonist activity; addiction and overdose risk",
         ),
         // Phenibut / F-phenibut
         Rule(
@@ -47,7 +60,7 @@ enum SafetyWarnings {
                 let n = name.lowercased()
                 return n.contains("phenibut") || n.contains("fluorophenibut")
             },
-            warning: "Severe protracted withdrawal; dependence in weeks of daily use"
+            warning: "Severe protracted withdrawal; dependence in weeks of daily use",
         ),
     ]
 

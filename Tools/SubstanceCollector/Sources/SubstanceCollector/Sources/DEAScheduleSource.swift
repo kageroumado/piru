@@ -32,7 +32,9 @@ enum DEAScheduleSource {
             "nbome", "25i-nbome", "25c-nbome", "25b-nbome",
             "ethylone", "butylone", "pentylone",
         ]
-        for n in schedI { t[NameNormalizer.normalize(n)] = "US-Schedule-I" }
+        for n in schedI {
+            t[NameNormalizer.normalize(n)] = "US-Schedule-I"
+        }
 
         let schedII = [
             "amphetamine", "methamphetamine", "cocaine", "methylphenidate",
@@ -44,7 +46,9 @@ enum DEAScheduleSource {
             "amobarbital", "nabilone", "dronabinol oral solution",
             "phencyclidine", "pcp", "opium",
         ]
-        for n in schedII { t[NameNormalizer.normalize(n)] = "US-Schedule-II" }
+        for n in schedII {
+            t[NameNormalizer.normalize(n)] = "US-Schedule-II"
+        }
 
         let schedIII = [
             "buprenorphine", "ketamine", "anabolic steroids",
@@ -53,7 +57,9 @@ enum DEAScheduleSource {
             "benzphetamine", "phendimetrazine",
             "tylenol with codeine",
         ]
-        for n in schedIII { t[NameNormalizer.normalize(n)] = "US-Schedule-III" }
+        for n in schedIII {
+            t[NameNormalizer.normalize(n)] = "US-Schedule-III"
+        }
 
         let schedIV = [
             "alprazolam", "diazepam", "lorazepam", "clonazepam", "midazolam",
@@ -63,14 +69,18 @@ enum DEAScheduleSource {
             "zolpidem", "zopiclone", "zaleplon", "eszopiclone",
             "tramadol", "soma",
         ]
-        for n in schedIV { t[NameNormalizer.normalize(n)] = "US-Schedule-IV" }
+        for n in schedIV {
+            t[NameNormalizer.normalize(n)] = "US-Schedule-IV"
+        }
 
         let schedV = [
             "pregabalin", "lyrica", "ezogabine", "lacosamide",
             "ezogabine", "brivaracetam", "cenobamate",
             "cough syrups with codeine",
         ]
-        for n in schedV { t[NameNormalizer.normalize(n)] = "US-Schedule-V" }
+        for n in schedV {
+            t[NameNormalizer.normalize(n)] = "US-Schedule-V"
+        }
 
         return t
     }()

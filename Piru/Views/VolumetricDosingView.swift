@@ -5,7 +5,9 @@ struct VolumetricDosingView: View {
         case solventNeeded = "Solvent Needed"
         case concentration = "Concentration"
         case doseVolume = "Dose Volume"
-        var id: String { rawValue }
+        var id: String {
+            rawValue
+        }
 
         var displayName: LocalizedStringResource {
             switch self {
@@ -67,7 +69,6 @@ struct VolumetricDosingView: View {
 
     // MARK: - Inputs
 
-    @ViewBuilder
     private var inputCard: some View {
         VStack(alignment: .leading, spacing: 14) {
             switch mode {
@@ -143,7 +144,6 @@ struct VolumetricDosingView: View {
         }
     }
 
-    @ViewBuilder
     private var resultCard: some View {
         VStack(spacing: 8) {
             Text(resultLabel)

@@ -1,12 +1,11 @@
-import Testing
 import Foundation
 import SwiftUI
+import Testing
 @testable import Piru
 
 @MainActor
 @Suite("AppNavigator")
 struct AppNavigatorTests {
-
     // MARK: - Helpers
 
     /// Builds a navigator backed by an isolated `UserDefaults` so tests don't
@@ -20,16 +19,16 @@ struct AppNavigatorTests {
 
     // MARK: - Tabs
 
-    @Test("Default tab is journal")
-    func defaultsToJournal() {
+    @Test
+    func `Default tab is journal`() {
         let nav = makeNavigator()
         #expect(nav.selectedTab == .journal)
     }
 
-    @Test("Selecting a tab persists across navigator instances when sharing storage")
-    func selectionPersists() {
+    @Test
+    func `Selecting a tab persists across navigator instances when sharing storage`() throws {
         let suite = "AppNavigatorTests-persist-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suite)!
+        let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
 
         let nav = AppNavigator(storage: defaults)
@@ -39,10 +38,10 @@ struct AppNavigatorTests {
         #expect(nav2.selectedTab == .library)
     }
 
-    @Test("Explicit selectedTab init wins over persisted value")
-    func explicitInitOverridesPersisted() {
+    @Test
+    func `Explicit selectedTab init wins over persisted value`() throws {
         let suite = "AppNavigatorTests-override-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suite)!
+        let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
 
         defaults.set(AppTab.tools.rawValue, forKey: "AppNavigator.selectedTab")
@@ -52,24 +51,24 @@ struct AppNavigatorTests {
 
     // MARK: - Push paths
 
-    @Test("Push appends to the current tab's path")
-    func pushAppends() {
+    @Test
+    func `Push appends to the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.day(date: .now))
         nav.push(.entry(timestamp: .now))
         #expect(nav.path(for: .journal).count == 2)
     }
 
-    @Test("Push into another tab does not affect the current tab")
-    func pushIsTabScoped() {
+    @Test
+    func `Push into another tab does not affect the current tab`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.substance(name: "LSD"), in: .library)
         #expect(nav.path(for: .journal).isEmpty)
         #expect(nav.path(for: .library) == [.substance(name: "LSD")])
     }
 
-    @Test("Pop removes the last element of the current tab's path")
-    func popRemovesLast() {
+    @Test
+    func `Pop removes the last element of the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.day(date: .now))
         nav.push(.entry(timestamp: .now))
@@ -77,15 +76,15 @@ struct AppNavigatorTests {
         #expect(nav.path(for: .journal).count == 1)
     }
 
-    @Test("Pop on empty path is a no-op")
-    func popEmptyIsNoOp() {
+    @Test
+    func `Pop on empty path is a no-op`() {
         let nav = makeNavigator()
         nav.pop()
         #expect(nav.path(for: nav.selectedTab).isEmpty)
     }
 
-    @Test("popToRoot clears the current tab")
-    func popToRootClears() {
+    @Test
+    func `popToRoot clears the current tab`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.day(date: .now))
         nav.push(.entry(timestamp: .now))
@@ -93,8 +92,8 @@ struct AppNavigatorTests {
         #expect(nav.path(for: .journal).isEmpty)
     }
 
-    @Test("popToRoot in one tab leaves others alone")
-    func popToRootScoped() {
+    @Test
+    func `popToRoot in one tab leaves others alone`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.day(date: .now), in: .journal)
         nav.push(.substance(name: "MDMA"), in: .library)
@@ -103,8 +102,8 @@ struct AppNavigatorTests {
         #expect(nav.path(for: .library).count == 1)
     }
 
-    @Test("pathBinding read and write round-trip through the navigator")
-    func pathBindingRoundTrip() {
+    @Test
+    func `pathBinding read and write round-trip through the navigator`() {
         let nav = makeNavigator(selectedTab: .insights)
         let binding = nav.pathBinding(for: .insights)
         binding.wrappedValue = [.day(date: Date(timeIntervalSince1970: 1_000))]
@@ -115,8 +114,8 @@ struct AppNavigatorTests {
 
     // MARK: - Sheet stack
 
-    @Test("present appends to the sheet stack")
-    func presentAppends() {
+    @Test
+    func `present appends to the sheet stack`() {
         let nav = makeNavigator()
         nav.present(.quickLog)
         nav.present(.colorPicker(substance: "MDMA"))
@@ -124,8 +123,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.last == .colorPicker(substance: "MDMA", remaining: []))
     }
 
-    @Test("dismiss removes the top sheet")
-    func dismissRemovesTop() {
+    @Test
+    func `dismiss removes the top sheet`() {
         let nav = makeNavigator()
         nav.present(.quickLog)
         nav.present(.help)
@@ -133,15 +132,15 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.quickLog])
     }
 
-    @Test("dismiss on empty stack is a no-op")
-    func dismissEmptyIsNoOp() {
+    @Test
+    func `dismiss on empty stack is a no-op`() {
         let nav = makeNavigator()
         nav.dismiss()
         #expect(nav.sheetStack.isEmpty)
     }
 
-    @Test("dismissAll empties the stack")
-    func dismissAllEmpties() {
+    @Test
+    func `dismissAll empties the stack`() {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
@@ -150,8 +149,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.isEmpty)
     }
 
-    @Test("dismiss(_:) removes a specific sheet")
-    func dismissSpecific() {
+    @Test
+    func `dismiss(_:) removes a specific sheet`() {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
@@ -160,8 +159,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.settings, .quickLog])
     }
 
-    @Test("present with replacingTop swaps the top instead of nesting")
-    func replacingTopSwaps() {
+    @Test
+    func `present with replacingTop swaps the top instead of nesting`() {
         let nav = makeNavigator()
         nav.present(.entryForm(prefill: nil))
         nav.present(.colorPicker(substance: "Caffeine"), replacingTop: true)
@@ -169,15 +168,15 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.first == .colorPicker(substance: "Caffeine", remaining: []))
     }
 
-    @Test("present with replacingTop on empty stack appends")
-    func replacingTopOnEmptyAppends() {
+    @Test
+    func `present with replacingTop on empty stack appends`() {
         let nav = makeNavigator()
         nav.present(.quickLog, replacingTop: true)
         #expect(nav.sheetStack == [.quickLog])
     }
 
-    @Test("truncateSheetStack to a depth trims deeper sheets")
-    func truncateTrims() {
+    @Test
+    func `truncateSheetStack to a depth trims deeper sheets`() {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
@@ -186,16 +185,16 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack == [.settings])
     }
 
-    @Test("truncateSheetStack to a depth >= current size is a no-op")
-    func truncateAboveSizeNoOp() {
+    @Test
+    func `truncateSheetStack to a depth >= current size is a no-op`() {
         let nav = makeNavigator()
         nav.present(.quickLog)
         nav.truncateSheetStack(to: 5)
         #expect(nav.sheetStack == [.quickLog])
     }
 
-    @Test("present beyond maxSheetDepth is dropped silently")
-    func presentBeyondMaxDepthDropped() {
+    @Test
+    func `present beyond maxSheetDepth is dropped silently`() {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
@@ -206,8 +205,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.last == .quickLog)
     }
 
-    @Test("replacingTop still succeeds at maxSheetDepth")
-    func replacingTopAtMaxDepthSucceeds() {
+    @Test
+    func `replacingTop still succeeds at maxSheetDepth`() {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
@@ -217,8 +216,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.last == .sessionDetail)
     }
 
-    @Test("Setting snapshot clamps sheetStack to maxSheetDepth")
-    func snapshotClampsSheetStackDepth() {
+    @Test
+    func `Setting snapshot clamps sheetStack to maxSheetDepth`() {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
         snap.sheetStack = [.settings, .help, .quickLog, .sessionDetail, .entryForm(prefill: nil)]
@@ -230,19 +229,19 @@ struct AppNavigatorTests {
 
     // MARK: - Color picker queue (the Phase 3 bug fix)
 
-    @Test("Color picker queue advances via replacingTop, then dismisses when empty")
-    func colorPickerQueueAdvancesAndDismisses() {
+    @Test
+    func `Color picker queue advances via replacingTop, then dismisses when empty`() throws {
         let nav = makeNavigator()
         // Form presents itself, then on Save replaces with the first picker.
         nav.present(.entryForm(prefill: nil))
         nav.present(.colorPicker(substance: "A", remaining: ["B", "C"]), replacingTop: true)
 
         // Simulate the picker advancing the queue.
-        guard case .colorPicker(_, let r1, _) = nav.sheetStack.last else {
+        guard case let .colorPicker(_, r1, _) = nav.sheetStack.last else {
             Issue.record("Expected color picker on top")
             return
         }
-        nav.present(.colorPicker(substance: r1.first!, remaining: Array(r1.dropFirst())), replacingTop: true)
+        try nav.present(.colorPicker(substance: #require(r1.first), remaining: Array(r1.dropFirst())), replacingTop: true)
         nav.present(.colorPicker(substance: "C", remaining: []), replacingTop: true)
 
         #expect(nav.sheetStack.count == 1)
@@ -252,8 +251,8 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.isEmpty)
     }
 
-    @Test("dismissAll clears the whole chain (logging-flow completion)")
-    func dismissAllChain() {
+    @Test
+    func `dismissAll clears the whole chain (logging-flow completion)`() {
         let nav = makeNavigator()
         // Simulate QuickLog → From Library → EntryForm.
         nav.present(.quickLog)
@@ -264,13 +263,13 @@ struct AppNavigatorTests {
         #expect(nav.sheetStack.isEmpty)
     }
 
-    @Test("colorPicker route propagates dismissAllOnComplete through Codable")
-    func colorPickerCarriesDismissAllFlag() throws {
+    @Test
+    func `colorPicker route propagates dismissAllOnComplete through Codable`() throws {
         let route = SheetRoute.colorPicker(substance: "A", remaining: ["B"], dismissAllOnComplete: true)
         let data = try JSONEncoder().encode(route)
         let decoded = try JSONDecoder().decode(SheetRoute.self, from: data)
         #expect(decoded == route)
-        if case .colorPicker(_, _, let flag) = decoded {
+        if case let .colorPicker(_, _, flag) = decoded {
             #expect(flag == true)
         } else {
             Issue.record("Expected color picker case")
@@ -279,8 +278,8 @@ struct AppNavigatorTests {
 
     // MARK: - Snapshot
 
-    @Test("Snapshot reflects current navigator state")
-    func snapshotReflectsState() {
+    @Test
+    func `Snapshot reflects current navigator state`() {
         let nav = makeNavigator(selectedTab: .insights)
         nav.push(.substance(name: "Caffeine"), in: .library)
         nav.present(.quickLog)
@@ -291,8 +290,8 @@ struct AppNavigatorTests {
         #expect(snap.sheetStack == [.quickLog])
     }
 
-    @Test("Setting snapshot replaces navigator state")
-    func snapshotApplies() {
+    @Test
+    func `Setting snapshot replaces navigator state`() {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
         snap.selectedTab = .tools
@@ -309,21 +308,20 @@ struct AppNavigatorTests {
 
 @Suite("Routes Codable")
 struct RoutesCodableTests {
-
     private func roundTrip<T: Codable & Equatable>(_ value: T) throws -> T {
         let data = try JSONEncoder().encode(value)
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    @Test("Every AppTab encodes and decodes")
-    func appTabRoundTrip() throws {
+    @Test
+    func `Every AppTab encodes and decodes`() throws {
         for tab in AppTab.allCases {
             let decoded = try roundTrip(tab)
             #expect(decoded == tab)
         }
     }
 
-    @Test("Each PushRoute case round-trips", arguments: [
+    @Test(arguments: [
         PushRoute.day(date: Date(timeIntervalSince1970: 1_700_000_000)),
         PushRoute.entry(timestamp: Date(timeIntervalSince1970: 1_700_000_500)),
         PushRoute.substance(name: "LSD"),
@@ -331,11 +329,11 @@ struct RoutesCodableTests {
         .libraryCategory(.psychedelic),
         .libraryFavorites,
     ])
-    func pushRouteRoundTrip(route: PushRoute) throws {
+    func `Each PushRoute case round-trips`(route: PushRoute) throws {
         #expect(try roundTrip(route) == route)
     }
 
-    @Test("Each SheetRoute case round-trips", arguments: [
+    @Test(arguments: [
         SheetRoute.quickLog,
         .settings,
         .help,
@@ -359,12 +357,12 @@ struct RoutesCodableTests {
         .timeAdjust(entryTimestamp: Date(timeIntervalSince1970: 300)),
         .dayShare(date: Date(timeIntervalSince1970: 400)),
     ])
-    func sheetRouteRoundTrip(route: SheetRoute) throws {
+    func `Each SheetRoute case round-trips`(route: SheetRoute) throws {
         #expect(try roundTrip(route) == route)
     }
 
-    @Test("A full NavigatorSnapshot round-trips")
-    func snapshotRoundTrip() throws {
+    @Test
+    func `A full NavigatorSnapshot round-trips`() throws {
         let snap = NavigatorSnapshot(
             selectedTab: .library,
             paths: [
@@ -374,7 +372,7 @@ struct RoutesCodableTests {
             sheetStack: [
                 .entryForm(prefill: EntryPrefillPayload(substance: "MDMA", route: .insufflation, unit: "mg")),
                 .colorPicker(substance: "MDMA", remaining: ["Caffeine"]),
-            ]
+            ],
         )
         let decoded = try JSONDecoder().decode(NavigatorSnapshot.self, from: JSONEncoder().encode(snap))
         #expect(decoded == snap)

@@ -52,14 +52,14 @@ enum ChemicalNameFormatter {
         let lower = rawName.lowercased().trimmingCharacters(in: .whitespaces)
 
         // Check known names first
-        if let known = knownNames[lower.filter({ $0.isLetter || $0.isNumber })] {
+        if let known = knownNames[lower.filter { $0.isLetter || $0.isNumber }] {
             return known
         }
 
         // Split on hyphens, preserving them
         let segments = lower.split(separator: "-", omittingEmptySubsequences: false).map(String.init)
 
-        let formatted = segments.enumerated().map { (index, segment) -> String in
+        let formatted = segments.enumerated().map { index, segment -> String in
             let stripped = segment.filter { $0.isLetter || $0.isNumber }
 
             // Check if this segment should be all-uppercase (chemical abbreviation)

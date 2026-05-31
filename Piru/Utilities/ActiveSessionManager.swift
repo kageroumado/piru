@@ -56,13 +56,13 @@ final class ActiveSessionManager {
         // Recover from the current session day (configurable cutoff) so a
         // dose taken at 01:30 still surfaces after a cold launch at 02:00.
         let startOfDay = Calendar.current.sessionDayStart(for: .now)
-        let endOfDay = startOfDay.addingTimeInterval(86400)
+        let endOfDay = startOfDay.addingTimeInterval(86_400)
 
         let descriptor = FetchDescriptor<DoseEntry>(
             predicate: #Predicate { entry in
                 entry.timestamp >= startOfDay && entry.timestamp < endOfDay
             },
-            sortBy: [SortDescriptor(\.timestamp)]
+            sortBy: [SortDescriptor(\.timestamp)],
         )
 
         guard let entries = try? context.fetch(descriptor), !entries.isEmpty else { return }
@@ -89,7 +89,7 @@ final class ActiveSessionManager {
         entry: DoseEntry,
         substance: Substance?,
         colorHex: String,
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         let snapshot = DoseSnapshot(entry: entry)
         let duration = Self.resolveDuration(substance: substance, route: entry.route)
@@ -107,7 +107,7 @@ final class ActiveSessionManager {
 
     func addDoses(
         entries: [(entry: DoseEntry, substance: Substance?)],
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
@@ -129,11 +129,11 @@ final class ActiveSessionManager {
     func removeDose(
         substanceName: String,
         timestamp: Date,
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         activeEntries.removeAll { item in
             item.snapshot.substance == substanceName &&
-            abs(item.snapshot.timestamp.timeIntervalSince(timestamp)) < 1
+                abs(item.snapshot.timestamp.timeIntervalSince(timestamp)) < 1
         }
 
         let colorMap = Self.buildColorMap(from: allColors)
@@ -164,7 +164,7 @@ final class ActiveSessionManager {
         entry: DoseEntry,
         substance: Substance?,
         colorHex: String,
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
@@ -176,7 +176,7 @@ final class ActiveSessionManager {
 
         if let index = activeEntries.firstIndex(where: { item in
             item.snapshot.substance == previousSubstanceName &&
-            abs(item.snapshot.timestamp.timeIntervalSince(previousTimestamp)) < 1
+                abs(item.snapshot.timestamp.timeIntervalSince(previousTimestamp)) < 1
         }) {
             activeEntries[index] = updated
         } else {
@@ -201,7 +201,7 @@ final class ActiveSessionManager {
     func refreshEditedEntry(
         previousTimestamp: Date,
         entry: DoseEntry,
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         let colorHex = allColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
@@ -212,14 +212,14 @@ final class ActiveSessionManager {
             entry: entry,
             substance: SubstanceStore.shared.lookupByNameOrAlias(entry.substance),
             colorHex: colorHex,
-            allColors: allColors
+            allColors: allColors,
         )
     }
 
     /// Rebuild session from a set of existing day entries (e.g. after restart from DayDetailView).
     func restartFromEntries(
         _ doseEntries: [DoseEntry],
-        allColors: [SubstanceColor]
+        allColors: [SubstanceColor],
     ) {
         let colorMap = Self.buildColorMap(from: allColors)
         cachedColorMap = colorMap
@@ -275,7 +275,7 @@ final class ActiveSessionManager {
             }
             let intensity = ActiveSubstanceState.computeDoseIntensity(
                 amount: item.snapshot.amount,
-                doseRange: doseRange
+                doseRange: doseRange,
             )
             return ActiveSubstanceState(
                 name: item.snapshot.substance,
@@ -285,7 +285,7 @@ final class ActiveSessionManager {
                 unit: item.snapshot.unit,
                 routeDisplayName: item.snapshot.route.displayName,
                 duration: item.duration,
-                doseIntensity: intensity
+                doseIntensity: intensity,
             )
         }
     }
@@ -293,7 +293,7 @@ final class ActiveSessionManager {
     func buildContentState(colorMap: [String: String]) -> PiruActivityAttributes.ContentState {
         PiruActivityAttributes.ContentState(
             activeSubstances: buildSubstanceStates(colorMap: colorMap),
-            lastUpdated: .now
+            lastUpdated: .now,
         )
     }
 

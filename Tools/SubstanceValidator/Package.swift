@@ -12,11 +12,11 @@ let package = Package(
             name: "SubstanceValidator",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ]
+            ],
         ),
         .testTarget(
             name: "SubstanceValidatorTests",
-            dependencies: ["SubstanceValidator"]
+            dependencies: ["SubstanceValidator"],
         ),
-    ]
+    ],
 )

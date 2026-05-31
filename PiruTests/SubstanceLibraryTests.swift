@@ -3,36 +3,35 @@ import Testing
 
 @Suite("SubstanceLibrary")
 struct SubstanceLibraryTests {
-
     // MARK: - Library data
 
-    @Test("Library is not empty")
-    func libraryNotEmpty() {
+    @Test
+    func `Library is not empty`() {
         #expect(!SubstanceLibrary.all.isEmpty)
     }
 
-    @Test("Library has substances in multiple categories")
-    func multipleCategories() {
+    @Test
+    func `Library has substances in multiple categories`() {
         let categories = Set(SubstanceLibrary.all.map(\.category))
         #expect(categories.count > 5)
     }
 
     // MARK: - search()
 
-    @Test("Empty query returns empty")
-    func searchEmpty() {
+    @Test
+    func `Empty query returns empty`() {
         #expect(SubstanceLibrary.search("").isEmpty)
     }
 
-    @Test("Exact name match appears first")
-    func searchExactNameFirst() {
+    @Test
+    func `Exact name match appears first`() {
         let results = SubstanceLibrary.search("Caffeine")
         #expect(!results.isEmpty)
         #expect(results[0].name == "Caffeine")
     }
 
-    @Test("Search is case-insensitive")
-    func searchCaseInsensitive() {
+    @Test
+    func `Search is case-insensitive`() {
         let lower = SubstanceLibrary.search("caffeine")
         let upper = SubstanceLibrary.search("CAFFEINE")
         #expect(!lower.isEmpty)
@@ -40,30 +39,30 @@ struct SubstanceLibraryTests {
         #expect(lower[0].name == upper[0].name)
     }
 
-    @Test("Prefix matches appear before contains matches")
-    func searchPrefixBeforeContains() {
+    @Test
+    func `Prefix matches appear before contains matches`() {
         // "Amphetamine" should prefix-match before something that merely contains "amphetamine"
         let results = SubstanceLibrary.search("Amphetamine")
         #expect(!results.isEmpty)
         #expect(results[0].name == "Amphetamine")
     }
 
-    @Test("Search finds substances by alias")
-    func searchByAlias() {
+    @Test
+    func `Search finds substances by alias`() {
         // MDMA has common aliases
         let results = SubstanceLibrary.search("Molly")
         #expect(!results.isEmpty)
     }
 
-    @Test("No results for nonsense query")
-    func searchNoResults() {
+    @Test
+    func `No results for nonsense query`() {
         #expect(SubstanceLibrary.search("zzznotasubstancezzz").isEmpty)
     }
 
     // MARK: - substances(in:)
 
-    @Test("Substances in category returns only that category")
-    func substancesInCategory() {
+    @Test
+    func `Substances in category returns only that category`() {
         let stimulants = SubstanceLibrary.substances(in: .stimulant)
         #expect(!stimulants.isEmpty)
         for substance in stimulants {
@@ -73,8 +72,8 @@ struct SubstanceLibraryTests {
 
     // MARK: - byCategory
 
-    @Test("Each non-empty category is populated by substances(in:)")
-    func substancesByCategoryAreCorrect() {
+    @Test
+    func `Each non-empty category is populated by substances(in:)`() {
         for category in SubstanceLibrary.nonEmptyCategories {
             let substances = SubstanceLibrary.substances(in: category)
             #expect(!substances.isEmpty)
@@ -84,8 +83,8 @@ struct SubstanceLibraryTests {
         }
     }
 
-    @Test("Non-empty categories partition every browsable substance exactly once")
-    func nonEmptyCategoriesCoverAll() {
+    @Test
+    func `Non-empty categories partition every browsable substance exactly once`() {
         // Category browse only surfaces browsable substances — `.nonRecreational`
         // compounds (antibiotics, …) stay searchable for medication tracking but
         // are hidden from browse (see `substances(in:)` / `nonEmptyCategories`,
@@ -93,27 +92,29 @@ struct SubstanceLibraryTests {
         // must equal the browsable count, NOT `all.count` (which also includes
         // the hidden non-recreational substances).
         let browsableCount = SubstanceLibrary.all
-            .filter { $0.displayClass.surfacesInBrowse }
-            .count
+            .count(where: { $0.displayClass.surfacesInBrowse })
+            
         let totalGrouped = SubstanceLibrary.nonEmptyCategories
             .reduce(0) { $0 + SubstanceLibrary.substances(in: $1).count }
         #expect(totalGrouped == browsableCount)
         // Everything left out of browse is exactly the non-browsable set.
-        #expect(SubstanceLibrary.all.count - totalGrouped
-                == SubstanceLibrary.all.filter { !$0.displayClass.surfacesInBrowse }.count)
+        #expect(
+            SubstanceLibrary.all.count - totalGrouped
+                == SubstanceLibrary.all.count(where: { !$0.displayClass.surfacesInBrowse }),
+        )
     }
 
     // MARK: - Search ranking edge cases
 
-    @Test("Search for 'lsd' finds LSD as first hit")
-    func searchExactBeatsAlias() {
+    @Test
+    func `Search for 'lsd' finds LSD as first hit`() {
         let results = SubstanceLibrary.search("LSD", limit: 5)
         #expect(!results.isEmpty)
         #expect(results.first?.name.uppercased().contains("LSD") == true)
     }
 
-    @Test("Search is case-insensitive both ways")
-    func searchCaseInsensitiveBothWays() {
+    @Test
+    func `Search is case-insensitive both ways`() {
         let upper = SubstanceLibrary.search("KETAMINE")
         let lower = SubstanceLibrary.search("ketamine")
         let mixed = SubstanceLibrary.search("Ketamine")
@@ -122,19 +123,21 @@ struct SubstanceLibraryTests {
         #expect(upper.first?.name == mixed.first?.name)
     }
 
-    @Test("Fuzzy match only kicks in for queries ≥ 4 chars")
-    func fuzzyMinimumLength() {
+    @Test
+    func `Fuzzy match only kicks in for queries ≥ 4 chars`() {
         // 3-char nonsense query should NOT return anything via fuzzy match.
         // (Exact/alias misses too, so the result should be empty.)
         let tooShort = SubstanceLibrary.search("zzx")
-        #expect(tooShort.isEmpty,
-                "Queries under 4 chars must not trigger fuzzy match — got \(tooShort.map(\.name))")
+        #expect(
+            tooShort.isEmpty,
+            "Queries under 4 chars must not trigger fuzzy match — got \(tooShort.map(\.name))",
+        )
     }
 
-    @Test("Limit parameter bounds result count")
-    func searchLimitRespected() {
-        let unbounded = SubstanceLibrary.search("a", limit: 1000)
-        let bounded   = SubstanceLibrary.search("a", limit: 3)
+    @Test
+    func `Limit parameter bounds result count`() {
+        let unbounded = SubstanceLibrary.search("a", limit: 1_000)
+        let bounded = SubstanceLibrary.search("a", limit: 3)
         #expect(bounded.count <= 3)
         #expect(unbounded.count >= bounded.count)
     }

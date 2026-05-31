@@ -26,19 +26,19 @@ struct SubstanceDBUpdateRow: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
 
-            case .upToDate(let local):
+            case let .upToDate(local):
                 upToDateRow(local: local)
 
-            case .updateAvailable(let local, let remote):
+            case let .updateAvailable(local, remote):
                 updateAvailableRow(local: local, remote: remote)
 
-            case .downloading(let progress):
+            case let .downloading(progress):
                 downloadingRow(progress: progress)
 
-            case .appliedNeedsRestart(let applied):
+            case let .appliedNeedsRestart(applied):
                 appliedRow(applied: applied)
 
-            case .error(let message):
+            case let .error(message):
                 errorRow(message: message)
             }
         }
@@ -47,7 +47,6 @@ struct SubstanceDBUpdateRow: View {
 
     // MARK: - Sub-rows
 
-    @ViewBuilder
     private var idleRow: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -66,7 +65,6 @@ struct SubstanceDBUpdateRow: View {
         }
     }
 
-    @ViewBuilder
     private func upToDateRow(local: SubstanceDBManifest) -> some View {
         HStack {
             Label("Up to date", systemImage: "checkmark.seal.fill")
@@ -79,7 +77,6 @@ struct SubstanceDBUpdateRow: View {
         }
     }
 
-    @ViewBuilder
     private func updateAvailableRow(local: SubstanceDBManifest, remote: SubstanceDBManifest) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -111,7 +108,6 @@ struct SubstanceDBUpdateRow: View {
         }
     }
 
-    @ViewBuilder
     private func downloadingRow(progress: Double) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Label("Downloading…", systemImage: "arrow.down.circle")
@@ -120,7 +116,6 @@ struct SubstanceDBUpdateRow: View {
         }
     }
 
-    @ViewBuilder
     private func appliedRow(applied: SubstanceDBManifest) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
@@ -138,7 +133,6 @@ struct SubstanceDBUpdateRow: View {
         }
     }
 
-    @ViewBuilder
     private func errorRow(message: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {

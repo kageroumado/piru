@@ -2,7 +2,7 @@ import SwiftUI
 
 struct EntryRowView: View {
     let entry: DoseEntry
-    var color: Color? = nil
+    var color: Color?
     @State private var customStore = CustomSubstanceStore.shared
 
     private var doseLevel: DoseLevel? {
@@ -20,7 +20,7 @@ struct EntryRowView: View {
             return entry.timestamp.formatted(date: .abbreviated, time: .omitted)
         }
         let minutes = totalMinutes % 60
-        if hours > 0 && minutes > 0 {
+        if hours > 0, minutes > 0 {
             return String(localized: "\(hours)h \(minutes)m ago")
         } else if hours > 0 {
             return String(localized: "\(hours)h ago")

@@ -107,8 +107,12 @@ struct NameNormalizer {
     func characterOverlap(_ a: String, _ b: String) -> Double {
         var aFreq: [Character: Int] = [:]
         var bFreq: [Character: Int] = [:]
-        for c in a { aFreq[c, default: 0] += 1 }
-        for c in b { bFreq[c, default: 0] += 1 }
+        for c in a {
+            aFreq[c, default: 0] += 1
+        }
+        for c in b {
+            bFreq[c, default: 0] += 1
+        }
 
         let allKeys = Set(aFreq.keys).union(bFreq.keys)
         var intersection = 0
@@ -130,24 +134,24 @@ struct NameNormalizer {
     func hasConfusableSuffixMismatch(_ a: String, _ b: String) -> Bool {
         let confusableSuffixes = [
             "azepam", "azolam", "azenil", "azepate", // benzodiazepines
-            "etamine", "amine", "idine",              // dissociatives/amines
-            "orphine", "orphan", "adone", "adol",     // opioids
-            "nbome", "nboh", "nbf",                   // psychedelic NBx series
-            "phetamine",                               // amphetamines
-            "cathinone", "edrone",                     // cathinones
-            "tryptamine",                              // tryptamines
-            "phenidine", "cyclidine",                  // arylcyclohexylamines
-            "fentanyl", "fentanil",                    // fentanyl analogues
+            "etamine", "amine", "idine", // dissociatives/amines
+            "orphine", "orphan", "adone", "adol", // opioids
+            "nbome", "nboh", "nbf", // psychedelic NBx series
+            "phetamine", // amphetamines
+            "cathinone", "edrone", // cathinones
+            "tryptamine", // tryptamines
+            "phenidine", "cyclidine", // arylcyclohexylamines
+            "fentanyl", "fentanil", // fentanyl analogues
         ]
 
         for suffix in confusableSuffixes {
             let aHas = a.hasSuffix(suffix)
             let bHas = b.hasSuffix(suffix)
-            if aHas && bHas {
+            if aHas, bHas {
                 // Both share the suffix — check if prefixes differ significantly
                 let aPrefix = String(a.dropLast(suffix.count))
                 let bPrefix = String(b.dropLast(suffix.count))
-                if aPrefix != bPrefix && levenshteinDistance(aPrefix, bPrefix) > 1 {
+                if aPrefix != bPrefix, levenshteinDistance(aPrefix, bPrefix) > 1 {
                     return true // Different drugs in the same class
                 }
             }
@@ -168,16 +172,20 @@ struct NameNormalizer {
 
         var matrix = Array(repeating: Array(repeating: 0, count: n + 1), count: m + 1)
 
-        for i in 0...m { matrix[i][0] = i }
-        for j in 0...n { matrix[0][j] = j }
+        for i in 0 ... m {
+            matrix[i][0] = i
+        }
+        for j in 0 ... n {
+            matrix[0][j] = j
+        }
 
-        for i in 1...m {
-            for j in 1...n {
+        for i in 1 ... m {
+            for j in 1 ... n {
                 let cost = aChars[i - 1] == bChars[j - 1] ? 0 : 1
                 matrix[i][j] = min(
-                    matrix[i - 1][j] + 1,       // deletion
-                    matrix[i][j - 1] + 1,       // insertion
-                    matrix[i - 1][j - 1] + cost // substitution
+                    matrix[i - 1][j] + 1, // deletion
+                    matrix[i][j - 1] + 1, // insertion
+                    matrix[i - 1][j - 1] + cost, // substitution
                 )
             }
         }

@@ -44,7 +44,9 @@ struct UsageStatsView: View {
         case thirtyDays = "30D"
         case ninetyDays = "90D"
         case all = "All"
-        var id: String { rawValue }
+        var id: String {
+            rawValue
+        }
 
         var days: Int? {
             switch self {
@@ -68,7 +70,7 @@ struct UsageStatsView: View {
     private func rebuildFilteredEntries() {
         let filtered: [DoseEntry]
         if let days = timeRange.days {
-            let cutoff = Date.now.addingTimeInterval(-Double(days) * 86400)
+            let cutoff = Date.now.addingTimeInterval(-Double(days) * 86_400)
             filtered = allEntries.filter { $0.timestamp >= cutoff }
         } else {
             filtered = Array(allEntries)
@@ -96,9 +98,9 @@ struct UsageStatsView: View {
 
             let hour = calendar.component(.hour, from: ce.timestamp)
             switch hour {
-            case 6..<12: morning += 1
-            case 12..<18: afternoon += 1
-            case 18..<24: evening += 1
+            case 6 ..< 12: morning += 1
+            case 12 ..< 18: afternoon += 1
+            case 18 ..< 24: evening += 1
             default: night += 1
             }
         }
@@ -124,7 +126,9 @@ struct UsageStatsView: View {
 
         // Daily totals (aggregated for compact chart — 1 bar per day)
         var dailyAgg: [Date: Int] = [:]
-        for (key, count) in dayBuckets { dailyAgg[key.date, default: 0] += count }
+        for (key, count) in dayBuckets {
+            dailyAgg[key.date, default: 0] += count
+        }
         cachedDailyTotals = dailyAgg.sorted { $0.key < $1.key }
             .map { (date: $0.key, count: $0.value) }
 
@@ -201,7 +205,7 @@ struct UsageStatsView: View {
                         ContentUnavailableView(
                             "No Logged Entries",
                             systemImage: "chart.bar",
-                            description: Text("Log some entries to see usage stats.")
+                            description: Text("Log some entries to see usage stats."),
                         )
                     } else if !filteredEntries.isEmpty {
                         summaryRow
@@ -247,7 +251,7 @@ struct UsageStatsView: View {
             guard let days = timeRange.days else {
                 guard let oldest = entries.last?.timestamp,
                       let newest = entries.first?.timestamp else { return 1 }
-                return max(1, newest.timeIntervalSince(oldest) / 86400 + 1)
+                return max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
             }
             return Double(days)
         }()
@@ -379,7 +383,7 @@ struct UsageStatsView: View {
                     maxCount: chartMax,
                     strideComponent: strideComponent,
                     strideCount: strideCount,
-                    dateFormat: dateFormat
+                    dateFormat: dateFormat,
                 )
 
                 let legendSubstances = if let catFilter = activityCategoryFilter {
@@ -405,7 +409,7 @@ struct UsageStatsView: View {
                 Chart(cachedDailyTotals, id: \.date) { item in
                     BarMark(
                         x: .value("Date", item.date, unit: .day),
-                        y: .value("Count", item.count)
+                        y: .value("Count", item.count),
                     )
                     .foregroundStyle(Theme.accent)
                     .cornerRadius(4)
@@ -471,7 +475,9 @@ struct UsageStatsView: View {
         }
     }
 
-    private var strideCount: Int { 1 }
+    private var strideCount: Int {
+        1
+    }
 
     private var dateFormat: Date.FormatStyle {
         switch timeRange {
@@ -497,26 +503,27 @@ struct UsageStatsView: View {
 
         // Determine predominant unit; filter if mixed
         var unitCounts: [String: Int] = [:]
-        for e in allSubstanceEntries { unitCounts[e.unit, default: 0] += 1 }
+        for e in allSubstanceEntries {
+            unitCounts[e.unit, default: 0] += 1
+        }
         let unit = unitCounts.max(by: { $0.value < $1.value })?.key ?? "mg"
         let mixedUnits = unitCounts.count > 1
-        let entries = mixedUnits ? allSubstanceEntries.filter({ $0.unit == unit }) : allSubstanceEntries
+        let entries = mixedUnits ? allSubstanceEntries.filter { $0.unit == unit } : allSubstanceEntries
 
         guard !entries.isEmpty else { return ([], unit, false, [:], mixedUnits) }
 
         let calendar = Calendar.current
 
-        let span = (entries.last?.timestamp.timeIntervalSince(entries.first?.timestamp ?? .now) ?? 0) / 86400
+        let span = (entries.last?.timestamp.timeIntervalSince(entries.first?.timestamp ?? .now) ?? 0) / 86_400
         let weekly = span > 90 * Double(trendZoom)
 
         var buckets: [Date: Double] = [:]
         for entry in entries {
-            let key: Date
-            if weekly {
-                key = calendar.dateInterval(of: .weekOfYear, for: entry.timestamp)?.start
+            let key: Date = if weekly {
+                calendar.dateInterval(of: .weekOfYear, for: entry.timestamp)?.start
                     ?? calendar.sessionDayStart(for: entry.timestamp)
             } else {
-                key = calendar.sessionDayStart(for: entry.timestamp)
+                calendar.sessionDayStart(for: entry.timestamp)
             }
             buckets[key, default: 0] += entry.amount
         }
@@ -539,9 +546,9 @@ struct UsageStatsView: View {
         var maLookup: [Date: Double] = [:]
         if points.count >= 3 {
             let window = weekly ? 4 : 7
-            for i in 0..<points.count {
+            for i in 0 ..< points.count {
                 let start = max(0, i - window + 1)
-                let slice = points[start...i]
+                let slice = points[start ... i]
                 maLookup[points[i].date] = slice.map(\.total).reduce(0, +) / Double(slice.count)
             }
         }
@@ -589,7 +596,7 @@ struct UsageStatsView: View {
                                     .background(
                                         isSelected
                                             ? (cachedColorMap[name.lowercased()] ?? Theme.accent)
-                                            : Color.clear
+                                            : Color.clear,
                                     )
                                     .foregroundStyle(isSelected ? .white : .primary)
                                     .clipShape(Capsule())
@@ -623,7 +630,7 @@ struct UsageStatsView: View {
                             chartWidth: trendChartWidth,
                             strideN: strideN,
                             zoom: $trendZoom,
-                            gestureStartZoom: $trendGestureStartZoom
+                            gestureStartZoom: $trendGestureStartZoom,
                         )
                     }
                 } else {
@@ -638,7 +645,6 @@ struct UsageStatsView: View {
             .themeCard()
         }
     }
-
 
     @ViewBuilder
     private func trendDayDetail(substance: String, date: Date, total: Double, unit: String, color: Color) -> some View {
@@ -700,13 +706,13 @@ struct UsageStatsView: View {
             substanceCounts: cachedCategorySubstanceCounts,
             colorMap: cachedColorMap,
             selectedCategory: $selectedCategory,
-            categoryAngleValue: $categoryAngleValue
+            categoryAngleValue: $categoryAngleValue,
         )
     }
-
 }
 
 // MARK: - Extracted Chart Views
+
 // Each struct has its own `body`, so SwiftUI type-checks them independently.
 
 private struct FrequencyChartContent: View {
@@ -755,7 +761,9 @@ private struct TimeOfDayChartContent: View {
         let name: String
         let count: Int
         let color: Color
-        var id: String { name }
+        var id: String {
+            name
+        }
     }
 
     var body: some View {
@@ -774,7 +782,7 @@ private struct TimeOfDayChartContent: View {
             Chart(items) { bucket in
                 BarMark(
                     x: .value("Time", bucket.name),
-                    y: .value("Count", bucket.count)
+                    y: .value("Count", bucket.count),
                 )
                 .foregroundStyle(bucket.color)
                 .cornerRadius(6)
@@ -841,21 +849,21 @@ private struct DoseTrendInnerChart: View {
                 AreaMark(
                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
                     yStart: .value("Baseline", 0),
-                    yEnd: .value("Dose", point.total)
+                    yEnd: .value("Dose", point.total),
                 )
                 .foregroundStyle(
                     .linearGradient(
                         colors: [color.opacity(0.25), color.opacity(0.0)],
                         startPoint: .top,
-                        endPoint: .bottom
-                    )
+                        endPoint: .bottom,
+                    ),
                 )
                 .interpolationMethod(.monotone)
 
                 LineMark(
                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
                     y: .value("Dose", point.total),
-                    series: .value("S", "data")
+                    series: .value("S", "data"),
                 )
                 .foregroundStyle(color.opacity(0.6))
                 .lineStyle(StrokeStyle(lineWidth: 2))
@@ -863,7 +871,7 @@ private struct DoseTrendInnerChart: View {
 
                 PointMark(
                     x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
-                    y: .value("Dose", point.total)
+                    y: .value("Dose", point.total),
                 )
                 .foregroundStyle(color)
                 .symbolSize(30)
@@ -872,7 +880,7 @@ private struct DoseTrendInnerChart: View {
                     LineMark(
                         x: .value("Date", point.date, unit: weekly ? .weekOfYear : .day),
                         y: .value("Avg", maValue),
-                        series: .value("S", "avg")
+                        series: .value("S", "avg"),
                     )
                     .foregroundStyle(color.opacity(0.35))
                     .lineStyle(StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
@@ -913,7 +921,7 @@ private struct DoseTrendInnerChart: View {
                     }
                     .onEnded { _ in
                         gestureStartZoom = zoom
-                    }
+                    },
             )
         }
         .scrollBounceBehavior(.basedOnSize)
@@ -992,7 +1000,7 @@ private struct CategoryBreakdownContent: View {
                     SectorMark(
                         angle: .value("Count", item.count),
                         innerRadius: .ratio(0.618),
-                        angularInset: 1.5
+                        angularInset: 1.5,
                     )
                     .foregroundStyle(item.category.color)
                     .cornerRadius(4)
@@ -1041,7 +1049,7 @@ private struct CategoryBreakdownContent: View {
     }
 
     @ViewBuilder
-    private func drillDownContent(category: SubstanceCategory, total: Int) -> some View {
+    private func drillDownContent(category: SubstanceCategory, total _: Int) -> some View {
         let counts = substanceCounts[category] ?? []
         let drillTotal = counts.reduce(0) { $0 + $1.count }
 
@@ -1056,7 +1064,7 @@ private struct CategoryBreakdownContent: View {
                 SectorMark(
                     angle: .value("Count", item.count),
                     innerRadius: .ratio(0.618),
-                    angularInset: 1.5
+                    angularInset: 1.5,
                 )
                 .foregroundStyle(colorMap[item.substance.lowercased()] ?? category.color)
                 .cornerRadius(4)

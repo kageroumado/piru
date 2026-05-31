@@ -63,11 +63,10 @@ struct PubChemSource {
             }
             // Try name search → CID → properties.
             do {
-                let cid: Int?
-                if let existing = c.pubchemCID {
-                    cid = existing
+                let cid: Int? = if let existing = c.pubchemCID {
+                    existing
                 } else {
-                    cid = try await lookupCID(name: c.name)
+                    try await lookupCID(name: c.name)
                 }
                 guard let cid else { result.append(c); failedCount += 1; continue }
                 let (inchiKey, smiles, synonyms) = try await fetchProperties(cid: cid)
@@ -79,7 +78,7 @@ struct PubChemSource {
                     smiles: smiles ?? c.smiles,
                     pubchemCID: cid,
                     drugClass: c.drugClass,
-                    seedCategory: c.seedCategory
+                    seedCategory: c.seedCategory,
                 )
                 result.append(merged)
                 enrichedCount += 1
@@ -135,7 +134,7 @@ struct PubChemSource {
         var out = existing
         for a in additions {
             let n = NameNormalizer.normalize(a)
-            if !seen.contains(n) && !a.isEmpty {
+            if !seen.contains(n), !a.isEmpty {
                 seen.insert(n)
                 out.append(a)
             }

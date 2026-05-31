@@ -10,12 +10,12 @@ import SwiftUI
 struct AdvancedSearchView: View {
     @State private var availableTargets: [(target: String, substanceCount: Int)] = []
     @State private var selectedTarget: String?
-    @State private var kiCeilingNm: Double = 1000
+    @State private var kiCeilingNm: Double = 1_000
     @State private var kiCeilingEnabled = false
     @State private var substanceQuery = ""
     @State private var results: [SubstanceStore.BindingHit] = []
 
-    private let kiSliderRange: ClosedRange<Double> = 1...10_000
+    private let kiSliderRange: ClosedRange<Double> = 1 ... 10_000
 
     var body: some View {
         List {
@@ -29,7 +29,6 @@ struct AdvancedSearchView: View {
         .onChange(of: substanceQuery) { _, _ in runQuery() }
     }
 
-    @ViewBuilder
     private var filterSection: some View {
         Section {
             TextField("Substance contains…", text: $substanceQuery)
@@ -55,7 +54,6 @@ struct AdvancedSearchView: View {
         }
     }
 
-    @ViewBuilder
     private var resultsSection: some View {
         Section {
             if results.isEmpty {
@@ -85,7 +83,7 @@ struct AdvancedSearchView: View {
         results = SubstanceStore.shared.bindings(
             target: target,
             kiNmAtMost: kiAtMost,
-            substanceContains: q.isEmpty ? nil : q
+            substanceContains: q.isEmpty ? nil : q,
         )
     }
 }
@@ -140,7 +138,7 @@ private struct BindingHitRow: View {
 
     private func formatNm(_ value: Double) -> String {
         if value >= 100 { return String(format: "%.0f", value) }
-        if value >= 10  { return String(format: "%.1f", value) }
+        if value >= 10 { return String(format: "%.1f", value) }
         return String(format: "%.2f", value)
     }
 }

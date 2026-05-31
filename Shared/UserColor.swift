@@ -14,5 +14,7 @@ final class UserColor {
         self.createdAt = .now
     }
 
-    var color: Color { Color(hex: hex) }
+    var color: Color {
+        Color(hex: hex)
+    }
 }

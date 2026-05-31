@@ -54,8 +54,12 @@ struct PresetColor: Identifiable, Hashable {
     /// Human-readable name shown in the UI (e.g. `"Sky"`, `"Light Lavender"`).
     let name: String
 
-    var id: String { hex }
-    var color: Color { Color(hex: hex) }
+    var id: String {
+        hex
+    }
+    var color: Color {
+        Color(hex: hex)
+    }
 
     static let all: [PresetColor] = [
         // Sky

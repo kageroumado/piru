@@ -1,5 +1,5 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 /// Provenance is the user-visible source-attribution feature: the slug shown
@@ -8,24 +8,23 @@ import Foundation
 /// no attribution — it's actively misleading.
 @Suite("SubstanceProvenance")
 struct SubstanceProvenanceTests {
-
-    @Test("Returns nil for an unknown substance")
+    @Test
     @MainActor
-    func unknown() {
+    func `Returns nil for an unknown substance`() {
         #expect(SubstanceStore.shared.provenance(forSubstanceName: "zzzNotARealCompound") == nil)
     }
 
-    @Test("Returns non-nil for a substance present in the bundled DB")
+    @Test
     @MainActor
-    func knownReturnsValue() {
+    func `Returns non-nil for a substance present in the bundled DB`() {
         // Caffeine should be in every reasonable bundled DB build.
         let prov = SubstanceStore.shared.provenance(forSubstanceName: "Caffeine")
         #expect(prov != nil)
     }
 
-    @Test("Per-route dose source matches the resolved dose's source by construction")
+    @Test
     @MainActor
-    func perRouteDoseSourceConsistent() {
+    func `Per-route dose source matches the resolved dose's source by construction`() {
         let store = SubstanceStore.shared
         guard let substance = store.lookup("Caffeine"),
               let provenance = store.provenance(forSubstanceName: "Caffeine") else {
@@ -40,14 +39,16 @@ struct SubstanceProvenanceTests {
                   let slug = routeProv.doseSource else {
                 continue
             }
-            #expect(store.enabledSourceOrder.contains(slug),
-                    "Provenance slug '\(slug)' for route \(route.route) is not in enabledSourceOrder")
+            #expect(
+                store.enabledSourceOrder.contains(slug),
+                "Provenance slug '\(slug)' for route \(route.route) is not in enabledSourceOrder",
+            )
         }
     }
 
-    @Test("Provenance follows source-priority order")
+    @Test
     @MainActor
-    func provenanceFollowsPriority() {
+    func `Provenance follows source-priority order`() {
         let store = SubstanceStore.shared
         let originalOrder = store.enabledSourceOrder
         defer { store.setSourcePriority(orderedSlugs: originalOrder) }
@@ -81,9 +82,9 @@ struct SubstanceProvenanceTests {
         }
     }
 
-    @Test("Route lookup is O(1) via dictionary, not array scan")
+    @Test
     @MainActor
-    func routeLookupIsDictionary() {
+    func `Route lookup is O(1) via dictionary, not array scan`() {
         // Compile-time + Mirror-free check that the type really is a Dict.
         // If a future refactor regresses this to an Array, this test breaks.
         guard let provenance = SubstanceStore.shared.provenance(forSubstanceName: "Caffeine") else {

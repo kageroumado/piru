@@ -3,11 +3,10 @@ import Testing
 
 @Suite("DoseUnit")
 struct DoseUnitTests {
-
     // MARK: - Same unit
 
-    @Test("Same unit returns amount unchanged")
-    func sameUnit() {
+    @Test
+    func `Same unit returns amount unchanged`() {
         #expect(DoseUnit.convert(100, from: "mg", to: "mg") == 100)
         #expect(DoseUnit.convert(50, from: "g", to: "g") == 50)
         #expect(DoseUnit.convert(200, from: "µg", to: "µg") == 200)
@@ -15,72 +14,72 @@ struct DoseUnitTests {
 
     // MARK: - mg conversions
 
-    @Test("mg to g")
-    func mgToG() {
-        let result = DoseUnit.convert(1000, from: "mg", to: "g")
+    @Test
+    func `mg to g`() {
+        let result = DoseUnit.convert(1_000, from: "mg", to: "g")
         #expect(result == 1.0)
     }
 
-    @Test("mg to µg")
-    func mgToUg() {
+    @Test
+    func `mg to µg`() {
         let result = DoseUnit.convert(1, from: "mg", to: "µg")
-        #expect(result == 1000)
+        #expect(result == 1_000)
     }
 
     // MARK: - g conversions
 
-    @Test("g to mg")
-    func gToMg() {
+    @Test
+    func `g to mg`() {
         let result = DoseUnit.convert(1, from: "g", to: "mg")
-        #expect(result == 1000)
+        #expect(result == 1_000)
     }
 
-    @Test("g to µg")
-    func gToUg() {
+    @Test
+    func `g to µg`() {
         let result = DoseUnit.convert(1, from: "g", to: "µg")
         #expect(result == 1_000_000)
     }
 
     // MARK: - µg conversions
 
-    @Test("µg to mg")
-    func ugToMg() {
+    @Test
+    func `µg to mg`() {
         let result = DoseUnit.convert(500, from: "µg", to: "mg")
         #expect(result == 0.5)
     }
 
-    @Test("µg to g")
-    func ugToG() {
+    @Test
+    func `µg to g`() {
         let result = DoseUnit.convert(1_000_000, from: "µg", to: "g")
         #expect(result == 1.0)
     }
 
     // MARK: - Non-mass units
 
-    @Test("Non-mass from-unit returns nil")
-    func nonMassFrom() {
+    @Test
+    func `Non-mass from-unit returns nil`() {
         #expect(DoseUnit.convert(10, from: "mL", to: "mg") == nil)
     }
 
-    @Test("Non-mass to-unit returns nil")
-    func nonMassTo() {
+    @Test
+    func `Non-mass to-unit returns nil`() {
         #expect(DoseUnit.convert(10, from: "mg", to: "IU") == nil)
     }
 
-    @Test("Both non-mass returns nil")
-    func bothNonMass() {
+    @Test
+    func `Both non-mass returns nil`() {
         #expect(DoseUnit.convert(10, from: "mL", to: "IU") == nil)
     }
 
     // MARK: - Edge cases
 
-    @Test("Zero amount")
-    func zero() {
+    @Test
+    func `Zero amount`() {
         #expect(DoseUnit.convert(0, from: "mg", to: "g") == 0)
     }
 
-    @Test("Very small amount preserves precision")
-    func smallAmount() {
+    @Test
+    func `Very small amount preserves precision`() {
         let result = DoseUnit.convert(0.001, from: "mg", to: "µg")
         #expect(result == 1.0)
     }

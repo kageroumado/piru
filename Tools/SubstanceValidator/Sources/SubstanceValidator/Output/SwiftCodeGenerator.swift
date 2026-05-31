@@ -5,7 +5,7 @@ enum SwiftCodeGenerator {
     /// Generate a complete Swift data file for a category of substances.
     static func generateFile(
         substances: [UnifiedSubstance],
-        propertyName: String
+        propertyName: String,
     ) -> String {
         var out = "import Foundation\n\n"
         out += "extension SubstanceLibrary {\n"
@@ -56,7 +56,7 @@ enum SwiftCodeGenerator {
             byCat[cat, default: []].append(sub)
         }
 
-        return byCat.map { (category, subs) in
+        return byCat.map { category, subs in
             let sortedSubs = subs.sorted { $0.name < $1.name }
             let propertyName = "apiDiscovered\(category.prefix(1).uppercased())\(category.dropFirst())"
             let filename = "APIDiscovered\(category.prefix(1).uppercased())\(category.dropFirst()).swift"
@@ -69,12 +69,11 @@ enum SwiftCodeGenerator {
 
     private static func formatOptionalDouble(_ value: Double?) -> String {
         guard let value else { return "nil" }
-        if value == value.rounded() && value < 1_000_000 {
+        if value == value.rounded(), value < 1_000_000 {
             return "\(Int(value))"
         }
         // Use minimal decimal places
-        let formatted = String(format: "%g", value)
-        return formatted
+        return String(format: "%g", value)
     }
 
     private static func formatOptionalRange(_ range: ClosedRange<Double>?) -> String {
@@ -84,7 +83,7 @@ enum SwiftCodeGenerator {
 
     private static func escapeString(_ s: String) -> String {
         s.replacingOccurrences(of: "\\", with: "\\\\")
-         .replacingOccurrences(of: "\"", with: "\\\"")
-         .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+            .replacingOccurrences(of: "\n", with: "\\n")
     }
 }

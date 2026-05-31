@@ -85,7 +85,7 @@ final class LiveActivityManager {
                 amount: state.amount,
                 unit: state.unit,
                 route: RouteOfAdministration.from(string: state.route),
-                timestamp: state.doseTimestamp
+                timestamp: state.doseTimestamp,
             )
             let duration = DurationProfile(fromState: state)
             return (snapshot: snapshot, duration: duration, colorHex: state.colorHex)
@@ -178,7 +178,7 @@ final class LiveActivityManager {
         }
         scheduleBackgroundRefresh()
 
-        task.expirationHandler = { }
+        task.expirationHandler = {}
 
         let session = ActiveSessionManager.shared
         if !session.activeEntries.isEmpty {
@@ -264,7 +264,7 @@ final class LiveActivityManager {
             currentActivity = try Activity.request(
                 attributes: attributes,
                 content: content,
-                pushType: nil
+                pushType: nil,
             )
             startUpdateTimer()
             scheduleBackgroundRefresh()

@@ -6,7 +6,7 @@ struct SubstanceValidator: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "SubstanceValidator",
         abstract: "Validate and enrich Piru's substance library against TripSit and PsychonautWiki APIs.",
-        subcommands: [Validate.self, Generate.self, Audit.self]
+        subcommands: [Validate.self, Generate.self, Audit.self],
     )
 }
 
@@ -17,7 +17,7 @@ struct SubstanceValidator: AsyncParsableCommand {
 /// per-category bounds, and agreement with a hand-curated ground-truth table.
 struct Audit: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        abstract: "Audit the runtime substance cache for monotonicity, plausibility, and ground-truth disagreement."
+        abstract: "Audit the runtime substance cache for monotonicity, plausibility, and ground-truth disagreement.",
     )
 
     @Option(name: .long, help: "Path to substances_cache.json (the runtime cache produced by the Piru app).")
@@ -59,15 +59,15 @@ struct Audit: AsyncParsableCommand {
         print("  \(gt.count) finding(s)\n")
 
         let all = mono + plaus + gt
-        let errors = all.filter { $0.severity == .error }.count
-        let warnings = all.filter { $0.severity == .warning }.count
-        let infos = all.filter { $0.severity == .info }.count
+        let errors = all.count(where: { $0.severity == .error })
+        let warnings = all.count(where: { $0.severity == .warning })
+        let infos = all.count(where: { $0.severity == .info })
         print("Total: \(all.count) — \(errors) error, \(warnings) warning, \(infos) info")
 
         let report = AuditReportGenerator.generate(
             findings: all,
             substances: substances,
-            cachePath: cacheURL.path
+            cachePath: cacheURL.path,
         )
 
         let outputURL = URL(fileURLWithPath: outputDir)
@@ -82,7 +82,7 @@ struct Audit: AsyncParsableCommand {
 
 struct Validate: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        abstract: "Fetch API data, compare against local library, and output a validation report."
+        abstract: "Fetch API data, compare against local library, and output a validation report.",
     )
 
     @Option(name: .long, help: "Path to the Piru Data/ directory containing Swift substance files.")
@@ -182,7 +182,7 @@ struct Validate: AsyncParsableCommand {
                         let routeDiscrepancies = DoseComparator.compare(
                             localRoute: localRoute,
                             apiRoute: apiRoute,
-                            substanceName: localMatch.name
+                            substanceName: localMatch.name,
                         )
                         discrepancies.append(contentsOf: routeDiscrepancies)
                     } else {
@@ -190,7 +190,7 @@ struct Validate: AsyncParsableCommand {
                             substanceName: localMatch.name,
                             kind: .missingRoute(route: apiRoute.routeName, presentIn: "API"),
                             severity: .info,
-                            recommendation: "Route '\(apiRoute.routeName)' found in API but not in local data."
+                            recommendation: "Route '\(apiRoute.routeName)' found in API but not in local data.",
                         ))
                     }
                 }
@@ -205,7 +205,7 @@ struct Validate: AsyncParsableCommand {
                         substanceName: localMatch.name,
                         kind: .aliasDifference(localOnly: localOnly, apiOnly: apiOnly),
                         severity: .info,
-                        recommendation: "Consider adding aliases: \(apiOnly.joined(separator: ", "))"
+                        recommendation: "Consider adding aliases: \(apiOnly.joined(separator: ", "))",
                     ))
                 }
 
@@ -213,7 +213,7 @@ struct Validate: AsyncParsableCommand {
                     localSubstance: localMatch,
                     apiSubstance: apiSubstance,
                     matchType: matchType,
-                    discrepancies: discrepancies
+                    discrepancies: discrepancies,
                 )
                 matches.append(result)
                 allDiscrepancies.append(contentsOf: discrepancies)
@@ -243,7 +243,7 @@ struct Validate: AsyncParsableCommand {
             discrepancies: allDiscrepancies.sorted { $0.severity < $1.severity },
             newSubstancesFromAPI: newSubstances,
             localOnlySubstances: localOnly,
-            fuzzyMatchesForReview: fuzzyMatches
+            fuzzyMatchesForReview: fuzzyMatches,
         )
 
         // Generate report
@@ -273,7 +273,7 @@ struct Validate: AsyncParsableCommand {
 
 struct Generate: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        abstract: "Generate Swift data files for new substances discovered from APIs."
+        abstract: "Generate Swift data files for new substances discovered from APIs.",
     )
 
     @Option(name: .long, help: "Path to the Piru Data/ directory.")

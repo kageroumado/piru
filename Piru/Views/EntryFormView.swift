@@ -1,6 +1,6 @@
-import SwiftUI
-import SwiftData
 import ActivityKit
+import SwiftData
+import SwiftUI
 import WidgetKit
 
 struct EntryFormView: View {
@@ -36,12 +36,12 @@ struct EntryFormView: View {
         self.prefillSubstanceName = nil
         self.prefillRoute = nil
         self.prefillUnit = nil
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { e in
                 e.timestamp >= cutoff
             },
-            sort: \DoseEntry.timestamp
+            sort: \DoseEntry.timestamp,
         )
     }
 
@@ -50,16 +50,18 @@ struct EntryFormView: View {
         self.prefillSubstanceName = prefillSubstance
         self.prefillRoute = prefillRoute
         self.prefillUnit = prefillUnit
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { e in
                 e.timestamp >= cutoff
             },
-            sort: \DoseEntry.timestamp
+            sort: \DoseEntry.timestamp,
         )
     }
 
-    private var isEditing: Bool { entry != nil }
+    private var isEditing: Bool {
+        entry != nil
+    }
 
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
 
@@ -106,88 +108,88 @@ struct EntryFormView: View {
         NavigationStack {
             Form {
                 Group {
-                // Interaction warnings — shown at top
-                if !interactionWarnings.isEmpty {
-                    Section {
-                        ForEach(Array(interactionWarnings.enumerated()), id: \.offset) { _, warning in
-                            InteractionWarningRow(warning: warning)
-                        }
-                    } header: {
-                        Label(
-                            interactionWarnings.count == 1 ? "Interaction Warning" : "\(interactionWarnings.count) Interaction Warnings",
-                            systemImage: worstSeverity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
-                        )
-                        .foregroundStyle((worstSeverity ?? .caution).color)
-                    }
-                }
-
-                Section("Substance") {
-                    SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected in
-                        selectSubstance(selected)
-                    } onCustom: {
-                        useCustomSubstance()
-                    }
-                    if selectedSubstance == nil && !substance.isEmpty {
-                        HStack(spacing: 4) {
-                            Image(systemName: "info.circle")
-                            Text("Custom substance - enter dose details manually")
-                        }
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-
-                Section("Dosage") {
-                    HStack {
-                        TextField("Amount", text: $amount)
-                            .keyboardType(.decimalPad)
-                            .focused($amountFocused)
-                            .foregroundStyle(currentDoseLevel?.swiftUIColor ?? .primary)
-                        if let level = currentDoseLevel {
-                            DoseLevelBadge(level: level)
-                                .transition(.opacity.combined(with: .scale))
-                                .animation(.easeInOut(duration: 0.2), value: level)
-                        }
-                        Picker("Unit", selection: $unit) {
-                            ForEach(currentUnits, id: \.self) { Text($0) }
-                        }
-                        .labelsHidden()
-                    }
-                    Picker("Route", selection: $route) {
-                        ForEach(availableRoutes) { r in
-                            Text(r.localizedName).tag(r)
+                    // Interaction warnings — shown at top
+                    if !interactionWarnings.isEmpty {
+                        Section {
+                            ForEach(Array(interactionWarnings.enumerated()), id: \.offset) { _, warning in
+                                InteractionWarningRow(warning: warning)
+                            }
+                        } header: {
+                            Label(
+                                interactionWarnings.count == 1 ? "Interaction Warning" : "\(interactionWarnings.count) Interaction Warnings",
+                                systemImage: worstSeverity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle",
+                            )
+                            .foregroundStyle((worstSeverity ?? .caution).color)
                         }
                     }
-                    .onChange(of: route) {
-                        if let sub = selectedSubstance {
-                            unit = sub.unit(for: route)
+
+                    Section("Substance") {
+                        SubstanceSearchField(text: $substance, locked: substanceLocked, favoriteNames: Array(favorites).favoriteSet) { selected in
+                            selectSubstance(selected)
+                        } onCustom: {
+                            useCustomSubstance()
+                        }
+                        if selectedSubstance == nil, !substance.isEmpty {
+                            HStack(spacing: 4) {
+                                Image(systemName: "info.circle")
+                                Text("Custom substance - enter dose details manually")
+                            }
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
                         }
                     }
-                }
 
-                if let selectedSubstance {
-                    Section("Dose Reference") {
-                        DoseInfoView(
-                            substance: selectedSubstance,
-                            route: route,
-                            currentDose: normalizedAmount
-                        )
-                        .padding(.vertical, 4)
+                    Section("Dosage") {
+                        HStack {
+                            TextField("Amount", text: $amount)
+                                .keyboardType(.decimalPad)
+                                .focused($amountFocused)
+                                .foregroundStyle(currentDoseLevel?.swiftUIColor ?? .primary)
+                            if let level = currentDoseLevel {
+                                DoseLevelBadge(level: level)
+                                    .transition(.opacity.combined(with: .scale))
+                                    .animation(.easeInOut(duration: 0.2), value: level)
+                            }
+                            Picker("Unit", selection: $unit) {
+                                ForEach(currentUnits, id: \.self) { Text($0) }
+                            }
+                            .labelsHidden()
+                        }
+                        Picker("Route", selection: $route) {
+                            ForEach(availableRoutes) { r in
+                                Text(r.localizedName).tag(r)
+                            }
+                        }
+                        .onChange(of: route) {
+                            if let sub = selectedSubstance {
+                                unit = sub.unit(for: route)
+                            }
+                        }
                     }
-                }
 
-                Section("Timing") {
-                    DatePicker("Date & Time", selection: $timestamp)
-                }
+                    if let selectedSubstance {
+                        Section("Dose Reference") {
+                            DoseInfoView(
+                                substance: selectedSubstance,
+                                route: route,
+                                currentDose: normalizedAmount,
+                            )
+                            .padding(.vertical, 4)
+                        }
+                    }
 
-                Section("Notes") {
-                    TextField("Notes", text: $notes, axis: .vertical)
-                        .lineLimit(3...6)
-                }
+                    Section("Timing") {
+                        DatePicker("Date & Time", selection: $timestamp)
+                    }
 
-                Section("Tags") {
-                    TagEditorView(tags: $entryTags)
-                }
+                    Section("Notes") {
+                        TextField("Notes", text: $notes, axis: .vertical)
+                            .lineLimit(3 ... 6)
+                    }
+
+                    Section("Tags") {
+                        TagEditorView(tags: $entryTags)
+                    }
                 }
                 .listRowBackground(Theme.cardBackground)
             }
@@ -318,7 +320,7 @@ struct EntryFormView: View {
                 entry: entry,
                 substance: selectedSubstance,
                 colorHex: colorHex,
-                allColors: Array(substanceColors)
+                allColors: Array(substanceColors),
             )
         } else {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
@@ -329,7 +331,7 @@ struct EntryFormView: View {
                 route: route,
                 timestamp: timestamp,
                 notes: notes.isEmpty ? nil : notes,
-                tags: allTags
+                tags: allTags,
             )
             modelContext.insert(newEntry)
             savedEntry = newEntry
@@ -344,12 +346,12 @@ struct EntryFormView: View {
                 category: category,
                 doseTime: timestamp,
                 duration: duration,
-                recentStimHours: stimHours
+                recentStimHours: stimHours,
             )
             RampDownScheduler.schedulePhaseNotifications(
                 substanceName: substance,
                 doseTime: timestamp,
-                duration: duration
+                duration: duration,
             )
 
             let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
@@ -357,14 +359,14 @@ struct EntryFormView: View {
                 newAmount: parsedAmount,
                 unit: unit,
                 route: route,
-                existingEntries: Array(recentEntries)
+                existingEntries: Array(recentEntries),
             )
             if shouldAlert {
                 RampDownScheduler.scheduleCumulativeDoseNotification(
                     substanceName: substance,
                     totalAmount: total,
                     unit: unit,
-                    category: category
+                    category: category,
                 )
             }
         }
@@ -389,7 +391,7 @@ struct EntryFormView: View {
             // the user perceives a single tap of Done.
             navigator.present(
                 .colorPicker(substance: substance, dismissAllOnComplete: isNewEntry),
-                replacingTop: true
+                replacingTop: true,
             )
         } else if isNewEntry {
             navigator.dismissAll()
@@ -408,10 +410,9 @@ struct EntryFormView: View {
             entry: savedEntry,
             substance: selectedSubstance,
             colorHex: colorHex,
-            allColors: Array(substanceColors)
+            allColors: Array(substanceColors),
         )
     }
-
 }
 
 // MARK: - Interaction Warning Row

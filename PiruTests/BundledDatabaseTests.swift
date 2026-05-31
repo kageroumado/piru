@@ -1,14 +1,13 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("Bundled Database & Tags")
 struct BundledDatabaseTests {
-
     // MARK: - Tags codable
 
-    @Test("Substance round-trips with tags")
-    func substanceRoundTripsWithTags() throws {
+    @Test
+    func `Substance round-trips with tags`() throws {
         let original = Substance(
             name: "MXE",
             aliases: ["Methoxetamine", "3-MeO-2'-Oxo-PCE"],
@@ -16,7 +15,7 @@ struct BundledDatabaseTests {
             defaultRoute: .insufflation,
             routes: [],
             effects: [],
-            tags: ["arylcyclohexylamine", "NMDA-antagonist", "research-chemical", "beta-ketone"]
+            tags: ["arylcyclohexylamine", "NMDA-antagonist", "research-chemical", "beta-ketone"],
         )
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Substance.self, from: data)
@@ -25,23 +24,23 @@ struct BundledDatabaseTests {
         #expect(decoded.tags.contains("NMDA-antagonist"))
     }
 
-    @Test("Substance without tags omits key from JSON")
-    func substanceWithoutTagsOmitsKey() throws {
+    @Test
+    func `Substance without tags omits key from JSON`() throws {
         let original = Substance(
             name: "Plain",
             aliases: [],
             category: .other,
             defaultRoute: .oral,
             routes: [],
-            effects: []
+            effects: [],
         )
         let data = try JSONEncoder().encode(original)
         let json = try #require(String(data: data, encoding: .utf8))
         #expect(!json.contains("\"tags\""))
     }
 
-    @Test("Legacy JSON without tags decodes to empty tags array")
-    func legacyJSONDecodesWithEmptyTags() throws {
+    @Test
+    func `Legacy JSON without tags decodes to empty tags array`() throws {
         let legacy = #"""
         {
             "name": "LegacyDrug",
@@ -60,8 +59,8 @@ struct BundledDatabaseTests {
 
     // MARK: - New category cases
 
-    @Test("Eugeroic, ampakine, and dysdelic categories round-trip")
-    func newCategoriesRoundTrip() throws {
+    @Test
+    func `Eugeroic, ampakine, and dysdelic categories round-trip`() throws {
         for category: SubstanceCategory in [.eugeroic, .ampakine, .dysdelic] {
             let data = try JSONEncoder().encode(category)
             let decoded = try JSONDecoder().decode(SubstanceCategory.self, from: data)
@@ -69,15 +68,15 @@ struct BundledDatabaseTests {
         }
     }
 
-    @Test("New categories appear in allCases")
-    func newCategoriesInAllCases() {
+    @Test
+    func `New categories appear in allCases`() {
         #expect(SubstanceCategory.allCases.contains(.eugeroic))
         #expect(SubstanceCategory.allCases.contains(.ampakine))
         #expect(SubstanceCategory.allCases.contains(.dysdelic))
     }
 
-    @Test("TripSit mapper routes eugeroic and ampakine aliases")
-    func tripSitMapperHandlesNewCategoryAliases() {
+    @Test
+    func `TripSit mapper routes eugeroic and ampakine aliases`() {
         #expect(SubstanceCategory.from(tripSitCategory: "eugeroic") == .eugeroic)
         #expect(SubstanceCategory.from(tripSitCategory: "afinil") == .eugeroic)
         #expect(SubstanceCategory.from(tripSitCategory: "ampakine") == .ampakine)
@@ -87,21 +86,21 @@ struct BundledDatabaseTests {
 
     // MARK: - hasNoDoseData
 
-    @Test("hasNoDoseData true for empty routes")
-    func hasNoDoseDataTrueForEmptyRoutes() {
+    @Test
+    func `hasNoDoseData true for empty routes`() {
         let s = Substance(
             name: "Unknown",
             aliases: [],
             category: .other,
             defaultRoute: .oral,
             routes: [],
-            effects: []
+            effects: [],
         )
         #expect(s.hasNoDoseData == true)
     }
 
-    @Test("hasNoDoseData true when every route has all-nil dose ladder")
-    func hasNoDoseDataTrueForAllNilDoses() {
+    @Test
+    func `hasNoDoseData true when every route has all-nil dose ladder`() {
         let s = Substance(
             name: "Stub",
             aliases: [],
@@ -111,13 +110,13 @@ struct BundledDatabaseTests {
                 SubstanceRoute(route: .oral, unit: "mg", doses: DoseRange()),
                 SubstanceRoute(route: .insufflation, unit: "mg", doses: DoseRange()),
             ],
-            effects: []
+            effects: [],
         )
         #expect(s.hasNoDoseData == true)
     }
 
-    @Test("hasNoDoseData false when any route has a dose")
-    func hasNoDoseDataFalseWhenAnyDose() {
+    @Test
+    func `hasNoDoseData false when any route has a dose`() {
         let s = Substance(
             name: "Real",
             aliases: [],
@@ -127,28 +126,28 @@ struct BundledDatabaseTests {
                 SubstanceRoute(
                     route: .oral,
                     unit: "mg",
-                    doses: DoseRange(threshold: 5, light: 10...20, common: nil, strong: nil, heavy: nil)
+                    doses: DoseRange(threshold: 5, light: 10 ... 20, common: nil, strong: nil, heavy: nil),
                 ),
             ],
-            effects: []
+            effects: [],
         )
         #expect(s.hasNoDoseData == false)
     }
 
     // MARK: - Bundled resource
 
-    @Test("Bundled SQLite database opens and contains substances")
+    @Test
     @MainActor
-    func bundledSqliteOpens() {
+    func `Bundled SQLite database opens and contains substances`() {
         // Touch the shared store; will fatalError if the bundled .sqlite is
         // missing from the app bundle.
         let count = SubstanceStore.shared.count
         #expect(count > 0)
     }
 
-    @Test("Source priority resolution returns at least the seeded defaults")
+    @Test
     @MainActor
-    func sourcePriorityResolved() {
+    func `Source priority resolution returns at least the seeded defaults`() {
         let order = SubstanceStore.shared.enabledSourceOrder
         #expect(!order.isEmpty)
         // Curated should be highest-priority out of the box.

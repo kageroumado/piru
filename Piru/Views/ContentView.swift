@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 import UIKit
 
 struct ContentView: View {
@@ -50,7 +50,7 @@ struct ContentView: View {
             .sheetStackPresenter(navigator)
             .fullScreenCover(isPresented: .init(
                 get: { !hasCompletedOnboarding },
-                set: { if !$0 { hasCompletedOnboarding = true } }
+                set: { if !$0 { hasCompletedOnboarding = true } },
             )) {
                 OnboardingView()
             }
@@ -135,10 +135,10 @@ struct ContentView: View {
                         scope: $searchScope,
                         searchText: $searchText,
                         pickerRebuildToken: scopePickerToken,
-                        onExitSearch: { navigator.selectedTab = tabBeforeSearch }
+                        onExitSearch: { navigator.selectedTab = tabBeforeSearch },
                     )
-                        .toolbar { sharedToolbar }
-                        .withAppDestinations()
+                    .toolbar { sharedToolbar }
+                    .withAppDestinations()
                 }
             }
         }
@@ -159,7 +159,7 @@ struct ContentView: View {
                     } else if navigator.sheetStack.last == .sessionDetail {
                         navigator.dismiss()
                     }
-                }
+                },
             ),
             showingForm: Binding(
                 get: { navigator.sheetStack.last == .quickLog },
@@ -170,8 +170,8 @@ struct ContentView: View {
                     } else if navigator.sheetStack.last == .quickLog {
                         navigator.dismiss()
                     }
-                }
-            )
+                },
+            ),
         )
     }
 
@@ -248,19 +248,21 @@ enum SearchTabScope: String, CaseIterable, Identifiable {
     case journal
     case library
 
-    var id: Self { self }
+    var id: Self {
+        self
+    }
 
     var title: LocalizedStringKey {
         switch self {
-        case .library: return "Library"
-        case .journal: return "Journal"
+        case .library: "Library"
+        case .journal: "Journal"
         }
     }
 
     var prompt: LocalizedStringKey {
         switch self {
-        case .library: return "Search substances..."
-        case .journal: return "Search entries..."
+        case .library: "Search substances..."
+        case .journal: "Search entries..."
         }
     }
 }
@@ -308,43 +310,43 @@ private struct SearchView: View {
 
             content
         }
-            .searchable(
-                text: $searchText,
-                isPresented: $isSearchActive,
-                prompt: Text(scope.prompt)
-            )
-            .navigationTitle("Search")
-            .navigationBarTitleDisplayMode(.inline)
-            // Raise the search field (and keyboard) whenever the Search tab is
-            // active. `.task(id:)` runs after first render and re-runs on every
-            // tab change, so it catches both the initial mount and later
-            // re-entries.
-            //
-            // Leaving the tab resets `isSearchActive` to false: the system hides
-            // the presentation without flipping our binding, so without this a
-            // re-entry would write true→true — no published change, field stays
-            // collapsed. The brief sleep lets the `.searchable` field finish
-            // installing on first mount before we present it.
-            .task(id: navigator.selectedTab) {
-                guard navigator.selectedTab == .search else {
-                    isSearchActive = false
-                    return
-                }
-                try? await Task.sleep(for: .milliseconds(50))
-                guard navigator.selectedTab == .search else { return }
-                isSearchActive = true
+        .searchable(
+            text: $searchText,
+            isPresented: $isSearchActive,
+            prompt: Text(scope.prompt),
+        )
+        .navigationTitle("Search")
+        .navigationBarTitleDisplayMode(.inline)
+        // Raise the search field (and keyboard) whenever the Search tab is
+        // active. `.task(id:)` runs after first render and re-runs on every
+        // tab change, so it catches both the initial mount and later
+        // re-entries.
+        //
+        // Leaving the tab resets `isSearchActive` to false: the system hides
+        // the presentation without flipping our binding, so without this a
+        // re-entry would write true→true — no published change, field stays
+        // collapsed. The brief sleep lets the `.searchable` field finish
+        // installing on first mount before we present it.
+        .task(id: navigator.selectedTab) {
+            guard navigator.selectedTab == .search else {
+                isSearchActive = false
+                return
             }
-            // Tapping the search field's cancel (X) flips `isSearchActive` to
-            // false while we're still on the Search tab — that's the user
-            // exiting search, so leave the tab entirely (Music behaviour) rather
-            // than stranding them on a dismissed search surface. Our own
-            // programmatic dismissal only happens once `selectedTab` has already
-            // left `.search`, so guarding on it avoids a feedback loop.
-            .onChange(of: isSearchActive) { _, active in
-                if !active, navigator.selectedTab == .search {
-                    onExitSearch()
-                }
+            try? await Task.sleep(for: .milliseconds(50))
+            guard navigator.selectedTab == .search else { return }
+            isSearchActive = true
+        }
+        // Tapping the search field's cancel (X) flips `isSearchActive` to
+        // false while we're still on the Search tab — that's the user
+        // exiting search, so leave the tab entirely (Music behaviour) rather
+        // than stranding them on a dismissed search surface. Our own
+        // programmatic dismissal only happens once `selectedTab` has already
+        // left `.search`, so guarding on it avoids a feedback loop.
+        .onChange(of: isSearchActive) { _, active in
+            if !active, navigator.selectedTab == .search {
+                onExitSearch()
             }
+        }
     }
 
     @ViewBuilder
@@ -365,7 +367,7 @@ private extension View {
     func withSessionAccessory(
         isActive: Bool,
         showingSessionDetail: Binding<Bool>,
-        showingForm: Binding<Bool>
+        showingForm: Binding<Bool>,
     ) -> some View {
         if #available(iOS 26.1, *) {
             self.tabViewBottomAccessory(isEnabled: isActive) {
@@ -374,7 +376,7 @@ private extension View {
                         states: ActiveSessionManager.shared.activeSubstanceStates,
                         currentTime: context.date,
                         onTapSession: { showingSessionDetail.wrappedValue = true },
-                        onAdd: { showingForm.wrappedValue = true }
+                        onAdd: { showingForm.wrappedValue = true },
                     )
                 }
             }
@@ -404,7 +406,7 @@ private struct SessionAccessoryView: View {
                             substances: states,
                             currentTime: currentTime,
                             compact: true,
-                            stackRedoses: stackRedoses
+                            stackRedoses: stackRedoses,
                         )
                         .frame(width: 60, height: 36)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
@@ -472,7 +474,7 @@ private struct SessionAccessoryView: View {
         let hours = totalMinutes / 60
         let minutes = totalMinutes % 60
 
-        if hours > 0 && minutes > 0 {
+        if hours > 0, minutes > 0 {
             return String(localized: "\(hours)h \(minutes)m")
         } else if hours > 0 {
             return String(localized: "\(hours)h")

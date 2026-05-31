@@ -13,8 +13,8 @@ final class MonotonicityCheckTests: XCTestCase {
                 light: AuditCodableRange(lower: 10, upper: 20),
                 common: AuditCodableRange(lower: 20, upper: 40),
                 strong: AuditCodableRange(lower: 40, upper: 80),
-                heavy: 100
-            )
+                heavy: 100,
+            ),
         )
         let s = AuditSubstance(name: "Test", category: "Stimulant", defaultRoute: "oral", routes: [route])
         XCTAssertEqual(MonotonicityCheck.check(substance: s, route: route).count, 0)
@@ -30,8 +30,8 @@ final class MonotonicityCheckTests: XCTestCase {
                 light: AuditCodableRange(lower: 10, upper: 40),
                 common: AuditCodableRange(lower: 20, upper: 30),
                 strong: AuditCodableRange(lower: 30, upper: 80),
-                heavy: 100
-            )
+                heavy: 100,
+            ),
         )
         let s = AuditSubstance(name: "Test", category: "Stimulant", defaultRoute: "oral", routes: [route])
         let findings = MonotonicityCheck.check(substance: s, route: route)
@@ -45,7 +45,7 @@ final class MonotonicityCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(threshold: 10, heavy: 200)
+            doses: AuditDoseRange(threshold: 10, heavy: 200),
         )
         let s = AuditSubstance(name: "Test", category: "Opioid", defaultRoute: "oral", routes: [route])
         XCTAssertEqual(MonotonicityCheck.check(substance: s, route: route).count, 0)
@@ -65,14 +65,14 @@ final class PlausibilityCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "g",
-            doses: AuditDoseRange(threshold: 10, heavy: 60)
+            doses: AuditDoseRange(threshold: 10, heavy: 60),
         )
         let alcohol = AuditSubstance(
             name: "Alcohol",
             aliases: ["ethanol"],
             category: "Depressant",
             defaultRoute: "oral",
-            routes: [route]
+            routes: [route],
         )
         XCTAssertEqual(PlausibilityCheck.check(substance: alcohol, route: route).count, 0)
     }
@@ -86,18 +86,18 @@ final class PlausibilityCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "g", // way wrong for a stimulant
-            doses: AuditDoseRange(threshold: 0.1, heavy: 1)
+            doses: AuditDoseRange(threshold: 0.1, heavy: 1),
         )
         let s = AuditSubstance(
             name: "TestStim",
             category: "Stimulant",
             defaultRoute: "oral",
-            routes: [route]
+            routes: [route],
         )
         let findings = PlausibilityCheck.check(substance: s, route: route)
         XCTAssertTrue(
             findings.contains { $0.detail.contains("verify not a unit-conversion slip") },
-            "Stimulant in `g` should trip the unit-mismatch warning"
+            "Stimulant in `g` should trip the unit-mismatch warning",
         )
     }
 
@@ -109,26 +109,26 @@ final class PlausibilityCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(threshold: 1, heavy: 10)
+            doses: AuditDoseRange(threshold: 1, heavy: 10),
         )
         let alcohol = AuditSubstance(
             name: "Alcohol",
             aliases: ["ethanol"],
             category: "Depressant",
             defaultRoute: "oral",
-            routes: [route]
+            routes: [route],
         )
         // No plausibility unit-mismatch — that's by design now.
         let plausibility = PlausibilityCheck.check(substance: alcohol, route: route)
         XCTAssertFalse(
             plausibility.contains { $0.detail.contains("verify not a unit-conversion slip") },
-            "Depressant accepts mg, so unit-mismatch shouldn't fire"
+            "Depressant accepts mg, so unit-mismatch shouldn't fire",
         )
         // Ground-truth catches it.
         let groundTruth = GroundTruthCheck.run([alcohol])
         XCTAssertTrue(
             groundTruth.contains { $0.severity == .error && $0.substance.lowercased() == "alcohol" },
-            "Alcohol at 10 mg vs 60 g reference should fire a ground-truth ERROR"
+            "Alcohol at 10 mg vs 60 g reference should fire a ground-truth ERROR",
         )
     }
 
@@ -137,7 +137,7 @@ final class PlausibilityCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(heavy: 50_000)
+            doses: AuditDoseRange(heavy: 50_000),
         )
         let s = AuditSubstance(name: "Test", category: "Stimulant", defaultRoute: "oral", routes: [route])
         let findings = PlausibilityCheck.check(substance: s, route: route)
@@ -160,7 +160,7 @@ final class GroundTruthCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(heavy: 180)
+            doses: AuditDoseRange(heavy: 180),
         )
         let mdma = AuditSubstance(name: "MDMA", category: "Empathogen", defaultRoute: "oral", routes: [route])
         let findings = GroundTruthCheck.run([mdma])
@@ -172,7 +172,7 @@ final class GroundTruthCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(heavy: 50)
+            doses: AuditDoseRange(heavy: 50),
         )
         let mdma = AuditSubstance(name: "MDMA", category: "Empathogen", defaultRoute: "oral", routes: [route])
         let findings = GroundTruthCheck.run([mdma])
@@ -186,7 +186,7 @@ final class GroundTruthCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "mg",
-            doses: AuditDoseRange(threshold: 30, common: AuditCodableRange(lower: 100, upper: 150))
+            doses: AuditDoseRange(threshold: 30, common: AuditCodableRange(lower: 100, upper: 150)),
         )
         let mdma = AuditSubstance(name: "MDMA", category: "Empathogen", defaultRoute: "oral", routes: [route])
         let findings = GroundTruthCheck.run([mdma])
@@ -200,14 +200,14 @@ final class GroundTruthCheckTests: XCTestCase {
         let route = AuditRoute(
             route: "oral",
             unit: "g",
-            doses: AuditDoseRange(heavy: 5) // way below the 60 g ground-truth → error
+            doses: AuditDoseRange(heavy: 5), // way below the 60 g ground-truth → error
         )
         let s = AuditSubstance(
             name: "Ethanol",
             aliases: ["alcohol"],
             category: "Depressant",
             defaultRoute: "oral",
-            routes: [route]
+            routes: [route],
         )
         let findings = GroundTruthCheck.run([s])
         XCTAssertTrue(findings.contains { $0.severity == .error })

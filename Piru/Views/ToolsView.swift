@@ -3,14 +3,16 @@ import SwiftUI
 /// A tool surfaced in the Tools tab hub. Each value is pushed as a full-screen
 /// destination via `PushRoute.tool`. Kept `nonisolated`/`Codable` so it can ride
 /// inside `PushRoute` (state restoration + potential deep links).
-nonisolated enum Tool: String, Hashable, Codable, Sendable, CaseIterable, Identifiable {
+nonisolated enum Tool: String, Hashable, Codable, CaseIterable, Identifiable {
     case interactions
     case calculator
     case volumetric
     case recovery
     case pharma
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     /// Row label and pushed-screen title.
     var name: LocalizedStringResource {
@@ -43,7 +45,6 @@ nonisolated enum Tool: String, Hashable, Codable, Sendable, CaseIterable, Identi
         case .pharma: "pills"
         }
     }
-
 }
 
 /// The Tools tab root: a hub list of tools, each pushing a full-screen view.

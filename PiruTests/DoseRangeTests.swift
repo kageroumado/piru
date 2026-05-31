@@ -3,114 +3,113 @@ import Testing
 
 @Suite("DoseRange")
 struct DoseRangeTests {
-
     let range = DoseRange(
         threshold: 10,
-        light: 15...30,
-        common: 30...60,
-        strong: 60...100,
-        heavy: 100
+        light: 15 ... 30,
+        common: 30 ... 60,
+        strong: 60 ... 100,
+        heavy: 100,
     )
 
     // MARK: - Level classification
 
-    @Test("Sub-threshold dose")
-    func subThreshold() {
+    @Test
+    func `Sub-threshold dose`() {
         #expect(range.level(for: 5) == .sub)
     }
 
-    @Test("Threshold dose")
-    func threshold() {
+    @Test
+    func `Threshold dose`() {
         #expect(range.level(for: 10) == .threshold)
     }
 
-    @Test("Light dose")
-    func light() {
+    @Test
+    func `Light dose`() {
         #expect(range.level(for: 20) == .light)
     }
 
-    @Test("Common dose")
-    func common() {
+    @Test
+    func `Common dose`() {
         #expect(range.level(for: 45) == .common)
     }
 
-    @Test("Strong dose")
-    func strong() {
+    @Test
+    func `Strong dose`() {
         #expect(range.level(for: 80) == .strong)
     }
 
-    @Test("Heavy dose")
-    func heavy() {
+    @Test
+    func `Heavy dose`() {
         #expect(range.level(for: 120) == .heavy)
     }
 
-    @Test("Very heavy dose still classifies as heavy")
-    func veryHeavy() {
+    @Test
+    func `Very heavy dose still classifies as heavy`() {
         #expect(range.level(for: 250) == .heavy)
     }
 
     // MARK: - Boundary values
 
-    @Test("Exact threshold boundary")
-    func exactThreshold() {
+    @Test
+    func `Exact threshold boundary`() {
         #expect(range.level(for: 10) == .threshold)
     }
 
-    @Test("Exact heavy boundary")
-    func exactHeavy() {
+    @Test
+    func `Exact heavy boundary`() {
         #expect(range.level(for: 100) == .heavy)
     }
 
-    @Test("Well above heavy is still heavy")
-    func wellAboveHeavy() {
+    @Test
+    func `Well above heavy is still heavy`() {
         #expect(range.level(for: 200) == .heavy)
     }
 
-    @Test("Just below threshold")
-    func belowThreshold() {
+    @Test
+    func `Just below threshold`() {
         #expect(range.level(for: 9.9) == .sub)
     }
 
-    @Test("Light lower bound")
-    func lightLowerBound() {
+    @Test
+    func `Light lower bound`() {
         #expect(range.level(for: 15) == .light)
     }
 
-    @Test("Light upper bound")
-    func lightUpperBound() {
+    @Test
+    func `Light upper bound`() {
         #expect(range.level(for: 30) == .common)
     }
 
     // MARK: - Edge cases
 
-    @Test("All nil ranges returns sub")
-    func allNil() {
+    @Test
+    func `All nil ranges returns sub`() {
         let empty = DoseRange(threshold: nil, light: nil, common: nil, strong: nil, heavy: nil)
-        #expect(empty.level(for: 1000) == .sub)
+        #expect(empty.level(for: 1_000) == .sub)
     }
 
-    @Test("Only threshold set")
-    func onlyThreshold() {
+    @Test
+    func `Only threshold set`() {
         let partial = DoseRange(threshold: 5, light: nil, common: nil, strong: nil, heavy: nil)
         #expect(partial.level(for: 3) == .sub)
         #expect(partial.level(for: 5) == .threshold)
         #expect(partial.level(for: 100) == .threshold)
     }
 
-    @Test("Only heavy set")
-    func onlyHeavy() {
+    @Test
+    func `Only heavy set`() {
         let partial = DoseRange(threshold: nil, light: nil, common: nil, strong: nil, heavy: 50)
         #expect(partial.level(for: 30) == .sub)
         #expect(partial.level(for: 50) == .heavy)
     }
 
-    @Test("Zero dose")
-    func zeroDose() {
+    @Test
+    func `Zero dose`() {
         #expect(range.level(for: 0) == .sub)
     }
 
-    @Test("Negative dose")
-    func negativeDose() {
+    @Test
+    func `Negative dose`() {
         #expect(range.level(for: -5) == .sub)
     }
 }
@@ -119,16 +118,15 @@ struct DoseRangeTests {
 
 @Suite("DoseLevel")
 struct DoseLevelTests {
-
-    @Test("All dose levels have colors")
-    func allLevelsHaveColors() {
+    @Test
+    func `All dose levels have colors`() {
         for level in DoseLevel.allCases {
             #expect(!level.color.isEmpty)
         }
     }
 
-    @Test("Color mapping is correct")
-    func colorMapping() {
+    @Test
+    func `Color mapping is correct`() {
         #expect(DoseLevel.sub.color == "gray")
         #expect(DoseLevel.threshold.color == "blue")
         #expect(DoseLevel.light.color == "green")
@@ -137,8 +135,8 @@ struct DoseLevelTests {
         #expect(DoseLevel.heavy.color == "red")
     }
 
-    @Test("Raw values are display strings")
-    func rawValues() {
+    @Test
+    func `Raw values are display strings`() {
         #expect(DoseLevel.sub.rawValue == "Sub-threshold")
         #expect(DoseLevel.heavy.rawValue == "Heavy")
     }

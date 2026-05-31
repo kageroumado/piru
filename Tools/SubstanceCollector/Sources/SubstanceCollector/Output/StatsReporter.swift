@@ -21,14 +21,16 @@ enum StatsReporter {
         mergedCount: Int,
         warnings: [String],
         cacheHits: Int,
-        cacheMisses: Int
+        cacheMisses: Int,
     ) -> Summary {
         var byCategory: [String: Int] = [:]
         var byTag: [String: Int] = [:]
         var withDose = 0
         for s in subs {
             byCategory[s.category, default: 0] += 1
-            for t in s.tags { byTag[t, default: 0] += 1 }
+            for t in s.tags {
+                byTag[t, default: 0] += 1
+            }
             if !s.hasNoDoseData { withDose += 1 }
         }
         let catSorted = byCategory.sorted { $0.value > $1.value }
@@ -43,7 +45,7 @@ enum StatsReporter {
             countsByProvenance: countsByProvenance,
             warnings: warnings,
             cacheHits: cacheHits,
-            cacheMisses: cacheMisses
+            cacheMisses: cacheMisses,
         )
     }
 

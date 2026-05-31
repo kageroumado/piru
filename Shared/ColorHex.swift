@@ -1,7 +1,7 @@
 import SwiftUI
 
 #if canImport(UIKit)
-import UIKit
+    import UIKit
 #endif
 
 /// Parses a hex color string into normalized RGBA components in `0...1`.
@@ -9,7 +9,7 @@ import UIKit
 /// Accepts `"RGB"`, `"RRGGBB"`, or `"RRGGBBAA"`. Non-alphanumeric leading
 /// characters (e.g., `#`) are stripped. Returns opaque black on malformed
 /// input so callers don't have to handle failure separately.
-nonisolated private func parseHex(_ string: String) -> (r: Double, g: Double, b: Double, a: Double) {
+private nonisolated func parseHex(_ string: String) -> (r: Double, g: Double, b: Double, a: Double) {
     let hex = string.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
     var int: UInt64 = 0
     Scanner(string: hex).scanHexInt64(&int)
@@ -47,10 +47,10 @@ extension Color {
 }
 
 #if canImport(UIKit)
-extension UIColor {
-    nonisolated convenience init(hex: String) {
-        let c = parseHex(hex)
-        self.init(red: CGFloat(c.r), green: CGFloat(c.g), blue: CGFloat(c.b), alpha: CGFloat(c.a))
+    extension UIColor {
+        convenience nonisolated init(hex: String) {
+            let c = parseHex(hex)
+            self.init(red: CGFloat(c.r), green: CGFloat(c.g), blue: CGFloat(c.b), alpha: CGFloat(c.a))
+        }
     }
-}
 #endif

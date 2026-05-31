@@ -84,13 +84,13 @@ extension UnifiedSubstance {
                         if let range = parsed.range {
                             light = range
                         } else {
-                            light = parsed.min...parsed.min
+                            light = parsed.min ... parsed.min
                         }
                     case "common":
                         if let range = parsed.range {
                             common = range
                         } else {
-                            common = parsed.min...parsed.min
+                            common = parsed.min ... parsed.min
                         }
                     case "strong":
                         if let range = parsed.range {
@@ -113,7 +113,7 @@ extension UnifiedSubstance {
                     light: light,
                     common: common,
                     strong: strong,
-                    heavy: heavy
+                    heavy: heavy,
                 ))
             }
         }
@@ -124,14 +124,13 @@ extension UnifiedSubstance {
         var effects: [String] = []
         if let pweffects = drug.pweffects {
             for key in pweffects.keys {
-                let effectName: String
-                if key.contains("/wiki/") {
+                let effectName: String = if key.contains("/wiki/") {
                     // Extract from URL: ".../wiki/Euphoria" → "Euphoria"
-                    effectName = key.components(separatedBy: "/wiki/").last?
+                    key.components(separatedBy: "/wiki/").last?
                         .replacingOccurrences(of: "_", with: " ")
                         .removingPercentEncoding ?? String(key)
                 } else {
-                    effectName = String(key)
+                    String(key)
                 }
                 if !effectName.isEmpty {
                     effects.append(effectName)
@@ -149,7 +148,7 @@ extension UnifiedSubstance {
             routes: routes,
             effects: effects,
             summary: drug.properties?.summary,
-            source: .tripSit
+            source: .tripSit,
         )
     }
 
@@ -171,12 +170,12 @@ extension UnifiedSubstance {
                     light: dose?.light?.closedRange,
                     common: dose?.common?.closedRange,
                     strong: dose?.strong?.closedRange,
-                    heavy: dose?.heavy
+                    heavy: dose?.heavy,
                 ))
             }
         }
 
-        let effects = (sub.effects ?? []).compactMap { $0.name }
+        let effects = (sub.effects ?? []).compactMap(\.name)
 
         return UnifiedSubstance(
             name: sub.name,
@@ -187,7 +186,7 @@ extension UnifiedSubstance {
             routes: routes,
             effects: effects,
             summary: sub.summary,
-            source: .psychonautWiki
+            source: .psychonautWiki,
         )
     }
 
@@ -209,7 +208,7 @@ extension UnifiedSubstance {
                     light: pwRoute.light ?? tsRoute.light,
                     common: pwRoute.common ?? tsRoute.common,
                     strong: pwRoute.strong ?? tsRoute.strong,
-                    heavy: pwRoute.heavy ?? tsRoute.heavy
+                    heavy: pwRoute.heavy ?? tsRoute.heavy,
                 ))
             } else {
                 mergedRoutes.append(pwRoute)
@@ -217,7 +216,7 @@ extension UnifiedSubstance {
         }
 
         // Add TripSit-only routes not present in PW
-        let pwRouteNames = Set(pw.routes.map { $0.routeName })
+        let pwRouteNames = Set(pw.routes.map(\.routeName))
         for tsRoute in ts.routes where !pwRouteNames.contains(tsRoute.routeName) {
             mergedRoutes.append(tsRoute)
         }
@@ -256,7 +255,7 @@ extension UnifiedSubstance {
             routes: mergedRoutes,
             effects: allEffects,
             summary: pw.summary ?? ts.summary,
-            source: .merged
+            source: .merged,
         )
     }
 }

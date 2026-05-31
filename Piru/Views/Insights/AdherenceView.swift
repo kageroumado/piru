@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct AdherenceView: View {
     @Query(sort: \DoseEntry.timestamp) private var allEntries: [DoseEntry]
@@ -18,7 +18,7 @@ struct AdherenceView: View {
             ContentUnavailableView(
                 "No Prescriptions",
                 systemImage: "pills",
-                description: Text("Add prescriptions in Settings to start tracking adherence.")
+                description: Text("Add prescriptions in Settings to start tracking adherence."),
             )
         } else {
             ScrollView {
@@ -137,7 +137,7 @@ struct AdherenceView: View {
                         AdherenceCalendarCell(
                             day: calendar.component(.day, from: date),
                             status: isFuture ? .noData : (adherence?.status ?? .missed),
-                            isToday: isToday
+                            isToday: isToday,
                         )
                     }
                     .buttonStyle(.plain)
@@ -289,10 +289,12 @@ struct AdherenceDayDetailSheet: View {
                                 .font(.title3)
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(itemAdherence.taken
-                                     ? "Taken \(itemAdherence.item.substance)"
-                                     : "Missed \(String(localized: itemAdherence.item.route.localizedName).lowercased()) of \(itemAdherence.item.substance)")
-                                    .font(.body)
+                                Text(
+                                    itemAdherence.taken
+                                        ? "Taken \(itemAdherence.item.substance)"
+                                        : "Missed \(String(localized: itemAdherence.item.route.localizedName).lowercased()) of \(itemAdherence.item.substance)",
+                                )
+                                .font(.body)
 
                                 Text("\(itemAdherence.item.amount.doseFormatted) \(itemAdherence.item.unit) \u{2014} \(String(localized: itemAdherence.item.frequency.shortLabel))")
                                     .font(.caption)

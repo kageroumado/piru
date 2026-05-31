@@ -100,7 +100,7 @@ enum PDFReportGenerator {
         private func drawPageNumber() {
             let attr: [NSAttributedString.Key: Any] = [
                 .font: Fonts.caption,
-                .foregroundColor: Colors.secondaryText
+                .foregroundColor: Colors.secondaryText,
             ]
             let text = "Page \(pageNumber)"
             let size = (text as NSString).size(withAttributes: attr)
@@ -111,7 +111,7 @@ enum PDFReportGenerator {
         func drawFinalPageNumber() {
             let attr: [NSAttributedString.Key: Any] = [
                 .font: Fonts.caption,
-                .foregroundColor: Colors.secondaryText
+                .foregroundColor: Colors.secondaryText,
             ]
             let text = "Page \(pageNumber)"
             let size = (text as NSString).size(withAttributes: attr)
@@ -136,7 +136,7 @@ enum PDFReportGenerator {
             }
 
             // Adherence
-            if !data.dailyDoseItems.isEmpty && !data.entries.isEmpty {
+            if !data.dailyDoseItems.isEmpty, !data.entries.isEmpty {
                 drawSectionHeader(&cursor, title: "Adherence")
                 drawAdherence(&cursor, entries: data.entries, dailyDoses: data.dailyDoseItems, startDate: data.startDate, endDate: data.endDate)
             }
@@ -194,7 +194,7 @@ enum PDFReportGenerator {
         cursor.newPage()
 
         let titleAttr: [NSAttributedString.Key: Any] = [
-            .font: Fonts.title, .foregroundColor: Colors.accent
+            .font: Fonts.title, .foregroundColor: Colors.accent,
         ]
         "Piru — Substance Report".draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: titleAttr)
         cursor.y += 30
@@ -212,34 +212,37 @@ enum PDFReportGenerator {
         dateFormatter.locale = Locale(identifier: "en_US")
 
         let subtitleAttr: [NSAttributedString.Key: Any] = [
-            .font: Fonts.subtitle, .foregroundColor: Colors.secondaryText
+            .font: Fonts.subtitle, .foregroundColor: Colors.secondaryText,
         ]
 
         if !data.patientName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             "Patient: \(data.patientName)".draw(
-                at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr)
+                at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr,
+            )
             cursor.y += 16
         }
 
         "Period: \(dateFormatter.string(from: data.startDate)) — \(dateFormatter.string(from: data.endDate))".draw(
-            at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr)
+            at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr,
+        )
         cursor.y += 16
         "Generated: \(dateFormatter.string(from: .now))".draw(
-            at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr)
+            at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: subtitleAttr,
+        )
         cursor.y += 10
 
         // Quick stats badges
         let substanceCount = Set(data.entries.map(\.substance)).count
         let entryCount = data.entries.count
-        let unsafeCount = data.interactions.filter { $0.severity == .unsafe || $0.severity == .dangerous }.count
+        let unsafeCount = data.interactions.count(where: { $0.severity == .unsafe || $0.severity == .dangerous })
 
         let statsAttr: [NSAttributedString.Key: Any] = [
-            .font: Fonts.bodyBold, .foregroundColor: Colors.text
+            .font: Fonts.bodyBold, .foregroundColor: Colors.text,
         ]
         let stats = [
             "\(substanceCount) substances",
             "\(entryCount) entries",
-            "\(unsafeCount) alert\(unsafeCount == 1 ? "" : "s")"
+            "\(unsafeCount) alert\(unsafeCount == 1 ? "" : "s")",
         ]
         var badgeX = Layout.margin
         for stat in stats {
@@ -368,7 +371,7 @@ enum PDFReportGenerator {
             let daysTaken = Set(
                 entries
                     .filter { $0.substance.lowercased() == dose.substance.lowercased() }
-                    .map { calendar.sessionDayStart(for: $0.timestamp) }
+                    .map { calendar.sessionDayStart(for: $0.timestamp) },
             ).count
 
             let pct = totalDays > 0 ? Double(daysTaken) / Double(totalDays) * 100 : 0
@@ -406,7 +409,7 @@ enum PDFReportGenerator {
             let descHeight = (descText as NSString).boundingRect(
                 with: CGSize(width: descWidth, height: .greatestFiniteMagnitude),
                 options: [.usesLineFragmentOrigin, .usesFontLeading],
-                attributes: descAttr, context: nil
+                attributes: descAttr, context: nil,
             ).height
 
             // Check if drug classes are available to account for extra line height
@@ -472,7 +475,7 @@ enum PDFReportGenerator {
             // Description (cleaned)
             (descText as NSString).draw(
                 in: CGRect(x: Layout.margin + 4, y: cursor.y, width: descWidth, height: descHeight + 4),
-                withAttributes: descAttr
+                withAttributes: descAttr,
             )
             cursor.y += descHeight + 10
         }
@@ -495,11 +498,11 @@ enum PDFReportGenerator {
             "), CYP", "CYP2D6", "CYP3A4", "CYP2C9",
             "[see Clinical Pharmacology", "[see Dosage",
             "The concomitant use of", ") The concomitant",
-            "strong CYP", "inhibitors increased"
+            "strong CYP", "inhibitors increased",
         ]
         for pattern in cutoffPatterns {
             if let range = cleaned.range(of: pattern) {
-                let prefix = String(cleaned[cleaned.startIndex..<range.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+                let prefix = String(cleaned[cleaned.startIndex ..< range.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
                 if prefix.count > 15 {
                     cleaned = prefix
                     // Clean trailing punctuation
@@ -554,7 +557,7 @@ enum PDFReportGenerator {
                 equiv.contains(name.lowercased())
             }
             if found.count >= 2 {
-                let count = entries.filter { found.map { $0.lowercased() }.contains($0.substance.lowercased()) }.count
+                let count = entries.count(where: { found.map { $0.lowercased() }.contains($0.substance.lowercased()) })
                 groups.append(DuplicateGroup(names: found.sorted(), totalEntries: count))
                 found.forEach { matched.insert($0.lowercased()) }
             }
@@ -575,7 +578,8 @@ enum PDFReportGenerator {
             "⚠️  \(names)".draw(at: CGPoint(x: Layout.margin, y: cursor.y), withAttributes: noteAttr)
             cursor.y += 14
             "These may be the same substance logged under different names (\(group.totalEntries) total entries)".draw(
-                at: CGPoint(x: Layout.margin + 20, y: cursor.y), withAttributes: captionAttr)
+                at: CGPoint(x: Layout.margin + 20, y: cursor.y), withAttributes: captionAttr,
+            )
             cursor.y += 16
         }
         cursor.y += Layout.lineSpacing
@@ -605,7 +609,7 @@ enum PDFReportGenerator {
             return SubstanceStat(
                 name: name, totalDoses: entries.count, averageDose: avgDose,
                 unit: mostCommonUnit, route: mostCommonRoute,
-                firstTaken: sorted.first!.timestamp, lastTaken: sorted.last!.timestamp
+                firstTaken: sorted.first!.timestamp, lastTaken: sorted.last!.timestamp,
             )
         }.sorted { $0.totalDoses > $1.totalDoses }
     }
@@ -621,7 +625,7 @@ enum PDFReportGenerator {
         let colWidths: [CGFloat] = [
             Layout.contentWidth * 0.30, Layout.contentWidth * 0.12,
             Layout.contentWidth * 0.18, Layout.contentWidth * 0.15,
-            Layout.contentWidth * 0.25
+            Layout.contentWidth * 0.25,
         ]
 
         drawTableHeaderRow(&cursor)
@@ -646,7 +650,8 @@ enum PDFReportGenerator {
             stat.route.draw(at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr)
             x += colWidths[3]
             "\(dateFormatter.string(from: stat.firstTaken)) – \(dateFormatter.string(from: stat.lastTaken))".draw(
-                at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr)
+                at: CGPoint(x: x, y: cursor.y), withAttributes: rowAttr,
+            )
             cursor.y += Layout.rowHeight
         }
         cursor.y += Layout.lineSpacing
@@ -729,7 +734,7 @@ enum PDFReportGenerator {
             let labelSize = (hourLabel as NSString).size(withAttributes: yLabelAttr)
             hourLabel.draw(
                 at: CGPoint(x: gx - labelSize.width / 2, y: chartOriginY + chartHeight + 1),
-                withAttributes: yLabelAttr
+                withAttributes: yLabelAttr,
             )
             gridMinutes += hourIntervalMinutes
         }
@@ -737,7 +742,7 @@ enum PDFReportGenerator {
         // Draw PK curve
         let curvePath = UIBezierPath()
         let steps = 200
-        for i in 0...steps {
+        for i in 0 ... steps {
             let t = totalMinutes * Double(i) / Double(steps)
             let c = PKModel.concentration(at: t, ke: ke, ka: ka) / cmaxVal
             let px = chartOriginX + CGFloat(t / totalMinutes) * chartWidth
@@ -757,7 +762,7 @@ enum PDFReportGenerator {
         // Filled area under curve
         let fillPath = UIBezierPath()
         fillPath.move(to: CGPoint(x: chartOriginX, y: chartOriginY + chartHeight))
-        for i in 0...steps {
+        for i in 0 ... steps {
             let t = totalMinutes * Double(i) / Double(steps)
             let c = PKModel.concentration(at: t, ke: ke, ka: ka) / cmaxVal
             let px = chartOriginX + CGFloat(t / totalMinutes) * chartWidth
@@ -781,11 +786,11 @@ enum PDFReportGenerator {
     /// Choose a sensible hour-grid interval based on the total time range.
     private static func bestHourInterval(totalMinutes: Double) -> Double {
         let totalHours = totalMinutes / 60
-        if totalHours <= 6 { return 60 }        // every 1h
-        if totalHours <= 24 { return 120 }       // every 2h
-        if totalHours <= 48 { return 360 }       // every 6h
-        if totalHours <= 168 { return 1440 }     // every 24h
-        return 2880                               // every 48h
+        if totalHours <= 6 { return 60 } // every 1h
+        if totalHours <= 24 { return 120 } // every 2h
+        if totalHours <= 48 { return 360 } // every 6h
+        if totalHours <= 168 { return 1_440 } // every 24h
+        return 2_880 // every 48h
     }
 
     /// Format a time in minutes as a concise label (e.g. "2h", "12h", "2d").
@@ -873,7 +878,8 @@ enum PDFReportGenerator {
 
                 // Dose info
                 "\(entry.amount.doseFormatted) \(entry.unit) (\(entry.route))".draw(
-                    at: CGPoint(x: xPos, y: cursor.y), withAttributes: doseAttr)
+                    at: CGPoint(x: xPos, y: cursor.y), withAttributes: doseAttr,
+                )
                 cursor.y += 14
 
                 if let notes = entry.notes, !notes.isEmpty {
@@ -893,7 +899,7 @@ enum PDFReportGenerator {
         let textHeight = (disclaimerText as NSString).boundingRect(
             with: CGSize(width: Layout.contentWidth - 16, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: attr, context: nil
+            attributes: attr, context: nil,
         ).height
 
         cursor.ensureSpace(textHeight + 36)
@@ -909,7 +915,7 @@ enum PDFReportGenerator {
         cursor.y += 8
         (disclaimerText as NSString).draw(
             in: CGRect(x: Layout.margin + 4, y: cursor.y, width: Layout.contentWidth - 16, height: textHeight + 4),
-            withAttributes: attr
+            withAttributes: attr,
         )
         cursor.y += textHeight + 12
     }
@@ -923,12 +929,12 @@ enum PDFReportGenerator {
         let boundingRect = nsText.boundingRect(
             with: CGSize(width: width, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: attr, context: nil
+            attributes: attr, context: nil,
         )
         cursor.ensureSpace(boundingRect.height + 4)
         nsText.draw(
             in: CGRect(x: Layout.margin + indent, y: cursor.y, width: width, height: boundingRect.height + 4),
-            withAttributes: attr
+            withAttributes: attr,
         )
         cursor.y += boundingRect.height + 4
     }

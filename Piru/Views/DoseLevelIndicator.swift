@@ -38,7 +38,6 @@ struct DoseLevelIndicator: View {
                         .frame(maxWidth: .infinity, alignment: index == 0 ? .leading : (index == segments.count - 1 ? .trailing : .center))
                 }
             }
-
         }
     }
 
@@ -51,7 +50,7 @@ struct DoseLevelIndicator: View {
     private var segments: [Segment] {
         var segs: [Segment] = []
         if let threshold = doseRange.threshold, let lightLow = doseRange.light?.lowerBound {
-            segs.append(Segment(label: "\(threshold.doseFormatted)", level: .threshold, range: threshold...lightLow))
+            segs.append(Segment(label: "\(threshold.doseFormatted)", level: .threshold, range: threshold ... lightLow))
         }
         if let light = doseRange.light {
             segs.append(Segment(label: "\(light.lowerBound.doseFormatted)", level: .light, range: light))
@@ -64,13 +63,13 @@ struct DoseLevelIndicator: View {
         }
         if let heavy = doseRange.heavy {
             let upper = heavy * 1.5
-            segs.append(Segment(label: "\(heavy.doseFormatted)+", level: .heavy, range: heavy...upper))
+            segs.append(Segment(label: "\(heavy.doseFormatted)+", level: .heavy, range: heavy ... upper))
         }
         return segs
     }
 
     @ViewBuilder
-    private func segmentView(_ segment: Segment, index: Int) -> some View {
+    private func segmentView(_ segment: Segment, index _: Int) -> some View {
         let isActive = level == segment.level
         Rectangle()
             .fill(segment.level.swiftUIColor.opacity(isActive ? 1.0 : 0.3))
@@ -87,9 +86,7 @@ struct DoseLevelIndicator: View {
                 }
             }
     }
-
 }
-
 
 // MARK: - Inline Dose Level Badge (for amount field)
 
@@ -167,7 +164,6 @@ struct DoseInfoView: View {
         }
     }
 
-    @ViewBuilder
     private func doseLabel(_ label: LocalizedStringResource, level: DoseLevel) -> some View {
         HStack(spacing: 4) {
             Circle()
@@ -178,7 +174,6 @@ struct DoseInfoView: View {
                 .foregroundStyle(Theme.secondaryLabel)
         }
     }
-
 }
 
 // MARK: - Volumetric Dosing Disclaimer
@@ -400,7 +395,6 @@ struct DurationInfoView: View {
         }
     }
 
-    @ViewBuilder
     private func phaseLabel(_ label: LocalizedStringResource, color: Color) -> some View {
         HStack(spacing: 4) {
             Circle()

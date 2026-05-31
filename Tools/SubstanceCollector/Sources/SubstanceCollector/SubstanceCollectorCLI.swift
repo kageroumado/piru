@@ -6,13 +6,13 @@ struct SubstanceCollector: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "SubstanceCollector",
         abstract: "Assemble a comprehensive substance JSON database for the Piru app's bundled resource.",
-        subcommands: [Build.self]
+        subcommands: [Build.self],
     )
 }
 
 struct Build: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
-        abstract: "Run the full collector pipeline (TripSit + Wikidata + PubChem + Erowid + DEA + curated overlay) and write the result to substances-bundled.json."
+        abstract: "Run the full collector pipeline (TripSit + Wikidata + PubChem + Erowid + DEA + curated overlay) and write the result to substances-bundled.json.",
     )
 
     @Option(name: .long, help: "Output JSON path for the merged dataset. Input to pipeline/build/sqlite.py.")
@@ -142,7 +142,7 @@ struct Build: AsyncParsableCommand {
             mergedCount: result.mergedCount,
             warnings: warnings,
             cacheHits: hits,
-            cacheMisses: misses
+            cacheMisses: misses,
         )
         FileHandle.standardError.write(Data(StatsReporter.render(summary).utf8))
     }

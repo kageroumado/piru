@@ -1,10 +1,9 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("SubstanceDBManifest")
 struct SubstanceDBManifestTests {
-
     private static let sampleJSON = #"""
     {
       "schema_version": 1,
@@ -22,45 +21,45 @@ struct SubstanceDBManifestTests {
     }
     """#
 
-    @Test("Decodes the build-script JSON shape")
-    func decodesBuildScriptJSON() throws {
+    @Test
+    func `Decodes the build-script JSON shape`() throws {
         let data = try #require(Self.sampleJSON.data(using: .utf8))
         let manifest = try SubstanceDBManifest.jsonDecoder.decode(SubstanceDBManifest.self, from: data)
         #expect(manifest.schemaVersion == 1)
         #expect(manifest.contentVersion == "2026-05-25.0")
-        #expect(manifest.substanceCount == 1629)
+        #expect(manifest.substanceCount == 1_629)
         #expect(manifest.sqliteSha256 == "abc123")
         #expect(manifest.sqliteSizeBytes == 4_276_224)
         #expect(manifest.releaseNotes == "Initial build.")
         #expect(manifest.sources["tripsit"]?["categories"] == 100)
     }
 
-    @Test("isOlderThan compares lexicographically — newer date wins")
-    func isOlderThanByDate() {
+    @Test
+    func `isOlderThan compares lexicographically — newer date wins`() {
         let older = stubManifest(version: "2026-05-25.0")
         let newer = stubManifest(version: "2026-05-26.0")
         #expect(older.isOlderThan(newer))
         #expect(!newer.isOlderThan(older))
     }
 
-    @Test("isOlderThan distinguishes same-day rebuilds via suffix")
-    func isOlderThanBySuffix() {
+    @Test
+    func `isOlderThan distinguishes same-day rebuilds via suffix`() {
         let first = stubManifest(version: "2026-05-25.0")
         let second = stubManifest(version: "2026-05-25.1")
         #expect(first.isOlderThan(second))
         #expect(!second.isOlderThan(first))
     }
 
-    @Test("Equal versions are not older than themselves")
-    func equalVersionsNotOlder() {
+    @Test
+    func `Equal versions are not older than themselves`() {
         let a = stubManifest(version: "2026-05-25.0")
         let b = stubManifest(version: "2026-05-25.0")
         #expect(!a.isOlderThan(b))
         #expect(!b.isOlderThan(a))
     }
 
-    @Test("Round-trips through Codable")
-    func roundTrip() throws {
+    @Test
+    func `Round-trips through Codable`() throws {
         let original = stubManifest(version: "2026-06-01.0")
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -79,18 +78,17 @@ struct SubstanceDBManifestTests {
             sources: [:],
             sqlitePath: "Piru/Data/piru-substances.sqlite",
             sqliteSha256: "deadbeef",
-            sqliteSizeBytes: 1024,
-            releaseNotes: "Test build"
+            sqliteSizeBytes: 1_024,
+            releaseNotes: "Test build",
         )
     }
 }
 
 @Suite("SubstanceDBUpdater")
 struct SubstanceDBUpdaterTests {
-
-    @Test("Starts in idle state")
+    @Test
     @MainActor
-    func startsIdle() {
+    func `Starts in idle state`() {
         let updater = SubstanceDBUpdater.shared
         // Reset via revertToBundled which sets state to .idle. Safe even if
         // no update is applied.
@@ -101,9 +99,9 @@ struct SubstanceDBUpdaterTests {
         Issue.record("Expected idle after revert; got \(updater.state)")
     }
 
-    @Test("revertToBundled removes applied files if present")
+    @Test
     @MainActor
-    func revertRemovesAppliedFiles() throws {
+    func `revertToBundled removes applied files if present`() throws {
         let appliedSQLite = SubstanceDBUpdater.appliedSQLiteURL
         let fm = FileManager.default
 
@@ -115,9 +113,9 @@ struct SubstanceDBUpdaterTests {
         #expect(!fm.fileExists(atPath: appliedSQLite.path))
     }
 
-    @Test("SubstanceStore.resolveSubstancesDBURL prefers applied copy")
+    @Test
     @MainActor
-    func resolveURLPrefersApplied() throws {
+    func `SubstanceStore.resolveSubstancesDBURL prefers applied copy`() throws {
         let appliedSQLite = SubstanceDBUpdater.appliedSQLiteURL
         defer { try? FileManager.default.removeItem(at: appliedSQLite) }
 
@@ -132,9 +130,9 @@ struct SubstanceDBUpdaterTests {
 
     // MARK: - URL arithmetic
 
-    @Test("sqliteURL joins repo root + manifest's sqlitePath correctly")
-    func sqliteURLArithmetic() {
-        let manifestURL = URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json")!
+    @Test
+    func `sqliteURL joins repo root + manifest's sqlitePath correctly`() throws {
+        let manifestURL = try #require(URL(string: "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/manifest.json"))
         let manifest = SubstanceDBManifest(
             schemaVersion: 1,
             contentVersion: "2026-05-25.0",
@@ -145,20 +143,20 @@ struct SubstanceDBUpdaterTests {
             sqlitePath: "Piru/Data/piru-substances.sqlite",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
-            releaseNotes: ""
+            releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
         #expect(resolved.absoluteString == "https://raw.githubusercontent.com/kageroumado/piru/main/Piru/Data/piru-substances.sqlite")
     }
 
-    @Test("sqliteURL handles fork repos / different branches")
-    func sqliteURLAlternateRepo() {
-        let manifestURL = URL(string: "https://example.com/some/owner/repo/branch/Piru/Data/manifest.json")!
+    @Test
+    func `sqliteURL handles fork repos / different branches`() throws {
+        let manifestURL = try #require(URL(string: "https://example.com/some/owner/repo/branch/Piru/Data/manifest.json"))
         let manifest = SubstanceDBManifest(
             schemaVersion: 1, contentVersion: "", generatedAt: "", generatorVersion: "",
             substanceCount: 0, sources: [:],
             sqlitePath: "Piru/Data/piru-substances.sqlite",
-            sqliteSha256: "", sqliteSizeBytes: 0, releaseNotes: ""
+            sqliteSha256: "", sqliteSizeBytes: 0, releaseNotes: "",
         )
         let resolved = SubstanceDBUpdater.sqliteURL(manifestURL: manifestURL, manifest: manifest)
         #expect(resolved.absoluteString == "https://example.com/some/owner/repo/branch/Piru/Data/piru-substances.sqlite")
@@ -166,16 +164,16 @@ struct SubstanceDBUpdaterTests {
 
     // MARK: - SHA-256
 
-    @Test("sha256Hex computes a known vector")
-    func sha256KnownVector() {
+    @Test
+    func `sha256Hex computes a known vector`() {
         // From the FIPS test vector: empty input → e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         #expect(SubstanceDBUpdater.sha256Hex(of: Data()) == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
         // "abc" → ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
         #expect(SubstanceDBUpdater.sha256Hex(of: Data("abc".utf8)) == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
     }
 
-    @Test("Bundled SQLite hash matches the bundled manifest")
-    func bundledHashMatchesBundledManifest() throws {
+    @Test
+    func `Bundled SQLite hash matches the bundled manifest`() throws {
         let bundle = Bundle.main
         guard
             let sqliteURL = bundle.url(forResource: "piru-substances", withExtension: "sqlite"),
@@ -190,8 +188,10 @@ struct SubstanceDBUpdaterTests {
 
         let sqliteData = try Data(contentsOf: sqliteURL)
         let computed = SubstanceDBUpdater.sha256Hex(of: sqliteData)
-        #expect(computed.caseInsensitiveCompare(manifest.sqliteSha256) == .orderedSame,
-                "Bundled SQLite hash diverges from manifest. Rebuild via Exports/build-sqlite-database.py.")
+        #expect(
+            computed.caseInsensitiveCompare(manifest.sqliteSha256) == .orderedSame,
+            "Bundled SQLite hash diverges from manifest. Rebuild via Exports/build-sqlite-database.py.",
+        )
     }
 
     // MARK: - State machine (via evaluateManifest)
@@ -210,14 +210,14 @@ struct SubstanceDBUpdaterTests {
             sqlitePath: "Piru/Data/piru-substances.sqlite",
             sqliteSha256: String(repeating: "0", count: 64),
             sqliteSizeBytes: 0,
-            releaseNotes: "Test remote build"
+            releaseNotes: "Test remote build",
         )
         return try SubstanceDBManifest.jsonEncoder.encode(manifest)
     }
 
-    @Test("evaluateManifest: equal version → .upToDate")
+    @Test
     @MainActor
-    func evaluateUpToDate() throws {
+    func `evaluateManifest: equal version → .upToDate`() throws {
         let updater = SubstanceDBUpdater.shared
         try? updater.revertToBundled()
         guard let local = updater.currentManifest else {
@@ -230,9 +230,9 @@ struct SubstanceDBUpdaterTests {
         Issue.record("Expected .upToDate, got \(result)")
     }
 
-    @Test("evaluateManifest: newer remote → .updateAvailable")
+    @Test
     @MainActor
-    func evaluateUpdateAvailable() throws {
+    func `evaluateManifest: newer remote → .updateAvailable`() throws {
         let updater = SubstanceDBUpdater.shared
         try? updater.revertToBundled()
         let data = try remoteManifestData(version: "9999-12-31.0") // far future
@@ -241,9 +241,9 @@ struct SubstanceDBUpdaterTests {
         Issue.record("Expected .updateAvailable, got \(result)")
     }
 
-    @Test("evaluateManifest: unsupported schema version → .error")
+    @Test
     @MainActor
-    func evaluateRejectsNewerSchema() throws {
+    func `evaluateManifest: unsupported schema version → .error`() throws {
         let updater = SubstanceDBUpdater.shared
         try? updater.revertToBundled()
         let data = try remoteManifestData(version: "9999-12-31.0", schemaVersion: 999)
@@ -252,9 +252,9 @@ struct SubstanceDBUpdaterTests {
         Issue.record("Expected .error for schema=999, got \(result)")
     }
 
-    @Test("evaluateManifest: malformed JSON → .error")
+    @Test
     @MainActor
-    func evaluateRejectsMalformedJSON() {
+    func `evaluateManifest: malformed JSON → .error`() {
         let updater = SubstanceDBUpdater.shared
         let result = updater.evaluateManifest(remoteData: Data("not a manifest".utf8))
         if case .error = result { return }

@@ -6,39 +6,39 @@ enum Theme {
     static let accent = Color("AccentColor")
 
     /// Darker secondary label for improved readability
-    static let secondaryLabel: Color = Color(UIColor { traits in
+    static let secondaryLabel: Color = .init(UIColor { traits in
         if traits.userInterfaceStyle == .dark {
-            return UIColor(red: 0.65, green: 0.65, blue: 0.68, alpha: 1)
+            UIColor(red: 0.65, green: 0.65, blue: 0.68, alpha: 1)
         } else {
-            return UIColor(red: 0.48, green: 0.48, blue: 0.50, alpha: 1)
+            UIColor(red: 0.48, green: 0.48, blue: 0.50, alpha: 1)
         }
     })
 
     // MARK: - OLED Dark Mode Backgrounds
 
     /// Main background: pure black in dark mode, system white in light mode
-    static let background: Color = Color(UIColor { traits in
+    static let background: Color = .init(UIColor { traits in
         traits.userInterfaceStyle == .dark
             ? UIColor(red: 0, green: 0, blue: 0, alpha: 1)
             : .systemBackground
     })
 
     /// Card/surface background: very dark gray in dark mode, subtle off-white in light mode
-    static let cardBackground: Color = Color(UIColor { traits in
+    static let cardBackground: Color = .init(UIColor { traits in
         traits.userInterfaceStyle == .dark
             ? UIColor(red: 0.067, green: 0.067, blue: 0.067, alpha: 1)
             : .systemGray6
     })
 
     /// Grouped background: slightly off-black in dark mode
-    static let groupedBackground: Color = Color(UIColor { traits in
+    static let groupedBackground: Color = .init(UIColor { traits in
         traits.userInterfaceStyle == .dark
             ? UIColor(red: 0.039, green: 0.039, blue: 0.039, alpha: 1)
             : .systemGroupedBackground
     })
 
     /// Input field background
-    static let inputBackground: Color = Color(UIColor { traits in
+    static let inputBackground: Color = .init(UIColor { traits in
         traits.userInterfaceStyle == .dark
             ? UIColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1)
             : .systemGray6

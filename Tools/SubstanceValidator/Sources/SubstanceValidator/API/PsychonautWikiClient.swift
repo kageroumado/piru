@@ -19,7 +19,7 @@ struct PsychonautWikiClient {
 
         // Load existing cache
         var cache: [String: PWSubstance] = loadCache(from: cacheFile)
-        if verbose && !cache.isEmpty {
+        if verbose, !cache.isEmpty {
             print("  Loaded \(cache.count) cached PsychonautWiki entries")
         }
 
@@ -167,8 +167,8 @@ struct PsychonautWikiClient {
 
         var errorDescription: String? {
             switch self {
-            case .httpError(let code): return "PW HTTP error \(code)"
-            case .invalidResponse: return "Invalid response from PsychonautWiki"
+            case let .httpError(code): "PW HTTP error \(code)"
+            case .invalidResponse: "Invalid response from PsychonautWiki"
             }
         }
     }
@@ -179,7 +179,7 @@ struct PsychonautWikiClient {
 extension Array {
     func chunked(into size: Int) -> [[Element]] {
         stride(from: 0, to: count, by: size).map {
-            Array(self[$0..<Swift.min($0 + size, count)])
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }

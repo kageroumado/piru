@@ -15,14 +15,14 @@ private struct SPARQLResponse: Codable {
 
 /// One canonical chemical entity sourced from Wikidata.
 struct WikidataCompound {
-    let item: String          // QID, e.g. "Q409"
-    let name: String          // English label (rdfs:label)
-    let aliases: [String]     // skos:altLabel set
-    let cas: String?          // P231
-    let inchiKey: String?     // P235
-    let smiles: String?       // P233
-    let pubchemCID: Int?      // P662
-    let drugClass: [String]   // P5642 + drug-class labels via P31/P279
+    let item: String // QID, e.g. "Q409"
+    let name: String // English label (rdfs:label)
+    let aliases: [String] // skos:altLabel set
+    let cas: String? // P231
+    let inchiKey: String? // P235
+    let smiles: String? // P233
+    let pubchemCID: Int? // P662
+    let drugClass: [String] // P5642 + drug-class labels via P31/P279
     /// The seed category (e.g. "Designer drugs") this came from. Used for
     /// `category` mapping when nothing more specific is found.
     let seedCategory: WikidataSource.Seed
@@ -41,14 +41,14 @@ struct WikidataSource {
     /// instances — so P279* finds the actual compound list. QIDs verified
     /// 2026-05; counts in comments are approximate.
     enum Seed: String, CaseIterable {
-        case phenethylamine = "Q422693"          // ~1500 compounds
-        case tryptamine = "Q10705510"            // ~3600 compounds
+        case phenethylamine = "Q422693" // ~1500 compounds
+        case tryptamine = "Q10705510" // ~3600 compounds
         case substitutedAmphetamine = "Q2445303" // ~90 compounds
-        case cathinone = "Q7632116"              // ~30 compounds
-        case syntheticCannabinoid = "Q19904200"  // ~5 compounds
-        case opioid = "Q427523"                  // ~10 compounds
-        case designerDrug = "Q1200715"           // ~5 compounds
-        case hallucinogen = "Q189553"            // ~10 compounds
+        case cathinone = "Q7632116" // ~30 compounds
+        case syntheticCannabinoid = "Q19904200" // ~5 compounds
+        case opioid = "Q427523" // ~10 compounds
+        case designerDrug = "Q1200715" // ~5 compounds
+        case hallucinogen = "Q189553" // ~10 compounds
 
         var label: String {
             switch self {
@@ -82,7 +82,7 @@ struct WikidataSource {
     }
 
     func fetchAll() async -> [WikidataCompound] {
-        var seen: [String: WikidataCompound] = [:]   // by InChIKey or QID
+        var seen: [String: WikidataCompound] = [:] // by InChIKey or QID
         for seed in Seed.allCases {
             do {
                 let compounds = try await fetch(seed: seed)
@@ -115,7 +115,7 @@ struct WikidataSource {
         let data = try await cache.fetch(
             url: url,
             headers: ["Accept": "application/sparql-results+json"],
-            scope: "wikidata"
+            scope: "wikidata",
         )
         return try parseResponse(data, seed: seed)
     }
@@ -154,7 +154,7 @@ struct WikidataSource {
                   let qid = item.components(separatedBy: "/").last,
                   let name = row["itemLabel"]?.value,
                   !name.isEmpty,
-                  !name.hasPrefix("Q")     // unlabeled items echo back their QID
+                  !name.hasPrefix("Q") // unlabeled items echo back their QID
             else { continue }
 
             let aliases = (row["aliases"]?.value ?? "")
@@ -183,17 +183,17 @@ struct WikidataSource {
             // recognizable drug names. Heuristic: very long names (>40 chars)
             // or names with multiple parentheses / brackets are IUPAC.
             if decodedName.count > 60 { continue }
-            let openParens = decodedName.filter { $0 == "(" }.count
-            let openBrackets = decodedName.filter { $0 == "[" }.count
+            let openParens = decodedName.count(where: { $0 == "(" })
+            let openBrackets = decodedName.count(where: { $0 == "[" })
             if openParens + openBrackets >= 2 { continue }
 
             // Skip natural-product noise: stereochemistry-prefixed obscure
             // alkaloid metabolites have no recreational relevance. Heuristic:
             // require either a known drug-class tag, OR a drug-shaped name
             // (one of our recognised prefixes/suffixes), OR aliases.
-            if classes.isEmpty
-                && !Self.looksLikeRecreationalDrug(decodedName)
-                && aliases.isEmpty {
+            if classes.isEmpty,
+               !Self.looksLikeRecreationalDrug(decodedName),
+               aliases.isEmpty {
                 continue
             }
 
@@ -206,7 +206,7 @@ struct WikidataSource {
                 smiles: row["smiles"]?.value,
                 pubchemCID: pubchemCID,
                 drugClass: classes,
-                seedCategory: seed
+                seedCategory: seed,
             ))
         }
         return out
@@ -226,16 +226,15 @@ struct WikidataSource {
         //   3. Wikidata P5642 drug-class labels.
         //   4. Seed category default.
         let mapped = CategoryMapper.map(labels: c.drugClass, name: c.name)
-        let category: String
-        if mapped != "Other" {
-            category = mapped
+        let category: String = if mapped != "Other" {
+            mapped
         } else if let tagCat = categoryFromTags(tags) {
-            category = tagCat
+            tagCat
         } else {
-            category = c.seedCategory.defaultCategory
+            c.seedCategory.defaultCategory
         }
 
-        var sources: [String] = ["Wikidata: https://www.wikidata.org/wiki/\(c.item)"]
+        var sources = ["Wikidata: https://www.wikidata.org/wiki/\(c.item)"]
         if let cid = c.pubchemCID {
             sources.append("PubChem CID \(cid): https://pubchem.ncbi.nlm.nih.gov/compound/\(cid)")
         }
@@ -255,12 +254,12 @@ struct WikidataSource {
                 effects: warnings,
                 halfLifeMinutes: nil,
                 sources: sources,
-                tags: tags
+                tags: tags,
             ),
             provenance: .wikidataPubchem,
             inchiKey: c.inchiKey,
             pubchemCID: c.pubchemCID,
-            cas: c.cas
+            cas: c.cas,
         )
     }
 
@@ -279,7 +278,9 @@ struct WikidataSource {
             ("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
             ("&quot;", "\""), ("&#39;", "'"),
         ]
-        for (k, v) in pairs { out = out.replacingOccurrences(of: k, with: v) }
+        for (k, v) in pairs {
+            out = out.replacingOccurrences(of: k, with: v)
+        }
         return out
     }
 
@@ -296,7 +297,7 @@ struct WikidataSource {
     private static func isPeptide(_ name: String) -> Bool {
         let parts = name.split(separator: "-").map { $0.lowercased() }
         guard parts.count >= 2 else { return false }
-        let aaCount = parts.filter { aminoAcidCodes.contains($0) }.count
+        let aaCount = parts.count(where: { aminoAcidCodes.contains($0) })
         return aaCount >= 2
     }
 

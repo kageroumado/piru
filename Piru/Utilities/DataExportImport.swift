@@ -63,9 +63,7 @@ private enum PsyLogColorMap {
         "TOMATO": "FF6347",
     ]
 
-    private static let hexToName: [String: String] = {
-        Dictionary(nameToHex.map { ($0.value.uppercased(), $0.key) }, uniquingKeysWith: { first, _ in first })
-    }()
+    private static let hexToName: [String: String] = Dictionary(nameToHex.map { ($0.value.uppercased(), $0.key) }, uniquingKeysWith: { first, _ in first })
 
     static func hex(from name: String) -> String {
         nameToHex[name.uppercased()] ?? "007AFF"
@@ -129,8 +127,12 @@ private extension RouteOfAdministration {
 // MARK: - Millisecond Timestamps
 
 private extension Date {
-    var msSince1970: Int64 { Int64(timeIntervalSince1970 * 1000) }
-    init(ms: Int64) { self.init(timeIntervalSince1970: Double(ms) / 1000.0) }
+    var msSince1970: Int64 {
+        Int64(timeIntervalSince1970 * 1_000)
+    }
+    init(ms: Int64) {
+        self.init(timeIntervalSince1970: Double(ms) / 1_000.0)
+    }
 }
 
 // MARK: - PsyLog Codable Types
@@ -143,14 +145,18 @@ private struct PsyLogFile: Codable {
     var dailyDoseItems: [PsyLogDailyDoseItem]
 
     private enum CodingKeys: String, CodingKey {
-        case experiences, substanceCompanions, customUnits, customSubstances, dailyDoseItems
+        case experiences
+        case substanceCompanions
+        case customUnits
+        case customSubstances
+        case dailyDoseItems
     }
 
     init(
         experiences: [PsyLogExperience],
         companions: [PsyLogCompanion],
         dailyDoseItems: [PsyLogDailyDoseItem] = [],
-        customSubstances: [PsyLogCustomSubstance] = []
+        customSubstances: [PsyLogCustomSubstance] = [],
     ) {
         self.experiences = experiences
         self.substanceCompanions = companions
@@ -196,8 +202,15 @@ private struct PsyLogExperience: Codable {
     var ingestions: [PsyLogIngestion]
 
     private enum CodingKeys: String, CodingKey {
-        case title, isFavorite, creationDate, sortDate, text, ingestions
-        case ratings, location, timedNotes
+        case title
+        case isFavorite
+        case creationDate
+        case sortDate
+        case text
+        case ingestions
+        case ratings
+        case location
+        case timedNotes
     }
 
     init(title: String, creationDate: Int64, sortDate: Int64, ingestions: [PsyLogIngestion]) {
@@ -243,10 +256,19 @@ private struct PsyLogIngestion: Codable {
     var units: String
 
     private enum CodingKeys: String, CodingKey {
-        case substanceName, dose, time, administrationRoute, notes, units
-        case customUnitId, creationDate, consumerName
-        case estimatedDoseStandardDeviation, isDoseAnEstimate
-        case stomachFullness, endTime
+        case substanceName
+        case dose
+        case time
+        case administrationRoute
+        case notes
+        case units
+        case customUnitId
+        case creationDate
+        case consumerName
+        case estimatedDoseStandardDeviation
+        case isDoseAnEstimate
+        case stomachFullness
+        case endTime
     }
 
     init(substanceName: String, dose: Double, time: Int64, route: String, notes: String, units: String) {
@@ -337,7 +359,7 @@ private struct PsyLogCustomSubstance: Codable {
             unit: unit,
             notes: notes,
             duration: duration,
-            createdAt: Date(ms: createdAt)
+            createdAt: Date(ms: createdAt),
         )
     }
 }
@@ -349,8 +371,16 @@ private struct PsyLogCustomUnit: Codable {
     var color: String?
 
     private enum CodingKeys: String, CodingKey {
-        case id, name, unit, color
-        case isArchived, doseComponents, unitPlural, note, creationDate, roaInfos
+        case id
+        case name
+        case unit
+        case color
+        case isArchived
+        case doseComponents
+        case unitPlural
+        case note
+        case creationDate
+        case roaInfos
     }
 
     init(from decoder: Decoder) throws {
@@ -438,7 +468,7 @@ enum DataExportImport {
                     time: entry.timestamp.msSince1970,
                     route: entry.route.psylogName,
                     notes: noteText,
-                    units: entry.unit
+                    units: entry.unit,
                 )
             }
             let earliest = dayEntries.first!.timestamp.msSince1970
@@ -446,7 +476,7 @@ enum DataExportImport {
                 title: titleFormatter.string(from: day),
                 creationDate: earliest,
                 sortDate: earliest,
-                ingestions: ingestions
+                ingestions: ingestions,
             )
         }
 
@@ -460,7 +490,7 @@ enum DataExportImport {
                 amount: $0.amount,
                 unit: $0.unit,
                 route: $0.route.psylogName,
-                sortOrder: $0.sortOrder
+                sortOrder: $0.sortOrder,
             )
         }
 
@@ -469,7 +499,7 @@ enum DataExportImport {
             experiences: experiences,
             companions: companions,
             dailyDoseItems: exportedDailyDoses,
-            customSubstances: exportedCustoms
+            customSubstances: exportedCustoms,
         )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
@@ -497,7 +527,7 @@ enum DataExportImport {
         // exact duplicates so re-imports stay idempotent.
         var existingByName: [String: CustomSubstanceEntry] = Dictionary(
             customStore.all.map { ($0.name.lowercased(), $0) },
-            uniquingKeysWith: { first, _ in first }
+            uniquingKeysWith: { first, _ in first },
         )
         for imported in file.customSubstances {
             let incoming = imported.asEntry
@@ -515,7 +545,7 @@ enum DataExportImport {
                     unit: incoming.unit,
                     notes: incoming.notes,
                     duration: incoming.duration,
-                    createdAt: incoming.createdAt
+                    createdAt: incoming.createdAt,
                 )
                 customStore.update(merged)
                 existingByName[key] = merged
@@ -551,7 +581,7 @@ enum DataExportImport {
                     route: RouteOfAdministration(psylogName: ingestion.administrationRoute),
                     timestamp: Date(ms: ingestion.time),
                     notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
-                    tags: extractedTags
+                    tags: extractedTags,
                 ))
             }
         }
@@ -565,7 +595,7 @@ enum DataExportImport {
             importedColors.insert(key)
             context.insert(SubstanceColor(
                 substance: companion.substanceName,
-                hexColor: PsyLogColorMap.hex(from: companion.color)
+                hexColor: PsyLogColorMap.hex(from: companion.color),
             ))
         }
 
@@ -576,7 +606,7 @@ enum DataExportImport {
             importedColors.insert(cu.name.lowercased())
             context.insert(SubstanceColor(
                 substance: cu.name,
-                hexColor: PsyLogColorMap.hex(from: colorName)
+                hexColor: PsyLogColorMap.hex(from: colorName),
             ))
         }
 
@@ -592,7 +622,7 @@ enum DataExportImport {
                     amount: item.amount,
                     unit: item.unit,
                     route: RouteOfAdministration(psylogName: item.route),
-                    sortOrder: item.sortOrder
+                    sortOrder: item.sortOrder,
                 ))
             }
         }
@@ -611,7 +641,7 @@ enum DataExportImport {
                 route: entry.route,
                 timestamp: entry.timestamp,
                 notes: entry.notes,
-                tags: entry.tags ?? []
+                tags: entry.tags ?? [],
             ))
         }
 
@@ -621,7 +651,7 @@ enum DataExportImport {
                 amount: item.amount,
                 unit: item.unit,
                 route: item.route,
-                sortOrder: item.sortOrder
+                sortOrder: item.sortOrder,
             ))
         }
 
@@ -653,7 +683,9 @@ enum DataExportImport {
 // MARK: - File Document for Export
 
 struct PiruDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.json] }
+    static var readableContentTypes: [UTType] {
+        [.json]
+    }
 
     var data: Data
 
@@ -668,7 +700,7 @@ struct PiruDocument: FileDocument {
         self.data = data
     }
 
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+    func fileWrapper(configuration _: WriteConfiguration) throws -> FileWrapper {
         FileWrapper(regularFileWithContents: data)
     }
 }

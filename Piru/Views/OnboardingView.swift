@@ -32,14 +32,14 @@ struct OnboardingView: View {
                     icon: "bolt.heart",
                     title: "Live Activity",
                     description: "Track active substances on your Lock Screen and Dynamic Island.",
-                    isOn: $liveActivityEnabled
+                    isOn: $liveActivityEnabled,
                 )
 
                 featureToggle(
                     icon: "heart.text.clipboard",
                     title: "Wellness Reminders",
                     description: "Get hydration and sleep nudges automatically when you log a dose.",
-                    isOn: $wellnessNotificationsEnabled
+                    isOn: $wellnessNotificationsEnabled,
                 )
             }
             .padding(.horizontal, 24)
@@ -68,7 +68,7 @@ struct OnboardingView: View {
         icon: String,
         title: LocalizedStringResource,
         description: LocalizedStringResource,
-        isOn: Binding<Bool>
+        isOn: Binding<Bool>,
     ) -> some View {
         HStack(spacing: 14) {
             Image(systemName: icon)

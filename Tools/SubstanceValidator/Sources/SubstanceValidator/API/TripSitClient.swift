@@ -18,7 +18,7 @@ struct TripSitClient {
             guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
                 throw TripSitError.httpError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
             }
-            if verbose { print("  Downloaded \(data.count / 1024) KB from GitHub") }
+            if verbose { print("  Downloaded \(data.count / 1_024) KB from GitHub") }
             return try decodeDrugs(data)
         } catch let error as TripSitError {
             throw error
@@ -34,7 +34,7 @@ struct TripSitClient {
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
             throw TripSitError.httpError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
         }
-        if verbose { print("  Downloaded \(data.count / 1024) KB from API") }
+        if verbose { print("  Downloaded \(data.count / 1_024) KB from API") }
 
         // The API wraps in {"err": false, "data": [{...drugs...}]}
         // Try direct decode first, then wrapped format
@@ -57,8 +57,8 @@ struct TripSitClient {
 
         var errorDescription: String? {
             switch self {
-            case .httpError(let code): return "HTTP error \(code)"
-            case .decodingFailed(let msg): return "Decoding failed: \(msg)"
+            case let .httpError(code): "HTTP error \(code)"
+            case let .decodingFailed(msg): "Decoding failed: \(msg)"
             }
         }
     }

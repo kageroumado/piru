@@ -1,6 +1,6 @@
-import Testing
 import Foundation
 import SwiftData
+import Testing
 @testable import Piru
 
 // MARK: - Helpers
@@ -11,7 +11,7 @@ private func makeTestContainer() throws -> ModelContainer {
     return try ModelContainer(
         for: DoseEntry.self, SubstanceColor.self, UserColor.self,
         DailyDoseItem.self, FavoriteSubstance.self,
-        configurations: config
+        configurations: config,
     )
 }
 
@@ -19,17 +19,16 @@ private func makeTestContainer() throws -> ModelContainer {
 
 @Suite("DataExportImport — filename")
 struct DataExportImportTests {
-
-    @Test("Export filename contains Piru prefix and ISO timestamp marker")
-    func exportFilenameFormat() {
+    @Test
+    func `Export filename contains Piru prefix and ISO timestamp marker`() {
         let filename = DataExportImport.exportFilename
         #expect(filename.hasPrefix("Piru "))
         #expect(filename.count > 5)
         #expect(filename.contains("T"))
     }
 
-    @Test("Export filename is non-empty and well-formed")
-    func exportFilenameUnique() {
+    @Test
+    func `Export filename is non-empty and well-formed`() {
         let f1 = DataExportImport.exportFilename
         #expect(!f1.isEmpty)
         #expect(f1.hasPrefix("Piru "))
@@ -41,11 +40,10 @@ struct DataExportImportTests {
 @Suite("DataExportImport — round-trip")
 @MainActor
 struct DataExportImportRoundTripTests {
-
     // MARK: Core DoseEntry fields
 
-    @Test("DoseEntry core fields survive export → import")
-    func doseEntryCoreFieldsRoundTrip() throws {
+    @Test
+    func `DoseEntry core fields survive export → import`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -60,7 +58,7 @@ struct DataExportImportRoundTripTests {
             route: .oral,
             timestamp: t1,
             notes: "morning coffee",
-            tags: ["productive"]
+            tags: ["productive"],
         ))
         context.insert(DoseEntry(
             substance: "Melatonin",
@@ -69,7 +67,7 @@ struct DataExportImportRoundTripTests {
             route: .sublingual,
             timestamp: t2,
             notes: nil,
-            tags: []
+            tags: [],
         ))
         context.insert(DoseEntry(
             substance: "Magnesium Glycinate",
@@ -78,7 +76,7 @@ struct DataExportImportRoundTripTests {
             route: .oral,
             timestamp: t3,
             notes: "with dinner",
-            tags: ["routine", "sleep"]
+            tags: ["routine", "sleep"],
         ))
 
         try context.save()
@@ -113,8 +111,8 @@ struct DataExportImportRoundTripTests {
 
     // MARK: SubstanceColor and DailyDoseItem
 
-    @Test("SubstanceColor and DailyDoseItem survive export → import")
-    func substanceColorAndDailyDoseItemRoundTrip() throws {
+    @Test
+    func `SubstanceColor and DailyDoseItem survive export → import`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -126,17 +124,17 @@ struct DataExportImportRoundTripTests {
 
         context.insert(DailyDoseItem(
             substance: "Vitamin D3",
-            amount: 2000,
+            amount: 2_000,
             unit: "IU",
             route: .oral,
-            sortOrder: 0
+            sortOrder: 0,
         ))
         context.insert(DailyDoseItem(
             substance: "Omega-3",
-            amount: 1000,
+            amount: 1_000,
             unit: "mg",
             route: .oral,
-            sortOrder: 1
+            sortOrder: 1,
         ))
 
         try context.save()
@@ -154,7 +152,7 @@ struct DataExportImportRoundTripTests {
         let dailyItems = try context.fetch(FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]))
         #expect(dailyItems.count == 2)
         let vitD = try #require(dailyItems.first { $0.substance == "Vitamin D3" })
-        #expect(vitD.amount == 2000)
+        #expect(vitD.amount == 2_000)
         #expect(vitD.unit == "IU")
         #expect(vitD.route == .oral)
 
@@ -164,8 +162,8 @@ struct DataExportImportRoundTripTests {
 
     // MARK: Tag preservation
 
-    @Test("Tags from #hashtag-style notes round-trip correctly")
-    func tagPreservation() throws {
+    @Test
+    func `Tags from #hashtag-style notes round-trip correctly`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -177,7 +175,7 @@ struct DataExportImportRoundTripTests {
             route: .oral,
             timestamp: ts,
             notes: "feeling great #excited #grateful",
-            tags: ["excited", "grateful"]
+            tags: ["excited", "grateful"],
         ))
 
         try context.save()
@@ -196,8 +194,8 @@ struct DataExportImportRoundTripTests {
 
     // MARK: Format detection
 
-    @Test("JSON with 'experiences' key routes to PsyLog import path")
-    func psylogFormatDetection() throws {
+    @Test
+    func `JSON with 'experiences' key routes to PsyLog import path`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -233,8 +231,8 @@ struct DataExportImportRoundTripTests {
         #expect(imported.first?.amount == 100.0)
     }
 
-    @Test("JSON without 'experiences' key routes to legacy import path")
-    func legacyFormatDetection() throws {
+    @Test
+    func `JSON without 'experiences' key routes to legacy import path`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -270,8 +268,8 @@ struct DataExportImportRoundTripTests {
 
     // MARK: Empty export
 
-    @Test("Empty context exports valid JSON that imports cleanly")
-    func emptyExportRoundTrip() throws {
+    @Test
+    func `Empty context exports valid JSON that imports cleanly`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
 
@@ -299,8 +297,8 @@ struct DataExportImportRoundTripTests {
         return CustomSubstanceStore.forTesting(defaults: defaults)
     }
 
-    @Test("Custom substances survive export → import with duration preserved")
-    func customSubstancesRoundTrip() throws {
+    @Test
+    func `Custom substances survive export → import with duration preserved`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
         let store = makeIsolatedCustomStore()
@@ -311,7 +309,7 @@ struct DataExportImportRoundTripTests {
             peak: DurationRange(min: 30, max: 90),
             offset: DurationRange(min: 60, max: 120),
             afterglow: nil,
-            total: DurationRange(min: 120, max: 240)
+            total: DurationRange(min: 120, max: 240),
         )
         store.add(CustomSubstanceEntry(
             name: "2-MMC",
@@ -319,12 +317,17 @@ struct DataExportImportRoundTripTests {
             defaultRoute: .insufflation,
             unit: "mg",
             notes: "custom notes",
-            duration: duration
+            duration: duration,
         ))
         // Need at least one DoseEntry — exportJSON's PsyLog shape groups
         // experiences from entries; an empty journal can still export.
-        context.insert(DoseEntry(substance: "Caffeine", amount: 100, unit: "mg",
-                                  route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        context.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 100,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
 
         let data = try DataExportImport.exportJSON(context: context, customStore: store)
 
@@ -338,7 +341,7 @@ struct DataExportImportRoundTripTests {
 
         // Importing into a fresh store recreates the same entry.
         let freshStore = makeIsolatedCustomStore()
-        let freshContext = ModelContext(try makeTestContainer())
+        let freshContext = try ModelContext(makeTestContainer())
         try DataExportImport.importJSON(data: data, context: freshContext, customStore: freshStore)
 
         #expect(freshStore.all.count == 1)
@@ -350,15 +353,20 @@ struct DataExportImportRoundTripTests {
         #expect(imported.notes == "custom notes")
     }
 
-    @Test("Re-importing the same file is idempotent (no duplicate customs)")
-    func reimportIsIdempotent() throws {
+    @Test
+    func `Re-importing the same file is idempotent (no duplicate customs)`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
         let store = makeIsolatedCustomStore()
 
         store.add(CustomSubstanceEntry(name: "MyCustom", category: .stimulant))
-        context.insert(DoseEntry(substance: "Caffeine", amount: 50, unit: "mg",
-                                  route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        context.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 50,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
         let data = try DataExportImport.exportJSON(context: context, customStore: store)
 
         try DataExportImport.importJSON(data: data, context: context, customStore: store)
@@ -367,8 +375,8 @@ struct DataExportImportRoundTripTests {
         #expect(store.all.count == 1)
     }
 
-    @Test("Imported custom replaces existing entry with the same name")
-    func customReplacesByName() throws {
+    @Test
+    func `Imported custom replaces existing entry with the same name`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
         let store = makeIsolatedCustomStore()
@@ -380,13 +388,13 @@ struct DataExportImportRoundTripTests {
             defaultRoute: .oral,
             unit: "mg",
             notes: "stale notes",
-            duration: nil
+            duration: nil,
         )
         store.add(preExisting)
         let originalId = try #require(store.all.first).id
 
         // Build a JSON containing a different "Foo" with a duration profile.
-        let exportContext = ModelContext(try makeTestContainer())
+        let exportContext = try ModelContext(makeTestContainer())
         let sourceStore = makeIsolatedCustomStore()
         sourceStore.add(CustomSubstanceEntry(
             name: "Foo",
@@ -399,11 +407,16 @@ struct DataExportImportRoundTripTests {
                 comeup: nil, peak: DurationRange(min: 30, max: 60),
                 offset: DurationRange(min: 30, max: 60),
                 afterglow: nil,
-                total: DurationRange(min: 120, max: 180)
-            )
+                total: DurationRange(min: 120, max: 180),
+            ),
         ))
-        exportContext.insert(DoseEntry(substance: "Caffeine", amount: 50, unit: "mg",
-                                        route: .oral, timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        exportContext.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 50,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
         let data = try DataExportImport.exportJSON(context: exportContext, customStore: sourceStore)
 
         try DataExportImport.importJSON(data: data, context: context, customStore: store)
@@ -419,15 +432,15 @@ struct DataExportImportRoundTripTests {
 
     // MARK: exportFilename format
 
-    @Test("exportFilename has Piru prefix and ISO-ish timestamp")
-    func exportFilenameStructure() {
+    @Test
+    func `exportFilename has Piru prefix and ISO-ish timestamp`() {
         let filename = DataExportImport.exportFilename
         #expect(filename.hasPrefix("Piru "))
 
         let body = String(filename.dropFirst("Piru ".count))
         #expect(body.count == 17, "Expected yyyy-MM-ddTHHmmss (17 chars), got '\(body)'")
 
-        let dashCount = body.filter { $0 == "-" }.count
+        let dashCount = body.count(where: { $0 == "-" })
         #expect(dashCount == 2)
         #expect(body.contains("T"))
     }

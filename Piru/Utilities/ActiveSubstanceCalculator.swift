@@ -11,8 +11,12 @@ struct ActiveSubstance: Identifiable {
     let totalRemaining: Double
     let doses: [DoseInfo]
 
-    var id: String { name }
-    var eliminatedFraction: Double { 1 - totalRemaining / totalDosed }
+    var id: String {
+        name
+    }
+    var eliminatedFraction: Double {
+        1 - totalRemaining / totalDosed
+    }
 
     struct DoseInfo: Identifiable {
         let id = UUID()
@@ -80,7 +84,7 @@ enum ActiveSubstanceCalculator {
             let doseInfo = ActiveSubstance.DoseInfo(
                 amount: entry.amount,
                 remaining: remaining,
-                timestamp: entry.timestamp
+                timestamp: entry.timestamp,
             )
 
             let key = substance?.name ?? entry.substance
@@ -96,7 +100,7 @@ enum ActiveSubstanceCalculator {
                     halfLife: halfLife,
                     doses: [doseInfo],
                     totalDosed: entry.amount,
-                    totalRemaining: remaining
+                    totalRemaining: remaining,
                 )
             }
         }
@@ -110,7 +114,7 @@ enum ActiveSubstanceCalculator {
                 halfLifeMinutes: info.halfLife,
                 totalDosed: info.totalDosed,
                 totalRemaining: info.totalRemaining,
-                doses: info.doses.sorted { $0.timestamp > $1.timestamp }
+                doses: info.doses.sorted { $0.timestamp > $1.timestamp },
             )
         }
         .sorted { $0.eliminatedFraction < $1.eliminatedFraction }
@@ -137,7 +141,7 @@ extension ActiveSubstanceState {
             offsetEndMinutes: boundaries.offsetEnd,
             afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
             totalMinutes: duration.estimatedTotalMinutes,
-            doseIntensity: doseIntensity
+            doseIntensity: doseIntensity,
         )
     }
 
@@ -147,7 +151,7 @@ extension ActiveSubstanceState {
               let duration = substance.resolveDuration(for: entry.route) else { return nil }
         let intensity = Self.computeDoseIntensity(
             amount: entry.amount,
-            doseRange: Self.resolveDoseRange(substance: substance, route: entry.route)
+            doseRange: Self.resolveDoseRange(substance: substance, route: entry.route),
         )
         return ActiveSubstanceState(
             name: entry.substance,
@@ -157,7 +161,7 @@ extension ActiveSubstanceState {
             unit: entry.unit,
             routeDisplayName: entry.route.displayName,
             duration: duration,
-            doseIntensity: intensity
+            doseIntensity: intensity,
         )
     }
 

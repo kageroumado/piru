@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct MedicationItemFormView: View {
     @Environment(\.modelContext) private var modelContext
@@ -26,7 +26,9 @@ struct MedicationItemFormView: View {
 
     @Query(sort: \DailyDoseItem.sortOrder) private var existingItems: [DailyDoseItem]
 
-    private var isEditing: Bool { item != nil }
+    private var isEditing: Bool {
+        item != nil
+    }
 
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
 
@@ -43,98 +45,97 @@ struct MedicationItemFormView: View {
     private static let weekdaySymbols: [(index: Int, short: String)] = {
         let cal = Calendar.current
         // 1=Sunday .. 7=Saturday
-        return (1...7).map { ($0, cal.shortWeekdaySymbols[$0 - 1]) }
+        return (1 ... 7).map { ($0, cal.shortWeekdaySymbols[$0 - 1]) }
     }()
 
     var body: some View {
         NavigationStack {
             Form {
                 Group {
-                Section("Substance") {
-                    SubstanceSearchField(text: $substance) { selected in
-                        selectSubstance(selected)
-                    } onCustom: {
-                        useCustomSubstance()
-                    }
-                }
-
-                Section("Dosage") {
-                    HStack {
-                        TextField("Amount", text: $amount)
-                            .keyboardType(.decimalPad)
-                        Picker("Unit", selection: $unit) {
-                            ForEach(currentUnits, id: \.self) { Text($0) }
-                        }
-                        .labelsHidden()
-                    }
-                    Picker("Route", selection: $route) {
-                        ForEach(availableRoutes) { r in
-                            Text(r.localizedName).tag(r)
-                        }
-                    }
-                    .onChange(of: route) {
-                        if let sub = selectedSubstance {
-                            unit = sub.unit(for: route)
-                        }
-                    }
-                }
-
-                Section {
-                    Picker("Frequency", selection: $frequency) {
-                        ForEach(DoseFrequency.allCases) { freq in
-                            Text(freq.displayName).tag(freq)
+                    Section("Substance") {
+                        SubstanceSearchField(text: $substance) { selected in
+                            selectSubstance(selected)
+                        } onCustom: {
+                            useCustomSubstance()
                         }
                     }
 
+                    Section("Dosage") {
+                        HStack {
+                            TextField("Amount", text: $amount)
+                                .keyboardType(.decimalPad)
+                            Picker("Unit", selection: $unit) {
+                                ForEach(currentUnits, id: \.self) { Text($0) }
+                            }
+                            .labelsHidden()
+                        }
+                        Picker("Route", selection: $route) {
+                            ForEach(availableRoutes) { r in
+                                Text(r.localizedName).tag(r)
+                            }
+                        }
+                        .onChange(of: route) {
+                            if let sub = selectedSubstance {
+                                unit = sub.unit(for: route)
+                            }
+                        }
+                    }
 
-                    if frequency == .specificDays {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Days")
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.secondaryLabel)
-                            HStack(spacing: 6) {
-                                ForEach(Self.weekdaySymbols, id: \.index) { day in
-                                    let isSelected = selectedWeekdays.contains(day.index)
-                                    Button {
-                                        if isSelected {
-                                            selectedWeekdays.remove(day.index)
-                                        } else {
-                                            selectedWeekdays.insert(day.index)
+                    Section {
+                        Picker("Frequency", selection: $frequency) {
+                            ForEach(DoseFrequency.allCases) { freq in
+                                Text(freq.displayName).tag(freq)
+                            }
+                        }
+
+                        if frequency == .specificDays {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Days")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                HStack(spacing: 6) {
+                                    ForEach(Self.weekdaySymbols, id: \.index) { day in
+                                        let isSelected = selectedWeekdays.contains(day.index)
+                                        Button {
+                                            if isSelected {
+                                                selectedWeekdays.remove(day.index)
+                                            } else {
+                                                selectedWeekdays.insert(day.index)
+                                            }
+                                        } label: {
+                                            Text(String(day.short.prefix(2)))
+                                                .font(.caption.weight(.semibold))
+                                                .frame(width: 34, height: 34)
+                                                .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
+                                                .foregroundStyle(isSelected ? .white : .primary)
+                                                .clipShape(Circle())
                                         }
-                                    } label: {
-                                        Text(String(day.short.prefix(2)))
-                                            .font(.caption.weight(.semibold))
-                                            .frame(width: 34, height: 34)
-                                            .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
-                                            .foregroundStyle(isSelected ? .white : .primary)
-                                            .clipShape(Circle())
+                                        .buttonStyle(.plain)
                                     }
-                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        }
+
+                        if frequency != .daily, frequency != .specificDays {
+                            DatePicker("Starting from", selection: $startDate, displayedComponents: .date)
+                        }
+                    } header: {
+                        Text("Schedule")
+                    } footer: {
+                        scheduleFooter
+                    }
+
+                    if !categories.isEmpty {
+                        Section("Category") {
+                            Picker("Category", selection: $category) {
+                                Text("None").tag("")
+                                ForEach(categories, id: \.self) { cat in
+                                    Text(cat).tag(cat)
                                 }
                             }
                         }
-                        .padding(.vertical, 4)
                     }
-
-                    if frequency != .daily && frequency != .specificDays {
-                        DatePicker("Starting from", selection: $startDate, displayedComponents: .date)
-                    }
-                } header: {
-                    Text("Schedule")
-                } footer: {
-                    scheduleFooter
-                }
-
-                if !categories.isEmpty {
-                    Section("Category") {
-                        Picker("Category", selection: $category) {
-                            Text("None").tag("")
-                            ForEach(categories, id: \.self) { cat in
-                                Text(cat).tag(cat)
-                            }
-                        }
-                    }
-                }
                 }
                 .listRowBackground(Theme.cardBackground)
             }
@@ -239,7 +240,7 @@ struct MedicationItemFormView: View {
                 category: category,
                 frequency: frequency,
                 frequencyDays: Array(selectedWeekdays),
-                startDate: startDate
+                startDate: startDate,
             )
             modelContext.insert(newItem)
         }

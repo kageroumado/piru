@@ -1,12 +1,11 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("UserProfile")
 struct UserProfileTests {
-
-    @Test("All cases are Codable round-trip stable")
-    func roundTrip() throws {
+    @Test
+    func `All cases are Codable round-trip stable`() throws {
         for profile in UserProfile.allCases {
             let data = try JSONEncoder().encode(profile)
             let decoded = try JSONDecoder().decode(UserProfile.self, from: data)
@@ -14,24 +13,24 @@ struct UserProfileTests {
         }
     }
 
-    @Test("Raw values are stable wire format")
-    func rawValuesAreStable() {
+    @Test
+    func `Raw values are stable wire format`() {
         #expect(UserProfile.casual.rawValue == "casual")
         #expect(UserProfile.harmReduction.rawValue == "harm-reduction")
         #expect(UserProfile.pharmaNerd.rawValue == "pharma-nerd")
     }
 
-    @Test("All cases enumerated")
-    func allCases() {
+    @Test
+    func `All cases enumerated`() {
         #expect(UserProfile.allCases.count == 3)
         #expect(UserProfile.allCases.contains(.casual))
         #expect(UserProfile.allCases.contains(.harmReduction))
         #expect(UserProfile.allCases.contains(.pharmaNerd))
     }
 
-    @Test("Store persists profile change across a single session")
+    @Test
     @MainActor
-    func storePersistsProfile() {
+    func `Store persists profile change across a single session`() {
         let original = SubstanceStore.shared.userProfile
         defer { SubstanceStore.shared.setUserProfile(original) }
 
@@ -42,9 +41,9 @@ struct UserProfileTests {
         #expect(SubstanceStore.shared.userProfile == .casual)
     }
 
-    @Test("Setting same profile is a no-op")
+    @Test
     @MainActor
-    func setSameProfileIsNoOp() {
+    func `Setting same profile is a no-op`() {
         let original = SubstanceStore.shared.userProfile
         SubstanceStore.shared.setUserProfile(original)
         #expect(SubstanceStore.shared.userProfile == original)
@@ -53,10 +52,9 @@ struct UserProfileTests {
 
 @Suite("Source priority")
 struct SourcePriorityTests {
-
-    @Test("Source states cover every bundled source")
+    @Test
     @MainActor
-    func sourceStatesCoverAll() {
+    func `Source states cover every bundled source`() {
         let states = SubstanceStore.shared.sourceStates()
         #expect(!states.isEmpty)
         // All states have non-empty slugs and display names
@@ -66,9 +64,9 @@ struct SourcePriorityTests {
         }
     }
 
-    @Test("Reordering changes enabledSourceOrder and clears resolved cache")
+    @Test
     @MainActor
-    func reorderingTakesEffect() {
+    func `Reordering changes enabledSourceOrder and clears resolved cache`() {
         let originalOrder = SubstanceStore.shared.enabledSourceOrder
         defer { SubstanceStore.shared.setSourcePriority(orderedSlugs: originalOrder) }
 
@@ -78,9 +76,9 @@ struct SourcePriorityTests {
         #expect(SubstanceStore.shared.enabledSourceOrder.first == reversed.first)
     }
 
-    @Test("Disabling a source removes it from enabledSourceOrder")
+    @Test
     @MainActor
-    func disablingHidesFromOrder() {
+    func `Disabling a source removes it from enabledSourceOrder`() {
         let original = SubstanceStore.shared.enabledSourceOrder
         guard let toDisable = original.last else { return }
         defer { SubstanceStore.shared.setSource(toDisable, enabled: true) }

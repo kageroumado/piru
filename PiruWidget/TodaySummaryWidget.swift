@@ -41,18 +41,18 @@ struct DoseSummary: Identifiable {
 // MARK: - Provider
 
 struct TodaySummaryProvider: TimelineProvider {
-    func placeholder(in context: Context) -> TodaySummaryEntry {
+    func placeholder(in _: Context) -> TodaySummaryEntry {
         TodaySummaryEntry(date: .now, doses: [
             DoseSummary(substance: "Caffeine", totalAmount: 200, unit: "mg", count: 2, colorHex: "F57878", lastTime: .now),
             DoseSummary(substance: "Vyvanse", totalAmount: 40, unit: "mg", count: 1, colorHex: "F57896", lastTime: .now),
         ], totalCount: 3)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (TodaySummaryEntry) -> Void) {
+    func getSnapshot(in _: Context, completion: @escaping (TodaySummaryEntry) -> Void) {
         completion(fetchEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<TodaySummaryEntry>) -> Void) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<TodaySummaryEntry>) -> Void) {
         let entry = fetchEntry()
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 30, to: .now)!
         completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
@@ -64,7 +64,7 @@ struct TodaySummaryProvider: TimelineProvider {
         let container: ModelContainer
         do {
             guard let groupURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroupID
+                forSecurityApplicationGroupIdentifier: Self.appGroupID,
             ) else {
                 return TodaySummaryEntry(date: .now, doses: [], totalCount: 0)
             }
@@ -73,7 +73,7 @@ struct TodaySummaryProvider: TimelineProvider {
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
                 DailyDoseItem.self, FavoriteSubstance.self,
-                configurations: config
+                configurations: config,
             )
         } catch {
             return TodaySummaryEntry(date: .now, doses: [], totalCount: 0)
@@ -84,7 +84,7 @@ struct TodaySummaryProvider: TimelineProvider {
         let predicate = #Predicate<DoseEntry> { $0.timestamp >= startOfDay }
         let descriptor = FetchDescriptor<DoseEntry>(
             predicate: predicate,
-            sortBy: [SortDescriptor(\.timestamp)]
+            sortBy: [SortDescriptor(\.timestamp)],
         )
 
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
@@ -117,7 +117,7 @@ struct TodaySummaryProvider: TimelineProvider {
                 unit: data.unit,
                 count: data.count,
                 colorHex: colorMap[name.lowercased()] ?? "F56297",
-                lastTime: data.lastTime
+                lastTime: data.lastTime,
             )
         }.sorted { $0.lastTime > $1.lastTime }
 

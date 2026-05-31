@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct InteractionCheckerView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
@@ -94,7 +94,7 @@ struct InteractionCheckerView: View {
             .padding(.vertical, 11)
             .themeCapsule()
 
-            if showSearchResults && !searchResults.isEmpty {
+            if showSearchResults, !searchResults.isEmpty {
                 searchDropdown
             }
         }
@@ -155,12 +155,12 @@ struct InteractionCheckerView: View {
                             Text("\(results.count) Interactions Found")
                         }
                     }
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle((results.first?.severity ?? .caution).color)
-                        .textCase(.uppercase)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 12)
-                        .padding(.bottom, 8)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle((results.first?.severity ?? .caution).color)
+                    .textCase(.uppercase)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
 
                     ForEach(Array(results.enumerated()), id: \.offset) { index, warning in
                         if index > 0 {
@@ -170,7 +170,7 @@ struct InteractionCheckerView: View {
                             InteractionTimelineView(
                                 substanceA: warning.substanceA,
                                 substanceB: warning.substanceB,
-                                severity: warning.severity
+                                severity: warning.severity,
                             )
                         } label: {
                             HStack {

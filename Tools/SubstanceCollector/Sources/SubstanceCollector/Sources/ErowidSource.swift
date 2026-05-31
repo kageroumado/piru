@@ -19,13 +19,24 @@ struct ErowidSource {
         "TIHKAL by Alexander & Ann Shulgin (Transform Press, 1997) — text used with permission per https://erowid.org/library/books_online/tihkal/tihkal.shtml"
 
     enum Book {
-        case pihkal, tihkal
-        var dirName: String { self == .pihkal ? "pihkal" : "tihkal" }
-        var maxIndex: Int { self == .pihkal ? 179 : 55 }
+        case pihkal
+        case tihkal
+        var dirName: String {
+            self == .pihkal ? "pihkal" : "tihkal"
+        }
+        var maxIndex: Int {
+            self == .pihkal ? 179 : 55
+        }
         /// PIHKAL uses 3-digit zero-padded filenames; TIHKAL uses 2-digit.
-        var padWidth: Int { self == .pihkal ? 3 : 2 }
-        var tag: String { self == .pihkal ? "PIHKAL" : "TIHKAL" }
-        var attribution: String { self == .pihkal ? pihkalAttribution : tihkalAttribution }
+        var padWidth: Int {
+            self == .pihkal ? 3 : 2
+        }
+        var tag: String {
+            self == .pihkal ? "PIHKAL" : "TIHKAL"
+        }
+        var attribution: String {
+            self == .pihkal ? pihkalAttribution : tihkalAttribution
+        }
         var category: String {
             // PIHKAL = phenethylamines, mostly psychedelics. TIHKAL =
             // tryptamines + a handful of monoamine modulators.
@@ -40,7 +51,7 @@ struct ErowidSource {
         var out: [SourcedSubstance] = []
         for book in [Book.pihkal, Book.tihkal] {
             let bookStart = out.count
-            for i in 1...book.maxIndex {
+            for i in 1 ... book.maxIndex {
                 let idx = String(format: "%0\(book.padWidth)d", i)
                 let url = URL(string: "https://erowid.org/library/books_online/\(book.dirName)/\(book.dirName)\(idx).shtml")!
                 do {
@@ -82,7 +93,7 @@ struct ErowidSource {
             let duration = durationText.flatMap { parseDuration($0) }
             if !dose.isEmpty || duration != nil {
                 routes.append(JSONRoute(
-                    route: route, unit: unit, doses: dose, duration: duration
+                    route: route, unit: unit, doses: dose, duration: duration,
                 ))
             }
         }
@@ -119,10 +130,10 @@ struct ErowidSource {
                     url.absoluteString,
                     book.attribution,
                 ],
-                tags: tags
+                tags: tags,
             ),
             provenance: book == .pihkal ? .erowidPIHKAL : .erowidTIHKAL,
-            inchiKey: nil, pubchemCID: nil, cas: nil
+            inchiKey: nil, pubchemCID: nil, cas: nil,
         )
     }
 
@@ -131,10 +142,12 @@ struct ErowidSource {
         // Replace <br> / </p> / </div> / </tr> with newlines so the section
         // headers come out on their own lines.
         let breakTags = ["<br>", "<br/>", "<br />", "</p>", "</div>", "</tr>"]
-        for t in breakTags { s = s.replacingOccurrences(of: t, with: "\n", options: .caseInsensitive) }
+        for t in breakTags {
+            s = s.replacingOccurrences(of: t, with: "\n", options: .caseInsensitive)
+        }
         // Strip remaining tags.
         if let re = try? NSRegularExpression(pattern: "<[^>]+>") {
-            let r = NSRange(s.startIndex..<s.endIndex, in: s)
+            let r = NSRange(s.startIndex ..< s.endIndex, in: s)
             s = re.stringByReplacingMatches(in: s, range: r, withTemplate: " ")
         }
         // Decode common HTML entities.
@@ -143,7 +156,9 @@ struct ErowidSource {
             ("&quot;", "\""), ("&#39;", "'"), ("&mdash;", "—"), ("&ndash;", "–"),
             ("&plusmn;", "±"), ("&micro;", "µ"), ("&hellip;", "…"),
         ]
-        for (k, v) in entities { s = s.replacingOccurrences(of: k, with: v) }
+        for (k, v) in entities {
+            s = s.replacingOccurrences(of: k, with: v)
+        }
         // Collapse whitespace within each line.
         let lines = s.components(separatedBy: .newlines).map {
             $0.trimmingCharacters(in: .whitespaces)
@@ -159,7 +174,7 @@ struct ErowidSource {
         let lines = plain.components(separatedBy: .newlines)
         let pat = try! NSRegularExpression(pattern: #"^\s*#\s*(\d+)\.?\s+(.+?)\s*$"#)
         for line in lines {
-            let r = NSRange(line.startIndex..<line.endIndex, in: line)
+            let r = NSRange(line.startIndex ..< line.endIndex, in: line)
             if let m = pat.firstMatch(in: line, range: r),
                let nameRange = Range(m.range(at: 2), in: line) {
                 let raw = String(line[nameRange])
@@ -183,14 +198,14 @@ struct ErowidSource {
         // Match `LABEL` then any amount of whitespace then `:`. Anchor at the
         // start so we don't match `EFFECTIVE DOSAGE:` or similar.
         let headerPattern = try! NSRegularExpression(
-            pattern: "^" + NSRegularExpression.escapedPattern(for: upperLabel) + #"\s*:"#
+            pattern: "^" + NSRegularExpression.escapedPattern(for: upperLabel) + #"\s*:"#,
         )
         var collecting = false
         var captured: [String] = []
         for line in lines {
             let stripped = line.trimmingCharacters(in: .whitespaces)
             if !collecting {
-                let r = NSRange(stripped.startIndex..<stripped.endIndex, in: stripped)
+                let r = NSRange(stripped.startIndex ..< stripped.endIndex, in: stripped)
                 if let m = headerPattern.firstMatch(in: stripped, range: r) {
                     collecting = true
                     let upper = m.range.upperBound
@@ -205,7 +220,7 @@ struct ErowidSource {
                 if stripped.range(of: #"^[A-Z][A-Z ,/&-]{2,}\s*:"#, options: .regularExpression) != nil {
                     break
                 }
-                if stripped.isEmpty && !captured.isEmpty { break }
+                if stripped.isEmpty, !captured.isEmpty { break }
                 if !stripped.isEmpty { captured.append(stripped) }
             }
         }
@@ -246,7 +261,7 @@ struct ErowidSource {
     /// "8 - 12 h" → onset/total duration approximations.
     private func parseDuration(_ text: String) -> JSONDurationProfile? {
         let re = try! NSRegularExpression(pattern: #"([0-9]+(?:\.[0-9]+)?)\s*(?:[-–]\s*([0-9]+(?:\.[0-9]+)?))?\s*(h|hr|hour|min|minutes|m)"#, options: .caseInsensitive)
-        let r = NSRange(text.startIndex..<text.endIndex, in: text)
+        let r = NSRange(text.startIndex ..< text.endIndex, in: text)
         guard let m = re.firstMatch(in: text, range: r),
               let r0 = Range(m.range(at: 1), in: text),
               let lo = Double(text[r0]) else { return nil }

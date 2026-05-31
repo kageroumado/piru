@@ -15,7 +15,7 @@ struct SourcePriorityView: View {
                 ForEach(states) { state in
                     SourceRow(
                         state: state,
-                        toggle: { toggle(state, enabled: $0) }
+                        toggle: { toggle(state, enabled: $0) },
                     )
                 }
                 .onMove(perform: move)

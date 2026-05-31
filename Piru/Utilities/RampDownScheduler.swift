@@ -1,10 +1,10 @@
 import Foundation
-import UserNotifications
 import os
+import UserNotifications
 
 // MARK: - Logger
 
-nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "RampDown")
+private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "RampDown")
 
 // MARK: - Ramp Down & Wellness Notification Scheduler
 
@@ -29,33 +29,32 @@ nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// Depends on `UNUserNotificationCenter` authorization — call
 /// ``requestPermissionIfNeeded()`` before scheduling.
 enum RampDownScheduler {
-
     // MARK: - Timing Constants
 
     /// Time-interval constants used by the scheduler.
-    nonisolated private enum Timing {
+    private nonisolated enum Timing {
         /// 6-hour grouping window for session-aware notification threading.
-        static let sessionWindow: TimeInterval = 6 * 3600
+        static let sessionWindow: TimeInterval = 6 * 3_600
         /// Default window used when checking the pending queue for duplicate
         /// wellness/cumulative notifications of the same prefix.
         static let pendingDedupWindow: TimeInterval = 90 * 60
         /// Default hydration reminder delay when no duration profile is available.
-        static let hydrationInitialDelay: TimeInterval = 3600
+        static let hydrationInitialDelay: TimeInterval = 3_600
         /// Upper bound on the hydration peak-start trigger
         /// (`min(peakStart, peakStartCap)`).
-        static let peakStartCap: TimeInterval = 3600
+        static let peakStartCap: TimeInterval = 3_600
         /// Minimum spacing between the first and second hydration reminders.
-        static let hydrationReminderSpacing: TimeInterval = 1800
+        static let hydrationReminderSpacing: TimeInterval = 1_800
         /// Sleep-reminder delay when the user is already 10+ hours into a
         /// stimulant session at log time.
-        static let extendedStimSleepDelay: TimeInterval = 2 * 3600
+        static let extendedStimSleepDelay: TimeInterval = 2 * 3_600
         /// Default delay before firing the stimulant-session sleep reminder.
-        static let stimulantSleepDelay: TimeInterval = 12 * 3600
+        static let stimulantSleepDelay: TimeInterval = 12 * 3_600
         /// Don't bother scheduling the default stimulant sleep reminder unless
         /// it's at least this far in the future.
-        static let minSleepReminderLeadTime: TimeInterval = 3600
+        static let minSleepReminderLeadTime: TimeInterval = 3_600
         /// Sliding window for evaluating cumulative dose totals.
-        static let cumulativeDoseWindow: TimeInterval = 12 * 3600
+        static let cumulativeDoseWindow: TimeInterval = 12 * 3_600
     }
 
     // MARK: - Notification Category IDs
@@ -91,7 +90,7 @@ enum RampDownScheduler {
     /// and the descent is beginning.
     static func comedownStartTime(
         doseTime: Date,
-        duration: DurationProfile
+        duration: DurationProfile,
     ) -> Date {
         let boundaries = duration.phaseBoundaries
         let peakEndMinutes = boundaries.peakEnd
@@ -115,7 +114,7 @@ enum RampDownScheduler {
         case .authorized, .provisional:
             return true
         case .notDetermined:
-            return (try? await center.requestAuthorization(options: [.alert, .sound, .badge])) ?? false
+            return await (try? center.requestAuthorization(options: [.alert, .sound, .badge])) ?? false
         default:
             return false
         }
@@ -124,12 +123,12 @@ enum RampDownScheduler {
     /// Schedule the main comedown notification — now with harm-reduction messaging
     static func scheduleNotification(
         substanceName: String,
-        initialAmount: Double,
-        unit: String,
+        initialAmount _: Double,
+        unit _: String,
         doseTime: Date,
         duration: DurationProfile,
         entryID: Int,
-        category: SubstanceCategory? = nil
+        category: SubstanceCategory? = nil,
     ) {
         let center = UNUserNotificationCenter.current()
 
@@ -137,7 +136,7 @@ enum RampDownScheduler {
             identifier: rampDownCategoryID,
             actions: [],
             intentIdentifiers: [],
-            options: .customDismissAction
+            options: .customDismissAction,
         )
         center.setNotificationCategories([notifCategory])
 
@@ -160,13 +159,13 @@ enum RampDownScheduler {
 
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: timeInterval,
-            repeats: false
+            repeats: false,
         )
 
         let request = UNNotificationRequest(
             identifier: notificationIdentifier(entryID: entryID),
             content: content,
-            trigger: trigger
+            trigger: trigger,
         )
 
         center.add(request) { error in
@@ -181,7 +180,7 @@ enum RampDownScheduler {
 
     static func cancelNotification(for entryID: Int) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: [notificationIdentifier(entryID: entryID)]
+            withIdentifiers: [notificationIdentifier(entryID: entryID)],
         )
     }
 
@@ -210,11 +209,11 @@ enum RampDownScheduler {
     /// 90-minute window per prefix to avoid spamming during multi-dose
     /// sessions.
     static func scheduleWellnessNotifications(
-        substanceName: String,
+        substanceName _: String,
         category: SubstanceCategory?,
         doseTime: Date,
         duration: DurationProfile?,
-        recentStimHours: Double? = nil
+        recentStimHours: Double? = nil,
     ) {
         guard wellnessNotificationsEnabled else { return }
         let threadId = sessionIdentifier(for: doseTime)
@@ -231,9 +230,9 @@ enum RampDownScheduler {
             func hasPendingWithin(
                 window: TimeInterval = Timing.pendingDedupWindow,
                 of targetFireDate: Date,
-                prefix: String
+                prefix: String,
             ) -> Bool {
-                return pending.contains { req in
+                pending.contains { req in
                     guard req.identifier.hasPrefix(prefix),
                           let trigger = req.trigger as? UNTimeIntervalNotificationTrigger else { return false }
                     let fireDate = now.addingTimeInterval(trigger.timeInterval)
@@ -259,7 +258,7 @@ enum RampDownScheduler {
                     body: hydrationMessage(for: category),
                     timeInterval: hydrationInterval,
                     category: hydrationCategoryID,
-                    threadId: threadId
+                    threadId: threadId,
                 )
             }
 
@@ -268,15 +267,15 @@ enum RampDownScheduler {
                 let offsetStart = duration.phaseBoundaries.peakEnd * 60
                 let secondInterval = doseTime.addingTimeInterval(offsetStart).timeIntervalSince(.now)
                 let secondFireDate = doseTime.addingTimeInterval(offsetStart)
-                if secondInterval > hydrationInterval + Timing.hydrationReminderSpacing
-                    && !hasPendingWithin(of: secondFireDate, prefix: hydrationCategoryID) {
+                if secondInterval > hydrationInterval + Timing.hydrationReminderSpacing,
+                   !hasPendingWithin(of: secondFireDate, prefix: hydrationCategoryID) {
                     scheduleSimpleNotification(
                         id: "\(hydrationCategoryID)2_\(Int(doseTime.timeIntervalSince1970))",
                         title: String(localized: "Hydration check"),
                         body: String(localized: "Have some water and a snack if you haven't recently. Your body will thank you."),
                         timeInterval: secondInterval,
                         category: hydrationCategoryID,
-                        threadId: threadId
+                        threadId: threadId,
                     )
                 }
             }
@@ -292,21 +291,21 @@ enum RampDownScheduler {
                             body: String(localized: "You've been going for over \(Int(stimHours)) hours. Try to wind down — dim the lights, put the phone away, and let yourself sleep."),
                             timeInterval: Timing.extendedStimSleepDelay,
                             category: sleepCategoryID,
-                            threadId: threadId
+                            threadId: threadId,
                         )
                     }
                 } else {
                     let sleepInterval = doseTime.addingTimeInterval(Timing.stimulantSleepDelay).timeIntervalSince(.now)
                     let sleepFireDate = doseTime.addingTimeInterval(Timing.stimulantSleepDelay)
-                    if sleepInterval > Timing.minSleepReminderLeadTime
-                        && !hasPendingWithin(of: sleepFireDate, prefix: sleepCategoryID) {
+                    if sleepInterval > Timing.minSleepReminderLeadTime,
+                       !hasPendingWithin(of: sleepFireDate, prefix: sleepCategoryID) {
                         scheduleSimpleNotification(
                             id: "\(sleepCategoryID)_\(Int(doseTime.timeIntervalSince1970))",
                             title: String(localized: "Time to rest"),
                             body: String(localized: "It's been a long session. Your body and brain need sleep to recover. Try to wind down."),
                             timeInterval: sleepInterval,
                             category: sleepCategoryID,
-                            threadId: threadId
+                            threadId: threadId,
                         )
                     }
                 }
@@ -320,7 +319,7 @@ enum RampDownScheduler {
         totalAmount: Double,
         unit: String,
         category: SubstanceCategory?,
-        doseTime: Date = .now
+        doseTime: Date = .now,
     ) {
         guard wellnessNotificationsEnabled else { return }
         let threadId = sessionIdentifier(for: doseTime)
@@ -337,7 +336,7 @@ enum RampDownScheduler {
                 body: String(localized: "That's a high cumulative dose. \(tip)"),
                 timeInterval: 5,
                 category: cumulativeCategoryID,
-                threadId: threadId
+                threadId: threadId,
             )
         }
     }
@@ -357,7 +356,9 @@ enum RampDownScheduler {
 
     /// One of the pharmacokinetic phases that gets its own notification.
     enum Phase: String, CaseIterable {
-        case onset, comeup, peak
+        case onset
+        case comeup
+        case peak
 
         var displayName: LocalizedStringResource {
             switch self {
@@ -383,7 +384,7 @@ enum RampDownScheduler {
     static func schedulePhaseNotifications(
         substanceName: String,
         doseTime: Date,
-        duration: DurationProfile?
+        duration: DurationProfile?,
     ) {
         guard phaseNotificationsEnabled, let duration else { return }
         let threadId = sessionIdentifier(for: doseTime)
@@ -414,7 +415,7 @@ enum RampDownScheduler {
             if onsetEndSec > 0 {
                 schedulePhase(.comeup, of: substanceName, delaySec: onsetEndSec, body: body(for: .comeup), doseTime: doseTime, threadId: threadId)
             }
-            if comeupEndSec > 0 && comeupEndSec > onsetEndSec {
+            if comeupEndSec > 0, comeupEndSec > onsetEndSec {
                 schedulePhase(.peak, of: substanceName, delaySec: comeupEndSec, body: body(for: .peak), doseTime: doseTime, threadId: threadId)
             }
         }
@@ -433,7 +434,7 @@ enum RampDownScheduler {
         delaySec: TimeInterval,
         body: String,
         doseTime: Date,
-        threadId: String
+        threadId: String,
     ) {
         let absoluteInterval = doseTime.addingTimeInterval(delaySec).timeIntervalSince(.now)
         // Don't schedule phases that have already passed (e.g. backfilling an
@@ -446,7 +447,7 @@ enum RampDownScheduler {
             body: body,
             timeInterval: absoluteInterval,
             category: phaseCategoryID,
-            threadId: threadId
+            threadId: threadId,
         )
     }
 
@@ -458,7 +459,7 @@ enum RampDownScheduler {
         body: String,
         timeInterval: TimeInterval,
         category: String,
-        threadId: String? = nil
+        threadId: String? = nil,
     ) {
         let content = UNMutableNotificationContent()
         content.title = title
@@ -469,7 +470,7 @@ enum RampDownScheduler {
 
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: max(5, timeInterval),
-            repeats: false
+            repeats: false,
         )
 
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
@@ -487,32 +488,50 @@ enum RampDownScheduler {
     private static func comedownMessage(for category: SubstanceCategory?) -> (title: String, body: String) {
         switch category {
         case .stimulant:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Eat a nutritious meal, drink water, and rest. Magnesium and vitamin C may help. Don't fight the tiredness — your body needs recovery."),
+            )
         case .empathogen:
-            (String(localized: "{name} wearing off"),
-             String(localized: "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "The low mood is temporary and normal. Eat light foods, stay warm, and rest. Be kind to yourself over the next few days."),
+            )
         case .psychedelic:
-            (String(localized: "{name} effects fading"),
-             String(localized: "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience."))
+            (
+                String(localized: "{name} effects fading"),
+                String(localized: "You're coming back to baseline. Rest, eat something light. Give yourself time to process the experience."),
+            )
         case .opioid:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Stay hydrated and comfortable. Avoid redosing to chase the feeling — reach out if you need support."),
+            )
         case .dissociative:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Stay somewhere comfortable and safe. Eat and hydrate when you can. Avoid driving."),
+            )
         case .benzodiazepine:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out."),
+            )
         case .depressant:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Drink water and eat something with electrolytes. Rest in a cool, dark room if your head hurts."),
+            )
         case .cannabinoid:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Drink water, eat something balanced. If foggy, a short walk or fresh air helps clear it."),
+            )
         default:
-            (String(localized: "{name} wearing off"),
-             String(localized: "Take care of yourself — eat, hydrate, and rest. The effects will fade with time."))
+            (
+                String(localized: "{name} wearing off"),
+                String(localized: "Take care of yourself — eat, hydrate, and rest. The effects will fade with time."),
+            )
         }
     }
 
@@ -553,14 +572,14 @@ enum RampDownScheduler {
     static func checkCumulativeDose(
         substanceName: String,
         newAmount: Double,
-        unit: String,
+        unit _: String,
         route: RouteOfAdministration,
-        existingEntries: [DoseEntry]
+        existingEntries: [DoseEntry],
     ) -> (total: Double, shouldAlert: Bool) {
         let windowStart = Date.now.addingTimeInterval(-Timing.cumulativeDoseWindow)
         let recentSame = existingEntries.filter {
             $0.substance.lowercased() == substanceName.lowercased() &&
-            $0.timestamp >= windowStart
+                $0.timestamp >= windowStart
         }
         let priorTotal = recentSame.reduce(0.0) { $0 + $1.amount }
         let total = priorTotal + newAmount
@@ -589,10 +608,10 @@ enum RampDownScheduler {
         let today = Calendar.current.startOfDay(for: .now)
         let stimEntries = entries.filter { entry in
             entry.timestamp >= today &&
-            SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category == .stimulant
+                SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category == .stimulant
         }
         guard let earliest = stimEntries.map(\.timestamp).min() else { return nil }
-        return Date.now.timeIntervalSince(earliest) / 3600
+        return Date.now.timeIntervalSince(earliest) / 3_600
     }
 
     // MARK: - Persistence

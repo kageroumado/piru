@@ -13,7 +13,7 @@ enum DoseComparator {
         let toMg: [String: Double] = [
             "µg": 0.001,
             "mg": 1.0,
-            "g": 1000.0,
+            "g": 1_000.0,
         ]
 
         guard let fromFactor = toMg[from], let toFactor = toMg[to] else {
@@ -27,7 +27,7 @@ enum DoseComparator {
     static func compare(
         localRoute: ParsedLocalRoute,
         apiRoute: UnifiedRoute,
-        substanceName: String
+        substanceName: String,
     ) -> [SubstanceDiscrepancy] {
         var discrepancies: [SubstanceDiscrepancy] = []
         let routeName = apiRoute.routeName
@@ -43,7 +43,7 @@ enum DoseComparator {
                     substanceName: substanceName,
                     kind: .unitMismatch(route: routeName, localUnit: localUnit, apiUnit: apiUnit),
                     severity: .warning,
-                    recommendation: "Units differ and cannot be automatically compared. Manual review needed."
+                    recommendation: "Units differ and cannot be automatically compared. Manual review needed.",
                 ))
                 return discrepancies
             }
@@ -56,33 +56,57 @@ enum DoseComparator {
             if diff > 10 {
                 discrepancies.append(SubstanceDiscrepancy(
                     substanceName: substanceName,
-                    kind: .doseMismatch(route: routeName, level: "threshold",
-                                        localValue: formatDose(localThreshold, localUnit),
-                                        apiValue: formatDose(apiConverted, localUnit),
-                                        percentDiff: diff),
+                    kind: .doseMismatch(
+                        route: routeName,
+                        level: "threshold",
+                        localValue: formatDose(localThreshold, localUnit),
+                        apiValue: formatDose(apiConverted, localUnit),
+                        percentDiff: diff,
+                    ),
                     severity: severityFor(diff, substanceName: substanceName, localValue: localThreshold, apiValue: apiConverted),
-                    recommendation: recommendationFor(diff, level: "threshold", substanceName: substanceName, localValue: localThreshold, apiValue: apiConverted)
+                    recommendation: recommendationFor(diff, level: "threshold", substanceName: substanceName, localValue: localThreshold, apiValue: apiConverted),
                 ))
             }
-        } else if localRoute.threshold == nil && apiRoute.threshold != nil {
+        } else if localRoute.threshold == nil, apiRoute.threshold != nil {
             discrepancies.append(SubstanceDiscrepancy(
                 substanceName: substanceName,
                 kind: .missingDoseLevel(route: routeName, level: "threshold", presentIn: "API"),
                 severity: .info,
-                recommendation: "Consider adding threshold dose from API data."
+                recommendation: "Consider adding threshold dose from API data.",
             ))
         }
 
         // Compare ranges (light, common, strong)
-        compareRange(local: localRoute.light, api: apiRoute.light, level: "light",
-                      localUnit: localUnit, apiUnit: apiUnit, routeName: routeName,
-                      substanceName: substanceName, discrepancies: &discrepancies)
-        compareRange(local: localRoute.common, api: apiRoute.common, level: "common",
-                      localUnit: localUnit, apiUnit: apiUnit, routeName: routeName,
-                      substanceName: substanceName, discrepancies: &discrepancies)
-        compareRange(local: localRoute.strong, api: apiRoute.strong, level: "strong",
-                      localUnit: localUnit, apiUnit: apiUnit, routeName: routeName,
-                      substanceName: substanceName, discrepancies: &discrepancies)
+        compareRange(
+            local: localRoute.light,
+            api: apiRoute.light,
+            level: "light",
+            localUnit: localUnit,
+            apiUnit: apiUnit,
+            routeName: routeName,
+            substanceName: substanceName,
+            discrepancies: &discrepancies,
+        )
+        compareRange(
+            local: localRoute.common,
+            api: apiRoute.common,
+            level: "common",
+            localUnit: localUnit,
+            apiUnit: apiUnit,
+            routeName: routeName,
+            substanceName: substanceName,
+            discrepancies: &discrepancies,
+        )
+        compareRange(
+            local: localRoute.strong,
+            api: apiRoute.strong,
+            level: "strong",
+            localUnit: localUnit,
+            apiUnit: apiUnit,
+            routeName: routeName,
+            substanceName: substanceName,
+            discrepancies: &discrepancies,
+        )
 
         // Compare heavy
         if let localHeavy = localRoute.heavy, let apiHeavy = apiRoute.heavy {
@@ -91,12 +115,15 @@ enum DoseComparator {
             if diff > 10 {
                 discrepancies.append(SubstanceDiscrepancy(
                     substanceName: substanceName,
-                    kind: .doseMismatch(route: routeName, level: "heavy",
-                                        localValue: formatDose(localHeavy, localUnit),
-                                        apiValue: formatDose(apiConverted, localUnit),
-                                        percentDiff: diff),
+                    kind: .doseMismatch(
+                        route: routeName,
+                        level: "heavy",
+                        localValue: formatDose(localHeavy, localUnit),
+                        apiValue: formatDose(apiConverted, localUnit),
+                        percentDiff: diff,
+                    ),
                     severity: severityFor(diff, substanceName: substanceName, localValue: localHeavy, apiValue: apiConverted),
-                    recommendation: recommendationFor(diff, level: "heavy", substanceName: substanceName, localValue: localHeavy, apiValue: apiConverted)
+                    recommendation: recommendationFor(diff, level: "heavy", substanceName: substanceName, localValue: localHeavy, apiValue: apiConverted),
                 ))
             }
         }
@@ -108,7 +135,7 @@ enum DoseComparator {
         local: ClosedRange<Double>?, api: ClosedRange<Double>?,
         level: String, localUnit: String, apiUnit: String,
         routeName: String, substanceName: String,
-        discrepancies: inout [SubstanceDiscrepancy]
+        discrepancies: inout [SubstanceDiscrepancy],
     ) {
         if let local, let api {
             let apiLower = convertToCommonUnit(value: api.lowerBound, from: apiUnit, to: localUnit) ?? api.lowerBound
@@ -124,20 +151,23 @@ enum DoseComparator {
                 let apiMid = (apiLower + apiUpper) / 2
                 discrepancies.append(SubstanceDiscrepancy(
                     substanceName: substanceName,
-                    kind: .doseMismatch(route: routeName, level: level,
-                                        localValue: formatRange(local, localUnit),
-                                        apiValue: formatRange(apiLower...apiUpper, localUnit),
-                                        percentDiff: maxDiff),
+                    kind: .doseMismatch(
+                        route: routeName,
+                        level: level,
+                        localValue: formatRange(local, localUnit),
+                        apiValue: formatRange(apiLower ... apiUpper, localUnit),
+                        percentDiff: maxDiff,
+                    ),
                     severity: severityFor(maxDiff, substanceName: substanceName, localValue: localMid, apiValue: apiMid),
-                    recommendation: recommendationFor(maxDiff, level: level, substanceName: substanceName, localValue: localMid, apiValue: apiMid)
+                    recommendation: recommendationFor(maxDiff, level: level, substanceName: substanceName, localValue: localMid, apiValue: apiMid),
                 ))
             }
-        } else if local == nil && api != nil {
+        } else if local == nil, api != nil {
             discrepancies.append(SubstanceDiscrepancy(
                 substanceName: substanceName,
                 kind: .missingDoseLevel(route: routeName, level: level, presentIn: "API"),
                 severity: .info,
-                recommendation: "Consider adding \(level) dose range from API data."
+                recommendation: "Consider adding \(level) dose range from API data.",
             ))
         }
     }
@@ -154,7 +184,7 @@ enum DoseComparator {
         // Check if this is a contextual discrepancy that should be downgraded
         if let name = substanceName, let local = localValue, let api = apiValue {
             let (isContextual, _) = DosingContext.isContextualDiscrepancy(
-                substanceName: name, localValue: local, apiValue: api
+                substanceName: name, localValue: local, apiValue: api,
             )
             if isContextual {
                 // Downgrade: critical → warning, warning → info
@@ -172,7 +202,7 @@ enum DoseComparator {
         // Check for contextual discrepancy
         if let name = substanceName, let local = localValue, let api = apiValue {
             let (isContextual, note) = DosingContext.isContextualDiscrepancy(
-                substanceName: name, localValue: local, apiValue: api
+                substanceName: name, localValue: local, apiValue: api,
             )
             if isContextual {
                 let ctx = note ?? "Different dosing contexts"
