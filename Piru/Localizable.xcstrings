@@ -1,9 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
+    "" : {},
     "Add to Favorites" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3149,13 +3147,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AMPA 增强剂"
+            "value" : "安帕金"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AMPA 增強劑"
+            "value" : "安帕金"
           }
         }
       }
@@ -4525,13 +4523,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "普通"
+            "value" : "休闲"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "普通"
+            "value" : "休閒"
           }
         }
       }
@@ -6446,13 +6444,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "信息披露级别"
+            "value" : "披露等级"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "資訊披露等級"
+            "value" : "披露等級"
           }
         }
       }
@@ -7471,13 +7469,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致烦剂"
+            "value" : "暗幻剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "致煩劑"
+            "value" : "暗幻劑"
           }
         }
       }
@@ -7925,13 +7923,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "共感剂"
+            "value" : "共情剂"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "共感劑"
+            "value" : "共情劑"
           }
         }
       }
@@ -13322,13 +13320,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "药理达人"
+            "value" : "药物极客"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "藥理達人"
+            "value" : "藥物極客"
           }
         }
       }
@@ -13946,13 +13944,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用户类型"
+            "value" : "个人资料"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用者類型"
+            "value" : "個人資料"
           }
         }
       }
