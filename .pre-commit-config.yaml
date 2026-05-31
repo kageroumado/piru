@@ -39,5 +39,3 @@ repos:
     hooks:
       - id: check-yaml
       - id: check-merge-conflict
-      - id: end-of-file-fixer
-        exclude: '\.(sqlite|xcstrings|pbxproj)$|^data/'

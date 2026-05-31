@@ -10,6 +10,7 @@ Run standalone (CI / pre-commit):
     python3 pipeline/build/validate_curated.py
 Exits non-zero if any ERROR is found. Importable: validate_dir(path) -> (errors, warnings).
 """
+
 from __future__ import annotations
 
 import json
@@ -27,29 +28,98 @@ def _normalise_route(route: str) -> str:
     iv→intravenous, …) validate the same way they're ingested. Loaded lazily to
     avoid a hard import cycle with the build module."""
     import importlib.util
+
     if not hasattr(_normalise_route, "_fn"):
-        spec = importlib.util.spec_from_file_location("_bsd_routes", Path(__file__).resolve().parent / "sqlite.py")
+        spec = importlib.util.spec_from_file_location(
+            "_bsd_routes", Path(__file__).resolve().parent / "sqlite.py"
+        )
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         _normalise_route._fn = mod.normalise_route
     return _normalise_route._fn(route or "")
 
-CATEGORIES = {"Stimulant", "Psychedelic", "Dissociative", "Dysdelic", "Deliriant", "Opioid",
-    "Benzodiazepine", "GABAergic", "Empathogen", "Cannabinoid", "Nootropic", "AMPAkine",
-    "Eugeroic", "Depressant", "Antidepressant", "Antipsychotic", "Analgesic", "Antihistamine",
-    "Cardiovascular", "Antimicrobial", "Gastrointestinal", "Respiratory", "Endocrine",
-    "Immunological", "Supplement", "Peptide", "Anticonvulsant", "Other"}
-ROUTES = {"oral", "sublingual", "insufflation", "inhalation", "intravenous", "intramuscular",
-    "subcutaneous", "transdermal", "rectal", "other"}
+
+CATEGORIES = {
+    "Stimulant",
+    "Psychedelic",
+    "Dissociative",
+    "Dysdelic",
+    "Deliriant",
+    "Opioid",
+    "Benzodiazepine",
+    "GABAergic",
+    "Empathogen",
+    "Cannabinoid",
+    "Nootropic",
+    "AMPAkine",
+    "Eugeroic",
+    "Depressant",
+    "Antidepressant",
+    "Antipsychotic",
+    "Analgesic",
+    "Antihistamine",
+    "Cardiovascular",
+    "Antimicrobial",
+    "Gastrointestinal",
+    "Respiratory",
+    "Endocrine",
+    "Immunological",
+    "Supplement",
+    "Peptide",
+    "Anticonvulsant",
+    "Other",
+}
+ROUTES = {
+    "oral",
+    "sublingual",
+    "insufflation",
+    "inhalation",
+    "intravenous",
+    "intramuscular",
+    "subcutaneous",
+    "transdermal",
+    "rectal",
+    "other",
+}
 SUPPLIED_FORMS = {"lyophilized_vial", "solution", "topical", "implant", "oral_capsule"}
 TEMPERATURES = {"room_temp", "refrigerate", "freeze"}
-BINDING_ACTIONS = {"agonist", "partialAgonist", "antagonist", "inverseAgonist",
-    "positiveAllostericModulator", "negativeAllostericModulator", "reuptakeInhibitor",
-    "releasingAgent", "enzymeInhibitor", "channelBlocker", "modulator"}
+BINDING_ACTIONS = {
+    "agonist",
+    "partialAgonist",
+    "antagonist",
+    "inverseAgonist",
+    "positiveAllostericModulator",
+    "negativeAllostericModulator",
+    "reuptakeInhibitor",
+    "releasingAgent",
+    "enzymeInhibitor",
+    "channelBlocker",
+    "modulator",
+}
 
-_GREEK = {"α":"alpha","β":"beta","γ":"gamma","δ":"delta","ε":"epsilon","ζ":"zeta","η":"eta",
-    "θ":"theta","κ":"kappa","λ":"lambda","μ":"mu","ν":"nu","ξ":"xi","π":"pi","ρ":"rho",
-    "σ":"sigma","τ":"tau","φ":"phi","χ":"chi","ψ":"psi","ω":"omega"}
+_GREEK = {
+    "α": "alpha",
+    "β": "beta",
+    "γ": "gamma",
+    "δ": "delta",
+    "ε": "epsilon",
+    "ζ": "zeta",
+    "η": "eta",
+    "θ": "theta",
+    "κ": "kappa",
+    "λ": "lambda",
+    "μ": "mu",
+    "ν": "nu",
+    "ξ": "xi",
+    "π": "pi",
+    "ρ": "rho",
+    "σ": "sigma",
+    "τ": "tau",
+    "φ": "phi",
+    "χ": "chi",
+    "ψ": "psi",
+    "ω": "omega",
+}
 
 
 def slugify(name: str) -> str:
@@ -92,7 +162,8 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
     route_set = set()
     for r in e.get("routes", []) or []:
         if not isinstance(r, dict):
-            err.append(f"{tag}: route entry is not an object"); continue
+            err.append(f"{tag}: route entry is not an object")
+            continue
         rt = _normalise_route(r.get("route", ""))
         if rt not in ROUTES:
             err.append(f"{tag}: bad route {r.get('route')!r}")
@@ -108,8 +179,14 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
             err.append(f"{tag}: route 'source' must be a non-empty reference string")
         pd = r.get("protocolDosing")
         if pd is not None and not pd.get("frequency"):
-            err.append(f"{tag}: protocolDosing on {r.get('route')!r} has no 'frequency' (would be dropped at build)")
-        if pd is not None and "source" in pd and not (isinstance(pd["source"], str) and pd["source"].strip()):
+            err.append(
+                f"{tag}: protocolDosing on {r.get('route')!r} has no 'frequency' (would be dropped at build)"
+            )
+        if (
+            pd is not None
+            and "source" in pd
+            and not (isinstance(pd["source"], str) and pd["source"].strip())
+        ):
             err.append(f"{tag}: protocolDosing 'source' must be a non-empty reference string")
         for st in (pd or {}).get("titration", []) or []:
             if "amount" not in st or "label" not in st:
@@ -130,8 +207,12 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
         if st and st.get("temperature") not in TEMPERATURES:
             err.append(f"{tag}: bad storage.temperature {st.get('temperature')!r}")
         if e.get("category") != "Peptide":
-            warn.append(f"{tag}: has peptideProfile but category is {e.get('category')!r}, not 'Peptide'")
-    if "halfLifeSource" in e and not (isinstance(e["halfLifeSource"], str) and e["halfLifeSource"].strip()):
+            warn.append(
+                f"{tag}: has peptideProfile but category is {e.get('category')!r}, not 'Peptide'"
+            )
+    if "halfLifeSource" in e and not (
+        isinstance(e["halfLifeSource"], str) and e["halfLifeSource"].strip()
+    ):
         err.append(f"{tag}: halfLifeSource must be a non-empty reference string")
     moa = e.get("mechanismOfAction")
     if moa is not None:
@@ -144,12 +225,21 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
     # protocol, or half-life) should cite at least one reference somewhere
     # (substance `sources`, mechanism `references`, or a per-fact `source`).
     has_quant = e.get("halfLifeMinutes") is not None or any(
-        (r.get("doses") or {}) or r.get("protocolDosing") for r in (e.get("routes") or []))
-    has_provenance = bool(e.get("sources") or (moa or {}).get("references")
-        or any(r.get("source") or (r.get("protocolDosing") or {}).get("source") for r in (e.get("routes") or []))
-        or e.get("halfLifeSource"))
+        (r.get("doses") or {}) or r.get("protocolDosing") for r in (e.get("routes") or [])
+    )
+    has_provenance = bool(
+        e.get("sources")
+        or (moa or {}).get("references")
+        or any(
+            r.get("source") or (r.get("protocolDosing") or {}).get("source")
+            for r in (e.get("routes") or [])
+        )
+        or e.get("halfLifeSource")
+    )
     if has_quant and not has_provenance:
-        warn.append(f"{tag}: has dosing/half-life data but no references (add `sources` or a per-fact `source`)")
+        warn.append(
+            f"{tag}: has dosing/half-life data but no references (add `sources` or a per-fact `source`)"
+        )
 
 
 def validate_dir(directory: Path = CURATED_DIR):
@@ -163,9 +253,11 @@ def validate_dir(directory: Path = CURATED_DIR):
         try:
             e = json.loads(fp.read_text())
         except ValueError as exc:
-            err.append(f"{fp.name}: invalid JSON ({exc})"); continue
+            err.append(f"{fp.name}: invalid JSON ({exc})")
+            continue
         if not isinstance(e, dict):
-            err.append(f"{fp.name}: top-level must be a JSON object"); continue
+            err.append(f"{fp.name}: top-level must be a JSON object")
+            continue
         _validate_entry(e, fp.name, err, warn)
         name = e.get("name", "")
         # Filename must equal slugify(name): else the file is unfindable by name

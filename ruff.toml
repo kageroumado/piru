@@ -4,7 +4,10 @@
 target-version = "py313"
 line-length = 100
 
-extend-exclude = [".build", ".claude", "DerivedData", "data"]
+# Scan tracked files even under gitignored dirs (pipeline/build/ is gitignored
+# but its scripts ARE committed) — keeps CLI, CI, and pre-commit consistent.
+respect-gitignore = false
+extend-exclude = [".build", ".claude", "DerivedData", "data", "**/.build"]
 
 [lint]
 # A pragmatic 2026 set: pyflakes + pycodestyle errors, import sorting, bugbear,
@@ -14,6 +17,7 @@ ignore = [
     "E501",   # line length — the formatter wraps code; long SQL/string literals are fine
     "SIM108", # ternary-vs-if is a readability call, not a rule
     "SIM102", # collapsible-if hurts readability when the inner cond is multi-line
+    "SIM105", # try/except/pass is the idiomatic INSERT-dedup pattern here, used pervasively
 ]
 
 [lint.per-file-ignores]

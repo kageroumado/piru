@@ -107,7 +107,9 @@ class TestParseDcRange(unittest.TestCase):
         between the lower bound and the dash. Without stripping the inline
         unit ~100 ranges were silently returned as None."""
         self.assertEqual(Builder._parse_dc_range("5 mg - 15 mg"), {"lower": 5.0, "upper": 15.0})
-        self.assertEqual(Builder._parse_dc_range("700 mg - 1,400 mg"), {"lower": 700.0, "upper": 1400.0})
+        self.assertEqual(
+            Builder._parse_dc_range("700 mg - 1,400 mg"), {"lower": 700.0, "upper": 1400.0}
+        )
         # 0.5–1 g with default row_unit=mg should convert to 500–1000 mg.
         self.assertEqual(Builder._parse_dc_range("0.5 g - 1 g"), {"lower": 500.0, "upper": 1000.0})
 
@@ -167,9 +169,18 @@ class TestIsChemistryNoise(unittest.TestCase):
 
     def test_real_substances_not_noise(self):
         for n in [
-            "Caffeine", "LSD", "MDMA", "Risperidone", "Fluoxetine",
-            "Delta-8-THC", "Magnesium Glycinate", "2C-B", "5-MeO-DMT",
-            "Modafinil", "BPC-157", "Semaglutide",
+            "Caffeine",
+            "LSD",
+            "MDMA",
+            "Risperidone",
+            "Fluoxetine",
+            "Delta-8-THC",
+            "Magnesium Glycinate",
+            "2C-B",
+            "5-MeO-DMT",
+            "Modafinil",
+            "BPC-157",
+            "Semaglutide",
         ]:
             with self.subTest(n=n):
                 self.assertFalse(is_chemistry_noise(n), f"should NOT flag: {n!r}")
@@ -203,21 +214,32 @@ class TestIsChemnoiseAlias(unittest.TestCase):
 
     def test_iupac_and_systematic_names_are_noise(self):
         for a in [
-            "1-(2,5-dimethoxybenzyl)piperazine",   # parenthetical locant
-            "(R)-3-Chloromethcathinone",           # stereo prefix
+            "1-(2,5-dimethoxybenzyl)piperazine",  # parenthetical locant
+            "(R)-3-Chloromethcathinone",  # stereo prefix
             "N-[2-(4-hydroxyphenyl)ethyl]acetamide",  # bracketed body
-            "L-lysine-d-amphetamine",              # long multi-locant systematic
+            "L-lysine-d-amphetamine",  # long multi-locant systematic
         ]:
             with self.subTest(a=a):
                 self.assertTrue(is_chemnoise_alias(a), f"should purge: {a!r}")
 
     def test_brands_and_short_codes_are_kept(self):
         for a in [
-            "Vyvanse", "Elvanse", "LDX", "Xanax", "Adderall",
-            "2,3-MDMA", "2,5-DMBZP", "MDPV", "2C-B", "5-MeO-DMT",
-            "molly", "ecstasy", "AMT", "PMA",
-            "freebase cocaine",   # trailing word is the drug, not a salt → keep
-            "N-allyl-nor-LSD",    # 3 hyphens but short (≤16) recognizable code → keep
+            "Vyvanse",
+            "Elvanse",
+            "LDX",
+            "Xanax",
+            "Adderall",
+            "2,3-MDMA",
+            "2,5-DMBZP",
+            "MDPV",
+            "2C-B",
+            "5-MeO-DMT",
+            "molly",
+            "ecstasy",
+            "AMT",
+            "PMA",
+            "freebase cocaine",  # trailing word is the drug, not a salt → keep
+            "N-allyl-nor-LSD",  # 3 hyphens but short (≤16) recognizable code → keep
         ]:
             with self.subTest(a=a):
                 self.assertFalse(is_chemnoise_alias(a), f"should keep: {a!r}")
@@ -347,19 +369,24 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
         before = build.stats.get("dose_ranges", 0)
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       common={"lower": 50.0, "upper": None})
-        self.assertEqual(build.stats.get("dose_ranges", 0), before,
-                         "row should have been dropped, not inserted")
+        build.add_dose(sid, "piru-curated", "oral", "mg", common={"lower": 50.0, "upper": None})
+        self.assertEqual(
+            build.stats.get("dose_ranges", 0), before, "row should have been dropped, not inserted"
+        )
         self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
 
     def test_fentanyl_class_under_ceiling_passes(self):
         """A 0.5 mg oral row sits well under the 2 mg ceiling — passes."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       light={"lower": 0.1, "upper": 0.25},
-                       common={"lower": 0.25, "upper": 0.5})
+        build.add_dose(
+            sid,
+            "piru-curated",
+            "oral",
+            "mg",
+            light={"lower": 0.1, "upper": 0.25},
+            common={"lower": 0.25, "upper": 0.5},
+        )
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
         self.assertNotIn("dropped_class_dose_ceiling", build.stats)
 
@@ -367,19 +394,23 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         """100 µg/hr fentanyl transdermal patch: numeric in µg → 0.1 mg, under ceiling."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
-        build.add_dose(sid, "piru-curated", "transdermal", "µg/hr",
-                       light={"lower": 12.0, "upper": 25.0},
-                       common={"lower": 25.0, "upper": 50.0},
-                       strong={"lower": 50.0, "upper": 75.0},
-                       heavy=100.0)
+        build.add_dose(
+            sid,
+            "piru-curated",
+            "transdermal",
+            "µg/hr",
+            light={"lower": 12.0, "upper": 25.0},
+            common={"lower": 25.0, "upper": 50.0},
+            strong={"lower": 50.0, "upper": 75.0},
+            heavy=100.0,
+        )
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
 
     def test_lysergamide_100mg_dropped(self):
         """A 100 mg LSD-class row is clearly unit-confused. Ceiling = 5 mg."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "class:lysergamides")
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       light={"lower": 50.0, "upper": 100.0})
+        build.add_dose(sid, "piru-curated", "oral", "mg", light={"lower": 50.0, "upper": 100.0})
         self.assertEqual(build.stats.get("dose_ranges", 0), 0)
         self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
 
@@ -387,19 +418,23 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         """A normal LSD row in µg passes."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "class:lysergamides")
-        build.add_dose(sid, "piru-curated", "oral", "µg",
-                       threshold=15.0,
-                       light={"lower": 25.0, "upper": 75.0},
-                       common={"lower": 75.0, "upper": 150.0},
-                       strong={"lower": 150.0, "upper": 300.0},
-                       heavy=300.0)
+        build.add_dose(
+            sid,
+            "piru-curated",
+            "oral",
+            "µg",
+            threshold=15.0,
+            light={"lower": 25.0, "upper": 75.0},
+            common={"lower": 75.0, "upper": 150.0},
+            strong={"lower": 150.0, "upper": 300.0},
+            heavy=300.0,
+        )
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
 
     def test_untagged_substance_passes(self):
         """Without a relevant class tag, the gate doesn't apply."""
         build, sid = self._fresh_build()
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       common={"lower": 500.0, "upper": 1000.0})
+        build.add_dose(sid, "piru-curated", "oral", "mg", common={"lower": 500.0, "upper": 1000.0})
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
 
     def test_unparseable_unit_skips_gate(self):
@@ -408,8 +443,9 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         numeric value isn't a mass we can validate."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "fentanyl-class-potency")
-        build.add_dose(sid, "piru-curated", "oral", "drops",
-                       common={"lower": 100.0, "upper": 100.0})
+        build.add_dose(
+            sid, "piru-curated", "oral", "drops", common={"lower": 100.0, "upper": 100.0}
+        )
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
 
     def test_benzodiazepine_3600mg_dropped(self):
@@ -417,9 +453,7 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         violates the 300 mg ceiling and gets dropped."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "benzodiazepine")
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       threshold=5.0,
-                       heavy=3600.0)
+        build.add_dose(sid, "piru-curated", "oral", "mg", threshold=5.0, heavy=3600.0)
         self.assertEqual(build.stats.get("dose_ranges", 0), 0)
         self.assertEqual(build.stats.get("dropped_class_dose_ceiling"), 1)
 
@@ -427,10 +461,15 @@ class TestClassDoseCeilingGate(unittest.TestCase):
         """Tetrazepam-style 50–200 mg dosing is legitimate and must survive."""
         build, sid = self._fresh_build()
         build.add_tag(sid, "piru-curated", "benzodiazepine")
-        build.add_dose(sid, "piru-curated", "oral", "mg",
-                       light={"lower": 25.0, "upper": 50.0},
-                       common={"lower": 50.0, "upper": 100.0},
-                       strong={"lower": 100.0, "upper": 200.0})
+        build.add_dose(
+            sid,
+            "piru-curated",
+            "oral",
+            "mg",
+            light={"lower": 25.0, "upper": 50.0},
+            common={"lower": 50.0, "upper": 100.0},
+            strong={"lower": 100.0, "upper": 200.0},
+        )
         self.assertEqual(build.stats.get("dose_ranges", 0), 1)
 
 
@@ -455,11 +494,17 @@ class TestNormalizeCategory(unittest.TestCase):
             ("Atypical psychedelic / sedative tryptamine", "Psychedelic"),
             ("5-HT2A psychedelic phenethylamine; mild stimulant", "Psychedelic"),
             ("Stimulant; serotonergic neurotoxin", "Stimulant"),
-            ("Serotonergic entactogen / mild psychedelic", "Psychedelic"),  # psychedelic wins over entactogen
+            (
+                "Serotonergic entactogen / mild psychedelic",
+                "Psychedelic",
+            ),  # psychedelic wins over entactogen
             ("Sedative-hypnotic depressant", "Depressant"),
             ("Anticholinergic deliriant incapacitant", "Deliriant"),
             ("Hormone (Estrogen)", "Endocrine"),
-            ("Mood stabiliser / anticonvulsant", "Anticonvulsant"),  # mood-stab + antiepileptic both → Anticonvulsant
+            (
+                "Mood stabiliser / anticonvulsant",
+                "Anticonvulsant",
+            ),  # mood-stab + antiepileptic both → Anticonvulsant
             ("GLP-1 agonist (peptide)", "Peptide"),
             ("Antiepileptic / antiseizure agent", "Anticonvulsant"),
         ]
@@ -469,13 +514,18 @@ class TestNormalizeCategory(unittest.TestCase):
 
     def test_priority_dissociative_beats_psychedelic(self):
         # PCP/ketamine class: dissociative is the canonical bucket even if "psychedelic" appears.
-        self.assertEqual(normalize_category("NMDA-receptor antagonist; psychotomimetic"), "Dissociative")
+        self.assertEqual(
+            normalize_category("NMDA-receptor antagonist; psychotomimetic"), "Dissociative"
+        )
 
     def test_priority_opioid_beats_stimulant(self):
         self.assertEqual(normalize_category("µ-opioid agonist with stimulant properties"), "Opioid")
 
     def test_priority_antipsychotic_beats_antidepressant(self):
-        self.assertEqual(normalize_category("Atypical antipsychotic with antidepressant adjunct use"), "Antipsychotic")
+        self.assertEqual(
+            normalize_category("Atypical antipsychotic with antidepressant adjunct use"),
+            "Antipsychotic",
+        )
 
     def test_unknown_falls_back_to_other(self):
         self.assertEqual(normalize_category("foobar"), "Other")
@@ -493,10 +543,15 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
     def setUpClass(cls):
         sqlite_path = Path(__file__).resolve().parents[3] / "Piru/Data/piru-substances.sqlite"
         if not sqlite_path.exists():
-            raise unittest.SkipTest("piru-substances.sqlite not built; run pipeline/build/sqlite.py first")
+            raise unittest.SkipTest(
+                "piru-substances.sqlite not built; run pipeline/build/sqlite.py first"
+            )
         cls.db = sqlite3.connect(sqlite_path)
         cls.db.row_factory = sqlite3.Row
-        cls.sources = {r["slug"]: r["default_priority"] for r in cls.db.execute("select slug, default_priority from sources")}
+        cls.sources = {
+            r["slug"]: r["default_priority"]
+            for r in cls.db.execute("select slug, default_priority from sources")
+        }
 
     @classmethod
     def tearDownClass(cls):
@@ -560,7 +615,11 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "and canonical_name not glob '[0-9]*' "  # exempt numeric-prefixed names like "5-meo-dmt" (becomes 5-MEO-DMT)
         ).fetchall()
         # Allow a tiny bleed; we mainly want to catch hundreds of un-cased names.
-        self.assertLess(len(rows), 5, f"too many lowercase substance names: {[r['canonical_name'] for r in rows]}")
+        self.assertLess(
+            len(rows),
+            5,
+            f"too many lowercase substance names: {[r['canonical_name'] for r in rows]}",
+        )
 
     def test_known_substance_categories(self):
         """Specific substances should land in the categories users expect after
@@ -622,7 +681,11 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             "Ayahuasca": "Psychedelic",
         }
         actual: dict[str, str | None] = {n: self._resolved_category(n) for n in expectations}
-        wrong = {n: (actual[n], expected) for n, expected in expectations.items() if actual[n] != expected}
+        wrong = {
+            n: (actual[n], expected)
+            for n, expected in expectations.items()
+            if actual[n] != expected
+        }
         self.assertEqual(wrong, {}, f"categorisation mismatches (got, expected): {wrong}")
 
     def test_cannabis_does_not_alias_distinct_molecules(self):
@@ -635,11 +698,16 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             JOIN substances s ON s.id = a.substance_id
             WHERE s.canonical_name = 'Cannabis'
         """).fetchall()
-        bad_aliases = {'thc', 'cbd', 'cannabidiol', 'dronabinol',
-                       'tetrahydrocannabinol', 'delta-9-thc'}
-        leaked = [r['alias'] for r in rows if r['alias'].lower() in bad_aliases]
-        self.assertEqual(leaked, [],
-                         f"distinct-molecule aliases leaked onto Cannabis: {leaked}")
+        bad_aliases = {
+            "thc",
+            "cbd",
+            "cannabidiol",
+            "dronabinol",
+            "tetrahydrocannabinol",
+            "delta-9-thc",
+        }
+        leaked = [r["alias"] for r in rows if r["alias"].lower() in bad_aliases]
+        self.assertEqual(leaked, [], f"distinct-molecule aliases leaked onto Cannabis: {leaked}")
 
     def test_cannabidiol_collapsed_to_cbd(self):
         """`Cannabidiol` as a separate substance entry should not exist —
@@ -647,12 +715,13 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         row = self.db.execute(
             "SELECT id FROM substances WHERE canonical_name = 'Cannabidiol'"
         ).fetchone()
-        self.assertIsNone(row, "duplicate 'Cannabidiol' substance row exists; "
-                               "name-remap should have merged it into CBD")
+        self.assertIsNone(
+            row,
+            "duplicate 'Cannabidiol' substance row exists; "
+            "name-remap should have merged it into CBD",
+        )
         # And CBD itself should still exist
-        cbd = self.db.execute(
-            "SELECT id FROM substances WHERE canonical_name = 'CBD'"
-        ).fetchone()
+        cbd = self.db.execute("SELECT id FROM substances WHERE canonical_name = 'CBD'").fetchone()
         self.assertIsNotNone(cbd, "CBD canonical row missing after remap")
 
     def test_fentanyl_class_dose_ceiling_holds(self):
@@ -675,14 +744,26 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             factor = _unit_to_mg_factor(r["unit"])
             if factor is None:
                 continue  # unparseable unit — gate doesn't apply
-            tiers = [r[k] for k in ("threshold", "light_lower", "light_upper",
-                                     "common_lower", "common_upper",
-                                     "strong_lower", "strong_upper", "heavy")
-                     if r[k] is not None]
+            tiers = [
+                r[k]
+                for k in (
+                    "threshold",
+                    "light_lower",
+                    "light_upper",
+                    "common_lower",
+                    "common_upper",
+                    "strong_lower",
+                    "strong_upper",
+                    "heavy",
+                )
+                if r[k] is not None
+            ]
             mx = max((t * factor for t in tiers), default=0.0)
             if mx > 2.0:
                 violations.append((r["canonical_name"], r["route"], r["unit"], mx))
-        self.assertEqual(violations, [], f"fentanyl-class dose-ceiling violations survived: {violations}")
+        self.assertEqual(
+            violations, [], f"fentanyl-class dose-ceiling violations survived: {violations}"
+        )
 
     def test_dose_ladder_monotonicity_within_tolerance(self):
         """Most dose rows should be monotonic. Some legacy source-data noise
@@ -696,37 +777,55 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
                or (common_upper is not null and strong_lower is not null and common_upper > strong_lower)
                or (strong_upper is not null and heavy is not null and strong_upper > heavy)
         """).fetchone()
-        self.assertLess(rows["c"], 120, f"dose_ranges monotonicity regressions: {rows['c']} violations")
+        self.assertLess(
+            rows["c"], 120, f"dose_ranges monotonicity regressions: {rows['c']} violations"
+        )
 
     # ---- duplicate-substance / alias dedup invariants ----
 
     def _resolve_ids(self, name: str):
         """All substance ids a name resolves to (as canonical or alias)."""
         n = name.lower()
-        return sorted({r["id"] for r in self.db.execute(
-            "select s.id from substances s where lower(s.canonical_name)=? "
-            "union select a.substance_id from aliases a where lower(a.alias)=?",
-            (n, n))})
+        return sorted(
+            {
+                r["id"]
+                for r in self.db.execute(
+                    "select s.id from substances s where lower(s.canonical_name)=? "
+                    "union select a.substance_id from aliases a where lower(a.alias)=?",
+                    (n, n),
+                )
+            }
+        )
 
     def test_reported_brand_generic_pairs_merged(self):
         """Regression for the reported duplicates: a brand and its generic must
         resolve to ONE substance, and the brand must not survive as its own
         canonical record."""
-        for brand, generic in [("Vyvanse", "Lisdexamfetamine"),
-                               ("Focalin", "Dexmethylphenidate"),
-                               ("Adderall", "Amphetamine")]:
+        for brand, generic in [
+            ("Vyvanse", "Lisdexamfetamine"),
+            ("Focalin", "Dexmethylphenidate"),
+            ("Adderall", "Amphetamine"),
+        ]:
             gids = self._resolve_ids(generic)
             self.assertTrue(gids, f"{generic} missing from DB")
-            self.assertIn(gids[0], self._resolve_ids(brand),
-                          f"{brand} does not resolve to {generic}")
+            self.assertIn(
+                gids[0], self._resolve_ids(brand), f"{brand} does not resolve to {generic}"
+            )
             self.assertIsNone(
-                self.db.execute("select 1 from substances where lower(canonical_name)=lower(?)", (brand,)).fetchone(),
-                f"{brand} still exists as a separate substance — dedup regressed")
+                self.db.execute(
+                    "select 1 from substances where lower(canonical_name)=lower(?)", (brand,)
+                ).fetchone(),
+                f"{brand} still exists as a separate substance — dedup regressed",
+            )
 
     def test_no_exact_duplicate_canonical_names(self):
         """No two substances share a normalized canonical name."""
-        dups = [r["normalized_name"] for r in self.db.execute(
-            "select normalized_name, count(*) c from substances group by normalized_name having c>1")]
+        dups = [
+            r["normalized_name"]
+            for r in self.db.execute(
+                "select normalized_name, count(*) c from substances group by normalized_name having c>1"
+            )
+        ]
         self.assertEqual(dups, [], f"duplicate normalized canonical names: {dups}")
 
     def test_no_intra_substance_duplicate_aliases(self):
@@ -740,12 +839,18 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
     def test_stereoisomers_not_over_merged(self):
         """Dedup must NOT fuse enantiomer/racemate pairs — they are distinct
         drugs with different potency/dosing."""
-        for a, b in [("Methylphenidate", "Dexmethylphenidate"),
-                     ("Amphetamine", "Dextroamphetamine"),
-                     ("Citalopram", "Escitalopram"),
-                     ("Modafinil", "Armodafinil")]:
-            ra = self.db.execute("select id from substances where lower(canonical_name)=lower(?)", (a,)).fetchone()
-            rb = self.db.execute("select id from substances where lower(canonical_name)=lower(?)", (b,)).fetchone()
+        for a, b in [
+            ("Methylphenidate", "Dexmethylphenidate"),
+            ("Amphetamine", "Dextroamphetamine"),
+            ("Citalopram", "Escitalopram"),
+            ("Modafinil", "Armodafinil"),
+        ]:
+            ra = self.db.execute(
+                "select id from substances where lower(canonical_name)=lower(?)", (a,)
+            ).fetchone()
+            rb = self.db.execute(
+                "select id from substances where lower(canonical_name)=lower(?)", (b,)
+            ).fetchone()
             self.assertIsNotNone(ra, f"{a} missing")
             self.assertIsNotNone(rb, f"{b} missing")
             self.assertNotEqual(ra["id"], rb["id"], f"{a} and {b} were wrongly merged")
@@ -776,44 +881,69 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
     # a silent "override points at a renamed/merged canonical" rot into a failure.
 
     def _canonical_set(self) -> set[str]:
-        return {r["canonical_name"].lower() for r in
-                self.db.execute("select canonical_name from substances")}
+        return {
+            r["canonical_name"].lower()
+            for r in self.db.execute("select canonical_name from substances")
+        }
 
     @staticmethod
     def _curated_entries():
         import json
+
         d = _REPO / "data/curated/substances"
         return [json.loads(fp.read_text()) for fp in sorted(d.glob("*.json"))]
 
     def test_curated_display_names_resolve(self):
-        entries = [e for e in self._curated_entries()
-                   if e.get("displayName") and not is_chemistry_noise(e["name"])]
+        entries = [
+            e
+            for e in self._curated_entries()
+            if e.get("displayName") and not is_chemistry_noise(e["name"])
+        ]
         self.assertGreater(len(entries), 0, "no curated displayName overrides found")
         for e in entries:
             sid = self._resolve_sid(e["name"])
             self.assertIsNotNone(sid, f"displayName target {e['name']!r} no longer exists")
-            row = self.db.execute("select display_name from substances where id=?", (sid,)).fetchone()
-            self.assertEqual(row and row["display_name"], e["displayName"],
-                             f"display_name for {e['name']!r} not applied")
+            row = self.db.execute(
+                "select display_name from substances where id=?", (sid,)
+            ).fetchone()
+            self.assertEqual(
+                row and row["display_name"],
+                e["displayName"],
+                f"display_name for {e['name']!r} not applied",
+            )
 
     def test_curated_popularity_resolves_and_in_range(self):
-        entries = [e for e in self._curated_entries()
-                   if e.get("popularity") is not None and not is_chemistry_noise(e["name"])]
+        entries = [
+            e
+            for e in self._curated_entries()
+            if e.get("popularity") is not None and not is_chemistry_noise(e["name"])
+        ]
         self.assertGreater(len(entries), 0, "no curated popularity scores found")
         for e in entries:
-            self.assertTrue(0.0 <= float(e["popularity"]) <= 1.0,
-                            f"popularity for {e['name']!r} outside [0,1]: {e['popularity']}")
+            self.assertTrue(
+                0.0 <= float(e["popularity"]) <= 1.0,
+                f"popularity for {e['name']!r} outside [0,1]: {e['popularity']}",
+            )
             sid = self._resolve_sid(e["name"])
             self.assertIsNotNone(sid, f"popularity target {e['name']!r} no longer exists")
             row = self.db.execute("select popularity from substances where id=?", (sid,)).fetchone()
-            self.assertAlmostEqual(row["popularity"], float(e["popularity"]), places=6,
-                                   msg=f"popularity for {e['name']!r} not applied")
+            self.assertAlmostEqual(
+                row["popularity"],
+                float(e["popularity"]),
+                places=6,
+                msg=f"popularity for {e['name']!r} not applied",
+            )
 
     def test_curated_categories_resolve_and_are_valid_enums(self):
         # Skip chemistry-noise names (intentionally never ingested as substances).
-        entries = [e for e in self._curated_entries()
-                   if e.get("category") and not is_chemistry_noise(e["name"])]
-        bad = {e["name"]: e["category"] for e in entries if e["category"] not in _mod._CATEGORY_ENUM}
+        entries = [
+            e
+            for e in self._curated_entries()
+            if e.get("category") and not is_chemistry_noise(e["name"])
+        ]
+        bad = {
+            e["name"]: e["category"] for e in entries if e["category"] not in _mod._CATEGORY_ENUM
+        }
         self.assertEqual(bad, {}, f"curated categories use non-enum values: {bad}")
         # Every curated category must win source-priority resolution (piru-curated
         # is priority 1). A miss means a dedup merge or normalisation regression.
@@ -822,13 +952,18 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             resolved = self._resolved_category(e["name"])
             if resolved != e["category"]:
                 misses[e["name"]] = (resolved, e["category"])
-        self.assertEqual(misses, {}, f"curated categories did not resolve (got, expected): {misses}")
+        self.assertEqual(
+            misses, {}, f"curated categories did not resolve (got, expected): {misses}"
+        )
 
     def test_no_chemnoise_aliases_survive(self):
         """The post-dedup purge should leave zero IUPAC/salt-form chemistry-noise
         aliases in the shipped table (the Library alias subtitle stays clean)."""
-        survivors = [r["alias"] for r in self.db.execute("select alias from aliases")
-                     if is_chemnoise_alias(r["alias"])]
+        survivors = [
+            r["alias"]
+            for r in self.db.execute("select alias from aliases")
+            if is_chemnoise_alias(r["alias"])
+        ]
         self.assertEqual(survivors, [], f"chemnoise aliases survived the purge: {survivors[:10]}")
 
 
@@ -866,7 +1001,9 @@ class TestCuratedFilesValid(unittest.TestCase):
 
     def test_no_validation_errors(self):
         errors, _warnings = _vmod.validate_dir()
-        self.assertEqual(errors, [], "curated files have validation errors:\n  " + "\n  ".join(errors))
+        self.assertEqual(
+            errors, [], "curated files have validation errors:\n  " + "\n  ".join(errors)
+        )
 
 
 class TestCuratedValidatorCatchesBadData(unittest.TestCase):
@@ -875,13 +1012,20 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
     temp dir and asserts a matching error is raised."""
 
     def _check(self, entry, fname="x.json"):
-        import json, tempfile
+        import json
+        import tempfile
+
         d = Path(tempfile.mkdtemp())
         (d / fname).write_text(json.dumps(entry))
         return _vmod.validate_dir(d)[0]
 
-    _base = {"name": "Foo", "aliases": [], "category": "Stimulant",
-             "defaultRoute": "oral", "routes": [{"route": "oral", "unit": "mg", "doses": {}}]}
+    _base = {
+        "name": "Foo",
+        "aliases": [],
+        "category": "Stimulant",
+        "defaultRoute": "oral",
+        "routes": [{"route": "oral", "unit": "mg", "doses": {}}],
+    }
 
     def test_bad_category(self):
         e = dict(self._base, category="Wonderdrug")
@@ -892,32 +1036,52 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
         self.assertTrue(any("bad route" in x for x in self._check(e, "foo.json")))
 
     def test_inverted_dose_range(self):
-        e = dict(self._base, routes=[{"route": "oral", "unit": "mg",
-                 "doses": {"common": {"lower": 50, "upper": 10}}}])
+        e = dict(
+            self._base,
+            routes=[
+                {"route": "oral", "unit": "mg", "doses": {"common": {"lower": 50, "upper": 10}}}
+            ],
+        )
         self.assertTrue(any("lower > upper" in x for x in self._check(e, "foo.json")))
 
     def test_protocol_without_frequency(self):
-        e = dict(self._base, routes=[{"route": "oral", "unit": "mg", "doses": {},
-                 "protocolDosing": {"lowAmount": 10}}])
+        e = dict(
+            self._base,
+            routes=[
+                {"route": "oral", "unit": "mg", "doses": {}, "protocolDosing": {"lowAmount": 10}}
+            ],
+        )
         self.assertTrue(any("no 'frequency'" in x for x in self._check(e, "foo.json")))
 
     def test_bad_binding_affinity(self):
-        e = dict(self._base, mechanismOfAction={"summary": "s", "description": "d", "references": [],
-                 "bindings": [{"target": "DAT", "action": "reuptakeInhibitor", "affinity": 5}]})
+        e = dict(
+            self._base,
+            mechanismOfAction={
+                "summary": "s",
+                "description": "d",
+                "references": [],
+                "bindings": [{"target": "DAT", "action": "reuptakeInhibitor", "affinity": 5}],
+            },
+        )
         self.assertTrue(any("affinity must be" in x for x in self._check(e, "foo.json")))
 
     def test_filename_slug_mismatch(self):
         # File named wrong.json but name "Foo" → slug "foo": must flag drift.
-        self.assertTrue(any("does not match slugify" in x for x in self._check(self._base, "wrong.json")))
+        self.assertTrue(
+            any("does not match slugify" in x for x in self._check(self._base, "wrong.json"))
+        )
 
     def test_invalid_json(self):
         import tempfile
+
         d = Path(tempfile.mkdtemp())
         (d / "broken.json").write_text("{not valid json")
         self.assertTrue(any("invalid JSON" in x for x in _vmod.validate_dir(d)[0]))
 
     def test_duplicate_compound_across_files(self):
-        import json, tempfile
+        import json
+        import tempfile
+
         d = Path(tempfile.mkdtemp())
         (d / "foo.json").write_text(json.dumps(self._base))
         # Same compound, different file (e.g. "Foo" vs "foo "): normalised collision.
@@ -935,14 +1099,20 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
 
     def test_missing_provenance_is_advisory_only(self):
         # A dosed compound with no references → warning, not error (norm-setting).
-        e = dict(self._base, routes=[{"route": "oral", "unit": "mg",
-                 "doses": {"common": {"lower": 10, "upper": 20}}}])
+        e = dict(
+            self._base,
+            routes=[
+                {"route": "oral", "unit": "mg", "doses": {"common": {"lower": 10, "upper": 20}}}
+            ],
+        )
         errs, warns = _vmod.validate_dir(self._mkdir(e, "foo.json"))
         self.assertEqual(errs, [])
         self.assertTrue(any("no references" in w for w in warns))
 
     def _mkdir(self, entry, fname):
-        import json, tempfile
+        import json
+        import tempfile
+
         d = Path(tempfile.mkdtemp())
         (d / fname).write_text(json.dumps(entry))
         return d
@@ -959,8 +1129,10 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
     def test_popularity_out_of_range_rejected(self):
         for bad in (1.5, -0.1, "high"):
             e = {"name": "Foo", "popularity": bad}
-            self.assertTrue(any("popularity must be" in x for x in self._check(e, "foo.json")),
-                            f"should reject popularity={bad!r}")
+            self.assertTrue(
+                any("popularity must be" in x for x in self._check(e, "foo.json")),
+                f"should reject popularity={bad!r}",
+            )
 
     def test_empty_display_name_rejected(self):
         e = {"name": "Foo", "displayName": "  "}
@@ -987,13 +1159,16 @@ class TestCuratedDirIngest(unittest.TestCase):
     def test_curated_only_compound_present(self):
         # Pynazolam exists only in the curated layer — its presence proves the
         # per-substance dir was ingested.
-        row = self.db.execute("select id from substances where canonical_name='Pynazolam'").fetchone()
+        row = self.db.execute(
+            "select id from substances where canonical_name='Pynazolam'"
+        ).fetchone()
         self.assertIsNotNone(row, "curated-only compound missing — curated dir not ingested")
 
     def test_deleted_obscure_entries_absent(self):
         for name in ("PiP-Tapentadol", "DPDMC", "DM-DED", "DMP"):
             row = self.db.execute(
-                "select 1 from substances where canonical_name=?", (name,)).fetchone()
+                "select 1 from substances where canonical_name=?", (name,)
+            ).fetchone()
             self.assertIsNone(row, f"{name} should have been removed from the curated set")
 
     def test_substance_level_references_ingested(self):
@@ -1014,7 +1189,8 @@ class TestCuratedDirIngest(unittest.TestCase):
         Here we just assert such a row exists and is non-http (so the app renders
         it as text, not a dead link)."""
         rows = self.db.execute(
-            "select url from citations where url like 'PubChem CID%' limit 1").fetchall()
+            "select url from citations where url like 'PubChem CID%' limit 1"
+        ).fetchall()
         for r in rows:
             self.assertFalse(r["url"].startswith("http"))
 
