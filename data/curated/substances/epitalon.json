@@ -84,6 +84,18 @@
           "max": 4320
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 5,
+        "highAmount": 10,
+        "frequency": "once daily in a 10-20 day course",
+        "courseDuration": "10-20 day course, repeated periodically",
+        "notes": "Khavinson protocol; single-source Russian literature, no validated human PK"
+      }
     }
   ],
   "effects": [
@@ -109,5 +121,18 @@
     "research-chemical",
     "anti-aging",
     "telomerase-activator"
-  ]
+  ],
+  "molarMass": 390.35,
+  "peptideProfile": {
+    "sequence": "Ala-Glu-Asp-Gly (AEDG)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 10,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

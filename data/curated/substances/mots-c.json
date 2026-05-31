@@ -44,6 +44,17 @@
           "max": 4320
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 5,
+        "highAmount": 10,
+        "frequency": "once weekly",
+        "notes": "community/research protocol, no validated human dosing; mitochondrial-derived peptide, AMPK activation"
+      }
     }
   ],
   "effects": [
@@ -69,5 +80,18 @@
     "research-chemical",
     "metabolic",
     "mitochondrial"
-  ]
+  ],
+  "molarMass": 2356,
+  "peptideProfile": {
+    "sequence": "Met-Arg-Trp-Gln-Glu-Met-Gly-Tyr-Ile-Phe-Tyr-Pro-Arg-Lys-Leu-Arg (MRWQEMGYIFYPRKLR)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 10,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

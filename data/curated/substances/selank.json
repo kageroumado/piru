@@ -25,6 +25,15 @@
         },
         "heavy": 4.0
       }
+    },
+    {
+      "route": "insufflation",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "one to three times daily",
+        "notes": "intranasal anxiolytic/nootropic (tuftsin analog); Russian-approved 2009; no validated Western dosing"
+      }
     }
   ],
   "effects": [
@@ -40,5 +49,18 @@
     "nootropic",
     "peptide",
     "anxiolytic"
-  ]
+  ],
+  "molarMass": 751.88,
+  "peptideProfile": {
+    "sequence": "Thr-Lys-Pro-Arg-Pro-Gly-Pro (TKPRPGP)",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

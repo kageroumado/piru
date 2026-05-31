@@ -45,6 +45,17 @@
           "max": 2880
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 250,
+        "highAmount": 1000,
+        "frequency": "once daily during loading, then maintenance",
+        "notes": "non-selective melanocortin agonist (tanning + sexual arousal); no approved dose; melanoma/renal-infarction safety flags. t½ ~33 h"
+      }
     }
   ],
   "effects": [
@@ -71,5 +82,18 @@
     "research-chemical",
     "aphrodisiac",
     "tanning"
-  ]
+  ],
+  "molarMass": 1024.18,
+  "peptideProfile": {
+    "sequence": "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-NH2 (cyclic lactam, acetylated N-term, amidated C-term)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 10,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

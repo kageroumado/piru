@@ -83,6 +83,15 @@
           "max": 4320
         }
       }
+    },
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "once or twice daily",
+        "notes": "cosmetic serum/cream, typically 1-2% formulation; collagen/GAG synthesis. Dose is formulation percent, not injected mass"
+      }
     }
   ],
   "effects": [
@@ -107,5 +116,18 @@
     "research-chemical",
     "anti-aging",
     "dermatological"
-  ]
+  ],
+  "molarMass": 403.93,
+  "peptideProfile": {
+    "sequence": "Gly-His-Lys copper(II) complex (GHK-Cu2+)",
+    "suppliedForm": "topical",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "room_temp",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

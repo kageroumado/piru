@@ -43,6 +43,17 @@
           "max": 360
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 300,
+        "frequency": "one to three times daily",
+        "notes": "community protocol; clean GHS-R1a agonist with no cortisol/prolactin rise; t½ ~2 h"
+      }
     }
   ],
   "effects": [
@@ -67,5 +78,18 @@
     "grey-market",
     "research-chemical",
     "performance-enhancing"
-  ]
+  ],
+  "molarMass": 711.85,
+  "peptideProfile": {
+    "sequence": "Aib-His-D-2-Nal-D-Phe-Lys-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

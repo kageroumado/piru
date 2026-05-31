@@ -44,6 +44,17 @@
           "max": 360
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 100,
+        "frequency": "two or three times daily",
+        "notes": "community protocol; strong appetite stimulation, mild cortisol/prolactin"
+      }
     }
   ],
   "effects": [
@@ -67,5 +78,18 @@
     "grey-market",
     "research-chemical",
     "performance-enhancing"
-  ]
+  ],
+  "molarMass": 873.01,
+  "peptideProfile": {
+    "sequence": "His-D-Trp-Ala-Trp-D-Phe-Lys-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

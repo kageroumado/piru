@@ -1,0 +1,26 @@
+{
+  "name": "Mitragynine",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "notes": "Pure mitragynine (extracts/tinctures/gummies). Derived from the ~12–21 mg/g alkaloid content of dried leaf and extract-product labeling. Kratom leaf itself is dosed in grams — see the Kratom entry."
+    }
+  ]
+}

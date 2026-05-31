@@ -45,6 +45,17 @@
           "max": 720
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 2,
+        "highAmount": 2,
+        "frequency": "once daily",
+        "notes": "Egrifta; FDA-approved for HIV lipodystrophy; t½ ~26-38 min"
+      }
     }
   ],
   "effects": [
@@ -68,5 +79,18 @@
     "GH-secretagogue",
     "prescription-only",
     "anti-lipodystrophy"
-  ]
+  ],
+  "molarMass": 5135.9,
+  "peptideProfile": {
+    "sequence": "trans-3-hexenoyl-GHRH(1-44); N-terminally modified human GHRH 44-residue analog",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

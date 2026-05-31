@@ -1,6 +1,11 @@
 {
   "name": "Psilocybin",
-  "aliases": [],
+  "aliases": [
+    "裸盖菇素",
+    "裸蓋菇素",
+    "赛洛西宾",
+    "賽洛西賓"
+  ],
   "category": "Psychedelic",
   "defaultRoute": "oral",
   "routes": [],
@@ -16,5 +21,6 @@
     "prodrug-to-psilocin",
     "natural-product",
     "psilocybe-mushroom"
-  ]
+  ],
+  "popularity": 0.61
 }

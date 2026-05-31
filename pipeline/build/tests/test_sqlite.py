@@ -23,6 +23,7 @@ Builder = _mod.Build  # The class is named Build, not Builder
 is_chemistry_noise = _mod.is_chemistry_noise
 is_chemnoise_alias = _mod.is_chemnoise_alias
 normalize_category = _mod.normalize_category
+normalise = _mod.normalise
 smart_title_case = _mod.smart_title_case
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
@@ -466,15 +467,29 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         if hasattr(cls, "db"):
             cls.db.close()
 
+    def _resolve_sid(self, name: str):
+        """Find a substance id the way the build's upsert merges: canonical name,
+        then alias, then the salt-stripped normalized name (so a curated
+        'Tianeptine' file resolves to the merged 'Tianeptine sulfate' row)."""
+        for sql, arg in (
+            ("select id from substances where lower(canonical_name)=lower(?)", name),
+            ("select substance_id as id from aliases where lower(alias)=lower(?) limit 1", name),
+            ("select id from substances where normalized_name=? limit 1", normalise(name)),
+        ):
+            row = self.db.execute(sql, (arg,)).fetchone()
+            if row:
+                return row["id"]
+        return None
+
     def _resolved_category(self, name: str) -> str | None:
         """Mirror the app's resolution: pick category from the highest-priority
-        (lowest priority number) enabled source that has a row."""
-        row = self.db.execute(
-            "select id from substances where lower(canonical_name) = lower(?)", (name,)
-        ).fetchone()
-        if not row:
+        (lowest priority number) enabled source that has a row. Resolves the
+        substance by canonical name OR alias — a curated file's `name` can become
+        an alias after merging with a scraper entry under a different canonical
+        (e.g. 'alpha-PVP' → 'α-PVP')."""
+        sid = self._resolve_sid(name)
+        if sid is None:
             return None
-        sid = row["id"]
         cats = [
             (self.sources.get(r["slug"], 999), r["category"])
             for r in self.db.execute(
@@ -717,51 +732,61 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         """).fetchone()["c"]
         self.assertLess(n, 75, f"unmerged duplicate debt spiked to {n} — dedup likely regressed")
 
-    # ---- curated override files (display-name / popularity / category) ----
+    # ---- curated overrides folded into per-substance files ----
     #
-    # These three files key on canonical_name. A data refetch can rename a
-    # canonical, leaving an override pointing at nothing — the build only prints
-    # a WARNING and succeeds, so the override silently stops working. These tests
-    # turn that silent rot into a failure.
+    # display-name / popularity / category / CJK aliases / dose overrides now
+    # live on each compound's own data/curated/substances/<slug>.json. These
+    # tests assert every folded override still resolves in the built DB — turning
+    # a silent "override points at a renamed/merged canonical" rot into a failure.
 
     def _canonical_set(self) -> set[str]:
         return {r["canonical_name"].lower() for r in
                 self.db.execute("select canonical_name from substances")}
 
-    def test_display_name_overrides_resolve(self):
-        canon = self._canonical_set()
-        overrides = _load_curated("display-name-overrides")
-        missing = [k for k in overrides if k.lower() not in canon]
-        self.assertEqual(missing, [], f"display-name override targets no longer exist: {missing}")
-        # And the override actually landed on the row.
-        for canonical, display in list(overrides.items())[:5]:
-            row = self.db.execute(
-                "select display_name from substances where canonical_name=?", (canonical,)).fetchone()
-            self.assertEqual(row and row["display_name"], display,
-                             f"display_name for {canonical!r} not applied")
+    @staticmethod
+    def _curated_entries():
+        import json
+        d = _REPO / "data/curated/substances"
+        return [json.loads(fp.read_text()) for fp in sorted(d.glob("*.json"))]
 
-    def test_popularity_overrides_resolve_and_in_range(self):
-        canon = self._canonical_set()
-        pop = _load_curated("popularity")
-        missing = [k for k in pop if k.lower() not in canon]
-        self.assertEqual(missing, [], f"popularity targets no longer exist: {missing}")
-        oob = {k: v for k, v in pop.items() if not (0.0 <= float(v) <= 1.0)}
-        self.assertEqual(oob, {}, f"popularity scores outside [0,1]: {oob}")
-        # A well-known substance should carry a positive baked score.
-        row = self.db.execute("select popularity from substances where canonical_name='Cocaine'").fetchone()
-        self.assertGreater(row["popularity"], 0.0, "popularity not baked into the substances table")
+    def test_curated_display_names_resolve(self):
+        entries = [e for e in self._curated_entries()
+                   if e.get("displayName") and not is_chemistry_noise(e["name"])]
+        self.assertGreater(len(entries), 0, "no curated displayName overrides found")
+        for e in entries:
+            sid = self._resolve_sid(e["name"])
+            self.assertIsNotNone(sid, f"displayName target {e['name']!r} no longer exists")
+            row = self.db.execute("select display_name from substances where id=?", (sid,)).fetchone()
+            self.assertEqual(row and row["display_name"], e["displayName"],
+                             f"display_name for {e['name']!r} not applied")
 
-    def test_category_overrides_resolve_and_are_valid_enums(self):
-        canon = self._canonical_set()
-        overrides = _load_curated("category-overrides")
-        missing = [k for k in overrides if k.lower() not in canon]
-        self.assertEqual(missing, [], f"category override targets no longer exist: {missing}")
-        bad = {k: v for k, v in overrides.items() if v not in _mod._CATEGORY_ENUM}
-        self.assertEqual(bad, {}, f"category overrides use non-enum categories: {bad}")
-        # Each override must actually win source-priority resolution.
-        for canonical, category in overrides.items():
-            self.assertEqual(self._resolved_category(canonical), category,
-                             f"{canonical!r} did not resolve to overridden category {category!r}")
+    def test_curated_popularity_resolves_and_in_range(self):
+        entries = [e for e in self._curated_entries()
+                   if e.get("popularity") is not None and not is_chemistry_noise(e["name"])]
+        self.assertGreater(len(entries), 0, "no curated popularity scores found")
+        for e in entries:
+            self.assertTrue(0.0 <= float(e["popularity"]) <= 1.0,
+                            f"popularity for {e['name']!r} outside [0,1]: {e['popularity']}")
+            sid = self._resolve_sid(e["name"])
+            self.assertIsNotNone(sid, f"popularity target {e['name']!r} no longer exists")
+            row = self.db.execute("select popularity from substances where id=?", (sid,)).fetchone()
+            self.assertAlmostEqual(row["popularity"], float(e["popularity"]), places=6,
+                                   msg=f"popularity for {e['name']!r} not applied")
+
+    def test_curated_categories_resolve_and_are_valid_enums(self):
+        # Skip chemistry-noise names (intentionally never ingested as substances).
+        entries = [e for e in self._curated_entries()
+                   if e.get("category") and not is_chemistry_noise(e["name"])]
+        bad = {e["name"]: e["category"] for e in entries if e["category"] not in _mod._CATEGORY_ENUM}
+        self.assertEqual(bad, {}, f"curated categories use non-enum values: {bad}")
+        # Every curated category must win source-priority resolution (piru-curated
+        # is priority 1). A miss means a dedup merge or normalisation regression.
+        misses = {}
+        for e in entries:
+            resolved = self._resolved_category(e["name"])
+            if resolved != e["category"]:
+                misses[e["name"]] = (resolved, e["category"])
+        self.assertEqual(misses, {}, f"curated categories did not resolve (got, expected): {misses}")
 
     def test_no_chemnoise_aliases_survive(self):
         """The post-dedup purge should leave zero IUPAC/salt-form chemistry-noise

@@ -1,6 +1,9 @@
 {
   "name": "Gabapentin",
-  "aliases": [],
+  "aliases": [
+    "加巴喷丁",
+    "加巴噴丁"
+  ],
   "category": "GABAergic",
   "defaultRoute": "oral",
   "routes": [],
@@ -13,5 +16,6 @@
     "alpha2-delta-ligand",
     "prescription-only",
     "anticonvulsant"
-  ]
+  ],
+  "popularity": 0.52
 }

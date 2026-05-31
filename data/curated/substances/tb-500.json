@@ -44,6 +44,17 @@
           "max": 20160
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 2,
+        "highAmount": 5,
+        "frequency": "once or twice weekly",
+        "notes": "community/research healing protocol, no validated human dosing; t½ ~hours"
+      }
     }
   ],
   "effects": [
@@ -67,5 +78,17 @@
     "grey-market",
     "research-chemical",
     "anti-inflammatory"
-  ]
+  ],
+  "peptideProfile": {
+    "sequence": "Synthetic Thymosin β4 fragment (active region Ac-Leu-Lys-Lys-Thr-Glu-Thr-Gln, Ac-LKKTETQ); full Tβ4 is 43 aa",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

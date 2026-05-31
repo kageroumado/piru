@@ -616,61 +616,13 @@ def is_chemnoise_alias(alias: str) -> bool:
     return False
 
 
-# Human-facing title overrides: canonical_name → display_name. For compounds
-# whose canonical (and only) name is a systematic/IUPAC string but which are
-# commonly known by a short code, show the code as the title and demote the
-# long name to the subtitle. canonical_name stays the UNIQUE dedup key — this is
-# presentation only. Hand-verified; seeded from pipeline analysis but reviewed by
-# a human (auto-derivation mis-picks famous acronyms, e.g. AMT vs 3-IT). Edit the
-# JSON to add/correct entries; missing file → no overrides.
-_DISPLAY_NAME_OVERRIDES_PATH = REPO / "data/curated/display-name-overrides.json"
-
-
-def load_display_name_overrides() -> dict[str, str]:
-    if not _DISPLAY_NAME_OVERRIDES_PATH.exists():
-        return {}
-    with _DISPLAY_NAME_OVERRIDES_PATH.open() as f:
-        return json.load(f)
-
-
-# Curated popularity scores: canonical_name → score in [0,1]. Hand-maintained,
-# seeded from drug-monitoring prevalence (NSDUH/UNODC/EMCDDA). Missing → 0.
-_POPULARITY_PATH = REPO / "data/curated/popularity.json"
-
-
-def load_popularity() -> dict[str, float]:
-    if not _POPULARITY_PATH.exists():
-        return {}
-    with _POPULARITY_PATH.open() as f:
-        return {k: float(v) for k, v in json.load(f).items()}
-
-
-# Curated category corrections: canonical_name → SubstanceCategory. Inserted as a
-# piru-curated category row, which wins resolution over the source feeds (e.g.
-# Kratom: PsychonautWiki says Stimulant, but it's primarily a µ-opioid agonist).
-_CATEGORY_OVERRIDES_PATH = REPO / "data/curated/category-overrides.json"
-
-
-def load_category_overrides() -> dict[str, str]:
-    if not _CATEGORY_OVERRIDES_PATH.exists():
-        return {}
-    with _CATEGORY_OVERRIDES_PATH.open() as f:
-        return json.load(f)
-
-
-# Curated peptide enrichment for substances ALREADY in the DB (popular peptides
-# the scrapers carry but without peptide-specific metadata): canonical_name ->
-# {molarMass?, peptideProfile{...}, protocols:[{route,unit,...}]}. Applied as
-# peptide_profiles + protocol_dosing rows ONLY — never dose_ranges — so an
-# existing recreational/PW dose ladder is never shadowed. Missing file → {}.
-_PEPTIDE_PROFILES_PATH = REPO / "data/curated/peptide-profiles.json"
-
-
-def load_peptide_profiles() -> dict[str, dict]:
-    if not _PEPTIDE_PROFILES_PATH.exists():
-        return {}
-    with _PEPTIDE_PROFILES_PATH.open() as f:
-        return json.load(f)
+# Display-name overrides, popularity scores, category corrections, peptide
+# enrichment, and CJK aliases used to live in separate data/curated/*.json files
+# and in-module dicts. They are now folded into each compound's own
+# data/curated/substances/<slug>.json (display-name override, popularity,
+# category, aliases incl. CJK, dose overrides, peptideProfile, protocol dosing)
+# and ingested by ingest_curated_substances(). One file fully describes one
+# substance; the build has a single curated source.
 
 
 # Three-letter+ acronyms that should be ALL CAPS even after title-casing.
@@ -1157,92 +1109,6 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "dexmethylphenidate", "focalin", "focalin xr",
         "dexmethylphenidate hydrochloride extended-release",
     },
-}
-
-
-# Curated Chinese (CJK) search aliases for the most-searched substances.
-# Substance display names are English-only, and the source datasets carry no
-# CJK names, so a Simplified/Traditional Chinese query ("大麻", "冰毒", "笑气")
-# matched nothing — the gap a zh-Hans user hit asking "cannabis 怎么记录".
-# Search normalisation preserves CJK (both the Python build normaliser and the
-# app's alias index keep CJK codepoints), so these become directly searchable.
-#
-# Keyed by exact canonical_name. Values are added via _add_alias on the
-# "piru-curated" source, so the per-substance blocklist and dedup still apply.
-# Bias: unambiguous formal pharmacological names + only well-established slang.
-# Where Simplified and Traditional differ, both forms are listed; where they
-# share characters (大麻, 咖啡因, 海洛因, K粉, 莫莉…) one entry covers both.
-_CURATED_CJK_ALIASES: dict[str, list[str]] = {
-    "Cannabis":        ["大麻", "大麻草"],
-    "THC":             ["四氢大麻酚", "四氫大麻酚"],
-    "CBD":             ["大麻二酚"],
-    "Nicotine":        ["尼古丁", "烟碱", "菸鹼"],
-    "Caffeine":        ["咖啡因"],
-    "Alcohol":         ["酒精", "乙醇", "酒"],
-    "Cocaine":         ["可卡因", "古柯碱", "古柯鹼"],
-    "MDMA":            ["摇头丸", "搖頭丸", "莫莉", "快乐丸", "快樂丸"],
-    "Methamphetamine": ["冰毒", "甲基苯丙胺", "甲基安非他命"],
-    "Amphetamine":     ["苯丙胺", "安非他命", "安非他明"],
-    "Heroin":          ["海洛因", "白粉"],
-    "Ketamine":        ["氯胺酮", "K粉", "K他命", "克他命"],
-    "Morphine":        ["吗啡", "嗎啡"],
-    "Codeine":         ["可待因"],
-    "Fentanyl":        ["芬太尼", "吩坦尼"],
-    "Methadone":       ["美沙酮", "美沙冬"],
-    "Oxycodone":       ["羟考酮", "羥考酮"],
-    "Hydrocodone":     ["氢可酮", "氫可酮"],
-    "Tramadol":        ["曲马多", "曲馬多"],
-    "Diazepam":        ["地西泮", "安定"],
-    "Alprazolam":      ["阿普唑仑", "阿普唑侖", "赞安诺", "贊安諾"],
-    "Clonazepam":      ["氯硝西泮", "氯硝安定"],
-    "Zolpidem":        ["唑吡坦"],
-    "Melatonin":       ["褪黑素", "褪黑激素"],
-    "Methylphenidate": ["哌甲酯", "利他林"],
-    "Psilocybin":      ["裸盖菇素", "裸蓋菇素", "赛洛西宾", "賽洛西賓"],
-    "LSD-25":          ["麦角酸二乙酰胺", "麥角酸二乙醯胺"],
-    "DMT":             ["二甲基色胺"],
-    "Mescaline":       ["麦司卡林", "麥司卡林", "仙人掌毒碱", "仙人掌毒鹼", "三甲氧苯乙胺"],
-    "Nitrous":         ["笑气", "笑氣", "一氧化二氮", "氧化亚氮", "氧化亞氮"],
-    "Kratom":          ["卡痛", "卡痛叶", "卡痛葉", "帽柱木"],
-    "GHB":             ["γ-羟基丁酸", "γ-羥基丁酸"],
-    "Gabapentin":      ["加巴喷丁", "加巴噴丁"],
-    "Pregabalin":      ["普瑞巴林"],
-    "Naloxone":        ["纳洛酮", "納洛酮"],
-    "Mephedrone":      ["甲基甲卡西酮", "喵喵"],
-}
-
-
-# Curated dose overrides for substances where the upstream sources express
-# doses in the WRONG basis for what the entry represents. Injected on the
-# `piru-curated` source (priority 1), so they win route resolution.
-#
-# The plant-vs-molecule principle: a PLANT entry doses in plant weight, a
-# MOLECULE entry doses in mg of the compound.
-#  - Cannabis (plant): PsychonautWiki/TripSit/drug.community all quote mg of
-#    Δ9-THC, not flower weight (flower THC% spans 5–30% and smoking loses
-#    50–80% to combustion, so a single flower-gram figure is 10–20× uncertain).
-#    Keep the accurate THC-mg ladder but label the unit "mg THC" so it reads as
-#    molecule content; the app shows a flower-conversion note for "…THC" units.
-#  - Mitragynine (molecule): drug.community dosed it in "g (leaf powder)" — that
-#    is Kratom (the plant), which keeps its gram dosing. Pure mitragynine
-#    (extracts, tinctures, gummies) is dosed in mg; ladder derived from the
-#    leaf's 12–21 mg/g alkaloid content and extract-product labeling.
-#
-# Keyed by exact canonical_name. light/common/strong are (lower, upper) tuples.
-_CURATED_DOSES: dict[str, list[dict]] = {
-    "Cannabis": [
-        {"route": "inhalation", "unit": "mg THC",
-         "threshold": 0.4, "light": (0.4, 2), "common": (2, 4), "strong": (4, 10), "heavy": 10,
-         "notes": "Doses are mg of Δ9-THC, not flower weight. Flower needed ≈ desired THC ÷ strain %THC; smoking loses ~50–80% to combustion, so real flower amounts run higher."},
-        {"route": "oral", "unit": "mg THC",
-         "threshold": 1, "light": (2.5, 5), "common": (5, 10), "strong": (10, 25), "heavy": 25,
-         "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose."},
-    ],
-    "Mitragynine": [
-        {"route": "oral", "unit": "mg",
-         "threshold": 5, "light": (10, 25), "common": (25, 50), "strong": (50, 80), "heavy": 80,
-         "notes": "Pure mitragynine (extracts/tinctures/gummies). Derived from the ~12–21 mg/g alkaloid content of dried leaf and extract-product labeling. Kratom leaf itself is dosed in grams — see the Kratom entry."},
-    ],
 }
 
 
@@ -2071,6 +1937,7 @@ class Build:
                           common=doses.get("common"),
                           strong=doses.get("strong"),
                           heavy=doses.get("heavy"),
+                          notes=r.get("notes"),
                           citation=route_ref)
             if r.get("duration"):
                 self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"], citation=route_ref)
@@ -3128,121 +2995,12 @@ def main() -> int:
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
 
-    # Apply hand-curated display-name title overrides (presentation only). The
-    # canonical (long) name stays in canonical_name → the app keeps it as
-    # `substance.name` and remains searchable by it, so no alias is needed.
-    overrides = load_display_name_overrides()
-    overridden = 0
-    for canon, display in overrides.items():
-        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not row:
-            print(f"  WARNING: display-name override target not found: {canon!r}", file=sys.stderr)
-            continue
-        build.cur.execute("UPDATE substances SET display_name=? WHERE id=?", (display, row[0]))
-        overridden += 1
-    print(f"Display-name overrides: {overridden}/{len(overrides)}", file=sys.stderr)
-
-    # Apply curated popularity scores (drives the category-browse Popularity sort).
-    popularity = load_popularity()
-    scored = 0
-    for canon, score in popularity.items():
-        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not row:
-            print(f"  WARNING: popularity target not found: {canon!r}", file=sys.stderr)
-            continue
-        build.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (score, row[0]))
-        scored += 1
-    print(f"Popularity scores: {scored}/{len(popularity)}", file=sys.stderr)
-
-    # Apply curated category corrections via a piru-curated row that wins resolution.
-    cat_overrides = load_category_overrides()
-    recategorized = 0
-    curated_src = build.source_ids["piru-curated"]
-    for canon, category in cat_overrides.items():
-        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not row:
-            print(f"  WARNING: category-override target not found: {canon!r}", file=sys.stderr)
-            continue
-        # Drop any pre-existing piru-curated category row so the override wins:
-        # add_category silently swallows the PRIMARY KEY conflict, so without this
-        # an earlier curated row (e.g. promote_via_tags) would keep the old value.
-        build.cur.execute(
-            "DELETE FROM categories WHERE substance_id=? AND source_id=?",
-            (row[0], curated_src),
-        )
-        build.add_category(row[0], "piru-curated", category)
-        recategorized += 1
-    print(f"Category overrides: {recategorized}/{len(cat_overrides)}", file=sys.stderr)
-
-    # Curated CJK search aliases — make the most-searched substances reachable
-    # by Simplified/Traditional Chinese name. Additive; per-substance blocklist
-    # and dedup are enforced by _add_alias.
-    cjk_added = 0
-    cjk_missing = 0
-    for canon, aliases in _CURATED_CJK_ALIASES.items():
-        row = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not row:
-            print(f"  WARNING: CJK-alias target not found: {canon!r}", file=sys.stderr)
-            cjk_missing += 1
-            continue
-        before = build.stats.get("aliases", 0)
-        for alias in aliases:
-            build._add_alias(row[0], alias, "piru-curated")
-        cjk_added += build.stats.get("aliases", 0) - before
-    print(f"CJK aliases: +{cjk_added} across {len(_CURATED_CJK_ALIASES) - cjk_missing} substances", file=sys.stderr)
-
-    # Curated dose overrides — correct entries whose upstream doses use the
-    # wrong basis (plant weight vs molecule mg). piru-curated wins resolution.
-    dose_rows = 0
-    for canon, rows in _CURATED_DOSES.items():
-        sub = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not sub:
-            print(f"  WARNING: curated-dose target not found: {canon!r}", file=sys.stderr)
-            continue
-        for r in rows:
-            lo_hi = lambda pair: {"lower": pair[0], "upper": pair[1]} if pair else None
-            before = build.stats.get("dose_ranges", 0)
-            build.add_dose(
-                sub[0], "piru-curated", r["route"], r["unit"],
-                threshold=r.get("threshold"),
-                light=lo_hi(r.get("light")), common=lo_hi(r.get("common")),
-                strong=lo_hi(r.get("strong")), heavy=r.get("heavy"),
-                notes=r.get("notes"),
-            )
-            added = build.stats.get("dose_ranges", 0) - before
-            dose_rows += added
-            if not added:
-                print(f"  WARNING: curated dose dropped by guard: {canon} {r['route']}", file=sys.stderr)
-    print(f"Curated doses: +{dose_rows} rows", file=sys.stderr)
-
-    # Curated peptide enrichment — add peptide_profiles + protocol_dosing (and
-    # backfill molecular_weight) for popular peptides already in the DB. Safe:
-    # never inserts a dose_ranges row, so existing dose data is untouched.
-    pep_profiles = load_peptide_profiles()
-    pep_done = pep_missing = pep_protocols = 0
-    for canon, spec in pep_profiles.items():
-        sub = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
-        if not sub:
-            print(f"  WARNING: peptide-profile target not found: {canon!r}", file=sys.stderr)
-            pep_missing += 1
-            continue
-        sid = sub[0]
-        if spec.get("molarMass") is not None:
-            build.cur.execute(
-                "UPDATE substances SET molecular_weight = COALESCE(molecular_weight, ?) WHERE id = ?",
-                (to_float(spec["molarMass"]), sid),
-            )
-        if spec.get("peptideProfile"):
-            before = build.stats.get("peptide_profiles", 0)
-            build.add_peptide_profile(sid, "piru-curated", spec["peptideProfile"])
-            pep_done += build.stats.get("peptide_profiles", 0) - before
-        for proto in (spec.get("protocols") or []):
-            before = build.stats.get("protocol_dosing", 0)
-            build.add_protocol_dosing(sid, "piru-curated", proto.get("route", ""),
-                                      proto.get("unit", "mg"), proto)
-            pep_protocols += build.stats.get("protocol_dosing", 0) - before
-    print(f"Curated peptide profiles: {pep_done} profiles, +{pep_protocols} protocols"
-          f" ({pep_missing} targets missing)", file=sys.stderr)
+    # Display-name overrides, popularity scores, category corrections, CJK search
+    # aliases, curated dose overrides, and peptide enrichment are no longer
+    # applied here — they live on each compound's own data/curated/substances/
+    # file and are ingested by ingest_curated_substances() above (curated runs
+    # first, so its category/identifiers win resolution and a folded category
+    # override beats a later tag-promotion via the PRIMARY KEY conflict).
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,

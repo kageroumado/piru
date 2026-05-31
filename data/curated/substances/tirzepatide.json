@@ -44,6 +44,43 @@
           "max": 14400
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 2.5,
+        "highAmount": 15,
+        "frequency": "once weekly",
+        "titration": [
+          {
+            "amount": 2.5,
+            "label": "weeks 1-4"
+          },
+          {
+            "amount": 5.0,
+            "label": "weeks 5-8"
+          },
+          {
+            "amount": 7.5,
+            "label": "step up"
+          },
+          {
+            "amount": 10.0,
+            "label": "step up"
+          },
+          {
+            "amount": 12.5,
+            "label": "step up"
+          },
+          {
+            "amount": 15.0,
+            "label": "maximum"
+          }
+        ],
+        "notes": "Mounjaro/Zepbound; dual GIP+GLP-1 agonist; prefilled pen/vial, refrigerate; t½ ~5 days"
+      }
     }
   ],
   "effects": [
@@ -68,5 +105,18 @@
     "anti-obesity",
     "anti-diabetic",
     "weight-loss"
-  ]
+  ],
+  "molarMass": 4813.5,
+  "peptideProfile": {
+    "sequence": "39-aa synthetic GIP-based backbone with Aib2/Aib13, Lys20 acylated with C20 diacid via γGlu/2×AEEA, C-terminal amide",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

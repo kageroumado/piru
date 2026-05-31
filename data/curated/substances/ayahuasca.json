@@ -1,6 +1,5 @@
 {
   "name": "Ayahuasca",
-  "aliases": [],
   "category": "Psychedelic",
   "defaultRoute": "oral",
   "routes": [],
@@ -15,5 +14,6 @@
     "DMT-containing",
     "MAOI-containing",
     "ceremonial-brew"
-  ]
+  ],
+  "popularity": 0.43
 }

@@ -4,7 +4,9 @@
     "Narcan",
     "Kloxxado",
     "Zimhi",
-    "Revia nasal"
+    "Revia nasal",
+    "纳洛酮",
+    "納洛酮"
   ],
   "category": "Other",
   "defaultRoute": "nasal",
@@ -105,5 +107,6 @@
     "opioid-precipitated-withdrawal",
     "OTC-available",
     "harm-reduction"
-  ]
+  ],
+  "popularity": 0.42
 }

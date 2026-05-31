@@ -6,7 +6,9 @@
     "Tetrahydrocannabinol",
     "Delta-9-tetrahydrocannabinol",
     "Dronabinol (natural)",
-    "(-)-trans-Δ9-THC"
+    "(-)-trans-Δ9-THC",
+    "四氢大麻酚",
+    "四氫大麻酚"
   ],
   "category": "Cannabinoid",
   "defaultRoute": "inhalation",
@@ -149,5 +151,6 @@
     "CB2-agonist",
     "psychoactive",
     "US-Schedule-I"
-  ]
+  ],
+  "popularity": 0.91
 }

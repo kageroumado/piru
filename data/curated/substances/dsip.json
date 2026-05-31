@@ -44,6 +44,17 @@
           "max": 840
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 200,
+        "frequency": "once daily before sleep",
+        "notes": "community/research protocol; very short half-life, no robust human efficacy"
+      }
     }
   ],
   "effects": [
@@ -68,5 +79,18 @@
     "grey-market",
     "research-chemical",
     "anxiolytic"
-  ]
+  ],
+  "molarMass": 848.81,
+  "peptideProfile": {
+    "sequence": "Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu (WAGGDASGE)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

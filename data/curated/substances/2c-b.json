@@ -1,6 +1,5 @@
 {
   "name": "2C-B",
-  "aliases": [],
   "category": "Psychedelic",
   "defaultRoute": "oral",
   "routes": [],
@@ -13,5 +12,6 @@
     "phenethylamine",
     "5HT2A-agonist",
     "2C-x"
-  ]
+  ],
+  "popularity": 0.38
 }

@@ -1,6 +1,8 @@
 {
   "name": "Pregabalin",
-  "aliases": [],
+  "aliases": [
+    "普瑞巴林"
+  ],
   "category": "GABAergic",
   "defaultRoute": "oral",
   "routes": [],
@@ -14,5 +16,6 @@
     "prescription-only",
     "anticonvulsant",
     "anxiolytic"
-  ]
+  ],
+  "popularity": 0.47
 }
