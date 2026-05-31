@@ -738,6 +738,41 @@ struct DiazepamEquivalent: Codable, Hashable, Sendable {
     let displayText: String?
 }
 
+/// A primary reference for a compound — a DOI, PubMed ID, URL, or free-text
+/// label ("Egrifta SmPC"). Surfaced in the detail "References" section so every
+/// curated claim is traceable to its source.
+struct Citation: Codable, Hashable, Sendable {
+    let doi: String?
+    let pmid: Int?
+    let url: String?
+    let title: String?
+
+    init(doi: String? = nil, pmid: Int? = nil, url: String? = nil, title: String? = nil) {
+        self.doi = doi
+        self.pmid = pmid
+        self.url = url
+        self.title = title
+    }
+
+    /// A tappable link, when the reference resolves to one. Free-text labels
+    /// (stored in `url` without an http scheme) return nil → rendered as text.
+    var resolvedURL: URL? {
+        if let doi, !doi.isEmpty { return URL(string: "https://doi.org/\(doi)") }
+        if let pmid { return URL(string: "https://pubmed.ncbi.nlm.nih.gov/\(pmid)/") }
+        if let url, url.hasPrefix("http") { return URL(string: url) }
+        return nil
+    }
+
+    /// Human-facing label.
+    var label: String {
+        if let title, !title.isEmpty { return title }
+        if let doi, !doi.isEmpty { return "DOI \(doi)" }
+        if let pmid { return "PMID \(pmid)" }
+        if let url, !url.isEmpty { return url }
+        return String(localized: "Reference")
+    }
+}
+
 struct Substance: Identifiable {
     let id: UUID
     let name: String
@@ -793,6 +828,9 @@ struct Substance: Identifiable {
     /// to a peptide presentation (sequence, handling, reconstitution) in place of
     /// the psychoactive trip model. nil for ordinary small molecules.
     let peptideProfile: PeptideProfile?
+    /// Primary references (DOIs / PMIDs / URLs / labels) for this compound's
+    /// curated claims. Detail-only (empty in the batch/browse path).
+    let references: [Citation]
 
     init(
         name: String,
@@ -820,7 +858,8 @@ struct Substance: Identifiable {
         pubchemCID: Int? = nil,
         popularity: Double = 0,
         molarMass: Double? = nil,
-        peptideProfile: PeptideProfile? = nil
+        peptideProfile: PeptideProfile? = nil,
+        references: [Citation] = []
     ) {
         self.id = UUID()
         self.name = name
@@ -849,6 +888,7 @@ struct Substance: Identifiable {
         self.popularity = popularity
         self.molarMass = molarMass
         self.peptideProfile = peptideProfile
+        self.references = references
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -950,7 +990,7 @@ extension Substance: Codable {
         case displayClass, regulatoryStatus, durationImplausible
         case indications, contraindications, diazepamEquivalent
         case cas, inchikey, formula, pubchemCID, popularity
-        case molarMass, peptideProfile
+        case molarMass, peptideProfile, references
     }
 
     init(from decoder: Decoder) throws {
@@ -982,6 +1022,7 @@ extension Substance: Codable {
         popularity = try c.decodeIfPresent(Double.self, forKey: .popularity) ?? 0
         molarMass = try c.decodeIfPresent(Double.self, forKey: .molarMass)
         peptideProfile = try c.decodeIfPresent(PeptideProfile.self, forKey: .peptideProfile)
+        references = try c.decodeIfPresent([Citation].self, forKey: .references) ?? []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -1028,6 +1069,7 @@ extension Substance: Codable {
         if let peptideProfile, peptideProfile.hasAnyValue {
             try c.encode(peptideProfile, forKey: .peptideProfile)
         }
+        if !references.isEmpty { try c.encode(references, forKey: .references) }
     }
 }
 

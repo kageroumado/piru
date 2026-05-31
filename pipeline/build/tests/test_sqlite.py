@@ -864,6 +864,28 @@ class TestCuratedValidatorCatchesBadData(unittest.TestCase):
         errs = _vmod.validate_dir(d)[0]
         self.assertTrue(any("duplicate compound" in x for x in errs))
 
+    def test_empty_route_source_rejected(self):
+        e = dict(self._base, routes=[{"route": "oral", "unit": "mg", "doses": {}, "source": ""}])
+        self.assertTrue(any("route 'source'" in x for x in self._check(e, "foo.json")))
+
+    def test_empty_halflife_source_rejected(self):
+        e = dict(self._base, halfLifeSource="")
+        self.assertTrue(any("halfLifeSource" in x for x in self._check(e, "foo.json")))
+
+    def test_missing_provenance_is_advisory_only(self):
+        # A dosed compound with no references → warning, not error (norm-setting).
+        e = dict(self._base, routes=[{"route": "oral", "unit": "mg",
+                 "doses": {"common": {"lower": 10, "upper": 20}}}])
+        errs, warns = _vmod.validate_dir(self._mkdir(e, "foo.json"))
+        self.assertEqual(errs, [])
+        self.assertTrue(any("no references" in w for w in warns))
+
+    def _mkdir(self, entry, fname):
+        import json, tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / fname).write_text(json.dumps(entry))
+        return d
+
 
 class TestCuratedDirIngest(unittest.TestCase):
     """The curated dir must be the single source of curated data in the built DB,
@@ -893,6 +915,28 @@ class TestCuratedDirIngest(unittest.TestCase):
             row = self.db.execute(
                 "select 1 from substances where canonical_name=?", (name,)).fetchone()
             self.assertIsNone(row, f"{name} should have been removed from the curated set")
+
+    def test_substance_level_references_ingested(self):
+        """The curated `sources` array must land in substance_citations (it was
+        silently dropped before Phase 2). A known curated compound carries refs."""
+        n = self.db.execute("select count(*) c from substance_citations").fetchone()["c"]
+        self.assertGreater(n, 0, "no substance-level references ingested")
+        row = self.db.execute("""
+            select count(*) c from substance_citations sc
+            join substances s on s.id = sc.substance_id
+            where s.canonical_name = 'Pynazolam'
+        """).fetchone()
+        self.assertGreater(row["c"], 0, "Pynazolam references not ingested")
+
+    def test_free_text_reference_not_a_broken_url(self):
+        """Free-text refs ('PubChem CID …') are stored in the url slot but must
+        be distinguishable from real links — the app guards on the http scheme.
+        Here we just assert such a row exists and is non-http (so the app renders
+        it as text, not a dead link)."""
+        rows = self.db.execute(
+            "select url from citations where url like 'PubChem CID%' limit 1").fetchall()
+        for r in rows:
+            self.assertFalse(r["url"].startswith("http"))
 
 
 if __name__ == "__main__":

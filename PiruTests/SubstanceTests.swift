@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 @testable import Piru
 
 @Suite("Substance")
@@ -156,5 +157,44 @@ struct SubstanceTests {
             effects: []
         )
         #expect(s.defaultUnit == "mg")
+    }
+}
+
+@Suite("Citation")
+struct CitationTests {
+    @Test("DOI resolves to doi.org")
+    func doiURL() {
+        let c = Citation(doi: "10.1234/abc")
+        #expect(c.resolvedURL?.absoluteString == "https://doi.org/10.1234/abc")
+        #expect(c.label == "DOI 10.1234/abc")
+    }
+
+    @Test("PMID resolves to PubMed")
+    func pmidURL() {
+        let c = Citation(pmid: 40992254)
+        #expect(c.resolvedURL?.absoluteString == "https://pubmed.ncbi.nlm.nih.gov/40992254/")
+        #expect(c.label == "PMID 40992254")
+    }
+
+    @Test("HTTP url resolves and is its own label")
+    func httpURL() {
+        let c = Citation(url: "https://en.wikipedia.org/wiki/Pynazolam")
+        #expect(c.resolvedURL != nil)
+        #expect(c.label == "https://en.wikipedia.org/wiki/Pynazolam")
+    }
+
+    @Test("Free-text reference is not a link, shows as its label")
+    func freeTextNoLink() {
+        // "PubChem CID 20368157" lives in the url slot but isn't a web URL.
+        let c = Citation(url: "PubChem CID 20368157")
+        #expect(c.resolvedURL == nil)
+        #expect(c.label == "PubChem CID 20368157")
+    }
+
+    @Test("Title wins the label")
+    func titleLabel() {
+        let c = Citation(url: "Egrifta SmPC", title: "Egrifta SmPC")
+        #expect(c.label == "Egrifta SmPC")
+        #expect(c.resolvedURL == nil)
     }
 }

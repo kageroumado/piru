@@ -475,6 +475,7 @@ struct SubstanceDetailView: View {
     @State private var mechanismExpanded: Bool?
     @State private var subjectiveExpanded: Bool?
     @State private var sourcesExpanded: Bool?
+    @State private var referencesExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
     /// collapsed by default — few users need the chemical identity up front.
@@ -654,6 +655,41 @@ struct SubstanceDetailView: View {
                         SourceAttributionRow(slug: slug, label: "Duration data")
                     }
                 }
+            }
+        }
+    }
+
+    /// Primary references for the compound's curated claims — DOIs / PMIDs /
+    /// URLs render as tappable links; free-text labels as plain text.
+    @ViewBuilder private var referencesSection: some View {
+        if policy.showsSources && !substance.references.isEmpty {
+            Section {
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { referencesExpanded ?? policy.sourcesDefaultExpanded },
+                        set: { referencesExpanded = $0 }
+                    )
+                ) {
+                    ForEach(substance.references, id: \.self) { ref in
+                        if let url = ref.resolvedURL {
+                            Link(destination: url) {
+                                Label(ref.label, systemImage: "link")
+                                    .font(.subheadline)
+                                    .labelStyle(EffectLabelStyle())
+                            }
+                        } else {
+                            Text(ref.label)
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.secondaryLabel)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                } label: {
+                    Label("References", systemImage: "text.book.closed")
+                        .font(.subheadline.weight(.semibold))
+                }
+            } footer: {
+                Text("Primary references for this compound's data. Tap to open. Always verify against the original source.")
             }
         }
     }
@@ -920,6 +956,8 @@ struct SubstanceDetailView: View {
                     Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
                 }
             }
+
+            referencesSection
             }
             .listRowBackground(Theme.cardBackground)
         }

@@ -20281,6 +20281,54 @@
           }
         }
       }
+    },
+    "References" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考文獻"
+          }
+        }
+      }
+    },
+    "Reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考文獻"
+          }
+        }
+      }
+    },
+    "Primary references for this compound's data. Tap to open. Always verify against the original source." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该化合物数据的主要参考来源。点按可打开。请务必对照原始来源核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該化合物數據的主要參考來源。點按可開啟。請務必對照原始來源核實。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
