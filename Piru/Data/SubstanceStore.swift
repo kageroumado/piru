@@ -735,7 +735,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, popularity FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -747,9 +747,11 @@ final class SubstanceStore {
                 let inchikey: String? = coreRow["inchikey"]
                 let formula: String? = coreRow["formula"]
                 let pubchemCID = (coreRow["pubchem_cid"] as Int64?).map(Int.init)
+                let molarMass = coreRow["molecular_weight"] as Double?
                 let popularity = coreRow["popularity"] as Double? ?? 0
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
+                let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
 
                 let category = try resolvedCategory(db: db, substanceID: id)
                 let tags = try resolvedTags(db: db, substanceID: id)
@@ -792,7 +794,9 @@ final class SubstanceStore {
                     inchikey: inchikey,
                     formula: formula,
                     pubchemCID: pubchemCID,
-                    popularity: popularity
+                    popularity: popularity,
+                    molarMass: molarMass,
+                    peptideProfile: peptideProfile
                 )
             }
             if let resolved {
@@ -922,9 +926,78 @@ final class SubstanceStore {
         for route in durationOnlyRoutes {
             let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
             let ra = RouteOfAdministration.from(string: route)
-            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: duration))
+            let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
+            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: duration, protocolDosing: protocolDosing))
+        }
+
+        // Surface protocol-dosing-only routes (peptides dosed on a schedule with
+        // no trip-intensity ladder and no phase durations).
+        let alreadyHave = Set(resolved.map { $0.route })
+        let protocolRows = try Row.fetchAll(db, sql: """
+            SELECT route, unit FROM protocol_dosing p
+              JOIN sources src ON src.id = p.source_id
+             WHERE p.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+        """, arguments: [substanceID])
+        for row in protocolRows {
+            let route: String = row["route"]
+            let ra = RouteOfAdministration.from(string: route)
+            if alreadyHave.contains(ra) { continue }
+            guard let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route) else { continue }
+            resolved.append(SubstanceRoute(route: ra, unit: row["unit"] ?? "mg", doses: DoseRange(), duration: nil, protocolDosing: protocolDosing))
         }
         return resolved
+    }
+
+    private func resolvedPeptideProfile(db: Database, substanceID: Int64) throws -> PeptideProfile? {
+        guard let row = try Row.fetchOne(db, sql: """
+            SELECT sequence, supplied_form, typical_vial_mg, reconstitution_solvent,
+                   storage_temperature, storage_light_sensitive, reconstituted_stability_days, iu_per_mg
+              FROM peptide_profiles WHERE substance_id = ?
+        """, arguments: [substanceID]) else { return nil }
+
+        var storage: StorageRequirement? = nil
+        if let temp = (row["storage_temperature"] as String?).flatMap(StorageRequirement.Temperature.init(rawValue:)) {
+            storage = StorageRequirement(
+                temperature: temp,
+                lightSensitive: (row["storage_light_sensitive"] as Int64? ?? 0) != 0,
+                reconstitutedStabilityDays: row["reconstituted_stability_days"]
+            )
+        }
+        let profile = PeptideProfile(
+            sequence: row["sequence"],
+            suppliedForm: (row["supplied_form"] as String?).flatMap(SuppliedForm.init(rawValue:)),
+            typicalVialMg: row["typical_vial_mg"],
+            reconstitutionSolvent: row["reconstitution_solvent"],
+            storage: storage,
+            iuPerMg: row["iu_per_mg"]
+        )
+        return profile.hasAnyValue ? profile : nil
+    }
+
+    private func resolvedProtocolForRoute(db: Database, substanceID: Int64, route: String) throws -> ProtocolDosing? {
+        let row = try Row.fetchOne(db, sql: """
+            SELECT p.low_amount, p.high_amount, p.frequency, p.titration_json, p.course_duration, p.notes
+              FROM protocol_dosing p
+              JOIN sources src ON src.id = p.source_id
+             WHERE p.substance_id = ? AND p.route = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+             ORDER BY \(priorityCaseSQL) ASC
+             LIMIT 1
+        """, arguments: [substanceID, route])
+        guard let row, let frequency = row["frequency"] as String? else { return nil }
+        var titration: [TitrationStep]? = nil
+        if let json = row["titration_json"] as String?, let data = json.data(using: .utf8) {
+            titration = try? JSONDecoder().decode([TitrationStep].self, from: data)
+        }
+        return ProtocolDosing(
+            lowAmount: row["low_amount"],
+            highAmount: row["high_amount"],
+            frequency: frequency,
+            titration: titration,
+            courseDuration: row["course_duration"],
+            notes: row["notes"]
+        )
     }
 
     private func resolvedDoseForRoute(db: Database, substanceID: Int64, route: String) throws -> SubstanceRoute? {
@@ -949,11 +1022,13 @@ final class SubstanceStore {
         )
 
         let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
+        let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
         return SubstanceRoute(
             route: RouteOfAdministration.from(string: route),
             unit: row["unit"] ?? "mg",
             doses: dose,
-            duration: duration
+            duration: duration,
+            protocolDosing: protocolDosing
         )
     }
 

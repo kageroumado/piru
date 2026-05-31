@@ -540,10 +540,13 @@ struct SubstanceDetailView: View {
     /// data, surfaced above the casual tier when present.
     @ViewBuilder private var chemistrySection: some View {
         if policy.showsMechanism,
-           substance.formula != nil || substance.cas != nil || substance.inchikey != nil {
+           substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil {
             Section("Chemistry") {
                 if let f = substance.formula {
                     LabeledContent("Formula") { Text(f) }
+                }
+                if let mw = substance.molarMass, !substance.usesPeptidePresentation {
+                    LabeledContent("Molar mass") { Text("\(mw.doseFormatted) g/mol") }
                 }
                 if let c = substance.cas {
                     LabeledContent("CAS") { Text(c) }
@@ -655,6 +658,88 @@ struct SubstanceDetailView: View {
         }
     }
 
+    /// Peptide / protocol-dosed compounds: clinical-protocol schedule,
+    /// reconstitution calculator, and handling/storage — surfaced in place of
+    /// the (suppressed) trip-intensity ladder and duration timeline.
+    @ViewBuilder private var peptideSections: some View {
+        ForEach(substance.routes, id: \.route) { substanceRoute in
+            if let pd = substanceRoute.protocolDosing {
+                Section("Protocol — \(String(localized: substanceRoute.route.localizedName))") {
+                    ProtocolDosingCard(unit: substanceRoute.unit, protocolDosing: pd)
+                }
+            }
+        }
+
+        if let pp = substance.peptideProfile {
+            if pp.suppliedForm?.isReconstituted == true {
+                Section("Reconstitution calculator") {
+                    ReconstitutionCalculatorView(defaultVialMg: pp.typicalVialMg)
+                }
+            }
+            if pp.hasAnyValue {
+                Section("Handling & storage") {
+                    PeptideHandlingCard(profile: pp, molarMass: substance.molarMass)
+                    if let solvent = pp.reconstitutionSolvent {
+                        LabeledContent("Reconstitute with") { Text(solvent) }
+                            .font(.subheadline)
+                    }
+                }
+            }
+        }
+    }
+
+    /// The contextual status banner shown above reference content. Peptides and
+    /// protocol-dosed performance compounds get framing appropriate to them
+    /// instead of the generic "ask your doctor" prescription notice.
+    @ViewBuilder private var statusBanner: some View {
+        if substance.usesPeptidePresentation {
+            banner(
+                title: "Peptide — protocol reference",
+                systemImage: "syringe.fill",
+                tint: .blue,
+                message: "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below."
+            )
+        } else if displayClass == .medicalRx || displayClass == .nonRecreational {
+            if substance.primaryProtocolDosing != nil {
+                banner(
+                    title: "Research / performance compound",
+                    systemImage: "flask.fill",
+                    tint: .orange,
+                    message: "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data."
+                )
+            } else {
+                banner(
+                    title: displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
+                    systemImage: "cross.case.fill",
+                    tint: .blue,
+                    message: "Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only."
+                )
+            }
+        } else if substance.hasNoDoseData {
+            banner(
+                title: "Limited human data",
+                systemImage: "exclamationmark.triangle.fill",
+                tint: .orange,
+                message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds."
+            )
+        }
+    }
+
+    private func banner(title: LocalizedStringResource, systemImage: String, tint: Color, message: LocalizedStringResource) -> some View {
+        Section {
+            VStack(alignment: .leading, spacing: 8) {
+                Label(title, systemImage: systemImage)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(tint)
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
     /// Name / aliases / route / chemistry — demoted below dosing and collapsed.
     /// Chemists who want the full identity follow the PubChem link.
     @ViewBuilder private var infoDisclosure: some View {
@@ -715,6 +800,8 @@ struct SubstanceDetailView: View {
 
             doseDurationSections
 
+            peptideSections
+
             if let notes = personalOverride?.notes,
                !notes.trimmingCharacters(in: .whitespaces).isEmpty {
                 Section("Your Notes") {
@@ -725,34 +812,7 @@ struct SubstanceDetailView: View {
                 }
             }
 
-            if displayClass == .medicalRx || displayClass == .nonRecreational {
-                Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label(displayClass == .medicalRx ? "Prescription medication" : "Medical information only",
-                              systemImage: "cross.case.fill")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.blue)
-                        Text("Dosing for this medication is determined by a healthcare provider and is not shown here. The information below is for recognition and reference only.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(.vertical, 4)
-                }
-            } else if substance.hasNoDoseData {
-                Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Limited human data", systemImage: "exclamationmark.triangle.fill")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.orange)
-                        Text("This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(.vertical, 4)
-                }
-            }
+            statusBanner
 
             if policy.showsMechanism, let moa = composedMechanism {
                 Section {
