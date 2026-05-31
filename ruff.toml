@@ -1,0 +1,23 @@
+# Ruff — formatter + linter for the Python pipeline (pipeline/, root tools).
+# One tool replacing black/flake8/isort/pyupgrade. The pipeline is stdlib-only.
+
+target-version = "py313"
+line-length = 100
+
+extend-exclude = [".build", ".claude", "DerivedData", "data"]
+
+[lint]
+# A pragmatic 2026 set: pyflakes + pycodestyle errors, import sorting, bugbear,
+# comprehensions, simplify, pyupgrade. Style minutiae stay with the formatter.
+select = ["E", "F", "I", "B", "C4", "SIM", "UP"]
+ignore = [
+    "E501",   # line length — the formatter wraps code; long SQL/string literals are fine
+    "SIM108", # ternary-vs-if is a readability call, not a rule
+]
+
+[lint.per-file-ignores]
+# Tests build fixtures inline and re-import the build module dynamically.
+"pipeline/build/tests/*" = ["E402", "F841"]
+
+[format]
+quote-style = "double"

@@ -1,0 +1,43 @@
+# Pre-commit hooks — run on `git commit`, over staged files only.
+# Set up once:  pre-commit install
+# Run on everything:  pre-commit run --all-files
+#
+# SwiftLint runs here at commit time (not as an Xcode build phase) and is NOT
+# --strict: error-level violations block the commit, taste-level warnings don't.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.15
+    hooks:
+      - id: ruff-format
+      - id: ruff
+        args: [--fix]
+
+  - repo: local
+    hooks:
+      - id: swiftformat
+        name: SwiftFormat
+        entry: swiftformat
+        language: system
+        types: [swift]
+      - id: swiftlint
+        name: SwiftLint
+        entry: swiftlint lint --quiet
+        language: system
+        types: [swift]
+
+      # Fast, offline guard on the curated data layer — same validator the build
+      # uses. Only fires when a curated file is staged.
+      - id: validate-curated
+        name: Validate curated substances
+        entry: python3 pipeline/build/validate_curated.py
+        language: system
+        pass_filenames: false
+        files: ^data/curated/substances/.*\.json$
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+        exclude: '\.(sqlite|xcstrings|pbxproj)$|^data/'
