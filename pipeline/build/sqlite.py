@@ -536,9 +536,21 @@ CREATE TABLE protocol_dosing (
     titration_json  TEXT,
     course_duration TEXT,
     notes           TEXT,
+    citation_id     INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, route, source_id)
 );
 CREATE INDEX idx_protocol_substance_route ON protocol_dosing(substance_id, route);
+
+-- Substance-level primary references (the curated `sources` array): DOIs, PMIDs,
+-- URLs, or free-text labels ("Egrifta SmPC"). Surfaced in the app as tappable
+-- References. Per-fact citations live in each fact table's citation_id; this is
+-- the home for whole-compound provenance.
+CREATE TABLE substance_citations (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    citation_id  INTEGER NOT NULL REFERENCES citations(id),
+    PRIMARY KEY (substance_id, citation_id)
+);
+CREATE INDEX idx_substance_citations_substance ON substance_citations(substance_id);
 
 CREATE TABLE manifest (
     key   TEXT PRIMARY KEY,
@@ -1632,7 +1644,8 @@ class Build:
     def add_protocol_dosing(self, sid: int, source_slug: str, route: str, unit: str,
                             protocol: dict) -> None:
         """Insert a clinical-protocol dosing row (peptides/Rx). Requires a
-        frequency — that's the minimum that makes a schedule meaningful."""
+        frequency — that's the minimum that makes a schedule meaningful. An
+        optional `source` ref on the protocol is recorded as its citation."""
         route = normalise_route(route)
         if not route or not isinstance(protocol, dict):
             return
@@ -1645,13 +1658,29 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO protocol_dosing(substance_id, route, source_id, unit, low_amount, "
-                "high_amount, frequency, titration_json, course_duration, notes) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "high_amount, frequency, titration_json, course_duration, notes, citation_id) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (sid, route, src, unit or None, to_float(protocol.get("lowAmount")),
                  to_float(protocol.get("highAmount")), freq, titration_json,
-                 protocol.get("courseDuration"), protocol.get("notes")),
+                 protocol.get("courseDuration"), protocol.get("notes"),
+                 self.cite(protocol.get("source"))),
             )
             self.stats["protocol_dosing"] = self.stats.get("protocol_dosing", 0) + 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_substance_citation(self, sid: int, ref: str) -> None:
+        """Link a substance-level primary reference (the curated `sources` array)
+        to the compound. Free-text labels and URLs both dedup via cite()."""
+        cid = self.cite(ref)
+        if cid is None:
+            return
+        try:
+            self.cur.execute(
+                "INSERT INTO substance_citations(substance_id, citation_id) VALUES (?, ?)",
+                (sid, cid),
+            )
+            self.stats["substance_citations"] = self.stats.get("substance_citations", 0) + 1
         except sqlite3.IntegrityError:
             pass
 
@@ -2027,30 +2056,40 @@ class Build:
             if not isinstance(r, dict):
                 continue
             doses = r.get("doses") or {}
+            route_ref = r.get("source")  # optional per-route citation (dose + duration)
             self.add_dose(sid, slug, r.get("route", ""), r.get("unit", "mg"),
                           threshold=doses.get("threshold"),
                           light=doses.get("light"),
                           common=doses.get("common"),
                           strong=doses.get("strong"),
-                          heavy=doses.get("heavy"))
+                          heavy=doses.get("heavy"),
+                          citation=route_ref)
             if r.get("duration"):
-                self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"])
+                self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"], citation=route_ref)
             if r.get("protocolDosing"):
                 self.add_protocol_dosing(sid, slug, r.get("route", ""), r.get("unit", "mg"), r["protocolDosing"])
         if s.get("peptideProfile"):
             self.add_peptide_profile(sid, slug, s["peptideProfile"])
         if s.get("halfLifeMinutes") is not None:
-            self.add_half_life(sid, slug, float(s["halfLifeMinutes"]))
+            self.add_half_life(sid, slug, float(s["halfLifeMinutes"]), citation=s.get("halfLifeSource"))
         if s.get("mechanismOfAction"):
             moa = s["mechanismOfAction"]
             self.add_mechanism_summary(sid, slug, moa.get("summary") or moa.get("description") or "",
-                                       description=moa.get("description"))
+                                       description=moa.get("description"),
+                                       citation=(moa.get("references") or [None])[0])
             for b in (moa.get("bindings") or []):
-                self.add_binding(sid, slug, {
-                    "target": b.get("target"),
-                    "action": b.get("action") or "modulator",
-                    "intrinsic_activity_pct": None,
-                })
+                if not isinstance(b, dict):
+                    continue
+                # Pass the binding through intact so a per-binding `reference`
+                # (and any measured Ki/IC50) is preserved, not dropped.
+                self.add_binding(sid, slug, {**b, "action": b.get("action") or "modulator"})
+        # Substance-level references: the top-level `sources` plus any mechanism
+        # `references`. Every distinct primary ref becomes a tappable citation.
+        refs = list(s.get("sources") or [])
+        refs += list((s.get("mechanismOfAction") or {}).get("references") or [])
+        for ref in refs:
+            if isinstance(ref, str) and ref.strip():
+                self.add_substance_citation(sid, ref.strip())
         for e in (s.get("effects") or []):
             self.add_effect(sid, slug, e)
         for se in (s.get("subjectiveEffects") or []):

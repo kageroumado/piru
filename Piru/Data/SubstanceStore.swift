@@ -752,6 +752,7 @@ final class SubstanceStore {
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
                 let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
+                let references = try resolvedReferences(db: db, substanceID: id)
 
                 let category = try resolvedCategory(db: db, substanceID: id)
                 let tags = try resolvedTags(db: db, substanceID: id)
@@ -796,7 +797,8 @@ final class SubstanceStore {
                     pubchemCID: pubchemCID,
                     popularity: popularity,
                     molarMass: molarMass,
-                    peptideProfile: peptideProfile
+                    peptideProfile: peptideProfile,
+                    references: references
                 )
             }
             if let resolved {
@@ -947,6 +949,30 @@ final class SubstanceStore {
             resolved.append(SubstanceRoute(route: ra, unit: row["unit"] ?? "mg", doses: DoseRange(), duration: nil, protocolDosing: protocolDosing))
         }
         return resolved
+    }
+
+    /// Distinct primary references for a compound: the substance-level curated
+    /// `sources` plus the citations attached to its dose / duration / half-life /
+    /// mechanism / protocol facts. Binding citations are excluded — they have a
+    /// dedicated Receptor Literature card and would swamp the list.
+    private func resolvedReferences(db: Database, substanceID: Int64) throws -> [Citation] {
+        let rows = try Row.fetchAll(db, sql: """
+            SELECT DISTINCT c.doi, c.pmid, c.url, c.title FROM citations c
+             WHERE c.id IN (
+                SELECT citation_id FROM substance_citations WHERE substance_id = :id
+                UNION SELECT citation_id FROM dose_ranges        WHERE substance_id = :id
+                UNION SELECT citation_id FROM durations          WHERE substance_id = :id
+                UNION SELECT citation_id FROM half_lives         WHERE substance_id = :id
+                UNION SELECT citation_id FROM mechanisms_summary WHERE substance_id = :id
+                UNION SELECT citation_id FROM protocol_dosing    WHERE substance_id = :id
+             )
+             ORDER BY c.title, c.url, c.doi
+             LIMIT 60
+        """, arguments: ["id": substanceID])
+        return rows.map { r in
+            Citation(doi: r["doi"], pmid: (r["pmid"] as Int64?).map(Int.init),
+                     url: r["url"], title: r["title"])
+        }
     }
 
     private func resolvedPeptideProfile(db: Database, substanceID: Int64) throws -> PeptideProfile? {

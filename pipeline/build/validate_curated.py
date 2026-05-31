@@ -96,9 +96,13 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
                     err.append(f"{tag}: doses.{tier} must be {{lower, upper}}")
                 elif rg["lower"] > rg["upper"]:
                     err.append(f"{tag}: doses.{tier} lower > upper ({rg['lower']} > {rg['upper']})")
+        if "source" in r and not (isinstance(r["source"], str) and r["source"].strip()):
+            err.append(f"{tag}: route 'source' must be a non-empty reference string")
         pd = r.get("protocolDosing")
         if pd is not None and not pd.get("frequency"):
             err.append(f"{tag}: protocolDosing on {r.get('route')!r} has no 'frequency' (would be dropped at build)")
+        if pd is not None and "source" in pd and not (isinstance(pd["source"], str) and pd["source"].strip()):
+            err.append(f"{tag}: protocolDosing 'source' must be a non-empty reference string")
         for st in (pd or {}).get("titration", []) or []:
             if "amount" not in st or "label" not in st:
                 err.append(f"{tag}: titration step needs amount + label")
@@ -119,6 +123,8 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
             err.append(f"{tag}: bad storage.temperature {st.get('temperature')!r}")
         if e.get("category") != "Peptide":
             warn.append(f"{tag}: has peptideProfile but category is {e.get('category')!r}, not 'Peptide'")
+    if "halfLifeSource" in e and not (isinstance(e["halfLifeSource"], str) and e["halfLifeSource"].strip()):
+        err.append(f"{tag}: halfLifeSource must be a non-empty reference string")
     moa = e.get("mechanismOfAction")
     if moa is not None:
         for b in moa.get("bindings", []) or []:
@@ -126,6 +132,16 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
                 err.append(f"{tag}: bad binding action {b.get('action')!r}")
             if b.get("affinity") not in (1, 2, 3):
                 err.append(f"{tag}: binding affinity must be 1/2/3, got {b.get('affinity')!r}")
+    # Advisory provenance norm: a substantive quantitative claim (dose ladder,
+    # protocol, or half-life) should cite at least one reference somewhere
+    # (substance `sources`, mechanism `references`, or a per-fact `source`).
+    has_quant = e.get("halfLifeMinutes") is not None or any(
+        (r.get("doses") or {}) or r.get("protocolDosing") for r in (e.get("routes") or []))
+    has_provenance = bool(e.get("sources") or (moa or {}).get("references")
+        or any(r.get("source") or (r.get("protocolDosing") or {}).get("source") for r in (e.get("routes") or []))
+        or e.get("halfLifeSource"))
+    if has_quant and not has_provenance:
+        warn.append(f"{tag}: has dosing/half-life data but no references (add `sources` or a per-fact `source`)")
 
 
 def validate_dir(directory: Path = CURATED_DIR):
