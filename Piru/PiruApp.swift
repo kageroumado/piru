@@ -54,29 +54,41 @@ struct PiruApp: App {
     /// to open, move the offending files aside and try once more so the user
     /// at least gets a working (empty) database instead of a launch crash.
     private static func makeContainer() -> ModelContainer {
-        let groupURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: appGroupID
-        )!.appendingPathComponent("default.store")
+        // Don't force-unwrap the app-group URL: if the entitlement is ever
+        // misconfigured this would be a launch crash. Fall back to Application
+        // Support so the app still launches with a (non-shared) store.
+        let groupBase = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
+            ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let groupURL = groupBase.appendingPathComponent("default.store")
         let config = ModelConfiguration(url: groupURL)
+        let models: [any PersistentModel.Type] = [
+            DoseEntry.self, SubstanceColor.self, UserColor.self,
+            DailyDoseItem.self, FavoriteSubstance.self,
+        ]
 
         do {
-            return try ModelContainer(
-                for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self,
-                configurations: config
-            )
+            return try ModelContainer(for: Schema(models), configurations: config)
         } catch {
             appLogger.error("ModelContainer creation failed: \(error.localizedDescription, privacy: .public). Attempting store recovery.")
             quarantineCorruptStore(at: groupURL)
             do {
-                return try ModelContainer(
-                    for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                    DailyDoseItem.self, FavoriteSubstance.self,
-                    configurations: config
-                )
+                return try ModelContainer(for: Schema(models), configurations: config)
             } catch {
-                appLogger.fault("ModelContainer recovery failed: \(error.localizedDescription, privacy: .public)")
-                fatalError("Failed to create ModelContainer after recovery: \(error)")
+                // Last resort: an in-memory store. A background launch before
+                // first unlock (data-protection unavailable) or an unrecoverable
+                // corruption used to `fatalError` here and crash-loop. Launching
+                // with an empty, non-persisted store is strictly better than a
+                // crash — foreground launches after unlock get the real store.
+                appLogger.fault("ModelContainer recovery failed: \(error.localizedDescription, privacy: .public). Falling back to in-memory store.")
+                do {
+                    return try ModelContainer(
+                        for: Schema(models),
+                        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+                    )
+                } catch {
+                    fatalError("Failed to create even an in-memory ModelContainer: \(error)")
+                }
             }
         }
     }

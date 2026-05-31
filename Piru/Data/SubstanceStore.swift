@@ -108,7 +108,8 @@ final class SubstanceStore {
             fatalError("Failed to open substances DB at \(dbURL.path): \(error)")
         }
 
-        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
         let prefsURL = docs.appendingPathComponent("piru-user-prefs.sqlite")
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
@@ -342,11 +343,21 @@ final class SubstanceStore {
                 return (names, aliases, displayNames)
             }
             self.allNames = names.map(\.0)
-            self.nameIndex = Dictionary(uniqueKeysWithValues: names.map { ($0.2, $0.1) })
+            // `uniquingKeysWith` (not `uniqueKeysWithValues:`) so a duplicate
+            // lowercased canonical name — e.g. an opt-in updated or imported DB
+            // carrying both `MDMA` and `mdma`, or a custom substance that failed
+            // to merge — collapses to the first row instead of *trapping* at
+            // launch. This runs eagerly on every cold start, and a trap here is
+            // an unrecoverable launch crash (the enclosing do/catch can't catch
+            // a precondition failure).
+            self.nameIndex = Dictionary(names.map { ($0.2, $0.1) }, uniquingKeysWith: { first, _ in first })
+            if self.nameIndex.count != names.count {
+                logger.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
+            }
             var ax: [String: Int64] = [:]
             for (alias, sid) in aliases where ax[alias] == nil { ax[alias] = sid }
             self.aliasIndex = ax
-            self.sourceDisplayNames = Dictionary(uniqueKeysWithValues: displayNames)
+            self.sourceDisplayNames = Dictionary(displayNames, uniquingKeysWith: { first, _ in first })
         } catch {
             logger.error("Failed to build indexes: \(error.localizedDescription, privacy: .public)")
         }

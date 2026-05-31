@@ -391,6 +391,8 @@ private struct DayLogShareSheet: UIViewControllerRepresentable {
 private struct TimeAdjustSheet: View {
     @Bindable var entry: DoseEntry
     @Environment(\.dismiss) private var dismiss
+    @Query private var substanceColors: [SubstanceColor]
+    @State private var originalTimestamp: Date?
 
     var body: some View {
         Form {
@@ -402,6 +404,17 @@ private struct TimeAdjustSheet: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button { dismiss() } label: { Image(systemName: "xmark") }
             }
+        }
+        .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
+        .onDisappear {
+            // Keep the session accessory + Live Activity in sync with the edited
+            // time (they read ActiveSessionManager's snapshot, not SwiftData).
+            guard let original = originalTimestamp, original != entry.timestamp else { return }
+            ActiveSessionManager.shared.refreshEditedEntry(
+                previousTimestamp: original,
+                entry: entry,
+                allColors: Array(substanceColors)
+            )
         }
     }
 }

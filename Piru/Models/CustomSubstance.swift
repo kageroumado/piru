@@ -159,6 +159,11 @@ final class CustomSubstanceStore {
     // MARK: - Mutations
 
     func add(_ entry: CustomSubstanceEntry) {
+        // Enforce unique lowercased names. A duplicate would later trap the
+        // import merge (which builds a `[name: entry]` dictionary via
+        // `Dictionary(_:uniquingKeysWith:)`) and the launch-time name index.
+        // Replace any existing same-named custom rather than appending a second.
+        all.removeAll { $0.name.lowercased() == entry.name.lowercased() }
         all.append(entry)
         sortInPlace()
         persist()
