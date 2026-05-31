@@ -2074,14 +2074,53 @@ class Build:
                     to_minutes = 60.0 * 24.0
                 else:
                     to_minutes = 60.0
+                # drug.community gives each phase as an ABSOLUTE [start, end]
+                # window measured from ingestion (onset/peak/offset/after_effects
+                # use start/end; only total_duration uses min/max). Piru's
+                # DurationProfile instead stores per-phase *durations* that it
+                # accumulates by midpoint to recover the curve boundaries. So we
+                # convert by differencing consecutive absolute ends — this
+                # reproduces the source's absolute boundaries exactly. The source
+                # supplies windows, not duration uncertainty, so per-phase ranges
+                # are degenerate (min == max); `total` keeps its real min/max.
+                onset_b = self._dc_phase_bounds(curve.get("onset"))
+                peak_b = self._dc_phase_bounds(curve.get("peak"))
+                offset_b = self._dc_phase_bounds(curve.get("offset"))
+                after_b = self._dc_phase_bounds(curve.get("after_effects"))
+
                 profile = {}
-                for k in ("onset", "peak", "offset", "after_effects", "total_duration"):
-                    phase = curve.get(k)
-                    if isinstance(phase, dict) and phase.get("min") is not None and phase.get("max") is not None:
-                        profile[self._DC_PHASE_KEY.get(k, k)] = {
-                            "min": float(phase["min"]) * to_minutes,
-                            "max": float(phase["max"]) * to_minutes,
-                        }
+                if onset_b:
+                    onset_end = onset_b[1] * to_minutes
+                    profile["onset"] = {"min": onset_end, "max": onset_end}
+                if onset_b and peak_b:
+                    comeup = max(0.0, (peak_b[0] - onset_b[1]) * to_minutes)
+                    if comeup > 0:
+                        profile["comeup"] = {"min": comeup, "max": comeup}
+                if peak_b:
+                    peak_len = max(0.0, (peak_b[1] - peak_b[0]) * to_minutes)
+                    profile["peak"] = {"min": peak_len, "max": peak_len}
+                if peak_b and offset_b:
+                    # Normal case: offset spans from peak's end to offset's end,
+                    # reproducing the source's absolute boundary. For the ~5% of
+                    # malformed curves where the source gives offset the same or
+                    # an earlier window as peak (offset.end <= peak.end), fall
+                    # back to the offset window's own length so a comedown still
+                    # renders instead of collapsing to zero.
+                    offset_len = (offset_b[1] - peak_b[1]) * to_minutes
+                    if offset_len <= 0:
+                        offset_len = (offset_b[1] - offset_b[0]) * to_minutes
+                    if offset_len > 0:
+                        profile["offset"] = {"min": offset_len, "max": offset_len}
+                if offset_b and after_b:
+                    afterglow = max(0.0, (after_b[1] - offset_b[1]) * to_minutes)
+                    if afterglow > 0:
+                        profile["afterglow"] = {"min": afterglow, "max": afterglow}
+                td = curve.get("total_duration")
+                if isinstance(td, dict) and td.get("min") is not None and td.get("max") is not None:
+                    profile["total"] = {
+                        "min": float(td["min"]) * to_minutes,
+                        "max": float(td["max"]) * to_minutes,
+                    }
                 if profile:
                     self.add_duration_profile(sid, slug, route, profile)
             for se in (s.get("subjective_effects") or []):
@@ -2090,6 +2129,23 @@ class Build:
 
     # drug.community phase-key aliases: source key → profile dict key.
     _DC_PHASE_KEY = {"after_effects": "afterglow", "total_duration": "total"}
+
+    @staticmethod
+    def _dc_phase_bounds(phase) -> tuple[float, float] | None:
+        """Absolute (start, end) for a drug.community phase dict, in source units.
+
+        Returns None when the phase is absent or malformed. Phase windows use
+        `start`/`end`; `total_duration` (handled separately) uses `min`/`max`.
+        """
+        if not isinstance(phase, dict):
+            return None
+        start, end = phase.get("start"), phase.get("end")
+        if start is None or end is None:
+            return None
+        try:
+            return (float(start), float(end))
+        except (TypeError, ValueError):
+            return None
 
     # Unit-to-mg conversion factors. Anything not here keeps its row unit.
     _DC_UNIT_FACTORS = {
