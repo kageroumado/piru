@@ -311,6 +311,156 @@ struct PhaseBoundaries {
     let afterglowEnd: Double
 }
 
+// MARK: - Protocol Dosing
+
+/// One rung of a titration ramp, e.g. "2.5 mg" during "weeks 1–4".
+struct TitrationStep: Codable, Hashable, Sendable {
+    /// Amount in the route's `unit`.
+    let amount: Double
+    /// Localized phase label, e.g. "weeks 1–4", "month 2".
+    let label: String
+}
+
+/// Clinical-protocol dosing for compounds taken on a schedule (peptides, some
+/// prescription drugs) rather than along a trip-intensity ladder. When present,
+/// the detail UI renders this instead of the `DoseRange` threshold→heavy tiers.
+/// Amounts are in the owning `SubstanceRoute.unit` (mcg, mg, or IU).
+struct ProtocolDosing: Codable, Hashable, Sendable {
+    /// Typical dose range low/high (either may be nil for a single fixed dose).
+    let lowAmount: Double?
+    let highAmount: Double?
+    /// Localized frequency, e.g. "2×/day", "once weekly", "every 2 months".
+    let frequency: String
+    /// Optional titration ramp (dose escalates over time).
+    let titration: [TitrationStep]?
+    /// Course length, e.g. "8–12 weeks", "cycle then break". nil = ongoing/unknown.
+    let courseDuration: String?
+    /// Administration notes, e.g. "fasted", "before sleep".
+    let notes: String?
+
+    init(
+        lowAmount: Double? = nil,
+        highAmount: Double? = nil,
+        frequency: String,
+        titration: [TitrationStep]? = nil,
+        courseDuration: String? = nil,
+        notes: String? = nil
+    ) {
+        self.lowAmount = lowAmount
+        self.highAmount = highAmount
+        self.frequency = frequency
+        self.titration = titration
+        self.courseDuration = courseDuration
+        self.notes = notes
+    }
+}
+
+// MARK: - Peptide Profile
+
+/// How a peptide/biologic is supplied — determines whether reconstitution UI
+/// applies and how the substance is handled.
+enum SuppliedForm: String, Codable, Hashable, Sendable {
+    /// Freeze-dried powder in an mg vial — must be reconstituted before use.
+    case lyophilizedVial = "lyophilized_vial"
+    /// Ready-to-inject solution (prefilled pen/vial).
+    case solution
+    /// Topical serum/cream (cosmetic peptides) — dosed as a formulation %.
+    case topical
+    /// Slow-release implant (e.g. Scenesse).
+    case implant
+    /// Orally administered capsule/tablet.
+    case oralCapsule = "oral_capsule"
+
+    var displayName: LocalizedStringResource {
+        switch self {
+        case .lyophilizedVial: "Lyophilized powder (vial)"
+        case .solution: "Ready-to-inject solution"
+        case .topical: "Topical formulation"
+        case .implant: "Slow-release implant"
+        case .oralCapsule: "Oral capsule"
+        }
+    }
+
+    /// Whether the reconstitution calculator is meaningful for this form.
+    var isReconstituted: Bool { self == .lyophilizedVial }
+}
+
+/// Cold-chain / handling requirement for a peptide or biologic.
+struct StorageRequirement: Codable, Hashable, Sendable {
+    enum Temperature: String, Codable, Hashable, Sendable {
+        case roomTemp = "room_temp"
+        case refrigerate
+        case freeze
+
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .roomTemp: "Room temperature"
+            case .refrigerate: "Refrigerate (2–8 °C)"
+            case .freeze: "Freeze"
+            }
+        }
+
+        /// SF Symbol summarising the requirement.
+        var icon: String {
+            switch self {
+            case .roomTemp: "thermometer.medium"
+            case .refrigerate: "refrigerator"
+            case .freeze: "snowflake"
+            }
+        }
+    }
+
+    let temperature: Temperature
+    let lightSensitive: Bool
+    /// Days the product stays stable once reconstituted (refrigerated). nil = unknown.
+    let reconstitutedStabilityDays: Double?
+
+    init(temperature: Temperature, lightSensitive: Bool = false, reconstitutedStabilityDays: Double? = nil) {
+        self.temperature = temperature
+        self.lightSensitive = lightSensitive
+        self.reconstitutedStabilityDays = reconstitutedStabilityDays
+    }
+}
+
+/// Peptide/biologic-specific reference data. Presence switches the detail UI to
+/// a peptide presentation (amino-acid sequence, handling, reconstitution) instead
+/// of the psychoactive trip-arc model.
+struct PeptideProfile: Codable, Hashable, Sendable {
+    /// Amino-acid sequence, one-letter with modification notes
+    /// (e.g. "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-NH2"). nil = not published.
+    let sequence: String?
+    let suppliedForm: SuppliedForm?
+    /// Typical vial size in mg, seeds the reconstitution calculator.
+    let typicalVialMg: Double?
+    /// Recommended reconstitution solvent (e.g. "Bacteriostatic water").
+    let reconstitutionSolvent: String?
+    let storage: StorageRequirement?
+    /// IU↔mg bridge for hormones dosed in international units (GH, HCG, …).
+    let iuPerMg: Double?
+
+    init(
+        sequence: String? = nil,
+        suppliedForm: SuppliedForm? = nil,
+        typicalVialMg: Double? = nil,
+        reconstitutionSolvent: String? = nil,
+        storage: StorageRequirement? = nil,
+        iuPerMg: Double? = nil
+    ) {
+        self.sequence = sequence
+        self.suppliedForm = suppliedForm
+        self.typicalVialMg = typicalVialMg
+        self.reconstitutionSolvent = reconstitutionSolvent
+        self.storage = storage
+        self.iuPerMg = iuPerMg
+    }
+
+    /// True when at least one field carries usable information.
+    var hasAnyValue: Bool {
+        sequence != nil || suppliedForm != nil || typicalVialMg != nil
+            || reconstitutionSolvent != nil || storage != nil || iuPerMg != nil
+    }
+}
+
 // MARK: - Route
 
 struct SubstanceRoute: Codable {
@@ -318,17 +468,22 @@ struct SubstanceRoute: Codable {
     let unit: String
     let doses: DoseRange
     let duration: DurationProfile?
+    /// Clinical-protocol dosing (peptides/Rx). When present the UI shows this
+    /// instead of the `doses` trip-intensity ladder.
+    let protocolDosing: ProtocolDosing?
 
     init(
         route: RouteOfAdministration,
         unit: String,
         doses: DoseRange,
-        duration: DurationProfile? = nil
+        duration: DurationProfile? = nil,
+        protocolDosing: ProtocolDosing? = nil
     ) {
         self.route = route
         self.unit = unit
         self.doses = doses
         self.duration = duration
+        self.protocolDosing = protocolDosing
     }
 }
 
@@ -630,6 +785,14 @@ struct Substance: Identifiable {
     /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
     /// Compounds often belong to multiple families; tags compose where `category` cannot.
     let tags: [String]
+    /// Molar mass in g/mol, when known. Populated for peptides (where it drives
+    /// IU↔mg reasoning and is shown in the handling card) and any compound with a
+    /// curated molecular weight. Maps to the `substances.molecular_weight` column.
+    let molarMass: Double?
+    /// Peptide/biologic-specific reference data. Non-nil switches the detail view
+    /// to a peptide presentation (sequence, handling, reconstitution) in place of
+    /// the psychoactive trip model. nil for ordinary small molecules.
+    let peptideProfile: PeptideProfile?
 
     init(
         name: String,
@@ -655,7 +818,9 @@ struct Substance: Identifiable {
         inchikey: String? = nil,
         formula: String? = nil,
         pubchemCID: Int? = nil,
-        popularity: Double = 0
+        popularity: Double = 0,
+        molarMass: Double? = nil,
+        peptideProfile: PeptideProfile? = nil
     ) {
         self.id = UUID()
         self.name = name
@@ -682,6 +847,8 @@ struct Substance: Identifiable {
         self.formula = formula
         self.pubchemCID = pubchemCID
         self.popularity = popularity
+        self.molarMass = molarMass
+        self.peptideProfile = peptideProfile
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -713,6 +880,21 @@ struct Substance: Identifiable {
     var hasNoDoseData: Bool {
         guard !routes.isEmpty else { return true }
         return routes.allSatisfy { !$0.doses.hasAnyValue }
+    }
+
+    /// True when this compound should use the peptide-specific detail
+    /// presentation (sequence / handling / reconstitution / protocol dosing)
+    /// rather than the psychoactive trip model. Driven by category or the
+    /// presence of curated peptide data.
+    var usesPeptidePresentation: Bool {
+        category == .peptide || (peptideProfile?.hasAnyValue ?? false)
+    }
+
+    /// The protocol-dosing schedule to surface, preferring the default route,
+    /// then any route that carries one. nil when no protocol dosing is curated.
+    var primaryProtocolDosing: ProtocolDosing? {
+        routes.first { $0.route == defaultRoute }?.protocolDosing
+            ?? routes.compactMap(\.protocolDosing).first
     }
 
     var defaultUnit: String {
@@ -768,6 +950,7 @@ extension Substance: Codable {
         case displayClass, regulatoryStatus, durationImplausible
         case indications, contraindications, diazepamEquivalent
         case cas, inchikey, formula, pubchemCID, popularity
+        case molarMass, peptideProfile
     }
 
     init(from decoder: Decoder) throws {
@@ -797,6 +980,8 @@ extension Substance: Codable {
         formula = try c.decodeIfPresent(String.self, forKey: .formula)
         pubchemCID = try c.decodeIfPresent(Int.self, forKey: .pubchemCID)
         popularity = try c.decodeIfPresent(Double.self, forKey: .popularity) ?? 0
+        molarMass = try c.decodeIfPresent(Double.self, forKey: .molarMass)
+        peptideProfile = try c.decodeIfPresent(PeptideProfile.self, forKey: .peptideProfile)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -839,6 +1024,10 @@ extension Substance: Codable {
         try c.encodeIfPresent(formula, forKey: .formula)
         try c.encodeIfPresent(pubchemCID, forKey: .pubchemCID)
         if popularity != 0 { try c.encode(popularity, forKey: .popularity) }
+        try c.encodeIfPresent(molarMass, forKey: .molarMass)
+        if let peptideProfile, peptideProfile.hasAnyValue {
+            try c.encode(peptideProfile, forKey: .peptideProfile)
+        }
     }
 }
 

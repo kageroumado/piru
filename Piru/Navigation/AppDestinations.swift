@@ -53,7 +53,10 @@ private struct PushRouteView: View {
             }
 
         case .substance(let name):
-            if let substance = SubstanceLibrary.all.first(where: { $0.name == name }) {
+            // Resolve via the detail path (not the lean `.all` batch list) so
+            // detail-only fields — mechanism, chemistry identifiers, molar mass,
+            // peptide profile, and per-route protocol dosing — are hydrated.
+            if let substance = SubstanceLibrary.lookup(name) {
                 SubstanceDetailView(substance: substance)
             } else {
                 EmptyView()
