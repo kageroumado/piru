@@ -2048,6 +2048,14 @@ class Build:
         )
         if sid is None:
             return None
+        # Curated presentation/sort overrides (also valid on override-only files).
+        if slug == "piru-curated":
+            if s.get("displayName"):
+                self.cur.execute("UPDATE substances SET display_name = ? WHERE id = ?",
+                                 (s["displayName"], sid))
+            if s.get("popularity") is not None:
+                self.cur.execute("UPDATE substances SET popularity = ? WHERE id = ?",
+                                 (to_float(s["popularity"]), sid))
         if s.get("category"):
             self.add_category(sid, slug, s["category"])
         for tag in (s.get("tags") or []):

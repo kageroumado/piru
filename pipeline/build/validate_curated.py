@@ -69,18 +69,26 @@ def _norm(s: str) -> str:
 
 def _validate_entry(e: dict, fname: str, err, warn) -> None:
     tag = f"{fname}"
-    for k in ("name", "aliases", "category", "defaultRoute", "routes"):
-        if k not in e:
-            err.append(f"{tag}: missing required field '{k}'")
+    # Only `name` is mandatory. A file may be a full definition OR an
+    # override-only record (e.g. just a popularity score or display name for a
+    # scraped substance) — so category/defaultRoute/routes are optional.
+    if "name" not in e:
+        err.append(f"{tag}: missing required field 'name'")
     name = e.get("name", "")
     if not name:
         err.append(f"{tag}: empty name")
-    if e.get("category") not in CATEGORIES:
+    if "category" in e and e["category"] not in CATEGORIES:
         err.append(f"{tag}: bad category {e.get('category')!r}")
+    if "aliases" in e and not isinstance(e["aliases"], list):
+        err.append(f"{tag}: aliases must be a list")
     if e.get("defaultRoute") and _normalise_route(e["defaultRoute"]) not in ROUTES:
         err.append(f"{tag}: bad defaultRoute {e.get('defaultRoute')!r}")
-    if not isinstance(e.get("aliases", []), list):
-        err.append(f"{tag}: aliases must be a list")
+    if "popularity" in e:
+        p = e["popularity"]
+        if not isinstance(p, (int, float)) or not (0.0 <= float(p) <= 1.0):
+            err.append(f"{tag}: popularity must be a number in [0, 1], got {p!r}")
+    if "displayName" in e and not (isinstance(e["displayName"], str) and e["displayName"].strip()):
+        err.append(f"{tag}: displayName must be a non-empty string")
     route_set = set()
     for r in e.get("routes", []) or []:
         if not isinstance(r, dict):
