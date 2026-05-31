@@ -4,6 +4,38 @@
     "" : {
 
     },
+    "Add to Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加到收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入收藏"
+          }
+        }
+      }
+    },
+    "Remove from Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消收藏"
+          }
+        }
+      }
+    },
     "--" : {
       "localizations" : {
         "zh-Hans" : {
