@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+##!/usr/bin/env python3
 """Apply zh-Hans and zh-Hant translations to a Localizable.xcstrings catalog."""
 import json
 import sys
@@ -10,12 +10,15 @@ T = {
     "Stimulant": ("兴奋剂", "興奮劑"),
     "Psychedelic": ("致幻剂", "致幻劑"),
     "Dissociative": ("解离剂", "解離劑"),
+    "Dysdelic": ("暗幻剂", "暗幻劑"),
     "Opioid": ("阿片类", "阿片類"),
     "Benzodiazepine": ("苯二氮䓬类", "苯二氮䓬類"),
     "GABAergic": ("GABA 类", "GABA 類"),
-    "Empathogen": ("共感剂", "共感劑"),
+    "Empathogen": ("共情剂", "共情劑"),
     "Cannabinoid": ("大麻素", "大麻素"),
     "Nootropic": ("益智剂", "益智劑"),
+    "AMPAkine": ("安帕金", "安帕金"),
+    "Eugeroic": ("促醒剂", "促醒劑"),
     "Depressant": ("抑制剂", "抑制劑"),
     "Antidepressant": ("抗抑郁药", "抗抑鬱藥"),
     "Antipsychotic": ("抗精神病药", "抗精神病藥"),
@@ -28,6 +31,8 @@ T = {
     "Endocrine": ("内分泌药", "內分泌藥"),
     "Immunological": ("免疫药", "免疫藥"),
     "Supplement": ("膳食补充", "膳食補充"),
+    "Peptide": ("肽类", "肽類"),
+    "Anticonvulsant": ("抗惊厥药", "抗驚厥藥"),
     "Other": ("其他", "其他"),
 
     # Routes of administration
@@ -260,6 +265,17 @@ T = {
     "Entries per day": ("每日条目", "每日條目"),
     "Ingestion time": ("摄入时间", "攝入時間"),
     "Edit": ("编辑", "編輯"),
+    
+    # Profile & Disclosure Tier
+    "Profile": ("个人资料", "個人資料"),
+    "Disclosure Tier": ("披露等级", "披露等級"),
+    "Casual": ("休闲", "休閒"),
+    "Pharma Nerd": ("药物极客", "藥物極客"),
+    
+    # Database & Settings
+    "Substance Database": ("物质数据库", "物質資料庫"),
+    "Database Sources": ("数据库来源", "資料庫來源"),
+    "Check for Updates": ("检查更新", "檢查更新"),
 
     # Prescriptions / Daily Doses
     "Prescriptions": ("处方", "處方"),
