@@ -9,61 +9,93 @@ import Observation
 struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
     let id: UUID
     var name: String
+    /// Optional personal display label. When set, the substance is *shown* as
+    /// this everywhere (Journal, Library, detail, exports) while `name` stays the
+    /// canonical identity used for logging/lookup — so e.g. a user can log "THC"
+    /// but see it labelled "joint" without breaking existing dose history.
+    /// Added v1.4; decoders treat missing as `nil`.
+    var displayName: String?
     var category: SubstanceCategory
     var defaultRoute: RouteOfAdministration
     var unit: String
     var notes: String
+    /// Optional personal dose ladder for the default route. When set on an entry
+    /// that overrides a library substance, it replaces that route's dose tiers;
+    /// for a net-new custom it provides dose guidance the library can't. Added v1.4.
+    var doses: DoseRange?
     /// Optional pharmacokinetic profile. When present, the substance participates
     /// in the same timeline / Live-Activity / PK-curve rendering as a library
     /// substance. Added in v1.3 — decoders treat missing as `nil` for
     /// backward compatibility with pre-1.3 stored entries.
     var duration: DurationProfile?
+    /// Optional personal half-life (minutes). Overrides the library value when set. Added v1.4.
+    var halfLifeMinutes: Double?
     var createdAt: Date
 
     init(
         id: UUID = UUID(),
         name: String,
+        displayName: String? = nil,
         category: SubstanceCategory = .other,
         defaultRoute: RouteOfAdministration = .oral,
         unit: String = "mg",
         notes: String = "",
+        doses: DoseRange? = nil,
         duration: DurationProfile? = nil,
+        halfLifeMinutes: Double? = nil,
         createdAt: Date = .now
     ) {
         self.id = id
         self.name = name
+        self.displayName = displayName
         self.category = category
         self.defaultRoute = defaultRoute
         self.unit = unit
         self.notes = notes
+        self.doses = doses
         self.duration = duration
+        self.halfLifeMinutes = halfLifeMinutes
         self.createdAt = createdAt
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, name, category, defaultRoute, unit, notes, duration, createdAt
+        case id, name, displayName, category, defaultRoute, unit, notes, doses, duration, halfLifeMinutes, createdAt
     }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         id = try c.decode(UUID.self, forKey: .id)
         name = try c.decode(String.self, forKey: .name)
+        displayName = try c.decodeIfPresent(String.self, forKey: .displayName)
         category = try c.decode(SubstanceCategory.self, forKey: .category)
         defaultRoute = try c.decode(RouteOfAdministration.self, forKey: .defaultRoute)
         unit = try c.decode(String.self, forKey: .unit)
         notes = try c.decode(String.self, forKey: .notes)
+        doses = try c.decodeIfPresent(DoseRange.self, forKey: .doses)
         duration = try c.decodeIfPresent(DurationProfile.self, forKey: .duration)
+        halfLifeMinutes = try c.decodeIfPresent(Double.self, forKey: .halfLifeMinutes)
         createdAt = try c.decode(Date.self, forKey: .createdAt)
     }
 
+    /// The label to show the user — the personal override when set, else the name.
+    var resolvedDisplayName: String {
+        if let displayName, !displayName.trimmingCharacters(in: .whitespaces).isEmpty {
+            return displayName
+        }
+        return name
+    }
+
     @MainActor var asSubstance: Substance {
-        Substance(
+        let trimmedDisplay = displayName?.trimmingCharacters(in: .whitespaces)
+        return Substance(
             name: name,
+            displayName: (trimmedDisplay?.isEmpty == false) ? trimmedDisplay : nil,
             aliases: [],
             category: category,
             defaultRoute: defaultRoute,
-            routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: DoseRange(), duration: duration)],
+            routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: doses ?? DoseRange(), duration: duration)],
             effects: [],
+            halfLifeMinutes: halfLifeMinutes,
             sources: [Self.userDefinedSource]
         )
     }
@@ -79,13 +111,21 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
 
 extension Substance {
     /// Returns a copy of this library substance with the user-defined entry's
-    /// data overlaid. Currently the custom's ``CustomSubstanceEntry/duration``
-    /// replaces the library duration for the matching route (or is appended as
-    /// a new route when the library has no route for it). All other library
-    /// fields are preserved — custom substances are meant to fill gaps in (or
-    /// correct) library data, not erase it.
+    /// personal data overlaid: display name, dose ladder, duration, and
+    /// half-life for the matching route (appended as a new route when the
+    /// library has none for it). Fields the entry leaves unset fall through to
+    /// the library value — personal overrides fill or correct library data, they
+    /// don't erase it. `name` (the canonical identity used for logging/lookup) is
+    /// never changed; only `displayName` is.
     func applyingOverride(from custom: CustomSubstanceEntry) -> Substance {
-        guard let customDuration = custom.duration else { return self }
+        let trimmedDisplay = custom.displayName?.trimmingCharacters(in: .whitespaces)
+        let hasDisplay = (trimmedDisplay?.isEmpty == false)
+        // Nothing to contribute → return unchanged so an empty entry doesn't
+        // falsely mark the substance as personalized (user-defined source).
+        guard hasDisplay || custom.doses != nil || custom.duration != nil || custom.halfLifeMinutes != nil else {
+            return self
+        }
+        let overriddenDisplayName = hasDisplay ? trimmedDisplay : displayName
 
         var updatedRoutes = routes
         if let idx = updatedRoutes.firstIndex(where: { $0.route == custom.defaultRoute }) {
@@ -93,15 +133,15 @@ extension Substance {
             updatedRoutes[idx] = SubstanceRoute(
                 route: existing.route,
                 unit: existing.unit,
-                doses: existing.doses,
-                duration: customDuration
+                doses: custom.doses ?? existing.doses,
+                duration: custom.duration ?? existing.duration
             )
-        } else {
+        } else if custom.doses != nil || custom.duration != nil {
             updatedRoutes.append(SubstanceRoute(
                 route: custom.defaultRoute,
                 unit: custom.unit,
-                doses: DoseRange(),
-                duration: customDuration
+                doses: custom.doses ?? DoseRange(),
+                duration: custom.duration
             ))
         }
 
@@ -111,6 +151,7 @@ extension Substance {
 
         return Substance(
             name: name,
+            displayName: overriddenDisplayName,
             aliases: aliases,
             category: category,
             defaultRoute: defaultRoute,
@@ -118,10 +159,21 @@ extension Substance {
             effects: effects,
             subjectiveEffects: subjectiveEffects,
             toleranceInfo: toleranceInfo,
-            halfLifeMinutes: halfLifeMinutes,
+            halfLifeMinutes: custom.halfLifeMinutes ?? halfLifeMinutes,
             sources: mergedSources,
             mechanismOfAction: mechanismOfAction,
-            tags: tags
+            tags: tags,
+            displayClass: displayClass,
+            regulatoryStatus: regulatoryStatus,
+            durationImplausible: durationImplausible,
+            indications: indications,
+            contraindications: contraindications,
+            diazepamEquivalent: diazepamEquivalent,
+            cas: cas,
+            inchikey: inchikey,
+            formula: formula,
+            pubchemCID: pubchemCID,
+            popularity: popularity
         )
     }
 }
@@ -135,6 +187,10 @@ final class CustomSubstanceStore {
 
     private static let storageKey = "piru.customSubstances.v1"
     private static let appGroupID = "group.dev.yumeji.piru"
+    /// Lightweight `[canonicalName.lowercased(): displayName]` map mirrored into
+    /// the app group so the widget/Live-Activity targets can apply personal
+    /// display names without linking the full custom-substance model.
+    static let displayNameMapKey = "piru.substanceDisplayNames.v1"
 
     private(set) var all: [CustomSubstanceEntry] = []
 
@@ -201,6 +257,30 @@ final class CustomSubstanceStore {
         return all.first { $0.name.lowercased() == needle }
     }
 
+    /// Find an entry by its personal display name (case-insensitive). Lets a
+    /// relabelled substance be located by the name the user gave it — e.g.
+    /// "joint" resolving to the entry whose canonical name is "THC".
+    func first(whereDisplayName displayName: String) -> CustomSubstanceEntry? {
+        let needle = displayName.lowercased()
+        return all.first {
+            guard let dn = $0.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty else { return false }
+            return dn.lowercased() == needle
+        }
+    }
+
+    /// The label to show for a substance identified by its canonical name. When
+    /// a personal override sets a display name (e.g. THC → "joint") that wins;
+    /// otherwise `fallback` (typically the library's `displayTitle`) is used, or
+    /// the canonical name itself when no fallback is given. Use this at every
+    /// site that renders a substance name from a raw `DoseEntry.substance` string.
+    func displayName(for canonicalName: String, fallback: String? = nil) -> String {
+        if let entry = first(whereName: canonicalName),
+           let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty {
+            return dn
+        }
+        return fallback ?? canonicalName
+    }
+
     // MARK: - Persistence
 
     private func sortInPlace() {
@@ -219,5 +299,15 @@ final class CustomSubstanceStore {
         if let data = try? JSONEncoder().encode(all) {
             defaults.set(data, forKey: Self.storageKey)
         }
+        // Mirror the personal display names into a plain [String: String] map the
+        // widget/Live-Activity targets can read without the full model.
+        let displayMap = Dictionary(
+            all.compactMap { entry -> (String, String)? in
+                guard let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty else { return nil }
+                return (entry.name.lowercased(), dn)
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
+        defaults.set(displayMap, forKey: Self.displayNameMapKey)
     }
 }

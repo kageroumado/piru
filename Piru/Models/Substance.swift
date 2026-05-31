@@ -92,6 +92,8 @@ struct DoseRange {
     }
 }
 
+extension DoseRange: Hashable {}
+
 extension DoseRange: Codable {
     enum CodingKeys: String, CodingKey {
         case threshold, light, common, strong, heavy
