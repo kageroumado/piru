@@ -216,6 +216,8 @@ private struct ColorPickerHost: View {
 private struct TimeAdjustHost: View {
     @Bindable var entry: DoseEntry
     @Environment(\.appNavigator) private var navigator
+    @Query private var substanceColors: [SubstanceColor]
+    @State private var originalTimestamp: Date?
 
     var body: some View {
         NavigationStack {
@@ -239,6 +241,20 @@ private struct TimeAdjustHost: View {
             }
         }
         .presentationDetents([.medium])
+        .onAppear { if originalTimestamp == nil { originalTimestamp = entry.timestamp } }
+        .onDisappear { syncSessionIfTimeChanged() }
+    }
+
+    /// Editing `entry.timestamp` writes straight through to SwiftData, but the
+    /// session accessory + Live Activity read from `ActiveSessionManager`'s
+    /// snapshot — without this they keep showing the dose's pre-edit time.
+    private func syncSessionIfTimeChanged() {
+        guard let original = originalTimestamp, original != entry.timestamp else { return }
+        ActiveSessionManager.shared.refreshEditedEntry(
+            previousTimestamp: original,
+            entry: entry,
+            allColors: Array(substanceColors)
+        )
     }
 }
 

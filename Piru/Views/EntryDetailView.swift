@@ -214,7 +214,19 @@ struct EntryDetailView: View {
             titleVisibility: .visible
         ) {
             Button("Delete", role: .destructive) {
+                // Capture before delete — the entry is invalid afterwards.
+                let name = entry.substance
+                let timestamp = entry.timestamp
                 modelContext.delete(entry)
+                // Tear the dose out of the active session / Live Activity too;
+                // otherwise a deleted "taking now" dose leaves the Live Activity
+                // and progress accessory stuck on screen, uncancellable even
+                // after the app is quit (it re-recovers from the stale Activity).
+                ActiveSessionManager.shared.removeDose(
+                    substanceName: name,
+                    timestamp: timestamp,
+                    allColors: Array(substanceColors)
+                )
                 WidgetCenter.shared.reloadAllTimelines()
                 dismiss()
             }

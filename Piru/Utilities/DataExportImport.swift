@@ -64,7 +64,7 @@ private enum PsyLogColorMap {
     ]
 
     private static let hexToName: [String: String] = {
-        Dictionary(uniqueKeysWithValues: nameToHex.map { ($0.value.uppercased(), $0.key) })
+        Dictionary(nameToHex.map { ($0.value.uppercased(), $0.key) }, uniquingKeysWith: { first, _ in first })
     }()
 
     static func hex(from name: String) -> String {
@@ -496,7 +496,8 @@ enum DataExportImport {
         // when present so other models keep referencing the same row); skips
         // exact duplicates so re-imports stay idempotent.
         var existingByName: [String: CustomSubstanceEntry] = Dictionary(
-            uniqueKeysWithValues: customStore.all.map { ($0.name.lowercased(), $0) }
+            customStore.all.map { ($0.name.lowercased(), $0) },
+            uniquingKeysWith: { first, _ in first }
         )
         for imported in file.customSubstances {
             let incoming = imported.asEntry
@@ -525,7 +526,7 @@ enum DataExportImport {
         }
 
         // Build custom unit lookup: id -> custom unit
-        let customUnitMap = Dictionary(uniqueKeysWithValues: file.customUnits.map { ($0.id, $0) })
+        let customUnitMap = Dictionary(file.customUnits.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
         for experience in file.experiences {
             for ingestion in experience.ingestions {
