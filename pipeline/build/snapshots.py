@@ -1,266 +1,182 @@
 #!/usr/bin/env python3
-"""Build human-readable snapshots of every substance Piru ships with.
+"""Human-readable snapshots of exactly what Piru ships — generated FROM the built
+SQLite (`Piru/Data/piru-substances.sqlite`), not the upstream source feeds. So
+the snapshots reflect the shipped, resolved data: curated overrides, per-fact
+source priority, dedup, casing, references — everything the app sees.
 
-These snapshots are the GitHub-friendly mirror of the bundled SQLite — anyone
-reading the repo can browse them to see exactly what data the app contains,
-without needing sqlite tooling.
-
-Merges:
-  - data/intermediate/substances-bundled.json  (curated overlay, Substance schema)
-  - data/sources/drug-community.json           (drug.community dump, their schema)
+Resolution mirrors the app: each field is taken from the highest-priority
+(lowest `default_priority`) source that has a row for the substance.
 
 Outputs to data/snapshots/:
-  - substances.csv  (one row per compound, semicolon-delimited multi-value cells)
+  - substances.csv  (one row per compound, " | "-delimited multi-value cells)
   - substances.json (same data, structured)
-  - gaps.csv        (only rows with data gaps — PR target list for crawlers)
+  - gaps.csv        (only rows with data gaps — crawl/PR target list)
 
-Run from the repo root:
+Run from the repo root (or via pipeline/build.sh):
     python3 pipeline/build/snapshots.py
 """
 
 import csv
 import json
-import re
+import sqlite3
 import sys
-import unicodedata
 from collections import defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-CURATED = REPO / "data/intermediate/substances-bundled.json"
-DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
+DB_PATH = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_DIR = REPO / "data/snapshots"
 OUT_CSV = OUT_DIR / "substances.csv"
 OUT_JSON = OUT_DIR / "substances.json"
 OUT_GAPS_CSV = OUT_DIR / "gaps.csv"
 
-
-def normalize(name: str) -> str:
-    """Lowercase + strip stereo prefixes / salts for dedup."""
-    s = unicodedata.normalize("NFKD", name).lower().strip()
-    s = re.sub(r"^\(\s*[+\-±rs]\s*\)\s*-?\s*", "", s)
-    s = re.sub(r"\s*[·.]?\s*(hcl|hydrochloride|sulfate|sulphate|fumarate|tartrate|maleate|mesylate|citrate)\s*$", "", s)
-    s = re.sub(r"\s+", " ", s)
-    return s
+FIELDNAMES = [
+    "name", "display_name", "aliases", "category", "display_class", "tags",
+    "default_route", "all_routes", "routes_with_dose", "has_dose_data",
+    "has_duration_data", "half_life_minutes", "mechanism_summary",
+    "effects", "references", "data_gaps",
+]
 
 
-def parse_curated(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    data = json.loads(path.read_text())
-    out = []
-    for s in data:
-        routes_with_data = [
-            r["route"] for r in (s.get("routes") or [])
-            if any(r.get("doses", {}).get(k) for k in ("threshold", "light", "common", "strong", "heavy"))
-        ]
-        all_routes = [r["route"] for r in (s.get("routes") or [])]
-        has_duration = any(r.get("duration") for r in (s.get("routes") or []))
-        out.append({
-            "source": "curated",
-            "name": s["name"],
-            "aliases": s.get("aliases") or [],
-            "category": s.get("category", ""),
-            "tags": s.get("tags") or [],
-            "chemical_class": "",
-            "psychoactive_class": "",
-            "default_route": s.get("defaultRoute", ""),
-            "all_routes": all_routes,
-            "routes_with_dose": routes_with_data,
-            "has_dose_data": bool(routes_with_data),
-            "has_duration_data": has_duration,
-            "half_life_minutes": s.get("halfLifeMinutes"),
-            "mechanism_summary": (s.get("mechanismOfAction") or {}).get("summary", "") if isinstance(s.get("mechanismOfAction"), dict) else "",
-            "sources": s.get("sources") or [],
-            "effects": s.get("effects") or [],
-            "subjective_effects": [
-                e.get("name") if isinstance(e, dict) else e
-                for e in (s.get("subjectiveEffects") or [])
-            ],
-        })
-    return out
+def _resolved(db, table, value_col, sid, priority):
+    """Return value_col from the lowest-priority-number source with a row."""
+    rows = db.execute(
+        f"SELECT src.slug AS slug, t.{value_col} AS v FROM {table} t "
+        f"JOIN sources src ON src.id = t.source_id WHERE t.substance_id = ?", (sid,)
+    ).fetchall()
+    best, best_pri = None, 1e9
+    for r in rows:
+        p = priority.get(r["slug"], 999)
+        if r["v"] is not None and p < best_pri:
+            best, best_pri = r["v"], p
+    return best
 
 
-def parse_drug_community(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    data = json.loads(path.read_text())
-    out = []
-    for s in data:
-        name = s.get("drug_name", "")
-        if "(" in name and name.endswith(")"):
-            base, parens = name.split("(", 1)
-            name = base.strip()
-            inner = parens.rstrip(")").strip()
-            paren_aliases = [a.strip() for a in inner.split(",") if a.strip()]
-        else:
-            paren_aliases = []
-        alt_names = s.get("alternative_names") or []
-        aliases = list({a for a in (paren_aliases + alt_names) if a.lower() != name.lower()})
-
-        dosages = s.get("dosages") or {}
-        route_entries = dosages.get("routes_of_administration") or []
-        routes_with_dose = []
-        all_routes = []
-        for r in route_entries:
-            route_name = r.get("route", "")
-            all_routes.append(route_name)
-            dr = r.get("dose_ranges") or {}
-            if any(dr.get(k) for k in ("threshold", "light", "common", "strong", "heavy")):
-                routes_with_dose.append(route_name)
-
-        duration_curves = s.get("duration_curves") or []
-        has_duration = any((dc.get("duration_curve") or {}) for dc in duration_curves)
-
-        out.append({
-            "source": "drug.community",
-            "name": name,
+def build_rows(db) -> list[dict]:
+    db.row_factory = sqlite3.Row
+    priority = {r["slug"]: r["default_priority"] for r in db.execute("SELECT slug, default_priority FROM sources")}
+    rows = []
+    for s in db.execute("SELECT * FROM substances ORDER BY canonical_name COLLATE NOCASE"):
+        sid = s["id"]
+        aliases = [r["alias"] for r in db.execute(
+            "SELECT alias FROM aliases WHERE substance_id=? ORDER BY alias", (sid,))]
+        tags = [r["tag"] for r in db.execute(
+            "SELECT DISTINCT tag FROM tags WHERE substance_id=? ORDER BY tag", (sid,))]
+        dose_routes = [r["route"] for r in db.execute(
+            "SELECT DISTINCT route FROM dose_ranges WHERE substance_id=? AND "
+            "(threshold IS NOT NULL OR light_lower IS NOT NULL OR common_lower IS NOT NULL "
+            "OR strong_lower IS NOT NULL OR heavy IS NOT NULL)", (sid,))]
+        all_routes = sorted({r["route"] for r in db.execute(
+            "SELECT route FROM dose_ranges WHERE substance_id=:i "
+            "UNION SELECT route FROM durations WHERE substance_id=:i "
+            "UNION SELECT route FROM protocol_dosing WHERE substance_id=:i", {"i": sid})})
+        has_duration = db.execute(
+            "SELECT 1 FROM durations WHERE substance_id=? LIMIT 1", (sid,)).fetchone() is not None
+        has_protocol = db.execute(
+            "SELECT 1 FROM protocol_dosing WHERE substance_id=? LIMIT 1", (sid,)).fetchone() is not None
+        category = _resolved(db, "categories", "category", sid, priority)
+        half_life = _resolved(db, "half_lives", "half_life_minutes", sid, priority)
+        mech = _resolved(db, "mechanisms_summary", "summary", sid, priority)
+        effects = [r["text"] for r in db.execute(
+            "SELECT DISTINCT text FROM effects WHERE substance_id=?", (sid,))]
+        refs = [r["label"] for r in db.execute("""
+            SELECT DISTINCT COALESCE(c.title, c.url, c.doi, 'PMID ' || c.pmid) AS label
+            FROM citations c WHERE c.id IN (
+                SELECT citation_id FROM substance_citations WHERE substance_id=:i
+                UNION SELECT citation_id FROM dose_ranges WHERE substance_id=:i
+                UNION SELECT citation_id FROM half_lives WHERE substance_id=:i
+                UNION SELECT citation_id FROM mechanisms_summary WHERE substance_id=:i)
+            """, {"i": sid}) if r["label"]]
+        rows.append({
+            "name": s["canonical_name"],
+            "display_name": s["display_name"] or "",
             "aliases": aliases,
-            "category": s.get("psychoactive_class") or (s.get("categories") or [""])[0],
-            "tags": [],
-            "chemical_class": s.get("chemical_class") or "",
-            "psychoactive_class": s.get("psychoactive_class") or "",
-            "default_route": route_entries[0]["route"] if route_entries else "",
+            "category": category or "",
+            "display_class": s["display_class"] or "",
+            "tags": tags,
+            "default_route": dose_routes[0] if dose_routes else (all_routes[0] if all_routes else ""),
             "all_routes": all_routes,
-            "routes_with_dose": routes_with_dose,
-            "has_dose_data": bool(routes_with_dose),
+            "routes_with_dose": sorted(dose_routes),
+            "has_dose_data": bool(dose_routes),
             "has_duration_data": has_duration,
-            "half_life_minutes": None,
-            "mechanism_summary": "",
-            "sources": ["drug.community"],
-            "effects": [],
-            "subjective_effects": s.get("subjective_effects") or [],
-            "half_life_raw": s.get("half_life") or "",
+            "has_protocol_dosing": has_protocol,
+            "half_life_minutes": half_life,
+            "mechanism_summary": mech or "",
+            "effects": effects,
+            "references": refs,
         })
-    return out
+    return rows
 
 
-def merge(curated: list[dict], drug_community: list[dict]) -> list[dict]:
-    """Curated wins on conflict (it's hand-vetted); drug.community fills gaps."""
-    by_key: dict[str, dict] = {}
-    for entry in curated:
-        key = normalize(entry["name"])
-        for alias in entry["aliases"]:
-            by_key.setdefault(normalize(alias), entry)
-        by_key[key] = entry
-
-    out = list(curated)
-    for entry in drug_community:
-        key = normalize(entry["name"])
-        if key in by_key:
-            # Merge into curated entry — only fill blanks
-            target = by_key[key]
-            if not target.get("chemical_class"):
-                target["chemical_class"] = entry["chemical_class"]
-            if not target.get("psychoactive_class"):
-                target["psychoactive_class"] = entry["psychoactive_class"]
-            # Union aliases
-            existing_aliases_lower = {a.lower() for a in target["aliases"]}
-            for alias in entry["aliases"]:
-                if alias.lower() not in existing_aliases_lower and alias.lower() != target["name"].lower():
-                    target["aliases"].append(alias)
-            # Union sources
-            for src in entry["sources"]:
-                if src not in target["sources"]:
-                    target["sources"].append(src)
-            # Note presence in drug.community
-            target.setdefault("present_in", []).append("drug.community")
-        else:
-            entry.setdefault("present_in", ["drug.community"])
-            by_key[key] = entry
-            for alias in entry["aliases"]:
-                by_key.setdefault(normalize(alias), entry)
-            out.append(entry)
-
-    for entry in curated:
-        entry.setdefault("present_in", ["curated"])
-
-    return out
+def gaps_for(e: dict) -> list[str]:
+    g = []
+    # Protocol-dosed compounds (peptides/PEDs) legitimately have no dose ladder.
+    if not e["has_dose_data"] and not e.get("has_protocol_dosing"):
+        g.append("dose_ranges_by_route")
+    if not e["has_duration_data"] and not e.get("has_protocol_dosing"):
+        g.append("duration_by_route")
+    if not e["half_life_minutes"]:
+        g.append("half_life_minutes")
+    if not e["mechanism_summary"]:
+        g.append("mechanism_of_action")
+    if not e["references"]:
+        g.append("references")
+    return g
 
 
-def gaps_for(entry: dict) -> list[str]:
-    gaps = []
-    if not entry.get("has_dose_data"):
-        gaps.append("dose_ranges_by_route")
-    if not entry.get("has_duration_data"):
-        gaps.append("duration_by_route")
-    if not entry.get("half_life_minutes"):
-        gaps.append("half_life_minutes")
-    if not entry.get("mechanism_summary"):
-        gaps.append("mechanism_of_action")
-    if not entry.get("subjective_effects"):
-        gaps.append("subjective_effects")
-    if not entry.get("chemical_class"):
-        gaps.append("chemical_class")
-    if not entry.get("sources"):
-        gaps.append("references")
-    return gaps
-
-
-def to_csv_row(entry: dict) -> dict:
+def to_csv_row(e: dict) -> dict:
     return {
-        "name": entry["name"],
-        "aliases": " | ".join(entry["aliases"]),
-        "category": entry["category"],
-        "tags": " | ".join(entry["tags"]),
-        "chemical_class": entry.get("chemical_class") or "",
-        "psychoactive_class": entry.get("psychoactive_class") or "",
-        "default_route": entry.get("default_route") or "",
-        "all_routes": " | ".join(entry.get("all_routes") or []),
-        "routes_with_dose": " | ".join(entry.get("routes_with_dose") or []),
-        "has_dose_data": "yes" if entry.get("has_dose_data") else "no",
-        "has_duration_data": "yes" if entry.get("has_duration_data") else "no",
-        "half_life_minutes": "" if entry.get("half_life_minutes") is None else str(entry["half_life_minutes"]),
-        "mechanism_summary": entry.get("mechanism_summary") or "",
-        "effects": " | ".join(entry.get("effects") or []),
-        "subjective_effects": " | ".join(entry.get("subjective_effects") or []),
-        "sources": " | ".join(entry.get("sources") or []),
-        "present_in": " | ".join(entry.get("present_in") or []),
-        "data_gaps": ", ".join(gaps_for(entry)),
+        "name": e["name"],
+        "display_name": e["display_name"],
+        "aliases": " | ".join(e["aliases"]),
+        "category": e["category"],
+        "display_class": e["display_class"],
+        "tags": " | ".join(e["tags"]),
+        "default_route": e["default_route"],
+        "all_routes": " | ".join(e["all_routes"]),
+        "routes_with_dose": " | ".join(e["routes_with_dose"]),
+        "has_dose_data": "yes" if e["has_dose_data"] else "no",
+        "has_duration_data": "yes" if e["has_duration_data"] else "no",
+        "half_life_minutes": "" if e["half_life_minutes"] is None else str(e["half_life_minutes"]),
+        "mechanism_summary": e["mechanism_summary"],
+        "effects": " | ".join(e["effects"]),
+        "references": " | ".join(e["references"]),
+        "data_gaps": ", ".join(gaps_for(e)),
     }
 
 
 def main() -> int:
+    if not DB_PATH.exists():
+        print(f"ERROR: {DB_PATH} not built — run pipeline/build/sqlite.py first", file=sys.stderr)
+        return 1
     OUT_DIR.mkdir(exist_ok=True)
-    curated = parse_curated(CURATED)
-    dc = parse_drug_community(DRUG_COMMUNITY)
-    merged = merge(curated, dc)
-    merged.sort(key=lambda e: e["name"].lower())
-
-    fieldnames = list(to_csv_row(merged[0] if merged else {"name": ""}).keys())
+    db = sqlite3.connect(DB_PATH)
+    rows = build_rows(db)
 
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w = csv.DictWriter(f, fieldnames=FIELDNAMES)
         w.writeheader()
-        for entry in merged:
-            w.writerow(to_csv_row(entry))
+        for e in rows:
+            w.writerow(to_csv_row(e))
 
-    gaps_rows = [to_csv_row(e) for e in merged if gaps_for(e)]
+    gaps_rows = [to_csv_row(e) for e in rows if gaps_for(e)]
     with OUT_GAPS_CSV.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w = csv.DictWriter(f, fieldnames=FIELDNAMES)
         w.writeheader()
         w.writerows(gaps_rows)
 
-    json_rows = [{**e, "data_gaps": gaps_for(e)} for e in merged]
-    OUT_JSON.write_text(json.dumps(json_rows, indent=2, ensure_ascii=False))
+    OUT_JSON.write_text(json.dumps(
+        [{**e, "data_gaps": gaps_for(e)} for e in rows], indent=2, ensure_ascii=False) + "\n")
 
-    # Stats to stderr
     counts = defaultdict(int)
-    for e in merged:
+    for e in rows:
         counts[e["category"] or "unknown"] += 1
-    print(f"Wrote {len(merged)} substances", file=sys.stderr)
-    print(f"  curated only:        {sum(1 for e in merged if e.get('present_in') == ['curated'])}", file=sys.stderr)
-    print(f"  drug.community only: {sum(1 for e in merged if e.get('present_in') == ['drug.community'])}", file=sys.stderr)
-    print(f"  in both:             {sum(1 for e in merged if set(e.get('present_in') or []) >= {'curated', 'drug.community'})}", file=sys.stderr)
-    print(f"  with dose data:      {sum(1 for e in merged if e.get('has_dose_data'))}", file=sys.stderr)
-    print(f"  with gaps:           {len(gaps_rows)}", file=sys.stderr)
-    print(f"  by category:", file=sys.stderr)
-    for cat, n in sorted(counts.items(), key=lambda x: -x[1]):
-        print(f"    {cat:32s} {n}", file=sys.stderr)
-    print(f"\nOutputs:", file=sys.stderr)
-    print(f"  {OUT_CSV}", file=sys.stderr)
-    print(f"  {OUT_JSON}", file=sys.stderr)
-    print(f"  {OUT_GAPS_CSV}", file=sys.stderr)
+    print(f"Wrote {len(rows)} substances (from built SQLite)", file=sys.stderr)
+    print(f"  with dose data:    {sum(1 for e in rows if e['has_dose_data'])}", file=sys.stderr)
+    print(f"  with protocol:     {sum(1 for e in rows if e.get('has_protocol_dosing'))}", file=sys.stderr)
+    print(f"  with references:   {sum(1 for e in rows if e['references'])}", file=sys.stderr)
+    print(f"  with gaps:         {len(gaps_rows)}", file=sys.stderr)
+    print(f"Outputs: {OUT_CSV}, {OUT_JSON}, {OUT_GAPS_CSV}", file=sys.stderr)
     return 0
 
 

@@ -65,10 +65,10 @@ in-code curation dict: one file fully describes one substance.
                                               data/snapshots/substances.{json,csv}  ← humans read this
 ```
 
-Note: `snapshots.py` reads the upstream **source feeds**, not the built SQLite,
-so curated overrides do not appear in the snapshots (and its alias ordering is
-nondeterministic). Treat the snapshots as a source-feed mirror; the shipped
-truth is the SQLite. Don't commit snapshot churn unless source data changed.
+Note: `snapshots.py` reads the **built SQLite**, so the snapshots mirror exactly
+what ships — resolved categories, curated overrides, references, casing — and
+are deterministic (ordered by canonical name). Regenerate and commit them
+alongside a DB rebuild.
 
 ## Running the pipeline
 
@@ -131,8 +131,9 @@ LLM-assisted research used to fill gaps external sources don't cover
   every web/enrichment/external source, resolves per-field priority, writes
   `Piru/Data/piru-substances.sqlite` + `manifest.json` +
   `docs/audit/sqlite-build-report.md`.
-- **`snapshots.py`** — source-feed mirror at `data/snapshots/` (see the flow
-  note above — does not reflect curated overrides; commit only on real change).
+- **`snapshots.py`** — GitHub-friendly mirror at `data/snapshots/`, generated
+  FROM the built SQLite (resolved + deterministic), so it reflects exactly what
+  the app ships.
 - **`tests/test_sqlite.py`** — dose-string parsing regressions, curated-file
   validation (incl. synthetic edge cases), and end-to-end invariants on the
   built database (categories, dedup, dose ceilings, curated-override
