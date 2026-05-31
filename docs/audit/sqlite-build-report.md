@@ -1,19 +1,19 @@
 # Piru SQLite build report
 
-Built 2026-05-30.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (14,618,624 bytes, sha256 `a2a2fe9f847a48f97c7fc5ab759bba64607611149730e561dc505e02efa4982f`)
+Built 2026-05-31.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (14,893,056 bytes, sha256 `1adec5d4b18f994a23d862910b5a1d42917904a4ffec6f87635dc447a50fe5b7`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 2,237 |
-| aliases | 5,831 |
+| substances | 2,236 |
+| aliases | 5,823 |
 | sources | 16 |
 | citations | 1,004 |
 | categories | 2,740 |
 | tags | 9,112 |
 | dose_ranges | 2,415 |
-| durations | 4,977 |
+| durations | 8,329 |
 | half_lives | 258 |
 | mechanisms_summary | 557 |
 | effects | 5,657 |
@@ -26,7 +26,7 @@ Built 2026-05-30.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 827 |
+| downstream_signalling | 826 |
 | neuroimaging | 57 |
 | pk_routes | 394 |
 | concentration_effects | 38 |
@@ -35,7 +35,7 @@ Built 2026-05-30.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 | pharmacogenetics | 274 |
 | off_targets | 227 |
 | class_contexts | 58 |
-| substance_classes | 229 |
+| substance_classes | 228 |
 
 ## Per-source coverage
 
