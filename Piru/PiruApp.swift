@@ -14,7 +14,12 @@ struct PiruApp: App {
     let container: ModelContainer
 
     init() {
-        Self.migrateStoreToAppGroupIfNeeded()
+        // Recover the canonical store BEFORE opening it: if the App Group store
+        // is empty/absent but a legacy or backed-up store holds the user's data,
+        // restore it (backing up the empty store first; never deleting). This
+        // fixes the widget-creates-empty-store race that stranded data on
+        // upgrade. See StoreRecovery.
+        StoreRecovery.prepareCanonicalStore()
 
         container = Self.makeContainer()
 
@@ -50,30 +55,26 @@ struct PiruApp: App {
         .modelContainer(container)
     }
 
-    /// Build the SwiftData `ModelContainer`. If the store is corrupt and fails
-    /// to open, move the offending files aside and try once more so the user
-    /// at least gets a working (empty) database instead of a launch crash.
+    /// Build the SwiftData `ModelContainer` on the canonical (already-recovered)
+    /// store, with the versioned schema + migration plan. If the store can't be
+    /// opened (corruption / locked), back it up aside (never delete) and retry;
+    /// last resort is an in-memory store so the app launches instead of crashing.
     private static func makeContainer() -> ModelContainer {
-        // Don't force-unwrap the app-group URL: if the entitlement is ever
-        // misconfigured this would be a launch crash. Fall back to Application
-        // Support so the app still launches with a (non-shared) store.
-        let groupBase = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
-            ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            ?? URL(fileURLWithPath: NSTemporaryDirectory())
-        let groupURL = groupBase.appendingPathComponent("default.store")
-        let config = ModelConfiguration(url: groupURL)
-        let models: [any PersistentModel.Type] = [
-            DoseEntry.self, SubstanceColor.self, UserColor.self,
-            DailyDoseItem.self, FavoriteSubstance.self,
-        ]
+        let storeURL = StoreRecovery.canonicalStoreURL()
+        let config = ModelConfiguration(url: storeURL)
+
+        let schema = Schema(versionedSchema: PiruSchemaV1.self)
+        func open() throws -> ModelContainer {
+            try ModelContainer(for: schema, migrationPlan: PiruMigrationPlan.self, configurations: config)
+        }
 
         do {
-            return try ModelContainer(for: Schema(models), configurations: config)
+            return try open()
         } catch {
-            appLogger.error("ModelContainer creation failed: \(error.localizedDescription, privacy: .public). Attempting store recovery.")
-            quarantineCorruptStore(at: groupURL)
+            appLogger.error("ModelContainer creation failed: \(error.localizedDescription, privacy: .public). Backing up store and retrying.")
+            StoreRecovery.backUpStore(at: storeURL, reason: "corrupt")
             do {
-                return try ModelContainer(for: Schema(models), configurations: config)
+                return try open()
             } catch {
                 // Last resort: an in-memory store. A background launch before
                 // first unlock (data-protection unavailable) or an unrecoverable
@@ -83,64 +84,13 @@ struct PiruApp: App {
                 appLogger.fault("ModelContainer recovery failed: \(error.localizedDescription, privacy: .public). Falling back to in-memory store.")
                 do {
                     return try ModelContainer(
-                        for: Schema(models),
+                        for: schema,
                         configurations: ModelConfiguration(isStoredInMemoryOnly: true),
                     )
                 } catch {
                     fatalError("Failed to create even an in-memory ModelContainer: \(error)")
                 }
             }
-        }
-    }
-
-    /// Rename `default.store{,-shm,-wal}` to `default.store.corrupt-<timestamp>{,-shm,-wal}`
-    /// so SwiftData can create a fresh store on the next attempt.
-    private static func quarantineCorruptStore(at storeURL: URL) {
-        let fm = FileManager.default
-        let directory = storeURL.deletingLastPathComponent()
-        let timestamp = Int(Date().timeIntervalSince1970)
-        let suffixes = ["", "-shm", "-wal"]
-
-        for suffix in suffixes {
-            let source = directory.appendingPathComponent("default.store\(suffix)")
-            guard fm.fileExists(atPath: source.path) else { continue }
-            let destination = directory.appendingPathComponent("default.store.corrupt-\(timestamp)\(suffix)")
-            do {
-                try fm.moveItem(at: source, to: destination)
-                appLogger.notice("Quarantined corrupt store file: \(destination.lastPathComponent, privacy: .public)")
-            } catch {
-                appLogger.error("Failed to quarantine \(source.lastPathComponent, privacy: .public): \(error.localizedDescription, privacy: .public)")
-            }
-        }
-    }
-
-    /// One-time migration: copies the old app-sandbox SwiftData store to the shared App Group container.
-    private static func migrateStoreToAppGroupIfNeeded() {
-        let fm = FileManager.default
-        guard let groupDir = fm.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else { return }
-        let destStore = groupDir.appendingPathComponent("default.store")
-
-        // Already migrated
-        guard !fm.fileExists(atPath: destStore.path) else { return }
-
-        let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let oldStore = appSupport.appendingPathComponent("default.store")
-
-        // Nothing to migrate
-        guard fm.fileExists(atPath: oldStore.path) else { return }
-
-        // Copy all SQLite files (default.store, default.store-shm, default.store-wal)
-        do {
-            let storeFiles = try fm.contentsOfDirectory(atPath: appSupport.path)
-                .filter { $0.hasPrefix("default.store") }
-            for file in storeFiles {
-                try fm.copyItem(
-                    at: appSupport.appendingPathComponent(file),
-                    to: groupDir.appendingPathComponent(file),
-                )
-            }
-        } catch {
-            // If migration fails, the app will start with an empty store in the group container
         }
     }
 }

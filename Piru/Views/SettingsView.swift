@@ -365,6 +365,9 @@ struct SettingsView: View {
     }
 
     private func deleteAllData() {
+        // Never delete without a recoverable copy: snapshot the populated store
+        // aside first, so an accidental "Delete All" can be restored.
+        StoreRecovery.snapshotStore(reason: "predelete")
         do {
             try DataExportImport.deleteAll(context: modelContext)
         } catch {
