@@ -1,6 +1,5 @@
 {
   "name": "Butonitazene",
-  "aliases": [],
   "category": "Opioid",
   "defaultRoute": "insufflation",
   "routes": [],
@@ -19,5 +18,6 @@
     "fentanyl-stronger",
     "fatalities-reported",
     "benzimidazole-opioid"
-  ]
+  ],
+  "popularity": 0.1
 }

@@ -45,6 +45,18 @@
           "max": 360
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 200,
+        "frequency": "one to three times daily",
+        "courseDuration": "cycle then break (tachyphylaxis by ~week 4)",
+        "notes": "community protocol; GHS-R1a + CD36 agonist"
+      }
     }
   ],
   "effects": [
@@ -68,5 +80,18 @@
     "grey-market",
     "research-chemical",
     "performance-enhancing"
-  ]
+  ],
+  "molarMass": 887.04,
+  "peptideProfile": {
+    "sequence": "His-D-2-Me-Trp-Ala-Trp-D-Phe-Lys-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

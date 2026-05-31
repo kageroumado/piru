@@ -43,6 +43,15 @@
           "max": 720
         }
       }
+    },
+    {
+      "route": "insufflation",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "one to three times daily",
+        "notes": "intranasal nootropic (raises BDNF); Russian-approved; no validated Western dosing"
+      }
     }
   ],
   "effects": [
@@ -59,5 +68,18 @@
     "nootropic",
     "peptide",
     "neurotrophic"
-  ]
+  ],
+  "molarMass": 813.92,
+  "peptideProfile": {
+    "sequence": "Met-Glu-His-Phe-Pro-Gly-Pro (MEHFPGP); ACTH(4-10) analog, sometimes N-acetyl/amidated",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

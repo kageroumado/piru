@@ -1,0 +1,29 @@
+{
+  "name": "Gonadorelin",
+  "molarMass": 1182.29,
+  "peptideProfile": {
+    "sequence": "pGlu-His-Trp-Ser-Tyr-Gly-Leu-Arg-Pro-Gly-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  },
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 100,
+        "frequency": "as a single dose or pulsatile",
+        "notes": "native GnRH decapeptide; diagnostic ~100 mcg, pulsatile dosing stimulates LH/FSH; t½ ~10-40 min"
+      }
+    }
+  ]
+}

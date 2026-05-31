@@ -44,6 +44,17 @@
           "max": 900
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 1.75,
+        "highAmount": 1.75,
+        "frequency": "as needed, max once daily and 8 per month",
+        "notes": "Vyleesi prefilled autoinjector solution (room temp); MC4R-preferring agonist for HSDD; t½ ~2.7 h. Gray-market lyophilized vials require BAC water + refrigeration"
+      }
     }
   ],
   "effects": [
@@ -67,5 +78,18 @@
     "prescription-only",
     "HSDD-treatment",
     "aphrodisiac"
-  ]
+  ],
+  "molarMass": 1025.17,
+  "peptideProfile": {
+    "sequence": "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-OH (cyclic, free C-terminal acid)",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "room_temp",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

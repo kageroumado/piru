@@ -44,6 +44,39 @@
           "max": 1500
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 0.6,
+        "highAmount": 3.0,
+        "frequency": "once daily",
+        "titration": [
+          {
+            "amount": 0.6,
+            "label": "week 1"
+          },
+          {
+            "amount": 1.2,
+            "label": "week 2"
+          },
+          {
+            "amount": 1.8,
+            "label": "week 3"
+          },
+          {
+            "amount": 2.4,
+            "label": "week 4 (Saxenda)"
+          },
+          {
+            "amount": 3.0,
+            "label": "maintenance (Saxenda)"
+          }
+        ],
+        "notes": "Victoza up to 1.8 mg (T2DM), Saxenda up to 3.0 mg (obesity); in-use pen 30 days room temp"
+      }
     }
   ],
   "effects": [
@@ -67,5 +100,18 @@
     "anti-obesity",
     "anti-diabetic",
     "weight-loss"
-  ]
+  ],
+  "molarMass": 3751.2,
+  "peptideProfile": {
+    "sequence": "GLP-1(7-37) with Arg34; Lys26 acylated with palmitoyl (C16) via γGlu spacer",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": 30
+    },
+    "iuPerMg": null
+  }
 }

@@ -83,6 +83,64 @@
           "max": 14400
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 0.25,
+        "highAmount": 2.4,
+        "frequency": "once weekly",
+        "titration": [
+          {
+            "amount": 0.25,
+            "label": "weeks 1-4"
+          },
+          {
+            "amount": 0.5,
+            "label": "weeks 5-8"
+          },
+          {
+            "amount": 1.0,
+            "label": "weeks 9-12"
+          },
+          {
+            "amount": 1.7,
+            "label": "weeks 13-16"
+          },
+          {
+            "amount": 2.4,
+            "label": "maintenance"
+          }
+        ],
+        "notes": "Wegovy obesity titration; prefilled pen, refrigerate, in-use ~6 weeks room temp"
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 3,
+        "highAmount": 14,
+        "frequency": "once daily",
+        "titration": [
+          {
+            "amount": 3,
+            "label": "first 30 days"
+          },
+          {
+            "amount": 7,
+            "label": "step up"
+          },
+          {
+            "amount": 14,
+            "label": "maximum"
+          }
+        ],
+        "notes": "Rybelsus with SNAC absorption enhancer, taken fasted"
+      }
     }
   ],
   "effects": [
@@ -108,5 +166,18 @@
     "anti-obesity",
     "anti-diabetic",
     "weight-loss"
-  ]
+  ],
+  "molarMass": 4113.6,
+  "peptideProfile": {
+    "sequence": "GLP-1(7-37) analog: His-Aib-Glu-Gly-Thr-Phe-Thr-Ser-Asp-Val-Ser-Ser-Tyr-Leu-Glu-Gly-Gln-Ala-Ala-Lys(AEEA-AEEA-γGlu-C18 diacid)-Glu-Phe-Ile-Ala-Trp-Leu-Val-Arg-Gly-Arg-Gly; Aib8, Arg34, Lys26 acylated",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": 42
+    },
+    "iuPerMg": null
+  }
 }

@@ -43,6 +43,17 @@
           "max": 20160
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 1,
+        "highAmount": 12,
+        "frequency": "once weekly",
+        "notes": "investigational triple GIP+GLP-1+glucagon agonist (LY3437943); t½ ~6 days; trial titration up to 12 mg weekly"
+      }
     }
   ],
   "effects": [
@@ -66,5 +77,18 @@
     "research-chemical",
     "anti-obesity",
     "weight-loss"
-  ]
+  ],
+  "molarMass": 4731,
+  "peptideProfile": {
+    "sequence": null,
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

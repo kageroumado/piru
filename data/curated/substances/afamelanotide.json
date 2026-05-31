@@ -1,0 +1,29 @@
+{
+  "name": "Afamelanotide",
+  "molarMass": 1646.85,
+  "peptideProfile": {
+    "sequence": "Ac-Ser-Tyr-Ser-Nle-Glu-His-D-Phe-Arg-Trp-Gly-Lys-Pro-Val-NH2 ([Nle4,D-Phe7]-α-MSH, 13 aa)",
+    "suppliedForm": "implant",
+    "typicalVialMg": 16,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  },
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 16,
+        "highAmount": 16,
+        "frequency": "one implant every 2 months",
+        "notes": "Scenesse 16 mg bioresorbable slow-release implant; FDA/EMA-approved for erythropoietic protoporphyria (Melanotan I); MC1R agonist"
+      }
+    }
+  ]
+}

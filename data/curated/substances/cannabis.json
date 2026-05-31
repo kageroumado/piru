@@ -1,0 +1,52 @@
+{
+  "name": "Cannabis",
+  "aliases": [
+    "大麻",
+    "大麻草"
+  ],
+  "popularity": 0.92,
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg THC",
+      "doses": {
+        "threshold": 0.4,
+        "light": {
+          "lower": 0.4,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 4
+        },
+        "strong": {
+          "lower": 4,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "notes": "Doses are mg of Δ9-THC, not flower weight. Flower needed ≈ desired THC ÷ strain %THC; smoking loses ~50–80% to combustion, so real flower amounts run higher."
+    },
+    {
+      "route": "oral",
+      "unit": "mg THC",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 25
+        },
+        "heavy": 25
+      },
+      "notes": "Doses are mg of Δ9-THC (edibles/oils). Oral THC has low, variable bioavailability and converts to stronger 11-OH-THC; wait ≥2 h before any redose."
+    }
+  ]
+}

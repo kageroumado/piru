@@ -3,7 +3,8 @@
   "aliases": [
     "Cannabidiol",
     "(-)-Cannabidiol",
-    "2-[(1R,6R)-3-Methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-5-pentylbenzene-1,3-diol"
+    "2-[(1R,6R)-3-Methyl-6-prop-1-en-2-ylcyclohex-2-en-1-yl]-5-pentylbenzene-1,3-diol",
+    "大麻二酚"
   ],
   "category": "Cannabinoid",
   "defaultRoute": "oral",
@@ -107,5 +108,6 @@
     "CB2-agonist",
     "5-HT1A-agonist",
     "therapeutic"
-  ]
+  ],
+  "popularity": 0.79
 }

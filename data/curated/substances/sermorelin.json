@@ -45,6 +45,17 @@
           "max": 360
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 300,
+        "frequency": "once daily before sleep",
+        "notes": "GHRH analog; t½ ~10-20 min; historically FDA-approved (Geref), now compounded"
+      }
     }
   ],
   "effects": [
@@ -70,5 +81,18 @@
     "grey-market",
     "research-chemical",
     "anti-aging"
-  ]
+  ],
+  "molarMass": 3357.9,
+  "peptideProfile": {
+    "sequence": "Tyr-Ala-Asp-Ala-Ile-Phe-Thr-Asn-Ser-Tyr-Arg-Lys-Val-Leu-Gly-Gln-Leu-Ser-Ala-Arg-Lys-Leu-Leu-Gln-Asp-Ile-Met-Ser-Arg-NH2 (GHRH(1-29)-NH2, YADAIFTNSYRKVLGQLSARKLLQDIMSR-NH2)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

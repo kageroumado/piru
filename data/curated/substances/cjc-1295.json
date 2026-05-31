@@ -45,6 +45,28 @@
           "max": 20160
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "highAmount": 100,
+        "frequency": "once or twice daily",
+        "notes": "no-DAC / Mod GRF 1-29 form, t½ ~30 min; community protocol"
+      }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 1,
+        "highAmount": 2,
+        "frequency": "once weekly",
+        "notes": "DAC form (DAC:GRF), t½ ~6-8 days; community protocol"
+      }
     }
   ],
   "effects": [
@@ -69,5 +91,18 @@
     "grey-market",
     "research-chemical",
     "performance-enhancing"
-  ]
+  ],
+  "molarMass": 3647.1,
+  "peptideProfile": {
+    "sequence": "GHRH(1-29) analog with D-Ala2, Gln8, Ala15, Leu27 substitutions; DAC variant adds Lys30 maleimidoproprionic albumin binder",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 2,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

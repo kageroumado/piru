@@ -6,7 +6,20 @@
   ],
   "category": "Peptide",
   "defaultRoute": "subcutaneous",
-  "routes": [],
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 250,
+        "highAmount": 500,
+        "frequency": "once or twice daily",
+        "courseDuration": "4-6 weeks",
+        "notes": "community/research protocol, no validated human dosing; near injury site for local repair"
+      }
+    }
+  ],
   "effects": [
     "Synthetic 15-amino-acid peptide derived from gastric juice protein",
     "Reported gut-healing and tendon-repair effects in animal studies",
@@ -23,5 +36,18 @@
     "WADA-banned",
     "research-chemical",
     "no-human-data"
-  ]
+  ],
+  "molarMass": 1419.55,
+  "peptideProfile": {
+    "sequence": "Gly-Glu-Pro-Pro-Pro-Gly-Lys-Pro-Ala-Asp-Asp-Ala-Gly-Leu-Val (GEPPPGKPADDAGLV)",
+    "suppliedForm": "lyophilized_vial",
+    "typicalVialMg": 5,
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": null
+    },
+    "iuPerMg": null
+  }
 }

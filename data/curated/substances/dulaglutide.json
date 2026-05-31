@@ -43,6 +43,35 @@
           "max": 14400
         }
       }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 0.75,
+        "highAmount": 4.5,
+        "frequency": "once weekly",
+        "titration": [
+          {
+            "amount": 0.75,
+            "label": "starting dose"
+          },
+          {
+            "amount": 1.5,
+            "label": "step up"
+          },
+          {
+            "amount": 3.0,
+            "label": "step up"
+          },
+          {
+            "amount": 4.5,
+            "label": "maximum"
+          }
+        ],
+        "notes": "Trulicity prefilled pen; 14 days room-temp stability"
+      }
     }
   ],
   "effects": [
@@ -64,5 +93,18 @@
     "GLP-1-agonist",
     "prescription-only",
     "anti-diabetic"
-  ]
+  ],
+  "molarMass": 59700,
+  "peptideProfile": {
+    "sequence": "Two GLP-1(7-37) analog chains linked to a modified human IgG4 Fc (~58 kDa fusion protein)",
+    "suppliedForm": "solution",
+    "typicalVialMg": null,
+    "reconstitutionSolvent": null,
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true,
+      "reconstitutedStabilityDays": 14
+    },
+    "iuPerMg": null
+  }
 }

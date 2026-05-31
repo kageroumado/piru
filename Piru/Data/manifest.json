@@ -1,6 +1,6 @@
 {
   "content_version": "2026-05-31.0",
-  "generated_at": "2026-05-31T20:26:13.676042+00:00",
+  "generated_at": "2026-05-31T20:34:47.631717+00:00",
   "generator_version": "pipeline/build/sqlite.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
   "schema_version": 2,
@@ -58,7 +58,7 @@
     "piru-curated": {
       "bindings": 68,
       "categories": 618,
-      "dose_ranges": 462
+      "dose_ranges": 465
     },
     "psychonautwiki": {
       "bindings": 0,
@@ -87,7 +87,7 @@
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "297d49e3bdd7595099ce6a316c3c2f61e46c01756dc2096bb8a2c5338429cfac",
+  "sqlite_sha256": "9284a71b1085f89576c9702ffd30edc9f39d10a6f4068ef23578ebd7069525f8",
   "sqlite_size_bytes": 15560704,
   "substance_count": 2328
 }
