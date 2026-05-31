@@ -1,0 +1,388 @@
+{
+  "BPC-157": {
+    "molarMass": 1419.55,
+    "peptideProfile": {
+      "sequence": "Gly-Glu-Pro-Pro-Pro-Gly-Lys-Pro-Ala-Asp-Asp-Ala-Gly-Leu-Val (GEPPPGKPADDAGLV)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 250, "highAmount": 500,
+       "frequency": "once or twice daily", "courseDuration": "4-6 weeks", "notes": "community/research protocol, no validated human dosing; near injury site for local repair"}
+    ]
+  },
+  "CJC-1295": {
+    "molarMass": 3647.1,
+    "peptideProfile": {
+      "sequence": "GHRH(1-29) analog with D-Ala2, Gln8, Ala15, Leu27 substitutions; DAC variant adds Lys30 maleimidoproprionic albumin binder",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 2,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 100,
+       "frequency": "once or twice daily", "courseDuration": null, "notes": "no-DAC / Mod GRF 1-29 form, t½ ~30 min; community protocol"},
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 1, "highAmount": 2,
+       "frequency": "once weekly", "courseDuration": null, "notes": "DAC form (DAC:GRF), t½ ~6-8 days; community protocol"}
+    ]
+  },
+  "DSIP": {
+    "molarMass": 848.81,
+    "peptideProfile": {
+      "sequence": "Trp-Ala-Gly-Gly-Asp-Ala-Ser-Gly-Glu (WAGGDASGE)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 200,
+       "frequency": "once daily before sleep", "courseDuration": null, "notes": "community/research protocol; very short half-life, no robust human efficacy"}
+    ]
+  },
+  "Dulaglutide": {
+    "molarMass": 59700,
+    "peptideProfile": {
+      "sequence": "Two GLP-1(7-37) analog chains linked to a modified human IgG4 Fc (~58 kDa fusion protein)",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": 14},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 0.75, "highAmount": 4.5,
+       "frequency": "once weekly", "courseDuration": null, "notes": "Trulicity prefilled pen; 14 days room-temp stability",
+       "titration": [{"amount": 0.75, "label": "starting dose"}, {"amount": 1.5, "label": "step up"}, {"amount": 3.0, "label": "step up"}, {"amount": 4.5, "label": "maximum"}]}
+    ]
+  },
+  "Epitalon": {
+    "molarMass": 390.35,
+    "peptideProfile": {
+      "sequence": "Ala-Glu-Asp-Gly (AEDG)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 10,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 5, "highAmount": 10,
+       "frequency": "once daily in a 10-20 day course", "courseDuration": "10-20 day course, repeated periodically", "notes": "Khavinson protocol; single-source Russian literature, no validated human PK"}
+    ]
+  },
+  "GHK-Cu": {
+    "molarMass": 403.93,
+    "peptideProfile": {
+      "sequence": "Gly-His-Lys copper(II) complex (GHK-Cu2+)",
+      "suppliedForm": "topical",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "room_temp", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "transdermal", "unit": "mg", "lowAmount": null, "highAmount": null,
+       "frequency": "once or twice daily", "courseDuration": null, "notes": "cosmetic serum/cream, typically 1-2% formulation; collagen/GAG synthesis. Dose is formulation percent, not injected mass"}
+    ]
+  },
+  "GHRP-2": {
+    "molarMass": 817.97,
+    "peptideProfile": {
+      "sequence": "D-Ala-D-2-Nal-Ala-Trp-D-Phe-Lys-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 300,
+       "frequency": "one to three times daily", "courseDuration": null, "notes": "community protocol; GHS-R1a agonist with moderate prolactin/cortisol rise"}
+    ]
+  },
+  "GHRP-6": {
+    "molarMass": 873.01,
+    "peptideProfile": {
+      "sequence": "His-D-Trp-Ala-Trp-D-Phe-Lys-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 100,
+       "frequency": "two or three times daily", "courseDuration": null, "notes": "community protocol; strong appetite stimulation, mild cortisol/prolactin"}
+    ]
+  },
+  "Gonadorelin": {
+    "molarMass": 1182.29,
+    "peptideProfile": {
+      "sequence": "pGlu-His-Trp-Ser-Tyr-Gly-Leu-Arg-Pro-Gly-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 100,
+       "frequency": "as a single dose or pulsatile", "courseDuration": null, "notes": "native GnRH decapeptide; diagnostic ~100 mcg, pulsatile dosing stimulates LH/FSH; t½ ~10-40 min"}
+    ]
+  },
+  "Hexarelin": {
+    "molarMass": 887.04,
+    "peptideProfile": {
+      "sequence": "His-D-2-Me-Trp-Ala-Trp-D-Phe-Lys-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 200,
+       "frequency": "one to three times daily", "courseDuration": "cycle then break (tachyphylaxis by ~week 4)", "notes": "community protocol; GHS-R1a + CD36 agonist"}
+    ]
+  },
+  "Ipamorelin": {
+    "molarMass": 711.85,
+    "peptideProfile": {
+      "sequence": "Aib-His-D-2-Nal-D-Phe-Lys-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 300,
+       "frequency": "one to three times daily", "courseDuration": null, "notes": "community protocol; clean GHS-R1a agonist with no cortisol/prolactin rise; t½ ~2 h"}
+    ]
+  },
+  "Liraglutide": {
+    "molarMass": 3751.2,
+    "peptideProfile": {
+      "sequence": "GLP-1(7-37) with Arg34; Lys26 acylated with palmitoyl (C16) via γGlu spacer",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": 30},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 0.6, "highAmount": 3.0,
+       "frequency": "once daily", "courseDuration": null, "notes": "Victoza up to 1.8 mg (T2DM), Saxenda up to 3.0 mg (obesity); in-use pen 30 days room temp",
+       "titration": [{"amount": 0.6, "label": "week 1"}, {"amount": 1.2, "label": "week 2"}, {"amount": 1.8, "label": "week 3"}, {"amount": 2.4, "label": "week 4 (Saxenda)"}, {"amount": 3.0, "label": "maintenance (Saxenda)"}]}
+    ]
+  },
+  "MOTS-c": {
+    "molarMass": 2356,
+    "peptideProfile": {
+      "sequence": "Met-Arg-Trp-Gln-Glu-Met-Gly-Tyr-Ile-Phe-Tyr-Pro-Arg-Lys-Leu-Arg (MRWQEMGYIFYPRKLR)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 10,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 5, "highAmount": 10,
+       "frequency": "once weekly", "courseDuration": null, "notes": "community/research protocol, no validated human dosing; mitochondrial-derived peptide, AMPK activation"}
+    ]
+  },
+  "Melanotan II": {
+    "molarMass": 1024.18,
+    "peptideProfile": {
+      "sequence": "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-NH2 (cyclic lactam, acetylated N-term, amidated C-term)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 10,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 250, "highAmount": 1000,
+       "frequency": "once daily during loading, then maintenance", "courseDuration": null, "notes": "non-selective melanocortin agonist (tanning + sexual arousal); no approved dose; melanoma/renal-infarction safety flags. t½ ~33 h"}
+    ]
+  },
+  "Oxytocin": {
+    "molarMass": 1007.19,
+    "peptideProfile": {
+      "sequence": "Cys-Tyr-Ile-Gln-Asn-Cys-Pro-Leu-Gly-NH2 (disulfide Cys1-Cys6, C-amide)",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": 555.6
+    },
+    "protocols": [
+      {"route": "insufflation", "unit": "IU", "lowAmount": 24, "highAmount": 24,
+       "frequency": "once per session (research)", "courseDuration": null, "notes": "intranasal social/research dosing; off-label"},
+      {"route": "intravenous", "unit": "IU", "lowAmount": null, "highAmount": null,
+       "frequency": "continuous titrated infusion", "courseDuration": null, "notes": "obstetric use titrated in milliunits/min; clinical only"}
+    ]
+  },
+  "PT-141": {
+    "molarMass": 1025.17,
+    "peptideProfile": {
+      "sequence": "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-OH (cyclic, free C-terminal acid)",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "room_temp", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 1.75, "highAmount": 1.75,
+       "frequency": "as needed, max once daily and 8 per month", "courseDuration": null, "notes": "Vyleesi prefilled autoinjector solution (room temp); MC4R-preferring agonist for HSDD; t½ ~2.7 h. Gray-market lyophilized vials require BAC water + refrigeration"}
+    ]
+  },
+  "Retatrutide": {
+    "molarMass": 4731,
+    "peptideProfile": {
+      "sequence": null,
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 1, "highAmount": 12,
+       "frequency": "once weekly", "courseDuration": null, "notes": "investigational triple GIP+GLP-1+glucagon agonist (LY3437943); t½ ~6 days; trial titration up to 12 mg weekly"}
+    ]
+  },
+  "Selank": {
+    "molarMass": 751.88,
+    "peptideProfile": {
+      "sequence": "Thr-Lys-Pro-Arg-Pro-Gly-Pro (TKPRPGP)",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "insufflation", "unit": "mcg", "lowAmount": null, "highAmount": null,
+       "frequency": "one to three times daily", "courseDuration": null, "notes": "intranasal anxiolytic/nootropic (tuftsin analog); Russian-approved 2009; no validated Western dosing"}
+    ]
+  },
+  "Semaglutide": {
+    "molarMass": 4113.6,
+    "peptideProfile": {
+      "sequence": "GLP-1(7-37) analog: His-Aib-Glu-Gly-Thr-Phe-Thr-Ser-Asp-Val-Ser-Ser-Tyr-Leu-Glu-Gly-Gln-Ala-Ala-Lys(AEEA-AEEA-γGlu-C18 diacid)-Glu-Phe-Ile-Ala-Trp-Leu-Val-Arg-Gly-Arg-Gly; Aib8, Arg34, Lys26 acylated",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": 42},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 0.25, "highAmount": 2.4,
+       "frequency": "once weekly", "courseDuration": null, "notes": "Wegovy obesity titration; prefilled pen, refrigerate, in-use ~6 weeks room temp",
+       "titration": [{"amount": 0.25, "label": "weeks 1-4"}, {"amount": 0.5, "label": "weeks 5-8"}, {"amount": 1.0, "label": "weeks 9-12"}, {"amount": 1.7, "label": "weeks 13-16"}, {"amount": 2.4, "label": "maintenance"}]},
+      {"route": "oral", "unit": "mg", "lowAmount": 3, "highAmount": 14,
+       "frequency": "once daily", "courseDuration": null, "notes": "Rybelsus with SNAC absorption enhancer, taken fasted",
+       "titration": [{"amount": 3, "label": "first 30 days"}, {"amount": 7, "label": "step up"}, {"amount": 14, "label": "maximum"}]}
+    ]
+  },
+  "Semax": {
+    "molarMass": 813.92,
+    "peptideProfile": {
+      "sequence": "Met-Glu-His-Phe-Pro-Gly-Pro (MEHFPGP); ACTH(4-10) analog, sometimes N-acetyl/amidated",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "insufflation", "unit": "mcg", "lowAmount": null, "highAmount": null,
+       "frequency": "one to three times daily", "courseDuration": null, "notes": "intranasal nootropic (raises BDNF); Russian-approved; no validated Western dosing"}
+    ]
+  },
+  "Sermorelin": {
+    "molarMass": 3357.9,
+    "peptideProfile": {
+      "sequence": "Tyr-Ala-Asp-Ala-Ile-Phe-Thr-Asn-Ser-Tyr-Arg-Lys-Val-Leu-Gly-Gln-Leu-Ser-Ala-Arg-Lys-Leu-Leu-Gln-Asp-Ile-Met-Ser-Arg-NH2 (GHRH(1-29)-NH2, YADAIFTNSYRKVLGQLSARKLLQDIMSR-NH2)",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mcg", "lowAmount": 100, "highAmount": 300,
+       "frequency": "once daily before sleep", "courseDuration": null, "notes": "GHRH analog; t½ ~10-20 min; historically FDA-approved (Geref), now compounded"}
+    ]
+  },
+  "TB-500": {
+    "molarMass": null,
+    "peptideProfile": {
+      "sequence": "Synthetic Thymosin β4 fragment (active region Ac-Leu-Lys-Lys-Thr-Glu-Thr-Gln, Ac-LKKTETQ); full Tβ4 is 43 aa",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": 5,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 2, "highAmount": 5,
+       "frequency": "once or twice weekly", "courseDuration": null, "notes": "community/research healing protocol, no validated human dosing; t½ ~hours"}
+    ]
+  },
+  "Tesamorelin": {
+    "molarMass": 5135.9,
+    "peptideProfile": {
+      "sequence": "trans-3-hexenoyl-GHRH(1-44); N-terminally modified human GHRH 44-residue analog",
+      "suppliedForm": "lyophilized_vial",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 2, "highAmount": 2,
+       "frequency": "once daily", "courseDuration": null, "notes": "Egrifta; FDA-approved for HIV lipodystrophy; t½ ~26-38 min"}
+    ]
+  },
+  "Tirzepatide": {
+    "molarMass": 4813.5,
+    "peptideProfile": {
+      "sequence": "39-aa synthetic GIP-based backbone with Aib2/Aib13, Lys20 acylated with C20 diacid via γGlu/2×AEEA, C-terminal amide",
+      "suppliedForm": "solution",
+      "typicalVialMg": null,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 2.5, "highAmount": 15,
+       "frequency": "once weekly", "courseDuration": null, "notes": "Mounjaro/Zepbound; dual GIP+GLP-1 agonist; prefilled pen/vial, refrigerate; t½ ~5 days",
+       "titration": [{"amount": 2.5, "label": "weeks 1-4"}, {"amount": 5.0, "label": "weeks 5-8"}, {"amount": 7.5, "label": "step up"}, {"amount": 10.0, "label": "step up"}, {"amount": 12.5, "label": "step up"}, {"amount": 15.0, "label": "maximum"}]}
+    ]
+  },
+  "Afamelanotide": {
+    "molarMass": 1646.85,
+    "peptideProfile": {
+      "sequence": "Ac-Ser-Tyr-Ser-Nle-Glu-His-D-Phe-Arg-Trp-Gly-Lys-Pro-Val-NH2 ([Nle4,D-Phe7]-α-MSH, 13 aa)",
+      "suppliedForm": "implant",
+      "typicalVialMg": 16,
+      "reconstitutionSolvent": null,
+      "storage": {"temperature": "refrigerate", "lightSensitive": true, "reconstitutedStabilityDays": null},
+      "iuPerMg": null
+    },
+    "protocols": [
+      {"route": "subcutaneous", "unit": "mg", "lowAmount": 16, "highAmount": 16,
+       "frequency": "one implant every 2 months", "courseDuration": null, "notes": "Scenesse 16 mg bioresorbable slow-release implant; FDA/EMA-approved for erythropoietic protoporphyria (Melanotan I); MC1R agonist"}
+    ]
+  }
+}

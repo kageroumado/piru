@@ -56,11 +56,43 @@ struct JSONDurationProfile: Codable, Hashable {
     }
 }
 
+struct JSONTitrationStep: Codable, Hashable {
+    let amount: Double
+    let label: String
+}
+
+struct JSONProtocolDosing: Codable, Hashable {
+    var lowAmount: Double?
+    var highAmount: Double?
+    var frequency: String
+    var titration: [JSONTitrationStep]?
+    var courseDuration: String?
+    var notes: String?
+}
+
 struct JSONRoute: Codable, Hashable {
     let route: String   // RouteOfAdministration raw value, e.g. "oral"
     let unit: String
     let doses: JSONDoseRange
     let duration: JSONDurationProfile?
+    /// Clinical-protocol dosing (peptides/Rx); mirrors `SubstanceRoute.protocolDosing`.
+    var protocolDosing: JSONProtocolDosing?
+}
+
+struct JSONStorageRequirement: Codable, Hashable {
+    let temperature: String   // "room_temp" | "refrigerate" | "freeze"
+    var lightSensitive: Bool
+    var reconstitutedStabilityDays: Double?
+}
+
+/// Mirrors `PeptideProfile` in the iOS app.
+struct JSONPeptideProfile: Codable, Hashable {
+    var sequence: String?
+    var suppliedForm: String?   // SuppliedForm raw value, e.g. "lyophilized_vial"
+    var typicalVialMg: Double?
+    var reconstitutionSolvent: String?
+    var storage: JSONStorageRequirement?
+    var iuPerMg: Double?
 }
 
 struct JSONSubjectiveEffect: Codable, Hashable {
@@ -102,6 +134,18 @@ struct BundledSubstance: Codable, Hashable {
     var sources: [String]
     var mechanismOfAction: JSONMechanismOfAction?
     var tags: [String]
+    // Chemical identifiers. On the curated overlay these live on the substance
+    // object (matching the iOS `Substance` Codable); the SQLite builder lifts
+    // them onto the substance row. nil for records whose identifiers ride the
+    // SourcedSubstance wrapper instead.
+    var cas: String?
+    var inchikey: String?
+    var formula: String?
+    var pubchemCID: Int?
+    /// Molar mass in g/mol → `substances.molecular_weight`.
+    var molarMass: Double?
+    /// Peptide/biologic-specific reference data; mirrors `Substance.peptideProfile`.
+    var peptideProfile: JSONPeptideProfile?
 
     /// Empty array if no usable dose data on any route — the iOS app handles
     /// this via `Substance.hasNoDoseData` and switches to a "see references"
@@ -132,6 +176,12 @@ struct BundledSubstance: Codable, Hashable {
         if !tags.isEmpty {
             try c.encode(tags, forKey: .tags)
         }
+        try c.encodeIfPresent(cas, forKey: .cas)
+        try c.encodeIfPresent(inchikey, forKey: .inchikey)
+        try c.encodeIfPresent(formula, forKey: .formula)
+        try c.encodeIfPresent(pubchemCID, forKey: .pubchemCID)
+        try c.encodeIfPresent(molarMass, forKey: .molarMass)
+        try c.encodeIfPresent(peptideProfile, forKey: .peptideProfile)
     }
 
     init(
@@ -146,7 +196,13 @@ struct BundledSubstance: Codable, Hashable {
         halfLifeMinutes: Double? = nil,
         sources: [String] = [],
         mechanismOfAction: JSONMechanismOfAction? = nil,
-        tags: [String] = []
+        tags: [String] = [],
+        cas: String? = nil,
+        inchikey: String? = nil,
+        formula: String? = nil,
+        pubchemCID: Int? = nil,
+        molarMass: Double? = nil,
+        peptideProfile: JSONPeptideProfile? = nil
     ) {
         self.name = name
         self.aliases = aliases
@@ -160,6 +216,12 @@ struct BundledSubstance: Codable, Hashable {
         self.sources = sources
         self.mechanismOfAction = mechanismOfAction
         self.tags = tags
+        self.cas = cas
+        self.inchikey = inchikey
+        self.formula = formula
+        self.pubchemCID = pubchemCID
+        self.molarMass = molarMass
+        self.peptideProfile = peptideProfile
     }
 
     init(from decoder: Decoder) throws {
@@ -176,12 +238,19 @@ struct BundledSubstance: Codable, Hashable {
         sources = (try? c.decode([String].self, forKey: .sources)) ?? []
         mechanismOfAction = try? c.decodeIfPresent(JSONMechanismOfAction.self, forKey: .mechanismOfAction)
         tags = (try? c.decode([String].self, forKey: .tags)) ?? []
+        cas = try? c.decodeIfPresent(String.self, forKey: .cas)
+        inchikey = try? c.decodeIfPresent(String.self, forKey: .inchikey)
+        formula = try? c.decodeIfPresent(String.self, forKey: .formula)
+        pubchemCID = try? c.decodeIfPresent(Int.self, forKey: .pubchemCID)
+        molarMass = try? c.decodeIfPresent(Double.self, forKey: .molarMass)
+        peptideProfile = try? c.decodeIfPresent(JSONPeptideProfile.self, forKey: .peptideProfile)
     }
 
     enum CodingKeys: String, CodingKey {
         case name, aliases, category, defaultRoute, routes, effects
         case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
         case mechanismOfAction, tags
+        case cas, inchikey, formula, pubchemCID, molarMass, peptideProfile
     }
 }
 

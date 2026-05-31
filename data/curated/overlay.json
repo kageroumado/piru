@@ -26181,5 +26181,4812 @@
     "tags": [
       "psilocybin-containing"
     ]
+  },
+  {
+    "name": "1D-LSD",
+    "aliases": [
+      "Valerie",
+      "SYN-L-229",
+      "1-(1,2-dimethylcyclobutane-1-carbonyl)-LSD"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "sublingual",
+    "routes": [
+      {
+        "route": "sublingual",
+        "unit": "µg",
+        "doses": {
+          "threshold": 15,
+          "light": {
+            "lower": 25,
+            "upper": 75
+          },
+          "common": {
+            "lower": 75,
+            "upper": 150
+          },
+          "strong": {
+            "lower": 150,
+            "upper": 250
+          },
+          "heavy": 250
+        },
+        "duration": {
+          "onset": {
+            "min": 20,
+            "max": 40
+          },
+          "peak": {
+            "min": 120,
+            "max": 300
+          },
+          "total": {
+            "min": 360,
+            "max": 480
+          }
+        }
+      },
+      {
+        "route": "oral",
+        "unit": "µg",
+        "doses": {
+          "threshold": 15,
+          "light": {
+            "lower": 25,
+            "upper": 75
+          },
+          "common": {
+            "lower": 75,
+            "upper": 150
+          },
+          "strong": {
+            "lower": 150,
+            "upper": 250
+          },
+          "heavy": 250
+        }
+      }
+    ],
+    "effects": [
+      "visual distortion",
+      "cognitive amplification",
+      "emotional amplification",
+      "synesthesia",
+      "ego dissolution",
+      "HPPD risk"
+    ],
+    "halfLifeMinutes": 216,
+    "mechanismOfAction": {
+      "summary": "LSD prodrug — strained cyclobutane ring hydrolyzes to release LSD → 5-HT2A partial agonist.",
+      "description": "N1-acyl LSD prodrug bearing a 1,2-dimethylcyclobutane-1-carbonyl group. The strained cyclobutane ring reportedly accelerates ester hydrolysis relative to most acyl-LSD prodrugs, producing faster onset (~20–30 min vs ~45–60 min for LSD). Pharmacological activity is attributed entirely to released LSD. Prodrug conversion t½ estimated ~3–4 h (not formally measured). All LSD-class risks apply: serotonin syndrome with MAOIs/SSRIs/lithium/tramadol, HPPD, full 5-HT2A cross-tolerance.",
+      "primaryTargets": [
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "partialAgonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/1D-LSD",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9191647/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "psychedelic",
+      "lsd-prodrug",
+      "anecdotal-dose-only"
+    ],
+    "pubchemCID": 170703347,
+    "formula": "C27H35N3O2",
+    "molarMass": 433.6,
+    "inchikey": "RNVFVHAKGPSAIU-ZRCBXKLVSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/1D-LSD",
+      "PubChem CID 170703347",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9191647/"
+    ]
+  },
+  {
+    "name": "1BP-LSD",
+    "aliases": [
+      "1-(pinacol-boronate-benzoyl)-LSD"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "sublingual",
+    "routes": [
+      {
+        "route": "sublingual",
+        "unit": "µg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "presumed LSD-class",
+      "visual distortion",
+      "cognitive amplification",
+      "boron-ester byproducts unknown"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed LSD prodrug via boronate ester hydrolysis → 5-HT2A partial agonist; boron toxicology completely unstudied.",
+      "description": "First boron-containing LSD prodrug (distinct from 1B-LSD which is 1-butanoyl-LSD). Boronate ester hydrolysis rate unknown; potency vs LSD empirically uncharacterized (mass-ratio claims of ≈100 µg LSD-equivalents are unvalidated). Emerged Dec 2025 as successor to banned 1S-LSD. Boron-specific toxicological profile is entirely unstudied.",
+      "primaryTargets": [
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "partialAgonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/1BP-LSD"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "psychedelic",
+      "lsd-prodrug",
+      "no-human-data",
+      "boron-compound"
+    ],
+    "formula": "C37H48BN3O4",
+    "molarMass": 609.62,
+    "inchikey": "WTJNMHVFTSXKOI-HYBUGGRVSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/1BP-LSD"
+    ]
+  },
+  {
+    "name": "1Bz-LSD",
+    "aliases": [
+      "1-benzoyl-LSD",
+      "SYN-L-018"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "sublingual",
+    "routes": [
+      {
+        "route": "sublingual",
+        "unit": "µg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "presumed LSD-class (unconfirmed in humans)",
+      "visual distortion",
+      "cognitive amplification"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed LSD prodrug via sequential deethylation (→ 1Bz-LAE) then hydrolysis → LSD; full chain characterized in vitro only.",
+      "description": "N1-benzoyl LSD (benzoyl = aromatic acyl group; distinct from 1B-LSD which is 1-butanoyl). In vitro: deethylation to 1Bz-LAE confirmed (Azuma et al. 2026, Drug Test Anal); further hydrolysis to LSD presumed. No validated human potency or dose range established.",
+      "primaryTargets": [
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "partialAgonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/1Bz-LSD",
+        "https://doi.org/10.1002/dta.70042"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "psychedelic",
+      "lsd-prodrug",
+      "no-human-data"
+    ],
+    "formula": "C27H28N3O2",
+    "molarMass": 426.5,
+    "inchikey": "GVGINGNTVRBWSQ-XMMPIXPASA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/1Bz-LSD",
+      "Azuma 2026 Drug Test Anal DOI:10.1002/dta.70042"
+    ]
+  },
+  {
+    "name": "DMNPC",
+    "aliases": [
+      "N,O-dimethyl-4-(2-naphthyl)piperidine-3-carboxylate",
+      "methyl (3S,4S)-1-methyl-4-(naphthalen-2-yl)piperidine-3-carboxylate"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "presumed cocaine-like CNS stimulation",
+      "dopamine reuptake inhibition",
+      "serotonin syndrome risk with serotonergic agents"
+    ],
+    "mechanismOfAction": {
+      "summary": "Potent triple monoamine reuptake inhibitor (dopamine, norepinephrine and serotonin); ~2.5× cocaine potency at DAT. Piperidine-based phenyltropane/nocaine-related stimulant.",
+      "description": "Piperidine-based stimulant synthesized from arecoline. The 3S,4S enantiomer is most active; the 3R,4S enantiomer has the highest SERT selectivity. Acts by monoamine reuptake inhibition with no releasing-agent activity and no opioid receptor activity. No human pharmacological data. Significant serotonin syndrome risk in combination with MAOIs or other serotonergic agents.",
+      "primaryTargets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "affinity": 3
+        },
+        {
+          "target": "NET",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        },
+        {
+          "target": "SERT",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/N,O-Dimethyl-4-(2-naphthyl)piperidine-3-carboxylate"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "designer-drug",
+      "high-abuse-potential"
+    ],
+    "cas": "265112-64-9",
+    "pubchemCID": 10684403,
+    "formula": "C18H21NO2",
+    "molarMass": 283.37,
+    "sources": [
+      "https://en.wikipedia.org/wiki/N,O-Dimethyl-4-(2-naphthyl)piperidine-3-carboxylate",
+      "PubChem CID 10684403"
+    ]
+  },
+  {
+    "name": "3-Me-PCP",
+    "aliases": [
+      "3-methyl-PCP",
+      "3-methyl-phencyclidine",
+      "meta-methyl-PCP"
+    ],
+    "category": "Dissociative",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      },
+      {
+        "route": "insufflation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "dissociation",
+      "NMDA antagonism",
+      "more stimulating than ketamine per case reports",
+      "psychosis and mania risk",
+      "bladder toxicity with chronic use"
+    ],
+    "mechanismOfAction": {
+      "summary": "NMDA receptor antagonist (arylcyclohexylamine class); possible additional NE/DA reuptake inhibition inferred from structural analogues.",
+      "description": "Piperidine-substituted arylcyclohexylamine; 3-methyl substitution on the phenyl ring (meta). Confirmed NMDA antagonist by class pharmacology. Structurally distinct from 3-MeO-PCP (methoxy vs methyl) — do not transfer doses. First reported to UK forensic services. PCP-family dissociatives carry high psychosis/mania risk, bladder toxicity with chronic use, and dangerous respiratory depression with CNS depressants/opioids.",
+      "primaryTargets": [
+        "NMDA receptor"
+      ],
+      "bindings": [
+        {
+          "target": "NMDA receptor",
+          "action": "channelBlocker",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/3-Methyl-PCP",
+        "https://cfsre.org/nps-discovery/monographs/3-methyl-pcp"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "dissociative",
+      "pcp-analog",
+      "psychosis-risk"
+    ],
+    "cas": "2201-30-1",
+    "pubchemCID": 611899,
+    "formula": "C18H27N",
+    "molarMass": 257.42,
+    "inchikey": "BMFKUCGCXMDGBK-UHFFFAOYSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/3-Methyl-PCP",
+      "https://cfsre.org/nps-discovery/monographs/3-methyl-pcp",
+      "PubChem CID 611899"
+    ]
+  },
+  {
+    "name": "3-Me-PCE",
+    "aliases": [
+      "3-methyl-PCE",
+      "3-methyl-eticyclidine"
+    ],
+    "category": "Dissociative",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      },
+      {
+        "route": "insufflation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "dissociation",
+      "NMDA antagonism",
+      "psychosis risk",
+      "bladder toxicity with chronic use"
+    ],
+    "mechanismOfAction": {
+      "summary": "NMDA receptor antagonist (arylcyclohexylamine class); ethyl-substituted N-substituent vs piperidine ring of 3-Me-PCP.",
+      "description": "N-ethyl-substituted arylcyclohexylamine with 3-methyl phenyl ring substitution. NMDA antagonism confirmed by Wallach et al. 2015. Secondary pharmacology unstudied. First reported to EUDA March 2024. Structurally distinct from 3-MeO-PCE — do not transfer doses. Same arylcyclohexylamine risk profile as 3-Me-PCP.",
+      "primaryTargets": [
+        "NMDA receptor"
+      ],
+      "bindings": [
+        {
+          "target": "NMDA receptor",
+          "action": "channelBlocker",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/3-Me-PCE"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "dissociative",
+      "pcp-analog",
+      "psychosis-risk"
+    ],
+    "cas": "2201-64-1",
+    "pubchemCID": 154133693,
+    "formula": "C15H23N",
+    "molarMass": 217.35,
+    "inchikey": "USOQORZXGGZQGO-UHFFFAOYSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/3-Me-PCE",
+      "PubChem CID 154133693"
+    ]
+  },
+  {
+    "name": "2-FXiPr",
+    "aliases": [
+      "2-F-2-oxo-PCiPr",
+      "2-fluoro-2-oxo-PCiPr",
+      "FXiPr"
+    ],
+    "category": "Dissociative",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "dissociation",
+      "NMDA antagonism (presumed)",
+      "rapid tolerance development"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed NMDA receptor antagonist; 2-oxo-arylcyclohexylamine (methoxetamine/MXiPr relative with 2-fluoro substituent replacing 2-methoxy of MXE).",
+      "description": "Tentative IUPAC: 2-(2-fluorophenyl)-2-(isopropylamino)cyclohexan-1-one. The ortho-fluoro isomer replaces the methoxy group of MXE's pharmacophore. NMR-confirmed as ortho-F isomer. Sibling: 2-FXPr (n-propyl variant). Only a single anecdotal intranasal report exists (nervewing blog, 2025) — not a validated dose source; rapid tolerance noted in that report. No CAS/CID available.",
+      "primaryTargets": [
+        "NMDA receptor"
+      ],
+      "bindings": [
+        {
+          "target": "NMDA receptor",
+          "action": "channelBlocker",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/2-FXPr",
+        "https://nervewing.blogspot.com/2025/10/fxipr.html"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "dissociative",
+      "oxo-arylcyclohexylamine"
+    ],
+    "sources": [
+      "https://en.wikipedia.org/wiki/2-FXPr",
+      "https://nervewing.blogspot.com/2025/10/fxipr.html"
+    ]
+  },
+  {
+    "name": "MPT",
+    "aliases": [
+      "methylpropyltryptamine",
+      "N-methyl-N-propyltryptamine"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "unconfirmed psychedelic effects in humans",
+      "Shulgin TiHKAL #34: inactive at ≤20 mg oral",
+      "related 4-HO-MPT is active"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed 5-HT2A partial agonist (no published binding affinity data); may be inactive orally based on Shulgin self-trials.",
+      "description": "Substituted tryptamine; N-methyl, N-propyl disubstitution. Crystal structure solved (Chadeayne et al. 2019). Shulgin (TiHKAL #34) experienced no effect at oral doses up to 20 mg in self-trials; threshold listed as '>50 mg oral' with full dose ranges undocumented. Human psychedelic activity unconfirmed. Cross-tolerance with 5-HT2A psychedelics would be expected if psychedelic effects are confirmed.",
+      "primaryTargets": [
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "partialAgonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Methylpropyltryptamine",
+        "https://psychonautwiki.org/wiki/MPT"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "tryptamine",
+      "possibly-inactive-oral"
+    ],
+    "cas": "850032-72-3",
+    "pubchemCID": 74405270,
+    "formula": "C14H20N2",
+    "molarMass": 216.32,
+    "inchikey": "SZUNESAKJQIJAC-UHFFFAOYSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Methylpropyltryptamine",
+      "https://psychonautwiki.org/wiki/MPT",
+      "PubChem CID 74405270"
+    ]
+  },
+  {
+    "name": "NB-5-MeO-DALT",
+    "aliases": [
+      "5-MeO-DALT-Boc",
+      "N1-Boc-5-MeO-DALT"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "inhalation",
+    "routes": [
+      {
+        "route": "inhalation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "inactive in Boc form",
+      "thermal deprotection yields 5-MeO-DALT",
+      "parent: stimulating psychedelic",
+      "parent: tachycardia and euphoria",
+      "serotonin syndrome risk"
+    ],
+    "mechanismOfAction": {
+      "summary": "N1-Boc thermolabile prodrug of 5-MeO-DALT; inactive until pyrolysis (~150–200°C) or acid conditions cleave the Boc group, releasing the 5-HT1A/2A agonist 5-MeO-DALT.",
+      "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl as sometimes assumed). Boc group cleaves at ~150–200°C (pyrolysis/smoking route) or under acid conditions. Parent 5-MeO-DALT: 5-HT1A and 5-HT2A agonist. Delivered parent dose from the Boc compound is unpredictable. No validated dosing for the Boc form itself. Parent 5-MeO-DALT oral: onset 10–15 min, total 2–4 h.",
+      "primaryTargets": [
+        "5-HT2A",
+        "5-HT1A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "5-HT1A",
+          "action": "agonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/NB-5-MeO-DALT",
+        "https://psychonautwiki.org/wiki/5-MeO-DALT"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "prodrug",
+      "n1-boc-prodrug",
+      "tryptamine"
+    ],
+    "formula": "C22H30N2O3",
+    "molarMass": 370.49,
+    "sources": [
+      "https://en.wikipedia.org/wiki/NB-5-MeO-DALT",
+      "https://psychonautwiki.org/wiki/5-MeO-DALT"
+    ]
+  },
+  {
+    "name": "NB-5-MeO-MiPT",
+    "aliases": [
+      "5-MeO-MiPT-Boc",
+      "N1-Boc-5-MeO-MiPT"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "inhalation",
+    "routes": [
+      {
+        "route": "inhalation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "inactive in Boc form",
+      "thermal deprotection yields 5-MeO-MiPT",
+      "parent: potent entactogenic/psychedelic",
+      "parent: tactile enhancement and euphoria",
+      "vasoconstriction",
+      "serotonin syndrome risk"
+    ],
+    "mechanismOfAction": {
+      "summary": "N1-Boc thermolabile prodrug of 5-MeO-MiPT ('moxy'); inactive until Boc cleavage releases the potent 5-HT1A/2A agonist.",
+      "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). Parent 5-MeO-MiPT: 5-HT1A Ki ~12–143 nM, 5-HT2A Ki ~113–449 nM (assay-dependent). Parent oral: onset 20–40 min, total 5–8 h, t½ ~2–3 h, CYP2D6 metabolism. Delivered parent dose from the Boc form is unpredictable. No validated dosing exists for the Boc compound.",
+      "primaryTargets": [
+        "5-HT1A",
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT1A",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "5-HT2A",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/NB-5-MeO-MiPT",
+        "https://psychonautwiki.org/wiki/5-MeO-MiPT"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "prodrug",
+      "n1-boc-prodrug",
+      "tryptamine"
+    ],
+    "formula": "C20H30N2O3",
+    "molarMass": 346.47,
+    "sources": [
+      "https://en.wikipedia.org/wiki/NB-5-MeO-MiPT",
+      "https://psychonautwiki.org/wiki/5-MeO-MiPT"
+    ]
+  },
+  {
+    "name": "NBOC-DMT",
+    "aliases": [
+      "NB-DMT",
+      "N1-Boc-DMT"
+    ],
+    "category": "Psychedelic",
+    "defaultRoute": "inhalation",
+    "routes": [
+      {
+        "route": "inhalation",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "presumed DMT-class if Boc cleavage occurs",
+      "actual oral/smoked delivery rate unstudied",
+      "claimed ~25% DMT equivalence by weight (unverified)"
+    ],
+    "mechanismOfAction": {
+      "summary": "N1-Boc thermolabile prodrug of DMT; inactive until pyrolysis (~150–200 °C) or acid conditions cleave the Boc group, releasing DMT (5-HT2A agonist, σ1 ligand).",
+      "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl). The intact molecule is not itself active; the Boc group must be cleaved (pyrolysis/smoking or acid) to release DMT. Oral administration is inactive with or without an MAOI, because any absorbed intact compound must still be cleaved to DMT — claimed oral activity is unvalidated. Because the Boc-protected form is unscheduled, it is a common legal precursor form of DMT. No pharmacokinetic study or validated human dosing for the Boc compound.",
+      "primaryTargets": [
+        "5-HT2A"
+      ],
+      "bindings": [
+        {
+          "target": "5-HT2A",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/NBoc-DMT"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "prodrug",
+      "n1-boc-prodrug",
+      "tryptamine"
+    ],
+    "cas": "2210243-51-7",
+    "formula": "C17H24N2O2",
+    "molarMass": 288.39,
+    "inchikey": "IKVMWFRRDDILJA-UHFFFAOYSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/NBoc-DMT"
+    ]
+  },
+  {
+    "name": "2-Me-PiHP",
+    "aliases": [
+      "2-Me-α-PiHP",
+      "2-methyl-α-pyrrolidinoisohexanophenone"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mg",
+        "doses": {}
+      },
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "cocaine/methamphetamine-like CNS stimulation (predicted)",
+      "cardiac arrhythmia",
+      "psychiatric disturbance",
+      "hyperthermia",
+      "fatal cases reported (pyrovalerone class)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Highly DAT-selective reuptake inhibitor (DAT IC50 = 7.6 nM); DAT/SERT selectivity ratio >40× cocaine → very high addiction and abuse potential.",
+      "description": "Synthetic cathinone, pyrovalerone subgroup (β-keto pyrrolidinophenone). Ortho ring-methyl isomer of α-PiHP. Peer-reviewed DAT IC50 = 7.6 nM (Forensic Sci Int 2025, PMID 40992254). NET not significantly inhibited. Documented in 113 Swedish seizures 2022–2025 and 5 forensic autopsy detections. No established human dose; strong 'no dose / high addiction potential' warning applies.",
+      "primaryTargets": [
+        "DAT"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://pubmed.ncbi.nlm.nih.gov/40992254/",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11051472/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "cathinone",
+      "pyrovalerone",
+      "high-abuse-potential",
+      "autopsy-cases"
+    ],
+    "sources": [
+      "PMID 40992254 (Forensic Sci Int 2025)",
+      "PMC11051472"
+    ]
+  },
+  {
+    "name": "bk-BZP",
+    "aliases": [
+      "1-benzoylpiperazine",
+      "benzoylpiperazine",
+      "1-BZP",
+      "phenyl(piperazin-1-yl)methanone"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "presumed sympathomimetic",
+      "dopamine and norepinephrine release (rodent data only)"
+    ],
+    "mechanismOfAction": {
+      "summary": "DA/NE-releasing stimulant (piperazine class); mechanism based on rodent data only — human receptor binding data absent. NOT a cathinone despite the 'bk' prefix.",
+      "description": "1-Benzoylpiperazine is a piperazine (benzoylpiperazine), not a cathinone. Despite the 'bk' (beta-keto) prefix, it lacks the beta-keto moiety characteristic of cathinones. Only rodent pharmacology available; no human receptor binding data confirmed.",
+      "primaryTargets": [
+        "DAT",
+        "NET"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity": 2
+        },
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://pubchem.ncbi.nlm.nih.gov/compound/762654"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "piperazine"
+    ],
+    "cas": "13754-38-6",
+    "pubchemCID": 762654,
+    "formula": "C11H14N2O",
+    "molarMass": 190.24,
+    "inchikey": "VUNXBQRNMNVUMV-UHFFFAOYSA-N",
+    "sources": [
+      "PubChem CID 762654",
+      "EUDA BZP drug profile"
+    ]
+  },
+  {
+    "name": "Bretazenil",
+    "aliases": [
+      "Ro16-6028",
+      "bretazenilum"
+    ],
+    "category": "Benzodiazepine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anxiolysis",
+      "sedation",
+      "hypnosis at higher doses",
+      "amnesia at higher doses",
+      "lower euphoria and abuse potential vs full agonists",
+      "can precipitate withdrawal in BZD-tolerant patients"
+    ],
+    "halfLifeMinutes": 180,
+    "mechanismOfAction": {
+      "summary": "Non-selective GABA-A BZD-site partial agonist (~35–58% intrinsic efficacy vs full agonist); wide therapeutic window with reduced tolerance/dependence potential compared to full agonists.",
+      "description": "Imidazo[1,2-a]-pyrrolo[2,3-d]-benzodiazepine; partial agonist at BZD binding site across α1–α6 subunit-containing GABA-A receptors (~35–58% maximal efficacy). Can precipitate withdrawal in BZD-tolerant users by occupying the site without full agonism. Never marketed. Potency: 0.5 mg ≈ 10 mg diazepam (psychomotor impairment studies). t½ ~2–4.5 h across multiple human PK studies.",
+      "primaryTargets": [
+        "GABA-A"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Bretazenil",
+        "https://pubmed.ncbi.nlm.nih.gov/8799523/",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12858478/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "designer-benzo",
+      "partial-agonist"
+    ],
+    "cas": "84379-13-5",
+    "pubchemCID": 107926,
+    "formula": "C19H20BrN3O3",
+    "molarMass": 420.29,
+    "inchikey": "LWUDDYHYYNNIQI-ZDUSSCGKSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Bretazenil",
+      "PubChem CID 107926",
+      "PMID 8799523",
+      "PMC12858478"
+    ]
+  },
+  {
+    "name": "Fluoprazolam",
+    "aliases": [
+      "fluloprazolam",
+      "floprazolam"
+    ],
+    "category": "Benzodiazepine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "sedation",
+      "hypnosis",
+      "amnesia",
+      "respiratory depression risk",
+      "dependence"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed high-potency GABA-A BZD-site positive allosteric modulator; loprazolam structural analog. Distinct from flualprazolam.",
+      "description": "Designer imidazobenzodiazepine; fluorinated analog of loprazolam (NOT flualprazolam — distinct compound). Described as 'very high potency' in NPS literature; no published Ki/EC50. Reported '1–2 mg' dosing is unsourced and unreliable. No validated human dosing data. Loprazolam t½ ~6–12 h — extrapolation to this compound is uncertain.",
+      "primaryTargets": [
+        "GABA-A"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Fluloprazolam",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9715504/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "designer-benzo",
+      "high-potency"
+    ],
+    "cas": "63146-74-7",
+    "pubchemCID": 12371485,
+    "formula": "C23H21FN6O3",
+    "molarMass": 468.45,
+    "inchikey": "JYMHWJZLSYFHJD-RGEXLXHISA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Fluloprazolam",
+      "PMC9715504",
+      "PubChem CID 12371485"
+    ]
+  },
+  {
+    "name": "Pynazolam",
+    "aliases": [
+      "pinazolam"
+    ],
+    "category": "Benzodiazepine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anxiolysis",
+      "sedation",
+      "amnesia"
+    ],
+    "mechanismOfAction": {
+      "summary": "GABA-A positive allosteric modulator (triazolobenzodiazepine); in-silico QSAR suggests high potency. First described 1970s (Sternbach); never marketed.",
+      "description": "Triazolo-fused 1,4-benzodiazepine; enhances GABA-A chloride currents at the benzodiazepine site. In-silico QSAR indicates triazolobenzodiazepines are among the most potent BZD subclass. No published binding affinity data; no human pharmacokinetic data. First described by Sternbach in the 1970s; never developed or marketed.",
+      "primaryTargets": [
+        "GABA-A"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Pynazolam",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7569319/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "designer-benzo",
+      "no-human-data"
+    ],
+    "cas": "2034366-97-5",
+    "pubchemCID": 20368157,
+    "formula": "C16H12N6O2",
+    "molarMass": 320.31,
+    "inchikey": "TULLJLNDPPOHKC-UHFFFAOYSA-N",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Pynazolam",
+      "PubChem CID 20368157",
+      "PMC7569319"
+    ]
+  },
+  {
+    "name": "CL-218,872",
+    "aliases": [
+      "3-methyl-6-[3-(trifluoromethyl)phenyl]-triazolopyridazine"
+    ],
+    "category": "GABAergic",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "sedation and amnesia (animal studies only)",
+      "alpha-1 selective — predicted minimal anxiolysis",
+      "not intended for human use"
+    ],
+    "mechanismOfAction": {
+      "summary": "α1(BZ1)-selective partial agonist at the GABA-A benzodiazepine binding site; triazolopyridazine scaffold (NOT a benzodiazepine structurally). Historical tool compound for dissecting α1-mediated sedation from α2-mediated anxiolysis.",
+      "description": "Triazolopyridazine (not a benzodiazepine). Historically used as a research tool to pharmacologically dissect α1 (BZ1)-mediated sedation/amnesia from α2 (BZ2)-mediated anxiolysis — preceding zolpidem as a selective α1 tool. Zolpidem-like selectivity profile but lower maximal efficacy (partial agonism). No human studies.",
+      "primaryTargets": [
+        "GABA-A"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/CL-218,872",
+        "https://pubmed.ncbi.nlm.nih.gov/7902274/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "lab-reagent",
+      "gaba-a-tool-compound"
+    ],
+    "cas": "66548-69-4",
+    "pubchemCID": 107950,
+    "sources": [
+      "https://en.wikipedia.org/wiki/CL-218,872",
+      "PMID 7902274",
+      "PubChem CID 107950"
+    ]
+  },
+  {
+    "name": "Thozalinone",
+    "aliases": [
+      "CL-39808",
+      "Stimsen"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {
+          "common": {
+            "lower": 30,
+            "upper": 50
+          }
+        }
+      }
+    ],
+    "effects": [
+      "sympathomimetic stimulation",
+      "mild antidepressant effect (historical clinical trials)",
+      "presumed MAOI interaction risk (hypertensive crisis)"
+    ],
+    "mechanismOfAction": {
+      "summary": "NE and DA releaser (amphetamine-like mechanism); milder stimulant profile than amphetamine with minimal serotonergic activity.",
+      "description": "Oxazolinone CNS stimulant/antidepressant developed by Lederle Laboratories in the 1960s. Mechanism: norepinephrine and dopamine release (amphetamine-like), minimal serotonergic activity. Clinical antidepressant effect demonstrated at ~40 mg/day in historical trials. Discontinued. DEA controlled substance status indicated by multiple secondary sources (exact schedule unconfirmed in primary DEA sources).",
+      "primaryTargets": [
+        "NET",
+        "DAT"
+      ],
+      "bindings": [
+        {
+          "target": "NET",
+          "action": "releasingAgent",
+          "affinity": 3
+        },
+        {
+          "target": "DAT",
+          "action": "releasingAgent",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Thozalinone",
+        "https://pubmed.ncbi.nlm.nih.gov/4962734/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "historical",
+      "discontinued",
+      "stimulant"
+    ],
+    "cas": "655-05-0",
+    "pubchemCID": 12602,
+    "formula": "C11H12N2O2",
+    "molarMass": 204.23,
+    "sources": [
+      "https://en.wikipedia.org/wiki/Thozalinone",
+      "PMID 4962734",
+      "PubChem CID 12602"
+    ]
+  },
+  {
+    "name": "Tropacocaine",
+    "aliases": [
+      "benzoylpseudotropine",
+      "pseudotropine benzoate",
+      "descarbomethoxycocaine"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "other",
+    "routes": [
+      {
+        "route": "other",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "local anesthesia",
+      "weak CNS stimulation",
+      "vasoconstriction",
+      "documented street-cocaine cutting agent"
+    ],
+    "mechanismOfAction": {
+      "summary": "Sodium channel blocker (local anesthesia) + weaker DAT inhibitor than cocaine; tropane alkaloid naturally occurring in some Erythroxylum species.",
+      "description": "Descarbomethoxycocaine; pseudotropine benzoate. Na-channel block provides local anesthetic activity. DAT inhibition weaker than cocaine. Naturally occurs in some Erythroxylum species; documented as a street-cocaine cutting agent and contaminant. Ester structure → rapid hydrolysis by plasma esterases; short-acting. No formal human PK study. Cocaine analogue control applies in most jurisdictions.",
+      "primaryTargets": [
+        "voltage-gated Na+ channel",
+        "DAT"
+      ],
+      "bindings": [
+        {
+          "target": "voltage-gated Na+ channel",
+          "action": "channelBlocker",
+          "affinity": 3
+        },
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Tropacocaine"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "tropane-alkaloid",
+      "local-anesthetic",
+      "cocaine-adulterant"
+    ],
+    "cas": "537-26-8",
+    "pubchemCID": 10834,
+    "formula": "C15H19NO2",
+    "molarMass": 245.32,
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tropacocaine",
+      "PubChem CID 10834"
+    ]
+  },
+  {
+    "name": "Emylcamate",
+    "aliases": [
+      "Striatran",
+      "Striatal",
+      "3-methylpentan-3-yl carbamate"
+    ],
+    "category": "Depressant",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {
+          "common": {
+            "lower": 200,
+            "upper": 400
+          }
+        }
+      }
+    ],
+    "effects": [
+      "sedation",
+      "anxiolysis",
+      "muscle relaxation",
+      "CNS and respiratory depression with alcohol/BZDs/opioids",
+      "abuse and dependence potential (meprobamate class)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Carbamate sedative-hypnotic; meprobamate-like GABAergic/barbiturate-like CNS depression with fast onset (carbamate chemical class). Mechanism incompletely characterized by modern GABA-A pharmacology.",
+      "description": "Carbamate ester anxiolytic and muscle relaxant developed by Merck (1961). Former brand names: Striatran, Striatal. Fast-onset CNS depression; meprobamate-class mechanism (GABAergic/barbiturate-like). Discontinued/obsolete. Additive CNS and respiratory depression with alcohol, benzodiazepines, and opioids. Overdose risk. Meprobamate-class control in many countries.",
+      "primaryTargets": [
+        "GABA-A"
+      ],
+      "bindings": [
+        {
+          "target": "GABA-A",
+          "action": "positiveAllostericModulator",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://doi.org/10.1021/jm50006a003",
+        "https://drugs.ncats.io/drug/KCJ747D3R4"
+      ]
+    },
+    "tags": [
+      "historical",
+      "discontinued",
+      "carbamate",
+      "depressant"
+    ],
+    "cas": "78-28-4",
+    "pubchemCID": 6526,
+    "formula": "C7H15NO2",
+    "molarMass": 145.2,
+    "inchikey": "SLWGJZPKHAXZQL-UHFFFAOYSA-N",
+    "sources": [
+      "J Med Chem 1961 DOI:10.1021/jm50006a003",
+      "https://drugs.ncats.io/drug/KCJ747D3R4",
+      "PubChem CID 6526"
+    ]
+  },
+  {
+    "name": "Meprylcaine",
+    "aliases": [
+      "Oracaine",
+      "Epirocaine"
+    ],
+    "category": "Stimulant",
+    "defaultRoute": "other",
+    "routes": [
+      {
+        "route": "other",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "local anesthesia",
+      "stimulant-like effects at systemic doses",
+      "cocaine-like subjective effects possible"
+    ],
+    "mechanismOfAction": {
+      "summary": "Sodium channel blocker (local anesthetic) + relatively potent monoamine transporter inhibition (DA/NE/5-HT reuptake) — stimulant properties distinguish it from purely local-anesthetic benzoates.",
+      "description": "Aminoester (benzoate) local anesthetic; dimethocaine-related (4-aminobenzoate scaffold). Historical dental anesthetic. Unlike purely local-anesthetic benzoates, meprylcaine also inhibits DA, NE, and 5-HT reuptake transporters, generating stimulant properties. Aminoester structure → rapid hydrolysis; short-acting. No recreational dose ranges established.",
+      "primaryTargets": [
+        "voltage-gated Na+ channel",
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "bindings": [
+        {
+          "target": "voltage-gated Na+ channel",
+          "action": "channelBlocker",
+          "affinity": 3
+        },
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        },
+        {
+          "target": "NET",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        },
+        {
+          "target": "SERT",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Meprylcaine",
+        "https://pubmed.ncbi.nlm.nih.gov/13572116/"
+      ]
+    },
+    "tags": [
+      "historical",
+      "local-anesthetic",
+      "stimulant",
+      "aminoester"
+    ],
+    "cas": "495-70-5",
+    "pubchemCID": 4065,
+    "formula": "C14H21NO2",
+    "molarMass": 235.33,
+    "sources": [
+      "https://en.wikipedia.org/wiki/Meprylcaine",
+      "PMID 13572116",
+      "PubChem CID 4065"
+    ]
+  },
+  {
+    "name": "RAD-140",
+    "aliases": [
+      "Testolone",
+      "Vosilasarm"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "highAmount": 20,
+          "frequency": "once daily",
+          "courseDuration": "6–8 week cycle",
+          "notes": "community physique dosing; no FDA-approved therapeutic dose; Phase I PK studied up to 100 mg single dose"
+        }
+      }
+    ],
+    "effects": [
+      "anabolic (lean mass, strength)",
+      "HPTA suppression (dose-dependent)",
+      "hepatotoxicity risk (DILI case reports)",
+      "myocarditis/myopericarditis risk (case reports)"
+    ],
+    "halfLifeMinutes": 2682,
+    "mechanismOfAction": {
+      "summary": "Potent oral androgen receptor full agonist with tissue selectivity.",
+      "description": "Nonsteroidal SARM; binds AR with Ki ~7 nM; tissue-selective for muscle and bone over prostate; does not bind ERα/ERβ/PR/GR significantly; no aromatization. Long t½ (~44.7 h) leads to accumulation on daily dosing.",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 44200882",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10054042/",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8881971/",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9325264/"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical"
+    ],
+    "cas": "1182367-47-0",
+    "formula": "C20H16ClN5O2",
+    "pubchemCID": 44200882,
+    "molarMass": 393.83,
+    "sources": [
+      "PubChem CID 44200882",
+      "PMC10054042 (DILI)",
+      "PMC8881971 (myocarditis)",
+      "PMC9325264 (microdose PK)"
+    ]
+  },
+  {
+    "name": "RAD-150",
+    "aliases": [
+      "TLB-150",
+      "Testolone Benzoate"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "highAmount": 30,
+          "frequency": "once daily",
+          "courseDuration": "8–12 week cycle",
+          "notes": "community/anecdotal; no human PK; claimed t½ ~48–60 h is unverified"
+        }
+      }
+    ],
+    "effects": [
+      "anabolic (presumed RAD-140-like)",
+      "HPTA suppression (presumed)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Presumed AR agonist prodrug — benzoate ester hydrolysis releases RAD-140-like moiety.",
+      "description": "Nonsteroidal SARM; benzoate ester prodrug of a RAD-140 structural analog. Carboxylesterase hydrolysis presumed to yield active AR-agonist metabolite. No published receptor binding data for RAD-150 itself. Distinct molecule from RAD-140 (CAS 1208070-53-4 vs 1182367-47-0).",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "agonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "PubChem CID 68547459"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "1208070-53-4",
+    "inchikey": "NQUKIBBKKLFEQU-BXKMTCNYSA-N",
+    "formula": "C27H20ClN5O3",
+    "pubchemCID": 68547459,
+    "molarMass": 497.9,
+    "sources": [
+      "PubChem CID 68547459"
+    ]
+  },
+  {
+    "name": "S-23",
+    "aliases": [
+      "Mastorin"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "highAmount": 30,
+          "frequency": "1–2×/day",
+          "courseDuration": "6–8 week cycle",
+          "notes": "community/anecdotal; no human studies; t½ ~11.9 h from male rat data only — NOT validated in humans"
+        }
+      }
+    ],
+    "effects": [
+      "anabolic (muscle/bone)",
+      "strong HPTA suppression",
+      "spermatogenesis suppression"
+    ],
+    "halfLifeMinutes": 714,
+    "mechanismOfAction": {
+      "summary": "High-affinity androgen receptor full agonist (Ki ~1.7 nM); tissue-selective SARM.",
+      "description": "Nonsteroidal SARM with among the highest AR affinity of characterized SARMs (Ki ~1.7 nM). Tissue-selective for muscle and bone. Investigated as male hormonal contraceptive in rodents due to spermatogenesis suppression. No human efficacy or safety data. t½ ~11.9 h is from male rat studies only.",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 24892822",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12023825/",
+        "https://en.wikipedia.org/wiki/S-23_(drug)"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "1010396-29-8",
+    "inchikey": "SSFVOEAXHZGTRJ-KRWDZBQOSA-N",
+    "formula": "C18H13ClF4N2O3",
+    "pubchemCID": 24892822,
+    "molarMass": 416.8,
+    "sources": [
+      "PubChem CID 24892822",
+      "PMC12023825 (human urine excretion study)",
+      "https://en.wikipedia.org/wiki/S-23_(drug)"
+    ]
+  },
+  {
+    "name": "S4",
+    "aliases": [
+      "Andarine",
+      "GTx-007"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 25,
+          "highAmount": 50,
+          "frequency": "2–3×/day",
+          "courseDuration": "6–8 week cycle",
+          "notes": "split dosing required due to short t½ (~4–6 h); reversible yellow-tint vision risk increases at ≥50 mg/day"
+        }
+      }
+    ],
+    "effects": [
+      "anabolic (muscle, bone)",
+      "HPTA suppression",
+      "reversible xanthopsia/yellow-tint vision (ocular AR binding, esp. ≥50 mg/day; resolves ~2–3 days post-cessation)",
+      "night-vision impairment (dose-dependent)"
+    ],
+    "halfLifeMinutes": 300,
+    "mechanismOfAction": {
+      "summary": "Oral androgen receptor partial agonist (Ki ~4 nM); tissue-selective; notable ocular AR binding.",
+      "description": "Nonsteroidal SARM; AR partial agonist with Ki ~4 nM; weaker androgenic activity at prostate vs full agonists. Critically binds ocular ARs causing reversible yellow-tint vision and night-vision impairment, especially at doses ≥50 mg/day. Short t½ (~4–6 h) requires split dosing.",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "partialAgonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 9824562",
+        "https://en.wikipedia.org/wiki/Andarine"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical"
+    ],
+    "cas": "401900-40-1",
+    "formula": "C19H18F3N3O6",
+    "pubchemCID": 9824562,
+    "molarMass": 441.36,
+    "sources": [
+      "PubChem CID 9824562",
+      "https://en.wikipedia.org/wiki/Andarine",
+      "https://bscg.org"
+    ]
+  },
+  {
+    "name": "YK-11",
+    "aliases": [
+      "Myostine"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "highAmount": 15,
+          "frequency": "1–2×/day",
+          "courseDuration": "8–12 week cycle",
+          "notes": "community/anecdotal; no human studies; t½ ~6–12 h is unverified community claim; women use 0.5–2 mg/day"
+        }
+      }
+    ],
+    "effects": [
+      "anabolic (muscle/bone)",
+      "myostatin inhibition via follistatin upregulation",
+      "HPTA suppression",
+      "plausible hepatotoxicity (steroidal backbone)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Steroidal SARM with dual mechanism: partial AR agonism plus functional myostatin inhibition via follistatin upregulation.",
+      "description": "5α-DHT C17-methyl ester derivative; partial AR agonist (does not induce full N/C-terminal AR interaction unlike DHT) plus functional myostatin inhibitor via follistatin (FST) upregulation — the only characterized SARM with this dual mechanism. FST induction more potent than DHT in C2C12 myoblasts. CAS discrepancy: 1370003-76-1 confirmed by PubChem CID 119058028; 431579-34-9 is an unverified alternate.",
+      "primaryTargets": [
+        "Androgen receptor",
+        "Myostatin/follistatin pathway"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "partialAgonist",
+          "affinity": 3
+        },
+        {
+          "target": "Myostatin",
+          "action": "modulator",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "PubChem CID 119058028",
+        "https://en.wikipedia.org/wiki/YK-11"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "1370003-76-1",
+    "inchikey": "KCQHQCDHFVGNMK-PQUNLUOYSA-N",
+    "formula": "C25H34O6",
+    "pubchemCID": 119058028,
+    "molarMass": 430.5,
+    "sources": [
+      "PubChem CID 119058028",
+      "https://en.wikipedia.org/wiki/YK-11"
+    ]
+  },
+  {
+    "name": "AC-262536",
+    "aliases": [
+      "Accadrine"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anabolic (muscle/bone, preclinical)",
+      "neuroprotective signals (Alzheimer model, rat)",
+      "HPTA suppression (preclinical)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Nonsteroidal AR partial agonist (Ki ~5 nM, ~64% DHT efficacy); anabolic:androgenic ratio ~2.45:1 in rat.",
+      "description": "Bicyclic azabicyclooctane scaffold SARM; AR partial agonist with EC50 ~1.58 nM in luciferase assay; selective over 47 other nuclear receptors at 10 µM. Never tested in humans — all data from rat studies. No published PK or t½ in any species.",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "partialAgonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 44512434",
+        "https://en.wikipedia.org/wiki/AC-262,536"
+      ]
+    },
+    "tags": [
+      "sarm",
+      "wada-prohibited",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "870888-46-3",
+    "inchikey": "ATKWLNSCJYLXPF-YIONKMFJSA-N",
+    "formula": "C18H18N2O",
+    "pubchemCID": 44512434,
+    "molarMass": 278.3,
+    "sources": [
+      "PubChem CID 44512434",
+      "https://en.wikipedia.org/wiki/AC-262,536"
+    ]
+  },
+  {
+    "name": "SR-9011",
+    "aliases": [],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 15,
+          "highAmount": 30,
+          "frequency": "2–3×/day",
+          "courseDuration": "4–8 week cycle",
+          "notes": "community/anecdotal; no human studies; preclinical t½ ~4 h applies to preclinical route only; poor oral bioavailability in preclinical models"
+        }
+      }
+    ],
+    "effects": [
+      "increased endurance (mouse data)",
+      "reduced fat mass (mouse data)",
+      "circadian/metabolic modulation"
+    ],
+    "halfLifeMinutes": 240,
+    "mechanismOfAction": {
+      "summary": "REV-ERBα/β agonist; represses Bmal1/Clock gene expression to alter circadian rhythms and metabolic gene programs.",
+      "description": "Nuclear receptor REV-ERB (NR1D1/NR1D2) agonist with EC50 ~790 nM REV-ERBα and ~560 nM REV-ERBβ. Represses clock gene Bmal1 expression; upregulates fatty acid oxidation genes; reduces inflammatory gene expression. Better oral bioavailability than SR9009. Human PK not established; t½ ~4 h is preclinical only.",
+      "primaryTargets": [
+        "REV-ERBα",
+        "REV-ERBβ"
+      ],
+      "bindings": [
+        {
+          "target": "REV-ERBα",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "REV-ERBβ",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 57394021",
+        "https://en.wikipedia.org/wiki/SR9011",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5085709/"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data",
+      "wada-prohibited"
+    ],
+    "cas": "1379686-29-9",
+    "formula": "C24H25ClN4O3S",
+    "pubchemCID": 57394021,
+    "sources": [
+      "PubChem CID 57394021",
+      "DrugBank DB14014",
+      "https://en.wikipedia.org/wiki/SR9011",
+      "PMC10623616",
+      "PMC5085709"
+    ]
+  },
+  {
+    "name": "GW-501516",
+    "aliases": [
+      "Cardarine",
+      "Endurobol",
+      "GW-1516"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "highAmount": 20,
+          "frequency": "once daily",
+          "courseDuration": "6–8 weeks",
+          "notes": "CARCINOGENICITY WARNING: multi-organ cancers in 2-year rodent studies at human-equivalent doses; GSK halted development 2007; WADA issued safety warning"
+        }
+      }
+    ],
+    "effects": [
+      "increased endurance",
+      "increased fat oxidation",
+      "CRITICAL: multi-organ carcinogenicity in rodent studies (liver, stomach, bladder, skin, tongue, testes, ovaries)"
+    ],
+    "halfLifeMinutes": 1320,
+    "mechanismOfAction": {
+      "summary": "Selective PPARδ agonist (EC50 ~1.2 nM); upregulates fatty acid oxidation genes and increases endurance. NOT a SARM.",
+      "description": "Peroxisome proliferator-activated receptor delta (PPARδ/PPARβ) agonist; does not bind the androgen receptor. Upregulates genes for fatty acid oxidation and mitochondrial biogenesis. Human PK is sparse — GSK discontinued development in 2007 due to multi-organ carcinogenicity in 2-year rodent studies at human-equivalent doses. WADA issued a specific safety warning.",
+      "primaryTargets": [
+        "PPARδ"
+      ],
+      "bindings": [
+        {
+          "target": "PPARδ",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 9803963",
+        "https://en.wikipedia.org/wiki/GW501516",
+        "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6475847/"
+      ]
+    },
+    "tags": [
+      "wada-prohibited",
+      "research-chemical"
+    ],
+    "cas": "317318-70-0",
+    "formula": "C21H18F3NO3S2",
+    "pubchemCID": 9803963,
+    "molarMass": 453.5,
+    "sources": [
+      "PubChem CID 9803963",
+      "https://en.wikipedia.org/wiki/GW501516",
+      "PMC6475847",
+      "GSK development termination (2007)"
+    ]
+  },
+  {
+    "name": "Enclomiphene",
+    "aliases": [
+      "Enclomifene",
+      "Androxal",
+      "trans-Clomiphene",
+      "(E)-Clomifene"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 12.5,
+          "highAmount": 50,
+          "frequency": "once daily",
+          "notes": "25 mg/day robustly elevates testosterone in trial data; used for PCT after AAS/SARM cycles; not FDA-approved (NDA failed 2013); compounding-pharmacy Rx"
+        }
+      }
+    ],
+    "effects": [
+      "increased LH and FSH",
+      "increased endogenous testosterone production",
+      "potential visual disturbance (SERM-class retinal effect)",
+      "mood changes",
+      "theoretical VTE risk (ER-mediated coagulation)"
+    ],
+    "halfLifeMinutes": 600,
+    "mechanismOfAction": {
+      "summary": "SERM; ER antagonist at hypothalamus/pituitary → disinhibition of LH/FSH secretion → increased endogenous testosterone.",
+      "description": "Trans-isomer (E-isomer) of clomiphene; blocks estrogen receptor at hypothalamus and pituitary, removing negative feedback and raising endogenous LH/FSH/testosterone. Differs from cis-isomer (zuclomiphene) which is a weak ER agonist. CYP2D6 metabolism; Tmax ~2–3 h; t½ ~10 h.",
+      "primaryTargets": [
+        "Estrogen receptor α",
+        "Estrogen receptor β"
+      ],
+      "bindings": [
+        {
+          "target": "Estrogen receptor α",
+          "action": "antagonist",
+          "affinity": 3
+        },
+        {
+          "target": "Estrogen receptor β",
+          "action": "antagonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "PubChem CID 1548953",
+        "Wiehle 2013 BJU Int DOI:10.1111/bju.12363"
+      ]
+    },
+    "tags": [
+      "wada-prohibited",
+      "research-chemical"
+    ],
+    "cas": "7599-79-3",
+    "formula": "C26H28ClNO",
+    "pubchemCID": 1548953,
+    "molarMass": 405.96,
+    "sources": [
+      "PubChem CID 1548953",
+      "Wiehle 2013 BJU Int DOI:10.1111/bju.12363"
+    ]
+  },
+  {
+    "name": "Letrozole",
+    "aliases": [
+      "Femara",
+      "CGS-20267"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 0.25,
+          "highAmount": 2.5,
+          "frequency": "every 2–3 days",
+          "notes": "FDA-approved oncology dose is 2.5 mg once daily; physique/endocrine off-label micro-dosing 0.25–2.5 mg q2–3d is unvalidated patient-derived practice; t½ ~48 h → steady state at 2–6 weeks"
+        }
+      }
+    ],
+    "effects": [
+      "↓ estradiol 75–95% at 2.5 mg/day",
+      "reduces gynecomastia",
+      "increases testosterone/LH",
+      "joint pain/stiffness (estrogen reduction)",
+      "decreased bone mineral density (chronic use)",
+      "decreased HDL cholesterol",
+      "mood disturbance, libido impairment (estrogen crash)"
+    ],
+    "halfLifeMinutes": 2880,
+    "mechanismOfAction": {
+      "summary": "Nonsteroidal (type II/triazole) aromatase inhibitor; competitive and reversible CYP19 inhibitor.",
+      "description": "Competitively and reversibly inhibits CYP19 (aromatase), reducing estradiol synthesis by 75–95% at 2.5 mg/day. No effect on adrenal steroidogenesis at therapeutic doses. Selectivity >10,000× for aromatase over other CYPs. FDA-approved for breast cancer. WADA S4.1 prohibited in sport. CYP3A4 and CYP2A6 metabolism.",
+      "primaryTargets": [
+        "CYP19 (Aromatase)"
+      ],
+      "bindings": [
+        {
+          "target": "CYP19 (Aromatase)",
+          "action": "enzymeInhibitor",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 3902",
+        "FDA Femara prescribing information",
+        "PMID 11745921"
+      ]
+    },
+    "tags": [
+      "wada-prohibited"
+    ],
+    "cas": "112809-51-5",
+    "formula": "C17H11N5",
+    "pubchemCID": 3902,
+    "molarMass": 285.3,
+    "sources": [
+      "PubChem CID 3902",
+      "FDA Femara prescribing information",
+      "PMID 11745921"
+    ]
+  },
+  {
+    "name": "Tesofensine",
+    "aliases": [
+      "NS2330"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 0.25,
+          "highAmount": 0.5,
+          "frequency": "once daily",
+          "notes": "t½ ~9 days (220 h) — significant accumulation; 2–3 weeks to steady state; 0.5 mg/day = ~10.6% placebo-corrected weight loss at 24 weeks; 1.0 mg dose abandoned (excess CV effects); approved in Mexico as Tesomet (with metoprolol)"
+        }
+      }
+    ],
+    "effects": [
+      "weight loss, appetite suppression",
+      "increased heart rate (dose-dependent, ~8 bpm at 0.5 mg)",
+      "increased blood pressure",
+      "insomnia, mood effects",
+      "serotonin syndrome risk with MAOIs/SSRIs",
+      "CYP3A4 drug interaction potential"
+    ],
+    "halfLifeMinutes": 12960,
+    "mechanismOfAction": {
+      "summary": "Triple monoamine reuptake inhibitor (dopamine + norepinephrine + serotonin); phenyltropane scaffold.",
+      "description": "SNDRI; inhibits DAT, NET, and SERT → appetite suppression via hypothalamic circuits. Possible GLP-1 pathway potentiation. Active metabolite M1 via CYP3A4. t½ ~9 days (220 h) — extremely long, requires weeks to reach steady state; dose titration essential. Approved in Mexico as Tesomet (tesofensine + metoprolol 25 mg to offset HR increase). WADA S6 in-competition.",
+      "primaryTargets": [
+        "DAT",
+        "NET",
+        "SERT"
+      ],
+      "bindings": [
+        {
+          "target": "DAT",
+          "action": "reuptakeInhibitor",
+          "affinity": 3
+        },
+        {
+          "target": "NET",
+          "action": "reuptakeInhibitor",
+          "affinity": 3
+        },
+        {
+          "target": "SERT",
+          "action": "reuptakeInhibitor",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "PubChem CID 11370864",
+        "PMID 19777399",
+        "https://doi.org/10.1038/ijo.2010.51"
+      ]
+    },
+    "tags": [
+      "wada-prohibited"
+    ],
+    "cas": "195875-84-4",
+    "formula": "C17H23Cl2NO",
+    "pubchemCID": 11370864,
+    "molarMass": 337.28,
+    "sources": [
+      "PubChem CID 11370864",
+      "PMID 19777399",
+      "Nature IJO 2010 DOI:10.1038/ijo.2010.51"
+    ]
+  },
+  {
+    "name": "Bemethyl",
+    "aliases": [
+      "Bemitil",
+      "Metaprot",
+      "Antihot",
+      "Betamyl",
+      "2-Ethylthiobenzimidazole"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 250,
+          "highAmount": 500,
+          "frequency": "2×/day",
+          "courseDuration": "5-day courses with 2–3 day rest periods",
+          "notes": "up to 750–1000 mg/day in some protocols; accumulates with repeated doses — course-based dosing with breaks manages this; human t½ not published; Russian pharmaceutical standard (Metaprot)"
+        }
+      }
+    ],
+    "effects": [
+      "increased physical/cognitive performance under hypoxic conditions (actoprotection)",
+      "increased endurance",
+      "antioxidant (reduced lipid peroxidation)",
+      "antihypoxant",
+      "mild nootropic effect"
+    ],
+    "mechanismOfAction": {
+      "summary": "Actoprotector/antihypoxant; activates genomic pathways increasing RNA synthesis and gluconeogenic enzyme induction.",
+      "description": "Benzimidazole actoprotector; activates PEPCK and G6Pase (gluconeogenic enzymes) via RNA synthesis induction; increases mitochondrial ATP production; antioxidant (reduces lipid peroxidation); antihypoxant (improves cellular oxygen utilization efficiency). BBB-penetrant. Accumulates with repeated doses — mechanism distinct from classical monoaminergic stimulants. Russian/CIS registered pharmaceutical (Metaprot); not FDA/EMA approved.",
+      "primaryTargets": [
+        "Gluconeogenic enzyme induction",
+        "Mitochondrial ATP synthesis"
+      ],
+      "references": [
+        "PubChem CID 9816609",
+        "https://en.wikipedia.org/wiki/Bemethyl",
+        "PMID 34445727"
+      ]
+    },
+    "tags": [
+      "research-chemical"
+    ],
+    "cas": "62572-90-1",
+    "inchikey": "BKUKXOMYGPYFJJ-UHFFFAOYSA-N",
+    "formula": "C9H11BrN2S",
+    "pubchemCID": 9816609,
+    "molarMass": 259.17,
+    "sources": [
+      "PubChem CID 9816609",
+      "https://en.wikipedia.org/wiki/Bemethyl",
+      "PMID 34445727"
+    ]
+  },
+  {
+    "name": "SLU-PP-332",
+    "aliases": [
+      "SR9861"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "increased endurance (mouse data)",
+      "increased oxidative muscle fibers (mouse data)",
+      "metabolic improvements (mouse data)",
+      "mitochondrial biogenesis"
+    ],
+    "mechanismOfAction": {
+      "summary": "Pan-ERR agonist (ERRα/ERRβ/ERRγ); recruits PGC-1α → mitochondrial biogenesis and fatty acid oxidation.",
+      "description": "Small molecule pan-estrogen-related receptor agonist (ERRα EC50 ~98 nM, ERRβ ~230 nM, ERRγ ~430 nM); recruits PGC-1α coactivator to increase mitochondrial biogenesis, fatty acid oxidation, and OXPHOS gene expression. Increases Type IIa muscle fibers and exercise endurance in mice. ERRα-dependent mechanism confirmed by knockout. No human studies; poor drug-like properties (no published oral bioavailability in humans).",
+      "primaryTargets": [
+        "ERRα",
+        "ERRβ",
+        "ERRγ"
+      ],
+      "bindings": [
+        {
+          "target": "ERRα",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "ERRβ",
+          "action": "agonist",
+          "affinity": 2
+        },
+        {
+          "target": "ERRγ",
+          "action": "agonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "PubChem CID 5338394",
+        "https://en.wikipedia.org/wiki/SLU-PP-332",
+        "PMC11584170"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "303760-60-3",
+    "formula": "C18H14N2O2",
+    "pubchemCID": 5338394,
+    "molarMass": 290.3,
+    "sources": [
+      "PubChem CID 5338394",
+      "https://en.wikipedia.org/wiki/SLU-PP-332",
+      "PMC11584170"
+    ]
+  },
+  {
+    "name": "RU58841",
+    "aliases": [
+      "PSK-3841",
+      "HMR-3841"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 50,
+          "highAmount": 50,
+          "frequency": "once daily",
+          "notes": "applied as ~1 mL of 5% solution to scalp; no completed human clinical trials; development abandoned by Roussel Uclaf/Hoechst; systemic t½ ~1 h (designed for rapid clearance)"
+        }
+      }
+    ],
+    "effects": [
+      "potential reduction in hair shedding (anecdotal)",
+      "hair retention (anecdotal user reports)",
+      "systemic AR antagonism risk at high topical absorption (gynecomastia, libido effects)"
+    ],
+    "halfLifeMinutes": 60,
+    "mechanismOfAction": {
+      "summary": "Topical nonsteroidal competitive AR antagonist; designed for scalp application with minimal systemic exposure.",
+      "description": "Competitive androgen receptor antagonist targeting scalp follicle ARs to block DHT-mediated miniaturization in androgenetic alopecia. Designed for minimal systemic absorption — rapid systemic clearance (t½ ~1 h parenteral) when absorbed, intentional design to reduce systemic antiandrogen effects. Development abandoned; no completed randomized controlled trials.",
+      "primaryTargets": [
+        "Androgen receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Androgen receptor",
+          "action": "antagonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 132981",
+        "https://en.wikipedia.org/wiki/RU-58841"
+      ]
+    },
+    "tags": [
+      "research-chemical"
+    ],
+    "cas": "154992-24-2",
+    "inchikey": "ARBYGDBJECGMGA-UHFFFAOYSA-N",
+    "formula": "C17H18F3N3O3",
+    "pubchemCID": 132981,
+    "molarMass": 369.34,
+    "sources": [
+      "PubChem CID 132981",
+      "https://en.wikipedia.org/wiki/RU-58841"
+    ]
+  },
+  {
+    "name": "Mirabegron",
+    "aliases": [
+      "Myrbetriq",
+      "YM-178"
+    ],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 25,
+          "highAmount": 50,
+          "frequency": "once daily",
+          "notes": "FDA-approved 25–50 mg for overactive bladder; metabolic/BAT research uses 200 mg (4× approved max) — substantial CV risk (≥20 bpm HR increase); CYP2D6 inhibitor at all doses (raises metoprolol, digoxin)"
+        }
+      }
+    ],
+    "effects": [
+      "bladder detrusor relaxation (FDA indication: overactive bladder)",
+      "increased brown adipose tissue thermogenesis (metabolic research, supratherapeutic dose)",
+      "mild heart rate increase at approved doses",
+      "significant heart rate and BP increase at 200 mg",
+      "CYP2D6 inhibition (drug interactions)"
+    ],
+    "halfLifeMinutes": 3000,
+    "mechanismOfAction": {
+      "summary": "Selective β3-adrenergic receptor agonist; bladder relaxation at approved doses; BAT thermogenesis at supratherapeutic doses.",
+      "description": "Selective β3-AR agonist (β1/β2 sparing at approved doses); FDA-approved for overactive bladder via bladder detrusor relaxation. Activates brown adipose tissue thermogenesis and increases energy expenditure at supratherapeutic doses (200 mg). Tmax ~3.5 h; oral bioavailability 29–35% (food-dependent). Moderate CYP2D6 inhibitor — raises plasma levels of metoprolol, digoxin, and other CYP2D6 substrates.",
+      "primaryTargets": [
+        "β3-adrenergic receptor"
+      ],
+      "bindings": [
+        {
+          "target": "β3-adrenergic receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "PubChem CID 9865528",
+        "FDA Myrbetriq prescribing information",
+        "https://doi.org/10.1172/JCI134892"
+      ]
+    },
+    "tags": [],
+    "cas": "223673-61-8",
+    "formula": "C21H24N4O2S",
+    "pubchemCID": 9865528,
+    "molarMass": 396.5,
+    "sources": [
+      "PubChem CID 9865528",
+      "FDA Myrbetriq prescribing information",
+      "JCI DOI:10.1172/JCI134892 (BAT study)"
+    ]
+  },
+  {
+    "name": "BAM-15",
+    "aliases": [],
+    "category": "Endocrine",
+    "defaultRoute": "oral",
+    "routes": [
+      {
+        "route": "oral",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "decreased body weight (mouse data)",
+      "decreased fat mass (mouse data)",
+      "improved insulin sensitivity (mouse data)",
+      "increased energy expenditure without hyperthermia (mouse data)",
+      "reduced liver fat (mouse data)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Selective mitochondrial uncoupler; transports protons across the inner mitochondrial membrane without depolarizing the plasma membrane.",
+      "description": "Lipophilic weak acid protonophore; dissipates the inner mitochondrial membrane proton-motive force, increasing energy expenditure. Key distinction from DNP: does not depolarize the plasma membrane at therapeutic concentrations in mice, and does not raise body temperature. Mouse data: oral bioavailability ~67%, t½ ~1.7 h (oral gavage) or ~3 h (food admixture) in C57BL/6J mice. No human PK. Community dosing speculation is based on allometric scaling from mouse and is highly speculative.",
+      "primaryTargets": [
+        "Mitochondrial inner membrane proton gradient"
+      ],
+      "references": [
+        "PubChem CID 565708",
+        "PMC7224297",
+        "PMC7338798",
+        "PMC10600450"
+      ]
+    },
+    "tags": [
+      "research-chemical",
+      "no-human-data"
+    ],
+    "inchikey": "OEGJBRZAJRPPHL-UHFFFAOYSA-N",
+    "formula": "C16H10F2N6O",
+    "pubchemCID": 565708,
+    "molarMass": 340.29,
+    "sources": [
+      "PubChem CID 565708",
+      "PMC7224297 (Nature Comms, mouse DIO reversal)",
+      "PMC7338798 (BAM15 uncoupling, mouse)",
+      "PMC10600450"
+    ]
+  },
+  {
+    "name": "Eloralintide",
+    "aliases": [
+      "LY3841136"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "once weekly",
+          "notes": "no validated dosing — investigational (Phase 2), research/community protocol"
+        }
+      }
+    ],
+    "effects": [
+      "satiety",
+      "weight loss"
+    ],
+    "mechanismOfAction": {
+      "summary": "Long-acting selective amylin (calcitonin/amylin) receptor agonist.",
+      "description": "Proprietary acylated amylin analog under investigation for obesity; selective agonism of the amylin receptor promotes satiety and weight loss. Sequence unpublished.",
+      "primaryTargets": [
+        "amylin receptor"
+      ],
+      "bindings": [
+        {
+          "target": "amylin receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://clinicaltrials.gov/search?term=LY3841136"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "amylin-agonist",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "solution",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "Lilly pipeline (LY3841136)",
+      "ClinicalTrials.gov"
+    ]
+  },
+  {
+    "name": "CagriSema",
+    "aliases": [
+      "Cagrilintide + Semaglutide"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "once weekly",
+          "notes": "blend/co-formulation of the amylin analog cagrilintide + the GLP-1 agonist semaglutide; investigational (Phase 3 REDEFINE). No validated standalone dosing — research/community protocol"
+        }
+      }
+    ],
+    "effects": [
+      "appetite suppression",
+      "weight loss"
+    ],
+    "mechanismOfAction": {
+      "summary": "Co-formulation: long-acting amylin analog (cagrilintide) + GLP-1 receptor agonist (semaglutide).",
+      "description": "Fixed-ratio combination of the amylin/calcitonin-receptor agonist cagrilintide and the GLP-1R agonist semaglutide, combining complementary satiety pathways for enhanced weight loss. Under Phase 3 evaluation (REDEFINE program).",
+      "primaryTargets": [
+        "amylin receptor",
+        "GLP-1R"
+      ],
+      "bindings": [
+        {
+          "target": "amylin receptor",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "GLP-1R",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Cagrilintide/semaglutide"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "glp-1-agonist",
+      "amylin-agonist",
+      "blend",
+      "no-human-data"
+    ],
+    "sources": [
+      "Novo Nordisk REDEFINE trials"
+    ]
+  },
+  {
+    "name": "Adipotide",
+    "aliases": [
+      "FTPP",
+      "Prohibitin-targeting peptidomimetic"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "research only",
+          "notes": "no validated human dosing (primate studies only) — research/community protocol. NEPHROTOXIC: renal toxicity observed in primates"
+        }
+      }
+    ],
+    "effects": [
+      "adipose vasculature apoptosis",
+      "weight loss (preclinical)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Pro-apoptotic peptidomimetic targeting white-fat vasculature.",
+      "description": "Homing peptide (CKGGRAKDC) fused via a GG linker to a pro-apoptotic D-amino-acid KLA domain [D(KLAKLAK)2]. Binds prohibitin/ANXA2 on white-adipose endothelium and induces apoptosis of the vasculature supplying fat tissue. Nephrotoxic.",
+      "primaryTargets": [
+        "prohibitin",
+        "ANXA2"
+      ],
+      "bindings": [
+        {
+          "target": "prohibitin",
+          "action": "agonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Adipotide"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "peptidomimetic",
+      "no-human-data",
+      "nephrotoxic"
+    ],
+    "peptideProfile": {
+      "sequence": "CKGGRAKDC-GG-D(KLAKLAK)2",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "Barnhart 2011 Sci Transl Med",
+      "https://en.wikipedia.org/wiki/Adipotide"
+    ]
+  },
+  {
+    "name": "IGF-1 LR3",
+    "aliases": [
+      "Long R3 IGF-1"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 20,
+          "highAmount": 50,
+          "frequency": "once daily",
+          "notes": "community/research protocol; no validated human dosing. Hypoglycemia risk"
+        }
+      },
+      {
+        "route": "intramuscular",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "muscle hyperplasia/hypertrophy",
+      "anabolism",
+      "hypoglycemia risk"
+    ],
+    "halfLifeMinutes": 1500,
+    "mechanismOfAction": {
+      "summary": "Modified recombinant IGF-1 (83-aa analog) — IGF-1R agonist.",
+      "description": "Human IGF-1 with an Arg3→Glu substitution and a 13-residue N-terminal extension that sharply reduce IGF-binding-protein affinity, increasing potency and duration. Agonism of IGF-1R drives anabolic hyperplasia/hypertrophy; hypoglycemia is a key risk.",
+      "primaryTargets": [
+        "IGF-1R"
+      ],
+      "bindings": [
+        {
+          "target": "IGF-1R",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/IGF-1_LR3"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "growth-factor",
+      "wada-prohibited",
+      "no-human-data"
+    ],
+    "cas": "946870-92-4",
+    "molarMass": 9111,
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "CAS 946870-92-4",
+      "https://en.wikipedia.org/wiki/IGF-1_LR3"
+    ]
+  },
+  {
+    "name": "IGF-1 DES",
+    "aliases": [
+      "DES(1-3) IGF-1"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 50,
+          "highAmount": 150,
+          "frequency": "per protocol",
+          "notes": "community/research protocol; no validated human dosing. Localized potent action"
+        }
+      },
+      {
+        "route": "intramuscular",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "localized muscle anabolism",
+      "hyperplasia"
+    ],
+    "mechanismOfAction": {
+      "summary": "Truncated IGF-1 (DES 1-3) — IGF-1R agonist.",
+      "description": "Native IGF-1 lacking its first three N-terminal residues (Gly-Pro-Glu), giving ~10× lower IGF-binding-protein affinity and short, potent, localized action at IGF-1R.",
+      "primaryTargets": [
+        "IGF-1R"
+      ],
+      "bindings": [
+        {
+          "target": "IGF-1R",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Insulin-like_growth_factor_1"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "growth-factor",
+      "wada-prohibited",
+      "no-human-data"
+    ],
+    "cas": "112603-35-3",
+    "molarMass": 7372,
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "CAS 112603-35-3"
+    ]
+  },
+  {
+    "name": "AOD-9604",
+    "aliases": [
+      "Anti-Obesity Drug 9604",
+      "Tyr-hGH 177-191"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 300,
+          "highAmount": 1000,
+          "frequency": "once daily",
+          "notes": "trials ~1 mg/day oral/SC; community SC ~300 mcg/day. No validated approved dosing"
+        }
+      }
+    ],
+    "effects": [
+      "lipolysis",
+      "inhibited lipogenesis"
+    ],
+    "halfLifeMinutes": 30,
+    "mechanismOfAction": {
+      "summary": "Modified C-terminal HGH fragment — lipolytic, no growth effect.",
+      "description": "Tyr-hGH(177-191): the C-terminal lipolytic fragment of growth hormone with an added N-terminal Tyr. Stimulates lipolysis and inhibits lipogenesis via an HGH-fragment/β3-adrenergic pathway without raising IGF-1 or producing growth effects.",
+      "primaryTargets": [
+        "β3-adrenergic pathway"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/AOD9604"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "hgh-fragment",
+      "lipolytic"
+    ],
+    "cas": "221231-10-3",
+    "formula": "C78H123N23O23S2",
+    "pubchemCID": 16132300,
+    "molarMass": 1815.1,
+    "peptideProfile": {
+      "sequence": "Tyr-LRIVQCRSVEGSCGF",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 16132300",
+      "https://en.wikipedia.org/wiki/AOD9604"
+    ]
+  },
+  {
+    "name": "HGH Fragment 176-191",
+    "aliases": [
+      "HGH Frag 176-191",
+      "Lipolytic fragment"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 250,
+          "highAmount": 500,
+          "frequency": "once daily",
+          "notes": "community/research protocol, fasted; no validated human dosing"
+        }
+      }
+    ],
+    "effects": [
+      "lipolysis"
+    ],
+    "halfLifeMinutes": 30,
+    "mechanismOfAction": {
+      "summary": "C-terminal HGH fragment — lipolytic, no growth/IGF effect.",
+      "description": "hGH(176-191), a 15-residue C-terminal fragment of growth hormone (parent of AOD-9604 minus the added Tyr). Promotes lipolysis via a fat-cell β3 pathway without growth or IGF-1 effects.",
+      "primaryTargets": [
+        "β3-adrenergic pathway"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/AOD9604"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "hgh-fragment",
+      "lipolytic"
+    ],
+    "cas": "66004-57-7",
+    "formula": "C78H125N23O23S2",
+    "molarMass": 1817.1,
+    "peptideProfile": {
+      "sequence": "LRIVQCRSVEGSCGF",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "CAS 66004-57-7"
+    ]
+  },
+  {
+    "name": "VIP",
+    "aliases": [
+      "Vasoactive Intestinal Peptide",
+      "Aviptadil"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 50,
+          "frequency": "multiple times daily",
+          "notes": "intranasal community use (CIRS/mold-illness lore); no validated dosing. Very labile in solution"
+        }
+      },
+      {
+        "route": "intravenous",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "vasodilation",
+      "bronchodilation",
+      "immune modulation",
+      "neuroprotection"
+    ],
+    "halfLifeMinutes": 2,
+    "mechanismOfAction": {
+      "summary": "VPAC1/VPAC2 GPCR agonist.",
+      "description": "28-residue neuropeptide of the secretin/glucagon family. Agonism of the VPAC1 and VPAC2 G-protein-coupled receptors produces vasodilation, bronchodilation, immune modulation and neuroprotection.",
+      "primaryTargets": [
+        "VPAC1",
+        "VPAC2"
+      ],
+      "bindings": [
+        {
+          "target": "VPAC1",
+          "action": "agonist",
+          "affinity": 3
+        },
+        {
+          "target": "VPAC2",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Vasoactive_intestinal_peptide"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "neuropeptide"
+    ],
+    "cas": "37221-79-7",
+    "formula": "C147H237N43O43S",
+    "pubchemCID": 6918155,
+    "molarMass": 3326.8,
+    "peptideProfile": {
+      "sequence": "HSDAVFTDNYTRLRKQMAVKKYLNSILN-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 6918155",
+      "https://en.wikipedia.org/wiki/Vasoactive_intestinal_peptide"
+    ]
+  },
+  {
+    "name": "PGPIPN",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "research only",
+          "notes": "no validated human dosing — research/community protocol"
+        }
+      }
+    ],
+    "effects": [
+      "immunomodulation",
+      "anti-inflammatory"
+    ],
+    "mechanismOfAction": {
+      "summary": "Casein-derived immunomodulatory hexapeptide.",
+      "description": "Bovine β-casein-derived hexapeptide (Pro-Gly-Pro-Ile-Pro-Asn) reported to have immunomodulatory and anti-inflammatory/antitumor activity in preclinical studies.",
+      "primaryTargets": [],
+      "references": [
+        "https://pubmed.ncbi.nlm.nih.gov/"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "immunomodulator",
+      "no-human-data"
+    ],
+    "formula": "C30H48N6O7",
+    "peptideProfile": {
+      "sequence": "Pro-Gly-Pro-Ile-Pro-Asn",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "Preclinical β-casein peptide literature (PubMed)"
+    ]
+  },
+  {
+    "name": "DS5",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "research only",
+          "notes": "no validated dosing — insufficient independent data; research/community protocol"
+        }
+      }
+    ],
+    "tags": [
+      "peptide",
+      "no-human-data"
+    ],
+    "sources": [
+      "thepeptidelist.com (enumeration only)"
+    ]
+  },
+  {
+    "name": "BPC-157 + TB-500",
+    "aliases": [
+      "BPC-157/TB-500 stack"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "per component protocol",
+          "notes": "popular co-administered healing stack: BPC-157 (~250–500 mcg/day) + TB-500 (~2–5 mg/week). Blend note referencing both; no validated human dosing"
+        }
+      }
+    ],
+    "effects": [
+      "tissue repair",
+      "healing"
+    ],
+    "mechanismOfAction": {
+      "summary": "Co-administered tissue-repair stack (BPC-157 + Thymosin β4 fragment).",
+      "description": "Combination of the pentadecapeptide BPC-157 and the Thymosin β4 fragment TB-500, commonly stacked for soft-tissue and connective-tissue repair. Effects derive from each component's individual healing/angiogenic activity.",
+      "primaryTargets": [],
+      "references": [
+        "https://en.wikipedia.org/wiki/BPC-157"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "tissue-repair",
+      "blend",
+      "no-human-data",
+      "wada-prohibited"
+    ],
+    "sources": [
+      "Community healing-stack protocols"
+    ]
+  },
+  {
+    "name": "Triptorelin",
+    "aliases": [
+      "Decapeptyl",
+      "Trelstar",
+      "Diphereline",
+      "AY-25650",
+      "CL-118532"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "intramuscular",
+    "routes": [
+      {
+        "route": "intramuscular",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 3.75,
+          "highAmount": 11.25,
+          "frequency": "depot: 3.75 mg monthly / 11.25 mg every 3 months",
+          "notes": "depot microspheres reconstituted with supplied vehicle immediately before injection"
+        }
+      },
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 100,
+          "frequency": "single dose",
+          "notes": "community 'PCT': single ~100 mcg SC off-label for LH/FSH stimulation"
+        }
+      }
+    ],
+    "effects": [
+      "LH/FSH suppression (continuous)",
+      "initial gonadotropin flare"
+    ],
+    "halfLifeMinutes": 180,
+    "mechanismOfAction": {
+      "summary": "GnRH receptor superagonist (decapeptide, D-Trp6).",
+      "description": "GnRH agonist decapeptide with a D-Trp6 substitution. Produces an initial LH/FSH flare followed by receptor downregulation and gonadotropin suppression with continuous (depot) dosing.",
+      "primaryTargets": [
+        "GnRH receptor"
+      ],
+      "bindings": [
+        {
+          "target": "GnRH receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Triptorelin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "gonadotropin",
+      "gnrh-agonist",
+      "wada-prohibited"
+    ],
+    "cas": "57773-63-4",
+    "formula": "C64H82N18O13",
+    "pubchemCID": 25074470,
+    "molarMass": 1311.45,
+    "peptideProfile": {
+      "sequence": "pGlu-His-Trp-Ser-Tyr-D-Trp-Leu-Arg-Pro-Gly-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Supplied vehicle",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 25074470",
+      "Trelstar SmPC",
+      "https://en.wikipedia.org/wiki/Triptorelin"
+    ]
+  },
+  {
+    "name": "Oxytocin",
+    "aliases": [
+      "Pitocin",
+      "Syntocinon"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "IU",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 24,
+          "frequency": "per protocol",
+          "notes": "intranasal research dose ~24 IU for social/CNS effects"
+        }
+      },
+      {
+        "route": "intravenous",
+        "unit": "IU",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "titrated",
+          "notes": "obstetric IV titrated in mIU/min"
+        }
+      },
+      {
+        "route": "intramuscular",
+        "unit": "IU",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "uterine contraction",
+      "milk letdown",
+      "social bonding (intranasal)"
+    ],
+    "halfLifeMinutes": 3,
+    "mechanismOfAction": {
+      "summary": "Oxytocin receptor (OXTR) agonist.",
+      "description": "Cyclic nonapeptide neurohypophyseal hormone (disulfide-bridged, C-amide). OXTR agonism drives uterine contraction and milk letdown peripherally and, via intranasal delivery, social/bonding effects in the CNS.",
+      "primaryTargets": [
+        "OXTR"
+      ],
+      "bindings": [
+        {
+          "target": "OXTR",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Oxytocin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "neuropeptide",
+      "hormone"
+    ],
+    "cas": "50-56-6",
+    "formula": "C43H66N12O12S2",
+    "pubchemCID": 439302,
+    "molarMass": 1007.19,
+    "peptideProfile": {
+      "sequence": "Cys-Tyr-Ile-Gln-Asn-Cys-Pro-Leu-Gly-NH2",
+      "suppliedForm": "solution",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 439302",
+      "Pitocin SmPC",
+      "https://en.wikipedia.org/wiki/Oxytocin"
+    ]
+  },
+  {
+    "name": "Dermorphin",
+    "aliases": [
+      "Frog opioid"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "intravenous",
+    "routes": [
+      {
+        "route": "intravenous",
+        "unit": "mcg",
+        "doses": {},
+        "protocolDosing": {
+          "frequency": "research only",
+          "notes": "no validated human dosing — potent μ-opioid (~30–40× morphine); respiratory depression risk. Research/community protocol only"
+        }
+      }
+    ],
+    "effects": [
+      "analgesia",
+      "respiratory depression risk"
+    ],
+    "mechanismOfAction": {
+      "summary": "Highly selective μ-opioid receptor agonist (heptapeptide, D-Ala2).",
+      "description": "Naturally occurring heptapeptide containing a D-Ala residue. Highly selective and potent μ-opioid receptor agonist (~30–40× morphine), with poor CNS penetration when given peripherally.",
+      "primaryTargets": [
+        "μ-opioid receptor"
+      ],
+      "bindings": [
+        {
+          "target": "μ-opioid receptor",
+          "action": "agonist",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Dermorphin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "opioid",
+      "wada-prohibited"
+    ],
+    "cas": "77614-16-5",
+    "formula": "C40H50N8O10",
+    "pubchemCID": 105808,
+    "molarMass": 802.87,
+    "peptideProfile": {
+      "sequence": "Tyr-D-Ala-Phe-Gly-Tyr-Pro-Ser-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 105808",
+      "https://en.wikipedia.org/wiki/Dermorphin"
+    ]
+  },
+  {
+    "name": "Adamax",
+    "aliases": [
+      "Enhanced Semax"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mcg",
+        "doses": {}
+      },
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "nootropic",
+      "neurotrophic"
+    ],
+    "mechanismOfAction": {
+      "summary": "Semax-derived ACTH(4-7) analog; presumed BDNF/melanocortin nootropic.",
+      "description": "Poorly documented Semax derivative (variant of Met-Glu-His-Phe-Pro-Gly-Pro, likely acetylated/adamantyl-modified). Mechanism inferred from the Semax parent — BDNF upregulation and melanocortin-pathway signalling. No independent pharmacology published.",
+      "references": [
+        "https://thepeptidelist.com/peptides"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "nootropic",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "thepeptidelist.com (enumeration); Semax literature for parent"
+    ]
+  },
+  {
+    "name": "PE-22-28",
+    "aliases": [
+      "Spadin analog"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "insufflation",
+    "routes": [
+      {
+        "route": "insufflation",
+        "unit": "mcg",
+        "doses": {}
+      },
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "antidepressant (investigational)",
+      "neurogenic"
+    ],
+    "mechanismOfAction": {
+      "summary": "TREK-1 (K2P) potassium channel blocker; fast antidepressant candidate.",
+      "description": "Seven-residue fragment derived from spadin (sortilin/neurotensin-receptor-3 propeptide). Inhibits the TREK-1 background potassium channel, producing fast antidepressant-like and neurogenic effects in preclinical models.",
+      "primaryTargets": [
+        "TREK-1"
+      ],
+      "bindings": [
+        {
+          "target": "TREK-1",
+          "action": "channelBlocker",
+          "affinity": 3
+        }
+      ],
+      "references": [
+        "https://www.ncbi.nlm.nih.gov/pmc/?term=spadin+TREK-1"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "nootropic",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "spadin/TREK-1 antidepressant literature (Mazella, PMC)"
+    ]
+  },
+  {
+    "name": "Humanin",
+    "aliases": [
+      "HN",
+      "HNG",
+      "[Gly14]-humanin"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mcg",
+        "doses": {}
+      },
+      {
+        "route": "intravenous",
+        "unit": "mcg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "cytoprotective",
+      "anti-apoptotic",
+      "neuroprotective"
+    ],
+    "halfLifeMinutes": 30,
+    "mechanismOfAction": {
+      "summary": "Mitochondrial-derived peptide; cytoprotective and anti-apoptotic.",
+      "description": "24-aa mitochondrial-derived peptide encoded in the 16S rRNA region. Binds Bax and IGFBP3 to inhibit apoptosis; exerts neuroprotective and metabolic effects. The [Gly14] analog (HNG) is markedly more potent.",
+      "primaryTargets": [
+        "Bax",
+        "IGFBP3"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Humanin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "longevity",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "330936-69-1",
+    "peptideProfile": {
+      "sequence": "MAPRGFSCLLLLTSEIDLPVKRRA",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "CAS 330936-69-1; humanin literature (Cohen lab)"
+    ]
+  },
+  {
+    "name": "SS-31",
+    "aliases": [
+      "Elamipretide",
+      "MTP-131",
+      "Bendavia"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 40,
+          "frequency": "once daily",
+          "notes": "trial dose; investigational, no approved regimen"
+        }
+      }
+    ],
+    "effects": [
+      "mitochondrial support",
+      "increased ATP",
+      "reduced ROS"
+    ],
+    "halfLifeMinutes": 150,
+    "mechanismOfAction": {
+      "summary": "Mitochondria-targeting tetrapeptide; binds cardiolipin to stabilize cristae.",
+      "description": "Cell-permeable tetrapeptide that concentrates on the inner mitochondrial membrane and binds cardiolipin, stabilizing cristae architecture, improving electron-transport efficiency, increasing ATP synthesis and reducing reactive oxygen species.",
+      "primaryTargets": [
+        "Cardiolipin"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Elamipretide"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "longevity",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "cas": "736992-21-5",
+    "formula": "C32H49N9O5",
+    "pubchemCID": 11198681,
+    "molarMass": 639.79,
+    "peptideProfile": {
+      "sequence": "D-Arg-2',6'-dimethylTyr-Lys-Phe-NH2",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 11198681",
+      "https://en.wikipedia.org/wiki/Elamipretide"
+    ]
+  },
+  {
+    "name": "FOXO4-DRI",
+    "aliases": [
+      "FOXO4-D-Retro-Inverso peptide",
+      "senolytic peptide"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "intravenous",
+    "routes": [
+      {
+        "route": "intravenous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "senolytic"
+    ],
+    "mechanismOfAction": {
+      "summary": "Senolytic D-retro-inverso peptide that disrupts FOXO4-p53 binding.",
+      "description": "FOXO4 DNA-binding-domain fragment synthesized as an all-D, reversed (D-retro-inverso) peptide fused to a TAT cell-penetrating sequence, conferring proteolytic resistance. Disrupts FOXO4-p53 interaction in senescent cells, causing p53 nuclear exclusion and selective apoptosis (senolysis). Renal-clearance concerns; mouse data only.",
+      "primaryTargets": [
+        "FOXO4",
+        "p53"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/FOXO4"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "longevity",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "Baar 2017 Cell; https://en.wikipedia.org/wiki/FOXO4"
+    ]
+  },
+  {
+    "name": "PNC-27",
+    "aliases": [
+      "p53-derived anticancer peptide"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "intravenous",
+    "routes": [
+      {
+        "route": "intravenous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anticancer (preclinical)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Membrane-disrupting anticancer peptide; p53(12-26) MDM2-binding domain plus penetratin leader.",
+      "description": "Fuses the p53 residues 12-26 (HDM-2/MDM2-binding domain) to a penetratin membrane-leader sequence. Selectively forms transmembrane pores in cancer cells that present HDM-2 at the membrane, causing necrosis while sparing normal cells. No human data.",
+      "primaryTargets": [
+        "HDM-2"
+      ],
+      "references": [
+        "https://www.ncbi.nlm.nih.gov/pmc/?term=PNC-27+p53+peptide"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "research-chemical",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "Michl/Pincus p53 peptide literature"
+    ]
+  },
+  {
+    "name": "Bronchogen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "bronchial/respiratory tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "AEDL (Ala-Glu-Asp-Leu)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Cardiogen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "cardiac tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "AEDR (Ala-Glu-Asp-Arg)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Cartalax",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "cartilage/joint tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "AEDP (Ala-Glu-Asp-Pro)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Chonluten",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "bronchial/lung epithelium bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "EDG (Glu-Asp-Gly)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Cortagen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "cortical/brain tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "AEDP (Ala-Glu-Asp-Pro) — VERIFY: sources conflict (overlaps Cartalax sequence)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Livagen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "liver tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KEDA (Lys-Glu-Asp-Ala)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Ovagen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "liver/GI/ovary tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "EDL (Glu-Asp-Leu)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Pancragen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "pancreas tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KEDW (Lys-Glu-Asp-Trp)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Pinealon",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "pineal/brain bioregulation (claimed)",
+      "nootropic"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "nootropic",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "EDR (Glu-Asp-Arg)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Prostamax",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "prostate tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KEDP (Lys-Glu-Asp-Pro)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Testagen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "reproductive tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KEDG (Lys-Glu-Asp-Gly)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Thymagen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "thymus/immune bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "EW (Glu-Trp) — VERIFY: relationship to Thymogen (EW) unclear, sources conflict",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Thymalin",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "intramuscular",
+    "routes": [
+      {
+        "route": "intramuscular",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 10,
+          "frequency": "daily course",
+          "notes": "10 mg IM courses (Russian clinical use); thymic polypeptide extract, not a single sequence"
+        }
+      }
+    ],
+    "effects": [
+      "immune modulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Vesilute",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "vascular/bladder tissue bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "ED (Glu-Asp)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Vesugen",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "vascular endothelial bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KED (Lys-Glu-Asp)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Vilon",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "thymus/immune bioregulation (claimed)"
+    ],
+    "tags": [
+      "peptide",
+      "bioregulator",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "sequence": "KE (Lys-Glu)",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate"
+      }
+    },
+    "sources": [
+      "Khavinson, Springer Adv Gerontol 2014"
+    ]
+  },
+  {
+    "name": "Thymosin alpha-1",
+    "aliases": [
+      "Thymalfasin",
+      "Zadaxin",
+      "Tα1"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {},
+        "protocolDosing": {
+          "lowAmount": 1.6,
+          "frequency": "2×/week",
+          "notes": "hepatitis B/C and immune adjuvant; approved in ~35 countries (Zadaxin), not FDA-approved"
+        }
+      }
+    ],
+    "effects": [
+      "immune modulation",
+      "T-cell maturation",
+      "increased Th1/IL-2/IFN"
+    ],
+    "halfLifeMinutes": 120,
+    "mechanismOfAction": {
+      "summary": "Thymic immunomodulatory peptide; promotes T-cell maturation and Th1 responses.",
+      "description": "N-acetylated 28-aa thymic peptide that modulates T-cell maturation, increases Th1 cytokine output (IL-2, IFN), and enhances dendritic-cell and NK function.",
+      "primaryTargets": [
+        "T cells",
+        "Dendritic cells",
+        "NK cells"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Thymalfasin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "immune"
+    ],
+    "cas": "62304-98-7",
+    "formula": "C129H215N33O55",
+    "pubchemCID": 16130571,
+    "molarMass": 3108.3,
+    "peptideProfile": {
+      "sequence": "Ac-Ser-Asp-Ala-Ala-Val-Asp-Thr-Ser-Ser-Glu-Ile-Thr-Thr-Lys-Asp-Leu-Lys-Glu-Lys-Lys-Glu-Val-Val-Glu-Glu-Ala-Glu-Asn",
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PubChem CID 16130571",
+      "Zadaxin SmPC",
+      "https://en.wikipedia.org/wiki/Thymalfasin"
+    ]
+  },
+  {
+    "name": "Argireline",
+    "aliases": [
+      "Acetyl Hexapeptide-3",
+      "Acetyl Hexapeptide-8"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-wrinkle",
+      "topical muscle relaxation"
+    ],
+    "mechanismOfAction": {
+      "summary": "SNAP-25 N-terminal mimic; inhibits SNARE complex to reduce muscle contraction ('topical Botox').",
+      "description": "Acetylated hexapeptide mimicking the N-terminus of SNAP-25. Competes for SNARE-complex assembly, attenuating catecholamine/acetylcholine release at the neuromuscular junction to soften expression lines.",
+      "primaryTargets": [
+        "SNAP-25"
+      ],
+      "references": [
+        "https://pubchem.ncbi.nlm.nih.gov/compound/9837349"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "616204-22-9",
+    "formula": "C34H60N14O12S",
+    "pubchemCID": 9837349,
+    "peptideProfile": {
+      "sequence": "Ac-Glu-Glu-Met-Gln-Arg-Arg-NH2",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "PubChem CID 9837349",
+      "INCI/CosIng"
+    ]
+  },
+  {
+    "name": "Matrixyl",
+    "aliases": [
+      "Palmitoyl Pentapeptide-4",
+      "Pal-KTTKS"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-aging",
+      "collagen stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Matrikine; stimulates collagen I/III and fibronectin synthesis.",
+      "description": "Palmitoylated pentapeptide (Pal-KTTKS) derived from a procollagen I fragment. Signals fibroblasts to upregulate collagen type I/III and fibronectin, improving dermal matrix.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "https://pubchem.ncbi.nlm.nih.gov/compound/9941561"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "214047-00-4",
+    "pubchemCID": 9941561,
+    "peptideProfile": {
+      "sequence": "Pal-Lys-Thr-Thr-Lys-Ser",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "PubChem CID 9941561",
+      "INCI/CosIng"
+    ]
+  },
+  {
+    "name": "SNAP-8",
+    "aliases": [
+      "Acetyl Octapeptide-3"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-wrinkle",
+      "topical muscle relaxation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Extended Argireline; competes with SNAP-25 in SNARE complex.",
+      "description": "Acetylated octapeptide that extends the Argireline motif, competing more strongly for SNAP-25 in the SNARE complex to reduce neuromuscular contraction.",
+      "primaryTargets": [
+        "SNAP-25"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "868844-74-0",
+    "peptideProfile": {
+      "sequence": "Ac-Glu-Glu-Met-Gln-Arg-Arg-Ala-Asp-NH2",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; Lipotec tech sheet"
+    ]
+  },
+  {
+    "name": "SYN-AKE",
+    "aliases": [
+      "Dipeptide diaminobutyroyl benzylamide diacetate"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-wrinkle",
+      "topical muscle relaxation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Synthetic Waglerin-1 (snake-venom) mimic; nicotinic ACh receptor antagonist.",
+      "description": "Synthetic analog of Waglerin-1 from temple viper venom. Antagonizes the muscle nicotinic acetylcholine receptor at the neuromuscular junction, producing topical muscle relaxation.",
+      "primaryTargets": [
+        "Nicotinic acetylcholine receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Nicotinic acetylcholine receptor",
+          "action": "antagonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "823202-99-9",
+    "peptideProfile": {
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "SYN-COLL",
+    "aliases": [
+      "Palmitoyl Tripeptide-5"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-aging",
+      "collagen stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Thrombospondin-1 mimic; activates latent TGF-β to increase collagen.",
+      "description": "Palmitoylated tripeptide (Pal-Lys-Val-Lys) mimicking thrombospondin-1's TGF-β-activating sequence. Converts latent TGF-β to its active form, stimulating dermal collagen synthesis.",
+      "primaryTargets": [
+        "TGF-β"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "sequence": "Pal-Lys-Val-Lys",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Vialox",
+    "aliases": [
+      "Pentapeptide-3",
+      "Pentapeptide-3V"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-wrinkle",
+      "topical muscle relaxation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Tubocurarine mimic; competitive acetylcholine-receptor antagonist at the NMJ.",
+      "description": "Pentapeptide acting as a curare-like competitive antagonist at the post-synaptic acetylcholine receptor of the neuromuscular junction, relaxing facial muscles topically.",
+      "primaryTargets": [
+        "Acetylcholine receptor"
+      ],
+      "bindings": [
+        {
+          "target": "Acetylcholine receptor",
+          "action": "antagonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "135679-88-8",
+    "peptideProfile": {
+      "sequence": "Gly-Pro-Arg-Pro-Ala-NH2",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "GHK",
+    "aliases": [
+      "Copper-free tripeptide GHK",
+      "Gly-His-Lys"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "regenerative",
+      "collagen stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Apo form of GHK-Cu; regenerative matrikine, collagen synthesis.",
+      "description": "The copper-free tripeptide Gly-His-Lys (apo form of GHK-Cu). Modulates wound-healing gene expression and stimulates collagen/glycosaminoglycan synthesis.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "https://pubchem.ncbi.nlm.nih.gov/compound/92155"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "49557-75-7",
+    "pubchemCID": 92155,
+    "peptideProfile": {
+      "sequence": "Gly-His-Lys",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "PubChem CID 92155",
+      "INCI/CosIng"
+    ]
+  },
+  {
+    "name": "AHK-Cu",
+    "aliases": [
+      "Tripeptide-3 copper"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "hair-follicle stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Copper peptide for hair-follicle stimulation.",
+      "description": "Ala-His-Lys copper(II) complex used topically on the scalp to promote dermal-papilla activity and follicle growth.",
+      "primaryTargets": [
+        "Hair follicle"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "sequence": "Ala-His-Lys-Cu2+",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "PAL-GHK",
+    "aliases": [
+      "Palmitoyl Tripeptide-1"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-aging",
+      "collagen/ECM stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Matrikine; increases collagen and ECM synthesis.",
+      "description": "Palmitoylated Gly-His-Lys tripeptide. Acts as a matrikine signal to fibroblasts, upregulating collagen and extracellular-matrix components.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "147732-56-7",
+    "peptideProfile": {
+      "sequence": "Pal-Gly-His-Lys",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "PAL-AHK",
+    "aliases": [
+      "Palmitoyl Tripeptide-3"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-aging"
+    ],
+    "mechanismOfAction": {
+      "summary": "Palmitoylated AHK matrikine for topical anti-aging.",
+      "description": "Palmitoylated Ala-His-Lys tripeptide used topically as a matrikine for skin renewal and anti-aging.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "sequence": "Pal-Ala-His-Lys",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Rigin",
+    "aliases": [
+      "Palmitoyl Tetrapeptide-7"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-inflammatory",
+      "anti-glycation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Reduces IL-6; anti-inflammatory and anti-glycation matrikine.",
+      "description": "Palmitoylated Gly-Gln-Pro-Arg tetrapeptide that downregulates interleukin-6 release, reducing inflammatory and glycation-related skin damage.",
+      "primaryTargets": [
+        "IL-6"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "cas": "221227-05-0",
+    "peptideProfile": {
+      "sequence": "Pal-Gly-Gln-Pro-Arg",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Decapeptide-12",
+    "aliases": [
+      "Lumixyl"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "skin lightening"
+    ],
+    "mechanismOfAction": {
+      "summary": "Tyrosinase inhibitor; reduces melanin synthesis.",
+      "description": "Synthetic decapeptide that inhibits tyrosinase, the rate-limiting enzyme in melanogenesis, reducing hyperpigmentation.",
+      "primaryTargets": [
+        "Tyrosinase"
+      ],
+      "bindings": [
+        {
+          "target": "Tyrosinase",
+          "action": "enzymeInhibitor",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Nonapeptide-1",
+    "aliases": [
+      "Melanostatine",
+      "MSH-antagonist nonapeptide"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "skin lightening"
+    ],
+    "mechanismOfAction": {
+      "summary": "MC1R antagonist; reduces melanin synthesis.",
+      "description": "Nine-residue peptide antagonizing the melanocortin-1 receptor, blocking α-MSH-driven melanogenesis to lighten skin.",
+      "primaryTargets": [
+        "MC1R"
+      ],
+      "bindings": [
+        {
+          "target": "MC1R",
+          "action": "antagonist",
+          "affinity": 2
+        }
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Palmitoyl Dipeptide-6",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-aging"
+    ],
+    "mechanismOfAction": {
+      "summary": "Anti-aging matrikine.",
+      "description": "Palmitoylated dipeptide used topically as a matrikine signal for dermal renewal and anti-aging.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Leuphasyl",
+    "aliases": [
+      "Pentapeptide-18"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "anti-wrinkle",
+      "topical muscle relaxation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Enkephalin analog; modulates the enkephalin pathway for Botox-like muscle relaxation.",
+      "description": "Enkephalin-analog pentapeptide that engages the enkephalin signalling pathway at the neuromuscular junction to reduce muscle contraction and expression lines.",
+      "primaryTargets": [
+        "Enkephalin receptor"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "sequence": "Tyr-D-Ala-Gly-Phe-Leu",
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Tripeptide-29",
+    "aliases": [],
+    "category": "Peptide",
+    "defaultRoute": "transdermal",
+    "routes": [
+      {
+        "route": "transdermal",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "collagen stimulation"
+    ],
+    "mechanismOfAction": {
+      "summary": "Collagen-fragment mimic; increases collagen synthesis.",
+      "description": "Synthetic collagen-fragment mimic (Gly-Pro-Hyp repeat type) that signals fibroblasts to increase collagen synthesis.",
+      "primaryTargets": [
+        "Dermal fibroblasts"
+      ],
+      "references": [
+        "INCI/CosIng database"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "cosmetic"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "topical",
+      "storage": {
+        "temperature": "room_temp"
+      }
+    },
+    "sources": [
+      "INCI/CosIng; manufacturer tech sheet"
+    ]
+  },
+  {
+    "name": "Follistatin 315",
+    "aliases": [
+      "FST-315"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "myostatin inhibition (claimed)",
+      "anabolic (claimed)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Activin/myostatin-binding glycoprotein isoform (circulating form).",
+      "description": "Follistatin splice isoform lacking the acidic C-terminal tail, predominantly circulating. Binds and neutralizes activin and myostatin (GDF-8), relieving inhibition of muscle growth. Human evidence is from AAV gene therapy, not injected peptide; injectable gray-market form has no human PK.",
+      "primaryTargets": [
+        "Myostatin",
+        "Activin"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Follistatin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "wada-prohibited",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PNAS; https://en.wikipedia.org/wiki/Follistatin"
+    ]
+  },
+  {
+    "name": "Follistatin 344",
+    "aliases": [
+      "FST-344"
+    ],
+    "category": "Peptide",
+    "defaultRoute": "subcutaneous",
+    "routes": [
+      {
+        "route": "subcutaneous",
+        "unit": "mg",
+        "doses": {}
+      }
+    ],
+    "effects": [
+      "myostatin inhibition (claimed)",
+      "anabolic (claimed)"
+    ],
+    "mechanismOfAction": {
+      "summary": "Activin/myostatin-binding glycoprotein isoform (cell-surface form).",
+      "description": "Follistatin splice isoform with the acidic C-terminal tail, associating with the cell surface/heparan sulfate. Binds and neutralizes activin and myostatin (GDF-8). Human evidence is from AAV gene therapy, not injected peptide; injectable gray-market form has no human PK.",
+      "primaryTargets": [
+        "Myostatin",
+        "Activin"
+      ],
+      "references": [
+        "https://en.wikipedia.org/wiki/Follistatin"
+      ]
+    },
+    "tags": [
+      "peptide",
+      "wada-prohibited",
+      "no-human-data"
+    ],
+    "peptideProfile": {
+      "suppliedForm": "lyophilized_vial",
+      "reconstitutionSolvent": "Bacteriostatic water",
+      "storage": {
+        "temperature": "refrigerate",
+        "lightSensitive": true
+      }
+    },
+    "sources": [
+      "PNAS; https://en.wikipedia.org/wiki/Follistatin"
+    ]
   }
 ]

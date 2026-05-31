@@ -499,6 +499,43 @@ CREATE TABLE diazepam_equivalents (
     PRIMARY KEY (substance_id, source_id)
 );
 
+-- Peptide/biologic-specific reference data (1:1 with a substance). Presence of
+-- a row switches the iOS detail view to a peptide presentation (sequence /
+-- handling / reconstitution) instead of the psychoactive trip model.
+CREATE TABLE peptide_profiles (
+    substance_id                 INTEGER PRIMARY KEY REFERENCES substances(id),
+    source_id                    INTEGER REFERENCES sources(id),
+    sequence                     TEXT,
+    -- SuppliedForm raw value: lyophilized_vial | solution | topical | implant | oral_capsule
+    supplied_form                TEXT,
+    typical_vial_mg              REAL,
+    reconstitution_solvent       TEXT,
+    -- StorageRequirement.Temperature raw value: room_temp | refrigerate | freeze
+    storage_temperature          TEXT,
+    storage_light_sensitive      INTEGER NOT NULL DEFAULT 0,
+    reconstituted_stability_days REAL,
+    iu_per_mg                    REAL
+);
+
+-- Clinical-protocol dosing (peptides / some Rx) — a schedule, not a trip ladder.
+-- Amounts are in `unit`. Titration ramp is stored as a JSON array of
+-- {amount, label} for the app to decode. Replaces the DoseRange ladder in the UI.
+CREATE TABLE protocol_dosing (
+    id              INTEGER PRIMARY KEY,
+    substance_id    INTEGER NOT NULL REFERENCES substances(id),
+    route           TEXT NOT NULL,
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    unit            TEXT,
+    low_amount      REAL,
+    high_amount     REAL,
+    frequency       TEXT NOT NULL,
+    titration_json  TEXT,
+    course_duration TEXT,
+    notes           TEXT,
+    UNIQUE (substance_id, route, source_id)
+);
+CREATE INDEX idx_protocol_substance_route ON protocol_dosing(substance_id, route);
+
 CREATE TABLE manifest (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL
@@ -602,6 +639,21 @@ def load_category_overrides() -> dict[str, str]:
     if not _CATEGORY_OVERRIDES_PATH.exists():
         return {}
     with _CATEGORY_OVERRIDES_PATH.open() as f:
+        return json.load(f)
+
+
+# Curated peptide enrichment for substances ALREADY in the DB (popular peptides
+# the scrapers carry but without peptide-specific metadata): canonical_name ->
+# {molarMass?, peptideProfile{...}, protocols:[{route,unit,...}]}. Applied as
+# peptide_profiles + protocol_dosing rows ONLY — never dose_ranges — so an
+# existing recreational/PW dose ladder is never shadowed. Missing file → {}.
+_PEPTIDE_PROFILES_PATH = REPO / "data/curated/peptide-profiles.json"
+
+
+def load_peptide_profiles() -> dict[str, dict]:
+    if not _PEPTIDE_PROFILES_PATH.exists():
+        return {}
+    with _PEPTIDE_PROFILES_PATH.open() as f:
         return json.load(f)
 
 
@@ -1538,6 +1590,63 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
+    def add_peptide_profile(self, sid: int, source_slug: str, profile: dict) -> None:
+        """Insert the 1:1 peptide/biologic reference row. No-op if every field
+        is empty (so a bare `{}` doesn't create a useless row)."""
+        if not isinstance(profile, dict):
+            return
+        storage = profile.get("storage") if isinstance(profile.get("storage"), dict) else {}
+        fields = (
+            profile.get("sequence"), profile.get("suppliedForm"),
+            to_float(profile.get("typicalVialMg")), profile.get("reconstitutionSolvent"),
+            storage.get("temperature"), to_float(profile.get("iuPerMg")),
+        )
+        if not any(v is not None for v in fields):
+            return
+        src = self.source_ids.get(source_slug)
+        try:
+            self.cur.execute(
+                "INSERT INTO peptide_profiles(substance_id, source_id, sequence, supplied_form, "
+                "typical_vial_mg, reconstitution_solvent, storage_temperature, "
+                "storage_light_sensitive, reconstituted_stability_days, iu_per_mg) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (sid, src, profile.get("sequence"), profile.get("suppliedForm"),
+                 to_float(profile.get("typicalVialMg")), profile.get("reconstitutionSolvent"),
+                 storage.get("temperature"),
+                 1 if storage.get("lightSensitive") else 0,
+                 to_float(storage.get("reconstitutedStabilityDays")),
+                 to_float(profile.get("iuPerMg"))),
+            )
+            self.stats["peptide_profiles"] = self.stats.get("peptide_profiles", 0) + 1
+        except sqlite3.IntegrityError:
+            pass
+
+    def add_protocol_dosing(self, sid: int, source_slug: str, route: str, unit: str,
+                            protocol: dict) -> None:
+        """Insert a clinical-protocol dosing row (peptides/Rx). Requires a
+        frequency — that's the minimum that makes a schedule meaningful."""
+        route = normalise_route(route)
+        if not route or not isinstance(protocol, dict):
+            return
+        freq = protocol.get("frequency")
+        if not freq:
+            return
+        src = self.source_ids[source_slug]
+        titration = protocol.get("titration")
+        titration_json = json.dumps(titration, ensure_ascii=False) if titration else None
+        try:
+            self.cur.execute(
+                "INSERT INTO protocol_dosing(substance_id, route, source_id, unit, low_amount, "
+                "high_amount, frequency, titration_json, course_duration, notes) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (sid, route, src, unit or None, to_float(protocol.get("lowAmount")),
+                 to_float(protocol.get("highAmount")), freq, titration_json,
+                 protocol.get("courseDuration"), protocol.get("notes")),
+            )
+            self.stats["protocol_dosing"] = self.stats.get("protocol_dosing", 0) + 1
+        except sqlite3.IntegrityError:
+            pass
+
     def add_duration_profile(self, sid: int, source_slug: str, route: str,
                              profile: dict, citation: str | None = None) -> None:
         route = normalise_route(route)
@@ -1886,10 +1995,18 @@ class Build:
         """
         if is_chemistry_noise(s.get("name") or ""):
             return None
+        # Chemical identifiers ride the provenance wrapper for scraped sources
+        # (inchikey/pubchem_cid/cas kwargs); the curated overlay carries them —
+        # plus formula/molarMass — on the substance object itself. Prefer the
+        # wrapper, fall back to the object, so both paths populate the row.
         sid = self.upsert_substance(
             s.get("name"),
             aliases=s.get("aliases") or [],
-            inchikey=inchikey, pubchem_cid=pubchem_cid, cas=cas,
+            inchikey=inchikey or s.get("inchikey"),
+            pubchem_cid=pubchem_cid if pubchem_cid is not None else to_int(s.get("pubchemCID")),
+            cas=cas or s.get("cas"),
+            formula=s.get("formula"),
+            molecular_weight=to_float(s.get("molarMass")),
             source_slug=slug,
         )
         if sid is None:
@@ -1910,6 +2027,10 @@ class Build:
                           heavy=doses.get("heavy"))
             if r.get("duration"):
                 self.add_duration_profile(sid, slug, r.get("route", ""), r["duration"])
+            if r.get("protocolDosing"):
+                self.add_protocol_dosing(sid, slug, r.get("route", ""), r.get("unit", "mg"), r["protocolDosing"])
+        if s.get("peptideProfile"):
+            self.add_peptide_profile(sid, slug, s["peptideProfile"])
         if s.get("halfLifeMinutes") is not None:
             self.add_half_life(sid, slug, float(s["halfLifeMinutes"]))
         if s.get("mechanismOfAction"):
@@ -2988,6 +3109,35 @@ def main() -> int:
             if not added:
                 print(f"  WARNING: curated dose dropped by guard: {canon} {r['route']}", file=sys.stderr)
     print(f"Curated doses: +{dose_rows} rows", file=sys.stderr)
+
+    # Curated peptide enrichment — add peptide_profiles + protocol_dosing (and
+    # backfill molecular_weight) for popular peptides already in the DB. Safe:
+    # never inserts a dose_ranges row, so existing dose data is untouched.
+    pep_profiles = load_peptide_profiles()
+    pep_done = pep_missing = pep_protocols = 0
+    for canon, spec in pep_profiles.items():
+        sub = build.cur.execute("SELECT id FROM substances WHERE canonical_name=?", (canon,)).fetchone()
+        if not sub:
+            print(f"  WARNING: peptide-profile target not found: {canon!r}", file=sys.stderr)
+            pep_missing += 1
+            continue
+        sid = sub[0]
+        if spec.get("molarMass") is not None:
+            build.cur.execute(
+                "UPDATE substances SET molecular_weight = COALESCE(molecular_weight, ?) WHERE id = ?",
+                (to_float(spec["molarMass"]), sid),
+            )
+        if spec.get("peptideProfile"):
+            before = build.stats.get("peptide_profiles", 0)
+            build.add_peptide_profile(sid, "piru-curated", spec["peptideProfile"])
+            pep_done += build.stats.get("peptide_profiles", 0) - before
+        for proto in (spec.get("protocols") or []):
+            before = build.stats.get("protocol_dosing", 0)
+            build.add_protocol_dosing(sid, "piru-curated", proto.get("route", ""),
+                                      proto.get("unit", "mg"), proto)
+            pep_protocols += build.stats.get("protocol_dosing", 0) - before
+    print(f"Curated peptide profiles: {pep_done} profiles, +{pep_protocols} protocols"
+          f" ({pep_missing} targets missing)", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
