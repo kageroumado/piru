@@ -90,18 +90,26 @@ enum StoreRecovery {
     static func prepareCanonicalStore() -> URL {
         let canonical = canonicalStoreURL()
         let defaults = UserDefaults(suiteName: appGroupID) ?? .standard
-        if defaults.bool(forKey: migrationFlagKey) {
-            return canonical
-        }
 
+        // If the canonical store already holds data, we're done — record it so
+        // routine launches skip the scan entirely.
         let canonicalCount = userDataCount(at: canonical)
         if canonicalCount > 0 {
             defaults.set(true, forKey: migrationFlagKey)
             return canonical
         }
 
-        // Canonical is empty (0), absent, or unreadable (-1). Find the
-        // data-bearing store with the most entries among every candidate.
+        // Canonical is empty (0), absent, or unreadable (-1). Only honour the
+        // completion flag — i.e. skip the recovery scan — when the canonical
+        // store still physically exists (a genuinely-empty store). NEVER skip
+        // when it's missing: a prior "completed" run could have been blind
+        // (e.g. every open failed) and moved real data aside to a sidecar, and
+        // skipping here would strand that data behind the flag forever.
+        if defaults.bool(forKey: migrationFlagKey), anyFileExists(at: canonical) {
+            return canonical
+        }
+
+        // Find the data-bearing store with the most entries among every candidate.
         var best: URL?
         var bestCount = 0
         for candidate in recoveryCandidates(excluding: canonical) {
@@ -212,7 +220,10 @@ enum StoreRecovery {
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
         do {
-            let config = ModelConfiguration(url: url, allowsSave: false)
+            // .none — never let the iCloud entitlement pull this read-only probe
+            // into CloudKit setup (the schema is CloudKit-incompatible). See
+            // PiruApp.makeContainer.
+            let config = ModelConfiguration(url: url, allowsSave: false, cloudKitDatabase: .none)
             let container = try ModelContainer(for: Schema(models), configurations: config)
             let context = ModelContext(container)
             // DoseEntry is the journal — the data "No Entries" refers to — plus
