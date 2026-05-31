@@ -13,6 +13,7 @@ select = ["E", "F", "I", "B", "C4", "SIM", "UP"]
 ignore = [
     "E501",   # line length — the formatter wraps code; long SQL/string literals are fine
     "SIM108", # ternary-vs-if is a readability call, not a rule
+    "SIM102", # collapsible-if hurts readability when the inner cond is multi-line
 ]
 
 [lint.per-file-ignores]

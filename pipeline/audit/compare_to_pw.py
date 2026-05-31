@@ -17,7 +17,6 @@ Run from the repo root:
 from __future__ import annotations
 
 import sqlite3
-import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -336,7 +335,7 @@ for sid in sorted(pw_substance_ids):
 # ── Sort by popularity desc and print ────────────────────────────────────
 findings.sort(key=lambda f: (-f["score"], f["name"], f["type"], f["route"]))
 
-print(f"# PsychonautWiki divergence audit\n")
+print("# PsychonautWiki divergence audit\n")
 print(
     f"Out of {len(pw_substance_ids)} substances with PW data, "
     f"{len({f['name'] for f in findings})} have at least one significant divergence "

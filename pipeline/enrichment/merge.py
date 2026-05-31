@@ -185,7 +185,7 @@ def main() -> int:
     for c in ("high", "medium", "low", ""):
         print(f"  {c or '(none)':10s} {totals['conf_' + c]:5d}", file=sys.stderr)
     print(file=sys.stderr)
-    print(f"Outputs:", file=sys.stderr)
+    print("Outputs:", file=sys.stderr)
     print(f"  {OUT_MERGED}", file=sys.stderr)
     print(f"  {OUT_CONTEXT}", file=sys.stderr)
     print(f"  {OUT_COVERAGE}", file=sys.stderr)

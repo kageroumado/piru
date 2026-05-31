@@ -180,7 +180,7 @@ def main() -> int:
             with (out_dir / fname).open("w") as f:
                 f.write(f"# {cat} — chunk {idx + 1}/{len(chunks)} — {len(chunk)} substances\n\n")
                 f.write(_header_legend())
-                for name, block in chunk:
+                for _name, block in chunk:
                     f.write(block)
                     f.write("\n")
             file_count += 1
@@ -200,7 +200,7 @@ def main() -> int:
             chunks = (len(items) + CHUNK_SIZE - 1) // CHUNK_SIZE
             safe = "".join(c if c.isalnum() else "_" for c in cat)
             file_links = ", ".join(
-                f"[{safe}{'_%02d' % (i + 1) if chunks > 1 else ''}.txt]({safe}{'_%02d' % (i + 1) if chunks > 1 else ''}.txt)"
+                f"[{safe}{f'_{i + 1:02d}' if chunks > 1 else ''}.txt]({safe}{f'_{i + 1:02d}' if chunks > 1 else ''}.txt)"
                 for i in range(chunks)
             )
             f.write(f"| {cat} | {len(items)} | {file_links} |\n")
@@ -313,9 +313,7 @@ def _common_disagrees(a, b, ratio) -> bool:
         return True
     if not _within_ratio(a_lo, b_lo, ratio):
         return True
-    if a_hi and b_hi and not _within_ratio(a_hi, b_hi, ratio):
-        return True
-    return False
+    return bool(a_hi and b_hi and not _within_ratio(a_hi, b_hi, ratio))
 
 
 def _within_ratio(a, b, ratio) -> bool:

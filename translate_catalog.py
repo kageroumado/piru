@@ -178,7 +178,6 @@ T = {
     "Now": ("现在", "現在"),
     "All": ("全部", "全部"),
     "None": ("无", "無"),
-    "Other": ("其他", "其他"),
     "Custom": ("自定义", "自訂"),
     "Info": ("信息", "資訊"),
     "Action": ("作用", "作用"),
@@ -268,7 +267,6 @@ T = {
     "Favorites": ("收藏", "收藏"),
     "Relevant to you": ("与您相关", "與您相關"),
     "Recent Doses (24h)": ("近 24 小时剂量", "近 24 小時劑量"),
-    "Recent": ("最近", "最近"),
     "Tap doses to select them, then tap Add to log together.": (
         "点击剂量选择，然后点击「添加」一起记录。",
         "點擊劑量選擇，然後點擊「新增」一起記錄。",
@@ -290,7 +288,6 @@ T = {
     "Show all %lld entries": ("显示全部 %lld 条", "顯示全部 %lld 條"),
     "Entries per day": ("每日条目", "每日條目"),
     "Ingestion time": ("摄入时间", "攝入時間"),
-    "Edit": ("编辑", "編輯"),
     # Profile & Disclosure Tier
     "Profile": ("个人资料", "個人資料"),
     "Disclosure Tier": ("披露等级", "披露等級"),
@@ -503,7 +500,6 @@ T = {
     "Reported Subjective Effects": ("报告的主观效果", "報告的主觀效果"),
     "Primary Targets: ": ("主要作用位点: ", "主要作用位點: "),
     "Also known as": ("别名", "別名"),
-    "Mode": ("模式", "模式"),
     # Calculator / PK
     "Concentration Curve": ("浓度曲线", "濃度曲線"),
     "Concentration Curves": ("浓度曲线", "濃度曲線"),
@@ -659,8 +655,6 @@ T = {
         "了解您的人比您想象的更能提供帮助。您不必解释一切 — 只是听到熟悉的声音就有帮助。",
         "了解您的人比您想像的更能提供幫助。您不必解釋一切 — 只是聽到熟悉的聲音就有幫助。",
     ),
-    # Emergency service common English titles
-    "Emergency Services": ("紧急服务", "緊急服務"),
     "Emergency (Ambulance)": ("紧急服务(救护车)", "緊急服務(救護車)"),
     "Emergency": ("紧急", "緊急"),
     "Suicide & Crisis Lifeline": ("自杀与危机援助热线", "自殺與危機援助熱線"),
@@ -1646,7 +1640,6 @@ T = {
     # Day detail
     "Dose taken": ("已服用剂量", "已服用劑量"),
     "Other dose": ("其他剂量", "其他劑量"),
-    "Time": ("时间", "時間"),
     # Format strings
     "Add (%lld)": ("添加(%lld)", "新增(%lld)"),
     "Log %lld Item%@": ("记录 %1$lld 个项目", "記錄 %1$lld 個項目"),
@@ -1694,16 +1687,11 @@ T = {
     "--": ("--", "--"),
     "FFAACC": ("FFAACC", "FFAACC"),
     " ": (" ", " "),
-    " ": (" ", " "),
-    "From": ("从", "從"),
-    "Now": ("现在", "現在"),
-    "Active": ("活跃", "活躍"),
     "Tap": ("点击", "點擊"),
     # Misc UI labels not yet covered
     "From journal": ("来自日志", "來自日誌"),
     "From Library": ("来自物质库", "來自物質庫"),
     "Your History": ("您的历史", "您的歷史"),
-    "From %@ to %@ (%@ overlap)": ("从 %@ 到 %@(重叠 %@)", "從 %@ 到 %@(重疊 %@)"),
     "Showing %@ entries only — other units excluded": (
         "仅显示 %@ 条目 — 其他单位已排除",
         "僅顯示 %@ 條目 — 其他單位已排除",
@@ -1813,11 +1801,9 @@ def apply_translations(catalog_path: Path, translations: dict):
     return translated_count, missing
 
 
-import sys
-
 sys.path.insert(0, "/tmp")
 try:
-    from moa_translations import MOA_SUMMARIES, MOA_DESCRIPTIONS
+    from moa_translations import MOA_DESCRIPTIONS, MOA_SUMMARIES
 
     T.update(MOA_SUMMARIES)
     T.update(MOA_DESCRIPTIONS)
