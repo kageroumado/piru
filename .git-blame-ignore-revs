@@ -1,0 +1,6 @@
+# Revisions git blame should skip — bulk, mechanical, no logic change.
+# Enable locally once:  git config blame.ignoreRevsFile .git-blame-ignore-revs
+# (GitHub honours this file automatically.)
+
+# style: format entire codebase (SwiftFormat + Ruff)
+88199a7cd469e404d6cb0d2236a64d3959f9afeb
