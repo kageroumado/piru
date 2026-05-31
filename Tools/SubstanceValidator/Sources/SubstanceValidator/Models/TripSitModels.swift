@@ -18,7 +18,10 @@ struct TripSitDrug: Codable {
     let pweffects: [String: String]?
 
     enum CodingKeys: String, CodingKey {
-        case aliases, categories, properties, pweffects
+        case aliases
+        case categories
+        case properties
+        case pweffects
         case formattedDose = "formatted_dose"
         case formattedDuration = "formatted_duration"
         case formattedOnset = "formatted_onset"
@@ -47,7 +50,12 @@ struct TripSitProperties: Codable {
     let onset: String?
 
     enum CodingKeys: String, CodingKey {
-        case summary, bioavailability, avoid, dose, duration, onset
+        case summary
+        case bioavailability
+        case avoid
+        case dose
+        case duration
+        case onset
         case halfLife = "half-life"
     }
 }
@@ -61,7 +69,7 @@ struct ParsedTripSitDose {
 
     var range: ClosedRange<Double>? {
         guard let max else { return nil }
-        return min...max
+        return min ... max
     }
 }
 
@@ -70,26 +78,26 @@ enum TripSitDoseParser {
 
     // Standard: "10-25mg", "0.5-1ml", "25mg+", "100ug"
     private static let standardRegex = try! NSRegularExpression(
-        pattern: "^([0-9.]+)\\s*(?:[-\u{2013}]\\s*([0-9.]+))?\\s*([a-zA-Z\u{00B5}\u{03BC}/]+)?\\s*\\+?$"
+        pattern: "^([0-9.]+)\\s*(?:[-\u{2013}]\\s*([0-9.]+))?\\s*([a-zA-Z\u{00B5}\u{03BC}/]+)?\\s*\\+?$",
     )
-    // Word range: "10 to 25 mg", "0.5 to 1 ml"
+    /// Word range: "10 to 25 mg", "0.5 to 1 ml"
     private static let wordRangeRegex = try! NSRegularExpression(
-        pattern: "^([0-9.]+)\\s+to\\s+([0-9.]+)\\s*([a-zA-Z\u{00B5}\u{03BC}/]+)?$"
+        pattern: "^([0-9.]+)\\s+to\\s+([0-9.]+)\\s*([a-zA-Z\u{00B5}\u{03BC}/]+)?$",
     )
     // Weight-based: "1-2 mg/kg", "0.5mg/kg"
     private static let weightBasedRegex = try! NSRegularExpression(
-        pattern: "^([0-9.]+)\\s*(?:[-\u{2013}]\\s*([0-9.]+))?\\s*(mg/kg|ug/kg|g/kg)$"
+        pattern: "^([0-9.]+)\\s*(?:[-\u{2013}]\\s*([0-9.]+))?\\s*(mg/kg|ug/kg|g/kg)$",
     )
-    // Unit then number: "mg 10-25" (rare but occurs)
+    /// Unit then number: "mg 10-25" (rare but occurs)
     private static let unitFirstRegex = try! NSRegularExpression(
-        pattern: "^([a-zA-Z\u{00B5}\u{03BC}]+)\\s*([0-9.]+)\\s*[-\u{2013}]\\s*([0-9.]+)$"
+        pattern: "^([a-zA-Z\u{00B5}\u{03BC}]+)\\s*([0-9.]+)\\s*[-\u{2013}]\\s*([0-9.]+)$",
     )
 
     static func parse(_ string: String) -> ParsedTripSitDose? {
         // Strip embedded notes/parentheticals: "10-25mg (careful)" → "10-25mg"
         var trimmed = string.trimmingCharacters(in: .whitespaces)
         if let parenRange = trimmed.range(of: "(") {
-            trimmed = String(trimmed[trimmed.startIndex..<parenRange.lowerBound])
+            trimmed = String(trimmed[trimmed.startIndex ..< parenRange.lowerBound])
                 .trimmingCharacters(in: .whitespaces)
         }
 
@@ -179,14 +187,14 @@ enum TripSitDoseParser {
 
     static func normalizeUnit(_ unit: String) -> String {
         switch unit.lowercased() {
-        case "ug", "µg", "μg", "mcg": return "µg"
-        case "mg": return "mg"
-        case "g": return "g"
-        case "ml": return "ml"
-        case "iu": return "IU"
-        case "mg/kg": return "mg/kg"
-        case "ug/kg", "µg/kg": return "µg/kg"
-        default: return unit
+        case "ug", "µg", "μg", "mcg": "µg"
+        case "mg": "mg"
+        case "g": "g"
+        case "ml": "ml"
+        case "iu": "IU"
+        case "mg/kg": "mg/kg"
+        case "ug/kg", "µg/kg": "µg/kg"
+        default: unit
         }
     }
 }

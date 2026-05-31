@@ -13,7 +13,7 @@ struct ActivityExpandedChart: View {
     @State private var gestureStartZoom: CGFloat = 1.0
     @State private var selectedDay: Date?
 
-    // Aggregate per-day totals for a cleaner look
+    /// Aggregate per-day totals for a cleaner look
     private var dailyTotals: [(date: Date, total: Int, substances: [(name: String, count: Int, color: Color)])] {
         let calendar = Calendar.current
         var dayMap: [Date: [String: Int]] = [:]
@@ -40,13 +40,13 @@ struct ActivityExpandedChart: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            ScrollViewReader { proxy in
+            ScrollViewReader { _ in
                 ScrollView(.horizontal, showsIndicators: false) {
                     Chart(data, id: \.key) { item in
                         BarMark(
                             x: .value("Date", item.key.date, unit: .day),
                             y: .value("Count", item.count),
-                            width: .fixed(max(6, 16 * zoom))
+                            width: .fixed(max(6, 16 * zoom)),
                         )
                         .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? .accentColor)
                         .cornerRadius(3)
@@ -126,7 +126,7 @@ struct ActivityExpandedChart: View {
                 }
                 .onEnded { _ in
                     gestureStartZoom = zoom
-                }
+                },
         )
     }
 

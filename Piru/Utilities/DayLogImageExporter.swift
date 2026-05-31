@@ -1,9 +1,8 @@
-import UIKit
 import SwiftData
+import UIKit
 
 /// Generates a beautiful shareable image of a day's dose log
 enum DayLogImageExporter {
-    
     // MARK: - Layout
     
     private enum Layout {
@@ -24,31 +23,31 @@ enum DayLogImageExporter {
         static let tertiaryText = UIColor(white: 0.4, alpha: 1)
         static let divider = UIColor(white: 0.15, alpha: 1)
         
-        // Dose level colors
+        /// Dose level colors
         static func doseLevelColor(_ level: DoseLevel) -> UIColor {
             switch level {
-            case .sub: return UIColor(white: 0.5, alpha: 1)
-            case .threshold: return UIColor(red: 0.3, green: 0.5, blue: 0.9, alpha: 1)
-            case .light: return UIColor(red: 0.3, green: 0.8, blue: 0.4, alpha: 1)
-            case .common: return UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1)
-            case .strong: return UIColor(red: 0.95, green: 0.55, blue: 0.15, alpha: 1)
-            case .heavy: return UIColor(red: 0.9, green: 0.2, blue: 0.2, alpha: 1)
+            case .sub: UIColor(white: 0.5, alpha: 1)
+            case .threshold: UIColor(red: 0.3, green: 0.5, blue: 0.9, alpha: 1)
+            case .light: UIColor(red: 0.3, green: 0.8, blue: 0.4, alpha: 1)
+            case .common: UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1)
+            case .strong: UIColor(red: 0.95, green: 0.55, blue: 0.15, alpha: 1)
+            case .heavy: UIColor(red: 0.9, green: 0.2, blue: 0.2, alpha: 1)
             }
         }
         
         static func categoryColor(_ category: SubstanceCategory) -> UIColor {
             switch category {
-            case .stimulant: return UIColor(red: 1.0, green: 0.6, blue: 0.2, alpha: 1)
-            case .psychedelic: return UIColor(red: 0.6, green: 0.3, blue: 0.9, alpha: 1)
-            case .dissociative: return UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)
-            case .opioid: return UIColor(red: 0.9, green: 0.2, blue: 0.2, alpha: 1)
-            case .benzodiazepine: return UIColor(red: 0.3, green: 0.5, blue: 0.9, alpha: 1)
-            case .gabapentinoid: return UIColor(red: 0.35, green: 0.3, blue: 0.8, alpha: 1)
-            case .empathogen: return UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1)
-            case .cannabinoid: return UIColor(red: 0.3, green: 0.75, blue: 0.35, alpha: 1)
-            case .depressant: return UIColor(red: 0.45, green: 0.55, blue: 0.72, alpha: 1)
-            case .antidepressant: return UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1)
-            default: return accent
+            case .stimulant: UIColor(red: 1.0, green: 0.6, blue: 0.2, alpha: 1)
+            case .psychedelic: UIColor(red: 0.6, green: 0.3, blue: 0.9, alpha: 1)
+            case .dissociative: UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)
+            case .opioid: UIColor(red: 0.9, green: 0.2, blue: 0.2, alpha: 1)
+            case .benzodiazepine: UIColor(red: 0.3, green: 0.5, blue: 0.9, alpha: 1)
+            case .gabapentinoid: UIColor(red: 0.35, green: 0.3, blue: 0.8, alpha: 1)
+            case .empathogen: UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1)
+            case .cannabinoid: UIColor(red: 0.3, green: 0.75, blue: 0.35, alpha: 1)
+            case .depressant: UIColor(red: 0.45, green: 0.55, blue: 0.72, alpha: 1)
+            case .antidepressant: UIColor(red: 0.9, green: 0.8, blue: 0.2, alpha: 1)
+            default: accent
             }
         }
     }
@@ -93,9 +92,10 @@ enum DayLogImageExporter {
     
     // MARK: - Generation
     
-    @MainActor static func generateImage(
+    @MainActor
+    static func generateImage(
         date: Date,
-        entries: [EntryData]
+        entries: [EntryData],
     ) -> UIImage? {
         let entryData = entries.sorted(by: { $0.timestamp < $1.timestamp })
         
@@ -155,7 +155,7 @@ enum DayLogImageExporter {
         h += 20 // substance name
         h += 4
         h += 18 // dose + route
-        if entry.notes != nil && !(entry.notes?.isEmpty ?? true) {
+        if entry.notes != nil, !(entry.notes?.isEmpty ?? true) {
             h += 4
             h += 16 // notes
         }
@@ -174,7 +174,7 @@ enum DayLogImageExporter {
         size: CGSize,
         date: Date,
         entries: [EntryData],
-        summary: DaySummary
+        summary: DaySummary,
     ) {
         let rect = CGRect(origin: .zero, size: size)
         
@@ -185,7 +185,7 @@ enum DayLogImageExporter {
         // Subtle gradient overlay
         let gradientColors = [
             UIColor(red: 0.93, green: 0.34, blue: 0.53, alpha: 0.03).cgColor,
-            UIColor.clear.cgColor
+            UIColor.clear.cgColor,
         ] as CFArray
         if let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: [0, 1]) {
             context.drawLinearGradient(gradient, start: .zero, end: CGPoint(x: 0, y: size.height), options: [])
@@ -202,7 +202,7 @@ enum DayLogImageExporter {
         
         let titleAttrs: [NSAttributedString.Key: Any] = [
             .font: Fonts.title,
-            .foregroundColor: Palette.text
+            .foregroundColor: Palette.text,
         ]
         let titleStr = NSAttributedString(string: "Daily Log", attributes: titleAttrs)
         titleStr.draw(at: CGPoint(x: x, y: y))
@@ -210,7 +210,7 @@ enum DayLogImageExporter {
         
         let subtitleAttrs: [NSAttributedString.Key: Any] = [
             .font: Fonts.subtitle,
-            .foregroundColor: Palette.secondaryText
+            .foregroundColor: Palette.secondaryText,
         ]
         let subtitleStr = NSAttributedString(string: dateString, attributes: subtitleAttrs)
         subtitleStr.draw(at: CGPoint(x: x, y: y))
@@ -230,7 +230,7 @@ enum DayLogImageExporter {
             ("\(summary.totalEntries)", "doses"),
             ("\(summary.uniqueSubstances)", "substances"),
             (summary.firstDose.map { formatTime($0) } ?? "—", "first"),
-            (summary.lastDose.map { formatTime($0) } ?? "—", "last")
+            (summary.lastDose.map { formatTime($0) } ?? "—", "last"),
         ]
         
         for (i, item) in summaryItems.enumerated() {
@@ -239,7 +239,7 @@ enum DayLogImageExporter {
             
             let valueAttrs: [NSAttributedString.Key: Any] = [
                 .font: Fonts.totalValue,
-                .foregroundColor: Palette.accent
+                .foregroundColor: Palette.accent,
             ]
             let valueStr = NSAttributedString(string: item.0, attributes: valueAttrs)
             let valueSize = valueStr.size()
@@ -247,7 +247,7 @@ enum DayLogImageExporter {
             
             let labelAttrs: [NSAttributedString.Key: Any] = [
                 .font: Fonts.caption,
-                .foregroundColor: Palette.tertiaryText
+                .foregroundColor: Palette.tertiaryText,
             ]
             let labelStr = NSAttributedString(string: item.1, attributes: labelAttrs)
             let labelSize = labelStr.size()
@@ -264,7 +264,7 @@ enum DayLogImageExporter {
             for dose in summary.cumulativeDoses {
                 let nameAttrs: [NSAttributedString.Key: Any] = [
                     .font: Fonts.detailText,
-                    .foregroundColor: Palette.text
+                    .foregroundColor: Palette.text,
                 ]
                 let nameStr = NSAttributedString(string: dose.substance, attributes: nameAttrs)
                 nameStr.draw(at: CGPoint(x: x + 8, y: y + 4))
@@ -273,8 +273,8 @@ enum DayLogImageExporter {
                     string: "\(dose.total.doseFormatted) \(dose.unit) (\(dose.count)×)",
                     attributes: [
                         .font: Fonts.totalLabel,
-                        .foregroundColor: Palette.accent
-                    ]
+                        .foregroundColor: Palette.accent,
+                    ],
                 )
                 let totalSize = totalStr.size()
                 totalStr.draw(at: CGPoint(x: x + contentWidth - totalSize.width - 8, y: y + 3))
@@ -297,20 +297,19 @@ enum DayLogImageExporter {
             drawRoundedRect(context: context, rect: cardRect, radius: 12, color: Palette.cardBg)
             
             // Color accent bar on left
-            let accentColor: UIColor
-            if let hex = entry.colorHex {
-                accentColor = UIColor(hex: hex)
+            let accentColor: UIColor = if let hex = entry.colorHex {
+                UIColor(hex: hex)
             } else if let category = entry.category {
-                accentColor = Palette.categoryColor(category)
+                Palette.categoryColor(category)
             } else {
-                accentColor = Palette.accent
+                Palette.accent
             }
             
             let barRect = CGRect(x: x, y: y, width: 4, height: cardHeight)
             let barPath = UIBezierPath(
                 roundedRect: barRect,
                 byRoundingCorners: [.topLeft, .bottomLeft],
-                cornerRadii: CGSize(width: 12, height: 12)
+                cornerRadii: CGSize(width: 12, height: 12),
             )
             context.saveGState()
             barPath.addClip()
@@ -325,7 +324,7 @@ enum DayLogImageExporter {
             // Time on the right
             let timeStr = NSAttributedString(
                 string: formatTime(entry.timestamp),
-                attributes: [.font: Fonts.timeText, .foregroundColor: Palette.secondaryText]
+                attributes: [.font: Fonts.timeText, .foregroundColor: Palette.secondaryText],
             )
             let timeSize = timeStr.size()
             timeStr.draw(at: CGPoint(x: x + contentWidth - timeSize.width - 16, y: innerY))
@@ -333,7 +332,7 @@ enum DayLogImageExporter {
             // Substance name
             let nameAttrs: [NSAttributedString.Key: Any] = [
                 .font: Fonts.substanceName,
-                .foregroundColor: Palette.text
+                .foregroundColor: Palette.text,
             ]
             let nameStr = NSAttributedString(string: entry.substance, attributes: nameAttrs)
             nameStr.draw(at: CGPoint(x: innerX, y: innerY))
@@ -347,7 +346,7 @@ enum DayLogImageExporter {
             
             let doseAttrs: [NSAttributedString.Key: Any] = [
                 .font: Fonts.doseText,
-                .foregroundColor: entry.doseLevel.map { Palette.doseLevelColor($0) } ?? Palette.secondaryText
+                .foregroundColor: entry.doseLevel.map { Palette.doseLevelColor($0) } ?? Palette.secondaryText,
             ]
             let doseStr = NSAttributedString(string: doseString, attributes: doseAttrs)
             doseStr.draw(at: CGPoint(x: innerX, y: innerY))
@@ -357,7 +356,7 @@ enum DayLogImageExporter {
             if let notes = entry.notes, !notes.isEmpty {
                 let notesAttrs: [NSAttributedString.Key: Any] = [
                     .font: Fonts.detailText,
-                    .foregroundColor: Palette.tertiaryText
+                    .foregroundColor: Palette.tertiaryText,
                 ]
                 let notesStr = NSAttributedString(string: "💬 \(notes)", attributes: notesAttrs)
                 notesStr.draw(in: CGRect(x: innerX, y: innerY, width: innerWidth, height: 16))
@@ -370,7 +369,7 @@ enum DayLogImageExporter {
                 for tag in entry.tags {
                     let tagAttrs: [NSAttributedString.Key: Any] = [
                         .font: Fonts.tagText,
-                        .foregroundColor: Palette.accent
+                        .foregroundColor: Palette.accent,
                     ]
                     let tagStr = NSAttributedString(string: "#\(tag)", attributes: tagAttrs)
                     let tagSize = tagStr.size()
@@ -406,7 +405,7 @@ enum DayLogImageExporter {
         // ── Watermark ──
         let watermarkAttrs: [NSAttributedString.Key: Any] = [
             .font: Fonts.watermark,
-            .foregroundColor: Palette.tertiaryText
+            .foregroundColor: Palette.tertiaryText,
         ]
         let watermarkStr = NSAttributedString(string: "Generated by Piru • piru.app", attributes: watermarkAttrs)
         let wmSize = watermarkStr.size()
@@ -436,7 +435,7 @@ enum DayLogImageExporter {
             uniqueSubstances: Set(entries.map { $0.substance.lowercased() }).count,
             firstDose: entries.first?.timestamp,
             lastDose: entries.last?.timestamp,
-            cumulativeDoses: cumulative
+            cumulativeDoses: cumulative,
         )
     }
     
@@ -455,14 +454,13 @@ enum DayLogImageExporter {
         context.restoreGState()
     }
     
-    private static func drawSectionHeader(context: CGContext, text: String, x: CGFloat, y: CGFloat) {
+    private static func drawSectionHeader(context _: CGContext, text: String, x: CGFloat, y: CGFloat) {
         let attrs: [NSAttributedString.Key: Any] = [
             .font: Fonts.sectionHeader,
             .foregroundColor: Palette.tertiaryText,
-            .kern: 1.5
+            .kern: 1.5,
         ]
         let str = NSAttributedString(string: text, attributes: attrs)
         str.draw(at: CGPoint(x: x, y: y))
     }
 }
-

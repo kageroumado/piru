@@ -1,11 +1,13 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 import UserNotifications
 
 // MARK: - Reminder Time Model
 
 struct ReminderTime: Codable, Identifiable, Equatable {
-    var id: Int { hour * 60 + minute }
+    var id: Int {
+        hour * 60 + minute
+    }
     var hour: Int
     var minute: Int
 
@@ -47,143 +49,143 @@ struct MedicationsSettingsView: View {
     var body: some View {
         List {
             Group {
-            // Reminders
-            Section {
-                Toggle("Daily Reminders", isOn: $reminderEnabled)
-                    .onChange(of: reminderEnabled) { _, enabled in
-                        if enabled {
-                            requestNotificationPermission()
-                        } else {
-                            cancelAllReminders()
+                // Reminders
+                Section {
+                    Toggle("Daily Reminders", isOn: $reminderEnabled)
+                        .onChange(of: reminderEnabled) { _, enabled in
+                            if enabled {
+                                requestNotificationPermission()
+                            } else {
+                                cancelAllReminders()
+                            }
                         }
-                    }
 
-                if reminderEnabled {
-                    ForEach(reminderTimes.sorted { $0.id < $1.id }) { time in
-                        HStack {
-                            Image(systemName: "bell.fill")
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .font(.caption)
-                            Text(time.formatted)
+                    if reminderEnabled {
+                        ForEach(reminderTimes.sorted { $0.id < $1.id }) { time in
+                            HStack {
+                                Image(systemName: "bell.fill")
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .font(.caption)
+                                Text(time.formatted)
+                            }
+                        }
+                        .onDelete(perform: deleteReminder)
+
+                        Button {
+                            newReminderDate = Date.now
+                            showingTimePicker = true
+                        } label: {
+                            Label("Add Reminder", systemImage: "plus.circle")
                         }
                     }
-                    .onDelete(perform: deleteReminder)
+                } header: {
+                    Text("Reminders")
+                } footer: {
+                    if reminderEnabled, !reminderTimes.isEmpty {
+                        Text("\(reminderTimes.count) daily reminder\(reminderTimes.count == 1 ? "" : "s") scheduled.")
+                    }
+                }
+
+                // Categories
+                Section {
+                    ForEach(categories, id: \.self) { cat in
+                        HStack {
+                            Label(cat, systemImage: iconForCategory(cat))
+                            Spacer()
+                            Text("\(items.count(where: { $0.category == cat }))")
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        .contentShape(Rectangle())
+                        .dropDestination(for: String.self) { droppedKeys, _ in
+                            assignItems(keys: droppedKeys, toCategory: cat)
+                            return true
+                        }
+                        .contextMenu {
+                            Button {
+                                editingCategory = cat
+                                editedCategoryName = cat
+                            } label: {
+                                Label("Rename", systemImage: "pencil")
+                            }
+                            Button(role: .destructive) {
+                                deleteCategory(cat)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
+                    }
+                    .onDelete(perform: deleteCategories)
+                    .onMove(perform: moveCategories)
 
                     Button {
-                        newReminderDate = Date.now
-                        showingTimePicker = true
+                        newCategoryName = ""
+                        showingAddCategory = true
                     } label: {
-                        Label("Add Reminder", systemImage: "plus.circle")
+                        Label("Add Category", systemImage: "plus.circle")
                     }
-                }
-            } header: {
-                Text("Reminders")
-            } footer: {
-                if reminderEnabled && !reminderTimes.isEmpty {
-                    Text("\(reminderTimes.count) daily reminder\(reminderTimes.count == 1 ? "" : "s") scheduled.")
-                }
-            }
-
-            // Categories
-            Section {
-                ForEach(categories, id: \.self) { cat in
-                    HStack {
-                        Label(cat, systemImage: iconForCategory(cat))
-                        Spacer()
-                        Text("\(items.filter { $0.category == cat }.count)")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .contentShape(Rectangle())
-                    .dropDestination(for: String.self) { droppedKeys, _ in
-                        assignItems(keys: droppedKeys, toCategory: cat)
-                        return true
-                    }
-                    .contextMenu {
-                        Button {
-                            editingCategory = cat
-                            editedCategoryName = cat
-                        } label: {
-                            Label("Rename", systemImage: "pencil")
-                        }
-                        Button(role: .destructive) {
-                            deleteCategory(cat)
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                        }
-                    }
-                }
-                .onDelete(perform: deleteCategories)
-                .onMove(perform: moveCategories)
-
-                Button {
-                    newCategoryName = ""
-                    showingAddCategory = true
-                } label: {
-                    Label("Add Category", systemImage: "plus.circle")
-                }
-            } header: {
-                Text("Categories")
-            } footer: {
-                Text("Organize prescriptions by time of day or purpose. Drag items onto a category to assign them.")
-            }
-
-            // Items
-            if items.isEmpty {
-                Section {
-                    VStack(spacing: 16) {
-                        ContentUnavailableView(
-                            "No Prescriptions",
-                            systemImage: "pills",
-                            description: Text("Add prescriptions you take regularly.")
-                        )
-                        Button {
-                            showingAddSheetCategory = ""
-                            showingAddSheet = true
-                        } label: {
-                            Text("Add Item")
-                                .font(.body.weight(.medium))
-                                .frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                }
-            } else {
-                // Categorized items
-                ForEach(categories, id: \.self) { cat in
-                    let catItems = items.filter { $0.category == cat }
-                    Section("\(cat) \u{2014} \(catItems.count) prescription\(catItems.count == 1 ? "" : "s")") {
-                        ForEach(catItems) { item in
-                            itemRow(item)
-                                .draggable(itemKey(for: item))
-                        }
-                        .onDelete { offsets in
-                            deleteItems(catItems, at: offsets)
-                        }
-
-                        Button {
-                            showingAddSheetCategory = cat
-                            showingAddSheet = true
-                        } label: {
-                            Label("Add to \(cat)", systemImage: "plus.circle")
-                                .font(.subheadline)
-                        }
-                    }
+                } header: {
+                    Text("Categories")
+                } footer: {
+                    Text("Organize prescriptions by time of day or purpose. Drag items onto a category to assign them.")
                 }
 
-                // Uncategorized items
-                let uncategorized = items.filter { $0.category.isEmpty }
-                if !uncategorized.isEmpty {
-                    Section(categories.isEmpty ? "\(items.count) prescription\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) prescription\(uncategorized.count == 1 ? "" : "s")") {
-                        ForEach(uncategorized) { item in
-                            itemRow(item)
-                                .draggable(itemKey(for: item))
+                // Items
+                if items.isEmpty {
+                    Section {
+                        VStack(spacing: 16) {
+                            ContentUnavailableView(
+                                "No Prescriptions",
+                                systemImage: "pills",
+                                description: Text("Add prescriptions you take regularly."),
+                            )
+                            Button {
+                                showingAddSheetCategory = ""
+                                showingAddSheet = true
+                            } label: {
+                                Text("Add Item")
+                                    .font(.body.weight(.medium))
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
-                        .onDelete { offsets in
-                            deleteItems(uncategorized, at: offsets)
+                    }
+                } else {
+                    // Categorized items
+                    ForEach(categories, id: \.self) { cat in
+                        let catItems = items.filter { $0.category == cat }
+                        Section("\(cat) \u{2014} \(catItems.count) prescription\(catItems.count == 1 ? "" : "s")") {
+                            ForEach(catItems) { item in
+                                itemRow(item)
+                                    .draggable(itemKey(for: item))
+                            }
+                            .onDelete { offsets in
+                                deleteItems(catItems, at: offsets)
+                            }
+
+                            Button {
+                                showingAddSheetCategory = cat
+                                showingAddSheet = true
+                            } label: {
+                                Label("Add to \(cat)", systemImage: "plus.circle")
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
+
+                    // Uncategorized items
+                    let uncategorized = items.filter(\.category.isEmpty)
+                    if !uncategorized.isEmpty {
+                        Section(categories.isEmpty ? "\(items.count) prescription\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) prescription\(uncategorized.count == 1 ? "" : "s")") {
+                            ForEach(uncategorized) { item in
+                                itemRow(item)
+                                    .draggable(itemKey(for: item))
+                            }
+                            .onDelete { offsets in
+                                deleteItems(uncategorized, at: offsets)
+                            }
                         }
                     }
                 }
-            }
             }
             .listRowBackground(Theme.cardBackground)
         }
@@ -240,13 +242,13 @@ struct MedicationsSettingsView: View {
         .alert("Add Category", isPresented: $showingAddCategory) {
             TextField("Category name", text: $newCategoryName)
             Button("Add") { addCategory() }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         } message: {
             Text("e.g. Morning, Noon, Night")
         }
         .alert("Rename Category", isPresented: Binding(
             get: { editingCategory != nil },
-            set: { if !$0 { editingCategory = nil } }
+            set: { if !$0 { editingCategory = nil } },
         )) {
             TextField("Category name", text: $editedCategoryName)
             Button("Save") { renameCategory() }
@@ -291,12 +293,12 @@ struct MedicationsSettingsView: View {
 
     private func iconForCategory(_ category: String) -> String {
         switch category.lowercased() {
-        case "morning": return "sunrise"
-        case "afternoon": return "sun.max"
-        case "noon", "midday": return "sun.max"
-        case "evening": return "sunset"
-        case "night", "bedtime": return "moon"
-        default: return "tag"
+        case "morning": "sunrise"
+        case "afternoon": "sun.max"
+        case "noon", "midday": "sun.max"
+        case "evening": "sunset"
+        case "night", "bedtime": "moon"
+        default: "tag"
         }
     }
 
@@ -462,8 +464,9 @@ struct MedicationsSettingsView: View {
     private func scheduleAllReminders() {
         let center = UNUserNotificationCenter.current()
         // Remove all existing daily dose reminders
-        center.removePendingNotificationRequests(withIdentifiers:
-            reminderIdentifiers(count: 20) // Remove up to 20 old ones
+        center.removePendingNotificationRequests(
+            withIdentifiers:
+            reminderIdentifiers(count: 20), // Remove up to 20 old ones
         )
 
         guard reminderEnabled else { return }
@@ -482,7 +485,7 @@ struct MedicationsSettingsView: View {
             let request = UNNotificationRequest(
                 identifier: "dailyDoseReminder_\(index)",
                 content: content,
-                trigger: trigger
+                trigger: trigger,
             )
             center.add(request)
         }
@@ -490,12 +493,12 @@ struct MedicationsSettingsView: View {
 
     private func cancelAllReminders() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: reminderIdentifiers(count: 20)
+            withIdentifiers: reminderIdentifiers(count: 20),
         )
     }
 
     private func reminderIdentifiers(count: Int) -> [String] {
         // Include old single-reminder ID for migration cleanup
-        ["dailyDoseReminder"] + (0..<count).map { "dailyDoseReminder_\($0)" }
+        ["dailyDoseReminder"] + (0 ..< count).map { "dailyDoseReminder_\($0)" }
     }
 }

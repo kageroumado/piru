@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ReportView: View {
     @Environment(\.modelContext) private var modelContext
@@ -61,7 +61,9 @@ struct ReportView: View {
         return allEntries.filter { $0.timestamp >= range.start && $0.timestamp <= range.end }
     }
 
-    private var entryCount: Int { filteredEntries.count }
+    private var entryCount: Int {
+        filteredEntries.count
+    }
 
     private var substanceCount: Int {
         Set(filteredEntries.map(\.substance)).count
@@ -124,7 +126,7 @@ struct ReportView: View {
                 // Notes
                 Section {
                     TextField("Add notes for your doctor...", text: $notes, axis: .vertical)
-                        .lineLimit(3...8)
+                        .lineLimit(3 ... 8)
                 } header: {
                     Text("Notes (Optional)")
                 } footer: {
@@ -188,7 +190,7 @@ struct ReportView: View {
                 route: entry.route.displayName,
                 timestamp: entry.timestamp,
                 notes: entry.notes,
-                tags: entry.tags
+                tags: entry.tags,
             )
         }
 
@@ -198,7 +200,7 @@ struct ReportView: View {
                 amount: item.amount,
                 unit: item.unit,
                 route: item.route.displayName,
-                sortOrder: item.sortOrder
+                sortOrder: item.sortOrder,
             )
         }
 
@@ -207,7 +209,7 @@ struct ReportView: View {
                 severity: i.severity,
                 substanceA: i.substanceA,
                 substanceB: i.substanceB,
-                description: i.description
+                description: i.description,
             )
         }
 
@@ -220,7 +222,7 @@ struct ReportView: View {
             startDate: range.start,
             endDate: range.end,
             notes: notes,
-            patientName: patientName
+            patientName: patientName,
         )
 
         let pdfData = PDFReportGenerator.generate(from: data)
@@ -246,9 +248,9 @@ struct PDFShareItem: Identifiable {
 struct ShareSheet: UIViewControllerRepresentable {
     let items: [Any]
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
+    func makeUIViewController(context _: Context) -> UIActivityViewController {
         UIActivityViewController(activityItems: items, applicationActivities: nil)
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+    func updateUIViewController(_: UIActivityViewController, context _: Context) {}
 }

@@ -1,11 +1,10 @@
-import Testing
 import SwiftUI
+import Testing
 @testable import Piru
 
 @Suite("Color from Hex")
 struct ColorHexTests {
-
-    // Helper to extract RGB components from a Color
+    /// Helper to extract RGB components from a Color
     private func rgb(from color: Color) -> (r: Double, g: Double, b: Double) {
         let resolved = color.resolve(in: .init())
         return (Double(resolved.red), Double(resolved.green), Double(resolved.blue))
@@ -13,8 +12,8 @@ struct ColorHexTests {
 
     // MARK: - Valid hex parsing
 
-    @Test("Parses red hex correctly")
-    func parsesRed() {
+    @Test
+    func `Parses red hex correctly`() {
         let color = Color(hex: "#FF0000")
         let (r, g, b) = rgb(from: color)
         #expect(r > 0.99)
@@ -22,8 +21,8 @@ struct ColorHexTests {
         #expect(b < 0.01)
     }
 
-    @Test("Parses green hex correctly")
-    func parsesGreen() {
+    @Test
+    func `Parses green hex correctly`() {
         let color = Color(hex: "#00FF00")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)
@@ -31,8 +30,8 @@ struct ColorHexTests {
         #expect(b < 0.01)
     }
 
-    @Test("Parses blue hex correctly")
-    func parsesBlue() {
+    @Test
+    func `Parses blue hex correctly`() {
         let color = Color(hex: "#0000FF")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)
@@ -40,8 +39,8 @@ struct ColorHexTests {
         #expect(b > 0.99)
     }
 
-    @Test("Parses white hex correctly")
-    func parsesWhite() {
+    @Test
+    func `Parses white hex correctly`() {
         let color = Color(hex: "#FFFFFF")
         let (r, g, b) = rgb(from: color)
         #expect(r > 0.99)
@@ -49,8 +48,8 @@ struct ColorHexTests {
         #expect(b > 0.99)
     }
 
-    @Test("Parses black hex correctly")
-    func parsesBlack() {
+    @Test
+    func `Parses black hex correctly`() {
         let color = Color(hex: "#000000")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)
@@ -60,15 +59,15 @@ struct ColorHexTests {
 
     // MARK: - Prefix handling
 
-    @Test("Parses hex without # prefix")
-    func parsesWithoutHash() {
+    @Test
+    func `Parses hex without # prefix`() {
         let color = Color(hex: "FF0000")
         let (r, _, _) = rgb(from: color)
         #expect(r > 0.99)
     }
 
-    @Test("Parses hex with # prefix")
-    func parsesWithHash() {
+    @Test
+    func `Parses hex with # prefix`() {
         let color = Color(hex: "#FF0000")
         let (r, _, _) = rgb(from: color)
         #expect(r > 0.99)
@@ -76,8 +75,8 @@ struct ColorHexTests {
 
     // MARK: - Case sensitivity
 
-    @Test("Case insensitive parsing")
-    func caseInsensitive() {
+    @Test
+    func `Case insensitive parsing`() {
         let lower = Color(hex: "ff0000")
         let upper = Color(hex: "FF0000")
         let lowerRGB = rgb(from: lower)
@@ -89,8 +88,8 @@ struct ColorHexTests {
 
     // MARK: - Invalid input
 
-    @Test("3-char shorthand expands correctly")
-    func threeCharShorthand() {
+    @Test
+    func `3-char shorthand expands correctly`() {
         let white = Color(hex: "FFF")
         let (wr, wg, wb) = rgb(from: white)
         #expect(wr > 0.99)
@@ -104,8 +103,8 @@ struct ColorHexTests {
         #expect(rb < 0.01)
     }
 
-    @Test("Invalid length defaults to black")
-    func invalidLength() {
+    @Test
+    func `Invalid length defaults to black`() {
         let color = Color(hex: "GG")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)
@@ -113,8 +112,8 @@ struct ColorHexTests {
         #expect(b < 0.01)
     }
 
-    @Test("Empty string defaults to black")
-    func emptyString() {
+    @Test
+    func `Empty string defaults to black`() {
         let color = Color(hex: "")
         let (r, g, b) = rgb(from: color)
         #expect(r < 0.01)

@@ -13,7 +13,10 @@ private struct RawTripSitDrug: Codable {
     let pweffects: [String: String]?
 
     enum CodingKeys: String, CodingKey {
-        case aliases, categories, properties, pweffects
+        case aliases
+        case categories
+        case properties
+        case pweffects
         case formattedDose = "formatted_dose"
         case formattedDuration = "formatted_duration"
         case formattedOnset = "formatted_onset"
@@ -32,7 +35,8 @@ private struct RawProperties: Codable {
     let halfLife: String?
     let bioavailability: String?
     enum CodingKeys: String, CodingKey {
-        case summary, bioavailability
+        case summary
+        case bioavailability
         case halfLife = "half-life"
     }
 }
@@ -47,7 +51,7 @@ struct TripSitSource {
     func fetch() async throws -> [SourcedSubstance] {
         Log.info("TripSit: fetching \(url.absoluteString)")
         let data = try await cache.fetch(url: url, scope: "tripsit")
-        Log.info("TripSit: \(data.count / 1024) KB downloaded/cached")
+        Log.info("TripSit: \(data.count / 1_024) KB downloaded/cached")
 
         let dict = try JSONDecoder().decode([String: RawTripSitDrug].self, from: data)
         Log.info("TripSit: \(dict.count) raw entries")
@@ -100,7 +104,7 @@ struct TripSitSource {
                     }
                     let duration = parseDuration(value: raw.formattedDuration, onset: raw.formattedOnset, after: raw.formattedAftereffects)
                     routes.append(JSONRoute(
-                        route: route, unit: unit, doses: dose, duration: duration
+                        route: route, unit: unit, doses: dose, duration: duration,
                     ))
                 }
             }
@@ -136,12 +140,12 @@ struct TripSitSource {
                 effects: effects,
                 halfLifeMinutes: halfLifeMinutes,
                 sources: ["TripSit drugs.json: https://github.com/TripSit/drugs"],
-                tags: tags
+                tags: tags,
             )
             out.append(SourcedSubstance(
                 substance: sub,
                 provenance: .tripSit,
-                inchiKey: nil, pubchemCID: nil, cas: nil
+                inchiKey: nil, pubchemCID: nil, cas: nil,
             ))
         }
         Log.info("TripSit: emitted \(out.count) sourced entries")
@@ -156,11 +160,33 @@ struct TripSitSource {
         let s = raw.trimmingCharacters(in: .whitespaces)
         if s.isEmpty { return s }
         // Compact common prefixes/abbreviations
-        let acronyms: Set<String> = ["LSD", "MDMA", "MDA", "DMT", "PCP", "2C-B", "2C-E",
-                                     "2C-I", "2C-T-7", "DOI", "DOM", "DOB", "DOC",
-                                     "JWH", "JWH-018", "NBOMe", "5-MeO-DMT",
-                                     "5-MeO-DiPT", "GHB", "GBL", "MXE", "DXM",
-                                     "AMT", "DPT", "DiPT"]
+        let acronyms: Set = [
+            "LSD",
+            "MDMA",
+            "MDA",
+            "DMT",
+            "PCP",
+            "2C-B",
+            "2C-E",
+            "2C-I",
+            "2C-T-7",
+            "DOI",
+            "DOM",
+            "DOB",
+            "DOC",
+            "JWH",
+            "JWH-018",
+            "NBOMe",
+            "5-MeO-DMT",
+            "5-MeO-DiPT",
+            "GHB",
+            "GBL",
+            "MXE",
+            "DXM",
+            "AMT",
+            "DPT",
+            "DiPT",
+        ]
         let upper = s.uppercased()
         if acronyms.contains(upper) { return upper }
         // For names containing dashes, just titlecase each segment intelligently.
@@ -170,7 +196,7 @@ struct TripSitSource {
     private func parseHalfLifeMinutes(_ raw: String?) -> Double? {
         guard let raw = raw?.lowercased() else { return nil }
         // Examples: "3-5 hours", "12-15 hours", "30-60 minutes"
-        let r = NSRange(raw.startIndex..<raw.endIndex, in: raw)
+        let r = NSRange(raw.startIndex ..< raw.endIndex, in: raw)
         let pat = try! NSRegularExpression(pattern: #"([0-9]+(?:\.[0-9]+)?)\s*(?:[-–]\s*([0-9]+(?:\.[0-9]+)?))?\s*(hour|hr|h|minute|min|m|day|d)"#)
         guard let m = pat.firstMatch(in: raw, range: r),
               let r0 = Range(m.range(at: 1), in: raw),
@@ -204,20 +230,20 @@ struct TripSitSource {
     }
 
     private func parseDuration(value: RawTiming?, onset: RawTiming?, after: RawTiming?) -> JSONDurationProfile? {
-        // Convert "{value: '3-5', _unit: 'hours'}" → JSONDurationRange in minutes.
+        /// Convert "{value: '3-5', _unit: 'hours'}" → JSONDurationRange in minutes.
         func toMinutes(_ t: RawTiming?) -> JSONDurationRange? {
             guard let t, let v = t.value, let unit = t.unit?.lowercased() else { return nil }
             let parts = v.replacingOccurrences(of: "+", with: "").components(separatedBy: CharacterSet(charactersIn: "-–"))
             guard let lo = Double(parts[0].trimmingCharacters(in: .whitespaces)) else { return nil }
             let hi = parts.count > 1 ? (Double(parts[1].trimmingCharacters(in: .whitespaces)) ?? lo) : lo
-            let factor: Double = unit.contains("hour") ? 60 : (unit.contains("min") ? 1 : (unit.contains("day") ? 1440 : 60))
+            let factor: Double = unit.contains("hour") ? 60 : (unit.contains("min") ? 1 : (unit.contains("day") ? 1_440 : 60))
             return JSONDurationRange(min: lo * factor, max: hi * factor)
         }
         let p = JSONDurationProfile(
             onset: toMinutes(onset),
             comeup: nil, peak: nil, offset: nil,
             afterglow: toMinutes(after),
-            total: toMinutes(value)
+            total: toMinutes(value),
         )
         return p.isEmpty ? nil : p
     }

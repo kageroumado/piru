@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct RampDownView: View {
     let entry: DoseEntry
@@ -46,7 +46,7 @@ struct RampDownView: View {
         .confirmationDialog(
             "Cancel Ramp Down?",
             isPresented: $showingCancelConfirmation,
-            titleVisibility: .visible
+            titleVisibility: .visible,
         ) {
             Button("Cancel Alert", role: .destructive) {
                 cancelAlert()
@@ -142,7 +142,7 @@ struct RampDownView: View {
                 }
             }
         } footer: {
-            if !isActive && !isRedoseTimePast {
+            if !isActive, !isRedoseTimePast {
                 Text("You'll get care reminders as the effects begin to fade — hydration, nutrition, and recovery tips.")
             }
         }
@@ -188,7 +188,7 @@ struct RampDownView: View {
                 doseTime: entry.timestamp,
                 duration: duration,
                 entryID: entry.persistentModelID.hashValue,
-                category: category
+                category: category,
             )
             RampDownScheduler.saveActiveEntry(entry.persistentModelID.hashValue)
             isActive = true

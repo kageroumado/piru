@@ -1,11 +1,10 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("CustomSubstanceStore")
 @MainActor
 struct CustomSubstanceStoreTests {
-
     /// Fresh, isolated UserDefaults per test so runs don't contaminate each other
     /// or the user's real App Group.
     private func makeStore() -> (CustomSubstanceStore, UserDefaults, String) {
@@ -15,14 +14,14 @@ struct CustomSubstanceStoreTests {
         return (CustomSubstanceStore.forTesting(defaults: defaults), defaults, suite)
     }
 
-    @Test("Starts empty")
-    func startsEmpty() {
+    @Test
+    func `Starts empty`() {
         let (store, _, _) = makeStore()
         #expect(store.all.isEmpty)
     }
 
-    @Test("Add inserts and persists to defaults")
-    func addPersists() {
+    @Test
+    func `Add inserts and persists to defaults`() {
         let (store, defaults, suite) = makeStore()
         defer { defaults.removePersistentDomain(forName: suite) }
 
@@ -31,7 +30,7 @@ struct CustomSubstanceStoreTests {
             category: .stimulant,
             defaultRoute: .oral,
             unit: "mg",
-            notes: "hi"
+            notes: "hi",
         )
         store.add(entry)
 
@@ -47,8 +46,8 @@ struct CustomSubstanceStoreTests {
         #expect(reloaded.all.first?.notes == "hi")
     }
 
-    @Test("Add sorts alphabetically case-insensitively")
-    func addSorts() {
+    @Test
+    func `Add sorts alphabetically case-insensitively`() {
         let (store, _, _) = makeStore()
         store.add(CustomSubstanceEntry(name: "zebra"))
         store.add(CustomSubstanceEntry(name: "Apple"))
@@ -56,8 +55,8 @@ struct CustomSubstanceStoreTests {
         #expect(store.all.map(\.name) == ["Apple", "banana", "zebra"])
     }
 
-    @Test("Update replaces the entry by id and preserves insertion")
-    func updateReplaces() {
+    @Test
+    func `Update replaces the entry by id and preserves insertion`() {
         let (store, _, _) = makeStore()
         let entry = CustomSubstanceEntry(name: "Original")
         store.add(entry)
@@ -73,8 +72,8 @@ struct CustomSubstanceStoreTests {
         #expect(store.all.first?.id == entry.id)
     }
 
-    @Test("Delete by entry removes the row")
-    func deleteByEntry() {
+    @Test
+    func `Delete by entry removes the row`() {
         let (store, _, _) = makeStore()
         let entry = CustomSubstanceEntry(name: "Foo")
         store.add(entry)
@@ -86,8 +85,8 @@ struct CustomSubstanceStoreTests {
         #expect(store.all.first?.name == "Bar")
     }
 
-    @Test("Delete at offsets removes the matching rows")
-    func deleteAtOffsets() {
+    @Test
+    func `Delete at offsets removes the matching rows`() {
         let (store, _, _) = makeStore()
         store.add(CustomSubstanceEntry(name: "Alpha"))
         store.add(CustomSubstanceEntry(name: "Beta"))
@@ -98,8 +97,8 @@ struct CustomSubstanceStoreTests {
         #expect(store.all.map(\.name) == ["Alpha", "Gamma"])
     }
 
-    @Test("contains(name:) is case-insensitive")
-    func containsCaseInsensitive() {
+    @Test
+    func `contains(name:) is case-insensitive`() {
         let (store, _, _) = makeStore()
         store.add(CustomSubstanceEntry(name: "Aspirin"))
         #expect(store.contains(name: "aspirin"))
@@ -107,13 +106,13 @@ struct CustomSubstanceStoreTests {
         #expect(!store.contains(name: "Tylenol"))
     }
 
-    @Test("asSubstance produces a usable Substance value")
-    func asSubstanceMapping() {
+    @Test
+    func `asSubstance produces a usable Substance value`() {
         let entry = CustomSubstanceEntry(
             name: "Custom",
             category: .analgesic,
             defaultRoute: .sublingual,
-            unit: "µg"
+            unit: "µg",
         )
         let substance = entry.asSubstance
         #expect(substance.name == "Custom")
@@ -122,8 +121,8 @@ struct CustomSubstanceStoreTests {
         #expect(substance.unit(for: .sublingual) == "µg")
     }
 
-    @Test("Custom duration round-trips through persistence")
-    func customDurationRoundTrip() {
+    @Test
+    func `Custom duration round-trips through persistence`() {
         let (store, defaults, suite) = makeStore()
         defer { defaults.removePersistentDomain(forName: suite) }
 
@@ -133,7 +132,7 @@ struct CustomSubstanceStoreTests {
             peak: DurationRange(min: 60, max: 120),
             offset: DurationRange(min: 30, max: 60),
             afterglow: nil,
-            total: nil
+            total: nil,
         )
         let entry = CustomSubstanceEntry(name: "TestDuration", duration: duration)
         store.add(entry)
@@ -149,8 +148,8 @@ struct CustomSubstanceStoreTests {
         #expect(substance.duration(for: substance.defaultRoute)?.peak?.midpoint == 90)
     }
 
-    @Test("Pre-1.3 stored entries (no duration field) decode with duration = nil")
-    func decodesLegacyEntryWithoutDuration() throws {
+    @Test
+    func `Pre-1.3 stored entries (no duration field) decode with duration = nil`() throws {
         // Simulates a v1.2 record persisted before custom durations existed.
         let legacyJSON = """
         {

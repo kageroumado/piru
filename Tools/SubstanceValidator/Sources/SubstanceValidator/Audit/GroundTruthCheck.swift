@@ -35,7 +35,7 @@ enum GroundTruthCheck {
                 severity: .warning,
                 detail: "ground-truth has \(entry.route) data (heavy \(format(entry.expectedHeavy)) \(entry.unit), source: \(entry.source)) but library has no \(entry.route) route.",
                 expected: "route \(entry.route) present",
-                actual: "missing"
+                actual: "missing",
             )]
         }
 
@@ -49,7 +49,7 @@ enum GroundTruthCheck {
                 severity: .warning,
                 detail: "ground-truth has heavy = \(format(entry.expectedHeavy)) \(entry.unit) (\(entry.source)) but library is missing heavy.",
                 expected: "heavy ~\(format(entry.expectedHeavy)) \(entry.unit)",
-                actual: "nil"
+                actual: "nil",
             )]
         }
 
@@ -71,7 +71,7 @@ enum GroundTruthCheck {
                 severity: .error,
                 detail: "library heavy \(format(heavy)) \(route.unit) (= \(format(heavyInEntryUnit)) \(entry.unit)) outside expected \(format(entry.expectedHeavy)) ±\(Int(entry.tolerancePercent * 100))% [\(format(lower))-\(format(upper)) \(entry.unit)]. Source: \(entry.source).",
                 expected: "\(format(entry.expectedHeavy)) ±\(Int(entry.tolerancePercent * 100))% \(entry.unit)",
-                actual: "\(format(heavy)) \(route.unit)"
+                actual: "\(format(heavy)) \(route.unit)",
             )]
         }
         return []
@@ -82,7 +82,7 @@ enum GroundTruthCheck {
     /// Convert mass amounts between µg/mg/g. Returns `nil` for non-mass units
     /// (mL, IU) or when src/dst aren't both mass.
     private static func convert(_ amount: Double, from src: String, to dst: String) -> Double? {
-        let toMg: [String: Double] = ["µg": 0.001, "ug": 0.001, "mg": 1, "g": 1000]
+        let toMg: [String: Double] = ["µg": 0.001, "ug": 0.001, "mg": 1, "g": 1_000]
         let srcKey = src.lowercased(), dstKey = dst.lowercased()
         if srcKey == dstKey { return amount }
         guard let s = toMg[srcKey], let d = toMg[dstKey] else { return nil }

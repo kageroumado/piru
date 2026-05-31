@@ -1,6 +1,7 @@
 import Foundation
 
 // MARK: - Output Schema
+
 //
 // Mirrors `Piru/Models/Substance.swift` so the encoded JSON matches the
 // `Substance` Codable conformance the app expects. Field names, optionality,
@@ -71,7 +72,7 @@ struct JSONProtocolDosing: Codable, Hashable {
 }
 
 struct JSONRoute: Codable, Hashable {
-    let route: String   // RouteOfAdministration raw value, e.g. "oral"
+    let route: String // RouteOfAdministration raw value, e.g. "oral"
     let unit: String
     let doses: JSONDoseRange
     let duration: JSONDurationProfile?
@@ -80,7 +81,7 @@ struct JSONRoute: Codable, Hashable {
 }
 
 struct JSONStorageRequirement: Codable, Hashable {
-    let temperature: String   // "room_temp" | "refrigerate" | "freeze"
+    let temperature: String // "room_temp" | "refrigerate" | "freeze"
     var lightSensitive: Bool
     var reconstitutedStabilityDays: Double?
 }
@@ -88,7 +89,7 @@ struct JSONStorageRequirement: Codable, Hashable {
 /// Mirrors `PeptideProfile` in the iOS app.
 struct JSONPeptideProfile: Codable, Hashable {
     var sequence: String?
-    var suppliedForm: String?   // SuppliedForm raw value, e.g. "lyophilized_vial"
+    var suppliedForm: String? // SuppliedForm raw value, e.g. "lyophilized_vial"
     var typicalVialMg: Double?
     var reconstitutionSolvent: String?
     var storage: JSONStorageRequirement?
@@ -126,8 +127,8 @@ struct BundledSubstance: Codable, Hashable {
     var aliases: [String]
     // Optional so an override-only curated file (e.g. just a popularity score or
     // display name for a scraped substance) need not restate a full definition.
-    var category: String           // SubstanceCategory raw value (e.g. "Stimulant"); "" if omitted
-    var defaultRoute: String       // RouteOfAdministration raw value; "" if omitted
+    var category: String // SubstanceCategory raw value (e.g. "Stimulant"); "" if omitted
+    var defaultRoute: String // RouteOfAdministration raw value; "" if omitted
     var displayName: String?
     var popularity: Double?
     var routes: [JSONRoute]
@@ -155,7 +156,7 @@ struct BundledSubstance: Codable, Hashable {
     /// this via `Substance.hasNoDoseData` and switches to a "see references"
     /// detail view.
     var hasNoDoseData: Bool {
-        routes.isEmpty || routes.allSatisfy { $0.doses.isEmpty }
+        routes.isEmpty || routes.allSatisfy(\.doses.isEmpty)
     }
 
     /// Custom encoder mirrors the iOS app's `Substance.encode(to:)` which
@@ -210,7 +211,7 @@ struct BundledSubstance: Codable, Hashable {
         formula: String? = nil,
         pubchemCID: Int? = nil,
         molarMass: Double? = nil,
-        peptideProfile: JSONPeptideProfile? = nil
+        peptideProfile: JSONPeptideProfile? = nil,
     ) {
         self.name = name
         self.aliases = aliases
@@ -259,10 +260,26 @@ struct BundledSubstance: Codable, Hashable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case name, aliases, category, defaultRoute, displayName, popularity, routes, effects
-        case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
-        case mechanismOfAction, tags
-        case cas, inchikey, formula, pubchemCID, molarMass, peptideProfile
+        case name
+        case aliases
+        case category
+        case defaultRoute
+        case displayName
+        case popularity
+        case routes
+        case effects
+        case subjectiveEffects
+        case toleranceInfo
+        case halfLifeMinutes
+        case sources
+        case mechanismOfAction
+        case tags
+        case cas
+        case inchikey
+        case formula
+        case pubchemCID
+        case molarMass
+        case peptideProfile
     }
 }
 
@@ -273,31 +290,35 @@ struct BundledSubstance: Codable, Hashable {
 /// fact-bearing row attributable to this record. Raw values map 1:1 to the
 /// SQLite `sources.slug` column so the build pipeline can join cleanly.
 enum Provenance: String, Codable, Comparable {
-    case wikidataPubchem  = "wikidata"
-    case pubchem          = "pubchem"
-    case tripSit          = "tripsit"
-    case erowidPIHKAL     = "erowid-pihkal"
-    case erowidTIHKAL     = "erowid-tihkal"
-    case deaOrangeBook    = "dea-orange-book"
-    case curated          = "piru-curated"
+    case wikidataPubchem = "wikidata"
+    case pubchem
+    case tripSit = "tripsit"
+    case erowidPIHKAL = "erowid-pihkal"
+    case erowidTIHKAL = "erowid-tihkal"
+    case deaOrangeBook = "dea-orange-book"
+    case curated = "piru-curated"
 
     /// Merge precedence: higher wins on conflict.
     var precedence: Int {
         switch self {
         case .wikidataPubchem: 1
-        case .pubchem:         1
-        case .deaOrangeBook:   1
-        case .tripSit:         2
-        case .erowidTIHKAL:    3
-        case .erowidPIHKAL:    3
-        case .curated:         4
+        case .pubchem: 1
+        case .deaOrangeBook: 1
+        case .tripSit: 2
+        case .erowidTIHKAL: 3
+        case .erowidPIHKAL: 3
+        case .curated: 4
         }
     }
 
-    static func < (a: Provenance, b: Provenance) -> Bool { a.precedence < b.precedence }
+    static func < (a: Provenance, b: Provenance) -> Bool {
+        a.precedence < b.precedence
+    }
 
     /// Short display label used in CLI stats output.
-    var label: String { rawValue }
+    var label: String {
+        rawValue
+    }
 }
 
 /// A substance record with provenance and dedup identifiers attached so the

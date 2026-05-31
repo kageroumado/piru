@@ -3,7 +3,7 @@ import Foundation
 // MARK: - Tabs
 
 /// The five top-level tabs of the app. Replaces `selectedTab: Int` storage.
-nonisolated enum AppTab: String, Hashable, Codable, CaseIterable, Sendable {
+nonisolated enum AppTab: String, Hashable, Codable, CaseIterable {
     case journal
     case library
     case tools
@@ -20,7 +20,7 @@ nonisolated enum AppTab: String, Hashable, Codable, CaseIterable, Sendable {
 /// Entry references use the entry's `timestamp` rather than a SwiftData
 /// identifier so the same route values are usable for deep links (the
 /// Live Activity already emits `piru://entry/<timestamp>` URLs).
-nonisolated enum PushRoute: Hashable, Codable, Sendable {
+nonisolated enum PushRoute: Hashable, Codable {
     case day(date: Date)
     case entry(timestamp: Date)
     case substance(name: String)
@@ -31,11 +31,13 @@ nonisolated enum PushRoute: Hashable, Codable, Sendable {
 }
 
 /// A detail screen reachable from the Insights overview.
-nonisolated enum Insight: String, Hashable, Codable, Sendable, CaseIterable, Identifiable {
+nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable {
     case adherence
     case usage
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 }
 
 // MARK: - Sheet Routes
@@ -48,7 +50,7 @@ nonisolated enum Insight: String, Hashable, Codable, Sendable, CaseIterable, Ide
 /// Routes are pure values; views that need a "what happens next" callback
 /// (e.g. confirmation dialogs) are still better off staying as in-place
 /// sheets owned by the view.
-nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
+nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     // App-level
     case quickLog
     case settings
@@ -78,7 +80,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     case sourcePriority
     case advancedSearch
 
-    // Pickers / mini-flows
+    /// Pickers / mini-flows
     /// Pick a color for `substance`. `remaining` carries any substances that
     /// still need a color after this one — when the user picks (or skips),
     /// the picker can re-present itself with `replacingTop: true` for the
@@ -99,7 +101,9 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
     case timeAdjust(entryTimestamp: Date)
     case dayShare(date: Date)
 
-    var id: Self { self }
+    var id: Self {
+        self
+    }
 }
 
 // MARK: - Payloads
@@ -111,16 +115,10 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable, Sendable {
 /// context (including the test suite). The default file-level MainActor
 /// isolation would otherwise pin its init to the main actor and contradict
 /// `Sendable`.
-nonisolated struct EntryPrefillPayload: Hashable, Codable, Sendable {
+nonisolated struct EntryPrefillPayload: Hashable, Codable {
     var substance: String
     var route: RouteOfAdministration
     var unit: String
-
-    init(substance: String, route: RouteOfAdministration, unit: String) {
-        self.substance = substance
-        self.route = route
-        self.unit = unit
-    }
 }
 
 // MARK: - Snapshot
@@ -128,7 +126,7 @@ nonisolated struct EntryPrefillPayload: Hashable, Codable, Sendable {
 /// A serializable snapshot of the navigator's full state. Used as the codec
 /// boundary for deep links — `URL` ↔ `NavigatorSnapshot` is the entire deep
 /// link surface.
-nonisolated struct NavigatorSnapshot: Hashable, Codable, Sendable {
+nonisolated struct NavigatorSnapshot: Hashable, Codable {
     var selectedTab: AppTab
     var paths: [AppTab: [PushRoute]]
     var sheetStack: [SheetRoute]
@@ -136,7 +134,7 @@ nonisolated struct NavigatorSnapshot: Hashable, Codable, Sendable {
     init(
         selectedTab: AppTab = .journal,
         paths: [AppTab: [PushRoute]] = [:],
-        sheetStack: [SheetRoute] = []
+        sheetStack: [SheetRoute] = [],
     ) {
         self.selectedTab = selectedTab
         self.paths = paths

@@ -13,8 +13,7 @@ import Foundation
 /// fields (name/category/defaultRoute) but UNION arrays (aliases, sources,
 /// effects, tags) and fill in missing fields (halfLifeMinutes, mechanism,
 /// routes) from the lower-precedence record.
-struct Merger {
-
+enum Merger {
     /// Returns the merged list plus per-source counters for the report.
     struct Result {
         let substances: [BundledSubstance]
@@ -61,7 +60,7 @@ struct Merger {
                 }
                 for alias in m.substance.aliases {
                     let an = NameNormalizer.normalize(alias)
-                    if !an.isEmpty && nameToKey[an] == nil {
+                    if !an.isEmpty, nameToKey[an] == nil {
                         nameToKey[an] = key
                     }
                 }
@@ -118,7 +117,7 @@ struct Merger {
         return Result(
             substances: merged,
             countsByProvenance: origCounts,
-            mergedCount: mergedCount
+            mergedCount: mergedCount,
         )
     }
 
@@ -158,8 +157,12 @@ struct Merger {
         out.tags = Tagger.merge(out.tags, l.tags)
         // Routes — union by route name, prefer higher.
         var routesByName: [String: JSONRoute] = [:]
-        for r in l.routes { routesByName[r.route] = r }
-        for r in h.routes { routesByName[r.route] = r }
+        for r in l.routes {
+            routesByName[r.route] = r
+        }
+        for r in h.routes {
+            routesByName[r.route] = r
+        }
         out.routes = Array(routesByName.values).sorted { $0.route < $1.route }
         // Half-life — keep higher's, fall back to lower.
         out.halfLifeMinutes = h.halfLifeMinutes ?? l.halfLifeMinutes

@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 import WidgetKit
 
 struct QuickLogView: View {
@@ -59,7 +59,7 @@ struct QuickLogView: View {
                     route: entry.route,
                     colorHex: colorLookup[nameLower],
                     librarySubstance: SubstanceLibrary.lookupByNameOrAlias(nameLower),
-                    latestTimestamp: entry.timestamp
+                    latestTimestamp: entry.timestamp,
                 )
                 group.addEntry(entry)
                 groupMap[key] = group
@@ -78,7 +78,7 @@ struct QuickLogView: View {
                 substanceName: first.substanceName,
                 colorHex: first.colorHex,
                 routes: sorted,
-                latestTimestamp: sorted[0].latestTimestamp
+                latestTimestamp: sorted[0].latestTimestamp,
             )
         }.sorted { $0.latestTimestamp > $1.latestTimestamp }
 
@@ -158,15 +158,15 @@ struct QuickLogView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if !dailyDoseItems.isEmpty && searchText.isEmpty {
+                    if !dailyDoseItems.isEmpty, searchText.isEmpty {
                         medicationsButton
                     }
 
-                    if cachedCards.isEmpty && searchText.isEmpty {
+                    if cachedCards.isEmpty, searchText.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
-                            description: Text("Search for a substance to log your first entry.")
+                            description: Text("Search for a substance to log your first entry."),
                         )
                     } else {
                         scrollContentInner
@@ -197,7 +197,7 @@ struct QuickLogView: View {
                     } label: {
                         Image(systemName: multiSelectEnabled ? "checklist.checked" : "checklist")
                     }
-                    if multiSelectEnabled && !selectedDoses.isEmpty {
+                    if multiSelectEnabled, !selectedDoses.isEmpty {
                         Button("Add (\(selectedDoses.count))") {
                             batchLog()
                         }
@@ -210,7 +210,7 @@ struct QuickLogView: View {
                     pendingCustomPrefill = EntryPrefillPayload(
                         substance: saved.name,
                         route: saved.defaultRoute,
-                        unit: saved.unit
+                        unit: saved.unit,
                     )
                 }
             }
@@ -263,7 +263,7 @@ struct QuickLogView: View {
     private static let helpKeywords: Set<String> = [
         "help", "emergency", "overdose", "bad trip", "dying", "scared",
         "panic", "ambulance", "hospital", "not okay", "freaking out",
-        "call 911", "911", "poisoning", "too much", "od", "can't breathe"
+        "call 911", "911", "poisoning", "too much", "od", "can't breathe",
     ]
 
     private var isHelpSearch: Bool {
@@ -325,14 +325,14 @@ struct QuickLogView: View {
                         .id("\(card.id)_recent")
                 }
             } header: {
-                if !favoriteCards.isEmpty && searchText.isEmpty {
+                if !favoriteCards.isEmpty, searchText.isEmpty {
                     Label("Recent", systemImage: "clock")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
                         .textCase(.uppercase)
                 }
             }
-        } else if !searchText.isEmpty && cachedLibraryResults.isEmpty && filteredCustomSubstances.isEmpty && favoriteCards.isEmpty {
+        } else if !searchText.isEmpty, cachedLibraryResults.isEmpty, filteredCustomSubstances.isEmpty, favoriteCards.isEmpty {
             ContentUnavailableView.search(text: searchText)
         }
 
@@ -369,7 +369,7 @@ struct QuickLogView: View {
         // whitespace-insensitive). Partial matches in the library still
         // appear above; the button lets the user add a new substance without
         // having to clear the search first.
-        if !searchText.isEmpty && !exactMatchExists {
+        if !searchText.isEmpty, !exactMatchExists {
             createCustomButton
         }
     }
@@ -391,16 +391,16 @@ struct QuickLogView: View {
         let activeCategories = dailyDoseCategories.filter { cat in
             dailyDoseItems.contains { $0.category == cat }
         }
-        let uncategorized = dailyDoseItems.filter { $0.category.isEmpty }
+        let uncategorized = dailyDoseItems.filter(\.category.isEmpty)
 
         return VStack(spacing: 6) {
             ForEach(activeCategories, id: \.self) { cat in
-                let catCount = dailyDoseItems.filter { $0.category == cat }.count
+                let catCount = dailyDoseItems.count(where: { $0.category == cat })
                 medicationRow(
                     title: cat,
                     icon: iconForCategory(cat),
                     count: catCount,
-                    category: cat
+                    category: cat,
                 )
             }
 
@@ -409,7 +409,7 @@ struct QuickLogView: View {
                     title: activeCategories.isEmpty ? "Prescriptions" : "Other",
                     icon: "pills",
                     count: uncategorized.count,
-                    category: ""
+                    category: "",
                 )
             }
         }
@@ -444,12 +444,12 @@ struct QuickLogView: View {
 
     private func iconForCategory(_ category: String) -> String {
         switch category.lowercased() {
-        case "morning": return "sunrise"
-        case "afternoon": return "sun.max"
-        case "noon", "midday": return "sun.max"
-        case "evening": return "sunset"
-        case "night", "bedtime": return "moon"
-        default: return "tag"
+        case "morning": "sunrise"
+        case "afternoon": "sun.max"
+        case "noon", "midday": "sun.max"
+        case "evening": "sunset"
+        case "night", "bedtime": "moon"
+        default: "tag"
         }
     }
 
@@ -487,7 +487,7 @@ struct QuickLogView: View {
                     lastDoseAmount: lastEntry.amount,
                     lastDoseTimestamp: lastEntry.timestamp,
                     unit: lastEntry.unit,
-                    route: lastEntry.route
+                    route: lastEntry.route,
                 )
             }
 
@@ -652,7 +652,7 @@ struct QuickLogView: View {
             substance: group.substanceName,
             amount: chip.amount,
             unit: chip.unit,
-            route: group.route
+            route: group.route,
         )
         modelContext.insert(entry)
         WidgetCenter.shared.reloadAllTimelines()
@@ -672,7 +672,7 @@ struct QuickLogView: View {
         } else {
             navigator.present(
                 .colorPicker(substance: group.substanceName, dismissAllOnComplete: true),
-                replacingTop: true
+                replacingTop: true,
             )
         }
     }
@@ -681,7 +681,7 @@ struct QuickLogView: View {
         navigator.present(.entryForm(prefill: EntryPrefillPayload(
             substance: group.substanceName,
             route: group.route,
-            unit: group.doses.first?.unit ?? "mg"
+            unit: group.doses.first?.unit ?? "mg",
         )))
     }
 
@@ -689,7 +689,7 @@ struct QuickLogView: View {
         navigator.present(.entryForm(prefill: EntryPrefillPayload(
             substance: substance.name,
             route: substance.defaultRoute,
-            unit: substance.defaultUnit
+            unit: substance.defaultUnit,
         )))
     }
 
@@ -702,7 +702,7 @@ struct QuickLogView: View {
             entry: entry,
             substance: group.librarySubstance,
             colorHex: colorHex,
-            allColors: Array(substanceColors)
+            allColors: Array(substanceColors),
         )
     }
 
@@ -715,7 +715,6 @@ struct QuickLogView: View {
 
     // MARK: - Multi-Select
 
-    @ViewBuilder
     private var selectedDosesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(selectedDoses) { dose in
@@ -774,7 +773,7 @@ struct QuickLogView: View {
                 unit: chip.unit,
                 route: group.route,
                 colorHex: group.colorHex,
-                librarySubstance: group.librarySubstance
+                librarySubstance: group.librarySubstance,
             ))
         }
     }
@@ -785,7 +784,7 @@ struct QuickLogView: View {
                 substance: dose.substanceName,
                 amount: dose.amount,
                 unit: dose.unit,
-                route: dose.route
+                route: dose.route,
             )
             modelContext.insert(entry)
             scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
@@ -798,7 +797,7 @@ struct QuickLogView: View {
                 entry: entry,
                 substance: dose.librarySubstance,
                 colorHex: colorHex,
-                allColors: Array(substanceColors)
+                allColors: Array(substanceColors),
             )
         }
         WidgetCenter.shared.reloadAllTimelines()
@@ -876,12 +875,12 @@ struct QuickLogView: View {
             category: category,
             doseTime: entry.timestamp,
             duration: duration,
-            recentStimHours: stimHours
+            recentStimHours: stimHours,
         )
         RampDownScheduler.schedulePhaseNotifications(
             substanceName: entry.substance,
             doseTime: entry.timestamp,
-            duration: duration
+            duration: duration,
         )
 
         // Check cumulative dose
@@ -890,14 +889,14 @@ struct QuickLogView: View {
             newAmount: entry.amount,
             unit: entry.unit,
             route: entry.route,
-            existingEntries: Array(allEntries)
+            existingEntries: Array(allEntries),
         )
         if shouldAlert {
             RampDownScheduler.scheduleCumulativeDoseNotification(
                 substanceName: entry.substance,
                 totalAmount: total,
                 unit: entry.unit,
-                category: category
+                category: category,
             )
         }
     }
@@ -911,7 +910,9 @@ struct SubstanceCard: Identifiable {
     let routes: [SubstanceGroup]
     let latestTimestamp: Date
 
-    var id: String { substanceName.lowercased() }
+    var id: String {
+        substanceName.lowercased()
+    }
 }
 
 struct SubstanceGroup: Identifiable {
@@ -960,7 +961,9 @@ struct DoseSelection: Identifiable {
     let colorHex: String?
     let librarySubstance: Substance?
 
-    var id: String { "\(substanceName.lowercased())|\(route.rawValue)|\(amount)|\(unit)" }
+    var id: String {
+        "\(substanceName.lowercased())|\(route.rawValue)|\(amount)|\(unit)"
+    }
 }
 
 struct DoseChip: Identifiable {
@@ -968,7 +971,9 @@ struct DoseChip: Identifiable {
     let unit: String
     let count: Int
 
-    var id: String { "\(amount)|\(unit)" }
+    var id: String {
+        "\(amount)|\(unit)"
+    }
 
     var formattedAmount: String {
         amount.truncatingRemainder(dividingBy: 1) == 0

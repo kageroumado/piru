@@ -40,7 +40,7 @@ enum PKModel {
 
         // Tmax = ln(ka/ke) / (ka - ke), solve for ka
         var ka = 4 * ke
-        for _ in 0..<50 {
+        for _ in 0 ..< 50 {
             guard ka > ke else { return defaultKa(ke: ke) }
             let f = log(ka / ke) / (ka - ke) - timeToPeak
             let denom = (ka - ke) * (ka - ke)
@@ -76,7 +76,7 @@ enum PKModel {
 
     /// Time (in minutes) at which concentration drops to `fraction` of Cmax (on the descending side).
     /// Useful for determining chart x-axis range.
-    static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50000) -> Double {
+    static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50_000) -> Double {
         let peak = cmax(ke: ke, ka: ka)
         guard peak > 0 else { return 0 }
         let target = peak * fraction
@@ -85,7 +85,7 @@ enum PKModel {
         // Binary search on the descending portion
         var lo = peakTime
         var hi = maxMinutes
-        for _ in 0..<100 {
+        for _ in 0 ..< 100 {
             let mid = (lo + hi) / 2
             if concentration(at: mid, ke: ke, ka: ka) > target {
                 lo = mid

@@ -69,7 +69,9 @@ DETAIL_QUERY_TEMPLATE = """
 def post(query: str, timeout: int = 20) -> dict[str, Any]:
     body = json.dumps({"query": query}).encode("utf-8")
     req = urlrequest.Request(
-        ENDPOINT, data=body, method="POST",
+        ENDPOINT,
+        data=body,
+        method="POST",
         headers={"Content-Type": "application/json", "User-Agent": "piru-pw-snapshot/1.0"},
     )
     with urlrequest.urlopen(req, timeout=timeout) as resp:
@@ -96,6 +98,7 @@ def fetch_with_retry(query: str, *, attempts: int = 4) -> dict[str, Any] | None:
 # ---------------------------------------------------------------------------
 # Normalisation
 # ---------------------------------------------------------------------------
+
 
 def to_minutes(amount: float | None, units: str | None) -> float | None:
     if amount is None or units is None:
@@ -153,47 +156,47 @@ def normalise_dose(d: dict | None) -> dict[str, Any]:
 # (priority 3) overrides TripSit's "Benzodiazepine" label (priority 4) for
 # every benzo in the catalogue, breaking class-based interaction rules.
 _CHEMICAL_CATEGORY_MAP = {
-    "benzodiazepines":  "Benzodiazepine",
-    "cannabinoids":     "Cannabinoid",
-    "cannabinoid":      "Cannabinoid",
-    "phytocannabinoids":"Cannabinoid",
-    "antipsychotics":   "Antipsychotic",
+    "benzodiazepines": "Benzodiazepine",
+    "cannabinoids": "Cannabinoid",
+    "cannabinoid": "Cannabinoid",
+    "phytocannabinoids": "Cannabinoid",
+    "antipsychotics": "Antipsychotic",
 }
 
 # Psychoactive class strings → SubstanceCategory raw values. Mapped
 # conservatively; unknown classes drop to nil so other sources can win the
 # category resolution rather than getting saddled with "Other".
 _PSYCHOACTIVE_CATEGORY_MAP = {
-    "stimulants":       "Stimulant",
-    "stimulant":        "Stimulant",
-    "psychedelics":     "Psychedelic",
-    "psychedelic":      "Psychedelic",
-    "dissociatives":    "Dissociative",
-    "dissociative":     "Dissociative",
-    "depressants":      "Depressant",
-    "depressant":       "Depressant",
-    "opioids":          "Opioid",
-    "opioid":           "Opioid",
-    "cannabinoids":     "Cannabinoid",
-    "cannabinoid":      "Cannabinoid",
-    "entactogens":      "Empathogen",
-    "entactogen":       "Empathogen",
-    "empathogens":      "Empathogen",
-    "empathogen":       "Empathogen",
-    "deliriants":       "Dysdelic",
-    "deliriant":        "Dysdelic",
-    "benzodiazepines":  "Benzodiazepine",
-    "benzodiazepine":   "Benzodiazepine",
-    "gabaergics":       "GABAergic",
-    "gabaergic":        "GABAergic",
-    "nootropics":       "Nootropic",
-    "nootropic":        "Nootropic",
-    "eugeroics":        "Eugeroic",
-    "eugeroic":         "Eugeroic",
-    "antidepressants":  "Antidepressant",
-    "antidepressant":   "Antidepressant",
-    "antipsychotics":   "Antipsychotic",
-    "antipsychotic":    "Antipsychotic",
+    "stimulants": "Stimulant",
+    "stimulant": "Stimulant",
+    "psychedelics": "Psychedelic",
+    "psychedelic": "Psychedelic",
+    "dissociatives": "Dissociative",
+    "dissociative": "Dissociative",
+    "depressants": "Depressant",
+    "depressant": "Depressant",
+    "opioids": "Opioid",
+    "opioid": "Opioid",
+    "cannabinoids": "Cannabinoid",
+    "cannabinoid": "Cannabinoid",
+    "entactogens": "Empathogen",
+    "entactogen": "Empathogen",
+    "empathogens": "Empathogen",
+    "empathogen": "Empathogen",
+    "deliriants": "Dysdelic",
+    "deliriant": "Dysdelic",
+    "benzodiazepines": "Benzodiazepine",
+    "benzodiazepine": "Benzodiazepine",
+    "gabaergics": "GABAergic",
+    "gabaergic": "GABAergic",
+    "nootropics": "Nootropic",
+    "nootropic": "Nootropic",
+    "eugeroics": "Eugeroic",
+    "eugeroic": "Eugeroic",
+    "antidepressants": "Antidepressant",
+    "antidepressant": "Antidepressant",
+    "antipsychotics": "Antipsychotic",
+    "antipsychotic": "Antipsychotic",
 }
 
 
@@ -261,7 +264,7 @@ def to_record(substance: dict) -> dict | None:
         return None
 
     aliases = []
-    for alias in (substance.get("commonNames") or []):
+    for alias in substance.get("commonNames") or []:
         if isinstance(alias, str) and alias.strip() and alias.strip().lower() != name.lower():
             aliases.append(alias.strip())
 
@@ -297,13 +300,23 @@ def to_record(substance: dict) -> dict | None:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
-    print(f"Fetching PsychonautWiki snapshot → {OUTPUT.relative_to(Path.cwd()) if OUTPUT.is_relative_to(Path.cwd()) else OUTPUT}", file=sys.stderr)
+    print(
+        f"Fetching PsychonautWiki snapshot → {OUTPUT.relative_to(Path.cwd()) if OUTPUT.is_relative_to(Path.cwd()) else OUTPUT}",
+        file=sys.stderr,
+    )
     list_data = fetch_with_retry(LIST_QUERY)
     if not list_data:
         print("Failed to list PW substances.", file=sys.stderr)
         return 1
-    names = sorted({(s.get("name") or "").strip() for s in (list_data.get("substances") or []) if s.get("name")})
+    names = sorted(
+        {
+            (s.get("name") or "").strip()
+            for s in (list_data.get("substances") or [])
+            if s.get("name")
+        }
+    )
     print(f"  {len(names)} substances to fetch", file=sys.stderr)
 
     records: list[dict] = []
@@ -316,7 +329,7 @@ def main() -> int:
         if not data:
             failed.append(name)
             continue
-        for substance in (data.get("substances") or []):
+        for substance in data.get("substances") or []:
             if not isinstance(substance, dict):
                 continue
             # PW search can return prefix matches — keep only the exact name.
@@ -326,7 +339,10 @@ def main() -> int:
             if record:
                 records.append({"provenance": "psychonautwiki", "substance": record})
         if i % 25 == 0:
-            print(f"  {i}/{len(names)}: {len(records)} records, {len(failed)} failures", file=sys.stderr)
+            print(
+                f"  {i}/{len(names)}: {len(records)} records, {len(failed)} failures",
+                file=sys.stderr,
+            )
         # Polite rate limit — PW has historically been ratelimited under load.
         time.sleep(0.15)
 

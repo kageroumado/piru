@@ -16,88 +16,88 @@ enum DosingContext {
     private static let dualContextSubstances: [String: DualContextInfo] = [
         // Antidepressants used recreationally at much higher doses
         "tianeptine": DualContextInfo(
-            therapeuticRange: 12.5...37.5,
-            recreationalRange: 50...200,
-            note: "Therapeutic antidepressant at 12.5mg TID; recreational/abuse at 50-200mg+"
+            therapeuticRange: 12.5 ... 37.5,
+            recreationalRange: 50 ... 200,
+            note: "Therapeutic antidepressant at 12.5mg TID; recreational/abuse at 50-200mg+",
         ),
         // Gabapentinoids
         "gabapentin": DualContextInfo(
-            therapeuticRange: 300...3600,
-            recreationalRange: 900...5000,
-            note: "Therapeutic for neuropathic pain; recreational doses often higher"
+            therapeuticRange: 300 ... 3_600,
+            recreationalRange: 900 ... 5_000,
+            note: "Therapeutic for neuropathic pain; recreational doses often higher",
         ),
         "pregabalin": DualContextInfo(
-            therapeuticRange: 75...600,
-            recreationalRange: 300...900,
-            note: "Lyrica therapeutic vs recreational use"
+            therapeuticRange: 75 ... 600,
+            recreationalRange: 300 ... 900,
+            note: "Lyrica therapeutic vs recreational use",
         ),
         // Benzodiazepines (therapeutic very low, recreational much higher)
         "clonazolam": DualContextInfo(
-            therapeuticRange: 0.125...0.5,
-            recreationalRange: 0.25...1.5,
-            note: "Ultra-potent benzo; therapeutic sub-mg, recreational higher"
+            therapeuticRange: 0.125 ... 0.5,
+            recreationalRange: 0.25 ... 1.5,
+            note: "Ultra-potent benzo; therapeutic sub-mg, recreational higher",
         ),
         "alprazolam": DualContextInfo(
-            therapeuticRange: 0.25...4,
-            recreationalRange: 1...6,
-            note: "Xanax therapeutic vs recreational"
+            therapeuticRange: 0.25 ... 4,
+            recreationalRange: 1 ... 6,
+            note: "Xanax therapeutic vs recreational",
         ),
         // Dissociatives
         "dxm": DualContextInfo(
-            therapeuticRange: 10...30,
-            recreationalRange: 100...1500,
-            note: "Cough suppressant dose vs dissociative 'plateau' doses"
+            therapeuticRange: 10 ... 30,
+            recreationalRange: 100 ... 1_500,
+            note: "Cough suppressant dose vs dissociative 'plateau' doses",
         ),
         "dextromethorphan": DualContextInfo(
-            therapeuticRange: 10...30,
-            recreationalRange: 100...1500,
-            note: "Cough suppressant dose vs dissociative 'plateau' doses"
+            therapeuticRange: 10 ... 30,
+            recreationalRange: 100 ... 1_500,
+            note: "Cough suppressant dose vs dissociative 'plateau' doses",
         ),
         // Opioids with mixed contexts
         "kratom": DualContextInfo(
-            therapeuticRange: 1...4,
-            recreationalRange: 3...12,
-            note: "Low-dose stimulant vs high-dose sedative/opioid effects"
+            therapeuticRange: 1 ... 4,
+            recreationalRange: 3 ... 12,
+            note: "Low-dose stimulant vs high-dose sedative/opioid effects",
         ),
         "tramadol": DualContextInfo(
-            therapeuticRange: 50...400,
-            recreationalRange: 150...500,
-            note: "Analgesic dose vs recreational; seizure risk above 400mg"
+            therapeuticRange: 50 ... 400,
+            recreationalRange: 150 ... 500,
+            note: "Analgesic dose vs recreational; seizure risk above 400mg",
         ),
         // Stimulants with medical use
         "modafinil": DualContextInfo(
-            therapeuticRange: 100...200,
-            recreationalRange: 100...400,
-            note: "Prescription dose vs cognitive enhancement dose"
+            therapeuticRange: 100 ... 200,
+            recreationalRange: 100 ... 400,
+            note: "Prescription dose vs cognitive enhancement dose",
         ),
         // Antihistamines used recreationally
         "diphenhydramine": DualContextInfo(
-            therapeuticRange: 25...50,
-            recreationalRange: 200...700,
-            note: "Allergy/sleep dose vs deliriant dose"
+            therapeuticRange: 25 ... 50,
+            recreationalRange: 200 ... 700,
+            note: "Allergy/sleep dose vs deliriant dose",
         ),
         "dph": DualContextInfo(
-            therapeuticRange: 25...50,
-            recreationalRange: 200...700,
-            note: "Allergy/sleep dose vs deliriant dose"
+            therapeuticRange: 25 ... 50,
+            recreationalRange: 200 ... 700,
+            note: "Allergy/sleep dose vs deliriant dose",
         ),
         // Muscle relaxants
         "baclofen": DualContextInfo(
-            therapeuticRange: 5...80,
-            recreationalRange: 50...200,
-            note: "Muscle relaxant dose vs recreational dose"
+            therapeuticRange: 5 ... 80,
+            recreationalRange: 50 ... 200,
+            note: "Muscle relaxant dose vs recreational dose",
         ),
         // GHB/GBL
         "ghb": DualContextInfo(
-            therapeuticRange: 2.25...4.5,
-            recreationalRange: 1...4,
-            note: "Xyrem narcolepsy dose vs recreational; narrow safety margin"
+            therapeuticRange: 2.25 ... 4.5,
+            recreationalRange: 1 ... 4,
+            note: "Xyrem narcolepsy dose vs recreational; narrow safety margin",
         ),
         // Kanna (different preparations have wildly different potencies)
         "kanna": DualContextInfo(
-            therapeuticRange: 25...100,
-            recreationalRange: 200...2000,
-            note: "Extract strength varies enormously; raw plant vs standardized extract"
+            therapeuticRange: 25 ... 100,
+            recreationalRange: 200 ... 2_000,
+            note: "Extract strength varies enormously; raw plant vs standardized extract",
         ),
     ]
 
@@ -119,7 +119,7 @@ enum DosingContext {
     static func isContextualDiscrepancy(
         substanceName: String,
         localValue: Double,
-        apiValue: Double
+        apiValue: Double,
     ) -> (isContextual: Bool, note: String?) {
         guard let ctx = info(for: substanceName) else {
             return (false, nil)

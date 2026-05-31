@@ -43,8 +43,12 @@ struct InteractionTimelineView: View {
         return PKParams(ke: ke, ka: ka, halfLifeMinutes: halfLife, timeToPeakMinutes: tmax)
     }
 
-    private var paramsA: PKParams? { resolveParams(for: substanceA) }
-    private var paramsB: PKParams? { resolveParams(for: substanceB) }
+    private var paramsA: PKParams? {
+        resolveParams(for: substanceA)
+    }
+    private var paramsB: PKParams? {
+        resolveParams(for: substanceB)
+    }
 
     private var missingData: [String] {
         var missing: [String] = []
@@ -86,7 +90,7 @@ struct InteractionTimelineView: View {
     private func autoDetectTimes() {
         guard !didAutoDetect else { return }
         didAutoDetect = true
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         if let entry = allEntries.first(where: {
             $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
         }) {
@@ -100,14 +104,14 @@ struct InteractionTimelineView: View {
     }
 
     private var hasRecentEntryA: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         return allEntries.contains {
             $0.substance.lowercased() == substanceA.lowercased() && $0.timestamp > cutoff
         }
     }
 
     private var hasRecentEntryB: Bool {
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         return allEntries.contains {
             $0.substance.lowercased() == substanceB.lowercased() && $0.timestamp > cutoff
         }
@@ -169,31 +173,29 @@ struct InteractionTimelineView: View {
         var pointsB: [CurvePoint] = []
         var overlap: [OverlapPoint] = []
 
-        for i in 0...steps {
+        for i in 0 ... steps {
             let t = Double(i) / Double(steps) * totalMinutes
             let hours = t / 60
 
             let elapsedA = t - offsetAMinutes
-            let concA: Double
-            if elapsedA >= 0 && cmaxA > 0 {
-                concA = max(0, PKModel.concentration(at: elapsedA, ke: pA.ke, ka: pA.ka) / cmaxA * 100)
+            let concA: Double = if elapsedA >= 0, cmaxA > 0 {
+                max(0, PKModel.concentration(at: elapsedA, ke: pA.ke, ka: pA.ka) / cmaxA * 100)
             } else {
-                concA = 0
+                0
             }
 
             let elapsedB = t - offsetBMinutes
-            let concB: Double
-            if elapsedB >= 0 && cmaxB > 0 {
-                concB = max(0, PKModel.concentration(at: elapsedB, ke: pB.ke, ka: pB.ka) / cmaxB * 100)
+            let concB: Double = if elapsedB >= 0, cmaxB > 0 {
+                max(0, PKModel.concentration(at: elapsedB, ke: pB.ke, ka: pB.ka) / cmaxB * 100)
             } else {
-                concB = 0
+                0
             }
 
             pointsA.append(CurvePoint(hours: hours, concentration: concA, substance: substanceA))
             pointsB.append(CurvePoint(hours: hours, concentration: concB, substance: substanceB))
 
             let minConc = min(concA, concB)
-            if concA > 3 && concB > 3 {
+            if concA > 3, concB > 3 {
                 overlap.append(OverlapPoint(hours: hours, minConcentration: minConc))
             }
         }
@@ -206,7 +208,7 @@ struct InteractionTimelineView: View {
 
     private func chartSection(pA: PKParams, pB: PKParams) -> some View {
         let data = generateCurveData(pA: pA, pB: pB)
-        let nowHours = Date.now.timeIntervalSince(referenceTime) / 3600
+        let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
 
         return VStack(alignment: .leading, spacing: 8) {
@@ -217,7 +219,7 @@ struct InteractionTimelineView: View {
                 ForEach(data.overlap) { point in
                     AreaMark(
                         x: .value("Time", point.hours),
-                        y: .value("Conc", point.minConcentration)
+                        y: .value("Conc", point.minConcentration),
                     )
                     .foregroundStyle(severity.color.opacity(0.2))
                     .interpolationMethod(.monotone)
@@ -226,7 +228,7 @@ struct InteractionTimelineView: View {
                 ForEach(data.pointsA) { point in
                     LineMark(
                         x: .value("Time", point.hours),
-                        y: .value("Conc", point.concentration)
+                        y: .value("Conc", point.concentration),
                     )
                     .foregroundStyle(colorA)
                     .interpolationMethod(.monotone)
@@ -236,7 +238,7 @@ struct InteractionTimelineView: View {
                 ForEach(data.pointsB) { point in
                     LineMark(
                         x: .value("Time", point.hours),
-                        y: .value("Conc", point.concentration)
+                        y: .value("Conc", point.concentration),
                     )
                     .foregroundStyle(colorB)
                     .interpolationMethod(.monotone)
@@ -276,7 +278,7 @@ struct InteractionTimelineView: View {
                     }
                 }
             }
-            .chartYScale(domain: 0...105)
+            .chartYScale(domain: 0 ... 105)
             .chartLegend(.hidden)
             .frame(height: 220)
 
@@ -311,7 +313,7 @@ struct InteractionTimelineView: View {
     // MARK: - Time Controls
 
     private var timePickerRange: ClosedRange<Date> {
-        Date.now.addingTimeInterval(-48 * 3600)...Date.now.addingTimeInterval(12 * 3600)
+        Date.now.addingTimeInterval(-48 * 3_600) ... Date.now.addingTimeInterval(12 * 3_600)
     }
 
     private var timeControlsSection: some View {

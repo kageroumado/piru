@@ -9,7 +9,7 @@ struct CodableRange: Codable {
 
     var closedRange: ClosedRange<Double>? {
         guard lower <= upper else { return nil }
-        return lower...upper
+        return lower ... upper
     }
 
     init(_ range: ClosedRange<Double>) {
@@ -32,7 +32,7 @@ struct DoseRange {
         light: ClosedRange<Double>? = nil,
         common: ClosedRange<Double>? = nil,
         strong: ClosedRange<Double>? = nil,
-        heavy: Double? = nil
+        heavy: Double? = nil,
     ) {
         self.threshold = threshold
         self.light = light
@@ -96,7 +96,11 @@ extension DoseRange: Hashable {}
 
 extension DoseRange: Codable {
     enum CodingKeys: String, CodingKey {
-        case threshold, light, common, strong, heavy
+        case threshold
+        case light
+        case common
+        case strong
+        case heavy
     }
 
     init(from decoder: Decoder) throws {
@@ -153,7 +157,7 @@ enum DoseLevel: String, CaseIterable {
 
 enum DoseUnit {
     /// Conversion factor from each mass unit to milligrams.
-    private static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1000]
+    private static let toMg: [String: Double] = ["µg": 0.001, "mg": 1, "g": 1_000]
 
     /// Convert a dose amount between compatible mass units (µg, mg, g).
     /// Returns `nil` if either unit is not a convertible mass unit (e.g. mL, IU).
@@ -224,7 +228,9 @@ struct DurationRange: Codable, Hashable {
     let min: Double
     let max: Double
 
-    var midpoint: Double { (min + max) / 2 }
+    var midpoint: Double {
+        (min + max) / 2
+    }
 
     var displayString: String {
         if max >= 120 {
@@ -278,7 +284,7 @@ struct DurationProfile: Codable, Hashable {
             comeupEnd: comeupEnd,
             peakEnd: peakEnd,
             offsetEnd: offsetEnd,
-            afterglowEnd: afterglowEnd
+            afterglowEnd: afterglowEnd,
         )
     }
 }
@@ -298,7 +304,7 @@ extension DurationProfile {
             peak: peakLen > 0 ? DurationRange(min: peakLen, max: peakLen) : nil,
             offset: offsetLen > 0 ? DurationRange(min: offsetLen, max: offsetLen) : nil,
             afterglow: afterglowLen.flatMap { $0 > 0 ? DurationRange(min: $0, max: $0) : nil },
-            total: DurationRange(min: state.totalMinutes, max: state.totalMinutes)
+            total: DurationRange(min: state.totalMinutes, max: state.totalMinutes),
         )
     }
 }
@@ -314,7 +320,7 @@ struct PhaseBoundaries {
 // MARK: - Protocol Dosing
 
 /// One rung of a titration ramp, e.g. "2.5 mg" during "weeks 1–4".
-struct TitrationStep: Codable, Hashable, Sendable {
+struct TitrationStep: Codable, Hashable {
     /// Amount in the route's `unit`.
     let amount: Double
     /// Localized phase label, e.g. "weeks 1–4", "month 2".
@@ -325,7 +331,7 @@ struct TitrationStep: Codable, Hashable, Sendable {
 /// prescription drugs) rather than along a trip-intensity ladder. When present,
 /// the detail UI renders this instead of the `DoseRange` threshold→heavy tiers.
 /// Amounts are in the owning `SubstanceRoute.unit` (mcg, mg, or IU).
-struct ProtocolDosing: Codable, Hashable, Sendable {
+struct ProtocolDosing: Codable, Hashable {
     /// Typical dose range low/high (either may be nil for a single fixed dose).
     let lowAmount: Double?
     let highAmount: Double?
@@ -344,7 +350,7 @@ struct ProtocolDosing: Codable, Hashable, Sendable {
         frequency: String,
         titration: [TitrationStep]? = nil,
         courseDuration: String? = nil,
-        notes: String? = nil
+        notes: String? = nil,
     ) {
         self.lowAmount = lowAmount
         self.highAmount = highAmount
@@ -359,7 +365,7 @@ struct ProtocolDosing: Codable, Hashable, Sendable {
 
 /// How a peptide/biologic is supplied — determines whether reconstitution UI
 /// applies and how the substance is handled.
-enum SuppliedForm: String, Codable, Hashable, Sendable {
+enum SuppliedForm: String, Codable, Hashable {
     /// Freeze-dried powder in an mg vial — must be reconstituted before use.
     case lyophilizedVial = "lyophilized_vial"
     /// Ready-to-inject solution (prefilled pen/vial).
@@ -382,12 +388,14 @@ enum SuppliedForm: String, Codable, Hashable, Sendable {
     }
 
     /// Whether the reconstitution calculator is meaningful for this form.
-    var isReconstituted: Bool { self == .lyophilizedVial }
+    var isReconstituted: Bool {
+        self == .lyophilizedVial
+    }
 }
 
 /// Cold-chain / handling requirement for a peptide or biologic.
-struct StorageRequirement: Codable, Hashable, Sendable {
-    enum Temperature: String, Codable, Hashable, Sendable {
+struct StorageRequirement: Codable, Hashable {
+    enum Temperature: String, Codable, Hashable {
         case roomTemp = "room_temp"
         case refrigerate
         case freeze
@@ -425,7 +433,7 @@ struct StorageRequirement: Codable, Hashable, Sendable {
 /// Peptide/biologic-specific reference data. Presence switches the detail UI to
 /// a peptide presentation (amino-acid sequence, handling, reconstitution) instead
 /// of the psychoactive trip-arc model.
-struct PeptideProfile: Codable, Hashable, Sendable {
+struct PeptideProfile: Codable, Hashable {
     /// Amino-acid sequence, one-letter with modification notes
     /// (e.g. "Ac-Nle-cyclo[Asp-His-D-Phe-Arg-Trp-Lys]-NH2"). nil = not published.
     let sequence: String?
@@ -444,7 +452,7 @@ struct PeptideProfile: Codable, Hashable, Sendable {
         typicalVialMg: Double? = nil,
         reconstitutionSolvent: String? = nil,
         storage: StorageRequirement? = nil,
-        iuPerMg: Double? = nil
+        iuPerMg: Double? = nil,
     ) {
         self.sequence = sequence
         self.suppliedForm = suppliedForm
@@ -477,7 +485,7 @@ struct SubstanceRoute: Codable {
         unit: String,
         doses: DoseRange,
         duration: DurationProfile? = nil,
-        protocolDosing: ProtocolDosing? = nil
+        protocolDosing: ProtocolDosing? = nil,
     ) {
         self.route = route
         self.unit = unit
@@ -525,40 +533,42 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     /// Map TripSit lowercase categories to our enum
     static func from(tripSitCategory: String) -> SubstanceCategory {
         switch tripSitCategory.lowercased() {
-        case "stimulant": return .stimulant
-        case "psychedelic", "hallucinogen": return .psychedelic
-        case "dissociative": return .dissociative
-        case "dysdelic", "kappa-agonist", "kappa-opioid-agonist", "salvinorin": return .dysdelic
-        case "deliriant", "anticholinergic", "muscarinic-antagonist": return .deliriant
-        case "opioid", "opiate": return .opioid
-        case "benzodiazepine": return .benzodiazepine
-        case "depressant", "barbiturate", "sedative": return .depressant
-        case "empathogen", "entactogen": return .empathogen
-        case "cannabinoid": return .cannabinoid
-        case "nootropic": return .nootropic
-        case "ampakine", "ampa-pam", "ampa-positive-modulator": return .ampakine
-        case "eugeroic", "afinil", "wake-promoting": return .eugeroic
-        case "ssri", "snri", "maoi", "antidepressant": return .antidepressant
-        case "antipsychotic": return .antipsychotic
-        case "antihistamine": return .antihistamine
-        case "analgesic": return .analgesic
-        case "supplement", "vitamin", "steroid": return .supplement
-        case "peptide", "peptide-mimetic": return .peptide
-        case "gabapentinoid", "gabaergic": return .gabapentinoid
-        case "anxiolytic", "hypnotic": return .depressant
-        case "anticonvulsant", "mood-stabilizer", "mood stabilizer", "antiepileptic": return .anticonvulsant
-        case "sympathomimetic": return .stimulant
-        case "cardiovascular": return .cardiovascular
-        case "antimicrobial", "antibiotic", "antifungal", "antiviral": return .antimicrobial
-        case "gastrointestinal": return .gastrointestinal
-        case "respiratory": return .respiratory
-        case "endocrine": return .endocrine
-        case "immunological": return .immunological
-        default: return .other
+        case "stimulant": .stimulant
+        case "psychedelic", "hallucinogen": .psychedelic
+        case "dissociative": .dissociative
+        case "dysdelic", "kappa-agonist", "kappa-opioid-agonist", "salvinorin": .dysdelic
+        case "deliriant", "anticholinergic", "muscarinic-antagonist": .deliriant
+        case "opioid", "opiate": .opioid
+        case "benzodiazepine": .benzodiazepine
+        case "depressant", "barbiturate", "sedative": .depressant
+        case "empathogen", "entactogen": .empathogen
+        case "cannabinoid": .cannabinoid
+        case "nootropic": .nootropic
+        case "ampakine", "ampa-pam", "ampa-positive-modulator": .ampakine
+        case "eugeroic", "afinil", "wake-promoting": .eugeroic
+        case "ssri", "snri", "maoi", "antidepressant": .antidepressant
+        case "antipsychotic": .antipsychotic
+        case "antihistamine": .antihistamine
+        case "analgesic": .analgesic
+        case "supplement", "vitamin", "steroid": .supplement
+        case "peptide", "peptide-mimetic": .peptide
+        case "gabapentinoid", "gabaergic": .gabapentinoid
+        case "anxiolytic", "hypnotic": .depressant
+        case "anticonvulsant", "mood-stabilizer", "mood stabilizer", "antiepileptic": .anticonvulsant
+        case "sympathomimetic": .stimulant
+        case "cardiovascular": .cardiovascular
+        case "antimicrobial", "antibiotic", "antifungal", "antiviral": .antimicrobial
+        case "gastrointestinal": .gastrointestinal
+        case "respiratory": .respiratory
+        case "endocrine": .endocrine
+        case "immunological": .immunological
+        default: .other
         }
     }
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var displayName: LocalizedStringResource {
         switch self {
@@ -600,9 +610,9 @@ struct SubjectiveEffect: Codable {
 }
 
 struct ToleranceInfo: Codable {
-    let halfLife: Double       // days for tolerance to halve
-    let fullResetDays: Double  // days for full tolerance reset
-    let buildRate: String      // "rapid" | "moderate" | "slow"
+    let halfLife: Double // days for tolerance to halve
+    let fullResetDays: Double // days for full tolerance reset
+    let buildRate: String // "rapid" | "moderate" | "slow"
 }
 
 enum BindingAction: String, Codable {
@@ -649,7 +659,9 @@ struct ReceptorBinding: Codable, Identifiable {
     let target: String
     let action: BindingAction
     let affinity: BindingAffinity
-    var id: String { "\(target)-\(action.rawValue)" }
+    var id: String {
+        "\(target)-\(action.rawValue)"
+    }
 }
 
 struct MechanismOfAction: Codable {
@@ -660,7 +672,11 @@ struct MechanismOfAction: Codable {
     let references: [String]
 
     private enum CodingKeys: String, CodingKey {
-        case summary, description, primaryTargets, bindings, references
+        case summary
+        case description
+        case primaryTargets
+        case bindings
+        case references
     }
 
     init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = [], references: [String]) {
@@ -685,7 +701,7 @@ struct MechanismOfAction: Codable {
 /// into `substances.display_class`. Gates dose/duration visibility and whether
 /// the compound appears in recreational category browsing. See
 /// `docs/` and `pipeline/build/sqlite.py:classify_compounds`.
-enum CompoundDisplayClass: String, Codable, Sendable {
+enum CompoundDisplayClass: String, Codable {
     /// Recreational use is the primary frame — full dose ladder + duration.
     case recreational
     /// A medical drug that PsychonautWiki/TripSit also document recreationally
@@ -721,18 +737,20 @@ enum CompoundDisplayClass: String, Codable, Sendable {
     /// Whether this compound appears in recreational category browsing. Non-
     /// recreational compounds stay searchable (for medication tracking) but are
     /// not surfaced in the browse grid.
-    var surfacesInBrowse: Bool { self != .nonRecreational }
+    var surfacesInBrowse: Bool {
+        self != .nonRecreational
+    }
 }
 
 /// A single contraindication or boxed warning sourced from a clinical label.
-struct Contraindication: Codable, Hashable, Sendable {
+struct Contraindication: Codable, Hashable {
     let text: String
     let isBoxedWarning: Bool
 }
 
 /// Cross-benzodiazepine dose equivalency (relative to 10 mg diazepam). Sourced
 /// from the TripSit benzo dataset; the only such data in Piru.
-struct DiazepamEquivalent: Codable, Hashable, Sendable {
+struct DiazepamEquivalent: Codable, Hashable {
     let doseMg: Double?
     let equivalentDiazepamMg: Double?
     let displayText: String?
@@ -741,7 +759,7 @@ struct DiazepamEquivalent: Codable, Hashable, Sendable {
 /// A primary reference for a compound — a DOI, PubMed ID, URL, or free-text
 /// label ("Egrifta SmPC"). Surfaced in the detail "References" section so every
 /// curated claim is traceable to its source.
-struct Citation: Codable, Hashable, Sendable {
+struct Citation: Codable, Hashable {
     let doi: String?
     let pmid: Int?
     let url: String?
@@ -859,7 +877,7 @@ struct Substance: Identifiable {
         popularity: Double = 0,
         molarMass: Double? = nil,
         peptideProfile: PeptideProfile? = nil,
-        references: [Citation] = []
+        references: [Citation] = [],
     ) {
         self.id = UUID()
         self.name = name
@@ -893,7 +911,9 @@ struct Substance: Identifiable {
 
     /// Title shown in lists and the detail header — the curated override when
     /// present, otherwise the canonical `name`.
-    var displayTitle: String { displayName ?? name }
+    var displayTitle: String {
+        displayName ?? name
+    }
 
     /// Secondary line for rows: when a display-name override is active, the
     /// canonical (expanded) name; otherwise the cleaned aliases (up to 3).
@@ -984,13 +1004,33 @@ struct Substance: Identifiable {
 
 extension Substance: Codable {
     enum CodingKeys: String, CodingKey {
-        case name, displayName, aliases, category, defaultRoute, routes, effects
-        case subjectiveEffects, toleranceInfo, halfLifeMinutes, sources
-        case mechanismOfAction, tags
-        case displayClass, regulatoryStatus, durationImplausible
-        case indications, contraindications, diazepamEquivalent
-        case cas, inchikey, formula, pubchemCID, popularity
-        case molarMass, peptideProfile, references
+        case name
+        case displayName
+        case aliases
+        case category
+        case defaultRoute
+        case routes
+        case effects
+        case subjectiveEffects
+        case toleranceInfo
+        case halfLifeMinutes
+        case sources
+        case mechanismOfAction
+        case tags
+        case displayClass
+        case regulatoryStatus
+        case durationImplausible
+        case indications
+        case contraindications
+        case diazepamEquivalent
+        case cas
+        case inchikey
+        case formula
+        case pubchemCID
+        case popularity
+        case molarMass
+        case peptideProfile
+        case references
     }
 
     init(from decoder: Decoder) throws {
@@ -1073,8 +1113,8 @@ extension Substance: Codable {
     }
 }
 
-
 // MARK: - Hashable
+
 extension Substance: Hashable {
     static func == (lhs: Substance, rhs: Substance) -> Bool {
         lhs.id == rhs.id

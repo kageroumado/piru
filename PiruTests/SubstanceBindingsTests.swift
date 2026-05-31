@@ -1,31 +1,32 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("SubstanceStore bindings")
 struct SubstanceBindingsTests {
-
-    @Test("Empty for unknown substance")
+    @Test
     @MainActor
-    func unknownEmpty() {
+    func `Empty for unknown substance`() {
         #expect(SubstanceStore.shared.bindings(forSubstanceName: "zzzNotARealCompound").isEmpty)
     }
 
-    @Test("Returns rows for a substance with literature data")
+    @Test
     @MainActor
-    func knownReturnsRows() {
+    func `Returns rows for a substance with literature data`() {
         // Ketamine has rich receptor-binding literature in the bundled DB.
         let rows = SubstanceStore.shared.bindings(forSubstanceName: "Ketamine")
         #expect(!rows.isEmpty, "Expected Ketamine to have binding rows in the bundled DB")
     }
 
-    @Test("Rows are sorted by Ki ascending, NULLs last")
+    @Test
     @MainActor
-    func sortedByKi() {
+    func `Rows are sorted by Ki ascending, NULLs last`() {
         let rows = SubstanceStore.shared.bindings(forSubstanceName: "Ketamine")
         let kis = rows.compactMap(\.kiNm)
-        #expect(kis == kis.sorted(),
-                "bindings should be sorted by Ki ASC — got \(kis)")
+        #expect(
+            kis == kis.sorted(),
+            "bindings should be sorted by Ki ASC — got \(kis)",
+        )
         // Once we hit a row whose Ki is nil, every subsequent row's Ki
         // should also be nil (NULLS LAST in the SQL).
         if let firstNilIndex = rows.firstIndex(where: { $0.kiNm == nil }) {
@@ -35,9 +36,9 @@ struct SubstanceBindingsTests {
         }
     }
 
-    @Test("Bindings query by target filters correctly")
+    @Test
     @MainActor
-    func filterByTarget() {
+    func `Bindings query by target filters correctly`() {
         // Pick a target known to exist in the bundled data, query for it,
         // assert every row matches.
         let allTargets = SubstanceStore.shared.availableBindingTargets()
@@ -52,9 +53,9 @@ struct SubstanceBindingsTests {
         }
     }
 
-    @Test("Substance-contains filter is case-insensitive substring match")
+    @Test
     @MainActor
-    func substanceContainsFilter() {
+    func `Substance-contains filter is case-insensitive substring match`() {
         let rows = SubstanceStore.shared.bindings(substanceContains: "keta")
         // Expect Ketamine + any compound whose canonical name contains "keta".
         let hasKetamine = rows.contains { $0.substanceName.lowercased().contains("keta") }

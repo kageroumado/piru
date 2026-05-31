@@ -85,7 +85,9 @@ enum CategoryMapper {
         }
         if mapped.isEmpty { return "Other" }
 
-        for p in priority where mapped.contains(p) { return p }
+        for p in priority where mapped.contains(p) {
+            return p
+        }
         return mapped.first ?? "Other"
     }
 

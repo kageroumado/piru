@@ -3,31 +3,30 @@ import Testing
 
 @Suite("HalfLifeDatabase")
 struct HalfLifeDatabaseTests {
-
     // MARK: - Direct lookup
 
-    @Test("Caffeine has known half-life")
-    func caffeine() {
+    @Test
+    func `Caffeine has known half-life`() {
         let hl = HalfLifeDatabase.halfLife(for: "caffeine")
         #expect(hl == 300) // 5 hours
     }
 
-    @Test("Morphine has known half-life")
-    func morphine() {
+    @Test
+    func `Morphine has known half-life`() {
         let hl = HalfLifeDatabase.halfLife(for: "morphine")
         #expect(hl == 180) // 3 hours
     }
 
-    @Test("Alprazolam has known half-life")
-    func alprazolam() {
+    @Test
+    func `Alprazolam has known half-life`() {
         let hl = HalfLifeDatabase.halfLife(for: "alprazolam")
         #expect(hl != nil)
     }
 
     // MARK: - Case insensitive
 
-    @Test("Lookup is case-insensitive")
-    func caseInsensitive() {
+    @Test
+    func `Lookup is case-insensitive`() {
         let lower = HalfLifeDatabase.halfLife(for: "caffeine")
         let upper = HalfLifeDatabase.halfLife(for: "CAFFEINE")
         let mixed = HalfLifeDatabase.halfLife(for: "Caffeine")
@@ -35,16 +34,16 @@ struct HalfLifeDatabaseTests {
         #expect(lower == mixed)
     }
 
-    @Test("Trims whitespace")
-    func trimsWhitespace() {
+    @Test
+    func `Trims whitespace`() {
         let result = HalfLifeDatabase.halfLife(for: "  caffeine  ")
         #expect(result == 300)
     }
 
     // MARK: - Alias lookup
 
-    @Test("Alias lookup works for Adderall → amphetamine")
-    func aliasLookup() {
+    @Test
+    func `Alias lookup works for Adderall → amphetamine`() {
         // Common aliases should be in the database
         let result = HalfLifeDatabase.halfLife(for: "amphetamine")
         #expect(result != nil)
@@ -52,20 +51,20 @@ struct HalfLifeDatabaseTests {
 
     // MARK: - Unknown substance
 
-    @Test("Unknown substance returns nil")
-    func unknownSubstance() {
+    @Test
+    func `Unknown substance returns nil`() {
         #expect(HalfLifeDatabase.halfLife(for: "zzzNotARealSubstancezzz") == nil)
     }
 
-    @Test("Empty string returns nil")
-    func emptyString() {
+    @Test
+    func `Empty string returns nil`() {
         #expect(HalfLifeDatabase.halfLife(for: "") == nil)
     }
 
     // MARK: - Data integrity
 
-    @Test("All half-lives are positive")
-    func allPositive() {
+    @Test
+    func `All half-lives are positive`() {
         // Test a sampling of known substances
         let substances = ["caffeine", "morphine", "cocaine", "fentanyl", "mdma", "modafinil"]
         for name in substances {
@@ -75,10 +74,10 @@ struct HalfLifeDatabaseTests {
         }
     }
 
-    @Test("Cocaine has shorter half-life than methadone")
-    func relativeHalfLives() {
-        let cocaine = HalfLifeDatabase.halfLife(for: "cocaine")!
-        let methadone = HalfLifeDatabase.halfLife(for: "methadone")!
+    @Test
+    func `Cocaine has shorter half-life than methadone`() throws {
+        let cocaine = try #require(HalfLifeDatabase.halfLife(for: "cocaine"))
+        let methadone = try #require(HalfLifeDatabase.halfLife(for: "methadone"))
         #expect(cocaine < methadone)
     }
 }

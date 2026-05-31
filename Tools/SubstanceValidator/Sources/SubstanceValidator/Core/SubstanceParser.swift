@@ -61,7 +61,7 @@ enum SubstanceParser {
         var depth = 0
         var endIndex = startIndex
 
-        for i in startIndex..<lines.count {
+        for i in startIndex ..< lines.count {
             let line = lines[i]
             blockLines.append(line)
 
@@ -104,7 +104,7 @@ enum SubstanceParser {
             routes: routes,
             effects: effects,
             sourceFile: filename,
-            lineNumber: startLine
+            lineNumber: startLine,
         )
 
         return (substance, endIndex)
@@ -144,7 +144,7 @@ enum SubstanceParser {
             }
         }
 
-        let arrayContent = String(afterBracket[afterBracket.startIndex..<endIdx])
+        let arrayContent = String(afterBracket[afterBracket.startIndex ..< endIdx])
 
         // Extract all quoted strings
         var results: [String] = []
@@ -201,7 +201,7 @@ enum SubstanceParser {
                 common: doseParams.common,
                 strong: doseParams.strong,
                 heavy: doseParams.heavy,
-                fatal: doseParams.fatal
+                fatal: doseParams.fatal,
             ))
         }
 
@@ -221,7 +221,7 @@ enum SubstanceParser {
             }
         }
 
-        let params = String(text[text.startIndex..<endIdx])
+        let params = String(text[text.startIndex ..< endIdx])
 
         let threshold = extractDoubleParam(from: params, key: "threshold")
         let light = extractRangeParam(from: params, key: "light")
@@ -253,7 +253,7 @@ enum SubstanceParser {
               let upper = Double(params[upperRange]) else {
             return nil
         }
-        return lower...upper
+        return lower ... upper
     }
 
     enum ParserError: Error, LocalizedError {
@@ -261,7 +261,7 @@ enum SubstanceParser {
 
         var errorDescription: String? {
             switch self {
-            case .directoryNotFound(let path): return "Directory not found: \(path)"
+            case let .directoryNotFound(path): "Directory not found: \(path)"
             }
         }
     }

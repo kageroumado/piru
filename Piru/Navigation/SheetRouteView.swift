@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 /// Renders a `SheetRoute` by dispatching to its corresponding existing view.
 ///
@@ -36,7 +36,7 @@ struct SheetRouteView: View {
                     .withAppDestinations()
             }
 
-        case .entryDetail(let timestamp):
+        case let .entryDetail(timestamp):
             EntryByTimestampView(timestamp: timestamp) { entry in
                 NavigationStack {
                     EntryDetailView(entry: entry)
@@ -45,35 +45,35 @@ struct SheetRouteView: View {
                 }
             }
 
-        case .entryForm(let prefill):
+        case let .entryForm(prefill):
             if let prefill {
                 EntryFormView(
                     prefillSubstance: prefill.substance,
                     prefillRoute: prefill.route,
-                    prefillUnit: prefill.unit
+                    prefillUnit: prefill.unit,
                 )
             } else {
                 EntryFormView()
             }
 
-        case .entryEdit(let timestamp):
+        case let .entryEdit(timestamp):
             EntryByTimestampView(timestamp: timestamp) { entry in
                 EntryFormView(entry: entry)
             }
 
-        case .colorPicker(let substance, let remaining, let dismissAllOnComplete):
+        case let .colorPicker(substance, remaining, dismissAllOnComplete):
             ColorPickerHost(
                 substance: substance,
                 remaining: remaining,
-                dismissAllOnComplete: dismissAllOnComplete
+                dismissAllOnComplete: dismissAllOnComplete,
             )
 
-        case .timeAdjust(let timestamp):
+        case let .timeAdjust(timestamp):
             EntryByTimestampView(timestamp: timestamp) { entry in
                 TimeAdjustHost(entry: entry)
             }
 
-        case .dailyDoseLog(let category):
+        case let .dailyDoseLog(category):
             LogMedicationsView(category: category)
 
         case .sourcePriority:
@@ -88,7 +88,7 @@ struct SheetRouteView: View {
                     .withCancellationCloseButton()
             }
 
-        case .personalizeSubstance(let name):
+        case let .personalizeSubstance(name):
             PersonalizeSubstanceHost(name: name)
 
         case .dailyDoseSettings,
@@ -141,8 +141,6 @@ private struct EntryByTimestampView<Content: View>: View {
     var body: some View {
         if let entry = lookup() {
             content(entry)
-        } else {
-            EmptyView()
         }
     }
 
@@ -150,7 +148,7 @@ private struct EntryByTimestampView<Content: View>: View {
         let lower = timestamp.addingTimeInterval(-2)
         let upper = timestamp.addingTimeInterval(2)
         var descriptor = FetchDescriptor<DoseEntry>(
-            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper }
+            predicate: #Predicate { $0.timestamp >= lower && $0.timestamp <= upper },
         )
         descriptor.sortBy = [SortDescriptor(\.timestamp)]
         return try? modelContext.fetch(descriptor).first
@@ -182,7 +180,7 @@ private struct ColorPickerHost: View {
             // sharing a hex don't crash here (build 11 TestFlight crash —
             // user had a duplicate-hex assignment and tapped "add new
             // substance", which hit `Dictionary(uniqueKeysWithValues:)`).
-            takenColors: Array(substanceColors).takenColorMap
+            takenColors: Array(substanceColors).takenColorMap,
         ) { hex in
             let color = SubstanceColor(substance: substance, hexColor: hex)
             modelContext.insert(color)
@@ -203,9 +201,9 @@ private struct ColorPickerHost: View {
                 .colorPicker(
                     substance: next,
                     remaining: Array(remaining.dropFirst()),
-                    dismissAllOnComplete: dismissAllOnComplete
+                    dismissAllOnComplete: dismissAllOnComplete,
                 ),
-                replacingTop: true
+                replacingTop: true,
             )
         } else if dismissAllOnComplete {
             navigator.dismissAll()
@@ -245,7 +243,7 @@ private struct TimeAdjustHost: View {
                 DatePicker(
                     "Time",
                     selection: $entry.timestamp,
-                    displayedComponents: [.date, .hourAndMinute]
+                    displayedComponents: [.date, .hourAndMinute],
                 )
             }
             .navigationTitle("Adjust Time")
@@ -273,7 +271,7 @@ private struct TimeAdjustHost: View {
         ActiveSessionManager.shared.refreshEditedEntry(
             previousTimestamp: original,
             entry: entry,
-            allColors: Array(substanceColors)
+            allColors: Array(substanceColors),
         )
     }
 }

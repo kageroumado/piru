@@ -45,7 +45,7 @@ private struct SheetLayer: ViewModifier {
                     // gone because their host went away).
                     navigator.truncateSheetStack(to: depth)
                 }
-            }
+            },
         )
     }
 }

@@ -3,7 +3,7 @@ import GRDB
 import Observation
 import os
 
-nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
+private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceStore")
 
 /// The multi-source substance store. Replaces ``SubstanceLibrary``.
 ///
@@ -34,7 +34,6 @@ nonisolated private let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 @MainActor
 @Observable
 final class SubstanceStore {
-
     // MARK: - Lifecycle
 
     static let shared = SubstanceStore()
@@ -175,7 +174,7 @@ final class SubstanceStore {
                     for row in defaults {
                         try db.execute(
                             sql: "INSERT INTO source_preferences(source_slug, priority, enabled) VALUES (?, ?, ?)",
-                            arguments: [row["slug"] as String, row["default_priority"] as Int, row["default_enabled"] as Int]
+                            arguments: [row["slug"] as String, row["default_priority"] as Int, row["default_enabled"] as Int],
                         )
                     }
                 }
@@ -195,7 +194,7 @@ final class SubstanceStore {
                 for row in bundledSources where !knownSet.contains(row["slug"] as String) {
                     try db.execute(
                         sql: "INSERT OR IGNORE INTO source_preferences(source_slug, priority, enabled) VALUES (?, ?, ?)",
-                        arguments: [row["slug"] as String, row["default_priority"] as Int, row["default_enabled"] as Int]
+                        arguments: [row["slug"] as String, row["default_priority"] as Int, row["default_enabled"] as Int],
                     )
                 }
             }
@@ -229,7 +228,7 @@ final class SubstanceStore {
                 for (idx, slug) in orderedSlugs.enumerated() {
                     try db.execute(
                         sql: "UPDATE source_preferences SET priority = ? WHERE source_slug = ?",
-                        arguments: [idx + 1, slug]
+                        arguments: [idx + 1, slug],
                     )
                 }
             }
@@ -247,7 +246,7 @@ final class SubstanceStore {
             try userPrefsDB.write { db in
                 try db.execute(
                     sql: "UPDATE source_preferences SET enabled = ? WHERE source_slug = ?",
-                    arguments: [enabled ? 1 : 0, slug]
+                    arguments: [enabled ? 1 : 0, slug],
                 )
             }
             reloadSourceOrder()
@@ -266,7 +265,7 @@ final class SubstanceStore {
                 try String.fetchOne(
                     db,
                     sql: "SELECT value FROM user_profile WHERE key = ?",
-                    arguments: [Self.userProfileKey]
+                    arguments: [Self.userProfileKey],
                 )
             }
             if let raw, let parsed = UserProfile(rawValue: raw) {
@@ -288,7 +287,7 @@ final class SubstanceStore {
                         INSERT INTO user_profile(key, value) VALUES (?, ?)
                         ON CONFLICT(key) DO UPDATE SET value = excluded.value
                     """,
-                    arguments: [Self.userProfileKey, profile.rawValue]
+                    arguments: [Self.userProfileKey, profile.rawValue],
                 )
             }
             userProfile = profile
@@ -306,7 +305,9 @@ final class SubstanceStore {
         let description: String?
         let priority: Int
         let enabled: Bool
-        var id: String { slug }
+        var id: String {
+            slug
+        }
     }
 
     func sourceStates() -> [SourceState] {
@@ -355,7 +356,9 @@ final class SubstanceStore {
                 logger.warning("buildIndexes: collapsed \(names.count - self.nameIndex.count) duplicate lowercased canonical name(s) in nameIndex")
             }
             var ax: [String: Int64] = [:]
-            for (alias, sid) in aliases where ax[alias] == nil { ax[alias] = sid }
+            for (alias, sid) in aliases where ax[alias] == nil {
+                ax[alias] = sid
+            }
             self.aliasIndex = ax
             self.sourceDisplayNames = Dictionary(displayNames, uniquingKeysWith: { first, _ in first })
         } catch {
@@ -408,7 +411,7 @@ final class SubstanceStore {
     /// sublingual second, intravenous mid-list, etc. — so substances default
     /// to the route a typical user would log first.
     private static let routeRanks: [RouteOfAdministration: Int] = Dictionary(
-        uniqueKeysWithValues: RouteOfAdministration.allCases.enumerated().map { ($1, $0) }
+        uniqueKeysWithValues: RouteOfAdministration.allCases.enumerated().map { ($1, $0) },
     )
     private static func routeRank(_ r: RouteOfAdministration) -> Int {
         routeRanks[r] ?? Int.max
@@ -418,11 +421,16 @@ final class SubstanceStore {
         guard !enabledSourceOrder.isEmpty else { return [] }
         do {
             return try substancesDB.read { db in
-                let allRows = try Row.fetchAll(db, sql:
-                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity FROM substances ORDER BY canonical_name COLLATE NOCASE")
+                let allRows = try Row.fetchAll(
+                    db,
+                    sql:
+                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity FROM substances ORDER BY canonical_name COLLATE NOCASE",
+                )
                 let ids: [Int64] = allRows.map { $0["id"] }
-                let names: [Int64: String] = Dictionary(uniqueKeysWithValues:
-                    allRows.map { ($0["id"], $0["canonical_name"] as String) })
+                let names: [Int64: String] = Dictionary(
+                    uniqueKeysWithValues:
+                    allRows.map { ($0["id"], $0["canonical_name"] as String) },
+                )
                 // Display-name overrides — browse rows show this as the title when set.
                 var displayNameByID: [Int64: String] = [:]
                 // Curated popularity scores — drives the category-browse sort.
@@ -445,8 +453,11 @@ final class SubstanceStore {
 
                 // Aliases — union across sources.
                 var aliasesByID: [Int64: [String]] = [:]
-                for row in try Row.fetchAll(db, sql:
-                    "SELECT substance_id, alias FROM aliases ORDER BY alias") {
+                for row in try Row.fetchAll(
+                    db,
+                    sql:
+                    "SELECT substance_id, alias FROM aliases ORDER BY alias",
+                ) {
                     let sid: Int64 = row["substance_id"]
                     aliasesByID[sid, default: []].append(row["alias"])
                 }
@@ -501,10 +512,10 @@ final class SubstanceStore {
                     let route: String = row["route"]
                     let dose = DoseRange(
                         threshold: row["threshold"],
-                        light:  self.rangeFrom(lower: row["light_lower"],  upper: row["light_upper"]),
+                        light: self.rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
                         common: self.rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
                         strong: self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
-                        heavy:  row["heavy"]
+                        heavy: row["heavy"],
                     )
                     dosesByKey[DoseKey(sid: sid, route: route)] = (row["unit"] ?? "mg", dose)
                 }
@@ -533,14 +544,14 @@ final class SubstanceStore {
                 for row in durationPhases {
                     let key = DoseKey(sid: row["substance_id"], route: row["route"])
                     phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
-                        min: row["min_minutes"], max: row["max_minutes"]
+                        min: row["min_minutes"], max: row["max_minutes"],
                     )
                 }
                 for (key, phases) in phasesByKey {
                     durationByKey[key] = DurationProfile(
                         onset: phases["onset"], comeup: phases["comeup"],
                         peak: phases["peak"], offset: phases["offset"],
-                        afterglow: phases["afterglow"], total: phases["total"]
+                        afterglow: phases["afterglow"], total: phases["total"],
                     )
                 }
 
@@ -602,7 +613,7 @@ final class SubstanceStore {
                         routes.append(SubstanceRoute(
                             route: RouteOfAdministration.from(string: key.route),
                             unit: value.unit, doses: value.doses,
-                            duration: durationByKey[key]
+                            duration: durationByKey[key],
                         ))
                     }
                     // Sort by RouteOfAdministration.allCases order so the
@@ -628,7 +639,7 @@ final class SubstanceStore {
                         displayClass: displayClassByID[sid] ?? .recreational,
                         regulatoryStatus: regulatoryByID[sid],
                         durationImplausible: durationImplausibleByID[sid] ?? false,
-                        popularity: popularityByID[sid] ?? 0
+                        popularity: popularityByID[sid] ?? 0,
                     )
                 }
             }
@@ -638,7 +649,9 @@ final class SubstanceStore {
         }
     }
 
-    var count: Int { allNames.count }
+    var count: Int {
+        allNames.count
+    }
 
     /// Substances in a single category. Uses the per-substance category
     /// resolver, so a substance whose categories differ across sources lands
@@ -655,7 +668,7 @@ final class SubstanceStore {
     /// Categories that have at least one browsable substance after resolution.
     var nonEmptyCategories: [SubstanceCategory] {
         if let cached = nonEmptyCategoriesCache { return cached }
-        let cats = Set(all.lazy.filter { $0.displayClass.surfacesInBrowse }.map(\.category))
+        let cats = Set(all.lazy.filter(\.displayClass.surfacesInBrowse).map(\.category))
         let result = SubstanceCategory.allCases.filter(cats.contains)
         nonEmptyCategoriesCache = result
         return result
@@ -691,7 +704,7 @@ final class SubstanceStore {
         if ranked.count > limit {
             ranked = Array(ranked.prefix(limit))
         }
-        if ranked.count < limit && q.count >= 4 {
+        if ranked.count < limit, q.count >= 4 {
             let needed = limit - ranked.count
             ranked.append(contentsOf: fuzzyMatch(q, excluding: seen, limit: needed))
         }
@@ -714,11 +727,11 @@ final class SubstanceStore {
         let a = Array(a), b = Array(b)
         if a.isEmpty { return b.count }
         if b.isEmpty { return a.count }
-        var prev = Array(0...b.count)
+        var prev = Array(0 ... b.count)
         var curr = [Int](repeating: 0, count: b.count + 1)
-        for i in 1...a.count {
+        for i in 1 ... a.count {
             curr[0] = i
-            for j in 1...b.count {
+            for j in 1 ... b.count {
                 let cost = a[i - 1] == b[j - 1] ? 0 : 1
                 curr[j] = min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost)
             }
@@ -729,7 +742,7 @@ final class SubstanceStore {
 
     // MARK: - Substance resolver (source-priority aware)
 
-    private func resolveSubstance(id: Int64, canonicalName fallbackName: String?) -> Substance? {
+    private func resolveSubstance(id: Int64, canonicalName _: String?) -> Substance? {
         let cacheKey = "\(id)"
         if let cached = resolvedCache[cacheKey] { return cached }
 
@@ -798,7 +811,7 @@ final class SubstanceStore {
                     popularity: popularity,
                     molarMass: molarMass,
                     peptideProfile: peptideProfile,
-                    references: references
+                    references: references,
                 )
             }
             if let resolved {
@@ -897,7 +910,7 @@ final class SubstanceStore {
         return DiazepamEquivalent(
             doseMg: row["dose_mg"],
             equivalentDiazepamMg: row["equivalent_diazepam_mg"],
-            displayText: row["display_text"]
+            displayText: row["display_text"],
         )
     }
 
@@ -934,7 +947,7 @@ final class SubstanceStore {
 
         // Surface protocol-dosing-only routes (peptides dosed on a schedule with
         // no trip-intensity ladder and no phase durations).
-        let alreadyHave = Set(resolved.map { $0.route })
+        let alreadyHave = Set(resolved.map(\.route))
         let protocolRows = try Row.fetchAll(db, sql: """
             SELECT route, unit FROM protocol_dosing p
               JOIN sources src ON src.id = p.source_id
@@ -970,8 +983,12 @@ final class SubstanceStore {
              LIMIT 60
         """, arguments: ["id": substanceID])
         return rows.map { r in
-            Citation(doi: r["doi"], pmid: (r["pmid"] as Int64?).map(Int.init),
-                     url: r["url"], title: r["title"])
+            Citation(
+                doi: r["doi"],
+                pmid: (r["pmid"] as Int64?).map(Int.init),
+                url: r["url"],
+                title: r["title"],
+            )
         }
     }
 
@@ -987,7 +1004,7 @@ final class SubstanceStore {
             storage = StorageRequirement(
                 temperature: temp,
                 lightSensitive: (row["storage_light_sensitive"] as Int64? ?? 0) != 0,
-                reconstitutedStabilityDays: row["reconstituted_stability_days"]
+                reconstitutedStabilityDays: row["reconstituted_stability_days"],
             )
         }
         let profile = PeptideProfile(
@@ -996,7 +1013,7 @@ final class SubstanceStore {
             typicalVialMg: row["typical_vial_mg"],
             reconstitutionSolvent: row["reconstitution_solvent"],
             storage: storage,
-            iuPerMg: row["iu_per_mg"]
+            iuPerMg: row["iu_per_mg"],
         )
         return profile.hasAnyValue ? profile : nil
     }
@@ -1022,7 +1039,7 @@ final class SubstanceStore {
             frequency: frequency,
             titration: titration,
             courseDuration: row["course_duration"],
-            notes: row["notes"]
+            notes: row["notes"],
         )
     }
 
@@ -1044,7 +1061,7 @@ final class SubstanceStore {
             light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
             common: rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
             strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
-            heavy: row["heavy"]
+            heavy: row["heavy"],
         )
 
         let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
@@ -1054,7 +1071,7 @@ final class SubstanceStore {
             unit: row["unit"] ?? "mg",
             doses: dose,
             duration: duration,
-            protocolDosing: protocolDosing
+            protocolDosing: protocolDosing,
         )
     }
 
@@ -1080,18 +1097,18 @@ final class SubstanceStore {
             phases[phase] = DurationRange(min: row["min_minutes"], max: row["max_minutes"])
         }
         return DurationProfile(
-            onset:     phases["onset"],
-            comeup:    phases["comeup"],
-            peak:      phases["peak"],
-            offset:    phases["offset"],
+            onset: phases["onset"],
+            comeup: phases["comeup"],
+            peak: phases["peak"],
+            offset: phases["offset"],
             afterglow: phases["afterglow"],
-            total:     phases["total"]
+            total: phases["total"],
         )
     }
 
     private func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
         guard let lo = lower, let hi = upper, lo <= hi else { return nil }
-        return lo...hi
+        return lo ... hi
     }
 
     private func resolvedHalfLife(db: Database, substanceID: Int64) throws -> Double? {
@@ -1152,7 +1169,7 @@ final class SubstanceStore {
             description: row?["description"] ?? "",
             primaryTargets: bindings.map(\.target),
             bindings: bindings,
-            references: []
+            references: [],
         )
     }
 
@@ -1196,14 +1213,14 @@ final class SubstanceStore {
         return ToleranceInfo(
             halfLife: row["half_life_days"],
             fullResetDays: row["full_reset_days"],
-            buildRate: row["build_rate"]
+            buildRate: row["build_rate"],
         )
     }
 
     private func citedSources(db: Database, substanceID: Int64) throws -> [String] {
         // Source attribution shown to the user: the set of source display
         // names that contributed any fact for this substance.
-        let slugs = try String.fetchAll(db, sql: """
+        try String.fetchAll(db, sql: """
             SELECT DISTINCT src.slug FROM (
                 SELECT source_id FROM categories WHERE substance_id = ?
                 UNION SELECT source_id FROM dose_ranges WHERE substance_id = ?
@@ -1216,7 +1233,6 @@ final class SubstanceStore {
             WHERE src.slug IN (\(enabledSourceListSQL))
             ORDER BY src.slug
         """, arguments: StatementArguments(Array(repeating: substanceID, count: 6) as [DatabaseValueConvertible]))
-        return slugs
     }
 
     // MARK: - Advanced search (Pharma Nerd surface)
@@ -1244,7 +1260,7 @@ final class SubstanceStore {
         target: String? = nil,
         kiNmAtMost: Double? = nil,
         substanceContains: String? = nil,
-        limit: Int = 200
+        limit: Int = 200,
     ) -> [BindingHit] {
         do {
             return try substancesDB.read { db in
@@ -1287,7 +1303,7 @@ final class SubstanceStore {
                         species: row["species"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
-                        pmid: row["pmid"]
+                        pmid: row["pmid"],
                     )
                 }
             }
@@ -1303,12 +1319,12 @@ final class SubstanceStore {
     /// view. Distinct from the substance-level `sources` list (which is just
     /// "every source that contributed anything") — this surfaces *which*
     /// source supplied a specific field after priority resolution.
-    struct RouteProvenance: Hashable, Sendable {
+    struct RouteProvenance: Hashable {
         let doseSource: String?
         let durationSource: String?
     }
 
-    struct SubstanceProvenance: Hashable, Sendable {
+    struct SubstanceProvenance: Hashable {
         let categorySource: String?
         let halfLifeSource: String?
         let mechanismSource: String?
@@ -1334,7 +1350,7 @@ final class SubstanceStore {
                            AND src.slug IN (\(enabledSourceListSQL))
                          ORDER BY \(priorityCaseSQL) ASC LIMIT 1
                     """,
-                    substanceID: substanceID
+                    substanceID: substanceID,
                 )
                 let halfLifeSource = try fieldSource(
                     db: db,
@@ -1345,7 +1361,7 @@ final class SubstanceStore {
                            AND src.slug IN (\(enabledSourceListSQL))
                          ORDER BY \(priorityCaseSQL) ASC LIMIT 1
                     """,
-                    substanceID: substanceID
+                    substanceID: substanceID,
                 )
                 let mechanismSource = try fieldSource(
                     db: db,
@@ -1356,7 +1372,7 @@ final class SubstanceStore {
                            AND src.slug IN (\(enabledSourceListSQL))
                          ORDER BY \(priorityCaseSQL) ASC LIMIT 1
                     """,
-                    substanceID: substanceID
+                    substanceID: substanceID,
                 )
 
                 let routes = try resolvedRoutes(db: db, substanceID: substanceID).map(\.route)
@@ -1373,7 +1389,7 @@ final class SubstanceStore {
                              ORDER BY \(priorityCaseSQL) ASC LIMIT 1
                         """,
                         substanceID: substanceID,
-                        extra: [route.rawValue]
+                        extra: [route.rawValue],
                     )
                     let durationSource = try fieldSource(
                         db: db,
@@ -1385,11 +1401,11 @@ final class SubstanceStore {
                              ORDER BY \(priorityCaseSQL) ASC LIMIT 1
                         """,
                         substanceID: substanceID,
-                        extra: [route.rawValue]
+                        extra: [route.rawValue],
                     )
                     routesBySource[route] = RouteProvenance(
                         doseSource: doseSource,
-                        durationSource: durationSource
+                        durationSource: durationSource,
                     )
                 }
 
@@ -1397,7 +1413,7 @@ final class SubstanceStore {
                     categorySource: categorySource,
                     halfLifeSource: halfLifeSource,
                     mechanismSource: mechanismSource,
-                    routesBySource: routesBySource
+                    routesBySource: routesBySource,
                 )
             }
         } catch {
@@ -1444,7 +1460,7 @@ final class SubstanceStore {
                         species: row["species"],
                         sourceSlug: row["source_slug"],
                         doi: row["doi"],
-                        pmid: row["pmid"]
+                        pmid: row["pmid"],
                     )
                 }
             }
@@ -1470,7 +1486,6 @@ final class SubstanceStore {
             }
         } catch { return [] }
     }
-
 }
 
 // MARK: - Static façade
@@ -1495,10 +1510,18 @@ final class SubstanceStore {
 /// authoritative.
 @MainActor
 enum SubstanceLibrary {
-    static var all: [Substance] { SubstanceStore.shared.all }
-    static var count: Int { SubstanceStore.shared.count }
-    static var nonEmptyCategories: [SubstanceCategory] { SubstanceStore.shared.nonEmptyCategories }
-    static func substances(in category: SubstanceCategory) -> [Substance] { SubstanceStore.shared.substances(in: category) }
+    static var all: [Substance] {
+        SubstanceStore.shared.all
+    }
+    static var count: Int {
+        SubstanceStore.shared.count
+    }
+    static var nonEmptyCategories: [SubstanceCategory] {
+        SubstanceStore.shared.nonEmptyCategories
+    }
+    static func substances(in category: SubstanceCategory) -> [Substance] {
+        SubstanceStore.shared.substances(in: category)
+    }
 
     static func lookup(_ name: String) -> Substance? {
         overlayCustom(library: SubstanceStore.shared.lookup(name), query: name)

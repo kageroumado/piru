@@ -3,81 +3,80 @@ import Testing
 
 @Suite("DurationProfile")
 struct DurationProfileTests {
-
     // MARK: - Estimated total minutes
 
-    @Test("Uses total when provided")
-    func totalOverridesPhases() {
+    @Test
+    func `Uses total when provided`() {
         let profile = DurationProfile(
             onset: DurationRange(min: 10, max: 20),
             comeup: DurationRange(min: 15, max: 25),
             peak: DurationRange(min: 60, max: 120),
             offset: DurationRange(min: 30, max: 60),
             afterglow: nil,
-            total: DurationRange(min: 180, max: 300)
+            total: DurationRange(min: 180, max: 300),
         )
         #expect(profile.estimatedTotalMinutes == 240) // (180+300)/2
     }
 
-    @Test("Sums phase midpoints when no total")
-    func sumsPhases() {
+    @Test
+    func `Sums phase midpoints when no total`() {
         let profile = DurationProfile(
-            onset: DurationRange(min: 10, max: 20),     // midpoint 15
-            comeup: DurationRange(min: 20, max: 30),    // midpoint 25
-            peak: DurationRange(min: 60, max: 120),     // midpoint 90
-            offset: DurationRange(min: 30, max: 60),    // midpoint 45
+            onset: DurationRange(min: 10, max: 20), // midpoint 15
+            comeup: DurationRange(min: 20, max: 30), // midpoint 25
+            peak: DurationRange(min: 60, max: 120), // midpoint 90
+            offset: DurationRange(min: 30, max: 60), // midpoint 45
             afterglow: DurationRange(min: 60, max: 120),
-            total: nil
+            total: nil,
         )
         #expect(profile.estimatedTotalMinutes == 175) // 15+25+90+45
     }
 
-    @Test("Afterglow is not included in estimated total")
-    func afterglowExcluded() {
+    @Test
+    func `Afterglow is not included in estimated total`() {
         let profile = DurationProfile(
-            onset: DurationRange(min: 10, max: 10),      // 10
-            comeup: DurationRange(min: 10, max: 10),     // 10
-            peak: DurationRange(min: 10, max: 10),       // 10
-            offset: DurationRange(min: 10, max: 10),     // 10
-            afterglow: DurationRange(min: 1000, max: 2000),
-            total: nil
+            onset: DurationRange(min: 10, max: 10), // 10
+            comeup: DurationRange(min: 10, max: 10), // 10
+            peak: DurationRange(min: 10, max: 10), // 10
+            offset: DurationRange(min: 10, max: 10), // 10
+            afterglow: DurationRange(min: 1_000, max: 2_000),
+            total: nil,
         )
         #expect(profile.estimatedTotalMinutes == 40)
     }
 
-    @Test("Some phases nil")
-    func somePhasesNil() {
+    @Test
+    func `Some phases nil`() {
         let profile = DurationProfile(
-            onset: DurationRange(min: 10, max: 20),     // midpoint 15
+            onset: DurationRange(min: 10, max: 20), // midpoint 15
             comeup: nil,
-            peak: DurationRange(min: 60, max: 120),     // midpoint 90
+            peak: DurationRange(min: 60, max: 120), // midpoint 90
             offset: nil,
             afterglow: nil,
-            total: nil
+            total: nil,
         )
         #expect(profile.estimatedTotalMinutes == 105) // 15+90
     }
 
-    @Test("All phases nil returns zero")
-    func allPhasesNil() {
+    @Test
+    func `All phases nil returns zero`() {
         let profile = DurationProfile(
             onset: nil, comeup: nil, peak: nil,
-            offset: nil, afterglow: nil, total: nil
+            offset: nil, afterglow: nil, total: nil,
         )
         #expect(profile.estimatedTotalMinutes == 0)
     }
 
     // MARK: - Phase boundaries
 
-    @Test("Phase boundaries accumulate correctly")
-    func phaseBoundaries() {
+    @Test
+    func `Phase boundaries accumulate correctly`() {
         let profile = DurationProfile(
-            onset: DurationRange(min: 10, max: 20),     // midpoint 15
-            comeup: DurationRange(min: 20, max: 30),    // midpoint 25
-            peak: DurationRange(min: 60, max: 120),     // midpoint 90
-            offset: DurationRange(min: 30, max: 60),    // midpoint 45
+            onset: DurationRange(min: 10, max: 20), // midpoint 15
+            comeup: DurationRange(min: 20, max: 30), // midpoint 25
+            peak: DurationRange(min: 60, max: 120), // midpoint 90
+            offset: DurationRange(min: 30, max: 60), // midpoint 45
             afterglow: DurationRange(min: 60, max: 120), // midpoint 90
-            total: nil
+            total: nil,
         )
         let b = profile.phaseBoundaries
         #expect(b.onsetEnd == 15)
@@ -87,15 +86,15 @@ struct DurationProfileTests {
         #expect(b.afterglowEnd == 265)
     }
 
-    @Test("Phase boundaries with nil phases")
-    func phaseBoundariesNilPhases() {
+    @Test
+    func `Phase boundaries with nil phases`() {
         let profile = DurationProfile(
             onset: nil,
             comeup: nil,
-            peak: DurationRange(min: 60, max: 120),     // midpoint 90
+            peak: DurationRange(min: 60, max: 120), // midpoint 90
             offset: nil,
             afterglow: nil,
-            total: nil
+            total: nil,
         )
         let b = profile.phaseBoundaries
         #expect(b.onsetEnd == 0)
@@ -105,11 +104,11 @@ struct DurationProfileTests {
         #expect(b.afterglowEnd == 90)
     }
 
-    @Test("All nil phases produce zero boundaries")
-    func allNilBoundaries() {
+    @Test
+    func `All nil phases produce zero boundaries`() {
         let profile = DurationProfile(
             onset: nil, comeup: nil, peak: nil,
-            offset: nil, afterglow: nil, total: nil
+            offset: nil, afterglow: nil, total: nil,
         )
         let b = profile.phaseBoundaries
         #expect(b.onsetEnd == 0)

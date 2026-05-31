@@ -12,7 +12,7 @@ struct CustomSubstancesListView: View {
                 ContentUnavailableView(
                     "No Custom Substances",
                     systemImage: "flask",
-                    description: Text("Custom substances you create will appear here. You can also create them from the Quick Log search.")
+                    description: Text("Custom substances you create will appear here. You can also create them from the Quick Log search."),
                 )
                 .listRowBackground(Color.clear)
             } else {

@@ -65,7 +65,7 @@ enum PlausibilityCheck {
                 severity: .warning,
                 detail: "category \(substance.category) on \(route.route) accepts \(bound.acceptableUnits.joined(separator: "/")); route uses \(route.unit) — verify not a unit-conversion slip.",
                 expected: bound.acceptableUnits.joined(separator: "/"),
-                actual: route.unit
+                actual: route.unit,
             ))
         }
 
@@ -73,8 +73,8 @@ enum PlausibilityCheck {
         // false-positive when the route uses µg but the values are correct.
         if let threshold = substance.routes
             .first(where: { $0.route == route.route })?.doses.threshold,
-           let thresholdInBoundUnit = convert(threshold, from: route.unit, to: bound.unit),
-           thresholdInBoundUnit < bound.minThreshold {
+            let thresholdInBoundUnit = convert(threshold, from: route.unit, to: bound.unit),
+            thresholdInBoundUnit < bound.minThreshold {
             let severity: AuditSeverity = (thresholdInBoundUnit * errorMultiple < bound.minThreshold) ? .error : .warning
             findings.append(AuditFinding(
                 substance: substance.name,
@@ -85,7 +85,7 @@ enum PlausibilityCheck {
                 severity: severity,
                 detail: "threshold \(format(threshold)) \(route.unit) (= \(format(thresholdInBoundUnit)) \(bound.unit)) below expected minimum \(format(bound.minThreshold)) \(bound.unit). \(bound.rationale)",
                 expected: ">= \(format(bound.minThreshold)) \(bound.unit)",
-                actual: "\(format(threshold)) \(route.unit)"
+                actual: "\(format(threshold)) \(route.unit)",
             ))
         }
 
@@ -102,7 +102,7 @@ enum PlausibilityCheck {
                 severity: severity,
                 detail: "heavy \(format(heavy)) \(route.unit) (= \(format(heavyInBoundUnit)) \(bound.unit)) above expected maximum \(format(bound.maxHeavy)) \(bound.unit). \(bound.rationale)",
                 expected: "<= \(format(bound.maxHeavy)) \(bound.unit)",
-                actual: "\(format(heavy)) \(route.unit)"
+                actual: "\(format(heavy)) \(route.unit)",
             ))
         }
 
@@ -114,7 +114,7 @@ enum PlausibilityCheck {
     /// Convert a mass amount between µg/mg/g. Returns `nil` for non-mass units
     /// (mL, IU, etc.), which skips out-of-bounds comparison for those routes.
     private static func convert(_ amount: Double, from src: String, to dst: String) -> Double? {
-        let toMg: [String: Double] = ["µg": 0.001, "ug": 0.001, "mg": 1, "g": 1000]
+        let toMg: [String: Double] = ["µg": 0.001, "ug": 0.001, "mg": 1, "g": 1_000]
         let srcKey = src.lowercased(), dstKey = dst.lowercased()
         guard let s = toMg[srcKey], let d = toMg[dstKey] else { return nil }
         if srcKey == dstKey { return amount }

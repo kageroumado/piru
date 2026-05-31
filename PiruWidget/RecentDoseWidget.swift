@@ -35,15 +35,15 @@ struct RecentDoseEntry: TimelineEntry {
 // MARK: - Provider
 
 struct RecentDoseProvider: TimelineProvider {
-    func placeholder(in context: Context) -> RecentDoseEntry {
-        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", route: "Oral", doseTime: .now.addingTimeInterval(-3600), colorHex: "F57878")
+    func placeholder(in _: Context) -> RecentDoseEntry {
+        RecentDoseEntry(date: .now, substance: "Caffeine", amount: 200, unit: "mg", route: "Oral", doseTime: .now.addingTimeInterval(-3_600), colorHex: "F57878")
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (RecentDoseEntry) -> Void) {
+    func getSnapshot(in _: Context, completion: @escaping (RecentDoseEntry) -> Void) {
         completion(fetchEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<RecentDoseEntry>) -> Void) {
+    func getTimeline(in _: Context, completion: @escaping (Timeline<RecentDoseEntry>) -> Void) {
         let entry = fetchEntry()
         // Update every 15 minutes so the "ago" text stays fresh
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: .now)!
@@ -56,7 +56,7 @@ struct RecentDoseProvider: TimelineProvider {
         let container: ModelContainer
         do {
             guard let groupURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroupID
+                forSecurityApplicationGroupIdentifier: Self.appGroupID,
             ) else {
                 return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
             }
@@ -65,7 +65,7 @@ struct RecentDoseProvider: TimelineProvider {
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
                 DailyDoseItem.self, FavoriteSubstance.self,
-                configurations: config
+                configurations: config,
             )
         } catch {
             return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
@@ -73,7 +73,7 @@ struct RecentDoseProvider: TimelineProvider {
         let context = ModelContext(container)
 
         var descriptor = FetchDescriptor<DoseEntry>(
-            sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+            sortBy: [SortDescriptor(\.timestamp, order: .reverse)],
         )
         descriptor.fetchLimit = 1
 
@@ -88,8 +88,10 @@ struct RecentDoseProvider: TimelineProvider {
 
         // Apply a personal display-name override (e.g. THC → "joint") from the
         // lightweight app-group map the main app maintains.
-        let displayNames = (UserDefaults(suiteName: Self.appGroupID)?
-            .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String]) ?? [:]
+        let displayNames = (
+            UserDefaults(suiteName: Self.appGroupID)?
+                .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
+        ) ?? [:]
         let shownSubstance = displayNames[entry.substance.lowercased()] ?? entry.substance
 
         return RecentDoseEntry(
@@ -99,7 +101,7 @@ struct RecentDoseProvider: TimelineProvider {
             unit: entry.unit,
             route: entry.route.displayName,
             doseTime: entry.timestamp,
-            colorHex: hex
+            colorHex: hex,
         )
     }
 }

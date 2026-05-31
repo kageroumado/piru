@@ -11,7 +11,9 @@ enum DoseFrequency: String, Codable, CaseIterable, Identifiable {
     case monthly
     case specificDays
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var displayName: LocalizedStringResource {
         switch self {
@@ -106,7 +108,7 @@ final class DailyDoseItem {
         category: String = "",
         frequency: DoseFrequency = .daily,
         frequencyDays: [Int] = [],
-        startDate: Date = .distantPast
+        startDate: Date = .distantPast,
     ) {
         self.substance = substance
         self.amount = amount

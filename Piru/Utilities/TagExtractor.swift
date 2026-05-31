@@ -20,6 +20,6 @@ enum TagExtractor {
     /// Common tag suggestions for quick access
     static let suggestions = [
         "headache", "anxiety", "sleep", "pain", "nausea",
-        "mood", "energy", "focus", "relax", "appetite"
+        "mood", "energy", "focus", "relax", "appetite",
     ]
 }

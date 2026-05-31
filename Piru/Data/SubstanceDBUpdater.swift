@@ -1,9 +1,9 @@
-import Foundation
 import CryptoKit
+import Foundation
 import Observation
 import os
 
-nonisolated private let updaterLogger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceDBUpdater")
+private nonisolated let updaterLogger = Logger(subsystem: "dev.yumeji.piru", category: "SubstanceDBUpdater")
 
 /// Manifest-driven, opt-in updater for the bundled substance database.
 ///
@@ -40,7 +40,6 @@ nonisolated private let updaterLogger = Logger(subsystem: "dev.yumeji.piru", cat
 @MainActor
 @Observable
 final class SubstanceDBUpdater {
-
     static let shared = SubstanceDBUpdater()
 
     /// The base URL of the project's GitHub raw mirror. Read from Info.plist
@@ -202,9 +201,9 @@ final class SubstanceDBUpdater {
     /// tested directly.
     static func sqliteURL(manifestURL: URL, manifest: SubstanceDBManifest) -> URL {
         let repoRoot = manifestURL
-            .deletingLastPathComponent()  // .../Piru/Data
-            .deletingLastPathComponent()  // .../Piru
-            .deletingLastPathComponent()  // .../
+            .deletingLastPathComponent() // .../Piru/Data
+            .deletingLastPathComponent() // .../Piru
+            .deletingLastPathComponent() // .../
         return repoRoot.appendingPathComponent(manifest.sqlitePath)
     }
 
@@ -309,14 +308,14 @@ final class SubstanceDBUpdater {
             sqlitePath: "",
             sqliteSha256: "",
             sqliteSizeBytes: 0,
-            releaseNotes: ""
+            releaseNotes: "",
         )
     }
 }
 
 // MARK: - Hex helpers
 
-extension Sequence where Element == UInt8 {
+extension Sequence<UInt8> {
     /// Lowercase hex encoding of a byte sequence. Replaces the
     /// `map { String(format: "%02x", $0) }.joined()` idiom Foundation never
     /// shipped a first-class encoder for.
@@ -334,12 +333,12 @@ enum UpdaterError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .httpStatus(let code):
-            return "Server returned HTTP \(code)."
-        case .checksumMismatch(let expected, let actual):
-            return "Downloaded database failed integrity check (expected \(expected.prefix(12))…, got \(actual.prefix(12))…)."
-        case .diskWrite(let reason):
-            return "Couldn't write the downloaded database: \(reason)"
+        case let .httpStatus(code):
+            "Server returned HTTP \(code)."
+        case let .checksumMismatch(expected, actual):
+            "Downloaded database failed integrity check (expected \(expected.prefix(12))…, got \(actual.prefix(12))…)."
+        case let .diskWrite(reason):
+            "Couldn't write the downloaded database: \(reason)"
         }
     }
 }

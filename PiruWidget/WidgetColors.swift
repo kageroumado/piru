@@ -19,7 +19,7 @@ struct WidgetBackground: View {
                     WidgetColors.backgroundGradientBottom,
                 ],
                 startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                endPoint: .bottomTrailing,
             )
         } else {
             Color(.systemBackground)

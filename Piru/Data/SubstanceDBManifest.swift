@@ -7,7 +7,7 @@ import Foundation
 /// fetches the remote copy from the project's GitHub raw URL to see whether
 /// an update is available. The `sqlite_sha256` is the integrity check applied
 /// after a downloaded DB lands on disk.
-struct SubstanceDBManifest: Codable, Equatable, Hashable, Sendable {
+struct SubstanceDBManifest: Codable, Equatable, Hashable {
     /// Schema version of the manifest itself. Increment when fields change in
     /// a backwards-incompatible way; the app refuses to apply manifests with
     /// a schema_version higher than it understands.

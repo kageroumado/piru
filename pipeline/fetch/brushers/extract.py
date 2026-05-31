@@ -16,6 +16,7 @@ Paths (override with env vars):
   PIRU_DATASOURCES — raw input dir   (default ~/Developer/piru-datasources)
   PIRU_EXTERNAL_DIR — JSON output dir (default /tmp/piru-extract; must match sqlite.py)
 """
+
 from __future__ import annotations
 
 import csv
@@ -112,9 +113,20 @@ def dur_range(text):
     return {"min": lo, "max": hi}
 
 
-def substance(name, *, aliases=None, category="Other", default_route="oral",
-              routes=None, effects=None, half_life_minutes=None,
-              mechanism=None, sources=None, tags=None, **ext):
+def substance(
+    name,
+    *,
+    aliases=None,
+    category="Other",
+    default_route="oral",
+    routes=None,
+    effects=None,
+    half_life_minutes=None,
+    mechanism=None,
+    sources=None,
+    tags=None,
+    **ext,
+):
     """Build one Substance-shaped record + x_* extensions (dropping empties)."""
     rec = {
         "name": name,
@@ -157,6 +169,7 @@ def write_out(name, records, meta):
 # ---------------------------------------------------------------------------
 # benzos-cited.json  — TripSit-shaped, full dose + duration
 # ---------------------------------------------------------------------------
+
 
 def extract_benzos():
     data = json.loads((DS / "benzos-cited.json").read_text())
@@ -204,11 +217,23 @@ def extract_benzos():
                 strong=cr(s_lo, s_hi),
                 heavy=h_lo,
             )
-            routes.append({"route": route, "unit": unit, "doses": doses,
-                           **({"duration": duration} if duration else {})})
+            routes.append(
+                {
+                    "route": route,
+                    "unit": unit,
+                    "doses": doses,
+                    **({"duration": duration} if duration else {}),
+                }
+            )
         if not routes:
-            routes = [{"route": "oral", "unit": route_unit, "doses": {},
-                       **({"duration": duration} if duration else {})}]
+            routes = [
+                {
+                    "route": "oral",
+                    "unit": route_unit,
+                    "doses": {},
+                    **({"duration": duration} if duration else {}),
+                }
+            ]
 
         effects = e.get("formatted_effects") or []
         if not effects and props.get("effects"):
@@ -217,27 +242,29 @@ def extract_benzos():
         sources = (e.get("sources") or {}).get("_general") or []
         tags = sorted({c.lower() for c in categories})
 
-        out.append(substance(
-            name,
-            aliases=aliases,
-            category=category,
-            default_route=routes[0]["route"],
-            routes=routes,
-            effects=effects,
-            sources=sources,
-            tags=tags,
-            source="benzos-cited",
-            source_id=str((e.get("_id") or {}).get("$oid", "")),
-            diazepam_equivalent_value=e.get("diazvalue"),
-            dose_to_diazepam=props.get("dose_to_diazepam"),
-            bioavailability=props.get("bioavailability"),
-            summary=(props.get("summary") or "").strip(),
-            avoid=(props.get("avoid") or "").strip(),
-            tolerance=props.get("tolerance"),
-            after_effects=props.get("after-effects"),
-            dose_note=(e.get("dose_note") or "").strip(),
-            pw_effect_links=e.get("pweffects") or None,
-        ))
+        out.append(
+            substance(
+                name,
+                aliases=aliases,
+                category=category,
+                default_route=routes[0]["route"],
+                routes=routes,
+                effects=effects,
+                sources=sources,
+                tags=tags,
+                source="benzos-cited",
+                source_id=str((e.get("_id") or {}).get("$oid", "")),
+                diazepam_equivalent_value=e.get("diazvalue"),
+                dose_to_diazepam=props.get("dose_to_diazepam"),
+                bioavailability=props.get("bioavailability"),
+                summary=(props.get("summary") or "").strip(),
+                avoid=(props.get("avoid") or "").strip(),
+                tolerance=props.get("tolerance"),
+                after_effects=props.get("after-effects"),
+                dose_note=(e.get("dose_note") or "").strip(),
+                pw_effect_links=e.get("pweffects") or None,
+            )
+        )
     return out
 
 
@@ -251,6 +278,7 @@ def _fmt_dur(d):
 # ---------------------------------------------------------------------------
 # pyrls — clinical pharma reference (no recreational dose)
 # ---------------------------------------------------------------------------
+
 
 def _txt(x):
     """pyrls list entries are sometimes plain strings, sometimes {text, moreInfo}."""
@@ -273,41 +301,53 @@ def extract_pyrls():
         route = piru_route(delivery) or "oral"
         pharm = di.get("pharmacology") or {}
         mech_text = strip_html(pharm.get("mechanism"))
-        mechanism = ({"summary": mech_text, "description": mech_text, "references": []}
-                     if mech_text else None)
-        indications = [strip_html(_txt(x)) for x in ((di.get("indications") or {}).get("labeled") or [])]
-        contras = [strip_html(_txt(x)) for x in ((di.get("contraindications") or {}).get("labeled") or [])]
+        mechanism = (
+            {"summary": mech_text, "description": mech_text, "references": []}
+            if mech_text
+            else None
+        )
+        indications = [
+            strip_html(_txt(x)) for x in ((di.get("indications") or {}).get("labeled") or [])
+        ]
+        contras = [
+            strip_html(_txt(x)) for x in ((di.get("contraindications") or {}).get("labeled") or [])
+        ]
         boxed = [strip_html(_txt(x)) for x in (di.get("boxedWarning") or [])]
         reg = e.get("regulatoryStatus") or {}
-        reg_str = "; ".join((reg.get("labels") or []) + ([reg.get("description")] if reg.get("description") else []))
+        reg_str = "; ".join(
+            (reg.get("labels") or []) + ([reg.get("description")] if reg.get("description") else [])
+        )
         tags = sorted({*(l.lower() for l in labels), (e.get("dosageForm") or "").lower()} - {""})
 
-        out.append(substance(
-            name,
-            aliases=brands,
-            category=piru_category(labels),
-            default_route=route,
-            routes=[{"route": route, "unit": "", "doses": {}}],
-            effects=[],
-            mechanism=mechanism,
-            tags=tags,
-            source="pyrls",
-            source_id=str((e.get("_id") or {}).get("$oid", "")),
-            raw_classes=labels,
-            brand_names=brands,
-            indications=indications,
-            contraindications=contras,
-            boxed_warning=boxed,
-            regulatory_status=reg_str,
-            dosage_form=e.get("dosageForm"),
-            delivery=delivery,
-        ))
+        out.append(
+            substance(
+                name,
+                aliases=brands,
+                category=piru_category(labels),
+                default_route=route,
+                routes=[{"route": route, "unit": "", "doses": {}}],
+                effects=[],
+                mechanism=mechanism,
+                tags=tags,
+                source="pyrls",
+                source_id=str((e.get("_id") or {}).get("$oid", "")),
+                raw_classes=labels,
+                brand_names=brands,
+                indications=indications,
+                contraindications=contras,
+                boxed_warning=boxed,
+                regulatory_status=reg_str,
+                dosage_form=e.get("dosageForm"),
+                delivery=delivery,
+            )
+        )
     return out
 
 
 # ---------------------------------------------------------------------------
 # medtap — FDA structured product labels (dedup by target/unii/generic)
 # ---------------------------------------------------------------------------
+
 
 def _first(v):
     if isinstance(v, list):
@@ -323,7 +363,7 @@ def _section(sections, names):
         c = sec.get("content")
         if isinstance(c, dict) and c.get("text"):
             parts.append(c["text"])
-        for piece in (sec.get("content_full") or []):
+        for piece in sec.get("content_full") or []:
             if isinstance(piece, dict) and piece.get("text"):
                 parts.append(piece["text"])
         txt = strip_html(" ".join(parts))
@@ -369,41 +409,46 @@ def extract_medtap():
         classes = [c for c in classes_by[key] if c and c.upper() != "OTHER"]
         route_str = e.get("route")
         routes_mapped = []
-        for c in (route_str if isinstance(route_str, list) else [route_str]):
+        for c in route_str if isinstance(route_str, list) else [route_str]:
             r = piru_route(c)
             if r and r not in routes_mapped:
                 routes_mapped.append(r)
         default_route = routes_mapped[0] if routes_mapped else "oral"
         sections = e.get("sections") or []
         pharm = _section(sections, {"Pharmacology"})
-        mechanism = ({"summary": pharm, "description": pharm, "references": []} if pharm else None)
+        mechanism = {"summary": pharm, "description": pharm, "references": []} if pharm else None
         indications = _section(sections, {"Indications"})
         contras = _section(sections, {"Contraindications/Cautions", "Contraindications"})
         rx = _first(e.get("rx")).upper()
         reg = "OTC" if "OTC" in rx else ("Rx" if "PRESCRIPTION" in rx else _first(e.get("rx")))
         combo = ingredients_by[key]
 
-        out.append(substance(
-            name,
-            aliases=sorted(set(aliases_by[key])),
-            category=piru_category(classes),
-            default_route=default_route,
-            routes=[{"route": r, "unit": "", "doses": {}} for r in (routes_mapped or [default_route])],
-            effects=[],
-            mechanism=mechanism,
-            tags=sorted({c.lower() for c in classes}),
-            source="medtap",
-            source_id=str((e.get("_id") or {}).get("$oid", "")),
-            unii=_first(e.get("unii")),
-            ndc=e.get("ndc"),
-            raw_classes=classes,
-            brand_names=sorted(set(aliases_by[key])),
-            indications=indications,
-            contraindications=contras,
-            regulatory_status=reg,
-            is_combination=bool(combo and len(combo) > 1),
-            ingredients=combo if (combo and len(combo) > 1) else None,
-        ))
+        out.append(
+            substance(
+                name,
+                aliases=sorted(set(aliases_by[key])),
+                category=piru_category(classes),
+                default_route=default_route,
+                routes=[
+                    {"route": r, "unit": "", "doses": {}}
+                    for r in (routes_mapped or [default_route])
+                ],
+                effects=[],
+                mechanism=mechanism,
+                tags=sorted({c.lower() for c in classes}),
+                source="medtap",
+                source_id=str((e.get("_id") or {}).get("$oid", "")),
+                unii=_first(e.get("unii")),
+                ndc=e.get("ndc"),
+                raw_classes=classes,
+                brand_names=sorted(set(aliases_by[key])),
+                indications=indications,
+                contraindications=contras,
+                regulatory_status=reg,
+                is_combination=bool(combo and len(combo) > 1),
+                ingredients=combo if (combo and len(combo) > 1) else None,
+            )
+        )
     return out
 
 
@@ -412,16 +457,30 @@ def extract_medtap():
 # ---------------------------------------------------------------------------
 
 NPS_POS = {  # blank/duplicate headers -> fixed indices (match brush_nps.py)
-    "pk": 0, "structure": 2, "names": 4, "syn1": 5, "syn2": 6,
-    "iupac": 7, "abbr": 8, "hierarchy": 9, "type": 21, "tags": 133, "uuid": 138,
+    "pk": 0,
+    "structure": 2,
+    "names": 4,
+    "syn1": 5,
+    "syn2": 6,
+    "iupac": 7,
+    "abbr": 8,
+    "hierarchy": 9,
+    "type": 21,
+    "tags": 133,
+    "uuid": 138,
 }
 
 
 def _resolve_nps_cols(header):
     cols = dict(NPS_POS)
-    for label, key in [("Chemical formula", "formula"), ("CAS No.", "cas"),
-                       ("SMILES", "smiles"), ("InChIKey", "inchikey"),
-                       ("InChI", "inchi"), ("MW", "mw")]:
+    for label, key in [
+        ("Chemical formula", "formula"),
+        ("CAS No.", "cas"),
+        ("SMILES", "smiles"),
+        ("InChIKey", "inchikey"),
+        ("InChI", "inchi"),
+        ("MW", "mw"),
+    ]:
         for i, h in enumerate(header):
             if h == label:
                 cols[key] = i
@@ -433,11 +492,16 @@ def _derive_nps_category(tags):
     pool = " ".join(tags).lower()
     table = [
         ("cannabinoid", "Cannabinoid"),
-        ("phenethylamine", "Stimulant"), ("amphetamin", "Stimulant"), ("cathinone", "Stimulant"),
-        ("tryptamine", "Psychedelic"), ("lysergamide", "Psychedelic"),
-        ("arylcyclohexylamine", "Dissociative"), ("dissociativ", "Dissociative"),
+        ("phenethylamine", "Stimulant"),
+        ("amphetamin", "Stimulant"),
+        ("cathinone", "Stimulant"),
+        ("tryptamine", "Psychedelic"),
+        ("lysergamide", "Psychedelic"),
+        ("arylcyclohexylamine", "Dissociative"),
+        ("dissociativ", "Dissociative"),
         ("benzodiazepine", "Benzodiazepine"),
-        ("opioid", "Opioid"), ("fentanyl", "Opioid"),
+        ("opioid", "Opioid"),
+        ("fentanyl", "Opioid"),
         ("piperazine", "Empathogen"),
     ]
     for needle, cat in table:
@@ -472,33 +536,40 @@ def extract_nps():
             if k in seen:
                 continue
             seen.add(k)
-            tags_raw = [t.strip() for t in (row[C["tags"]] or "").split(";")
-                        if t.strip() and len(t.strip()) <= 80]
-            aliases = sorted({a.strip() for a in (row[C["syn1"]], row[C["syn2"]], row[C["abbr"]]) if a.strip()})
+            tags_raw = [
+                t.strip()
+                for t in (row[C["tags"]] or "").split(";")
+                if t.strip() and len(t.strip()) <= 80
+            ]
+            aliases = sorted(
+                {a.strip() for a in (row[C["syn1"]], row[C["syn2"]], row[C["abbr"]]) if a.strip()}
+            )
             type_str = row[C["type"]].strip()
             hierarchy = row[C["hierarchy"]].strip()
             tags = sorted({*(t.lower() for t in tags_raw), type_str.lower()} - {""})
-            out.append(substance(
-                name,
-                aliases=aliases,
-                category=_derive_nps_category(tags_raw),
-                default_route="other",
-                routes=[],
-                effects=[],
-                tags=tags,
-                source="nps-datahub",
-                source_id=row[C["uuid"]].strip() or row[C["pk"]].strip(),
-                cas=row[C["cas"]].strip() if "cas" in C else "",
-                chemical_formula=row[C["formula"]].strip() if "formula" in C else "",
-                smiles=row[C["smiles"]].strip() if "smiles" in C else "",
-                inchi=row[C["inchi"]].strip() if "inchi" in C else "",
-                inchikey=row[C["inchikey"]].strip() if "inchikey" in C else "",
-                iupac=row[C["iupac"]].strip(),
-                mw=row[C["mw"]].strip() if "mw" in C else "",
-                type=type_str,
-                hierarchy=hierarchy,
-                raw_classes=tags_raw,
-            ))
+            out.append(
+                substance(
+                    name,
+                    aliases=aliases,
+                    category=_derive_nps_category(tags_raw),
+                    default_route="other",
+                    routes=[],
+                    effects=[],
+                    tags=tags,
+                    source="nps-datahub",
+                    source_id=row[C["uuid"]].strip() or row[C["pk"]].strip(),
+                    cas=row[C["cas"]].strip() if "cas" in C else "",
+                    chemical_formula=row[C["formula"]].strip() if "formula" in C else "",
+                    smiles=row[C["smiles"]].strip() if "smiles" in C else "",
+                    inchi=row[C["inchi"]].strip() if "inchi" in C else "",
+                    inchikey=row[C["inchikey"]].strip() if "inchikey" in C else "",
+                    iupac=row[C["iupac"]].strip(),
+                    mw=row[C["mw"]].strip() if "mw" in C else "",
+                    type=type_str,
+                    hierarchy=hierarchy,
+                    raw_classes=tags_raw,
+                )
+            )
     return out
 
 

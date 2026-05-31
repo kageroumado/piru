@@ -21,7 +21,7 @@ struct LockScreenView: View {
     private var latestEnd: Date {
         substances.map { sub in
             sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60)
-        }.max() ?? context.state.lastUpdated.addingTimeInterval(3600)
+        }.max() ?? context.state.lastUpdated.addingTimeInterval(3_600)
     }
 
     private var substanceColors: [Color] {
@@ -38,14 +38,14 @@ struct LockScreenView: View {
                 substances: substances,
                 currentTime: context.state.lastUpdated,
                 compact: true,
-                stackRedoses: stackRedoses
+                stackRedoses: stackRedoses,
             )
             .frame(height: 80)
 
             // Gradient progress bar that auto-fills
             ProgressView(
-                timerInterval: earliestDose...latestEnd,
-                countsDown: false
+                timerInterval: earliestDose ... latestEnd,
+                countsDown: false,
             ) {
                 EmptyView()
             } currentValueLabel: {
@@ -55,8 +55,8 @@ struct LockScreenView: View {
                 LinearGradient(
                     colors: substanceColors,
                     startPoint: .leading,
-                    endPoint: .trailing
-                )
+                    endPoint: .trailing,
+                ),
             )
 
             // Time passed since first dose
@@ -92,7 +92,7 @@ struct ExpandedTrailingView: View {
     private var latestEnd: Date {
         context.state.activeSubstances.map { sub in
             sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60)
-        }.max() ?? context.state.lastUpdated.addingTimeInterval(3600)
+        }.max() ?? context.state.lastUpdated.addingTimeInterval(3_600)
     }
 
     var body: some View {
@@ -113,7 +113,7 @@ struct ExpandedBottomView: View {
             substances: context.state.activeSubstances,
             currentTime: context.state.lastUpdated,
             compact: true,
-            stackRedoses: stackRedoses
+            stackRedoses: stackRedoses,
         )
         .frame(height: 50)
     }
@@ -132,7 +132,7 @@ struct PillClockIcon: View {
                 .frame(width: 9, height: 9)
                 .overlay(
                     Image(systemName: "clock")
-                        .font(.system(size: 6, weight: .medium))
+                        .font(.system(size: 6, weight: .medium)),
                 )
                 .offset(x: 3, y: 1)
         }
@@ -168,7 +168,7 @@ private struct DeclineCurveShape: Shape {
         path.addCurve(
             to: CGPoint(x: w * 0.92, y: h * 0.88),
             control1: CGPoint(x: w * 0.2, y: h * 0.15),
-            control2: CGPoint(x: w * 0.55, y: h * 0.85)
+            control2: CGPoint(x: w * 0.55, y: h * 0.85),
         )
 
         return path
@@ -200,7 +200,7 @@ struct CompactTrailingView: View {
     private var latestEnd: Date {
         context.state.activeSubstances.map { sub in
             sub.doseTimestamp.addingTimeInterval(sub.totalMinutes * 60)
-        }.max() ?? context.state.lastUpdated.addingTimeInterval(3600)
+        }.max() ?? context.state.lastUpdated.addingTimeInterval(3_600)
     }
 
     var body: some View {
@@ -217,8 +217,8 @@ struct CompactTrailingView: View {
 
 private func elapsedString(from start: Date, to now: Date) -> String {
     let seconds = max(0, Int(now.timeIntervalSince(start)))
-    let hours = seconds / 3600
-    let minutes = (seconds % 3600) / 60
+    let hours = seconds / 3_600
+    let minutes = (seconds % 3_600) / 60
     return hours > 0
         ? String(localized: "\(hours)h \(minutes)m")
         : String(localized: "\(minutes)m")
@@ -226,8 +226,8 @@ private func elapsedString(from start: Date, to now: Date) -> String {
 
 private func remainingString(from now: Date, to end: Date) -> String {
     let seconds = max(0, Int(end.timeIntervalSince(now)))
-    let hours = seconds / 3600
-    let minutes = (seconds % 3600) / 60
+    let hours = seconds / 3_600
+    let minutes = (seconds % 3_600) / 60
     return hours > 0
         ? String(localized: "\(hours)h \(minutes)m")
         : String(localized: "\(minutes)m")

@@ -40,7 +40,7 @@ enum MonotonicityCheck {
         if let v = d.heavy { rungs.append(("heavy", v)) }
 
         guard rungs.count >= 2 else { return findings }
-        for i in 1..<rungs.count {
+        for i in 1 ..< rungs.count {
             let prev = rungs[i - 1]
             let curr = rungs[i]
             if curr.value < prev.value {
@@ -53,7 +53,7 @@ enum MonotonicityCheck {
                     severity: .error,
                     detail: "\(curr.label) (\(format(curr.value)) \(route.unit)) < \(prev.label) (\(format(prev.value)) \(route.unit))",
                     expected: "\(curr.label) >= \(prev.label)",
-                    actual: "\(format(curr.value)) < \(format(prev.value))"
+                    actual: "\(format(curr.value)) < \(format(prev.value))",
                 ))
             }
         }

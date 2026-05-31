@@ -43,7 +43,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
         doses: DoseRange? = nil,
         duration: DurationProfile? = nil,
         halfLifeMinutes: Double? = nil,
-        createdAt: Date = .now
+        createdAt: Date = .now,
     ) {
         self.id = id
         self.name = name
@@ -59,7 +59,17 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, name, displayName, category, defaultRoute, unit, notes, doses, duration, halfLifeMinutes, createdAt
+        case id
+        case name
+        case displayName
+        case category
+        case defaultRoute
+        case unit
+        case notes
+        case doses
+        case duration
+        case halfLifeMinutes
+        case createdAt
     }
 
     init(from decoder: Decoder) throws {
@@ -96,7 +106,7 @@ struct CustomSubstanceEntry: Codable, Identifiable, Hashable {
             routes: [SubstanceRoute(route: defaultRoute, unit: unit, doses: doses ?? DoseRange(), duration: duration)],
             effects: [],
             halfLifeMinutes: halfLifeMinutes,
-            sources: [Self.userDefinedSource]
+            sources: [Self.userDefinedSource],
         )
     }
 
@@ -134,14 +144,14 @@ extension Substance {
                 route: existing.route,
                 unit: existing.unit,
                 doses: custom.doses ?? existing.doses,
-                duration: custom.duration ?? existing.duration
+                duration: custom.duration ?? existing.duration,
             )
         } else if custom.doses != nil || custom.duration != nil {
             updatedRoutes.append(SubstanceRoute(
                 route: custom.defaultRoute,
                 unit: custom.unit,
                 doses: custom.doses ?? DoseRange(),
-                duration: custom.duration
+                duration: custom.duration,
             ))
         }
 
@@ -173,7 +183,7 @@ extension Substance {
             inchikey: inchikey,
             formula: formula,
             pubchemCID: pubchemCID,
-            popularity: popularity
+            popularity: popularity,
         )
     }
 }
@@ -306,7 +316,7 @@ final class CustomSubstanceStore {
                 guard let dn = entry.displayName?.trimmingCharacters(in: .whitespaces), !dn.isEmpty else { return nil }
                 return (entry.name.lowercased(), dn)
             },
-            uniquingKeysWith: { first, _ in first }
+            uniquingKeysWith: { first, _ in first },
         )
         defaults.set(displayMap, forKey: Self.displayNameMapKey)
     }

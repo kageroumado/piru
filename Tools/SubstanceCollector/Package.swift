@@ -12,7 +12,7 @@ let package = Package(
             name: "SubstanceCollector",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ]
+            ],
         ),
-    ]
+    ],
 )

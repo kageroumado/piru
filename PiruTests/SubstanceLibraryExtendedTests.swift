@@ -3,41 +3,40 @@ import Testing
 
 @Suite("SubstanceLibrary Extended")
 struct SubstanceLibraryExtendedTests {
-
     // MARK: - lookupByNameOrAlias
 
-    @Test("lookupByNameOrAlias finds by exact name")
+    @Test
     @MainActor
-    func lookupByName() {
+    func `lookupByNameOrAlias finds by exact name`() {
         let result = SubstanceLibrary.lookupByNameOrAlias("Caffeine")
         #expect(result?.name == "Caffeine")
     }
 
-    @Test("lookupByNameOrAlias is case-insensitive")
+    @Test
     @MainActor
-    func lookupCaseInsensitive() {
+    func `lookupByNameOrAlias is case-insensitive`() {
         let result = SubstanceLibrary.lookupByNameOrAlias("caffeine")
         #expect(result != nil)
     }
 
-    @Test("lookupByNameOrAlias returns nil for unknown")
+    @Test
     @MainActor
-    func lookupUnknown() {
+    func `lookupByNameOrAlias returns nil for unknown`() {
         #expect(SubstanceLibrary.lookupByNameOrAlias("zzzNotRealzzz") == nil)
     }
 
     // MARK: - lookup (name only)
 
-    @Test("lookup finds by name")
+    @Test
     @MainActor
-    func lookupName() {
+    func `lookup finds by name`() {
         let result = SubstanceLibrary.lookup("Caffeine")
         #expect(result?.name == "Caffeine")
     }
 
-    @Test("lookup returns nil for alias-only query")
+    @Test
     @MainActor
-    func lookupAliasOnlyReturnsNil() {
+    func `lookup returns nil for alias-only query`() {
         // lookup only checks name, not aliases
         // (lookupByNameOrAlias checks both)
         // This test verifies the distinction
@@ -52,9 +51,9 @@ struct SubstanceLibraryExtendedTests {
 
     // MARK: - Search ranking
 
-    @Test("Search ranks exact alias match above contains")
+    @Test
     @MainActor
-    func searchAliasExactRanking() {
+    func `Search ranks exact alias match above contains`() {
         let results = SubstanceLibrary.search("Molly")
         if !results.isEmpty {
             // The first result should be the substance with "Molly" as an alias
@@ -65,33 +64,33 @@ struct SubstanceLibraryExtendedTests {
         }
     }
 
-    @Test("Search respects limit parameter")
+    @Test
     @MainActor
-    func searchLimit() {
+    func `Search respects limit parameter`() {
         let results = SubstanceLibrary.search("a", limit: 3)
         #expect(results.count <= 3)
     }
 
-    @Test("Search with single character returns results")
+    @Test
     @MainActor
-    func searchSingleChar() {
+    func `Search with single character returns results`() {
         let results = SubstanceLibrary.search("a")
         #expect(!results.isEmpty)
     }
 
     // MARK: - nonEmptyCategories
 
-    @Test("nonEmptyCategories is subset of all categories")
+    @Test
     @MainActor
-    func nonEmptyCategoriesSubset() {
+    func `nonEmptyCategories is subset of all categories`() {
         for category in SubstanceLibrary.nonEmptyCategories {
             #expect(SubstanceCategory.allCases.contains(category))
         }
     }
 
-    @Test("Each nonEmptyCategory has substances")
+    @Test
     @MainActor
-    func nonEmptyCategoriesHaveSubstances() {
+    func `Each nonEmptyCategory has substances`() {
         for category in SubstanceLibrary.nonEmptyCategories {
             #expect(!SubstanceLibrary.substances(in: category).isEmpty)
         }
@@ -99,33 +98,33 @@ struct SubstanceLibraryExtendedTests {
 
     // MARK: - Count
 
-    @Test("Count matches all.count")
+    @Test
     @MainActor
-    func countMatchesAll() {
+    func `Count matches all.count`() {
         #expect(SubstanceLibrary.count == SubstanceLibrary.all.count)
     }
 
     // MARK: - Data quality
 
-    @Test("All substances have names")
+    @Test
     @MainActor
-    func allHaveNames() {
+    func `All substances have names`() {
         for substance in SubstanceLibrary.all {
             #expect(!substance.name.isEmpty)
         }
     }
 
-    @Test("All substances have a category")
+    @Test
     @MainActor
-    func allHaveCategories() {
+    func `All substances have a category`() {
         for substance in SubstanceLibrary.all {
             #expect(SubstanceCategory.allCases.contains(substance.category))
         }
     }
 
-    @Test("No duplicate names in library")
+    @Test
     @MainActor
-    func noDuplicateNames() {
+    func `No duplicate names in library`() {
         let names = SubstanceLibrary.all.map { $0.name.lowercased() }
         let uniqueNames = Set(names)
         #expect(names.count == uniqueNames.count, "Library has \(names.count - uniqueNames.count) duplicate names")

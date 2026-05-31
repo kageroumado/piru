@@ -30,7 +30,13 @@ struct AuditSubstance: Codable {
     let sources: [String]
 
     enum CodingKeys: String, CodingKey {
-        case name, aliases, category, defaultRoute, routes, halfLifeMinutes, sources
+        case name
+        case aliases
+        case category
+        case defaultRoute
+        case routes
+        case halfLifeMinutes
+        case sources
     }
 
     init(from decoder: Decoder) throws {
@@ -51,7 +57,7 @@ struct AuditSubstance: Codable {
         defaultRoute: String,
         routes: [AuditRoute],
         halfLifeMinutes: Double? = nil,
-        sources: [String] = []
+        sources: [String] = [],
     ) {
         self.name = name
         self.aliases = aliases
@@ -78,12 +84,6 @@ struct AuditRoute: Codable {
     let route: String
     let unit: String
     let doses: AuditDoseRange
-
-    init(route: String, unit: String, doses: AuditDoseRange) {
-        self.route = route
-        self.unit = unit
-        self.doses = doses
-    }
 }
 
 /// Mirror of `DoseRange` from `Piru/Models/Substance.swift`. Threshold and
@@ -101,7 +101,7 @@ struct AuditDoseRange: Codable {
         light: AuditCodableRange? = nil,
         common: AuditCodableRange? = nil,
         strong: AuditCodableRange? = nil,
-        heavy: Double? = nil
+        heavy: Double? = nil,
     ) {
         self.threshold = threshold
         self.light = light

@@ -47,14 +47,18 @@ struct CustomSubstanceFormView: View {
     @State private var offsetMax: String
     @State private var showDuplicateAlert = false
 
-    private var isEditing: Bool { existing != nil }
-    private var isPersonalizing: Bool { personalizing != nil }
+    private var isEditing: Bool {
+        existing != nil
+    }
+    private var isPersonalizing: Bool {
+        personalizing != nil
+    }
 
     init(
         existing: CustomSubstanceEntry? = nil,
         initialName: String? = nil,
         personalizing: Substance? = nil,
-        onSaved: ((CustomSubstanceEntry) -> Void)? = nil
+        onSaved: ((CustomSubstanceEntry) -> Void)? = nil,
     ) {
         self.existing = existing
         self.initialName = initialName
@@ -103,11 +107,12 @@ struct CustomSubstanceFormView: View {
         return value == value.rounded() ? String(Int(value)) : String(value)
     }
 
-    private var unitLabel: String { unit.trimmingCharacters(in: .whitespaces).isEmpty ? "mg" : unit }
+    private var unitLabel: String {
+        unit.trimmingCharacters(in: .whitespaces).isEmpty ? "mg" : unit
+    }
 
     // MARK: - Rows
 
-    @ViewBuilder
     private func rangeRow(_ label: LocalizedStringResource, min: Binding<String>, max: Binding<String>, suffix: LocalizedStringResource) -> some View {
         HStack {
             Text(label)
@@ -121,7 +126,6 @@ struct CustomSubstanceFormView: View {
         }
     }
 
-    @ViewBuilder
     private func singleRow(_ label: LocalizedStringResource, value: Binding<String>, suffix: String) -> some View {
         HStack {
             Text(label)
@@ -143,14 +147,14 @@ struct CustomSubstanceFormView: View {
             guard let l = val(lo) else { return nil }
             let h = val(hi) ?? l
             guard h >= l else { return nil }
-            return l...h
+            return l ... h
         }
         let dr = DoseRange(
             threshold: val(thresholdStr),
             light: range(lightMin, lightMax),
             common: range(commonMin, commonMax),
             strong: range(strongMin, strongMax),
-            heavy: val(heavyStr)
+            heavy: val(heavyStr),
         )
         return dr.hasAnyValue ? dr : nil
     }
@@ -257,15 +261,16 @@ struct CustomSubstanceFormView: View {
                 } header: {
                     Text("Duration")
                 } footer: {
-                    Text(hasDuration
-                        ? "Minutes for each phase. Leave a phase blank to skip it; the timeline will interpolate from what you provide."
-                        : "Add per-phase timing so this substance gets a Live-Activity timeline like library substances."
+                    Text(
+                        hasDuration
+                            ? "Minutes for each phase. Leave a phase blank to skip it; the timeline will interpolate from what you provide."
+                            : "Add per-phase timing so this substance gets a Live-Activity timeline like library substances.",
                     )
                 }
 
                 Section {
                     TextField("Notes", text: $notes, axis: .vertical)
-                        .lineLimit(3...6)
+                        .lineLimit(3 ... 6)
                 } header: {
                     Text("Notes")
                 } footer: {
@@ -355,7 +360,7 @@ struct CustomSubstanceFormView: View {
                 notes: notes,
                 doses: buildDoses(),
                 duration: buildDuration(),
-                halfLifeMinutes: buildHalfLife()
+                halfLifeMinutes: buildHalfLife(),
             )
             store.add(entry)
             saved = entry

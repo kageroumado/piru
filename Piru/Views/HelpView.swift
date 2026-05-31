@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct HelpView: View {
     @Query private var substanceColors: [SubstanceColor]
@@ -8,29 +8,29 @@ struct HelpView: View {
     @State private var copiedSummary = false
 
     init() {
-        let cutoff = Date.now.addingTimeInterval(-72 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
         _recentEntries = Query(
             filter: #Predicate<DoseEntry> { $0.timestamp > cutoff },
             sort: \DoseEntry.timestamp,
-            order: .reverse
+            order: .reverse,
         )
     }
 
     private var activeSubstances: [ActiveSubstance] {
         ActiveSubstanceCalculator.compute(
             from: recentEntries,
-            colorMap: substanceColors.colorMap
+            colorMap: substanceColors.colorMap,
         )
     }
 
     private var last24hEntries: [DoseEntry] {
-        let cutoff = Date.now.addingTimeInterval(-24 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-24 * 3_600)
         return recentEntries.filter { $0.timestamp > cutoff }
     }
 
     private var activeCategories: [SubstanceCategory] {
         let guided = Set(ComedownGuideView.guidedCategories)
-        let cutoff = Date.now.addingTimeInterval(-48 * 3600)
+        let cutoff = Date.now.addingTimeInterval(-48 * 3_600)
         var seen = Set<SubstanceCategory>()
         var result: [SubstanceCategory] = []
         for entry in recentEntries where entry.timestamp >= cutoff {
@@ -106,14 +106,14 @@ struct HelpView: View {
                 title: "Put on familiar music",
                 detail: activeCategories.contains(.psychedelic)
                     ? "Music you know well is one of the most powerful grounding tools \u{2014} especially during a psychedelic experience."
-                    : "Familiar songs can ground you and bring comfort. Pick something you know well."
+                    : "Familiar songs can ground you and bring comfort. Pick something you know well.",
             )
 
             groundingTip(
                 icon: "person.2.fill",
                 color: .pink,
                 title: "Call a friend or family member",
-                detail: "Someone who knows you can help more than you\u{2019}d expect. You don\u{2019}t have to explain everything \u{2014} just hearing a familiar voice helps."
+                detail: "Someone who knows you can help more than you\u{2019}d expect. You don\u{2019}t have to explain everything \u{2014} just hearing a familiar voice helps.",
             )
         }
     }
@@ -201,11 +201,10 @@ struct HelpView: View {
     // swiftlint:disable:next function_body_length
     private var services: [EmergencyService] {
         switch regionCode {
-
         // Americas
 
         case "US":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
                 .init(title: "Suicide & Crisis Lifeline", detail: "988", systemImage: "phone.fill", url: "tel:988", tint: .blue),
                 .init(title: "Poison Control", detail: "1-800-222-1222", systemImage: "phone.fill", url: "tel:18002221222", tint: .orange),
@@ -213,288 +212,281 @@ struct HelpView: View {
                 .init(title: "Crisis Text Line", detail: "Text HOME to 741741", systemImage: "message.fill", url: "sms:741741&body=HOME", tint: .green),
             ]
         case "CA":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
                 .init(title: "Suicide Crisis Helpline", detail: "988", systemImage: "phone.fill", url: "tel:988", tint: .blue),
                 .init(title: "Poison Centre", detail: "1-844-767-8187", systemImage: "phone.fill", url: "tel:18447678187", tint: .orange),
                 .init(title: "Crisis Text Line", detail: "Text HOME to 686868", systemImage: "message.fill", url: "sms:686868&body=HOME", tint: .green),
             ]
         case "CO":
-            return [
+            [
                 .init(title: "Linea de Emergencias", detail: "123", systemImage: "phone.fill", url: "tel:123", tint: .red),
                 .init(title: "Linea de Crisis", detail: "106", systemImage: "phone.fill", url: "tel:106", tint: .blue),
             ]
         case "MX":
-            return [
+            [
                 .init(title: "Servicios de Emergencia", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
                 .init(title: "Linea de la Vida", detail: "800-911-2000", systemImage: "phone.fill", url: "tel:8009112000", tint: .blue),
             ]
         case "BR":
-            return [
+            [
                 .init(title: "SAMU", detail: "192", systemImage: "phone.fill", url: "tel:192", tint: .red),
                 .init(title: "CVV (Centro de Valorização da Vida)", detail: "188", systemImage: "phone.fill", url: "tel:188", tint: .blue),
             ]
         case "AR":
-            return [
+            [
                 .init(title: "Emergencias", detail: "107", systemImage: "phone.fill", url: "tel:107", tint: .red),
                 .init(title: "Centro de Asistencia al Suicida", detail: "135", systemImage: "phone.fill", url: "tel:135", tint: .blue),
             ]
         case "CL":
-            return [
+            [
                 .init(title: "Ambulancia", detail: "131", systemImage: "phone.fill", url: "tel:131", tint: .red),
                 .init(title: "Salud Responde", detail: "600 360 7777", systemImage: "phone.fill", url: "tel:6003607777", tint: .blue),
             ]
         case "PE":
-            return [
+            [
                 .init(title: "SAMU", detail: "106", systemImage: "phone.fill", url: "tel:106", tint: .red),
                 .init(title: "Linea 113 Salud", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .blue),
             ]
         case "EC":
-            return [
+            [
                 .init(title: "Emergencias (ECU 911)", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
             ]
         case "VE":
-            return [
+            [
                 .init(title: "Emergencias", detail: "171", systemImage: "phone.fill", url: "tel:171", tint: .red),
             ]
         case "UY":
-            return [
+            [
                 .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
                 .init(title: "Linea de Prevencion del Suicidio", detail: "0800 8483", systemImage: "phone.fill", url: "tel:08008483", tint: .blue),
             ]
         case "CR":
-            return [
+            [
                 .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
             ]
         case "PA", "HN", "SV", "DO":
-            return [
+            [
                 .init(title: "Emergencias", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
             ]
-
         // Europe
-
         case "GB":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .red),
                 .init(title: "Samaritans", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .blue),
                 .init(title: "FRANK Drug Helpline", detail: "0300 123 6600", systemImage: "phone.fill", url: "tel:03001236600", tint: .orange),
             ]
         case "IE":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "112 / 999", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Samaritans", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .blue),
                 .init(title: "Pieta House", detail: "1800 247 247", systemImage: "phone.fill", url: "tel:1800247247", tint: .purple),
             ]
         case "DE":
-            return [
+            [
                 .init(title: "Notruf", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Telefonseelsorge", detail: "0800 111 0 111", systemImage: "phone.fill", url: "tel:08001110111", tint: .blue),
                 .init(title: "Giftnotruf", detail: "030 19240", systemImage: "phone.fill", url: "tel:03019240", tint: .orange),
             ]
         case "AT":
-            return [
+            [
                 .init(title: "Notruf", detail: "144", systemImage: "phone.fill", url: "tel:144", tint: .red),
                 .init(title: "Telefonseelsorge", detail: "142", systemImage: "phone.fill", url: "tel:142", tint: .blue),
             ]
         case "CH":
-            return [
+            [
                 .init(title: "Sanitatsnotruf", detail: "144", systemImage: "phone.fill", url: "tel:144", tint: .red),
                 .init(title: "Die Dargebotene Hand", detail: "143", systemImage: "phone.fill", url: "tel:143", tint: .blue),
                 .init(title: "Tox Info Suisse", detail: "145", systemImage: "phone.fill", url: "tel:145", tint: .orange),
             ]
         case "FR":
-            return [
+            [
                 .init(title: "SAMU", detail: "15", systemImage: "phone.fill", url: "tel:15", tint: .red),
                 .init(title: "SOS Amitie", detail: "09 72 39 40 50", systemImage: "phone.fill", url: "tel:0972394050", tint: .blue),
                 .init(title: "Centre Antipoison", detail: "01 40 05 48 48", systemImage: "phone.fill", url: "tel:0140054848", tint: .orange),
             ]
         case "ES":
-            return [
+            [
                 .init(title: "Emergencias", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Telefono de la Esperanza", detail: "717 003 717", systemImage: "phone.fill", url: "tel:717003717", tint: .blue),
             ]
         case "PT":
-            return [
+            [
                 .init(title: "Emergencias", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "SOS Voz Amiga", detail: "213 544 545", systemImage: "phone.fill", url: "tel:213544545", tint: .blue),
             ]
         case "IT":
-            return [
+            [
                 .init(title: "Emergenze", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Telefono Amico", detail: "02 2327 2327", systemImage: "phone.fill", url: "tel:0223272327", tint: .blue),
                 .init(title: "Centro Antiveleni", detail: "02 6610 1029", systemImage: "phone.fill", url: "tel:0266101029", tint: .orange),
             ]
         case "NL":
-            return [
+            [
                 .init(title: "Alarmnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "113 Zelfmoordpreventie", detail: "0900 0113", systemImage: "phone.fill", url: "tel:09000113", tint: .blue),
             ]
         case "BE":
-            return [
+            [
                 .init(title: "Urgences", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Centre Antipoisons", detail: "070 245 245", systemImage: "phone.fill", url: "tel:070245245", tint: .orange),
             ]
         case "SE":
-            return [
+            [
                 .init(title: "Nodnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Mind Sjalvmordslinjen", detail: "90101", systemImage: "phone.fill", url: "tel:90101", tint: .blue),
             ]
         case "NO":
-            return [
+            [
                 .init(title: "Nodnummer", detail: "113", systemImage: "phone.fill", url: "tel:113", tint: .red),
                 .init(title: "Mental Helse", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .blue),
                 .init(title: "Giftinformasjonen", detail: "22 59 13 00", systemImage: "phone.fill", url: "tel:22591300", tint: .orange),
             ]
         case "DK":
-            return [
+            [
                 .init(title: "Nodnummer", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Livslinien", detail: "70 201 201", systemImage: "phone.fill", url: "tel:70201201", tint: .blue),
             ]
         case "FI":
-            return [
+            [
                 .init(title: "Hatanumero", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Kriisipuhelin", detail: "09 2525 0111", systemImage: "phone.fill", url: "tel:0925250111", tint: .blue),
             ]
         case "PL":
-            return [
+            [
                 .init(title: "Numer alarmowy", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Telefon Zaufania", detail: "116 123", systemImage: "phone.fill", url: "tel:116123", tint: .blue),
             ]
         case "CZ":
-            return [
+            [
                 .init(title: "Tisnovka", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Linka bezpeci", detail: "116 111", systemImage: "phone.fill", url: "tel:116111", tint: .blue),
             ]
         case "GR":
-            return [
+            [
                 .init(title: "EKAB", detail: "166", systemImage: "phone.fill", url: "tel:166", tint: .red),
                 .init(title: "Klimaka Crisis Line", detail: "1018", systemImage: "phone.fill", url: "tel:1018", tint: .blue),
             ]
         case "RO", "HU", "HR", "BG", "SK", "SI", "LT", "LV", "EE", "CY", "LU", "MT":
-            return [
+            [
                 .init(title: "Emergency", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
             ]
-
         // Asia & Oceania
-
         case "AU":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "000", systemImage: "phone.fill", url: "tel:000", tint: .red),
                 .init(title: "Lifeline", detail: "13 11 14", systemImage: "phone.fill", url: "tel:131114", tint: .blue),
                 .init(title: "Poisons Information", detail: "13 11 26", systemImage: "phone.fill", url: "tel:131126", tint: .orange),
             ]
         case "NZ":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "111", systemImage: "phone.fill", url: "tel:111", tint: .red),
                 .init(title: "Lifeline", detail: "0800 543 354", systemImage: "phone.fill", url: "tel:0800543354", tint: .blue),
                 .init(title: "Poisons Centre", detail: "0800 764 766", systemImage: "phone.fill", url: "tel:0800764766", tint: .orange),
             ]
         case "JP":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .red),
                 .init(title: "Yorisoi Hotline", detail: "0120-279-338", systemImage: "phone.fill", url: "tel:0120279338", tint: .blue),
             ]
         case "KR":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .red),
                 .init(title: "Suicide Prevention Hotline", detail: "1393", systemImage: "phone.fill", url: "tel:1393", tint: .blue),
             ]
         case "CN":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "120", systemImage: "phone.fill", url: "tel:120", tint: .red),
                 .init(title: "Crisis Hotline", detail: "010-8295-1332", systemImage: "phone.fill", url: "tel:01082951332", tint: .blue),
             ]
         case "IN":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Vandrevala Foundation", detail: "9999 666 555", systemImage: "phone.fill", url: "tel:9999666555", tint: .blue),
             ]
         case "PH":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "911", systemImage: "phone.fill", url: "tel:911", tint: .red),
                 .init(title: "Crisis Line", detail: "0917-899-8727", systemImage: "phone.fill", url: "tel:09178998727", tint: .blue),
             ]
         case "SG":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "995", systemImage: "phone.fill", url: "tel:995", tint: .red),
                 .init(title: "Samaritans of Singapore", detail: "1-767", systemImage: "phone.fill", url: "tel:1767", tint: .blue),
             ]
         case "MY":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .red),
                 .init(title: "Befrienders", detail: "03-7956 8145", systemImage: "phone.fill", url: "tel:0379568145", tint: .blue),
             ]
         case "TH":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "1669", systemImage: "phone.fill", url: "tel:1669", tint: .red),
                 .init(title: "Samaritans of Thailand", detail: "02-713-6793", systemImage: "phone.fill", url: "tel:027136793", tint: .blue),
             ]
         case "ID":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "118", systemImage: "phone.fill", url: "tel:118", tint: .red),
             ]
         case "TW":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "119", systemImage: "phone.fill", url: "tel:119", tint: .red),
                 .init(title: "Suicide Prevention", detail: "1925", systemImage: "phone.fill", url: "tel:1925", tint: .blue),
             ]
         case "HK":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .red),
                 .init(title: "Samaritans", detail: "2389 2222", systemImage: "phone.fill", url: "tel:23892222", tint: .blue),
             ]
-
         // Middle East & Africa
-
         case "IL":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "101", systemImage: "phone.fill", url: "tel:101", tint: .red),
                 .init(title: "ERAN Crisis Line", detail: "1201", systemImage: "phone.fill", url: "tel:1201", tint: .blue),
             ]
         case "TR":
-            return [
+            [
                 .init(title: "Acil Yardim", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Intihar Onleme Hatti", detail: "182", systemImage: "phone.fill", url: "tel:182", tint: .blue),
             ]
         case "AE":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "998", systemImage: "phone.fill", url: "tel:998", tint: .red),
             ]
         case "SA":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "997", systemImage: "phone.fill", url: "tel:997", tint: .red),
             ]
         case "ZA":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "10177", systemImage: "phone.fill", url: "tel:10177", tint: .red),
                 .init(title: "SADAG Crisis Line", detail: "0800 567 567", systemImage: "phone.fill", url: "tel:0800567567", tint: .blue),
             ]
         case "KE":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "999", systemImage: "phone.fill", url: "tel:999", tint: .red),
                 .init(title: "Befrienders Kenya", detail: "0722 178 177", systemImage: "phone.fill", url: "tel:0722178177", tint: .blue),
             ]
         case "NG":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
             ]
         case "EG":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "123", systemImage: "phone.fill", url: "tel:123", tint: .red),
             ]
         case "RU":
-            return [
+            [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
                 .init(title: "Psychological Help", detail: "8-800-2000-122", systemImage: "phone.fill", url: "tel:88002000122", tint: .blue),
             ]
         case "UA":
-            return [
+            [
                 .init(title: "Emergency (Ambulance)", detail: "103", systemImage: "phone.fill", url: "tel:103", tint: .red),
                 .init(title: "Lifeline Ukraine", detail: "7333", systemImage: "phone.fill", url: "tel:7333", tint: .blue),
             ]
-
         default:
-            return [
+            [
                 .init(title: "Emergency Services", detail: "112", systemImage: "phone.fill", url: "tel:112", tint: .red),
             ]
         }
@@ -620,7 +612,7 @@ struct HelpView: View {
                     Spacer()
                     Label(
                         copiedSummary ? "Copied" : "Copy Summary for Emergency Services",
-                        systemImage: copiedSummary ? "checkmark.circle.fill" : "doc.on.doc"
+                        systemImage: copiedSummary ? "checkmark.circle.fill" : "doc.on.doc",
                     )
                     .font(.subheadline.weight(.medium))
                     .animation(.none, value: copiedSummary)
@@ -668,7 +660,7 @@ struct HelpView: View {
             }
         }
 
-        if activeSubstances.isEmpty && entries.isEmpty {
+        if activeSubstances.isEmpty, entries.isEmpty {
             lines.append("No active substances or recent doses recorded.")
         }
 

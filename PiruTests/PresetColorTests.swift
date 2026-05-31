@@ -1,19 +1,18 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("[SubstanceColor].takenColorMap")
 struct TakenColorMapTests {
-
-    @Test("Duplicate hex assignments don't crash (build-11 regression)")
-    func duplicateHexDoesNotCrash() {
+    @Test
+    func `Duplicate hex assignments don't crash (build-11 regression)`() {
         // The old code used `Dictionary(uniqueKeysWithValues:)` and crashed
         // when two substances shared a color — see
         // testflight_feedback/crashlog.crash (build 11).
         let colors = [
-            SubstanceColor(substance: "Aspirin",   hexColor: "FF0000"),
+            SubstanceColor(substance: "Aspirin", hexColor: "FF0000"),
             SubstanceColor(substance: "Ibuprofen", hexColor: "FF0000"),
-            SubstanceColor(substance: "Caffeine",  hexColor: "00FF00"),
+            SubstanceColor(substance: "Caffeine", hexColor: "00FF00"),
         ]
         let map = colors.takenColorMap
         #expect(map.count == 2)
@@ -21,8 +20,8 @@ struct TakenColorMapTests {
         #expect(map["00FF00"] == "Caffeine")
     }
 
-    @Test("Empty array returns empty map")
-    func emptyArray() {
+    @Test
+    func `Empty array returns empty map`() {
         let colors: [SubstanceColor] = []
         #expect(colors.takenColorMap.isEmpty)
     }
@@ -30,30 +29,29 @@ struct TakenColorMapTests {
 
 @Suite("PresetColor")
 struct PresetColorTests {
-
-    @Test("All presets have non-empty hex")
-    func allHaveHex() {
+    @Test
+    func `All presets have non-empty hex`() {
         for preset in PresetColor.all {
             #expect(!preset.hex.isEmpty, "\(preset.name) should have a hex value")
         }
     }
 
-    @Test("All presets have non-empty name")
-    func allHaveName() {
+    @Test
+    func `All presets have non-empty name`() {
         for preset in PresetColor.all {
             #expect(!preset.name.isEmpty, "Preset with hex \(preset.hex) should have a name")
         }
     }
 
-    @Test("All hex values are 6 characters")
-    func allHexAre6Chars() {
+    @Test
+    func `All hex values are 6 characters`() {
         for preset in PresetColor.all {
             #expect(preset.hex.count == 6, "\(preset.name) hex should be 6 chars but is \(preset.hex.count)")
         }
     }
 
-    @Test("All hex values are valid hex strings")
-    func allHexValid() {
+    @Test
+    func `All hex values are valid hex strings`() {
         let hexChars = CharacterSet(charactersIn: "0123456789abcdefABCDEF")
         for preset in PresetColor.all {
             let isValid = preset.hex.unicodeScalars.allSatisfy { hexChars.contains($0) }
@@ -61,20 +59,20 @@ struct PresetColorTests {
         }
     }
 
-    @Test("Preset IDs are hex values")
-    func idIsHex() {
+    @Test
+    func `Preset IDs are hex values`() {
         for preset in PresetColor.all {
             #expect(preset.id == preset.hex)
         }
     }
 
-    @Test("Has a reasonable number of presets")
-    func presetCount() {
+    @Test
+    func `Has a reasonable number of presets`() {
         #expect(PresetColor.all.count >= 30)
     }
 
-    @Test("Includes expected color families")
-    func hasColorFamilies() {
+    @Test
+    func `Includes expected color families`() {
         let names = Set(PresetColor.all.map(\.name))
         // Should have at least some of these base families
         #expect(names.contains("Green"))

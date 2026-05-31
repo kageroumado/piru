@@ -22,7 +22,7 @@ enum JSONWriter {
         encoder.nonConformingFloatEncodingStrategy = .convertToString(
             positiveInfinity: "Infinity",
             negativeInfinity: "-Infinity",
-            nan: "NaN"
+            nan: "NaN",
         )
         return encoder
     }

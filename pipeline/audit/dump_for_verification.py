@@ -83,16 +83,20 @@ def main() -> int:
         for r in db.execute("SELECT slug, default_priority FROM sources WHERE default_enabled = 1")
     }
 
-    substances = list(db.execute("""
+    substances = list(
+        db.execute("""
         SELECT id, canonical_name FROM substances ORDER BY canonical_name COLLATE NOCASE
-    """))
+    """)
+    )
 
     # Resolve category per substance (winning source by priority)
-    cat_rows = list(db.execute("""
+    cat_rows = list(
+        db.execute("""
         SELECT c.substance_id, src.slug, src.default_priority, c.category
           FROM categories c JOIN sources src ON src.id = c.source_id
          WHERE src.default_enabled = 1
-    """))
+    """)
+    )
     cat_winning: dict[int, str] = {}
     cat_candidates: dict[int, list] = defaultdict(list)
     for r in cat_rows:
@@ -102,36 +106,42 @@ def main() -> int:
         cat_winning[sid] = cands[0][1]
 
     # All dose-range rows
-    dose_rows = list(db.execute("""
+    dose_rows = list(
+        db.execute("""
         SELECT d.substance_id, d.route, src.slug AS source, src.default_priority AS prio,
                d.unit, d.threshold,
                d.light_lower, d.light_upper, d.common_lower, d.common_upper,
                d.strong_lower, d.strong_upper, d.heavy
           FROM dose_ranges d JOIN sources src ON src.id = d.source_id
          WHERE src.default_enabled = 1
-    """))
+    """)
+    )
     doses_by_sub: dict[int, dict[str, list]] = defaultdict(lambda: defaultdict(list))
     for r in dose_rows:
         doses_by_sub[r["substance_id"]][r["route"]].append(r)
 
     # All duration rows
-    dur_rows = list(db.execute("""
+    dur_rows = list(
+        db.execute("""
         SELECT du.substance_id, du.route, src.slug AS source, src.default_priority AS prio,
                du.phase, du.min_minutes, du.max_minutes
           FROM durations du JOIN sources src ON src.id = du.source_id
          WHERE src.default_enabled = 1
-    """))
+    """)
+    )
     dur_by_sub: dict[int, dict[str, list]] = defaultdict(lambda: defaultdict(list))
     for r in dur_rows:
         dur_by_sub[r["substance_id"]][r["route"]].append(r)
 
     # Half-lives
-    hl_rows = list(db.execute("""
+    hl_rows = list(
+        db.execute("""
         SELECT h.substance_id, src.slug AS source, src.default_priority AS prio,
                h.half_life_minutes, h.notes
           FROM half_lives h JOIN sources src ON src.id = h.source_id
          WHERE src.default_enabled = 1
-    """))
+    """)
+    )
     hl_by_sub: dict[int, list] = defaultdict(list)
     for r in hl_rows:
         hl_by_sub[r["substance_id"]].append(r)
@@ -146,7 +156,9 @@ def main() -> int:
             skipped += 1
             continue
         block = render_substance(
-            sid, s["canonical_name"], cat,
+            sid,
+            s["canonical_name"],
+            cat,
             doses_by_sub.get(sid, {}),
             dur_by_sub.get(sid, {}),
             hl_by_sub.get(sid, []),
@@ -160,7 +172,7 @@ def main() -> int:
     for cat in sorted(by_cat.keys()):
         items = by_cat[cat]
         items.sort(key=lambda x: x[0].lower())
-        chunks = [items[i:i + CHUNK_SIZE] for i in range(0, len(items), CHUNK_SIZE)]
+        chunks = [items[i : i + CHUNK_SIZE] for i in range(0, len(items), CHUNK_SIZE)]
         safe = "".join(c if c.isalnum() else "_" for c in cat)
         for idx, chunk in enumerate(chunks):
             suffix = f"_{idx + 1:02d}" if len(chunks) > 1 else ""
@@ -176,7 +188,9 @@ def main() -> int:
 
     # Index
     with (out_dir / "_INDEX.md").open("w") as f:
-        f.write(f"# Substance verification dump — {total_substances} substances across {file_count} files\n\n")
+        f.write(
+            f"# Substance verification dump — {total_substances} substances across {file_count} files\n\n"
+        )
         f.write(f"Skipped {skipped} substances with no dose/duration data.\n\n")
         f.write(_header_legend())
         f.write("\n## Files\n\n")
@@ -204,7 +218,9 @@ def _header_legend() -> str:
     )
 
 
-def render_substance(sid, name, category, doses_by_route, dur_by_route, hl_rows, source_priority) -> str:
+def render_substance(
+    sid, name, category, doses_by_route, dur_by_route, hl_rows, source_priority
+) -> str:
     lines = [f"## {name} ({category})"]
 
     routes = sorted(set(list(doses_by_route.keys()) + list(dur_by_route.keys())))
@@ -246,7 +262,8 @@ def render_substance(sid, name, category, doses_by_route, dur_by_route, hl_rows,
             others = [
                 f"{fmt_minutes(r['half_life_minutes'])} ({r['source']})"
                 for r in hl_rows_sorted[1:]
-                if r["half_life_minutes"] and not _within_ratio(r["half_life_minutes"], hl_min, DISAGREEMENT_RATIO)
+                if r["half_life_minutes"]
+                and not _within_ratio(r["half_life_minutes"], hl_min, DISAGREEMENT_RATIO)
             ]
             if others:
                 lines[-1] += f"  [also: {', '.join(others)}]"

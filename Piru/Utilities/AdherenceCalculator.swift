@@ -10,7 +10,9 @@ enum AdherenceStatus {
 struct ItemAdherence: Identifiable {
     let item: DailyDoseItem
     let taken: Bool
-    var id: String { item.substance + String(item.sortOrder) }
+    var id: String {
+        item.substance + String(item.sortOrder)
+    }
 }
 
 struct DayAdherence: Identifiable {
@@ -19,11 +21,12 @@ struct DayAdherence: Identifiable {
     let takenCount: Int
     let totalCount: Int
     let items: [ItemAdherence]
-    var id: Date { date }
+    var id: Date {
+        date
+    }
 }
 
 enum AdherenceCalculator {
-
     static func entryMatches(entry: DoseEntry, item: DailyDoseItem) -> Bool {
         entry.substance.lowercased() == item.substance.lowercased()
     }
@@ -71,11 +74,11 @@ enum AdherenceCalculator {
     static func adherence(
         for date: Date,
         entries: [DoseEntry],
-        dailyItems: [DailyDoseItem]
+        dailyItems: [DailyDoseItem],
     ) -> DayAdherence {
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86400)
+        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart.addingTimeInterval(86_400)
         let dayEntries = entries.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }
 
         // Filter to only items due on this date
@@ -93,13 +96,12 @@ enum AdherenceCalculator {
             if taken { matched += 1 }
         }
 
-        let status: AdherenceStatus
-        if matched == dueItems.count {
-            status = .complete
+        let status: AdherenceStatus = if matched == dueItems.count {
+            .complete
         } else if matched > 0 {
-            status = .partial
+            .partial
         } else {
-            status = .missed
+            .missed
         }
 
         return DayAdherence(date: date, status: status, takenCount: matched, totalCount: dueItems.count, items: itemResults)

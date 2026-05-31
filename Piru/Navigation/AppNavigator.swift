@@ -1,5 +1,5 @@
-import SwiftUI
 import Observation
+import SwiftUI
 
 /// Single source of truth for the app's navigation state — tab selection,
 /// per-tab push paths, and the modal stack.
@@ -47,7 +47,7 @@ final class AppNavigator {
         selectedTab: AppTab? = nil,
         paths: [AppTab: [PushRoute]] = [:],
         sheetStack: [SheetRoute] = [],
-        storage: UserDefaults = .standard
+        storage: UserDefaults = .standard,
     ) {
         self.storage = storage
         if let selectedTab {
@@ -109,14 +109,14 @@ final class AppNavigator {
         guard old != new else { return }
         paths = paths.mapValues { stack in
             stack.map { route in
-                if case .entry(let ts) = route, ts == old {
+                if case let .entry(ts) = route, ts == old {
                     return .entry(timestamp: new)
                 }
                 return route
             }
         }
         sheetStack = sheetStack.map { route in
-            if case .entryDetail(let ts) = route, ts == old {
+            if case let .entryDetail(ts) = route, ts == old {
                 return .entryDetail(timestamp: new)
             }
             return route
@@ -128,7 +128,7 @@ final class AppNavigator {
     func pathBinding(for tab: AppTab) -> Binding<[PushRoute]> {
         Binding(
             get: { [weak self] in self?.paths[tab, default: []] ?? [] },
-            set: { [weak self] in self?.paths[tab] = $0 }
+            set: { [weak self] in self?.paths[tab] = $0 },
         )
     }
 
@@ -214,15 +214,6 @@ final class AppNavigator {
     }
 }
 
-// MARK: - Environment
-
-private struct AppNavigatorKey: EnvironmentKey {
-    @MainActor static var defaultValue: AppNavigator { .shared }
-}
-
 extension EnvironmentValues {
-    var appNavigator: AppNavigator {
-        get { self[AppNavigatorKey.self] }
-        set { self[AppNavigatorKey.self] = newValue }
-    }
+    @Entry var appNavigator: AppNavigator = .shared
 }

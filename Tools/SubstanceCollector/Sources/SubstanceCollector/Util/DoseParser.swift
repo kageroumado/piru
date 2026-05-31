@@ -31,7 +31,7 @@ enum DoseParser {
             s = String(s[s.index(after: colon)...]).trimmingCharacters(in: .whitespaces)
         }
 
-        let nsr = NSRange(s.startIndex..<s.endIndex, in: s)
+        let nsr = NSRange(s.startIndex ..< s.endIndex, in: s)
         if let m = rangePattern.firstMatch(in: s, range: nsr),
            let r0 = Range(m.range(at: 1), in: s),
            let r1 = Range(m.range(at: 2), in: s),

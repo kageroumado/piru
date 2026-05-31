@@ -132,10 +132,12 @@ struct PeptideHandlingCard: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
                 if let days = storage.reconstitutedStabilityDays {
-                    Label("Stable ~\(days.doseFormatted) days once reconstituted",
-                          systemImage: "drop.fill")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
+                    Label(
+                        "Stable ~\(days.doseFormatted) days once reconstituted",
+                        systemImage: "drop.fill",
+                    )
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
                 }
             }
         }
@@ -149,11 +151,18 @@ struct PeptideHandlingCard: View {
 /// dose. Pure arithmetic, no persistence — the single most-requested peptide tool.
 struct ReconstitutionCalculatorView: View {
     enum DoseUnitChoice: String, CaseIterable, Identifiable {
-        case mcg, mg
-        var id: String { rawValue }
-        var label: String { rawValue }
+        case mcg
+        case mg
+        var id: String {
+            rawValue
+        }
+        var label: String {
+            rawValue
+        }
         /// Multiplier to milligrams.
-        var toMg: Double { self == .mcg ? 0.001 : 1 }
+        var toMg: Double {
+            self == .mcg ? 0.001 : 1
+        }
     }
 
     let defaultVialMg: Double?

@@ -1,6 +1,6 @@
-import SwiftUI
-import SwiftData
 import ActivityKit
+import SwiftData
+import SwiftUI
 
 struct DayDetailView: View {
     @Environment(\.modelContext) private var modelContext
@@ -43,15 +43,14 @@ struct DayDetailView: View {
         // Use the configured session-day window so a late-night dose shows
         // up under the same day card the user tapped.
         let start = Calendar.current.sessionDayStart(for: date)
-        let end = start.addingTimeInterval(86400)
+        let end = start.addingTimeInterval(86_400)
         _entries = Query(
             filter: #Predicate<DoseEntry> { entry in
                 entry.timestamp >= start && entry.timestamp < end
             },
-            sort: \DoseEntry.timestamp
+            sort: \DoseEntry.timestamp,
         )
     }
-
 
     private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
         var grouped: [String: (total: Double, unit: String, count: Int)] = [:]
@@ -92,157 +91,157 @@ struct DayDetailView: View {
     var body: some View {
         List {
             Group {
-            if entries.isEmpty {
-                ContentUnavailableView(
-                    "No Entries",
-                    systemImage: "pill",
-                    description: Text("No substances logged on this day.")
-                )
-            } else {
-                // Timeline graph
-                if !substanceStates.isEmpty || !doseMarkers.isEmpty {
-                    Section {
-                        if graphExpanded {
-                            VStack(spacing: 8) {
-                                if isToday && hasOngoingDose {
-                                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
-                                    HStack {
-                                        Spacer()
-                                        Button {
-                                            toggleLiveActivity()
-                                        } label: {
-                                            HStack(spacing: 4) {
-                                                Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
-                                                Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
+                if entries.isEmpty {
+                    ContentUnavailableView(
+                        "No Entries",
+                        systemImage: "pill",
+                        description: Text("No substances logged on this day."),
+                    )
+                } else {
+                    // Timeline graph
+                    if !substanceStates.isEmpty || !doseMarkers.isEmpty {
+                        Section {
+                            if graphExpanded {
+                                VStack(spacing: 8) {
+                                    if isToday, hasOngoingDose {
+                                        let isRunning = LiveActivityManager.shared.isLiveActivityRunning
+                                        HStack {
+                                            Spacer()
+                                            Button {
+                                                toggleLiveActivity()
+                                            } label: {
+                                                HStack(spacing: 4) {
+                                                    Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
+                                                    Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
+                                                }
+                                                .font(.caption2.weight(.semibold))
                                             }
-                                            .font(.caption2.weight(.semibold))
+                                            .buttonStyle(.bordered)
+                                            .buttonBorderShape(.capsule)
+                                            .controlSize(.mini)
+                                            .tint(Theme.accent)
                                         }
-                                        .buttonStyle(.bordered)
-                                        .buttonBorderShape(.capsule)
-                                        .controlSize(.mini)
-                                        .tint(Theme.accent)
+                                        .padding(.top, 2)
                                     }
-                                    .padding(.top, 2)
+                                    TimelineGraphView(
+                                        substances: substanceStates,
+                                        currentTime: .now,
+                                        compact: false,
+                                        markers: doseMarkers,
+                                        stackRedoses: stackRedoses,
+                                    )
+                                    .frame(height: 160)
                                 }
-                                TimelineGraphView(
-                                    substances: substanceStates,
-                                    currentTime: .now,
-                                    compact: false,
-                                    markers: doseMarkers,
-                                    stackRedoses: stackRedoses
-                                )
-                                .frame(height: 160)
+                            }
+                        } header: {
+                            Button {
+                                withAnimation { graphExpanded.toggle() }
+                            } label: {
+                                HStack {
+                                    Label("Timeline", systemImage: "chart.xyaxis.line")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption2.weight(.semibold))
+                                        .rotationEffect(.degrees(graphExpanded ? 90 : 0))
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                        } footer: {
+                            if graphExpanded {
+                                Text("Pinch to zoom in or out")
                             }
                         }
-                    } header: {
-                        Button {
-                            withAnimation { graphExpanded.toggle() }
-                        } label: {
-                            HStack {
-                                Label("Timeline", systemImage: "chart.xyaxis.line")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.caption2.weight(.semibold))
-                                    .rotationEffect(.degrees(graphExpanded ? 90 : 0))
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    } footer: {
-                        if graphExpanded {
-                            Text("Pinch to zoom in or out")
-                        }
+                        .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
                     }
-                    .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
-                }
 
-                // Entries
-                Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
-                    ForEach(entries) { entry in
-                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-                            EntryRowView(entry: entry, color: colorFor(entry))
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                deleteEntry(entry)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                    // Entries
+                    Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
+                        ForEach(entries) { entry in
+                            NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
+                                EntryRowView(entry: entry, color: colorFor(entry))
                             }
-                        }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                navigator.present(.entryEdit(timestamp: entry.timestamp))
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    deleteEntry(entry)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
-                            .tint(.orange)
-                        }
-                        .contextMenu {
-                            Button {
-                                entryToAdjustTime = entry
-                            } label: {
-                                Label("Adjust Time", systemImage: "clock")
+                            .swipeActions(edge: .leading) {
+                                Button {
+                                    navigator.present(.entryEdit(timestamp: entry.timestamp))
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                .tint(.orange)
                             }
-                            Button {
-                                colorPickerSubstance = entry.substance
-                                showColorPicker = true
-                            } label: {
-                                Label("Change Color", systemImage: "paintbrush")
-                            }
-                            Button {
-                                navigator.present(.entryEdit(timestamp: entry.timestamp))
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                            }
-                            Divider()
-                            Button(role: .destructive) {
-                                deleteEntry(entry)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                            .contextMenu {
+                                Button {
+                                    entryToAdjustTime = entry
+                                } label: {
+                                    Label("Adjust Time", systemImage: "clock")
+                                }
+                                Button {
+                                    colorPickerSubstance = entry.substance
+                                    showColorPicker = true
+                                } label: {
+                                    Label("Change Color", systemImage: "paintbrush")
+                                }
+                                Button {
+                                    navigator.present(.entryEdit(timestamp: entry.timestamp))
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                Divider()
+                                Button(role: .destructive) {
+                                    deleteEntry(entry)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
                         }
                     }
-                }
 
-                // Cumulative doses
-                if !cumulativeDoses.isEmpty {
-                    Section("Cumulative Doses") {
-                        ForEach(cumulativeDoses, id: \.substance) { item in
-                            HStack {
-                                Text(item.substance)
+                    // Cumulative doses
+                    if !cumulativeDoses.isEmpty {
+                        Section("Cumulative Doses") {
+                            ForEach(cumulativeDoses, id: \.substance) { item in
+                                HStack {
+                                    Text(item.substance)
+                                        .font(.subheadline)
+                                    Spacer()
+                                    Text("\(item.total.doseFormatted) \(item.unit)")
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundStyle(Theme.accent)
+                                    Text("(\(item.count)x)")
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                }
+                            }
+
+                            NavigationLink {
+                                ComedownGuideView()
+                            } label: {
+                                Label("Recovery tips", systemImage: "heart.text.clipboard")
                                     .font(.subheadline)
-                                Spacer()
-                                Text("\(item.total.doseFormatted) \(item.unit)")
-                                    .font(.subheadline.weight(.semibold))
                                     .foregroundStyle(Theme.accent)
-                                Text("(\(item.count)x)")
-                                    .font(.caption)
-                                    .foregroundStyle(Theme.secondaryLabel)
                             }
                         }
+                    }
 
-                        NavigationLink {
-                            ComedownGuideView()
-                        } label: {
-                            Label("Recovery tips", systemImage: "heart.text.clipboard")
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.accent)
+                    // Interaction warnings at bottom
+                    if !dayInteractions.isEmpty {
+                        Section {
+                            ForEach(Array(dayInteractions.enumerated()), id: \.offset) { _, warning in
+                                InteractionWarningRow(warning: warning)
+                            }
+                        } header: {
+                            Text(dayInteractions.count == 1 ? "Interaction Warning" : "\(dayInteractions.count) Interaction Warnings")
+                                .foregroundStyle((dayInteractions.first?.severity ?? .caution).color)
                         }
                     }
                 }
-
-                // Interaction warnings at bottom
-                if !dayInteractions.isEmpty {
-                    Section {
-                        ForEach(Array(dayInteractions.enumerated()), id: \.offset) { _, warning in
-                            InteractionWarningRow(warning: warning)
-                        }
-                    } header: {
-                        Text(dayInteractions.count == 1 ? "Interaction Warning" : "\(dayInteractions.count) Interaction Warnings")
-                            .foregroundStyle((dayInteractions.first?.severity ?? .caution).color)
-                    }
-                }
-            }
             }
             .listRowBackground(Theme.cardBackground)
         }
@@ -292,7 +291,7 @@ struct DayDetailView: View {
         .sheet(isPresented: $showColorPicker) {
             SubstanceColorPickerView(
                 substanceName: colorPickerSubstance,
-                takenColors: Array(substanceColors).takenColorMap
+                takenColors: Array(substanceColors).takenColorMap,
             ) { hex in
                 if let existing = substanceColors.first(where: { $0.substance.lowercased() == colorPickerSubstance.lowercased() }) {
                     existing.hexColor = hex
@@ -326,7 +325,7 @@ struct DayDetailView: View {
         ActiveSessionManager.shared.removeDose(
             substanceName: name,
             timestamp: timestamp,
-            allColors: Array(substanceColors)
+            allColors: Array(substanceColors),
         )
     }
 
@@ -347,14 +346,14 @@ struct DayDetailView: View {
                 tags: entry.tags,
                 category: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category,
                 doseLevel: SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.doseRange(for: entry.route)?.level(for: entry.amount),
-                colorHex: Array(substanceColors).hexColorMap[entry.substance.lowercased()]
+                colorHex: Array(substanceColors).hexColorMap[entry.substance.lowercased()],
             )
         }
         let exportDate = date
         Task {
             let image = DayLogImageExporter.generateImage(
                 date: exportDate,
-                entries: entriesCopy
+                entries: entriesCopy,
             )
             isExporting = false
             if let image {
@@ -370,22 +369,21 @@ struct DayDetailView: View {
         } else {
             ActiveSessionManager.shared.restartFromEntries(
                 entries,
-                allColors: Array(substanceColors)
+                allColors: Array(substanceColors),
             )
             LiveActivityManager.shared.startLiveActivity()
         }
     }
-
 }
 
 private struct DayLogShareSheet: UIViewControllerRepresentable {
     let image: UIImage
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
+    func makeUIViewController(context _: Context) -> UIActivityViewController {
         UIActivityViewController(activityItems: [image], applicationActivities: nil)
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+    func updateUIViewController(_: UIActivityViewController, context _: Context) {}
 }
 
 private struct TimeAdjustSheet: View {
@@ -413,7 +411,7 @@ private struct TimeAdjustSheet: View {
             ActiveSessionManager.shared.refreshEditedEntry(
                 previousTimestamp: original,
                 entry: entry,
-                allColors: Array(substanceColors)
+                allColors: Array(substanceColors),
             )
         }
     }

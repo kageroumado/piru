@@ -59,7 +59,7 @@ final class DoseEntry {
         route: RouteOfAdministration = .oral,
         timestamp: Date = .now,
         notes: String? = nil,
-        tags: [String] = []
+        tags: [String] = [],
     ) {
         self.substance = substance
         self.amount = max(0, amount)

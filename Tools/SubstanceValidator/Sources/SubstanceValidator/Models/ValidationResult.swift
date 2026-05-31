@@ -12,17 +12,17 @@ enum DiscrepancyKind: CustomStringConvertible {
 
     var description: String {
         switch self {
-        case .doseMismatch(let route, let level, let local, let api, let pct):
+        case let .doseMismatch(route, level, local, api, pct):
             return "Dose mismatch [\(route)/\(level)]: local=\(local), api=\(api) (diff: \(String(format: "%.1f", pct))%)"
-        case .missingRoute(let route, let presentIn):
+        case let .missingRoute(route, presentIn):
             return "Route '\(route)' only in \(presentIn)"
-        case .missingDoseLevel(let route, let level, let presentIn):
+        case let .missingDoseLevel(route, level, presentIn):
             return "Dose level '\(level)' for \(route) only in \(presentIn)"
-        case .categoryMismatch(let local, let api):
+        case let .categoryMismatch(local, api):
             return "Category: local=\(local), api=\(api)"
-        case .unitMismatch(let route, let localUnit, let apiUnit):
+        case let .unitMismatch(route, localUnit, apiUnit):
             return "Unit mismatch [\(route)]: local=\(localUnit), api=\(apiUnit)"
-        case .aliasDifference(let localOnly, let apiOnly):
+        case let .aliasDifference(localOnly, apiOnly):
             var parts: [String] = []
             if !localOnly.isEmpty { parts.append("local-only: \(localOnly.joined(separator: ", "))") }
             if !apiOnly.isEmpty { parts.append("api-only: \(apiOnly.joined(separator: ", "))") }
@@ -74,7 +74,13 @@ struct ValidationReport {
     let localOnlySubstances: [ParsedLocalSubstance]
     let fuzzyMatchesForReview: [MatchResult]
 
-    var criticalCount: Int { discrepancies.filter { $0.severity == .critical }.count }
-    var warningCount: Int { discrepancies.filter { $0.severity == .warning }.count }
-    var infoCount: Int { discrepancies.filter { $0.severity == .info }.count }
+    var criticalCount: Int {
+        discrepancies.count(where: { $0.severity == .critical })
+    }
+    var warningCount: Int {
+        discrepancies.count(where: { $0.severity == .warning })
+    }
+    var infoCount: Int {
+        discrepancies.count(where: { $0.severity == .info })
+    }
 }

@@ -1,11 +1,10 @@
-import Testing
-import SwiftData
 import Foundation
+import SwiftData
+import Testing
 @testable import Piru
 
 @Suite("InteractionChecker")
 struct InteractionCheckerTests {
-
     // MARK: - Helpers
 
     /// Create a DoseEntry using an in-memory SwiftData container
@@ -13,28 +12,27 @@ struct InteractionCheckerTests {
         substance: String,
         amount: Double = 10,
         route: RouteOfAdministration = .oral,
-        timestamp: Date = .now
+        timestamp: Date = .now,
     ) throws -> DoseEntry {
-        let entry = DoseEntry(
+        DoseEntry(
             substance: substance,
             amount: amount,
             route: route,
-            timestamp: timestamp
+            timestamp: timestamp,
         )
-        return entry
     }
 
     // MARK: - InteractionSeverity
 
-    @Test("Severity ordering")
-    func severityOrdering() {
+    @Test
+    func `Severity ordering`() {
         #expect(InteractionSeverity.caution < .unsafe)
         #expect(InteractionSeverity.unsafe < .dangerous)
         #expect(InteractionSeverity.caution < .dangerous)
     }
 
-    @Test("Severity labels")
-    func severityLabels() {
+    @Test
+    func `Severity labels`() {
         #expect(InteractionSeverity.caution.label == "Caution")
         #expect(InteractionSeverity.unsafe.label == "Unsafe")
         #expect(InteractionSeverity.dangerous.label == "Dangerous")
@@ -42,48 +40,48 @@ struct InteractionCheckerTests {
 
     // MARK: - drugClasses()
 
-    @Test("Override substance returns correct class")
-    func drugClassOverride() {
+    @Test
+    func `Override substance returns correct class`() {
         let classes = InteractionChecker.drugClasses(for: "Sertraline")
         #expect(classes == [.ssri])
     }
 
-    @Test("Override is case-insensitive")
-    func drugClassOverrideCaseInsensitive() {
+    @Test
+    func `Override is case-insensitive`() {
         let classes = InteractionChecker.drugClasses(for: "sertraline")
         #expect(classes == [.ssri])
     }
 
-    @Test("Dual-class substance returns multiple classes")
-    func drugClassDual() {
+    @Test
+    func `Dual-class substance returns multiple classes`() {
         let classes = InteractionChecker.drugClasses(for: "Tramadol")
         #expect(classes.contains(.opioid))
         #expect(classes.contains(.snri))
         #expect(classes.count == 2)
     }
 
-    @Test("MDMA returns empathogen and stimulant")
-    func drugClassMDMA() {
+    @Test
+    func `MDMA returns empathogen and stimulant`() {
         let classes = InteractionChecker.drugClasses(for: "MDMA")
         #expect(classes.contains(.empathogen))
         #expect(classes.contains(.stimulant))
     }
 
-    @Test("Substance from library falls back to category")
-    func drugClassFromCategory() {
+    @Test
+    func `Substance from library falls back to category`() {
         // Alprazolam should be in the library as a benzodiazepine
         let classes = InteractionChecker.drugClasses(for: "Alprazolam")
         #expect(classes == [.benzodiazepine])
     }
 
-    @Test("Unknown substance returns empty")
-    func drugClassUnknown() {
+    @Test
+    func `Unknown substance returns empty`() {
         let classes = InteractionChecker.drugClasses(for: "zzzNotARealDrugzzz")
         #expect(classes.isEmpty)
     }
 
-    @Test("Alias resolves through the library to the canonical drug class")
-    func drugClassAlias() {
+    @Test
+    func `Alias resolves through the library to the canonical drug class`() {
         // Xanax → Alprazolam → .benzodiazepine. Catches regressions in the
         // lazy `SubstanceLibrary.lookupByNameOrAlias` fallback added when
         // the precomputed cache went away.
@@ -91,8 +89,8 @@ struct InteractionCheckerTests {
         #expect(classes == [.benzodiazepine])
     }
 
-    @Test("Repeated unknown lookups are stable (negative cache)")
-    func drugClassNegativeCache() {
+    @Test
+    func `Repeated unknown lookups are stable (negative cache)`() {
         let a = InteractionChecker.drugClasses(for: "zzzAnotherFakeOne")
         let b = InteractionChecker.drugClasses(for: "zzzAnotherFakeOne")
         #expect(a.isEmpty && b.isEmpty)
@@ -100,45 +98,45 @@ struct InteractionCheckerTests {
 
     // MARK: - check()
 
-    @Test("Detects dangerous opioid + benzo interaction")
-    func dangerousOpioidBenzo() throws {
+    @Test
+    func `Detects dangerous opioid + benzo interaction`() throws {
         let morphineEntry = try Self.makeEntry(substance: "Morphine")
         let results = InteractionChecker.check("Alprazolam", against: [morphineEntry])
         #expect(!results.isEmpty)
         #expect(results[0].severity == .dangerous)
     }
 
-    @Test("Detects dangerous MAOI + SSRI interaction")
-    func dangerousMAOISSRI() throws {
+    @Test
+    func `Detects dangerous MAOI + SSRI interaction`() throws {
         let maoi = try Self.makeEntry(substance: "Phenelzine")
         let results = InteractionChecker.check("Sertraline", against: [maoi])
         #expect(!results.isEmpty)
         #expect(results[0].severity == .dangerous)
     }
 
-    @Test("No interaction for unrelated substances")
-    func noInteraction() throws {
+    @Test
+    func `No interaction for unrelated substances`() throws {
         let caffeine = try Self.makeEntry(substance: "Caffeine")
         let results = InteractionChecker.check("Melatonin", against: [caffeine])
         #expect(results.isEmpty)
     }
 
-    @Test("Skips same substance")
-    func skipsSameSubstance() throws {
+    @Test
+    func `Skips same substance`() throws {
         let caffeine = try Self.makeEntry(substance: "Caffeine")
         let results = InteractionChecker.check("Caffeine", against: [caffeine])
         #expect(results.isEmpty)
     }
 
-    @Test("Skips same substance case-insensitive")
-    func skipsSameSubstanceCaseInsensitive() throws {
+    @Test
+    func `Skips same substance case-insensitive`() throws {
         let caffeine = try Self.makeEntry(substance: "caffeine")
         let results = InteractionChecker.check("Caffeine", against: [caffeine])
         #expect(results.isEmpty)
     }
 
-    @Test("Deduplicates by substance pair keeping highest severity")
-    func deduplicatesByPair() throws {
+    @Test
+    func `Deduplicates by substance pair keeping highest severity`() throws {
         // Tramadol is [opioid, snri], and an MAOI entry should trigger multiple rules
         // but only the highest severity per pair should survive
         let maoi = try Self.makeEntry(substance: "Phenelzine")
@@ -150,50 +148,50 @@ struct InteractionCheckerTests {
         #expect(pairs.count == uniquePairs.count)
     }
 
-    @Test("Results are sorted by severity descending")
-    func resultsSortedBySeverity() throws {
+    @Test
+    func `Results are sorted by severity descending`() throws {
         let maoi = try Self.makeEntry(substance: "Phenelzine")
         let results = InteractionChecker.check("Tramadol", against: [maoi])
-        for i in 0..<(results.count - 1) {
+        for i in 0 ..< (results.count - 1) {
             #expect(results[i].severity >= results[i + 1].severity)
         }
     }
 
     // MARK: - checkBatch()
 
-    @Test("Batch checks within-batch interactions")
-    func batchWithinBatch() throws {
+    @Test
+    func `Batch checks within-batch interactions`() {
         let results = InteractionChecker.checkBatch(
             ["Morphine", "Alprazolam"],
-            against: []
+            against: [],
         )
         #expect(!results.isEmpty)
         #expect(results[0].severity == .dangerous)
     }
 
-    @Test("Batch combines active entry and within-batch checks")
-    func batchCombined() throws {
+    @Test
+    func `Batch combines active entry and within-batch checks`() throws {
         let caffeine = try Self.makeEntry(substance: "Caffeine")
         let results = InteractionChecker.checkBatch(
             ["Morphine", "Alprazolam"],
-            against: [caffeine]
+            against: [caffeine],
         )
         // Should at least have the morphine+alprazolam dangerous interaction
         let hasDangerous = results.contains { $0.severity == .dangerous }
         #expect(hasDangerous)
     }
 
-    @Test("Empty batch returns empty results")
-    func batchEmpty() throws {
+    @Test
+    func `Empty batch returns empty results`() {
         let results = InteractionChecker.checkBatch([], against: [])
         #expect(results.isEmpty)
     }
 
-    @Test("Batch deduplicates keeping highest severity")
-    func batchDeduplicates() throws {
+    @Test
+    func `Batch deduplicates keeping highest severity`() {
         let results = InteractionChecker.checkBatch(
             ["Morphine", "Alprazolam"],
-            against: []
+            against: [],
         )
         let pairs = results.map {
             [$0.substanceA, $0.substanceB].sorted().joined(separator: "|")
@@ -204,41 +202,41 @@ struct InteractionCheckerTests {
 
     // MARK: - activeEntries()
 
-    @Test("Recent entry is active")
-    func recentEntryActive() throws {
+    @Test
+    func `Recent entry is active`() throws {
         let entry = try Self.makeEntry(
             substance: "Caffeine",
-            timestamp: Date.now.addingTimeInterval(-60) // 1 minute ago
+            timestamp: Date.now.addingTimeInterval(-60), // 1 minute ago
         )
         let active = InteractionChecker.activeEntries(from: [entry])
         #expect(active.count == 1)
     }
 
-    @Test("Old entry is not active")
-    func oldEntryInactive() throws {
+    @Test
+    func `Old entry is not active`() throws {
         let entry = try Self.makeEntry(
             substance: "Caffeine",
-            timestamp: Date.now.addingTimeInterval(-86401) // over 24h ago
+            timestamp: Date.now.addingTimeInterval(-86_401), // over 24h ago
         )
         let active = InteractionChecker.activeEntries(from: [entry])
         #expect(active.isEmpty)
     }
 
-    @Test("Entry within 24h fallback is active for unknown substance")
-    func fallback24h() throws {
+    @Test
+    func `Entry within 24h fallback is active for unknown substance`() throws {
         let entry = try Self.makeEntry(
             substance: "zzzUnknownSubstancezzz",
-            timestamp: Date.now.addingTimeInterval(-3600) // 1h ago
+            timestamp: Date.now.addingTimeInterval(-3_600), // 1h ago
         )
         let active = InteractionChecker.activeEntries(from: [entry])
         #expect(active.count == 1)
     }
 
-    @Test("Unknown substance entry over 24h is inactive")
-    func fallback24hExpired() throws {
+    @Test
+    func `Unknown substance entry over 24h is inactive`() throws {
         let entry = try Self.makeEntry(
             substance: "zzzUnknownSubstancezzz",
-            timestamp: Date.now.addingTimeInterval(-90000) // 25h ago
+            timestamp: Date.now.addingTimeInterval(-90_000), // 25h ago
         )
         let active = InteractionChecker.activeEntries(from: [entry])
         #expect(active.isEmpty)
@@ -246,15 +244,15 @@ struct InteractionCheckerTests {
 
     // MARK: - InteractionSource
 
-    @Test("Class rule results have classRule source")
-    func classRuleSource() throws {
+    @Test
+    func `Class rule results have classRule source`() {
         let results = InteractionChecker.checkBatch(["Morphine", "Alprazolam"], against: [])
         #expect(!results.isEmpty)
         #expect(results[0].source == .classRule)
     }
 
-    @Test("InteractionSource label is correct")
-    func sourceLabels() {
+    @Test
+    func `InteractionSource label is correct`() {
         #expect(InteractionSource.classRule.label == "Pharmacological")
     }
 }

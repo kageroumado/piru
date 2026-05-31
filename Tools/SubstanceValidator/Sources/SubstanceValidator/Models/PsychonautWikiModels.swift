@@ -48,7 +48,7 @@ struct PWRange: Codable {
 
     var closedRange: ClosedRange<Double>? {
         guard let min, let max else { return nil }
-        return min...max
+        return min ... max
     }
 }
 

@@ -1,12 +1,11 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("DoseEntry")
 struct DoseEntryTests {
-
-    @Test("Initializes with correct default values")
-    func defaults() {
+    @Test
+    func `Initializes with correct default values`() {
         let entry = DoseEntry(substance: "Caffeine", amount: 100)
         #expect(entry.substance == "Caffeine")
         #expect(entry.amount == 100)
@@ -15,8 +14,8 @@ struct DoseEntryTests {
         #expect(entry.notes == nil)
     }
 
-    @Test("Custom values are set correctly")
-    func customValues() {
+    @Test
+    func `Custom values are set correctly`() {
         let date = Date(timeIntervalSince1970: 1_000_000)
         let entry = DoseEntry(
             substance: "Morphine",
@@ -24,7 +23,7 @@ struct DoseEntryTests {
             unit: "µg",
             route: .intravenous,
             timestamp: date,
-            notes: "Test note"
+            notes: "Test note",
         )
         #expect(entry.substance == "Morphine")
         #expect(entry.amount == 10)
@@ -34,21 +33,21 @@ struct DoseEntryTests {
         #expect(entry.notes == "Test note")
     }
 
-    @Test("Negative amount is clamped to zero")
-    func negativeAmountClamped() {
+    @Test
+    func `Negative amount is clamped to zero`() {
         let entry = DoseEntry(substance: "Test", amount: -5)
         #expect(entry.amount == 0)
     }
 
-    @Test("Zero amount is allowed")
-    func zeroAmount() {
+    @Test
+    func `Zero amount is allowed`() {
         let entry = DoseEntry(substance: "Test", amount: 0)
         #expect(entry.amount == 0)
     }
 
-    @Test("Large amount is stored correctly")
-    func largeAmount() {
-        let entry = DoseEntry(substance: "Test", amount: 99999)
-        #expect(entry.amount == 99999)
+    @Test
+    func `Large amount is stored correctly`() {
+        let entry = DoseEntry(substance: "Test", amount: 99_999)
+        #expect(entry.amount == 99_999)
     }
 }

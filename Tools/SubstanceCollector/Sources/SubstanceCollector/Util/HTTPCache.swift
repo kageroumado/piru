@@ -1,6 +1,6 @@
 import Foundation
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+    import FoundationNetworking
 #endif
 
 /// Hashes URL+method+body to a deterministic cache key. We use a manually-
@@ -8,18 +8,18 @@ import FoundationNetworking
 /// Swift's `Hasher` is per-process-seeded and would generate fresh names
 /// every run.
 private func cacheKey(method: String, url: URL, body: Data?) -> String {
-    var fnv: UInt64 = 0xcbf2_9ce4_8422_2325
-    func absorb<S: Sequence>(_ bytes: S) where S.Element == UInt8 {
+    var fnv: UInt64 = 0xCBF2_9CE4_8422_2325
+    func absorb(_ bytes: some Sequence<UInt8>) {
         for byte in bytes {
             fnv ^= UInt64(byte)
-            fnv &*= 0x100_0000_01b3
+            fnv &*= 0x100_0000_01B3
         }
     }
     absorb(method.utf8)
-    absorb([0x1f] as [UInt8])
+    absorb([0x1F] as [UInt8])
     absorb(url.absoluteString.utf8)
     if let body {
-        absorb([0x1f] as [UInt8])
+        absorb([0x1F] as [UInt8])
         absorb(body)
     }
     return String(fnv, radix: 16)
@@ -87,7 +87,7 @@ actor HTTPCache {
         method: String = "GET",
         body: Data? = nil,
         headers: [String: String] = [:],
-        scope: String
+        scope: String,
     ) async throws -> Data {
         let scopeDir = cacheDir.appendingPathComponent(scope, isDirectory: true)
         try? FileManager.default.createDirectory(at: scopeDir, withIntermediateDirectories: true)
@@ -111,24 +111,26 @@ actor HTTPCache {
         var req = URLRequest(url: url)
         req.httpMethod = method
         req.httpBody = body
-        for (k, v) in headers { req.setValue(v, forHTTPHeaderField: k) }
+        for (k, v) in headers {
+            req.setValue(v, forHTTPHeaderField: k)
+        }
 
         let (data, response) = try await session.data(for: req)
         guard let http = response as? HTTPURLResponse else {
             throw HTTPError.badResponse(url: url)
         }
         // Retry once on transient errors.
-        if http.statusCode == 429 || (500..<600).contains(http.statusCode) {
+        if http.statusCode == 429 || (500 ..< 600).contains(http.statusCode) {
             try? await Task.sleep(for: .seconds(2))
             await limiter.wait()
             let (retryData, retryResp) = try await session.data(for: req)
-            guard let rhttp = retryResp as? HTTPURLResponse, (200..<300).contains(rhttp.statusCode) else {
+            guard let rhttp = retryResp as? HTTPURLResponse, (200 ..< 300).contains(rhttp.statusCode) else {
                 throw HTTPError.httpStatus(url: url, status: (retryResp as? HTTPURLResponse)?.statusCode ?? -1)
             }
             try retryData.write(to: cacheFile)
             return retryData
         }
-        guard (200..<300).contains(http.statusCode) else {
+        guard (200 ..< 300).contains(http.statusCode) else {
             throw HTTPError.httpStatus(url: url, status: http.statusCode)
         }
         try data.write(to: cacheFile)
@@ -140,7 +142,7 @@ actor HTTPCache {
     func fetchOptional(
         url: URL,
         scope: String,
-        headers: [String: String] = [:]
+        headers: [String: String] = [:],
     ) async throws -> Data? {
         let scopeDir = cacheDir.appendingPathComponent(scope, isDirectory: true)
         try? FileManager.default.createDirectory(at: scopeDir, withIntermediateDirectories: true)
@@ -159,9 +161,8 @@ actor HTTPCache {
         if offline { return nil }
 
         do {
-            let data = try await fetch(url: url, headers: headers, scope: scope)
-            return data
-        } catch HTTPError.httpStatus(_, let status) where status == 404 {
+            return try await fetch(url: url, headers: headers, scope: scope)
+        } catch let HTTPError.httpStatus(_, status) where status == 404 {
             // Record miss.
             try? Data().write(to: missMarker)
             return nil
@@ -175,9 +176,9 @@ actor HTTPCache {
 
         var errorDescription: String? {
             switch self {
-            case .badResponse(let u): "Bad response from \(u)"
-            case .httpStatus(let u, let s): "HTTP \(s) from \(u)"
-            case .offlineMiss(let u): "Offline mode and cache miss for \(u)"
+            case let .badResponse(u): "Bad response from \(u)"
+            case let .httpStatus(u, s): "HTTP \(s) from \(u)"
+            case let .offlineMiss(u): "Offline mode and cache miss for \(u)"
             }
         }
     }

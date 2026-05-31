@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 // MARK: - Journal Grouping
 
@@ -46,7 +46,6 @@ struct EntryListView: View {
     @State private var showingFilters = false
     @State private var showingCalendar = false
 
-
     // Filter state
     @State private var filterStartDate: Date? = nil
     @State private var filterEndDate: Date? = nil
@@ -55,7 +54,7 @@ struct EntryListView: View {
 
     private var hasActiveFilters: Bool {
         filterStartDate != nil || filterEndDate != nil ||
-        !filterSubstances.isEmpty || !filterCategories.isEmpty
+            !filterSubstances.isEmpty || !filterCategories.isEmpty
     }
 
     // MARK: - Filtering
@@ -81,8 +80,8 @@ struct EntryListView: View {
             } else {
                 result = result.filter {
                     $0.substance.localizedCaseInsensitiveContains(query) ||
-                    ($0.notes?.localizedCaseInsensitiveContains(query) ?? false) ||
-                    $0.tags.contains { $0.localizedCaseInsensitiveContains(query) }
+                        ($0.notes?.localizedCaseInsensitiveContains(query) ?? false) ||
+                        $0.tags.contains { $0.localizedCaseInsensitiveContains(query) }
                 }
             }
         }
@@ -93,7 +92,7 @@ struct EntryListView: View {
             result = result.filter { $0.timestamp >= startOfDay }
         }
         if let end = filterEndDate {
-            let endOfDay = Calendar.current.startOfDay(for: end).addingTimeInterval(86400)
+            let endOfDay = Calendar.current.startOfDay(for: end).addingTimeInterval(86_400)
             result = result.filter { $0.timestamp < endOfDay }
         }
 
@@ -127,7 +126,9 @@ struct EntryListView: View {
     private var allUsedTags: [String] {
         var counts: [String: Int] = [:]
         for entry in entries {
-            for tag in entry.tags { counts[tag, default: 0] += 1 }
+            for tag in entry.tags {
+                counts[tag, default: 0] += 1
+            }
         }
         return counts.sorted { $0.value > $1.value }.map(\.key)
     }
@@ -197,7 +198,7 @@ struct EntryListView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     filterBar
 
-                    if !allUsedTags.isEmpty && grouping == .byDay {
+                    if !allUsedTags.isEmpty, grouping == .byDay {
                         tagChipBar
                             .transition(.opacity)
                     }
@@ -246,7 +247,7 @@ struct EntryListView: View {
                 selectedSubstances: $filterSubstances,
                 selectedCategories: $filterCategories,
                 availableSubstances: allUsedSubstances,
-                availableCategories: allUsedCategories
+                availableCategories: allUsedCategories,
             )
             .presentationDetents([.medium, .large])
             .presentationBackground(.regularMaterial)
@@ -305,9 +306,9 @@ struct EntryListView: View {
             } label: {
                 actionGlyph(
                     hasActiveFilters ? "line.3.horizontal.decrease.circle.fill"
-                                     : "line.3.horizontal.decrease",
+                        : "line.3.horizontal.decrease",
                     tint: hasActiveFilters ? Theme.accent : .secondary,
-                    fill: hasActiveFilters ? Theme.accent.opacity(0.18) : nil
+                    fill: hasActiveFilters ? Theme.accent.opacity(0.18) : nil,
                 )
             }
             .buttonStyle(.plain)
@@ -320,7 +321,7 @@ struct EntryListView: View {
     private func actionGlyph(
         _ systemName: String,
         tint: Color = .secondary,
-        fill: Color? = nil
+        fill: Color? = nil,
     ) -> some View {
         Image(systemName: systemName)
             .font(.subheadline.weight(.semibold))
@@ -360,7 +361,6 @@ struct EntryListView: View {
 
     // MARK: - Recent (Flat) Content
 
-    @ViewBuilder
     private var recentContent: some View {
         ForEach(filteredEntries) { entry in
             NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
@@ -372,7 +372,6 @@ struct EntryListView: View {
 
     // MARK: - Day Grouped Content
 
-    @ViewBuilder
     private var dayGroupedContent: some View {
         ForEach(cachedDayGroups, id: \.date) { day in
             NavigationLink(value: PushRoute.day(date: day.date)) {
@@ -384,7 +383,6 @@ struct EntryListView: View {
 
     // MARK: - Substance Grouped Content
 
-    @ViewBuilder
     private var substanceGroupedContent: some View {
         ForEach(cachedSubstanceGroups, id: \.name) { group in
             let isCollapsed = collapsedSubstances.contains(group.name)
@@ -422,7 +420,6 @@ struct EntryListView: View {
 
     // MARK: - Category Grouped Content
 
-    @ViewBuilder
     private var categoryGroupedContent: some View {
         ForEach(cachedCategoryGroups, id: \.category) { group in
             let isCollapsed = collapsedCategories.contains(group.category)
@@ -472,9 +469,9 @@ struct EntryListView: View {
             systemImage: searchText.isEmpty && !hasActiveFilters ? "pill" : "magnifyingglass",
             description: Text(
                 hasActiveFilters ? "Try adjusting your filters." :
-                searchText.isEmpty ? "Tap + to log your first entry." :
-                "Try a different search term."
-            )
+                    searchText.isEmpty ? "Tap + to log your first entry." :
+                    "Try a different search term.",
+            ),
         )
     }
 
@@ -490,7 +487,7 @@ struct EntryListView: View {
                     filterEndDate = date
                     showingCalendar = false
                     rebuildGroups()
-                }
+                },
             )
             .navigationTitle("Jump to Date")
             .navigationBarTitleDisplayMode(.inline)
@@ -608,8 +605,8 @@ struct DayCardView: View {
                         : AnyShapeStyle(LinearGradient(
                             colors: barColors,
                             startPoint: .top,
-                            endPoint: .bottom
-                        ))
+                            endPoint: .bottom,
+                        )),
                 )
                 .frame(width: 4)
 
@@ -649,30 +646,53 @@ struct JournalFilterSheet: View {
         NavigationStack {
             List {
                 Group {
-                // Date range section
-                Section("Date Range") {
-                    Toggle("Filter by dates", isOn: $hasDateRange)
-                    if hasDateRange {
-                        DatePicker("From", selection: $tempStart, displayedComponents: .date)
-                        DatePicker("To", selection: $tempEnd, displayedComponents: .date)
+                    // Date range section
+                    Section("Date Range") {
+                        Toggle("Filter by dates", isOn: $hasDateRange)
+                        if hasDateRange {
+                            DatePicker("From", selection: $tempStart, displayedComponents: .date)
+                            DatePicker("To", selection: $tempEnd, displayedComponents: .date)
+                        }
                     }
-                }
 
-                // Category section
-                if !availableCategories.isEmpty {
-                    Section("Category") {
-                        ForEach(availableCategories, id: \.self) { category in
+                    // Category section
+                    if !availableCategories.isEmpty {
+                        Section("Category") {
+                            ForEach(availableCategories, id: \.self) { category in
+                                Button {
+                                    toggleCategory(category)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: category.icon)
+                                            .foregroundStyle(category.color)
+                                            .frame(width: 24)
+                                        Text(category.displayName)
+                                            .foregroundStyle(.primary)
+                                        Spacer()
+                                        if selectedCategories.contains(category) {
+                                            Image(systemName: "checkmark")
+                                                .foregroundStyle(Theme.accent)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Substance section
+                    Section("Substance") {
+                        TextField("Search substances...", text: $substanceSearch)
+                        let filtered = substanceSearch.isEmpty ? availableSubstances :
+                            availableSubstances.filter { $0.localizedCaseInsensitiveContains(substanceSearch) }
+                        ForEach(filtered, id: \.self) { name in
                             Button {
-                                toggleCategory(category)
+                                toggleSubstance(name)
                             } label: {
                                 HStack {
-                                    Image(systemName: category.icon)
-                                        .foregroundStyle(category.color)
-                                        .frame(width: 24)
-                                    Text(category.displayName)
+                                    Text(name)
                                         .foregroundStyle(.primary)
                                     Spacer()
-                                    if selectedCategories.contains(category) {
+                                    if selectedSubstances.contains(name) {
                                         Image(systemName: "checkmark")
                                             .foregroundStyle(Theme.accent)
                                     }
@@ -680,43 +700,20 @@ struct JournalFilterSheet: View {
                             }
                         }
                     }
-                }
 
-                // Substance section
-                Section("Substance") {
-                    TextField("Search substances...", text: $substanceSearch)
-                    let filtered = substanceSearch.isEmpty ? availableSubstances :
-                        availableSubstances.filter { $0.localizedCaseInsensitiveContains(substanceSearch) }
-                    ForEach(filtered, id: \.self) { name in
-                        Button {
-                            toggleSubstance(name)
-                        } label: {
-                            HStack {
-                                Text(name)
-                                    .foregroundStyle(.primary)
-                                Spacer()
-                                if selectedSubstances.contains(name) {
-                                    Image(systemName: "checkmark")
-                                        .foregroundStyle(Theme.accent)
-                                }
+                    if startDate != nil || endDate != nil || !selectedSubstances.isEmpty || !selectedCategories.isEmpty || hasDateRange {
+                        Section {
+                            Button("Reset Filters", role: .destructive) {
+                                startDate = nil
+                                endDate = nil
+                                selectedSubstances = []
+                                selectedCategories = []
+                                hasDateRange = false
+                                dismiss()
                             }
+                            .frame(maxWidth: .infinity)
                         }
                     }
-                }
-
-                if startDate != nil || endDate != nil || !selectedSubstances.isEmpty || !selectedCategories.isEmpty || hasDateRange {
-                    Section {
-                        Button("Reset Filters", role: .destructive) {
-                            startDate = nil
-                            endDate = nil
-                            selectedSubstances = []
-                            selectedCategories = []
-                            hasDateRange = false
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                }
                 }
                 .listRowBackground(Theme.cardBackground)
             }
@@ -776,7 +773,9 @@ struct JournalCalendarView: View {
 
     @State private var selectedMonth: Date = .now
 
-    private var calendar: Calendar { Calendar.current }
+    private var calendar: Calendar {
+        Calendar.current
+    }
 
     private var datesWithEntries: Set<DateComponents> {
         var set = Set<DateComponents>()
@@ -790,8 +789,8 @@ struct JournalCalendarView: View {
     private func entriesFor(date: Date) -> Int {
         let comps = calendar.dateComponents([.year, .month, .day], from: date)
         let start = calendar.date(from: comps)!
-        let end = start.addingTimeInterval(86400)
-        return entries.filter { $0.timestamp >= start && $0.timestamp < end }.count
+        let end = start.addingTimeInterval(86_400)
+        return entries.count(where: { $0.timestamp >= start && $0.timestamp < end })
     }
 
     var body: some View {
@@ -881,7 +880,7 @@ struct JournalCalendarView: View {
         let leadingBlanks = (firstWeekday - calendar.firstWeekday + 7) % 7
 
         var days: [CalendarDay] = []
-        for blank in 0..<leadingBlanks {
+        for blank in 0 ..< leadingBlanks {
             days.append(CalendarDay(id: -(blank + 1), year: comps.year!, month: comps.month!, day: 0))
         }
         for day in range {

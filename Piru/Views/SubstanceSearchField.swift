@@ -41,7 +41,7 @@ struct SubstanceSearchField: View {
                     if text.isEmpty {
                         results = []
                         showResults = false
-                    } else if isFocused && !locked {
+                    } else if isFocused, !locked {
                         searchTrigger += 1
                     }
                 }
@@ -113,7 +113,7 @@ struct SubstanceSearchField: View {
                         }
 
                         // Custom substance option
-                        if !text.isEmpty && !hasExactMatch {
+                        if !text.isEmpty, !hasExactMatch {
                             Button {
                                 showResults = false
                                 isFocused = false

@@ -1,7 +1,7 @@
-import SwiftUI
-import SwiftData
 import BackgroundTasks
 import os
+import SwiftData
+import SwiftUI
 import WidgetKit
 
 private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
@@ -25,7 +25,7 @@ struct PiruApp: App {
         // runtime's entry isolation guard and crashes.
         BGTaskScheduler.shared.register(
             forTaskWithIdentifier: LiveActivityManager.backgroundTaskIdentifier,
-            using: .main
+            using: .main,
         ) { task in
             guard let task = task as? BGAppRefreshTask else { return }
             LiveActivityManager.shared.handleBackgroundRefresh(task)
@@ -43,7 +43,7 @@ struct PiruApp: App {
                     _ = SubstanceStore.shared.count
                     ActiveSessionManager.shared.recoverSession(container: container)
                     #if DEBUG
-                    DemoData.insertShowcaseData(container: container)
+                        DemoData.insertShowcaseData(container: container)
                     #endif
                 }
         }
@@ -84,7 +84,7 @@ struct PiruApp: App {
                 do {
                     return try ModelContainer(
                         for: Schema(models),
-                        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+                        configurations: ModelConfiguration(isStoredInMemoryOnly: true),
                     )
                 } catch {
                     fatalError("Failed to create even an in-memory ModelContainer: \(error)")
@@ -136,7 +136,7 @@ struct PiruApp: App {
             for file in storeFiles {
                 try fm.copyItem(
                     at: appSupport.appendingPathComponent(file),
-                    to: groupDir.appendingPathComponent(file)
+                    to: groupDir.appendingPathComponent(file),
                 )
             }
         } catch {

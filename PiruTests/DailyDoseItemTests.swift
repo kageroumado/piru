@@ -1,12 +1,11 @@
-import Testing
 import Foundation
+import Testing
 @testable import Piru
 
 @Suite("DailyDoseItem")
 struct DailyDoseItemTests {
-
-    @Test("Initializes with correct default values")
-    func defaults() {
+    @Test
+    func `Initializes with correct default values`() {
         let item = DailyDoseItem(substance: "Caffeine", amount: 200)
         #expect(item.substance == "Caffeine")
         #expect(item.amount == 200)
@@ -15,30 +14,30 @@ struct DailyDoseItemTests {
         #expect(item.sortOrder == 0)
     }
 
-    @Test("Custom values are set correctly")
-    func customValues() {
+    @Test
+    func `Custom values are set correctly`() {
         let item = DailyDoseItem(
             substance: "Vitamin D",
-            amount: 5000,
+            amount: 5_000,
             unit: "IU",
             route: .oral,
-            sortOrder: 3
+            sortOrder: 3,
         )
         #expect(item.substance == "Vitamin D")
-        #expect(item.amount == 5000)
+        #expect(item.amount == 5_000)
         #expect(item.unit == "IU")
         #expect(item.sortOrder == 3)
     }
 
-    @Test("Defaults to daily frequency")
-    func defaultFrequency() {
+    @Test
+    func `Defaults to daily frequency`() {
         let item = DailyDoseItem(substance: "Caffeine", amount: 200)
         #expect(item.frequency == .daily)
         #expect(item.frequencyDays.isEmpty)
     }
 
-    @Test("Weekly frequency with start date")
-    func weeklyFrequency() {
+    @Test
+    func `Weekly frequency with start date`() {
         let start = Date.now
         let item = DailyDoseItem(
             substance: "Testosterone",
@@ -46,19 +45,19 @@ struct DailyDoseItemTests {
             unit: "mg",
             route: .intramuscular,
             frequency: .weekly,
-            startDate: start
+            startDate: start,
         )
         #expect(item.frequency == .weekly)
         #expect(item.startDate == start)
     }
 
-    @Test("Specific days stores weekday indices")
-    func specificDaysFrequency() {
+    @Test
+    func `Specific days stores weekday indices`() {
         let item = DailyDoseItem(
             substance: "Methotrexate",
             amount: 15,
             frequency: .specificDays,
-            frequencyDays: [2, 4, 6]
+            frequencyDays: [2, 4, 6],
         )
         #expect(item.frequency == .specificDays)
         #expect(item.frequencyDays == [2, 4, 6])

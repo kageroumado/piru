@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 /// Insights overview — an App-Store "Today"-style intro that surfaces a glance
 /// of each insight as a summary card, tapping into the full screen for detail.
@@ -47,7 +47,7 @@ struct InsightsView: View {
                 } else {
                     Text("No adherence data yet")
                 }
-            }
+            },
         )
     }
 
@@ -67,7 +67,7 @@ struct InsightsView: View {
                 } else {
                     Text("No doses logged yet")
                 }
-            }
+            },
         )
     }
 
@@ -82,18 +82,17 @@ struct InsightsView: View {
                 } else {
                     Text("\(active.count) active right now")
                 }
-            }
+            },
         )
     }
 
     // MARK: - Card chrome
 
-    @ViewBuilder
-    private func card<Detail: View>(
+    private func card(
         icon: String,
         title: LocalizedStringKey,
         route: PushRoute,
-        @ViewBuilder detail: @escaping () -> Detail
+        @ViewBuilder detail: @escaping () -> some View,
     ) -> some View {
         NavigationLink(value: route) {
             NavCardLabel(icon: icon, title: Text(title), detail: detail)
@@ -107,15 +106,21 @@ struct InsightsView: View {
         let streak: Int
         let monthPct: Int
         let hasData: Bool
-        var monthText: String { "\(monthPct)%" }
+        var monthText: String {
+            "\(monthPct)%"
+        }
     }
 
     private struct UsageSummary {
         let total: Int
         let perDay: Double
         let mostLogged: String?
-        var hasData: Bool { total > 0 }
-        var perDayText: String { String(format: "%.1f", perDay) }
+        var hasData: Bool {
+            total > 0
+        }
+        var perDayText: String {
+            String(format: "%.1f", perDay)
+        }
     }
 
     private func recompute() {
@@ -137,7 +142,7 @@ struct InsightsView: View {
 
         // This-month adherence rate.
         let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
-        let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1..<2
+        let range = cal.range(of: .day, in: .month, for: monthStart) ?? 1 ..< 2
         var month: [DayAdherence] = []
         for offset in range {
             guard let date = cal.date(byAdding: .day, value: offset - 1, to: monthStart) else { continue }
@@ -173,7 +178,9 @@ struct InsightsView: View {
         }
         let days = max(1, newest.timeIntervalSince(oldest) / 86_400 + 1)
         var counts: [String: Int] = [:]
-        for entry in allEntries { counts[entry.substance, default: 0] += 1 }
+        for entry in allEntries {
+            counts[entry.substance, default: 0] += 1
+        }
         let most = counts.max { $0.value < $1.value }?.key
         return UsageSummary(total: allEntries.count, perDay: Double(allEntries.count) / days, mostLogged: most)
     }

@@ -62,7 +62,7 @@ struct HalfLifeCalculatorView: View {
                     decayChart(halfLife: halfLife)
                     currentAmountCard(halfLife: halfLife)
                     milestonesSection(halfLife: halfLife)
-                } else if selectedSubstance != nil && !useCustomHalfLife && selectedSubstance?.halfLifeMinutes == nil {
+                } else if selectedSubstance != nil, !useCustomHalfLife, selectedSubstance?.halfLifeMinutes == nil {
                     noDataCard
                 }
 
@@ -227,7 +227,7 @@ struct HalfLifeCalculatorView: View {
         let steps = 120
         var rawPoints: [Double] = []
         var maxConc = 0.001
-        for i in 0...steps {
+        for i in 0 ... steps {
             let t = Double(i) / Double(steps) * endMinutes
             var c = 0.0
             if peakConc > 0 {
@@ -323,29 +323,27 @@ struct HalfLifeCalculatorView: View {
                 }
 
                 // Time labels
-                let interval: Double
-                if endMinutes <= 60 { interval = 15 }
-                else if endMinutes <= 180 { interval = 30 }
-                else if endMinutes <= 360 { interval = 60 }
-                else if endMinutes <= 720 { interval = 120 }
-                else if endMinutes <= 2880 { interval = 360 }
-                else if endMinutes <= 14400 { interval = 1440 }
-                else if endMinutes <= 43200 { interval = 4320 }
-                else if endMinutes <= 100800 { interval = 10080 }
-                else { interval = 20160 }
+                let interval: Double = if endMinutes <= 60 { 15 }
+                else if endMinutes <= 180 { 30 }
+                else if endMinutes <= 360 { 60 }
+                else if endMinutes <= 720 { 120 }
+                else if endMinutes <= 2_880 { 360 }
+                else if endMinutes <= 14_400 { 1_440 }
+                else if endMinutes <= 43_200 { 4_320 }
+                else if endMinutes <= 100_800 { 10_080 }
+                else { 20_160 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 1
                 var t = 0.0
                 while t <= endMinutes {
                     let x = inset + CGFloat(t / endMinutes) * graphWidth
-                    let text: String
-                    if t == 0 { text = "0" }
-                    else if t < 60 { text = "\(Int(t))m" }
-                    else if t < 1440 { text = "\(Int(t / 60))h" }
-                    else { text = "\(Int(t / 1440))d" }
+                    let text = if t == 0 { "0" }
+                    else if t < 60 { "\(Int(t))m" }
+                    else if t < 1_440 { "\(Int(t / 60))h" }
+                    else { "\(Int(t / 1_440))d" }
 
                     let resolved = context.resolve(
-                        Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.5))
+                        Text(text).font(.system(size: 9, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.5)),
                     )
                     context.draw(resolved, at: CGPoint(x: x, y: labelY), anchor: .center)
                     t += interval
@@ -394,7 +392,7 @@ struct HalfLifeCalculatorView: View {
     // MARK: - Calculator Header
 
     private var halfLifeCount: Int {
-        SubstanceLibrary.all.filter { $0.halfLifeMinutes != nil }.count
+        SubstanceLibrary.all.count(where: { $0.halfLifeMinutes != nil })
     }
 
     private var calculatorHeader: some View {
@@ -502,7 +500,7 @@ struct HalfLifeCalculatorView: View {
                 let baseline = inset + graphHeight
                 fillPath.move(to: CGPoint(x: inset, y: baseline))
 
-                for i in 0...steps {
+                for i in 0 ... steps {
                     let t = Double(i) / Double(steps) * totalMinutes
                     let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
@@ -515,7 +513,7 @@ struct HalfLifeCalculatorView: View {
 
                 // Stroke path
                 var strokePath = Path()
-                for i in 0...steps {
+                for i in 0 ... steps {
                     let t = Double(i) / Double(steps) * totalMinutes
                     let c = PKModel.concentration(at: t, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
@@ -534,7 +532,7 @@ struct HalfLifeCalculatorView: View {
                 context.stroke(peakLine, with: .color(Theme.accent.opacity(0.4)), style: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
 
                 // Half-life milestone lines
-                for n in 1...3 {
+                for n in 1 ... 3 {
                     let fraction = pow(0.5, Double(n))
                     let y = inset + graphHeight - CGFloat(fraction) * graphHeight * 0.9
                     var dashPath = Path()
@@ -545,7 +543,7 @@ struct HalfLifeCalculatorView: View {
 
                 // Current time dot
                 let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
-                if elapsed >= 0 && elapsed <= totalMinutes {
+                if elapsed >= 0, elapsed <= totalMinutes {
                     let c = PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peakConc
                     let x = inset + CGFloat(elapsed / totalMinutes) * graphWidth
                     let y = inset + graphHeight - CGFloat(c) * graphHeight * 0.9
@@ -556,23 +554,21 @@ struct HalfLifeCalculatorView: View {
                 }
 
                 // Time labels
-                let interval: Double
-                if totalMinutes <= 60 { interval = 15 }
-                else if totalMinutes <= 180 { interval = 30 }
-                else if totalMinutes <= 360 { interval = 60 }
-                else if totalMinutes <= 720 { interval = 120 }
-                else if totalMinutes <= 2880 { interval = 360 }
-                else { interval = 1440 }
+                let interval: Double = if totalMinutes <= 60 { 15 }
+                else if totalMinutes <= 180 { 30 }
+                else if totalMinutes <= 360 { 60 }
+                else if totalMinutes <= 720 { 120 }
+                else if totalMinutes <= 2_880 { 360 }
+                else { 1_440 }
 
                 let labelY = inset + graphHeight + labelAreaHeight / 2 + 2
                 var t = 0.0
                 while t <= totalMinutes {
                     let x = inset + CGFloat(t / totalMinutes) * graphWidth
-                    let label: String
-                    if t == 0 { label = "0" }
-                    else if t < 60 { label = "\(Int(t))m" }
-                    else if t < 1440 { label = "\(Int(t / 60))h" }
-                    else { label = "\(Int(t / 1440))d" }
+                    let label = if t == 0 { "0" }
+                    else if t < 60 { "\(Int(t))m" }
+                    else if t < 1_440 { "\(Int(t / 60))h" }
+                    else { "\(Int(t / 1_440))d" }
 
                     let text = Text(label).font(.system(size: 10, weight: .medium, design: .rounded)).foregroundStyle(.primary.opacity(0.6))
                     context.draw(context.resolve(text), at: CGPoint(x: x, y: labelY), anchor: .center)
@@ -589,11 +585,10 @@ struct HalfLifeCalculatorView: View {
 
     private func currentAmountCard(halfLife: Double) -> some View {
         let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
-        let remaining: Double
-        if let params = pkParameters {
-            remaining = dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
+        let remaining: Double = if let params = pkParameters {
+            dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
         } else {
-            remaining = dose * pow(0.5, max(0, elapsed) / halfLife)
+            dose * pow(0.5, max(0, elapsed) / halfLife)
         }
         let unit = doseUnit
 
@@ -649,7 +644,7 @@ struct HalfLifeCalculatorView: View {
                 }
             }
 
-            ForEach(1...4, id: \.self) { n in
+            ForEach(1 ... 4, id: \.self) { n in
                 let fraction = pow(0.5, Double(n))
                 let eliminatedPct = (1 - fraction) * 100
                 let remaining = dose * fraction
@@ -725,7 +720,7 @@ struct HalfLifeCalculatorView: View {
         }
         let hours = Int(round(minutes / 60))
         if hours < 24 { return String(localized: "\(hours) hours") }
-        let days = Int(round(minutes / 1440))
+        let days = Int(round(minutes / 1_440))
         return String(localized: "\(days) days")
     }
 }
