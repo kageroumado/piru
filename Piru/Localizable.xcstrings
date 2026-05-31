@@ -2,38 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {},
-    "Add to Favorites" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加到收藏"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加入收藏"
-          }
-        }
-      }
-    },
-    "Remove from Favorites" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消收藏"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消收藏"
-          }
-        }
-      }
-    },
     "--" : {
       "localizations" : {
         "zh-Hans" : {
@@ -270,6 +238,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "#%@"
+          }
+        }
+      }
+    },
+    "%@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
           }
         }
       }
@@ -632,6 +616,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 天"
+          }
+        }
+      }
+    },
+    "%@ g/mol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ g/mol"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ g/mol"
           }
         }
       }
@@ -1732,6 +1732,22 @@
         }
       }
     },
+    "A passphrase is required." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要口令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要通行碼。"
+          }
+        }
+      }
+    },
     "A pharmacologically inactive prodrug cleaved in red blood cells to release dextroamphetamine and L-lysine. The dextroamphetamine then acts as a monoamine releasing agent via DAT, NET, SERT reversal and TAAR1 activation. The prodrug formulation provides controlled, gradual release of active drug, reducing abuse potential and producing smoother pharmacokinetics compared to immediate-release amphetamine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2692,6 +2708,22 @@
         }
       }
     },
+    "Add to Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加到收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入收藏"
+          }
+        }
+      }
+    },
     "Adding mechanism data..." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3110,6 +3142,22 @@
         }
       }
     },
+    "amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數量"
+          }
+        }
+      }
+    },
     "Amount" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3510,6 +3558,38 @@
         }
       }
     },
+    "Automatic Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動備份"
+          }
+        }
+      }
+    },
+    "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动备份使用保存在你 iCloud 钥匙串中的随机密钥。它绝不会以可读形式离开你的设备，因此 iCloud 上只会保存一段无法读取的数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動備份使用儲存在你 iCloud 鑰匙圈中的隨機金鑰。它絕不會以可讀形式離開你的裝置，因此 iCloud 上只會保存一段無法讀取的資料。"
+          }
+        }
+      }
+    },
     "Automatic Live Activity" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3766,6 +3846,70 @@
         }
       }
     },
+    "Back Up to iCloud" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份到 iCloud"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份到 iCloud"
+          }
+        }
+      }
+    },
+    "Backing up…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在備份…"
+          }
+        }
+      }
+    },
+    "Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份"
+          }
+        }
+      }
+    },
+    "Backup & Security" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份与安全"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份與安全"
+          }
+        }
+      }
+    },
     "Bacterial DNA Gyrase and Topoisomerase IV Inhibitor" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3778,6 +3922,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "細菌 DNA 旋轉酶和拓樸異構酶 IV 抑制劑"
+          }
+        }
+      }
+    },
+    "Bacteriostatic water" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抑菌注射用水"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抑菌注射用水"
           }
         }
       }
@@ -5462,6 +5622,22 @@
         }
       }
     },
+    "Confirm Passphrase" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认口令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認通行碼"
+          }
+        }
+      }
+    },
     "Consider waiting ~%@ more" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5574,6 +5750,22 @@
         }
       }
     },
+    "Couldn't access the secure keychain." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法访问安全钥匙串。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法存取安全鑰匙圈。"
+          }
+        }
+      }
+    },
     "Couldn't access the selected file." : {
       "localizations" : {
         "zh-Hans" : {
@@ -5586,6 +5778,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法存取所選檔案。"
+          }
+        }
+      }
+    },
+    "Couldn't decrypt this backup. The passphrase may be wrong, or the file may be damaged." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法解密此备份。口令可能有误，或文件已损坏。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法解密此備份。通行碼可能有誤，或檔案已損毀。"
+          }
+        }
+      }
+    },
+    "Couldn't derive a key from the passphrase." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从口令派生密钥。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法從通行碼衍生金鑰。"
           }
         }
       }
@@ -5606,6 +5830,22 @@
         }
       }
     },
+    "Course" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "疗程"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "療程"
+          }
+        }
+      }
+    },
     "Create \"%@\"" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5618,6 +5858,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建立 \"%@\""
+          }
+        }
+      }
+    },
+    "Create a single encrypted file protected by a passphrase you choose, then save or send it anywhere. You'll need the same passphrase to restore it. **If you forget the passphrase, the file cannot be opened — not even by us.**" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建一个由你自定口令保护的加密文件，然后保存或发送到任何地方。恢复时需要相同的口令。**如果你忘记口令，该文件将无法打开——我们也无法打开。**"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立一個由你自訂通行碼保護的加密檔案，然後儲存或傳送到任何地方。還原時需要相同的通行碼。**如果你忘記通行碼，該檔案將無法開啟——我們也無法開啟。**"
           }
         }
       }
@@ -6455,6 +6711,38 @@
         }
       }
     },
+    "Display as (e.g. joint)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示为（例如 joint）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示為（例如 joint）"
+          }
+        }
+      }
+    },
+    "Display name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示名稱"
+          }
+        }
+      }
+    },
     "Dissociative" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7192,6 +7480,22 @@
         }
       }
     },
+    "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所示剂量反映临床或社区研究方案，并非医疗建议。肽类需由冻干粉复溶后注射——请按下方说明处理和储存。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所示劑量反映臨床或社群研究方案，並非醫療建議。胜肽需由凍乾粉復溶後注射——請按下方說明處理與儲存。"
+          }
+        }
+      }
+    },
     "Download" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7220,6 +7524,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在下載…"
+          }
+        }
+      }
+    },
+    "Draw" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抽取量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抽取量"
           }
         }
       }
@@ -7672,6 +7992,22 @@
         }
       }
     },
+    "Edit Personalization…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑个性化…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯個人化…"
+          }
+        }
+      }
+    },
     "Edit Prescription" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7950,6 +8286,38 @@
         }
       }
     },
+    "Encrypt" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密"
+          }
+        }
+      }
+    },
+    "Encrypted backups to iCloud or a passphrase-protected file. Optional and off by default." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密备份到 iCloud 或受口令保护的文件。可选，默认关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密備份到 iCloud 或受通行碼保護的檔案。選用，預設關閉。"
+          }
+        }
+      }
+    },
     "Endocrine" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8027,6 +8395,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在補充半衰期資料…"
+          }
+        }
+      }
+    },
+    "Enter a vial amount, diluent volume, and target dose." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请输入瓶内总量、溶剂体积和目标剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入瓶內總量、溶劑體積與目標劑量。"
+          }
+        }
+      }
+    },
+    "Enter Passphrase" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入口令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入通行碼"
           }
         }
       }
@@ -8175,6 +8575,22 @@
         }
       }
     },
+    "Estimates only. Verify against your product and a clinician." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅为估算。请结合您的产品并咨询临床医生核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅為估算。請結合您的產品並諮詢臨床醫師核實。"
+          }
+        }
+      }
+    },
     "Eugeroic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8235,6 +8651,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每兩週"
+          }
+        }
+      }
+    },
+    "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个备份都使用 AES-256-GCM 封装——与现代安全通讯软件采用的认证加密相同。任何篡改都会被检测并拒绝。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每個備份都使用 AES-256-GCM 封裝——與現代安全通訊軟體採用的認證加密相同。任何竄改都會被偵測並拒絕。"
           }
         }
       }
@@ -8380,6 +8812,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出資料"
+          }
+        }
+      }
+    },
+    "Export Encrypted Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出加密备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出加密備份…"
+          }
+        }
+      }
+    },
+    "Export Failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出失敗"
           }
         }
       }
@@ -8655,6 +9119,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FRANK Drug Helpline"
+          }
+        }
+      }
+    },
+    "Freeze" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷冻"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷凍"
           }
         }
       }
@@ -9305,6 +9785,22 @@
         }
       }
     },
+    "Handling & storage" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处理与储存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "處理與儲存"
+          }
+        }
+      }
+    },
     "Harm Reduction" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9535,6 +10031,22 @@
         }
       }
     },
+    "How Encryption Works" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密原理"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密原理"
+          }
+        }
+      }
+    },
     "How it works" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9611,6 +10123,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高血壓危象 — 血壓可能致命性飆升。"
+          }
+        }
+      }
+    },
+    "iCloud Drive isn't available. Check that you're signed in to iCloud and that iCloud Drive is on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 云盘不可用。请确认你已登录 iCloud 并已开启 iCloud 云盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 雲碟無法使用。請確認你已登入 iCloud 並已開啟 iCloud 雲碟。"
           }
         }
       }
@@ -9739,6 +10267,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如感到不適,請毫不猶豫地尋求幫助。"
+          }
+        }
+      }
+    },
+    "If you lose this passphrase, the backup can't be recovered. There is no reset." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你丢失此口令，备份将无法恢复。无法重置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你遺失此通行碼，備份將無法還原。無法重設。"
           }
         }
       }
@@ -10704,6 +11248,38 @@
         }
       }
     },
+    "Last Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次備份"
+          }
+        }
+      }
+    },
+    "Last backup failed: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次备份失败：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次備份失敗：%@"
+          }
+        }
+      }
+    },
     "Leukotriene Receptor Antagonist" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11190,6 +11766,22 @@
         }
       }
     },
+    "Lyophilized powder (vial)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冻干粉（药瓶）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凍乾粉（藥瓶）"
+          }
+        }
+      }
+    },
     "Macrolide Antibiotic (Protein Synthesis Inhibitor)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11218,6 +11810,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鎂有助於緩解下顎緊繃和肌肉僵硬。"
+          }
+        }
+      }
+    },
+    "Manual Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動備份"
+          }
+        }
+      }
+    },
+    "Manual exports turn your passphrase into a key with 600,000 rounds of PBKDF2. The passphrase is never saved or sent. Choose one you won't forget — there's no recovery." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动导出会用 600,000 轮 PBKDF2 将你的口令转换为密钥。口令绝不会被保存或发送。请选择一个你不会忘记的口令——它无法找回。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動匯出會以 600,000 輪 PBKDF2 將你的通行碼轉換為金鑰。通行碼絕不會被儲存或傳送。請選擇一個你不會忘記的通行碼——它無法找回。"
           }
         }
       }
@@ -11410,6 +12034,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mental Helse"
+          }
+        }
+      }
+    },
+    "Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合并会保留你当前的记录并加入备份中的记录。替换会先删除你当前的数据（系统会自动创建可恢复的快照），然后仅恢复备份内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合併會保留你目前的記錄並加入備份中的記錄。取代會先刪除你目前的資料（系統會自動建立可還原的快照），然後僅還原備份內容。"
+          }
+        }
+      }
+    },
+    "Merge With Current Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与当前数据合并"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與目前資料合併"
           }
         }
       }
@@ -11640,6 +12296,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "調節劑"
+          }
+        }
+      }
+    },
+    "Molar mass" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摩尔质量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "莫耳質量"
           }
         }
       }
@@ -12018,6 +12690,22 @@
         }
       }
     },
+    "Never" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从不"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從不"
+          }
+        }
+      }
+    },
     "Never abruptly stop after regular use — benzo withdrawal can be medically serious." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12318,6 +13006,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無 %@ 的記錄"
+          }
+        }
+      }
+    },
+    "No iCloud backup was found for this account yet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未找到此账户的 iCloud 备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未找到此帳戶的 iCloud 備份。"
           }
         }
       }
@@ -12722,6 +13426,22 @@
         }
       }
     },
+    "Nothing is deleted by surprise" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不会意外删除任何数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不會意外刪除任何資料"
+          }
+        }
+      }
+    },
     "Notifications Disabled" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12818,6 +13538,22 @@
         }
       }
     },
+    "On a U-100 syringe" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U-100 注射器刻度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U-100 注射器刻度"
+          }
+        }
+      }
+    },
     "Onset" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12882,6 +13618,22 @@
         }
       }
     },
+    "Optional dose tiers, in your chosen unit. Leave blank to keep the library values." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可选剂量分级，使用你选择的单位。留空则保留库中数值。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可選劑量分級，使用你選擇的單位。留空則保留資料庫數值。"
+          }
+        }
+      }
+    },
     "Optional notes about this substance for your reference." : {
       "localizations" : {
         "zh-Hans" : {
@@ -12898,6 +13650,22 @@
         }
       }
     },
+    "Optional. Feeds the active-substance and clearance estimates." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可选。用于活性物质与清除估算。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可選。用於活性物質與清除估算。"
+          }
+        }
+      }
+    },
     "Oral" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12910,6 +13678,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "口服"
+          }
+        }
+      }
+    },
+    "Oral capsule" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口服胶囊"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口服膠囊"
           }
         }
       }
@@ -13138,6 +13922,70 @@
         }
       }
     },
+    "Passphrase" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通行碼"
+          }
+        }
+      }
+    },
+    "Passphrase backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口令备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通行碼備份"
+          }
+        }
+      }
+    },
+    "Passphrases don't match yet." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两次输入的口令尚不一致。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兩次輸入的通行碼尚不一致。"
+          }
+        }
+      }
+    },
+    "Passphrases match." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "口令一致。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通行碼一致。"
+          }
+        }
+      }
+    },
     "Patient Name (Optional)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13250,6 +14098,22 @@
         }
       }
     },
+    "Peptide — protocol reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽 — 方案参考"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胜肽 — 方案參考"
+          }
+        }
+      }
+    },
     "Per day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13294,6 +14158,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外周 μ-阿片受體激動劑"
+          }
+        }
+      }
+    },
+    "Personalize" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个性化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人化"
+          }
+        }
+      }
+    },
+    "Personalize substance" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个性化物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人化物質"
+          }
+        }
+      }
+    },
+    "Personalize…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个性化…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人化…"
           }
         }
       }
@@ -13779,6 +14691,22 @@
         }
       }
     },
+    "Primary references for this compound's data. Tap to open. Always verify against the original source." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该化合物数据的主要参考来源。点按可打开。请务必对照原始来源核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該化合物數據的主要參考來源。點按可開啟。請務必對照原始來源核實。"
+          }
+        }
+      }
+    },
     "Primary Targets: " : {
       "localizations" : {
         "zh-Hans" : {
@@ -13951,6 +14879,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "個人資料"
+          }
+        }
+      }
+    },
+    "Protect from light" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "避光保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "避光保存"
+          }
+        }
+      }
+    },
+    "Protocol — %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 — %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方案 — %@"
           }
         }
       }
@@ -14132,6 +15092,22 @@
         }
       }
     },
+    "Ready-to-inject solution" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即用型注射溶液"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即用型注射溶液"
+          }
+        }
+      }
+    },
     "Rebound anxiety is temporary. Avoid caffeine and alcohol. Breathing exercises: 4 in, 7 hold, 8 out." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14208,6 +15184,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "受體標靶"
+          }
+        }
+      }
+    },
+    "Reconstitute with" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复溶溶剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復溶溶劑"
+          }
+        }
+      }
+    },
+    "Reconstitution calculator" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复溶计算器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復溶計算器"
           }
         }
       }
@@ -14341,6 +15349,38 @@
         }
       }
     },
+    "Reference" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考文獻"
+          }
+        }
+      }
+    },
+    "References" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "參考文獻"
+          }
+        }
+      }
+    },
     "Refresh Substance Data" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14354,6 +15394,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新整理物質資料"
+          }
+        }
+      }
+    },
+    "Refrigerate (2–8 °C)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷藏（2–8 °C）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "冷藏（2–8 °C）"
           }
         }
       }
@@ -14438,6 +15494,22 @@
         }
       }
     },
+    "Remove from Favorites" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消收藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消收藏"
+          }
+        }
+      }
+    },
     "Rename" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14466,6 +15538,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新命名類別"
+          }
+        }
+      }
+    },
+    "Replace Everything" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换全部"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取代全部"
+          }
+        }
+      }
+    },
+    "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复时替换数据会先创建可恢复的快照。备份始终是可选的，在你开启之前都处于关闭状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原時取代資料會先建立可還原的快照。備份始終是選用的，在你開啟之前都處於關閉狀態。"
           }
         }
       }
@@ -14502,6 +15606,22 @@
         }
       }
     },
+    "Research / performance compound" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "研究/增效化合物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "研究／增效化合物"
+          }
+        }
+      }
+    },
     "Reset Filters" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14514,6 +15634,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重設篩選"
+          }
+        }
+      }
+    },
+    "Reset Personalization" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置个性化"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重設個人化"
           }
         }
       }
@@ -14658,6 +15794,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新啟動 Piru 以使用新資料庫。"
+          }
+        }
+      }
+    },
+    "Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原"
+          }
+        }
+      }
+    },
+    "Restore Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原備份"
+          }
+        }
+      }
+    },
+    "Restore Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复完成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原完成"
+          }
+        }
+      }
+    },
+    "Restore Failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原失敗"
+          }
+        }
+      }
+    },
+    "Restore From a File…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从文件恢复…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從檔案還原…"
+          }
+        }
+      }
+    },
+    "Restore Latest iCloud Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复最新的 iCloud 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原最新的 iCloud 備份"
+          }
+        }
+      }
+    },
+    "Restoring reads an encrypted backup and adds its entries back. Passphrase backups will ask for the passphrase; iCloud backups unlock automatically on your own devices." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复会读取加密备份并把其中的记录加回。口令备份会要求输入口令；iCloud 备份会在你自己的设备上自动解锁。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原會讀取加密備份並將其中的記錄加回。通行碼備份會要求輸入通行碼；iCloud 備份會在你自己的裝置上自動解鎖。"
           }
         }
       }
@@ -14866,6 +16114,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有血清素綜合徵的風險,尤其是與哌替啶、曲馬多和他噴他多。"
+          }
+        }
+      }
+    },
+    "Room temperature" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "室温"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "室溫"
           }
         }
       }
@@ -15658,6 +16922,22 @@
         }
       }
     },
+    "Sequence" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "氨基酸序列"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胺基酸序列"
+          }
+        }
+      }
+    },
     "Serotonin 5-HT1B/1D Receptor Agonist (Triptan)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15978,6 +17258,22 @@
         }
       }
     },
+    "Set a Passphrase" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置口令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定通行碼"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16087,6 +17383,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在顯示您體內物質的指導。點擊上方查看完整指南。"
+          }
+        }
+      }
+    },
+    "Shown everywhere in place of \"%@\". Leave blank to keep the original name. Your dose history is unaffected." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在所有位置代替“%@”显示。留空则保留原名称。你的剂量记录不受影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在所有位置代替「%@」顯示。留空則保留原名稱。你的劑量記錄不受影響。"
+          }
+        }
+      }
+    },
+    "Sign in to iCloud and turn on iCloud Drive to enable automatic encrypted backups." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登录 iCloud 并开启 iCloud 云盘以启用自动加密备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入 iCloud 並開啟 iCloud 雲碟以啟用自動加密備份。"
           }
         }
       }
@@ -16343,6 +17671,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "身體允許時就睡 — 不要硬撐"
+          }
+        }
+      }
+    },
+    "Slow-release implant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缓释植入剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緩釋植入劑"
           }
         }
       }
@@ -16647,6 +17991,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "透過在失活態阻斷電壓門控鈉通道穩定神經元膜,減少持續重複放電。優先減少麩胺酸釋放而非 GABA 釋放,這使其與其他鈉通道阻滯劑有所不同,可能解釋了其情緒穩定特性,特別是在預防雙相情感障礙的鬱期方面。"
+          }
+        }
+      }
+    },
+    "Stable ~%@ days once reconstituted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复溶后约可稳定 %@ 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復溶後約可穩定 %@ 天"
           }
         }
       }
@@ -17004,6 +18364,22 @@
         }
       }
     },
+    "Strong encryption" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强加密"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強加密"
+          }
+        }
+      }
+    },
     "Structurally related to amphetamine, acts on monoamine transporters as either a releasing agent, reuptake inhibitor, or both, depending on the specific compound. Generally increases synaptic dopamine, norepinephrine, and/or serotonin. The ratio of dopamine to serotonin activity varies significantly between compounds and determines whether effects are more stimulant-like or empathogenic." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -17345,6 +18721,22 @@
         }
       }
     },
+    "Supplied as" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "供应形式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "供應形式"
+          }
+        }
+      }
+    },
     "Supports physiological functions through various mechanisms including enzyme cofactor activity, antioxidant effects, neurotransmitter precursor supply, hormonal modulation, or direct receptor interactions. Mechanisms vary widely and are substance-specific." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17565,6 +18957,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作用位點"
+          }
+        }
+      }
+    },
+    "Target dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標劑量"
           }
         }
       }
@@ -17793,6 +19201,22 @@
         }
       }
     },
+    "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下方方案反映社区或试验性用途，并非经过验证的人体剂量或医疗建议。其中许多化合物被 WADA 禁用，且缺乏人体安全数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全數據。"
+          }
+        }
+      }
+    },
     "The R-enantiomer of modafinil with the same mechanism: weak DAT inhibition, orexin/hypocretin neuron activation, and histamine release promotion. Has a longer effective half-life than racemic modafinil, providing more sustained wakefulness-promoting effects throughout the day." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17841,6 +19265,22 @@
         }
       }
     },
+    "This backup uses a newer format (v%lld) than this version of Piru understands. Please update the app." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此备份使用的格式（v%lld）比当前 Piru 版本更新。请更新应用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此備份使用的格式（v%lld）比目前 Piru 版本更新。請更新 App。"
+          }
+        }
+      }
+    },
     "This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4× elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), DrugBank, and established pharmacology references (Goodman & Gilman's, Stahl's Essential Psychopharmacology). Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional." : {
       "localizations" : {
         "zh-Hans" : {
@@ -17869,6 +19309,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "該化合物沒有經過驗證的人體劑量數據。以下資訊僅供參考 — 原始文獻請參閱所連結的來源。請勿根據相關化合物推算劑量。"
+          }
+        }
+      }
+    },
+    "This device's backup key isn't available yet. If you just signed in, give iCloud Keychain a moment to sync." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备的备份密钥尚不可用。如果你刚刚登录，请稍候让 iCloud 钥匙串完成同步。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置的備份金鑰尚無法使用。若你剛登入，請稍候讓 iCloud 鑰匙圈完成同步。"
+          }
+        }
+      }
+    },
+    "This file isn't a valid Piru backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件不是有效的 Piru 备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案不是有效的 Piru 備份。"
           }
         }
       }
@@ -18145,6 +19617,22 @@
         }
       }
     },
+    "Titration" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量滴定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量滴定"
+          }
+        }
+      }
+    },
     "To" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18177,6 +19665,22 @@
         }
       }
     },
+    "Too short — use at least 8 characters." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短——请至少使用 8 个字符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短——請至少使用 8 個字元。"
+          }
+        }
+      }
+    },
     "Tools" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18189,6 +19693,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "工具"
+          }
+        }
+      }
+    },
+    "Topical formulation" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外用制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外用製劑"
           }
         }
       }
@@ -18350,6 +19870,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嘗試調整篩選條件。"
+          }
+        }
+      }
+    },
+    "Typical protocol" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "典型方案"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "典型方案"
           }
         }
       }
@@ -18649,6 +20185,22 @@
         }
       }
     },
+    "Use at least 8 characters. A longer phrase of several words is stronger and easier to remember." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "至少使用 8 个字符。由多个词组成的较长短语更安全，也更易记。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "至少使用 8 個字元。由多個詞組成的較長片語更安全，也更易記。"
+          }
+        }
+      }
+    },
     "Use Custom Half-Life" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18709,6 +20261,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "版本"
+          }
+        }
+      }
+    },
+    "Vial amount" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "瓶内总量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "瓶內總量"
           }
         }
       }
@@ -19050,6 +20618,22 @@
         }
       }
     },
+    "When on, Piru encrypts your journal and saves it to your private iCloud Drive each time you leave the app. The encryption key is stored only in your iCloud Keychain, so the backup is end-to-end encrypted — **neither Apple nor Piru can read it**, and it restores automatically on your other devices signed in to the same Apple Account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启后，每次你离开应用时，Piru 会加密你的记录并保存到你的私人 iCloud 云盘。加密密钥仅存储在你的 iCloud 钥匙串中，因此备份是端到端加密的——**Apple 和 Piru 都无法读取**，并且会在你登录同一 Apple 账户的其他设备上自动恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟後，每次你離開 App 時，Piru 會加密你的記錄並儲存到你的私人 iCloud 雲碟。加密金鑰僅儲存在你的 iCloud 鑰匙圈中，因此備份為端對端加密——**Apple 與 Piru 皆無法讀取**，並會在你登入同一 Apple 帳戶的其他裝置上自動還原。"
+          }
+        }
+      }
+    },
     "While you wait or if you just need to calm down:" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19290,6 +20874,22 @@
         }
       }
     },
+    "Your backup was restored." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的备份已恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的備份已還原。"
+          }
+        }
+      }
+    },
     "Your body is processing and eliminating the substance." : {
       "localizations" : {
         "zh-Hans" : {
@@ -19418,6 +21018,22 @@
         }
       }
     },
+    "Your key, your device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的密钥，你的设备"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的金鑰，你的裝置"
+          }
+        }
+      }
+    },
     "Your NMDA receptors are returning to baseline, which can feel foggy or unreal." : {
       "localizations" : {
         "zh-Hans" : {
@@ -19430,6 +21046,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的 NMDA 受體正恢復到基線,可能感覺迷糊或不真實。"
+          }
+        }
+      }
+    },
+    "Your Notes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的備註"
           }
         }
       }
@@ -19590,742 +21222,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Display name" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示名稱"
-          }
-        }
-      }
-    },
-    "Display as (e.g. joint)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示为（例如 joint）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顯示為（例如 joint）"
-          }
-        }
-      }
-    },
-    "Shown everywhere in place of \"%@\". Leave blank to keep the original name. Your dose history is unaffected." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在所有位置代替“%@”显示。留空则保留原名称。你的剂量记录不受影响。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在所有位置代替「%@」顯示。留空則保留原名稱。你的劑量記錄不受影響。"
-          }
-        }
-      }
-    },
-    "Optional dose tiers, in your chosen unit. Leave blank to keep the library values." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可选剂量分级，使用你选择的单位。留空则保留库中数值。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可選劑量分級，使用你選擇的單位。留空則保留資料庫數值。"
-          }
-        }
-      }
-    },
-    "Optional. Feeds the active-substance and clearance estimates." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可选。用于活性物质与清除估算。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可選。用於活性物質與清除估算。"
-          }
-        }
-      }
-    },
-    "amount" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "數量"
-          }
-        }
-      }
-    },
-    "Personalize" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "个性化"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人化"
-          }
-        }
-      }
-    },
-    "Personalize…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "个性化…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人化…"
-          }
-        }
-      }
-    },
-    "Edit Personalization…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "编辑个性化…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "編輯個人化…"
-          }
-        }
-      }
-    },
-    "Reset Personalization" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重置个性化"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重設個人化"
-          }
-        }
-      }
-    },
-    "Your Notes" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的备注"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的備註"
-          }
-        }
-      }
-    },
-    "Personalize substance" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "个性化物质"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人化物質"
-          }
-        }
-      }
-    },
-    "Peptide — protocol reference" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "肽 — 方案参考"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "胜肽 — 方案參考"
-          }
-        }
-      }
-    },
-    "Dosing shown reflects clinical or community research protocols, not medical advice. Peptides are injected from reconstituted powder — handle and store as noted below." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "所示剂量反映临床或社区研究方案，并非医疗建议。肽类需由冻干粉复溶后注射——请按下方说明处理和储存。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "所示劑量反映臨床或社群研究方案，並非醫療建議。胜肽需由凍乾粉復溶後注射——請按下方說明處理與儲存。"
-          }
-        }
-      }
-    },
-    "Research / performance compound" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "研究/增效化合物"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "研究／增效化合物"
-          }
-        }
-      }
-    },
-    "The protocol below reflects community or investigational use, not validated human dosing or medical advice. Many of these compounds are WADA-prohibited and lack human safety data." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下方方案反映社区或试验性用途，并非经过验证的人体剂量或医疗建议。其中许多化合物被 WADA 禁用，且缺乏人体安全数据。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下方方案反映社群或試驗性用途，並非經過驗證的人體劑量或醫療建議。其中許多化合物被 WADA 禁用，且缺乏人體安全數據。"
-          }
-        }
-      }
-    },
-    "Protocol — %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "方案 — %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "方案 — %@"
-          }
-        }
-      }
-    },
-    "Typical protocol" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "典型方案"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "典型方案"
-          }
-        }
-      }
-    },
-    "Course" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "疗程"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "療程"
-          }
-        }
-      }
-    },
-    "Titration" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剂量滴定"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "劑量滴定"
-          }
-        }
-      }
-    },
-    "Reconstitution calculator" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复溶计算器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "復溶計算器"
-          }
-        }
-      }
-    },
-    "Handling & storage" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "处理与储存"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "處理與儲存"
-          }
-        }
-      }
-    },
-    "Reconstitute with" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复溶溶剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "復溶溶劑"
-          }
-        }
-      }
-    },
-    "Vial amount" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "瓶内总量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "瓶內總量"
-          }
-        }
-      }
-    },
-    "Bacteriostatic water" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抑菌注射用水"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抑菌注射用水"
-          }
-        }
-      }
-    },
-    "Target dose" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目标剂量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目標劑量"
-          }
-        }
-      }
-    },
-    "Draw" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抽取量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "抽取量"
-          }
-        }
-      }
-    },
-    "On a U-100 syringe" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U-100 注射器刻度"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U-100 注射器刻度"
-          }
-        }
-      }
-    },
-    "Estimates only. Verify against your product and a clinician." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "仅为估算。请结合您的产品并咨询临床医生核实。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "僅為估算。請結合您的產品並諮詢臨床醫師核實。"
-          }
-        }
-      }
-    },
-    "Enter a vial amount, diluent volume, and target dose." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请输入瓶内总量、溶剂体积和目标剂量。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請輸入瓶內總量、溶劑體積與目標劑量。"
-          }
-        }
-      }
-    },
-    "Sequence" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "氨基酸序列"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "胺基酸序列"
-          }
-        }
-      }
-    },
-    "Molar mass" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "摩尔质量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "莫耳質量"
-          }
-        }
-      }
-    },
-    "Supplied as" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "供应形式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "供應形式"
-          }
-        }
-      }
-    },
-    "Protect from light" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "避光保存"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "避光保存"
-          }
-        }
-      }
-    },
-    "Stable ~%@ days once reconstituted" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复溶后约可稳定 %@ 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "復溶後約可穩定 %@ 天"
-          }
-        }
-      }
-    },
-    "Lyophilized powder (vial)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冻干粉（药瓶）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "凍乾粉（藥瓶）"
-          }
-        }
-      }
-    },
-    "Ready-to-inject solution" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "即用型注射溶液"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "即用型注射溶液"
-          }
-        }
-      }
-    },
-    "Topical formulation" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "外用制剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "外用製劑"
-          }
-        }
-      }
-    },
-    "Slow-release implant" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "缓释植入剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "緩釋植入劑"
-          }
-        }
-      }
-    },
-    "Oral capsule" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服胶囊"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服膠囊"
-          }
-        }
-      }
-    },
-    "Room temperature" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "室温"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "室溫"
-          }
-        }
-      }
-    },
-    "Refrigerate (2–8 °C)" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冷藏（2–8 °C）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冷藏（2–8 °C）"
-          }
-        }
-      }
-    },
-    "Freeze" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冷冻"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冷凍"
-          }
-        }
-      }
-    },
-    "References" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考文献"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "參考文獻"
-          }
-        }
-      }
-    },
-    "Reference" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考文献"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "參考文獻"
-          }
-        }
-      }
-    },
-    "Primary references for this compound's data. Tap to open. Always verify against the original source." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该化合物数据的主要参考来源。点按可打开。请务必对照原始来源核实。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "該化合物數據的主要參考來源。點按可開啟。請務必對照原始來源核實。"
           }
         }
       }

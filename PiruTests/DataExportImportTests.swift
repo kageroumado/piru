@@ -7,7 +7,7 @@ import Testing
 
 /// In-memory ModelContainer with the full Piru schema.
 private func makeTestContainer() throws -> ModelContainer {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
     return try ModelContainer(
         for: DoseEntry.self, SubstanceColor.self, UserColor.self,
         DailyDoseItem.self, FavoriteSubstance.self,

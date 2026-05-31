@@ -18,7 +18,7 @@ struct StoreRecoveryTests {
     private func seedStore(at url: URL, entries n: Int) throws {
         let container = try ModelContainer(
             for: Schema(StoreRecovery.models),
-            configurations: ModelConfiguration(url: url),
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
         for i in 0 ..< n {
@@ -36,7 +36,7 @@ struct StoreRecoveryTests {
         let container = try ModelContainer(
             for: Schema(versionedSchema: PiruSchemaV1.self),
             migrationPlan: PiruMigrationPlan.self,
-            configurations: ModelConfiguration(url: url),
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
         #expect(try ctx.fetchCount(FetchDescriptor<DoseEntry>()) == 3)

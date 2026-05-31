@@ -142,6 +142,18 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    NavigationLink {
+                        BackupView()
+                    } label: {
+                        Label("Backup & Security", systemImage: "lock.icloud")
+                    }
+                } header: {
+                    Text("Backup")
+                } footer: {
+                    Text("Encrypted backups to iCloud or a passphrase-protected file. Optional and off by default.")
+                }
+
+                Section {
                     Button {
                         showingReport = true
                     } label: {

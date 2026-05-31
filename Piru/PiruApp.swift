@@ -12,6 +12,7 @@ private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
 struct PiruApp: App {
     static let appGroupID = "group.dev.yumeji.piru"
     let container: ModelContainer
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         // Recover the canonical store BEFORE opening it: if the App Group store
@@ -53,6 +54,14 @@ struct PiruApp: App {
                 }
         }
         .modelContainer(container)
+        .onChange(of: scenePhase) { _, phase in
+            // Opt-in, end-to-end encrypted iCloud backup on backgrounding. No-op
+            // unless the user enabled it; debounced and change-gated internally.
+            if phase == .background {
+                let context = container.mainContext
+                Task { await BackupManager.shared.runAutomaticBackup(context: context) }
+            }
+        }
     }
 
     /// Build the SwiftData `ModelContainer` on the canonical (already-recovered)
@@ -61,7 +70,11 @@ struct PiruApp: App {
     /// last resort is an in-memory store so the app launches instead of crashing.
     private static func makeContainer() -> ModelContainer {
         let storeURL = StoreRecovery.canonicalStoreURL()
-        let config = ModelConfiguration(url: storeURL)
+        // .none is critical: the app carries iCloud (CloudDocuments) entitlements
+        // for encrypted file backups, and SwiftData would otherwise auto-enable
+        // CloudKit mirroring — which this schema can't satisfy (non-optional
+        // attributes, .unique constraints), failing every container open.
+        let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
         let schema = Schema(versionedSchema: PiruSchemaV1.self)
         func open() throws -> ModelContainer {
@@ -85,7 +98,7 @@ struct PiruApp: App {
                 do {
                     return try ModelContainer(
                         for: schema,
-                        configurations: ModelConfiguration(isStoredInMemoryOnly: true),
+                        configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
                     )
                 } catch {
                     fatalError("Failed to create even an in-memory ModelContainer: \(error)")
