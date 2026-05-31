@@ -471,6 +471,7 @@ struct QuickLogView: View {
                         .padding(.horizontal, 4)
                         .contentShape(Rectangle())
                 }
+                .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
             }
 
             if let lastEntry = mostRecentEntry(for: card.substanceName) {

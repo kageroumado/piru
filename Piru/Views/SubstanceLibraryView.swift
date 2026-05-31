@@ -838,6 +838,7 @@ struct SubstanceDetailView: View {
                     Image(systemName: isFavorite ? "star.fill" : "star")
                         .foregroundStyle(isFavorite ? Color.yellow : Theme.secondaryLabel)
                 }
+                .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
             }
         }
         .task(id: TaskKey(substanceName: substance.name, profile: profile)) {
