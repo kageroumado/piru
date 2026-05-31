@@ -1,0 +1,24 @@
+{
+  "name": "Fluorexetamine",
+  "aliases": [
+    "FXE",
+    "3-Fluoro-2-Oxo-PCE"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Fluorine-substituted designer dissociative",
+    "Limited user reports — caution",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/Fluorexetamine"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative"
+  ]
+}

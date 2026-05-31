@@ -1,0 +1,70 @@
+{
+  "name": "Chlorpheniramine",
+  "aliases": [
+    "Chlor-Trimeton",
+    "Piriton",
+    "Chlortab"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 16
+        },
+        "heavy": 24
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Sedation",
+    "Reduces allergic rhinitis and urticaria",
+    "Anticholinergic: dry mouth, blurred vision",
+    "Commonly combined with decongestants in OTC cold preparations"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf",
+    "https://en.wikipedia.org/wiki/Chlorphenamine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2725"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "OTC"
+  ]
+}

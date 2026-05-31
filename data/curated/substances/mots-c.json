@@ -1,0 +1,73 @@
+{
+  "name": "MOTS-c",
+  "aliases": [
+    "Mitochondrial Open Reading Frame of 12S rRNA-c",
+    "MOTS c peptide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5.0,
+        "light": {
+          "lower": 5.0,
+          "upper": 10.0
+        },
+        "common": {
+          "lower": 10.0,
+          "upper": 15.0
+        },
+        "strong": {
+          "lower": 15.0,
+          "upper": 20.0
+        },
+        "heavy": 20.0
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 480
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 720,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Mitochondria-encoded peptide — regulates metabolism by translocating to nucleus under stress",
+    "Improves insulin sensitivity; activates AMPK and the folate cycle (AICAR pathway)",
+    "Extends lifespan in rodent models; exercise-mimetic metabolic effects",
+    "Anti-obesity: reduces fat mass and improves metabolic flexibility in mice",
+    "Levels decline with age — positioned as longevity intervention target",
+    "No human clinical trial data; dosing protocols entirely based on animal studies",
+    "Extremely limited human safety data; no established adverse effect profile",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/25738459/",
+    "https://en.wikipedia.org/wiki/MOTS-c",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/135604016"
+  ],
+  "tags": [
+    "peptide",
+    "longevity-research",
+    "grey-market",
+    "research-chemical",
+    "metabolic",
+    "mitochondrial"
+  ]
+}

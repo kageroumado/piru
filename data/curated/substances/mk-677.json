@@ -1,0 +1,75 @@
+{
+  "name": "MK-677",
+  "aliases": [
+    "Ibutamoren",
+    "Ibutamoren mesylate",
+    "Nutrobal",
+    "L-163,191"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Orally active non-peptide ghrelin mimetic — activates GHS-R1a to stimulate GH and IGF-1 release",
+    "Once-daily dosing due to ~24h half-life; raises GH and IGF-1 dose-dependently",
+    "Improves sleep quality and REM sleep; promotes lean mass and reduces fat mass over months",
+    "Significant appetite stimulation — hunger is the most common complaint",
+    "Fluid retention, increased fasting glucose, insulin resistance with chronic use — monitor metabolic panel",
+    "Lethargy and increased blood pressure at higher doses (50 mg)",
+    "Phase 2b trials for muscle wasting (elderly, hip fracture); not approved by FDA",
+    "Often mislabeled as a SARM — it is NOT; it is a ghrelin receptor agonist (small molecule)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/9467534/",
+    "https://en.wikipedia.org/wiki/Ibutamoren",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9912093"
+  ],
+  "tags": [
+    "peptide",
+    "peptide-mimetic",
+    "GH-secretagogue",
+    "grey-market",
+    "research-chemical",
+    "performance-enhancing"
+  ]
+}

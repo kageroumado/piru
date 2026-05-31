@@ -1,0 +1,26 @@
+{
+  "name": "Hydroxynorketamine",
+  "aliases": [
+    "HNK",
+    "(2R,6R)-HNK"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Secondary metabolite of ketamine",
+    "Antidepressant effects in rodents without NMDA antagonism",
+    "AMPA-receptor-dependent mechanism proposed"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hydroxynorketamine",
+    "https://pubmed.ncbi.nlm.nih.gov/27144355/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "metabolite",
+    "AMPA-active",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

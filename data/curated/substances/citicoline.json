@@ -1,0 +1,44 @@
+{
+  "name": "Citicoline",
+  "aliases": [
+    "CDP-Choline",
+    "Cytidine diphosphate-choline"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "heavy": 2500
+      }
+    }
+  ],
+  "effects": [
+    "Cytidine + choline donor for phospholipid synthesis",
+    "Used in stroke recovery and dementia",
+    "Synergistic with racetams"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Citicoline"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic",
+    "phospholipid"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "name": "PGPIPN",
+  "aliases": [],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "research only",
+        "notes": "no validated human dosing — research/community protocol"
+      }
+    }
+  ],
+  "effects": [
+    "immunomodulation",
+    "anti-inflammatory"
+  ],
+  "mechanismOfAction": {
+    "summary": "Casein-derived immunomodulatory hexapeptide.",
+    "description": "Bovine β-casein-derived hexapeptide (Pro-Gly-Pro-Ile-Pro-Asn) reported to have immunomodulatory and anti-inflammatory/antitumor activity in preclinical studies.",
+    "primaryTargets": [],
+    "references": [
+      "https://pubmed.ncbi.nlm.nih.gov/"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "immunomodulator",
+    "no-human-data"
+  ],
+  "formula": "C30H48N6O7",
+  "peptideProfile": {
+    "sequence": "Pro-Gly-Pro-Ile-Pro-Asn",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "Preclinical β-casein peptide literature (PubMed)"
+  ]
+}

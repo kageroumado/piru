@@ -1,0 +1,42 @@
+{
+  "name": "Pentedrone",
+  "aliases": [
+    "α-Methylamino-valerophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 30,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 125
+        },
+        "strong": {
+          "lower": 125,
+          "upper": 175
+        },
+        "heavy": 200
+      }
+    }
+  ],
+  "effects": [
+    "Pentyl-chain analog of methcathinone",
+    "Strong DAT/NET inhibitor — compulsive redose risk",
+    "Cardiovascular strain"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pentedrone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical"
+  ]
+}

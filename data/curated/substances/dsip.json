@@ -1,0 +1,72 @@
+{
+  "name": "DSIP",
+  "aliases": [
+    "Delta Sleep-Inducing Peptide",
+    "delta sleep peptide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "µg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 100,
+          "upper": 250
+        },
+        "common": {
+          "lower": 250,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "heavy": 1000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 720
+        },
+        "total": {
+          "min": 300,
+          "max": 840
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Neuropeptide originally isolated from rabbit thalamus — induces delta (slow-wave) sleep in animals",
+    "Modulates stress response via CRH and LH axis; antistress and anxiolytic properties in rodent studies",
+    "Inconsistent replication across human studies; evidence base weak compared to other sleep aids",
+    "Reported effects: faster sleep onset, increased SWS, reduced cortisol reactivity",
+    "Explored for opioid/alcohol withdrawal support — preliminary data only",
+    "Short plasma half-life due to rapid peptide degradation",
+    "No FDA approval; limited human safety data",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 4,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/6136526/",
+    "https://en.wikipedia.org/wiki/Delta_sleep-inducing_peptide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/71321"
+  ],
+  "tags": [
+    "peptide",
+    "sleep-peptide",
+    "grey-market",
+    "research-chemical",
+    "anxiolytic"
+  ]
+}

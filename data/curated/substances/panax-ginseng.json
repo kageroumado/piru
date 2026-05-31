@@ -1,0 +1,77 @@
+{
+  "name": "Panax Ginseng",
+  "aliases": [
+    "Korean Ginseng",
+    "Asian Ginseng",
+    "Red Ginseng",
+    "American Ginseng",
+    "Panax quinquefolius",
+    "Ginsenosides"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1200
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Ginsenosides modulate HPA axis, GABA-A, NMDA, and dopamine receptors",
+    "Cognitive performance and anti-fatigue effects with moderate evidence",
+    "Blood glucose lowering — American ginseng more studied for this",
+    "Ginseng abuse syndrome: insomnia, hypertension, diarrhea with chronic overuse",
+    "Mild estrogenic activity — caution with hormone-sensitive conditions",
+    "CYP3A4 induction — may reduce some drug levels"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9918523",
+    "https://en.wikipedia.org/wiki/Panax_ginseng",
+    "https://examine.com/supplements/panax-ginseng/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "nootropic",
+    "immunomodulator",
+    "insulin-sensitizer",
+    "CYP450-inducer"
+  ]
+}

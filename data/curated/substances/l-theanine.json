@@ -1,0 +1,74 @@
+{
+  "name": "L-Theanine",
+  "aliases": [
+    "Theanine",
+    "L-γ-glutamylethylamide",
+    "Suntheanine"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 800
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Promotes alpha wave brain activity — relaxed alertness without sedation",
+    "Synergistic with caffeine — attenuates jitteriness, improves focus",
+    "AMPA-modulating, NMDA partial agonist properties",
+    "Reduces cortisol response to stress in some studies",
+    "Excellent safety profile; naturally found in green tea",
+    "Mild at low doses — most noticeable effect is caffeine stack"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/439533",
+    "https://en.wikipedia.org/wiki/Theanine",
+    "https://examine.com/supplements/theanine/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "OTC",
+    "amino-acid-derivative",
+    "GABAergic",
+    "AMPA-modulator",
+    "anxiolytic",
+    "adaptogen"
+  ]
+}

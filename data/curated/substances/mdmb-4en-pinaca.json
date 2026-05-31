@@ -1,0 +1,24 @@
+{
+  "name": "MDMB-4en-PINACA",
+  "aliases": [],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Indazole-3-carboxamide with terminal alkene",
+    "Major presence in EU NPS market 2020-2022",
+    "Linked to multiple fatalities"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/MDMB-4en-PINACA",
+    "https://www.emcdda.europa.eu/publications/risk-assessments/mdmb-4en-pinaca_en"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk",
+    "fatalities-reported",
+    "US-Schedule-I"
+  ]
+}

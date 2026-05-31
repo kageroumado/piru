@@ -1,0 +1,57 @@
+{
+  "name": "Fluoprazolam",
+  "aliases": [
+    "fluloprazolam",
+    "floprazolam"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "sedation",
+    "hypnosis",
+    "amnesia",
+    "respiratory depression risk",
+    "dependence"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed high-potency GABA-A BZD-site positive allosteric modulator; loprazolam structural analog. Distinct from flualprazolam.",
+    "description": "Designer imidazobenzodiazepine; fluorinated analog of loprazolam (NOT flualprazolam — distinct compound). Described as 'very high potency' in NPS literature; no published Ki/EC50. Reported '1–2 mg' dosing is unsourced and unreliable. No validated human dosing data. Loprazolam t½ ~6–12 h — extrapolation to this compound is uncertain.",
+    "primaryTargets": [
+      "GABA-A"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Fluloprazolam",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9715504/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "designer-benzo",
+    "high-potency"
+  ],
+  "cas": "63146-74-7",
+  "pubchemCID": 12371485,
+  "formula": "C23H21FN6O3",
+  "molarMass": 468.45,
+  "inchikey": "JYMHWJZLSYFHJD-RGEXLXHISA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fluloprazolam",
+    "PMC9715504",
+    "PubChem CID 12371485"
+  ]
+}

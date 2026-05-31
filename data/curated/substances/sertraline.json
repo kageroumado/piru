@@ -1,0 +1,69 @@
+{
+  "name": "Sertraline",
+  "aliases": [
+    "Zoloft",
+    "Lustral"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms over 2–6 weeks",
+    "Initial nausea and GI upset (often resolves after 1–2 weeks)",
+    "Sexual dysfunction",
+    "Sleep disturbance (insomnia or hypersomnia)",
+    "Discontinuation syndrome on abrupt stop — taper recommended",
+    "Risk of serotonin syndrome in combination with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 1560,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf",
+    "https://en.wikipedia.org/wiki/Sertraline",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/68617"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "prescription-only",
+    "serotonin-syndrome-risk"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "name": "Clozapine",
+  "aliases": [
+    "Clozaril",
+    "FazaClo",
+    "Versacloz"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 12.5,
+          "upper": 50
+        },
+        "common": {
+          "lower": 150,
+          "upper": 450
+        },
+        "strong": {
+          "lower": 450,
+          "upper": 600
+        },
+        "heavy": 900
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 480
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Treatment-resistant schizophrenia gold standard — requires REMS/ANC monitoring",
+    "Agranulocytosis risk (~1–2%): mandatory weekly→biweekly→monthly ANC monitoring",
+    "No EPS or tardive dyskinesia — lowest D2 affinity of any antipsychotic",
+    "Greatest metabolic burden: weight gain, diabetes, myocarditis risk",
+    "Strong sedation, hypersalivation, seizure risk (dose-dependent above 600 mg)",
+    "Reduces suicidality in schizophrenia — FDA-approved for this indication",
+    "Multiple serious interactions; mandatory dispensing through REMS program"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/019758s083lbl.pdf",
+    "https://en.wikipedia.org/wiki/Clozapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2818"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "muscarinic-antagonist",
+    "alpha1-blocker",
+    "H1-antagonist",
+    "prescription-only",
+    "REMS-required",
+    "treatment-resistant",
+    "dibenzodiazepine"
+  ]
+}

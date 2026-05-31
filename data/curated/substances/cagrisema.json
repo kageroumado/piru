@@ -1,0 +1,56 @@
+{
+  "name": "CagriSema",
+  "aliases": [
+    "Cagrilintide + Semaglutide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "once weekly",
+        "notes": "blend/co-formulation of the amylin analog cagrilintide + the GLP-1 agonist semaglutide; investigational (Phase 3 REDEFINE). No validated standalone dosing — research/community protocol"
+      }
+    }
+  ],
+  "effects": [
+    "appetite suppression",
+    "weight loss"
+  ],
+  "mechanismOfAction": {
+    "summary": "Co-formulation: long-acting amylin analog (cagrilintide) + GLP-1 receptor agonist (semaglutide).",
+    "description": "Fixed-ratio combination of the amylin/calcitonin-receptor agonist cagrilintide and the GLP-1R agonist semaglutide, combining complementary satiety pathways for enhanced weight loss. Under Phase 3 evaluation (REDEFINE program).",
+    "primaryTargets": [
+      "amylin receptor",
+      "GLP-1R"
+    ],
+    "bindings": [
+      {
+        "target": "amylin receptor",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "GLP-1R",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Cagrilintide/semaglutide"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "glp-1-agonist",
+    "amylin-agonist",
+    "blend",
+    "no-human-data"
+  ],
+  "sources": [
+    "Novo Nordisk REDEFINE trials"
+  ]
+}

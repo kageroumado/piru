@@ -1,0 +1,69 @@
+{
+  "name": "HHCP",
+  "aliases": [
+    "Hexahydrocannabiphorol",
+    "HHC-P"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 7
+        },
+        "strong": {
+          "lower": 7,
+          "upper": 15
+        },
+        "heavy": 15
+      },
+      "duration": {
+        "onset": {
+          "min": 2,
+          "max": 10
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Hydrogenated analog of THCP — very high CB1 affinity",
+    "Intense euphoria at low doses",
+    "Prolonged sedation",
+    "Very limited human data",
+    "Carries same EVALI risk as other acetylated/novel cannabinoids"
+  ],
+  "halfLifeMinutes": 2400,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hexahydrocannabiphorol"
+  ],
+  "tags": [
+    "cannabinoid",
+    "semi-synthetic",
+    "CB1-full-agonist",
+    "psychoactive",
+    "ultra-potent",
+    "limited-research",
+    "high-risk"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "4F-5-MeO-DMT",
+  "aliases": [
+    "4-Fluoro-5-methoxy-N,N-dimethyltryptamine"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 15
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 0.5,
+          "max": 2
+        },
+        "peak": {
+          "min": 5,
+          "max": 15
+        },
+        "offset": {
+          "min": 10,
+          "max": 20
+        },
+        "total": {
+          "min": 30,
+          "max": 60
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Halogenated tryptamine SAR poorly characterized — extreme caution, doses are extrapolations.",
+    "Reported as longer-acting than 5-MeO-DMT",
+    "Very limited user reports"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fluorinated_tryptamines"
+  ],
+  "tags": [
+    "tryptamine",
+    "tryptamine-halogen",
+    "research-chemical",
+    "experimental"
+  ]
+}

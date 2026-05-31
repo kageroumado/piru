@@ -1,0 +1,75 @@
+{
+  "name": "Bacopa Monnieri",
+  "aliases": [
+    "Brahmi",
+    "Bacopa",
+    "Water Hyssop",
+    "Synapsa"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 150,
+        "light": {
+          "lower": 300,
+          "upper": 450
+        },
+        "common": {
+          "lower": 450,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 900
+        },
+        "heavy": 900
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 43200,
+          "max": 129600
+        },
+        "offset": {
+          "min": 129600,
+          "max": 259200
+        },
+        "total": {
+          "min": 86400,
+          "max": 259200
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Ayurvedic nootropic — bacosides modulate acetylcholinesterase and antioxidant systems",
+    "Memory and learning improvements require chronic use (4–12 weeks) — not acute",
+    "May reduce anxiety through serotonin and GABA modulation",
+    "GI side effects (nausea, cramping) common — take with food and fat",
+    "Cholinergic activity — caution in individuals on anticholinergic medications",
+    "Standardized to 55% bacosides"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/122219",
+    "https://en.wikipedia.org/wiki/Bacopa_monnieri",
+    "https://examine.com/supplements/bacopa-monnieri/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "nootropic",
+    "herbal",
+    "OTC",
+    "cholinergic",
+    "anxiolytic",
+    "cognitive-enhancement"
+  ]
+}

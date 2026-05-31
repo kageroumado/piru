@@ -1,0 +1,23 @@
+{
+  "name": "Dibutylone",
+  "aliases": [
+    "bk-MMBDB"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Methylated butylone analog",
+    "Frequently sold as MDMA",
+    "Limited human pharmacology data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dibutylone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "MDMA-analog",
+    "no-human-data"
+  ]
+}

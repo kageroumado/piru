@@ -1,0 +1,70 @@
+{
+  "name": "Droperidol",
+  "aliases": [
+    "Inapsine"
+  ],
+  "category": "Gastrointestinal",
+  "defaultRoute": "intravenous",
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 0.625,
+          "upper": 1.25
+        },
+        "common": {
+          "lower": 1.25,
+          "upper": 2.5
+        },
+        "strong": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 3,
+          "max": 10
+        },
+        "peak": {
+          "min": 10,
+          "max": 20
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 120,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Butyrophenone D2 antagonist — potent sedation and antiemetic",
+    "Used for PONV, procedural sedation, refractory migraine, acute agitation",
+    "Profound sedation, QT prolongation (FDA black box warning)",
+    "EPS including akathisia; neuroleptic malignant syndrome possible",
+    "Dysphoria — described by some patients as deeply unpleasant dissociative state"
+  ],
+  "halfLifeMinutes": 120,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Droperidol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3168"
+  ],
+  "tags": [
+    "antiemetic",
+    "dopamine-antagonist",
+    "D2-antagonist",
+    "butyrophenone",
+    "sedating",
+    "QT-prolonging",
+    "EPS-risk",
+    "prescription-only"
+  ]
+}

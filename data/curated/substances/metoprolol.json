@@ -1,0 +1,69 @@
+{
+  "name": "Metoprolol",
+  "aliases": [
+    "Lopressor",
+    "Toprol-XL",
+    "Metoprolol Succinate",
+    "Metoprolol Tartrate"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 300,
+          "max": 720
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Slows heart rate and lowers blood pressure",
+    "Beta-1 selective — less bronchoconstriction than propranolol",
+    "Mild fatigue and CNS blunting",
+    "Reduces physical performance anxiety symptoms",
+    "May worsen depression; crosses blood-brain barrier moderately"
+  ],
+  "halfLifeMinutes": 210,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Metoprolol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4171"
+  ],
+  "tags": [
+    "beta-blocker",
+    "beta-1-selective",
+    "antihypertensive",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "4-EMC",
+  "aliases": [
+    "4-Ethylmethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "4-ethyl mephedrone analog",
+    "Limited human pharmacology data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/4-Ethylmethcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

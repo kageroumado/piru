@@ -1,0 +1,26 @@
+{
+  "name": "Hydrafinil",
+  "aliases": [
+    "9-Hydroxyfluorene",
+    "9-fluorenol",
+    "Fluorenol"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Reported wake-promoting effects in rodent studies",
+    "Limited human pharmacokinetic data",
+    "Sold as research chemical"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/9-Hydroxyfluorene",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/10241"
+  ],
+  "tags": [
+    "eugeroic",
+    "research-chemical",
+    "no-human-data",
+    "afinil"
+  ]
+}

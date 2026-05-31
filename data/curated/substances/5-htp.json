@@ -1,0 +1,73 @@
+{
+  "name": "5-HTP",
+  "aliases": [
+    "5-Hydroxytryptophan",
+    "Oxitriptan",
+    "L-5-HTP"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 540
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Direct serotonin precursor — bypasses rate-limiting tryptophan hydroxylase step",
+    "Used for depression, anxiety, sleep, appetite suppression — modest evidence",
+    "Nausea common, especially on empty stomach; start low",
+    "Combining with SSRIs/SNRIs/MAOIs/MDMA can cause serotonin syndrome",
+    "Long-term use may deplete dopamine — consider carbidopa or L-DOPA co-supplementation",
+    "Cardiac valvulopathy concern with very prolonged high-dose use (theoretical)"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/144",
+    "https://en.wikipedia.org/wiki/5-Hydroxytryptophan",
+    "https://examine.com/supplements/5-htp/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid-derivative",
+    "5HT-precursor",
+    "serotonin-syndrome-risk",
+    "sleep",
+    "mood"
+  ]
+}

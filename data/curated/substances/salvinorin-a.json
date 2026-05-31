@@ -1,0 +1,106 @@
+{
+  "name": "Salvinorin A",
+  "aliases": [
+    "Salvia divinorum extract",
+    "Sal A"
+  ],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.05,
+        "light": {
+          "lower": 0.1,
+          "upper": 0.5
+        },
+        "common": {
+          "lower": 0.5,
+          "upper": 1.0
+        },
+        "strong": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "heavy": 2.0
+      },
+      "duration": {
+        "onset": {
+          "min": 0.5,
+          "max": 1
+        },
+        "peak": {
+          "min": 1,
+          "max": 5
+        },
+        "offset": {
+          "min": 5,
+          "max": 15
+        },
+        "total": {
+          "min": 15,
+          "max": 30
+        }
+      }
+    },
+    {
+      "route": "sublingual",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 12
+        },
+        "heavy": 15
+      },
+      "duration": {
+        "onset": {
+          "min": 10,
+          "max": 20
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 30,
+          "max": 60
+        },
+        "total": {
+          "min": 60,
+          "max": 120
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Most potent natural psychoactive known",
+    "Extreme ego dissolution and perceptual distortion",
+    "Physical injury risk during 5-10 min peak — requires sitter and safe environment",
+    "Frequently dysphoric or terrifying",
+    "Rapid tolerance development with repeated use"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Salvinorin_A",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/128563",
+    "https://psychonautwiki.org/wiki/Salvia_divinorum"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "natural",
+    "neoclerodane-diterpene"
+  ]
+}

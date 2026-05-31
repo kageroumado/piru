@@ -1,0 +1,76 @@
+{
+  "name": "Folate",
+  "aliases": [
+    "Methylfolate",
+    "L-5-MTHF",
+    "5-MTHF",
+    "L-Methylfolate",
+    "Metafolin",
+    "Vitamin B9"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 200,
+        "light": {
+          "lower": 400,
+          "upper": 800
+        },
+        "common": {
+          "lower": 800,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 5000
+        },
+        "heavy": 15000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 1440,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Active form bypasses MTHFR polymorphisms (~40% population has reduced MTHFR activity)",
+    "One-carbon metabolism — DNA synthesis, methylation reactions",
+    "Critical for neural tube development in pregnancy",
+    "Works synergistically with B12 in methylation cycle",
+    "May mask B12 deficiency anemia — always check B12 when supplementing",
+    "High-dose folic acid (not methylfolate) may promote undetected colorectal neoplasia in some studies"
+  ],
+  "halfLifeMinutes": 270,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Folate-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/135398513",
+    "https://en.wikipedia.org/wiki/Folic_acid"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "B-vitamin",
+    "methylation",
+    "prenatal"
+  ]
+}

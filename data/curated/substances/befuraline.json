@@ -1,0 +1,19 @@
+{
+  "name": "Befuraline",
+  "aliases": [],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Benzofuran-piperazine antidepressant",
+    "Marketed briefly in France",
+    "Limited modern data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Befuraline"
+  ],
+  "tags": [
+    "antidepressant",
+    "discontinued"
+  ]
+}

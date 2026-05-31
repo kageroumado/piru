@@ -1,0 +1,73 @@
+{
+  "name": "Asenapine",
+  "aliases": [
+    "Saphris",
+    "Secuado"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Sublingual only — extensive first-pass eliminates oral bioavailability",
+    "Broad receptor profile: D2/D3, 5HT2A/2B/2C/6/7, H1, alpha1/2 antagonism",
+    "Local oral hypoesthesia (numbness) — do not eat or drink for 10 minutes post-dose",
+    "Weight gain moderate; metabolic profile intermediate",
+    "Low EPS risk",
+    "Transdermal patch (Secuado) approved for adults"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022117lbl.pdf",
+    "https://en.wikipedia.org/wiki/Asenapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3058768"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "alpha1-blocker",
+    "H1-antagonist",
+    "prescription-only",
+    "sublingual"
+  ]
+}

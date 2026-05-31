@@ -1,0 +1,21 @@
+{
+  "name": "JWH-073",
+  "aliases": [],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Butyl analog of JWH-018",
+    "DEA Schedule I"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/JWH-073"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "aminoalkylindole",
+    "high-risk",
+    "US-Schedule-I"
+  ]
+}

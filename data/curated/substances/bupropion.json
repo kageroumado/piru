@@ -1,0 +1,76 @@
+{
+  "name": "Bupropion",
+  "aliases": [
+    "Wellbutrin",
+    "Wellbutrin SR",
+    "Wellbutrin XL",
+    "Zyban",
+    "Aplenzin",
+    "Forfivo XL"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 37.5,
+        "light": {
+          "lower": 75,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 400
+        },
+        "heavy": 450
+      },
+      "duration": {
+        "onset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 14400,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive symptoms; used for smoking cessation (Zyban) and seasonal affective disorder",
+    "Activating — improves energy and motivation; may worsen anxiety",
+    "Dose-dependent seizure risk — contraindicated in eating disorders, seizure history; never exceed 450 mg/day; no single dose >150 mg (IR) or >200 mg (SR)",
+    "Minimal sexual dysfunction (advantageous vs SSRIs)",
+    "No significant serotonergic activity — low serotonin syndrome risk",
+    "Mild CYP2D6 inhibitor",
+    "Agitation, insomnia, dry mouth, headache",
+    "Weight-neutral to weight-reducing"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf",
+    "https://en.wikipedia.org/wiki/Bupropion",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/444"
+  ],
+  "tags": [
+    "antidepressant",
+    "NDRI",
+    "prescription-only",
+    "seizure-risk",
+    "smoking-cessation"
+  ]
+}

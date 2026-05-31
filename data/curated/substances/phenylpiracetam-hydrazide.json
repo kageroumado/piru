@@ -1,0 +1,22 @@
+{
+  "name": "Phenylpiracetam hydrazide",
+  "aliases": [
+    "Fonturacetam hydrazide"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Hydrazide analog of phenylpiracetam",
+    "Reported longer duration than parent compound",
+    "No clinical data — sold as research chemical"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenylpiracetam"
+  ],
+  "tags": [
+    "racetam",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

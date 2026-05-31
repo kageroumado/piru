@@ -1,0 +1,71 @@
+{
+  "name": "Ipamorelin",
+  "aliases": [
+    "NNC 26-0161"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "µg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 100,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 500
+        },
+        "heavy": 500
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 120,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Selective ghrelin/GHS-R1a receptor agonist — stimulates GH release without increasing cortisol or prolactin",
+    "Selective GH pulse: minimal effect on ACTH, cortisol — cleaner profile than GHRP-2/6",
+    "Promotes IGF-1 increase; muscle gain, fat loss, improved sleep quality reported",
+    "Typically dosed 200–300 µg, 1–3x daily (before bed or fasted)",
+    "Often combined with CJC-1295 for amplified GH pulses",
+    "Well tolerated; minor: flushing, tingling at injection site",
+    "Not FDA approved; banned by WADA",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 120,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/9849822/",
+    "https://en.wikipedia.org/wiki/Ipamorelin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9831065"
+  ],
+  "tags": [
+    "peptide",
+    "GH-secretagogue",
+    "grey-market",
+    "research-chemical",
+    "performance-enhancing"
+  ]
+}

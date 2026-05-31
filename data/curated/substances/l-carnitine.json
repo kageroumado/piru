@@ -1,0 +1,71 @@
+{
+  "name": "L-Carnitine",
+  "aliases": [
+    "Carnitine",
+    "L-Carnitine Tartrate",
+    "Carnitor"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 3000
+        },
+        "heavy": 4000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential for mitochondrial fatty acid beta-oxidation",
+    "Does not cross blood-brain barrier efficiently (unlike ALCAR)",
+    "Investigated for exercise recovery and cardiovascular health",
+    "May reduce exercise-induced muscle damage",
+    "Fishy body odor possible via gut microbiome TMAO production",
+    "GI upset at doses above 2g"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Carnitine-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/10917",
+    "https://en.wikipedia.org/wiki/Carnitine"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid-derivative",
+    "mitochondrial-support",
+    "cardiovascular"
+  ]
+}

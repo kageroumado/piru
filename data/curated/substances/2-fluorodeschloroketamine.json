@@ -1,0 +1,88 @@
+{
+  "name": "2-Fluorodeschloroketamine",
+  "aliases": [
+    "2-F-DCK",
+    "Canket",
+    "Fluoroketamine",
+    "Fluorexetamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 40,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 250
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 45,
+          "max": 90
+        },
+        "offset": {
+          "min": 45,
+          "max": 90
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 75,
+          "upper": 125
+        },
+        "common": {
+          "lower": 125,
+          "upper": 250
+        },
+        "strong": {
+          "lower": 250,
+          "upper": 400
+        },
+        "heavy": 500
+      }
+    }
+  ],
+  "effects": [
+    "Fluorine analog of DCK — slightly less potent than ketamine",
+    "Confirmed fatalities in EU NPS market — extreme caution",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)",
+    "Long elimination half-life increases redose risk"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/2F-DCK",
+    "https://www.emcdda.europa.eu/publications/risk-assessments/2f-dck_en"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative",
+    "fatalities-reported"
+  ]
+}

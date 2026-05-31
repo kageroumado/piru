@@ -1,0 +1,76 @@
+{
+  "name": "Omega-3 Fatty Acids",
+  "aliases": [
+    "Fish Oil",
+    "EPA",
+    "DHA",
+    "Eicosapentaenoic Acid",
+    "Docosahexaenoic Acid",
+    "Algal Oil",
+    "Krill Oil"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "heavy": 5000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Anti-inflammatory — competes with arachidonic acid in eicosanoid synthesis",
+    "DHA essential for brain structure and function; EPA more anti-inflammatory",
+    "Cardiovascular risk reduction — triglyceride lowering robust; mortality benefit debated",
+    "Investigated for depression, ADHD, cognitive decline, and dry eye",
+    "High doses (>3g EPA+DHA) have anticoagulant effect — caution pre-surgery",
+    "Fishy burps — enteric-coated or freeze-dried krill forms preferred"
+  ],
+  "halfLifeMinutes": 4320,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5280934",
+    "https://en.wikipedia.org/wiki/Omega-3_fatty_acid"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "essential-fatty-acid",
+    "anti-inflammatory",
+    "cardiovascular",
+    "nootropic"
+  ]
+}

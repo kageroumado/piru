@@ -1,0 +1,25 @@
+{
+  "name": "Norketamine",
+  "aliases": [
+    "N-Desmethylketamine",
+    "DMK"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Major active metabolite of ketamine",
+    "Approximately one-third potency of ketamine at NMDA receptor",
+    "Contributes to ketamine's afterglow phase"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Norketamine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/97228"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "metabolite",
+    "no-human-data"
+  ]
+}

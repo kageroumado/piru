@@ -1,0 +1,23 @@
+{
+  "name": "2-Bromodeschloroketamine",
+  "aliases": [
+    "2-Br-DCK"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Brominated analog of DCK",
+    "No characterised human dosing",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bromoketamine"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

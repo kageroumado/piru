@@ -1,0 +1,61 @@
+{
+  "name": "Adipotide",
+  "aliases": [
+    "FTPP",
+    "Prohibitin-targeting peptidomimetic"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "research only",
+        "notes": "no validated human dosing (primate studies only) — research/community protocol. NEPHROTOXIC: renal toxicity observed in primates"
+      }
+    }
+  ],
+  "effects": [
+    "adipose vasculature apoptosis",
+    "weight loss (preclinical)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Pro-apoptotic peptidomimetic targeting white-fat vasculature.",
+    "description": "Homing peptide (CKGGRAKDC) fused via a GG linker to a pro-apoptotic D-amino-acid KLA domain [D(KLAKLAK)2]. Binds prohibitin/ANXA2 on white-adipose endothelium and induces apoptosis of the vasculature supplying fat tissue. Nephrotoxic.",
+    "primaryTargets": [
+      "prohibitin",
+      "ANXA2"
+    ],
+    "bindings": [
+      {
+        "target": "prohibitin",
+        "action": "agonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Adipotide"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "peptidomimetic",
+    "no-human-data",
+    "nephrotoxic"
+  ],
+  "peptideProfile": {
+    "sequence": "CKGGRAKDC-GG-D(KLAKLAK)2",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "Barnhart 2011 Sci Transl Med",
+    "https://en.wikipedia.org/wiki/Adipotide"
+  ]
+}

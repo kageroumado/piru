@@ -1,0 +1,75 @@
+{
+  "name": "Doxylamine",
+  "aliases": [
+    "Unisom SleepTabs",
+    "NyQuil (component)",
+    "Diclegis (with B6)",
+    "Bonjesta"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 6.25,
+        "light": {
+          "lower": 12.5,
+          "upper": 12.5
+        },
+        "common": {
+          "lower": 25,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 75
+        },
+        "heavy": 75
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Potent sedation and hypnosis — primary OTC sleep aid use",
+    "Antiemetic — used for pregnancy-related nausea (with pyridoxine)",
+    "Anticholinergic: dry mouth, constipation, urinary retention, blurred vision",
+    "At doses >150 mg: disorientation, visual hallucinations, delirium",
+    "At doses >300 mg: anticholinergic toxidrome, tachycardia, hyperthermia — life-threatening"
+  ],
+  "halfLifeMinutes": 630,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf",
+    "https://en.wikipedia.org/wiki/Doxylamine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3162"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "deliriant",
+    "OTC",
+    "sleep-aid",
+    "antiemetic"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Nefiracetam",
+  "aliases": [
+    "DM-9384",
+    "Translon"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 150,
+          "upper": 300
+        },
+        "common": {
+          "lower": 300,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 900
+        },
+        "heavy": 1200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GABAergic and cholinergic racetam",
+    "Studied in post-stroke depression",
+    "Testicular toxicity observed in beagles at high doses — caution"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Nefiracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4444"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "GABAergic"
+  ]
+}

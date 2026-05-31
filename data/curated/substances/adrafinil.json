@@ -1,0 +1,66 @@
+{
+  "name": "Adrafinil",
+  "aliases": [
+    "Olmifon",
+    "CRL-40,028"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 150,
+        "light": {
+          "lower": 300,
+          "upper": 600
+        },
+        "common": {
+          "lower": 600,
+          "upper": 900
+        },
+        "strong": {
+          "lower": 900,
+          "upper": 1200
+        },
+        "heavy": 1500
+      },
+      "duration": {
+        "onset": {
+          "min": 45,
+          "max": 120
+        },
+        "peak": {
+          "min": 180,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 600,
+          "max": 900
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Prodrug to modafinil — slower onset",
+    "Wakefulness promotion",
+    "Hepatic metabolism — long-term liver enzyme monitoring advised",
+    "Withdrawn from European market 2011"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Adrafinil",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3033"
+  ],
+  "tags": [
+    "eugeroic",
+    "prodrug",
+    "hepatotoxic-potential",
+    "afinil"
+  ]
+}

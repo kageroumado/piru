@@ -1,0 +1,112 @@
+{
+  "name": "Semaglutide",
+  "aliases": [
+    "Ozempic",
+    "Wegovy",
+    "Rybelsus"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.125,
+        "light": {
+          "lower": 0.25,
+          "upper": 0.5
+        },
+        "common": {
+          "lower": 0.5,
+          "upper": 1.0
+        },
+        "strong": {
+          "lower": 1.0,
+          "upper": 2.0
+        },
+        "heavy": 2.4
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 1440,
+          "max": 4320
+        },
+        "offset": {
+          "min": 10080,
+          "max": 14400
+        },
+        "total": {
+          "min": 10080,
+          "max": 14400
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 3,
+          "upper": 7
+        },
+        "common": {
+          "lower": 7,
+          "upper": 14
+        },
+        "strong": {
+          "lower": 14,
+          "upper": 25
+        },
+        "heavy": 25
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 1440,
+          "max": 4320
+        },
+        "offset": {
+          "min": 10080,
+          "max": 14400
+        },
+        "total": {
+          "min": 10080,
+          "max": 14400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GLP-1 receptor agonist — suppresses appetite, slows gastric emptying",
+    "Lowers HbA1c in type 2 diabetes",
+    "Weight loss 5–17% body weight over 1 year (SC); up to 15% (oral titrated)",
+    "Nausea, vomiting, diarrhea, constipation — most common; titrate dose slowly",
+    "Risk of pancreatitis — discontinue if suspected",
+    "Gallbladder disease (cholelithiasis) risk increased",
+    "Contraindicated in personal/family history of medullary thyroid carcinoma or MEN2",
+    "Cardioprotective benefit in T2DM (SUSTAIN-6, PIONEER-6 trials)"
+  ],
+  "halfLifeMinutes": 9900,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf",
+    "https://en.wikipedia.org/wiki/Semaglutide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/56843331"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "prescription-only",
+    "anti-obesity",
+    "anti-diabetic",
+    "weight-loss"
+  ]
+}

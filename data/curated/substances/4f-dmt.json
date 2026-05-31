@@ -1,0 +1,25 @@
+{
+  "name": "4F-DMT",
+  "aliases": [
+    "4-Fluoro-N,N-dimethyltryptamine"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Halogenated tryptamine SAR poorly characterized — extreme caution, doses are extrapolations.",
+    "4-fluoro analog of DMT",
+    "No published human pharmacology"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Fluorinated_tryptamines",
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "tryptamine",
+    "tryptamine-halogen",
+    "research-chemical",
+    "no-human-data",
+    "experimental"
+  ]
+}

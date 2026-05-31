@@ -1,0 +1,25 @@
+{
+  "name": "CX-516",
+  "aliases": [
+    "Ampalex",
+    "BDP-12"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "First-generation Cortex Pharmaceuticals AMPAkine",
+    "Short half-life limited clinical utility",
+    "Trialled in Alzheimer's and schizophrenia — discontinued"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/CX-516",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3035108"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "Cortex-Pharmaceuticals",
+    "research-chemical",
+    "investigational"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "CE-123",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Atypical DAT inhibitor — modafinil-class scaffold",
+    "Pro-cognitive in rodent studies",
+    "Investigational"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/28720424/"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

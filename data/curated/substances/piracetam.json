@@ -1,0 +1,67 @@
+{
+  "name": "Piracetam",
+  "aliases": [
+    "Nootropil",
+    "UCB-6215",
+    "2-oxo-1-pyrrolidineacetamide"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 800,
+        "light": {
+          "lower": 1200,
+          "upper": 1600
+        },
+        "common": {
+          "lower": 1600,
+          "upper": 4800
+        },
+        "strong": {
+          "lower": 4800,
+          "upper": 7200
+        },
+        "heavy": 9600
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Subtle cognitive enhancement",
+    "Cholinergic dependence — pair with choline source to avoid headache",
+    "Modulates AMPA and NMDA receptors indirectly",
+    "Well-tolerated; renal clearance"
+  ],
+  "halfLifeMinutes": 300,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Piracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4843"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "AMPA-modulator",
+    "cholinergic"
+  ]
+}

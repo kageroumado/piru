@@ -1,0 +1,108 @@
+{
+  "name": "CBN-O",
+  "aliases": [
+    "CBN acetate",
+    "Cannabinol-O-acetate",
+    "O-acetyl-CBN"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    },
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 5,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 60
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 20
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Prodrug to CBN via deacetylation",
+    "Reported enhanced sedation vs CBN",
+    "Marketed primarily as a sleep aid",
+    "Very limited clinical data",
+    "Inhalation of acetate esters associated with lung toxicity risk"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/162640303"
+  ],
+  "tags": [
+    "cannabinoid",
+    "semi-synthetic",
+    "CB1-partial-agonist",
+    "mildly-psychoactive",
+    "prodrug",
+    "sedative",
+    "limited-research"
+  ]
+}

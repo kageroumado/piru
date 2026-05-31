@@ -1,0 +1,75 @@
+{
+  "name": "5-Amino-1MQ",
+  "aliases": [
+    "5-Amino-1-methylquinolinium",
+    "5A1MQ"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 480
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Small molecule NNMT (nicotinamide N-methyltransferase) inhibitor — NOT a peptide; classified as peptide-mimetic",
+    "NNMT inhibition raises cellular NAD+ and SAM (S-adenosylmethionine) pools",
+    "Promotes fat cell (adipocyte) browning and reduces adipogenesis in rodent models",
+    "Weight loss and metabolic improvement in diet-induced obese mice without dietary changes",
+    "Orally bioavailable — advantage over injectable peptides",
+    "No human clinical trial data; dose protocols entirely extrapolated from murine studies",
+    "Safety profile unknown in humans; NNMT plays roles in methylation and cancer biology",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/34799658/",
+    "https://en.wikipedia.org/wiki/5-Amino-1-methylquinolinium",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2737"
+  ],
+  "tags": [
+    "peptide",
+    "peptide-mimetic",
+    "NNMT-inhibitor",
+    "grey-market",
+    "research-chemical",
+    "metabolic",
+    "anti-obesity",
+    "weight-loss"
+  ]
+}

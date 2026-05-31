@@ -1,0 +1,43 @@
+{
+  "name": "Centrophenoxine",
+  "aliases": [
+    "Meclofenoxate",
+    "Lucidril"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 750
+        },
+        "common": {
+          "lower": 750,
+          "upper": 1500
+        },
+        "strong": {
+          "lower": 1500,
+          "upper": 2000
+        },
+        "heavy": 2500
+      }
+    }
+  ],
+  "effects": [
+    "DMAE + 4-chlorophenoxyacetic acid ester",
+    "Used in age-related cognitive decline",
+    "Lipofuscin reduction in animal studies"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Meclofenoxate"
+  ],
+  "tags": [
+    "nootropic",
+    "cholinergic"
+  ]
+}

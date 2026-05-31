@@ -1,0 +1,75 @@
+{
+  "name": "Dronabinol",
+  "aliases": [
+    "Marinol",
+    "Syndros",
+    "Synthetic THC",
+    "(-)-delta-9-trans-tetrahydrocannabinol"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "FDA-approved for chemotherapy-induced nausea/vomiting and AIDS-related anorexia",
+    "Antiemetic",
+    "Appetite stimulation",
+    "Psychoactive — same mechanism as cannabis THC",
+    "Standard starting dose: 2.5 mg BID (before lunch and dinner)",
+    "Titrated up to 20 mg/day in divided doses per FDA label"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf",
+    "https://en.wikipedia.org/wiki/Dronabinol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/16078"
+  ],
+  "tags": [
+    "cannabinoid",
+    "CB1-partial-agonist",
+    "CB2-agonist",
+    "psychoactive",
+    "prescription-only",
+    "FDA-approved",
+    "US-Schedule-III",
+    "antiemetic"
+  ]
+}

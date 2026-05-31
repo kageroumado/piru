@@ -1,0 +1,112 @@
+{
+  "name": "Selegiline",
+  "aliases": [
+    "Emsam (patch)",
+    "Eldepryl",
+    "Zelapar",
+    "L-deprenyl"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg/24h",
+      "doses": {
+        "threshold": 6,
+        "light": {
+          "lower": 6,
+          "upper": 6
+        },
+        "common": {
+          "lower": 6,
+          "upper": 9
+        },
+        "strong": {
+          "lower": 9,
+          "upper": 12
+        },
+        "heavy": 12
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Selective MAO-B inhibitor at low oral doses (≤10 mg/day) — approved for Parkinson's; also acts as dopamine enhancer via amphetamine metabolites",
+    "Transdermal patch (Emsam) approved for MDD — higher doses lose MAO-B selectivity, inhibit MAO-A",
+    "At 6 mg/24h patch: no dietary tyramine restriction required; at ≥9 mg/24h: restrictions apply",
+    "Metabolized to L-amphetamine and L-methamphetamine (CNS stimulant effect)",
+    "Insomnia, application site reactions (patch), orthostatic hypotension",
+    "Requires washout before switching to serotonergic drugs"
+  ],
+  "halfLifeMinutes": 120,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf",
+    "https://en.wikipedia.org/wiki/Selegiline",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/26757"
+  ],
+  "tags": [
+    "antidepressant",
+    "MAOI",
+    "MAO-B-selective",
+    "dopamine-enhancer",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "dietary-restriction"
+  ]
+}

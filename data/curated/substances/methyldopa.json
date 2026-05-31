@@ -1,0 +1,67 @@
+{
+  "name": "Methyldopa",
+  "aliases": [
+    "Aldomet",
+    "Dopamet"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 125,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "heavy": 3000
+      },
+      "duration": {
+        "onset": {
+          "min": 120,
+          "max": 360
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Central alpha-2 agonist — reduces sympathetic outflow",
+    "Significant sedation and mental slowing",
+    "First-line antihypertensive in pregnancy",
+    "Can cause depression, impaired cognition, and drug-induced parkinsonism",
+    "Positive Coombs test — hemolytic anemia risk with long-term use"
+  ],
+  "halfLifeMinutes": 105,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methyldopa",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/38853"
+  ],
+  "tags": [
+    "alpha2-agonist",
+    "antihypertensive",
+    "sedating",
+    "prescription-only"
+  ]
+}

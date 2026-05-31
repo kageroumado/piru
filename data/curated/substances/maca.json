@@ -1,0 +1,74 @@
+{
+  "name": "Maca",
+  "aliases": [
+    "Lepidium meyenii",
+    "Peruvian Ginseng",
+    "Maca Root",
+    "Black Maca",
+    "Red Maca"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1500,
+        "light": {
+          "lower": 2000,
+          "upper": 3000
+        },
+        "common": {
+          "lower": 3000,
+          "upper": 5000
+        },
+        "strong": {
+          "lower": 5000,
+          "upper": 8000
+        },
+        "heavy": 10000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Nutritive root vegetable with glucosinolates and unique macamides",
+    "Investigated for libido, fertility, and menopausal symptom relief",
+    "Does not directly alter sex hormone levels — putative non-hormonal mechanisms",
+    "3-4 weeks of use required before reporting subjective benefit",
+    "Very well-tolerated as a food; low toxicity",
+    "Evidence primarily from small trials — effects modest but consistent for libido"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/104983",
+    "https://en.wikipedia.org/wiki/Maca_(plant)",
+    "https://examine.com/supplements/maca/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "libido",
+    "fertility"
+  ]
+}

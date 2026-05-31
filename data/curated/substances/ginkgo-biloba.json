@@ -1,0 +1,74 @@
+{
+  "name": "Ginkgo Biloba",
+  "aliases": [
+    "Ginkgo",
+    "Maidenhair Tree Extract",
+    "EGb 761"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 40,
+        "light": {
+          "lower": 80,
+          "upper": 120
+        },
+        "common": {
+          "lower": 120,
+          "upper": 240
+        },
+        "strong": {
+          "lower": 240,
+          "upper": 360
+        },
+        "heavy": 480
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Flavonoids and terpenoids (ginkgolides, bilobalide) — platelet-activating factor antagonism and antioxidant",
+    "Investigated for dementia, tinnitus, and claudication — evidence moderate",
+    "Anticoagulant: inhibits platelet aggregation — caution with warfarin, aspirin, NSAIDs",
+    "May mildly inhibit MAO-A and MAO-B",
+    "Standardized to 24% flavonol glycosides and 6% terpene lactones",
+    "Some concerns about carcinogenicity in animal studies (ginkgolic acids) — use standardized extracts"
+  ],
+  "halfLifeMinutes": 210,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5321394",
+    "https://en.wikipedia.org/wiki/Ginkgo_biloba",
+    "https://examine.com/supplements/ginkgo-biloba/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "herbal",
+    "OTC",
+    "antioxidant",
+    "anticoagulant",
+    "MAO-inhibitor-weak",
+    "cognitive-enhancement"
+  ]
+}

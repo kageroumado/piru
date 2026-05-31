@@ -1,0 +1,68 @@
+{
+  "name": "Acamprosate",
+  "aliases": [
+    "Campral",
+    "Acetyl homotaurine"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 333,
+        "light": {
+          "lower": 666,
+          "upper": 1332
+        },
+        "common": {
+          "lower": 1332,
+          "upper": 1998
+        },
+        "strong": {
+          "lower": 1998,
+          "upper": 1998
+        },
+        "heavy": 1998
+      },
+      "duration": {
+        "onset": {
+          "min": 240,
+          "max": 480
+        },
+        "peak": {
+          "min": 720,
+          "max": 1440
+        },
+        "offset": {
+          "min": 1440,
+          "max": 2880
+        },
+        "total": {
+          "min": 2880,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "NMDA receptor modulator and GABA-A agonist — normalizes glutamate/GABA dysregulation from alcohol withdrawal",
+    "Reduces post-acute withdrawal craving and protracted abstinence syndrome",
+    "No euphoria or abuse potential; does not block alcohol effects",
+    "Diarrhea, nausea — most common side effects",
+    "Renally cleared — contraindicated in severe renal impairment"
+  ],
+  "halfLifeMinutes": 1200,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Acamprosate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/71158"
+  ],
+  "tags": [
+    "AUD-treatment",
+    "NMDA-modulator",
+    "GABA-modulator",
+    "anti-craving",
+    "prescription-only"
+  ]
+}

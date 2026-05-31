@@ -1,0 +1,21 @@
+{
+  "name": "2-FMC",
+  "aliases": [
+    "2-Fluoromethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Positional isomer of flephedrone",
+    "Limited human pharmacology data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/2-Fluoromethcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "SoRI-20041",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "DAT inhibitor research compound",
+    "Allosteric DAT modulator scaffold"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

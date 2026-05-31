@@ -1,0 +1,67 @@
+{
+  "name": "Zonisamide",
+  "aliases": [
+    "Zonegran"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 400
+        },
+        "heavy": 600
+      },
+      "duration": {
+        "onset": {
+          "min": 240,
+          "max": 720
+        },
+        "peak": {
+          "min": 720,
+          "max": 1440
+        },
+        "offset": {
+          "min": 1440,
+          "max": 5760
+        },
+        "total": {
+          "min": 2880,
+          "max": 5760
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Blocks sodium and T-type calcium channels; carbonic anhydrase inhibitor",
+    "Anticonvulsant; used off-label for weight loss, binge eating, migraine",
+    "Cognitive blunting, sedation, word-finding difficulty",
+    "Kidney stones risk; oligohidrosis (reduced sweating) — hyperthermia risk",
+    "Appetite suppression and weight loss"
+  ],
+  "halfLifeMinutes": 4680,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Zonisamide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/68649"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "GABA-modulator",
+    "sodium-channel-blocker",
+    "appetite-suppressant",
+    "prescription-only"
+  ]
+}

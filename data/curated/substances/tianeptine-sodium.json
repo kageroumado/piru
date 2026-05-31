@@ -1,0 +1,42 @@
+{
+  "name": "Tianeptine sodium",
+  "aliases": [],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 6,
+        "light": {
+          "lower": 12,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 100
+      }
+    }
+  ],
+  "effects": [
+    "Mu-opioid activity; addiction and overdose risk. Banned in several US states.",
+    "Immediate-release sodium salt — standard pharmaceutical form",
+    "Severe withdrawal mimicking opioid withdrawal"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tianeptine"
+  ],
+  "tags": [
+    "antidepressant",
+    "mu-opioid-agonist",
+    "nootropic",
+    "high-dependence-risk"
+  ]
+}

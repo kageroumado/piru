@@ -1,0 +1,73 @@
+{
+  "name": "CJC-1295",
+  "aliases": [
+    "CJC-1295 DAC",
+    "Drug Affinity Complex-GRF 1-29",
+    "Modified GRF 1-29 DAC"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "µg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 100,
+          "upper": 250
+        },
+        "common": {
+          "lower": 250,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 720
+        },
+        "offset": {
+          "min": 2880,
+          "max": 14400
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GHRH analogue — stimulates pituitary GH release (DAC version: half-life ~6–8 days via maleimide-albumin binding)",
+    "Increases IGF-1 levels; promotes muscle hypertrophy and fat metabolism",
+    "Often stacked with ipamorelin (GHRP) for synergistic GH pulse amplification",
+    "Common dosing: 250–500 µg once or twice weekly (DAC form); or 100–300 µg 3x/week (no-DAC/Mod-GRF 1-29)",
+    "Water retention, joint pain at high doses; possible insulin resistance with chronic use",
+    "Not FDA approved; banned by WADA",
+    "Sourced from research-chemical suppliers — purity and sterility not guaranteed; risk of contamination"
+  ],
+  "halfLifeMinutes": 10080,
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/16352683/",
+    "https://en.wikipedia.org/wiki/CJC-1295",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/57327617"
+  ],
+  "tags": [
+    "peptide",
+    "GHRH-analogue",
+    "GH-secretagogue",
+    "grey-market",
+    "research-chemical",
+    "performance-enhancing"
+  ]
+}

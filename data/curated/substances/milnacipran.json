@@ -1,0 +1,69 @@
+{
+  "name": "Milnacipran",
+  "aliases": [
+    "Savella",
+    "Ixel",
+    "Toledomin"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 200
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Approved in US for fibromyalgia management (not marketed as antidepressant in US)",
+    "Higher NE:5-HT ratio than venlafaxine/duloxetine",
+    "Nausea, hypertension, heart rate increase, hyperhidrosis",
+    "Dysuria and urinary hesitancy (NE effect)",
+    "Discontinuation syndrome on abrupt stop"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022256s009lbl.pdf",
+    "https://en.wikipedia.org/wiki/Milnacipran",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/65863"
+  ],
+  "tags": [
+    "antidepressant",
+    "SNRI",
+    "prescription-only",
+    "serotonin-syndrome-risk"
+  ]
+}

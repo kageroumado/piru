@@ -1,0 +1,58 @@
+{
+  "name": "Humanin",
+  "aliases": [
+    "HN",
+    "HNG",
+    "[Gly14]-humanin"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {}
+    },
+    {
+      "route": "intravenous",
+      "unit": "mcg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "cytoprotective",
+    "anti-apoptotic",
+    "neuroprotective"
+  ],
+  "halfLifeMinutes": 30,
+  "mechanismOfAction": {
+    "summary": "Mitochondrial-derived peptide; cytoprotective and anti-apoptotic.",
+    "description": "24-aa mitochondrial-derived peptide encoded in the 16S rRNA region. Binds Bax and IGFBP3 to inhibit apoptosis; exerts neuroprotective and metabolic effects. The [Gly14] analog (HNG) is markedly more potent.",
+    "primaryTargets": [
+      "Bax",
+      "IGFBP3"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Humanin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "longevity",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "330936-69-1",
+  "peptideProfile": {
+    "sequence": "MAPRGFSCLLLLTSEIDLPVKRRA",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "CAS 330936-69-1; humanin literature (Cohen lab)"
+  ]
+}

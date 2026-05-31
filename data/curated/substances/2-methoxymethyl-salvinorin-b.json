@@ -1,0 +1,25 @@
+{
+  "name": "2-Methoxymethyl-salvinorin B",
+  "aliases": [
+    "SymBMS",
+    "MOM-Sal B"
+  ],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Semisynthetic methoxymethyl ether of salvinorin B",
+    "10x potency vs salvinorin A in animal models",
+    "Bryan Roth lab characterisation only"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/16108680/",
+    "https://en.wikipedia.org/wiki/Salvinorin_B_methoxymethyl_ether"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

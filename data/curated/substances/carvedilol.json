@@ -1,0 +1,67 @@
+{
+  "name": "Carvedilol",
+  "aliases": [
+    "Coreg",
+    "Coreg CR"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3.125,
+        "light": {
+          "lower": 6.25,
+          "upper": 12.5
+        },
+        "common": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-selective beta and alpha-1 blockade",
+    "Lowers blood pressure and heart rate",
+    "Fatigue, dizziness, mild CNS blunting",
+    "Orthostatic hypotension more pronounced than beta-1-selective agents"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Carvedilol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2585"
+  ],
+  "tags": [
+    "beta-blocker",
+    "alpha1-blocker",
+    "non-selective",
+    "antihypertensive",
+    "prescription-only"
+  ]
+}

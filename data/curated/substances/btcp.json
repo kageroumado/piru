@@ -1,0 +1,26 @@
+{
+  "name": "BTCP",
+  "aliases": [
+    "Benzothiophenylcyclohexylpiperidine"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Arylcyclohexylamine DAT inhibitor (not NMDA-active like PCP)",
+    "Selective DAT inhibitor — used as pharmacological tool",
+    "Possible liver toxicity per literature"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/BTCP",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/91710"
+  ],
+  "tags": [
+    "DRI",
+    "arylcyclohexylamine",
+    "research-chemical",
+    "liver-toxicity",
+    "no-human-data",
+    "investigational"
+  ]
+}

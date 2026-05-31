@@ -1,0 +1,47 @@
+{
+  "name": "alpha-PHP",
+  "aliases": [
+    "α-PHP",
+    "α-Pyrrolidinohexiophenone",
+    "PV-7"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 7,
+          "upper": 15
+        },
+        "common": {
+          "lower": 15,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 40
+        },
+        "heavy": 50
+      }
+    }
+  ],
+  "effects": [
+    "Hexyl analog of α-PVP — similar potency profile",
+    "Compulsive redose risk",
+    "Linked to fatalities"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Alpha-PHP"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "fatalities-reported",
+    "high-risk"
+  ]
+}

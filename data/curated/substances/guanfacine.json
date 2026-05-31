@@ -1,0 +1,68 @@
+{
+  "name": "Guanfacine",
+  "aliases": [
+    "Tenex",
+    "Intuniv"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 1,
+          "upper": 3
+        },
+        "strong": {
+          "lower": 3,
+          "upper": 4
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Alpha-2A agonist — prefrontal cortex strengthening at low doses",
+    "Calming and anxiolytic without sedation at therapeutic doses",
+    "Used off-label for PTSD, ADHD, anxiety, and tic disorders",
+    "Significant sedation and orthostatic hypotension at higher doses",
+    "Rebound hypertension with abrupt discontinuation"
+  ],
+  "halfLifeMinutes": 1020,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Guanfacine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3519"
+  ],
+  "tags": [
+    "alpha2-agonist",
+    "antihypertensive",
+    "ADHD",
+    "anxiolytic",
+    "prescription-only"
+  ]
+}

@@ -24,8 +24,8 @@ struct Build: AsyncParsableCommand {
     @Option(name: .long, help: "HTTP cache directory.")
     var cacheDir: String = ".cache"
 
-    @Option(name: .long, help: "Curated overlay JSON.")
-    var curatedOverlay: String = "../../data/curated/overlay.json"
+    @Option(name: .long, help: "Curated substances directory (one JSON file per compound).")
+    var curatedOverlay: String = "../../data/curated/substances"
 
     @Flag(name: .long, help: "Don't make any network requests; rely solely on the cache.")
     var noNetwork: Bool = false

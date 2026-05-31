@@ -1,0 +1,65 @@
+{
+  "name": "Mazindol",
+  "aliases": [
+    "Sanorex",
+    "Mazanor"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 1.5
+        },
+        "common": {
+          "lower": 1.5,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 540,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Imidazo-isoindole NDRI used historically for obesity",
+    "Investigated for ADHD and narcolepsy (NLS Pharmaceutics)",
+    "Lower abuse-liability than amphetamines"
+  ],
+  "halfLifeMinutes": 540,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mazindol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4020"
+  ],
+  "tags": [
+    "NDRI",
+    "anorectic",
+    "prescription-only",
+    "US-Schedule-IV"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "RTI-150",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Phenyltropane DAT inhibitor radioligand",
+    "Research tool compound"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenyltropane"
+  ],
+  "tags": [
+    "DRI",
+    "radioligand-origin",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

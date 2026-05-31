@@ -1,0 +1,25 @@
+{
+  "name": "WIN-35428",
+  "aliases": [
+    "CFT",
+    "β-CFT"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Selective phenyltropane DAT inhibitor",
+    "Used as 11C-CFT and 18F-CFT PET radioligand for DAT imaging",
+    "No therapeutic human use"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/CFT"
+  ],
+  "tags": [
+    "DRI",
+    "radioligand-origin",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

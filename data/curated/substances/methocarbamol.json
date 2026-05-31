@@ -1,0 +1,65 @@
+{
+  "name": "Methocarbamol",
+  "aliases": [
+    "Robaxin",
+    "Robaxin-750"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 750,
+          "upper": 1500
+        },
+        "common": {
+          "lower": 1500,
+          "upper": 3000
+        },
+        "strong": {
+          "lower": 3000,
+          "upper": 4500
+        },
+        "heavy": 6000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Central muscle relaxant — mechanism not fully established",
+    "Sedation, dizziness, and lightheadedness",
+    "Low abuse potential compared to other centrally-acting relaxants",
+    "May discolor urine (black, brown, or green)"
+  ],
+  "halfLifeMinutes": 72,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methocarbamol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/15386"
+  ],
+  "tags": [
+    "muscle-relaxant",
+    "sedating",
+    "prescription-only"
+  ]
+}

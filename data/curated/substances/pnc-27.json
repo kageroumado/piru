@@ -1,0 +1,44 @@
+{
+  "name": "PNC-27",
+  "aliases": [
+    "p53-derived anticancer peptide"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "intravenous",
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anticancer (preclinical)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Membrane-disrupting anticancer peptide; p53(12-26) MDM2-binding domain plus penetratin leader.",
+    "description": "Fuses the p53 residues 12-26 (HDM-2/MDM2-binding domain) to a penetratin membrane-leader sequence. Selectively forms transmembrane pores in cancer cells that present HDM-2 at the membrane, causing necrosis while sparing normal cells. No human data.",
+    "primaryTargets": [
+      "HDM-2"
+    ],
+    "references": [
+      "https://www.ncbi.nlm.nih.gov/pmc/?term=PNC-27+p53+peptide"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "Michl/Pincus p53 peptide literature"
+  ]
+}

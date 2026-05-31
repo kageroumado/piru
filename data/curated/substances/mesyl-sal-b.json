@@ -1,0 +1,25 @@
+{
+  "name": "Mesyl Sal B",
+  "aliases": [
+    "RB-64",
+    "22-Methylsulfonyloxy-salvinorin B"
+  ],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Functionally selective kappa-opioid agonist",
+    "Biased toward G-protein signalling over arrestin",
+    "Bryan Roth lab tool compound"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/22323769/"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "biased-agonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "1Bz-LSD",
+  "aliases": [
+    "1-benzoyl-LSD",
+    "SYN-L-018"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "sublingual",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "µg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "presumed LSD-class (unconfirmed in humans)",
+    "visual distortion",
+    "cognitive amplification"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed LSD prodrug via sequential deethylation (→ 1Bz-LAE) then hydrolysis → LSD; full chain characterized in vitro only.",
+    "description": "N1-benzoyl LSD (benzoyl = aromatic acyl group; distinct from 1B-LSD which is 1-butanoyl). In vitro: deethylation to 1Bz-LAE confirmed (Azuma et al. 2026, Drug Test Anal); further hydrolysis to LSD presumed. No validated human potency or dose range established.",
+    "primaryTargets": [
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/1Bz-LSD",
+      "https://doi.org/10.1002/dta.70042"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "psychedelic",
+    "lsd-prodrug",
+    "no-human-data"
+  ],
+  "formula": "C27H28N3O2",
+  "molarMass": 426.5,
+  "inchikey": "GVGINGNTVRBWSQ-XMMPIXPASA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1Bz-LSD",
+    "Azuma 2026 Drug Test Anal DOI:10.1002/dta.70042"
+  ]
+}

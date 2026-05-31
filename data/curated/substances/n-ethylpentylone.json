@@ -1,0 +1,48 @@
+{
+  "name": "N-Ethylpentylone",
+  "aliases": [
+    "Ephylone",
+    "βk-Ethyl-K",
+    "N-Ethylnorpentylone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 15,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 100
+      }
+    }
+  ],
+  "effects": [
+    "Caused mass overdose events at festivals (2017-2019). Avoid.",
+    "Often sold as MDMA or 'molly' — frequent misrepresentation",
+    "Severe insomnia, paranoia, cardiovascular strain"
+  ],
+  "sources": [
+    "https://www.dea.gov/sites/default/files/2018-07/N-Ethylpentylone-2018.pdf",
+    "https://en.wikipedia.org/wiki/Ephylone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "MDMA-analog",
+    "fatalities-reported",
+    "high-risk"
+  ]
+}

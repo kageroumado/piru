@@ -1,0 +1,60 @@
+{
+  "name": "NB-5-MeO-DALT",
+  "aliases": [
+    "5-MeO-DALT-Boc",
+    "N1-Boc-5-MeO-DALT"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "inactive in Boc form",
+    "thermal deprotection yields 5-MeO-DALT",
+    "parent: stimulating psychedelic",
+    "parent: tachycardia and euphoria",
+    "serotonin syndrome risk"
+  ],
+  "mechanismOfAction": {
+    "summary": "N1-Boc thermolabile prodrug of 5-MeO-DALT; inactive until pyrolysis (~150–200°C) or acid conditions cleave the Boc group, releasing the 5-HT1A/2A agonist 5-MeO-DALT.",
+    "description": "'NB-' prefix denotes N1-tert-butoxycarbonyl (NOT N-benzyl as sometimes assumed). Boc group cleaves at ~150–200°C (pyrolysis/smoking route) or under acid conditions. Parent 5-MeO-DALT: 5-HT1A and 5-HT2A agonist. Delivered parent dose from the Boc compound is unpredictable. No validated dosing for the Boc form itself. Parent 5-MeO-DALT oral: onset 10–15 min, total 2–4 h.",
+    "primaryTargets": [
+      "5-HT2A",
+      "5-HT1A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "agonist",
+        "affinity": 3
+      },
+      {
+        "target": "5-HT1A",
+        "action": "agonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/NB-5-MeO-DALT",
+      "https://psychonautwiki.org/wiki/5-MeO-DALT"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "prodrug",
+    "n1-boc-prodrug",
+    "tryptamine"
+  ],
+  "formula": "C22H30N2O3",
+  "molarMass": 370.49,
+  "sources": [
+    "https://en.wikipedia.org/wiki/NB-5-MeO-DALT",
+    "https://psychonautwiki.org/wiki/5-MeO-DALT"
+  ]
+}

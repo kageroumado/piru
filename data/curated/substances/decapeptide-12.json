@@ -1,0 +1,48 @@
+{
+  "name": "Decapeptide-12",
+  "aliases": [
+    "Lumixyl"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "skin lightening"
+  ],
+  "mechanismOfAction": {
+    "summary": "Tyrosinase inhibitor; reduces melanin synthesis.",
+    "description": "Synthetic decapeptide that inhibits tyrosinase, the rate-limiting enzyme in melanogenesis, reducing hyperpigmentation.",
+    "primaryTargets": [
+      "Tyrosinase"
+    ],
+    "bindings": [
+      {
+        "target": "Tyrosinase",
+        "action": "enzymeInhibitor",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "INCI/CosIng database"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "INCI/CosIng; manufacturer tech sheet"
+  ]
+}

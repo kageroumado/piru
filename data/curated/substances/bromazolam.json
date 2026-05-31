@@ -1,0 +1,61 @@
+{
+  "name": "Bromazolam",
+  "aliases": [],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1080
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
+    "Brominated alprazolam analog",
+    "Major presence in 2023-2024 US street benzo supply",
+    "Co-detection with fentanyl in many overdoses"
+  ],
+  "halfLifeMinutes": 1080,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bromazolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "triazolobenzodiazepine",
+    "fatalities-reported"
+  ]
+}

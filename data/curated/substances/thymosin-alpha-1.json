@@ -1,0 +1,62 @@
+{
+  "name": "Thymosin alpha-1",
+  "aliases": [
+    "Thymalfasin",
+    "Zadaxin",
+    "Tα1"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 1.6,
+        "frequency": "2×/week",
+        "notes": "hepatitis B/C and immune adjuvant; approved in ~35 countries (Zadaxin), not FDA-approved"
+      }
+    }
+  ],
+  "effects": [
+    "immune modulation",
+    "T-cell maturation",
+    "increased Th1/IL-2/IFN"
+  ],
+  "halfLifeMinutes": 120,
+  "mechanismOfAction": {
+    "summary": "Thymic immunomodulatory peptide; promotes T-cell maturation and Th1 responses.",
+    "description": "N-acetylated 28-aa thymic peptide that modulates T-cell maturation, increases Th1 cytokine output (IL-2, IFN), and enhances dendritic-cell and NK function.",
+    "primaryTargets": [
+      "T cells",
+      "Dendritic cells",
+      "NK cells"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Thymalfasin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "immune"
+  ],
+  "cas": "62304-98-7",
+  "formula": "C129H215N33O55",
+  "pubchemCID": 16130571,
+  "molarMass": 3108.3,
+  "peptideProfile": {
+    "sequence": "Ac-Ser-Asp-Ala-Ala-Val-Asp-Thr-Ser-Ser-Glu-Ile-Thr-Thr-Lys-Asp-Leu-Lys-Glu-Lys-Lys-Glu-Val-Val-Glu-Glu-Ala-Glu-Asn",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 16130571",
+    "Zadaxin SmPC",
+    "https://en.wikipedia.org/wiki/Thymalfasin"
+  ]
+}

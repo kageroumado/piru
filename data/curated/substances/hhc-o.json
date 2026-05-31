@@ -1,0 +1,71 @@
+{
+  "name": "HHC-O",
+  "aliases": [
+    "HHC Acetate",
+    "Hexahydrocannabinol acetate",
+    "O-acetyl-HHC"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 20
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 300
+        },
+        "total": {
+          "min": 180,
+          "max": 420
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reported more potent than HHC (prodrug — deacetylated to HHC in vivo)",
+    "Delayed onset relative to HHC",
+    "Euphoria and sedation",
+    "Very limited safety data",
+    "Inhalation of acetate esters raises EVALI/lipoid pneumonia risk (cf. THC-O, Vitamin E acetate)"
+  ],
+  "halfLifeMinutes": 1200,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hexahydrocannabinol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/162676784"
+  ],
+  "tags": [
+    "cannabinoid",
+    "semi-synthetic",
+    "CB1-partial-agonist",
+    "psychoactive",
+    "prodrug",
+    "limited-research",
+    "evali-risk"
+  ]
+}

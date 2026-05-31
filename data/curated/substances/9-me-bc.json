@@ -1,0 +1,45 @@
+{
+  "name": "9-Me-BC",
+  "aliases": [
+    "9-Methyl-β-carboline"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 150
+      }
+    }
+  ],
+  "effects": [
+    "Beta-carboline alkaloid",
+    "Mild MAOI-A activity",
+    "Reported dopaminergic neuroprotection in vitro",
+    "Limited human safety data"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/22483621/"
+  ],
+  "tags": [
+    "nootropic",
+    "beta-carboline",
+    "MAOI-A-weak",
+    "research-chemical"
+  ]
+}

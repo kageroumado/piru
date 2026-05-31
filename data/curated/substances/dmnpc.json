@@ -1,0 +1,64 @@
+{
+  "name": "DMNPC",
+  "aliases": [
+    "N,O-dimethyl-4-(2-naphthyl)piperidine-3-carboxylate",
+    "methyl (3S,4S)-1-methyl-4-(naphthalen-2-yl)piperidine-3-carboxylate"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "presumed cocaine-like CNS stimulation",
+    "dopamine reuptake inhibition",
+    "serotonin syndrome risk with serotonergic agents"
+  ],
+  "mechanismOfAction": {
+    "summary": "Potent triple monoamine reuptake inhibitor (dopamine, norepinephrine and serotonin); ~2.5× cocaine potency at DAT. Piperidine-based phenyltropane/nocaine-related stimulant.",
+    "description": "Piperidine-based stimulant synthesized from arecoline. The 3S,4S enantiomer is most active; the 3R,4S enantiomer has the highest SERT selectivity. Acts by monoamine reuptake inhibition with no releasing-agent activity and no opioid receptor activity. No human pharmacological data. Significant serotonin syndrome risk in combination with MAOIs or other serotonergic agents.",
+    "primaryTargets": [
+      "DAT",
+      "NET",
+      "SERT"
+    ],
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity": 3
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/N,O-Dimethyl-4-(2-naphthyl)piperidine-3-carboxylate"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "designer-drug",
+    "high-abuse-potential"
+  ],
+  "cas": "265112-64-9",
+  "pubchemCID": 10684403,
+  "formula": "C18H21NO2",
+  "molarMass": 283.37,
+  "sources": [
+    "https://en.wikipedia.org/wiki/N,O-Dimethyl-4-(2-naphthyl)piperidine-3-carboxylate",
+    "PubChem CID 10684403"
+  ]
+}

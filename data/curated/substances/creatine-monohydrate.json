@@ -1,0 +1,73 @@
+{
+  "name": "Creatine Monohydrate",
+  "aliases": [
+    "Creatine",
+    "Creatine Monohydrate",
+    "Creapure"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "g",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 5
+        },
+        "strong": {
+          "lower": 5,
+          "upper": 10
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 1440,
+          "max": 2880
+        },
+        "total": {
+          "min": 1440,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Phosphocreatine replenishment — ATP regeneration during high-intensity effort",
+    "One of the most studied and effective sports supplements",
+    "Cognitive benefit investigated — NMDA co-agonist properties; benefits brain energy metabolism",
+    "Water retention of 1-2 kg during loading (intramuscular)",
+    "Loading protocol (20g/day for 5 days) saturates faster; 3-5g/day reaches saturation in ~28 days",
+    "Creatinine elevation on labs — not indicative of kidney damage in healthy individuals"
+  ],
+  "halfLifeMinutes": 180,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/586",
+    "https://en.wikipedia.org/wiki/Creatine",
+    "https://examine.com/supplements/creatine/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid-derivative",
+    "NMDA-modulator",
+    "athletic-performance",
+    "nootropic",
+    "energy-metabolism"
+  ]
+}

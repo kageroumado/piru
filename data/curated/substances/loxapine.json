@@ -1,0 +1,109 @@
+{
+  "name": "Loxapine",
+  "aliases": [
+    "Loxitane",
+    "Adasuve"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 250
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "inhaled",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 10
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 2,
+          "max": 10
+        },
+        "peak": {
+          "min": 5,
+          "max": 20
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 120,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dibenzoxazepine with both D2 and 5HT2A antagonism — clozapine structural analog",
+    "Inhaled formulation (Adasuve) for acute agitation: rapid onset within minutes",
+    "Moderate EPS risk",
+    "Moderate sedation",
+    "Inhaled form contraindicated in asthma/COPD — bronchospasm risk",
+    "Metabolized to amoxapine (tricyclic antidepressant activity)"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022549lbl.pdf",
+    "https://en.wikipedia.org/wiki/Loxapine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3821"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "prescription-only",
+    "dibenzoxazepine"
+  ]
+}

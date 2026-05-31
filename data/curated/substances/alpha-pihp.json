@@ -1,0 +1,24 @@
+{
+  "name": "alpha-PiHP",
+  "aliases": [
+    "α-PiHP",
+    "α-Pyrrolidinoisohexaphenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Isohexyl analog of α-PVP",
+    "Limited human pharmacology data",
+    "High abuse-liability concern shared with the pyrrolidinone class"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Alpha-PiHP"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

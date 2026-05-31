@@ -1,0 +1,73 @@
+{
+  "name": "Vitamin D3",
+  "aliases": [
+    "Cholecalciferol",
+    "Vitamin D",
+    "Colecalciferol"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "IU",
+      "doses": {
+        "threshold": 400,
+        "light": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "common": {
+          "lower": 2000,
+          "upper": 5000
+        },
+        "strong": {
+          "lower": 5000,
+          "upper": 10000
+        },
+        "heavy": 10000
+      },
+      "duration": {
+        "onset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "peak": {
+          "min": 4320,
+          "max": 10080
+        },
+        "offset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "total": {
+          "min": 28800,
+          "max": 100800
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Fat-soluble secosteroid hormone — activates 200+ genes",
+    "Bone mineralization, immune modulation, mood regulation",
+    "Widespread deficiency — especially at northern latitudes, dark skin, indoor workers",
+    "Optimal serum 25-OH-D: 40–80 ng/mL (expert-dependent)",
+    "Take with fat-containing meal for best absorption",
+    "Toxicity (hypercalcemia) rare below 10,000 IU/day but possible with prolonged high doses; pair with K2"
+  ],
+  "halfLifeMinutes": 34560,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5280795",
+    "https://en.wikipedia.org/wiki/Cholecalciferol"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "fat-soluble",
+    "immunomodulator",
+    "hormonal",
+    "bone-health"
+  ]
+}

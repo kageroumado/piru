@@ -1,0 +1,72 @@
+{
+  "name": "Agomelatine",
+  "aliases": [
+    "Valdoxan",
+    "Melitor",
+    "Thymanax"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12.5,
+        "light": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "MT1/MT2 melatonin agonist + 5-HT2C antagonist — unique non-monoamine-reuptake mechanism",
+    "Resynchronizes circadian rhythm — take at bedtime",
+    "Not approved in the US (approved in EU, Australia); available off-label via compounding or import",
+    "Hepatotoxicity risk — LFT monitoring required at baseline, 6, 12, 24 weeks",
+    "Minimal sexual dysfunction, weight-neutral, no discontinuation syndrome",
+    "No serotonin syndrome risk (no SERT inhibition)",
+    "Extensively metabolized by CYP1A2 — contraindicated with fluvoxamine"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://www.ema.europa.eu/en/documents/product-information/valdoxan-epar-product-information_en.pdf",
+    "https://en.wikipedia.org/wiki/Agomelatine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/82148"
+  ],
+  "tags": [
+    "antidepressant",
+    "melatonergic-antidepressant",
+    "MT1-MT2-agonist",
+    "prescription-only",
+    "hepatotoxicity-risk"
+  ]
+}

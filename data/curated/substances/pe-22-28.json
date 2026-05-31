@@ -1,0 +1,57 @@
+{
+  "name": "PE-22-28",
+  "aliases": [
+    "Spadin analog"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mcg",
+      "doses": {}
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "antidepressant (investigational)",
+    "neurogenic"
+  ],
+  "mechanismOfAction": {
+    "summary": "TREK-1 (K2P) potassium channel blocker; fast antidepressant candidate.",
+    "description": "Seven-residue fragment derived from spadin (sortilin/neurotensin-receptor-3 propeptide). Inhibits the TREK-1 background potassium channel, producing fast antidepressant-like and neurogenic effects in preclinical models.",
+    "primaryTargets": [
+      "TREK-1"
+    ],
+    "bindings": [
+      {
+        "target": "TREK-1",
+        "action": "channelBlocker",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://www.ncbi.nlm.nih.gov/pmc/?term=spadin+TREK-1"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "nootropic",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "spadin/TREK-1 antidepressant literature (Mazella, PMC)"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "Paroxetine",
+  "aliases": [
+    "Paxil",
+    "Seroxat",
+    "Paxil CR",
+    "Brisdelle"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 60
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive, anxious, and OCD symptoms over 2–6 weeks",
+    "Most anticholinergic SSRI — dry mouth, constipation, blurred vision, urinary retention",
+    "Significant weight gain with long-term use",
+    "Sedation (antihistamine activity)",
+    "Strong potent CYP2D6 inhibitor",
+    "Worst discontinuation syndrome among SSRIs — taper slowly",
+    "Teratogenicity risk (Category D) — associated with neonatal cardiac defects",
+    "Risk of serotonin syndrome with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf",
+    "https://en.wikipedia.org/wiki/Paroxetine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/43815"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "CYP2D6-inhibitor",
+    "anticholinergic"
+  ]
+}

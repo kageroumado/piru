@@ -1,0 +1,69 @@
+{
+  "name": "Vilazodone",
+  "aliases": [
+    "Viibryd"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms over 2–6 weeks",
+    "Dual mechanism: SSRI + 5-HT1A partial agonist (buspirone-like)",
+    "Must be taken with food — bioavailability doubles with meal",
+    "Diarrhea, nausea prominent in first 2 weeks",
+    "Potentially less sexual dysfunction than pure SSRIs (5-HT1A partial agonism)",
+    "Discontinuation syndrome on abrupt stop"
+  ],
+  "halfLifeMinutes": 1500,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/022567s012lbl.pdf",
+    "https://en.wikipedia.org/wiki/Vilazodone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3033651"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "5-HT1A-partial-agonist",
+    "prescription-only",
+    "serotonin-syndrome-risk"
+  ]
+}

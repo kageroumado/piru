@@ -1,0 +1,47 @@
+{
+  "name": "GHK",
+  "aliases": [
+    "Copper-free tripeptide GHK",
+    "Gly-His-Lys"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "regenerative",
+    "collagen stimulation"
+  ],
+  "mechanismOfAction": {
+    "summary": "Apo form of GHK-Cu; regenerative matrikine, collagen synthesis.",
+    "description": "The copper-free tripeptide Gly-His-Lys (apo form of GHK-Cu). Modulates wound-healing gene expression and stimulates collagen/glycosaminoglycan synthesis.",
+    "primaryTargets": [
+      "Dermal fibroblasts"
+    ],
+    "references": [
+      "https://pubchem.ncbi.nlm.nih.gov/compound/92155"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "cas": "49557-75-7",
+  "pubchemCID": 92155,
+  "peptideProfile": {
+    "sequence": "Gly-His-Lys",
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "PubChem CID 92155",
+    "INCI/CosIng"
+  ]
+}

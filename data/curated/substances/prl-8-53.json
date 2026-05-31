@@ -1,0 +1,41 @@
+{
+  "name": "PRL-8-53",
+  "aliases": [],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 15
+        },
+        "heavy": 20
+      }
+    }
+  ],
+  "effects": [
+    "Acetyl-3-methylpyrolidine-2-carboxylic acid 5-benzylhydrazide",
+    "Single 1976 trial reported memory enhancement",
+    "Limited replication data — caution"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/PRL-8-53"
+  ],
+  "tags": [
+    "nootropic",
+    "research-chemical",
+    "investigational"
+  ]
+}

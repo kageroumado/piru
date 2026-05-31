@@ -1,0 +1,42 @@
+{
+  "name": "Buphedrone",
+  "aliases": [
+    "α-Methylamino-butyrophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 35,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 125
+        },
+        "strong": {
+          "lower": 125,
+          "upper": 200
+        },
+        "heavy": 250
+      }
+    }
+  ],
+  "effects": [
+    "Methcathinone homolog — longer alkyl chain",
+    "Empathogenic stimulant effects",
+    "Cardiovascular strain at high doses"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Buphedrone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical"
+  ]
+}

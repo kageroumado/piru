@@ -1,0 +1,22 @@
+{
+  "name": "Seletracetam",
+  "aliases": [
+    "UCB-44212"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "SV2A ligand antiseizure candidate",
+    "UCB development discontinued in favour of brivaracetam"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Seletracetam"
+  ],
+  "tags": [
+    "racetam",
+    "research-chemical",
+    "investigational",
+    "SV2A-ligand"
+  ]
+}

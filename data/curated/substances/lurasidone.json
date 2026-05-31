@@ -1,0 +1,72 @@
+{
+  "name": "Lurasidone",
+  "aliases": [
+    "Latuda"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 80
+        },
+        "strong": {
+          "lower": 80,
+          "upper": 120
+        },
+        "heavy": 160
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Must be taken with food (≥350 kcal): 3x higher absorption than fasted",
+    "D2, 5HT2A, and 5HT7 antagonism; 5HT1A partial agonism",
+    "Weight-neutral with favorable metabolic profile",
+    "FDA-approved for bipolar depression (with or without mood stabilizer)",
+    "Moderate akathisia and EPS risk",
+    "Minimal QTc prolongation; minimal sedation"
+  ],
+  "halfLifeMinutes": 1080,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf",
+    "https://en.wikipedia.org/wiki/Lurasidone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/213046"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "5HT7-antagonist",
+    "5HT1A-partial-agonist",
+    "prescription-only",
+    "bipolar-depression"
+  ]
+}

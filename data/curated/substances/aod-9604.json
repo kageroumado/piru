@@ -1,0 +1,59 @@
+{
+  "name": "AOD-9604",
+  "aliases": [
+    "Anti-Obesity Drug 9604",
+    "Tyr-hGH 177-191"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 300,
+        "highAmount": 1000,
+        "frequency": "once daily",
+        "notes": "trials ~1 mg/day oral/SC; community SC ~300 mcg/day. No validated approved dosing"
+      }
+    }
+  ],
+  "effects": [
+    "lipolysis",
+    "inhibited lipogenesis"
+  ],
+  "halfLifeMinutes": 30,
+  "mechanismOfAction": {
+    "summary": "Modified C-terminal HGH fragment — lipolytic, no growth effect.",
+    "description": "Tyr-hGH(177-191): the C-terminal lipolytic fragment of growth hormone with an added N-terminal Tyr. Stimulates lipolysis and inhibits lipogenesis via an HGH-fragment/β3-adrenergic pathway without raising IGF-1 or producing growth effects.",
+    "primaryTargets": [
+      "β3-adrenergic pathway"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/AOD9604"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "hgh-fragment",
+    "lipolytic"
+  ],
+  "cas": "221231-10-3",
+  "formula": "C78H123N23O23S2",
+  "pubchemCID": 16132300,
+  "molarMass": 1815.1,
+  "peptideProfile": {
+    "sequence": "Tyr-LRIVQCRSVEGSCGF",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 16132300",
+    "https://en.wikipedia.org/wiki/AOD9604"
+  ]
+}

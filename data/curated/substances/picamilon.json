@@ -1,0 +1,46 @@
+{
+  "name": "Picamilon",
+  "aliases": [
+    "N-Nicotinoyl-GABA",
+    "Pikamilon",
+    "Pycamilon"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 400
+        },
+        "heavy": 500
+      }
+    }
+  ],
+  "effects": [
+    "GABA-niacin conjugate — crosses BBB and hydrolyses to GABA + niacin",
+    "Cerebral vasodilation",
+    "Anxiolytic without sedation",
+    "FDA-rejected as dietary supplement"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Picamilon"
+  ],
+  "tags": [
+    "nootropic",
+    "GABAergic",
+    "vasodilator"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Iron Bisglycinate",
+  "aliases": [
+    "Ferrous Bisglycinate",
+    "Iron Glycinate",
+    "Ferrochel",
+    "Gentle Iron"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 18,
+          "upper": 36
+        },
+        "common": {
+          "lower": 36,
+          "upper": 65
+        },
+        "strong": {
+          "lower": 65,
+          "upper": 150
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 2880,
+          "max": 10080
+        },
+        "total": {
+          "min": 4320,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Chelated form with significantly better GI tolerability than ferrous sulfate",
+    "Hemoglobin and myoglobin synthesis — oxygen transport",
+    "Deficiency most common in menstruating women, vegetarians, endurance athletes",
+    "Bisglycinate has ~4x less GI side effects than ferrous sulfate at equal doses",
+    "Iron overload is dangerous — only supplement with confirmed deficiency (serum ferritin, TIBC)",
+    "Vitamin C enhances absorption; calcium, coffee, tea, and phytates inhibit absorption"
+  ],
+  "halfLifeMinutes": 2880,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/66831",
+    "https://en.wikipedia.org/wiki/Iron_supplement"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "GI-side-effects",
+    "hematopoiesis",
+    "oxygen-transport"
+  ]
+}

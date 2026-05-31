@@ -1,0 +1,21 @@
+{
+  "name": "16-Bromo-salvinorin A",
+  "aliases": [],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Halogenated salvinorin A analog",
+    "Kappa-opioid agonist with altered receptor kinetics",
+    "Tool compound"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/19053744/"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

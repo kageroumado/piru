@@ -1,0 +1,65 @@
+{
+  "name": "Nadolol",
+  "aliases": [
+    "Corgard"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 40,
+          "upper": 80
+        },
+        "common": {
+          "lower": 80,
+          "upper": 160
+        },
+        "strong": {
+          "lower": 160,
+          "upper": 240
+        },
+        "heavy": 320
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 2160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Non-selective beta-blocker with very long duration",
+    "Slows heart rate and lowers blood pressure",
+    "Minimal CNS penetration (hydrophilic) — less CNS side effects than propranolol",
+    "Reduces tremor and anxiety symptoms"
+  ],
+  "halfLifeMinutes": 1200,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Nadolol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/39147"
+  ],
+  "tags": [
+    "beta-blocker",
+    "non-selective",
+    "antihypertensive",
+    "prescription-only"
+  ]
+}

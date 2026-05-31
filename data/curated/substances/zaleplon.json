@@ -1,0 +1,67 @@
+{
+  "name": "Zaleplon",
+  "aliases": [
+    "Sonata"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 60,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GABA-A positive allosteric modulator (Z-drug) — shortest duration of all Z-drugs",
+    "Rapid onset sleep induction — can be taken after waking if 4+ hours remain",
+    "Amnesia and parasomnias (sleep-driving, sleep-eating) possible",
+    "Minimal next-day sedation due to very short half-life",
+    "US Schedule IV; abuse potential lower than benzodiazepines"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Zaleplon",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5719"
+  ],
+  "tags": [
+    "sedative-hypnotic",
+    "Z-drug",
+    "GABA-modulator",
+    "US-Schedule-IV",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "name": "Ziprasidone",
+  "aliases": [
+    "Geodon"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 120
+        },
+        "strong": {
+          "lower": 120,
+          "upper": 160
+        },
+        "heavy": 160
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 360,
+          "max": 480
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 2,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Requires administration with food (2x higher absorption) — critical for efficacy",
+    "Most QTc prolongation risk among atypicals — baseline ECG recommended",
+    "Favorable metabolic profile: weight-neutral, minimal dyslipidemia",
+    "5HT reuptake inhibition and 5HT1A partial agonism confer antidepressant-like effects",
+    "Low EPS risk",
+    "Hyperprolactinemia less pronounced than risperidone"
+  ],
+  "halfLifeMinutes": 390,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020825s032lbl.pdf",
+    "https://en.wikipedia.org/wiki/Ziprasidone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/60854"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "prescription-only",
+    "QTc-risk",
+    "benzisothiazole"
+  ]
+}

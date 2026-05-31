@@ -1,0 +1,69 @@
+{
+  "name": "Cimetidine",
+  "aliases": [
+    "Tagamet",
+    "Tagamet HB"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 800
+        },
+        "strong": {
+          "lower": 800,
+          "upper": 1200
+        },
+        "heavy": 1600
+      },
+      "duration": {
+        "onset": {
+          "min": 45,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 960
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces gastric acid secretion",
+    "GERD and peptic ulcer relief",
+    "Significant CYP450 inhibition (CYP1A2, 2D6, 3A4) — many drug interactions",
+    "Antiandrogenic effects at high doses — gynecomastia possible with long-term use"
+  ],
+  "halfLifeMinutes": 120,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf",
+    "https://en.wikipedia.org/wiki/Cimetidine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2756"
+  ],
+  "tags": [
+    "antihistamine",
+    "H2-antagonist",
+    "acid-reducer",
+    "non-sedating",
+    "CYP-inhibitor",
+    "OTC"
+  ]
+}

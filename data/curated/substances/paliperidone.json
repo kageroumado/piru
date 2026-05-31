@@ -1,0 +1,111 @@
+{
+  "name": "Paliperidone",
+  "aliases": [
+    "Invega",
+    "Invega Sustenna",
+    "Invega Trinza",
+    "9-hydroxyrisperidone"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1.5,
+        "light": {
+          "lower": 1.5,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 9
+        },
+        "heavy": 12
+      },
+      "duration": {
+        "onset": {
+          "min": 120,
+          "max": 240
+        },
+        "peak": {
+          "min": 1440,
+          "max": 2880
+        },
+        "offset": {
+          "min": 2880,
+          "max": 5760
+        },
+        "total": {
+          "min": 5760,
+          "max": 11520
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 39,
+        "light": {
+          "lower": 39,
+          "upper": 78
+        },
+        "common": {
+          "lower": 78,
+          "upper": 117
+        },
+        "strong": {
+          "lower": 117,
+          "upper": 156
+        },
+        "heavy": 234
+      },
+      "duration": {
+        "onset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "peak": {
+          "min": 11520,
+          "max": 28800
+        },
+        "offset": {
+          "min": 100800,
+          "max": 172800
+        },
+        "total": {
+          "min": 172800,
+          "max": 259200
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Active metabolite of risperidone — similar but not renally cleared differently",
+    "Extended-release oral tablet (OROS technology): once-daily dosing",
+    "Highest prolactin elevation among atypicals (like risperidone)",
+    "Monthly (Invega Sustenna) or quarterly (Invega Trinza) IM depot options",
+    "Low metabolic burden relative to olanzapine/quetiapine",
+    "Moderate EPS at higher doses"
+  ],
+  "halfLifeMinutes": 1380,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf",
+    "https://en.wikipedia.org/wiki/Paliperidone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/115237"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "prescription-only",
+    "long-acting-injectable"
+  ]
+}

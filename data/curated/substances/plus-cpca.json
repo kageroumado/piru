@@ -1,0 +1,24 @@
+{
+  "name": "(+)-CPCA",
+  "aliases": [
+    "(+)-N-Methyl-3β-phenyltropane-2β-carboxylic acid methyl ester"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Selective dopamine reuptake inhibitor",
+    "Research tool compound — RTI group derivative",
+    "No human data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/CFT"
+  ],
+  "tags": [
+    "DRI",
+    "radioligand-origin",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

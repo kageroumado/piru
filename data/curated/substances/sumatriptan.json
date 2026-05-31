@@ -1,0 +1,108 @@
+{
+  "name": "Sumatriptan",
+  "aliases": [
+    "Imitrex",
+    "Treximet",
+    "Sumavel DosePro",
+    "Zembrace"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 100
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 3,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 6
+        },
+        "heavy": 12
+      },
+      "duration": {
+        "onset": {
+          "min": 10,
+          "max": 20
+        },
+        "peak": {
+          "min": 15,
+          "max": 30
+        },
+        "offset": {
+          "min": 90,
+          "max": 180
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "5-HT1B/1D agonist — vasoconstriction of cranial vessels + trigeminal pain inhibition",
+    "Aborts acute migraine and cluster headache attacks",
+    "Chest tightness, paresthesia, flushing, mild sedation post-dose",
+    "Contraindicated in cardiovascular disease, hemiplegic migraine, MAOI use",
+    "Serotonin syndrome risk when combined with serotonergic agents"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sumatriptan",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5358"
+  ],
+  "tags": [
+    "triptan",
+    "serotonin-agonist",
+    "5HT1B-agonist",
+    "antimigraine",
+    "prescription-only"
+  ]
+}

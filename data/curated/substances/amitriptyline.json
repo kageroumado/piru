@@ -1,0 +1,74 @@
+{
+  "name": "Amitriptyline",
+  "aliases": [
+    "Elavil",
+    "Endep",
+    "Tryptanol"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 50,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive symptoms and used off-label for neuropathic pain, migraine prophylaxis, insomnia",
+    "Strong anticholinergic effects: dry mouth, constipation, urinary retention, blurred vision, cognitive impairment",
+    "Sedation (strong H1 antagonism) — often used at low dose for insomnia",
+    "Orthostatic hypotension (alpha-1 blockade)",
+    "QTc prolongation — cardiac monitoring warranted at higher doses",
+    "Cardiotoxic in overdose — narrow therapeutic index (avoid in patients with cardiac disease)",
+    "Serious potential lethality in overdose (seized in toxicology as high-risk TCA)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf",
+    "https://en.wikipedia.org/wiki/Amitriptyline",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2160"
+  ],
+  "tags": [
+    "antidepressant",
+    "TCA",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "anticholinergic",
+    "QTc-prolongation-risk",
+    "overdose-risk"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "RAD-140",
+  "aliases": [
+    "Testolone",
+    "Vosilasarm"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "highAmount": 20,
+        "frequency": "once daily",
+        "courseDuration": "6–8 week cycle",
+        "notes": "community physique dosing; no FDA-approved therapeutic dose; Phase I PK studied up to 100 mg single dose"
+      }
+    }
+  ],
+  "effects": [
+    "anabolic (lean mass, strength)",
+    "HPTA suppression (dose-dependent)",
+    "hepatotoxicity risk (DILI case reports)",
+    "myocarditis/myopericarditis risk (case reports)"
+  ],
+  "halfLifeMinutes": 2682,
+  "mechanismOfAction": {
+    "summary": "Potent oral androgen receptor full agonist with tissue selectivity.",
+    "description": "Nonsteroidal SARM; binds AR with Ki ~7 nM; tissue-selective for muscle and bone over prostate; does not bind ERα/ERβ/PR/GR significantly; no aromatization. Long t½ (~44.7 h) leads to accumulation on daily dosing.",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 44200882",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10054042/",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8881971/",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9325264/"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical"
+  ],
+  "cas": "1182367-47-0",
+  "formula": "C20H16ClN5O2",
+  "pubchemCID": 44200882,
+  "molarMass": 393.83,
+  "sources": [
+    "PubChem CID 44200882",
+    "PMC10054042 (DILI)",
+    "PMC8881971 (myocarditis)",
+    "PMC9325264 (microdose PK)"
+  ]
+}

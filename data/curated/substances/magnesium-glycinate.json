@@ -1,0 +1,73 @@
+{
+  "name": "Magnesium Glycinate",
+  "aliases": [
+    "Magnesium Bisglycinate",
+    "Magnesium Diglycinate",
+    "Bisglycinate Chelate"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 480,
+          "max": 1440
+        },
+        "total": {
+          "min": 720,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Highly bioavailable chelated form — minimal laxative effect compared to oxide/citrate",
+    "Cofactor for 300+ enzymes — muscle, nerve, energy metabolism",
+    "Anxiolytic and sleep-promoting at adequate doses",
+    "Muscle cramp and tension relief",
+    "Best tolerated form for those with sensitive GI tracts",
+    "Doses above 800mg elemental magnesium may cause diarrhea"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/6857579",
+    "https://en.wikipedia.org/wiki/Magnesium_glycinate"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "NMDA-modulator",
+    "sleep",
+    "anxiolytic",
+    "muscle-relaxant"
+  ]
+}

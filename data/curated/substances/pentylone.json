@@ -1,0 +1,44 @@
+{
+  "name": "Pentylone",
+  "aliases": [
+    "β-Keto-methylbenzodioxolylpentanamine"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 15,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 150
+        },
+        "heavy": 200
+      }
+    }
+  ],
+  "effects": [
+    "Long-lasting MDPV-like stimulant",
+    "Strong reuptake inhibition — compulsive redose risk",
+    "Implicated in mass-overdose events at festivals"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Pentylone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "MDMA-analog",
+    "fatalities-reported"
+  ]
+}

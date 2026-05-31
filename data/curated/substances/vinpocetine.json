@@ -1,0 +1,63 @@
+{
+  "name": "Vinpocetine",
+  "aliases": [
+    "Cavinton",
+    "Ethyl apovincaminate"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 45
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Vinca minor periwinkle alkaloid derivative",
+    "Cerebral vasodilation",
+    "Avoid during pregnancy — FDA warning 2019"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Vinpocetine"
+  ],
+  "tags": [
+    "nootropic",
+    "vasodilator",
+    "pregnancy-contraindicated"
+  ]
+}

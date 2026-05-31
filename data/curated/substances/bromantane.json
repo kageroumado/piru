@@ -1,0 +1,65 @@
+{
+  "name": "Bromantane",
+  "aliases": [
+    "Ladasten",
+    "ADK-709"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 150
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 240,
+          "max": 600
+        },
+        "offset": {
+          "min": 600,
+          "max": 960
+        },
+        "total": {
+          "min": 960,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Adamantane stimulant-anxiolytic",
+    "Russian-approved for asthenia",
+    "WADA-banned in competitive sport",
+    "Increases dopamine and serotonin synthesis"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Bromantane",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/55967"
+  ],
+  "tags": [
+    "nootropic",
+    "stimulant",
+    "WADA-banned"
+  ]
+}

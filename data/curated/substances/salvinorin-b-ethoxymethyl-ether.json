@@ -1,0 +1,23 @@
+{
+  "name": "Salvinorin B ethoxymethyl ether",
+  "aliases": [
+    "EOM-Sal B"
+  ],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Ethoxymethyl ether of salvinorin B",
+    "Higher kappa-opioid potency than salvinorin A",
+    "Bryan Roth lab characterisation only"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/16108680/"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

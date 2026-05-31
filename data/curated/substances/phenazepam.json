@@ -1,0 +1,64 @@
+{
+  "name": "Phenazepam",
+  "aliases": [
+    "Bonsai supersleep",
+    "Bromdihydrochlorphenylbenzodiazepine"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 1,
+          "upper": 2
+        },
+        "strong": {
+          "lower": 2,
+          "upper": 3
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
+    "Russian-developed benzodiazepine",
+    "Half-life 60 h — high accumulation risk",
+    "Numerous fatalities in mixed-drug ingestions"
+  ],
+  "halfLifeMinutes": 3600,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenazepam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "long-half-life",
+    "fatalities-reported"
+  ]
+}

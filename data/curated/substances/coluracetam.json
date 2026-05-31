@@ -1,0 +1,63 @@
+{
+  "name": "Coluracetam",
+  "aliases": [
+    "BCI-540",
+    "MKC-231"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 30
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "High-affinity choline uptake enhancer",
+    "Reported visual enhancement at higher doses",
+    "Trialled for major depression — failed Phase IIa"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Coluracetam",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3037239"
+  ],
+  "tags": [
+    "racetam",
+    "nootropic",
+    "cholinergic"
+  ]
+}

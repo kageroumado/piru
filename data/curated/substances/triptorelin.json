@@ -1,0 +1,81 @@
+{
+  "name": "Triptorelin",
+  "aliases": [
+    "Decapeptyl",
+    "Trelstar",
+    "Diphereline",
+    "AY-25650",
+    "CL-118532"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "intramuscular",
+  "routes": [
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 3.75,
+        "highAmount": 11.25,
+        "frequency": "depot: 3.75 mg monthly / 11.25 mg every 3 months",
+        "notes": "depot microspheres reconstituted with supplied vehicle immediately before injection"
+      }
+    },
+    {
+      "route": "subcutaneous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 100,
+        "frequency": "single dose",
+        "notes": "community 'PCT': single ~100 mcg SC off-label for LH/FSH stimulation"
+      }
+    }
+  ],
+  "effects": [
+    "LH/FSH suppression (continuous)",
+    "initial gonadotropin flare"
+  ],
+  "halfLifeMinutes": 180,
+  "mechanismOfAction": {
+    "summary": "GnRH receptor superagonist (decapeptide, D-Trp6).",
+    "description": "GnRH agonist decapeptide with a D-Trp6 substitution. Produces an initial LH/FSH flare followed by receptor downregulation and gonadotropin suppression with continuous (depot) dosing.",
+    "primaryTargets": [
+      "GnRH receptor"
+    ],
+    "bindings": [
+      {
+        "target": "GnRH receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Triptorelin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "gonadotropin",
+    "gnrh-agonist",
+    "wada-prohibited"
+  ],
+  "cas": "57773-63-4",
+  "formula": "C64H82N18O13",
+  "pubchemCID": 25074470,
+  "molarMass": 1311.45,
+  "peptideProfile": {
+    "sequence": "pGlu-His-Trp-Ser-Tyr-D-Trp-Leu-Arg-Pro-Gly-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Supplied vehicle",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 25074470",
+    "Trelstar SmPC",
+    "https://en.wikipedia.org/wiki/Triptorelin"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "Adinazolam",
+  "aliases": [],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 60
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Upjohn triazolobenzodiazepine with antidepressant activity",
+    "Active metabolite N-desmethyladinazolam",
+    "Never marketed — abandoned development"
+  ],
+  "halfLifeMinutes": 180,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Adinazolam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "triazolobenzodiazepine"
+  ]
+}

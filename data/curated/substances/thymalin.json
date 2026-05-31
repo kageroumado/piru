@@ -1,0 +1,36 @@
+{
+  "name": "Thymalin",
+  "aliases": [],
+  "category": "Peptide",
+  "defaultRoute": "intramuscular",
+  "routes": [
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "frequency": "daily course",
+        "notes": "10 mg IM courses (Russian clinical use); thymic polypeptide extract, not a single sequence"
+      }
+    }
+  ],
+  "effects": [
+    "immune modulation (claimed)"
+  ],
+  "tags": [
+    "peptide",
+    "bioregulator",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate"
+    }
+  },
+  "sources": [
+    "Khavinson, Springer Adv Gerontol 2014"
+  ]
+}

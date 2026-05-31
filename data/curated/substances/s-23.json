@@ -1,0 +1,63 @@
+{
+  "name": "S-23",
+  "aliases": [
+    "Mastorin"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 10,
+        "highAmount": 30,
+        "frequency": "1–2×/day",
+        "courseDuration": "6–8 week cycle",
+        "notes": "community/anecdotal; no human studies; t½ ~11.9 h from male rat data only — NOT validated in humans"
+      }
+    }
+  ],
+  "effects": [
+    "anabolic (muscle/bone)",
+    "strong HPTA suppression",
+    "spermatogenesis suppression"
+  ],
+  "halfLifeMinutes": 714,
+  "mechanismOfAction": {
+    "summary": "High-affinity androgen receptor full agonist (Ki ~1.7 nM); tissue-selective SARM.",
+    "description": "Nonsteroidal SARM with among the highest AR affinity of characterized SARMs (Ki ~1.7 nM). Tissue-selective for muscle and bone. Investigated as male hormonal contraceptive in rodents due to spermatogenesis suppression. No human efficacy or safety data. t½ ~11.9 h is from male rat studies only.",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 24892822",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12023825/",
+      "https://en.wikipedia.org/wiki/S-23_(drug)"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "1010396-29-8",
+  "inchikey": "SSFVOEAXHZGTRJ-KRWDZBQOSA-N",
+  "formula": "C18H13ClF4N2O3",
+  "pubchemCID": 24892822,
+  "molarMass": 416.8,
+  "sources": [
+    "PubChem CID 24892822",
+    "PMC12023825 (human urine excretion study)",
+    "https://en.wikipedia.org/wiki/S-23_(drug)"
+  ]
+}

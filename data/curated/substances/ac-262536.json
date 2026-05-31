@@ -1,0 +1,53 @@
+{
+  "name": "AC-262536",
+  "aliases": [
+    "Accadrine"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anabolic (muscle/bone, preclinical)",
+    "neuroprotective signals (Alzheimer model, rat)",
+    "HPTA suppression (preclinical)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Nonsteroidal AR partial agonist (Ki ~5 nM, ~64% DHT efficacy); anabolic:androgenic ratio ~2.45:1 in rat.",
+    "description": "Bicyclic azabicyclooctane scaffold SARM; AR partial agonist with EC50 ~1.58 nM in luciferase assay; selective over 47 other nuclear receptors at 10 µM. Never tested in humans — all data from rat studies. No published PK or t½ in any species.",
+    "primaryTargets": [
+      "Androgen receptor"
+    ],
+    "bindings": [
+      {
+        "target": "Androgen receptor",
+        "action": "partialAgonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 44512434",
+      "https://en.wikipedia.org/wiki/AC-262,536"
+    ]
+  },
+  "tags": [
+    "sarm",
+    "wada-prohibited",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "870888-46-3",
+  "inchikey": "ATKWLNSCJYLXPF-YIONKMFJSA-N",
+  "formula": "C18H18N2O",
+  "pubchemCID": 44512434,
+  "molarMass": 278.3,
+  "sources": [
+    "PubChem CID 44512434",
+    "https://en.wikipedia.org/wiki/AC-262,536"
+  ]
+}

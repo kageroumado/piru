@@ -1,0 +1,58 @@
+{
+  "name": "2-Me-PiHP",
+  "aliases": [
+    "2-Me-α-PiHP",
+    "2-methyl-α-pyrrolidinoisohexanophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {}
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "cocaine/methamphetamine-like CNS stimulation (predicted)",
+    "cardiac arrhythmia",
+    "psychiatric disturbance",
+    "hyperthermia",
+    "fatal cases reported (pyrovalerone class)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Highly DAT-selective reuptake inhibitor (DAT IC50 = 7.6 nM); DAT/SERT selectivity ratio >40× cocaine → very high addiction and abuse potential.",
+    "description": "Synthetic cathinone, pyrovalerone subgroup (β-keto pyrrolidinophenone). Ortho ring-methyl isomer of α-PiHP. Peer-reviewed DAT IC50 = 7.6 nM (Forensic Sci Int 2025, PMID 40992254). NET not significantly inhibited. Documented in 113 Swedish seizures 2022–2025 and 5 forensic autopsy detections. No established human dose; strong 'no dose / high addiction potential' warning applies.",
+    "primaryTargets": [
+      "DAT"
+    ],
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://pubmed.ncbi.nlm.nih.gov/40992254/",
+      "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11051472/"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "cathinone",
+    "pyrovalerone",
+    "high-abuse-potential",
+    "autopsy-cases"
+  ],
+  "sources": [
+    "PMID 40992254 (Forensic Sci Int 2025)",
+    "PMC11051472"
+  ]
+}

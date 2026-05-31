@@ -1,0 +1,84 @@
+{
+  "name": "Noopept",
+  "aliases": [
+    "GVS-111",
+    "N-Phenylacetyl-L-prolylglycine ethyl ester"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 40
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 60,
+          "max": 180
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    },
+    {
+      "route": "sublingual",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 30
+        },
+        "heavy": 40
+      }
+    }
+  ],
+  "effects": [
+    "Glutamate modulator and NGF/BDNF expression enhancer",
+    "Reported subtle cognitive enhancement",
+    "Russian prescription anxiolytic — not approved elsewhere"
+  ],
+  "halfLifeMinutes": 30,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Noopept",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/180496"
+  ],
+  "tags": [
+    "nootropic",
+    "glutamate-modulator",
+    "racetam-adjacent"
+  ]
+}

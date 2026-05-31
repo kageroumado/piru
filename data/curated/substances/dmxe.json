@@ -1,0 +1,64 @@
+{
+  "name": "DMXE",
+  "aliases": [
+    "3D-MXE",
+    "Deoxymethoxetamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 15,
+          "upper": 30
+        },
+        "common": {
+          "lower": 30,
+          "upper": 60
+        },
+        "strong": {
+          "lower": 60,
+          "upper": 90
+        },
+        "heavy": 120
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 180,
+          "max": 300
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Methoxetamine-related designer dissociative",
+    "Shorter duration than MXE",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/DMXE",
+    "https://www.emcdda.europa.eu/publications/eu-drug-markets/nps_en"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative"
+  ]
+}

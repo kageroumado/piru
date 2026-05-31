@@ -1,0 +1,86 @@
+{
+  "name": "Eticyclidone",
+  "aliases": [
+    "O-PCE",
+    "2'-Oxo-PCE",
+    "N-Ethyldeschloroketamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 3,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 30
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 30
+        },
+        "strong": {
+          "lower": 30,
+          "upper": 50
+        },
+        "heavy": 70
+      }
+    }
+  ],
+  "effects": [
+    "More potent than ketamine — start low",
+    "Stimulating dissociative",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)",
+    "Compulsive redose risk reported"
+  ],
+  "sources": [
+    "https://psychonautwiki.org/wiki/O-PCE",
+    "https://en.wikipedia.org/wiki/Eticyclidone"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative"
+  ]
+}

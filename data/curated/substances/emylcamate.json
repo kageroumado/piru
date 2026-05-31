@@ -1,0 +1,63 @@
+{
+  "name": "Emylcamate",
+  "aliases": [
+    "Striatran",
+    "Striatal",
+    "3-methylpentan-3-yl carbamate"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "common": {
+          "lower": 200,
+          "upper": 400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "sedation",
+    "anxiolysis",
+    "muscle relaxation",
+    "CNS and respiratory depression with alcohol/BZDs/opioids",
+    "abuse and dependence potential (meprobamate class)"
+  ],
+  "mechanismOfAction": {
+    "summary": "Carbamate sedative-hypnotic; meprobamate-like GABAergic/barbiturate-like CNS depression with fast onset (carbamate chemical class). Mechanism incompletely characterized by modern GABA-A pharmacology.",
+    "description": "Carbamate ester anxiolytic and muscle relaxant developed by Merck (1961). Former brand names: Striatran, Striatal. Fast-onset CNS depression; meprobamate-class mechanism (GABAergic/barbiturate-like). Discontinued/obsolete. Additive CNS and respiratory depression with alcohol, benzodiazepines, and opioids. Overdose risk. Meprobamate-class control in many countries.",
+    "primaryTargets": [
+      "GABA-A"
+    ],
+    "bindings": [
+      {
+        "target": "GABA-A",
+        "action": "positiveAllostericModulator",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://doi.org/10.1021/jm50006a003",
+      "https://drugs.ncats.io/drug/KCJ747D3R4"
+    ]
+  },
+  "tags": [
+    "historical",
+    "discontinued",
+    "carbamate",
+    "depressant"
+  ],
+  "cas": "78-28-4",
+  "pubchemCID": 6526,
+  "formula": "C7H15NO2",
+  "molarMass": 145.2,
+  "inchikey": "SLWGJZPKHAXZQL-UHFFFAOYSA-N",
+  "sources": [
+    "J Med Chem 1961 DOI:10.1021/jm50006a003",
+    "https://drugs.ncats.io/drug/KCJ747D3R4",
+    "PubChem CID 6526"
+  ]
+}

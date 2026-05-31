@@ -1,0 +1,113 @@
+{
+  "name": "Vitamin B12",
+  "aliases": [
+    "Methylcobalamin",
+    "Cyanocobalamin",
+    "Cobalamin",
+    "MeCbl",
+    "B12"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "sublingual",
+  "routes": [
+    {
+      "route": "sublingual",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 5000
+        },
+        "heavy": 5000
+      },
+      "duration": {
+        "onset": {
+          "min": 10,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 90
+        },
+        "offset": {
+          "min": 1440,
+          "max": 10080
+        },
+        "total": {
+          "min": 2880,
+          "max": 20160
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2500
+        },
+        "strong": {
+          "lower": 2500,
+          "upper": 5000
+        },
+        "heavy": 5000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 1440,
+          "max": 10080
+        },
+        "total": {
+          "min": 2880,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential for DNA synthesis, nerve myelination, red blood cell formation",
+    "Methylcobalamin is the bioactive form — preferred over cyanocobalamin",
+    "Deficiency causes irreversible neurological damage — vegans and elderly at high risk",
+    "Intrinsic factor required for oral absorption; sublingual bypasses this",
+    "Metformin and PPIs deplete B12 over time",
+    "Generally very safe even at high doses — water-soluble"
+  ],
+  "halfLifeMinutes": 14400,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/6365283",
+    "https://en.wikipedia.org/wiki/Vitamin_B12"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "B-vitamin",
+    "neurological",
+    "methylation"
+  ]
+}

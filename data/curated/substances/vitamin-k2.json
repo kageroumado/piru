@@ -1,0 +1,73 @@
+{
+  "name": "Vitamin K2",
+  "aliases": [
+    "Menaquinone-7",
+    "MK-7",
+    "MenaQ7",
+    "Vitamin K2 MK-7"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 45,
+        "light": {
+          "lower": 90,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 360
+        },
+        "heavy": 500
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 4320,
+          "max": 10080
+        },
+        "total": {
+          "min": 7200,
+          "max": 14400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Activates osteocalcin and matrix Gla protein — directs calcium to bones, away from arteries",
+    "Cardiovascular protective via vascular calcification prevention",
+    "Synergistic with Vitamin D3 — prevents D3-induced hypercalcemia",
+    "MK-7 has longer half-life than MK-4; better sustained carboxylation",
+    "Caution with warfarin/Coumadin — directly antagonizes anticoagulant mechanism",
+    "Fat-soluble — take with meals"
+  ],
+  "halfLifeMinutes": 4320,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5284607",
+    "https://en.wikipedia.org/wiki/Menaquinone"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "fat-soluble",
+    "bone-health",
+    "cardiovascular"
+  ]
+}

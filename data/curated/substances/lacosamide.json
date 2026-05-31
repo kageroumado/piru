@@ -1,0 +1,65 @@
+{
+  "name": "Lacosamide",
+  "aliases": [
+    "Vimpat"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 150
+        },
+        "common": {
+          "lower": 150,
+          "upper": 300
+        },
+        "strong": {
+          "lower": 300,
+          "upper": 400
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Enhances slow inactivation of voltage-gated sodium channels — novel mechanism",
+    "Anticonvulsant for focal seizures",
+    "Dizziness, ataxia, diplopia, sedation",
+    "PR interval prolongation — cardiac monitoring in at-risk patients",
+    "Well-tolerated cognitively compared to older anticonvulsants"
+  ],
+  "halfLifeMinutes": 780,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Lacosamide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/219078"
+  ],
+  "tags": [
+    "anticonvulsant",
+    "sodium-channel-blocker",
+    "prescription-only"
+  ]
+}

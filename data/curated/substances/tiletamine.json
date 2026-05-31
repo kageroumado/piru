@@ -1,0 +1,25 @@
+{
+  "name": "Tiletamine",
+  "aliases": [
+    "Telazol component",
+    "CI-634"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "intramuscular",
+  "routes": [],
+  "effects": [
+    "Veterinary dissociative anaesthetic (Telazol, with zolazepam)",
+    "Not approved for human use",
+    "Strong respiratory depression risk in humans"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tiletamine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/26533"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "veterinary-only",
+    "no-human-data"
+  ]
+}

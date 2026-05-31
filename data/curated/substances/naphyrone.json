@@ -1,0 +1,44 @@
+{
+  "name": "Naphyrone",
+  "aliases": [
+    "NRG-1",
+    "Naphthylpyrovalerone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 100
+      }
+    }
+  ],
+  "effects": [
+    "Strong DAT/NET inhibitor — pyrovalerone-class",
+    "Long duration with compulsive redose risk",
+    "Cardiovascular strain"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Naphyrone"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Iodine",
+  "aliases": [
+    "Potassium Iodide",
+    "Lugol's Iodine",
+    "Nascent Iodine",
+    "KI"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mcg",
+      "doses": {
+        "threshold": 75,
+        "light": {
+          "lower": 150,
+          "upper": 300
+        },
+        "common": {
+          "lower": 300,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "heavy": 1100
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 1440,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential for thyroid hormone (T3/T4) synthesis",
+    "Deficiency causes goiter, hypothyroidism, cretinism in children",
+    "Excess can paradoxically suppress thyroid (Wolff-Chaikoff effect) or trigger hyperthyroidism in susceptible individuals",
+    "Potassium iodide used for radiation emergency thyroid blocking",
+    "Hashimoto's thyroiditis patients should be cautious — iodine may exacerbate autoimmunity",
+    "Avoid high-dose megadosing protocols popularized online — evidence base is very weak"
+  ],
+  "halfLifeMinutes": 11520,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Iodine-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/24429",
+    "https://en.wikipedia.org/wiki/Iodine_in_biology"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "thyroid",
+    "essential-mineral"
+  ]
+}

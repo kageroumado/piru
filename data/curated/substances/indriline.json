@@ -1,0 +1,19 @@
+{
+  "name": "Indriline",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Indane stimulant",
+    "Limited published data"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "stimulant",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

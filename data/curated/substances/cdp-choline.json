@@ -1,0 +1,74 @@
+{
+  "name": "CDP-Choline",
+  "aliases": [
+    "Citicoline",
+    "Cytidine Diphosphocholine",
+    "Cognizin"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 125,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 1500
+        },
+        "heavy": 2000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Metabolizes to choline and cytidine (→ uridine) — dual-acting nootropic",
+    "Choline → acetylcholine; uridine supports dopamine receptor density",
+    "Phosphatidylcholine synthesis support — membrane integrity",
+    "Good evidence in cognitive decline, post-stroke recovery, and glaucoma",
+    "Generally milder GI side effects than alpha-GPC at equivalent doses",
+    "Stimulating for some individuals — avoid late in day"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/13004",
+    "https://en.wikipedia.org/wiki/Citicoline",
+    "https://examine.com/supplements/cdp-choline/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "OTC",
+    "cholinergic",
+    "choline-donor",
+    "cognitive-enhancement",
+    "acetylcholine-precursor",
+    "dopaminergic"
+  ]
+}

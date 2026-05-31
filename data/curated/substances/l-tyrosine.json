@@ -1,0 +1,73 @@
+{
+  "name": "L-Tyrosine",
+  "aliases": [
+    "Tyrosine",
+    "4-Hydroxyphenylalanine",
+    "N-Acetyl-L-Tyrosine",
+    "NALT"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "heavy": 6000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Dopamine and norepinephrine precursor (via DOPA)",
+    "Thyroid hormone (T3/T4) synthesis substrate",
+    "Improves cognitive performance under stress and sleep deprivation",
+    "Most effective when catecholamines are depleted (stress, cold, stimulant comedown)",
+    "Caution with MAOIs (tyrosine pressor response)",
+    "Caution with thyroid medications — may amplify effect"
+  ],
+  "halfLifeMinutes": 165,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/6057",
+    "https://en.wikipedia.org/wiki/Tyrosine",
+    "https://examine.com/supplements/l-tyrosine/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "OTC",
+    "amino-acid",
+    "dopamine-precursor",
+    "catecholamine-precursor"
+  ]
+}

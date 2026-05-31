@@ -1,0 +1,74 @@
+{
+  "name": "Epidiolex",
+  "aliases": [
+    "Cannabidiol oral solution",
+    "GWP42003-P",
+    "Plant-derived CBD"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 2.5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 300
+        },
+        "offset": {
+          "min": 300,
+          "max": 600
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "FDA-approved for seizures associated with Dravet syndrome, Lennox-Gastaut syndrome, and TSC",
+    "Non-intoxicating pure CBD formulation (100 mg/mL oral solution)",
+    "Anticonvulsant",
+    "Therapeutic dose: 2.5 mg/kg/day, titrated to 5–10 mg/kg/day maintenance",
+    "Important drug-drug interactions: CYP2C19 inhibitor — raises levels of clobazam/norclobazam",
+    "Hepatotoxicity risk at high doses — LFT monitoring required"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/210365s006lbl.pdf",
+    "https://en.wikipedia.org/wiki/Epidiolex",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/644019"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "non-intoxicating",
+    "prescription-only",
+    "FDA-approved",
+    "US-Schedule-V",
+    "anticonvulsant",
+    "therapeutic"
+  ]
+}

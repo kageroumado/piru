@@ -1,0 +1,21 @@
+{
+  "name": "CX-1739",
+  "aliases": [],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "RespireRx high-impact AMPAkine",
+    "Investigated for opioid-induced respiratory depression",
+    "Phase II opioid antagonism trials"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/CX-1739"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "Cortex-Pharmaceuticals",
+    "research-chemical",
+    "investigational"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "Chlorpromazine",
+  "aliases": [
+    "Thorazine",
+    "Largactil",
+    "CPZ"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 25,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 800
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 600
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Broad receptor blockade (D2, H1, alpha-1, muscarinic, 5HT2A)",
+    "Strong sedation — historically used for tranquilization",
+    "Significant orthostatic hypotension",
+    "Moderate EPS risk; high tardive dyskinesia risk with long-term use",
+    "Photosensitivity and pigmentary retinopathy with chronic use",
+    "Hyperprolactinemia",
+    "Anticholinergic effects: dry mouth, urinary retention, constipation"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf",
+    "https://en.wikipedia.org/wiki/Chlorpromazine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2726"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "muscarinic-antagonist",
+    "alpha1-blocker",
+    "prescription-only",
+    "phenothiazine"
+  ]
+}

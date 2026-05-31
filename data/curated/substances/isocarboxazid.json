@@ -1,0 +1,70 @@
+{
+  "name": "Isocarboxazid",
+  "aliases": [
+    "Marplan"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 50
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Irreversible non-selective MAO-A/B inhibitor — treatment-resistant and atypical depression",
+    "Tyramine dietary restriction MANDATORY — hypertensive crisis risk (can be fatal)",
+    "Orthostatic hypotension, dizziness, sedation, dry mouth",
+    "Requires 14-day washout before/after serotonergic drugs",
+    "Least commonly used classic MAOI — limited clinical data vs phenelzine/tranylcypromine"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf",
+    "https://en.wikipedia.org/wiki/Isocarboxazid",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3759"
+  ],
+  "tags": [
+    "antidepressant",
+    "MAOI",
+    "irreversible-MAOI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "dietary-restriction",
+    "hypertensive-crisis-risk"
+  ]
+}

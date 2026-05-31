@@ -1,0 +1,108 @@
+{
+  "name": "THCV",
+  "aliases": [
+    "Tetrahydrocannabivarin",
+    "Δ9-THCV",
+    "Delta-9-THCV"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 25
+        },
+        "strong": {
+          "lower": 25,
+          "upper": 50
+        },
+        "heavy": 50
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 5
+        },
+        "peak": {
+          "min": 15,
+          "max": 45
+        },
+        "offset": {
+          "min": 45,
+          "max": 90
+        },
+        "total": {
+          "min": 60,
+          "max": 120
+        }
+      }
+    },
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 120,
+          "max": 240
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "CB1 antagonist at low doses — attenuates THC effects",
+    "CB1 partial agonist at high doses — mildly psychoactive",
+    "Shorter and crisper effects than THC",
+    "Appetite suppression (contrast to THC)",
+    "Potential anti-diabetic and anticonvulsant properties"
+  ],
+  "halfLifeMinutes": 960,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tetrahydrocannabivarin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/521704"
+  ],
+  "tags": [
+    "cannabinoid",
+    "phytocannabinoid",
+    "CB1-antagonist-low-dose",
+    "CB1-partial-agonist",
+    "psychoactive-high-dose",
+    "appetite-suppressant"
+  ]
+}

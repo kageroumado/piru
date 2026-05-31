@@ -1,0 +1,70 @@
+{
+  "name": "Beta-Alanine",
+  "aliases": [
+    "β-Alanine",
+    "3-Aminopropionic Acid"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 400,
+        "light": {
+          "lower": 800,
+          "upper": 1600
+        },
+        "common": {
+          "lower": 1600,
+          "upper": 3200
+        },
+        "strong": {
+          "lower": 3200,
+          "upper": 6400
+        },
+        "heavy": 6400
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 90,
+          "max": 180
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Rate-limiting precursor for carnosine synthesis in muscle",
+    "Carnosine buffers lactic acid — improves high-intensity exercise endurance",
+    "Paresthesia (tingling, flushing skin) — harmless, dose-dependent",
+    "Sustained-release forms reduce paresthesia",
+    "Effects are cumulative (carnosine loading) — acute dosing less meaningful",
+    "No CNS effects at normal doses"
+  ],
+  "halfLifeMinutes": 25,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/239",
+    "https://en.wikipedia.org/wiki/Beta-Alanine",
+    "https://examine.com/supplements/beta-alanine/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid",
+    "athletic-performance",
+    "carnosine-precursor"
+  ]
+}

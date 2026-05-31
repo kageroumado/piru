@@ -1,0 +1,25 @@
+{
+  "name": "Sunifiram",
+  "aliases": [
+    "DM-235"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Pyrrolidinone nootropic with AMPA-PAM activity",
+    "Active in rodents at ~0.1 mg/kg",
+    "Sold as research chemical — no controlled human trials"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sunifiram",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/197304"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "no-human-data",
+    "investigational",
+    "racetam-adjacent"
+  ]
+}

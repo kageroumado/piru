@@ -1,0 +1,43 @@
+{
+  "name": "Tianeptine sulfate",
+  "aliases": [],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 12,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 150
+        },
+        "heavy": 200
+      }
+    }
+  ],
+  "effects": [
+    "Mu-opioid activity; addiction and overdose risk. Banned in several US states.",
+    "Slow-release sulfate salt — longer duration than sodium",
+    "Marketed as 'Tianna' grey-market product in US",
+    "Severe withdrawal mimicking opioid withdrawal"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tianeptine"
+  ],
+  "tags": [
+    "antidepressant",
+    "mu-opioid-agonist",
+    "nootropic",
+    "high-dependence-risk"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "Escitalopram",
+  "aliases": [
+    "Lexapro",
+    "Cipralex"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 30
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms over 2–6 weeks",
+    "Generally well tolerated — one of the cleanest SSRI profiles",
+    "Nausea, headache, insomnia in early treatment",
+    "Sexual dysfunction",
+    "QTc prolongation at high doses — ECG monitoring recommended above 20 mg",
+    "Discontinuation syndrome on abrupt stop"
+  ],
+  "halfLifeMinutes": 1800,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf",
+    "https://en.wikipedia.org/wiki/Escitalopram",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/146570"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "QTc-prolongation-risk"
+  ]
+}

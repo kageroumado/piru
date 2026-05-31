@@ -1,0 +1,72 @@
+{
+  "name": "Cariprazine",
+  "aliases": [
+    "Vraylar"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1.5,
+          "upper": 3
+        },
+        "common": {
+          "lower": 3,
+          "upper": 6
+        },
+        "strong": {
+          "lower": 6,
+          "upper": 9
+        },
+        "heavy": 6
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 10080,
+          "max": 40320
+        },
+        "total": {
+          "min": 40320,
+          "max": 80640
+        }
+      }
+    }
+  ],
+  "effects": [
+    "High D3 > D2 partial agonism — unique pro-cognitive and anti-negative symptom profile",
+    "Active metabolite DCAR has half-life of 2–3 weeks — dose changes take weeks to stabilize",
+    "Approved for schizophrenia, bipolar I mania, bipolar depression",
+    "Moderate akathisia and EPS risk",
+    "Modest weight gain; minimal metabolic burden",
+    "D3 selectivity rationale: addresses negative symptoms and cognitive deficits"
+  ],
+  "halfLifeMinutes": 72000,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Cariprazine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/11520894"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-partial-agonist",
+    "D3-partial-agonist",
+    "5HT2A-antagonist",
+    "5HT1A-partial-agonist",
+    "prescription-only",
+    "bipolar-depression"
+  ]
+}

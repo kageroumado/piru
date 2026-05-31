@@ -1,0 +1,23 @@
+{
+  "name": "Hydroxetamine",
+  "aliases": [
+    "HXE",
+    "3-HO-2-Oxo-PCE"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "3-hydroxy analog of methoxetamine",
+    "Active metabolite hypothesis but minimal direct data"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

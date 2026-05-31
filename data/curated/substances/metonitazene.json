@@ -1,0 +1,26 @@
+{
+  "name": "Metonitazene",
+  "aliases": [],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "DEA-scheduled Schedule I 2022",
+    "Major contributor to 2021-2023 OD spike"
+  ],
+  "sources": [
+    "https://www.deadiversion.usdoj.gov/drug_chem_info/metonitazene.pdf",
+    "https://en.wikipedia.org/wiki/Metonitazene"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "US-Schedule-I",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

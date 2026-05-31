@@ -1,0 +1,21 @@
+{
+  "name": "3-MEC",
+  "aliases": [
+    "3-Methyl-N-ethylcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "3-methyl N-ethyl cathinone",
+    "Limited human pharmacology data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methylethylcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

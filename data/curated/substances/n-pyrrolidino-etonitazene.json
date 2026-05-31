@@ -1,0 +1,26 @@
+{
+  "name": "N-Pyrrolidino-etonitazene",
+  "aliases": [
+    "Etonitazepyne",
+    "Etazene-pyrrolidine"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "More potent than etonitazene in animal studies"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Etonitazepyne"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

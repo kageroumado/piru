@@ -1,0 +1,22 @@
+{
+  "name": "CX-546",
+  "aliases": [],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Cortex Pharmaceuticals AMPA PAM",
+    "Animal studies only"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/CX-546",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3036716"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "Cortex-Pharmaceuticals",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

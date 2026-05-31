@@ -1,0 +1,109 @@
+{
+  "name": "Naloxone",
+  "aliases": [
+    "Narcan",
+    "Kloxxado",
+    "Zimhi",
+    "Revia nasal"
+  ],
+  "category": "Other",
+  "defaultRoute": "nasal",
+  "routes": [
+    {
+      "route": "nasal",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 16
+        },
+        "heavy": 16
+      },
+      "duration": {
+        "onset": {
+          "min": 2,
+          "max": 5
+        },
+        "peak": {
+          "min": 5,
+          "max": 15
+        },
+        "offset": {
+          "min": 30,
+          "max": 90
+        },
+        "total": {
+          "min": 30,
+          "max": 90
+        }
+      }
+    },
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.04,
+        "light": {
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        "common": {
+          "lower": 0.4,
+          "upper": 0.8
+        },
+        "strong": {
+          "lower": 0.8,
+          "upper": 2
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 2
+        },
+        "peak": {
+          "min": 5,
+          "max": 15
+        },
+        "offset": {
+          "min": 30,
+          "max": 90
+        },
+        "total": {
+          "min": 30,
+          "max": 90
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Competitive opioid receptor antagonist — blocks and displaces all opioid agonists",
+    "Reverses opioid overdose within minutes",
+    "Precipitates immediate and severe opioid withdrawal in dependent individuals",
+    "No psychoactive effects in opioid-naive individuals",
+    "Shorter duration than most opioids — re-dosing required",
+    "Available OTC (Narcan nasal spray 4 mg)"
+  ],
+  "halfLifeMinutes": 60,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Naloxone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5284596"
+  ],
+  "tags": [
+    "opioid-receptor-antagonist",
+    "overdose-reversal",
+    "opioid-precipitated-withdrawal",
+    "OTC-available",
+    "harm-reduction"
+  ]
+}

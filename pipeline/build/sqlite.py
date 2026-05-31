@@ -41,6 +41,10 @@ OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
 OUT_REPORT   = REPO / "docs/audit/sqlite-build-report.md"
 
 SOURCED        = REPO / "data/intermediate/sourced-substances.json"
+# Curated substances, one JSON file per compound (authoritative hand-curated
+# layer). Ingested directly as the `piru-curated` source — sqlite.py is the
+# single consumer, so there is no overlay→sourced bake step to drift out of sync.
+CURATED_DIR    = REPO / "data/curated/substances"
 BUNDLED        = REPO / "data/intermediate/substances-bundled.json"
 DRUG_COMMUNITY = REPO / "data/sources/drug-community.json"
 PSYCHONAUTWIKI = REPO / "data/sources/psychonautwiki.json"
@@ -1042,6 +1046,10 @@ _ROUTE_ALIASES = {
     "po":              "oral",
     "by mouth":        "oral",
     "in":              "",
+    # Eye drops: no dedicated route in the 10-value enum — surface as "other"
+    # rather than leaking a non-enum "ophthalmic" string the app decodes to .other anyway.
+    "ophthalmic":      "other",
+    "ocular":          "other",
 }
 
 
@@ -2054,10 +2062,49 @@ class Build:
             self.add_tolerance(sid, slug, s["toleranceInfo"])
         return sid
 
-    def ingest_sourced_substances(self, path: Path) -> None:
+    def ingest_curated_substances(self, directory: Path) -> list[str]:
+        """Ingest the hand-curated per-substance files (data/curated/substances/
+        *.json). Each file is one substance object matching the iOS `Substance`
+        Codable; attributed to `piru-curated`. Run BEFORE the scraped sources so
+        curated chemical identifiers win the COALESCE in `upsert_substance`.
+
+        Returns the list of normalised curated names so the sourced-JSON
+        ingester can treat them as known (and let Wikidata enrich rather than
+        skip a noise-named variant of a curated compound)."""
+        names: list[str] = []
+        if not directory.is_dir():
+            return names
+        # Sort by filename for a deterministic, reproducible ingest order.
+        for fp in sorted(directory.glob("*.json")):
+            try:
+                entry = json.loads(fp.read_text())
+            except (ValueError, OSError) as exc:
+                print(f"  WARNING: curated file {fp.name} failed to load: {exc}", file=sys.stderr)
+                continue
+            if not isinstance(entry, dict) or not entry.get("name"):
+                print(f"  WARNING: curated file {fp.name} is not a substance object", file=sys.stderr)
+                continue
+            names.append(normalise(entry["name"]))
+            self._ingest_substance_record(
+                entry, "piru-curated",
+                inchikey=entry.get("inchikey"),
+                pubchem_cid=to_int(entry.get("pubchemCID")),
+                cas=entry.get("cas"),
+            )
+        self.stats["curated_files"] = len(names)
+        return names
+
+    def ingest_sourced_substances(self, path: Path, *, known_names: set[str] | None = None) -> None:
         """SubstanceCollector's per-record sourced output. Each record carries
         its provenance (mapped 1:1 to sources.slug) so every fact gets
         attributed correctly without merge-time information loss.
+
+        `piru-curated` records here are IGNORED — curated data is ingested
+        directly from CURATED_DIR by ingest_curated_substances(). This keeps a
+        single source of truth and is robust even if a stale collector run
+        re-bakes the overlay into this file. `known_names` (the curated names)
+        seed the Wikidata-noise allowlist so a noise-named Wikidata variant of a
+        curated compound enriches it instead of being dropped.
 
         Wikidata's SPARQL net catches IUPAC chemistry noise that isn't useful
         in a harm-reduction library: stereo-prefixed variants like
@@ -2073,8 +2120,10 @@ class Build:
         if not isinstance(data, list):
             return
         # Index non-wikidata names so we can let wikidata enrich them but
-        # skip the wikidata-only noise rows.
-        non_wikidata_names: set[str] = set()
+        # skip the wikidata-only noise rows. Seed with the curated names too —
+        # curated substances were ingested separately and are real compounds, so
+        # a wikidata noise-variant of one should enrich it, not be dropped.
+        non_wikidata_names: set[str] = set(known_names or set())
         for rec in data:
             substance = rec.get("substance")
             slug = rec.get("provenance")
@@ -2091,6 +2140,10 @@ class Build:
             substance = rec.get("substance")
             slug = rec.get("provenance")
             if not isinstance(substance, dict) or not slug:
+                continue
+            # Curated data is ingested from CURATED_DIR, not here — ignore any
+            # stale piru-curated rows a collector run may have left behind.
+            if slug == "piru-curated":
                 continue
             if slug == "wikidata":
                 name = (substance.get("name") or "").strip()
@@ -2963,8 +3016,13 @@ def main() -> int:
     build = Build(db)
     build.seed_sources()
 
+    # Curated per-substance files first, so curated chemical identifiers win the
+    # COALESCE in upsert_substance and curated names seed the wikidata allowlist.
+    curated_names = set(build.ingest_curated_substances(CURATED_DIR))
+    print(f"After curated ({build.stats.get('curated_files', 0)} files): {build.stats}", file=sys.stderr)
+
     if SOURCED.exists():
-        build.ingest_sourced_substances(SOURCED)
+        build.ingest_sourced_substances(SOURCED, known_names=curated_names)
         print(f"After sourced (per-record attribution): {build.stats}", file=sys.stderr)
     else:
         print(f"WARNING: {SOURCED} not found; falling back to merged JSON with piru-curated attribution.", file=sys.stderr)

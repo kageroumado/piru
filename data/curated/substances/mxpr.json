@@ -1,0 +1,23 @@
+{
+  "name": "MXPr",
+  "aliases": [
+    "N-Propyl-MXE",
+    "3-MeO-2-Oxo-PCPr"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "N-propyl analog of methoxetamine",
+    "No published human pharmacology"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

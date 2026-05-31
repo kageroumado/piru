@@ -1,0 +1,24 @@
+{
+  "name": "Ethylketamine",
+  "aliases": [
+    "N-Ethylnorketamine",
+    "NEK"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "N-ethyl analog of ketamine",
+    "Abelian 2024 SAR paper",
+    "No human dosing data"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

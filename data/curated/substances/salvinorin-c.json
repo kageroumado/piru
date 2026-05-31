@@ -1,0 +1,21 @@
+{
+  "name": "Salvinorin C",
+  "aliases": [],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Minor Salvia divinorum constituent",
+    "Acetyl-replaced analog of salvinorin A",
+    "Limited pharmacological characterisation"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Salvinorin_C"
+  ],
+  "tags": [
+    "kappa-opioid-agonist",
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

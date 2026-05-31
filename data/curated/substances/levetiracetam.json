@@ -1,0 +1,66 @@
+{
+  "name": "Levetiracetam",
+  "aliases": [
+    "Keppra",
+    "UCB-LO59",
+    "etiracetam S-enantiomer"
+  ],
+  "category": "Anticonvulsant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 750
+        },
+        "common": {
+          "lower": 750,
+          "upper": 1500
+        },
+        "strong": {
+          "lower": 1500,
+          "upper": 3000
+        },
+        "heavy": 4000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 360,
+          "max": 480
+        },
+        "total": {
+          "min": 600,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "SV2A binding — antiseizure",
+    "Irritability and mood changes in significant minority of patients",
+    "Renal clearance — dose-adjust in renal impairment"
+  ],
+  "halfLifeMinutes": 420,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf",
+    "https://en.wikipedia.org/wiki/Levetiracetam"
+  ],
+  "tags": [
+    "racetam",
+    "anticonvulsant",
+    "SV2A-ligand",
+    "prescription-only"
+  ]
+}

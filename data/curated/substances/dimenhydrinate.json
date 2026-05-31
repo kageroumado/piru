@@ -1,0 +1,72 @@
+{
+  "name": "Dimenhydrinate",
+  "aliases": [
+    "Dramamine",
+    "Gravol",
+    "Driminate"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 25,
+          "upper": 50
+        },
+        "common": {
+          "lower": 50,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 400
+        },
+        "heavy": 400
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 90,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 300,
+          "max": 540
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Antiemetic and antivertigo",
+    "Motion sickness prevention",
+    "Sedation",
+    "Prodrug: 55% diphenhydramine — shares deliriant potential at high doses",
+    "At doses >700 mg: hallucinations, delirium, anticholinergic toxidrome"
+  ],
+  "halfLifeMinutes": 540,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Dimenhydrinate",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/441211"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "deliriant",
+    "antiemetic",
+    "OTC"
+  ]
+}

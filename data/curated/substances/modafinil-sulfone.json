@@ -1,0 +1,23 @@
+{
+  "name": "Modafinil sulfone",
+  "aliases": [
+    "Modafinil sulphone"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Minor inactive metabolite of modafinil",
+    "Not pharmacologically active"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/119080",
+    "https://en.wikipedia.org/wiki/Modafinil"
+  ],
+  "tags": [
+    "eugeroic",
+    "metabolite",
+    "inactive",
+    "no-human-data"
+  ]
+}

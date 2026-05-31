@@ -1,0 +1,60 @@
+{
+  "name": "Tropacocaine",
+  "aliases": [
+    "benzoylpseudotropine",
+    "pseudotropine benzoate",
+    "descarbomethoxycocaine"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "other",
+  "routes": [
+    {
+      "route": "other",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "local anesthesia",
+    "weak CNS stimulation",
+    "vasoconstriction",
+    "documented street-cocaine cutting agent"
+  ],
+  "mechanismOfAction": {
+    "summary": "Sodium channel blocker (local anesthesia) + weaker DAT inhibitor than cocaine; tropane alkaloid naturally occurring in some Erythroxylum species.",
+    "description": "Descarbomethoxycocaine; pseudotropine benzoate. Na-channel block provides local anesthetic activity. DAT inhibition weaker than cocaine. Naturally occurs in some Erythroxylum species; documented as a street-cocaine cutting agent and contaminant. Ester structure → rapid hydrolysis by plasma esterases; short-acting. No formal human PK study. Cocaine analogue control applies in most jurisdictions.",
+    "primaryTargets": [
+      "voltage-gated Na+ channel",
+      "DAT"
+    ],
+    "bindings": [
+      {
+        "target": "voltage-gated Na+ channel",
+        "action": "channelBlocker",
+        "affinity": 3
+      },
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Tropacocaine"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "tropane-alkaloid",
+    "local-anesthetic",
+    "cocaine-adulterant"
+  ],
+  "cas": "537-26-8",
+  "pubchemCID": 10834,
+  "formula": "C15H19NO2",
+  "molarMass": 245.32,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Tropacocaine",
+    "PubChem CID 10834"
+  ]
+}

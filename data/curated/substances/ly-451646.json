@@ -1,0 +1,22 @@
+{
+  "name": "LY-451646",
+  "aliases": [
+    "Mibampator (R-enantiomer)"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Racemate of mibampator",
+    "Trialled for depression and Alzheimer's agitation",
+    "Discontinued"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mibampator"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "investigational"
+  ]
+}

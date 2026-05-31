@@ -1,0 +1,68 @@
+{
+  "name": "Disulfiram",
+  "aliases": [
+    "Antabuse",
+    "Tetraethylthiuram disulfide"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 125,
+        "light": {
+          "lower": 125,
+          "upper": 250
+        },
+        "common": {
+          "lower": 250,
+          "upper": 500
+        },
+        "strong": {
+          "lower": 500,
+          "upper": 500
+        },
+        "heavy": 500
+      },
+      "duration": {
+        "onset": {
+          "min": 720,
+          "max": 1440
+        },
+        "peak": {
+          "min": 1440,
+          "max": 2880
+        },
+        "offset": {
+          "min": 8640,
+          "max": 17280
+        },
+        "total": {
+          "min": 20160,
+          "max": 20160
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Aldehyde dehydrogenase inhibitor — causes acetaldehyde accumulation when alcohol is consumed",
+    "Disulfiram-ethanol reaction: flushing, nausea, vomiting, hypotension, tachycardia — can be severe",
+    "Aversive conditioning for alcohol dependence",
+    "Mild CNS effects at high doses; psychosis reported rarely",
+    "Inhibits CYP2E1 — interactions with isoniazid, metronidazole, cocaine",
+    "Alcohol-containing products (mouthwash, sauces) can trigger reaction"
+  ],
+  "halfLifeMinutes": 10080,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Disulfiram",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3117"
+  ],
+  "tags": [
+    "AUD-treatment",
+    "ALDH-inhibitor",
+    "aversive-conditioning",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "JWH-018",
+  "aliases": [
+    "Spice",
+    "K2"
+  ],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [
+    {
+      "route": "inhalation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.5,
+        "light": {
+          "lower": 1,
+          "upper": 2
+        },
+        "common": {
+          "lower": 2,
+          "upper": 5
+        },
+        "strong": {
+          "lower": 5,
+          "upper": 8
+        },
+        "heavy": 10
+      },
+      "duration": {
+        "onset": {
+          "min": 1,
+          "max": 5
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "John W. Huffman aminoalkylindole cannabinoid",
+    "Original 'Spice' active ingredient (2008-2011)",
+    "DEA Schedule I"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/JWH-018"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "aminoalkylindole",
+    "high-risk",
+    "US-Schedule-I"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "MPT",
+  "aliases": [
+    "methylpropyltryptamine",
+    "N-methyl-N-propyltryptamine"
+  ],
+  "category": "Psychedelic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "unconfirmed psychedelic effects in humans",
+    "Shulgin TiHKAL #34: inactive at ≤20 mg oral",
+    "related 4-HO-MPT is active"
+  ],
+  "mechanismOfAction": {
+    "summary": "Presumed 5-HT2A partial agonist (no published binding affinity data); may be inactive orally based on Shulgin self-trials.",
+    "description": "Substituted tryptamine; N-methyl, N-propyl disubstitution. Crystal structure solved (Chadeayne et al. 2019). Shulgin (TiHKAL #34) experienced no effect at oral doses up to 20 mg in self-trials; threshold listed as '>50 mg oral' with full dose ranges undocumented. Human psychedelic activity unconfirmed. Cross-tolerance with 5-HT2A psychedelics would be expected if psychedelic effects are confirmed.",
+    "primaryTargets": [
+      "5-HT2A"
+    ],
+    "bindings": [
+      {
+        "target": "5-HT2A",
+        "action": "partialAgonist",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Methylpropyltryptamine",
+      "https://psychonautwiki.org/wiki/MPT"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "tryptamine",
+    "possibly-inactive-oral"
+  ],
+  "cas": "850032-72-3",
+  "pubchemCID": 74405270,
+  "formula": "C14H20N2",
+  "molarMass": 216.32,
+  "inchikey": "SZUNESAKJQIJAC-UHFFFAOYSA-N",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methylpropyltryptamine",
+    "https://psychonautwiki.org/wiki/MPT",
+    "PubChem CID 74405270"
+  ]
+}

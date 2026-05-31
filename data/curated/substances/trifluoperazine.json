@@ -1,0 +1,69 @@
+{
+  "name": "Trifluoperazine",
+  "aliases": [
+    "Stelazine"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 40
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "High-potency D2 antagonist with activating profile",
+    "High EPS risk; akathisia particularly prominent",
+    "Less sedating than chlorpromazine",
+    "Used for both psychosis and short-term anxiety augmentation",
+    "Hyperprolactinemia",
+    "QTc prolongation potential"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Trifluoperazine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5566"
+  ],
+  "tags": [
+    "antipsychotic",
+    "typical-antipsychotic",
+    "D2-antagonist",
+    "prescription-only",
+    "high-EPS-risk",
+    "phenothiazine"
+  ]
+}

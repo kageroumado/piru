@@ -1,0 +1,23 @@
+{
+  "name": "Hexedrone",
+  "aliases": [
+    "Hexen",
+    "α-Methylamino-hexanophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Hexyl-chain analog of methcathinone",
+    "Limited human pharmacology data",
+    "Sympathomimetic stimulant effects"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Hexedrone"
+  ],
+  "tags": [
+    "cathinone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

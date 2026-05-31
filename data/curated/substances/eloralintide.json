@@ -1,0 +1,57 @@
+{
+  "name": "Eloralintide",
+  "aliases": [
+    "LY3841136"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "once weekly",
+        "notes": "no validated dosing — investigational (Phase 2), research/community protocol"
+      }
+    }
+  ],
+  "effects": [
+    "satiety",
+    "weight loss"
+  ],
+  "mechanismOfAction": {
+    "summary": "Long-acting selective amylin (calcitonin/amylin) receptor agonist.",
+    "description": "Proprietary acylated amylin analog under investigation for obesity; selective agonism of the amylin receptor promotes satiety and weight loss. Sequence unpublished.",
+    "primaryTargets": [
+      "amylin receptor"
+    ],
+    "bindings": [
+      {
+        "target": "amylin receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://clinicaltrials.gov/search?term=LY3841136"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "amylin-agonist",
+    "no-human-data"
+  ],
+  "peptideProfile": {
+    "suppliedForm": "solution",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "Lilly pipeline (LY3841136)",
+    "ClinicalTrials.gov"
+  ]
+}

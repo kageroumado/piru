@@ -1,0 +1,68 @@
+{
+  "name": "Armodafinil",
+  "aliases": [
+    "Nuvigil",
+    "R-modafinil",
+    "(R)-modafinil"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 250
+        },
+        "heavy": 250
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 720,
+          "max": 960
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Wakefulness promotion",
+    "Improved focus and motivation",
+    "Longer half-life than modafinil",
+    "Possible Stevens-Johnson syndrome (rare)"
+  ],
+  "halfLifeMinutes": 900,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021875s029lbl.pdf",
+    "https://en.wikipedia.org/wiki/Armodafinil",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9690109"
+  ],
+  "tags": [
+    "eugeroic",
+    "prescription-only",
+    "US-Schedule-IV",
+    "afinil"
+  ]
+}

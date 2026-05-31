@@ -1,0 +1,73 @@
+{
+  "name": "Brexanolone",
+  "aliases": [
+    "Zulresso",
+    "SAGE-547"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "intravenous",
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mcg/kg/h",
+      "doses": {
+        "threshold": 30,
+        "light": {
+          "lower": 30,
+          "upper": 60
+        },
+        "common": {
+          "lower": 60,
+          "upper": 90
+        },
+        "strong": {
+          "lower": 90,
+          "upper": 90
+        },
+        "heavy": 90
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 720,
+          "max": 1440
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 4320,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "FDA-approved specifically for postpartum depression (PPD) — rapid onset within days",
+    "Positive allosteric modulator of GABA-A receptors (neurosteroid — synthetic allopregnanolone)",
+    "Administered as continuous 60-hour IV infusion in certified healthcare facility",
+    "Excessive sedation and sudden loss of consciousness — requires continuous monitoring",
+    "Dizziness, headache, presyncope during infusion",
+    "REMS program — inpatient administration only",
+    "Not suitable for maintenance therapy — single-course treatment"
+  ],
+  "halfLifeMinutes": 270,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211371s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Brexanolone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/92786"
+  ],
+  "tags": [
+    "antidepressant",
+    "GABA-A-PAM",
+    "neurosteroid",
+    "prescription-only",
+    "REMS-required",
+    "inpatient-only",
+    "postpartum-depression"
+  ]
+}

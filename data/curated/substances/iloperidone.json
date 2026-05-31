@@ -1,0 +1,71 @@
+{
+  "name": "Iloperidone",
+  "aliases": [
+    "Fanapt"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 1,
+          "upper": 4
+        },
+        "common": {
+          "lower": 6,
+          "upper": 12
+        },
+        "strong": {
+          "lower": 12,
+          "upper": 20
+        },
+        "heavy": 24
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 120,
+          "max": 360
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1440,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Requires slow titration over 7 days to minimize orthostatic hypotension",
+    "D2, D3 and alpha1/alpha2C antagonism; 5HT2A antagonism",
+    "Significant QTc prolongation risk — contraindicated with other QTc-prolonging drugs",
+    "Low EPS risk; low sedation",
+    "Minimal metabolic effects vs olanzapine/quetiapine",
+    "Long titration schedule limits use in acute settings"
+  ],
+  "halfLifeMinutes": 1260,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022192lbl.pdf",
+    "https://en.wikipedia.org/wiki/Iloperidone",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/71360"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "5HT2A-antagonist",
+    "alpha1-blocker",
+    "prescription-only",
+    "QTc-risk"
+  ]
+}

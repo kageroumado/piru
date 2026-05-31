@@ -1,0 +1,112 @@
+{
+  "name": "Promethazine",
+  "aliases": [
+    "Phenergan",
+    "Promethegan",
+    "Avomine"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 6.25,
+        "light": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 75
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    },
+    {
+      "route": "intramuscular",
+      "unit": "mg",
+      "doses": {
+        "threshold": 6.25,
+        "light": {
+          "lower": 12.5,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 75
+        },
+        "heavy": 75
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 360,
+          "max": 600
+        },
+        "total": {
+          "min": 420,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Potent sedation",
+    "Antiemetic — used for PONV, motion sickness, hyperemesis",
+    "Anticholinergic: dry mouth, blurred vision, urinary retention",
+    "Phenothiazine class — dopamine D2 antagonism at higher doses",
+    "Black Box Warning: not for use in children <2 years (respiratory depression risk)",
+    "IV use associated with severe tissue necrosis — IM preferred"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf",
+    "https://en.wikipedia.org/wiki/Promethazine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/4927"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "first-gen-antihistamine",
+    "sedating",
+    "anticholinergic",
+    "antiemetic",
+    "phenothiazine",
+    "prescription-only"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "name": "Phenylephrine",
+  "aliases": [
+    "Neo-Synephrine",
+    "Sudafed PE"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 10
+        },
+        "common": {
+          "lower": 10,
+          "upper": 20
+        },
+        "strong": {
+          "lower": 20,
+          "upper": 40
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 15,
+          "max": 30
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 60,
+          "max": 240
+        },
+        "total": {
+          "min": 90,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Selective alpha-1 adrenergic agonist — nasal decongestant",
+    "Raises blood pressure; less CNS stimulation than pseudoephedrine",
+    "FDA advisory committee in 2023 found oral phenylephrine ineffective as decongestant",
+    "Minimal CNS penetration; essentially no psychostimulant effect orally",
+    "IV form used for vasoconstriction in hypotension (clinical setting)"
+  ],
+  "halfLifeMinutes": 150,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Phenylephrine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/6041"
+  ],
+  "tags": [
+    "decongestant",
+    "alpha1-agonist",
+    "OTC",
+    "vasoconstrictor"
+  ]
+}

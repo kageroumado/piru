@@ -1,0 +1,59 @@
+{
+  "name": "bk-BZP",
+  "aliases": [
+    "1-benzoylpiperazine",
+    "benzoylpiperazine",
+    "1-BZP",
+    "phenyl(piperazin-1-yl)methanone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "presumed sympathomimetic",
+    "dopamine and norepinephrine release (rodent data only)"
+  ],
+  "mechanismOfAction": {
+    "summary": "DA/NE-releasing stimulant (piperazine class); mechanism based on rodent data only — human receptor binding data absent. NOT a cathinone despite the 'bk' prefix.",
+    "description": "1-Benzoylpiperazine is a piperazine (benzoylpiperazine), not a cathinone. Despite the 'bk' (beta-keto) prefix, it lacks the beta-keto moiety characteristic of cathinones. Only rodent pharmacology available; no human receptor binding data confirmed.",
+    "primaryTargets": [
+      "DAT",
+      "NET"
+    ],
+    "bindings": [
+      {
+        "target": "DAT",
+        "action": "releasingAgent",
+        "affinity": 2
+      },
+      {
+        "target": "NET",
+        "action": "releasingAgent",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://pubchem.ncbi.nlm.nih.gov/compound/762654"
+    ]
+  },
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "piperazine"
+  ],
+  "cas": "13754-38-6",
+  "pubchemCID": 762654,
+  "formula": "C11H14N2O",
+  "molarMass": 190.24,
+  "inchikey": "VUNXBQRNMNVUMV-UHFFFAOYSA-N",
+  "sources": [
+    "PubChem CID 762654",
+    "EUDA BZP drug profile"
+  ]
+}

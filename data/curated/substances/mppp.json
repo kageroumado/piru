@@ -1,0 +1,22 @@
+{
+  "name": "MPPP",
+  "aliases": [
+    "4'-Methyl-α-pyrrolidinopropiophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Pyrrolidinophenone cathinone",
+    "Limited human exposure data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/MPPP_(stimulant)"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

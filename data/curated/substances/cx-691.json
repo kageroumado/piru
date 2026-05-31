@@ -1,0 +1,25 @@
+{
+  "name": "CX-691",
+  "aliases": [
+    "Farampator",
+    "Org 24448"
+  ],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Cortex/Organon AMPA PAM",
+    "Phase II trials in schizophrenia and age-related memory impairment",
+    "Mixed cognitive effects in humans"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Farampator",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3038090"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "Cortex-Pharmaceuticals",
+    "research-chemical",
+    "investigational"
+  ]
+}

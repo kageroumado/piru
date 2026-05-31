@@ -1,0 +1,22 @@
+{
+  "name": "MDPPP",
+  "aliases": [
+    "3,4-Methylenedioxy-α-pyrrolidinopropiophenone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Pyrrolidinophenone cathinone analog of MDPV",
+    "Limited human exposure data"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/MDPPP"
+  ],
+  "tags": [
+    "cathinone",
+    "pyrrolidinophenone",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

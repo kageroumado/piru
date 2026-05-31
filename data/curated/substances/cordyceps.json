@@ -1,0 +1,75 @@
+{
+  "name": "Cordyceps",
+  "aliases": [
+    "Cordyceps sinensis",
+    "Cordyceps militaris",
+    "Dong Chong Xia Cao",
+    "CS-4"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "common": {
+          "lower": 2000,
+          "upper": 3000
+        },
+        "strong": {
+          "lower": 3000,
+          "upper": 4500
+        },
+        "heavy": 4500
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 240
+        },
+        "offset": {
+          "min": 240,
+          "max": 720
+        },
+        "total": {
+          "min": 360,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Adenosine-like compounds — cellular energy (ATP) production enhancement",
+    "Investigated for exercise performance, VO2 max — modest evidence",
+    "Immunomodulatory beta-glucans",
+    "Traditional use: anti-fatigue, libido support",
+    "C. militaris (cultivated) more accessible and researched than C. sinensis (wild-harvested, expensive)",
+    "Well-tolerated; may cause mild GI upset"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5978",
+    "https://en.wikipedia.org/wiki/Cordyceps",
+    "https://examine.com/supplements/cordyceps/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "athletic-performance",
+    "mushroom",
+    "immunomodulator",
+    "energy-metabolism"
+  ]
+}

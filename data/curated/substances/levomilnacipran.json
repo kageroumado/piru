@@ -1,0 +1,68 @@
+{
+  "name": "Levomilnacipran",
+  "aliases": [
+    "Fetzima"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 80
+        },
+        "strong": {
+          "lower": 80,
+          "upper": 120
+        },
+        "heavy": 120
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Active enantiomer of milnacipran — reduces depressive symptoms",
+    "Pronounced noradrenergic effect (NE > 5-HT at therapeutic doses)",
+    "Nausea, hyperhidrosis, heart rate increase, erectile dysfunction",
+    "Urinary hesitancy (alpha-1 stimulation via NE)",
+    "Blood pressure elevation",
+    "Discontinuation syndrome on abrupt stop"
+  ],
+  "halfLifeMinutes": 750,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/204168s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Levomilnacipran",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3005573"
+  ],
+  "tags": [
+    "antidepressant",
+    "SNRI",
+    "prescription-only",
+    "serotonin-syndrome-risk"
+  ]
+}

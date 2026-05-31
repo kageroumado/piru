@@ -1,0 +1,43 @@
+{
+  "name": "Sabroxy",
+  "aliases": [
+    "Oroxylin A"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 800
+      }
+    }
+  ],
+  "effects": [
+    "Flavone from Oroxylum indicum",
+    "GABA-A negative allosteric modulator (anxiogenic profile)",
+    "Mild stimulating effects reported"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Oroxylin_A"
+  ],
+  "tags": [
+    "nootropic",
+    "flavonoid",
+    "GABA-A-NAM"
+  ]
+}

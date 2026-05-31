@@ -1,0 +1,66 @@
+{
+  "name": "Ramelteon",
+  "aliases": [
+    "Rozerem"
+  ],
+  "category": "Depressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 4,
+        "light": {
+          "lower": 4,
+          "upper": 8
+        },
+        "common": {
+          "lower": 8,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 16
+        },
+        "heavy": 16
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 45,
+          "max": 90
+        },
+        "offset": {
+          "min": 240,
+          "max": 360
+        },
+        "total": {
+          "min": 300,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Melatonin receptor agonist (MT1/MT2) — no GABA involvement",
+    "Advances circadian rhythm; helps sleep onset particularly for delayed sleep phase",
+    "No abuse potential — not scheduled",
+    "Mild somnolence; may elevate prolactin with long-term use",
+    "Safer than Z-drugs for patients with addiction history or COPD"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Ramelteon",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/208898"
+  ],
+  "tags": [
+    "sedative-hypnotic",
+    "melatonin-agonist",
+    "circadian",
+    "prescription-only"
+  ]
+}

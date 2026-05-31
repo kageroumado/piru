@@ -1,0 +1,43 @@
+{
+  "name": "Norflurazepam",
+  "aliases": [
+    "Desmethylflurazepam"
+  ],
+  "category": "Benzodiazepine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 1,
+        "light": {
+          "lower": 2,
+          "upper": 4
+        },
+        "common": {
+          "lower": 4,
+          "upper": 8
+        },
+        "strong": {
+          "lower": 8,
+          "upper": 12
+        },
+        "heavy": 16
+      }
+    }
+  ],
+  "effects": [
+    "Long-duration; serial-dosing risk leading to multi-day blackouts and dependence.",
+    "Active metabolite of flurazepam now sold standalone",
+    "Half-life 47-100 h — accumulates with daily dosing"
+  ],
+  "halfLifeMinutes": 4500,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Norflurazepam"
+  ],
+  "tags": [
+    "designer-benzo",
+    "metabolite-as-drug"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Fexofenadine",
+  "aliases": [
+    "Allegra",
+    "Telfast",
+    "Fastofen"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 30,
+        "light": {
+          "lower": 60,
+          "upper": 60
+        },
+        "common": {
+          "lower": 120,
+          "upper": 180
+        },
+        "strong": {
+          "lower": 180,
+          "upper": 360
+        },
+        "heavy": 360
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 720,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces allergic rhinitis symptoms",
+    "No sedation — does not cross BBB",
+    "Urticaria relief",
+    "No anticholinergic effects"
+  ],
+  "halfLifeMinutes": 840,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/020872s032lbl.pdf",
+    "https://en.wikipedia.org/wiki/Fexofenadine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/107317"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "OTC"
+  ]
+}

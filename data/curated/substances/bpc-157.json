@@ -1,0 +1,27 @@
+{
+  "name": "BPC-157",
+  "aliases": [
+    "Body Protection Compound 157",
+    "PL 14736"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [],
+  "effects": [
+    "Synthetic 15-amino-acid peptide derived from gastric juice protein",
+    "Reported gut-healing and tendon-repair effects in animal studies",
+    "WADA-banned",
+    "No FDA-approved human use"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/BPC-157"
+  ],
+  "tags": [
+    "nootropic",
+    "peptide",
+    "gut-healing",
+    "WADA-banned",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

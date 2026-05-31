@@ -1,0 +1,61 @@
+{
+  "name": "SS-31",
+  "aliases": [
+    "Elamipretide",
+    "MTP-131",
+    "Bendavia"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 40,
+        "frequency": "once daily",
+        "notes": "trial dose; investigational, no approved regimen"
+      }
+    }
+  ],
+  "effects": [
+    "mitochondrial support",
+    "increased ATP",
+    "reduced ROS"
+  ],
+  "halfLifeMinutes": 150,
+  "mechanismOfAction": {
+    "summary": "Mitochondria-targeting tetrapeptide; binds cardiolipin to stabilize cristae.",
+    "description": "Cell-permeable tetrapeptide that concentrates on the inner mitochondrial membrane and binds cardiolipin, stabilizing cristae architecture, improving electron-transport efficiency, increasing ATP synthesis and reducing reactive oxygen species.",
+    "primaryTargets": [
+      "Cardiolipin"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Elamipretide"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "longevity",
+    "research-chemical",
+    "no-human-data"
+  ],
+  "cas": "736992-21-5",
+  "formula": "C32H49N9O5",
+  "pubchemCID": 11198681,
+  "molarMass": 639.79,
+  "peptideProfile": {
+    "sequence": "D-Arg-2',6'-dimethylTyr-Lys-Phe-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 11198681",
+    "https://en.wikipedia.org/wiki/Elamipretide"
+  ]
+}

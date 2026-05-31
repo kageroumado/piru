@@ -1,0 +1,59 @@
+{
+  "name": "Bemethyl",
+  "aliases": [
+    "Bemitil",
+    "Metaprot",
+    "Antihot",
+    "Betamyl",
+    "2-Ethylthiobenzimidazole"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 250,
+        "highAmount": 500,
+        "frequency": "2×/day",
+        "courseDuration": "5-day courses with 2–3 day rest periods",
+        "notes": "up to 750–1000 mg/day in some protocols; accumulates with repeated doses — course-based dosing with breaks manages this; human t½ not published; Russian pharmaceutical standard (Metaprot)"
+      }
+    }
+  ],
+  "effects": [
+    "increased physical/cognitive performance under hypoxic conditions (actoprotection)",
+    "increased endurance",
+    "antioxidant (reduced lipid peroxidation)",
+    "antihypoxant",
+    "mild nootropic effect"
+  ],
+  "mechanismOfAction": {
+    "summary": "Actoprotector/antihypoxant; activates genomic pathways increasing RNA synthesis and gluconeogenic enzyme induction.",
+    "description": "Benzimidazole actoprotector; activates PEPCK and G6Pase (gluconeogenic enzymes) via RNA synthesis induction; increases mitochondrial ATP production; antioxidant (reduces lipid peroxidation); antihypoxant (improves cellular oxygen utilization efficiency). BBB-penetrant. Accumulates with repeated doses — mechanism distinct from classical monoaminergic stimulants. Russian/CIS registered pharmaceutical (Metaprot); not FDA/EMA approved.",
+    "primaryTargets": [
+      "Gluconeogenic enzyme induction",
+      "Mitochondrial ATP synthesis"
+    ],
+    "references": [
+      "PubChem CID 9816609",
+      "https://en.wikipedia.org/wiki/Bemethyl",
+      "PMID 34445727"
+    ]
+  },
+  "tags": [
+    "research-chemical"
+  ],
+  "cas": "62572-90-1",
+  "inchikey": "BKUKXOMYGPYFJJ-UHFFFAOYSA-N",
+  "formula": "C9H11BrN2S",
+  "pubchemCID": 9816609,
+  "molarMass": 259.17,
+  "sources": [
+    "PubChem CID 9816609",
+    "https://en.wikipedia.org/wiki/Bemethyl",
+    "PMID 34445727"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Cerebrolysin",
+  "aliases": [
+    "FPF-1070"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "intramuscular",
+  "routes": [],
+  "effects": [
+    "Porcine brain peptide hydrolysate",
+    "Used in stroke recovery and Alzheimer's in some countries",
+    "Mixed clinical evidence"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Cerebrolysin"
+  ],
+  "tags": [
+    "nootropic",
+    "peptide",
+    "prescription-only"
+  ]
+}

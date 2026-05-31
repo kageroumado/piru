@@ -1,0 +1,22 @@
+{
+  "name": "Fluorenol",
+  "aliases": [
+    "9H-fluoren-9-ol"
+  ],
+  "category": "Eugeroic",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Putative wake-promoting agent",
+    "No published human trial data"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/10241",
+    "https://en.wikipedia.org/wiki/9-Hydroxyfluorene"
+  ],
+  "tags": [
+    "eugeroic",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

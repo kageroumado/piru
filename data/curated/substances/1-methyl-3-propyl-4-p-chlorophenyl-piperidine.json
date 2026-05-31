@@ -1,0 +1,20 @@
+{
+  "name": "1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Substituted piperidine DAT inhibitor",
+    "Research tool compound"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "DRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

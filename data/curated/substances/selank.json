@@ -1,0 +1,44 @@
+{
+  "name": "Selank",
+  "aliases": [
+    "Threonyl-lysyl-prolyl-arginyl-prolyl-glycyl-proline"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.15,
+        "light": {
+          "lower": 0.3,
+          "upper": 0.9
+        },
+        "common": {
+          "lower": 0.9,
+          "upper": 2.0
+        },
+        "strong": {
+          "lower": 2.0,
+          "upper": 3.0
+        },
+        "heavy": 4.0
+      }
+    }
+  ],
+  "effects": [
+    "Tuftsin-derived heptapeptide anxiolytic",
+    "GABAergic and immune-modulating effects",
+    "Russian-approved anxiolytic"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Selank",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/11765562"
+  ],
+  "tags": [
+    "nootropic",
+    "peptide",
+    "anxiolytic"
+  ]
+}

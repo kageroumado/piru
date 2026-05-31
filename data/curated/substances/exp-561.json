@@ -1,0 +1,19 @@
+{
+  "name": "EXP-561",
+  "aliases": [],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Monoamine reuptake inhibitor antidepressant candidate",
+    "Development discontinued"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "NDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

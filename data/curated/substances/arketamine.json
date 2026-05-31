@@ -1,0 +1,25 @@
+{
+  "name": "Arketamine",
+  "aliases": [
+    "R-ketamine",
+    "(R)-ketamine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Non-FDA-approved enantiomer of ketamine",
+    "Lower NMDA affinity but longer antidepressant effect in rodents",
+    "Investigational antidepressant"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Arketamine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/182136"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "investigational"
+  ]
+}

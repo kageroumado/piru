@@ -1,0 +1,75 @@
+{
+  "name": "Berberine",
+  "aliases": [
+    "Berberine HCl",
+    "Berberine Hydrochloride",
+    "Dihydroberberine",
+    "GlucoVantage"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 250,
+          "upper": 500
+        },
+        "common": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "strong": {
+          "lower": 1000,
+          "upper": 1500
+        },
+        "heavy": 1500
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "AMPK activator — insulin sensitizing, similar metabolic mechanism to metformin",
+    "Clinically significant blood glucose and lipid lowering — robust evidence",
+    "Strong CYP3A4, CYP2D6, and P-gp inhibitor — significant drug interactions",
+    "GI side effects (nausea, constipation, cramping) common — take with meals",
+    "May deplete beneficial gut bacteria with chronic use",
+    "Caution with any medication metabolized by CYP3A4 or CYP2D6"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2353",
+    "https://en.wikipedia.org/wiki/Berberine",
+    "https://examine.com/supplements/berberine/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "insulin-sensitizer",
+    "AMPK-activator",
+    "GI-side-effects",
+    "CYP450-inhibitor",
+    "metabolic",
+    "herbal"
+  ]
+}

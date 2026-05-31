@@ -1,0 +1,19 @@
+{
+  "name": "GSK1360707F",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "GSK triple monoamine reuptake inhibitor",
+    "Discontinued antidepressant candidate"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/21856770/"
+  ],
+  "tags": [
+    "SNDRI",
+    "research-chemical",
+    "investigational"
+  ]
+}

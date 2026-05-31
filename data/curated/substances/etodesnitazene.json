@@ -1,0 +1,25 @@
+{
+  "name": "Etodesnitazene",
+  "aliases": [
+    "Etazene"
+  ],
+  "category": "Opioid",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "Extreme potency: 10-100x fentanyl. Naloxone may require multiple doses (4-8mg+).",
+    "Surveillance reports indicate atypical respiratory depression onset.",
+    "Test strips for fentanyl will NOT detect nitazenes.",
+    "Synonym for Etazene"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Etazene"
+  ],
+  "tags": [
+    "nitazene",
+    "extreme-potency",
+    "fentanyl-stronger",
+    "fatalities-reported",
+    "benzimidazole-opioid"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Brexpiprazole",
+  "aliases": [
+    "Rexulti"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.25,
+        "light": {
+          "lower": 0.5,
+          "upper": 1
+        },
+        "common": {
+          "lower": 2,
+          "upper": 3
+        },
+        "strong": {
+          "lower": 3,
+          "upper": 4
+        },
+        "heavy": 4
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 180
+        },
+        "peak": {
+          "min": 240,
+          "max": 480
+        },
+        "offset": {
+          "min": 1440,
+          "max": 2880
+        },
+        "total": {
+          "min": 2880,
+          "max": 5760
+        }
+      }
+    }
+  ],
+  "effects": [
+    "D2/D3 partial agonist with lower intrinsic activity than aripiprazole — less activating",
+    "5HT1A partial agonist; 5HT2A antagonist; alpha1/2 antagonist",
+    "Lower akathisia risk than aripiprazole",
+    "MDD adjunct and schizophrenia indication; Alzheimer's agitation (2023)",
+    "Moderate weight gain; minimal QTc effect",
+    "Favorable vs aripiprazole for restlessness-sensitive patients"
+  ],
+  "halfLifeMinutes": 5760,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/205422orig1s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Brexpiprazole",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/9811558"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-partial-agonist",
+    "D3-partial-agonist",
+    "5HT1A-partial-agonist",
+    "5HT2A-antagonist",
+    "alpha1-blocker",
+    "prescription-only"
+  ]
+}

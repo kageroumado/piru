@@ -1,0 +1,75 @@
+{
+  "name": "Inositol",
+  "aliases": [
+    "Myo-Inositol",
+    "D-Chiro-Inositol",
+    "Inositol Hexaphosphate",
+    "IP6"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 500,
+        "light": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "common": {
+          "lower": 2000,
+          "upper": 4000
+        },
+        "strong": {
+          "lower": 4000,
+          "upper": 12000
+        },
+        "heavy": 18000
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Second messenger for serotonin, dopamine, insulin, and FSH signaling",
+    "Myo-inositol: strong evidence for PCOS (ovarian function, insulin sensitivity)",
+    "Investigated for OCD (high-dose 12-18g/day) and panic disorder",
+    "Serotonergic modulation at high doses — potential serotonin syndrome risk in combination",
+    "Very safe — sweet taste; GI tolerance good even at high doses",
+    "Lithium antagonist — inositol depletion is one proposed mechanism of lithium's therapeutic effect"
+  ],
+  "halfLifeMinutes": 240,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/892",
+    "https://en.wikipedia.org/wiki/Inositol",
+    "https://examine.com/supplements/inositol/"
+  ],
+  "tags": [
+    "supplement",
+    "OTC",
+    "amino-acid-derivative",
+    "GABAergic",
+    "insulin-sensitizer",
+    "PCOS",
+    "mood",
+    "anxiolytic"
+  ]
+}

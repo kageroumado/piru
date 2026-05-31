@@ -1,0 +1,71 @@
+{
+  "name": "Liraglutide",
+  "aliases": [
+    "Victoza",
+    "Saxenda"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "subcutaneous",
+  "routes": [
+    {
+      "route": "subcutaneous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 0.6,
+        "light": {
+          "lower": 0.6,
+          "upper": 1.2
+        },
+        "common": {
+          "lower": 1.2,
+          "upper": 1.8
+        },
+        "strong": {
+          "lower": 1.8,
+          "upper": 2.4
+        },
+        "heavy": 3.0
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 480,
+          "max": 720
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1380,
+          "max": 1500
+        }
+      }
+    }
+  ],
+  "effects": [
+    "GLP-1 receptor agonist — daily injection (half-life ~13h)",
+    "Weight loss ~8% body weight at 3 mg/day (Saxenda); HbA1c reduction (Victoza)",
+    "Cardioprotective in T2DM — LEADER trial: reduced major adverse cardiovascular events",
+    "Nausea, vomiting very common especially at initiation",
+    "Pancreatitis risk; gallbladder disease; thyroid C-cell tumor concern (rodent data)",
+    "Approved for children ≥12 years (Saxenda — obesity)"
+  ],
+  "halfLifeMinutes": 780,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf",
+    "https://en.wikipedia.org/wiki/Liraglutide",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/44147092"
+  ],
+  "tags": [
+    "peptide",
+    "GLP-1-agonist",
+    "prescription-only",
+    "anti-obesity",
+    "anti-diabetic",
+    "weight-loss"
+  ]
+}

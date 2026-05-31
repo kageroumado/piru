@@ -1,0 +1,20 @@
+{
+  "name": "ADB-HEXINACA",
+  "aliases": [],
+  "category": "Cannabinoid",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Unpredictable potency between batches; seizures and AKI reported. Do NOT substitute for cannabis — pharmacology is fundamentally different.",
+    "Hexyl-substituted ADB analog",
+    "Emerging in 2023 NPS surveillance"
+  ],
+  "sources": [
+    "https://www.emcdda.europa.eu/publications/eu-drug-markets/nps_en"
+  ],
+  "tags": [
+    "synthetic-cannabinoid",
+    "indazole-carboxamide",
+    "high-risk"
+  ]
+}

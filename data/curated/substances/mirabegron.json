@@ -1,0 +1,59 @@
+{
+  "name": "Mirabegron",
+  "aliases": [
+    "Myrbetriq",
+    "YM-178"
+  ],
+  "category": "Endocrine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {},
+      "protocolDosing": {
+        "lowAmount": 25,
+        "highAmount": 50,
+        "frequency": "once daily",
+        "notes": "FDA-approved 25–50 mg for overactive bladder; metabolic/BAT research uses 200 mg (4× approved max) — substantial CV risk (≥20 bpm HR increase); CYP2D6 inhibitor at all doses (raises metoprolol, digoxin)"
+      }
+    }
+  ],
+  "effects": [
+    "bladder detrusor relaxation (FDA indication: overactive bladder)",
+    "increased brown adipose tissue thermogenesis (metabolic research, supratherapeutic dose)",
+    "mild heart rate increase at approved doses",
+    "significant heart rate and BP increase at 200 mg",
+    "CYP2D6 inhibition (drug interactions)"
+  ],
+  "halfLifeMinutes": 3000,
+  "mechanismOfAction": {
+    "summary": "Selective β3-adrenergic receptor agonist; bladder relaxation at approved doses; BAT thermogenesis at supratherapeutic doses.",
+    "description": "Selective β3-AR agonist (β1/β2 sparing at approved doses); FDA-approved for overactive bladder via bladder detrusor relaxation. Activates brown adipose tissue thermogenesis and increases energy expenditure at supratherapeutic doses (200 mg). Tmax ~3.5 h; oral bioavailability 29–35% (food-dependent). Moderate CYP2D6 inhibitor — raises plasma levels of metoprolol, digoxin, and other CYP2D6 substrates.",
+    "primaryTargets": [
+      "β3-adrenergic receptor"
+    ],
+    "bindings": [
+      {
+        "target": "β3-adrenergic receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "PubChem CID 9865528",
+      "FDA Myrbetriq prescribing information",
+      "https://doi.org/10.1172/JCI134892"
+    ]
+  },
+  "tags": [],
+  "cas": "223673-61-8",
+  "formula": "C21H24N4O2S",
+  "pubchemCID": 9865528,
+  "molarMass": 396.5,
+  "sources": [
+    "PubChem CID 9865528",
+    "FDA Myrbetriq prescribing information",
+    "JCI DOI:10.1172/JCI134892 (BAT study)"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Pimavanserin",
+  "aliases": [
+    "Nuplazid"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 10,
+          "upper": 17
+        },
+        "common": {
+          "lower": 34,
+          "upper": 34
+        },
+        "strong": {
+          "lower": 34,
+          "upper": 34
+        },
+        "heavy": 34
+      },
+      "duration": {
+        "onset": {
+          "min": 120,
+          "max": 360
+        },
+        "peak": {
+          "min": 360,
+          "max": 720
+        },
+        "offset": {
+          "min": 1440,
+          "max": 4320
+        },
+        "total": {
+          "min": 2880,
+          "max": 14400
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Selective 5HT2A/2C inverse agonist — no D2 binding whatsoever",
+    "FDA-approved only for Parkinson's disease psychosis",
+    "Does not worsen Parkinson's motor symptoms (no D2 blockade)",
+    "QTc prolongation — avoid in patients with history of arrhythmia",
+    "No metabolic effects, no EPS, no prolactin elevation",
+    "Active metabolite AC-279 contributes to clinical effect"
+  ],
+  "halfLifeMinutes": 3780,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/207318orig1s000lbl.pdf",
+    "https://en.wikipedia.org/wiki/Pimavanserin",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5311272"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "inverse-agonist-5HT2A",
+    "5HT2C-inverse-agonist",
+    "prescription-only",
+    "QTc-risk",
+    "parkinsons-psychosis"
+  ]
+}

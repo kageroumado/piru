@@ -1,0 +1,74 @@
+{
+  "name": "Lion's Mane",
+  "aliases": [
+    "Hericium erinaceus",
+    "Yamabushitake",
+    "Monkey Head Mushroom"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 250,
+        "light": {
+          "lower": 500,
+          "upper": 1000
+        },
+        "common": {
+          "lower": 1000,
+          "upper": 2000
+        },
+        "strong": {
+          "lower": 2000,
+          "upper": 3000
+        },
+        "heavy": 3000
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 240
+        },
+        "peak": {
+          "min": 43200,
+          "max": 172800
+        },
+        "offset": {
+          "min": 172800,
+          "max": 604800
+        },
+        "total": {
+          "min": 86400,
+          "max": 604800
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Hericenones and erinacines stimulate NGF (nerve growth factor) and BDNF synthesis",
+    "Neurogenesis and myelin repair — chronic use required for cognitive benefit",
+    "Modest evidence for cognitive function in mild cognitive impairment (MCI)",
+    "Anxiety reduction in some clinical trials",
+    "Dual-extract (aqueous + alcohol) captures both beta-glucans and hericenones",
+    "Generally well-tolerated; rare allergy or itch reported"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/472740",
+    "https://en.wikipedia.org/wiki/Hericium_erinaceus",
+    "https://examine.com/supplements/lions-mane-mushroom/"
+  ],
+  "tags": [
+    "supplement",
+    "nootropic",
+    "herbal",
+    "OTC",
+    "NGF-stimulator",
+    "neuroprotective",
+    "cognitive-enhancement",
+    "mushroom"
+  ]
+}

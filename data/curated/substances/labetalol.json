@@ -1,0 +1,105 @@
+{
+  "name": "Labetalol",
+  "aliases": [
+    "Trandate",
+    "Normodyne"
+  ],
+  "category": "Cardiovascular",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 800
+      },
+      "duration": {
+        "onset": {
+          "min": 60,
+          "max": 120
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 480,
+          "max": 720
+        },
+        "total": {
+          "min": 480,
+          "max": 720
+        }
+      }
+    },
+    {
+      "route": "intravenous",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 80
+        },
+        "strong": {
+          "lower": 80,
+          "upper": 160
+        },
+        "heavy": 300
+      },
+      "duration": {
+        "onset": {
+          "min": 2,
+          "max": 5
+        },
+        "peak": {
+          "min": 5,
+          "max": 15
+        },
+        "offset": {
+          "min": 120,
+          "max": 360
+        },
+        "total": {
+          "min": 180,
+          "max": 360
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Combined alpha-1 and non-selective beta blockade",
+    "Used in hypertensive emergencies and pregnancy-related hypertension",
+    "Fatigue, dizziness, orthostatic hypotension",
+    "Mild CNS blunting"
+  ],
+  "halfLifeMinutes": 360,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Labetalol",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/3869"
+  ],
+  "tags": [
+    "beta-blocker",
+    "alpha1-blocker",
+    "non-selective",
+    "antihypertensive",
+    "prescription-only"
+  ]
+}

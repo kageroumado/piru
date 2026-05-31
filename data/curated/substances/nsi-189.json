@@ -1,0 +1,42 @@
+{
+  "name": "NSI-189",
+  "aliases": [],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 80
+        },
+        "strong": {
+          "lower": 80,
+          "upper": 120
+        },
+        "heavy": 160
+      }
+    }
+  ],
+  "effects": [
+    "Neurogenic compound — hippocampal volume increase in rodents",
+    "Phase II depression trials — primary endpoint missed",
+    "Sold as research chemical"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/NSI-189"
+  ],
+  "tags": [
+    "nootropic",
+    "neurogenesis",
+    "research-chemical",
+    "investigational"
+  ]
+}

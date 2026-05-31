@@ -1,0 +1,44 @@
+{
+  "name": "Methylliberine",
+  "aliases": [
+    "Dynamine",
+    "O(2),1,7,9-Tetramethyluric acid"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 400
+      }
+    }
+  ],
+  "effects": [
+    "Purine alkaloid found in kucha tea (Camellia assamica)",
+    "Subtle stimulation without strong cardiovascular effects",
+    "Often paired with caffeine and theacrine in supplements"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methylliberine"
+  ],
+  "tags": [
+    "nootropic",
+    "supplement",
+    "purine-alkaloid"
+  ]
+}

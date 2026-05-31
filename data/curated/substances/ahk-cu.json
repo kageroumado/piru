@@ -1,0 +1,42 @@
+{
+  "name": "AHK-Cu",
+  "aliases": [
+    "Tripeptide-3 copper"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "hair-follicle stimulation"
+  ],
+  "mechanismOfAction": {
+    "summary": "Copper peptide for hair-follicle stimulation.",
+    "description": "Ala-His-Lys copper(II) complex used topically on the scalp to promote dermal-papilla activity and follicle growth.",
+    "primaryTargets": [
+      "Hair follicle"
+    ],
+    "references": [
+      "INCI/CosIng database"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "peptideProfile": {
+    "sequence": "Ala-His-Lys-Cu2+",
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "INCI/CosIng; manufacturer tech sheet"
+  ]
+}

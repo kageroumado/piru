@@ -1,0 +1,20 @@
+{
+  "name": "Setazindol",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Mazindol analog with stimulant and anorectic activity",
+    "Limited published clinical data"
+  ],
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "NDRI",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

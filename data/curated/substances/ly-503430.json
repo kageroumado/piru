@@ -1,0 +1,21 @@
+{
+  "name": "LY-503430",
+  "aliases": [],
+  "category": "AMPAkine",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Eli Lilly AMPA PAM",
+    "Neuroprotective in Parkinson's disease models",
+    "Preclinical only"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/LY-503430"
+  ],
+  "tags": [
+    "AMPA-PAM",
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

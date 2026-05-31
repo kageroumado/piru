@@ -1,0 +1,87 @@
+{
+  "name": "Methylone",
+  "aliases": [
+    "MDMC",
+    "bk-MDMA",
+    "M1",
+    "3,4-Methylenedioxymethcathinone"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 75,
+          "upper": 125
+        },
+        "common": {
+          "lower": 125,
+          "upper": 200
+        },
+        "strong": {
+          "lower": 200,
+          "upper": 300
+        },
+        "heavy": 350
+      },
+      "duration": {
+        "onset": {
+          "min": 20,
+          "max": 45
+        },
+        "peak": {
+          "min": 60,
+          "max": 120
+        },
+        "offset": {
+          "min": 60,
+          "max": 120
+        },
+        "total": {
+          "min": 180,
+          "max": 240
+        }
+      }
+    },
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 40,
+          "upper": 75
+        },
+        "common": {
+          "lower": 75,
+          "upper": 150
+        },
+        "strong": {
+          "lower": 150,
+          "upper": 200
+        },
+        "heavy": 250
+      }
+    }
+  ],
+  "effects": [
+    "β-keto MDMA — entactogen with less empathy and more stimulation",
+    "Cardiovascular strain at high doses",
+    "Linked to serotonin syndrome with MAOIs"
+  ],
+  "halfLifeMinutes": 90,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methylone",
+    "https://psychonautwiki.org/wiki/Methylone"
+  ],
+  "tags": [
+    "cathinone",
+    "MDMA-analog",
+    "empathogen-adjacent",
+    "research-chemical"
+  ]
+}

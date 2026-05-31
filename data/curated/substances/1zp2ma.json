@@ -1,0 +1,19 @@
+{
+  "name": "1ZP2MA",
+  "aliases": [],
+  "category": "Stimulant",
+  "defaultRoute": "oral",
+  "routes": [],
+  "effects": [
+    "Designer stimulant of obscure provenance",
+    "No characterised human pharmacology"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Stimulant"
+  ],
+  "tags": [
+    "research-chemical",
+    "no-human-data",
+    "investigational"
+  ]
+}

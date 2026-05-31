@@ -1,0 +1,24 @@
+{
+  "name": "Methoxmetamine",
+  "aliases": [
+    "MXM",
+    "3-MeO-2-Oxo-PCM"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "N-methyl analog of MXE",
+    "No characterised human dosing",
+    "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/38301014/"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "no-human-data"
+  ]
+}

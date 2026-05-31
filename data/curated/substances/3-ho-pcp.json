@@ -1,0 +1,25 @@
+{
+  "name": "3-HO-PCP",
+  "aliases": [
+    "3-Hydroxyphencyclidine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "insufflation",
+  "routes": [],
+  "effects": [
+    "3-hydroxy PCP analog with mu-opioid activity",
+    "Mixed dissociative-opioid pharmacology",
+    "No characterised safe human dose"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/3-HO-PCP"
+  ],
+  "tags": [
+    "arylcyclohexylamine",
+    "NMDA-antagonist",
+    "mu-opioid-agonist",
+    "research-chemical",
+    "no-human-data",
+    "PCP-analog"
+  ]
+}

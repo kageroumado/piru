@@ -1,0 +1,48 @@
+{
+  "name": "Argireline",
+  "aliases": [
+    "Acetyl Hexapeptide-3",
+    "Acetyl Hexapeptide-8"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "transdermal",
+  "routes": [
+    {
+      "route": "transdermal",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "anti-wrinkle",
+    "topical muscle relaxation"
+  ],
+  "mechanismOfAction": {
+    "summary": "SNAP-25 N-terminal mimic; inhibits SNARE complex to reduce muscle contraction ('topical Botox').",
+    "description": "Acetylated hexapeptide mimicking the N-terminus of SNAP-25. Competes for SNARE-complex assembly, attenuating catecholamine/acetylcholine release at the neuromuscular junction to soften expression lines.",
+    "primaryTargets": [
+      "SNAP-25"
+    ],
+    "references": [
+      "https://pubchem.ncbi.nlm.nih.gov/compound/9837349"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "cosmetic"
+  ],
+  "cas": "616204-22-9",
+  "formula": "C34H60N14O12S",
+  "pubchemCID": 9837349,
+  "peptideProfile": {
+    "sequence": "Ac-Glu-Glu-Met-Gln-Arg-Arg-NH2",
+    "suppliedForm": "topical",
+    "storage": {
+      "temperature": "room_temp"
+    }
+  },
+  "sources": [
+    "PubChem CID 9837349",
+    "INCI/CosIng"
+  ]
+}

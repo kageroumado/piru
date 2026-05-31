@@ -1,0 +1,71 @@
+{
+  "name": "Tranylcypromine",
+  "aliases": [
+    "Parnate"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 30,
+          "upper": 60
+        },
+        "strong": {
+          "lower": 60,
+          "upper": 60
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Irreversible non-selective MAO-A/B inhibitor — reduces treatment-resistant depression and atypical depression",
+    "Tyramine dietary restriction MANDATORY — aged cheeses, cured meats, fermented foods, tap beer, certain wines: hypertensive crisis risk (can be fatal)",
+    "Activating/stimulating (amphetamine-like structure) — insomnia, restlessness",
+    "Orthostatic hypotension",
+    "Requires 14-day washout before/after other serotonergic drugs to avoid serotonin syndrome",
+    "Risk of hypertensive crisis with sympathomimetics, tyramine-rich foods, or indirect sympathomimetics"
+  ],
+  "halfLifeMinutes": 130,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf",
+    "https://en.wikipedia.org/wiki/Tranylcypromine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/441233"
+  ],
+  "tags": [
+    "antidepressant",
+    "MAOI",
+    "irreversible-MAOI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "dietary-restriction",
+    "hypertensive-crisis-risk"
+  ]
+}

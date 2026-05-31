@@ -1,0 +1,73 @@
+{
+  "name": "Zinc Picolinate",
+  "aliases": [
+    "Zinc",
+    "Zinc Bisglycinate",
+    "Zinc Gluconate",
+    "Zinc L-Carnosine"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 50
+        },
+        "strong": {
+          "lower": 50,
+          "upper": 100
+        },
+        "heavy": 100
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 720,
+          "max": 2880
+        },
+        "total": {
+          "min": 1440,
+          "max": 4320
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Essential trace mineral — cofactor for 100+ enzymes, immune function, wound healing",
+    "Picolinate chelate may have superior absorption vs oxide",
+    "Immune function support — reduces cold duration when taken within 24 hours of onset",
+    "Testosterone synthesis cofactor",
+    "Chronic supplementation above 40mg/day depletes copper — pair with copper or monitor",
+    "GI irritation on empty stomach — take with food; nausea common above 50mg"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/73523",
+    "https://en.wikipedia.org/wiki/Zinc_picolinate"
+  ],
+  "tags": [
+    "supplement",
+    "mineral",
+    "OTC",
+    "immune",
+    "testosterone",
+    "antioxidant"
+  ]
+}

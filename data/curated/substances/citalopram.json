@@ -1,0 +1,70 @@
+{
+  "name": "Citalopram",
+  "aliases": [
+    "Celexa",
+    "Cipramil"
+  ],
+  "category": "Antidepressant",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 5,
+        "light": {
+          "lower": 10,
+          "upper": 20
+        },
+        "common": {
+          "lower": 20,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 60
+        },
+        "heavy": 60
+      },
+      "duration": {
+        "onset": {
+          "min": 20160,
+          "max": 40320
+        },
+        "peak": {
+          "min": 28800,
+          "max": 57600
+        },
+        "offset": {
+          "min": 14400,
+          "max": 28800
+        },
+        "total": {
+          "min": 20160,
+          "max": 57600
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces depressive and anxious symptoms over 2–6 weeks",
+    "Nausea, dry mouth, sweating",
+    "QTc prolongation — FDA limits to 40 mg/day (20 mg/day in elderly, hepatic impairment, CYP2C19 poor metabolizers)",
+    "Sexual dysfunction",
+    "Discontinuation syndrome on abrupt stop",
+    "Risk of serotonin syndrome with other serotonergic agents"
+  ],
+  "halfLifeMinutes": 2160,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf",
+    "https://en.wikipedia.org/wiki/Citalopram",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2771"
+  ],
+  "tags": [
+    "antidepressant",
+    "SSRI",
+    "prescription-only",
+    "serotonin-syndrome-risk",
+    "QTc-prolongation-risk"
+  ]
+}

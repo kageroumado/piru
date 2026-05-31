@@ -1,0 +1,72 @@
+{
+  "name": "Meprylcaine",
+  "aliases": [
+    "Oracaine",
+    "Epirocaine"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "other",
+  "routes": [
+    {
+      "route": "other",
+      "unit": "mg",
+      "doses": {}
+    }
+  ],
+  "effects": [
+    "local anesthesia",
+    "stimulant-like effects at systemic doses",
+    "cocaine-like subjective effects possible"
+  ],
+  "mechanismOfAction": {
+    "summary": "Sodium channel blocker (local anesthetic) + relatively potent monoamine transporter inhibition (DA/NE/5-HT reuptake) — stimulant properties distinguish it from purely local-anesthetic benzoates.",
+    "description": "Aminoester (benzoate) local anesthetic; dimethocaine-related (4-aminobenzoate scaffold). Historical dental anesthetic. Unlike purely local-anesthetic benzoates, meprylcaine also inhibits DA, NE, and 5-HT reuptake transporters, generating stimulant properties. Aminoester structure → rapid hydrolysis; short-acting. No recreational dose ranges established.",
+    "primaryTargets": [
+      "voltage-gated Na+ channel",
+      "DAT",
+      "NET",
+      "SERT"
+    ],
+    "bindings": [
+      {
+        "target": "voltage-gated Na+ channel",
+        "action": "channelBlocker",
+        "affinity": 3
+      },
+      {
+        "target": "DAT",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      },
+      {
+        "target": "NET",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      },
+      {
+        "target": "SERT",
+        "action": "reuptakeInhibitor",
+        "affinity": 2
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Meprylcaine",
+      "https://pubmed.ncbi.nlm.nih.gov/13572116/"
+    ]
+  },
+  "tags": [
+    "historical",
+    "local-anesthetic",
+    "stimulant",
+    "aminoester"
+  ],
+  "cas": "495-70-5",
+  "pubchemCID": 4065,
+  "formula": "C14H21NO2",
+  "molarMass": 235.33,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Meprylcaine",
+    "PMID 13572116",
+    "PubChem CID 4065"
+  ]
+}

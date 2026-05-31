@@ -1,0 +1,63 @@
+{
+  "name": "Methcathinone",
+  "aliases": [
+    "Ephedrone",
+    "Cat",
+    "Jeff"
+  ],
+  "category": "Stimulant",
+  "defaultRoute": "insufflation",
+  "routes": [
+    {
+      "route": "insufflation",
+      "unit": "mg",
+      "doses": {
+        "threshold": 10,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 80
+        },
+        "strong": {
+          "lower": 80,
+          "upper": 120
+        },
+        "heavy": 150
+      },
+      "duration": {
+        "onset": {
+          "min": 5,
+          "max": 15
+        },
+        "peak": {
+          "min": 30,
+          "max": 120
+        },
+        "offset": {
+          "min": 30,
+          "max": 120
+        },
+        "total": {
+          "min": 120,
+          "max": 240
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Methamphetamine-like cathinone",
+    "Russian preparations linked to manganese-induced parkinsonism (when reduced with permanganate)",
+    "Cardiovascular strain at high doses",
+    "Highly addictive"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methcathinone"
+  ],
+  "tags": [
+    "cathinone",
+    "US-Schedule-I"
+  ]
+}

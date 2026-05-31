@@ -1,0 +1,67 @@
+{
+  "name": "Eletriptan",
+  "aliases": [
+    "Relpax"
+  ],
+  "category": "Other",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 20,
+        "light": {
+          "lower": 20,
+          "upper": 40
+        },
+        "common": {
+          "lower": 40,
+          "upper": 40
+        },
+        "strong": {
+          "lower": 40,
+          "upper": 80
+        },
+        "heavy": 80
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 120,
+          "max": 180
+        },
+        "offset": {
+          "min": 180,
+          "max": 360
+        },
+        "total": {
+          "min": 240,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "5-HT1B/1D agonist — high CNS penetration relative to other triptans",
+    "Aborts acute migraine; may be effective for ergotamine-non-responders",
+    "Chest tightness, dizziness, somnolence, weakness",
+    "Potent CYP3A4 inhibitor interactions (ketoconazole, erythromycin increase levels)",
+    "Contraindicated with MAOIs and cardiovascular disease"
+  ],
+  "halfLifeMinutes": 270,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Eletriptan",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/77991"
+  ],
+  "tags": [
+    "triptan",
+    "serotonin-agonist",
+    "5HT1B-agonist",
+    "antimigraine",
+    "prescription-only"
+  ]
+}

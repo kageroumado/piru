@@ -1,0 +1,43 @@
+{
+  "name": "Sulbutiamine",
+  "aliases": [
+    "Arcalion",
+    "Bisibutiamine"
+  ],
+  "category": "Nootropic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 100,
+        "light": {
+          "lower": 200,
+          "upper": 400
+        },
+        "common": {
+          "lower": 400,
+          "upper": 600
+        },
+        "strong": {
+          "lower": 600,
+          "upper": 800
+        },
+        "heavy": 1000
+      }
+    }
+  ],
+  "effects": [
+    "Lipophilic thiamine prodrug",
+    "Anti-fatigue and mild mood-elevating effects",
+    "Dependence and tolerance with chronic daily use"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Sulbutiamine"
+  ],
+  "tags": [
+    "nootropic",
+    "thiamine-derivative"
+  ]
+}

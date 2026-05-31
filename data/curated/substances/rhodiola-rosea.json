@@ -1,0 +1,75 @@
+{
+  "name": "Rhodiola Rosea",
+  "aliases": [
+    "Golden Root",
+    "Arctic Root",
+    "Rosavin",
+    "Salidroside"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 50,
+        "light": {
+          "lower": 100,
+          "upper": 200
+        },
+        "common": {
+          "lower": 200,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 600
+        },
+        "heavy": 600
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 240,
+          "max": 480
+        },
+        "total": {
+          "min": 360,
+          "max": 720
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Stimulating adaptogen — take in morning to avoid insomnia",
+    "Monoamine oxidase inhibitor properties (mild) — may interact with MAOIs",
+    "Reduces mental and physical fatigue in RCTs, especially during stress",
+    "Mild antidepressant effects in clinical trials",
+    "Caution with SSRIs/SNRIs — mild serotonin system interaction",
+    "Standardized to ≥3% rosavins and ≥1% salidroside"
+  ],
+  "halfLifeMinutes": 180,
+  "sources": [
+    "https://pubchem.ncbi.nlm.nih.gov/compound/5485032",
+    "https://en.wikipedia.org/wiki/Rhodiola_rosea",
+    "https://examine.com/supplements/rhodiola-rosea/"
+  ],
+  "tags": [
+    "supplement",
+    "adaptogen",
+    "herbal",
+    "OTC",
+    "nootropic",
+    "anti-fatigue",
+    "anxiolytic",
+    "MAO-inhibitor-weak"
+  ]
+}

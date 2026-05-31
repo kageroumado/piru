@@ -1,0 +1,74 @@
+{
+  "name": "Vitamin B6",
+  "aliases": [
+    "Pyridoxine",
+    "P5P",
+    "Pyridoxal-5-Phosphate",
+    "Pyridoxal Phosphate"
+  ],
+  "category": "Supplement",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2,
+        "light": {
+          "lower": 10,
+          "upper": 25
+        },
+        "common": {
+          "lower": 25,
+          "upper": 100
+        },
+        "strong": {
+          "lower": 100,
+          "upper": 200
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 720,
+          "max": 1440
+        },
+        "total": {
+          "min": 1080,
+          "max": 2880
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Coenzyme for 100+ enzyme reactions — transamination, decarboxylation, neurotransmitter synthesis",
+    "P5P (pyridoxal-5-phosphate) is active form — bypasses hepatic activation",
+    "B6 required for serotonin, dopamine, GABA synthesis",
+    "Peripheral sensory neuropathy with chronic supplementation above 100mg/day",
+    "Irreversible neuropathy reported above 500mg/day long-term",
+    "Used for morning sickness (B6 + doxylamine = Diclegis)"
+  ],
+  "halfLifeMinutes": 1440,
+  "sources": [
+    "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/1052",
+    "https://en.wikipedia.org/wiki/Pyridoxal_phosphate"
+  ],
+  "tags": [
+    "supplement",
+    "vitamin",
+    "OTC",
+    "water-soluble",
+    "B-vitamin",
+    "neurotransmitter-synthesis",
+    "energy-metabolism"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "Methoxphenidine",
+  "aliases": [
+    "MXP",
+    "2-MeO-Diphenidine"
+  ],
+  "category": "Dissociative",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 80
+        },
+        "common": {
+          "lower": 80,
+          "upper": 120
+        },
+        "strong": {
+          "lower": 120,
+          "upper": 180
+        },
+        "heavy": 200
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 90
+        },
+        "peak": {
+          "min": 120,
+          "max": 240
+        },
+        "offset": {
+          "min": 180,
+          "max": 240
+        },
+        "total": {
+          "min": 360,
+          "max": 480
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Diarylethylamine (not arylcyclohexylamine) — distinct chemical scaffold",
+    "Multiple fatalities reported, often with co-administered depressants",
+    "Long duration increases redose-overdose risk"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Methoxphenidine",
+    "https://psychonautwiki.org/wiki/Methoxphenidine"
+  ],
+  "tags": [
+    "diarylethylamine",
+    "NMDA-antagonist",
+    "research-chemical",
+    "designer-dissociative",
+    "fatalities-reported"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "Cetirizine",
+  "aliases": [
+    "Zyrtec",
+    "Reactine",
+    "Zirtec",
+    "All Day Allergy"
+  ],
+  "category": "Antihistamine",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 2.5,
+        "light": {
+          "lower": 5,
+          "upper": 5
+        },
+        "common": {
+          "lower": 5,
+          "upper": 10
+        },
+        "strong": {
+          "lower": 10,
+          "upper": 20
+        },
+        "heavy": 20
+      },
+      "duration": {
+        "onset": {
+          "min": 30,
+          "max": 60
+        },
+        "peak": {
+          "min": 60,
+          "max": 180
+        },
+        "offset": {
+          "min": 360,
+          "max": 720
+        },
+        "total": {
+          "min": 1440,
+          "max": 1440
+        }
+      }
+    }
+  ],
+  "effects": [
+    "Reduces allergic rhinitis symptoms",
+    "Mild drowsiness possible at higher doses",
+    "Dry mouth",
+    "Urticaria and itch relief"
+  ],
+  "halfLifeMinutes": 480,
+  "sources": [
+    "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf",
+    "https://en.wikipedia.org/wiki/Cetirizine",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2723949"
+  ],
+  "tags": [
+    "antihistamine",
+    "H1-antagonist",
+    "second-gen-antihistamine",
+    "non-sedating",
+    "OTC"
+  ]
+}

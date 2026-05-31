@@ -1,0 +1,62 @@
+{
+  "name": "Dermorphin",
+  "aliases": [
+    "Frog opioid"
+  ],
+  "category": "Peptide",
+  "defaultRoute": "intravenous",
+  "routes": [
+    {
+      "route": "intravenous",
+      "unit": "mcg",
+      "doses": {},
+      "protocolDosing": {
+        "frequency": "research only",
+        "notes": "no validated human dosing — potent μ-opioid (~30–40× morphine); respiratory depression risk. Research/community protocol only"
+      }
+    }
+  ],
+  "effects": [
+    "analgesia",
+    "respiratory depression risk"
+  ],
+  "mechanismOfAction": {
+    "summary": "Highly selective μ-opioid receptor agonist (heptapeptide, D-Ala2).",
+    "description": "Naturally occurring heptapeptide containing a D-Ala residue. Highly selective and potent μ-opioid receptor agonist (~30–40× morphine), with poor CNS penetration when given peripherally.",
+    "primaryTargets": [
+      "μ-opioid receptor"
+    ],
+    "bindings": [
+      {
+        "target": "μ-opioid receptor",
+        "action": "agonist",
+        "affinity": 3
+      }
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Dermorphin"
+    ]
+  },
+  "tags": [
+    "peptide",
+    "opioid",
+    "wada-prohibited"
+  ],
+  "cas": "77614-16-5",
+  "formula": "C40H50N8O10",
+  "pubchemCID": 105808,
+  "molarMass": 802.87,
+  "peptideProfile": {
+    "sequence": "Tyr-D-Ala-Phe-Gly-Tyr-Pro-Ser-NH2",
+    "suppliedForm": "lyophilized_vial",
+    "reconstitutionSolvent": "Bacteriostatic water",
+    "storage": {
+      "temperature": "refrigerate",
+      "lightSensitive": true
+    }
+  },
+  "sources": [
+    "PubChem CID 105808",
+    "https://en.wikipedia.org/wiki/Dermorphin"
+  ]
+}

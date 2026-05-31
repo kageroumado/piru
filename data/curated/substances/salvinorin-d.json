@@ -1,0 +1,20 @@
+{
+  "name": "Salvinorin D",
+  "aliases": [],
+  "category": "Dysdelic",
+  "defaultRoute": "inhalation",
+  "routes": [],
+  "effects": [
+    "Trace constituent of Salvia divinorum",
+    "No pharmacological characterisation",
+    "Bryan Roth lab structural studies only"
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Salvinorin"
+  ],
+  "tags": [
+    "salvinorin",
+    "research-chemical",
+    "no-human-data"
+  ]
+}
