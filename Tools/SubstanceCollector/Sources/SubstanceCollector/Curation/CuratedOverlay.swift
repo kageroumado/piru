@@ -33,7 +33,17 @@ enum CuratedOverlayLoader {
                 )
             }
             let entries = decoded.map {
-                SourcedSubstance(substance: $0, provenance: .curated, inchiKey: nil, pubchemCID: nil, cas: nil)
+                // Lift chemical identifiers onto the wrapper as well, so the
+                // merge/dedup pipeline can match curated entries on InChIKey/CID.
+                // They also remain on the substance object (encoded by
+                // BundledSubstance) for the SQLite builder to read directly.
+                SourcedSubstance(
+                    substance: $0,
+                    provenance: .curated,
+                    inchiKey: $0.inchikey,
+                    pubchemCID: $0.pubchemCID,
+                    cas: $0.cas
+                )
             }
             return Loaded(entries: entries, warning: nil)
         } catch {
