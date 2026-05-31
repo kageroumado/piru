@@ -25,6 +25,7 @@ is_chemnoise_alias = _mod.is_chemnoise_alias
 normalize_category = _mod.normalize_category
 normalise = _mod.normalise
 smart_title_case = _mod.smart_title_case
+chem_caps = _mod.chem_caps
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 _REPO = Path(__file__).resolve().parents[3]
@@ -252,6 +253,41 @@ class TestSmartTitleCase(unittest.TestCase):
     def test_empty(self):
         self.assertEqual(smart_title_case(""), "")
         self.assertEqual(smart_title_case(None), None)
+
+
+class TestChemCaps(unittest.TestCase):
+    """chem_caps upper-cases acronym segments in chemical-code names but must
+    PRESERVE intentionally mixed-case segments (PiHP, MeO) and alkyl morphemes
+    (Me, Et) — the 2-Me-PiHP → 2-ME-PIHP regression."""
+
+    def test_title_cased_acronyms_uppercased(self):
+        self.assertEqual(chem_caps("2-Fma"), "2-FMA")
+        self.assertEqual(chem_caps("4-Ho-Met"), "4-HO-MET")
+        self.assertEqual(chem_caps("3-Mmc"), "3-MMC")
+
+    def test_interior_caps_preserved(self):
+        self.assertEqual(chem_caps("2-Me-PiHP"), "2-Me-PiHP")
+        self.assertEqual(chem_caps("3F-PiHP"), "3F-PiHP")
+        self.assertEqual(chem_caps("4-HO-PiPT"), "4-HO-PiPT")
+        self.assertEqual(chem_caps("5-MeO-MiPT"), "5-MeO-MiPT")
+
+    def test_alkyl_morphemes_title_cased(self):
+        self.assertEqual(chem_caps("2-Me-PCP"), "2-Me-PCP")
+        self.assertEqual(chem_caps("N-Et-2C-B"), "N-Et-2C-B")
+
+    def test_camelcase_chemical_segments_restored(self):
+        # All-lowercase-origin names: title-cased then camel-restored.
+        self.assertEqual(chem_caps("4-Ho-Mipt"), "4-HO-MiPT")
+        self.assertEqual(chem_caps("5-Meo-Mipt"), "5-MeO-MiPT")
+        self.assertEqual(chem_caps("4-Aco-Dmt"), "4-AcO-DMT")
+
+    def test_hydroxy_stays_upper(self):
+        # HO (hydroxy) is an acronym, not camelCase.
+        self.assertEqual(chem_caps("4-Ho-Met"), "4-HO-MET")
+
+    def test_no_digit_untouched(self):
+        self.assertEqual(chem_caps("MD-PiHP"), "MD-PiHP")
+        self.assertEqual(chem_caps("Aminoindane"), "Aminoindane")
 
 
 class TestUnitToMgFactor(unittest.TestCase):

@@ -775,6 +775,21 @@ _CHEM_KEEP_LOWER = {
     "di", "tri", "bis", "mono", "homo", "seco", "nido", "para", "meta",
     "iodo", "endo", "exo", "syn", "thia", "sec", "tert",
 }
+# Alkyl-group morphemes that read as title-case in RC codes ("2-Me-PiHP",
+# "N-Et-…"), NOT acronyms — so they aren't upper-cased to ME/ET. Distinct from
+# hydroxy/methoxy (HO/MeO) which ARE upper/camel. Kept deliberately small to
+# avoid clobbering real acronyms.
+_CHEM_KEEP_TITLE = {"me", "et", "pr", "bu"}
+# Conventional camelCase chemical segments. When a source supplies the name
+# all-lowercase, title-casing produces "Meo"/"Mipt" and the acronym rule would
+# upper-case them to MEO/MIPT; these restore the standard mixed-case form. Keyed
+# by lowercased segment. (Names that arrive already cased are preserved by the
+# interior-uppercase rule and never reach here.)
+_CHEM_CAMEL = {
+    "meo": "MeO", "aco": "AcO", "eto": "EtO", "tho": "ThO",
+    "mipt": "MiPT", "dipt": "DiPT", "eipt": "EiPT", "pipt": "PiPT", "pihp": "PiHP",
+    "nbome": "NBOMe", "nboh": "NBOH", "ipr": "iPr",
+}
 # Chemical-code names contain a digit (2-FMA, 4-HO-MET, bk-MDMA, 1P-LSD).
 _CHEM_SEG_RE = re.compile(r"([\-/])")
 
@@ -784,7 +799,12 @@ def chem_caps(name: str) -> str:
     correctly: '2-Fma' → '2-FMA', '4-Ho-Met' → '4-HO-MET', 'bk-Mdma' → 'bk-MDMA'.
     Only touches names containing a digit (true chemical codes), and only short
     (≤4-char) alpha segments that aren't known lowercase morphemes — long word
-    segments like '2-Aminoindane' are left title-cased."""
+    segments like '2-Aminoindane' are left title-cased.
+
+    A segment with an INTERIOR uppercase letter is already intentionally
+    mixed-case (PiHP, MeO, MiPT, NBOMe) and is left untouched — only the
+    leading-cap form that title-casing produces from lowercase input
+    ('fma'→'Fma') is treated as an acronym to upper-case."""
     if not any(c.isdigit() for c in name):
         return name
     out = []
@@ -795,6 +815,14 @@ def chem_caps(name: str) -> str:
         low = seg.lower()
         if low in _CHEM_KEEP_LOWER:
             out.append(low)
+        elif low in _CHEM_CAMEL:
+            # Authoritative camelCase for known morphemes, regardless of input
+            # case — canonicalises MEO/Meo/meo → MeO, MIPT → MiPT, NBOME → NBOMe.
+            out.append(_CHEM_CAMEL[low])
+        elif any(c.isupper() for c in seg[1:]):
+            out.append(seg)  # other intentional interior caps — preserve as authored
+        elif low in _CHEM_KEEP_TITLE:
+            out.append(seg[0].upper() + seg[1:].lower())  # alkyl morpheme: Me, Et…
         elif len(seg) <= 4:
             out.append(seg.upper())
         else:
@@ -1057,6 +1085,11 @@ _CANONICAL_CASE: dict[str, str] = {
     "lsa":        "LSA",         # was Lsa
     "4-aco-dmt":  "4-AcO-DMT",   # acetoxy = AcO
     "25i-nbome":  "25I-NBOMe",   # NBOMe convention
+    # 2C = phenethylamine class, uppercase C (the fused "2c" segment carries a
+    # digit so chem_caps skips it; bare 2C-B/2C-I arrive cased from source).
+    "bk-2c-b":    "bk-2C-B",
+    "bk-2c-i":    "bk-2C-I",
+    "βh-2c-b":    "βH-2C-B",      # β-hydroxy-2C-B
 }
 
 
