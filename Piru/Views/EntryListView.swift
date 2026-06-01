@@ -677,7 +677,7 @@ struct DayCardView: View {
     let markers: [DoseMarker]
     let colorMap: [String: Color]
 
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     private var dateTitle: String {
         date.formatted(.dateTime.day().month(.wide).year())
