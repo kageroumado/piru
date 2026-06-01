@@ -417,7 +417,7 @@ struct TimelineGraphView: View {
 
     /// Hard cap on the timeline window (48h). Activity past this is clipped so
     /// the meaningful first two days stay legible.
-    private static let maxDisplayMinutes: Double = 48 * 60
+    private nonisolated static let maxDisplayMinutes: Double = 48 * 60
 
     /// Effective ceiling for the axis window. A day-bounded host (journal card,
     /// day detail) clamps to 24h; everything else keeps the 48h default.
@@ -483,7 +483,7 @@ struct TimelineGraphView: View {
     }
 
     /// Target number of time labels on the x-axis for consistency.
-    private static let targetTickCount: Int = 8
+    private nonisolated static let targetTickCount: Int = 8
 
     /// Choose a clean tick interval that yields ~8 labels for the given span.
     private nonisolated static func intervalForSpan(_ span: Double) -> Double {
@@ -1577,10 +1577,10 @@ struct TimelineGraphView: View {
 
     /// Where the far-tail taper begins, as a fraction of the offset window
     /// (`peakEnd → total`). Higher = gentler (fades later, less of the tail cut).
-    private static let offsetTaperStart: Double = 0.55
+    private nonisolated static let offsetTaperStart: Double = 0.55
     /// Where the far-tail taper reaches baseline, as a multiple of `totalMinutes`
     /// — just past the subjective end so the curve lands on the axis cleanly.
-    private static let offsetTaperEnd: Double = 1.05
+    private nonisolated static let offsetTaperEnd: Double = 1.05
 
     /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
     /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
