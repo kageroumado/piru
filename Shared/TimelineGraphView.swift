@@ -15,6 +15,10 @@ struct TimelineGraphView: View {
     let compact: Bool
     var markers: [DoseMarker] = []
     var stackRedoses: Bool = false
+    /// Draws the per-curve "now" dot at `currentTime`. Meaningful on the live
+    /// session accessory and the full detail graph; off for the historical
+    /// journal thumbnails, where it's an axis-less artifact.
+    var showNowIndicator: Bool = true
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -61,6 +65,20 @@ struct TimelineGraphView: View {
     /// Hard cap on the timeline window (48h). Activity past this is clipped so
     /// the meaningful first two days stay legible.
     private static let maxDisplayMinutes: Double = 48 * 60
+
+    /// Above this many duration-less doses, the compact baseline dots stop
+    /// adding information and collapse into a noisy smear — so on a curve-rich
+    /// day we drop them entirely (the curves already read as "busy"). A
+    /// curve-less day always shows them: they're the card's only content.
+    private static let maxCompactMarkers: Int = 5
+
+    /// Whether to render the compact baseline + its dose dots. Skipped on busy
+    /// curve days where the dots are redundant clutter; always on when there
+    /// are no curves to carry the card.
+    private var showCompactMarkers: Bool {
+        guard compact, !markers.isEmpty else { return false }
+        return substances.isEmpty || markers.count <= Self.maxCompactMarkers
+    }
 
     /// Target number of time labels on the x-axis for consistency.
     private static let targetTickCount: Int = 8
@@ -219,9 +237,11 @@ struct TimelineGraphView: View {
 
             let diamondSize: CGFloat = 3
 
-            // Pre-compute marker positions for two-pass rendering (lines behind, diamonds on top)
+            // Pre-compute marker positions for two-pass rendering (lines behind,
+            // diamonds on top). Full graph only — compact thumbnails render
+            // markers as dots on the shared baseline instead (see below).
             let markerSlots: [(marker: DoseMarker, x: CGFloat, cy: CGFloat)]
-            if !markers.isEmpty {
+            if !compact, !markers.isEmpty {
                 var slots: [(marker: DoseMarker, slot: Int)] = []
                 var groups: [[Int]] = []
                 for (i, marker) in markers.enumerated() {
@@ -320,6 +340,18 @@ struct TimelineGraphView: View {
                 )
             }
 
+            // Compact baseline — the single axis that grounds both the curves
+            // and the dose dots that rest on it. Drawn only when there are dots
+            // to carry (or no curves at all), so the live session accessory
+            // (curves only, no markers) stays unadorned.
+            let compactBaselineY = graphTop + graphHeight
+            if showCompactMarkers {
+                var base = Path()
+                base.move(to: CGPoint(x: graphInset, y: compactBaselineY))
+                base.addLine(to: CGPoint(x: graphInset + graphWidth, y: compactBaselineY))
+                context.stroke(base, with: .color(.secondary.opacity(0.25)), lineWidth: 1)
+            }
+
             // Substance curves
             if stackRedoses {
                 drawStackedCurves(
@@ -369,7 +401,7 @@ struct TimelineGraphView: View {
                     )
 
                     let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
-                    if elapsed >= 0, elapsed <= substance.totalMinutes {
+                    if showNowIndicator, elapsed >= 0, elapsed <= substance.totalMinutes {
                         let minutePos = substanceOffset + elapsed
                         let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
                         let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance) * scale) * graphHeight * 0.93
@@ -399,6 +431,27 @@ struct TimelineGraphView: View {
                 ))
                 context.fill(circle, with: .color(color))
                 context.stroke(circle, with: .color(.white.opacity(0.6)), lineWidth: 0.8)
+            }
+
+            // Compact: duration-less doses rest as small colour-coded dots on the
+            // shared baseline, placed by time. Replaces the stacked floating
+            // circles, which read as scattered noise at thumbnail size.
+            if showCompactMarkers {
+                let r: CGFloat = 2.5
+                for marker in markers {
+                    let offset = marker.timestamp.timeIntervalSince(earliestDose) / 60
+                    let rawX = graphInset + CGFloat((offset - vStart) / vSpan) * graphWidth
+                    guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { continue }
+                    let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
+                    let dot = Path(ellipseIn: CGRect(
+                        x: x - r,
+                        y: compactBaselineY - r * 2,
+                        width: r * 2,
+                        height: r * 2,
+                    ))
+                    context.fill(dot, with: .color(Color(hex: marker.colorHex)))
+                    context.stroke(dot, with: .color(.white.opacity(0.5)), lineWidth: 0.5)
+                }
             }
 
             if !compact {
@@ -631,7 +684,7 @@ struct TimelineGraphView: View {
             // or the dot detaches from the curve whenever `yNorm` shifts (e.g. a
             // dose is added/removed and the graph rescales to fill the height).
             let elapsedGlobal = currentTime.timeIntervalSince(earliestDose) / 60
-            if elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
+            if showNowIndicator, elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
                 let x = graphInset + CGFloat((elapsedGlobal - visibleStart) / visibleSpan) * graphWidth
                 let v = min(1.0, stackedIntensity(atGlobalMinutes: elapsedGlobal, group: group) * yNorm)
                 let y = baseline - CGFloat(v) * graphHeight * 0.93
