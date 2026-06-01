@@ -49,6 +49,13 @@ struct TimelineGraphView: View {
     /// it changes; the user can still pinch/pan afterwards. Ignored when
     /// `compact`.
     var presetSpanMinutes: Double? = nil
+    /// Bounds the axis to a single 24h day. When set, the scrollable extent and
+    /// every span computation are capped at 1440 min so a late-night long-acting
+    /// dose can't stretch the axis past midnight (an entry stays on its own day
+    /// instead of bleeding a 30h tail into the next). The Live Activity and
+    /// now-pill leave this off — they frame a rolling session, not a calendar
+    /// day. Curves past the cap are simply clipped at the right edge.
+    var dayBounded: Bool = false
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
@@ -104,7 +111,7 @@ struct TimelineGraphView: View {
                 maxEnd = max(maxEnd, nowMin)
             }
         }
-        return min(max(maxEnd, 1), Self.maxDisplayMinutes)
+        return min(max(maxEnd, 1), displayCapMinutes)
     }
 
     /// Empirically find where the rendered curve envelope returns toward
@@ -144,7 +151,7 @@ struct TimelineGraphView: View {
                 }
             }
         }
-        upper = min(upper, Self.maxDisplayMinutes)
+        upper = min(upper, displayCapMinutes)
 
         var contributing = curves
         if framing {
@@ -170,6 +177,12 @@ struct TimelineGraphView: View {
     /// the meaningful first two days stay legible.
     private static let maxDisplayMinutes: Double = 48 * 60
 
+    /// Effective ceiling for the axis window. A day-bounded host (journal card,
+    /// day detail) clamps to 24h; everything else keeps the 48h default.
+    private var displayCapMinutes: Double {
+        dayBounded ? 24 * 60 : Self.maxDisplayMinutes
+    }
+
     /// Above this many duration-less doses, the compact baseline dots stop
     /// adding information and collapse into a noisy smear — so on a curve-rich
     /// day we drop them entirely (the curves already read as "busy"). A
@@ -182,6 +195,49 @@ struct TimelineGraphView: View {
     private var showCompactMarkers: Bool {
         guard compact, !markers.isEmpty else { return false }
         return substances.isEmpty || markers.count <= Self.maxCompactMarkers
+    }
+
+    /// At or above this many distinct substances, overlapping translucent fills
+    /// stop conveying information and collapse into curve soup — so a day this
+    /// busy renders as stacked per-substance lanes (small multiples) instead.
+    /// Internal so hosts can size the graph to keep each lane readable.
+    static let laneModeThreshold: Int = 4
+
+    /// Distinct substances drawn on the graph (by lowercased name).
+    private var distinctSubstanceCount: Int {
+        Set(substances.map { $0.substanceName.lowercased() }).count
+    }
+
+    /// Switch a busy day from overlapping curves to stacked lanes. Gated to the
+    /// roomy day surfaces (`dayBounded`, non-compact) — thumbnails stay a glance
+    /// of texture, and the live accessory keeps its single-baseline look.
+    private var laneMode: Bool {
+        !compact && dayBounded && distinctSubstanceCount >= Self.laneModeThreshold
+    }
+
+    /// One lane per distinct substance, in first-dose order, carrying every dose
+    /// of that substance so redoses share a lane.
+    private struct LaneGroup {
+        let name: String
+        let colorHex: String
+        let doses: [ActiveSubstanceState]
+    }
+
+    private var laneGroups: [LaneGroup] {
+        var order: [String] = []
+        var doses: [String: [ActiveSubstanceState]] = [:]
+        var colorOf: [String: String] = [:]
+        for s in substances {
+            let key = s.substanceName.lowercased()
+            if doses[key] == nil {
+                order.append(key)
+                colorOf[key] = s.colorHex
+            }
+            doses[key, default: []].append(s)
+        }
+        return order.map { key in
+            LaneGroup(name: doses[key]!.first!.substanceName, colorHex: colorOf[key]!, doses: doses[key]!)
+        }
     }
 
     /// Target number of time labels on the x-axis for consistency.
@@ -633,7 +689,7 @@ struct TimelineGraphView: View {
             // diamonds on top). Full graph only — compact thumbnails render
             // markers as dots on the shared baseline instead (see below).
             let markerSlots: [(marker: DoseMarker, x: CGFloat, cy: CGFloat)]
-            if !compact, !markers.isEmpty {
+            if !compact, !laneMode, !markers.isEmpty {
                 var slots: [(marker: DoseMarker, slot: Int)] = []
                 var groups: [[Int]] = []
                 for (i, marker) in markers.enumerated() {
@@ -763,7 +819,17 @@ struct TimelineGraphView: View {
             }
 
             // Substance curves
-            if stackRedoses {
+            if laneMode {
+                drawLanes(
+                    context: context,
+                    visibleStart: vStart,
+                    visibleSpan: vSpan,
+                    graphWidth: graphWidth,
+                    graphHeight: graphHeight,
+                    graphInset: graphInset,
+                    graphTop: graphTop,
+                )
+            } else if stackRedoses {
                 drawStackedCurves(
                     context: context,
                     visibleStart: vStart,
@@ -859,7 +925,7 @@ struct TimelineGraphView: View {
                 context.stroke(rule, with: .color(.primary.opacity(0.55)), lineWidth: 1)
 
                 let minute = vStart + Double((clampedX - graphInset) / graphWidth) * vSpan
-                for sample in scrubSamples(atMinute: minute) {
+                for sample in scrubSamples(atMinute: minute) where !laneMode {
                     let y = graphTop + graphHeight - CGFloat(sample.value) * graphHeight * 0.93
                     let dotSize: CGFloat = 7
                     let dot = Path(ellipseIn: CGRect(
@@ -914,6 +980,128 @@ struct TimelineGraphView: View {
             }
         }
         .clipped()
+    }
+
+    // MARK: - Lane Rendering (small multiples)
+
+    /// Render a busy day as stacked per-substance lanes. Each lane is an
+    /// independent horizon strip: its own baseline, its own vertical scale (so a
+    /// faint dose reads as a real hump beside a heavy one), the substance name
+    /// inline as a label. The lanes share the x-axis, the gridlines, the now-line
+    /// and the scrub rule — only the y-mapping is partitioned. Reuses the same
+    /// Bateman path builders, just handed a lane-local top/height.
+    private func drawLanes(
+        context: GraphicsContext,
+        visibleStart: Double,
+        visibleSpan: Double,
+        graphWidth: CGFloat,
+        graphHeight: CGFloat,
+        graphInset: CGFloat,
+        graphTop: CGFloat,
+    ) {
+        let lanes = laneGroups
+        guard !lanes.isEmpty else { return }
+        let laneHeight = graphHeight / CGFloat(lanes.count)
+        // Headroom above each curve and a gap above the baseline keep adjacent
+        // lanes from touching; floored so very tight lanes still draw.
+        let topHeadroom: CGFloat = min(10, laneHeight * 0.28)
+        let bottomGap: CGFloat = 2
+        let labelInset: CGFloat = 4
+
+        for (i, lane) in lanes.enumerated() {
+            let laneTop = graphTop + CGFloat(i) * laneHeight
+            let baseline = laneTop + laneHeight - bottomGap
+            let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
+            let laneGraphTop = baseline - amplitude
+            let color = Color(hex: lane.colorHex)
+
+            // Hairline separating this lane from the one above.
+            if i > 0 {
+                var sep = Path()
+                sep.move(to: CGPoint(x: graphInset, y: laneTop))
+                sep.addLine(to: CGPoint(x: graphInset + graphWidth, y: laneTop))
+                context.stroke(sep, with: .color(.secondary.opacity(0.12)), lineWidth: 0.5)
+            }
+
+            // Per-lane peak so this substance's tallest moment fills the lane,
+            // regardless of how it compares to other substances.
+            var peak = 1e-6
+            for dose in lane.doses {
+                let params = pkParams(for: dose)
+                let hs = heightScale(for: dose)
+                let end = curveExtent(for: dose, params: params)
+                let steps = 40
+                for j in 0 ... steps {
+                    let t = Double(j) / Double(steps) * end
+                    peak = max(peak, intensity(at: t, for: dose, params: params) * hs)
+                }
+            }
+            let norm = 1.0 / peak
+
+            for dose in lane.doses {
+                let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                let scale = heightScale(for: dose) * norm
+                let fill = intensityFillPath(
+                    for: dose,
+                    substanceOffset: offset,
+                    visibleStart: visibleStart,
+                    visibleSpan: visibleSpan,
+                    graphWidth: graphWidth,
+                    graphHeight: amplitude,
+                    graphInset: graphInset,
+                    graphTop: laneGraphTop,
+                    scale: scale,
+                )
+                context.fill(fill, with: .color(color.opacity(0.16)))
+                let stroke = intensityStrokePath(
+                    for: dose,
+                    substanceOffset: offset,
+                    visibleStart: visibleStart,
+                    visibleSpan: visibleSpan,
+                    graphWidth: graphWidth,
+                    graphHeight: amplitude,
+                    graphInset: graphInset,
+                    graphTop: laneGraphTop,
+                    scale: scale,
+                )
+                context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
+            }
+
+            // Inline label: colour swatch + substance name, top-left of the lane.
+            let dotR: CGFloat = 3
+            let dot = Path(ellipseIn: CGRect(
+                x: graphInset + labelInset,
+                y: laneTop + labelInset,
+                width: dotR * 2,
+                height: dotR * 2,
+            ))
+            context.fill(dot, with: .color(color))
+            let label = context.resolve(
+                Text(lane.name)
+                    .font(.system(size: 9, weight: .semibold))
+                    .foregroundStyle(.secondary),
+            )
+            context.draw(
+                label,
+                at: CGPoint(x: graphInset + labelInset + dotR * 2 + 4, y: laneTop + labelInset + dotR),
+                anchor: .leading,
+            )
+        }
+
+        // Duration-less doses as a single unobtrusive row of dots on the axis.
+        if !markers.isEmpty {
+            let r: CGFloat = 2.5
+            let by = graphTop + graphHeight - r
+            for marker in markers {
+                let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
+                let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
+                guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { continue }
+                let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
+                let dot = Path(ellipseIn: CGRect(x: x - r, y: by - r, width: r * 2, height: r * 2))
+                context.fill(dot, with: .color(Color(hex: marker.colorHex)))
+                context.stroke(dot, with: .color(.white.opacity(0.5)), lineWidth: 0.5)
+            }
+        }
     }
 
     // MARK: - Path Builders

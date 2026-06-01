@@ -22,6 +22,11 @@ struct QuickLogView: View {
     @State private var multiSelectEnabled = false
     @State private var selectedDoses: [DoseSelection] = []
 
+    /// Tags applied to every dose logged in this quick-log session. Lets the user
+    /// stamp #daily / #prescription at log time — the moment the habit forms —
+    /// instead of digging into the full edit form. Empty by default.
+    @State private var sessionTags: Set<String> = []
+
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedHistoryNames: Set<String> = []
@@ -258,6 +263,65 @@ struct QuickLogView: View {
         .glassEffect(.regular, in: .capsule)
     }
 
+    // MARK: - Session Tags
+
+    /// Tags offered in the quick-log tag row: the user's previously-used tags
+    /// (most frequent first) topped up with a few common suggestions, capped so
+    /// the row stays a single glanceable line.
+    private var sessionTagSuggestions: [String] {
+        var counts: [String: Int] = [:]
+        for entry in allEntries {
+            for tag in entry.tags { counts[tag, default: 0] += 1 }
+        }
+        let used = counts.sorted { $0.value > $1.value }.map(\.key)
+        let extras = TagExtractor.suggestions.filter { !used.contains($0) }
+        let ordered = used + extras
+        // Keep any active tag visible even if it would fall past the cap.
+        let capped = Array(ordered.prefix(8))
+        let missingActive = sessionTags.filter { !capped.contains($0) }
+        return capped + Array(missingActive)
+    }
+
+    /// One-line tag picker stamped onto every dose logged this session. Makes the
+    /// tag feature discoverable at the exact moment of logging instead of hiding
+    /// it in the full edit form.
+    private var sessionTagRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Label(
+                sessionTags.isEmpty ? "Tag these logs" : "Tagging with",
+                systemImage: "tag",
+            )
+            .font(.caption2.weight(.medium))
+            .foregroundStyle(Theme.secondaryLabel)
+
+            ScrollView(.horizontal) {
+                HStack(spacing: 6) {
+                    ForEach(sessionTagSuggestions, id: \.self) { tag in
+                        let on = sessionTags.contains(tag)
+                        Button {
+                            withAnimation(.snappy) {
+                                if on { sessionTags.remove(tag) } else { sessionTags.insert(tag) }
+                            }
+                        } label: {
+                            Text(verbatim: "#\(tag)")
+                                .font(.subheadline.weight(.medium))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
+                                    in: Capsule(),
+                                )
+                                .foregroundStyle(on ? .white : .primary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .scrollIndicators(.hidden)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     // MARK: - Scroll Content
 
     private static let helpKeywords: Set<String> = [
@@ -274,6 +338,10 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
+        if !isHelpSearch {
+            sessionTagRow
+        }
+
         // Multi-select hint
         if !multiSelectEnabled {
             HStack(spacing: 4) {
@@ -654,6 +722,7 @@ struct QuickLogView: View {
             unit: chip.unit,
             route: group.route,
         )
+        entry.tags = Array(sessionTags)
         modelContext.insert(entry)
         WidgetCenter.shared.reloadAllTimelines()
 
@@ -786,6 +855,7 @@ struct QuickLogView: View {
                 unit: dose.unit,
                 route: dose.route,
             )
+            entry.tags = Array(sessionTags)
             modelContext.insert(entry)
             scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
 

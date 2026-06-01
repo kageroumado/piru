@@ -116,6 +116,11 @@ T = {
     "Filter Journal": ("筛选日志", "篩選日誌"),
     "Jump to Date": ("跳转到日期", "跳轉到日期"),
     "Adjust Time": ("调整时间", "調整時間"),
+    # Timeline graph + journal tag filter
+    "Expand timeline": ("展开时间轴", "展開時間軸"),
+    "Shrink timeline": ("收起时间轴", "收合時間軸"),
+    "Tag these logs": ("为这些记录添加标签", "為這些記錄加上標籤"),
+    "Tagging with": ("标记为", "標記為"),
     # Settings sections
     "Live Activity": ("实时活动", "即時動態"),
     "Harm Reduction": ("减害", "減害"),
@@ -1760,45 +1765,67 @@ WT = {
 }
 
 
-def apply_translations(catalog_path: Path, translations: dict):
-    data = json.loads(catalog_path.read_text())
-    strings = data.get("strings", {})
+def serialize_catalog(data: dict) -> str:
+    """Serialize a String Catalog byte-for-byte the way Xcode does, so a no-op
+    run produces an empty `git diff`.
+
+    Three details matter and none are json.dumps defaults:
+    - `separators=(",", " : ")` — Xcode puts spaces around the key colon.
+    - empty entries (extracted-but-untranslated, English-only keys) are written
+      `"key" : {\\n\\n    }`, not the collapsed `{}` json emits.
+    - NO trailing newline — Xcode ends the file on the closing brace.
+    Get any of these wrong and the whole 20k-line file reformats.
+    """
+    text = json.dumps(
+        data,
+        indent=2,
+        ensure_ascii=False,
+        sort_keys=False,
+        separators=(",", " : "),
+    )
+    return text.replace('" : {}', '" : {\n\n    }')
+
+
+def apply_translations(catalog_path: Path, translations: dict, insert_keys: set | None = None):
+    """Fill zh-Hans/zh-Hant for every catalog key present in `translations`.
+
+    By default this only UPDATES keys Xcode has already extracted — never adds
+    new ones — so a catalog stays scoped to the strings its target actually
+    references (the widget must not inherit all 1000+ app strings).
+
+    `insert_keys` is an explicit allow-list of brand-new keys to insert when
+    absent — for strings added from the CLI that Xcode hasn't extracted yet.
+    Keep it to the handful you actually added; Xcode folds them into its
+    collation order on the next open.
+    """
+    insert_keys = insert_keys or set()
+    data = json.loads(catalog_path.read_text(encoding="utf-8"))
+    strings = data.setdefault("strings", {})
 
     translated_count = 0
-    missing = []
-    for key, entry in strings.items():
-        if key in translations:
-            zh_hans, zh_hant = translations[key]
-            if "localizations" not in entry:
-                entry["localizations"] = {}
-            entry["localizations"]["zh-Hans"] = {
-                "stringUnit": {"state": "translated", "value": zh_hans}
-            }
-            entry["localizations"]["zh-Hant"] = {
-                "stringUnit": {"state": "translated", "value": zh_hant}
-            }
-            translated_count += 1
-        else:
-            if key.strip():
-                missing.append(key)
+    added = []
+    for key, (zh_hans, zh_hant) in translations.items():
+        entry = strings.get(key)
+        if entry is None:
+            if key not in insert_keys:
+                continue
+            entry = {}
+            strings[key] = entry
+            added.append(key)
+        locs = entry.setdefault("localizations", {})
+        locs["zh-Hans"] = {"stringUnit": {"state": "translated", "value": zh_hans}}
+        locs["zh-Hant"] = {"stringUnit": {"state": "translated", "value": zh_hant}}
+        translated_count += 1
 
-    # Emit Xcode's String Catalog format: `" : "` key separator (not Python's
-    # default `": "`). Preserve the existing key order (sort_keys=False) rather
-    # than re-sorting — Xcode orders keys by localized Unicode collation, which
-    # Python's sort can't reproduce, so re-sorting would churn the entire file
-    # and Xcode would just churn it back. In-place updates keep the diff to the
-    # strings whose translations actually changed.
-    catalog_path.write_text(
-        json.dumps(
-            data,
-            indent=2,
-            ensure_ascii=False,
-            sort_keys=False,
-            separators=(",", " : "),
-        )
-        + "\n"
-    )
-    return translated_count, missing
+    # English-only keys still lacking a translation in T (informational).
+    missing = [
+        key
+        for key, entry in strings.items()
+        if key.strip() and "localizations" not in entry and key not in translations
+    ]
+
+    catalog_path.write_text(serialize_catalog(data), encoding="utf-8")
+    return translated_count, added, missing
 
 
 sys.path.insert(0, "/tmp")
@@ -1813,9 +1840,18 @@ except ImportError:
 if __name__ == "__main__":
     project_root = Path("/Users/kirie/Developer/piru")
 
+    # Brand-new strings added from the CLI that Xcode hasn't extracted into the
+    # catalog yet. List them here so they get inserted; clear once Xcode has
+    # picked them up on a real build (after which they're update-only).
+    NEW_KEYS = {"Expand timeline", "Shrink timeline", "Tag these logs", "Tagging with"}
+
     print("--- Piru main app catalog ---")
-    n, missing = apply_translations(project_root / "Piru/Localizable.xcstrings", T)
-    print(f"Translated: {n}")
+    n, added, missing = apply_translations(
+        project_root / "Piru/Localizable.xcstrings", T, insert_keys=NEW_KEYS
+    )
+    print(f"Translated: {n}  (inserted {len(added)} new key(s))")
+    for a in added:
+        print(f"  + {a!r}")
     print(f"Missing: {len(missing)}")
     for m in missing[:30]:
         print(f"  - {m!r}")
@@ -1824,8 +1860,10 @@ if __name__ == "__main__":
     print("--- Widget catalog ---")
     # Widget reuses many Shared model strings (RouteOfAdministration, DoseFrequency, etc.)
     widget_dict = {**T, **WT}
-    n, missing = apply_translations(project_root / "PiruWidget/Localizable.xcstrings", widget_dict)
-    print(f"Translated: {n}")
+    n, added, missing = apply_translations(project_root / "PiruWidget/Localizable.xcstrings", widget_dict)
+    print(f"Translated: {n}  (inserted {len(added)} new key(s))")
+    for a in added:
+        print(f"  + {a!r}")
     print(f"Missing: {len(missing)}")
     for m in missing:
         print(f"  - {m!r}")
