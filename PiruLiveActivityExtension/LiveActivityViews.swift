@@ -39,6 +39,7 @@ struct LockScreenView: View {
                 currentTime: context.state.lastUpdated,
                 compact: true,
                 stackRedoses: stackRedoses,
+                synchronous: true,
             )
             .frame(height: 80)
 
@@ -114,6 +115,7 @@ struct ExpandedBottomView: View {
             currentTime: context.state.lastUpdated,
             compact: true,
             stackRedoses: stackRedoses,
+            synchronous: true,
         )
         .frame(height: 50)
     }

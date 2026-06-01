@@ -3,7 +3,7 @@ import Foundation
 enum PKModel {
     /// Normalized one-compartment oral PK concentration at time `t` (minutes).
     /// Returns raw (unnormalized) value — divide by `cmax` to get [0, 1] range.
-    static func concentration(at minutes: Double, ke: Double, ka: Double) -> Double {
+    nonisolated static func concentration(at minutes: Double, ke: Double, ka: Double) -> Double {
         guard minutes >= 0, ka > 0, ke > 0 else { return 0 }
 
         // Handle ka ≈ ke singularity (L'Hopital limit)
@@ -16,26 +16,26 @@ enum PKModel {
     }
 
     /// Time of peak concentration (Tmax) in minutes.
-    static func tmax(ke: Double, ka: Double) -> Double {
+    nonisolated static func tmax(ke: Double, ka: Double) -> Double {
         guard ka > ke, ka > 0, ke > 0 else { return 0 }
         if abs(ka - ke) < 1e-10 { return 1.0 / ke }
         return log(ka / ke) / (ka - ke)
     }
 
     /// Peak concentration value (unnormalized).
-    static func cmax(ke: Double, ka: Double) -> Double {
+    nonisolated static func cmax(ke: Double, ka: Double) -> Double {
         concentration(at: tmax(ke: ke, ka: ka), ke: ke, ka: ka)
     }
 
     /// Derive elimination rate constant from half-life in minutes.
-    static func ke(fromHalfLifeMinutes hl: Double) -> Double {
+    nonisolated static func ke(fromHalfLifeMinutes hl: Double) -> Double {
         guard hl > 0 else { return 0 }
         return log(2) / hl
     }
 
     /// Estimate absorption rate constant (ka) from time-to-peak and ke using Newton's method.
     /// Falls back to `defaultKa` if convergence fails.
-    static func estimateKa(timeToPeak: Double, ke: Double) -> Double {
+    nonisolated static func estimateKa(timeToPeak: Double, ke: Double) -> Double {
         guard timeToPeak > 0, ke > 0 else { return defaultKa(ke: ke) }
 
         // Tmax = ln(ka/ke) / (ka - ke), solve for ka
@@ -54,14 +54,14 @@ enum PKModel {
     }
 
     /// Default ka when no duration data available: 4x the elimination rate.
-    static func defaultKa(ke: Double) -> Double {
+    nonisolated static func defaultKa(ke: Double) -> Double {
         4 * ke
     }
 
     /// Fraction of original dose still in the body (absorption site + central compartment) at time `t`.
     /// Unlike `concentration(at:)` which tracks plasma levels only, this accounts for drug still being
     /// absorbed from the gut — giving an accurate "% eliminated" even before peak concentration.
-    static func fractionRemainingInBody(at minutes: Double, ke: Double, ka: Double) -> Double {
+    nonisolated static func fractionRemainingInBody(at minutes: Double, ke: Double, ka: Double) -> Double {
         guard minutes >= 0, ka > 0, ke > 0 else { return 1 }
 
         // Handle ka ≈ ke singularity: limit is (1 + ke·t)·e^(-ke·t)
@@ -76,7 +76,7 @@ enum PKModel {
 
     /// Time (in minutes) at which concentration drops to `fraction` of Cmax (on the descending side).
     /// Useful for determining chart x-axis range.
-    static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50_000) -> Double {
+    nonisolated static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50_000) -> Double {
         let peak = cmax(ke: ke, ka: ka)
         guard peak > 0 else { return 0 }
         let target = peak * fraction
