@@ -91,6 +91,11 @@ struct SheetRouteView: View {
         case let .personalizeSubstance(name):
             PersonalizeSubstanceHost(name: name)
 
+        case let .timelineDetail(date):
+            NavigationStack {
+                TimelineDetailView(date: date)
+            }
+
         case .dailyDoseSettings,
              .dailyDoseItemForm,
              .customSubstancesList,

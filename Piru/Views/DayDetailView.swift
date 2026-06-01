@@ -98,57 +98,73 @@ struct DayDetailView: View {
                     if !substanceStates.isEmpty {
                         Section {
                             if graphExpanded {
-                                VStack(spacing: 8) {
-                                    if isToday, hasOngoingDose {
-                                        let isRunning = LiveActivityManager.shared.isLiveActivityRunning
-                                        HStack {
-                                            Spacer()
-                                            Button {
-                                                toggleLiveActivity()
-                                            } label: {
-                                                HStack(spacing: 4) {
-                                                    Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
-                                                    Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
-                                                }
-                                                .font(.caption2.weight(.semibold))
-                                            }
-                                            .buttonStyle(.bordered)
-                                            .buttonBorderShape(.capsule)
-                                            .controlSize(.mini)
-                                            .tint(Theme.accent)
-                                        }
-                                        .padding(.top, 2)
-                                    }
-                                    TimelineGraphView(
-                                        substances: substanceStates,
-                                        currentTime: .now,
-                                        compact: false,
-                                        markers: doseMarkers,
-                                        stackRedoses: stackRedoses,
-                                    )
-                                    .frame(height: 160)
-                                }
+                                TimelineGraphView(
+                                    substances: substanceStates,
+                                    currentTime: .now,
+                                    compact: false,
+                                    markers: doseMarkers,
+                                    stackRedoses: stackRedoses,
+                                )
+                                .frame(height: GraphMetrics.embedded)
                             }
                         } header: {
-                            Button {
-                                withAnimation { graphExpanded.toggle() }
-                            } label: {
-                                HStack {
-                                    Label("Timeline", systemImage: "chart.xyaxis.line")
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
+                            HStack(spacing: GraphMetrics.section) {
+                                Button {
+                                    withAnimation { graphExpanded.toggle() }
+                                } label: {
+                                    HStack {
+                                        Label("Timeline", systemImage: "chart.xyaxis.line")
+                                        Image(systemName: "chevron.right")
+                                            .font(.caption2.weight(.semibold))
+                                            .rotationEffect(.degrees(graphExpanded ? 90 : 0))
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+
+                                Spacer()
+
+                                if isToday, hasOngoingDose {
+                                    let isRunning = LiveActivityManager.shared.isLiveActivityRunning
+                                    Button {
+                                        toggleLiveActivity()
+                                    } label: {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: isRunning ? "stop.fill" : "dot.radiowaves.up.forward")
+                                            Text(isRunning ? "Stop Live Activity" : "Start Live Activity")
+                                        }
                                         .font(.caption2.weight(.semibold))
-                                        .rotationEffect(.degrees(graphExpanded ? 90 : 0))
-                                        .foregroundStyle(.secondary)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .buttonBorderShape(.capsule)
+                                    .controlSize(.mini)
+                                    .tint(Theme.accent)
+                                    .textCase(nil)
+                                }
+
+                                if graphExpanded {
+                                    Button {
+                                        navigator.present(.timelineDetail(date: date))
+                                    } label: {
+                                        Image(systemName: "arrow.up.backward.and.arrow.down.forward")
+                                            .font(.caption.weight(.semibold))
+                                    }
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(Theme.accent)
+                                    .accessibilityLabel(Text("Expand timeline"))
                                 }
                             }
-                            .buttonStyle(.plain)
                         } footer: {
                             if graphExpanded {
-                                Text("Pinch to zoom in or out")
+                                Text("Drag to pan, pinch to zoom, hold to inspect")
                             }
                         }
-                        .listRowInsets(EdgeInsets(top: 4, leading: 6, bottom: 4, trailing: 6))
+                        .listRowInsets(EdgeInsets(
+                            top: GraphMetrics.section / 2,
+                            leading: GraphMetrics.cardInset / 2,
+                            bottom: GraphMetrics.section / 2,
+                            trailing: GraphMetrics.cardInset / 2,
+                        ))
                     }
 
                     // Entries
