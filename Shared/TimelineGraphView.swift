@@ -59,6 +59,17 @@ struct TimelineGraphView: View {
             let offset = marker.timestamp.timeIntervalSince(earliestDose) / 60
             maxEnd = max(maxEnd, offset + 60)
         }
+        // Live/today view: keep the "now" indicator on-axis when it sits just
+        // past the last curve (everything worn off, but the session is still
+        // current). Historical days pass a `currentTime` of `.now` that's days
+        // later, so the 3 h margin excludes them. Skipped for compact
+        // thumbnails, which don't draw a now-line.
+        if !compact {
+            let nowMin = currentTime.timeIntervalSince(earliestDose) / 60
+            if nowMin >= 0, nowMin <= maxEnd + 180 {
+                maxEnd = max(maxEnd, nowMin)
+            }
+        }
         return min(max(maxEnd, 1), Self.maxDisplayMinutes)
     }
 
