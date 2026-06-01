@@ -680,7 +680,10 @@ struct DayCardView: View {
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     private var dateTitle: String {
-        date.formatted(.dateTime.day().month(.wide).year())
+        // The current year is implicit — only show it for past/future years.
+        let base = Date.FormatStyle.dateTime.day().month(.wide)
+        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
+        return date.formatted(sameYear ? base : base.year())
     }
 
     private var weekday: String {

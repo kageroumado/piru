@@ -7325,7 +7325,6 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
-      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
@@ -7776,7 +7775,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-FPM",
+      "3-fpm",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -10452,7 +10451,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-Chloroethcathinone",
+      "4-chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -10489,8 +10488,8 @@
     "display_name": "4-CA",
     "aliases": [
       "4-CA",
-      "PCA",
       "p-Chloroamphetamine",
+      "pCA",
       "para-Chloroamphetamine"
     ],
     "category": "Stimulant",
@@ -11508,6 +11507,7 @@
     "display_name": "",
     "aliases": [
       "4-F-Phenibut",
+      "F-Phenibut",
       "F-Phenibut FAA",
       "Fluorobut",
       "Fluorophenibut"
@@ -13913,7 +13913,7 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-Cl-IBF",
+      "4-Cl-iBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
       "p-Cl-iBF",
@@ -14834,7 +14834,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
@@ -14854,6 +14854,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/2737"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -16378,7 +16379,7 @@
     "aliases": [
       "5-MeO-αMT",
       "5meoamt",
-      "Alpha-O",
+      "alpha-O",
       "α,O-DMS",
       "α,O-dimethylserotonin"
     ],
@@ -19983,7 +19984,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1200.0,
     "mechanism_summary": "",
@@ -19999,6 +20000,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/71158"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -24354,13 +24356,14 @@
       "transdermal"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -32155,7 +32158,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
@@ -32169,6 +32172,7 @@
       "https://psychonautwiki.org/wiki/Citicoline"
     ],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -32509,7 +32513,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-II-90",
+      "DM-ii-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -33831,7 +33835,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
@@ -33840,6 +33844,7 @@
       "https://psychonautwiki.org/wiki/Creatine"
     ],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -34879,7 +34884,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-cyclohexylmethylone"
+      "N-Cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -46228,13 +46233,14 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "Highly selective inhibitor of the fungal cytochrome P450 14-α-demethylase enzyme responsible for the conversion of lanosterol to ergosterol, which is an important component of fungal cell membrane formation .",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "references"
     ]
@@ -55909,10 +55915,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
+      "Purple Drank",
       "barre",
       "drank",
       "pint",
-      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -56784,7 +56790,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 780.0,
     "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
@@ -58449,7 +58455,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "Produces an osmotic effect in the colon that increases stool water content, softens the stool, and promotes peristalsis.",
@@ -58466,7 +58472,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/24511",
       "https://en.wikipedia.org/wiki/Magnesium_citrate"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Magnesium Glycinate",
@@ -58495,7 +58503,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -58513,6 +58521,7 @@
       "https://en.wikipedia.org/wiki/Magnesium_glycinate"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -65377,11 +65386,11 @@
     "aliases": [
       "Convulsion root",
       "Corpse plant",
-      "Ghost Pipe",
       "Ghost flower",
+      "Ghost pipe",
       "Ghost plant",
       "Ice plant",
-      "Indian Pipe"
+      "Indian pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
@@ -67000,6 +67009,7 @@
     "aliases": [
       "Desethyl-protonitazene",
       "N-desethyl protonitazene",
+      "N-desethyl-protonitazene",
       "NDP",
       "Nitazene"
     ],
@@ -68103,7 +68113,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1200.0,
     "mechanism_summary": "Blocks beta-1 and beta-2 adrenergic receptors (non-selective) causing decreased heart rate and myocardial contractility.",
@@ -68117,7 +68127,9 @@
       "https://en.wikipedia.org/wiki/Nadolol",
       "https://pubchem.ncbi.nlm.nih.gov/compound/39147"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Nafarelin Acetate",
@@ -72319,7 +72331,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 360.0,
     "mechanism_summary": "",
@@ -72337,6 +72349,7 @@
       "https://examine.com/supplements/panax-ginseng/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -74995,6 +75008,7 @@
     "aliases": [
       "DPPEA",
       "MK-306",
+      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -75054,7 +75068,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1320.0,
     "mechanism_summary": "Phenytoin selectively blocks voltage-gated sodium channels during their recovery phase, promoting sodium efflux from neurons located in the motor cortex reducing post-tetanic potentiation at synapses. This prevents cortical seizure foci from spreading to adjacent areas, thus stabilizing the threshold against hyperexcitability. Additionally, phenytoin appears to reduce sensitivity of muscle spindles to stretch causing muscle relaxation.",
@@ -75070,7 +75084,9 @@
       "https://en.wikipedia.org/wiki/Phenytoin",
       "https://pubchem.ncbi.nlm.nih.gov/compound/1775"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Phosphatidylserine",
@@ -76044,7 +76060,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 240.0,
     "mechanism_summary": "",
@@ -76062,6 +76078,7 @@
       "https://examine.com/supplements/pyrroloquinoline-quinone/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -82395,13 +82412,14 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [],
     "references": [],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action",
       "references"
@@ -85110,7 +85128,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
@@ -85121,6 +85139,7 @@
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
+      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -86825,7 +86844,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 130.0,
     "mechanism_summary": "",
@@ -86843,6 +86862,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/441233"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89224,7 +89244,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -89242,6 +89262,7 @@
       "https://en.wikipedia.org/wiki/Pyridoxal_phosphate"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -90064,7 +90085,8 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon"
+      "Geodon",
+      "Ziprasidone mesylate"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",

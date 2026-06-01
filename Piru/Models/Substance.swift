@@ -636,6 +636,23 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         rawValue
     }
 
+    /// Acute-tolerance (tachyphylaxis) strength, `0...1`. Drives the timeline's
+    /// descending-limb gate: how much faster subjective effect fades than the
+    /// drug's plasma curve once past peak. Catecholamine/serotonin releasers
+    /// crash hard while blood levels are still high (the classic stimulant
+    /// comedown), so they score high; most depressants/psychedelics track
+    /// concentration far more closely and score 0 (no reshaping — the pure
+    /// Bateman offset is kept). See `TimelineGraphView.intensity(at:…)`.
+    var acuteToleranceFactor: Double {
+        switch self {
+        case .stimulant: 0.75
+        case .empathogen: 0.70
+        case .eugeroic: 0.20
+        case .dissociative: 0.25
+        default: 0
+        }
+    }
+
     var displayName: LocalizedStringResource {
         switch self {
         case .stimulant: "Stimulant"
@@ -1072,10 +1089,34 @@ struct Substance: Identifiable {
     /// that the precomputed `durationImplausible` flag can miss. Distinct from
     /// ``resolveDuration(for:)``, which returns the raw profile regardless.
     func timelineDuration(for route: RouteOfAdministration) -> DurationProfile? {
-        guard let profile = resolveDuration(for: route),
-              profile.estimatedTotalMinutes > 0,
-              profile.estimatedTotalMinutes <= Self.maxAcuteTimelineMinutes else { return nil }
-        return profile
+        if let profile = resolveDuration(for: route),
+           profile.estimatedTotalMinutes > 0,
+           profile.estimatedTotalMinutes <= Self.maxAcuteTimelineMinutes {
+            return profile
+        }
+        // The requested route has no usable acute profile, but the substance may
+        // have one on another route. Borrowing it is far closer to reality than
+        // falling through to a blood-half-life synthesis, whose elimination t½
+        // can vastly outlast subjective effects — e.g. logging amphetamine
+        // *rectal* (no profile) would otherwise synthesize a ~45 h curve from
+        // its ~10 h t½, when the felt effect is the ~6–8 h oral curve. Synthesis
+        // stays reserved for substances with no acute curve on any route.
+        return representativeAcuteDuration()
+    }
+
+    /// A stand-in acute profile for routes that lack their own: the default
+    /// route's profile when it's a sane acute curve, otherwise the shortest
+    /// acute profile across all routes (the most conservative — least likely to
+    /// overstate how long effects last). `nil` when no route has an acute curve.
+    private func representativeAcuteDuration() -> DurationProfile? {
+        func acute(_ profile: DurationProfile?) -> DurationProfile? {
+            guard let profile, profile.estimatedTotalMinutes > 0,
+                  profile.estimatedTotalMinutes <= Self.maxAcuteTimelineMinutes else { return nil }
+            return profile
+        }
+        if let def = acute(duration(for: defaultRoute)) { return def }
+        return routes.compactMap { acute($0.duration) }
+            .min { $0.estimatedTotalMinutes < $1.estimatedTotalMinutes }
     }
 
     func matches(_ query: String) -> Bool {
