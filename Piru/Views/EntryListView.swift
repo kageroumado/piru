@@ -602,7 +602,7 @@ struct DayCardView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(group.dateTitle)
                     .font(.headline)
-                (Text(group.weekday) + Text("  ·  ") + Text(group.doseCountText))
+                Text(verbatim: "\(group.weekday)  ·  \(group.doseCountText)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(spacing: 6) {

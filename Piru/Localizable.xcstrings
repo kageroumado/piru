@@ -4,9 +4,6 @@
     "" : {
 
     },
-    "  ·  " : {
-
-    },
     "--" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6058,6 +6055,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "累積劑量"
+          }
+        }
+      }
+    },
+    "Curious" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好奇"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好奇"
           }
         }
       }
@@ -21540,22 +21553,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Curious" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "好奇"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "好奇"
           }
         }
       }
