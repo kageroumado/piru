@@ -154,7 +154,7 @@ struct EntryListView: View {
         for entry in entries {
             let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
             if seen.insert(category).inserted { categories.append(category) }
-            let hex = hexMap[entry.substance.lowercased()] ?? "007AFF"
+            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
             let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
             let marker = state == nil
                 ? DoseMarker(
@@ -585,7 +585,7 @@ private struct SubstanceEntryRow: View {
     let colorMap: [String: Color]
 
     private var color: Color {
-        colorMap[entry.substance.lowercased()] ?? Theme.accent
+        SubstancePalette.color(for: entry.substance, colorMap: colorMap)
     }
 
     var body: some View {
@@ -628,11 +628,9 @@ private struct SubstanceGroupHeader: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            if let color = colorMap[name.lowercased()] {
-                Circle()
-                    .fill(color)
-                    .frame(width: 8, height: 8)
-            }
+            Circle()
+                .fill(SubstancePalette.color(for: name, colorMap: colorMap))
+                .frame(width: 8, height: 8)
             Text("\(name) (\(count))")
                 .font(.subheadline.weight(.semibold))
         }
@@ -692,7 +690,7 @@ struct DayCardView: View {
     }
 
     private var dotColors: [Color] {
-        uniqueSubstances.prefix(4).map { colorMap[$0.lowercased()] ?? Theme.accent }
+        uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
     }
 
     var body: some View {
@@ -784,7 +782,7 @@ private struct DoseMarkerStrip: View {
                     .position(x: w / 2, y: baseY)
                 ForEach(Array(markers.enumerated()), id: \.offset) { _, marker in
                     let x = inset + fraction(marker.timestamp) * (w - inset * 2)
-                    let color = colorMap[marker.substanceName.lowercased()] ?? Theme.accent
+                    let color = SubstancePalette.color(for: marker.substanceName, colorMap: colorMap)
                     Rectangle()
                         .fill(color.opacity(0.45))
                         .frame(width: 1.5, height: baseY - dotY)

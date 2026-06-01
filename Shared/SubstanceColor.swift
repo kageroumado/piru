@@ -61,6 +61,19 @@ struct PresetColor: Identifiable, Hashable {
         Color(hex: hex)
     }
 
+    /// Stable palette colour for a substance that has no user-assigned colour.
+    /// Uses an FNV-1a hash of the (lowercased) name — `String.hashValue` is
+    /// randomised per process launch, so it can't be used for a colour that
+    /// must stay the same across runs. Gives every substance a distinct,
+    /// repeatable colour instead of collapsing them onto one flat fallback.
+    static func deterministic(for name: String) -> PresetColor {
+        var hash: UInt64 = 14_695_981_039_346_656_037
+        for byte in name.lowercased().utf8 {
+            hash = (hash ^ UInt64(byte)) &* 1_099_511_628_211
+        }
+        return all[Int(hash % UInt64(all.count))]
+    }
+
     static let all: [PresetColor] = [
         // Sky
         PresetColor(hex: "00add3", name: "Sky"),
@@ -150,5 +163,22 @@ extension [SubstanceColor] {
     /// Whether a color has been assigned to the given substance name
     func hasColor(for name: String) -> Bool {
         contains { $0.substance.lowercased() == name.lowercased() }
+    }
+}
+
+// MARK: - Resolved Colors
+
+/// Resolve a substance's display color: the user's assigned color if any, else
+/// a deterministic palette color from the name. Used as the single fallback
+/// everywhere (dots, curves, markers, accents) so a substance looks the same in
+/// every place it appears, instead of the old pink-here/blue-there mismatch.
+/// Callers pass a precomputed `colorMap`/`hexMap` to stay cheap in hot paths.
+enum SubstancePalette {
+    static func color(for name: String, colorMap: [String: Color]) -> Color {
+        colorMap[name.lowercased()] ?? PresetColor.deterministic(for: name).color
+    }
+
+    static func hex(for name: String, hexMap: [String: String]) -> String {
+        hexMap[name.lowercased()] ?? PresetColor.deterministic(for: name).hex
     }
 }
