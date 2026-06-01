@@ -558,6 +558,15 @@ enum DataExportImport {
         // Build custom unit lookup: id -> custom unit
         let customUnitMap = Dictionary(file.customUnits.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
+        // Dedup dose entries against what's already stored (and within this
+        // import) so a merge restore — or re-importing the same file — stays
+        // idempotent instead of multiplying every dose. `DoseEntry` has no
+        // natural id, so the key is its content: substance, time, dose, unit, route.
+        let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
+        var seenDoseKeys = Set(existingDoses.map {
+            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
+        })
+
         for experience in file.experiences {
             for ingestion in experience.ingestions {
                 // Resolve substance name: prefer direct name, fall back to custom unit
@@ -573,21 +582,27 @@ enum DataExportImport {
                 // Skip entries with missing or zero dose
                 guard let dose = ingestion.dose, dose > 0 else { continue }
 
+                let route = RouteOfAdministration(psylogName: ingestion.administrationRoute)
+                let timestamp = Date(ms: ingestion.time)
+                let key = doseDedupKey(substance: name, timestamp: timestamp, amount: dose, unit: ingestion.units, route: route)
+                guard seenDoseKeys.insert(key).inserted else { continue }
+
                 let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
                 context.insert(DoseEntry(
                     substance: name,
                     amount: dose,
                     unit: ingestion.units,
-                    route: RouteOfAdministration(psylogName: ingestion.administrationRoute),
-                    timestamp: Date(ms: ingestion.time),
+                    route: route,
+                    timestamp: timestamp,
                     notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
                     tags: extractedTags,
                 ))
             }
         }
 
-        // Track imported colors to avoid duplicates
-        var importedColors = Set<String>()
+        // Track imported colors to avoid duplicates — seeded with existing
+        // colors so a merge doesn't insert a second row for a substance.
+        var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })
 
         for companion in file.substanceCompanions {
             let key = companion.substanceName.lowercased()
@@ -664,6 +679,13 @@ enum DataExportImport {
             uc.createdAt = color.createdAt
             context.insert(uc)
         }
+    }
+
+    /// Content-based identity for a dose entry, used to skip duplicates on
+    /// import. Lowercased substance/unit so cosmetic casing differences don't
+    /// defeat it; millisecond timestamp matches the export precision.
+    private static func doseDedupKey(substance: String, timestamp: Date, amount: Double, unit: String, route: RouteOfAdministration) -> String {
+        "\(substance.lowercased())|\(timestamp.msSince1970)|\(amount)|\(unit.lowercased())|\(route.rawValue)"
     }
 
     static func deleteAll(context: ModelContext) throws {

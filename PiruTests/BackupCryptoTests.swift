@@ -105,6 +105,53 @@ struct BackupCryptoIntegrityTests {
             _ = try BackupCrypto.inspect(bumped)
         }
     }
+
+    @Test
+    func `An absurd PBKDF2 work factor is rejected before it can run`() throws {
+        let envelopeData = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
+        var env = try BackupCrypto.inspect(envelopeData)
+        env.kdf?.rounds = 100_000_000 // above the read ceiling
+        let hostile = try reencode(env)
+        // Rejected at the gate — never reaches CCKeyDerivationPBKDF.
+        #expect(throws: BackupCrypto.BackupError.malformed) {
+            _ = try BackupCrypto.decrypt(hostile, passphrase: passphrase)
+        }
+    }
+
+    @Test
+    func `A rounds value beyond UInt32 is rejected, not trapped`() throws {
+        let envelopeData = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
+        var env = try BackupCrypto.inspect(envelopeData)
+        env.kdf?.rounds = 5_000_000_000 // would trap `UInt32(rounds)` if it got that far
+        let hostile = try reencode(env)
+        #expect(throws: BackupCrypto.BackupError.malformed) {
+            _ = try BackupCrypto.inspect(hostile)
+        }
+    }
+
+    @Test
+    func `A wrong-length salt is rejected as malformed`() throws {
+        let envelopeData = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
+        var env = try BackupCrypto.inspect(envelopeData)
+        env.kdf?.salt = Data(repeating: 0, count: 8) // not the 16-byte salt we require
+        let hostile = try reencode(env)
+        #expect(throws: BackupCrypto.BackupError.malformed) {
+            _ = try BackupCrypto.inspect(hostile)
+        }
+    }
+
+    @Test
+    func `Swapping in a different salt fails to decrypt`() throws {
+        // The salt is bound into the header AAD and feeds key derivation, so
+        // replacing it with another valid-length salt can't open the backup.
+        let envelopeData = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
+        var env = try BackupCrypto.inspect(envelopeData)
+        env.kdf?.salt = Data(repeating: 0xAB, count: 16)
+        let tampered = try reencode(env)
+        #expect(throws: BackupCrypto.BackupError.decryptionFailed) {
+            _ = try BackupCrypto.decrypt(tampered, passphrase: passphrase)
+        }
+    }
 }
 
 @Suite("BackupCrypto — envelope metadata")

@@ -44,6 +44,7 @@ final class BackupManager {
     enum ManagerError: Error, LocalizedError {
         case iCloudUnavailable
         case noBackupFound
+        case fileTooLarge
 
         var errorDescription: String? {
             switch self {
@@ -51,6 +52,8 @@ final class BackupManager {
                 String(localized: "iCloud Drive isn't available. Check that you're signed in to iCloud and that iCloud Drive is on.")
             case .noBackupFound:
                 String(localized: "No iCloud backup was found for this account yet.")
+            case .fileTooLarge:
+                String(localized: "This file is too large to be a Piru backup.")
             }
         }
     }
@@ -114,13 +117,18 @@ final class BackupManager {
                 status = .idle // nothing changed — no needless iCloud write
                 return
             }
-            let envelope = try BackupCrypto.encryptWithDeviceKey(plaintext)
-            try await Task.detached { try Self.writeICloud(envelope) }.value
+            // Encrypt (PBKDF2-free here, but still keychain IO) and write off the
+            // main actor so the UI never blocks on it.
+            let byteCount = try await Task.detached {
+                let envelope = try BackupCrypto.encryptWithDeviceKey(plaintext)
+                try Self.writeICloud(envelope)
+                return envelope.count
+            }.value
             lastBackupHash = hash
             let now = Date()
             lastBackupDate = now
             status = .success(now)
-            backupLogger.notice("Automatic iCloud backup written (\(envelope.count, privacy: .public) bytes).")
+            backupLogger.notice("Automatic iCloud backup written (\(byteCount, privacy: .public) bytes).")
         } catch {
             backupLogger.error("Automatic backup failed: \(error.localizedDescription, privacy: .public)")
             status = .failed(error.localizedDescription)
@@ -130,28 +138,31 @@ final class BackupManager {
     // MARK: - Manual encrypted export
 
     /// Export the journal and seal it with a passphrase-derived key. Returns a
-    /// temporary `.piruenc` file URL suitable for a `ShareLink`.
-    func exportEncrypted(context: ModelContext, passphrase: String) throws -> URL {
+    /// temporary `.piruenc` file URL suitable for a `ShareLink`. Key derivation
+    /// (600 000 PBKDF2 rounds) and sealing run off the main actor.
+    func exportEncrypted(context: ModelContext, passphrase: String) async throws -> URL {
         let plaintext = try DataExportImport.exportJSON(context: context)
-        let envelope = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(DataExportImport.exportFilename)
             .appendingPathExtension(Self.fileExtension)
-        try envelope.write(to: url, options: .atomic)
+        try await Task.detached {
+            let envelope = try BackupCrypto.encryptWithPassphrase(plaintext, passphrase: passphrase)
+            try envelope.write(to: url, options: .atomic)
+        }.value
         return url
     }
 
     // MARK: - Restore
 
     /// Restore from already-loaded backup bytes.
-    func restore(data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) throws {
-        try applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
+    func restore(data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+        try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
     }
 
     /// Restore from a user-selected `.piruenc` file (e.g. via the document picker).
-    func restore(fromFileAt url: URL, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) throws {
-        let data = try Data(contentsOf: url)
-        try applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
+    func restore(fromFileAt url: URL, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+        let data = try Self.boundedContents(of: url)
+        try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
     }
 
     /// Restore from the latest automatic iCloud backup, downloading it first if
@@ -160,11 +171,14 @@ final class BackupManager {
         guard let data = try await Task.detached(operation: { try Self.readICloud() }).value else {
             throw ManagerError.noBackupFound
         }
-        try applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
+        try await applyRestore(envelope: data, passphrase: passphrase, strategy: strategy, context: context)
     }
 
-    private func applyRestore(envelope data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) throws {
-        let plaintext = try BackupCrypto.decrypt(data, passphrase: passphrase)
+    private func applyRestore(envelope data: Data, passphrase: String?, strategy: RestoreStrategy, context: ModelContext) async throws {
+        // Decrypt off the main actor — passphrase restores run PBKDF2. Crucially
+        // this happens *before* any destructive store mutation, so a wrong
+        // passphrase or unavailable device key can never wipe data.
+        let plaintext = try await Task.detached { try BackupCrypto.decrypt(data, passphrase: passphrase) }.value
         switch strategy {
         case .merge:
             try DataExportImport.importJSON(data: plaintext, context: context)
@@ -213,7 +227,7 @@ final class BackupManager {
         var readError: Error?
         coordinator.coordinate(readingItemAt: src, options: [], error: &coordError) { url in
             guard FileManager.default.fileExists(atPath: url.path) else { return }
-            do { result = try Data(contentsOf: url) } catch { readError = error }
+            do { result = try boundedContents(of: url) } catch { readError = error }
         }
         if let coordError { throw coordError }
         if let readError { throw readError }
@@ -221,6 +235,14 @@ final class BackupManager {
     }
 
     // MARK: - Helpers
+
+    /// Read a file into memory only if it's within the envelope size ceiling, so
+    /// a hostile (or corrupt) `.piruenc` can't OOM the app before parsing.
+    private nonisolated static func boundedContents(of url: URL) throws -> Data {
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+        guard size <= BackupCrypto.maxEnvelopeBytes else { throw ManagerError.fileTooLarge }
+        return try Data(contentsOf: url)
+    }
 
     private nonisolated static func sha256Hex(_ data: Data) -> String {
         SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
