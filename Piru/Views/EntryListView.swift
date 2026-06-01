@@ -193,20 +193,11 @@ struct EntryListView: View {
 
     var body: some View {
         List {
-            if !isSearchSurface {
-                // Filters + tag chips header
-                VStack(alignment: .leading, spacing: 0) {
-                    filterBar
-
-                    if !allUsedTags.isEmpty, grouping == .byDay {
-                        tagChipBar
-                            .transition(.opacity)
-                    }
-                }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .animation(.easeInOut(duration: 0.2), value: grouping == .byDay)
+            if !isSearchSurface, !allUsedTags.isEmpty, grouping == .byDay {
+                tagChipBar
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
             }
 
             // Main content
@@ -221,7 +212,18 @@ struct EntryListView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appHeader("Journal", enabled: !isSearchSurface)
+        .appHeader(
+            "Journal",
+            enabled: !isSearchSurface,
+            leadingControls: { journalHeaderControls },
+            menuExtras: {
+                Button {
+                    showingCalendar = true
+                } label: {
+                    Label("Jump to Date", systemImage: "calendar")
+                }
+            },
+        )
         .overlay {
             if filteredEntries.isEmpty {
                 emptyState
@@ -260,75 +262,48 @@ struct EntryListView: View {
         }
     }
 
-    // MARK: - Filter Bar
+    // MARK: - Header Controls
 
-    private var filterBar: some View {
-        HStack(spacing: 8) {
-            // Grouping picker — the primary control. The trailing chevron marks
-            // it as a pull-down menu (not a selected segment), the accent tint
-            // and label set it apart from the neutral action buttons, and the
-            // embedded `Picker` gives the active mode an automatic checkmark.
-            Menu {
-                Picker("Group by", selection: $grouping) {
-                    ForEach(JournalGrouping.allCases, id: \.self) { mode in
-                        Label(mode.displayName, systemImage: mode.icon).tag(mode)
-                    }
+    /// Journal-specific controls injected into the app header. The grouping
+    /// picker is the primary, accent-tinted control; the filter funnel fills +
+    /// tints when a filter is active (Mail's idiom) so a narrowed list never
+    /// looks like the full one. Each is its own glass capsule inside the
+    /// header's shared `GlassEffectContainer`.
+    @ViewBuilder
+    private var journalHeaderControls: some View {
+        Menu {
+            Picker("Group by", selection: $grouping) {
+                ForEach(JournalGrouping.allCases, id: \.self) { mode in
+                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
                 }
-            } label: {
-                HStack(spacing: 5) {
-                    Image(systemName: grouping.icon)
-                    Text(grouping.displayName)
-                    Image(systemName: "chevron.down")
-                        .font(.caption2.weight(.bold))
-                }
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(Theme.accent)
-                .frame(height: 34)
-                .padding(.horizontal, 12)
-                .background(Color(.secondarySystemFill), in: Capsule())
             }
-
-            Spacer()
-
-            // View actions — jump-to-date and filter. Matched neutral circles so
-            // they read as a pair of secondary actions, distinct from the picker.
-            Button {
-                showingCalendar = true
-            } label: {
-                actionGlyph("calendar")
+        } label: {
+            HStack(spacing: 4) {
+                Text(grouping.displayName)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.bold))
             }
-            .buttonStyle(.plain)
-
-            // Filter reflects active state by filling and tinting (Mail's funnel
-            // idiom), so a narrowed list never looks like the full one.
-            Button {
-                showingFilters = true
-            } label: {
-                actionGlyph(
-                    hasActiveFilters ? "line.3.horizontal.decrease.circle.fill"
-                        : "line.3.horizontal.decrease",
-                    tint: hasActiveFilters ? Theme.accent : .secondary,
-                    fill: hasActiveFilters ? Theme.accent.opacity(0.18) : nil,
-                )
-            }
-            .buttonStyle(.plain)
-            .animation(.snappy, value: hasActiveFilters)
-        }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 8)
-    }
-
-    private func actionGlyph(
-        _ systemName: String,
-        tint: Color = .secondary,
-        fill: Color? = nil,
-    ) -> some View {
-        Image(systemName: systemName)
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(tint)
-            .frame(width: 34, height: 34)
-            .background(fill ?? Color(.secondarySystemFill), in: Circle())
-            .contentShape(Circle())
+            .foregroundStyle(Theme.accent)
+            .frame(height: 44)
+            .padding(.horizontal, 14)
+            .contentShape(Capsule())
+        }
+        .glassEffect(.regular, in: .capsule)
+
+        Button {
+            showingFilters = true
+        } label: {
+            Image(systemName: hasActiveFilters
+                ? "line.3.horizontal.decrease.circle.fill"
+                : "line.3.horizontal.decrease")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(hasActiveFilters ? Theme.accent : Theme.secondaryLabel)
+                .frame(width: 44, height: 44)
+                .contentShape(Circle())
+        }
+        .glassEffect(.regular, in: .circle)
+        .animation(.snappy, value: hasActiveFilters)
     }
 
     // MARK: - Tag Chip Bar
