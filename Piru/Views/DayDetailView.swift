@@ -19,21 +19,11 @@ struct DayDetailView: View {
     @State private var isExporting = false
 
     private var substanceStates: [ActiveSubstanceState] {
-        let colorMap = Array(substanceColors).hexColorMap
-        return entries.compactMap { entry in
-            let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
-            return ActiveSubstanceState.from(entry: entry, colorHex: hex)
-        }
+        ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors)).states
     }
 
     private var doseMarkers: [DoseMarker] {
-        let colorMap = Array(substanceColors).hexColorMap
-        return entries.compactMap { entry in
-            // Only include entries that have no duration data (no curve on graph)
-            guard ActiveSubstanceState.from(entry: entry, colorHex: "000000") == nil else { return nil }
-            let hex = colorMap[entry.substance.lowercased()] ?? "007AFF"
-            return DoseMarker(substanceName: entry.substance, timestamp: entry.timestamp, colorHex: hex, amount: entry.amount, unit: entry.unit)
-        }
+        ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors)).markers
     }
 
     let date: Date

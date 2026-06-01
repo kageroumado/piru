@@ -32,6 +32,7 @@ enum JournalGrouping: String, CaseIterable {
 
 struct EntryListView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.appNavigator) private var navigator
     @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
@@ -116,7 +117,7 @@ struct EntryListView: View {
 
     // MARK: - Cached Groups
 
-    @State private var cachedDayGroups: [(date: Date, entries: [DoseEntry])] = []
+    @State private var cachedDayGroups: [DayGroup] = []
     @State private var cachedSubstanceGroups: [(name: String, entries: [DoseEntry])] = []
     @State private var cachedCategoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
     @State private var cachedColorMap: [String: Color] = [:]
@@ -162,12 +163,16 @@ struct EntryListView: View {
         case .byDay:
             // Group by session day (configurable cutoff hour) so a 02:00
             // dose joins the previous evening's session instead of starting
-            // a new day at midnight.
+            // a new day at midnight. Precompute each day's timeline here so
+            // the per-card Canvas doesn't re-derive curves on every scroll.
             let grouped = Dictionary(grouping: filtered) { entry in
                 calendar.sessionDayStart(for: entry.timestamp)
             }
-            cachedDayGroups = grouped.sorted { $0.key > $1.key }
-                .map { (date: $0.key, entries: $0.value) }
+            let colors = Array(substanceColors)
+            cachedDayGroups = grouped.sorted { $0.key > $1.key }.map { date, dayEntries in
+                let timeline = ActiveSubstanceState.timeline(for: dayEntries, colors: colors)
+                return DayGroup(date: date, entries: dayEntries, states: timeline.states, markers: timeline.markers)
+            }
 
         case .bySubstance:
             let grouped = Dictionary(grouping: filtered, by: \.substance)
@@ -348,11 +353,25 @@ struct EntryListView: View {
     // MARK: - Day Grouped Content
 
     private var dayGroupedContent: some View {
-        ForEach(cachedDayGroups, id: \.date) { day in
-            NavigationLink(value: PushRoute.day(date: day.date)) {
-                DayCardView(date: day.date, entries: day.entries, colorMap: cachedColorMap)
+        ForEach(cachedDayGroups) { day in
+            // A plain Button (not NavigationLink) pushes programmatically so the
+            // whole card is tappable with no system disclosure chevron over the
+            // graph. Navigation still resolves through `.withAppDestinations()`.
+            Button {
+                navigator.push(.day(date: day.date))
+            } label: {
+                DayCardView(
+                    date: day.date,
+                    entries: day.entries,
+                    states: day.states,
+                    markers: day.markers,
+                    colorMap: cachedColorMap,
+                )
             }
+            .buttonStyle(.plain)
             .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
     }
 
@@ -532,22 +551,43 @@ private struct SubstanceGroupHeader: View {
 
 // MARK: - Day Card
 
+/// One day's worth of entries with its timeline precomputed (in `rebuildGroups`)
+/// so the card's mini graph never re-derives PK curves while scrolling.
+struct DayGroup: Identifiable {
+    let date: Date
+    let entries: [DoseEntry]
+    let states: [ActiveSubstanceState]
+    let markers: [DoseMarker]
+    var id: Date { date }
+}
+
+/// Withings/Health-style day card: date + metadata + substance dots on the
+/// left, a compact PK timeline on the right. The card is content, so it sits on
+/// `themeCard` (material/surface) — never glass.
 struct DayCardView: View {
     let date: Date
     let entries: [DoseEntry]
+    let states: [ActiveSubstanceState]
+    let markers: [DoseMarker]
     let colorMap: [String: Color]
+
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
 
     private var dateTitle: String {
         date.formatted(.dateTime.day().month(.wide).year())
     }
 
-    private var subtitle: String {
+    private var weekday: String {
         date.formatted(.dateTime.weekday(.wide))
     }
 
-    private var substanceSummary: String {
+    private var uniqueSubstances: [String] {
         let names = entries.map(\.substance)
-        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
+        return (NSOrderedSet(array: names).array as? [String]) ?? names
+    }
+
+    private var substanceSummary: String {
+        let unique = uniqueSubstances
         if unique.count <= 3 {
             return unique.joined(separator: ", ")
         }
@@ -555,48 +595,67 @@ struct DayCardView: View {
         return String(localized: "\(first) +\(unique.count - 3) more")
     }
 
-    private var barColors: [Color] {
-        let names = entries.map(\.substance)
-        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
-        let colors = unique.compactMap { name in
-            colorMap[name.lowercased()]
-        }
-        if colors.isEmpty { return [Theme.accent] }
-        var seen = Set<String>()
-        return colors.filter { color in
-            let desc = color.description
-            if seen.contains(desc) { return false }
-            seen.insert(desc)
-            return true
-        }
+    private var doseCountText: String {
+        entries.count == 1
+            ? String(localized: "1 dose")
+            : String(localized: "\(entries.count) doses")
+    }
+
+    private var dotColors: [Color] {
+        uniqueSubstances.prefix(4).map { colorMap[$0.lowercased()] ?? Theme.accent }
     }
 
     var body: some View {
         HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(
-                    barColors.count == 1
-                        ? AnyShapeStyle(barColors[0])
-                        : AnyShapeStyle(LinearGradient(
-                            colors: barColors,
-                            startPoint: .top,
-                            endPoint: .bottom,
-                        )),
-                )
-                .frame(width: 4)
-
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text(dateTitle)
                     .font(.headline)
-                Text(substanceSummary)
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .lineLimit(2)
-                Text(subtitle)
+                (Text(weekday) + Text("  ·  ") + Text(doseCountText))
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
+                HStack(spacing: 6) {
+                    substanceDots
+                    Text(substanceSummary)
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .lineLimit(1)
+                }
             }
-            .padding(.vertical, 4)
+
+            Spacer(minLength: 8)
+
+            graph
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
+        .contentShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    @ViewBuilder
+    private var substanceDots: some View {
+        HStack(spacing: 3) {
+            ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in
+                Circle()
+                    .fill(color)
+                    .frame(width: 7, height: 7)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var graph: some View {
+        if !states.isEmpty || !markers.isEmpty {
+            TimelineGraphView(
+                substances: states,
+                currentTime: .now,
+                compact: true,
+                markers: markers,
+                stackRedoses: stackRedoses,
+            )
+            .frame(width: 104, height: 52)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .allowsHitTesting(false)
         }
     }
 }

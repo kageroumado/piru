@@ -165,6 +165,34 @@ extension ActiveSubstanceState {
         )
     }
 
+    /// Convert dose entries into the two inputs ``TimelineGraphView`` consumes:
+    /// `states` (doses that resolve duration data, drawn as curves) and
+    /// `markers` (the duration-less remainder, drawn as timestamp diamonds).
+    /// Single source of truth shared by the day detail and the journal cards.
+    static func timeline(
+        for entries: [DoseEntry],
+        colors: [SubstanceColor],
+    ) -> (states: [ActiveSubstanceState], markers: [DoseMarker]) {
+        let hexMap = colors.hexColorMap
+        var states: [ActiveSubstanceState] = []
+        var markers: [DoseMarker] = []
+        for entry in entries {
+            let hex = hexMap[entry.substance.lowercased()] ?? "007AFF"
+            if let state = from(entry: entry, colorHex: hex) {
+                states.append(state)
+            } else {
+                markers.append(DoseMarker(
+                    substanceName: entry.substance,
+                    timestamp: entry.timestamp,
+                    colorHex: hex,
+                    amount: entry.amount,
+                    unit: entry.unit,
+                ))
+            }
+        }
+        return (states, markers)
+    }
+
     /// Fall back to the substance's default route (then any populated route)
     /// when the requested route has no DoseRange. Without this, a user logging
     /// a non-default route (e.g. insufflated when the library only has oral
