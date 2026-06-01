@@ -145,27 +145,91 @@ extension ActiveSubstanceState {
         )
     }
 
+    /// Synthesize a state for a dose that has **no acute duration profile** but
+    /// a known half-life, so it renders as a real half-life-driven curve.
+    ///
+    /// `TimelineGraphView` reconstructs the Bateman elimination rate as
+    /// `ke = ln(20) / decayWindow`, where `decayWindow = totalMinutes − peakCenter`
+    /// and `peakCenter = (comeupEnd + peakEnd) / 2`. We choose `totalMinutes` to
+    /// invert that, so the rendered curve eliminates at exactly `ln(2)/t½`. The
+    /// peak time is a realistic absorption Tmax (a few hours), never tied to the
+    /// half-life — a long-acting drug still absorbs quickly.
+    init(synthesizedForName name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, halfLifeMinutes: Double, doseIntensity: Double) {
+        let ke = log(2) / halfLifeMinutes
+        let peakCenter = min(max(halfLifeMinutes * 0.15, 20), 180)
+        let total = peakCenter + log(20) / ke
+        self.init(
+            substanceName: name,
+            colorHex: colorHex,
+            doseTimestamp: timestamp,
+            amount: amount,
+            unit: unit,
+            route: routeDisplayName,
+            onsetEndMinutes: peakCenter * 0.4,
+            comeupEndMinutes: peakCenter * 0.8,
+            peakEndMinutes: peakCenter * 1.2,
+            offsetEndMinutes: total * 0.92,
+            afterglowEndMinutes: nil,
+            totalMinutes: total,
+            doseIntensity: doseIntensity,
+        )
+    }
+
     /// Build from a dose entry by looking up substance duration data.
     ///
-    /// Long-acting / maintenance compounds resolve no `timelineDuration`, so they
-    /// fall through to a timestamp marker instead of a flat, meaningless curve.
+    /// Resolution order:
+    /// 1. **Acute subjective duration** → curve fit to the phase profile. This
+    ///    is the right source even when it disagrees with blood half-life
+    ///    (amphetamine's ~10 h t½ far outlasts its subjective effects).
+    /// 2. **No acute duration but a known half-life** → a synthesized
+    ///    half-life-driven curve, so long-acting / maintenance compounds
+    ///    (Memantine, Tadalafil, Bromantane) render as a real — if long —
+    ///    curve instead of a bare dot. The graph's tail-cutting frames the
+    ///    active part and leaves the slow tail one pan away.
+    /// 3. **Neither** → `nil`, so the dose falls through to a timestamp marker.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
-        guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-              let duration = substance.timelineDuration(for: entry.route) else { return nil }
+        guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) else { return nil }
         let intensity = Self.computeDoseIntensity(
             amount: entry.amount,
             doseRange: Self.resolveDoseRange(substance: substance, route: entry.route),
         )
-        return ActiveSubstanceState(
-            name: entry.substance,
-            colorHex: colorHex,
-            timestamp: entry.timestamp,
-            amount: entry.amount,
-            unit: entry.unit,
-            routeDisplayName: entry.route.displayName,
-            duration: duration,
-            doseIntensity: intensity,
-        )
+        if let duration = substance.timelineDuration(for: entry.route) {
+            return ActiveSubstanceState(
+                name: entry.substance,
+                colorHex: colorHex,
+                timestamp: entry.timestamp,
+                amount: entry.amount,
+                unit: entry.unit,
+                routeDisplayName: entry.route.displayName,
+                duration: duration,
+                doseIntensity: intensity,
+            )
+        }
+        if let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {
+            return ActiveSubstanceState(
+                synthesizedForName: entry.substance,
+                colorHex: colorHex,
+                timestamp: entry.timestamp,
+                amount: entry.amount,
+                unit: entry.unit,
+                routeDisplayName: entry.route.displayName,
+                halfLifeMinutes: halfLife,
+                doseIntensity: intensity,
+            )
+        }
+        return nil
+    }
+
+    /// Resolve a half-life (minutes) for a duration-less dose, mirroring
+    /// ``compute(from:colorMap:)``'s fallback: substance model → HalfLifeDatabase
+    /// by name → by alias.
+    static func resolveHalfLifeMinutes(substance: Substance, name: String) -> Double? {
+        if let hl = substance.halfLifeMinutes, hl > 0 { return hl }
+        if let hl = HalfLifeDatabase.halfLife(for: name), hl > 0 { return hl }
+        for alias in substance.aliases {
+            if let hl = HalfLifeDatabase.halfLife(for: alias), hl > 0 { return hl }
+        }
+        return nil
     }
 
     /// Convert dose entries into the two inputs ``TimelineGraphView`` consumes:
