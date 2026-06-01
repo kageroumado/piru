@@ -26,23 +26,10 @@
         },
         "heavy": 10.0
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 240,
-          "max": 1440
-        },
-        "offset": {
-          "min": 2880,
-          "max": 10080
-        },
-        "total": {
-          "min": 4320,
-          "max": 20160
-        }
+      "durationOfAction": {
+        "min": 3,
+        "max": 14,
+        "unit": "days"
       }
     },
     {
@@ -54,6 +41,11 @@
         "highAmount": 5,
         "frequency": "once or twice weekly",
         "notes": "community/research healing protocol, no validated human dosing; t½ ~hours"
+      },
+      "durationOfAction": {
+        "min": 3,
+        "max": 14,
+        "unit": "days"
       }
     }
   ],

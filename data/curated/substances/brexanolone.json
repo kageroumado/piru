@@ -25,24 +25,6 @@
           "upper": 90
         },
         "heavy": 90
-      },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 180
-        },
-        "peak": {
-          "min": 720,
-          "max": 1440
-        },
-        "offset": {
-          "min": 720,
-          "max": 1440
-        },
-        "total": {
-          "min": 4320,
-          "max": 4320
-        }
       }
     }
   ],

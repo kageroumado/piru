@@ -28,23 +28,10 @@
         },
         "heavy": 20.0
       },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 120
-        },
-        "peak": {
-          "min": 180,
-          "max": 720
-        },
-        "offset": {
-          "min": 2880,
-          "max": 10080
-        },
-        "total": {
-          "min": 4320,
-          "max": 10080
-        }
+      "durationOfAction": {
+        "min": 3,
+        "max": 7,
+        "unit": "days"
       }
     },
     {
@@ -66,23 +53,10 @@
         },
         "heavy": 10.0
       },
-      "duration": {
-        "onset": {
-          "min": 10,
-          "max": 30
-        },
-        "peak": {
-          "min": 60,
-          "max": 240
-        },
-        "offset": {
-          "min": 720,
-          "max": 4320
-        },
-        "total": {
-          "min": 720,
-          "max": 4320
-        }
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     },
     {
@@ -95,6 +69,11 @@
         "frequency": "once daily in a 10-20 day course",
         "courseDuration": "10-20 day course, repeated periodically",
         "notes": "Khavinson protocol; single-source Russian literature, no validated human PK"
+      },
+      "durationOfAction": {
+        "min": 3,
+        "max": 7,
+        "unit": "days"
       }
     }
   ],

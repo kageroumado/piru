@@ -6964,6 +6964,7 @@
     "display_name": "4-MD-PCP",
     "aliases": [
       "3",
+      "3,4-MD-PCP",
       "3,4-benzodioxole-PCP",
       "3,4-methylenedioxy-PCP",
       "4-MD-PCP",
@@ -7324,6 +7325,7 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
+      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
@@ -9428,8 +9430,7 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-fluoro-PiHP",
-      "3F-Alpha-PHIP",
+      "3-Fluoro-PiHP",
       "3F-PHIP",
       "3F-alpha-PiHP",
       "3F-α-PiHP"
@@ -10451,7 +10452,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-chloroethcathinone",
+      "4-Chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -10488,8 +10489,8 @@
     "display_name": "4-CA",
     "aliases": [
       "4-CA",
+      "PCA",
       "p-Chloroamphetamine",
-      "pCA",
       "para-Chloroamphetamine"
     ],
     "category": "Stimulant",
@@ -16377,7 +16378,7 @@
     "aliases": [
       "5-MeO-αMT",
       "5meoamt",
-      "alpha-O",
+      "Alpha-O",
       "α,O-DMS",
       "α,O-dimethylserotonin"
     ],
@@ -21225,7 +21226,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
     "mechanism_summary": "",
@@ -21244,6 +21245,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/82148"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -22356,7 +22358,7 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "a-D2PV",
+      "A-D2PV",
       "alpha D2PV",
       "α-D2PV"
     ],
@@ -23465,7 +23467,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -23483,7 +23485,9 @@
       "https://en.wikipedia.org/wiki/Amitriptyline",
       "https://pubchem.ncbi.nlm.nih.gov/compound/2160"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Amlodipine",
@@ -24394,7 +24398,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4680.0,
     "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4), serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 (mildly) adrenergic receptors.",
@@ -24411,7 +24415,9 @@
       "https://en.wikipedia.org/wiki/Aripiprazole",
       "https://pubchem.ncbi.nlm.nih.gov/compound/60795"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Arketamine",
@@ -25484,7 +25490,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
@@ -25502,6 +25508,7 @@
       "https://examine.com/supplements/bacopa-monnieri/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -27675,7 +27682,7 @@
       "intravenous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 270.0,
     "mechanism_summary": "",
@@ -27694,6 +27701,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/92786"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -27725,7 +27733,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 5760.0,
     "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, several other subtypes of dopamine receptors (D1, D3, D4), serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors.",
@@ -27742,7 +27750,9 @@
       "https://en.wikipedia.org/wiki/Brexpiprazole",
       "https://pubchem.ncbi.nlm.nih.gov/compound/9811558"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Brivaracetam",
@@ -30006,13 +30016,11 @@
       "capsule",
       "prescription-only"
     ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
+    "default_route": "",
+    "all_routes": [],
     "routes_with_dose": [],
     "has_dose_data": false,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 72000.0,
     "mechanism_summary": "Partial agonist of D2 dopamine and 5HT-1A serotonin receptors, while blocking 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, D3 dopamine receptors, serotonin (5HT-2A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 adrenergic receptors.",
@@ -30030,7 +30038,8 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/11520894"
     ],
     "data_gaps": [
-      "dose_ranges_by_route"
+      "dose_ranges_by_route",
+      "duration_by_route"
     ]
   },
   {
@@ -32096,7 +32105,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 2160.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons leading to higher concentrations of serotonin in the neuronal synapse.",
@@ -32115,7 +32124,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/2771",
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Citicoline",
@@ -32216,7 +32227,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 10080.0,
     "mechanism_summary": "",
@@ -32659,7 +32670,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1980.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -32677,7 +32688,9 @@
       "https://en.wikipedia.org/wiki/Clomipramine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/2801"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Clonazepam",
@@ -33603,7 +33616,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 5760.0,
     "mechanism_summary": "",
@@ -33621,6 +33634,7 @@
       "https://en.wikipedia.org/wiki/Coenzyme_Q10"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -33856,7 +33870,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 180.0,
     "mechanism_summary": "",
@@ -33874,6 +33888,7 @@
       "https://examine.com/supplements/creatine/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -34864,7 +34879,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-Cyclohexylmethylone"
+      "N-cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -36668,7 +36683,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1620.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a secondary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards norepinephrine reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -36685,7 +36700,9 @@
       "https://en.wikipedia.org/wiki/Desipramine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/2995"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Desirudin",
@@ -37106,7 +37123,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 660.0,
     "mechanism_summary": "Inhibits serotonin and norepinephrine reuptake in the presynaptic neurons leading to higher concentrations of serotonin and norepinephrine in the neuronal synapse.",
@@ -37122,7 +37139,9 @@
       "https://en.wikipedia.org/wiki/Desvenlafaxine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/3415532"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "DET",
@@ -39210,7 +39229,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 10080.0,
     "mechanism_summary": "",
@@ -39227,6 +39246,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/3117"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -41112,7 +41132,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1020.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -41128,7 +41148,9 @@
       "https://en.wikipedia.org/wiki/Doxepin",
       "https://pubchem.ncbi.nlm.nih.gov/compound/3158"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Doxycycline",
@@ -41642,7 +41664,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 7200.0,
     "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
@@ -41688,7 +41710,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
     "mechanism_summary": "Inhibits serotonin and norepinephrine reuptake in the presynaptic neurons leading to higher concentrations of serotonin and norepinephrine in the neuronal synapse.",
@@ -41706,7 +41728,9 @@
       "https://en.wikipedia.org/wiki/Duloxetine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/60835"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Dutasteride",
@@ -43015,7 +43039,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 30.0,
     "mechanism_summary": "",
@@ -43386,7 +43410,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1800.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons leading to higher concentrations of serotonin in the neuronal synapse.",
@@ -43404,7 +43428,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/146570",
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Esketamine",
@@ -46849,7 +46875,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 23040.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons leading to higher concentrations of serotonin in the neuronal synapse.",
@@ -46868,7 +46894,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/3386",
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Fluphenazine",
@@ -47376,7 +47404,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 900.0,
     "mechanism_summary": "",
@@ -47395,6 +47423,7 @@
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -47461,7 +47490,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 270.0,
     "mechanism_summary": "",
@@ -47479,6 +47508,7 @@
       "https://en.wikipedia.org/wiki/Folic_acid"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -48704,7 +48734,7 @@
       "transdermal"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 60.0,
     "mechanism_summary": "",
@@ -52429,7 +52459,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1080.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a tertiary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards serotonin reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -52446,7 +52476,9 @@
       "https://en.wikipedia.org/wiki/Imipramine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/3696"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Imuracetam",
@@ -53285,7 +53317,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 11520.0,
     "mechanism_summary": "",
@@ -53303,6 +53335,7 @@
       "https://en.wikipedia.org/wiki/Iodine_in_biology"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -53629,7 +53662,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 2880.0,
     "mechanism_summary": "",
@@ -53647,6 +53680,7 @@
       "https://en.wikipedia.org/wiki/Iron_supplement"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -53741,7 +53775,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 150.0,
     "mechanism_summary": "",
@@ -53758,6 +53792,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/3759"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -55874,10 +55909,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
-      "Purple Drank",
       "barre",
       "drank",
       "pint",
+      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -56425,7 +56460,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 750.0,
     "mechanism_summary": "Inhibits serotonin and norepinephrine reuptake in the presynaptic neurons leading to higher concentrations of serotonin and norepinephrine in the neuronal synapse.",
@@ -56442,7 +56477,9 @@
       "https://en.wikipedia.org/wiki/Levomilnacipran",
       "https://pubchem.ncbi.nlm.nih.gov/compound/3005573"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Levonorgestrel",
@@ -56639,7 +56676,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
@@ -56657,6 +56694,7 @@
       "https://examine.com/supplements/lions-mane-mushroom/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -58534,7 +58572,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -58552,6 +58590,7 @@
       "https://examine.com/supplements/magnesium-l-threonate/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -64249,7 +64288,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 480.0,
     "mechanism_summary": "",
@@ -64266,6 +64305,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/65863"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -65337,8 +65377,8 @@
     "aliases": [
       "Convulsion root",
       "Corpse plant",
+      "Ghost Pipe",
       "Ghost flower",
-      "Ghost pipe",
       "Ghost plant",
       "Ice plant",
       "Indian Pipe"
@@ -65550,7 +65590,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 240.0,
     "mechanism_summary": "",
@@ -66159,6 +66199,7 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
+      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
@@ -68622,7 +68663,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 180.0,
     "mechanism_summary": "Pharmacodynamics The mechanism of action of nefazodone, as with other antidepressants, is unknown. Preclinical studies have shown that nefazodone inhibits neuronal uptake of serotonin and norepinephrine. Nefazodone occupies central 5-HT 2 receptors at nanomolar concentrations, and acts as an antagonist at this receptor. Nefazodone was shown to antagonize alpha 1 -adrenergic receptors, a property which may be associated with postural hypotension. In vitro binding studies showed that nefazodone had no significant affinity for the following receptors: alpha 2 and beta adrenergic, 5-HT 1A , cholinergic, dopaminergic, or benzodiazepine. Pharmacokinetics Nefazodone is rapidly and completely absorbed but is subject to extensive metabolism, so that its absolute bioavailability is low, about 20%, and variable. Peak plasma concentrations occur at about one hour and the half-life of nefazodone is 2 to 4 hours. Both nefazodone and its pharmacologically similar metabolite, hydroxynefazodone, exhibit nonlinear kinetics for both dose and time, with AUC and C max increasing more than proportionally with dose increases and more than expected upon multiple dosing over time, compared to single dosing. For example, in a multiple-dose study involving BID dosing with 50, 100, and 200 mg, the AUC for nefazodone and hydroxynefazodone increased by about 4 fold with an increase in dose from 200 to 400 mg per day; C max increased by about 3 fold with the same dose increase. In a multiple-dose study involving BID dosing with 25, 50, 100, and 150 mg, the accumulation ratios for nefazodone and hydroxynefazodone AUC, after 5 days of BID dosing relative to the first dose, ranged from approximately 3 to 4 at the lower doses (50 to 100 mg/day) and from 5 to 7 at the higher doses (200 to 300 mg/day); there were also approximately 2 to 4 fold increases in C max after 5 days of BID dosing relative to the first dose, suggesting extensive and greater than predicted accumulation of nefazodone and its hydroxy metabolite with multiple dosing. Steady-state plasma nefazodone and metabolite concentrations are attained within 4 to 5 days of initiation of BID dosing or upon dose increase or decrease. Nefazodone is extensively metabolized after oral administration by n-dealkylation and aliphatic and aromatic hydroxylation, and less than 1% of administered nefazodone is excreted unchanged in urine. Attempts to characterize three metabolites identified in plasma, hydroxynefazodone (HO-NEF), meta-chlorophenylpiperazine (mCPP), and a triazole-dione metabolite, have been carried out. The AUC (expressed as a multiple of the AUC for nefazodone dosed at 100 mg BID) and elimination half-lives for these three metabolites were as follows: AUC Multiples and T 1/2 for Three Metabolites of Nefazodone (100 mg BID) Metabolite AUC Multiple T 1/2 HO-NEF to 4 h mCPP 4 to 8 h Triazole-dione 18 h HO-NEF possesses a pharmacological profile qualitatively and quantitatively similar to that of nefazodone. mCPP has some similarities to nefazodone, but also has agonist activity at some serotonergic receptor subtypes. The pharmacological profile of the triazole-dione metabolite has not yet been well characterized. In addition to the above compounds, several other metabolites were present in plasma but have not been tested for pharmacological activity. After oral administration of radiolabeled nefazodone, the mean half-life of total label ranged between 11 and 24 hours. Approximately 55% of the administered radioactivity was detected in urine and about 20 to 30% in feces. Distribution Nefazodone is widely distributed in body tissues, including the central nervous system (CNS). In humans the volume of distribution of nefazodone ranges from 0.22 to 0.87 L/kg. Protein Binding At concentrations of 25 to 2500 ng/mL nefazodone is extensively (> 99%) bound to human plasma proteins in vitro . The administration of 200 mg BID of nefazodone for 1 week did not increase the fraction of unbound warfarin in subjects whose prothrombin times had been prolonged by warfarin therapy to 120 to 150% of the laboratory control . While nefazodone did not alter the in vitro protein binding of chlorpromazine, desipramine, diazepam, diphenylhydantoin, lidocaine, prazosin, propranolol, or verapamil, it is unknown whether displacement of either nefazodone or these drugs occurs in vivo . There was a 5% decrease in the protein binding of haloperidol; this is probably of no clinical significance. Effect of Food Food delays the absorption of nefazodone and decreases the bioavailability of nefazodone by approximately 20%. Renal Disease In studies involving 29 renally impaired patients, renal impairment (creatinine clearances ranging from 7 to 60 mL/min/1.73 m 2 ) had no effect on steady-state nefazodone plasma concentrations. Liver Disease In a multiple-dose study of patients with liver cirrhosis, the AUC values for nefazodone and HO-NEF at steady state were approximately 25% greater than those observed in normal volunteers. Age/Gender Effects After single doses of 300 mg to younger (18 to 45 years) and older patients (> 65 years), C max and AUC for nefazodone and hydroxynefazodone were up to twice as high in the older patients. With multiple doses, however, differences were much smaller, 10 to 20%. A similar result was seen for gender, with a higher C max and AUC in women after single doses but no difference after multiple doses. Treatment with nefazodone should be initiated at half the usual dose in elderly patients, especially women , but the therapeutic dose range is similar in younger and older patients.",
@@ -68639,7 +68680,9 @@
       "https://en.wikipedia.org/wiki/Nefazodone",
       "https://pubchem.ncbi.nlm.nih.gov/compound/4432"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Nefiracetam",
@@ -70085,7 +70128,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 2160.0,
     "mechanism_summary": "Primarily inhibits norepinephrine and serotonin reuptake at the presynaptic neurons leading to higher concentrations of these neurotransmitters in the neuronal synapse. As a secondary amine (TCAs are either tertiary or secondary amines), this drug displays more selectivity towards norepinephrine reuptake inhibition. Additionally, blocks histamine-H1, alpha-1 adrenergic, and muscarinic receptors accounting for sedative, hypotensive and anticholinergic effects, respectively.",
@@ -70102,7 +70145,9 @@
       "https://en.wikipedia.org/wiki/Nortriptyline",
       "https://pubchem.ncbi.nlm.nih.gov/compound/4929"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "NSI-189",
@@ -71047,7 +71092,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4320.0,
     "mechanism_summary": "",
@@ -71065,6 +71110,7 @@
       "https://en.wikipedia.org/wiki/Omega-3_fatty_acid"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -72188,7 +72234,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1380.0,
     "mechanism_summary": "Competitively blocks of D2 dopamine and 5HT-2A serotonin receptors. These mechanisms are notably thought to be related to its efficacy for indicated conditions. Also blocks, to varying degrees, other subtypes of dopamine receptors (D1, D3, D4, D5), serotonin (5HT-1A, 5HT-2C and 5HT-7) receptors, histamine-1 receptors, and alpha-1 and alpha-2 adrenergic receptors. .",
@@ -72205,7 +72251,9 @@
       "https://en.wikipedia.org/wiki/Paliperidone",
       "https://pubchem.ncbi.nlm.nih.gov/compound/115237"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Palmitoyl Dipeptide-6",
@@ -72651,7 +72699,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1260.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons leading to higher concentrations of serotonin in the neuronal synapse.",
@@ -72671,7 +72719,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/43815",
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "PBC-264",
@@ -73701,7 +73751,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 6120.0,
     "mechanism_summary": "",
@@ -73717,6 +73767,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/9826451"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -74099,7 +74150,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 90.0,
     "mechanism_summary": "Pharmacokinetics Absorption Following a single 30 mg dose of Phenelzine Sulfate Tablets (2 × 15 mg tablets), a mean peak plasma concentration (C max ) of 19.8 ng/mL occurred at a time (T max ) of 43 minutes postdose. Metabolism Phenelzine Sulfate Tablets is extensively metabolized, primarily by oxidation via monoamine oxidase. After oral administration of 13 C 6 -phenelzine, 73% of the administered dose was recovered in urine as phenylacetic acid and parahydroxyphenylacetic acid within 96 hours. Acetylation to N 2 -acetylphenelzine is a minor pathway. Elimination The mean elimination half-life after a single 30 mg dose is 11.6 hours. Multiple dose pharmacokinetics have not been studied in man.",
@@ -74120,7 +74171,9 @@
       "PubChem CID 3675: https://pubchem.ncbi.nlm.nih.gov/compound/3675",
       "CAS 51-71-8"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Phenethyl Isothiocyanate",
@@ -74942,7 +74995,6 @@
     "aliases": [
       "DPPEA",
       "MK-306",
-      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -75167,7 +75219,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 3780.0,
     "mechanism_summary": "",
@@ -75185,6 +75237,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/5311272"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -75214,7 +75267,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 3360.0,
     "mechanism_summary": "",
@@ -75232,6 +75285,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/16362"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -79033,7 +79087,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 720.0,
     "mechanism_summary": "",
@@ -79051,6 +79105,7 @@
       "https://examine.com/supplements/ganoderma-lucidum/"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -79288,7 +79343,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 8640.0,
     "mechanism_summary": "",
@@ -81679,7 +81734,7 @@
       "transdermal"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 120.0,
     "mechanism_summary": "",
@@ -81697,6 +81752,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/26757"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -81727,7 +81783,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 14400.0,
     "mechanism_summary": "",
@@ -81745,6 +81801,7 @@
       "https://en.wikipedia.org/wiki/Selenium#Biological_role"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -81817,7 +81874,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 9900.0,
     "mechanism_summary": "Glucagon-like peptide 1 (GLP-1) agonists are analogs of GLP-1 , an incretin hormone, that improve glycemic control by increasing glucose-dependent insulin secretion, decrease glucagon secretion, slow gastric emptying and increase satiety.",
@@ -82259,7 +82316,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1560.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons leading to higher concentrations of serotonin in the neuronal synapse.",
@@ -82277,7 +82334,9 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/68617",
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Setazindol",
@@ -84055,7 +84114,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -85865,7 +85924,7 @@
       "subcutaneous"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": true,
     "half_life_minutes": 7200.0,
     "mechanism_summary": "",
@@ -88517,7 +88576,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 300.0,
     "mechanism_summary": "Inhibits serotonin and norepinephrine reuptake in the presynaptic neurons leading to higher concentrations of serotonin and norepinephrine in the neuronal synapse.",
@@ -88534,7 +88593,9 @@
       "https://en.wikipedia.org/wiki/Venlafaxine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/39​44"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Verapamil",
@@ -88761,7 +88822,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1500.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons and agonizes 5-HT1A receptors affecting serotonergic activity in the CNS.",
@@ -88778,7 +88839,9 @@
       "https://en.wikipedia.org/wiki/Vilazodone",
       "https://pubchem.ncbi.nlm.nih.gov/compound/3033651"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "Vilon",
@@ -88957,7 +89020,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 34560.0,
     "mechanism_summary": "",
@@ -88975,6 +89038,7 @@
       "https://en.wikipedia.org/wiki/Vitamin_A"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89058,7 +89122,7 @@
       "sublingual"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 14400.0,
     "mechanism_summary": "",
@@ -89076,6 +89140,7 @@
       "https://en.wikipedia.org/wiki/Vitamin_B12"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89257,7 +89322,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 34560.0,
     "mechanism_summary": "",
@@ -89275,6 +89340,7 @@
       "https://en.wikipedia.org/wiki/Cholecalciferol"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89304,7 +89370,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -89322,6 +89388,7 @@
       "https://en.wikipedia.org/wiki/Vitamin_E"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89352,7 +89419,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4320.0,
     "mechanism_summary": "",
@@ -89370,6 +89437,7 @@
       "https://en.wikipedia.org/wiki/Menaquinone"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -89425,7 +89493,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4320.0,
     "mechanism_summary": "Inhibits serotonin reuptake at the presynaptic neurons, antagonizes 5-HT3 receptors , and agonizes 5-HT1A receptors affecting serotonergic activity in the CNS.",
@@ -89442,7 +89510,9 @@
       "https://en.wikipedia.org/wiki/Vortioxetine",
       "https://pubchem.ncbi.nlm.nih.gov/compound/9966051"
     ],
-    "data_gaps": []
+    "data_gaps": [
+      "duration_by_route"
+    ]
   },
   {
     "name": "W-15",
@@ -89941,7 +90011,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 1440.0,
     "mechanism_summary": "",
@@ -89959,6 +90029,7 @@
       "https://en.wikipedia.org/wiki/Zinc_picolinate"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },
@@ -90248,7 +90319,7 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": true,
+    "has_duration_data": false,
     "has_protocol_dosing": false,
     "half_life_minutes": 4680.0,
     "mechanism_summary": "",
@@ -90264,6 +90335,7 @@
       "https://pubchem.ncbi.nlm.nih.gov/compound/68649"
     ],
     "data_gaps": [
+      "duration_by_route",
       "mechanism_of_action"
     ]
   },

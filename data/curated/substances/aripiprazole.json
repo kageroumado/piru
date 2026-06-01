@@ -26,24 +26,6 @@
           "upper": 25
         },
         "heavy": 30
-      },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 180
-        },
-        "peak": {
-          "min": 180,
-          "max": 300
-        },
-        "offset": {
-          "min": 720,
-          "max": 1440
-        },
-        "total": {
-          "min": 2880,
-          "max": 5760
-        }
       }
     },
     {
@@ -65,23 +47,10 @@
         },
         "heavy": 400
       },
-      "duration": {
-        "onset": {
-          "min": 1440,
-          "max": 4320
-        },
-        "peak": {
-          "min": 14400,
-          "max": 43200
-        },
-        "offset": {
-          "min": 129600,
-          "max": 187200
-        },
-        "total": {
-          "min": 172800,
-          "max": 259200
-        }
+      "durationOfAction": {
+        "min": 120,
+        "max": 180,
+        "unit": "days"
       }
     }
   ],

@@ -81,6 +81,12 @@ ROUTES = {
     "rectal",
     "other",
 }
+# Ceiling for an acute dose-effect duration phase (minutes). 48h. Anything
+# longer is a chronic/therapeutic timescale miscoded into the acute curve —
+# it belongs in `durationOfAction` (the long-acting release window) instead.
+ACUTE_DURATION_MAX_MINUTES = 48 * 60
+DOA_UNITS = {"hours", "days", "weeks", "months"}
+
 SUPPLIED_FORMS = {"lyophilized_vial", "solution", "topical", "implant", "oral_capsule"}
 TEMPERATURES = {"room_temp", "refrigerate", "freeze"}
 BINDING_ACTIONS = {
@@ -196,6 +202,25 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
             for ph, v in dur.items():
                 if not (isinstance(v, dict) and "min" in v and "max" in v):
                     err.append(f"{tag}: duration.{ph} must be {{min, max}}")
+                    continue
+                # `duration` is the ACUTE dose-effect timeline in MINUTES. Values
+                # above ~48h mean a chronic/therapeutic timescale got miscoded
+                # here (e.g. an SSRI's 2-week onset, a depot's monthly interval).
+                # Those don't describe a single dose's felt curve — leave
+                # `duration` off entirely so the dose logs as a marker.
+                hi = max(v.get("min") or 0, v.get("max") or 0)
+                if hi > ACUTE_DURATION_MAX_MINUTES:
+                    err.append(
+                        f"{tag}: duration.{ph} = {hi} min exceeds the acute ceiling "
+                        f"({ACUTE_DURATION_MAX_MINUTES} min / 48h) — this is a chronic "
+                        f"timescale, not an acute dose curve; put it in durationOfAction",
+                    )
+        doa = r.get("durationOfAction")
+        if doa is not None:
+            if not (isinstance(doa, dict) and "min" in doa and "max" in doa):
+                err.append(f"{tag}: durationOfAction must be {{min, max, unit}}")
+            elif str(doa.get("unit", "days")).lower() not in DOA_UNITS:
+                err.append(f"{tag}: durationOfAction.unit must be one of {sorted(DOA_UNITS)}")
     # defaultRoute ideally has a matching route entry (UI default resolution).
     if e.get("defaultRoute") and route_set and _normalise_route(e["defaultRoute"]) not in route_set:
         warn.append(f"{tag}: defaultRoute {e['defaultRoute']!r} has no matching route entry")
