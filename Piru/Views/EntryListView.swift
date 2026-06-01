@@ -29,37 +29,6 @@ enum JournalGrouping: String, CaseIterable {
     }
 }
 
-// MARK: - Date Period
-
-/// Coarse time window for the journal filter. Replaces the old free From/To
-/// range with menu-friendly presets.
-enum DatePeriod: String, CaseIterable, Identifiable {
-    case all, today, week, month
-
-    var id: Self { self }
-
-    var label: LocalizedStringKey {
-        switch self {
-        case .all: "All Time"
-        case .today: "Today"
-        case .week: "Last 7 Days"
-        case .month: "Last 30 Days"
-        }
-    }
-
-    /// Inclusive lower bound for filtering, or `nil` for All Time.
-    var startDate: Date? {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: .now)
-        switch self {
-        case .all: return nil
-        case .today: return today
-        case .week: return calendar.date(byAdding: .day, value: -6, to: today)
-        case .month: return calendar.date(byAdding: .day, value: -29, to: today)
-        }
-    }
-}
-
 // MARK: - Entry List View
 
 struct EntryListView: View {
@@ -78,15 +47,15 @@ struct EntryListView: View {
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
 
-    // Filter state — category facets + a coarse time window. (Substance and
-    // free From/To range filtering were dropped: substance duplicates Search,
-    // and a single day is reachable via Jump to Date.)
+    // Filter state — category facets, plus an optional single day from the
+    // calendar. (Substance and free date-range filtering were dropped:
+    // substance duplicates Search, and a chronological day list makes time
+    // windows pointless.)
     @State private var filterCategories: Set<SubstanceCategory> = []
-    @State private var filterPeriod: DatePeriod = .all
     @State private var filterDay: Date? = nil
 
     private var hasActiveFilters: Bool {
-        !filterCategories.isEmpty || filterPeriod != .all || filterDay != nil
+        !filterCategories.isEmpty || filterDay != nil
     }
 
     // MARK: - Filtering
@@ -118,14 +87,11 @@ struct EntryListView: View {
             }
         }
 
-        // Time window — a specific jumped-to day takes precedence over the
-        // coarse period preset.
+        // Single-day filter (set via Jump to Date).
         if let day = filterDay {
             let start = Calendar.current.sessionDayStart(for: day)
             let end = start.addingTimeInterval(86_400)
             result = result.filter { $0.timestamp >= start && $0.timestamp < end }
-        } else if let start = filterPeriod.startDate {
-            result = result.filter { $0.timestamp >= start }
         }
 
         // Category filter
@@ -308,31 +274,24 @@ struct EntryListView: View {
     }
 
     /// Filter as a pull-down menu (Mail's idiom) rather than a modal sheet:
-    /// a coarse time window, a category sub-menu of checkmark toggles, and a
-    /// one-tap Clear. The funnel tints pink while any filter is active.
+    /// category checkmark toggles plus a one-tap Clear. The funnel tints pink
+    /// while any filter is active.
     private var filterMenu: some View {
         Menu {
-            Picker("Period", selection: $filterPeriod) {
-                ForEach(DatePeriod.allCases) { period in
-                    Text(period.label).tag(period)
-                }
-            }
-
-            if !allUsedCategories.isEmpty {
-                Menu {
-                    ForEach(allUsedCategories, id: \.self) { category in
-                        Button {
-                            toggleCategory(category)
-                        } label: {
-                            Label {
-                                Text(category.displayName)
-                            } icon: {
-                                Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
-                            }
+            // Category is the only meaningful filter here — the list already
+            // shows every day in order, so a time window adds nothing. Each
+            // category is a checkmark toggle (activate/deactivate in place).
+            Section("Category") {
+                ForEach(allUsedCategories, id: \.self) { category in
+                    Button {
+                        toggleCategory(category)
+                    } label: {
+                        Label {
+                            Text(category.displayName)
+                        } icon: {
+                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
                         }
                     }
-                } label: {
-                    Label("Category", systemImage: "square.grid.2x2")
                 }
             }
 
@@ -354,10 +313,6 @@ struct EntryListView: View {
         }
         .glassEffect(hasActiveFilters ? .regular.tint(Theme.accent) : .regular, in: .circle)
         .animation(.snappy, value: hasActiveFilters)
-        .onChange(of: filterPeriod) {
-            filterDay = nil
-            rebuildGroups()
-        }
     }
 
     private func toggleCategory(_ category: SubstanceCategory) {
@@ -371,7 +326,6 @@ struct EntryListView: View {
 
     private func clearFilters() {
         filterCategories = []
-        filterPeriod = .all
         filterDay = nil
         rebuildGroups()
     }
@@ -555,7 +509,6 @@ struct EntryListView: View {
                 colorMap: cachedColorMap,
                 onSelectDate: { date in
                     filterDay = date
-                    filterPeriod = .all
                     showingCalendar = false
                     rebuildGroups()
                 },
