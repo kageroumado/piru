@@ -125,7 +125,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, doseIntensity: Double = 1.0) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
         guard let duration else { return nil }
         let boundaries = duration.phaseBoundaries
         self.init(
@@ -142,6 +142,7 @@ extension ActiveSubstanceState {
             afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
             totalMinutes: duration.estimatedTotalMinutes,
             doseIntensity: doseIntensity,
+            tachyphylaxis: tachyphylaxis,
         )
     }
 
@@ -203,6 +204,7 @@ extension ActiveSubstanceState {
                 routeDisplayName: entry.route.displayName,
                 duration: duration,
                 doseIntensity: intensity,
+                tachyphylaxis: substance.category.acuteToleranceFactor,
             )
         }
         if let halfLife = Self.resolveHalfLifeMinutes(substance: substance, name: entry.substance) {

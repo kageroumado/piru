@@ -54,7 +54,15 @@ struct ActiveSubstanceState: Codable, Hashable {
     /// they still render as a visible nub instead of disappearing.
     let doseIntensity: Double
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0) {
+    /// Acute-tolerance (tachyphylaxis) strength, `0...1`, from the substance's
+    /// category (`SubstanceCategory.acuteToleranceFactor`). Drives the timeline
+    /// curve's descending-limb gate: stimulants/empathogens crash faster than
+    /// their plasma curve, so the felt effect returns to baseline by
+    /// `totalMinutes` rather than trailing off on the slow elimination tail. `0`
+    /// leaves the pure Bateman offset unchanged.
+    let tachyphylaxis: Double
+
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -68,6 +76,7 @@ struct ActiveSubstanceState: Codable, Hashable {
         self.afterglowEndMinutes = afterglowEndMinutes
         self.totalMinutes = totalMinutes
         self.doseIntensity = doseIntensity
+        self.tachyphylaxis = tachyphylaxis
     }
 
     init(from decoder: Decoder) throws {
@@ -85,5 +94,6 @@ struct ActiveSubstanceState: Codable, Hashable {
         afterglowEndMinutes = try c.decodeIfPresent(Double.self, forKey: .afterglowEndMinutes)
         totalMinutes = try c.decode(Double.self, forKey: .totalMinutes)
         doseIntensity = try c.decodeIfPresent(Double.self, forKey: .doseIntensity) ?? 1.0
+        tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
     }
 }

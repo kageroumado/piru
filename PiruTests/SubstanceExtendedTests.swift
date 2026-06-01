@@ -163,6 +163,48 @@ struct SubstanceExtendedTests {
         #expect(substance.timelineDuration(for: .oral) == nil) // but no curve is drawn
     }
 
+    @Test
+    func `timelineDuration borrows a representative acute profile for a route without one`() {
+        let smokedRoute = SubstanceRoute(
+            route: .inhalation,
+            unit: "mg",
+            doses: DoseRange(),
+            duration: DurationProfile(
+                onset: DurationRange(min: 0, max: 1),
+                comeup: DurationRange(min: 1, max: 3),
+                peak: DurationRange(min: 15, max: 45),
+                offset: DurationRange(min: 30, max: 60),
+                afterglow: nil, total: nil,
+            ),
+        )
+        let substance = Substance(
+            name: "Amphetamine-like",
+            aliases: [],
+            category: .stimulant,
+            defaultRoute: .oral,
+            routes: [oralRouteWithDuration, smokedRoute],
+            effects: [],
+        )
+        // Rectal has no profile and two routes disagree, so resolveDuration won't
+        // guess — but the timeline must still draw an acute curve from another
+        // route rather than fall through to a blood-half-life synthesis that can
+        // outlast the felt effect by tens of hours. It borrows the default
+        // route (oral) here.
+        #expect(substance.resolveDuration(for: .rectal) == nil)
+        let dur = substance.timelineDuration(for: .rectal)
+        #expect(dur != nil)
+        #expect(dur?.onset?.min == 15) // the oral profile
+        #expect(dur?.estimatedTotalMinutes ?? 0 <= Substance.maxAcuteTimelineMinutes)
+    }
+
+    @Test
+    func `acuteToleranceFactor is positive for releasers and zero otherwise`() {
+        #expect(SubstanceCategory.stimulant.acuteToleranceFactor > 0)
+        #expect(SubstanceCategory.empathogen.acuteToleranceFactor > 0)
+        #expect(SubstanceCategory.psychedelic.acuteToleranceFactor == 0)
+        #expect(SubstanceCategory.opioid.acuteToleranceFactor == 0)
+    }
+
     // MARK: - DurationOfAction
 
     @Test

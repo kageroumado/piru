@@ -690,10 +690,29 @@ struct TimelineGraphView: View {
     /// fitted Bateman curve. Unbounded above `totalMinutes` — the curve decays
     /// naturally toward zero, so callers draw it to `curveExtent(for:)` and it
     /// tails smoothly to baseline rather than being cut off mid-descent.
-    private func intensity(at minutes: Double, for _: ActiveSubstanceState, params: PKCurveParams) -> Double {
+    private func intensity(at minutes: Double, for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
         guard minutes >= 0 else { return 0 }
         let c = PKModel.concentration(at: minutes, ke: params.ke, ka: params.ka)
-        return min(1, max(0, c / params.cmax))
+        let e = min(1, max(0, c / params.cmax))
+        return e * toleranceGate(at: minutes, for: s)
+    }
+
+    /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
+    /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
+    /// pure Bateman offset. For releasers (stimulants, empathogens) the felt
+    /// effect crashes faster than plasma: across the offset window
+    /// `[peakEnd, total]` we fade the curve by up to `tachyphylaxis` via a
+    /// smoothstep, so it lands at baseline by `totalMinutes` instead of trailing
+    /// off on the slow elimination tail. Onset and peak are untouched.
+    private func toleranceGate(at minutes: Double, for s: ActiveSubstanceState) -> Double {
+        let kappa = s.tachyphylaxis
+        guard kappa > 0 else { return 1 }
+        let peakEnd = s.peakEndMinutes
+        let end = max(s.totalMinutes, peakEnd + 1)
+        guard minutes > peakEnd else { return 1 }
+        let x = min(1, (minutes - peakEnd) / (end - peakEnd))
+        let smooth = x * x * (3 - 2 * x)
+        return max(0, 1 - kappa * smooth)
     }
 
     /// Minutes after the dose at which the fitted curve has decayed to ~1 % of
@@ -703,6 +722,12 @@ struct TimelineGraphView: View {
     /// leaves a vertical cliff). Never shorter than `totalMinutes`; capped at
     /// the display window so a long elimination tail can't stretch the axis.
     private func curveExtent(for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
+        // Acute-tolerance curves are gated to baseline by `totalMinutes`, so
+        // there's no slow elimination tail to draw past it — extending further
+        // would only lay a flat near-zero line on the axis.
+        if s.tachyphylaxis > 0 {
+            return min(s.totalMinutes, Self.maxDisplayMinutes)
+        }
         // 4 % of peak: low enough to read as "done", high enough that the axis
         // doesn't stretch across a long invisible near-zero tail. The residual
         // drop to baseline at this point is only a few px.

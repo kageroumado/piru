@@ -2063,6 +2063,94 @@ class Build:
         except sqlite3.IntegrityError:
             pass
 
+    # Substances (canonical_name lowercased) whose acute `durations` are a
+    # chronic / therapeutic-timescale miscode — there is no genuine
+    # onset→peak→offset curve. Drop ALL their duration rows so the dose logs as a
+    # point marker and no multi-day "Total" surfaces on the card. Deliberately
+    # excludes genuinely-long *acute* trips (the DOx family, long-acting benzos,
+    # ibogaine, bromo-dragonfly, 2-DPMP / desoxypipradrol), which are correct and
+    # left intact. See acute-vs-depot-duration.
+    DURATION_SCRUB_NAMES = {
+        "tranylcypromine",  # MAOI: 10–21 d is enzyme regeneration, not acute effect
+        "acamprosate",  # anti-craving, steady-state med
+        "fluconazole",  # antifungal dosing interval
+        "phenytoin",  # anticonvulsant, chronic
+        "nadolol",  # beta-blocker, chronic
+        "sibutramine",  # withdrawn appetite suppressant, chronic
+        "arimistane",  # aromatase-inhibitor supplement
+        "5-amino-1mq",  # NNMT-inhibitor supplement
+        "magnesium glycinate",
+        "magnesium citrate",
+        "creatine",
+        "creatine monohydrate",
+        "pqq",
+        "vitamin b6",
+        "panax ginseng",
+        "citicoline",
+        "theobromine",  # mild, very-long; no meaningful acute curve
+    }
+
+    # Real depot / long-acting release windows that arrived miscoded as acute
+    # `durations`. Move them to `durations_of_action` (the card's "Release window"
+    # row) and drop the bogus acute rows for that route only. Keyed by
+    # canonical_name lowercased → [(route, min, max, unit)].
+    DURATION_TO_DOA = {
+        "estradiol": [
+            ("intramuscular", 7, 28, "days"),  # depot ester injection
+            ("transdermal", 1, 3, "days"),  # patch
+        ],
+        "buprenorphine": [
+            ("transdermal", 3, 7, "days"),  # patch
+        ],
+        "fentanyl": [
+            ("transdermal", 2, 3, "days"),  # 72 h patch
+        ],
+        "liraglutide": [
+            ("subcutaneous", 1, 1, "days"),  # daily GLP-1 injection
+        ],
+    }
+
+    def scrub_durations(self) -> dict:
+        """Remove chronic/therapeutic durations miscoded as acute curves, and
+        migrate real depot/long-acting windows into ``durations_of_action``.
+
+        Runs after all ingest but BEFORE ``classify_compounds`` so the
+        ``duration_implausible`` flag is baked from the cleaned table."""
+        cur = self.cur
+        stats = {"scrub_substances": 0, "scrub_rows": 0, "migrated_doa": 0}
+        name_to_id: dict[str, int] = {}
+        for sid, cname in cur.execute("SELECT id, canonical_name FROM substances"):
+            if cname:
+                name_to_id[cname.lower()] = sid
+
+        for name in self.DURATION_SCRUB_NAMES:
+            sid = name_to_id.get(name)
+            if sid is None:
+                continue
+            n = cur.execute(
+                "DELETE FROM durations WHERE substance_id = ?", (sid,)
+            ).rowcount
+            if n:
+                stats["scrub_substances"] += 1
+                stats["scrub_rows"] += n
+
+        for name, entries in self.DURATION_TO_DOA.items():
+            sid = name_to_id.get(name)
+            if sid is None:
+                continue
+            for route, mn, mx, unit in entries:
+                r = normalise_route(route)
+                deleted = cur.execute(
+                    "DELETE FROM durations WHERE substance_id = ? AND route = ?",
+                    (sid, r),
+                ).rowcount
+                stats["scrub_rows"] += max(deleted, 0)
+                self.add_duration_of_action(
+                    sid, "piru-curated", r, {"min": mn, "max": mx, "unit": unit}
+                )
+                stats["migrated_doa"] += 1
+        return stats
+
     def add_half_life(
         self, sid: int, source_slug: str, minutes: float, citation: str | None = None
     ) -> None:
@@ -3816,6 +3904,13 @@ def main() -> int:
     # file and are ingested by ingest_curated_substances() above (curated runs
     # first, so its category/identifiers win resolution and a folded category
     # override beats a later tag-promotion via the PRIMARY KEY conflict).
+
+    # Scrub chronic/therapeutic durations miscoded as acute curves, and migrate
+    # real depot/long-acting windows into durations_of_action. Must run after all
+    # ingest and before classify_compounds (which bakes duration_implausible from
+    # the remaining durations).
+    scrub = build.scrub_durations()
+    print(f"Duration scrub: {scrub}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
