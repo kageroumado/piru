@@ -26,23 +26,10 @@
         },
         "heavy": 15.0
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 360
-        },
-        "peak": {
-          "min": 1440,
-          "max": 5760
-        },
-        "offset": {
-          "min": 10080,
-          "max": 14400
-        },
-        "total": {
-          "min": 10080,
-          "max": 14400
-        }
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     },
     {
@@ -80,6 +67,11 @@
           }
         ],
         "notes": "Mounjaro/Zepbound; dual GIP+GLP-1 agonist; prefilled pen/vial, refrigerate; t½ ~5 days"
+      },
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     }
   ],

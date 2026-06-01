@@ -28,24 +28,6 @@
           "upper": 5000
         },
         "heavy": 5000
-      },
-      "duration": {
-        "onset": {
-          "min": 10,
-          "max": 30
-        },
-        "peak": {
-          "min": 30,
-          "max": 90
-        },
-        "offset": {
-          "min": 1440,
-          "max": 10080
-        },
-        "total": {
-          "min": 2880,
-          "max": 20160
-        }
       }
     },
     {
@@ -66,24 +48,6 @@
           "upper": 5000
         },
         "heavy": 5000
-      },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 180
-        },
-        "peak": {
-          "min": 360,
-          "max": 720
-        },
-        "offset": {
-          "min": 1440,
-          "max": 10080
-        },
-        "total": {
-          "min": 2880,
-          "max": 20160
-        }
       }
     }
   ],

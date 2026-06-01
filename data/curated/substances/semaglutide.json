@@ -27,23 +27,10 @@
         },
         "heavy": 2.4
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 1440,
-          "max": 4320
-        },
-        "offset": {
-          "min": 10080,
-          "max": 14400
-        },
-        "total": {
-          "min": 10080,
-          "max": 14400
-        }
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     },
     {
@@ -65,23 +52,10 @@
         },
         "heavy": 25
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 240
-        },
-        "peak": {
-          "min": 1440,
-          "max": 4320
-        },
-        "offset": {
-          "min": 10080,
-          "max": 14400
-        },
-        "total": {
-          "min": 10080,
-          "max": 14400
-        }
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     },
     {
@@ -115,6 +89,11 @@
           }
         ],
         "notes": "Wegovy obesity titration; prefilled pen, refrigerate, in-use ~6 weeks room temp"
+      },
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     },
     {
@@ -140,6 +119,11 @@
           }
         ],
         "notes": "Rybelsus with SNAC absorption enhancer, taken fasted"
+      },
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     }
   ],

@@ -250,6 +250,22 @@ CREATE TABLE durations (
 );
 CREATE INDEX idx_durations_substance_route ON durations(substance_id, route);
 
+-- Release / duration-of-action window for long-acting formulations (depot
+-- injections, esters, weekly peptides). Distinct from `durations` (the acute
+-- dose-effect curve): days-to-weeks, shown in the drug card, never drawn as an
+-- acute timeline curve. Stored normalized to minutes like `durations`.
+CREATE TABLE durations_of_action (
+    id            INTEGER PRIMARY KEY,
+    substance_id  INTEGER NOT NULL REFERENCES substances(id),
+    route         TEXT NOT NULL,
+    source_id     INTEGER NOT NULL REFERENCES sources(id),
+    min_minutes   REAL NOT NULL,
+    max_minutes   REAL NOT NULL,
+    citation_id   INTEGER REFERENCES citations(id),
+    UNIQUE (substance_id, route, source_id)
+);
+CREATE INDEX idx_doa_substance_route ON durations_of_action(substance_id, route);
+
 CREATE TABLE half_lives (
     substance_id      INTEGER NOT NULL REFERENCES substances(id),
     source_id         INTEGER NOT NULL REFERENCES sources(id),
@@ -2018,6 +2034,35 @@ class Build:
             except sqlite3.IntegrityError:
                 pass
 
+    _DOA_UNIT_MINUTES = {
+        "hour": 60, "hours": 60, "h": 60,
+        "day": 1440, "days": 1440, "d": 1440,
+        "week": 1440 * 7, "weeks": 1440 * 7, "w": 1440 * 7,
+        "month": 1440 * 30, "months": 1440 * 30, "mo": 1440 * 30,
+    }
+
+    def add_duration_of_action(
+        self, sid: int, source_slug: str, route: str, doa: dict, citation: str | None = None
+    ) -> None:
+        """Ingest a long-acting release/duration-of-action window ({min, max, unit})."""
+        route = normalise_route(route)
+        if not route or not isinstance(doa, dict):
+            return
+        mn = to_float(doa.get("min"))
+        mx = to_float(doa.get("max"))
+        if mn is None or mx is None:
+            return
+        factor = self._DOA_UNIT_MINUTES.get(str(doa.get("unit", "days")).lower(), 1440)
+        src = self.source_ids[source_slug]
+        try:
+            self.cur.execute(
+                "INSERT INTO durations_of_action(substance_id, route, source_id, min_minutes, max_minutes, citation_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (sid, route, src, mn * factor, mx * factor, self.cite(citation)),
+            )
+            self.stats["durations_of_action"] = self.stats.get("durations_of_action", 0) + 1
+        except sqlite3.IntegrityError:
+            pass
+
     def add_half_life(
         self, sid: int, source_slug: str, minutes: float, citation: str | None = None
     ) -> None:
@@ -2504,6 +2549,10 @@ class Build:
             if r.get("duration"):
                 self.add_duration_profile(
                     sid, slug, r.get("route", ""), r["duration"], citation=route_ref
+                )
+            if r.get("durationOfAction"):
+                self.add_duration_of_action(
+                    sid, slug, r.get("route", ""), r["durationOfAction"], citation=route_ref
                 )
             if r.get("protocolDosing"):
                 self.add_protocol_dosing(

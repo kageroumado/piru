@@ -27,23 +27,10 @@
         },
         "heavy": 10.0
       },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 180
-        },
-        "peak": {
-          "min": 240,
-          "max": 720
-        },
-        "offset": {
-          "min": 720,
-          "max": 2880
-        },
-        "total": {
-          "min": 720,
-          "max": 4320
-        }
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     },
     {
@@ -65,23 +52,10 @@
         },
         "heavy": 5.0
       },
-      "duration": {
-        "onset": {
-          "min": 15,
-          "max": 60
-        },
-        "peak": {
-          "min": 60,
-          "max": 360
-        },
-        "offset": {
-          "min": 720,
-          "max": 2880
-        },
-        "total": {
-          "min": 720,
-          "max": 4320
-        }
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     },
     {
@@ -91,6 +65,11 @@
       "protocolDosing": {
         "frequency": "once or twice daily",
         "notes": "cosmetic serum/cream, typically 1-2% formulation; collagen/GAG synthesis. Dose is formulation percent, not injected mass"
+      },
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     }
   ],

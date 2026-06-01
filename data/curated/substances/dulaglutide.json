@@ -25,23 +25,10 @@
         },
         "heavy": 4.5
       },
-      "duration": {
-        "onset": {
-          "min": 1440,
-          "max": 2880
-        },
-        "peak": {
-          "min": 2880,
-          "max": 5760
-        },
-        "offset": {
-          "min": 10080,
-          "max": 14400
-        },
-        "total": {
-          "min": 10080,
-          "max": 14400
-        }
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     },
     {
@@ -71,6 +58,11 @@
           }
         ],
         "notes": "Trulicity prefilled pen; 14 days room-temp stability"
+      },
+      "durationOfAction": {
+        "min": 7,
+        "max": 10,
+        "unit": "days"
       }
     }
   ],

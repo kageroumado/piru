@@ -26,23 +26,10 @@
         },
         "heavy": 20.0
       },
-      "duration": {
-        "onset": {
-          "min": 30,
-          "max": 120
-        },
-        "peak": {
-          "min": 120,
-          "max": 480
-        },
-        "offset": {
-          "min": 720,
-          "max": 2880
-        },
-        "total": {
-          "min": 720,
-          "max": 4320
-        }
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     },
     {
@@ -54,6 +41,11 @@
         "highAmount": 10,
         "frequency": "once weekly",
         "notes": "community/research protocol, no validated human dosing; mitochondrial-derived peptide, AMPK activation"
+      },
+      "durationOfAction": {
+        "min": 1,
+        "max": 3,
+        "unit": "days"
       }
     }
   ],

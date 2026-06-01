@@ -65,23 +65,10 @@
         },
         "heavy": 50
       },
-      "duration": {
-        "onset": {
-          "min": 1440,
-          "max": 4320
-        },
-        "peak": {
-          "min": 2880,
-          "max": 7200
-        },
-        "offset": {
-          "min": 10080,
-          "max": 20160
-        },
-        "total": {
-          "min": 14400,
-          "max": 28800
-        }
+      "durationOfAction": {
+        "min": 10,
+        "max": 20,
+        "unit": "days"
       }
     }
   ],

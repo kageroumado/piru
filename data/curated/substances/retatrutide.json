@@ -25,23 +25,10 @@
         },
         "heavy": 12.0
       },
-      "duration": {
-        "onset": {
-          "min": 60,
-          "max": 360
-        },
-        "peak": {
-          "min": 2880,
-          "max": 7200
-        },
-        "offset": {
-          "min": 10080,
-          "max": 20160
-        },
-        "total": {
-          "min": 10080,
-          "max": 20160
-        }
+      "durationOfAction": {
+        "min": 7,
+        "max": 14,
+        "unit": "days"
       }
     },
     {
@@ -53,6 +40,11 @@
         "highAmount": 12,
         "frequency": "once weekly",
         "notes": "investigational triple GIP+GLP-1+glucagon agonist (LY3437943); t½ ~6 days; trial titration up to 12 mg weekly"
+      },
+      "durationOfAction": {
+        "min": 7,
+        "max": 14,
+        "unit": "days"
       }
     }
   ],
