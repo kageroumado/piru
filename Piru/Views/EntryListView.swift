@@ -755,68 +755,24 @@ struct DayCardView: View {
 
     @ViewBuilder
     private var graph: some View {
-        if !states.isEmpty {
-            // At least one dose has a PK curve — draw the real timeline (markers
-            // ride on top of it).
+        if !states.isEmpty || !markers.isEmpty {
+            // One unified renderer: curves rise from a shared baseline and any
+            // duration-less doses rest on it as colour-coded dots. A pure-meds
+            // day is simply the baseline with its dots — no special-case strip.
+            // `showNowIndicator: false` — these are historical cards, so the
+            // axis-less "now" dot would only add noise.
             TimelineGraphView(
                 substances: states,
                 currentTime: .now,
                 compact: true,
                 markers: markers,
                 stackRedoses: stackRedoses,
+                showNowIndicator: false,
             )
             .frame(width: 96, height: 52)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .allowsHitTesting(false)
-        } else if !markers.isEmpty {
-            // No curves (e.g. a day of supplements/meds without duration data).
-            // A scatter of points on an empty axis reads as broken, so show a
-            // purpose-built dose timeline: colour-coded marks placed by time.
-            DoseMarkerStrip(markers: markers, dayStart: date, colorMap: colorMap)
-                .frame(width: 96, height: 52)
         }
-    }
-}
-
-/// Compact "lollipop" timeline for days whose doses have no PK curve: each dose
-/// is a colour-coded dot on a thin stem, positioned along a faint baseline by
-/// its time of day. A legible alternative to scattering markers on a blank axis.
-private struct DoseMarkerStrip: View {
-    let markers: [DoseMarker]
-    let dayStart: Date
-    let colorMap: [String: Color]
-
-    var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width
-            let h = geo.size.height
-            let inset: CGFloat = 5
-            let baseY = h * 0.70
-            let dotY = h * 0.32
-            ZStack {
-                Capsule()
-                    .fill(Color.secondary.opacity(0.15))
-                    .frame(width: w - inset * 2, height: 2)
-                    .position(x: w / 2, y: baseY)
-                ForEach(Array(markers.enumerated()), id: \.offset) { _, marker in
-                    let x = inset + fraction(marker.timestamp) * (w - inset * 2)
-                    let color = SubstancePalette.color(for: marker.substanceName, colorMap: colorMap)
-                    Rectangle()
-                        .fill(color.opacity(0.45))
-                        .frame(width: 1.5, height: baseY - dotY)
-                        .position(x: x, y: (baseY + dotY) / 2)
-                    Circle()
-                        .fill(color)
-                        .frame(width: 7, height: 7)
-                        .position(x: x, y: dotY)
-                }
-            }
-        }
-    }
-
-    /// Fraction (0...1) of the 24h session day at which the dose occurred.
-    private func fraction(_ date: Date) -> Double {
-        min(max(date.timeIntervalSince(dayStart) / 86_400, 0), 1)
     }
 }
 

@@ -1,182 +1,11 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Duration of Action — %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作用时长 — %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作用時長 — %@"
-          }
-        }
-      }
+    "" : {
+
     },
-    "Release window" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "释放窗口"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "釋放窗口"
-          }
-        }
-      }
-    },
-    "%@–%@ days" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 天"
-          }
-        }
-      }
-    },
-    "%@–%@ weeks" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 周"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 週"
-          }
-        }
-      }
-    },
-    "%@–%@ months" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 个月"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@–%@ 個月"
-          }
-        }
-      }
-    },
-    "" : {},
-    "Clear Filters" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除筛选"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除篩選"
-          }
-        }
-      }
-    },
-    "Today" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今天"
-          }
-        }
-      }
-    },
-    "%lld doses" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 劑"
-          }
-        }
-      }
-    },
-    "1 dose" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 剂"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1 劑"
-          }
-        }
-      }
-    },
-    "Help" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "帮助"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "說明"
-          }
-        }
-      }
-    },
-    "More" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更多"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更多"
-          }
-        }
-      }
+    "  ·  " : {
+
     },
     "--" : {
       "localizations" : {
@@ -834,6 +663,57 @@
         }
       }
     },
+    "%@–%@ days" : {
+      "comment" : "Long-acting release window",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 天"
+          }
+        }
+      }
+    },
+    "%@–%@ months" : {
+      "comment" : "Long-acting release window",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 个月"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 個月"
+          }
+        }
+      }
+    },
+    "%@–%@ weeks" : {
+      "comment" : "Long-acting release window",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 周"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@–%@ 週"
+          }
+        }
+      }
+    },
     "%@, %@" : {
       "localizations" : {
         "en" : {
@@ -1042,6 +922,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 天"
+          }
+        }
+      }
+    },
+    "%lld doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 劑"
           }
         }
       }
@@ -1712,6 +1608,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "0 分鐘"
+          }
+        }
+      }
+    },
+    "1 dose" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 劑"
           }
         }
       }
@@ -5350,6 +5262,22 @@
         }
       }
     },
+    "Clear Filters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除筛选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除篩選"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7960,6 +7888,22 @@
         }
       }
     },
+    "Duration of Action — %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用时长 — %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作用時長 — %@"
+          }
+        }
+      }
+    },
     "Dysdelic" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9188,6 +9132,7 @@
       }
     },
     "Filter by dates" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9204,6 +9149,7 @@
       }
     },
     "Filter Journal" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10107,6 +10053,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大劑量"
+          }
+        }
+      }
+    },
+    "Help" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "說明"
           }
         }
       }
@@ -12552,6 +12514,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "情緒穩定劑(多重細胞內機制)"
+          }
+        }
+      }
+    },
+    "More" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多"
           }
         }
       }
@@ -15590,6 +15568,22 @@
         }
       }
     },
+    "Release window" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "释放窗口"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釋放窗口"
+          }
+        }
+      }
+    },
     "Releasing Agent" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15799,6 +15793,7 @@
       }
     },
     "Reset Filters" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19505,6 +19500,22 @@
         }
       }
     },
+    "This file is too large to be a Piru backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件太大，不是有效的 Piru 备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案太大，不是有效的 Piru 備份。"
+          }
+        }
+      }
+    },
     "This file isn't a valid Piru backup." : {
       "localizations" : {
         "zh-Hans" : {
@@ -19825,6 +19836,23 @@
         }
       }
     },
+    "Today" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        }
+      }
+    },
     "Toggle off any you don't want to log today" : {
       "localizations" : {
         "zh-Hans" : {
@@ -19841,7 +19869,24 @@
         }
       }
     },
+    "Too short — use at least %lld characters." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短了——请至少使用 %lld 个字符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短了——請至少使用 %lld 個字元。"
+          }
+        }
+      }
+    },
     "Too short — use at least 8 characters." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20361,7 +20406,24 @@
         }
       }
     },
+    "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请至少使用 %lld 个字符。由多个单词组成的短语比短密码更安全，也更容易记住。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請至少使用 %lld 個字元。由多個單字組成的片語比短密碼更安全，也更容易記住。"
+          }
+        }
+      }
+    },
     "Use at least 8 characters. A longer phrase of several words is stronger and easier to remember." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21398,54 +21460,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请至少使用 %lld 个字符。由多个单词组成的短语比短密码更安全，也更容易记住。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請至少使用 %lld 個字元。由多個單字組成的片語比短密碼更安全，也更容易記住。"
-          }
-        }
-      }
-    },
-    "Too short — use at least %lld characters." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "太短了——请至少使用 %lld 个字符。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "太短了——請至少使用 %lld 個字元。"
-          }
-        }
-      }
-    },
-    "This file is too large to be a Piru backup." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此文件太大，不是有效的 Piru 备份。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此檔案太大，不是有效的 Piru 備份。"
           }
         }
       }
