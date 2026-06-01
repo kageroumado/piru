@@ -7,7 +7,7 @@ struct DayDetailView: View {
     @Environment(\.appNavigator) private var navigator
     @Query private var entries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     @State private var entryToAdjustTime: DoseEntry?
     @State private var showColorPicker = false

@@ -390,7 +390,7 @@ private extension View {
 
 private struct SessionAccessoryView: View {
     @Environment(\.tabViewBottomAccessoryPlacement) private var placement
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     let states: [ActiveSubstanceState]
     let currentTime: Date

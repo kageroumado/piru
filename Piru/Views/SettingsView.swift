@@ -11,7 +11,7 @@ struct SettingsView: View {
     @AppStorage("liveActivityEnabled") private var autoLiveActivity = false
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
     @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = false
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
     @State private var showingExporter = false
