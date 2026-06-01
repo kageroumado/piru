@@ -94,13 +94,11 @@ struct EntryListView: View {
             result = result.filter { $0.timestamp >= start && $0.timestamp < end }
         }
 
-        // Category filter
+        // Category filter — reads the precomputed category, no store lookup.
         if !filterCategories.isEmpty {
             result = result.filter { entry in
-                if let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) {
-                    return filterCategories.contains(substance.category)
-                }
-                return false
+                guard let category = derived[entry.persistentModelID]?.category else { return false }
+                return filterCategories.contains(category)
             }
         }
 
@@ -116,6 +114,23 @@ struct EntryListView: View {
     @State private var collapsedSubstances: Set<String> = []
     @State private var collapsedCategories: Set<SubstanceCategory> = []
 
+    /// The current filter result, cached so neither the empty-state overlay nor
+    /// the Recent list recompute the whole filter pass on every body evaluation.
+    @State private var cachedFiltered: [DoseEntry] = []
+    /// Categories present in the data, cached for the filter menu.
+    @State private var cachedCategories: [SubstanceCategory] = []
+    /// Per-entry category + timeline, resolved once (SubstanceLibrary lookups and
+    /// PK curves are the expensive part). Filtering and regrouping then run as
+    /// plain dictionary lookups instead of re-hitting the store on every tap —
+    /// which is what made filtering jank the main thread.
+    @State private var derived: [PersistentIdentifier: EntryDerived] = [:]
+
+    struct EntryDerived {
+        let category: SubstanceCategory
+        let state: ActiveSubstanceState?
+        let marker: DoseMarker?
+    }
+
     private var allUsedTags: [String] {
         var counts: [String: Int] = [:]
         for entry in entries {
@@ -126,39 +141,62 @@ struct EntryListView: View {
         return counts.sorted { $0.value > $1.value }.map(\.key)
     }
 
-    private var allUsedCategories: [SubstanceCategory] {
+    /// Resolve each entry's category and timeline inputs once. This is the only
+    /// place that hits SubstanceLibrary / computes PK curves; filter and regroup
+    /// then read from `derived`. Run when entries or colours change — never on a
+    /// filter tap.
+    private func rebuildDerived() {
+        let hexMap = Array(substanceColors).hexColorMap
+        var map: [PersistentIdentifier: EntryDerived] = [:]
+        map.reserveCapacity(entries.count)
         var seen = Set<SubstanceCategory>()
-        var result: [SubstanceCategory] = []
+        var categories: [SubstanceCategory] = []
         for entry in entries {
-            if let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) {
-                if seen.insert(substance.category).inserted {
-                    result.append(substance.category)
-                }
-            }
+            let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
+            if seen.insert(category).inserted { categories.append(category) }
+            let hex = hexMap[entry.substance.lowercased()] ?? "007AFF"
+            let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
+            let marker = state == nil
+                ? DoseMarker(
+                    substanceName: entry.substance,
+                    timestamp: entry.timestamp,
+                    colorHex: hex,
+                    amount: entry.amount,
+                    unit: entry.unit,
+                )
+                : nil
+            map[entry.persistentModelID] = EntryDerived(category: category, state: state, marker: marker)
         }
-        return result.sorted { $0.rawValue < $1.rawValue }
+        derived = map
+        cachedCategories = categories.sorted { $0.rawValue < $1.rawValue }
     }
 
     private func rebuildGroups() {
         let calendar = Calendar.current
         let filtered = filteredEntries
+        cachedFiltered = filtered
 
         switch grouping {
         case .recent:
-            break // Uses filteredEntries directly, no grouping needed
+            break // Uses cachedFiltered directly, no grouping needed
 
         case .byDay:
             // Group by session day (configurable cutoff hour) so a 02:00
             // dose joins the previous evening's session instead of starting
-            // a new day at midnight. Precompute each day's timeline here so
-            // the per-card Canvas doesn't re-derive curves on every scroll.
+            // a new day at midnight. Timelines come from the `derived` cache,
+            // so this is pure grouping work — no PK recompute.
             let grouped = Dictionary(grouping: filtered) { entry in
                 calendar.sessionDayStart(for: entry.timestamp)
             }
-            let colors = Array(substanceColors)
             cachedDayGroups = grouped.sorted { $0.key > $1.key }.map { date, dayEntries in
-                let timeline = ActiveSubstanceState.timeline(for: dayEntries, colors: colors)
-                return DayGroup(date: date, entries: dayEntries, states: timeline.states, markers: timeline.markers)
+                var states: [ActiveSubstanceState] = []
+                var markers: [DoseMarker] = []
+                for entry in dayEntries {
+                    guard let d = derived[entry.persistentModelID] else { continue }
+                    if let state = d.state { states.append(state) }
+                    if let marker = d.marker { markers.append(marker) }
+                }
+                return DayGroup(date: date, entries: dayEntries, states: states, markers: markers)
             }
 
         case .bySubstance:
@@ -167,8 +205,8 @@ struct EntryListView: View {
                 .map { (name: $0.key, entries: $0.value) }
 
         case .byCategory:
-            let grouped = Dictionary(grouping: filtered) { entry -> SubstanceCategory in
-                SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
+            let grouped = Dictionary(grouping: filtered) { entry in
+                derived[entry.persistentModelID]?.category ?? .other
             }
             cachedCategoryGroups = SubstanceCategory.allCases.compactMap { cat in
                 guard let entries = grouped[cat], !entries.isEmpty else { return nil }
@@ -217,23 +255,29 @@ struct EntryListView: View {
             },
         )
         .overlay {
-            if filteredEntries.isEmpty {
+            if cachedFiltered.isEmpty {
                 emptyState
             }
         }
         .task {
             rebuildColorMap()
+            rebuildDerived()
             rebuildGroups()
         }
         .task(id: entries.count) {
             try? await Task.sleep(for: .milliseconds(100))
             guard !Task.isCancelled else { return }
+            rebuildDerived()
             rebuildGroups()
         }
         .onChange(of: searchText) { rebuildGroups() }
         .onChange(of: selectedTag) { rebuildGroups() }
         .onChange(of: grouping) { rebuildGroups() }
-        .onChange(of: substanceColors.count) { rebuildColorMap() }
+        .onChange(of: substanceColors.count) {
+            rebuildColorMap()
+            rebuildDerived()
+            rebuildGroups()
+        }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet
                 .presentationDetents([.medium])
@@ -281,15 +325,17 @@ struct EntryListView: View {
             // Category is the only meaningful filter here — the list already
             // shows every day in order, so a time window adds nothing. Each
             // category is a checkmark toggle (activate/deactivate in place).
-            Section("Category") {
-                ForEach(allUsedCategories, id: \.self) { category in
-                    Button {
-                        toggleCategory(category)
-                    } label: {
-                        Label {
-                            Text(category.displayName)
-                        } icon: {
-                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
+            if !cachedCategories.isEmpty {
+                Section("Category") {
+                    ForEach(cachedCategories, id: \.self) { category in
+                        Button {
+                            toggleCategory(category)
+                        } label: {
+                            Label {
+                                Text(category.displayName)
+                            } icon: {
+                                Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
+                            }
                         }
                     }
                 }
@@ -367,7 +413,7 @@ struct EntryListView: View {
     // MARK: - Recent (Flat) Content
 
     private var recentContent: some View {
-        ForEach(filteredEntries) { entry in
+        ForEach(cachedFiltered) { entry in
             entryRow(entry)
         }
     }
