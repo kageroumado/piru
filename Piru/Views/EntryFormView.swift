@@ -278,6 +278,14 @@ struct EntryFormView: View {
         Array(substanceColors).hasColor(for: name)
     }
 
+    /// Persist the substance's stable deterministic colour if it has none yet,
+    /// so a first-time substance is coloured the moment it's saved — no extra
+    /// picker step. Editable later from the entry detail's colour picker.
+    private func ensureColor(for name: String) {
+        guard !hasColor(for: name) else { return }
+        modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
+    }
+
     private func save() {
         guard let parsedAmount else { return }
 
@@ -311,9 +319,7 @@ struct EntryFormView: View {
             // The session accessory & Live Activity read from ActiveSessionManager's
             // snapshot, not SwiftData — without this, the bottom mini-graph keeps
             // showing the dose's pre-edit time/amount.
-            let colorHex = substanceColors.first {
-                $0.substance.lowercased() == substance.lowercased()
-            }?.hexColor ?? "007AFF"
+            let colorHex = SubstancePalette.hex(for: substance, hexMap: Array(substanceColors).hexColorMap)
             ActiveSessionManager.shared.updateDose(
                 previousSubstanceName: previousSubstanceName,
                 previousTimestamp: previousTimestamp,
@@ -373,27 +379,19 @@ struct EntryFormView: View {
 
         WidgetCenter.shared.reloadAllTimelines()
 
-        // Always add to the active session immediately — the live activity
-        // shouldn't wait on the user picking a colour. If no colour exists
-        // yet for this substance, the picker comes up *after* dismissal, and
-        // the ColorPickerHost calls `ActiveSessionManager.applyColorUpdates`
-        // to pull in the new colour without needing a round-trip back here.
+        // Auto-assign a stable palette colour for a brand-new substance up front
+        // (the same colour the graph already uses), so the live activity and
+        // journal pick it up immediately — no follow-up colour-picker sheet.
+        ensureColor(for: substance)
+
+        // Add to the active session immediately, now that the colour exists.
         startLiveActivityIfNeeded()
 
         // A new-entry save completes the logging flow that may span multiple
         // sheets (e.g. QuickLog → "From Library" → EntryForm). Dismiss the
         // entire stack so the user lands back at root. An edit, by contrast,
         // should return to wherever the form was opened from.
-        let isNewEntry = entry == nil
-
-        if !hasColor(for: substance) {
-            // Replace the form with the colour picker in one transition so
-            // the user perceives a single tap of Done.
-            navigator.present(
-                .colorPicker(substance: substance, dismissAllOnComplete: isNewEntry),
-                replacingTop: true,
-            )
-        } else if isNewEntry {
+        if entry == nil {
             navigator.dismissAll()
         } else {
             navigator.dismiss()
@@ -402,9 +400,7 @@ struct EntryFormView: View {
 
     private func startLiveActivityIfNeeded() {
         guard let savedEntry, entry == nil else { return }
-        let colorHex = substanceColors.first {
-            $0.substance.lowercased() == savedEntry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
+        let colorHex = SubstancePalette.hex(for: savedEntry.substance, hexMap: Array(substanceColors).hexColorMap)
 
         ActiveSessionManager.shared.addDose(
             entry: savedEntry,

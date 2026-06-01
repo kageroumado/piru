@@ -32,7 +32,7 @@ enum UserProfile: String, CaseIterable, Codable, Identifiable {
     var displayName: LocalizedStringResource {
         switch self {
         case .casual: "Casual"
-        case .harmReduction: "Harm Reduction"
+        case .harmReduction: "Curious"
         case .pharmaNerd: "Pharma Nerd"
         }
     }

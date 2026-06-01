@@ -119,6 +119,14 @@ struct LogMedicationsView: View {
         Array(substanceColors).hasColor(for: name)
     }
 
+    /// Persist the substance's stable deterministic colour if it has none yet,
+    /// so a first-time medication is coloured the moment it's logged — no extra
+    /// picker step. Editable later from the entry detail's colour picker.
+    private func ensureColor(for name: String) {
+        guard !hasColor(for: name) else { return }
+        modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
+    }
+
     private func attemptLog() {
         let active = InteractionChecker.activeEntries(from: recentEntries)
         let warnings = InteractionChecker.checkBatch(selectedSubstanceNames, against: active)
@@ -133,7 +141,6 @@ struct LogMedicationsView: View {
 
     private func logSelected() {
         let now = Date.now
-        var needsColor: [String] = []
 
         for item in items {
             let isOn = toggleStates[itemKey(for: item)] ?? true
@@ -154,33 +161,16 @@ struct LogMedicationsView: View {
             loggedDoseEntries.append(entry)
             loggedSubstances.append(matchedSubstance)
 
-            if !hasColor(for: item.substance), !needsColor.contains(item.substance) {
-                needsColor.append(item.substance)
-            }
+            // Auto-assign a stable palette colour for a first-time medication so
+            // it's coloured immediately — no follow-up colour-picker queue.
+            ensureColor(for: item.substance)
         }
 
-        // Always add to the active session. If any substance lacks a colour,
-        // the picker queue runs next and the host calls
-        // ActiveSessionManager.refresh() after each pick to update colours.
         startLiveActivityForBatch()
 
-        // Medication log completes a logging flow; clear the entire chain
-        // back to root.
-        if needsColor.isEmpty {
-            navigator.dismissAll()
-        } else {
-            // Atomic replace: the form goes away and the first colour picker
-            // appears in one transition. The picker walks `remaining` and
-            // calls `navigator.dismissAll()` once the queue is empty.
-            navigator.present(
-                .colorPicker(
-                    substance: needsColor[0],
-                    remaining: Array(needsColor.dropFirst()),
-                    dismissAllOnComplete: true,
-                ),
-                replacingTop: true,
-            )
-        }
+        // Medication log completes a logging flow; clear the entire chain back
+        // to root.
+        navigator.dismissAll()
     }
 
     private func startLiveActivityForBatch() {

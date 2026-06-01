@@ -28,7 +28,9 @@ struct DayDetailView: View {
     /// Distinct substances drawn on the timeline — the lane count once the graph
     /// switches to small multiples.
     private var laneCount: Int {
-        Set(substanceStates.map { $0.substanceName.lowercased() }).count
+        let curve = substanceStates.map { $0.substanceName.lowercased() }
+        let marker = doseMarkers.map { $0.substanceName.lowercased() }
+        return Set(curve + marker).count
     }
 
     /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
@@ -163,6 +165,16 @@ struct DayDetailView: View {
                                     synchronous: true,
                                 )
                                 .frame(height: graphHeight(enlarged: timelineEnlarged))
+                                // Tight insets are scoped to the graph row alone so it
+                                // spans nearly edge-to-edge; the header/footer keep the
+                                // List's default inset and so line up with the "N
+                                // entries" header below.
+                                .listRowInsets(EdgeInsets(
+                                    top: GraphMetrics.section / 2,
+                                    leading: GraphMetrics.cardInset / 2,
+                                    bottom: GraphMetrics.section / 2,
+                                    trailing: GraphMetrics.cardInset / 2,
+                                ))
                             }
                         } header: {
                             HStack(spacing: GraphMetrics.section) {
@@ -220,12 +232,6 @@ struct DayDetailView: View {
                                 Text("Drag to pan, pinch to zoom, hold to inspect")
                             }
                         }
-                        .listRowInsets(EdgeInsets(
-                            top: GraphMetrics.section / 2,
-                            leading: GraphMetrics.cardInset / 2,
-                            bottom: GraphMetrics.section / 2,
-                            trailing: GraphMetrics.cardInset / 2,
-                        ))
                     }
 
                     // Entries
@@ -379,10 +385,14 @@ struct DayDetailView: View {
             )
         }
         let exportDate = date
+        // Capture the timeline only when it's actually on screen — a collapsed
+        // graph exports the entry list alone, matching what the user sees.
+        let timelineImage = renderTimelineImage()
         Task {
             let image = DayLogImageExporter.generateImage(
                 date: exportDate,
                 entries: entriesCopy,
+                timeline: timelineImage,
             )
             isExporting = false
             if let image {
@@ -390,6 +400,31 @@ struct DayDetailView: View {
                 showShareSheet = true
             }
         }
+    }
+
+    /// Render the timeline graph to a standalone image for the day-log export.
+    /// Mirrors the on-screen graph (same resolved curves/markers, synchronous so
+    /// it's drawn in one pass) on a dark card, sized to the exporter's column.
+    /// Returns nil when the graph is collapsed or has no curve to draw.
+    @MainActor
+    private func renderTimelineImage() -> UIImage? {
+        guard graphExpanded, !substanceStates.isEmpty else { return nil }
+        let graph = TimelineGraphView(
+            substances: substanceStates,
+            currentTime: .now,
+            compact: false,
+            markers: doseMarkers,
+            stackRedoses: stackRedoses,
+            dayBounded: true,
+            synchronous: true,
+        )
+        .frame(width: DayLogImageExporter.timelineWidth, height: graphHeight(enlarged: false))
+        .background(Color(white: 0.09))
+        .environment(\.colorScheme, .dark)
+
+        let renderer = ImageRenderer(content: graph)
+        renderer.scale = 3 // @3x — crisp in the shareable export regardless of device
+        return renderer.uiImage
     }
 
     private func toggleLiveActivity() {
