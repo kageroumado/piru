@@ -47,6 +47,10 @@ struct EntryListView: View {
     @State private var grouping: JournalGrouping = .byDay
     @State private var showingCalendar = false
 
+    /// Mirrors the day cards' redose-stacking preference so the timeline prewarm
+    /// computes geometry under the same key the cards will look up.
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+
     // Filter state — category facets, plus an optional single day from the
     // calendar. (Substance and free date-range filtering were dropped:
     // substance duplicates Search, and a chronological day list makes time
@@ -58,125 +62,22 @@ struct EntryListView: View {
         !filterCategories.isEmpty || filterDay != nil
     }
 
-    // MARK: - Filtering
+    // MARK: - Derived State
 
-    private var filteredEntries: [DoseEntry] {
-        var result = entries
+    /// All derived journal state — the grouped buckets, colour map, category
+    /// facets, and tag list — lives in this observable model so recomputation
+    /// happens off `body` and the view diffs a single source of truth. UI-only
+    /// state (grouping, filters, collapse sets) stays on the view.
+    @State private var model = JournalModel()
 
-        // Tag filter
-        if let selectedTag {
-            result = result.filter { $0.tags.contains(selectedTag) }
-        }
-
-        // Search filter
-        if !searchText.isEmpty {
-            let query = searchText
-            if query.hasPrefix("#") {
-                let tagQuery = String(query.dropFirst()).lowercased()
-                if !tagQuery.isEmpty {
-                    result = result.filter { entry in
-                        entry.tags.contains { $0.localizedCaseInsensitiveContains(tagQuery) }
-                    }
-                }
-            } else {
-                result = result.filter {
-                    $0.substance.localizedCaseInsensitiveContains(query) ||
-                        ($0.notes?.localizedCaseInsensitiveContains(query) ?? false) ||
-                        $0.tags.contains { $0.localizedCaseInsensitiveContains(query) }
-                }
-            }
-        }
-
-        // Single-day filter (set via Jump to Date).
-        if let day = filterDay {
-            let start = Calendar.current.sessionDayStart(for: day)
-            let end = start.addingTimeInterval(86_400)
-            result = result.filter { $0.timestamp >= start && $0.timestamp < end }
-        }
-
-        // Category filter — reads the precomputed category, no store lookup.
-        if !filterCategories.isEmpty {
-            result = result.filter { entry in
-                guard let category = derived[entry.persistentModelID]?.category else { return false }
-                return filterCategories.contains(category)
-            }
-        }
-
-        return result
-    }
-
-    // MARK: - Cached Groups
-
-    @State private var cachedDayGroups: [DayGroup] = []
-    @State private var cachedSubstanceGroups: [(name: String, entries: [DoseEntry])] = []
-    @State private var cachedCategoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
-    @State private var cachedColorMap: [String: Color] = [:]
     @State private var collapsedSubstances: Set<String> = []
     @State private var collapsedCategories: Set<SubstanceCategory> = []
 
-    /// The current filter result, cached so neither the empty-state overlay nor
-    /// the Recent list recompute the whole filter pass on every body evaluation.
-    @State private var cachedFiltered: [DoseEntry] = []
-    /// Categories present in the data, cached for the filter menu.
-    @State private var cachedCategories: [SubstanceCategory] = []
-    /// Per-entry category + timeline, resolved once (SubstanceLibrary lookups and
-    /// PK curves are the expensive part). Filtering and regrouping then run as
-    /// plain dictionary lookups instead of re-hitting the store on every tap —
-    /// which is what made filtering jank the main thread.
-    @State private var derived: [PersistentIdentifier: EntryDerived] = [:]
-
-    struct EntryDerived {
-        let category: SubstanceCategory
-        let state: ActiveSubstanceState?
-        let marker: DoseMarker?
-    }
-
-    private var allUsedTags: [String] {
-        var counts: [String: Int] = [:]
-        for entry in entries {
-            for tag in entry.tags {
-                counts[tag, default: 0] += 1
-            }
-        }
-        return counts.sorted { $0.value > $1.value }.map(\.key)
-    }
-
-    /// Resolve each entry's category and timeline inputs once. This is the only
-    /// place that hits SubstanceLibrary / computes PK curves; filter and regroup
-    /// then read from `derived`. Run when entries or colours change — never on a
-    /// filter tap.
-    private func rebuildDerived() {
-        let hexMap = Array(substanceColors).hexColorMap
-        var map: [PersistentIdentifier: EntryDerived] = [:]
-        map.reserveCapacity(entries.count)
-        var seen = Set<SubstanceCategory>()
-        var categories: [SubstanceCategory] = []
-        for entry in entries {
-            let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
-            if seen.insert(category).inserted { categories.append(category) }
-            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-            let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
-            let marker = state == nil
-                ? DoseMarker(
-                    substanceName: entry.substance,
-                    timestamp: entry.timestamp,
-                    colorHex: hex,
-                    amount: entry.amount,
-                    unit: entry.unit,
-                )
-                : nil
-            map[entry.persistentModelID] = EntryDerived(category: category, state: state, marker: marker)
-        }
-        derived = map
-        cachedCategories = categories.sorted { $0.rawValue < $1.rawValue }
-    }
-
     /// Cheap content fingerprint of the fetched entries. Used as the rebuild
-    /// task's identity so the derived cache + day-grouping refresh on *edits*,
-    /// not just adds/removes. `entries.count` alone misses an in-place edit
-    /// (e.g. moving a dose to another day, or changing its amount): the count is
-    /// unchanged, so the cache went stale and the dose got stuck in its old day
-    /// bucket. Hashing the fields the derived cache depends on closes that gap.
+    /// task's identity so the derived data refreshes on *edits*, not just
+    /// adds/removes. `entries.count` alone misses an in-place edit (moving a dose
+    /// to another day, changing its amount): the count is unchanged, so the cache
+    /// would go stale. Hashing the fields `derived` depends on closes that gap.
     private var entriesSignature: Int {
         var hasher = Hasher()
         for entry in entries {
@@ -189,59 +90,31 @@ struct EntryListView: View {
         return hasher.finalize()
     }
 
-    private func rebuildGroups() {
-        let calendar = Calendar.current
-        let filtered = filteredEntries
-        cachedFiltered = filtered
-
-        switch grouping {
-        case .recent:
-            break // Uses cachedFiltered directly, no grouping needed
-
-        case .byDay:
-            // Group by session day (configurable cutoff hour) so a 02:00
-            // dose joins the previous evening's session instead of starting
-            // a new day at midnight. Timelines come from the `derived` cache,
-            // so this is pure grouping work — no PK recompute.
-            let grouped = Dictionary(grouping: filtered) { entry in
-                calendar.sessionDayStart(for: entry.timestamp)
-            }
-            cachedDayGroups = grouped.sorted { $0.key > $1.key }.map { date, dayEntries in
-                var states: [ActiveSubstanceState] = []
-                var markers: [DoseMarker] = []
-                for entry in dayEntries {
-                    guard let d = derived[entry.persistentModelID] else { continue }
-                    if let state = d.state { states.append(state) }
-                    if let marker = d.marker { markers.append(marker) }
-                }
-                return DayGroup(date: date, entries: dayEntries, states: states, markers: markers)
-            }
-
-        case .bySubstance:
-            let grouped = Dictionary(grouping: filtered, by: \.substance)
-            cachedSubstanceGroups = grouped.sorted { $0.value.count > $1.value.count }
-                .map { (name: $0.key, entries: $0.value) }
-
-        case .byCategory:
-            let grouped = Dictionary(grouping: filtered) { entry in
-                derived[entry.persistentModelID]?.category ?? .other
-            }
-            cachedCategoryGroups = SubstanceCategory.allCases.compactMap { cat in
-                guard let entries = grouped[cat], !entries.isEmpty else { return nil }
-                return (category: cat, entries: entries)
-            }
-        }
+    /// Resolve derived data + regroup — entries or colours changed.
+    private func rebuildAll() {
+        model.refreshColorMap(substanceColors)
+        model.rebuildDerived(entries: entries, colors: substanceColors, entriesSignature: entriesSignature)
+        regroup()
     }
 
-    private func rebuildColorMap() {
-        cachedColorMap = Array(substanceColors).colorMap
+    /// Re-bucket for the current filter/grouping selection — no re-resolve.
+    private func regroup() {
+        model.rebuildGroups(
+            entries: entries,
+            grouping: grouping,
+            searchText: searchText,
+            selectedTag: selectedTag,
+            filterCategories: filterCategories,
+            filterDay: filterDay,
+            stackRedoses: stackRedoses,
+        )
     }
 
     // MARK: - Body
 
     var body: some View {
         List {
-            if !isSearchSurface, !allUsedTags.isEmpty {
+            if !isSearchSurface, !model.tags.isEmpty {
                 tagChipBar
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
@@ -273,29 +146,22 @@ struct EntryListView: View {
             },
         )
         .overlay {
-            if cachedFiltered.isEmpty {
+            if model.filtered.isEmpty {
                 emptyState
             }
         }
         .task {
-            rebuildColorMap()
-            rebuildDerived()
-            rebuildGroups()
+            PerfLog.time("rebuildAll") { rebuildAll() }
         }
         .task(id: entriesSignature) {
             try? await Task.sleep(for: .milliseconds(100))
             guard !Task.isCancelled else { return }
-            rebuildDerived()
-            rebuildGroups()
+            PerfLog.time("rebuildAll") { rebuildAll() }
         }
-        .onChange(of: searchText) { rebuildGroups() }
-        .onChange(of: selectedTag) { rebuildGroups() }
-        .onChange(of: grouping) { rebuildGroups() }
-        .onChange(of: substanceColors.count) {
-            rebuildColorMap()
-            rebuildDerived()
-            rebuildGroups()
-        }
+        .onChange(of: searchText) { regroup() }
+        .onChange(of: selectedTag) { regroup() }
+        .onChange(of: grouping) { regroup() }
+        .onChange(of: substanceColors.count) { rebuildAll() }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet
                 .presentationDetents([.medium])
@@ -343,9 +209,9 @@ struct EntryListView: View {
             // Category is the only meaningful filter here — the list already
             // shows every day in order, so a time window adds nothing. Each
             // category is a checkmark toggle (activate/deactivate in place).
-            if !cachedCategories.isEmpty {
+            if !model.categories.isEmpty {
                 Section("Category") {
-                    ForEach(cachedCategories, id: \.self) { category in
+                    ForEach(model.categories, id: \.self) { category in
                         Button {
                             toggleCategory(category)
                         } label: {
@@ -393,13 +259,13 @@ struct EntryListView: View {
         } else {
             filterCategories.insert(category)
         }
-        rebuildGroups()
+        regroup()
     }
 
     private func clearFilters() {
         filterCategories = []
         filterDay = nil
-        rebuildGroups()
+        regroup()
     }
 
     // MARK: - Tag Chip Bar
@@ -423,7 +289,7 @@ struct EntryListView: View {
                     selectedTag = nil
                 }
 
-                ForEach(allUsedTags, id: \.self) { tag in
+                ForEach(model.tags, id: \.self) { tag in
                     tagPill(
                         title: Text(verbatim: "#\(tag)"),
                         isSelected: selectedTag == tag,
@@ -442,7 +308,7 @@ struct EntryListView: View {
         Button {
             withAnimation(.snappy) {
                 action()
-                rebuildGroups()
+                regroup()
             }
         } label: {
             title
@@ -463,7 +329,7 @@ struct EntryListView: View {
     // MARK: - Recent (Flat) Content
 
     private var recentContent: some View {
-        ForEach(cachedFiltered) { entry in
+        ForEach(model.filtered) { entry in
             entryRow(entry)
         }
     }
@@ -475,7 +341,7 @@ struct EntryListView: View {
         Button {
             navigator.push(.entry(timestamp: entry.timestamp))
         } label: {
-            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+            SubstanceEntryRow(entry: entry, colorMap: model.colorMap)
         }
         .buttonStyle(.plain)
         .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
@@ -486,20 +352,14 @@ struct EntryListView: View {
     // MARK: - Day Grouped Content
 
     private var dayGroupedContent: some View {
-        ForEach(cachedDayGroups) { day in
+        ForEach(model.dayGroups) { day in
             // A plain Button (not NavigationLink) pushes programmatically so the
             // whole card is tappable with no system disclosure chevron over the
             // graph. Navigation still resolves through `.withAppDestinations()`.
             Button {
                 navigator.push(.day(date: day.date))
             } label: {
-                DayCardView(
-                    date: day.date,
-                    entries: day.entries,
-                    states: day.states,
-                    markers: day.markers,
-                    colorMap: cachedColorMap,
-                )
+                DayCardView(group: day, colorMap: model.colorMap)
             }
             .buttonStyle(.plain)
             .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
@@ -511,7 +371,7 @@ struct EntryListView: View {
     // MARK: - Substance Grouped Content
 
     private var substanceGroupedContent: some View {
-        ForEach(cachedSubstanceGroups, id: \.name) { group in
+        ForEach(model.substanceGroups, id: \.name) { group in
             let isCollapsed = collapsedSubstances.contains(group.name)
             Section {
                 if !isCollapsed {
@@ -530,7 +390,7 @@ struct EntryListView: View {
                     }
                 } label: {
                     HStack(spacing: 8) {
-                        SubstanceGroupHeader(name: group.name, count: group.entries.count, colorMap: cachedColorMap)
+                        SubstanceGroupHeader(name: group.name, count: group.entries.count, colorMap: model.colorMap)
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption2.weight(.semibold))
@@ -545,7 +405,7 @@ struct EntryListView: View {
     // MARK: - Category Grouped Content
 
     private var categoryGroupedContent: some View {
-        ForEach(cachedCategoryGroups, id: \.category) { group in
+        ForEach(model.categoryGroups, id: \.category) { group in
             let isCollapsed = collapsedCategories.contains(group.category)
             Section {
                 if !isCollapsed {
@@ -602,11 +462,11 @@ struct EntryListView: View {
         NavigationStack {
             JournalCalendarView(
                 entries: entries,
-                colorMap: cachedColorMap,
+                colorMap: model.colorMap,
                 onSelectDate: { date in
                     filterDay = date
                     showingCalendar = false
-                    rebuildGroups()
+                    regroup()
                 },
             )
             .navigationTitle("Jump to Date")
@@ -681,74 +541,77 @@ private struct SubstanceGroupHeader: View {
 
 // MARK: - Day Card
 
-/// One day's worth of entries with its timeline precomputed (in `rebuildGroups`)
-/// so the card's mini graph never re-derives PK curves while scrolling.
+/// One day's worth of entries with its timeline precomputed (in
+/// `JournalModel.rebuildGroups`) so the card's mini graph never re-derives PK
+/// curves while scrolling.
+///
+/// The card's text — `dateTitle`/`weekday` (both `Date.FormatStyle`, which is
+/// protocol-heavy and showed up as `swift_conformsToProtocol` self-time during
+/// scroll/sizing), plus the substance summary and dose count — is formatted
+/// **once here** rather than on every `DayCardView` body/`sizeThatFits` pass.
 struct DayGroup: Identifiable {
     let date: Date
     let entries: [DoseEntry]
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
+    let dateTitle: String
+    let weekday: String
+    let uniqueSubstances: [String]
+    let substanceSummary: String
+    let doseCountText: String
     var id: Date { date }
+
+    init(date: Date, entries: [DoseEntry], states: [ActiveSubstanceState], markers: [DoseMarker]) {
+        self.date = date
+        self.entries = entries
+        self.states = states
+        self.markers = markers
+
+        // The current year is implicit — only show it for past/future years.
+        let base = Date.FormatStyle.dateTime.day().month(.wide)
+        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
+        dateTitle = date.formatted(sameYear ? base : base.year())
+        weekday = date.formatted(.dateTime.weekday(.wide))
+
+        let names = entries.map(\.substance)
+        let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
+        uniqueSubstances = unique
+        if unique.count <= 3 {
+            substanceSummary = unique.joined(separator: ", ")
+        } else {
+            let first = unique.prefix(3).joined(separator: ", ")
+            substanceSummary = String(localized: "\(first) +\(unique.count - 3) more")
+        }
+        doseCountText = entries.count == 1
+            ? String(localized: "1 dose")
+            : String(localized: "\(entries.count) doses")
+    }
 }
 
 /// Withings/Health-style day card: date + metadata + substance dots on the
 /// left, a compact PK timeline on the right. The card is content, so it sits on
 /// `themeCard` (material/surface) — never glass.
 struct DayCardView: View {
-    let date: Date
-    let entries: [DoseEntry]
-    let states: [ActiveSubstanceState]
-    let markers: [DoseMarker]
+    let group: DayGroup
     let colorMap: [String: Color]
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
-    private var dateTitle: String {
-        // The current year is implicit — only show it for past/future years.
-        let base = Date.FormatStyle.dateTime.day().month(.wide)
-        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
-        return date.formatted(sameYear ? base : base.year())
-    }
-
-    private var weekday: String {
-        date.formatted(.dateTime.weekday(.wide))
-    }
-
-    private var uniqueSubstances: [String] {
-        let names = entries.map(\.substance)
-        return (NSOrderedSet(array: names).array as? [String]) ?? names
-    }
-
-    private var substanceSummary: String {
-        let unique = uniqueSubstances
-        if unique.count <= 3 {
-            return unique.joined(separator: ", ")
-        }
-        let first = unique.prefix(3).joined(separator: ", ")
-        return String(localized: "\(first) +\(unique.count - 3) more")
-    }
-
-    private var doseCountText: String {
-        entries.count == 1
-            ? String(localized: "1 dose")
-            : String(localized: "\(entries.count) doses")
-    }
-
     private var dotColors: [Color] {
-        uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
+        group.uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
     }
 
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
-                Text(dateTitle)
+                Text(group.dateTitle)
                     .font(.headline)
-                (Text(weekday) + Text("  ·  ") + Text(doseCountText))
+                (Text(group.weekday) + Text("  ·  ") + Text(group.doseCountText))
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(spacing: 6) {
                     substanceDots
-                    Text(substanceSummary)
+                    Text(group.substanceSummary)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                         .lineLimit(1)
@@ -782,17 +645,17 @@ struct DayCardView: View {
 
     @ViewBuilder
     private var graph: some View {
-        if !states.isEmpty || !markers.isEmpty {
+        if !group.states.isEmpty || !group.markers.isEmpty {
             // One unified renderer: curves rise from a shared baseline and any
             // duration-less doses rest on it as colour-coded dots. A pure-meds
             // day is simply the baseline with its dots — no special-case strip.
             // `showNowIndicator: false` — these are historical cards, so the
             // axis-less "now" dot would only add noise.
             TimelineGraphView(
-                substances: states,
+                substances: group.states,
                 currentTime: .now,
                 compact: true,
-                markers: markers,
+                markers: group.markers,
                 stackRedoses: stackRedoses,
                 showNowIndicator: false,
                 dayBounded: true,

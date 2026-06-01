@@ -17,7 +17,6 @@ struct DayDetailView: View {
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
     @State private var timelineEnlarged = false
-    @State private var dayInteractions: [InteractionResult] = []
     @State private var exportedImage: UIImage?
     @State private var showShareSheet = false
     @State private var isExporting = false
@@ -45,12 +44,41 @@ struct DayDetailView: View {
         return max(base, min(ideal, enlarged ? 560 : 380))
     }
 
-    private var substanceStates: [ActiveSubstanceState] {
-        ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors)).states
+    /// The day's resolved timeline + interaction warnings, derived **synchronously
+    /// and memoized** (see ``DayResolveCache``) per change to the day's
+    /// entries/colours. Resolving a single day is cheap — a handful of
+    /// `SubstanceLibrary` lookups plus one batch interaction check — so the prior
+    /// async `.task` resolve bought nothing but a structural cost: `substanceStates`
+    /// and `dayInteractions` started empty, so the `if !…isEmpty` Sections *flipped
+    /// in* after the first frame, rebuilding the List content (`_ConditionalContent`
+    /// → `makeViewList` → generic-metadata instantiation) on every open. Computing
+    /// up front keeps the view tree's shape fixed from frame 1 — no flip, no hang.
+    private var resolvedDay: ResolvedDay {
+        DayResolveCache.shared.resolve(signature: timelineSignature) {
+            let t = ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors))
+            let names = Array(Set(entries.map(\.substance)))
+            let interactions = names.count >= 2 ? InteractionChecker.checkBatch(names, against: []) : []
+            return ResolvedDay(states: t.states, markers: t.markers, interactions: interactions)
+        }
     }
 
-    private var doseMarkers: [DoseMarker] {
-        ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors)).markers
+    private var substanceStates: [ActiveSubstanceState] { resolvedDay.states }
+    private var doseMarkers: [DoseMarker] { resolvedDay.markers }
+    private var dayInteractions: [InteractionResult] { resolvedDay.interactions }
+
+    /// Content fingerprint of the day's doses + colour count — the memo key, so
+    /// the resolve re-runs on an edit but not on every body re-evaluation.
+    private var timelineSignature: Int {
+        var hasher = Hasher()
+        for entry in entries {
+            hasher.combine(entry.persistentModelID)
+            hasher.combine(entry.timestamp)
+            hasher.combine(entry.amount)
+            hasher.combine(entry.substance)
+            hasher.combine(entry.route)
+        }
+        hasher.combine(substanceColors.count)
+        return hasher.finalize()
     }
 
     let date: Date
@@ -132,6 +160,7 @@ struct DayDetailView: View {
                                     markers: doseMarkers,
                                     stackRedoses: stackRedoses,
                                     dayBounded: true,
+                                    synchronous: true,
                                 )
                                 .frame(height: graphHeight(enlarged: timelineEnlarged))
                             }
@@ -202,48 +231,16 @@ struct DayDetailView: View {
                     // Entries
                     Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
                         ForEach(entries) { entry in
-                            NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-                                EntryRowView(entry: entry, color: colorFor(entry))
-                            }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    deleteEntry(entry)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                            }
-                            .swipeActions(edge: .leading) {
-                                Button {
-                                    navigator.present(.entryEdit(timestamp: entry.timestamp))
-                                } label: {
-                                    Label("Edit", systemImage: "pencil")
-                                }
-                                .tint(.orange)
-                            }
-                            .contextMenu {
-                                Button {
-                                    entryToAdjustTime = entry
-                                } label: {
-                                    Label("Adjust Time", systemImage: "clock")
-                                }
-                                Button {
+                            DayEntryRow(
+                                entry: entry,
+                                color: colorFor(entry),
+                                onDelete: { deleteEntry(entry) },
+                                onAdjustTime: { entryToAdjustTime = entry },
+                                onChangeColor: {
                                     colorPickerSubstance = entry.substance
                                     showColorPicker = true
-                                } label: {
-                                    Label("Change Color", systemImage: "paintbrush")
-                                }
-                                Button {
-                                    navigator.present(.entryEdit(timestamp: entry.timestamp))
-                                } label: {
-                                    Label("Edit", systemImage: "pencil")
-                                }
-                                Divider()
-                                Button(role: .destructive) {
-                                    deleteEntry(entry)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                            }
+                                },
+                            )
                         }
                     }
 
@@ -293,9 +290,6 @@ struct DayDetailView: View {
         .background(Theme.background)
         .navigationTitle("\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
-        .task(id: entries.count) {
-            await loadInteractions()
-        }
         .toolbar {
             if !entries.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -345,15 +339,6 @@ struct DayDetailView: View {
                 showColorPicker = false
             }
             .presentationDetents([.large])
-        }
-    }
-
-    private func loadInteractions() async {
-        let names = Array(Set(entries.map(\.substance)))
-        if names.count >= 2 {
-            self.dayInteractions = InteractionChecker.checkBatch(names, against: [])
-        } else {
-            self.dayInteractions = []
         }
     }
 
@@ -420,6 +405,35 @@ struct DayDetailView: View {
     }
 }
 
+/// A day's resolved curves, markers, and interaction warnings.
+private struct ResolvedDay {
+    var states: [ActiveSubstanceState] = []
+    var markers: [DoseMarker] = []
+    var interactions: [InteractionResult] = []
+}
+
+/// Single-slot process-wide memo for the visible day's ``ResolvedDay``, keyed by
+/// the day's content signature. Only one day detail is on screen at a time, so a
+/// single slot suffices; a stacked second detail simply recomputes (still
+/// correct). This is the "`@State` as a cache" pattern — store an
+/// expensive-to-recompute value without change-tracking it — and is what lets the
+/// view resolve synchronously up front instead of flipping Sections in from an
+/// async `.task`.
+@MainActor
+private final class DayResolveCache {
+    static let shared = DayResolveCache()
+    private var signature: Int?
+    private var value = ResolvedDay()
+
+    func resolve(signature: Int, _ compute: () -> ResolvedDay) -> ResolvedDay {
+        if self.signature == signature { return value }
+        let resolved = compute()
+        self.signature = signature
+        value = resolved
+        return resolved
+    }
+}
+
 private struct DayLogShareSheet: UIViewControllerRepresentable {
     let image: UIImage
 
@@ -457,6 +471,57 @@ private struct TimeAdjustSheet: View {
                 entry: entry,
                 allColors: Array(substanceColors),
             )
+        }
+    }
+}
+
+/// One dose row in the day detail. Extracted from the inline `ForEach` body so
+/// SwiftUI builds (and caches the generic metadata for) a single named row type
+/// instead of re-instantiating the deep `NavigationLink`+swipe+contextMenu
+/// modifier chain per entry on every list rebuild — which dominated day-view
+/// entry as `makeViewList` + `swift_conformsToProtocol` churn.
+private struct DayEntryRow: View {
+    let entry: DoseEntry
+    let color: Color
+    let onDelete: () -> Void
+    let onAdjustTime: () -> Void
+    let onChangeColor: () -> Void
+
+    @Environment(\.appNavigator) private var navigator
+
+    var body: some View {
+        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
+            EntryRowView(entry: entry, color: color)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive, action: onDelete) {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+        .swipeActions(edge: .leading) {
+            Button {
+                navigator.present(.entryEdit(timestamp: entry.timestamp))
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+            .tint(.orange)
+        }
+        .contextMenu {
+            Button(action: onAdjustTime) {
+                Label("Adjust Time", systemImage: "clock")
+            }
+            Button(action: onChangeColor) {
+                Label("Change Color", systemImage: "paintbrush")
+            }
+            Button {
+                navigator.present(.entryEdit(timestamp: entry.timestamp))
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+            Divider()
+            Button(role: .destructive, action: onDelete) {
+                Label("Delete", systemImage: "trash")
+            }
         }
     }
 }

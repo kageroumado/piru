@@ -7632,6 +7632,9 @@
         }
       }
     },
+    "Drag to pan, pinch to zoom, hold to inspect" : {
+
+    },
     "Draw" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8916,6 +8919,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請謹慎使用此組合。"
+          }
+        }
+      }
+    },
+    "Expand timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开时间轴"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開時間軸"
           }
         }
       }
@@ -17574,6 +17593,22 @@
         }
       }
     },
+    "Shrink timeline" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起时间轴"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收合時間軸"
+          }
+        }
+      }
+    },
     "Sign in to iCloud and turn on iCloud Drive to enable automatic encrypted backups." : {
       "localizations" : {
         "zh-Hans" : {
@@ -18968,6 +19003,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "半衰期 = %@"
+          }
+        }
+      }
+    },
+    "Tag these logs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为这些记录添加标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為這些記錄加上標籤"
+          }
+        }
+      }
+    },
+    "Tagging with" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标记为"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記為"
           }
         }
       }
@@ -21460,70 +21527,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Expand timeline" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "展开时间轴"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "展開時間軸"
-          }
-        }
-      }
-    },
-    "Shrink timeline" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收起时间轴"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收合時間軸"
-          }
-        }
-      }
-    },
-    "Tag these logs" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "为这些记录添加标签"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "為這些記錄加上標籤"
-          }
-        }
-      }
-    },
-    "Tagging with" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "标记为"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "標記為"
           }
         }
       }

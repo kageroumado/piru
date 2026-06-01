@@ -30,7 +30,7 @@ struct PiruActivityAttributes: ActivityAttributes {
     let startTime: Date
 }
 
-struct ActiveSubstanceState: Codable, Hashable {
+struct ActiveSubstanceState: Codable, Hashable, Sendable {
     let substanceName: String
     let colorHex: String
     let doseTimestamp: Date
