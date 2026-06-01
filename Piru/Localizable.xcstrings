@@ -2,6 +2,38 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {},
+    "Clear Filters" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除筛选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除篩選"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        }
+      }
+    },
     "%lld doses" : {
       "localizations" : {
         "zh-Hans" : {
