@@ -297,7 +297,9 @@ T = {
     "Profile": ("个人资料", "個人資料"),
     "Disclosure Tier": ("披露等级", "披露等級"),
     "Casual": ("休闲", "休閒"),
+    "Curious": ("好奇", "好奇"),
     "Pharma Nerd": ("药物极客", "藥物極客"),
+    "Drag to pan, pinch to zoom, hold to inspect": ("拖动平移，捏合缩放，长按查看", "拖曳平移，捏合縮放，長按查看"),
     # Database & Settings
     "Substance Database": ("物质数据库", "物質資料庫"),
     "Database Sources": ("数据库来源", "資料庫來源"),
@@ -1843,7 +1845,7 @@ if __name__ == "__main__":
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
-    NEW_KEYS = {"Expand timeline", "Shrink timeline", "Tag these logs", "Tagging with"}
+    NEW_KEYS = {"Curious"}
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(

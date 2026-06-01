@@ -184,6 +184,7 @@ struct QuickLogView: View {
             .safeAreaInset(edge: .bottom) {
                 searchBar
                     .padding(.horizontal)
+                    .padding(.bottom, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
@@ -378,10 +379,18 @@ struct QuickLogView: View {
                     libraryRow(substance)
                 }
             } header: {
-                Label("Favorites", systemImage: "star.fill")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
+                // Accent-tinted star vs. the neutral "Recent" clock gives the two
+                // sections a clear at-a-glance distinction (icon colour carries the
+                // meaning; the labels alone read identically).
+                Label {
+                    Text("Favorites")
+                        .foregroundStyle(Theme.secondaryLabel)
+                } icon: {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(Theme.accent)
+                }
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
             }
         }
 
@@ -729,21 +738,17 @@ struct QuickLogView: View {
         // Schedule wellness notifications & check cumulative dose
         scheduleWellnessIfNeeded(entry: entry, substance: group.librarySubstance)
 
-        // Always add to the active session immediately. If the colour
-        // doesn't exist yet, the picker comes up next and refreshes the
-        // session when the user picks one.
+        // Auto-assign a stable palette colour for a brand-new substance up
+        // front (deterministic hash, the same colour the graph already uses),
+        // so the session and journal pick it up immediately. No follow-up
+        // picker sheet — the colour stays editable from the entry's detail.
+        ensureColor(for: group.substanceName)
+
+        // Add to the active session immediately, now that the colour exists.
         startLiveActivity(entry: entry, group: group)
 
-        // Quick-log completes a logging flow; clear the entire sheet chain
-        // back to root regardless of whether the picker queue runs.
-        if hasColor(for: group.substanceName) {
-            navigator.dismissAll()
-        } else {
-            navigator.present(
-                .colorPicker(substance: group.substanceName, dismissAllOnComplete: true),
-                replacingTop: true,
-            )
-        }
+        // Quick-log completes a logging flow; clear the entire sheet chain.
+        navigator.dismissAll()
     }
 
     private func openOtherDose(group: SubstanceGroup) {
@@ -763,9 +768,7 @@ struct QuickLogView: View {
     }
 
     private func startLiveActivity(entry: DoseEntry, group: SubstanceGroup) {
-        let colorHex = substanceColors.first {
-            $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
+        let colorHex = SubstancePalette.hex(for: entry.substance, hexMap: Array(substanceColors).hexColorMap)
 
         ActiveSessionManager.shared.addDose(
             entry: entry,
@@ -859,9 +862,8 @@ struct QuickLogView: View {
             modelContext.insert(entry)
             scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
 
-            let colorHex = substanceColors.first {
-                $0.substance.lowercased() == dose.substanceName.lowercased()
-            }?.hexColor ?? "007AFF"
+            ensureColor(for: dose.substanceName)
+            let colorHex = SubstancePalette.hex(for: dose.substanceName, hexMap: Array(substanceColors).hexColorMap)
 
             ActiveSessionManager.shared.addDose(
                 entry: entry,
@@ -878,6 +880,14 @@ struct QuickLogView: View {
 
     private func hasColor(for name: String) -> Bool {
         Array(substanceColors).hasColor(for: name)
+    }
+
+    /// Persist the substance's stable deterministic colour if it has none yet,
+    /// so a first-time substance is coloured the moment it's logged — no extra
+    /// picker step. Editable later from the entry detail's colour picker.
+    private func ensureColor(for name: String) {
+        guard !hasColor(for: name) else { return }
+        modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
     }
 
     private func mostRecentEntry(for substanceName: String) -> DoseEntry? {
@@ -917,7 +927,7 @@ struct QuickLogView: View {
         }
         .padding(14)
         .background(Color.blue.opacity(0.08))
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     private func helpBannerLink(title: String, url: String) -> some View {

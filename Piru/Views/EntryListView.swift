@@ -273,15 +273,11 @@ struct EntryListView: View {
     private var tagChipBar: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
-                // Leading funnel + "All" make the row read as a single-select
-                // filter — without it the bare "#tag" pills look identical to the
-                // read-only tag labels on each entry, so the filter affordance
-                // was invisible.
-                Image(systemName: "line.3.horizontal.decrease")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.leading, 2)
-
+                // Grouping and category filtering live in the navbar menus
+                // (Mail's idiom); this row is purely the tag facet. The leading
+                // "All" reset plus the single-select accent fill carry the
+                // filter affordance, so no separate funnel glyph is needed —
+                // having one here duplicated the navbar's filter button.
                 tagPill(
                     title: Text("All"),
                     isSelected: selectedTag == nil,

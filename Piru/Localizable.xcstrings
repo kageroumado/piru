@@ -7633,7 +7633,20 @@
       }
     },
     "Drag to pan, pinch to zoom, hold to inspect" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖动平移，捏合缩放，长按查看"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖曳平移，捏合縮放，長按查看"
+          }
+        }
+      }
     },
     "Draw" : {
       "localizations" : {
@@ -21527,6 +21540,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
+          }
+        }
+      }
+    },
+    "Curious" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好奇"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好奇"
           }
         }
       }

@@ -1268,16 +1268,23 @@ struct TimelineGraphView: View {
         graphInset: CGFloat,
         graphTop: CGFloat,
     ) {
-        let lanes = laneGroups
-        guard !lanes.isEmpty else { return }
-        let laneHeight = graphHeight / CGFloat(lanes.count)
+        let curveLanes = laneGroups
+        // Duration-less substances get their own labelled lanes too, rather than
+        // an unlabelled cluster of dots dumped at the graph's foot — which read
+        // as stray, disconnected points overlapping the bottom lane. Every
+        // substance is one labelled horizon strip: curves get a hump, instant
+        // doses get a baseline row of dots.
+        let markerLanes = markerOnlyLanes(excluding: curveLanes)
+        let rowCount = curveLanes.count + markerLanes.count
+        guard rowCount > 0 else { return }
+        let laneHeight = graphHeight / CGFloat(rowCount)
         // Headroom above each curve and a gap above the baseline keep adjacent
         // lanes from touching; floored so very tight lanes still draw.
         let topHeadroom: CGFloat = min(10, laneHeight * 0.28)
         let bottomGap: CGFloat = 2
         let labelInset: CGFloat = 4
 
-        for (i, lane) in lanes.enumerated() {
+        for (i, lane) in curveLanes.enumerated() {
             let laneTop = graphTop + CGFloat(i) * laneHeight
             let baseline = laneTop + laneHeight - bottomGap
             let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
@@ -1336,41 +1343,88 @@ struct TimelineGraphView: View {
                 context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
             }
 
-            // Inline label: colour swatch + substance name, top-left of the lane.
-            let dotR: CGFloat = 3
-            let dot = Path(ellipseIn: CGRect(
-                x: graphInset + labelInset,
-                y: laneTop + labelInset,
-                width: dotR * 2,
-                height: dotR * 2,
-            ))
-            context.fill(dot, with: .color(color))
-            let label = context.resolve(
-                Text(lane.name)
-                    .font(.system(size: 9, weight: .semibold))
-                    .foregroundStyle(.secondary),
-            )
-            context.draw(
-                label,
-                at: CGPoint(x: graphInset + labelInset + dotR * 2 + 4, y: laneTop + labelInset + dotR),
-                anchor: .leading,
-            )
-        }
+            drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
 
-        // Duration-less doses as a single unobtrusive row of dots on the axis.
-        if !markers.isEmpty {
-            let r: CGFloat = 2.5
-            let by = graphTop + graphHeight - r
-            for marker in markers {
-                let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
-                let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
-                guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { continue }
-                let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
-                let dot = Path(ellipseIn: CGRect(x: x - r, y: by - r, width: r * 2, height: r * 2))
-                context.fill(dot, with: .color(Color(hex: marker.colorHex)))
-                context.stroke(dot, with: .color(.white.opacity(0.5)), lineWidth: 0.5)
+            // A substance can carry both curve doses and duration-less doses (a
+            // route with no duration data); draw the latter on this lane's own
+            // baseline so they stay attached to their substance.
+            for marker in markers where marker.substanceName.lowercased() == lane.name.lowercased() {
+                drawMarkerDot(marker, context: context, baseline: baseline, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
+
+        // Each duration-less substance as its own labelled lane below the curves.
+        for (j, lane) in markerLanes.enumerated() {
+            let i = curveLanes.count + j
+            let laneTop = graphTop + CGFloat(i) * laneHeight
+            let baseline = laneTop + laneHeight - bottomGap
+            let color = Color(hex: lane.colorHex)
+
+            if i > 0 {
+                var sep = Path()
+                sep.move(to: CGPoint(x: graphInset, y: laneTop))
+                sep.addLine(to: CGPoint(x: graphInset + graphWidth, y: laneTop))
+                context.stroke(sep, with: .color(.secondary.opacity(0.12)), lineWidth: 0.5)
+            }
+
+            drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
+
+            for marker in lane.markers {
+                drawMarkerDot(marker, context: context, baseline: baseline, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
+            }
+        }
+    }
+
+    /// A duration-less substance rendered as its own lane: a name label plus a
+    /// baseline row of dots, one per dose.
+    private struct MarkerLane {
+        let name: String
+        let colorHex: String
+        let markers: [DoseMarker]
+    }
+
+    /// Distinct marker substances with no curve lane, in first-dose order — each
+    /// becomes its own labelled lane so a logged dose never floats unattached.
+    private func markerOnlyLanes(excluding curveLanes: [LaneGroup]) -> [MarkerLane] {
+        let curveNames = Set(curveLanes.map { $0.name.lowercased() })
+        var order: [String] = []
+        var byKey: [String: [DoseMarker]] = [:]
+        var meta: [String: (name: String, colorHex: String)] = [:]
+        for marker in markers {
+            let key = marker.substanceName.lowercased()
+            guard !curveNames.contains(key) else { continue }
+            if byKey[key] == nil {
+                order.append(key)
+                meta[key] = (marker.substanceName, marker.colorHex)
+            }
+            byKey[key, default: []].append(marker)
+        }
+        return order.map { MarkerLane(name: meta[$0]!.name, colorHex: meta[$0]!.colorHex, markers: byKey[$0]!) }
+    }
+
+    /// Colour swatch + substance name at a lane's top-left.
+    private func drawLaneLabel(_ name: String, color: Color, context: GraphicsContext, laneTop: CGFloat, graphInset: CGFloat, labelInset: CGFloat) {
+        let dotR: CGFloat = 3
+        let dot = Path(ellipseIn: CGRect(x: graphInset + labelInset, y: laneTop + labelInset, width: dotR * 2, height: dotR * 2))
+        context.fill(dot, with: .color(color))
+        let label = context.resolve(
+            Text(name)
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundStyle(.secondary),
+        )
+        context.draw(label, at: CGPoint(x: graphInset + labelInset + dotR * 2 + 4, y: laneTop + labelInset + dotR), anchor: .leading)
+    }
+
+    /// A single duration-less dose as a dot on the given baseline, placed by time.
+    private func drawMarkerDot(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
+        let r: CGFloat = 2.5
+        let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
+        let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
+        guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { return }
+        let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
+        let dot = Path(ellipseIn: CGRect(x: x - r, y: baseline - r, width: r * 2, height: r * 2))
+        context.fill(dot, with: .color(color))
+        context.stroke(dot, with: .color(.white.opacity(0.6)), lineWidth: 0.5)
     }
 
     // MARK: - Path Builders
