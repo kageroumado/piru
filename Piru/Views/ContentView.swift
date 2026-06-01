@@ -184,10 +184,10 @@ struct ContentView: View {
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
+                .foregroundStyle(.white)
                 .frame(width: 56, height: 56)
                 .contentShape(Circle())
-                .glassEffect(.regular.interactive(), in: Circle())
-                .tint(Theme.accent)
+                .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
         }
     }
 

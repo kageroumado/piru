@@ -4,8 +4,9 @@ import SwiftUI
 // MARK: - Journal Grouping
 
 enum JournalGrouping: String, CaseIterable {
-    case recent = "Recent"
+    // Order drives the grouping menu; Days is the default so it leads.
     case byDay = "Days"
+    case recent = "Recent"
     case bySubstance = "Substance"
     case byCategory = "Category"
 
@@ -301,17 +302,16 @@ struct EntryListView: View {
         Button {
             showingFilters = true
         } label: {
-            // Always accent to match the grouping pill and ••• menu; the active
-            // state reads from the filled funnel variant, not a colour swap.
-            Image(systemName: hasActiveFilters
-                ? "line.3.horizontal.decrease.circle.fill"
-                : "line.3.horizontal.decrease")
+            // Same full-size funnel in both states; "active" reads from a
+            // tinted-pink glass + white glyph (Mail's idiom) rather than the
+            // shrunken `.circle.fill` variant.
+            Image(systemName: "line.3.horizontal.decrease")
                 .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(Theme.accent)
+                .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
                 .frame(width: 44, height: 44)
                 .contentShape(Circle())
         }
-        .glassEffect(.regular, in: .circle)
+        .glassEffect(hasActiveFilters ? .regular.tint(Theme.accent) : .regular, in: .circle)
         .animation(.snappy, value: hasActiveFilters)
     }
 
@@ -752,6 +752,11 @@ struct JournalFilterSheet: View {
     @State private var hasDateRange = false
     @State private var substanceSearch = ""
 
+    private var hasAnyFilter: Bool {
+        startDate != nil || endDate != nil || !selectedSubstances.isEmpty
+            || !selectedCategories.isEmpty || hasDateRange
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -811,19 +816,6 @@ struct JournalFilterSheet: View {
                         }
                     }
 
-                    if startDate != nil || endDate != nil || !selectedSubstances.isEmpty || !selectedCategories.isEmpty || hasDateRange {
-                        Section {
-                            Button("Reset Filters", role: .destructive) {
-                                startDate = nil
-                                endDate = nil
-                                selectedSubstances = []
-                                selectedCategories = []
-                                hasDateRange = false
-                                dismiss()
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
                 }
                 .listRowBackground(Theme.cardBackground)
             }
@@ -834,7 +826,18 @@ struct JournalFilterSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
-                ToolbarItem(placement: .confirmationAction) {
+                // Reset lives in the toolbar (pinned) so clearing filters never
+                // requires scrolling past the whole substance list to find it.
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    if hasAnyFilter {
+                        Button("Reset", role: .destructive) {
+                            startDate = nil
+                            endDate = nil
+                            selectedSubstances = []
+                            selectedCategories = []
+                            hasDateRange = false
+                        }
+                    }
                     Button {
                         if hasDateRange {
                             startDate = tempStart
