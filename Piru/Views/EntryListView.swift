@@ -407,33 +407,57 @@ struct EntryListView: View {
     private var tagChipBar: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
+                // Leading funnel + "All" make the row read as a single-select
+                // filter — without it the bare "#tag" pills look identical to the
+                // read-only tag labels on each entry, so the filter affordance
+                // was invisible.
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .padding(.leading, 2)
+
+                tagPill(
+                    title: Text("All"),
+                    isSelected: selectedTag == nil,
+                ) {
+                    selectedTag = nil
+                }
+
                 ForEach(allUsedTags, id: \.self) { tag in
-                    let isSelected = selectedTag == tag
-                    Button {
-                        withAnimation(.snappy) {
-                            selectedTag = isSelected ? nil : tag
-                            rebuildGroups()
-                        }
-                    } label: {
-                        Text("#\(tag)")
-                            .font(.subheadline.weight(.medium))
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 8)
-                            .background(
-                                isSelected
-                                    ? AnyShapeStyle(Theme.accent)
-                                    : AnyShapeStyle(Color(.secondarySystemFill)),
-                                in: Capsule(),
-                            )
-                            .foregroundStyle(isSelected ? .white : .primary)
+                    tagPill(
+                        title: Text(verbatim: "#\(tag)"),
+                        isSelected: selectedTag == tag,
+                    ) {
+                        selectedTag = selectedTag == tag ? nil : tag
                     }
-                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 4)
         }
         .scrollIndicators(.hidden)
+    }
+
+    private func tagPill(title: Text, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button {
+            withAnimation(.snappy) {
+                action()
+                rebuildGroups()
+            }
+        } label: {
+            title
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(
+                    isSelected
+                        ? AnyShapeStyle(Theme.accent)
+                        : AnyShapeStyle(Color(.secondarySystemFill)),
+                    in: Capsule(),
+                )
+                .foregroundStyle(isSelected ? .white : .primary)
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Recent (Flat) Content
@@ -771,6 +795,7 @@ struct DayCardView: View {
                 markers: markers,
                 stackRedoses: stackRedoses,
                 showNowIndicator: false,
+                dayBounded: true,
             )
             .frame(width: 96, height: 52)
             .clipShape(RoundedRectangle(cornerRadius: 8))

@@ -125,14 +125,6 @@ nonisolated enum DeepLink {
                 sheet: .dailyDoseLog(category: category),
             )
 
-        case "timeline":
-            guard let tsString = pathSegments.first,
-                  let ts = TimeInterval(tsString) else { return nil }
-            return DeepLinkOutcome(
-                tab: overrideTab ?? .journal,
-                sheet: .timelineDetail(date: Date(timeIntervalSince1970: ts)),
-            )
-
         default:
             return nil
         }
@@ -189,10 +181,6 @@ nonisolated enum DeepLink {
         case let .dailyDoseLog(category):
             components.host = "meds"
             components.path = "/\(category)"
-
-        case let .timelineDetail(date):
-            components.host = "timeline"
-            components.path = "/\(date.timeIntervalSince1970)"
 
         case .onboarding,
              .entryEdit,

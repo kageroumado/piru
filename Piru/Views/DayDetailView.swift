@@ -13,10 +13,37 @@ struct DayDetailView: View {
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
+    /// Grows the inline timeline in place: the graph's frame steps up to a taller
+    /// height and the List reflows the entries below it — no separate fullscreen
+    /// sheet, no overlay. Every gesture stays the same; the curves just get room.
+    @State private var timelineEnlarged = false
     @State private var dayInteractions: [InteractionResult] = []
     @State private var exportedImage: UIImage?
     @State private var showShareSheet = false
     @State private var isExporting = false
+
+    /// Height of the grown-in-place timeline — a modest step up from the embedded
+    /// 168pt, enough to read without the distorted full-screen stretch.
+    private static let enlargedGraphHeight: CGFloat = 320
+
+    /// Distinct substances drawn on the timeline — the lane count once the graph
+    /// switches to small multiples.
+    private var laneCount: Int {
+        Set(substanceStates.map { $0.substanceName.lowercased() }).count
+    }
+
+    /// Timeline height. Overlapping-curve days use the fixed embedded/enlarged
+    /// heights; lane-mode days grow with the lane count so each horizon strip
+    /// keeps a readable minimum instead of being crushed to a sliver. Clamped so
+    /// a very busy day still fits a scrollable card.
+    private func graphHeight(enlarged: Bool) -> CGFloat {
+        let base = enlarged ? Self.enlargedGraphHeight : GraphMetrics.embedded
+        guard laneCount >= TimelineGraphView.laneModeThreshold else { return base }
+        let perLane: CGFloat = enlarged ? 46 : 32
+        let axisOverhead: CGFloat = 40
+        let ideal = CGFloat(laneCount) * perLane + axisOverhead
+        return max(base, min(ideal, enlarged ? 560 : 380))
+    }
 
     private var substanceStates: [ActiveSubstanceState] {
         ActiveSubstanceState.timeline(for: entries, colors: Array(substanceColors)).states
@@ -104,8 +131,9 @@ struct DayDetailView: View {
                                     compact: false,
                                     markers: doseMarkers,
                                     stackRedoses: stackRedoses,
+                                    dayBounded: true,
                                 )
-                                .frame(height: GraphMetrics.embedded)
+                                .frame(height: graphHeight(enlarged: timelineEnlarged))
                             }
                         } header: {
                             HStack(spacing: GraphMetrics.section) {
@@ -144,14 +172,18 @@ struct DayDetailView: View {
 
                                 if graphExpanded {
                                     Button {
-                                        navigator.present(.timelineDetail(date: date))
+                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.84)) {
+                                            timelineEnlarged.toggle()
+                                        }
                                     } label: {
-                                        Image(systemName: "arrow.up.backward.and.arrow.down.forward")
+                                        Image(systemName: timelineEnlarged
+                                            ? "arrow.down.right.and.arrow.up.left"
+                                            : "arrow.up.backward.and.arrow.down.forward")
                                             .font(.caption.weight(.semibold))
                                     }
                                     .buttonStyle(.plain)
                                     .foregroundStyle(Theme.accent)
-                                    .accessibilityLabel(Text("Expand timeline"))
+                                    .accessibilityLabel(Text(timelineEnlarged ? "Shrink timeline" : "Expand timeline"))
                                 }
                             }
                         } footer: {
