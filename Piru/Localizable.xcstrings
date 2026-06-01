@@ -21225,6 +21225,54 @@
           }
         }
       }
+    },
+    "Use at least %lld characters. A phrase of several words is stronger and easier to remember than a short password." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请至少使用 %lld 个字符。由多个单词组成的短语比短密码更安全，也更容易记住。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請至少使用 %lld 個字元。由多個單字組成的片語比短密碼更安全，也更容易記住。"
+          }
+        }
+      }
+    },
+    "Too short — use at least %lld characters." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短了——请至少使用 %lld 个字符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太短了——請至少使用 %lld 個字元。"
+          }
+        }
+      }
+    },
+    "This file is too large to be a Piru backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件太大，不是有效的 Piru 备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案太大，不是有效的 Piru 備份。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

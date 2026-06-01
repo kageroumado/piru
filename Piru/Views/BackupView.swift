@@ -11,6 +11,9 @@ struct BackupView: View {
     // Export flow
     @State private var showingExportPassphrase = false
     @State private var exported: ExportedBackup?
+    /// The temporary encrypted file handed to the share sheet, removed once the
+    /// share sheet is dismissed so ciphertext doesn't linger in /tmp.
+    @State private var exportedFileToClean: URL?
 
     // Restore flow
     @State private var showingFileImporter = false
@@ -45,7 +48,7 @@ struct BackupView: View {
                 showingStrategyDialog = true
             }
         }
-        .sheet(item: $exported) { item in
+        .sheet(item: $exported, onDismiss: cleanupExportedFile) { item in
             ShareSheet(items: [item.url])
         }
         .fileImporter(isPresented: $showingFileImporter, allowedContentTypes: [.data]) { result in
@@ -227,35 +230,54 @@ struct BackupView: View {
 
     private func runExport(passphrase: String) {
         showingExportPassphrase = false
-        do {
-            let url = try manager.exportEncrypted(context: modelContext, passphrase: passphrase)
-            exported = ExportedBackup(url: url)
-        } catch {
-            notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
+        Task {
+            do {
+                let url = try await manager.exportEncrypted(context: modelContext, passphrase: passphrase)
+                exportedFileToClean = url
+                exported = ExportedBackup(url: url)
+            } catch {
+                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
+            }
         }
+    }
+
+    private func cleanupExportedFile() {
+        guard let url = exportedFileToClean else { return }
+        try? FileManager.default.removeItem(at: url)
+        exportedFileToClean = nil
     }
 
     private func handlePickedFile(_ result: Result<URL, Error>) {
         switch result {
         case let .success(url):
-            guard url.startAccessingSecurityScopedResource() else {
-                notice = Notice(title: String(localized: "Restore Failed"), message: String(localized: "Couldn't access the selected file."))
-                return
-            }
-            defer { url.stopAccessingSecurityScopedResource() }
-            do {
-                let data = try Data(contentsOf: url)
-                let envelope = try BackupCrypto.inspect(data)
-                pendingData = data
-                pendingIsICloud = false
-                if envelope.kind == .passphrase {
-                    showingRestorePassphrase = true
-                } else {
-                    pendingPassphrase = nil
-                    showingStrategyDialog = true
+            Task {
+                guard url.startAccessingSecurityScopedResource() else {
+                    notice = Notice(title: String(localized: "Restore Failed"), message: String(localized: "Couldn't access the selected file."))
+                    return
                 }
-            } catch {
-                notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
+                defer { url.stopAccessingSecurityScopedResource() }
+                do {
+                    // Read + inspect off the main actor: a large file shouldn't be
+                    // pulled into memory or JSON-decoded on the UI thread, and the
+                    // size guard runs before we read a byte.
+                    let (data, kind) = try await Task.detached { () -> (Data, BackupCrypto.Envelope.Kind) in
+                        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+                        guard size <= BackupCrypto.maxEnvelopeBytes else { throw BackupManager.ManagerError.fileTooLarge }
+                        let data = try Data(contentsOf: url)
+                        let envelope = try BackupCrypto.inspect(data)
+                        return (data, envelope.kind)
+                    }.value
+                    pendingData = data
+                    pendingIsICloud = false
+                    if kind == .passphrase {
+                        showingRestorePassphrase = true
+                    } else {
+                        pendingPassphrase = nil
+                        showingStrategyDialog = true
+                    }
+                } catch {
+                    notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
+                }
             }
         case let .failure(error):
             notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
@@ -264,19 +286,15 @@ struct BackupView: View {
 
     private func executeRestore(_ strategy: BackupManager.RestoreStrategy) {
         let passphrase = pendingPassphrase
-        if pendingIsICloud {
-            Task {
-                do {
-                    try await manager.restoreFromICloud(passphrase: passphrase, strategy: strategy, context: modelContext)
-                    notice = Notice(title: String(localized: "Restore Complete"), message: String(localized: "Your backup was restored."))
-                } catch {
-                    notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
-                }
-                clearPending()
-            }
-        } else if let data = pendingData {
+        let isICloud = pendingIsICloud
+        let data = pendingData
+        Task {
             do {
-                try manager.restore(data: data, passphrase: passphrase, strategy: strategy, context: modelContext)
+                if isICloud {
+                    try await manager.restoreFromICloud(passphrase: passphrase, strategy: strategy, context: modelContext)
+                } else if let data {
+                    try await manager.restore(data: data, passphrase: passphrase, strategy: strategy, context: modelContext)
+                }
                 notice = Notice(title: String(localized: "Restore Complete"), message: String(localized: "Your backup was restored."))
             } catch {
                 notice = Notice(title: String(localized: "Restore Failed"), message: error.localizedDescription)
@@ -316,6 +334,11 @@ private struct PassphraseSheet: View {
     let mode: Mode
     let onSubmit: (String) -> Void
 
+    /// Minimum length for a *new* passphrase. A backup file is offline-attackable
+    /// forever, so the floor is deliberately above the 8-char minimum; 600k-round
+    /// PBKDF2 raises the cost-per-guess on top of this.
+    private static let minLength = 12
+
     @Environment(\.dismiss) private var dismiss
     @State private var passphrase = ""
     @State private var confirmation = ""
@@ -323,7 +346,7 @@ private struct PassphraseSheet: View {
     private var isValid: Bool {
         switch mode {
         case .create:
-            passphrase.count >= 8 && passphrase == confirmation
+            passphrase.count >= Self.minLength && passphrase == confirmation
         case .enter:
             !passphrase.isEmpty
         }
@@ -384,9 +407,9 @@ private struct PassphraseSheet: View {
     @ViewBuilder
     private var strengthFooter: some View {
         if passphrase.isEmpty {
-            Text("Use at least 8 characters. A longer phrase of several words is stronger and easier to remember.")
-        } else if passphrase.count < 8 {
-            Text("Too short — use at least 8 characters.")
+            Text("Use at least \(Self.minLength) characters. A phrase of several words is stronger and easier to remember than a short password.")
+        } else if passphrase.count < Self.minLength {
+            Text("Too short — use at least \(Self.minLength) characters.")
                 .foregroundStyle(.orange)
         } else if passphrase != confirmation {
             Text("Passphrases don't match yet.")
