@@ -39,8 +39,9 @@ Specs/
 .agents/
 skills-lock.json
 
-# Python build-script intermediates
-pipeline/**/__pycache__/
+# Python build-script intermediates (repo-root translate_catalog.py, pipeline, etc.)
+__pycache__/
+*.pyc
 
 # Regenerable verification dump (script: pipeline/audit/dump_for_verification.py).
 # The audit findings under docs/audit/verification-findings/ are tracked; the
