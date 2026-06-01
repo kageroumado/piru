@@ -66,55 +66,57 @@ struct TimelineGraphView: View {
     /// baseline: the latest minute at which the tallest drawn curve still
     /// exceeds `threshold` of full graph height. Params/scale are precomputed
     /// once (not per sample) so the scan stays cheap.
-    private func renderedTail(threshold: Double) -> Double {
+    ///
+    /// When `framing` is true, curves that never decay below `threshold` within
+    /// the window (persistent long-acting background like a daily maintenance
+    /// med) are dropped from the envelope, so they don't drag the default frame
+    /// out to days and crush the acute action. They still count toward the full
+    /// scrollable extent (`framing: false`). If every curve is persistent, none
+    /// are dropped, so a long-acting-only day still shows its curve.
+    private func renderedTail(threshold: Double, framing: Bool = false) -> Double {
         let yNorm = yNormalization
+        var curves: [(Double) -> Double] = []
+        var upper: Double = 1
+
         if stackRedoses {
-            let groups = stackedGroups
-            let params = groups.map { $0.map { pkParams(for: $0) } }
-            var upper: Double = 1
-            for (gi, group) in groups.enumerated() {
+            for group in stackedGroups {
+                let params = group.map { pkParams(for: $0) }
                 for (di, dose) in group.enumerated() {
                     let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    upper = max(upper, offset + curveExtent(for: dose, params: params[gi][di]))
+                    upper = max(upper, offset + curveExtent(for: dose, params: params[di]))
                 }
+                curves.append { t in stackedIntensity(atGlobalMinutes: t, group: group, params: params) * yNorm }
             }
-            upper = min(upper, Self.maxDisplayMinutes)
-            func height(_ t: Double) -> Double {
-                var h = 0.0
-                for (gi, group) in groups.enumerated() {
-                    h = max(h, stackedIntensity(atGlobalMinutes: t, group: group, params: params[gi]) * yNorm)
-                }
-                return h
-            }
-            return scanTail(upper: upper, threshold: threshold, height: height)
         } else {
-            let params = substances.map { pkParams(for: $0) }
-            let scales = substances.map { heightScale(for: $0) }
-            var upper: Double = 1
-            for (i, s) in substances.enumerated() {
+            for s in substances {
+                let params = pkParams(for: s)
                 let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                upper = max(upper, offset + curveExtent(for: s, params: params[i]))
-            }
-            upper = min(upper, Self.maxDisplayMinutes)
-            func height(_ t: Double) -> Double {
-                var h = 0.0
-                for (i, s) in substances.enumerated() {
-                    let local = t - s.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    guard local >= 0 else { continue }
-                    h = max(h, intensity(at: local, for: s, params: params[i]) * scales[i] * yNorm)
+                let scale = heightScale(for: s)
+                upper = max(upper, offset + curveExtent(for: s, params: params))
+                curves.append { t in
+                    let local = t - offset
+                    return local >= 0 ? intensity(at: local, for: s, params: params) * scale * yNorm : 0
                 }
-                return h
             }
-            return scanTail(upper: upper, threshold: threshold, height: height)
         }
-    }
+        upper = min(upper, Self.maxDisplayMinutes)
 
-    private func scanTail(upper: Double, threshold: Double, height: (Double) -> Double) -> Double {
+        var contributing = curves
+        if framing {
+            let transient = curves.filter { $0(upper) < threshold }
+            if !transient.isEmpty { contributing = transient }
+        }
+
         let steps = 240
         var lastActive: Double = 0
         for i in 0 ... steps {
             let t = Double(i) / Double(steps) * upper
-            if height(t) >= threshold { lastActive = t }
+            var h = 0.0
+            for curve in contributing {
+                h = max(h, curve(t))
+                if h >= threshold { break }
+            }
+            if h >= threshold { lastActive = t }
         }
         return max(lastActive, 1)
     }
@@ -159,7 +161,7 @@ struct TimelineGraphView: View {
     /// compound's days-long tail therefore doesn't crush the acute action into
     /// the left edge — the tail stays reachable by panning past this window.
     private var activitySpan: Double {
-        spanIncludingMarkers(renderedTail(threshold: 0.20))
+        spanIncludingMarkers(renderedTail(threshold: 0.20, framing: true))
     }
 
     /// Span shown at rest (`zoom == 1`). Normally the full extent — but when a
@@ -661,13 +663,14 @@ struct TimelineGraphView: View {
         // but never let it collapse to nothing.
         let decayWindow = max(total - min(peakCenter, total * 0.5), total * 0.25)
         let ke = log(20) / decayWindow
-        // A feasible Bateman peak must satisfy tmax < 1/ke — clamp the target
-        // just inside that bound.
-        let tmaxTarget = min(max(peakCenter, 1), 0.85 / ke)
-        // Cap absorption so a very short-duration substance can't fit an
-        // unrealistically vertical rise: `ka ≤ 10·ke` keeps a visible, rounded
-        // up-slope (min tmax ≈ ln10/(9·ke) ≈ 0.26/ke) instead of a wall.
-        let ka = min(PKModel.estimateKa(timeToPeak: tmaxTarget, ke: ke), ke * 10)
+        // Floor the peak time at a few minutes so a very short-duration
+        // substance still shows a visible up-slope rather than a vertical wall.
+        // A feasible Bateman peak must also satisfy tmax < 1/ke — clamp inside.
+        // Critically, do NOT cap absorption *relative to* elimination: a
+        // long-half-life compound has fast absorption and a slow tail
+        // (ka ≫ ke), and a ratio cap would wrongly push its peak out by hours.
+        let tmaxTarget = min(max(peakCenter, 8), 0.85 / ke)
+        let ka = PKModel.estimateKa(timeToPeak: tmaxTarget, ke: ke)
         let cmax = max(PKModel.cmax(ke: ke, ka: ka), 1e-9)
         return PKCurveParams(ka: ka, ke: ke, cmax: cmax)
     }
