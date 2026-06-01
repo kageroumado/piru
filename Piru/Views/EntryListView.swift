@@ -301,11 +301,13 @@ struct EntryListView: View {
         Button {
             showingFilters = true
         } label: {
+            // Always accent to match the grouping pill and ••• menu; the active
+            // state reads from the filled funnel variant, not a colour swap.
             Image(systemName: hasActiveFilters
                 ? "line.3.horizontal.decrease.circle.fill"
                 : "line.3.horizontal.decrease")
                 .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(hasActiveFilters ? Theme.accent : Theme.secondaryLabel)
+                .foregroundStyle(Theme.accent)
                 .frame(width: 44, height: 44)
                 .contentShape(Circle())
         }
@@ -538,6 +540,9 @@ private struct SubstanceEntryRow: View {
                     .font(.caption2)
             }
             .foregroundStyle(Theme.secondaryLabel)
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -642,6 +647,10 @@ struct DayCardView: View {
             Spacer(minLength: 8)
 
             graph
+
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -662,7 +671,9 @@ struct DayCardView: View {
 
     @ViewBuilder
     private var graph: some View {
-        if !states.isEmpty || !markers.isEmpty {
+        if !states.isEmpty {
+            // At least one dose has a PK curve — draw the real timeline (markers
+            // ride on top of it).
             TimelineGraphView(
                 substances: states,
                 currentTime: .now,
@@ -670,10 +681,58 @@ struct DayCardView: View {
                 markers: markers,
                 stackRedoses: stackRedoses,
             )
-            .frame(width: 104, height: 52)
+            .frame(width: 96, height: 52)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .allowsHitTesting(false)
+        } else if !markers.isEmpty {
+            // No curves (e.g. a day of supplements/meds without duration data).
+            // A scatter of points on an empty axis reads as broken, so show a
+            // purpose-built dose timeline: colour-coded marks placed by time.
+            DoseMarkerStrip(markers: markers, dayStart: date, colorMap: colorMap)
+                .frame(width: 96, height: 52)
         }
+    }
+}
+
+/// Compact "lollipop" timeline for days whose doses have no PK curve: each dose
+/// is a colour-coded dot on a thin stem, positioned along a faint baseline by
+/// its time of day. A legible alternative to scattering markers on a blank axis.
+private struct DoseMarkerStrip: View {
+    let markers: [DoseMarker]
+    let dayStart: Date
+    let colorMap: [String: Color]
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            let inset: CGFloat = 5
+            let baseY = h * 0.70
+            let dotY = h * 0.32
+            ZStack {
+                Capsule()
+                    .fill(Color.secondary.opacity(0.15))
+                    .frame(width: w - inset * 2, height: 2)
+                    .position(x: w / 2, y: baseY)
+                ForEach(Array(markers.enumerated()), id: \.offset) { _, marker in
+                    let x = inset + fraction(marker.timestamp) * (w - inset * 2)
+                    let color = colorMap[marker.substanceName.lowercased()] ?? Theme.accent
+                    Rectangle()
+                        .fill(color.opacity(0.45))
+                        .frame(width: 1.5, height: baseY - dotY)
+                        .position(x: x, y: (baseY + dotY) / 2)
+                    Circle()
+                        .fill(color)
+                        .frame(width: 7, height: 7)
+                        .position(x: x, y: dotY)
+                }
+            }
+        }
+    }
+
+    /// Fraction (0...1) of the 24h session day at which the dose occurred.
+    private func fraction(_ date: Date) -> Double {
+        min(max(date.timeIntervalSince(dayStart) / 86_400, 0), 1)
     }
 }
 
