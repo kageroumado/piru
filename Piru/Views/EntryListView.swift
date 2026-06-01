@@ -29,6 +29,37 @@ enum JournalGrouping: String, CaseIterable {
     }
 }
 
+// MARK: - Date Period
+
+/// Coarse time window for the journal filter. Replaces the old free From/To
+/// range with menu-friendly presets.
+enum DatePeriod: String, CaseIterable, Identifiable {
+    case all, today, week, month
+
+    var id: Self { self }
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .all: "All Time"
+        case .today: "Today"
+        case .week: "Last 7 Days"
+        case .month: "Last 30 Days"
+        }
+    }
+
+    /// Inclusive lower bound for filtering, or `nil` for All Time.
+    var startDate: Date? {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        switch self {
+        case .all: return nil
+        case .today: return today
+        case .week: return calendar.date(byAdding: .day, value: -6, to: today)
+        case .month: return calendar.date(byAdding: .day, value: -29, to: today)
+        }
+    }
+}
+
 // MARK: - Entry List View
 
 struct EntryListView: View {
@@ -45,18 +76,17 @@ struct EntryListView: View {
 
     @State private var selectedTag: String? = nil
     @State private var grouping: JournalGrouping = .byDay
-    @State private var showingFilters = false
     @State private var showingCalendar = false
 
-    // Filter state
-    @State private var filterStartDate: Date? = nil
-    @State private var filterEndDate: Date? = nil
-    @State private var filterSubstances: Set<String> = []
+    // Filter state — category facets + a coarse time window. (Substance and
+    // free From/To range filtering were dropped: substance duplicates Search,
+    // and a single day is reachable via Jump to Date.)
     @State private var filterCategories: Set<SubstanceCategory> = []
+    @State private var filterPeriod: DatePeriod = .all
+    @State private var filterDay: Date? = nil
 
     private var hasActiveFilters: Bool {
-        filterStartDate != nil || filterEndDate != nil ||
-            !filterSubstances.isEmpty || !filterCategories.isEmpty
+        !filterCategories.isEmpty || filterPeriod != .all || filterDay != nil
     }
 
     // MARK: - Filtering
@@ -88,19 +118,14 @@ struct EntryListView: View {
             }
         }
 
-        // Date range filter
-        if let start = filterStartDate {
-            let startOfDay = Calendar.current.startOfDay(for: start)
-            result = result.filter { $0.timestamp >= startOfDay }
-        }
-        if let end = filterEndDate {
-            let endOfDay = Calendar.current.startOfDay(for: end).addingTimeInterval(86_400)
-            result = result.filter { $0.timestamp < endOfDay }
-        }
-
-        // Substance filter
-        if !filterSubstances.isEmpty {
-            result = result.filter { filterSubstances.contains($0.substance) }
+        // Time window — a specific jumped-to day takes precedence over the
+        // coarse period preset.
+        if let day = filterDay {
+            let start = Calendar.current.sessionDayStart(for: day)
+            let end = start.addingTimeInterval(86_400)
+            result = result.filter { $0.timestamp >= start && $0.timestamp < end }
+        } else if let start = filterPeriod.startDate {
+            result = result.filter { $0.timestamp >= start }
         }
 
         // Category filter
@@ -133,11 +158,6 @@ struct EntryListView: View {
             }
         }
         return counts.sorted { $0.value > $1.value }.map(\.key)
-    }
-
-    private var allUsedSubstances: [String] {
-        let names = entries.map(\.substance)
-        return (NSOrderedSet(array: names).array as? [String]) ?? Array(Set(names))
     }
 
     private var allUsedCategories: [SubstanceCategory] {
@@ -248,19 +268,6 @@ struct EntryListView: View {
         .onChange(of: selectedTag) { rebuildGroups() }
         .onChange(of: grouping) { rebuildGroups() }
         .onChange(of: substanceColors.count) { rebuildColorMap() }
-        .sheet(isPresented: $showingFilters) {
-            JournalFilterSheet(
-                startDate: $filterStartDate,
-                endDate: $filterEndDate,
-                selectedSubstances: $filterSubstances,
-                selectedCategories: $filterCategories,
-                availableSubstances: allUsedSubstances,
-                availableCategories: allUsedCategories,
-            )
-            .presentationDetents([.medium, .large])
-            .presentationBackground(.regularMaterial)
-            .onDisappear { rebuildGroups() }
-        }
         .sheet(isPresented: $showingCalendar) {
             calendarSheet
                 .presentationDetents([.medium])
@@ -270,11 +277,9 @@ struct EntryListView: View {
 
     // MARK: - Header Controls
 
-    /// Journal-specific controls injected into the app header. The grouping
-    /// picker is the primary, accent-tinted control; the filter funnel fills +
-    /// tints when a filter is active (Mail's idiom) so a narrowed list never
-    /// looks like the full one. Each is its own glass capsule inside the
-    /// header's shared `GlassEffectContainer`.
+    /// Journal-specific controls injected into the app header: the grouping
+    /// picker (primary, accent) and a filter pull-down. Each is its own glass
+    /// capsule inside the header's shared `GlassEffectContainer`.
     @ViewBuilder
     private var journalHeaderControls: some View {
         Menu {
@@ -299,12 +304,48 @@ struct EntryListView: View {
         }
         .glassEffect(.regular, in: .capsule)
 
-        Button {
-            showingFilters = true
+        filterMenu
+    }
+
+    /// Filter as a pull-down menu (Mail's idiom) rather than a modal sheet:
+    /// a coarse time window, a category sub-menu of checkmark toggles, and a
+    /// one-tap Clear. The funnel tints pink while any filter is active.
+    private var filterMenu: some View {
+        Menu {
+            Picker("Period", selection: $filterPeriod) {
+                ForEach(DatePeriod.allCases) { period in
+                    Text(period.label).tag(period)
+                }
+            }
+
+            if !allUsedCategories.isEmpty {
+                Menu {
+                    ForEach(allUsedCategories, id: \.self) { category in
+                        Button {
+                            toggleCategory(category)
+                        } label: {
+                            Label {
+                                Text(category.displayName)
+                            } icon: {
+                                Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
+                            }
+                        }
+                    }
+                } label: {
+                    Label("Category", systemImage: "square.grid.2x2")
+                }
+            }
+
+            if hasActiveFilters {
+                Section {
+                    Button("Clear Filters", role: .destructive) {
+                        clearFilters()
+                    }
+                }
+            }
         } label: {
             // Same full-size funnel in both states; "active" reads from a
-            // tinted-pink glass + white glyph (Mail's idiom) rather than the
-            // shrunken `.circle.fill` variant.
+            // tinted-pink glass + white glyph rather than a shrunken variant.
             Image(systemName: "line.3.horizontal.decrease")
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
@@ -313,6 +354,26 @@ struct EntryListView: View {
         }
         .glassEffect(hasActiveFilters ? .regular.tint(Theme.accent) : .regular, in: .circle)
         .animation(.snappy, value: hasActiveFilters)
+        .onChange(of: filterPeriod) {
+            filterDay = nil
+            rebuildGroups()
+        }
+    }
+
+    private func toggleCategory(_ category: SubstanceCategory) {
+        if filterCategories.contains(category) {
+            filterCategories.remove(category)
+        } else {
+            filterCategories.insert(category)
+        }
+        rebuildGroups()
+    }
+
+    private func clearFilters() {
+        filterCategories = []
+        filterPeriod = .all
+        filterDay = nil
+        rebuildGroups()
     }
 
     // MARK: - Tag Chip Bar
@@ -493,8 +554,8 @@ struct EntryListView: View {
                 entries: entries,
                 colorMap: cachedColorMap,
                 onSelectDate: { date in
-                    filterStartDate = date
-                    filterEndDate = date
+                    filterDay = date
+                    filterPeriod = .all
                     showingCalendar = false
                     rebuildGroups()
                 },
@@ -733,147 +794,6 @@ private struct DoseMarkerStrip: View {
     /// Fraction (0...1) of the 24h session day at which the dose occurred.
     private func fraction(_ date: Date) -> Double {
         min(max(date.timeIntervalSince(dayStart) / 86_400, 0), 1)
-    }
-}
-
-// MARK: - Journal Filter Sheet
-
-struct JournalFilterSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @Binding var startDate: Date?
-    @Binding var endDate: Date?
-    @Binding var selectedSubstances: Set<String>
-    @Binding var selectedCategories: Set<SubstanceCategory>
-    let availableSubstances: [String]
-    let availableCategories: [SubstanceCategory]
-
-    @State private var tempStart: Date = .now
-    @State private var tempEnd: Date = .now
-    @State private var hasDateRange = false
-    @State private var substanceSearch = ""
-
-    private var hasAnyFilter: Bool {
-        startDate != nil || endDate != nil || !selectedSubstances.isEmpty
-            || !selectedCategories.isEmpty || hasDateRange
-    }
-
-    var body: some View {
-        NavigationStack {
-            List {
-                Group {
-                    // Date range section
-                    Section("Date Range") {
-                        Toggle("Filter by dates", isOn: $hasDateRange)
-                        if hasDateRange {
-                            DatePicker("From", selection: $tempStart, displayedComponents: .date)
-                            DatePicker("To", selection: $tempEnd, displayedComponents: .date)
-                        }
-                    }
-
-                    // Category section
-                    if !availableCategories.isEmpty {
-                        Section("Category") {
-                            ForEach(availableCategories, id: \.self) { category in
-                                Button {
-                                    toggleCategory(category)
-                                } label: {
-                                    HStack {
-                                        Image(systemName: category.icon)
-                                            .foregroundStyle(category.color)
-                                            .frame(width: 24)
-                                        Text(category.displayName)
-                                            .foregroundStyle(.primary)
-                                        Spacer()
-                                        if selectedCategories.contains(category) {
-                                            Image(systemName: "checkmark")
-                                                .foregroundStyle(Theme.accent)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // Substance section
-                    Section("Substance") {
-                        TextField("Search substances...", text: $substanceSearch)
-                        let filtered = substanceSearch.isEmpty ? availableSubstances :
-                            availableSubstances.filter { $0.localizedCaseInsensitiveContains(substanceSearch) }
-                        ForEach(filtered, id: \.self) { name in
-                            Button {
-                                toggleSubstance(name)
-                            } label: {
-                                HStack {
-                                    Text(name)
-                                        .foregroundStyle(.primary)
-                                    Spacer()
-                                    if selectedSubstances.contains(name) {
-                                        Image(systemName: "checkmark")
-                                            .foregroundStyle(Theme.accent)
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-                .listRowBackground(Theme.cardBackground)
-            }
-            .scrollContentBackground(.hidden)
-            .navigationTitle("Filter Journal")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
-                }
-                // Reset lives in the toolbar (pinned) so clearing filters never
-                // requires scrolling past the whole substance list to find it.
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    if hasAnyFilter {
-                        Button("Reset", role: .destructive) {
-                            startDate = nil
-                            endDate = nil
-                            selectedSubstances = []
-                            selectedCategories = []
-                            hasDateRange = false
-                        }
-                    }
-                    Button {
-                        if hasDateRange {
-                            startDate = tempStart
-                            endDate = tempEnd
-                        } else {
-                            startDate = nil
-                            endDate = nil
-                        }
-                        dismiss()
-                    } label: {
-                        Image(systemName: "checkmark").fontWeight(.semibold)
-                    }
-                }
-            }
-            .onAppear {
-                hasDateRange = startDate != nil || endDate != nil
-                if let s = startDate { tempStart = s }
-                if let e = endDate { tempEnd = e }
-            }
-        }
-    }
-
-    private func toggleSubstance(_ name: String) {
-        if selectedSubstances.contains(name) {
-            selectedSubstances.remove(name)
-        } else {
-            selectedSubstances.insert(name)
-        }
-    }
-
-    private func toggleCategory(_ category: SubstanceCategory) {
-        if selectedCategories.contains(category) {
-            selectedCategories.remove(category)
-        } else {
-            selectedCategories.insert(category)
-        }
     }
 }
 
