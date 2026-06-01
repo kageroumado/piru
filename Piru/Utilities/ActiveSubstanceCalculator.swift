@@ -146,9 +146,12 @@ extension ActiveSubstanceState {
     }
 
     /// Build from a dose entry by looking up substance duration data.
+    ///
+    /// Long-acting / maintenance compounds resolve no `timelineDuration`, so they
+    /// fall through to a timestamp marker instead of a flat, meaningless curve.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
-              let duration = substance.resolveDuration(for: entry.route) else { return nil }
+              let duration = substance.timelineDuration(for: entry.route) else { return nil }
         let intensity = Self.computeDoseIntensity(
             amount: entry.amount,
             doseRange: Self.resolveDoseRange(substance: substance, route: entry.route),

@@ -287,6 +287,7 @@ struct DurationProfile: Codable, Hashable {
             afterglowEnd: afterglowEnd,
         )
     }
+
 }
 
 extension DurationProfile {
@@ -471,6 +472,65 @@ struct PeptideProfile: Codable, Hashable {
 
 // MARK: - Route
 
+/// Release / duration-of-action window for a long-acting formulation — depot
+/// injections, esters, weekly peptides. Distinct from ``DurationProfile``, which
+/// is the *acute* dose-effect curve (hours): a single dose of these acts or
+/// releases over days to weeks, which is useful to show in the drug card but is
+/// NOT plotted as an acute timeline curve. Stored normalized to minutes.
+struct DurationOfAction: Codable, Hashable {
+    let minMinutes: Double
+    let maxMinutes: Double
+
+    init(minMinutes: Double, maxMinutes: Double) {
+        self.minMinutes = minMinutes
+        self.maxMinutes = maxMinutes
+    }
+
+    /// Authored as `{ min, max, unit }` (unit: hours/days/weeks/months) in the
+    /// curated overlay; normalized to minutes on decode.
+    private enum CodingKeys: String, CodingKey { case min, max, unit }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let factor = Self.minutesPerUnit((try? c.decode(String.self, forKey: .unit)) ?? "days")
+        minMinutes = try c.decode(Double.self, forKey: .min) * factor
+        maxMinutes = try c.decode(Double.self, forKey: .max) * factor
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(minMinutes / 1440, forKey: .min)
+        try c.encode(maxMinutes / 1440, forKey: .max)
+        try c.encode("days", forKey: .unit)
+    }
+
+    static func minutesPerUnit(_ unit: String) -> Double {
+        switch unit.lowercased() {
+        case "hour", "hours", "h": 60
+        case "week", "weeks", "w": 1440 * 7
+        case "month", "months", "mo": 1440 * 30
+        default: 1440 // days
+        }
+    }
+
+    /// Human-friendly release window for the drug card — picks the most readable
+    /// unit (e.g. "7–10 days", "8–12 weeks", "4–6 months"). Localized.
+    var formattedWindow: String {
+        let maxDays = maxMinutes / 1440
+        func n(_ minutes: Double, per: Double) -> String {
+            let v = minutes / per
+            return v.rounded() == v ? String(Int(v)) : v.formatted(.number.precision(.fractionLength(1)))
+        }
+        if maxDays >= 90 {
+            return String(localized: "\(n(minMinutes, per: 1440 * 30))–\(n(maxMinutes, per: 1440 * 30)) months", comment: "Long-acting release window")
+        } else if maxDays >= 21 {
+            return String(localized: "\(n(minMinutes, per: 1440 * 7))–\(n(maxMinutes, per: 1440 * 7)) weeks", comment: "Long-acting release window")
+        } else {
+            return String(localized: "\(n(minMinutes, per: 1440))–\(n(maxMinutes, per: 1440)) days", comment: "Long-acting release window")
+        }
+    }
+}
+
 struct SubstanceRoute: Codable {
     let route: RouteOfAdministration
     let unit: String
@@ -479,6 +539,10 @@ struct SubstanceRoute: Codable {
     /// Clinical-protocol dosing (peptides/Rx). When present the UI shows this
     /// instead of the `doses` trip-intensity ladder.
     let protocolDosing: ProtocolDosing?
+    /// Release / duration-of-action window for long-acting formulations (depot
+    /// injections, weekly peptides). Shown in the drug card; never drawn as an
+    /// acute timeline curve.
+    let durationOfAction: DurationOfAction?
 
     init(
         route: RouteOfAdministration,
@@ -486,12 +550,14 @@ struct SubstanceRoute: Codable {
         doses: DoseRange,
         duration: DurationProfile? = nil,
         protocolDosing: ProtocolDosing? = nil,
+        durationOfAction: DurationOfAction? = nil,
     ) {
         self.route = route
         self.unit = unit
         self.doses = doses
         self.duration = duration
         self.protocolDosing = protocolDosing
+        self.durationOfAction = durationOfAction
     }
 }
 
@@ -984,6 +1050,32 @@ struct Substance: Identifiable {
         // Single route with data is likely generic — safe to use for any route
         if routesWithDuration.count == 1 { return routesWithDuration.first?.duration }
         return nil
+    }
+
+    /// Longest total effect a dose can have and still be drawn as a timeline
+    /// curve. Beyond this an "acute" onset→peak→offset shape is the wrong model:
+    /// the effect outlasts any sane graph window, so the dose is a point-in-time
+    /// marker instead. Matches the data pipeline's `duration_implausible`
+    /// threshold (`pipeline/build/sqlite.py`).
+    static let maxAcuteTimelineMinutes: Double = 24 * 60
+
+    /// Duration to use when *drawing a dose on a timeline* (curve thumbnails, the
+    /// day-detail graph, the active-session accessory) — `nil` means "don't draw
+    /// a curve; render a marker instead."
+    ///
+    /// Returns `nil` for long-acting / maintenance compounds whose modelled
+    /// effect exceeds ``maxAcuteTimelineMinutes`` (memantine, bupropion, SSRIs,
+    /// GLP-1 agonists, depot injectables, vitamins, …). Their acute curve would
+    /// be a flat line stretching the shared x-axis and crushing every real curve
+    /// beside it. The decision is taken from the *actual* profile that would be
+    /// drawn — so it's correct for custom substances and route-specific profiles
+    /// that the precomputed `durationImplausible` flag can miss. Distinct from
+    /// ``resolveDuration(for:)``, which returns the raw profile regardless.
+    func timelineDuration(for route: RouteOfAdministration) -> DurationProfile? {
+        guard let profile = resolveDuration(for: route),
+              profile.estimatedTotalMinutes > 0,
+              profile.estimatedTotalMinutes <= Self.maxAcuteTimelineMinutes else { return nil }
+        return profile
     }
 
     func matches(_ query: String) -> Bool {

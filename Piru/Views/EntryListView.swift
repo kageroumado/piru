@@ -171,6 +171,24 @@ struct EntryListView: View {
         cachedCategories = categories.sorted { $0.rawValue < $1.rawValue }
     }
 
+    /// Cheap content fingerprint of the fetched entries. Used as the rebuild
+    /// task's identity so the derived cache + day-grouping refresh on *edits*,
+    /// not just adds/removes. `entries.count` alone misses an in-place edit
+    /// (e.g. moving a dose to another day, or changing its amount): the count is
+    /// unchanged, so the cache went stale and the dose got stuck in its old day
+    /// bucket. Hashing the fields the derived cache depends on closes that gap.
+    private var entriesSignature: Int {
+        var hasher = Hasher()
+        for entry in entries {
+            hasher.combine(entry.persistentModelID)
+            hasher.combine(entry.timestamp)
+            hasher.combine(entry.amount)
+            hasher.combine(entry.substance)
+            hasher.combine(entry.route)
+        }
+        return hasher.finalize()
+    }
+
     private func rebuildGroups() {
         let calendar = Calendar.current
         let filtered = filteredEntries
@@ -264,7 +282,7 @@ struct EntryListView: View {
             rebuildDerived()
             rebuildGroups()
         }
-        .task(id: entries.count) {
+        .task(id: entriesSignature) {
             try? await Task.sleep(for: .milliseconds(100))
             guard !Task.isCancelled else { return }
             rebuildDerived()

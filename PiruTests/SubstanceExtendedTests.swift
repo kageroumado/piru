@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import Piru
 
@@ -113,6 +114,80 @@ struct SubstanceExtendedTests {
             effects: [],
         )
         #expect(substance.resolveDuration(for: .intravenous) == nil)
+    }
+
+    // MARK: - timelineDuration
+
+    @Test
+    func `timelineDuration returns a curve for an acute (short) duration`() {
+        let substance = Substance(
+            name: "Test",
+            aliases: [],
+            category: .stimulant,
+            defaultRoute: .oral,
+            routes: [oralRouteWithDuration],
+            effects: [],
+        )
+        // ~3h total — well within the acute window, so it draws a curve.
+        let dur = substance.timelineDuration(for: .oral)
+        #expect(dur != nil)
+        #expect(dur?.estimatedTotalMinutes ?? 0 <= Substance.maxAcuteTimelineMinutes)
+    }
+
+    @Test
+    func `timelineDuration returns nil for a long-acting duration`() {
+        let longActingRoute = SubstanceRoute(
+            route: .oral,
+            unit: "mg",
+            doses: DoseRange(),
+            duration: DurationProfile(
+                onset: DurationRange(min: 30, max: 60),
+                comeup: nil,
+                peak: nil,
+                offset: nil,
+                afterglow: nil,
+                // ~37.5h total — outlasts any acute window, so it must NOT draw a
+                // curve (it falls through to a timestamp marker instead).
+                total: DurationRange(min: 1800, max: 2700),
+            ),
+        )
+        let substance = Substance(
+            name: "Memantine-like",
+            aliases: [],
+            category: .other,
+            defaultRoute: .oral,
+            routes: [longActingRoute],
+            effects: [],
+        )
+        #expect(substance.resolveDuration(for: .oral) != nil) // raw profile still exists
+        #expect(substance.timelineDuration(for: .oral) == nil) // but no curve is drawn
+    }
+
+    // MARK: - DurationOfAction
+
+    @Test
+    func `durationOfAction decodes its unit into minutes`() throws {
+        func decode(_ json: String) throws -> DurationOfAction {
+            try JSONDecoder().decode(DurationOfAction.self, from: Data(json.utf8))
+        }
+        let days = try decode(#"{"min": 7, "max": 10, "unit": "days"}"#)
+        #expect(days.minMinutes == 7 * 1440)
+        #expect(days.maxMinutes == 10 * 1440)
+
+        let weeks = try decode(#"{"min": 2, "max": 4, "unit": "weeks"}"#)
+        #expect(weeks.minMinutes == 2 * 1440 * 7)
+
+        // Missing unit defaults to days.
+        let bare = try decode(#"{"min": 1, "max": 3}"#)
+        #expect(bare.maxMinutes == 3 * 1440)
+    }
+
+    @Test
+    func `durationOfAction picks a readable display unit`() {
+        // ≤3 weeks → days; ≥3 weeks → weeks; ≥90 days → months.
+        #expect(DurationOfAction(minMinutes: 7 * 1440, maxMinutes: 10 * 1440).formattedWindow == "7–10 days")
+        #expect(DurationOfAction(minMinutes: 56 * 1440, maxMinutes: 84 * 1440).formattedWindow == "8–12 weeks")
+        #expect(DurationOfAction(minMinutes: 120 * 1440, maxMinutes: 180 * 1440).formattedWindow == "4–6 months")
     }
 
     // MARK: - Hashable / Equatable

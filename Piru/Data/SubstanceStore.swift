@@ -942,7 +942,8 @@ final class SubstanceStore {
             let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
             let ra = RouteOfAdministration.from(string: route)
             let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
-            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: duration, protocolDosing: protocolDosing))
+            let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
+            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: duration, protocolDosing: protocolDosing, durationOfAction: durationOfAction))
         }
 
         // Surface protocol-dosing-only routes (peptides dosed on a schedule with
@@ -959,7 +960,24 @@ final class SubstanceStore {
             let ra = RouteOfAdministration.from(string: route)
             if alreadyHave.contains(ra) { continue }
             guard let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route) else { continue }
-            resolved.append(SubstanceRoute(route: ra, unit: row["unit"] ?? "mg", doses: DoseRange(), duration: nil, protocolDosing: protocolDosing))
+            let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
+            resolved.append(SubstanceRoute(route: ra, unit: row["unit"] ?? "mg", doses: DoseRange(), duration: nil, protocolDosing: protocolDosing, durationOfAction: durationOfAction))
+        }
+
+        // Surface routes whose ONLY data is a long-acting release window (depot
+        // injections with no trip-ladder / acute curve / protocol schedule).
+        let haveRoutes = Set(resolved.map(\.route))
+        let doaRoutes = try String.fetchAll(db, sql: """
+            SELECT DISTINCT route FROM durations_of_action da
+              JOIN sources src ON src.id = da.source_id
+             WHERE da.substance_id = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+        """, arguments: [substanceID])
+        for route in doaRoutes {
+            let ra = RouteOfAdministration.from(string: route)
+            if haveRoutes.contains(ra) { continue }
+            guard let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route) else { continue }
+            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: nil, protocolDosing: nil, durationOfAction: durationOfAction))
         }
         return resolved
     }
@@ -1066,13 +1084,31 @@ final class SubstanceStore {
 
         let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
         let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
+        let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
         return SubstanceRoute(
             route: RouteOfAdministration.from(string: route),
             unit: row["unit"] ?? "mg",
             doses: dose,
             duration: duration,
             protocolDosing: protocolDosing,
+            durationOfAction: durationOfAction,
         )
+    }
+
+    /// Highest-priority long-acting release / duration-of-action window for a
+    /// route. Drives the drug card's "release window" row; never an acute curve.
+    private func resolvedDurationOfActionForRoute(db: Database, substanceID: Int64, route: String) throws -> DurationOfAction? {
+        let row = try Row.fetchOne(db, sql: """
+            SELECT min_minutes, max_minutes
+              FROM durations_of_action da
+              JOIN sources src ON src.id = da.source_id
+             WHERE da.substance_id = ? AND da.route = ?
+               AND src.slug IN (\(enabledSourceListSQL))
+             ORDER BY \(priorityCaseSQL) ASC
+             LIMIT 1
+        """, arguments: [substanceID, route])
+        guard let row, let mn = row["min_minutes"] as Double?, let mx = row["max_minutes"] as Double? else { return nil }
+        return DurationOfAction(minMinutes: mn, maxMinutes: mx)
     }
 
     private func resolvedDurationForRoute(db: Database, substanceID: Int64, route: String) throws -> DurationProfile? {
