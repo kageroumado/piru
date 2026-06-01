@@ -88,8 +88,11 @@ struct DayDetailView: View {
                         description: Text("No substances logged on this day."),
                     )
                 } else {
-                    // Timeline graph
-                    if !substanceStates.isEmpty || !doseMarkers.isEmpty {
+                    // Timeline graph — only when at least one dose draws a curve.
+                    // A day of nothing but markers (long-acting meds, duration-less
+                    // doses) would render an empty axis, so we drop the whole
+                    // section and let the entry list speak for itself.
+                    if !substanceStates.isEmpty {
                         Section {
                             if graphExpanded {
                                 VStack(spacing: 8) {

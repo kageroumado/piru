@@ -661,6 +661,21 @@ struct SubstanceDetailView: View {
                     }
                 }
             }
+
+            // Long-acting release window (depot injections, esters, weekly
+            // peptides). Pharmacological info, not an acute dose curve — shown
+            // regardless of display class.
+            if let doa = substanceRoute.durationOfAction {
+                Section("Duration of Action — \(String(localized: substanceRoute.route.localizedName))") {
+                    HStack {
+                        Label("Release window", systemImage: "arrow.triangle.2.circlepath")
+                        Spacer()
+                        Text(doa.formattedWindow)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
         }
     }
 

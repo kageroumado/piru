@@ -300,7 +300,10 @@ final class ActiveSessionManager {
     // MARK: - Private
 
     static func resolveDuration(substance: Substance?, route: RouteOfAdministration) -> DurationProfile? {
-        substance?.resolveDuration(for: route)
+        // `timelineDuration` (not `resolveDuration`) so a long-acting maintenance
+        // med — bupropion, an SSRI, a weekly GLP-1 — never spawns a multi-day
+        // "active session" with a flat countdown in the tab-bar accessory.
+        substance?.timelineDuration(for: route)
     }
 
     static func buildColorMap(from allColors: [SubstanceColor]) -> [String: String] {

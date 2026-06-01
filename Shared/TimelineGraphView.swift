@@ -307,7 +307,9 @@ struct TimelineGraphView: View {
             // top of it.
             let nowMinutes = currentTime.timeIntervalSince(earliestDose) / 60
             let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
-            if nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
+            // Skip on compact thumbnails: a full-height line on a 96pt card reads
+            // as a stray glitch, not a "you are here" cue.
+            if !compact, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
                 var nowLine = Path()
                 nowLine.move(to: CGPoint(x: nowX, y: graphTop))
                 nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight))
@@ -436,8 +438,9 @@ struct TimelineGraphView: View {
     ) -> Path {
         Path { path in
             let steps = compact ? 40 : 120
+            let drawEnd = substance.totalMinutes
             for i in 0 ... steps {
-                let t = Double(i) / Double(steps) * substance.totalMinutes
+                let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
                 let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 if i == 0 {
@@ -463,18 +466,19 @@ struct TimelineGraphView: View {
         Path { path in
             let steps = compact ? 40 : 120
             let baseline = graphTop + graphHeight
+            let drawEnd = substance.totalMinutes
 
             let startX = graphInset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
             path.move(to: CGPoint(x: startX, y: baseline))
 
             for i in 0 ... steps {
-                let t = Double(i) / Double(steps) * substance.totalMinutes
+                let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
                 let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance) * scale) * graphHeight * 0.93
                 path.addLine(to: CGPoint(x: x, y: y))
             }
 
-            let endX = graphInset + CGFloat((substanceOffset + substance.totalMinutes - visibleStart) / visibleSpan) * graphWidth
+            let endX = graphInset + CGFloat((substanceOffset + drawEnd - visibleStart) / visibleSpan) * graphWidth
             path.addLine(to: CGPoint(x: endX, y: baseline))
             path.closeSubpath()
         }
@@ -622,11 +626,15 @@ struct TimelineGraphView: View {
                 }
             }
 
-            // Current-time dot on the summed curve.
+            // Current-time dot on the summed curve. Must use the SAME normalized
+            // value as `point(at:)` above — `stackedIntensity * yNorm`, clamped —
+            // or the dot detaches from the curve whenever `yNorm` shifts (e.g. a
+            // dose is added/removed and the graph rescales to fill the height).
             let elapsedGlobal = currentTime.timeIntervalSince(earliestDose) / 60
             if elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
                 let x = graphInset + CGFloat((elapsedGlobal - visibleStart) / visibleSpan) * graphWidth
-                let y = baseline - CGFloat(stackedIntensity(atGlobalMinutes: elapsedGlobal, group: group)) * graphHeight * 0.93
+                let v = min(1.0, stackedIntensity(atGlobalMinutes: elapsedGlobal, group: group) * yNorm)
+                let y = baseline - CGFloat(v) * graphHeight * 0.93
                 if x >= -5, x <= graphWidth + 5 {
                     let dotSize: CGFloat = compact ? 5 : 7
                     let dot = Path(ellipseIn: CGRect(
