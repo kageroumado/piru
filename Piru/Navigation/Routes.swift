@@ -100,6 +100,8 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     case journalCalendar
     case timeAdjust(entryTimestamp: Date)
     case dayShare(date: Date)
+    /// Fullscreen interactive PK timeline for a given session day.
+    case timelineDetail(date: Date)
 
     var id: Self {
         self

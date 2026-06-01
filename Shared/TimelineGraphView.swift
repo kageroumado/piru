@@ -1,5 +1,25 @@
 import SwiftUI
 
+/// Shared spacing scale for the timeline graph and its host views. One source of
+/// truth so the canvas inset, card insets, and label bands stay in proportion
+/// instead of drifting across five unrelated magic numbers.
+enum GraphMetrics {
+    /// Inset between the card edge and the drawn curves on the full graph.
+    static let canvasInset: CGFloat = 8
+    /// Inset on compact thumbnails — kept tight so small cards aren't eaten by padding.
+    static let compactInset: CGFloat = 2
+    /// Padding inside the hosting card / section.
+    static let cardInset: CGFloat = 12
+    /// Vertical rhythm between stacked graph elements.
+    static let section: CGFloat = 12
+    /// Height of the clock-time label band below the full graph.
+    static let axisLabels: CGFloat = 16
+    /// Height of the relative-hour label band above the full graph.
+    static let topLabels: CGFloat = 12
+    /// Resting height of the embedded full graph in day/entry detail.
+    static let embedded: CGFloat = 168
+}
+
 /// A dose without duration data, shown as a timestamp marker on the graph.
 struct DoseMarker {
     let substanceName: String
@@ -19,12 +39,26 @@ struct TimelineGraphView: View {
     /// session accessory and the full detail graph; off for the historical
     /// journal thumbnails, where it's an axis-less artifact.
     var showNowIndicator: Bool = true
+    /// When set (case-insensitive substance name), that curve renders at full
+    /// strength and every other curve is dimmed — drives the fullscreen legend's
+    /// tap-to-isolate. Nil means the normal active/worn-off emphasis applies.
+    var highlighted: String? = nil
+    /// Desired visible window in minutes, set by the fullscreen detail view's
+    /// window presets (4h/8h/12h/24h). `nil` means "fit everything" (the All
+    /// preset / the embedded default). Applied to `zoom` on appear and whenever
+    /// it changes; the user can still pinch/pan afterwards. Ignored when
+    /// `compact`.
+    var presetSpanMinutes: Double? = nil
 
     // Zoom & pan state (only active when !compact)
     @State private var zoom: CGFloat = 1.0
     @State private var panOffset: Double = 0
     @State private var gestureStartZoom: CGFloat = 1.0
     @State private var gestureStartPan: Double = 0
+    /// X position (canvas points) of the active scrub rule, or nil at rest.
+    /// Drives the inspection lollipop: a vertical rule + per-curve dots + the
+    /// SwiftUI callout. Only set on the full graph (`!compact`).
+    @State private var scrubX: CGFloat? = nil
 
     private var earliestDose: Date {
         let substanceDates = substances.map(\.doseTimestamp)
@@ -34,12 +68,12 @@ struct TimelineGraphView: View {
 
     /// Height reserved for time labels below the graph
     private var labelAreaHeight: CGFloat {
-        compact ? 0 : 16
+        compact ? 0 : GraphMetrics.axisLabels
     }
 
     /// Height reserved for relative time labels above the graph
     private var topLabelAreaHeight: CGFloat {
-        compact ? 0 : 12
+        compact ? 0 : GraphMetrics.topLabels
     }
 
     /// Full scrollable extent — the latest minute the tallest *rendered* curve
@@ -244,8 +278,37 @@ struct TimelineGraphView: View {
         min(1.0 / peakCurveValue, 20.0)
     }
 
+    /// Compression exponent applied to each curve's *amplitude* — the peak
+    /// height it's scaled to — never to its time-varying shape. Linear
+    /// (`1.0`) makes a threshold dose beside a heavy one collapse to an
+    /// unreadable sliver and its long elimination skirt hug the axis. `< 1`
+    /// lifts the low end (a 10 %-of-peak dose rises to ~32 % at `0.5`) while
+    /// pinning the tallest curve at full height and preserving dose ordering.
+    /// Because only the amplitude is scaled, onset/peak/offset proportions —
+    /// and the relative tail length — are untouched; the light dose simply
+    /// reads as a real hump instead of a flat smear.
+    private static let amplitudeGamma: Double = 0.5
+
+    /// Map a linear normalized amplitude in `[0, 1]` to its display height,
+    /// compressing the low end so faint doses stay legible next to heavy ones.
+    private func compressedAmplitude(_ amplitude: Double) -> Double {
+        pow(min(max(amplitude, 0), 1), Self.amplitudeGamma)
+    }
+
+    /// Lowest zoom that still has meaning: the value at which the visible window
+    /// equals the full extent. At rest (`zoom == 1`) we frame `autoFitSpan`; a
+    /// long elimination tail makes `autoFitSpan < totalSpan`, so zooming *out*
+    /// to reveal that tail needs a sub-1 zoom. The embedded graph never sets
+    /// `zoom` below 1, so this only loosens the floor for the fullscreen view's
+    /// "All" preset and pinch-out. Capped at 1 so simple days can't zoom past
+    /// their own data.
+    private var minZoom: CGFloat {
+        guard !compact, totalSpan > 0, autoFitSpan > 0 else { return 1 }
+        return min(1, CGFloat(autoFitSpan / totalSpan))
+    }
+
     private var effectiveZoom: CGFloat {
-        compact ? 1 : max(1, zoom)
+        compact ? 1 : min(max(minZoom, zoom), 10)
     }
 
     /// Visible window. At rest this is `autoFitSpan` (the activity window);
@@ -265,69 +328,300 @@ struct TimelineGraphView: View {
         max(0, totalSpan - visibleSpan)
     }
 
+    /// How prominently a curve is drawn. On a busy day only the curves active
+    /// *now* (or an isolated one) read at full strength; worn-off history and
+    /// non-isolated curves fade back so the graph collapses to what matters.
+    private enum CurveEmphasis {
+        case full // active now, or the isolated substance
+        case faded // worn-off history
+        case dimmed // a non-isolated curve while another is isolated
+
+        var fillOpacity: Double {
+            switch self {
+            case .full: 0.15
+            case .faded: 0.06
+            case .dimmed: 0.12
+            }
+        }
+
+        var strokeOpacity: Double {
+            switch self {
+            case .full: 1
+            case .faded, .dimmed: 0.3
+            }
+        }
+    }
+
+    /// True when `currentTime` falls inside at least one curve's active window —
+    /// i.e. the session is live *right now*. Worn-off fading only makes sense
+    /// then: a fully historical day has no "now" on the axis to contrast
+    /// against, so fading every curve would just wash the whole graph out.
+    private var hasActiveNow: Bool {
+        guard showNowIndicator else { return false }
+        return substances.contains { s in
+            let elapsed = currentTime.timeIntervalSince(s.doseTimestamp) / 60
+            return elapsed >= 0 && elapsed <= s.totalMinutes
+        }
+    }
+
+    /// Emphasis for a curve given legend isolation and whether its effect window
+    /// still includes `currentTime`. Compact contexts (thumbnails, accessory,
+    /// Live Activity) and fully historical days always render at full strength —
+    /// emphasis is a live, busy-full-graph declutter, not a global restyle.
+    private func emphasis(name: String, isActive: Bool) -> CurveEmphasis {
+        guard !compact else { return .full }
+        if let highlighted, !highlighted.isEmpty {
+            return highlighted.caseInsensitiveCompare(name) == .orderedSame ? .full : .dimmed
+        }
+        guard hasActiveNow else { return .full }
+        return isActive ? .full : .faded
+    }
+
+    // MARK: - Geometry
+
+    /// The drawable rectangle of the canvas, derived once from the view size so
+    /// the `Canvas` closure, the pan/scrub gestures, and the callout overlay all
+    /// map points ⇄ minutes through identical math.
+    private struct GraphGeometry {
+        let inset: CGFloat
+        let top: CGFloat
+        let width: CGFloat
+        let height: CGFloat
+    }
+
+    private func graphGeometry(for size: CGSize) -> GraphGeometry {
+        let inset: CGFloat = compact ? GraphMetrics.compactInset : GraphMetrics.canvasInset
+        return GraphGeometry(
+            inset: inset,
+            top: inset + topLabelAreaHeight,
+            width: size.width - inset * 2,
+            height: size.height - labelAreaHeight - topLabelAreaHeight - inset * 2,
+        )
+    }
+
+    // MARK: - Scrub inspection
+
+    /// One curve's value at a scrubbed instant, used by both the in-canvas dots
+    /// and the SwiftUI callout. `value` is the normalized [0, 1] height.
+    private struct ScrubSample: Identifiable {
+        let id: Int
+        let name: String
+        let color: Color
+        let value: Double
+        let elapsed: Double
+    }
+
+    /// Every curve present at `global` minutes (since `earliestDose`), sorted
+    /// strongest-first. Handles both stacked and per-dose rendering so the
+    /// readout matches whatever the canvas drew.
+    private func scrubSamples(atMinute global: Double) -> [ScrubSample] {
+        let yNorm = yNormalization
+        var out: [ScrubSample] = []
+        if stackRedoses {
+            for (gi, group) in stackedGroups.enumerated() {
+                guard let first = group.first else { continue }
+                let (gStart, gEnd) = stackedGroupRange(group)
+                guard global >= gStart, global <= gEnd else { continue }
+                let params = group.map { pkParams(for: $0) }
+                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group, params: params) * yNorm))
+                guard v > 0.01 else { continue }
+                out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, elapsed: global - gStart))
+            }
+        } else {
+            for (i, s) in substances.enumerated() {
+                let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                let local = global - offset
+                let params = pkParams(for: s)
+                guard local >= 0, local <= curveExtent(for: s, params: params) else { continue }
+                let v = min(1, max(0, intensity(at: local, for: s, params: params) * heightScale(for: s) * yNorm))
+                guard v > 0.01 else { continue }
+                out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, elapsed: local))
+            }
+        }
+        return out.sorted { $0.value > $1.value }
+    }
+
+    /// Index of the strongest curve whose effect window includes `currentTime`,
+    /// in per-dose order. The resting now-dot is drawn on only this curve.
+    private func frontmostActiveIndex(yNorm: Double) -> Int? {
+        var best = -1.0
+        var bestIdx: Int? = nil
+        for (i, s) in substances.enumerated() {
+            let elapsed = currentTime.timeIntervalSince(s.doseTimestamp) / 60
+            guard elapsed >= 0, elapsed <= s.totalMinutes else { continue }
+            let v = intensity(at: elapsed, for: s, params: pkParams(for: s)) * heightScale(for: s) * yNorm
+            if v > best { best = v; bestIdx = i }
+        }
+        return bestIdx
+    }
+
+    /// Stacked-mode counterpart: the strongest group at `nowGlobal`.
+    private func frontmostActiveStackedIndex(yNorm: Double, nowGlobal: Double) -> Int? {
+        var best = -1.0
+        var bestIdx: Int? = nil
+        for (gi, group) in stackedGroups.enumerated() {
+            let (gStart, gEnd) = stackedGroupRange(group)
+            guard nowGlobal >= gStart, nowGlobal <= gEnd else { continue }
+            let params = group.map { pkParams(for: $0) }
+            let v = stackedIntensity(atGlobalMinutes: nowGlobal, group: group, params: params) * yNorm
+            if v > best { best = v; bestIdx = gi }
+        }
+        return bestIdx
+    }
+
+    private func scrubClockTime(atMinute global: Double) -> String {
+        Self.timeLabelFormatter.string(from: earliestDose.addingTimeInterval(global * 60))
+    }
+
     var body: some View {
         if compact {
             graphCanvas
         } else {
-            VStack(spacing: 0) {
-                graphCanvas
-                    .contentShape(Rectangle())
-                    .gesture(
-                        MagnifyGesture()
-                            .onChanged { value in
-                                let fit = autoFitSpan
-                                let full = totalSpan
-                                guard fit > 0, full > 0 else { return }
-                                let newZoom = max(1.0, min(10.0, gestureStartZoom * value.magnification))
-                                let oldVisibleSpan = min(fit / Double(max(1, gestureStartZoom)), full)
-                                let newVisibleSpan = min(fit / Double(newZoom), full)
-                                let anchorX = Double(value.startAnchor.x)
-                                let minuteAtAnchor = gestureStartPan + anchorX * oldVisibleSpan
-                                let newPan = minuteAtAnchor - anchorX * newVisibleSpan
-                                let maxPan = max(0, full - newVisibleSpan)
-                                zoom = newZoom
-                                panOffset = min(max(0, newPan), maxPan)
+            GeometryReader { geo in
+                let geom = graphGeometry(for: geo.size)
+                ZStack(alignment: .topLeading) {
+                    graphCanvas
+                        .contentShape(Rectangle())
+                        .gesture(panZoomGesture(graphWidth: geom.width))
+                        .highPriorityGesture(scrubGesture(geom: geom))
+                        .onTapGesture(count: 2) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                zoom = 1.0
+                                panOffset = 0
+                                gestureStartZoom = 1.0
+                                gestureStartPan = 0
                             }
-                            .onEnded { _ in
-                                gestureStartZoom = zoom
-                                gestureStartPan = panOffset
-                            },
-                    )
-                    .onTapGesture(count: 2) {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            zoom = 1.0
-                            panOffset = 0
-                            gestureStartZoom = 1.0
-                            gestureStartPan = 0
                         }
-                    }
-
-                if maxPanOffset > 1 {
-                    Slider(
-                        value: $panOffset,
-                        in: 0 ... max(0.001, maxPanOffset),
-                        onEditingChanged: { editing in
-                            if !editing {
-                                gestureStartPan = panOffset
-                            }
-                        },
-                    )
-                    .tint(.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 6)
-                    .transition(.opacity)
+                    scrubCallout(geom: geom)
                 }
             }
-            .animation(.easeInOut(duration: 0.2), value: maxPanOffset > 1)
+            .onAppear { frameToPreset(presetSpanMinutes) }
+            .onChange(of: presetSpanMinutes) { _, newValue in
+                withAnimation(.easeInOut(duration: 0.3)) { frameToPreset(newValue) }
+            }
+        }
+    }
+
+    /// Reframe the visible window to a preset span (or the full extent when
+    /// `nil`). Translates a target minute-span into the internal `zoom` the
+    /// renderer already understands, clamped to `[minZoom, 10]`, and snaps the
+    /// pan back to the start so the window is deterministic. Only meaningful on
+    /// the fullscreen detail view; the embedded graph never sets a preset.
+    private func frameToPreset(_ span: Double?) {
+        guard !compact, autoFitSpan > 0, totalSpan > 0 else { return }
+        let target = min(max((span ?? totalSpan), 1), totalSpan)
+        let z = CGFloat(autoFitSpan / target)
+        zoom = min(max(minZoom, z), 10)
+        gestureStartZoom = zoom
+        panOffset = 0
+        gestureStartPan = 0
+    }
+
+    /// One-finger drag pans the timeline; two-finger pinch zooms around its
+    /// anchor. Composed simultaneously so a pinch mid-drag still tracks. The
+    /// drag maps screen translation → minutes through the live `visibleSpan`,
+    /// anchored on `gestureStartPan` so the mapping is absolute, not cumulative.
+    private func panZoomGesture(graphWidth: CGFloat) -> some Gesture {
+        SimultaneousGesture(
+            DragGesture(minimumDistance: 8)
+                .onChanged { value in
+                    guard graphWidth > 0 else { return }
+                    let dxMinutes = -Double(value.translation.width) / Double(graphWidth) * visibleSpan
+                    panOffset = min(max(0, gestureStartPan + dxMinutes), maxPanOffset)
+                }
+                .onEnded { _ in
+                    gestureStartPan = panOffset
+                },
+            MagnifyGesture()
+                .onChanged { value in
+                    let fit = autoFitSpan
+                    let full = totalSpan
+                    guard fit > 0, full > 0 else { return }
+                    let newZoom = max(Double(minZoom), min(10.0, gestureStartZoom * value.magnification))
+                    let oldVisibleSpan = min(fit / Double(max(1, gestureStartZoom)), full)
+                    let newVisibleSpan = min(fit / Double(newZoom), full)
+                    let anchorX = Double(value.startAnchor.x)
+                    let minuteAtAnchor = gestureStartPan + anchorX * oldVisibleSpan
+                    let newPan = minuteAtAnchor - anchorX * newVisibleSpan
+                    let maxPan = max(0, full - newVisibleSpan)
+                    zoom = newZoom
+                    panOffset = min(max(0, newPan), maxPan)
+                }
+                .onEnded { _ in
+                    gestureStartZoom = zoom
+                    gestureStartPan = panOffset
+                },
+        )
+    }
+
+    /// Hold-then-drag to inspect: a long press arms the scrub so a quick drag
+    /// still pans, then the finger position becomes `scrubX`. High-priority so
+    /// it pre-empts the pan once armed; releasing clears the rule.
+    private func scrubGesture(geom: GraphGeometry) -> some Gesture {
+        LongPressGesture(minimumDuration: 0.25, maximumDistance: 12)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged { value in
+                if case let .second(true, drag?) = value {
+                    scrubX = min(max(drag.location.x, geom.inset), geom.inset + geom.width)
+                }
+            }
+            .onEnded { _ in
+                scrubX = nil
+            }
+    }
+
+    /// The floating readout above the scrub rule: scrubbed clock time plus each
+    /// present curve's name and intensity. SwiftUI (not Canvas text) so it
+    /// localizes and respects Dynamic Type. Non-interactive; clamped on-screen.
+    @ViewBuilder
+    private func scrubCallout(geom: GraphGeometry) -> some View {
+        if let scrubX, geom.width > 0 {
+            let minute = visibleStart + Double((scrubX - geom.inset) / geom.width) * visibleSpan
+            let samples = scrubSamples(atMinute: minute)
+            if !samples.isEmpty {
+                let calloutWidth: CGFloat = 158
+                let maxLeft = max(4, geom.width + geom.inset * 2 - calloutWidth - 4)
+                let left = min(max(scrubX - calloutWidth / 2, 4), maxLeft)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(scrubClockTime(atMinute: minute))
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    ForEach(samples.prefix(4)) { sample in
+                        HStack(spacing: 5) {
+                            Circle()
+                                .fill(sample.color)
+                                .frame(width: 7, height: 7)
+                            Text(sample.name)
+                                .font(.caption2)
+                                .lineLimit(1)
+                            Spacer(minLength: 6)
+                            Text(verbatim: "\(Int((sample.value * 100).rounded()))%")
+                                .font(.caption2.weight(.medium).monospacedDigit())
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .frame(width: calloutWidth, alignment: .leading)
+                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .strokeBorder(.separator, lineWidth: 0.5),
+                )
+                .offset(x: left, y: max(geom.top - 4, 2))
+                .allowsHitTesting(false)
+            }
         }
     }
 
     private var graphCanvas: some View {
         Canvas { context, size in
-            let graphInset: CGFloat = 2
-            let graphTop = graphInset + topLabelAreaHeight
-            let graphWidth = size.width - graphInset * 2
-            let graphHeight = size.height - labelAreaHeight - topLabelAreaHeight - graphInset * 2
+            let geom = graphGeometry(for: size)
+            let graphInset = geom.inset
+            let graphTop = geom.top
+            let graphWidth = geom.width
+            let graphHeight = geom.height
 
             let vStart = visibleStart
             let vSpan = visibleSpan
@@ -427,7 +721,7 @@ struct TimelineGraphView: View {
             let nowX = graphInset + CGFloat((nowMinutes - vStart) / vSpan) * graphWidth
             // Skip on compact thumbnails: a full-height line on a 96pt card reads
             // as a stray glitch, not a "you are here" cue.
-            if !compact, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
+            if !compact, scrubX == nil, nowMinutes >= 0, nowX >= graphInset, nowX <= graphInset + graphWidth {
                 var nowLine = Path()
                 nowLine.move(to: CGPoint(x: nowX, y: graphTop))
                 nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight))
@@ -436,6 +730,24 @@ struct TimelineGraphView: View {
                     with: .color(.primary.opacity(0.4)),
                     lineWidth: compact ? 1 : 1.5,
                 )
+            }
+
+            // Pan-extent indicator — a 2pt track at the very bottom showing the
+            // visible window's position within the full scrollable extent.
+            // Replaces the removed slider; non-interactive, only when there's
+            // overflow to pan.
+            if !compact, maxPanOffset > 1, totalSpan > 0 {
+                let trackY = size.height - 1.5
+                var track = Path()
+                track.move(to: CGPoint(x: graphInset, y: trackY))
+                track.addLine(to: CGPoint(x: graphInset + graphWidth, y: trackY))
+                context.stroke(track, with: .color(.secondary.opacity(0.18)), lineWidth: 2)
+                let segStart = graphInset + CGFloat(vStart / totalSpan) * graphWidth
+                let segEnd = graphInset + CGFloat((vStart + vSpan) / totalSpan) * graphWidth
+                var seg = Path()
+                seg.move(to: CGPoint(x: segStart, y: trackY))
+                seg.addLine(to: CGPoint(x: segEnd, y: trackY))
+                context.stroke(seg, with: .color(.secondary.opacity(0.55)), lineWidth: 2)
             }
 
             // Compact baseline — the single axis that grounds both the curves
@@ -463,10 +775,16 @@ struct TimelineGraphView: View {
                 )
             } else {
                 let yNorm = yNormalization
-                for substance in substances {
+                let frontmostNow: Int? = (showNowIndicator && scrubX == nil) ? frontmostActiveIndex(yNorm: yNorm) : nil
+                for (idx, substance) in substances.enumerated() {
                     let color = Color(hex: substance.colorHex)
                     let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    let scale = heightScale(for: substance) * yNorm
+                    let scale = compressedAmplitude(heightScale(for: substance) * yNorm)
+                    let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
+                    let emph = emphasis(
+                        name: substance.substanceName,
+                        isActive: elapsed >= 0 && elapsed <= substance.totalMinutes,
+                    )
 
                     let fillPath = intensityFillPath(
                         for: substance,
@@ -479,7 +797,7 @@ struct TimelineGraphView: View {
                         graphTop: graphTop,
                         scale: scale,
                     )
-                    context.fill(fillPath, with: .color(color.opacity(0.15)))
+                    context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
 
                     let strokePath = intensityStrokePath(
                         for: substance,
@@ -494,12 +812,11 @@ struct TimelineGraphView: View {
                     )
                     context.stroke(
                         strokePath,
-                        with: .color(color),
+                        with: .color(color.opacity(emph.strokeOpacity)),
                         lineWidth: compact ? 1.5 : 2,
                     )
 
-                    let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
-                    if showNowIndicator, elapsed >= 0, elapsed <= substance.totalMinutes {
+                    if showNowIndicator, scrubX == nil, idx == frontmostNow, emph == .full, elapsed >= 0, elapsed <= substance.totalMinutes {
                         let minutePos = substanceOffset + elapsed
                         let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
                         let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance, params: pkParams(for: substance)) * scale) * graphHeight * 0.93
@@ -529,6 +846,31 @@ struct TimelineGraphView: View {
                 ))
                 context.fill(circle, with: .color(color))
                 context.stroke(circle, with: .color(.white.opacity(0.6)), lineWidth: 0.8)
+            }
+
+            // Scrub readout — a vertical rule the user drags, with a dot on every
+            // curve present at that instant. Supersedes the resting now-dot while
+            // active; the SwiftUI callout renders the labels on top.
+            if !compact, let sx = scrubX {
+                let clampedX = min(max(sx, graphInset), graphInset + graphWidth)
+                var rule = Path()
+                rule.move(to: CGPoint(x: clampedX, y: graphTop))
+                rule.addLine(to: CGPoint(x: clampedX, y: graphTop + graphHeight))
+                context.stroke(rule, with: .color(.primary.opacity(0.55)), lineWidth: 1)
+
+                let minute = vStart + Double((clampedX - graphInset) / graphWidth) * vSpan
+                for sample in scrubSamples(atMinute: minute) {
+                    let y = graphTop + graphHeight - CGFloat(sample.value) * graphHeight * 0.93
+                    let dotSize: CGFloat = 7
+                    let dot = Path(ellipseIn: CGRect(
+                        x: clampedX - dotSize / 2,
+                        y: y - dotSize / 2,
+                        width: dotSize,
+                        height: dotSize,
+                    ))
+                    context.fill(dot, with: .color(sample.color))
+                    context.stroke(dot, with: .color(.white.opacity(0.85)), lineWidth: 1)
+                }
             }
 
             // Compact: duration-less doses rest as small colour-coded dots on the
@@ -694,8 +1036,34 @@ struct TimelineGraphView: View {
         guard minutes >= 0 else { return 0 }
         let c = PKModel.concentration(at: minutes, ke: params.ke, ka: params.ka)
         let e = min(1, max(0, c / params.cmax))
-        return e * toleranceGate(at: minutes, for: s)
+        return e * toleranceGate(at: minutes, for: s) * tailTaper(at: minutes, for: s)
     }
+
+    /// Gentle far-tail taper: eases the descending limb to baseline over the
+    /// final stretch of the offset so a long, shallow elimination skirt doesn't
+    /// crawl across the axis. Onset, peak, and the early offset are untouched —
+    /// the fade only starts well into the offset (`offsetTaperStart` of the way
+    /// from `peakEnd` to `totalMinutes`) and reaches zero just past the
+    /// subjective end, which for these `ke`-fitted curves coincides with the old
+    /// 4 %-of-peak draw extent. Tachyphylaxis curves already crash to baseline
+    /// via ``toleranceGate``, so they're left alone.
+    private func tailTaper(at minutes: Double, for s: ActiveSubstanceState) -> Double {
+        guard s.tachyphylaxis == 0 else { return 1 }
+        let total = max(s.totalMinutes, 1)
+        let start = s.peakEndMinutes + (total - s.peakEndMinutes) * Self.offsetTaperStart
+        let end = total * Self.offsetTaperEnd
+        guard end > start, minutes > start else { return 1 }
+        let x = min(1, (minutes - start) / (end - start))
+        let smooth = x * x * (3 - 2 * x)
+        return 1 - smooth
+    }
+
+    /// Where the far-tail taper begins, as a fraction of the offset window
+    /// (`peakEnd → total`). Higher = gentler (fades later, less of the tail cut).
+    private static let offsetTaperStart: Double = 0.55
+    /// Where the far-tail taper reaches baseline, as a multiple of `totalMinutes`
+    /// — just past the subjective end so the curve lands on the axis cleanly.
+    private static let offsetTaperEnd: Double = 1.05
 
     /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
     /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
@@ -837,13 +1205,17 @@ struct TimelineGraphView: View {
         let steps = compact ? 60 : 200
         let yNorm = yNormalization
 
-        for group in stackedGroups {
+        let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
+        let frontmostNow: Int? = (showNowIndicator && scrubX == nil) ? frontmostActiveStackedIndex(yNorm: yNorm, nowGlobal: nowGlobal) : nil
+        for (gi, group) in stackedGroups.enumerated() {
             guard let first = group.first else { continue }
             let color = Color(hex: first.colorHex)
             let (gStart, gEnd) = stackedGroupRange(group)
             let gSpan = gEnd - gStart
             guard gSpan > 0 else { continue }
             let params = group.map { pkParams(for: $0) }
+            let activeEnd = group.map { $0.doseTimestamp.timeIntervalSince(earliestDose) / 60 + $0.totalMinutes }.max() ?? gEnd
+            let emph = emphasis(name: first.substanceName, isActive: nowGlobal >= gStart && nowGlobal <= activeEnd)
 
             // Sample the summed curve, then (for genuine redose stacks) pass it
             // through an effect-site low-pass so frequent redoses read as one
@@ -855,6 +1227,16 @@ struct TimelineGraphView: View {
             for i in 0 ... steps {
                 let t = gStart + Double(i) / Double(steps) * gSpan
                 vs.append(stackedIntensity(atGlobalMinutes: t, group: group, params: params) * yNorm)
+            }
+            // Compress this group's amplitude (its peak) the same way the
+            // non-stacked path does, scaling the whole sampled envelope by a
+            // single factor so a light group lifts off the axis without
+            // deforming its shape.
+            if let groupPeak = vs.max(), groupPeak > 0 {
+                let factor = compressedAmplitude(groupPeak) / groupPeak
+                if factor != 1 {
+                    for i in vs.indices { vs[i] *= factor }
+                }
             }
             if group.count > 1 {
                 vs = effectSiteSmoothed(vs, dtMinutes: dt, tauMinutes: tau)
@@ -884,11 +1266,11 @@ struct TimelineGraphView: View {
             let endX = graphInset + CGFloat((gEnd - visibleStart) / visibleSpan) * graphWidth
             fillPath.addLine(to: CGPoint(x: endX, y: baseline))
             fillPath.closeSubpath()
-            context.fill(fillPath, with: .color(color.opacity(0.15)))
+            context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
 
             var strokePath = Path()
             addSmoothCurve(pts, to: &strokePath, startNew: true)
-            context.stroke(strokePath, with: .color(color), lineWidth: compact ? 1.5 : 2)
+            context.stroke(strokePath, with: .color(color.opacity(emph.strokeOpacity)), lineWidth: compact ? 1.5 : 2)
 
             // Small tick glyphs at each redose time along the baseline so the user
             // can see where additional doses contributed to the curve.
@@ -900,7 +1282,7 @@ struct TimelineGraphView: View {
                     var tick = Path()
                     tick.move(to: CGPoint(x: x, y: baseline))
                     tick.addLine(to: CGPoint(x: x, y: baseline - 5))
-                    context.stroke(tick, with: .color(color.opacity(0.75)), lineWidth: 1.5)
+                    context.stroke(tick, with: .color(color.opacity(emph == .full ? 0.75 : 0.3)), lineWidth: 1.5)
                 }
             }
 
@@ -909,7 +1291,7 @@ struct TimelineGraphView: View {
             // or the dot detaches from the curve whenever `yNorm` shifts (e.g. a
             // dose is added/removed and the graph rescales to fill the height).
             let elapsedGlobal = currentTime.timeIntervalSince(earliestDose) / 60
-            if showNowIndicator, elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
+            if showNowIndicator, scrubX == nil, gi == frontmostNow, emph == .full, elapsedGlobal >= gStart, elapsedGlobal <= gEnd {
                 let x = graphInset + CGFloat((elapsedGlobal - visibleStart) / visibleSpan) * graphWidth
                 // Read from the same smoothed sample array as the curve so the
                 // dot stays glued to it.
