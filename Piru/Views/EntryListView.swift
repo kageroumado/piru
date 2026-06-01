@@ -349,15 +349,23 @@ struct EntryListView: View {
                 }
             }
         } label: {
-            // Same full-size funnel in both states; "active" reads from a
-            // tinted-pink glass + white glyph rather than a shrunken variant.
+            // Constant glass effect — the active state is a filled accent disc
+            // behind the glyph (animated opacity), NOT a change of glass *type*.
+            // Swapping the Glass value (tinted vs regular) changed the element's
+            // identity inside the shared GlassEffectContainer, so the button
+            // morphed out and briefly vanished whenever a filter toggled.
             Image(systemName: "line.3.horizontal.decrease")
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
                 .frame(width: 44, height: 44)
+                .background {
+                    Circle()
+                        .fill(Theme.accent)
+                        .opacity(hasActiveFilters ? 1 : 0)
+                }
                 .contentShape(Circle())
         }
-        .glassEffect(hasActiveFilters ? .regular.tint(Theme.accent) : .regular, in: .circle)
+        .glassEffect(.regular, in: .circle)
         .animation(.snappy, value: hasActiveFilters)
     }
 
