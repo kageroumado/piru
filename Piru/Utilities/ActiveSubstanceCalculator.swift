@@ -177,7 +177,7 @@ extension ActiveSubstanceState {
         var states: [ActiveSubstanceState] = []
         var markers: [DoseMarker] = []
         for entry in entries {
-            let hex = hexMap[entry.substance.lowercased()] ?? "007AFF"
+            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
             if let state = from(entry: entry, colorHex: hex) {
                 states.append(state)
             } else {
