@@ -198,7 +198,7 @@ struct EntryListView: View {
 
     var body: some View {
         List {
-            if !isSearchSurface, !allUsedTags.isEmpty, grouping == .byDay {
+            if !isSearchSurface, !allUsedTags.isEmpty {
                 tagChipBar
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
@@ -285,9 +285,11 @@ struct EntryListView: View {
         } label: {
             HStack(spacing: 4) {
                 Text(grouping.displayName)
+                    .lineLimit(1)
                 Image(systemName: "chevron.down")
                     .font(.caption2.weight(.bold))
             }
+            .fixedSize(horizontal: true, vertical: false)
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(Theme.accent)
             .frame(height: 44)
@@ -315,26 +317,32 @@ struct EntryListView: View {
 
     private var tagChipBar: some View {
         ScrollView(.horizontal) {
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 ForEach(allUsedTags, id: \.self) { tag in
+                    let isSelected = selectedTag == tag
                     Button {
                         withAnimation(.snappy) {
-                            selectedTag = selectedTag == tag ? nil : tag
+                            selectedTag = isSelected ? nil : tag
                             rebuildGroups()
                         }
                     } label: {
                         Text("#\(tag)")
-                            .font(.caption)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(selectedTag == tag ? Theme.accent : Color(.secondarySystemFill))
-                            .foregroundStyle(selectedTag == tag ? .white : .secondary)
-                            .clipShape(Capsule())
+                            .font(.subheadline.weight(.medium))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                isSelected
+                                    ? AnyShapeStyle(Theme.accent)
+                                    : AnyShapeStyle(Color(.secondarySystemFill)),
+                                in: Capsule(),
+                            )
+                            .foregroundStyle(isSelected ? .white : .primary)
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 16)
-            .padding(.bottom, 8)
+            .padding(.vertical, 4)
         }
         .scrollIndicators(.hidden)
     }
@@ -343,11 +351,23 @@ struct EntryListView: View {
 
     private var recentContent: some View {
         ForEach(filteredEntries) { entry in
-            NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-                SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
-            }
-            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+            entryRow(entry)
         }
+    }
+
+    /// One dose entry as a tappable card row (chevron-free, pushes to detail).
+    /// Shared by the flat, substance-grouped, and category-grouped lists.
+    @ViewBuilder
+    private func entryRow(_ entry: DoseEntry) -> some View {
+        Button {
+            navigator.push(.entry(timestamp: entry.timestamp))
+        } label: {
+            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
+        }
+        .buttonStyle(.plain)
+        .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
     }
 
     // MARK: - Day Grouped Content
@@ -383,10 +403,7 @@ struct EntryListView: View {
             Section {
                 if !isCollapsed {
                     ForEach(group.entries) { entry in
-                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-                            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
-                        }
-                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                        entryRow(entry)
                     }
                 }
             } header: {
@@ -420,10 +437,7 @@ struct EntryListView: View {
             Section {
                 if !isCollapsed {
                     ForEach(group.entries) { entry in
-                        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-                            SubstanceEntryRow(entry: entry, colorMap: cachedColorMap)
-                        }
-                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                        entryRow(entry)
                     }
                 }
             } header: {
@@ -500,24 +514,24 @@ private struct SubstanceEntryRow: View {
     let entry: DoseEntry
     let colorMap: [String: Color]
 
+    private var color: Color {
+        colorMap[entry.substance.lowercased()] ?? Theme.accent
+    }
+
     var body: some View {
         HStack(spacing: 12) {
-            if let color = colorMap[entry.substance.lowercased()] {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(color)
-                    .frame(width: 3)
-            }
-            VStack(alignment: .leading, spacing: 2) {
+            Circle()
+                .fill(color)
+                .frame(width: 10, height: 10)
+            VStack(alignment: .leading, spacing: 3) {
                 Text(entry.substance)
-                    .font(.subheadline.weight(.medium))
-                HStack(spacing: 4) {
-                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
+                    .font(.subheadline.weight(.semibold))
+                Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 2) {
+            Spacer(minLength: 8)
+            VStack(alignment: .trailing, spacing: 3) {
                 Text(entry.timestamp.formatted(.dateTime.month(.abbreviated).day()))
                     .font(.caption)
                 Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
@@ -525,7 +539,10 @@ private struct SubstanceEntryRow: View {
             }
             .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(.vertical, 2)
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
+        .contentShape(RoundedRectangle(cornerRadius: 16))
     }
 }
 
