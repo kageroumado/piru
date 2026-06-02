@@ -155,16 +155,18 @@ struct DayDetailView: View {
                     if !substanceStates.isEmpty {
                         Section {
                             if graphExpanded {
-                                TimelineGraphView(
-                                    substances: substanceStates,
-                                    currentTime: .now,
-                                    compact: false,
-                                    markers: doseMarkers,
-                                    stackRedoses: stackRedoses,
-                                    dayBounded: true,
-                                    synchronous: true,
-                                )
-                                .frame(height: graphHeight(enlarged: timelineEnlarged))
+                                AnimatableHeight(height: graphHeight(enlarged: timelineEnlarged)) {
+                                    TimelineGraphView(
+                                        substances: substanceStates,
+                                        currentTime: .now,
+                                        compact: false,
+                                        markers: doseMarkers,
+                                        stackRedoses: stackRedoses,
+                                        dayBounded: true,
+                                        synchronous: true,
+                                    )
+                                }
+                                .animation(.spring(response: 0.4, dampingFraction: 0.84), value: timelineEnlarged)
                                 // Tight insets are scoped to the graph row alone so it
                                 // spans nearly edge-to-edge; the header/footer keep the
                                 // List's default inset and so line up with the "N
@@ -213,9 +215,7 @@ struct DayDetailView: View {
 
                                 if graphExpanded {
                                     Button {
-                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.84)) {
-                                            timelineEnlarged.toggle()
-                                        }
+                                        timelineEnlarged.toggle()
                                     } label: {
                                         Image(systemName: timelineEnlarged
                                             ? "arrow.down.right.and.arrow.up.left"
@@ -445,6 +445,30 @@ private struct ResolvedDay {
     var states: [ActiveSubstanceState] = []
     var markers: [DoseMarker] = []
     var interactions: [InteractionResult] = []
+}
+
+/// Hosts a fixed-height child whose height is itself the animation driver.
+///
+/// Animating `.frame(height:)` on a `Canvas` directly makes SwiftUI rasterise the
+/// drawing and scale the bitmap from its centre — the curves blink out for a frame
+/// and the whole graph "pops" from the middle instead of growing down. Conforming
+/// the host to `Animatable` on the height forces `body` to re-evaluate on **every**
+/// interpolation step, so the `Canvas` re-runs its draw closure at each in-between
+/// height and the timeline genuinely grows in place. The child keeps its identity
+/// (and so its `@State`-memoised geometry) across the steps — only the proposed
+/// height changes.
+private struct AnimatableHeight<Content: View>: View, Animatable {
+    var height: CGFloat
+    var animatableData: CGFloat {
+        get { height }
+        set { height = newValue }
+    }
+
+    @ViewBuilder var content: Content
+
+    var body: some View {
+        content.frame(height: height)
+    }
 }
 
 /// Single-slot process-wide memo for the visible day's ``ResolvedDay``, keyed by
