@@ -449,6 +449,10 @@ struct SubstanceDetailView: View {
     @State private var showEntries = false
     @State private var showingPersonalize = false
 
+    /// The route the dose/duration card is showing. `nil` defaults to the
+    /// substance's default route (resolved in ``activeSubstanceRoute``).
+    @State private var selectedRoute: RouteOfAdministration?
+
     /// The user's personal override for this substance, if any (keyed by canonical name).
     private var personalOverride: CustomSubstanceEntry? {
         customStore.first(whereName: baseSubstance.name)
@@ -613,68 +617,105 @@ struct SubstanceDetailView: View {
         )
     }
 
-    /// Dose ladder + duration per route. Surfaced near the top of the detail
-    /// view — the primary thing people open a substance for.
+    /// Whether the acute duration timeline should be shown for this compound.
+    private var durationVisible: Bool {
+        displayClass.showsDuration && !(displayClass == .otc && substance.durationImplausible)
+    }
+
+    /// Routes with something worth showing — a dose ladder, an acute duration,
+    /// or a long-acting release window. These populate the route picker.
+    private var presentableRoutes: [SubstanceRoute] {
+        substance.routes.filter { route in
+            (displayClass.showsDoseLadder && route.doses.hasAnyValue)
+                || (route.duration != nil && durationVisible)
+                || route.durationOfAction != nil
+        }
+    }
+
+    /// The route currently driving the dose/duration card: the user's pick when
+    /// it's still valid, otherwise the default route, otherwise the first.
+    private var activeSubstanceRoute: SubstanceRoute? {
+        if let selectedRoute, let match = presentableRoutes.first(where: { $0.route == selectedRoute }) {
+            return match
+        }
+        return presentableRoutes.first { $0.route == substance.defaultRoute } ?? presentableRoutes.first
+    }
+
+    private var routeSelection: Binding<RouteOfAdministration> {
+        Binding(
+            get: { activeSubstanceRoute?.route ?? substance.defaultRoute },
+            set: { selectedRoute = $0 },
+        )
+    }
+
+    /// Dose ladder + duration for the selected route, behind a segmented route
+    /// switcher when more than one route applies. Surfaced near the top of the
+    /// detail view — the primary thing people open a substance for. One
+    /// consolidated card per route replaces the old two-sections-per-route
+    /// stack, so a multi-route compound reads in a single screenful.
+    @ViewBuilder
     private var doseDurationSections: some View {
-        ForEach(substance.routes, id: \.route) { substanceRoute in
-            if displayClass.showsDoseLadder, substanceRoute.doses.hasAnyValue {
-                Section("Dosage — \(String(localized: substanceRoute.route.localizedName))") {
-                    let unit = substanceRoute.unit
-                    let doses = substanceRoute.doses
-
-                    DoseLevelIndicator(doseRange: doses, currentDose: nil)
-                        .padding(.vertical, 4)
-
-                    DoseRangeRows(doseRange: doses, unit: unit)
-
-                    if unit.localizedCaseInsensitiveContains("THC") {
-                        THCContentNote()
-                            .padding(.vertical, 4)
-                    } else {
-                        switch doses.dosingPrecision(unit: unit) {
-                        case .critical:
-                            VolumetricDosingDisclaimer()
-                                .padding(.vertical, 4)
-                        case .recommended:
-                            PreciseScaleNote()
-                                .padding(.vertical, 4)
-                        case .none:
-                            EmptyView()
-                        }
-                    }
-
-                    if let slug = doseSourceSlug(for: substanceRoute.route) {
-                        SourceAttributionRow(slug: slug, label: "Dose data")
+        if presentableRoutes.count > 1 {
+            Section {
+                let picker = Picker("Route", selection: routeSelection) {
+                    ForEach(presentableRoutes, id: \.route) { route in
+                        Text(route.route.localizedName).tag(route.route)
                     }
                 }
-            }
-
-            if let duration = substanceRoute.duration,
-               displayClass.showsDuration,
-               !(displayClass == .otc && substance.durationImplausible) {
-                Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
-                    DurationInfoView(duration: duration)
-
-                    if let slug = durationSourceSlug(for: substanceRoute.route) {
-                        SourceAttributionRow(slug: slug, label: "Duration data")
-                    }
+                // Segmented reads best for a couple of routes; past three the
+                // labels truncate, so fall back to a menu that keeps them full.
+                if presentableRoutes.count >= 4 {
+                    picker.pickerStyle(.menu)
+                } else {
+                    picker.pickerStyle(.segmented)
+                        .listRowSeparator(.hidden)
                 }
             }
+        }
 
-            // Long-acting release window (depot injections, esters, weekly
-            // peptides). Pharmacological info, not an acute dose curve — shown
-            // regardless of display class.
-            if let doa = substanceRoute.durationOfAction {
-                Section("Duration of Action — \(String(localized: substanceRoute.route.localizedName))") {
-                    HStack {
-                        Label("Release window", systemImage: "arrow.triangle.2.circlepath")
-                        Spacer()
-                        Text(doa.formattedWindow)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, 2)
+        if let route = activeSubstanceRoute {
+            Section {
+                RouteDosingCard(
+                    route: route.route,
+                    unit: route.unit,
+                    doses: route.doses,
+                    duration: durationVisible ? route.duration : nil,
+                    releaseWindow: route.durationOfAction?.formattedWindow,
+                    showsDoseLadder: displayClass.showsDoseLadder,
+                    showsDuration: durationVisible,
+                    showsTitle: false,
+                )
+                .listRowSeparator(.hidden)
+
+                if displayClass.showsDoseLadder, route.doses.hasAnyValue,
+                   let slug = doseSourceSlug(for: route.route) {
+                    SourceAttributionRow(slug: slug, label: "Dose data")
                 }
+                if durationVisible, route.duration != nil,
+                   let slug = durationSourceSlug(for: route.route) {
+                    SourceAttributionRow(slug: slug, label: "Duration data")
+                }
+            } header: {
+                Text(route.route.localizedName)
             }
+        }
+    }
+
+    /// Renders the current route's dose/duration card to a shareable image and
+    /// opens the system share sheet. Mirrors the day-log camera export.
+    @MainActor
+    private func generateShareImage() {
+        guard let route = activeSubstanceRoute else { return }
+        let card = SubstanceShareCard(
+            substance: substance,
+            route: route,
+            showsDoseLadder: displayClass.showsDoseLadder,
+            showsDuration: durationVisible,
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3 // @3x — crisp regardless of device
+        if let image = renderer.uiImage {
+            ShareSheetPresenter.present(image)
         }
     }
 
@@ -983,8 +1024,18 @@ struct SubstanceDetailView: View {
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(substance.displayTitle)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
+            if activeSubstanceRoute != nil {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        generateShareImage()
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .accessibilityLabel("Share drug info")
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     toggleFavorite()
@@ -1287,6 +1338,89 @@ private struct SourceAttributionRow: View {
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(String(localized: label)), source: \(displayName)"))
+    }
+}
+
+// MARK: - Shareable Drug-Info Card
+
+/// The dark-themed card rendered to an image when the user shares a substance's
+/// dosing. Reuses ``RouteDosingCard`` so the shared image matches what's on
+/// screen; self-contained (no environment) so `ImageRenderer` can draw it.
+private struct SubstanceShareCard: View {
+    let substance: Substance
+    let route: SubstanceRoute
+    let showsDoseLadder: Bool
+    let showsDuration: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 22) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(substance.displayTitle)
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
+                HStack(spacing: 8) {
+                    Circle()
+                        .fill(substance.category.color)
+                        .frame(width: 10, height: 10)
+                    Text(substance.category.displayName)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.white.opacity(0.6))
+                }
+            }
+
+            RouteDosingCard(
+                route: route.route,
+                unit: route.unit,
+                doses: route.doses,
+                duration: showsDuration ? route.duration : nil,
+                releaseWindow: route.durationOfAction?.formattedWindow,
+                showsDoseLadder: showsDoseLadder,
+                showsDuration: showsDuration,
+                showDisclaimers: false,
+                showsTitle: true,
+            )
+            .padding(18)
+            .background(RoundedRectangle(cornerRadius: 20).fill(Color(white: 0.10)))
+
+            Text("Generated by Piru · kagerou.glass/piru")
+                .font(.caption2)
+                .foregroundStyle(.white.opacity(0.35))
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .padding(24)
+        .frame(width: 390, alignment: .leading)
+        .background(Color(white: 0.04))
+        .environment(\.colorScheme, .dark)
+    }
+}
+
+/// Presents a system share sheet for the rendered drug-info image.
+///
+/// `UIActivityViewController` is presented directly from the active window's
+/// top view controller rather than embedded in a SwiftUI `.sheet`: hosting it
+/// inside a sheet (especially with `presentationDetents`) renders an empty
+/// sheet that only fills in seconds later, because the activity controller is
+/// itself a presentation controller and doesn't lay out as a child.
+private enum ShareSheetPresenter {
+    @MainActor
+    static func present(_ image: UIImage) {
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+            let root = (scene.keyWindow ?? scene.windows.first)?.rootViewController
+        else { return }
+
+        var top = root
+        while let presented = top.presentedViewController { top = presented }
+
+        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        // Anchor the popover on iPad / Mac Catalyst so it has a valid source.
+        if let popover = activityVC.popoverPresentationController {
+            popover.sourceView = top.view
+            popover.sourceRect = CGRect(x: top.view.bounds.midX, y: top.view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+        top.present(activityVC, animated: true)
     }
 }
 

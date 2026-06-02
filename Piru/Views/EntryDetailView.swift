@@ -191,7 +191,10 @@ struct EntryDetailView: View {
             }
         } else {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit") { beginEditing() }
+                Button { beginEditing() } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+                .accessibilityLabel("Edit")
             }
         }
     }
