@@ -654,7 +654,6 @@ struct SubstanceDetailView: View {
                !(displayClass == .otc && substance.durationImplausible) {
                 Section("Duration — \(String(localized: substanceRoute.route.localizedName))") {
                     DurationInfoView(duration: duration)
-                        .padding(.vertical, 4)
 
                     if let slug = durationSourceSlug(for: substanceRoute.route) {
                         SourceAttributionRow(slug: slug, label: "Duration data")
