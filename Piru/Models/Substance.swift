@@ -239,14 +239,14 @@ struct DurationRange: Codable, Hashable {
             if minH == maxH {
                 return String(localized: "~\(Self.fmtHours(minH)) hours")
             }
-            return String(localized: "~\(Self.fmtHours(minH))-\(Self.fmtHours(maxH)) hours")
+            return String(localized: "~\(Self.fmtHours(minH)) – \(Self.fmtHours(maxH)) hours")
         }
         let minR = Int(min.rounded())
         let maxR = Int(max.rounded())
         if minR == maxR {
             return String(localized: "~\(minR) minutes")
         }
-        return String(localized: "~\(minR)-\(maxR) minutes")
+        return String(localized: "~\(minR) – \(maxR) minutes")
     }
 
     /// Rounds hours to the nearest 0.5

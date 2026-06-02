@@ -7,6 +7,9 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Substance detail — consolidated dose/duration card + share
+    "Release Window": ("释放窗口", "釋放窗口"),
+    "Share drug info": ("分享药物信息", "分享藥物資訊"),
     # Categories (SubstanceCategory)
     "Stimulant": ("兴奋剂", "興奮劑"),
     "Psychedelic": ("致幻剂", "致幻劑"),
@@ -73,9 +76,9 @@ T = {
     "Effects ended": ("效果已结束", "效果已結束"),
     "Total": ("总计", "總計"),
     "~%@ hours": ("约 %@ 小时", "約 %@ 小時"),
-    "~%@-%@ hours": ("约 %1$@-%2$@ 小时", "約 %1$@-%2$@ 小時"),
+    "~%@ – %@ hours": ("约 %1$@ – %2$@ 小时", "約 %1$@ – %2$@ 小時"),
     "~%lld minutes": ("约 %lld 分钟", "約 %lld 分鐘"),
-    "~%lld-%lld minutes": ("约 %1$lld-%2$lld 分钟", "約 %1$lld-%2$lld 分鐘"),
+    "~%lld – %lld minutes": ("约 %1$lld – %2$lld 分钟", "約 %1$lld – %2$lld 分鐘"),
     # Frequencies
     "Daily": ("每日", "每日"),
     "Every other day": ("隔日", "隔日"),
@@ -1848,7 +1851,7 @@ if __name__ == "__main__":
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
-    NEW_KEYS = {"Effects ended"}
+    NEW_KEYS = {"Release Window", "Share drug info", "~%@ – %@ hours", "~%lld – %lld minutes"}
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(

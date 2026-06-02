@@ -414,6 +414,166 @@ struct DurationInfoView: View {
     }
 }
 
+// MARK: - Route Dosing Card
+
+/// One route's dosage ladder and duration timeline presented together as a
+/// single card — the unit the substance detail screen switches between with
+/// its route picker, and the body of the shareable drug-info image.
+///
+/// Unlike ``DoseRangeRows`` / ``DurationPhaseRows`` (which emit bare rows that
+/// only lay out correctly when a `List` flattens them), this card builds its
+/// rows with explicit stacks so it renders identically on-List *and* off-List
+/// through `ImageRenderer`.
+struct RouteDosingCard: View {
+    let route: RouteOfAdministration
+    let unit: String
+    let doses: DoseRange?
+    let duration: DurationProfile?
+    /// Long-acting release window (`DurationOfAction.formattedWindow`), if any.
+    var releaseWindow: String? = nil
+    var showsDoseLadder = true
+    var showsDuration = true
+    /// Volumetric / precise-scale / THC safety notes — shown in the app, hidden
+    /// in the compact share image.
+    var showDisclaimers = true
+    /// The route name as a card title. Off in the detail list (the section
+    /// header and the route picker already name it); on in the share image.
+    var showsTitle = true
+
+    private var hasDosage: Bool { showsDoseLadder && (doses?.hasAnyValue ?? false) }
+    private var hasDuration: Bool { showsDuration && duration != nil }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            if showsTitle {
+                Text(route.localizedName)
+                    .font(.headline)
+            }
+            if hasDosage, let doses {
+                dosageBlock(doses)
+            }
+            if hasDosage, hasDuration {
+                Divider()
+            }
+            if hasDuration, let duration {
+                durationBlock(duration)
+            }
+            if let releaseWindow {
+                if hasDosage || hasDuration { Divider() }
+                releaseBlock(releaseWindow)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    // MARK: Dosage
+
+    private func dosageBlock(_ doses: DoseRange) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            eyebrow("Dosage")
+            DoseLevelIndicator(doseRange: doses, currentDose: nil)
+            VStack(spacing: 11) {
+                if let threshold = doses.threshold {
+                    levelRow("Threshold", value: "\(threshold.doseFormatted) \(unit)", color: DoseLevel.threshold.swiftUIColor)
+                }
+                if let light = doses.light {
+                    levelRow("Light", value: rangeText(light), color: DoseLevel.light.swiftUIColor)
+                }
+                if let common = doses.common {
+                    levelRow("Common", value: rangeText(common), color: DoseLevel.common.swiftUIColor)
+                }
+                if let strong = doses.strong {
+                    levelRow("Strong", value: rangeText(strong), color: DoseLevel.strong.swiftUIColor)
+                }
+                if let heavy = doses.heavy {
+                    levelRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", color: DoseLevel.heavy.swiftUIColor)
+                }
+            }
+            if showDisclaimers {
+                disclaimer(for: doses)
+            }
+        }
+    }
+
+    private func rangeText(_ range: ClosedRange<Double>) -> String {
+        "\(range.lowerBound.doseFormatted) – \(range.upperBound.doseFormatted) \(unit)"
+    }
+
+    @ViewBuilder
+    private func disclaimer(for doses: DoseRange) -> some View {
+        if unit.localizedCaseInsensitiveContains("THC") {
+            THCContentNote()
+        } else {
+            switch doses.dosingPrecision(unit: unit) {
+            case .critical: VolumetricDosingDisclaimer()
+            case .recommended: PreciseScaleNote()
+            case .none: EmptyView()
+            }
+        }
+    }
+
+    // MARK: Duration
+
+    private func durationBlock(_ duration: DurationProfile) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            eyebrow("Duration")
+            DurationTimelineBar(duration: duration)
+            VStack(spacing: 11) {
+                ForEach(ExperiencePhase.allCases, id: \.self) { phase in
+                    if let range = phase.range(in: duration) {
+                        levelRow(phase.label, value: range.displayString, color: phase.color)
+                    }
+                }
+                if let total = duration.total {
+                    HStack {
+                        Text("Total").fontWeight(.semibold)
+                        Spacer()
+                        Text(total.displayString).fontWeight(.semibold).monospacedDigit()
+                    }
+                    .font(.subheadline)
+                }
+            }
+        }
+    }
+
+    // MARK: Release window
+
+    private func releaseBlock(_ window: String) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            eyebrow("Release Window")
+            HStack {
+                Label("Release window", systemImage: "arrow.triangle.2.circlepath")
+                    .foregroundStyle(Theme.secondaryLabel)
+                Spacer()
+                Text(window).monospacedDigit()
+            }
+            .font(.subheadline)
+        }
+    }
+
+    // MARK: Pieces
+
+    private func eyebrow(_ text: LocalizedStringResource) -> some View {
+        Text(text)
+            .font(.caption.weight(.semibold))
+            .textCase(.uppercase)
+            .kerning(0.5)
+            .foregroundStyle(Theme.secondaryLabel)
+    }
+
+    private func levelRow(_ label: LocalizedStringResource, value: String, color: Color) -> some View {
+        HStack {
+            HStack(spacing: 8) {
+                Circle().fill(color).frame(width: 8, height: 8)
+                Text(label).foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            Text(value).monospacedDigit().foregroundStyle(.primary)
+        }
+        .font(.subheadline)
+    }
+}
+
 // MARK: - Dose Level Color
 
 extension DoseLevel {
