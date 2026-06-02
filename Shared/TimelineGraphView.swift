@@ -1346,10 +1346,12 @@ struct TimelineGraphView: View {
             drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
 
             // A substance can carry both curve doses and duration-less doses (a
-            // route with no duration data); draw the latter on this lane's own
-            // baseline so they stay attached to their substance.
+            // route with no duration data); draw the latter as low lollipops on
+            // this lane's own baseline so they stay attached to their substance
+            // without the head punching up through the curve above.
+            let attachedHeadY = baseline - min(14, amplitude * 0.3)
             for marker in markers where marker.substanceName.lowercased() == lane.name.lowercased() {
-                drawMarkerDot(marker, context: context, baseline: baseline, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
+                drawMarkerLollipop(marker, context: context, baseline: baseline, headCenterY: attachedHeadY, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
 
@@ -1369,8 +1371,13 @@ struct TimelineGraphView: View {
 
             drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
 
+            // Heads ride at a fixed fraction of the lane's amplitude so every
+            // instant dose in the lane aligns horizontally — a clean read — and
+            // clears the name label at the lane's top-left.
+            let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
+            let headCenterY = max(baseline - amplitude * 0.6, laneTop + 15)
             for marker in lane.markers {
-                drawMarkerDot(marker, context: context, baseline: baseline, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
+                drawMarkerLollipop(marker, context: context, baseline: baseline, headCenterY: headCenterY, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
     }
@@ -1415,16 +1422,37 @@ struct TimelineGraphView: View {
         context.draw(label, at: CGPoint(x: graphInset + labelInset + dotR * 2 + 4, y: laneTop + labelInset + dotR), anchor: .leading)
     }
 
-    /// A single duration-less dose as a dot on the given baseline, placed by time.
-    private func drawMarkerDot(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
-        let r: CGFloat = 2.5
+    /// A single duration-less dose as a lollipop: a thin stem rising from the
+    /// lane baseline to a filled, ringed head at `headCenterY`. The stem grounds
+    /// the dose to the time axis while the head gives it the vertical presence of
+    /// a curve's hump, so an instant dose reads as a real logged event rather
+    /// than a stray fleck on an otherwise empty lane. Mirrors the marker-line +
+    /// circle treatment the non-lane overlay already uses.
+    private func drawMarkerLollipop(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, headCenterY: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
+        let r: CGFloat = 3.5
         let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
         let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
         guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { return }
         let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
-        let dot = Path(ellipseIn: CGRect(x: x - r, y: baseline - r, width: r * 2, height: r * 2))
-        context.fill(dot, with: .color(color))
-        context.stroke(dot, with: .color(.white.opacity(0.6)), lineWidth: 0.5)
+
+        // Stem fades toward the foot so it reads as grounded rather than a hard
+        // full-strength rule competing with the curves.
+        var stem = Path()
+        stem.move(to: CGPoint(x: x, y: baseline))
+        stem.addLine(to: CGPoint(x: x, y: headCenterY))
+        context.stroke(
+            stem,
+            with: .linearGradient(
+                Gradient(colors: [color.opacity(0.2), color.opacity(0.85)]),
+                startPoint: CGPoint(x: x, y: baseline),
+                endPoint: CGPoint(x: x, y: headCenterY),
+            ),
+            lineWidth: 1.5,
+        )
+
+        let head = Path(ellipseIn: CGRect(x: x - r, y: headCenterY - r, width: r * 2, height: r * 2))
+        context.fill(head, with: .color(color))
+        context.stroke(head, with: .color(.white.opacity(0.7)), lineWidth: 0.75)
     }
 
     // MARK: - Path Builders
