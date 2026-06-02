@@ -1132,7 +1132,12 @@ struct TimelineGraphView: View {
                         graphTop: graphTop,
                         scale: scale,
                     )
-                    context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
+                    // On the home-page thumbnails the area fill turns into mud
+                    // once several curves overlap, so drop it on busy compact
+                    // graphs and let the strokes carry the shape.
+                    if !compact || substances.count <= 3 {
+                        context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
+                    }
 
                     let strokePath = intensityStrokePath(
                         for: substance,
@@ -1349,9 +1354,9 @@ struct TimelineGraphView: View {
             // route with no duration data); draw the latter as low lollipops on
             // this lane's own baseline so they stay attached to their substance
             // without the head punching up through the curve above.
-            let attachedHeadY = baseline - min(14, amplitude * 0.3)
+            let attachedLabelWidth = labelInset + 10 + CGFloat(lane.name.count) * 5.5
             for marker in markers where marker.substanceName.lowercased() == lane.name.lowercased() {
-                drawMarkerLollipop(marker, context: context, baseline: baseline, headCenterY: attachedHeadY, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
+                drawMarkerLollipop(marker, context: context, baseline: baseline, laneTop: laneTop, amplitude: min(amplitude, 46), liftFraction: 0.3, labelWidth: attachedLabelWidth, radius: 3.5, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
 
@@ -1371,13 +1376,14 @@ struct TimelineGraphView: View {
 
             drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
 
-            // Heads ride at a fixed fraction of the lane's amplitude so every
-            // instant dose in the lane aligns horizontally — a clean read — and
-            // clears the name label at the lane's top-left.
+            // Heads ride high in the lane so a real stem drops to the baseline;
+            // only markers that actually fall under the name label (near the left
+            // edge) are held down to clear it — the rest get the full lane.
             let amplitude = max(laneHeight - topHeadroom - bottomGap, 6)
-            let headCenterY = max(baseline - amplitude * 0.6, laneTop + 15)
+            let r = min(5.5, max(3.5, amplitude * 0.34))
+            let labelWidth = labelInset + 10 + CGFloat(lane.name.count) * 5.5
             for marker in lane.markers {
-                drawMarkerLollipop(marker, context: context, baseline: baseline, headCenterY: headCenterY, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
+                drawMarkerLollipop(marker, context: context, baseline: baseline, laneTop: laneTop, amplitude: amplitude, liftFraction: 0.72, labelWidth: labelWidth, radius: r, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
     }
@@ -1428,12 +1434,18 @@ struct TimelineGraphView: View {
     /// a curve's hump, so an instant dose reads as a real logged event rather
     /// than a stray fleck on an otherwise empty lane. Mirrors the marker-line +
     /// circle treatment the non-lane overlay already uses.
-    private func drawMarkerLollipop(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, headCenterY: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
-        let r: CGFloat = 3.5
+    private func drawMarkerLollipop(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, laneTop: CGFloat, amplitude: CGFloat, liftFraction: CGFloat, labelWidth: CGFloat, radius r: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
         let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
         let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
         guard rawX >= graphInset - 1, rawX <= graphInset + graphWidth + 1 else { return }
         let x = min(max(graphInset + r, rawX), graphInset + graphWidth - r)
+
+        // Float the head at a fraction of the lane height, but never higher than
+        // the name label allows — and only markers whose x falls under the label
+        // (near the left edge) are held down; the rest float free for a full stem.
+        let lifted = baseline - amplitude * liftFraction
+        let minHeadY = x < graphInset + labelWidth ? laneTop + 13 + r : laneTop + r + 2
+        let headCenterY = min(max(lifted, minHeadY), baseline - r * 0.4)
 
         // Stem fades toward the foot so it reads as grounded rather than a hard
         // full-strength rule competing with the curves.
@@ -1447,12 +1459,11 @@ struct TimelineGraphView: View {
                 startPoint: CGPoint(x: x, y: baseline),
                 endPoint: CGPoint(x: x, y: headCenterY),
             ),
-            lineWidth: 1.5,
+            lineWidth: 3,
         )
 
         let head = Path(ellipseIn: CGRect(x: x - r, y: headCenterY - r, width: r * 2, height: r * 2))
         context.fill(head, with: .color(color))
-        context.stroke(head, with: .color(.white.opacity(0.7)), lineWidth: 0.75)
     }
 
     // MARK: - Path Builders
