@@ -1304,48 +1304,72 @@ struct TimelineGraphView: View {
                 context.stroke(sep, with: .color(.secondary.opacity(0.12)), lineWidth: 0.5)
             }
 
-            // Per-lane peak so this substance's tallest moment fills the lane,
-            // regardless of how it compares to other substances.
-            var peak = 1e-6
-            for dose in lane.doses {
-                let params = pkParams(for: dose)
-                let hs = heightScale(for: dose)
-                let end = curveExtent(for: dose, params: params)
-                let steps = 40
-                for j in 0 ... steps {
-                    let t = Double(j) / Double(steps) * end
-                    peak = max(peak, intensity(at: t, for: dose, params: params) * hs)
+            // With redose stacking on, the lane shows one summed envelope per
+            // route (matching the global stacked view) instead of a pile of
+            // overlapping per-dose humps; otherwise each dose draws on its own.
+            if stackRedoses {
+                let groups = Self.stackedGroups(of: lane.doses)
+                // Per-lane peak across the summed envelopes so this substance's
+                // tallest moment fills the lane, independent of the others.
+                var peak = 1e-6
+                for group in groups {
+                    let (gs, ge) = stackedGroupRange(group)
+                    guard ge > gs else { continue }
+                    let params = group.map { pkParams(for: $0) }
+                    let steps = 40
+                    for j in 0 ... steps {
+                        let t = gs + Double(j) / Double(steps) * (ge - gs)
+                        peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group, params: params))
+                    }
                 }
-            }
-            let norm = 1.0 / peak
+                let norm = 1.0 / peak
+                for group in groups {
+                    drawStackedLaneGroup(group, context: context, color: color, norm: norm, baseline: baseline, amplitude: amplitude, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset)
+                }
+            } else {
+                // Per-lane peak so this substance's tallest moment fills the lane,
+                // regardless of how it compares to other substances.
+                var peak = 1e-6
+                for dose in lane.doses {
+                    let params = pkParams(for: dose)
+                    let hs = heightScale(for: dose)
+                    let end = curveExtent(for: dose, params: params)
+                    let steps = 40
+                    for j in 0 ... steps {
+                        let t = Double(j) / Double(steps) * end
+                        peak = max(peak, intensity(at: t, for: dose, params: params) * hs)
+                    }
+                }
+                let norm = 1.0 / peak
 
-            for dose in lane.doses {
-                let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                let scale = heightScale(for: dose) * norm
-                let fill = intensityFillPath(
-                    for: dose,
-                    substanceOffset: offset,
-                    visibleStart: visibleStart,
-                    visibleSpan: visibleSpan,
-                    graphWidth: graphWidth,
-                    graphHeight: amplitude,
-                    graphInset: graphInset,
-                    graphTop: laneGraphTop,
-                    scale: scale,
-                )
-                context.fill(fill, with: .color(color.opacity(0.16)))
-                let stroke = intensityStrokePath(
-                    for: dose,
-                    substanceOffset: offset,
-                    visibleStart: visibleStart,
-                    visibleSpan: visibleSpan,
-                    graphWidth: graphWidth,
-                    graphHeight: amplitude,
-                    graphInset: graphInset,
-                    graphTop: laneGraphTop,
-                    scale: scale,
-                )
-                context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
+                for dose in lane.doses {
+                    let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                    let scale = heightScale(for: dose) * norm
+                    let fill = intensityFillPath(
+                        for: dose,
+                        substanceOffset: offset,
+                        visibleStart: visibleStart,
+                        visibleSpan: visibleSpan,
+                        graphWidth: graphWidth,
+                        graphHeight: amplitude,
+                        graphInset: graphInset,
+                        graphTop: laneGraphTop,
+                        scale: scale,
+                    )
+                    context.fill(fill, with: .color(color.opacity(0.16)))
+                    let stroke = intensityStrokePath(
+                        for: dose,
+                        substanceOffset: offset,
+                        visibleStart: visibleStart,
+                        visibleSpan: visibleSpan,
+                        graphWidth: graphWidth,
+                        graphHeight: amplitude,
+                        graphInset: graphInset,
+                        graphTop: laneGraphTop,
+                        scale: scale,
+                    )
+                    context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
+                }
             }
 
             drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
@@ -1386,6 +1410,65 @@ struct TimelineGraphView: View {
                 drawMarkerLollipop(marker, context: context, baseline: baseline, laneTop: laneTop, amplitude: amplitude, liftFraction: 0.72, labelWidth: labelWidth, radius: r, visibleStart: visibleStart, visibleSpan: visibleSpan, graphWidth: graphWidth, graphInset: graphInset, color: color)
             }
         }
+    }
+
+    /// Draw one stacked redose group's summed envelope inside a lane, normalized
+    /// by the lane's own peak (`norm`) and mapped to the lane's `baseline` and
+    /// `amplitude`. Mirrors ``drawStackedCurves`` — superpose the per-dose
+    /// intensities, then (for a genuine redose stack) pass the envelope through
+    /// the effect-site low-pass so frequent redoses read as one smooth session
+    /// hump rather than a spiky sawtooth.
+    private func drawStackedLaneGroup(
+        _ group: [ActiveSubstanceState],
+        context: GraphicsContext,
+        color: Color,
+        norm: Double,
+        baseline: CGFloat,
+        amplitude: CGFloat,
+        visibleStart: Double,
+        visibleSpan: Double,
+        graphWidth: CGFloat,
+        graphInset: CGFloat,
+    ) {
+        let (gStart, gEnd) = stackedGroupRange(group)
+        let gSpan = gEnd - gStart
+        guard gSpan > 0 else { return }
+        let params = group.map { pkParams(for: $0) }
+        let steps = compact ? 48 : 140
+        let dt = gSpan / Double(steps)
+        let tau = min(max(gSpan * 0.04, 12), 90)
+
+        var vs: [Double] = []
+        vs.reserveCapacity(steps + 1)
+        for i in 0 ... steps {
+            let t = gStart + Double(i) / Double(steps) * gSpan
+            vs.append(stackedIntensity(atGlobalMinutes: t, group: group, params: params) * norm)
+        }
+        if group.count > 1 {
+            vs = effectSiteSmoothed(vs, dtMinutes: dt, tauMinutes: tau)
+        }
+
+        var pts: [CGPoint] = []
+        pts.reserveCapacity(steps + 1)
+        for i in 0 ... steps {
+            let t = gStart + Double(i) / Double(steps) * gSpan
+            let x = graphInset + CGFloat((t - visibleStart) / visibleSpan) * graphWidth
+            let y = baseline - CGFloat(min(1.0, max(0, vs[i]))) * amplitude * 0.93
+            pts.append(CGPoint(x: x, y: y))
+        }
+
+        var fill = Path()
+        let startX = graphInset + CGFloat((gStart - visibleStart) / visibleSpan) * graphWidth
+        fill.move(to: CGPoint(x: startX, y: baseline))
+        addSmoothCurve(pts, to: &fill, startNew: false)
+        let endX = graphInset + CGFloat((gEnd - visibleStart) / visibleSpan) * graphWidth
+        fill.addLine(to: CGPoint(x: endX, y: baseline))
+        fill.closeSubpath()
+        context.fill(fill, with: .color(color.opacity(0.16)))
+
+        var stroke = Path()
+        addSmoothCurve(pts, to: &stroke, startNew: true)
+        context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
     }
 
     /// A duration-less substance rendered as its own lane: a name label plus a
@@ -1836,7 +1919,12 @@ struct TimelineGraphView: View {
             let endX = graphInset + CGFloat((gEnd - visibleStart) / visibleSpan) * graphWidth
             fillPath.addLine(to: CGPoint(x: endX, y: baseline))
             fillPath.closeSubpath()
-            context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
+            // On the home-page thumbnails the fills turn into a single blob once
+            // several curves overlap, so drop them on busy compact graphs and
+            // let the strokes carry the shape.
+            if !compact || stackedGroups.count <= 3 {
+                context.fill(fillPath, with: .color(color.opacity(emph.fillOpacity)))
+            }
 
             var strokePath = Path()
             addSmoothCurve(pts, to: &strokePath, startNew: true)
