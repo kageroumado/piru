@@ -486,16 +486,6 @@ private struct SessionAccessoryView: View {
     }
 
     private static func formatDuration(_ interval: TimeInterval) -> String {
-        let totalMinutes = max(0, Int(interval / 60))
-        let hours = totalMinutes / 60
-        let minutes = totalMinutes % 60
-
-        if hours > 0, minutes > 0 {
-            return String(localized: "\(hours)h \(minutes)m")
-        } else if hours > 0 {
-            return String(localized: "\(hours)h")
-        } else {
-            return String(localized: "\(minutes)m")
-        }
+        interval.durationHM
     }
 }
