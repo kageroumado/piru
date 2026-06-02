@@ -103,18 +103,20 @@ struct DayDetailView: View {
     }
 
     private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
-        var grouped: [String: (total: Double, unit: String, count: Int)] = [:]
+        // Keep the substance's original casing (e.g. "3-Me-PCPy") by remembering
+        // the first-seen name per lowercased key — `.capitalized` would mangle it.
+        var grouped: [String: (name: String, total: Double, unit: String, count: Int)] = [:]
         for entry in entries {
             let key = entry.substance.lowercased()
             if let existing = grouped[key] {
-                grouped[key] = (total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
+                grouped[key] = (name: existing.name, total: existing.total + entry.amount, unit: existing.unit, count: existing.count + 1)
             } else {
-                grouped[key] = (total: entry.amount, unit: entry.unit, count: 1)
+                grouped[key] = (name: entry.substance, total: entry.amount, unit: entry.unit, count: 1)
             }
         }
-        return grouped
-            .filter { $0.value.count > 1 }
-            .map { (substance: $0.key.capitalized, total: $0.value.total, unit: $0.value.unit, count: $0.value.count) }
+        return grouped.values
+            .filter { $0.count > 1 }
+            .map { (substance: $0.name, total: $0.total, unit: $0.unit, count: $0.count) }
             .sorted { $0.substance < $1.substance }
     }
 
@@ -142,20 +144,23 @@ struct DayDetailView: View {
             Label {
                 Text(dayInteractions.count == 1 ? "1 interaction" : "\(dayInteractions.count) interactions")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(severity.color)
+                    .foregroundStyle(severity.labelColor)
             } icon: {
                 Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                    .foregroundStyle(severity.color)
+                    .foregroundStyle(severity.labelColor)
             }
         }
-        .tint(severity.color)
+        .tint(severity.labelColor)
     }
 
     @ViewBuilder
     private func cumulativeRow(_ item: (substance: String, total: Double, unit: String, count: Int)) -> some View {
-        HStack {
+        HStack(spacing: 8) {
+            Circle()
+                .fill(colorForName(item.substance))
+                .frame(width: 10, height: 10)
             Text(item.substance)
-                .font(.subheadline)
+                .font(.headline)
             Spacer()
             Text("\(item.total.doseFormatted) \(item.unit)")
                 .font(.subheadline.weight(.semibold))
@@ -179,6 +184,13 @@ struct DayDetailView: View {
 
     private var isToday: Bool {
         Calendar.current.isDateInToday(date)
+    }
+
+    /// Today or yesterday — recent enough that an elapsed-time line ("13h ago",
+    /// "1d ago") is meaningful on every row. Older days show clock time alone so
+    /// the column stays symmetric.
+    private var isRecentDay: Bool {
+        Calendar.current.isDateInToday(date) || Calendar.current.isDateInYesterday(date)
     }
 
     /// Any dose on this day whose effect window still includes now. Gates the
@@ -291,6 +303,7 @@ struct DayDetailView: View {
                             DayEntryRow(
                                 entry: entry,
                                 color: colorFor(entry),
+                                showRelativeTime: isRecentDay,
                                 onDelete: { deleteEntry(entry) },
                                 onAdjustTime: { entryToAdjustTime = entry },
                                 onChangeColor: {
@@ -319,7 +332,7 @@ struct DayDetailView: View {
                                 ComedownGuideView()
                             } label: {
                                 Label("Recovery tips", systemImage: "heart.text.clipboard")
-                                    .font(.subheadline)
+                                    .font(.subheadline.weight(.semibold))
                                     .foregroundStyle(Theme.accent)
                             }
                         }
@@ -402,6 +415,10 @@ struct DayDetailView: View {
 
     private func colorFor(_ entry: DoseEntry) -> Color {
         Array(substanceColors).colorMap[entry.substance.lowercased()] ?? Theme.accent
+    }
+
+    private func colorForName(_ name: String) -> Color {
+        Array(substanceColors).colorMap[name.lowercased()] ?? Theme.accent
     }
 
     private func exportDayLog() {
@@ -578,6 +595,7 @@ private struct TimeAdjustSheet: View {
 private struct DayEntryRow: View {
     let entry: DoseEntry
     let color: Color
+    let showRelativeTime: Bool
     let onDelete: () -> Void
     let onAdjustTime: () -> Void
     let onChangeColor: () -> Void
@@ -586,7 +604,7 @@ private struct DayEntryRow: View {
 
     var body: some View {
         NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
-            EntryRowView(entry: entry, color: color)
+            EntryRowView(entry: entry, color: color, showRelativeTime: showRelativeTime)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive, action: onDelete) {

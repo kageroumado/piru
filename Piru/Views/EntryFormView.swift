@@ -419,21 +419,21 @@ struct InteractionWarningRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: warning.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
-                .foregroundStyle(warning.severity.color)
+                .foregroundStyle(warning.severity.labelColor)
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text("\(warning.severity.label): \(warning.substanceA) + \(warning.substanceB)")
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(warning.severity.color)
+                        .foregroundStyle(warning.severity.labelColor)
                     if warning.source != .classRule {
                         Text(warning.source.label)
                             .font(.caption2.weight(.medium))
                             .padding(.horizontal, 5)
                             .padding(.vertical, 1)
                             .background(warning.severity.color.opacity(0.15), in: Capsule())
-                            .foregroundStyle(warning.severity.color)
+                            .foregroundStyle(warning.severity.labelColor)
                     }
                 }
                 Text(warning.description)

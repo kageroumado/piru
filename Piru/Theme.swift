@@ -5,6 +5,16 @@ enum Theme {
     /// Soft pink in light mode, hot pink in dark mode
     static let accent = Color("AccentColor")
 
+    /// Yellow that stays legible as text/icon on a light surface — pure yellow
+    /// is unreadable on white, so it darkens to amber in light mode while
+    /// keeping its yellow identity in dark mode. Used for the "Common" dose
+    /// level and "Caution" interaction severity labels.
+    static let legibleYellow: Color = .init(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? .systemYellow
+            : UIColor(red: 0.52, green: 0.39, blue: 0.0, alpha: 1)
+    })
+
     /// Darker secondary label for improved readability
     static let secondaryLabel: Color = .init(UIColor { traits in
         if traits.userInterfaceStyle == .dark {
