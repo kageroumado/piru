@@ -21556,6 +21556,38 @@
           }
         }
       }
+    },
+    "1 interaction" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 个相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 個相互作用"
+          }
+        }
+      }
+    },
+    "%lld interactions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 个相互作用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 個相互作用"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

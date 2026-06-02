@@ -39,11 +39,19 @@ struct EntryRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(customStore.displayName(for: entry.substance))
                     .font(.headline)
-                HStack(spacing: 4) {
-                    Text("\(entry.amount.doseFormatted) \(entry.unit) — \(String(localized: entry.route.localizedName))")
+                HStack(spacing: 6) {
+                    // Amount is the anchor of the secondary line — emphasised so
+                    // the eye lands on "how much" first, then route, then level.
+                    Text("\(entry.amount.doseFormatted) \(entry.unit)")
+                        .foregroundStyle(.primary)
+                        .fontWeight(.semibold)
+                    Text(String(localized: entry.route.localizedName))
                     if let doseLevel {
-                        Text("(\(String(localized: doseLevel.displayName)))")
+                        Text(verbatim: "·")
+                            .foregroundStyle(.tertiary)
+                        Text(String(localized: doseLevel.displayName))
                             .foregroundStyle(doseLevel.swiftUIColor)
+                            .fontWeight(.medium)
                     }
                 }
                 .font(.subheadline)
