@@ -247,7 +247,7 @@ struct DayDetailView: View {
                                     withAnimation { graphExpanded.toggle() }
                                 } label: {
                                     HStack {
-                                        Label("Timeline", systemImage: "chart.xyaxis.line")
+                                        Text("Timeline")
                                         Image(systemName: "chevron.right")
                                             .font(.caption2.weight(.semibold))
                                             .rotationEffect(.degrees(graphExpanded ? 90 : 0))

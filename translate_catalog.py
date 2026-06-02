@@ -70,6 +70,7 @@ T = {
     "Peak": ("巅峰", "巔峰"),
     "Offset": ("下降期", "下降期"),
     "Afterglow": ("余韵", "餘韻"),
+    "Effects ended": ("效果已结束", "效果已結束"),
     "Total": ("总计", "總計"),
     "~%@ hours": ("约 %@ 小时", "約 %@ 小時"),
     "~%@-%@ hours": ("约 %1$@-%2$@ 小时", "約 %1$@-%2$@ 小時"),
@@ -1847,7 +1848,7 @@ if __name__ == "__main__":
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
-    NEW_KEYS = {"1 interaction", "%lld interactions"}
+    NEW_KEYS = {"Effects ended"}
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(

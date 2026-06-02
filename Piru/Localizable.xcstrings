@@ -21588,6 +21588,22 @@
           }
         }
       }
+    },
+    "Effects ended" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已结束"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "效果已結束"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -69,8 +69,9 @@ struct EntryRowView: View {
                             .fontWeight(.semibold)
                         if let doseLevel {
                             Text(verbatim: "·").foregroundStyle(.tertiary)
+                            // Same weight as the route (regular) — only the
+                            // amount carries emphasis; the level reads via colour.
                             Text(String(localized: doseLevel.displayName).lowercased())
-                                .fontWeight(.semibold)
                                 .foregroundStyle(doseLevel.labelColor)
                         }
                     }

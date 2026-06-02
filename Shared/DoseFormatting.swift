@@ -20,3 +20,22 @@ extension Double {
         return s
     }
 }
+
+extension TimeInterval {
+    /// Format a duration as "2h 8m" / "3h" / "45m". Shared by the session
+    /// accessory and the entry-detail hero so the "in / left" status reads
+    /// identically across the app. Negative intervals clamp to zero.
+    var durationHM: String {
+        let totalMinutes = max(0, Int(self / 60))
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+
+        if hours > 0, minutes > 0 {
+            return String(localized: "\(hours)h \(minutes)m")
+        } else if hours > 0 {
+            return String(localized: "\(hours)h")
+        } else {
+            return String(localized: "\(minutes)m")
+        }
+    }
+}
