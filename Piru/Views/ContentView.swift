@@ -143,7 +143,10 @@ struct ContentView: View {
             }
         }
         .withSessionAccessory(
-            isActive: ActiveSessionManager.shared.hasActiveSession,
+            // Suppress the accessory while the journal is showing the day-detail
+            // for the session's own day — the curve, substances and timing are
+            // already on screen there, so the floating pill only duplicates them.
+            isActive: ActiveSessionManager.shared.hasActiveSession && !viewingActiveSessionDay,
             // Only treat the toggle as "on" when the sheet is at the TOP of
             // the stack — anything buried under another sheet isn't actually
             // visible, so flipping the toggle would otherwise no-op against
@@ -173,6 +176,19 @@ struct ContentView: View {
                 },
             ),
         )
+    }
+
+    /// True when the journal stack's top screen is the day-detail for the day the
+    /// active session belongs to. The session accessory would only echo what that
+    /// screen already shows, so we hide it there.
+    private var viewingActiveSessionDay: Bool {
+        guard navigator.selectedTab == .journal,
+              case let .day(date) = navigator.path(for: .journal).last,
+              let sessionStart = ActiveSessionManager.shared.activeSubstanceStates
+              .map(\.doseTimestamp).min()
+        else { return false }
+        let calendar = Calendar.current
+        return calendar.sessionDayStart(for: date) == calendar.sessionDayStart(for: sessionStart)
     }
 
     // MARK: - Add Menu

@@ -147,14 +147,13 @@ extension ActiveSubstanceState {
     }
 
     /// Synthesize a state for a dose that has **no acute duration profile** but
-    /// a known half-life, so it renders as a real half-life-driven curve.
+    /// a known half-life, so it still renders as a plausible effect curve.
     ///
-    /// `TimelineGraphView` reconstructs the Bateman elimination rate as
-    /// `ke = ln(20) / decayWindow`, where `decayWindow = totalMinutes − peakCenter`
-    /// and `peakCenter = (comeupEnd + peakEnd) / 2`. We choose `totalMinutes` to
-    /// invert that, so the rendered curve eliminates at exactly `ln(2)/t½`. The
-    /// peak time is a realistic absorption Tmax (a few hours), never tied to the
-    /// half-life — a long-acting drug still absorbs quickly.
+    /// `TimelineGraphView` now draws a phase-based effect curve, so we fabricate
+    /// onset/come-up/peak/offset boundaries scaled around a realistic absorption
+    /// `peakCenter` (a few hours, never tied to the half-life — a long-acting drug
+    /// still absorbs quickly). `totalMinutes` is derived from the half-life
+    /// (`ln(20)/ke` past the peak) so a longer half-life stretches the offset.
     init(synthesizedForName name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, halfLifeMinutes: Double, doseIntensity: Double) {
         let ke = log(2) / halfLifeMinutes
         let peakCenter = min(max(halfLifeMinutes * 0.15, 20), 180)

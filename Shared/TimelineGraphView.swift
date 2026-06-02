@@ -1004,6 +1004,18 @@ struct TimelineGraphView: View {
                 markerSlots = []
             }
 
+            // Phase bands (bottom layer — onset/come-up/peak/offset regions for a
+            // lone substance, like the curve tuner). Self-guards on count == 1.
+            drawPhaseBands(
+                context: context,
+                size: size,
+                visibleStart: vStart,
+                visibleSpan: vSpan,
+                graphTop: graphTop,
+                graphHeight: graphHeight,
+                graphInset: graphInset,
+            )
+
             // Tick marks & gridlines (behind everything)
             if !compact {
                 drawTickMarks(
@@ -1663,46 +1675,78 @@ struct TimelineGraphView: View {
         return PKCurveParams(ka: ka, ke: ke, cmax: cmax)
     }
 
-    /// Normalized [0, 1] effect intensity at `minutes` past dose, from the
-    /// fitted Bateman curve. Unbounded above `totalMinutes` — the curve decays
-    /// naturally toward zero, so callers draw it to `curveExtent(for:)` and it
-    /// tails smoothly to baseline rather than being cut off mid-descent.
+    /// Normalized `[0, 1]` effect intensity at `minutes` past the dose. Delegates
+    /// the shape to ``effectShape(at:for:)`` (a phase-based subjective-effect
+    /// curve) and, for releasers, crashes the descending limb faster than the
+    /// listed offset via ``toleranceGate``. `params` is retained for call-site
+    /// stability but no longer drives the shape — the curve is built from the
+    /// duration phases, not a plasma-concentration fit.
     private func intensity(at minutes: Double, for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
         Self.intensity(at: minutes, for: s, params: params)
     }
 
-    private nonisolated static func intensity(at minutes: Double, for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
+    private nonisolated static func intensity(at minutes: Double, for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
+        let shape = effectShape(at: minutes, for: s)
+        guard shape > 0 else { return 0 }
+        return shape * toleranceGate(at: minutes, for: s)
+    }
+
+    /// Subjective effect-strength curve in `[0, 1]`, built directly from the
+    /// dose's duration phases rather than a plasma-concentration model. The graph
+    /// shows *how strong the effects feel*, not blood level, so:
+    ///
+    /// The curve is a **Gaussian-shouldered bell**: a rising Gaussian half on the
+    /// left, an optional flat (or rounded) crest across the peak, and a falling
+    /// Gaussian half on the right. Each shoulder is anchored to its phase window —
+    ///
+    /// - **σ↑** `= (comeupEnd − onsetEnd) / comeupSharpness` widens the rising
+    ///   shoulder to span the come-up; the **onset delay falls out for free** as
+    ///   that shoulder's far-left tail (≈0 through the onset window).
+    /// - **σ↓** `= (offsetEnd − peakEnd) / offsetSharpness` widens the falling
+    ///   shoulder to span the offset.
+    /// - **crest** holds at 1.0 between `leftEdge`/`rightEdge`; ``peakDome`` shrinks
+    ///   that flat span toward the peak centre, so a short peak rounds to a bell
+    ///   tip while a long one keeps a gently broad crest.
+    ///
+    /// Both shoulders meet the crest with zero slope (a Gaussian's derivative is 0
+    /// at its mean), so the whole curve is C¹-smooth — no shoulder kinks like the
+    /// old smoothstep+sine. The asymmetry users expect (fast rise, slow fall)
+    /// comes from the offset window being wider than the come-up window in the
+    /// data, not from the constants. Tuned in `piru_curve_tuner.html`.
+    private nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         guard minutes >= 0 else { return 0 }
-        let c = PKModel.concentration(at: minutes, ke: params.ke, ka: params.ka)
-        let e = min(1, max(0, c / params.cmax))
-        return e * toleranceGate(at: minutes, for: s) * tailTaper(at: minutes, for: s)
+        let onsetEnd = s.onsetEndMinutes
+        let comeupEnd = max(s.comeupEndMinutes, onsetEnd + 1)
+        let peakEnd = max(s.peakEndMinutes, comeupEnd)
+        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
+
+        let sigmaUp = max((comeupEnd - onsetEnd) / Self.comeupSharpness, 1e-3)
+        let sigmaDown = max((offsetEnd - peakEnd) / Self.offsetSharpness, 1e-3)
+        let center = (comeupEnd + peakEnd) / 2
+        let leftEdge = comeupEnd + (center - comeupEnd) * Self.peakDome
+        let rightEdge = peakEnd - (peakEnd - center) * Self.peakDome
+
+        if minutes <= leftEdge {
+            let z = (leftEdge - minutes) / sigmaUp
+            return exp(-0.5 * z * z)
+        }
+        if minutes <= rightEdge { return 1 }
+        let z = (minutes - rightEdge) / sigmaDown
+        return exp(-0.5 * z * z)
     }
 
-    /// Gentle far-tail taper: eases the descending limb to baseline over the
-    /// final stretch of the offset so a long, shallow elimination skirt doesn't
-    /// crawl across the axis. Onset, peak, and the early offset are untouched —
-    /// the fade only starts well into the offset (`offsetTaperStart` of the way
-    /// from `peakEnd` to `totalMinutes`) and reaches zero just past the
-    /// subjective end, which for these `ke`-fitted curves coincides with the old
-    /// 4 %-of-peak draw extent. Tachyphylaxis curves already crash to baseline
-    /// via ``toleranceGate``, so they're left alone.
-    private nonisolated static func tailTaper(at minutes: Double, for s: ActiveSubstanceState) -> Double {
-        guard s.tachyphylaxis == 0 else { return 1 }
-        let total = max(s.totalMinutes, 1)
-        let start = s.peakEndMinutes + (total - s.peakEndMinutes) * Self.offsetTaperStart
-        let end = total * Self.offsetTaperEnd
-        guard end > start, minutes > start else { return 1 }
-        let x = min(1, (minutes - start) / (end - start))
-        let smooth = x * x * (3 - 2 * x)
-        return 1 - smooth
-    }
-
-    /// Where the far-tail taper begins, as a fraction of the offset window
-    /// (`peakEnd → total`). Higher = gentler (fades later, less of the tail cut).
-    private nonisolated static let offsetTaperStart: Double = 0.55
-    /// Where the far-tail taper reaches baseline, as a multiple of `totalMinutes`
-    /// — just past the subjective end so the curve lands on the axis cleanly.
-    private nonisolated static let offsetTaperEnd: Double = 1.05
+    /// σ↑ divisor: how many standard deviations the come-up window spans. Higher =
+    /// steeper rise hugging the come-up band.
+    private nonisolated static let comeupSharpness: Double = 1.7
+    /// σ↓ divisor: how many standard deviations the offset window spans. `2.4`
+    /// lands the falling shoulder at ~5 % of peak right as the offset band closes
+    /// — a graceful touchdown rather than a clipped cliff. Lowering it pushes
+    /// residual effect past the substance's own stated end.
+    private nonisolated static let offsetSharpness: Double = 2.4
+    /// Peak rounding: `0` keeps a flat plateau across the whole peak band, `1`
+    /// collapses it to a point (pure split-normal bell). `0.46` is a rounded crest
+    /// that still broadens with peak duration.
+    private nonisolated static let peakDome: Double = 0.46
 
     /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
     /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
@@ -1722,28 +1766,24 @@ struct TimelineGraphView: View {
         return max(0, 1 - kappa * smooth)
     }
 
-    /// Minutes after the dose at which the fitted curve has decayed to ~1 % of
-    /// its peak — the point past which nothing meaningful remains to draw. Used
-    /// as the per-curve draw end so the descent tails smoothly to baseline,
-    /// instead of being guillotined at `totalMinutes` (which sits at ~5 % and
-    /// leaves a vertical cliff). Never shorter than `totalMinutes`; capped at
-    /// the display window so a long elimination tail can't stretch the axis.
+    /// Minutes after the dose at which the curve has returned to baseline — the
+    /// point past which nothing remains to draw. The phase curve eases to zero by
+    /// the end of the offset, so the draw end is simply that point: no long
+    /// elimination tail to chase, and no flat near-zero skirt stretching the axis
+    /// (an explicit `total` or an afterglow phase can sit beyond it). Capped at
+    /// the display window.
     private func curveExtent(for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
         Self.curveExtent(for: s, params: params)
     }
 
-    private nonisolated static func curveExtent(for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
-        // Acute-tolerance curves are gated to baseline by `totalMinutes`, so
-        // there's no slow elimination tail to draw past it — extending further
-        // would only lay a flat near-zero line on the axis.
-        if s.tachyphylaxis > 0 {
-            return min(s.totalMinutes, Self.maxDisplayMinutes)
-        }
-        // 4 % of peak: low enough to read as "done", high enough that the axis
-        // doesn't stretch across a long invisible near-zero tail. The residual
-        // drop to baseline at this point is only a few px.
-        let cut = PKModel.timeToFraction(0.04, ke: params.ke, ka: params.ka, maxMinutes: Self.maxDisplayMinutes)
-        return min(max(cut, s.totalMinutes), Self.maxDisplayMinutes)
+    private nonisolated static func curveExtent(for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
+        let peakEnd = max(s.peakEndMinutes, s.comeupEndMinutes)
+        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
+        // The falling Gaussian sits at ~5% of peak at `offsetEnd`; draw ½σ further
+        // so it eases to ~1–2% and lands on the axis instead of being clipped.
+        let sigmaDown = (offsetEnd - peakEnd) / Self.offsetSharpness
+        let end = offsetEnd + sigmaDown * 0.5
+        return min(max(end, 1), Self.maxDisplayMinutes)
     }
 
     /// Append a smooth curve through `pts` using a uniform Catmull-Rom spline
@@ -1971,6 +2011,62 @@ struct TimelineGraphView: View {
     }
 
     // MARK: - Tick Marks
+
+    /// Shaded onset / come-up / peak / offset regions behind the curve, mirroring
+    /// the curve tuner's legend so the phases are legible at a glance. Drawn only
+    /// for a **single substance's single dose** (the "open a card for it" case) —
+    /// multiple curves or a redose stack would overlap into mud, so they stay
+    /// unbanded. Compact thumbnails skip it (too small for labels).
+    private func drawPhaseBands(
+        context: GraphicsContext,
+        size: CGSize,
+        visibleStart: Double,
+        visibleSpan: Double,
+        graphTop: CGFloat,
+        graphHeight: CGFloat,
+        graphInset: CGFloat,
+    ) {
+        guard !compact, substances.count == 1, let s = substances.first else { return }
+        let graphWidth = size.width - graphInset * 2
+        guard graphWidth > 0, visibleSpan > 0 else { return }
+        let doseOffset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
+
+        let bands: [(start: Double, end: Double, color: Color)] = [
+            (0, s.onsetEndMinutes, Color(hex: "9B9BA1")),
+            (s.onsetEndMinutes, s.comeupEndMinutes, Color(hex: "3A8DEF")),
+            (s.comeupEndMinutes, s.peakEndMinutes, Color(hex: "34C759")),
+            (s.peakEndMinutes, s.offsetEndMinutes, Color(hex: "FF9F0A")),
+        ]
+
+        let leftBound = graphInset
+        let rightBound = graphInset + graphWidth
+
+        // Clip the whole band block to a rounded rect so its outer corners are
+        // concentric with the hosting card instead of square against it. Scoped to
+        // a layer so the rounding affects only the bands, not the curve/gridlines.
+        // Internal phase boundaries stay crisp — only edges meeting a corner round.
+        let plotRect = CGRect(x: graphInset, y: graphTop, width: graphWidth, height: graphHeight)
+        context.drawLayer { layer in
+            layer.clip(to: Path(roundedRect: plotRect, cornerRadius: 10, style: .continuous))
+            for band in bands {
+                guard band.end > band.start else { continue }
+                let gStart = doseOffset + band.start
+                let gEnd = doseOffset + band.end
+                let rawX0 = graphInset + CGFloat((gStart - visibleStart) / visibleSpan) * graphWidth
+                let rawX1 = graphInset + CGFloat((gEnd - visibleStart) / visibleSpan) * graphWidth
+                let x0 = min(max(rawX0, leftBound), rightBound)
+                let x1 = min(max(rawX1, leftBound), rightBound)
+                guard x1 - x0 > 0.5 else { continue }
+
+                // Background tint only — the curve's shape already names the phases,
+                // and labels would collide with the line.
+                layer.fill(
+                    Path(CGRect(x: x0, y: graphTop, width: x1 - x0, height: graphHeight)),
+                    with: .color(band.color.opacity(0.12)),
+                )
+            }
+        }
+    }
 
     private func drawTickMarks(
         context: GraphicsContext,

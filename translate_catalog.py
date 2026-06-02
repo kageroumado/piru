@@ -490,6 +490,8 @@ T = {
     "%lld Interactions Found": ("发现 %lld 个相互作用", "發現 %lld 個相互作用"),
     "%lld interaction%@ detected": ("检测到 %1$lld 个相互作用", "偵測到 %1$lld 個相互作用"),
     "%lld Interaction Warnings": ("%lld 个相互作用警告", "%lld 個相互作用警告"),
+    "1 interaction": ("1 个相互作用", "1 個相互作用"),
+    "%lld interactions": ("%lld 个相互作用", "%lld 個相互作用"),
     "Choose at least 2 substances": ("请至少选择 2 种物质", "請至少選擇 2 種物質"),
     "Both substances active": ("两种物质都在活跃", "兩種物質都在活躍"),
     "At this timing, the substances are not simultaneously active above threshold.": (
@@ -1845,7 +1847,7 @@ if __name__ == "__main__":
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
-    NEW_KEYS = {"Curious"}
+    NEW_KEYS = {"1 interaction", "%lld interactions"}
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(

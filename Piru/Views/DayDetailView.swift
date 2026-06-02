@@ -13,6 +13,9 @@ struct DayDetailView: View {
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
+    /// Expansion of the interaction warnings inside the Summary section. Collapsed
+    /// by default — the severity-tinted count already signals their presence.
+    @State private var interactionsExpanded = false
     /// Grows the inline timeline in place: the graph's frame steps up to a taller
     /// height and the List reflows the entries below it — no separate fullscreen
     /// sheet, no overlay. Every gesture stays the same; the curves just get room.
@@ -113,6 +116,54 @@ struct DayDetailView: View {
             .filter { $0.value.count > 1 }
             .map { (substance: $0.key.capitalized, total: $0.value.total, unit: $0.value.unit, count: $0.value.count) }
             .sorted { $0.substance < $1.substance }
+    }
+
+    /// The Summary section appears whenever there is at least one derived signal
+    /// to show — re-dose totals or interaction warnings. (Recovery tips ride along
+    /// inside it rather than standing alone.)
+    private var hasSummary: Bool {
+        !cumulativeDoses.isEmpty || !dayInteractions.isEmpty
+    }
+
+    /// Highest severity among the day's interactions — drives the disclosure's
+    /// tint and icon so a dangerous combo reads red even while collapsed.
+    private var maxInteractionSeverity: InteractionSeverity {
+        dayInteractions.map(\.severity).max() ?? .caution
+    }
+
+    @ViewBuilder
+    private var interactionsDisclosure: some View {
+        let severity = maxInteractionSeverity
+        DisclosureGroup(isExpanded: $interactionsExpanded) {
+            ForEach(Array(dayInteractions.enumerated()), id: \.offset) { _, warning in
+                InteractionWarningRow(warning: warning)
+            }
+        } label: {
+            Label {
+                Text(dayInteractions.count == 1 ? "1 interaction" : "\(dayInteractions.count) interactions")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(severity.color)
+            } icon: {
+                Image(systemName: severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
+                    .foregroundStyle(severity.color)
+            }
+        }
+        .tint(severity.color)
+    }
+
+    @ViewBuilder
+    private func cumulativeRow(_ item: (substance: String, total: Double, unit: String, count: Int)) -> some View {
+        HStack {
+            Text(item.substance)
+                .font(.subheadline)
+            Spacer()
+            Text("\(item.total.doseFormatted) \(item.unit)")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.accent)
+            Text("(\(item.count)x)")
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
     }
 
     private var dateTitle: String {
@@ -250,21 +301,18 @@ struct DayDetailView: View {
                         }
                     }
 
-                    // Cumulative doses
-                    if !cumulativeDoses.isEmpty {
-                        Section("Cumulative Doses") {
+                    // A single "Summary" section folds together the day's derived
+                    // signals — interaction warnings (expand in place), cumulative
+                    // re-dose totals, and a link to recovery guidance — instead of
+                    // three separate stacked sections competing below the log.
+                    if hasSummary {
+                        Section("Summary") {
+                            if !dayInteractions.isEmpty {
+                                interactionsDisclosure
+                            }
+
                             ForEach(cumulativeDoses, id: \.substance) { item in
-                                HStack {
-                                    Text(item.substance)
-                                        .font(.subheadline)
-                                    Spacer()
-                                    Text("\(item.total.doseFormatted) \(item.unit)")
-                                        .font(.subheadline.weight(.semibold))
-                                        .foregroundStyle(Theme.accent)
-                                    Text("(\(item.count)x)")
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                }
+                                cumulativeRow(item)
                             }
 
                             NavigationLink {
@@ -274,18 +322,6 @@ struct DayDetailView: View {
                                     .font(.subheadline)
                                     .foregroundStyle(Theme.accent)
                             }
-                        }
-                    }
-
-                    // Interaction warnings at bottom
-                    if !dayInteractions.isEmpty {
-                        Section {
-                            ForEach(Array(dayInteractions.enumerated()), id: \.offset) { _, warning in
-                                InteractionWarningRow(warning: warning)
-                            }
-                        } header: {
-                            Text(dayInteractions.count == 1 ? "Interaction Warning" : "\(dayInteractions.count) Interaction Warnings")
-                                .foregroundStyle((dayInteractions.first?.severity ?? .caution).color)
                         }
                     }
                 }
