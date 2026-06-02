@@ -248,7 +248,6 @@ struct EntryDetailView: View {
                let duration = info.resolveDuration(for: entry.route) {
                 Section("Duration") {
                     DurationInfoView(duration: duration)
-                        .padding(.vertical, 4)
                 }
             }
         }

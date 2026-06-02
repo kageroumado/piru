@@ -226,71 +226,131 @@ struct PreciseScaleNote: View {
     }
 }
 
+// MARK: - Experience Phase
+
+/// Visual identity (label + colour) for each phase of an acute experience.
+/// Centralised so the timeline bar and the phase rows stay in lock-step — the
+/// bar is the overview, the rows the detail, and they must agree on hue.
+///
+/// The palette traces the arc of an experience: cool and quiet before it
+/// begins (blue), rising (teal), warm at the height (orange), cooling on the
+/// way down (purple), then neutral residue (gray).
+private enum ExperiencePhase: CaseIterable {
+    case onset, comeup, peak, offset, afterglow
+
+    var label: LocalizedStringResource {
+        switch self {
+        case .onset: "Onset"
+        case .comeup: "Come-up"
+        case .peak: "Peak"
+        case .offset: "Offset"
+        case .afterglow: "Afterglow"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .onset: .blue
+        case .comeup: .teal
+        case .peak: .orange
+        case .offset: .purple
+        case .afterglow: Color(.systemGray3)
+        }
+    }
+
+    func range(in profile: DurationProfile) -> DurationRange? {
+        switch self {
+        case .onset: profile.onset
+        case .comeup: profile.comeup
+        case .peak: profile.peak
+        case .offset: profile.offset
+        case .afterglow: profile.afterglow
+        }
+    }
+}
+
 // MARK: - Duration Timeline Bar
 
+/// A single legible bar that shows the *shape* of the experience — how the
+/// phases divide the timeline proportionally by their typical length. No text
+/// legend: the rows beneath carry the same colours and spell each phase out.
 struct DurationTimelineBar: View {
     let duration: DurationProfile
 
-    private struct Phase {
-        let label: LocalizedStringResource
-        let minutes: Double
-        let color: Color
-    }
-
-    private var phases: [Phase] {
-        var result: [Phase] = []
-        if let onset = duration.onset {
-            result.append(Phase(label: "Onset", minutes: onset.midpoint, color: .blue.opacity(0.5)))
+    private var segments: [(phase: ExperiencePhase, minutes: Double)] {
+        ExperiencePhase.allCases.compactMap { phase in
+            guard let range = phase.range(in: duration) else { return nil }
+            return (phase, range.midpoint)
         }
-        if let comeup = duration.comeup {
-            result.append(Phase(label: "Come-up", minutes: comeup.midpoint, color: .cyan))
-        }
-        if let peak = duration.peak {
-            result.append(Phase(label: "Peak", minutes: peak.midpoint, color: .orange))
-        }
-        if let offset = duration.offset {
-            result.append(Phase(label: "Offset", minutes: offset.midpoint, color: .purple.opacity(0.7)))
-        }
-        if let afterglow = duration.afterglow {
-            result.append(Phase(label: "Afterglow", minutes: afterglow.midpoint, color: .gray.opacity(0.4)))
-        }
-        return result
     }
 
     private var totalMinutes: Double {
-        phases.reduce(0) { $0 + $1.minutes }
+        segments.reduce(0) { $0 + $1.minutes }
     }
 
     var body: some View {
-        if !phases.isEmpty {
-            VStack(alignment: .leading, spacing: 6) {
-                GeometryReader { geo in
-                    HStack(spacing: 0) {
-                        ForEach(Array(phases.enumerated()), id: \.offset) { _, phase in
-                            let fraction = totalMinutes > 0 ? phase.minutes / totalMinutes : 1.0 / Double(phases.count)
-                            Rectangle()
-                                .fill(phase.color)
-                                .frame(width: geo.size.width * fraction)
-                        }
-                    }
-                }
-                .frame(height: 6)
-                .clipShape(Capsule())
-
-                HStack(spacing: 4) {
-                    ForEach(Array(phases.enumerated()), id: \.offset) { _, phase in
-                        HStack(spacing: 3) {
-                            Circle()
-                                .fill(phase.color)
-                                .frame(width: 5, height: 5)
-                            Text(phase.label)
-                                .font(.system(size: 8))
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+        if !segments.isEmpty {
+            GeometryReader { geo in
+                HStack(spacing: 0) {
+                    ForEach(Array(segments.enumerated()), id: \.offset) { _, segment in
+                        let fraction = totalMinutes > 0
+                            ? segment.minutes / totalMinutes
+                            : 1.0 / Double(segments.count)
+                        segment.phase.color
+                            .frame(width: geo.size.width * fraction)
                     }
                 }
             }
+            .frame(height: 8)
+            .clipShape(Capsule())
         }
+    }
+}
+
+// MARK: - Duration Phase Rows
+
+/// The labelled per-phase rows that accompany a ``DurationTimelineBar``,
+/// styled to match ``DoseRangeRows`` so the Dosage and Duration cards read as
+/// siblings. Each row flattens into its own list cell (gaining the standard
+/// hairline separators); ``total`` is emphasised as the summary line.
+struct DurationPhaseRows: View {
+    let duration: DurationProfile
+
+    var body: some View {
+        ForEach(ExperiencePhase.allCases, id: \.self) { phase in
+            if let range = phase.range(in: duration) {
+                row(phase.label, value: range.displayString, color: phase.color)
+            }
+        }
+        if let total = duration.total {
+            HStack {
+                Text("Total")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.primary)
+                Spacer()
+                Text(total.displayString)
+                    .monospacedDigit()
+                    .fontWeight(.semibold)
+            }
+            .font(.subheadline)
+        }
+    }
+
+    private func row(_ label: LocalizedStringResource, value: String, color: Color) -> some View {
+        HStack {
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(color)
+                    .frame(width: 8, height: 8)
+                Text(label)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            Text(value)
+                .monospacedDigit()
+                .foregroundStyle(.primary)
+        }
+        .font(.subheadline)
     }
 }
 
@@ -341,69 +401,16 @@ struct DoseRangeRows: View {
 
 // MARK: - Duration Info View
 
+/// Composes the redesigned duration card: a legible timeline bar over spacious
+/// per-phase rows. Emitted as flattened siblings (no wrapping `VStack`) so the
+/// rows pick up the enclosing list's separators, exactly like the Dosage card.
 struct DurationInfoView: View {
     let duration: DurationProfile
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            DurationTimelineBar(duration: duration)
-
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-                if let onset = duration.onset {
-                    GridRow {
-                        phaseLabel("Onset", color: .blue.opacity(0.5))
-                        Text(onset.displayString)
-                            .font(.caption.monospacedDigit())
-                    }
-                }
-                if let comeup = duration.comeup {
-                    GridRow {
-                        phaseLabel("Come-up", color: .cyan)
-                        Text(comeup.displayString)
-                            .font(.caption.monospacedDigit())
-                    }
-                }
-                if let peak = duration.peak {
-                    GridRow {
-                        phaseLabel("Peak", color: .orange)
-                        Text(peak.displayString)
-                            .font(.caption.monospacedDigit())
-                    }
-                }
-                if let offset = duration.offset {
-                    GridRow {
-                        phaseLabel("Offset", color: .purple.opacity(0.7))
-                        Text(offset.displayString)
-                            .font(.caption.monospacedDigit())
-                    }
-                }
-                if let afterglow = duration.afterglow {
-                    GridRow {
-                        phaseLabel("Afterglow", color: .gray.opacity(0.4))
-                        Text(afterglow.displayString)
-                            .font(.caption.monospacedDigit())
-                    }
-                }
-                if let total = duration.total {
-                    GridRow {
-                        phaseLabel("Total", color: .primary.opacity(0.6))
-                        Text(total.displayString)
-                            .font(.caption.weight(.medium).monospacedDigit())
-                    }
-                }
-            }
-        }
-    }
-
-    private func phaseLabel(_ label: LocalizedStringResource, color: Color) -> some View {
-        HStack(spacing: 4) {
-            Circle()
-                .fill(color)
-                .frame(width: 6, height: 6)
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
+        DurationTimelineBar(duration: duration)
+            .padding(.vertical, 6)
+        DurationPhaseRows(duration: duration)
     }
 }
 
