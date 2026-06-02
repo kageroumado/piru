@@ -420,4 +420,12 @@ extension DoseLevel {
         case .heavy: .red
         }
     }
+
+    /// Legible text variant of ``swiftUIColor``. Pure yellow is unreadable as
+    /// text on a light surface, so `.common` darkens to amber in light mode
+    /// while keeping its yellow identity in dark mode; the other hues read
+    /// fine in both schemes.
+    var labelColor: Color {
+        self == .common ? Theme.legibleYellow : swiftUIColor
+    }
 }

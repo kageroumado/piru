@@ -30,6 +30,13 @@ enum InteractionSeverity: Int, Comparable, Codable {
         case .caution: .yellow
         }
     }
+
+    /// Legible text/icon variant of ``color`` — yellow caution is unreadable on
+    /// a light surface, so it darkens to amber in light mode while staying
+    /// yellow in dark mode.
+    var labelColor: Color {
+        self == .caution ? Theme.legibleYellow : color
+    }
 }
 
 // MARK: - Interaction Source
