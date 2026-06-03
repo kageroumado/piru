@@ -28,9 +28,29 @@ private let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "Sto
 /// Adopting this for stores originally created with a plain `Schema(models)` is
 /// seamless: the schema's structural identity is the same, so no migration runs.
 /// (Verified by StoreRecoveryTests.)
+/// The original five user-data models. Frozen — do not edit; later additions
+/// get a new version (see ``PiruSchemaV2``) so the migration path is explicit.
 enum PiruSchemaV1: VersionedSchema {
     nonisolated static var versionIdentifier: Schema.Version {
         Schema.Version(1, 0, 0)
+    }
+    nonisolated static var models: [any PersistentModel.Type] {
+        [
+            DoseEntry.self,
+            SubstanceColor.self,
+            UserColor.self,
+            DailyDoseItem.self,
+            FavoriteSubstance.self,
+        ]
+    }
+}
+
+/// Adds ``QuickLogDose`` (the curated quick-log list). Purely additive — a new
+/// entity, no changes to existing ones — so the V1→V2 migration is lightweight
+/// (automatic) and existing data is untouched.
+enum PiruSchemaV2: VersionedSchema {
+    nonisolated static var versionIdentifier: Schema.Version {
+        Schema.Version(2, 0, 0)
     }
     nonisolated static var models: [any PersistentModel.Type] {
         StoreRecovery.models
@@ -39,10 +59,10 @@ enum PiruSchemaV1: VersionedSchema {
 
 enum PiruMigrationPlan: SchemaMigrationPlan {
     nonisolated static var schemas: [any VersionedSchema.Type] {
-        [PiruSchemaV1.self]
+        [PiruSchemaV1.self, PiruSchemaV2.self]
     }
     nonisolated static var stages: [MigrationStage] {
-        []
+        [.lightweight(fromVersion: PiruSchemaV1.self, toVersion: PiruSchemaV2.self)]
     }
 }
 
@@ -61,6 +81,7 @@ enum StoreRecovery {
             UserColor.self,
             DailyDoseItem.self,
             FavoriteSubstance.self,
+            QuickLogDose.self,
         ]
     }
 
@@ -219,12 +240,26 @@ enum StoreRecovery {
     /// but can't be opened/read (incompatible schema, locked, encrypted).
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
+        // Probe read-only with the current schema first; for a store that
+        // predates the latest additive migration (still V1 on disk, as it is
+        // when this runs at launch *before* the main container migrates), a
+        // read-only open under the current schema can't migrate-to-load, so fall
+        // back to counting under the original V1 schema it was written with. The
+        // five counted models exist in every version, so the count is exact
+        // either way — and we never mutate the store with a -1 "unreadable" that
+        // could mislead recovery on a perfectly good older store.
+        if let count = countUserRows(at: url, schema: Schema(models)) { return count }
+        if let count = countUserRows(at: url, schema: Schema(PiruSchemaV1.models)) { return count }
+        return -1
+    }
+
+    private static func countUserRows(at url: URL, schema: Schema) -> Int? {
         do {
             // .none — never let the iCloud entitlement pull this read-only probe
             // into CloudKit setup (the schema is CloudKit-incompatible). See
             // PiruApp.makeContainer.
             let config = ModelConfiguration(url: url, allowsSave: false, cloudKitDatabase: .none)
-            let container = try ModelContainer(for: Schema(models), configurations: config)
+            let container = try ModelContainer(for: schema, configurations: config)
             let context = ModelContext(container)
             // DoseEntry is the journal — the data "No Entries" refers to — plus
             // the other user-authored models. Colors are cosmetic but counted too.
@@ -237,7 +272,7 @@ enum StoreRecovery {
             ]
             return counts.reduce(0, +)
         } catch {
-            return -1
+            return nil
         }
     }
 

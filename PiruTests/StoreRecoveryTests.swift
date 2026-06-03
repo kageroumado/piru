@@ -15,9 +15,14 @@ struct StoreRecoveryTests {
 
     /// Create a store at `url` (plain Schema, like the pre-versioned builds) and
     /// seed `n` dose entries, then let the container deallocate (flushing).
+    ///
+    /// Uses the original five-model V1 schema — the exact shape an upgrading
+    /// user's on-disk store has — so the adoption test exercises the real
+    /// V1→V2 lightweight migration rather than opening a store that already
+    /// matches the current schema.
     private func seedStore(at url: URL, entries n: Int) throws {
         let container = try ModelContainer(
-            for: Schema(StoreRecovery.models),
+            for: Schema(PiruSchemaV1.models),
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
@@ -32,9 +37,10 @@ struct StoreRecoveryTests {
         let url = tmpStoreURL()
         try seedStore(at: url, entries: 3)
 
-        // Reopen with the versioned schema + migration plan, as the app now does.
+        // Reopen with the current versioned schema + migration plan, as the app
+        // now does — the V1→V2 lightweight migration must preserve all data.
         let container = try ModelContainer(
-            for: Schema(versionedSchema: PiruSchemaV1.self),
+            for: Schema(versionedSchema: PiruSchemaV2.self),
             migrationPlan: PiruMigrationPlan.self,
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )

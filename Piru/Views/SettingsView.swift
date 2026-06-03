@@ -12,6 +12,7 @@ struct SettingsView: View {
     @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
     @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
     @State private var showingExporter = false
@@ -106,6 +107,17 @@ struct SettingsView: View {
                     Text("Timeline")
                 } footer: {
                     Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
+                }
+
+                Section {
+                    Toggle(isOn: $quickLogFixedOrder) {
+                        Label("Keep Quick-Log Order", systemImage: "pin")
+                    }
+                    .tint(Theme.accent)
+                } header: {
+                    Text("Quick Log")
+                } footer: {
+                    Text("Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.")
                 }
 
                 Section {

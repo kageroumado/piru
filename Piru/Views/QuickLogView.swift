@@ -10,6 +10,9 @@ struct QuickLogView: View {
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @Query private var quickLogDoses: [QuickLogDose]
+
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
 
     @State private var customSubstanceStore = CustomSubstanceStore.shared
 
@@ -44,7 +47,6 @@ struct QuickLogView: View {
     }
 
     private func rebuildCards() {
-        let entries = allEntries
         let newCards: [SubstanceCard]
         let newHistoryNames: Set<String>
 
@@ -52,21 +54,24 @@ struct QuickLogView: View {
 
         var groupMap: [String: SubstanceGroup] = [:]
 
-        for entry in entries {
-            let nameLower = entry.substance.lowercased()
-            let key = "\(nameLower)|\(entry.route.rawValue)"
+        // Cards are built from the curated quick-log list (seeded once from
+        // history, then maintained on log), not raw history — so a removed chip
+        // stays gone and the order is the user's, not just recency.
+        for dose in quickLogDoses {
+            let nameLower = dose.substance.lowercased()
+            let key = "\(nameLower)|\(dose.route.rawValue)"
             if var group = groupMap[key] {
-                group.addEntry(entry)
+                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
                 groupMap[key] = group
             } else {
                 var group = SubstanceGroup(
-                    substanceName: entry.substance,
-                    route: entry.route,
+                    substanceName: dose.substance,
+                    route: dose.route,
                     colorHex: colorLookup[nameLower],
                     librarySubstance: SubstanceLibrary.lookupByNameOrAlias(nameLower),
-                    latestTimestamp: entry.timestamp,
+                    latestTimestamp: dose.lastUsedAt,
                 )
-                group.addEntry(entry)
+                group.addChip(amount: dose.amount, unit: dose.unit, sortOrder: dose.sortOrder, lastUsedAt: dose.lastUsedAt)
                 groupMap[key] = group
             }
         }
@@ -223,10 +228,11 @@ struct QuickLogView: View {
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
                 try? await Task.sleep(for: .milliseconds(50))
+                QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
                 rebuildColorLookup()
                 rebuildCards()
             }
-            .task(id: allEntries.count) {
+            .task(id: quickLogDoses.count) {
                 try? await Task.sleep(for: .milliseconds(200))
                 guard !Task.isCancelled else { return }
                 rebuildCards()
@@ -613,11 +619,23 @@ struct QuickLogView: View {
                         instantLog(group: group, chip: chip)
                     }
                 }
-                .onLongPressGesture {
-                    withAnimation(.easeInOut(duration: 0.15)) {
-                        if !multiSelectEnabled { multiSelectEnabled = true }
-                        toggleSelection(group: group, chip: chip)
-                    }
+                .contextMenu {
+                    Button {
+                        moveChip(group: group, chip: chip, toFront: true)
+                    } label: { Label("Move to Front", systemImage: "arrow.up.to.line") }
+                    Button {
+                        moveChip(group: group, chip: chip, toFront: false)
+                    } label: { Label("Move to Back", systemImage: "arrow.down.to.line") }
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            if !multiSelectEnabled { multiSelectEnabled = true }
+                            toggleSelection(group: group, chip: chip)
+                        }
+                    } label: { Label("Select", systemImage: "checklist") }
+                    Divider()
+                    Button(role: .destructive) {
+                        removeChip(group: group, chip: chip)
+                    } label: { Label("Remove from Quick Log", systemImage: "trash") }
                 }
             }
 
@@ -733,6 +751,7 @@ struct QuickLogView: View {
         )
         entry.tags = Array(sessionTags)
         modelContext.insert(entry)
+        QuickLogManager.record(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
 
         // Schedule wellness notifications & check cumulative dose
@@ -749,6 +768,36 @@ struct QuickLogView: View {
 
         // Quick-log completes a logging flow; clear the entire sheet chain.
         navigator.dismissAll()
+    }
+
+    // MARK: - Quick-log list curation
+
+    /// The curated row backing a chip, matched by substance + route + measurement.
+    private func quickLogDose(for group: SubstanceGroup, chip: DoseChip) -> QuickLogDose? {
+        let key = QuickLogDose.makeKey(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
+        return quickLogDoses.first { $0.key == key }
+    }
+
+    private func removeChip(group: SubstanceGroup, chip: DoseChip) {
+        guard let dose = quickLogDose(for: group, chip: chip) else { return }
+        modelContext.delete(dose)
+        try? modelContext.save()
+        withAnimation(.snappy) { rebuildCards() }
+    }
+
+    /// Move a chip to the front (or back) of its (substance, route) group by
+    /// rewriting its `sortOrder` just past the current min/max.
+    private func moveChip(group: SubstanceGroup, chip: DoseChip, toFront: Bool) {
+        guard let dose = quickLogDose(for: group, chip: chip) else { return }
+        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)"
+        let siblings = quickLogDoses.filter { "\($0.substance.lowercased())|\($0.route.rawValue)" == key }
+        if toFront {
+            dose.sortOrder = (siblings.map(\.sortOrder).min() ?? 0) - 1
+        } else {
+            dose.sortOrder = (siblings.map(\.sortOrder).max() ?? 0) + 1
+        }
+        try? modelContext.save()
+        withAnimation(.snappy) { rebuildCards() }
     }
 
     private func openOtherDose(group: SubstanceGroup) {
@@ -860,6 +909,7 @@ struct QuickLogView: View {
             )
             entry.tags = Array(sessionTags)
             modelContext.insert(entry)
+            QuickLogManager.record(substance: dose.substanceName, route: dose.route, amount: dose.amount, unit: dose.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
             scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
 
             ensureColor(for: dose.substanceName)
@@ -1002,12 +1052,12 @@ struct SubstanceGroup: Identifiable {
     let colorHex: String?
     let librarySubstance: Substance?
     var latestTimestamp: Date
-    private var doseCounts: [String: (amount: Double, unit: String, count: Int)] = [:]
+    private var chipEntries: [(amount: Double, unit: String, sortOrder: Double)] = []
 
     var doses: [DoseChip] {
-        doseCounts.values
-            .sorted { $0.count > $1.count }
-            .map { DoseChip(amount: $0.amount, unit: $0.unit, count: $0.count) }
+        chipEntries
+            .sorted { $0.sortOrder < $1.sortOrder }
+            .map { DoseChip(amount: $0.amount, unit: $0.unit) }
     }
 
     init(substanceName: String, route: RouteOfAdministration, colorHex: String?, librarySubstance: Substance?, latestTimestamp: Date) {
@@ -1019,16 +1069,12 @@ struct SubstanceGroup: Identifiable {
         self.latestTimestamp = latestTimestamp
     }
 
-    mutating func addEntry(_ entry: DoseEntry) {
-        let key = "\(entry.amount)|\(entry.unit)"
-        if var existing = doseCounts[key] {
-            existing.count += 1
-            doseCounts[key] = existing
-        } else {
-            doseCounts[key] = (amount: entry.amount, unit: entry.unit, count: 1)
-        }
-        if entry.timestamp > latestTimestamp {
-            latestTimestamp = entry.timestamp
+    /// Add a curated chip (sorted by `sortOrder` for display). Tracks the most
+    /// recent use so cards order by recency.
+    mutating func addChip(amount: Double, unit: String, sortOrder: Double, lastUsedAt: Date) {
+        chipEntries.append((amount: amount, unit: unit, sortOrder: sortOrder))
+        if lastUsedAt > latestTimestamp {
+            latestTimestamp = lastUsedAt
         }
     }
 }
@@ -1049,7 +1095,6 @@ struct DoseSelection: Identifiable {
 struct DoseChip: Identifiable {
     let amount: Double
     let unit: String
-    let count: Int
 
     var id: String {
         "\(amount)|\(unit)"

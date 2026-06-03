@@ -10,6 +10,15 @@ T = {
     # Substance detail — consolidated dose/duration card + share
     "Release Window": ("释放窗口", "釋放窗口"),
     "Share drug info": ("分享药物信息", "分享藥物資訊"),
+    "Move to Front": ("移到最前", "移到最前"),
+    "Move to Back": ("移到最后", "移到最後"),
+    "Select": ("选择", "選擇"),
+    "Remove from Quick Log": ("从快速记录中移除", "從快速記錄中移除"),
+    "Keep Quick-Log Order": ("保持快速记录顺序", "保持快速記錄順序"),
+    "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.": (
+        "让快速记录中的剂量保持固定顺序。关闭时，记录某个剂量会将其移到最前，使常用剂量始终置顶。",
+        "讓快速記錄中的劑量保持固定順序。關閉時，記錄某個劑量會將其移到最前，使常用劑量始終置頂。",
+    ),
     # Categories (SubstanceCategory)
     "Stimulant": ("兴奋剂", "興奮劑"),
     "Psychedelic": ("致幻剂", "致幻劑"),
@@ -1851,7 +1860,11 @@ if __name__ == "__main__":
     # Brand-new strings added from the CLI that Xcode hasn't extracted into the
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
-    NEW_KEYS = {"Release Window", "Share drug info", "~%@ – %@ hours", "~%lld – %lld minutes"}
+    NEW_KEYS = {
+        "Move to Front", "Move to Back", "Select", "Remove from Quick Log",
+        "Keep Quick-Log Order",
+        "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.",
+    }
 
     print("--- Piru main app catalog ---")
     n, added, missing = apply_translations(

@@ -72,7 +72,7 @@ struct TodaySummaryProvider: TimelineProvider {
             let config = ModelConfiguration(url: storeURL)
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self,
+                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self,
                 configurations: config,
             )
         } catch {

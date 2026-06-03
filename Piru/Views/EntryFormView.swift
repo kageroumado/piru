@@ -27,6 +27,8 @@ struct EntryFormView: View {
     @State private var substanceLocked = false
     @FocusState private var amountFocused: Bool
 
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
+
     @Query private var substanceColors: [SubstanceColor]
     @Query private var recentEntries: [DoseEntry]
     @Query private var favorites: [FavoriteSubstance]
@@ -340,6 +342,7 @@ struct EntryFormView: View {
                 tags: allTags,
             )
             modelContext.insert(newEntry)
+            QuickLogManager.record(substance: substance, route: route, amount: storedAmount, unit: storedUnit, fixedOrder: quickLogFixedOrder, context: modelContext)
             savedEntry = newEntry
 
             // Schedule wellness notifications & check cumulative dose
