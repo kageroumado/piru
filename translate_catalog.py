@@ -15,6 +15,10 @@ T = {
     "Select": ("选择", "選擇"),
     "Remove from Quick Log": ("从快速记录中移除", "從快速記錄中移除"),
     "Keep Quick-Log Order": ("保持快速记录顺序", "保持快速記錄順序"),
+    "icon to log several at once, or long press a dose to remove or reorder it": (
+        "图标可一次记录多个，或长按某个剂量以移除或重新排序",
+        "圖示可一次記錄多個，或長按某個劑量以移除或重新排序",
+    ),
     "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.": (
         "让快速记录中的剂量保持固定顺序。关闭时，记录某个剂量会将其移到最前，使常用剂量始终置顶。",
         "讓快速記錄中的劑量保持固定順序。關閉時，記錄某個劑量會將其移到最前，使常用劑量始終置頂。",
@@ -1864,6 +1868,7 @@ if __name__ == "__main__":
         "Move to Front", "Move to Back", "Select", "Remove from Quick Log",
         "Keep Quick-Log Order",
         "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.",
+        "icon to log several at once, or long press a dose to remove or reorder it",
     }
 
     print("--- Piru main app catalog ---")
