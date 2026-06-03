@@ -7289,9 +7289,9 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
+      "3-Chloroethcathinone",
       "3-Cl-ethcathinone",
-      "3-chloro-NEC",
-      "3-chloroethcathinone"
+      "3-chloro-NEC"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -7775,7 +7775,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-fpm",
+      "3-FPM",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -13913,10 +13913,10 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-Cl-iBF",
+      "4-Cl-IBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-iBF",
+      "p-Cl-IBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -22360,7 +22360,7 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "A-D2PV",
+      "a-D2PV",
       "alpha D2PV",
       "α-D2PV"
     ],
@@ -22526,12 +22526,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
+      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
-      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -31533,6 +31533,7 @@
     "aliases": [
       "Aller-Chlor",
       "Chlor-Trimeton",
+      "Chlorphenamine",
       "Chlorphenaminum",
       "Chlorpheniramine polistirex",
       "Chlorprophenpyridamine",
@@ -32513,7 +32514,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-ii-90",
+      "DM-II-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -57711,18 +57712,45 @@
     "display_name": "",
     "aliases": [
       "Blotter",
+      "D-LSD-25",
+      "D-lysergic acid N,N-diethylamide",
+      "D-lysergic acid dethylamide",
+      "Delysid",
       "L",
+      "LSD 25",
+      "Lysergic Acid Diethylamide",
+      "N,N-diethyllysergamide",
       "Tabs",
       "acid",
+      "blotter acid",
       "cid",
+      "d-lysergic acid diethylamide",
+      "dots",
+      "hits",
       "lsd-25",
-      "lucy"
+      "lucy",
+      "lysergamide",
+      "lysergic acid amide",
+      "lysergic acid diethylamide-25",
+      "lysergide",
+      "mellow yellow",
+      "microdot",
+      "window pane",
+      "麥角酸二乙醯胺",
+      "麦角酸二乙酰胺"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "5-HT1A-full-agonist",
+      "CYP3A4-substrate",
+      "TAAR1-agonist",
+      "TIHKAL",
+      "arrestin-biased-5HT2A",
       "class:lysergamides",
-      "common"
+      "common",
+      "long-residence-time",
+      "tryptamine"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -57739,6 +57767,7 @@
     "half_life_minutes": 240.0,
     "mechanism_summary": "",
     "effects": [
+      "In the case of LSD, it seems presumptuous to attempt to select typical comments for quotation. Literally thousands of reports are in the literature, from early exploratory research, to clinical applications for treatment of autism, of alcoholism, or mental illness, to assisting i",
       "8A Geometry - Exposure to semantic concept network",
       "Acuity enhancement",
       "After images",
@@ -57791,55 +57820,15 @@
       "Stimulation"
     ],
     "references": [
+      "TIHKAL by Alexander & Ann Shulgin (Transform Press, 1997) — text used with permission per https://erowid.org/library/books_online/tihkal/tihkal.shtml",
+      "https://erowid.org/library/books_online/tihkal/tihkal26.shtml",
       "TripSit drugs.json: https://github.com/TripSit/drugs",
+      "Wikidata: https://www.wikidata.org/wiki/Q23118",
+      "PubChem CID 5761: https://pubchem.ncbi.nlm.nih.gov/compound/5761",
+      "CAS 50-37-3",
       "https://psychonautwiki.org/wiki/LSD"
     ],
     "data_gaps": [
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "LSD-25",
-    "display_name": "",
-    "aliases": [
-      "Delysid",
-      "LSD",
-      "d-lysergic acid diethylamide",
-      "麥角酸二乙醯胺",
-      "麦角酸二乙酰胺"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT1A-full-agonist",
-      "CYP3A4-substrate",
-      "TAAR1-agonist",
-      "TIHKAL",
-      "arrestin-biased-5HT2A",
-      "long-residence-time",
-      "tryptamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "In the case of LSD, it seems presumptuous to attempt to select typical comments for quotation. Literally thousands of reports are in the literature, from early exploratory research, to clinical applications for treatment of autism, of alcoholism, or mental illness, to assisting i"
-    ],
-    "references": [
-      "TIHKAL by Alexander & Ann Shulgin (Transform Press, 1997) — text used with permission per https://erowid.org/library/books_online/tihkal/tihkal.shtml",
-      "https://erowid.org/library/books_online/tihkal/tihkal26.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -58171,57 +58160,6 @@
     "references": [
       "Wikidata: https://www.wikidata.org/wiki/Q118584662",
       "CAS 1391487-26-5"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Lysergic Acid Diethylamide",
-    "display_name": "",
-    "aliases": [
-      "D-LSD",
-      "D-LSD-25",
-      "D-lysergic acid N,N-diethylamide",
-      "D-lysergic acid dethylamide",
-      "LSD 25",
-      "LSD-25",
-      "N,N-diethyllysergamide",
-      "acid",
-      "blotter acid",
-      "delysid",
-      "dots",
-      "hits",
-      "lysergamide",
-      "lysergic acid amide",
-      "lysergic acid diethylamide-25",
-      "lysergide",
-      "mellow yellow",
-      "microdot",
-      "window pane"
-    ],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "no-human-data",
-      "phenethylamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q23118",
-      "PubChem CID 5761: https://pubchem.ncbi.nlm.nih.gov/compound/5761",
-      "CAS 50-37-3"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -66208,7 +66146,6 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
-      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
@@ -90729,7 +90666,7 @@
     "aliases": [
       "A‑PCYP",
       "alpha-PCyP",
-      "alpha-Pyrrolidinocyclohexanophenone"
+      "alpha-PyrrolidinoCyclohexanoPhenone"
     ],
     "category": "Stimulant",
     "display_class": "recreational",

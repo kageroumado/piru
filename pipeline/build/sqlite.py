@@ -1400,6 +1400,18 @@ _CANONICAL_CASE: dict[str, str] = {
 }
 
 
+# Per-substance tag blocklist: tags a source wrongly attaches to the keyed
+# substance. Keys are normalised canonical names; values are tags to drop.
+# Applied AFTER dedup so it catches tags inherited from a merged-in stub
+# (e.g. Wikidata's LSD record tags it "phenethylamine" — it's a tryptamine /
+# lysergamide — and "no-human-data", absurd for the most-studied psychedelic).
+# These are cosmetic, not classification-load-bearing: LSD keeps recreational
+# lineage via its category + lysergamide/tryptamine/TIHKAL/common tags.
+_TAG_BLOCKLIST: dict[str, set[str]] = {
+    "lsd": {"no-human-data", "phenethylamine"},
+}
+
+
 # Per-substance alias blocklist: aliases that sources sometimes provide for
 # the keyed substance but that refer to a structurally distinct compound.
 # drug.community + a few other sources list "THC", "CBD", "Dronabinol",
@@ -3897,6 +3909,20 @@ def main() -> int:
             build.cur.execute("DELETE FROM aliases WHERE rowid=?", (rowid,))
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
+
+    # Purge per-substance wrong tags inherited from sources / merged-in stubs
+    # (see _TAG_BLOCKLIST). Runs after dedup so it catches tags carried over by
+    # the merge, and before classify_compounds (the dropped tags are not the
+    # ones establishing these substances' recreational lineage).
+    tags_purged = 0
+    for sid, cname in build.cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+        blocked = _TAG_BLOCKLIST.get(normalise(cname))
+        if not blocked:
+            continue
+        for tag in blocked:
+            cur = build.cur.execute("DELETE FROM tags WHERE substance_id=? AND tag=?", (sid, tag))
+            tags_purged += cur.rowcount
+    print(f"Tag blocklist purge: {tags_purged}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer
