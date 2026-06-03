@@ -13,6 +13,20 @@ T = {
     "Session": ("本次记录", "本次記錄"),
     "No active session": ("暂无进行中的记录", "暫無進行中的記錄"),
     "No Sessions": ("暂无记录", "暫無記錄"),
+    "Move to Session…": ("移至其他记录…", "移至其他記錄…"),
+    "Move %@": ("移动 %@", "移動 %@"),
+    "New Session": ("新建记录", "新建記錄"),
+    "Pull this dose into its own session.": ("将这一剂单独归入新记录。", "將這一劑單獨歸入新記錄。"),
+    "Move To": ("移至", "移至"),
+    "Nowhere to Move": ("无处可移", "無處可移"),
+    "This is the only session.": ("这是唯一的记录。", "這是唯一的記錄。"),
+    "Move": ("移动", "移動"),
+    "Set Time": ("设置时间", "設定時間"),
+    "New time on %@": ("%@ 的新时间", "%@ 的新時間"),
+    "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day.": (
+        "%@ 记录于另一天。请在本次记录所在的当天选择一个时间，使其保持在同一天内。",
+        "%@ 記錄於另一天。請在本次記錄所在的當天選擇一個時間，使其保持在同一天內。",
+    ),
     "Log a dose to start your first session.": (
         "记录一次剂量以开始你的第一段记录。",
         "記錄一次劑量以開始你的第一段記錄。",
@@ -1899,13 +1913,11 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
-        "Yesterday", "Medications", "Session", "No active session", "No Sessions",
-        "Log a dose to start your first session.", "Rename Session", "Session title",
-        "Add Title", "Add Note", "Edit Note", "Merge with Previous", "Note",
-        "Split Session Here", "Session Note", "No substances logged in this session.",
-        "Background medication", "Current Session",
-        "See your current session's doses at a glance.",
-        "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal.",
+        "Move to Session…", "Move %@", "New Session",
+        "Pull this dose into its own session.", "Move To",
+        "Nowhere to Move", "This is the only session.",
+        "Move", "Set Time", "New time on %@",
+        "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day.",
     }
 
     print("--- Piru main app catalog ---")
