@@ -64,7 +64,7 @@ struct RecentDoseProvider: TimelineProvider {
             let config = ModelConfiguration(url: storeURL)
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self,
+                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
                 configurations: config,
             )
         } catch {

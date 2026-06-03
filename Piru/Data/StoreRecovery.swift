@@ -45,9 +45,20 @@ enum PiruSchemaV1: VersionedSchema {
     }
 }
 
-/// Adds ``QuickLogDose`` (the curated quick-log list). Purely additive — a new
-/// entity, no changes to existing ones — so the V1→V2 migration is lightweight
-/// (automatic) and existing data is untouched.
+/// Adds ``QuickLogDose`` (the curated quick-log list) and ``Session`` (the
+/// Journal's session model) plus the optional ``DoseEntry/session`` /
+/// ``DoseEntry/isBackgroundMed`` and ``DailyDoseItem/isBackgroundMed``
+/// properties. All purely additive — new entities and new optional/defaulted
+/// properties, no changes to existing required ones — so the V1→V2 migration is
+/// lightweight (automatic) and existing data is untouched.
+///
+/// `Session` folds into V2 rather than getting its own version on purpose: the
+/// ``DoseEntry/session`` relationship pulls `Session` into *every* schema
+/// version's object graph (SwiftData auto-includes relationship targets), so a
+/// hypothetical V3-adds-Session would be structurally identical to V2 and
+/// SwiftData rejects the plan with "Duplicate version checksums". The interim
+/// QuickLogDose-only V2 never shipped beyond the simulator, so there is no
+/// on-disk schema to preserve between "QuickLogDose" and "Session".
 enum PiruSchemaV2: VersionedSchema {
     nonisolated static var versionIdentifier: Schema.Version {
         Schema.Version(2, 0, 0)
@@ -82,6 +93,7 @@ enum StoreRecovery {
             DailyDoseItem.self,
             FavoriteSubstance.self,
             QuickLogDose.self,
+            Session.self,
         ]
     }
 

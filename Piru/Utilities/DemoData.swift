@@ -244,6 +244,9 @@ import SwiftData
             }
 
             try? context.save()
+            // Cluster the freshly-seeded doses into sessions (the launch populate
+            // pass already ran on the then-empty store).
+            SessionService.assignUnassignedDoses(in: context)
         }
 
         // MARK: - Quick Demo (small dataset)
@@ -417,6 +420,9 @@ import SwiftData
             }
 
             try? context.save()
+            // Cluster the freshly-seeded doses into sessions (the launch populate
+            // pass already ran on the then-empty store).
+            SessionService.assignUnassignedDoses(in: context)
         }
     }
 

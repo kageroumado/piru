@@ -86,6 +86,9 @@ struct EntryListView: View {
             hasher.combine(entry.amount)
             hasher.combine(entry.substance)
             hasher.combine(entry.route)
+            // Session membership feeds the grouping; a split / merge / reassign
+            // changes only this, so it must invalidate the cached buckets.
+            hasher.combine(entry.session?.id)
         }
         return hasher.finalize()
     }
@@ -124,7 +127,7 @@ struct EntryListView: View {
             // Main content
             switch grouping {
             case .recent: recentContent
-            case .byDay: dayGroupedContent
+            case .byDay: sessionGroupedContent
             case .bySubstance: substanceGroupedContent
             case .byCategory: categoryGroupedContent
             }
@@ -345,22 +348,42 @@ struct EntryListView: View {
         .listRowBackground(Color.clear)
     }
 
-    // MARK: - Day Grouped Content
+    // MARK: - Session Grouped Content
 
-    private var dayGroupedContent: some View {
-        ForEach(model.dayGroups) { day in
-            // A plain Button (not NavigationLink) pushes programmatically so the
-            // whole card is tappable with no system disclosure chevron over the
-            // graph. Navigation still resolves through `.withAppDestinations()`.
-            Button {
-                navigator.push(.day(date: day.date))
-            } label: {
-                DayCardView(group: day, colorMap: model.colorMap)
+    /// Sessions grouped under day headers — the Journal's primary view. Each day
+    /// is a `Section`; its rows are the sessions that started that day, newest
+    /// first. A maintenance session (only background meds) renders as a compact
+    /// row; everything else is a full card with a mini per-session timeline.
+    private var sessionGroupedContent: some View {
+        ForEach(model.sessionDays) { day in
+            Section {
+                ForEach(day.sessions) { card in
+                    // A plain Button (not NavigationLink) pushes programmatically
+                    // so the whole card is tappable with no system disclosure
+                    // chevron over the graph.
+                    Button {
+                        if let session = card.session {
+                            navigator.push(.session(id: session.id))
+                        }
+                    } label: {
+                        SessionCardView(card: card, colorMap: model.colorMap)
+                    }
+                    .buttonStyle(.plain)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                }
+            } header: {
+                HStack(spacing: 6) {
+                    Text(day.dateTitle)
+                        .font(.headline)
+                    Text(day.weekday)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                    Spacer()
+                }
+                .textCase(nil)
             }
-            .buttonStyle(.plain)
-            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
         }
     }
 
@@ -537,37 +560,45 @@ private struct SubstanceGroupHeader: View {
 
 // MARK: - Day Card
 
-/// One day's worth of entries with its timeline precomputed (in
+/// One session's card model, with its timeline inputs precomputed (in
 /// `JournalModel.rebuildGroups`) so the card's mini graph never re-derives PK
-/// curves while scrolling.
-///
-/// The card's text — `dateTitle`/`weekday` (both `Date.FormatStyle`, which is
-/// protocol-heavy and showed up as `swift_conformsToProtocol` self-time during
-/// scroll/sizing), plus the substance summary and dose count — is formatted
-/// **once here** rather than on every `DayCardView` body/`sizeThatFits` pass.
-struct DayGroup: Identifiable {
-    let date: Date
+/// curves while scrolling. Text — time label, substance summary, dose count — is
+/// formatted **once here** rather than on every `SessionCardView` body pass.
+struct SessionCard: Identifiable {
+    /// The session's stable id, used for navigation. For a (rare) session-less
+    /// straggler this is a fresh UUID and the card is non-navigable.
+    let id: UUID
+    let session: Session?
     let entries: [DoseEntry]
     let states: [ActiveSubstanceState]
     let markers: [DoseMarker]
-    let dateTitle: String
-    let weekday: String
+    let isMaintenance: Bool
+    let startDate: Date
+    /// User-given session title, if any.
+    let title: String?
+    /// Clock label — a single start time, or "start – end" for a span.
+    let timeLabel: String
     let uniqueSubstances: [String]
     let substanceSummary: String
     let doseCountText: String
-    var id: Date { date }
 
-    init(date: Date, entries: [DoseEntry], states: [ActiveSubstanceState], markers: [DoseMarker]) {
-        self.date = date
+    init(session: Session?, entries: [DoseEntry], states: [ActiveSubstanceState], markers: [DoseMarker]) {
+        self.session = session
         self.entries = entries
         self.states = states
         self.markers = markers
+        id = session?.id ?? UUID()
+        title = session?.title
+        isMaintenance = session?.isMaintenance ?? (!entries.isEmpty && entries.allSatisfy(\.isBackgroundMed))
 
-        // The current year is implicit — only show it for past/future years.
-        let base = Date.FormatStyle.dateTime.day().month(.wide)
-        let sameYear = Calendar.current.isDate(date, equalTo: .now, toGranularity: .year)
-        dateTitle = date.formatted(sameYear ? base : base.year())
-        weekday = date.formatted(.dateTime.weekday(.wide))
+        let start = entries.first?.timestamp ?? session?.startDate ?? .now
+        startDate = start
+        let clock = Date.FormatStyle.dateTime.hour().minute()
+        if let end = entries.last?.timestamp, end.timeIntervalSince(start) >= 60 {
+            timeLabel = "\(start.formatted(clock)) – \(end.formatted(clock))"
+        } else {
+            timeLabel = start.formatted(clock)
+        }
 
         let names = entries.map(\.substance)
         let unique = (NSOrderedSet(array: names).array as? [String]) ?? names
@@ -584,30 +615,92 @@ struct DayGroup: Identifiable {
     }
 }
 
-/// Withings/Health-style day card: date + metadata + substance dots on the
-/// left, a compact PK timeline on the right. The card is content, so it sits on
-/// `themeCard` (material/surface) — never glass.
-struct DayCardView: View {
-    let group: DayGroup
+/// A day header plus the sessions that started that day — the unit the Journal
+/// list renders as a `Section`.
+struct SessionDay: Identifiable {
+    let date: Date
+    let dateTitle: String
+    let weekday: String
+    let sessions: [SessionCard]
+    var id: Date { date }
+
+    init(date: Date, sessions: [SessionCard]) {
+        self.date = date
+        self.sessions = sessions
+        let cal = Calendar.current
+        if cal.isDateInToday(date) {
+            dateTitle = String(localized: "Today")
+        } else if cal.isDateInYesterday(date) {
+            dateTitle = String(localized: "Yesterday")
+        } else {
+            // The current year is implicit — only show it for other years.
+            let base = Date.FormatStyle.dateTime.day().month(.wide)
+            let sameYear = cal.isDate(date, equalTo: .now, toGranularity: .year)
+            dateTitle = date.formatted(sameYear ? base : base.year())
+        }
+        weekday = date.formatted(.dateTime.weekday(.wide))
+    }
+}
+
+/// A session row in the Journal: a full card (time + substance dots + mini
+/// per-session timeline) for a normal session, or a compact "Medications" row
+/// for a maintenance session (only background meds). The card is content, so it
+/// sits on `themeCard` — never glass.
+struct SessionCardView: View {
+    let card: SessionCard
     let colorMap: [String: Color]
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     private var dotColors: [Color] {
-        group.uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
+        card.uniqueSubstances.prefix(4).map { SubstancePalette.color(for: $0, colorMap: colorMap) }
     }
 
     var body: some View {
+        if card.isMaintenance {
+            maintenanceRow
+        } else {
+            fullCard
+        }
+    }
+
+    private var maintenanceRow: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "pills.fill")
+                .font(.body)
+                .foregroundStyle(Theme.secondaryLabel)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(card.title ?? String(localized: "Medications"))
+                    .font(.subheadline.weight(.semibold))
+                Text(verbatim: "\(card.timeLabel)  ·  \(card.substanceSummary)")
+                    .font(.caption)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 8)
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .themeCard()
+        .contentShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private var fullCard: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
-                Text(group.dateTitle)
+                Text(card.title ?? card.timeLabel)
                     .font(.headline)
-                Text(verbatim: "\(group.weekday)  ·  \(group.doseCountText)")
+                Text(verbatim: card.title == nil
+                    ? card.doseCountText
+                    : "\(card.timeLabel)  ·  \(card.doseCountText)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
                 HStack(spacing: 6) {
                     substanceDots
-                    Text(group.substanceSummary)
+                    Text(card.substanceSummary)
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
                         .lineLimit(1)
@@ -641,17 +734,16 @@ struct DayCardView: View {
 
     @ViewBuilder
     private var graph: some View {
-        if !group.states.isEmpty || !group.markers.isEmpty {
+        if !card.states.isEmpty || !card.markers.isEmpty {
             // One unified renderer: curves rise from a shared baseline and any
-            // duration-less doses rest on it as colour-coded dots. A pure-meds
-            // day is simply the baseline with its dots — no special-case strip.
-            // `showNowIndicator: false` — these are historical cards, so the
-            // axis-less "now" dot would only add noise.
+            // duration-less doses rest on it as colour-coded dots.
+            // `showNowIndicator: false` — historical cards, so the axis-less
+            // "now" dot would only add noise.
             TimelineGraphView(
-                substances: group.states,
+                substances: card.states,
                 currentTime: .now,
                 compact: true,
-                markers: group.markers,
+                markers: card.markers,
                 stackRedoses: stackRedoses,
                 showNowIndicator: false,
                 dayBounded: true,

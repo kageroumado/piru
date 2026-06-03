@@ -751,6 +751,7 @@ struct QuickLogView: View {
         )
         entry.tags = Array(sessionTags)
         modelContext.insert(entry)
+        SessionService.assignSession(for: entry, in: modelContext)
         QuickLogManager.record(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
         WidgetCenter.shared.reloadAllTimelines()
 
@@ -909,6 +910,7 @@ struct QuickLogView: View {
             )
             entry.tags = Array(sessionTags)
             modelContext.insert(entry)
+            SessionService.assignSession(for: entry, in: modelContext)
             QuickLogManager.record(substance: dose.substanceName, route: dose.route, amount: dose.amount, unit: dose.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
             scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
 

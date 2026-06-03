@@ -34,7 +34,7 @@ final class JournalModel {
 
     /// The current filter result, plus the grouping buckets derived from it.
     private(set) var filtered: [DoseEntry] = []
-    private(set) var dayGroups: [DayGroup] = []
+    private(set) var sessionDays: [SessionDay] = []
     private(set) var substanceGroups: [(name: String, entries: [DoseEntry])] = []
     private(set) var categoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
 
@@ -128,25 +128,47 @@ final class JournalModel {
             break // Uses `filtered` directly, no grouping needed.
 
         case .byDay:
-            let grouped = Dictionary(grouping: result) { entry in
-                calendar.sessionDayStart(for: entry.timestamp)
+            // Group the filtered doses by their persisted session (decided at log
+            // time), build one card per session, then bucket the cards under day
+            // headers by each session's start day. A filtered view simply shows
+            // the subset of a session's doses — membership stays correct because
+            // it was decided from *all* doses at assignment time, not here.
+            var bySession: [PersistentIdentifier: (session: Session?, entries: [DoseEntry])] = [:]
+            var order: [PersistentIdentifier] = []
+            for entry in result {
+                let key = entry.session?.persistentModelID ?? entry.persistentModelID
+                if bySession[key] == nil {
+                    bySession[key] = (entry.session, [])
+                    order.append(key)
+                }
+                bySession[key]?.entries.append(entry)
             }
-            dayGroups = grouped.sorted { $0.key > $1.key }.map { date, dayEntries in
+
+            var cards: [SessionCard] = []
+            cards.reserveCapacity(order.count)
+            for key in order {
+                guard let bucket = bySession[key] else { continue }
+                let sessionEntries = bucket.entries.sorted { $0.timestamp < $1.timestamp }
                 var states: [ActiveSubstanceState] = []
                 var markers: [DoseMarker] = []
-                for entry in dayEntries {
+                for entry in sessionEntries {
                     guard let d = derived[entry.persistentModelID] else { continue }
                     if let state = d.state { states.append(state) }
                     if let marker = d.marker { markers.append(marker) }
                 }
-                return DayGroup(date: date, entries: dayEntries, states: states, markers: markers)
+                cards.append(SessionCard(session: bucket.session, entries: sessionEntries, states: states, markers: markers))
             }
-            // Prewarm each card's PK geometry off-main so the compact graphs
-            // render as synchronous cache hits when scrolled into view — no
-            // placeholder→graph flip, no per-card detached task. This is what
-            // makes fast scrolling smooth on a cold cache.
+
+            let byDay = Dictionary(grouping: cards) { calendar.startOfDay(for: $0.startDate) }
+            sessionDays = byDay.sorted { $0.key > $1.key }.map { day, dayCards in
+                SessionDay(date: day, sessions: dayCards.sorted { $0.startDate > $1.startDate })
+            }
+
+            // Prewarm each session card's PK geometry off-main so the compact
+            // graphs render as synchronous cache hits when scrolled into view —
+            // no placeholder→graph flip, no per-card detached task.
             TimelineGraphView.prewarm(
-                dayGroups.map { (substances: $0.states, markers: $0.markers) },
+                cards.map { (substances: $0.states, markers: $0.markers) },
                 stackRedoses: stackRedoses,
                 dayBounded: true,
             )

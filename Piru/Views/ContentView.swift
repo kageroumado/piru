@@ -178,17 +178,20 @@ struct ContentView: View {
         )
     }
 
-    /// True when the journal stack's top screen is the day-detail for the day the
-    /// active session belongs to. The session accessory would only echo what that
-    /// screen already shows, so we hide it there.
+    /// True when the journal stack's top screen is the detail for the session the
+    /// active doses belong to. The session accessory would only echo what that
+    /// screen already shows, so we hide it there. Matches by membership: the
+    /// viewed session contains the active session's earliest dose.
     private var viewingActiveSessionDay: Bool {
         guard navigator.selectedTab == .journal,
-              case let .day(date) = navigator.path(for: .journal).last,
+              case let .session(id) = navigator.path(for: .journal).last,
               let sessionStart = ActiveSessionManager.shared.activeSubstanceStates
               .map(\.doseTimestamp).min()
         else { return false }
-        let calendar = Calendar.current
-        return calendar.sessionDayStart(for: date) == calendar.sessionDayStart(for: sessionStart)
+        var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == id })
+        descriptor.fetchLimit = 1
+        guard let session = try? modelContext.fetch(descriptor).first else { return false }
+        return session.orderedDoses.contains { abs($0.timestamp.timeIntervalSince(sessionStart)) < 1 }
     }
 
     // MARK: - Add Menu

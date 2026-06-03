@@ -31,7 +31,7 @@ struct SheetRouteView: View {
 
         case .sessionDetail:
             NavigationStack {
-                DayDetailView(date: .now)
+                CurrentSessionHost()
                     .withCancellationCloseButton()
                     .withAppDestinations()
             }
@@ -230,7 +230,7 @@ private struct PersonalizeSubstanceHost: View {
     }
 }
 
-/// Hosts the time-adjust mini sheet used from `DayDetailView`.
+/// Hosts the time-adjust mini sheet used from `SessionDetailView`.
 private struct TimeAdjustHost: View {
     @Bindable var entry: DoseEntry
     @Environment(\.appNavigator) private var navigator
@@ -273,6 +273,25 @@ private struct TimeAdjustHost: View {
             entry: entry,
             allColors: Array(substanceColors),
         )
+    }
+}
+
+/// Resolves the most recent session and shows its detail — the target of the
+/// `piru://day` deep link, now "open the current session." Falls back to a clear
+/// empty state when there are no sessions yet.
+private struct CurrentSessionHost: View {
+    @Query(sort: \Session.startDate, order: .reverse) private var sessions: [Session]
+
+    var body: some View {
+        if let session = sessions.first {
+            SessionDetailView(session: session)
+        } else {
+            ContentUnavailableView(
+                "No Sessions",
+                systemImage: "calendar.day.timeline.left",
+                description: Text("Log a dose to start your first session."),
+            )
+        }
     }
 }
 

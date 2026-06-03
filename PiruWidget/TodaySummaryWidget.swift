@@ -14,8 +14,8 @@ struct TodaySummaryWidget: Widget {
                     WidgetBackground()
                 }
         }
-        .configurationDisplayName("Today's Doses")
-        .description("See what you've taken today at a glance.")
+        .configurationDisplayName("Current Session")
+        .description("See your current session's doses at a glance.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
@@ -72,7 +72,7 @@ struct TodaySummaryProvider: TimelineProvider {
             let config = ModelConfiguration(url: storeURL)
             container = try ModelContainer(
                 for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self,
+                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
                 configurations: config,
             )
         } catch {
@@ -80,18 +80,15 @@ struct TodaySummaryProvider: TimelineProvider {
         }
         let context = ModelContext(container)
 
-        let startOfDay = Calendar.current.startOfDay(for: .now)
-        let predicate = #Predicate<DoseEntry> { $0.timestamp >= startOfDay }
-        let descriptor = FetchDescriptor<DoseEntry>(
-            predicate: predicate,
-            sortBy: [SortDescriptor(\.timestamp)],
+        // Show the *current session* — the most recent one — rather than a
+        // calendar day. Empty (no sessions yet) falls through to the empty state.
+        var sessionDescriptor = FetchDescriptor<Session>(
+            sortBy: [SortDescriptor(\.startDate, order: .reverse)],
         )
+        sessionDescriptor.fetchLimit = 1
+        let entries = (try? context.fetch(sessionDescriptor))?.first?.orderedDoses ?? []
 
         let colorDescriptor = FetchDescriptor<SubstanceColor>()
-
-        guard let entries = try? context.fetch(descriptor) else {
-            return TodaySummaryEntry(date: .now, doses: [], totalCount: 0)
-        }
 
         let colors = (try? context.fetch(colorDescriptor)) ?? []
         let colorMap = Dictionary(uniqueKeysWithValues: colors.compactMap { color -> (String, String)? in
@@ -150,7 +147,7 @@ struct TodaySummaryView: View {
             Image(systemName: "pill")
                 .font(.title2)
                 .foregroundStyle(WidgetColors.accent)
-            Text("No doses today")
+            Text("No active session")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -159,7 +156,7 @@ struct TodaySummaryView: View {
     private var smallView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text("Today")
+                Text("Session")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -199,7 +196,7 @@ struct TodaySummaryView: View {
     private var mediumView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Today")
+                Text("Session")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer()

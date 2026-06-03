@@ -74,6 +74,14 @@ final class DailyDoseItem {
     /// Optional category label used to group items in the UI.
     var category: String = ""
 
+    /// When `true`, doses logged from this medication are *background*: they
+    /// never open or extend a recreational session (they fold into the current
+    /// session if one is active, otherwise form a quiet maintenance session that
+    /// renders as a compact "Medications" row). Stamped onto each logged
+    /// ``DoseEntry/isBackgroundMed``. Defaults `false`, so meds behave like any
+    /// other dose unless the user opts in. See ``SessionClustering``.
+    var isBackgroundMed: Bool = false
+
     // Schedule
 
     /// Backing storage for ``frequency``. Prefer reading/writing ``frequency``.
@@ -109,6 +117,7 @@ final class DailyDoseItem {
         frequency: DoseFrequency = .daily,
         frequencyDays: [Int] = [],
         startDate: Date = .distantPast,
+        isBackgroundMed: Bool = false,
     ) {
         self.substance = substance
         self.amount = amount
@@ -119,5 +128,6 @@ final class DailyDoseItem {
         self.frequencyRaw = frequency.rawValue
         self.frequencyDaysData = (try? JSONEncoder().encode(frequencyDays)) ?? Data()
         self.startDate = startDate
+        self.isBackgroundMed = isBackgroundMed
     }
 }
