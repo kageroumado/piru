@@ -22,6 +22,7 @@ struct SettingsView: View {
     @State private var showingDeleteConfirmation = false
     @State private var exportDocument: PiruDocument?
     @State private var isGeneratingExport = false
+    @State private var showExportOptions = false
     @State private var importMessage: String?
     @State private var showingImportMessage = false
 
@@ -174,17 +175,8 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.accent)
                     }
 
-                    Menu {
-                        Button {
-                            exportData(format: .piru)
-                        } label: {
-                            Label("Piru Backup (full)", systemImage: "checklist")
-                        }
-                        Button {
-                            exportData(format: .psyLog)
-                        } label: {
-                            Label("PsychonautWiki Format", systemImage: "arrow.left.arrow.right")
-                        }
+                    Button {
+                        showExportOptions = true
                     } label: {
                         HStack {
                             Label("Export Data", systemImage: "square.and.arrow.up.on.square")
@@ -196,6 +188,9 @@ struct SettingsView: View {
                         }
                     }
                     .disabled(isGeneratingExport)
+                    .popover(isPresented: $showExportOptions) {
+                        exportOptionsPopover
+                    }
 
                     Button {
                         showingImporter = true
@@ -368,6 +363,62 @@ struct SettingsView: View {
     }
 
     // MARK: - Data Actions
+
+    /// Format chooser shown as a popover (with an arrow pointing at the row),
+    /// since a `Menu` can't show per-item subtitles.
+    private var exportOptionsPopover: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Text("Export Data")
+                .font(.headline)
+
+            exportOptionButton(
+                title: "Piru Backup",
+                subtitle: "A complete backup you can restore into Piru",
+                systemImage: "checklist",
+                format: .piru,
+            )
+            exportOptionButton(
+                title: "PsychonautWiki Format",
+                subtitle: "For importing into the PsychonautWiki app",
+                systemImage: "arrow.left.arrow.right",
+                format: .psyLog,
+            )
+        }
+        .padding(20)
+        .frame(width: 300)
+        .presentationCompactAdaptation(.popover)
+    }
+
+    private func exportOptionButton(
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        systemImage: String,
+        format: ExportFormat,
+    ) -> some View {
+        Button {
+            showExportOptions = false
+            exportData(format: format)
+        } label: {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: systemImage)
+                    .font(.title3)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 26)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
 
     private func exportData(format: ExportFormat) {
         isGeneratingExport = true

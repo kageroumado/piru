@@ -22420,6 +22420,70 @@
           }
         }
       }
+    },
+    "Piru Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 備份"
+          }
+        }
+      }
+    },
+    "A complete backup you can restore into Piru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可恢复到 Piru 的完整备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可還原至 Piru 的完整備份"
+          }
+        }
+      }
+    },
+    "PsychonautWiki Format" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsychonautWiki 格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsychonautWiki 格式"
+          }
+        }
+      }
+    },
+    "For importing into the PsychonautWiki app" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于导入 PsychonautWiki 应用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用於匯入 PsychonautWiki 應用程式"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
