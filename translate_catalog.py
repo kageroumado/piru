@@ -27,6 +27,17 @@ T = {
         "%@ 记录于另一天。请在本次记录所在的当天选择一个时间，使其保持在同一天内。",
         "%@ 記錄於另一天。請在本次記錄所在的當天選擇一個時間，使其保持在同一天內。",
     ),
+    "Location": ("位置", "位置"),
+    "Current Location": ("当前位置", "目前位置"),
+    "Results": ("搜索结果", "搜尋結果"),
+    "Add Location": ("添加位置", "新增位置"),
+    "Change Location": ("更改位置", "變更位置"),
+    "Remove location": ("移除位置", "移除位置"),
+    "Search for a place or address": ("搜索地点或地址", "搜尋地點或地址"),
+    "Location access is off. Turn it on in Settings to use your current location.": (
+        "位置访问已关闭。请在“设置”中开启以使用当前位置。",
+        "位置存取已關閉。請在「設定」中開啟以使用目前位置。",
+    ),
     "Log a dose to start your first session.": (
         "记录一次剂量以开始你的第一段记录。",
         "記錄一次劑量以開始你的第一段記錄。",
@@ -1918,6 +1929,9 @@ if __name__ == "__main__":
         "Nowhere to Move", "This is the only session.",
         "Move", "Set Time", "New time on %@",
         "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day.",
+        "Location", "Current Location", "Results", "Add Location", "Change Location",
+        "Remove location", "Search for a place or address",
+        "Location access is off. Turn it on in Settings to use your current location.",
     }
 
     print("--- Piru main app catalog ---")

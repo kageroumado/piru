@@ -19,6 +19,8 @@ struct EntryFormView: View {
     @State private var timestamp = Date.now
     @State private var notes = ""
     @State private var entryTags: [String] = []
+    @State private var location: PickedLocation?
+    @State private var showLocationPicker = false
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
@@ -184,6 +186,32 @@ struct EntryFormView: View {
                         DatePicker("Date & Time", selection: $timestamp)
                     }
 
+                    Section("Location") {
+                        if let location {
+                            HStack(spacing: 8) {
+                                Image(systemName: "mappin.circle.fill")
+                                    .foregroundStyle(Theme.accent)
+                                Text(location.name)
+                                Spacer()
+                                Button {
+                                    self.location = nil
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(Theme.secondaryLabel)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(Text("Remove location"))
+                            }
+                            Button("Change Location") { showLocationPicker = true }
+                        } else {
+                            Button {
+                                showLocationPicker = true
+                            } label: {
+                                Label("Add Location", systemImage: "mappin.and.ellipse")
+                            }
+                        }
+                    }
+
                     Section("Notes") {
                         TextField("Notes", text: $notes, axis: .vertical)
                             .lineLimit(3 ... 6)
@@ -216,6 +244,9 @@ struct EntryFormView: View {
                 }
             }
             .onAppear(perform: loadEntry)
+            .sheet(isPresented: $showLocationPicker) {
+                LocationPickerView { picked in location = picked }
+            }
         }
     }
 
@@ -251,6 +282,9 @@ struct EntryFormView: View {
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
             entryTags = entry.tags
+            if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
+                location = PickedLocation(name: name, latitude: lat, longitude: lng)
+            }
 
             if let match = SubstanceLibrary.search(entry.substance).first,
                match.name.lowercased() == entry.substance.lowercased() {
@@ -313,6 +347,9 @@ struct EntryFormView: View {
             entry.notes = notes.isEmpty ? nil : notes
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             entry.tags = allTags
+            entry.locationName = location?.name
+            entry.latitude = location?.latitude
+            entry.longitude = location?.longitude
             // The detail/edit screens are keyed by timestamp; if the edit moved
             // the dose in time, repoint the originating route so it doesn't go
             // blank when we dismiss back to it.
@@ -340,6 +377,9 @@ struct EntryFormView: View {
                 timestamp: timestamp,
                 notes: notes.isEmpty ? nil : notes,
                 tags: allTags,
+                locationName: location?.name,
+                latitude: location?.latitude,
+                longitude: location?.longitude,
             )
             modelContext.insert(newEntry)
             SessionService.assignSession(for: newEntry, in: modelContext)

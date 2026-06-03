@@ -1,3 +1,4 @@
+import MapKit
 import SwiftData
 import SwiftUI
 import WidgetKit
@@ -31,6 +32,8 @@ struct EntryDetailView: View {
     @State private var draftTimestamp = Date.now
     @State private var draftNotes = ""
     @State private var draftTags: [String] = []
+    @State private var draftLocation: PickedLocation?
+    @State private var showLocationPicker = false
     @FocusState private var amountFocused: Bool
 
     private let defaultUnits = ["mg", "g", "µg", "mL", "IU", "drops", "puffs"]
@@ -174,6 +177,9 @@ struct EntryDetailView: View {
             }
             .presentationDetents([.large])
         }
+        .sheet(isPresented: $showLocationPicker) {
+            LocationPickerView { picked in draftLocation = picked }
+        }
     }
 
     // MARK: - Toolbar
@@ -258,6 +264,39 @@ struct EntryDetailView: View {
         if let notes = entry.notes, !notes.isEmpty {
             Section("Notes") {
                 Text(notes)
+            }
+        }
+
+        if let locationName = entry.locationName {
+            Section("Location") {
+                if let coordinate = entry.coordinate {
+                    Map(initialPosition: .region(MKCoordinateRegion(
+                        center: coordinate,
+                        latitudinalMeters: 400,
+                        longitudinalMeters: 400,
+                    ))) {
+                        Marker(locationName, coordinate: coordinate)
+                            .tint(Theme.accent)
+                    }
+                    .frame(height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .allowsHitTesting(false)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
+                }
+                Button {
+                    openInMaps(name: locationName, coordinate: entry.coordinate)
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "mappin.circle.fill")
+                            .foregroundStyle(Theme.accent)
+                        Text(locationName)
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(systemName: "arrow.up.forward.app")
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                }
             }
         }
 
@@ -411,6 +450,32 @@ struct EntryDetailView: View {
             }
         }
 
+        Section("Location") {
+            if let draftLocation {
+                HStack(spacing: 8) {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundStyle(Theme.accent)
+                    Text(draftLocation.name)
+                    Spacer()
+                    Button {
+                        self.draftLocation = nil
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text("Remove location"))
+                }
+                Button("Change Location") { showLocationPicker = true }
+            } else {
+                Button {
+                    showLocationPicker = true
+                } label: {
+                    Label("Add Location", systemImage: "mappin.and.ellipse")
+                }
+            }
+        }
+
         if substanceState != nil {
             Section {
                 graph
@@ -534,6 +599,11 @@ struct EntryDetailView: View {
         draftTimestamp = entry.timestamp
         draftNotes = entry.notes ?? ""
         draftTags = entry.tags
+        if let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude {
+            draftLocation = PickedLocation(name: name, latitude: lat, longitude: lng)
+        } else {
+            draftLocation = nil
+        }
         isEditing = true
     }
 
@@ -561,6 +631,9 @@ struct EntryDetailView: View {
         entry.timestamp = draftTimestamp
         entry.notes = draftNotes.isEmpty ? nil : draftNotes
         entry.tags = Array(Set(draftTags + TagExtractor.extractTags(from: draftNotes)))
+        entry.locationName = draftLocation?.name
+        entry.latitude = draftLocation?.latitude
+        entry.longitude = draftLocation?.longitude
 
         // This screen is keyed by timestamp; if the edit moved the dose in time,
         // repoint the originating push route so it doesn't go blank on dismiss.
@@ -580,6 +653,18 @@ struct EntryDetailView: View {
 
         WidgetCenter.shared.reloadAllTimelines()
         isEditing = false
+    }
+
+    /// Open the dose's saved place in Maps. No-op if it has a name but no
+    /// coordinate (which our picker never produces).
+    private func openInMaps(name: String, coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate else { return }
+        let item = MKMapItem(
+            location: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude),
+            address: nil,
+        )
+        item.name = name
+        item.openInMaps()
     }
 
     private func deleteEntry() {
