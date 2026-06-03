@@ -1160,21 +1160,6 @@ struct SubstanceDetailView: View {
             }
         }
         .padding(.vertical, 2)
-
-        ForEach(moa.references, id: \.self) { ref in
-            if let info = AppSources.info(for: ref),
-               let url = URL(string: info.url), !info.url.isEmpty {
-                Link(destination: url) {
-                    Label(ref, systemImage: "book.closed")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-            } else {
-                Label(ref, systemImage: "book.closed")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-        }
     }
 
     private var receptorLiteratureBody: some View {

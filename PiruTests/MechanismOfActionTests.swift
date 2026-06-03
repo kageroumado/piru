@@ -17,7 +17,7 @@ struct MechanismOfActionTests {
     }
 
     private func moa(summary: String, bindings: [ReceptorBinding]) -> MechanismOfAction {
-        MechanismOfAction(summary: summary, description: "", bindings: bindings, references: [])
+        MechanismOfAction(summary: summary, description: "", bindings: bindings)
     }
 
     // MARK: - Curated per-name entries are pharmacologically correct
