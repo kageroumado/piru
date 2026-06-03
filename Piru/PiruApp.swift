@@ -76,7 +76,7 @@ struct PiruApp: App {
         // attributes, .unique constraints), failing every container open.
         let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
-        let schema = Schema(versionedSchema: PiruSchemaV1.self)
+        let schema = Schema(versionedSchema: PiruSchemaV2.self)
         func open() throws -> ModelContainer {
             try ModelContainer(for: schema, migrationPlan: PiruMigrationPlan.self, configurations: config)
         }

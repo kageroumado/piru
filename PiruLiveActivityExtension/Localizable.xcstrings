@@ -1,57 +1,98 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%lldh %lldm": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld 小时 %2$lld 分钟"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lldh" : {
+
+    },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小时 %2$lld 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld 小時 %2$lld 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小時 %2$lld 分鐘"
           }
         }
       }
     },
-    "%lldm": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分钟"
+    "%lldm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld 分鐘"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
           }
         }
       }
     },
-    "Biweekly": {},
-    "Custom days": {},
-    "Daily": {},
-    "Every 2 days": {},
-    "Every 2 weeks": {},
-    "Every other day": {},
-    "Inhalation": {},
-    "Insufflation": {},
-    "Intramuscular": {},
-    "Intravenous": {},
-    "Monthly": {},
-    "Oral": {},
-    "Other": {},
-    "Rectal": {},
-    "Specific days": {},
-    "Subcutaneous": {},
-    "Sublingual": {},
-    "Transdermal": {},
-    "Weekly": {}
+    "Biweekly" : {
+
+    },
+    "Custom days" : {
+
+    },
+    "Daily" : {
+
+    },
+    "Every 2 days" : {
+
+    },
+    "Every 2 weeks" : {
+
+    },
+    "Every other day" : {
+
+    },
+    "Inhalation" : {
+
+    },
+    "Insufflation" : {
+
+    },
+    "Intramuscular" : {
+
+    },
+    "Intravenous" : {
+
+    },
+    "Monthly" : {
+
+    },
+    "Oral" : {
+
+    },
+    "Other" : {
+
+    },
+    "Rectal" : {
+
+    },
+    "Specific days" : {
+
+    },
+    "Subcutaneous" : {
+
+    },
+    "Sublingual" : {
+
+    },
+    "Transdermal" : {
+
+    },
+    "Weekly" : {
+
+    }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
