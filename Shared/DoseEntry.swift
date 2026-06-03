@@ -37,6 +37,19 @@ final class DoseEntry {
     /// CSV-encoded backing storage for ``tags``. Prefer reading/writing ``tags``.
     var tagsRaw: String?
 
+    /// The session this dose belongs to, assigned at log time by
+    /// ``SessionClustering`` and persisted. Optional so the V1→V2 migration stays
+    /// lightweight and `nil` for any not-yet-populated entry; ``Session`` owns
+    /// the inverse with a `.nullify` delete rule.
+    var session: Session?
+
+    /// Whether this dose was logged as a *background* medication (a daily med
+    /// flagged "background"). Background doses never open or extend a recreational
+    /// session — they fold into the current one if active, else form a quiet
+    /// maintenance session. Stamped at log time from the ``DailyDoseItem`` so it
+    /// survives later edits to the template. Defaults `false`.
+    var isBackgroundMed: Bool = false
+
     /// Free-form labels attached to the dose, decoded from ``tagsRaw``.
     ///
     /// Backed by a comma-separated string for portable SwiftData storage across
@@ -60,6 +73,7 @@ final class DoseEntry {
         timestamp: Date = .now,
         notes: String? = nil,
         tags: [String] = [],
+        isBackgroundMed: Bool = false,
     ) {
         self.substance = substance
         self.amount = max(0, amount)
@@ -68,5 +82,6 @@ final class DoseEntry {
         self.timestamp = timestamp
         self.notes = notes
         self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")
+        self.isBackgroundMed = isBackgroundMed
     }
 }

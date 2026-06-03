@@ -342,6 +342,7 @@ struct EntryFormView: View {
                 tags: allTags,
             )
             modelContext.insert(newEntry)
+            SessionService.assignSession(for: newEntry, in: modelContext)
             QuickLogManager.record(substance: substance, route: route, amount: storedAmount, unit: storedUnit, fixedOrder: quickLogFixedOrder, context: modelContext)
             savedEntry = newEntry
 

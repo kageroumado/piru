@@ -152,8 +152,10 @@ struct LogMedicationsView: View {
                 unit: item.unit,
                 route: item.route,
                 timestamp: now,
+                isBackgroundMed: item.isBackgroundMed,
             )
             modelContext.insert(entry)
+            SessionService.assignSession(for: entry, in: modelContext)
 
             let matchedSubstance = SubstanceLibrary.search(item.substance).first {
                 $0.name.lowercased() == item.substance.lowercased()

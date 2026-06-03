@@ -7,6 +7,40 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Session model — Journal grouping, detail, overrides, widget
+    "Yesterday": ("昨天", "昨天"),
+    "Medications": ("用药", "用藥"),
+    "Session": ("本次记录", "本次記錄"),
+    "No active session": ("暂无进行中的记录", "暫無進行中的記錄"),
+    "No Sessions": ("暂无记录", "暫無記錄"),
+    "Log a dose to start your first session.": (
+        "记录一次剂量以开始你的第一段记录。",
+        "記錄一次劑量以開始你的第一段記錄。",
+    ),
+    "Rename Session": ("重命名记录", "重新命名記錄"),
+    "Session title": ("记录标题", "記錄標題"),
+    "Add Title": ("添加标题", "新增標題"),
+    "Rename": ("重命名", "重新命名"),
+    "Add Note": ("添加备注", "新增備註"),
+    "Edit Note": ("编辑备注", "編輯備註"),
+    "Merge with Previous": ("与上一段合并", "與上一段合併"),
+    "Note": ("备注", "備註"),
+    "Split Session Here": ("在此拆分记录", "在此拆分記錄"),
+    "Session Note": ("记录备注", "記錄備註"),
+    "No substances logged in this session.": (
+        "本次记录中没有记录任何物质。",
+        "本次記錄中沒有記錄任何物質。",
+    ),
+    "Background medication": ("后台用药", "背景用藥"),
+    "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal.": (
+        "让这种药物不计入你的记录——如果当前有进行中的记录，它会并入其中，但自身永远不会开启新的记录。维持类用药会在日志中显示为紧凑的“用药”行。",
+        "讓這種藥物不計入你的記錄——如果目前有進行中的記錄，它會併入其中，但自身永遠不會開啟新的記錄。維持類用藥會在日誌中顯示為精簡的“用藥”列。",
+    ),
+    "Current Session": ("本次记录", "本次記錄"),
+    "See your current session's doses at a glance.": (
+        "一目了然地查看本次记录的剂量。",
+        "一目了然地查看本次記錄的劑量。",
+    ),
     # Substance detail — consolidated dose/duration card + share
     "Release Window": ("释放窗口", "釋放窗口"),
     "Share drug info": ("分享药物信息", "分享藥物資訊"),
@@ -1865,10 +1899,13 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
-        "Move to Front", "Move to Back", "Select", "Remove from Quick Log",
-        "Keep Quick-Log Order",
-        "Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.",
-        "icon to log several at once, or long press a dose to remove or reorder it",
+        "Yesterday", "Medications", "Session", "No active session", "No Sessions",
+        "Log a dose to start your first session.", "Rename Session", "Session title",
+        "Add Title", "Add Note", "Edit Note", "Merge with Previous", "Note",
+        "Split Session Here", "Session Note", "No substances logged in this session.",
+        "Background medication", "Current Session",
+        "See your current session's doses at a glance.",
+        "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal.",
     }
 
     print("--- Piru main app catalog ---")
@@ -1885,8 +1922,16 @@ if __name__ == "__main__":
     print()
     print("--- Widget catalog ---")
     # Widget reuses many Shared model strings (RouteOfAdministration, DoseFrequency, etc.)
+    # Keep the widget's insert set to just the handful of strings the widget target
+    # actually shows, so it stays a small subset.
+    WIDGET_NEW_KEYS = {
+        "Session", "No active session", "Current Session",
+        "See your current session's doses at a glance.",
+    }
     widget_dict = {**T, **WT}
-    n, added, missing = apply_translations(project_root / "PiruWidget/Localizable.xcstrings", widget_dict)
+    n, added, missing = apply_translations(
+        project_root / "PiruWidget/Localizable.xcstrings", widget_dict, insert_keys=WIDGET_NEW_KEYS
+    )
     print(f"Translated: {n}  (inserted {len(added)} new key(s))")
     for a in added:
         print(f"  + {a!r}")

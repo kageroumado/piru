@@ -18,6 +18,7 @@ struct MedicationItemFormView: View {
     @State private var frequency: DoseFrequency = .daily
     @State private var selectedWeekdays: Set<Int> = []
     @State private var startDate: Date = .now
+    @State private var isBackgroundMed = false
 
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
@@ -126,6 +127,12 @@ struct MedicationItemFormView: View {
                         scheduleFooter
                     }
 
+                    Section {
+                        Toggle("Background medication", isOn: $isBackgroundMed)
+                    } footer: {
+                        Text("Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact \u{201C}Medications\u{201D} row in the Journal.")
+                    }
+
                     if !categories.isEmpty {
                         Section("Category") {
                             Picker("Category", selection: $category) {
@@ -207,6 +214,7 @@ struct MedicationItemFormView: View {
             frequency = item.frequency
             selectedWeekdays = Set(item.frequencyDays)
             startDate = item.startDate
+            isBackgroundMed = item.isBackgroundMed
 
             if let match = SubstanceLibrary.search(item.substance).first,
                match.name.lowercased() == item.substance.lowercased() {
@@ -230,6 +238,7 @@ struct MedicationItemFormView: View {
             item.frequency = frequency
             item.frequencyDays = Array(selectedWeekdays)
             item.startDate = startDate
+            item.isBackgroundMed = isBackgroundMed
         } else {
             let newItem = DailyDoseItem(
                 substance: substance,
@@ -241,6 +250,7 @@ struct MedicationItemFormView: View {
                 frequency: frequency,
                 frequencyDays: Array(selectedWeekdays),
                 startDate: startDate,
+                isBackgroundMed: isBackgroundMed,
             )
             modelContext.insert(newItem)
         }

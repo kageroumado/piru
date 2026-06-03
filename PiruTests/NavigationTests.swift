@@ -54,7 +54,7 @@ struct AppNavigatorTests {
     @Test
     func `Push appends to the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
-        nav.push(.day(date: .now))
+        nav.push(.session(id: UUID()))
         nav.push(.entry(timestamp: .now))
         #expect(nav.path(for: .journal).count == 2)
     }
@@ -70,7 +70,7 @@ struct AppNavigatorTests {
     @Test
     func `Pop removes the last element of the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
-        nav.push(.day(date: .now))
+        nav.push(.session(id: UUID()))
         nav.push(.entry(timestamp: .now))
         nav.pop()
         #expect(nav.path(for: .journal).count == 1)
@@ -86,7 +86,7 @@ struct AppNavigatorTests {
     @Test
     func `popToRoot clears the current tab`() {
         let nav = makeNavigator(selectedTab: .journal)
-        nav.push(.day(date: .now))
+        nav.push(.session(id: UUID()))
         nav.push(.entry(timestamp: .now))
         nav.popToRoot()
         #expect(nav.path(for: .journal).isEmpty)
@@ -95,7 +95,7 @@ struct AppNavigatorTests {
     @Test
     func `popToRoot in one tab leaves others alone`() {
         let nav = makeNavigator(selectedTab: .journal)
-        nav.push(.day(date: .now), in: .journal)
+        nav.push(.session(id: UUID()), in: .journal)
         nav.push(.substance(name: "MDMA"), in: .library)
         nav.popToRoot(in: .journal)
         #expect(nav.path(for: .journal).isEmpty)
@@ -106,9 +106,9 @@ struct AppNavigatorTests {
     func `pathBinding read and write round-trip through the navigator`() {
         let nav = makeNavigator(selectedTab: .insights)
         let binding = nav.pathBinding(for: .insights)
-        binding.wrappedValue = [.day(date: Date(timeIntervalSince1970: 1_000))]
+        binding.wrappedValue = [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000010")!)]
         #expect(nav.path(for: .insights).count == 1)
-        nav.push(.day(date: Date(timeIntervalSince1970: 2_000)))
+        nav.push(.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000020")!))
         #expect(binding.wrappedValue.count == 2)
     }
 
@@ -295,7 +295,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
         snap.selectedTab = .tools
-        snap.paths[.journal] = [.day(date: Date(timeIntervalSince1970: 0))]
+        snap.paths[.journal] = [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000030")!)]
         snap.sheetStack = [.help, .settings]
         nav.snapshot = snap
         #expect(nav.selectedTab == .tools)
@@ -322,7 +322,7 @@ struct RoutesCodableTests {
     }
 
     @Test(arguments: [
-        PushRoute.day(date: Date(timeIntervalSince1970: 1_700_000_000)),
+        PushRoute.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000040")!),
         PushRoute.entry(timestamp: Date(timeIntervalSince1970: 1_700_000_500)),
         PushRoute.substance(name: "LSD"),
         .libraryCategory(.stimulant),
@@ -366,7 +366,7 @@ struct RoutesCodableTests {
         let snap = NavigatorSnapshot(
             selectedTab: .library,
             paths: [
-                .journal: [.day(date: Date(timeIntervalSince1970: 1)), .entry(timestamp: Date(timeIntervalSince1970: 2))],
+                .journal: [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000050")!), .entry(timestamp: Date(timeIntervalSince1970: 2))],
                 .library: [.substance(name: "DMT")],
             ],
             sheetStack: [

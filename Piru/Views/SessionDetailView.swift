@@ -2,14 +2,35 @@ import ActivityKit
 import SwiftData
 import SwiftUI
 
-struct DayDetailView: View {
+struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
-    @Query private var entries: [DoseEntry]
+    let session: Session
     @Query private var substanceColors: [SubstanceColor]
+    @Query(sort: \Session.startDate, order: .reverse) private var allSessions: [Session]
+
+    /// The session's doses in time order — the view's working set, replacing the
+    /// former calendar-day `@Query` window.
+    private var entries: [DoseEntry] { session.orderedDoses }
+
+    /// Alias so the existing day-derived title/recency helpers read the session's
+    /// start instead of a passed-in date.
+    private var date: Date { session.startDate }
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
+    /// The session immediately before this one in time — the target for
+    /// "Merge with previous".
+    private var previousSession: Session? {
+        allSessions.first {
+            $0.startDate < session.startDate && $0.persistentModelID != session.persistentModelID
+        }
+    }
+
     @State private var entryToAdjustTime: DoseEntry?
+    @State private var showRename = false
+    @State private var titleDraft = ""
+    @State private var showNoteEditor = false
+    @State private var noteDraft = ""
     @State private var showColorPicker = false
     @State private var colorPickerSubstance = ""
     @State private var graphExpanded = true
@@ -84,22 +105,6 @@ struct DayDetailView: View {
         }
         hasher.combine(substanceColors.count)
         return hasher.finalize()
-    }
-
-    let date: Date
-
-    init(date: Date) {
-        self.date = date
-        // Use the configured session-day window so a late-night dose shows
-        // up under the same day card the user tapped.
-        let start = Calendar.current.sessionDayStart(for: date)
-        let end = start.addingTimeInterval(86_400)
-        _entries = Query(
-            filter: #Predicate<DoseEntry> { entry in
-                entry.timestamp >= start && entry.timestamp < end
-            },
-            sort: \DoseEntry.timestamp,
-        )
     }
 
     private var cumulativeDoses: [(substance: String, total: Double, unit: String, count: Int)] {
@@ -208,7 +213,7 @@ struct DayDetailView: View {
                     ContentUnavailableView(
                         "No Entries",
                         systemImage: "pill",
-                        description: Text("No substances logged on this day."),
+                        description: Text("No substances logged in this session."),
                     )
                 } else {
                     // Timeline graph — only when at least one dose draws a curve.
@@ -297,6 +302,14 @@ struct DayDetailView: View {
                         }
                     }
 
+                    if let note = session.note, !note.isEmpty {
+                        Section("Note") {
+                            Text(note)
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+
                     // Entries
                     Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
                         ForEach(entries) { entry in
@@ -304,12 +317,14 @@ struct DayDetailView: View {
                                 entry: entry,
                                 color: colorFor(entry),
                                 showRelativeTime: isRecentDay,
+                                canSplit: entry !== entries.first,
                                 onDelete: { deleteEntry(entry) },
                                 onAdjustTime: { entryToAdjustTime = entry },
                                 onChangeColor: {
                                     colorPickerSubstance = entry.substance
                                     showColorPicker = true
                                 },
+                                onSplit: { splitSession(at: entry) },
                             )
                         }
                     }
@@ -343,7 +358,7 @@ struct DayDetailView: View {
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("\(dayOfWeek), \(dateTitle)")
+        .navigationTitle(session.title ?? "\(dayOfWeek), \(dateTitle)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if !entries.isEmpty {
@@ -361,6 +376,9 @@ struct DayDetailView: View {
                     .disabled(isExporting)
                 }
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                sessionMenu
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     navigator.present(.quickLog)
@@ -368,6 +386,14 @@ struct DayDetailView: View {
                     Image(systemName: "plus")
                 }
             }
+        }
+        .alert("Rename Session", isPresented: $showRename) {
+            TextField("Session title", text: $titleDraft)
+            Button("Cancel", role: .cancel) {}
+            Button("Save") { SessionService.setTitle(titleDraft, for: session) }
+        }
+        .sheet(isPresented: $showNoteEditor) {
+            SessionNoteEditor(note: noteDraft) { SessionService.setNote($0, for: session) }
         }
         .sheet(item: $entryToAdjustTime) { entry in
             NavigationStack {
@@ -395,6 +421,39 @@ struct DayDetailView: View {
             }
             .presentationDetents([.large])
         }
+    }
+
+    /// Title/note editing + "merge with previous" — the session-level overrides.
+    private var sessionMenu: some View {
+        Menu {
+            Button {
+                titleDraft = session.title ?? ""
+                showRename = true
+            } label: {
+                Label(session.title == nil ? "Add Title" : "Rename", systemImage: "pencil")
+            }
+            Button {
+                noteDraft = session.note ?? ""
+                showNoteEditor = true
+            } label: {
+                Label(session.note == nil ? "Add Note" : "Edit Note", systemImage: "note.text")
+            }
+            if let previous = previousSession {
+                Divider()
+                Button {
+                    withAnimation { SessionService.merge(previous, into: session, in: modelContext) }
+                } label: {
+                    Label("Merge with Previous", systemImage: "arrow.triangle.merge")
+                }
+            }
+        } label: {
+            Image(systemName: "ellipsis.circle")
+        }
+    }
+
+    /// Split the session so `entry` and every later dose become a new session.
+    private func splitSession(at entry: DoseEntry) {
+        withAnimation { SessionService.split(session, at: entry, in: modelContext) }
     }
 
     private func deleteEntry(_ entry: DoseEntry) {
@@ -596,9 +655,12 @@ private struct DayEntryRow: View {
     let entry: DoseEntry
     let color: Color
     let showRelativeTime: Bool
+    /// `true` for any dose after the first — splitting "here" leaves doses behind.
+    let canSplit: Bool
     let onDelete: () -> Void
     let onAdjustTime: () -> Void
     let onChangeColor: () -> Void
+    let onSplit: () -> Void
 
     @Environment(\.appNavigator) private var navigator
 
@@ -631,10 +693,48 @@ private struct DayEntryRow: View {
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
+            if canSplit {
+                Button(action: onSplit) {
+                    Label("Split Session Here", systemImage: "scissors")
+                }
+            }
             Divider()
             Button(role: .destructive, action: onDelete) {
                 Label("Delete", systemImage: "trash")
             }
         }
+    }
+}
+
+/// A small sheet for editing a session's free-form note.
+private struct SessionNoteEditor: View {
+    @State private var text: String
+    let onSave: (String) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    init(note: String, onSave: @escaping (String) -> Void) {
+        _text = State(initialValue: note)
+        self.onSave = onSave
+    }
+
+    var body: some View {
+        NavigationStack {
+            TextEditor(text: $text)
+                .padding()
+                .navigationTitle("Session Note")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") { dismiss() }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Save") {
+                            onSave(text)
+                            dismiss()
+                        }
+                    }
+                }
+        }
+        .presentationDetents([.medium])
     }
 }

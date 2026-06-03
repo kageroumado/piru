@@ -47,6 +47,9 @@ struct PiruApp: App {
                     // Touch the store so its singleton init runs (opens the
                     // SQLite, seeds preferences) before the first view query.
                     _ = SubstanceStore.shared.count
+                    // Backfill sessions for any pre-session-model history. Idempotent
+                    // and failure-isolated (only sets the optional relationship).
+                    SessionService.ensureSessionsPopulated(in: container.mainContext)
                     ActiveSessionManager.shared.recoverSession(container: container)
                     #if DEBUG
                         DemoData.insertShowcaseData(container: container)

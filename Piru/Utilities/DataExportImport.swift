@@ -514,6 +514,9 @@ enum DataExportImport {
         } else {
             try importLegacy(data: data, context: context)
         }
+        // Group the freshly-imported doses into sessions (existing sessions stay
+        // intact; only the session-less imports are clustered).
+        SessionService.assignUnassignedDoses(in: context)
     }
 
     @MainActor

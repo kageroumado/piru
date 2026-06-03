@@ -38,8 +38,10 @@ private struct PushRouteView: View {
 
     var body: some View {
         switch route {
-        case let .day(date):
-            DayDetailView(date: date)
+        case let .session(id):
+            if let session = lookupSession(id: id) {
+                SessionDetailView(session: session)
+            }
 
         case let .entry(timestamp):
             // Look up the entry by timestamp (±2s, matching the deep-link
@@ -92,6 +94,12 @@ private struct PushRouteView: View {
         case .recovery: ComedownGuideView()
         case .pharma: AdvancedSearchView()
         }
+    }
+
+    private func lookupSession(id: UUID) -> Session? {
+        var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == id })
+        descriptor.fetchLimit = 1
+        return try? modelContext.fetch(descriptor).first
     }
 
     private func lookupEntry(at timestamp: Date) -> DoseEntry? {

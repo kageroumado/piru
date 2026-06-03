@@ -21,7 +21,7 @@ nonisolated enum AppTab: String, Hashable, Codable, CaseIterable {
 /// identifier so the same route values are usable for deep links (the
 /// Live Activity already emits `piru://entry/<timestamp>` URLs).
 nonisolated enum PushRoute: Hashable, Codable {
-    case day(date: Date)
+    case session(id: UUID)
     case entry(timestamp: Date)
     case substance(name: String)
     case libraryCategory(SubstanceCategory)

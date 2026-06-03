@@ -216,7 +216,7 @@ final class ActiveSessionManager {
         )
     }
 
-    /// Rebuild session from a set of existing day entries (e.g. after restart from DayDetailView).
+    /// Rebuild session from a set of existing day entries (e.g. after restart from SessionDetailView).
     func restartFromEntries(
         _ doseEntries: [DoseEntry],
         allColors: [SubstanceColor],

@@ -712,6 +712,7 @@
       }
     },
     "%@, %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2731,6 +2732,22 @@
         }
       }
     },
+    "Add Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增備註"
+          }
+        }
+      }
+    },
     "Add notes for your doctor..." : {
       "localizations" : {
         "zh-Hans" : {
@@ -2839,6 +2856,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增標籤…"
+          }
+        }
+      }
+    },
+    "Add Title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加标题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增標題"
           }
         }
       }
@@ -4009,6 +4042,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "備份到 iCloud"
+          }
+        }
+      }
+    },
+    "Background medication" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "后台用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "背景用藥"
           }
         }
       }
@@ -6174,6 +6223,23 @@
         }
       }
     },
+    "Current Session" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄"
+          }
+        }
+      }
+    },
     "Currently In Your System" : {
       "localizations" : {
         "zh-Hans" : {
@@ -8206,6 +8272,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯條目"
+          }
+        }
+      }
+    },
+    "Edit Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯備註"
           }
         }
       }
@@ -10415,6 +10497,7 @@
       }
     },
     "icon or long press doses to select multiple at once" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10426,6 +10509,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "圖示或長按劑量以一次選擇多個"
+          }
+        }
+      }
+    },
+    "icon to log several at once, or long press a dose to remove or reorder it" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图标可一次记录多个，或长按某个剂量以移除或重新排序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圖示可一次記錄多個，或長按某個劑量以移除或重新排序"
           }
         }
       }
@@ -11423,6 +11522,22 @@
         }
       }
     },
+    "Keeps this medication out of your sessions — it joins an active session if one is running, but on its own never starts a new session. Maintenance meds show as a compact “Medications” row in the Journal." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让这种药物不计入你的记录——如果当前有进行中的记录，它会并入其中，但自身永远不会开启新的记录。维持类用药会在日志中显示为紧凑的“用药”行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓這種藥物不計入你的記錄——如果目前有進行中的記錄，它會併入其中，但自身永遠不會開啟新的記錄。維持類用藥會在日誌中顯示為精簡的“用藥”列。"
+          }
+        }
+      }
+    },
     "Ki %@ nM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11957,6 +12072,22 @@
         }
       }
     },
+    "Log a dose to start your first session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一次剂量以开始你的第一段记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄一次劑量以開始你的第一段記錄。"
+          }
+        }
+      }
+    },
     "Log Anyway" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12293,6 +12424,22 @@
         }
       }
     },
+    "Medications" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用藥"
+          }
+        }
+      }
+    },
     "Melatonin MT1/MT2 Receptor Agonist" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12369,6 +12516,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "與目前資料合併"
+          }
+        }
+      }
+    },
+    "Merge with Previous" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上一段合并"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與上一段合併"
           }
         }
       }
@@ -13233,6 +13396,23 @@
         }
       }
     },
+    "No active session" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无进行中的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無進行中的記錄"
+          }
+        }
+      }
+    },
     "No adherence data yet" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13473,7 +13653,40 @@
         }
       }
     },
+    "No Sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無記錄"
+          }
+        }
+      }
+    },
+    "No substances logged in this session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录中没有记录任何物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄中沒有記錄任何物質。"
+          }
+        }
+      }
+    },
     "No substances logged on this day." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13709,6 +13922,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "去甲腎上腺素-多巴胺再攝取抑制劑 (NDRI)"
+          }
+        }
+      }
+    },
+    "Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備註"
           }
         }
       }
@@ -15940,6 +16169,22 @@
         }
       }
     },
+    "Rename Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新命名記錄"
+          }
+        }
+      }
+    },
     "Replace Everything" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16937,6 +17182,23 @@
         }
       }
     },
+    "See your current session's doses at a glance." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看本次记录的剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看本次記錄的劑量。"
+          }
+        }
+      }
+    },
     "Select" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17657,6 +17919,23 @@
         }
       }
     },
+    "Session" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄"
+          }
+        }
+      }
+    },
     "Session Day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -17669,6 +17948,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會話日"
+          }
+        }
+      }
+    },
+    "Session Note" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录备注"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄備註"
+          }
+        }
+      }
+    },
+    "Session title" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录标题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄標題"
           }
         }
       }
@@ -18374,6 +18685,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "指定日期"
+          }
+        }
+      }
+    },
+    "Split Session Here" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此拆分记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此拆分記錄"
           }
         }
       }
@@ -20148,7 +20475,6 @@
       }
     },
     "Today" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -21215,6 +21541,22 @@
         }
       }
     },
+    "Yesterday" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨天"
+          }
+        }
+      }
+    },
     "Yorisoi Hotline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21771,22 +22113,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "icon to log several at once, or long press a dose to remove or reorder it" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "图标可一次记录多个，或长按某个剂量以移除或重新排序"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "圖示可一次記錄多個，或長按某個劑量以移除或重新排序"
           }
         }
       }

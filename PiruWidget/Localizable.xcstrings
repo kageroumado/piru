@@ -192,6 +192,22 @@
         }
       }
     },
+    "Current Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄"
+          }
+        }
+      }
+    },
     "Custom days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -368,7 +384,24 @@
         }
       }
     },
+    "No active session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无进行中的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無進行中的記錄"
+          }
+        }
+      }
+    },
     "No doses today" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -465,6 +498,7 @@
       }
     },
     "See what you've taken today at a glance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -476,6 +510,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一眼查看今天服用了什麼。"
+          }
+        }
+      }
+    },
+    "See your current session's doses at a glance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看本次记录的剂量。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一目了然地查看本次記錄的劑量。"
           }
         }
       }
@@ -492,6 +542,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查看最近的劑量及多久前服用。"
+          }
+        }
+      }
+    },
+    "Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本次記錄"
           }
         }
       }
@@ -545,6 +611,7 @@
       }
     },
     "Today" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -561,6 +628,7 @@
       }
     },
     "Today's Doses" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
