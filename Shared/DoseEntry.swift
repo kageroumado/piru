@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 import SwiftData
 
@@ -50,6 +51,25 @@ final class DoseEntry {
     /// survives later edits to the template. Defaults `false`.
     var isBackgroundMed: Bool = false
 
+    /// Optional place where the dose was taken — a human-readable name (an Apple
+    /// Maps POI, an address, or a reverse-geocoded current location). Stored
+    /// alongside ``latitude``/``longitude`` so the journal can show the spot on a
+    /// map. All three are optional and default `nil`, keeping the migration
+    /// lightweight and leaving every existing dose location-less.
+    var locationName: String?
+    /// Latitude of ``locationName`` in degrees, or `nil` if no location is set.
+    var latitude: Double?
+    /// Longitude of ``locationName`` in degrees, or `nil` if no location is set.
+    var longitude: Double?
+
+    /// The dose's location as a coordinate, or `nil` unless both ``latitude`` and
+    /// ``longitude`` are set. A named place may have no coordinate (e.g. a
+    /// free-typed label), so a non-nil ``locationName`` does not imply this.
+    var coordinate: CLLocationCoordinate2D? {
+        guard let latitude, let longitude else { return nil }
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     /// Free-form labels attached to the dose, decoded from ``tagsRaw``.
     ///
     /// Backed by a comma-separated string for portable SwiftData storage across
@@ -74,6 +94,9 @@ final class DoseEntry {
         notes: String? = nil,
         tags: [String] = [],
         isBackgroundMed: Bool = false,
+        locationName: String? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil,
     ) {
         self.substance = substance
         self.amount = max(0, amount)
@@ -83,5 +106,8 @@ final class DoseEntry {
         self.notes = notes
         self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")
         self.isBackgroundMed = isBackgroundMed
+        self.locationName = locationName
+        self.latitude = latitude
+        self.longitude = longitude
     }
 }

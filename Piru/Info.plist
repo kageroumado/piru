@@ -6,6 +6,8 @@
 	<array>
 		<string>com.piru.app.live-activity-refresh</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Piru attaches the place where you took a dose so you can see it in your journal. Location is stored only on your device and is never shared.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
