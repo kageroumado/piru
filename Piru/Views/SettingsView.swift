@@ -15,11 +15,7 @@ struct SettingsView: View {
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
-    @State private var showingReport = false
     @Environment(\.appNavigator) private var navigator
-    @State private var showingDeleteConfirmation = false
-    @State private var actionMessage: String?
-    @State private var showingActionMessage = false
 
     var body: some View {
         List {
@@ -163,25 +159,6 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Button {
-                        showingReport = true
-                    } label: {
-                        Label("Generate Medical Report", systemImage: "doc.richtext")
-                            .foregroundStyle(Theme.accent)
-                    }
-
-                    Button(role: .destructive) {
-                        showingDeleteConfirmation = true
-                    } label: {
-                        Label("Delete Everything", systemImage: "trash")
-                    }
-                } header: {
-                    Text("Journal Data")
-                } footer: {
-                    Text("Export and import your journal under Data & Backup above.")
-                }
-
-                Section {
                     NavigationLink {
                         SourcePriorityView()
                     } label: {
@@ -264,22 +241,6 @@ struct SettingsView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingReport) {
-            ReportView()
-        }
-        .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
-            Button("Delete", role: .destructive) {
-                deleteAllData()
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Are you sure you want to delete all your data? This action cannot be undone.")
-        }
-        .alert("Piru", isPresented: $showingActionMessage) {
-            Button("OK") {}
-        } message: {
-            Text(actionMessage ?? "")
-        }
     }
 
     // MARK: - Bindings
@@ -317,19 +278,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Data Actions
-
-    private func deleteAllData() {
-        // Never delete without a recoverable copy: snapshot the populated store
-        // aside first, so an accidental "Delete All" can be restored.
-        StoreRecovery.snapshotStore(reason: "predelete")
-        do {
-            try DataExportImport.deleteAll(context: modelContext)
-        } catch {
-            actionMessage = String(localized: "Delete failed: \(error.localizedDescription)")
-            showingActionMessage = true
-        }
-    }
 }
 
 // MARK: - Substance Colors List

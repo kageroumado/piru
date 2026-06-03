@@ -660,6 +660,22 @@
         }
       }
     },
+    "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 记录于另一天。请在本次记录所在的当天选择一个时间，使其保持在同一天内。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 記錄於另一天。請在本次記錄所在的當天選擇一個時間，使其保持在同一天內。"
+          }
+        }
+      }
+    },
     "%@–%@ days" : {
       "comment" : "Long-acting release window",
       "localizations" : {
@@ -1820,6 +1836,22 @@
         }
       }
     },
+    "A complete backup you can restore into Piru" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可恢复到 Piru 的完整备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可還原至 Piru 的完整備份"
+          }
+        }
+      }
+    },
     "A cool, dark room helps with headaches and overstimulation." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1900,6 +1932,38 @@
         }
       }
     },
+    "A passphrase-protected .piruenc file" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由口令保护的 .piruenc 文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由通行密語保護的 .piruenc 檔案"
+          }
+        }
+      }
+    },
+    "A PDF summary to share with a clinician" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可与医生分享的 PDF 摘要"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可與醫師分享的 PDF 摘要"
+          }
+        }
+      }
+    },
     "A pharmacologically inactive prodrug cleaved in red blood cells to release dextroamphetamine and L-lysine. The dextroamphetamine then acts as a monoamine releasing agent via DAT, NET, SERT reversal and TAAR1 activation. The prodrug formulation provides controlled, gradual release of active drug, reducing abuse potential and producing smoother pharmacokinetics compared to immediate-release amphetamine." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1928,6 +1992,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作為乙醯膽鹼前體的磷脂。穿過血腦屏障,增加腦內乙醯膽鹼的合成和釋放。也提供甘油磷酸用於膜磷脂合成。增強膽鹼能神經傳遞,後者參與記憶形成、注意力和學習。"
+          }
+        }
+      }
+    },
+    "A Piru or PsychonautWiki JSON file" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 或 PsychonautWiki 的 JSON 文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 或 PsychonautWiki 的 JSON 檔案"
           }
         }
       }
@@ -2728,6 +2808,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增項目"
+          }
+        }
+      }
+    },
+    "Add Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增位置"
           }
         }
       }
@@ -4031,6 +4127,7 @@
       }
     },
     "Back Up to iCloud" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4095,6 +4192,7 @@
       }
     },
     "Backup & Security" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5102,6 +5200,22 @@
         }
       }
     },
+    "Change Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "變更位置"
+          }
+        }
+      }
+    },
     "Change Substance Colors" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6079,6 +6193,7 @@
       }
     },
     "Create a single encrypted file protected by a passphrase you choose, then save or send it anywhere. You'll need the same passphrase to restore it. **If you forget the passphrase, the file cannot be opened — not even by us.**" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6203,6 +6318,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當前估算劑量"
+          }
+        }
+      }
+    },
+    "Current Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前位置"
           }
         }
       }
@@ -6545,7 +6676,24 @@
         }
       }
     },
+    "Data & Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据与备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料與備份"
+          }
+        }
+      }
+    },
     "Data imported successfully." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6785,7 +6933,24 @@
         }
       }
     },
+    "Delete Failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除失敗"
+          }
+        }
+      }
+    },
     "Delete failed: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8618,7 +8783,24 @@
         }
       }
     },
+    "Encrypted Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密備份…"
+          }
+        }
+      }
+    },
     "Encrypted backups to iCloud or a passphrase-protected file. Optional and off by default." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9132,7 +9314,41 @@
         }
       }
     },
+    "Export" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出"
+          }
+        }
+      }
+    },
+    "Export and import your journal under Data & Backup above." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方的“数据与备份”中导出和导入你的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方的「資料與備份」中匯出和匯入你的記錄。"
+          }
+        }
+      }
+    },
     "Export Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9149,6 +9365,7 @@
       }
     },
     "Export Encrypted Backup…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9181,6 +9398,7 @@
       }
     },
     "Export failed: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9192,6 +9410,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出失敗:%@"
+          }
+        }
+      }
+    },
+    "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出、导入，以及加密备份到 iCloud 或口令保护的文件。备份为可选项，默认关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出、匯入，以及加密備份到 iCloud 或通行密語保護的檔案。備份為可選項，預設關閉。"
           }
         }
       }
@@ -9425,6 +9659,22 @@
         }
       }
     },
+    "For importing into the PsychonautWiki app" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于导入 PsychonautWiki 应用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用於匯入 PsychonautWiki 應用程式"
+          }
+        }
+      }
+    },
     "Formula" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9619,6 +9869,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "來自物質庫"
+          }
+        }
+      }
+    },
+    "From your automatic iCloud backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你的自动 iCloud 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你的自動 iCloud 備份"
           }
         }
       }
@@ -10480,6 +10746,22 @@
         }
       }
     },
+    "iCloud Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 備份"
+          }
+        }
+      }
+    },
     "iCloud Drive isn't available. Check that you're signed in to iCloud and that iCloud Drive is on." : {
       "localizations" : {
         "zh-Hans" : {
@@ -10738,6 +11020,7 @@
       }
     },
     "Import" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10753,7 +11036,40 @@
         }
       }
     },
+    "Import & Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入与恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入與還原"
+          }
+        }
+      }
+    },
+    "Import Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入完成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入完成"
+          }
+        }
+      }
+    },
     "Import Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10769,7 +11085,24 @@
         }
       }
     },
+    "Import Failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入失敗"
+          }
+        }
+      }
+    },
     "Import failed: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10781,6 +11114,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯入失敗:%@"
+          }
+        }
+      }
+    },
+    "Import from a File…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从文件导入…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從檔案匯入…"
+          }
+        }
+      }
+    },
+    "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换；iCloud 和你自己的口令备份会自动解锁或提示输入口令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代；iCloud 和你自己的通行密語備份會自動解鎖或提示輸入通行密語。"
           }
         }
       }
@@ -11427,6 +11792,7 @@
       }
     },
     "Journal Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12018,6 +12384,38 @@
         }
       }
     },
+    "Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置"
+          }
+        }
+      }
+    },
+    "Location access is off. Turn it on in Settings to use your current location." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置访问已关闭。请在“设置”中开启以使用当前位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置存取已關閉。請在「設定」中開啟以使用目前位置。"
+          }
+        }
+      }
+    },
     "Log" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12249,6 +12647,7 @@
       }
     },
     "Manual Backup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -12948,6 +13347,54 @@
         }
       }
     },
+    "Move" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動"
+          }
+        }
+      }
+    },
+    "Move %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動 %@"
+          }
+        }
+      }
+    },
+    "Move To" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移至"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移至"
+          }
+        }
+      }
+    },
     "Move to Back" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12976,6 +13423,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移到最前"
+          }
+        }
+      }
+    },
+    "Move to Session…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移至其他记录…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移至其他記錄…"
           }
         }
       }
@@ -13296,6 +13759,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新條目"
+          }
+        }
+      }
+    },
+    "New Session" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建記錄"
+          }
+        }
+      }
+    },
+    "New time on %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的新时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 的新時間"
           }
         }
       }
@@ -14070,6 +14565,22 @@
         }
       }
     },
+    "Nowhere to Move" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无处可移"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無處可移"
+          }
+        }
+      }
+    },
     "Numer alarmowy" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14534,6 +15045,22 @@
         }
       }
     },
+    "Passphrase-protected — save or send it anywhere" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由口令保护——可保存或发送到任何地方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由通行密語保護——可儲存或傳送到任何地方"
+          }
+        }
+      }
+    },
     "Passphrases don't match yet." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14738,6 +15265,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外周 μ-阿片受體激動劑"
+          }
+        }
+      }
+    },
+    "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久删除每一条剂量、记录和设置。删除前会先创建可恢复的快照。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久刪除每一筆劑量、記錄和設定。刪除前會先建立可還原的快照。"
           }
         }
       }
@@ -14995,6 +15538,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捏合以放大或縮小"
+          }
+        }
+      }
+    },
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。加密备份由你设定的口令保护——**若忘记口令，文件将无法打开，我们也不能。**"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。加密備份由你設定的通行密語保護——**若忘記通行密語，檔案將無法開啟，我們也不能。**"
+          }
+        }
+      }
+    },
+    "Piru Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 備份"
           }
         }
       }
@@ -15539,6 +16114,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "心理援助"
+          }
+        }
+      }
+    },
+    "PsychonautWiki Format" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsychonautWiki 格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PsychonautWiki 格式"
+          }
+        }
+      }
+    },
+    "Pull this dose into its own session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将这一剂单独归入新记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將這一劑單獨歸入新記錄。"
           }
         }
       }
@@ -16137,6 +16744,22 @@
         }
       }
     },
+    "Remove location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除位置"
+          }
+        }
+      }
+    },
     "Rename" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16213,6 +16836,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原時取代資料會先建立可還原的快照。備份始終是選用的，在你開啟之前都處於關閉狀態。"
+          }
+        }
+      }
+    },
+    "Report" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "報告"
           }
         }
       }
@@ -16490,6 +17129,22 @@
         }
       }
     },
+    "Restore Encrypted Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复加密备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原加密備份…"
+          }
+        }
+      }
+    },
     "Restore Failed" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16507,6 +17162,7 @@
       }
     },
     "Restore From a File…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16539,6 +17195,7 @@
       }
     },
     "Restoring reads an encrypted backup and adds its entries back. Passphrase backups will ask for the passphrase; iCloud backups unlock automatically on your own devices." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -16550,6 +17207,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原會讀取加密備份並將其中的記錄加回。通行碼備份會要求輸入通行碼；iCloud 備份會在你自己的裝置上自動解鎖。"
+          }
+        }
+      }
+    },
+    "Results" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋結果"
           }
         }
       }
@@ -17062,6 +17735,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋記錄…"
+          }
+        }
+      }
+    },
+    "Search for a place or address" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索地点或地址"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋地點或地址"
           }
         }
       }
@@ -17996,6 +18685,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定通行碼"
+          }
+        }
+      }
+    },
+    "Set Time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定時間"
           }
         }
       }
@@ -20202,6 +20907,22 @@
         }
       }
     },
+    "This is the only session." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是唯一的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是唯一的記錄。"
+          }
+        }
+      }
+    },
     "this month" : {
       "localizations" : {
         "zh-Hans" : {
@@ -21845,6 +22566,22 @@
         }
       }
     },
+    "Your data was imported." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据已导入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的資料已匯入。"
+          }
+        }
+      }
+    },
     "Your endocannabinoid system is returning to baseline." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22113,662 +22850,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Move to Session…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移至其他记录…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移至其他記錄…"
-          }
-        }
-      }
-    },
-    "Move %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移动 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移動 %@"
-          }
-        }
-      }
-    },
-    "New Session" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建記錄"
-          }
-        }
-      }
-    },
-    "Pull this dose into its own session." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将这一剂单独归入新记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將這一劑單獨歸入新記錄。"
-          }
-        }
-      }
-    },
-    "Move To" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移至"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移至"
-          }
-        }
-      }
-    },
-    "Nowhere to Move" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无处可移"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無處可移"
-          }
-        }
-      }
-    },
-    "This is the only session." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这是唯一的记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這是唯一的記錄。"
-          }
-        }
-      }
-    },
-    "Move" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移动"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移動"
-          }
-        }
-      }
-    },
-    "Set Time" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定時間"
-          }
-        }
-      }
-    },
-    "New time on %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 的新时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 的新時間"
-          }
-        }
-      }
-    },
-    "%@ is logged on a different day. Pick a time within this session's day so the session stays a single day." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 记录于另一天。请在本次记录所在的当天选择一个时间，使其保持在同一天内。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 記錄於另一天。請在本次記錄所在的當天選擇一個時間，使其保持在同一天內。"
-          }
-        }
-      }
-    },
-    "Location" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "位置"
-          }
-        }
-      }
-    },
-    "Current Location" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目前位置"
-          }
-        }
-      }
-    },
-    "Results" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索结果"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜尋結果"
-          }
-        }
-      }
-    },
-    "Add Location" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新增位置"
-          }
-        }
-      }
-    },
-    "Change Location" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更改位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "變更位置"
-          }
-        }
-      }
-    },
-    "Remove location" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除位置"
-          }
-        }
-      }
-    },
-    "Search for a place or address" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索地点或地址"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜尋地點或地址"
-          }
-        }
-      }
-    },
-    "Location access is off. Turn it on in Settings to use your current location." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "位置访问已关闭。请在“设置”中开启以使用当前位置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "位置存取已關閉。請在「設定」中開啟以使用目前位置。"
-          }
-        }
-      }
-    },
-    "Piru Backup" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 備份"
-          }
-        }
-      }
-    },
-    "A complete backup you can restore into Piru" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可恢复到 Piru 的完整备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可還原至 Piru 的完整備份"
-          }
-        }
-      }
-    },
-    "PsychonautWiki Format" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PsychonautWiki 格式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PsychonautWiki 格式"
-          }
-        }
-      }
-    },
-    "For importing into the PsychonautWiki app" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用于导入 PsychonautWiki 应用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用於匯入 PsychonautWiki 應用程式"
-          }
-        }
-      }
-    },
-    "Data & Backup" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据与备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "資料與備份"
-          }
-        }
-      }
-    },
-    "iCloud Backup" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 備份"
-          }
-        }
-      }
-    },
-    "Export" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导出"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯出"
-          }
-        }
-      }
-    },
-    "Encrypted Backup…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加密备份…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加密備份…"
-          }
-        }
-      }
-    },
-    "Passphrase-protected — save or send it anywhere" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由口令保护——可保存或发送到任何地方"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由通行密語保護——可儲存或傳送到任何地方"
-          }
-        }
-      }
-    },
-    "Import & Restore" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入与恢复"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯入與還原"
-          }
-        }
-      }
-    },
-    "Import from a File…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从文件导入…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從檔案匯入…"
-          }
-        }
-      }
-    },
-    "A Piru or PsychonautWiki JSON file" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 或 PsychonautWiki 的 JSON 文件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 或 PsychonautWiki 的 JSON 檔案"
-          }
-        }
-      }
-    },
-    "Restore Encrypted Backup…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "恢复加密备份…"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "還原加密備份…"
-          }
-        }
-      }
-    },
-    "A passphrase-protected .piruenc file" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由口令保护的 .piruenc 文件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由通行密語保護的 .piruenc 檔案"
-          }
-        }
-      }
-    },
-    "From your automatic iCloud backups" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "来自你的自动 iCloud 备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "來自你的自動 iCloud 備份"
-          }
-        }
-      }
-    },
-    "Import Failed" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入失败"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯入失敗"
-          }
-        }
-      }
-    },
-    "Import Complete" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入完成"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯入完成"
-          }
-        }
-      }
-    },
-    "Your data was imported." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的数据已导入。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的資料已匯入。"
-          }
-        }
-      }
-    },
-    "Export and import your journal under Data & Backup above." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在上方的“数据与备份”中导出和导入你的记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在上方的「資料與備份」中匯出和匯入你的記錄。"
-          }
-        }
-      }
-    },
-    "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导出、导入，以及加密备份到 iCloud 或口令保护的文件。备份为可选项，默认关闭。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯出、匯入，以及加密備份到 iCloud 或通行密語保護的檔案。備份為可選項，預設關閉。"
-          }
-        }
-      }
-    },
-    "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。加密备份由你设定的口令保护——**若忘记口令，文件将无法打开，我们也不能。**"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。加密備份由你設定的通行密語保護——**若忘記通行密語，檔案將無法開啟，我們也不能。**"
-          }
-        }
-      }
-    },
-    "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换；iCloud 和你自己的口令备份会自动解锁或提示输入口令。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代；iCloud 和你自己的通行密語備份會自動解鎖或提示輸入通行密語。"
           }
         }
       }
