@@ -231,9 +231,7 @@ struct TimelineGraphView: View {
         let db = dayBounded
         let ct = currentTime
         let model = await Task.detached(priority: .userInitiated) {
-            PerfLog.time("computeDerived(bg n=\(subs.count))", thresholdMs: 0.5) {
-                Self.computeDerived(substances: subs, markers: mks, stackRedoses: sr, dayBounded: db, currentTime: ct)
-            }
+            Self.computeDerived(substances: subs, markers: mks, stackRedoses: sr, dayBounded: db, currentTime: ct)
         }.value
         TimelineModelCache.shared.insert(model, for: key)
         derivedBox = model
@@ -952,13 +950,6 @@ struct TimelineGraphView: View {
 
     private var graphCanvas: some View {
         Canvas { context, size in
-            #if DEBUG
-            let __perfT0 = CFAbsoluteTimeGetCurrent()
-            defer {
-                let ms = (CFAbsoluteTimeGetCurrent() - __perfT0) * 1000
-                if ms >= 1 { PerfLog.note("canvas \(compact ? "compact" : "full") \(String(format: "%.1f", ms))ms") }
-            }
-            #endif
             let geom = graphGeometry(for: size)
             let graphInset = geom.inset
             let graphTop = geom.top

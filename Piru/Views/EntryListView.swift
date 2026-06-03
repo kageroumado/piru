@@ -154,12 +154,12 @@ struct EntryListView: View {
             }
         }
         .task {
-            PerfLog.time("rebuildAll") { rebuildAll() }
+            rebuildAll()
         }
         .task(id: entriesSignature) {
             try? await Task.sleep(for: .milliseconds(100))
             guard !Task.isCancelled else { return }
-            PerfLog.time("rebuildAll") { rebuildAll() }
+            rebuildAll()
         }
         .onChange(of: searchText) { regroup() }
         .onChange(of: selectedTag) { regroup() }

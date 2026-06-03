@@ -13,25 +13,6 @@ struct SettingsView: View {
         List {
             Group {
                 Section {
-                    Picker(selection: profileBinding) {
-                        ForEach(UserProfile.allCases) { profile in
-                            Label {
-                                Text(profile.displayName)
-                            } icon: {
-                                Image(systemName: profile.icon)
-                            }
-                            .tag(profile)
-                        }
-                    } label: {
-                        Label("Disclosure Tier", systemImage: "slider.horizontal.3")
-                    }
-                } header: {
-                    Text("Profile")
-                } footer: {
-                    Text(SubstanceStore.shared.userProfile.summary)
-                }
-
-                Section {
                     NavigationLink {
                         MedicationsSettingsView()
                     } label: {
@@ -66,7 +47,7 @@ struct SettingsView: View {
                     Text("Create or personalize substances — adjust dose ranges, duration, and units to match your own data and tolerance.")
                 }
 
-                Section("Preferences") {
+                Section {
                     NavigationLink {
                         NotificationSettingsView()
                     } label: {
@@ -76,8 +57,25 @@ struct SettingsView: View {
                     NavigationLink {
                         JournalSettingsView()
                     } label: {
-                        Label("Journal", systemImage: "calendar.day.timeline.left")
+                        Label("Journal", systemImage: "book")
                     }
+
+                    Picker(selection: profileBinding) {
+                        ForEach(UserProfile.allCases) { profile in
+                            Label {
+                                Text(profile.displayName)
+                            } icon: {
+                                Image(systemName: profile.icon)
+                            }
+                            .tag(profile)
+                        }
+                    } label: {
+                        Label("Disclosure Tier", systemImage: "slider.horizontal.3")
+                    }
+                } header: {
+                    Text("Preferences")
+                } footer: {
+                    Text(SubstanceStore.shared.userProfile.summary)
                 }
 
                 Section("Data") {
