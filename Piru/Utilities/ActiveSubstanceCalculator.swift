@@ -125,8 +125,13 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
-        guard let duration else { return nil }
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
+        guard let rawDuration = duration else { return nil }
+        // Endpoint-only data (a `total` with no come-up/peak/offset) would
+        // otherwise collapse the curve to the onset length; synthesize the
+        // missing shapers so it spans the real duration. No-op for complete
+        // profiles. Curve-only — the detail card keeps the raw phases.
+        let duration = category.map { rawDuration.fillingMissingPhases(for: $0) } ?? rawDuration
         let boundaries = duration.phaseBoundaries
         self.init(
             substanceName: name,
@@ -202,6 +207,7 @@ extension ActiveSubstanceState {
                 unit: entry.unit,
                 routeDisplayName: entry.route.displayName,
                 duration: duration,
+                category: substance.category,
                 doseIntensity: intensity,
                 tachyphylaxis: substance.category.acuteToleranceFactor,
             )

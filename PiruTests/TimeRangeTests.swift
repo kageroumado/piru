@@ -32,13 +32,13 @@ struct TimeRangeTests {
     @Test
     func `Display string in minutes when max < 120`() {
         let range = DurationRange(min: 15, max: 45)
-        #expect(range.displayString == "~15-45 minutes")
+        #expect(range.displayString == "~15 – 45 minutes")
     }
 
     @Test
     func `Display string in minutes at boundary (max = 119)`() {
         let range = DurationRange(min: 60, max: 119)
-        #expect(range.displayString == "~60-119 minutes")
+        #expect(range.displayString == "~60 – 119 minutes")
     }
 
     // MARK: - Display string (hours)
@@ -46,19 +46,19 @@ struct TimeRangeTests {
     @Test
     func `Display string in hours when max >= 120`() {
         let range = DurationRange(min: 120, max: 360)
-        #expect(range.displayString == "~2-6 hours")
+        #expect(range.displayString == "~2 – 6 hours")
     }
 
     @Test
     func `Display string in hours at boundary (max = 120)`() {
         let range = DurationRange(min: 60, max: 120)
-        #expect(range.displayString == "~1-2 hours")
+        #expect(range.displayString == "~1 – 2 hours")
     }
 
     @Test
     func `Display string in hours with decimals`() {
         let range = DurationRange(min: 90, max: 210)
-        #expect(range.displayString == "~1.5-3.5 hours")
+        #expect(range.displayString == "~1.5 – 3.5 hours")
     }
 
     // MARK: - Formatting
@@ -66,12 +66,12 @@ struct TimeRangeTests {
     @Test
     func `Whole numbers formatted without decimal`() {
         let range = DurationRange(min: 30, max: 60)
-        #expect(range.displayString == "~30-60 minutes")
+        #expect(range.displayString == "~30 – 60 minutes")
     }
 
     @Test
     func `Decimal numbers rounded to whole minutes`() {
         let range = DurationRange(min: 15.5, max: 45.5)
-        #expect(range.displayString == "~16-46 minutes")
+        #expect(range.displayString == "~16 – 46 minutes")
     }
 }
