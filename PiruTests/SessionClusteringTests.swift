@@ -154,4 +154,38 @@ struct SessionClusteringTests {
     func emptyInput() {
         #expect(SessionClustering.cluster([]).isEmpty)
     }
+
+    // MARK: - canJoinKeepingTime (reassign cross-day guard)
+
+    @Test("A dose inside the session's span can join keeping its time")
+    func joinWithinSpan() {
+        let first = base
+        let last = base.addingTimeInterval(4 * 3600)
+        let inside = base.addingTimeInterval(2 * 3600)
+        #expect(SessionClustering.canJoinKeepingTime(doseTime: inside, sessionFirst: first, sessionLast: last))
+    }
+
+    @Test("A dose within the 8h ceiling of an edge can join keeping its time")
+    func joinWithinCeiling() {
+        let first = base
+        let last = base.addingTimeInterval(4 * 3600)
+        // 6h after the last dose — beyond the span but within the 8h ceiling.
+        let after = last.addingTimeInterval(6 * 3600)
+        #expect(SessionClustering.canJoinKeepingTime(doseTime: after, sessionFirst: first, sessionLast: last))
+        // 5h before the first dose — within the ceiling on the leading edge too.
+        let before = first.addingTimeInterval(-5 * 3600)
+        #expect(SessionClustering.canJoinKeepingTime(doseTime: before, sessionFirst: first, sessionLast: last))
+    }
+
+    @Test("A dose beyond the 8h ceiling needs re-timing (cannot join as-is)")
+    func farDoseNeedsRetime() {
+        let first = base
+        let last = base.addingTimeInterval(4 * 3600)
+        // ~37h after the last dose — a different day; must re-time.
+        let nextDay = last.addingTimeInterval(37 * 3600)
+        #expect(!SessionClustering.canJoinKeepingTime(doseTime: nextDay, sessionFirst: first, sessionLast: last))
+        // Just past the ceiling on the trailing edge.
+        let justPast = last.addingTimeInterval(8 * 3600 + 60)
+        #expect(!SessionClustering.canJoinKeepingTime(doseTime: justPast, sessionFirst: first, sessionLast: last))
+    }
 }

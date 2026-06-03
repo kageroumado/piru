@@ -780,10 +780,7 @@ private struct MoveToSessionView: View {
     private func isNear(_ session: Session) -> Bool {
         let doses = session.orderedDoses
         guard let first = doses.first?.timestamp, let last = doses.last?.timestamp else { return true }
-        let t = dose.timestamp
-        if t >= first, t <= last { return true }
-        let gap = t < first ? first.timeIntervalSince(t) : t.timeIntervalSince(last)
-        return gap <= SessionClustering.Constants.ceiling
+        return SessionClustering.canJoinKeepingTime(doseTime: dose.timestamp, sessionFirst: first, sessionLast: last)
     }
 
     /// Hide "New Session" when the dose is already alone in its session —
