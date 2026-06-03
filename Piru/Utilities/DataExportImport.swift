@@ -127,17 +127,17 @@ private extension RouteOfAdministration {
 // MARK: - Millisecond Timestamps
 
 private extension Date {
-    var msSince1970: Int64 {
+    nonisolated var msSince1970: Int64 {
         Int64(timeIntervalSince1970 * 1_000)
     }
-    init(ms: Int64) {
+    nonisolated init(ms: Int64) {
         self.init(timeIntervalSince1970: Double(ms) / 1_000.0)
     }
 }
 
 // MARK: - PsyLog Codable Types
 
-private struct PsyLogFile: Codable {
+private nonisolated struct PsyLogFile: Codable, Sendable {
     var experiences: [PsyLogExperience]
     var substanceCompanions: [PsyLogCompanion]
     var customUnits: [PsyLogCustomUnit]
@@ -150,7 +150,14 @@ private struct PsyLogFile: Codable {
         case customUnits
         case customSubstances
         case dailyDoseItems
+        case exportSource
     }
+
+    /// Stamped on export so PsychonautWiki recognises the file as the modern
+    /// format. PW's importer rejects files with no `exportSource` as "legacy".
+    /// Verified: a file carrying this key (and none of Piru's own top-level
+    /// keys) imports cleanly into the current PsychonautWiki Journal app.
+    static let exportSourceValue = "iOS Journal 15.0"
 
     init(
         experiences: [PsyLogExperience],
@@ -172,7 +179,7 @@ private struct PsyLogFile: Codable {
         customUnits = try c.decodeIfPresent([PsyLogCustomUnit].self, forKey: .customUnits) ?? []
         dailyDoseItems = try c.decodeIfPresent([PsyLogDailyDoseItem].self, forKey: .dailyDoseItems) ?? []
         // PsyLog historically writes `customSubstances: []` (string array
-        // placeholder); Piru ≥ build 12 writes a proper array of custom
+        // placeholder); older Piru exports wrote a proper array of custom
         // substance objects. Decode whichever shape is present; treat anything
         // unparseable as empty so a malformed `customSubstances` field never
         // blocks an import that would otherwise succeed.
@@ -183,25 +190,29 @@ private struct PsyLogFile: Codable {
         }
     }
 
+    /// Encodes the **exact** PsychonautWiki modern shape — `exportSource`,
+    /// `experiences`, `substanceCompanions`, `customUnits` — and nothing else.
+    /// Piru-only data (custom substances, daily-dose items, per-dose location)
+    /// is deliberately omitted; full-fidelity round-trips use the Piru-native
+    /// format instead. This keeps the file importable by PsychonautWiki.
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(Self.exportSourceValue, forKey: .exportSource)
         try c.encode(experiences, forKey: .experiences)
         try c.encode(substanceCompanions, forKey: .substanceCompanions)
-        try c.encode([String](), forKey: .customUnits)
-        try c.encode(customSubstances, forKey: .customSubstances)
-        try c.encode(dailyDoseItems, forKey: .dailyDoseItems)
+        try c.encode([PsyLogCustomUnit](), forKey: .customUnits)
     }
 }
 
 /// A place attached to an experience (and, as a Piru extension, to an
 /// individual ingestion). Matches PsyLog's `{name, latitude, longitude}` shape.
-private struct PsyLogLocation: Codable {
+private nonisolated struct PsyLogLocation: Codable, Sendable {
     var name: String
     var latitude: Double
     var longitude: Double
 }
 
-private struct PsyLogExperience: Codable {
+private nonisolated struct PsyLogExperience: Codable, Sendable {
     var title: String
     var isFavorite: Bool
     var creationDate: Int64
@@ -222,12 +233,12 @@ private struct PsyLogExperience: Codable {
         case timedNotes
     }
 
-    init(title: String, creationDate: Int64, sortDate: Int64, location: PsyLogLocation? = nil, ingestions: [PsyLogIngestion]) {
+    init(title: String, text: String = "", creationDate: Int64, sortDate: Int64, location: PsyLogLocation? = nil, ingestions: [PsyLogIngestion]) {
         self.title = title
         self.isFavorite = false
         self.creationDate = creationDate
         self.sortDate = sortDate
-        self.text = ""
+        self.text = text
         self.location = location
         self.ingestions = ingestions
     }
@@ -257,7 +268,7 @@ private struct PsyLogExperience: Codable {
     }
 }
 
-private struct PsyLogIngestion: Codable {
+private nonisolated struct PsyLogIngestion: Codable, Sendable {
     var substanceName: String?
     var customUnitId: Int?
     var dose: Double?
@@ -286,6 +297,7 @@ private struct PsyLogIngestion: Codable {
         case stomachFullness
         case endTime
         case location
+        case isHiddenInTimeline
     }
 
     init(substanceName: String, dose: Double, time: Int64, route: String, notes: String, units: String, location: PsyLogLocation? = nil) {
@@ -326,16 +338,19 @@ private struct PsyLogIngestion: Codable {
         try c.encode(administrationRoute, forKey: .administrationRoute)
         try c.encode(notes, forKey: .notes)
         try c.encode(units, forKey: .units)
-        try c.encodeIfPresent(location, forKey: .location)
+        // PsychonautWiki's modern ingestions always carry this flag; include it
+        // so the file matches their shape exactly. Per-dose location is NOT
+        // emitted here — PsyLog keeps location at the experience level only.
+        try c.encode(false, forKey: .isHiddenInTimeline)
     }
 }
 
-private struct PsyLogCompanion: Codable {
+private nonisolated struct PsyLogCompanion: Codable, Sendable {
     var color: String
     var substanceName: String
 }
 
-private struct PsyLogDailyDoseItem: Codable {
+private nonisolated struct PsyLogDailyDoseItem: Codable, Sendable {
     var substance: String
     var amount: Double
     var unit: String
@@ -349,7 +364,7 @@ private struct PsyLogDailyDoseItem: Codable {
 /// timeline-graph behaviour for substances the bundled library lacks data
 /// for. Cross-app PsyLog files typically omit this key or carry an empty
 /// string array; the file-level decoder treats both as "no customs".
-private struct PsyLogCustomSubstance: Codable {
+private nonisolated struct PsyLogCustomSubstance: Codable, Sendable {
     var id: UUID
     var name: String
     var category: SubstanceCategory
@@ -359,6 +374,7 @@ private struct PsyLogCustomSubstance: Codable {
     var duration: DurationProfile?
     var createdAt: Int64
 
+    @MainActor
     init(_ entry: CustomSubstanceEntry) {
         self.id = entry.id
         self.name = entry.name
@@ -370,6 +386,7 @@ private struct PsyLogCustomSubstance: Codable {
         self.createdAt = entry.createdAt.msSince1970
     }
 
+    @MainActor
     var asEntry: CustomSubstanceEntry {
         CustomSubstanceEntry(
             id: id,
@@ -384,7 +401,7 @@ private struct PsyLogCustomSubstance: Codable {
     }
 }
 
-private struct PsyLogCustomUnit: Codable {
+private nonisolated struct PsyLogCustomUnit: Codable, Sendable {
     var id: Int
     var name: String
     var unit: String
@@ -421,14 +438,14 @@ private struct PsyLogCustomUnit: Codable {
 
 // MARK: - Legacy Piru Format (Import Only)
 
-private struct LegacyPiruData: Decodable {
+private nonisolated struct LegacyPiruData: Decodable {
     var doseEntries: [LegacyDoseEntry]
     var dailyDoseItems: [LegacyDailyDoseItem]
     var substanceColors: [LegacySubstanceColor]
     var userColors: [LegacyUserColor]
 }
 
-private struct LegacyDoseEntry: Decodable {
+private nonisolated struct LegacyDoseEntry: Decodable {
     var substance: String
     var amount: Double
     var unit: String
@@ -441,7 +458,7 @@ private struct LegacyDoseEntry: Decodable {
     var longitude: Double?
 }
 
-private struct LegacyDailyDoseItem: Decodable {
+private nonisolated struct LegacyDailyDoseItem: Decodable {
     var substance: String
     var amount: Double
     var unit: String
@@ -449,37 +466,188 @@ private struct LegacyDailyDoseItem: Decodable {
     var sortOrder: Int
 }
 
-private struct LegacySubstanceColor: Decodable {
+private nonisolated struct LegacySubstanceColor: Decodable {
     var substance: String
     var hexColor: String
 }
 
-private struct LegacyUserColor: Decodable {
+private nonisolated struct LegacyUserColor: Decodable {
     var hex: String
     var name: String
     var createdAt: Date
 }
 
+// MARK: - Piru Native Format (full-fidelity backup)
+
+/// Piru's own export shape — a complete, lossless dump of the user's data,
+/// including the things the PsyLog/PW format can't represent: session titles &
+/// notes, per-dose location and background-med flag, real tag arrays,
+/// favourites, user colours, and daily-dose schedules. Detected on import by
+/// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
+/// PsyLog format's convention.
+private nonisolated struct PiruFile: Codable, Sendable {
+    var piruExportVersion: Int
+    /// The app version that produced the file, e.g. "Piru 1.4 (212)".
+    var appVersion: String
+    var exportedAt: Int64
+    var sessions: [PiruSessionData]
+    /// Doses not assigned to any session (defensive; normally empty).
+    var orphanDoses: [PiruDoseData]
+    var dailyDoseItems: [PiruDailyDoseData]
+    var substanceColors: [PiruColorData]
+    var userColors: [PiruUserColorData]
+    var favorites: [PiruFavoriteData]
+    var customSubstances: [PsyLogCustomSubstance]
+}
+
+private nonisolated struct PiruSessionData: Codable, Sendable {
+    var id: UUID
+    var startDate: Int64
+    var title: String?
+    var note: String?
+    var doses: [PiruDoseData]
+}
+
+private nonisolated struct PiruDoseData: Codable, Sendable {
+    var substance: String
+    var amount: Double
+    var unit: String
+    var route: RouteOfAdministration
+    var timestamp: Int64
+    var notes: String?
+    var tags: [String]
+    var isBackgroundMed: Bool
+    var locationName: String?
+    var latitude: Double?
+    var longitude: Double?
+}
+
+private nonisolated struct PiruDailyDoseData: Codable, Sendable {
+    var substance: String
+    var amount: Double
+    var unit: String
+    var route: RouteOfAdministration
+    var sortOrder: Int
+    var category: String
+    var isBackgroundMed: Bool
+    var frequencyRaw: String
+    var frequencyDays: [Int]
+    var startDate: Int64
+}
+
+private nonisolated struct PiruColorData: Codable, Sendable {
+    var substance: String
+    var hexColor: String
+}
+
+private nonisolated struct PiruUserColorData: Codable, Sendable {
+    var hex: String
+    var name: String
+    var createdAt: Int64
+}
+
+private nonisolated struct PiruFavoriteData: Codable, Sendable {
+    var substance: String
+    var createdAt: Int64
+}
+
 // MARK: - Export / Import
 
+/// The two on-disk shapes Piru can write.
+enum ExportFormat {
+    /// Piru-native, lossless (sessions, per-dose location, background flags, …).
+    case piru
+    /// PsychonautWiki's modern interchange format — importable by PW, but lossy
+    /// for Piru-only fields.
+    case psyLog
+}
+
 enum DataExportImport {
+    // MARK: Export
+
+    /// Build the export `Data` synchronously on the main actor. Used by the
+    /// backup manager and tests; the UI uses
+    /// ``exportJSONInBackground(format:context:customStore:)`` so the encode of a
+    /// large library doesn't block the main thread behind no spinner.
     @MainActor
-    static func exportJSON(context: ModelContext, customStore: CustomSubstanceStore = .shared) throws -> Data {
+    static func exportJSON(
+        format: ExportFormat = .piru,
+        context: ModelContext,
+        customStore: CustomSubstanceStore = .shared,
+    ) throws -> Data {
+        switch format {
+        case .piru: try encodeJSON(makePiruFile(context: context, customStore: customStore))
+        case .psyLog: try encodeJSON(makePsyLogFile(context: context))
+        }
+    }
+
+    /// Gather on the main actor, then encode off it. Lets the caller show a
+    /// spinner that actually animates while the heavy `JSONEncoder` work runs on
+    /// a background task.
+    @MainActor
+    static func exportJSONInBackground(
+        format: ExportFormat,
+        context: ModelContext,
+        customStore: CustomSubstanceStore = .shared,
+    ) async throws -> Data {
+        switch format {
+        case .piru:
+            let file = try makePiruFile(context: context, customStore: customStore)
+            return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
+        case .psyLog:
+            let file = try makePsyLogFile(context: context)
+            return try await Task.detached(priority: .userInitiated) { try encodeJSON(file) }.value
+        }
+    }
+
+    private nonisolated static func encodeJSON(_ value: some Encodable & Sendable) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        return try encoder.encode(value)
+    }
+
+    private static var appVersionString: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = info?["CFBundleVersion"] as? String ?? "?"
+        return "Piru \(version) (\(build))"
+    }
+
+    // MARK: PsychonautWiki (PsyLog) gathering
+
+    /// Build the PsychonautWiki modern file. Doses are grouped by **session** so
+    /// a Piru session becomes a PsyLog "experience" carrying its title and note;
+    /// session-less doses (defensive) fall back to one experience per day.
+    @MainActor
+    private static func makePsyLogFile(context: ModelContext) throws -> PsyLogFile {
         let entries = try context.fetch(FetchDescriptor<DoseEntry>())
         let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
-        let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
-        let customs = customStore.all
-
-        let calendar = Calendar.current
-        let grouped = Dictionary(grouping: entries) { calendar.sessionDayStart(for: $0.timestamp) }
 
         let titleFormatter = DateFormatter()
         titleFormatter.dateFormat = "d MMM yyyy"
         titleFormatter.locale = Locale(identifier: "en_US")
+        let calendar = Calendar.current
 
-        let experiences: [PsyLogExperience] = grouped.keys.sorted().map { day in
-            let dayEntries = grouped[day]!.sorted { $0.timestamp < $1.timestamp }
-            let ingestions = dayEntries.map { entry in
+        var groups: [(title: String, note: String, start: Date, doses: [DoseEntry])] = []
+        for (session, doses) in Dictionary(grouping: entries, by: { $0.session }) {
+            let sorted = doses.sorted { $0.timestamp < $1.timestamp }
+            if let session {
+                groups.append((
+                    title: session.title ?? titleFormatter.string(from: session.startDate),
+                    note: session.note ?? "",
+                    start: session.startDate,
+                    doses: sorted,
+                ))
+            } else {
+                for (day, dayDoses) in Dictionary(grouping: sorted, by: { calendar.sessionDayStart(for: $0.timestamp) }) {
+                    groups.append((title: titleFormatter.string(from: day), note: "", start: day, doses: dayDoses))
+                }
+            }
+        }
+        groups.sort { $0.start < $1.start }
+
+        let experiences = groups.map { group -> PsyLogExperience in
+            let ingestions = group.doses.map { entry -> PsyLogIngestion in
                 var noteText = entry.notes ?? ""
                 if !entry.tags.isEmpty {
                     let tagStr = entry.tags.map { "#\($0)" }.joined(separator: " ")
@@ -492,19 +660,15 @@ enum DataExportImport {
                     route: entry.route.psylogName,
                     notes: noteText,
                     units: entry.unit,
-                    location: psyLogLocation(for: entry),
                 )
             }
-            let earliest = dayEntries.first!.timestamp.msSince1970
-            // PsyLog's location is experience-level; surface a representative one
-            // (the first dose that has a location) for cross-app compatibility.
-            // Per-dose precision is preserved separately on each ingestion.
-            let experienceLocation = dayEntries.lazy.compactMap(psyLogLocation).first
+            let startMs = (group.doses.first?.timestamp ?? group.start).msSince1970
             return PsyLogExperience(
-                title: titleFormatter.string(from: day),
-                creationDate: earliest,
-                sortDate: earliest,
-                location: experienceLocation,
+                title: group.title,
+                text: group.note,
+                creationDate: startMs,
+                sortDate: startMs,
+                location: group.doses.lazy.compactMap(psyLogLocation).first,
                 ingestions: ingestions,
             )
         }
@@ -512,80 +676,89 @@ enum DataExportImport {
         let companions = colors.map {
             PsyLogCompanion(color: PsyLogColorMap.name(from: $0.hexColor), substanceName: $0.substance)
         }
+        return PsyLogFile(experiences: experiences, companions: companions)
+    }
 
-        let exportedDailyDoses = dailyDoses.map {
-            PsyLogDailyDoseItem(
-                substance: $0.substance,
-                amount: $0.amount,
-                unit: $0.unit,
-                route: $0.route.psylogName,
-                sortOrder: $0.sortOrder,
+    // MARK: Piru native gathering
+
+    @MainActor
+    private static func makePiruFile(context: ModelContext, customStore: CustomSubstanceStore) throws -> PiruFile {
+        let sessions = try context.fetch(FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate)]))
+        let allEntries = try context.fetch(FetchDescriptor<DoseEntry>())
+        let dailyDoses = try context.fetch(FetchDescriptor<DailyDoseItem>())
+        let colors = try context.fetch(FetchDescriptor<SubstanceColor>())
+        let userColors = try context.fetch(FetchDescriptor<UserColor>())
+        let favorites = try context.fetch(FetchDescriptor<FavoriteSubstance>())
+
+        func doseData(_ e: DoseEntry) -> PiruDoseData {
+            PiruDoseData(
+                substance: e.substance, amount: e.amount, unit: e.unit, route: e.route,
+                timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
+                isBackgroundMed: e.isBackgroundMed,
+                locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
             )
         }
 
-        let exportedCustoms = customs.map(PsyLogCustomSubstance.init)
-        let file = PsyLogFile(
-            experiences: experiences,
-            companions: companions,
-            dailyDoseItems: exportedDailyDoses,
-            customSubstances: exportedCustoms,
+        let sessionData = sessions.map { session in
+            PiruSessionData(
+                id: session.id, startDate: session.startDate.msSince1970,
+                title: session.title, note: session.note,
+                doses: session.orderedDoses.map(doseData),
+            )
+        }
+        let orphans = allEntries
+            .filter { $0.session == nil }
+            .sorted { $0.timestamp < $1.timestamp }
+            .map(doseData)
+
+        let daily = dailyDoses.map { item in
+            PiruDailyDoseData(
+                substance: item.substance, amount: item.amount, unit: item.unit, route: item.route,
+                sortOrder: item.sortOrder, category: item.category, isBackgroundMed: item.isBackgroundMed,
+                frequencyRaw: item.frequencyRaw, frequencyDays: item.frequencyDays,
+                startDate: item.startDate.msSince1970,
+            )
+        }
+
+        return PiruFile(
+            piruExportVersion: 1,
+            appVersion: appVersionString,
+            exportedAt: Date.now.msSince1970,
+            sessions: sessionData,
+            orphanDoses: orphans,
+            dailyDoseItems: daily,
+            substanceColors: colors.map { PiruColorData(substance: $0.substance, hexColor: $0.hexColor) },
+            userColors: userColors.map { PiruUserColorData(hex: $0.hex, name: $0.name, createdAt: $0.createdAt.msSince1970) },
+            favorites: favorites.map { PiruFavoriteData(substance: $0.substance, createdAt: $0.createdAt.msSince1970) },
+            customSubstances: customStore.all.map(PsyLogCustomSubstance.init),
         )
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        return try encoder.encode(file)
     }
 
+    /// Detects the file shape and routes to the right importer:
+    /// - `piruExportVersion` → Piru-native (lossless).
+    /// - `experiences` → PsychonautWiki, both the modern (`exportSource`
+    ///   present) and the old (`customSubstances` present, no `exportSource`)
+    ///   shapes; ``importPsyLog`` decodes both leniently.
+    /// - otherwise → Piru's own early `doseEntries` backup format.
     @MainActor
     static func importJSON(data: Data, context: ModelContext, customStore: CustomSubstanceStore = .shared) throws {
-        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-           json["experiences"] != nil {
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        if json?["piruExportVersion"] != nil {
+            try importPiruNative(data: data, context: context, customStore: customStore)
+        } else if json?["experiences"] != nil {
             try importPsyLog(data: data, context: context, customStore: customStore)
         } else {
             try importLegacy(data: data, context: context)
         }
-        // Group the freshly-imported doses into sessions (existing sessions stay
-        // intact; only the session-less imports are clustered).
+        // Cluster any session-less imports (PsyLog/legacy) into sessions. The
+        // native importer assigns its own sessions, so this is a no-op for it.
         SessionService.assignUnassignedDoses(in: context)
     }
 
     @MainActor
     private static func importPsyLog(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
         let file = try JSONDecoder().decode(PsyLogFile.self, from: data)
-
-        // User-defined substances win fully over library entries with the
-        // same name — the import is the user's explicit say-so. Adds new
-        // customs and updates existing matches (preserving the stored UUID
-        // when present so other models keep referencing the same row); skips
-        // exact duplicates so re-imports stay idempotent.
-        var existingByName: [String: CustomSubstanceEntry] = Dictionary(
-            customStore.all.map { ($0.name.lowercased(), $0) },
-            uniquingKeysWith: { first, _ in first },
-        )
-        for imported in file.customSubstances {
-            let incoming = imported.asEntry
-            let key = incoming.name.lowercased()
-            if let existing = existingByName[key] {
-                guard existing != incoming else { continue }
-                // Preserve the existing row's UUID so other state referencing
-                // it (e.g. open form sheets) stays valid; re-init with the
-                // imported field values so the update goes through.
-                let merged = CustomSubstanceEntry(
-                    id: existing.id,
-                    name: incoming.name,
-                    category: incoming.category,
-                    defaultRoute: incoming.defaultRoute,
-                    unit: incoming.unit,
-                    notes: incoming.notes,
-                    duration: incoming.duration,
-                    createdAt: incoming.createdAt,
-                )
-                customStore.update(merged)
-                existingByName[key] = merged
-            } else {
-                customStore.add(incoming)
-                existingByName[key] = incoming
-            }
-        }
+        importCustomSubstances(file.customSubstances, into: customStore)
 
         // Build custom unit lookup: id -> custom unit
         let customUnitMap = Dictionary(file.customUnits.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -600,6 +773,7 @@ enum DataExportImport {
         })
 
         for experience in file.experiences {
+            var sessionDoses: [DoseEntry] = []
             for ingestion in experience.ingestions {
                 // Resolve substance name: prefer direct name, fall back to custom unit
                 let name: String
@@ -620,10 +794,12 @@ enum DataExportImport {
                 guard seenDoseKeys.insert(key).inserted else { continue }
 
                 let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
-                // A dose's own location (Piru extension) wins; otherwise inherit
-                // the experience's location (the only level PsyLog itself carries).
+                // A dose's own location (a Piru extension, present only in older
+                // Piru PsyLog exports) wins; otherwise inherit the experience's
+                // location. PsychonautWiki stores location per experience, so we
+                // copy it onto every dose to fit Piru's per-dose model.
                 let location = ingestion.location ?? experience.location
-                context.insert(DoseEntry(
+                let entry = DoseEntry(
                     substance: name,
                     amount: dose,
                     unit: ingestion.units,
@@ -634,8 +810,25 @@ enum DataExportImport {
                     locationName: location?.name,
                     latitude: location?.latitude,
                     longitude: location?.longitude,
-                ))
+                )
+                context.insert(entry)
+                sessionDoses.append(entry)
             }
+
+            // Each PsychonautWiki experience becomes a Piru session, preserving
+            // its grouping and carrying the custom title and notes across. Only
+            // when it brought in at least one new (non-duplicate) dose, so a
+            // re-import doesn't accumulate empty sessions.
+            guard !sessionDoses.isEmpty else { continue }
+            let start = sessionDoses.map(\.timestamp).min() ?? Date(ms: experience.sortDate)
+            let session = Session(
+                startDate: start,
+                title: experience.title.isEmpty ? nil : experience.title,
+                note: experience.text.isEmpty ? nil : experience.text,
+            )
+            context.insert(session)
+            for dose in sessionDoses { dose.session = session }
+            session.refreshStartDate()
         }
 
         // Track imported colors to avoid duplicates — seeded with existing
@@ -677,6 +870,125 @@ enum DataExportImport {
                     route: RouteOfAdministration(psylogName: item.route),
                     sortOrder: item.sortOrder,
                 ))
+            }
+        }
+    }
+
+    // MARK: Piru native import
+
+    @MainActor
+    private static func importPiruNative(data: Data, context: ModelContext, customStore: CustomSubstanceStore) throws {
+        let file = try JSONDecoder().decode(PiruFile.self, from: data)
+        importCustomSubstances(file.customSubstances, into: customStore)
+
+        // Dedup doses by content against what's already stored and within the
+        // file, so a re-import (or merge) stays idempotent.
+        let existingDoses = (try? context.fetch(FetchDescriptor<DoseEntry>())) ?? []
+        var seen = Set(existingDoses.map {
+            doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
+        })
+
+        func makeDose(_ d: PiruDoseData) -> DoseEntry? {
+            let timestamp = Date(ms: d.timestamp)
+            let key = doseDedupKey(substance: d.substance, timestamp: timestamp, amount: d.amount, unit: d.unit, route: d.route)
+            guard seen.insert(key).inserted else { return nil }
+            let entry = DoseEntry(
+                substance: d.substance, amount: d.amount, unit: d.unit, route: d.route,
+                timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
+                locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
+            )
+            context.insert(entry)
+            return entry
+        }
+
+        // Recreate sessions with their original id/title/note; reuse an existing
+        // session row if one already carries that id (merge-safe).
+        let existingSessions = (try? context.fetch(FetchDescriptor<Session>())) ?? []
+        var sessionsByID = Dictionary(existingSessions.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        for sessionData in file.sessions {
+            let doses = sessionData.doses.compactMap(makeDose)
+            guard !doses.isEmpty || sessionsByID[sessionData.id] == nil else { continue }
+            let session: Session
+            if let existing = sessionsByID[sessionData.id] {
+                session = existing
+            } else {
+                session = Session(
+                    id: sessionData.id,
+                    startDate: Date(ms: sessionData.startDate),
+                    title: sessionData.title,
+                    note: sessionData.note,
+                )
+                context.insert(session)
+                sessionsByID[sessionData.id] = session
+            }
+            for dose in doses { dose.session = session }
+            session.refreshStartDate()
+        }
+
+        // Session-less doses (defensive) are left unassigned; importJSON's
+        // clustering pass groups them afterwards.
+        for orphan in file.orphanDoses { _ = makeDose(orphan) }
+
+        // Colours — skip substances that already have one.
+        var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })
+        for color in file.substanceColors where importedColors.insert(color.substance.lowercased()).inserted {
+            context.insert(SubstanceColor(substance: color.substance, hexColor: color.hexColor))
+        }
+
+        // User-defined palette colours — dedup by hex.
+        let existingUserHexes = Set(((try? context.fetch(FetchDescriptor<UserColor>())) ?? []).map { $0.hex.uppercased() })
+        for uc in file.userColors where !existingUserHexes.contains(uc.hex.uppercased()) {
+            let color = UserColor(hex: uc.hex, name: uc.name)
+            color.createdAt = Date(ms: uc.createdAt)
+            context.insert(color)
+        }
+
+        // Favourites — dedup by substance.
+        let existingFavs = Set(((try? context.fetch(FetchDescriptor<FavoriteSubstance>())) ?? []).map { $0.substance.lowercased() })
+        for fav in file.favorites where !existingFavs.contains(fav.substance.lowercased()) {
+            context.insert(FavoriteSubstance(substance: fav.substance))
+        }
+
+        // Daily-dose items — dedup by substance, restoring the full schedule.
+        let existingDailyNames = Set(((try? context.fetch(FetchDescriptor<DailyDoseItem>())) ?? []).map { $0.substance.lowercased() })
+        for item in file.dailyDoseItems where !existingDailyNames.contains(item.substance.lowercased()) {
+            context.insert(DailyDoseItem(
+                substance: item.substance, amount: item.amount, unit: item.unit, route: item.route,
+                sortOrder: item.sortOrder, category: item.category,
+                frequency: DoseFrequency(rawValue: item.frequencyRaw) ?? .daily,
+                frequencyDays: item.frequencyDays, startDate: Date(ms: item.startDate),
+                isBackgroundMed: item.isBackgroundMed,
+            ))
+        }
+    }
+
+    /// Merge imported custom substances into the store: add new ones, update
+    /// same-name matches (keeping the existing row's UUID), skip exact dupes.
+    private static func importCustomSubstances(_ list: [PsyLogCustomSubstance], into customStore: CustomSubstanceStore) {
+        var existingByName: [String: CustomSubstanceEntry] = Dictionary(
+            customStore.all.map { ($0.name.lowercased(), $0) },
+            uniquingKeysWith: { first, _ in first },
+        )
+        for imported in list {
+            let incoming = imported.asEntry
+            let key = incoming.name.lowercased()
+            if let existing = existingByName[key] {
+                guard existing != incoming else { continue }
+                let merged = CustomSubstanceEntry(
+                    id: existing.id,
+                    name: incoming.name,
+                    category: incoming.category,
+                    defaultRoute: incoming.defaultRoute,
+                    unit: incoming.unit,
+                    notes: incoming.notes,
+                    duration: incoming.duration,
+                    createdAt: incoming.createdAt,
+                )
+                customStore.update(merged)
+                existingByName[key] = merged
+            } else {
+                customStore.add(incoming)
+                existingByName[key] = incoming
             }
         }
     }
@@ -738,9 +1050,11 @@ enum DataExportImport {
 
     static func deleteAll(context: ModelContext) throws {
         try context.delete(model: DoseEntry.self)
+        try context.delete(model: Session.self)
         try context.delete(model: DailyDoseItem.self)
         try context.delete(model: SubstanceColor.self)
         try context.delete(model: UserColor.self)
+        try context.delete(model: FavoriteSubstance.self)
     }
 
     static var exportFilename: String {

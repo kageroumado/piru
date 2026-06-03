@@ -21,6 +21,7 @@ struct SettingsView: View {
     @Environment(\.appNavigator) private var navigator
     @State private var showingDeleteConfirmation = false
     @State private var exportDocument: PiruDocument?
+    @State private var isGeneratingExport = false
     @State private var importMessage: String?
     @State private var showingImportMessage = false
 
@@ -173,12 +174,28 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.accent)
                     }
 
-                    Button {
-                        exportData()
+                    Menu {
+                        Button {
+                            exportData(format: .piru)
+                        } label: {
+                            Label("Piru Backup (full)", systemImage: "checklist")
+                        }
+                        Button {
+                            exportData(format: .psyLog)
+                        } label: {
+                            Label("PsychonautWiki Format", systemImage: "arrow.left.arrow.right")
+                        }
                     } label: {
-                        Label("Export Data", systemImage: "square.and.arrow.up.on.square")
-                            .foregroundStyle(Theme.accent)
+                        HStack {
+                            Label("Export Data", systemImage: "square.and.arrow.up.on.square")
+                                .foregroundStyle(Theme.accent)
+                            if isGeneratingExport {
+                                Spacer()
+                                ProgressView()
+                            }
+                        }
                     }
+                    .disabled(isGeneratingExport)
 
                     Button {
                         showingImporter = true
@@ -352,14 +369,20 @@ struct SettingsView: View {
 
     // MARK: - Data Actions
 
-    private func exportData() {
-        do {
-            let data = try DataExportImport.exportJSON(context: modelContext)
-            exportDocument = PiruDocument(data: data)
-            showingExporter = true
-        } catch {
-            importMessage = "Export failed: \(error.localizedDescription)"
-            showingImportMessage = true
+    private func exportData(format: ExportFormat) {
+        isGeneratingExport = true
+        Task {
+            defer { isGeneratingExport = false }
+            do {
+                // Gather on the main actor, encode off it (see exportJSONInBackground)
+                // so the spinner above actually animates instead of the UI freezing.
+                let data = try await DataExportImport.exportJSONInBackground(format: format, context: modelContext)
+                exportDocument = PiruDocument(data: data)
+                showingExporter = true
+            } catch {
+                importMessage = String(localized: "Export failed: \(error.localizedDescription)")
+                showingImportMessage = true
+            }
         }
     }
 
