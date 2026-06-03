@@ -163,6 +163,23 @@ enum SessionClustering {
         return .newSession
     }
 
+    /// Whether a dose at `doseTime` is close enough to an existing session
+    /// spanning `[sessionFirst, sessionLast]` to be moved into it *keeping its
+    /// timestamp*, without stretching that session across a long quiescent gap.
+    ///
+    /// True when the dose already falls inside the span, or within the sleep
+    /// ``Constants/ceiling`` of either edge — the same reach the clustering
+    /// heuristic uses. A move to a farther session must re-time the dose so the
+    /// session stays a coherent single span; this is the predicate the reassign
+    /// UI uses to decide whether to ask for a new time.
+    static func canJoinKeepingTime(doseTime: Date, sessionFirst: Date, sessionLast: Date) -> Bool {
+        if doseTime >= sessionFirst, doseTime <= sessionLast { return true }
+        let gap = doseTime < sessionFirst
+            ? sessionFirst.timeIntervalSince(doseTime)
+            : doseTime.timeIntervalSince(sessionLast)
+        return gap <= Constants.ceiling
+    }
+
     /// Cluster time-sorted doses into sessions, returned as groups of indices
     /// into the input array. Input **must** be sorted ascending by timestamp;
     /// the result preserves that order and partitions every index exactly once
