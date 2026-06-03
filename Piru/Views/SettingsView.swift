@@ -6,14 +6,6 @@ struct SettingsView: View {
     @Query(sort: \SubstanceColor.substance) private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
     @State private var customSubstanceStore = CustomSubstanceStore.shared
-    @Environment(\.modelContext) private var modelContext
-
-    @AppStorage("liveActivityEnabled") private var autoLiveActivity = false
-    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
-    @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
-    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
-    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
-    @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
     @Environment(\.appNavigator) private var navigator
 
@@ -39,191 +31,77 @@ struct SettingsView: View {
                     Text(SubstanceStore.shared.userProfile.summary)
                 }
 
-                Section("Prescriptions") {
+                Section {
                     NavigationLink {
                         MedicationsSettingsView()
                     } label: {
-                        HStack {
-                            Label("Prescriptions", systemImage: "pills")
-                            Spacer()
-                            Text("\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                        countRow("Prescriptions", systemImage: "pills",
+                                 value: "\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")")
                     }
-                }
 
-                Section("Custom Substances") {
                     NavigationLink {
                         CustomSubstancesListView()
                     } label: {
+                        countRow("My Substances", systemImage: "flask",
+                                 value: "\(customSubstanceStore.all.count)")
+                    }
+
+                    NavigationLink {
+                        SubstanceColorsListView()
+                    } label: {
                         HStack {
-                            Label("Custom Substances", systemImage: "flask")
+                            Label("Substance Colors", systemImage: "paintpalette")
                             Spacer()
-                            Text("\(customSubstanceStore.all.count)")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-                }
-
-                Section {
-                    Toggle(isOn: $autoLiveActivity) {
-                        Label("Automatic Live Activity", systemImage: "bolt.heart")
-                    }
-                    .tint(Theme.accent)
-                } header: {
-                    Text("Live Activity")
-                } footer: {
-                    Text("Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view.")
-                }
-
-                Section {
-                    Toggle(isOn: $wellnessNotificationsEnabled) {
-                        Label("Wellness Reminders", systemImage: "heart.text.clipboard")
-                    }
-                    .tint(Theme.accent)
-                    Toggle(isOn: $phaseNotificationsEnabled) {
-                        Label("Phase Notifications", systemImage: "bell.badge.waveform")
-                    }
-                    .tint(Theme.accent)
-                } header: {
-                    Text("Harm Reduction")
-                } footer: {
-                    Text("Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data.")
-                }
-
-                Section {
-                    Toggle(isOn: $stackRedoses) {
-                        Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
-                    }
-                    .tint(Theme.accent)
-                } header: {
-                    Text("Timeline")
-                } footer: {
-                    Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
-                }
-
-                Section {
-                    Toggle(isOn: $quickLogFixedOrder) {
-                        Label("Keep Quick-Log Order", systemImage: "pin")
-                    }
-                    .tint(Theme.accent)
-                } header: {
-                    Text("Quick Log")
-                } footer: {
-                    Text("Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.")
-                }
-
-                Section {
-                    Stepper(value: $dayBoundaryHour, in: 0 ... 12) {
-                        HStack {
-                            Label("Day Starts At", systemImage: "moon.stars")
-                            Spacer()
-                            Text(boundaryHourLabel)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                    }
-                } header: {
-                    Text("Session Day")
-                } footer: {
-                    Text("Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping.")
-                }
-
-                Section("Substance Colors") {
-                    if substanceColors.isEmpty {
-                        Text("No substances logged yet. Colors will appear here after you log your first entry.")
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.secondaryLabel)
-                    } else {
-                        NavigationLink {
-                            SubstanceColorsListView()
-                        } label: {
-                            HStack {
-                                Label("Change Substance Colors", systemImage: "paintpalette")
-                                Spacer()
+                            if substanceColors.isEmpty {
+                                Text("None yet")
+                                    .foregroundStyle(Theme.secondaryLabel)
+                            } else {
                                 colorsPreview
                             }
                         }
                     }
+                } header: {
+                    Text("Substances")
+                } footer: {
+                    Text("Create or personalize substances — adjust dose ranges, duration, and units to match your own data and tolerance.")
                 }
 
-                Section {
+                Section("Preferences") {
+                    NavigationLink {
+                        NotificationSettingsView()
+                    } label: {
+                        Label("Notifications", systemImage: "bell.badge")
+                    }
+
+                    NavigationLink {
+                        JournalSettingsView()
+                    } label: {
+                        Label("Journal", systemImage: "calendar.day.timeline.left")
+                    }
+                }
+
+                Section("Data") {
                     NavigationLink {
                         BackupView()
                     } label: {
                         Label("Data & Backup", systemImage: "lock.icloud")
                     }
-                } header: {
-                    Text("Backup")
-                } footer: {
-                    Text("Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default.")
-                }
 
-                Section {
                     NavigationLink {
-                        SourcePriorityView()
+                        SubstanceDatabaseView()
                     } label: {
-                        HStack {
-                            Label("Data Sources", systemImage: "books.vertical")
-                            Spacer()
-                            Text("\(SubstanceStore.shared.enabledSourceOrder.count) enabled")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
+                        countRow("Substance Database", systemImage: "books.vertical",
+                                 value: "\(SubstanceStore.shared.count)")
                     }
-                    LabeledContent("Substances", value: "\(SubstanceStore.shared.count)")
-                    SubstanceDBUpdateRow()
-                } header: {
-                    Text("Substance Database")
-                } footer: {
-                    Text("All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256.")
-                }
-
-                Section("About") {
-                    LabeledContent("Version", value: "1.0")
                 }
 
                 Section {
-                    ForEach(AppSources.all, id: \.name) { source in
-                        if !source.url.isEmpty, let url = URL(string: source.url) {
-                            Link(destination: url) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    HStack {
-                                        Text(source.name)
-                                            .font(.subheadline.weight(.medium))
-                                            .foregroundStyle(.primary)
-                                        Spacer()
-                                        Image(systemName: "arrow.up.right.square")
-                                            .font(.caption)
-                                            .foregroundStyle(Theme.secondaryLabel)
-                                    }
-                                    Text(source.detail)
-                                        .font(.caption2)
-                                        .foregroundStyle(Theme.accent)
-                                    Text(source.description)
-                                        .font(.caption2)
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                }
-                                .padding(.vertical, 2)
-                            }
-                        } else {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(source.name)
-                                    .font(.subheadline.weight(.medium))
-                                Text(source.detail)
-                                    .font(.caption2)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                Text(source.description)
-                                    .font(.caption2)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            .padding(.vertical, 2)
-                        }
-                    }
-                } header: {
-                    Label("Sources & References", systemImage: "book.closed")
+                    EmptyView()
                 } footer: {
-                    Text("Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, mechanisms of action, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. Mechanism of action descriptions are based on human pharmacological research only. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use.")
+                    Text(verbatim: appVersionString)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .font(.footnote)
+                        .foregroundStyle(Theme.secondaryLabel)
                 }
             }
             .listRowBackground(Theme.cardBackground)
@@ -243,6 +121,17 @@ struct SettingsView: View {
         }
     }
 
+    // MARK: - Row Helpers
+
+    private func countRow(_ title: LocalizedStringKey, systemImage: String, value: String) -> some View {
+        HStack {
+            Label(title, systemImage: systemImage)
+            Spacer()
+            Text(value)
+                .foregroundStyle(Theme.secondaryLabel)
+        }
+    }
+
     // MARK: - Bindings
 
     private var profileBinding: Binding<UserProfile> {
@@ -252,14 +141,16 @@ struct SettingsView: View {
         )
     }
 
-    // MARK: - Colors Preview
+    // MARK: - Version
 
-    private var boundaryHourLabel: String {
-        var components = DateComponents()
-        components.hour = dayBoundaryHour
-        let date = Calendar.current.date(from: components) ?? .now
-        return date.formatted(.dateTime.hour())
+    private var appVersionString: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = info?["CFBundleVersion"] as? String ?? "—"
+        return "Piru \(version) (\(build))"
     }
+
+    // MARK: - Colors Preview
 
     private var colorsPreview: some View {
         HStack(spacing: -4) {
@@ -277,7 +168,151 @@ struct SettingsView: View {
             }
         }
     }
+}
 
+// MARK: - Notifications
+
+/// Live Activity and reminder toggles, grouped away from the main Settings
+/// screen for progressive disclosure.
+struct NotificationSettingsView: View {
+    @AppStorage("liveActivityEnabled") private var autoLiveActivity = false
+    @AppStorage("wellnessNotificationsEnabled") private var wellnessNotificationsEnabled = false
+    @AppStorage("phaseNotificationsEnabled") private var phaseNotificationsEnabled = false
+
+    var body: some View {
+        List {
+            Group {
+                Section {
+                    Toggle(isOn: $autoLiveActivity) {
+                        Label("Automatic Live Activity", systemImage: "bolt.heart")
+                    }
+                    .tint(Theme.accent)
+                } footer: {
+                    Text("Automatically show a Live Activity on the Lock Screen and Dynamic Island when you start tracking a substance. You can also start one manually from a day or entry's detail view.")
+                }
+
+                Section {
+                    Toggle(isOn: $wellnessNotificationsEnabled) {
+                        Label("Wellness Reminders", systemImage: "heart.text.clipboard")
+                    }
+                    .tint(Theme.accent)
+                    Toggle(isOn: $phaseNotificationsEnabled) {
+                        Label("Phase Notifications", systemImage: "bell.badge.waveform")
+                    }
+                    .tint(Theme.accent)
+                } footer: {
+                    Text("Wellness reminders send hydration and sleep nudges automatically. Phase notifications alert you at onset, come-up, and peak — requires a substance with duration data.")
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("Notifications")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// MARK: - Journal
+
+/// Day-grouping, timeline, and quick-log preferences.
+struct JournalSettingsView: View {
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+    @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
+    @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
+
+    var body: some View {
+        List {
+            Group {
+                Section {
+                    Stepper(value: $dayBoundaryHour, in: 0 ... 12) {
+                        HStack {
+                            Label("Day Starts At", systemImage: "moon.stars")
+                            Spacer()
+                            Text(boundaryHourLabel)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                } header: {
+                    Text("Day Grouping")
+                } footer: {
+                    Text("Doses logged before this hour count toward the previous day — so a 2 AM dose stays with the night before instead of starting a new day at midnight. Set to 12 AM for standard calendar days.")
+                }
+
+                Section {
+                    Toggle(isOn: $stackRedoses) {
+                        Label("Stack Redoses", systemImage: "chart.line.uptrend.xyaxis")
+                    }
+                    .tint(Theme.accent)
+                } footer: {
+                    Text("Combine repeat doses of the same substance into a single curve, where each redose adds to the combined intensity. When off, each dose is drawn as its own line.")
+                }
+
+                Section {
+                    Toggle(isOn: $quickLogFixedOrder) {
+                        Label("Keep Quick-Log Order", systemImage: "pin")
+                    }
+                    .tint(Theme.accent)
+                } footer: {
+                    Text("Keep your quick-log doses in a fixed order. When off, logging a dose moves it to the front so your most-used doses stay on top.")
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("Journal")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var boundaryHourLabel: String {
+        var components = DateComponents()
+        components.hour = dayBoundaryHour
+        let date = Calendar.current.date(from: components) ?? .now
+        return date.formatted(.dateTime.hour())
+    }
+}
+
+// MARK: - Substance Database
+
+/// Everything about the bundled substance dataset: which sources win when they
+/// disagree, how many substances ship, and opt-in database updates. The single
+/// authoritative home for data-source information — there is no separate
+/// "Sources & References" list elsewhere.
+struct SubstanceDatabaseView: View {
+    var body: some View {
+        List {
+            Group {
+                Section {
+                    NavigationLink {
+                        SourcePriorityView()
+                    } label: {
+                        HStack {
+                            Label("Data Sources", systemImage: "list.bullet.rectangle")
+                            Spacer()
+                            Text("\(SubstanceStore.shared.enabledSourceOrder.count) enabled")
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                    }
+                    LabeledContent("Substances", value: "\(SubstanceStore.shared.count)")
+                    SubstanceDBUpdateRow()
+                } footer: {
+                    Text("All substance data ships with the app. Reorder sources to choose which one wins when they disagree on a fact. Updates are opt-in and verified by sha256.")
+                }
+
+                Section {
+                    EmptyView()
+                } footer: {
+                    Text("Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use.")
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("Substance Database")
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 // MARK: - Substance Colors List
@@ -302,29 +337,38 @@ struct SubstanceColorsListView: View {
 
     var body: some View {
         List {
-            ForEach(substanceColors) { sc in
-                Button {
-                    editingSubstance = sc
-                } label: {
-                    HStack(spacing: 12) {
-                        Circle()
-                            .fill(sc.color)
-                            .frame(width: 24, height: 24)
-                        Text(sc.substance)
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        Text("Change")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
+            if substanceColors.isEmpty {
+                ContentUnavailableView(
+                    "No Substance Colors",
+                    systemImage: "paintpalette",
+                    description: Text("Colors appear here after you log your first entry. Tap one to change it."),
+                )
+                .listRowBackground(Color.clear)
+            } else {
+                ForEach(substanceColors) { sc in
+                    Button {
+                        editingSubstance = sc
+                    } label: {
+                        HStack(spacing: 12) {
+                            Circle()
+                                .fill(sc.color)
+                                .frame(width: 24, height: 24)
+                            Text(sc.substance)
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Text("Change")
+                                .font(.caption)
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
                     }
                 }
-            }
-            .onDelete { indexSet in
-                for index in indexSet {
-                    modelContext.delete(substanceColors[index])
+                .onDelete { indexSet in
+                    for index in indexSet {
+                        modelContext.delete(substanceColors[index])
+                    }
                 }
+                .listRowBackground(Theme.cardBackground)
             }
-            .listRowBackground(Theme.cardBackground)
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)

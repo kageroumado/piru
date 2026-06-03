@@ -10,9 +10,9 @@ struct CustomSubstancesListView: View {
         List {
             if store.all.isEmpty {
                 ContentUnavailableView(
-                    "No Custom Substances",
+                    "No Substances Yet",
                     systemImage: "flask",
-                    description: Text("Custom substances you create will appear here. You can also create them from the Quick Log search."),
+                    description: Text("Substances you create or personalize appear here. You can also create them from the Quick Log search."),
                 )
                 .listRowBackground(Color.clear)
             } else {
