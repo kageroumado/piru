@@ -22484,6 +22484,294 @@
           }
         }
       }
+    },
+    "Data & Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据与备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料與備份"
+          }
+        }
+      }
+    },
+    "iCloud Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 備份"
+          }
+        }
+      }
+    },
+    "Export" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出"
+          }
+        }
+      }
+    },
+    "Encrypted Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密備份…"
+          }
+        }
+      }
+    },
+    "Passphrase-protected — save or send it anywhere" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由口令保护——可保存或发送到任何地方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由通行密語保護——可儲存或傳送到任何地方"
+          }
+        }
+      }
+    },
+    "Import & Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入与恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入與還原"
+          }
+        }
+      }
+    },
+    "Import from a File…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从文件导入…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從檔案匯入…"
+          }
+        }
+      }
+    },
+    "A Piru or PsychonautWiki JSON file" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 或 PsychonautWiki 的 JSON 文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 或 PsychonautWiki 的 JSON 檔案"
+          }
+        }
+      }
+    },
+    "Restore Encrypted Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复加密备份…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原加密備份…"
+          }
+        }
+      }
+    },
+    "A passphrase-protected .piruenc file" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由口令保护的 .piruenc 文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由通行密語保護的 .piruenc 檔案"
+          }
+        }
+      }
+    },
+    "From your automatic iCloud backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自你的自动 iCloud 备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自你的自動 iCloud 備份"
+          }
+        }
+      }
+    },
+    "Import Failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入失败"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入失敗"
+          }
+        }
+      }
+    },
+    "Import Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入完成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入完成"
+          }
+        }
+      }
+    },
+    "Your data was imported." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据已导入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的資料已匯入。"
+          }
+        }
+      }
+    },
+    "Export and import your journal under Data & Backup above." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方的“数据与备份”中导出和导入你的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在上方的「資料與備份」中匯出和匯入你的記錄。"
+          }
+        }
+      }
+    },
+    "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出、导入，以及加密备份到 iCloud 或口令保护的文件。备份为可选项，默认关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出、匯入，以及加密備份到 iCloud 或通行密語保護的檔案。備份為可選項，預設關閉。"
+          }
+        }
+      }
+    },
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。加密备份由你设定的口令保护——**若忘记口令，文件将无法打开，我们也不能。**"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。加密備份由你設定的通行密語保護——**若忘記通行密語，檔案將無法開啟，我們也不能。**"
+          }
+        }
+      }
+    },
+    "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换；iCloud 和你自己的口令备份会自动解锁或提示输入口令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代；iCloud 和你自己的通行密語備份會自動解鎖或提示輸入通行密語。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

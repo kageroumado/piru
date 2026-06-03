@@ -554,7 +554,7 @@ private nonisolated struct PiruFavoriteData: Codable, Sendable {
 // MARK: - Export / Import
 
 /// The two on-disk shapes Piru can write.
-enum ExportFormat {
+enum ExportFormat: Equatable {
     /// Piru-native, lossless (sessions, per-dose location, background flags, …).
     case piru
     /// PsychonautWiki's modern interchange format — importable by PW, but lossy

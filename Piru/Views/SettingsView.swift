@@ -15,16 +15,11 @@ struct SettingsView: View {
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
     @AppStorage(Calendar.dayBoundaryHourKey, store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var dayBoundaryHour = 4
 
-    @State private var showingExporter = false
     @State private var showingReport = false
-    @State private var showingImporter = false
     @Environment(\.appNavigator) private var navigator
     @State private var showingDeleteConfirmation = false
-    @State private var exportDocument: PiruDocument?
-    @State private var isGeneratingExport = false
-    @State private var showExportOptions = false
-    @State private var importMessage: String?
-    @State private var showingImportMessage = false
+    @State private var actionMessage: String?
+    @State private var showingActionMessage = false
 
     var body: some View {
         List {
@@ -159,12 +154,12 @@ struct SettingsView: View {
                     NavigationLink {
                         BackupView()
                     } label: {
-                        Label("Backup & Security", systemImage: "lock.icloud")
+                        Label("Data & Backup", systemImage: "lock.icloud")
                     }
                 } header: {
                     Text("Backup")
                 } footer: {
-                    Text("Encrypted backups to iCloud or a passphrase-protected file. Optional and off by default.")
+                    Text("Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default.")
                 }
 
                 Section {
@@ -175,30 +170,6 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.accent)
                     }
 
-                    Button {
-                        showExportOptions = true
-                    } label: {
-                        HStack {
-                            Label("Export Data", systemImage: "square.and.arrow.up.on.square")
-                                .foregroundStyle(Theme.accent)
-                            if isGeneratingExport {
-                                Spacer()
-                                ProgressView()
-                            }
-                        }
-                    }
-                    .disabled(isGeneratingExport)
-                    .popover(isPresented: $showExportOptions) {
-                        exportOptionsPopover
-                    }
-
-                    Button {
-                        showingImporter = true
-                    } label: {
-                        Label("Import Data", systemImage: "square.and.arrow.down.on.square")
-                            .foregroundStyle(Theme.accent)
-                    }
-
                     Button(role: .destructive) {
                         showingDeleteConfirmation = true
                     } label: {
@@ -206,6 +177,8 @@ struct SettingsView: View {
                     }
                 } header: {
                     Text("Journal Data")
+                } footer: {
+                    Text("Export and import your journal under Data & Backup above.")
                 }
 
                 Section {
@@ -294,24 +267,6 @@ struct SettingsView: View {
         .sheet(isPresented: $showingReport) {
             ReportView()
         }
-        .fileExporter(
-            isPresented: $showingExporter,
-            document: exportDocument,
-            contentType: .json,
-            defaultFilename: DataExportImport.exportFilename,
-        ) { result in
-            exportDocument = nil
-            if case let .failure(error) = result {
-                importMessage = String(localized: "Export failed: \(error.localizedDescription)")
-                showingImportMessage = true
-            }
-        }
-        .fileImporter(
-            isPresented: $showingImporter,
-            allowedContentTypes: [.json],
-        ) { result in
-            importData(result: result)
-        }
         .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
             Button("Delete", role: .destructive) {
                 deleteAllData()
@@ -320,10 +275,10 @@ struct SettingsView: View {
         } message: {
             Text("Are you sure you want to delete all your data? This action cannot be undone.")
         }
-        .alert("Import", isPresented: $showingImportMessage) {
+        .alert("Piru", isPresented: $showingActionMessage) {
             Button("OK") {}
         } message: {
-            Text(importMessage ?? "")
+            Text(actionMessage ?? "")
         }
     }
 
@@ -364,104 +319,6 @@ struct SettingsView: View {
 
     // MARK: - Data Actions
 
-    /// Format chooser shown as a popover (with an arrow pointing at the row),
-    /// since a `Menu` can't show per-item subtitles.
-    private var exportOptionsPopover: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            Text("Export Data")
-                .font(.headline)
-
-            exportOptionButton(
-                title: "Piru Backup",
-                subtitle: "A complete backup you can restore into Piru",
-                systemImage: "checklist",
-                format: .piru,
-            )
-            exportOptionButton(
-                title: "PsychonautWiki Format",
-                subtitle: "For importing into the PsychonautWiki app",
-                systemImage: "arrow.left.arrow.right",
-                format: .psyLog,
-            )
-        }
-        .padding(20)
-        .frame(width: 300)
-        .presentationCompactAdaptation(.popover)
-    }
-
-    private func exportOptionButton(
-        title: LocalizedStringKey,
-        subtitle: LocalizedStringKey,
-        systemImage: String,
-        format: ExportFormat,
-    ) -> some View {
-        Button {
-            showExportOptions = false
-            exportData(format: format)
-        } label: {
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: systemImage)
-                    .font(.title3)
-                    .foregroundStyle(Theme.accent)
-                    .frame(width: 26)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(title)
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.primary)
-                    Text(subtitle)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer(minLength: 0)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func exportData(format: ExportFormat) {
-        isGeneratingExport = true
-        Task {
-            defer { isGeneratingExport = false }
-            do {
-                // Gather on the main actor, encode off it (see exportJSONInBackground)
-                // so the spinner above actually animates instead of the UI freezing.
-                let data = try await DataExportImport.exportJSONInBackground(format: format, context: modelContext)
-                exportDocument = PiruDocument(data: data)
-                showingExporter = true
-            } catch {
-                importMessage = String(localized: "Export failed: \(error.localizedDescription)")
-                showingImportMessage = true
-            }
-        }
-    }
-
-    private func importData(result: Result<URL, Error>) {
-        switch result {
-        case let .success(url):
-            guard url.startAccessingSecurityScopedResource() else {
-                importMessage = String(localized: "Couldn't access the selected file.")
-                showingImportMessage = true
-                return
-            }
-            defer { url.stopAccessingSecurityScopedResource() }
-
-            do {
-                let data = try Data(contentsOf: url)
-                try DataExportImport.importJSON(data: data, context: modelContext)
-                importMessage = String(localized: "Data imported successfully.")
-                showingImportMessage = true
-            } catch {
-                importMessage = String(localized: "Import failed: \(error.localizedDescription)")
-                showingImportMessage = true
-            }
-        case let .failure(error):
-            importMessage = "Import failed: \(error.localizedDescription)"
-            showingImportMessage = true
-        }
-    }
-
     private func deleteAllData() {
         // Never delete without a recoverable copy: snapshot the populated store
         // aside first, so an accidental "Delete All" can be restored.
@@ -469,8 +326,8 @@ struct SettingsView: View {
         do {
             try DataExportImport.deleteAll(context: modelContext)
         } catch {
-            importMessage = String(localized: "Delete failed: \(error.localizedDescription)")
-            showingImportMessage = true
+            actionMessage = String(localized: "Delete failed: \(error.localizedDescription)")
+            showingActionMessage = true
         }
     }
 }

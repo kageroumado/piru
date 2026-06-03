@@ -25,17 +25,37 @@ struct BackupView: View {
 
     @State private var notice: Notice?
 
+    // Plain (unencrypted) export/import — Piru-native & PsychonautWiki JSON.
+    @State private var plainExportDocument: PiruDocument?
+    @State private var showingPlainExporter = false
+    @State private var showingPlainImporter = false
+    @State private var generatingFormat: ExportFormat?
+
     var body: some View {
         List {
             automaticSection
             exportSection
-            restoreSection
+            importRestoreSection
             howItWorksSection
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Backup & Security")
+        .navigationTitle("Data & Backup")
         .navigationBarTitleDisplayMode(.inline)
+        .fileExporter(
+            isPresented: $showingPlainExporter,
+            document: plainExportDocument,
+            contentType: .json,
+            defaultFilename: DataExportImport.exportFilename,
+        ) { result in
+            plainExportDocument = nil
+            if case let .failure(error) = result {
+                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
+            }
+        }
+        .fileImporter(isPresented: $showingPlainImporter, allowedContentTypes: [.json]) { result in
+            handlePlainImport(result)
+        }
         .sheet(isPresented: $showingExportPassphrase) {
             PassphraseSheet(mode: .create) { passphrase in
                 runExport(passphrase: passphrase)
@@ -75,7 +95,7 @@ struct BackupView: View {
     private var automaticSection: some View {
         Section {
             Toggle(isOn: autoBindng) {
-                Label("Back Up to iCloud", systemImage: "icloud")
+                Label("iCloud Backup", systemImage: "icloud")
             }
             .tint(Theme.accent)
             .disabled(!manager.iCloudAvailable)
@@ -121,48 +141,97 @@ struct BackupView: View {
         }
     }
 
-    // MARK: - Manual export
+    // MARK: - Export
 
     private var exportSection: some View {
         Section {
-            Button {
-                showingExportPassphrase = true
-            } label: {
-                Label("Export Encrypted Backup…", systemImage: "lock.doc")
-                    .foregroundStyle(Theme.accent)
-            }
+            dataRow(
+                title: "Piru Backup",
+                subtitle: "A complete backup you can restore into Piru",
+                systemImage: "checklist",
+                showSpinner: generatingFormat == .piru,
+            ) { exportPlain(.piru) }
+            dataRow(
+                title: "PsychonautWiki Format",
+                subtitle: "For importing into the PsychonautWiki app",
+                systemImage: "arrow.left.arrow.right",
+                showSpinner: generatingFormat == .psyLog,
+            ) { exportPlain(.psyLog) }
+            dataRow(
+                title: "Encrypted Backup…",
+                subtitle: "Passphrase-protected — save or send it anywhere",
+                systemImage: "lock.doc",
+            ) { showingExportPassphrase = true }
         } header: {
-            Text("Manual Backup")
+            Text("Export")
         } footer: {
-            Text("Create a single encrypted file protected by a passphrase you choose, then save or send it anywhere. You'll need the same passphrase to restore it. **If you forget the passphrase, the file cannot be opened — not even by us.**")
+            Text("Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**")
         }
+        .disabled(generatingFormat != nil)
     }
 
-    // MARK: - Restore
+    // MARK: - Import & Restore
 
-    private var restoreSection: some View {
+    private var importRestoreSection: some View {
         Section {
-            Button {
-                showingFileImporter = true
-            } label: {
-                Label("Restore From a File…", systemImage: "arrow.down.doc")
-                    .foregroundStyle(Theme.accent)
-            }
+            dataRow(
+                title: "Import from a File…",
+                subtitle: "A Piru or PsychonautWiki JSON file",
+                systemImage: "square.and.arrow.down",
+            ) { showingPlainImporter = true }
+            dataRow(
+                title: "Restore Encrypted Backup…",
+                subtitle: "A passphrase-protected .piruenc file",
+                systemImage: "arrow.down.doc",
+            ) { showingFileImporter = true }
             if manager.iCloudAvailable {
-                Button {
+                dataRow(
+                    title: "Restore Latest iCloud Backup",
+                    subtitle: "From your automatic iCloud backups",
+                    systemImage: "arrow.clockwise.icloud",
+                ) {
                     pendingIsICloud = true
                     pendingPassphrase = nil
                     showingStrategyDialog = true
-                } label: {
-                    Label("Restore Latest iCloud Backup", systemImage: "arrow.clockwise.icloud")
-                        .foregroundStyle(Theme.accent)
                 }
             }
         } header: {
-            Text("Restore")
+            Text("Import & Restore")
         } footer: {
-            Text("Restoring reads an encrypted backup and adds its entries back. Passphrase backups will ask for the passphrase; iCloud backups unlock automatically on your own devices.")
+            Text("Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase.")
         }
+    }
+
+    /// A list row with an accent icon, a title, an optional one-line description,
+    /// and an optional trailing spinner. Used for both export and import actions.
+    private func dataRow(
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        systemImage: String,
+        showSpinner: Bool = false,
+        action: @escaping () -> Void,
+    ) -> some View {
+        Button(action: action) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: systemImage)
+                    .font(.title3)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 28)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                        .foregroundStyle(.primary)
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                if showSpinner { ProgressView() }
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .listRowBackground(Theme.cardBackground)
     }
 
     // MARK: - How it works
@@ -227,6 +296,43 @@ struct BackupView: View {
     }
 
     // MARK: - Actions
+
+    /// Export plain (unencrypted) JSON in the given format. Encodes off the main
+    /// actor behind a spinner, then presents the save sheet.
+    private func exportPlain(_ format: ExportFormat) {
+        generatingFormat = format
+        Task {
+            defer { generatingFormat = nil }
+            do {
+                let data = try await DataExportImport.exportJSONInBackground(format: format, context: modelContext)
+                plainExportDocument = PiruDocument(data: data)
+                showingPlainExporter = true
+            } catch {
+                notice = Notice(title: String(localized: "Export Failed"), message: error.localizedDescription)
+            }
+        }
+    }
+
+    /// Import a plain Piru/PsychonautWiki JSON file (merges, de-duped).
+    private func handlePlainImport(_ result: Result<URL, Error>) {
+        switch result {
+        case let .success(url):
+            guard url.startAccessingSecurityScopedResource() else {
+                notice = Notice(title: String(localized: "Import Failed"), message: String(localized: "Couldn't access the selected file."))
+                return
+            }
+            defer { url.stopAccessingSecurityScopedResource() }
+            do {
+                let data = try Data(contentsOf: url)
+                try DataExportImport.importJSON(data: data, context: modelContext)
+                notice = Notice(title: String(localized: "Import Complete"), message: String(localized: "Your data was imported."))
+            } catch {
+                notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
+            }
+        case let .failure(error):
+            notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
+        }
+    }
 
     private func runExport(passphrase: String) {
         showingExportPassphrase = false
