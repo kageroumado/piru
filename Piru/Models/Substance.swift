@@ -288,6 +288,52 @@ struct DurationProfile: Codable, Hashable {
         )
     }
 
+    /// Fill in missing come-up/peak/offset phases when the data carries a real
+    /// `total` but not the intermediate phases that shape the curve between
+    /// onset and total (endpoint-only data from a single source). Without this,
+    /// ``phaseBoundaries`` sums only the present phases and collapses the curve
+    /// to roughly the onset length — discarding the stated duration (a ~12 h LSD
+    /// trip rendered as a ~1 h spike). The real `total` is left intact; only the
+    /// *unexplained* span (`total − present phases`) is distributed across the
+    /// missing shapers using class-aware proportions
+    /// (``SubstanceCategory/synthesizedPhaseShape``), so any genuine phase is
+    /// preserved. Returns `self` for complete profiles and those with no `total`
+    /// (the latter keep the half-life synthesis fallback). Used only when
+    /// building a timeline curve — the detail card still shows the raw phases.
+    func fillingMissingPhases(for category: SubstanceCategory) -> DurationProfile {
+        guard let total, total.midpoint > 0 else { return self }
+        let shape = category.synthesizedPhaseShape
+        let totalMin = total.midpoint
+        let onsetMin = onset?.midpoint ?? totalMin * shape.onset
+        let presentMiddle = (comeup?.midpoint ?? 0) + (peak?.midpoint ?? 0) + (offset?.midpoint ?? 0)
+        let budget = totalMin - onsetMin - presentMiddle
+
+        // A complete profile leaves ~no unexplained span; bail so it's untouched.
+        // Likewise bail if every shaper is already present.
+        let needsComeup = comeup == nil, needsPeak = peak == nil, needsOffset = offset == nil
+        guard budget > totalMin * 0.1, needsComeup || needsPeak || needsOffset else { return self }
+
+        let wComeup = needsComeup ? shape.comeup : 0
+        let wPeak = needsPeak ? shape.peak : 0
+        let wOffset = needsOffset ? shape.offset : 0
+        let wSum = wComeup + wPeak + wOffset
+        guard wSum > 0 else { return self }
+
+        func filled(_ weight: Double) -> DurationRange? {
+            guard weight > 0 else { return nil }
+            let v = budget * weight / wSum
+            return DurationRange(min: v, max: v)
+        }
+        return DurationProfile(
+            onset: onset ?? DurationRange(min: onsetMin, max: onsetMin),
+            comeup: comeup ?? filled(wComeup),
+            peak: peak ?? filled(wPeak),
+            offset: offset ?? filled(wOffset),
+            afterglow: afterglow,
+            total: total,
+        )
+    }
+
 }
 
 extension DurationProfile {
@@ -650,6 +696,39 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
         case .eugeroic: 0.20
         case .dissociative: 0.25
         default: 0
+        }
+    }
+
+    /// Proportions for synthesizing a renderable effect curve from
+    /// endpoint-only duration data (a `total` but no come-up/peak/offset — the
+    /// LSD-oral class, where one source supplied only onset+total). `onset` is a
+    /// fraction of `total`, used only when no onset phase exists; `comeup` /
+    /// `peak` / `offset` are *relative weights* that split the remaining active
+    /// span into the rising / plateau / falling shoulders of the bell. Shaped by
+    /// class pharmacology: psychedelics build slowly into a broad peak, stimulants
+    /// spike then taper (the descending limb is further crashed by
+    /// ``acuteToleranceFactor``), opioids peak fast. See
+    /// ``DurationProfile/fillingMissingPhases(for:)``.
+    var synthesizedPhaseShape: (onset: Double, comeup: Double, peak: Double, offset: Double) {
+        switch self {
+        case .psychedelic, .dysdelic, .deliriant:
+            (0.08, 0.20, 0.30, 0.50)
+        case .stimulant:
+            (0.06, 0.15, 0.20, 0.65)
+        case .empathogen:
+            (0.07, 0.18, 0.27, 0.55)
+        case .eugeroic:
+            (0.08, 0.15, 0.35, 0.50)
+        case .opioid, .analgesic:
+            (0.06, 0.16, 0.24, 0.60)
+        case .dissociative:
+            (0.06, 0.17, 0.27, 0.56)
+        case .benzodiazepine, .depressant, .gabapentinoid:
+            (0.07, 0.18, 0.30, 0.52)
+        case .cannabinoid:
+            (0.06, 0.18, 0.26, 0.56)
+        default:
+            (0.08, 0.20, 0.25, 0.55)
         }
     }
 

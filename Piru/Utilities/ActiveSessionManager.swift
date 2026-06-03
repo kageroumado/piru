@@ -285,6 +285,7 @@ final class ActiveSessionManager {
                 unit: item.snapshot.unit,
                 routeDisplayName: item.snapshot.route.displayName,
                 duration: item.duration,
+                category: substance?.category,
                 doseIntensity: intensity,
             )
         }
