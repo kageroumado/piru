@@ -355,7 +355,7 @@ struct QuickLogView: View {
                 Text("Press the")
                 Image(systemName: "checklist")
                     .imageScale(.small)
-                Text("icon or long press doses to select multiple at once")
+                Text("icon to log several at once, or long press a dose to remove or reorder it")
             }
             .font(.caption2)
             .foregroundStyle(Theme.secondaryLabel)
