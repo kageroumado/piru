@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 import Testing
 @testable import Piru
@@ -49,5 +50,32 @@ struct DoseEntryTests {
     func `Large amount is stored correctly`() {
         let entry = DoseEntry(substance: "Test", amount: 99_999)
         #expect(entry.amount == 99_999)
+    }
+
+    // MARK: - Location
+
+    @Test
+    func `Location fields default to nil`() {
+        let entry = DoseEntry(substance: "Test", amount: 10)
+        #expect(entry.locationName == nil)
+        #expect(entry.latitude == nil)
+        #expect(entry.longitude == nil)
+        #expect(entry.coordinate == nil)
+    }
+
+    @Test
+    func `coordinate is non-nil only when both latitude and longitude are set`() {
+        let full = DoseEntry(substance: "Test", amount: 10,
+                             locationName: "Home", latitude: 51.5, longitude: -0.12)
+        #expect(full.coordinate?.latitude == 51.5)
+        #expect(full.coordinate?.longitude == -0.12)
+
+        // A name without coordinates yields no coordinate.
+        let nameOnly = DoseEntry(substance: "Test", amount: 10, locationName: "Somewhere")
+        #expect(nameOnly.coordinate == nil)
+
+        // A lone latitude (no longitude) is not a usable coordinate.
+        let partial = DoseEntry(substance: "Test", amount: 10, latitude: 51.5)
+        #expect(partial.coordinate == nil)
     }
 }

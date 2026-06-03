@@ -193,12 +193,21 @@ private struct PsyLogFile: Codable {
     }
 }
 
+/// A place attached to an experience (and, as a Piru extension, to an
+/// individual ingestion). Matches PsyLog's `{name, latitude, longitude}` shape.
+private struct PsyLogLocation: Codable {
+    var name: String
+    var latitude: Double
+    var longitude: Double
+}
+
 private struct PsyLogExperience: Codable {
     var title: String
     var isFavorite: Bool
     var creationDate: Int64
     var sortDate: Int64
     var text: String
+    var location: PsyLogLocation?
     var ingestions: [PsyLogIngestion]
 
     private enum CodingKeys: String, CodingKey {
@@ -213,12 +222,13 @@ private struct PsyLogExperience: Codable {
         case timedNotes
     }
 
-    init(title: String, creationDate: Int64, sortDate: Int64, ingestions: [PsyLogIngestion]) {
+    init(title: String, creationDate: Int64, sortDate: Int64, location: PsyLogLocation? = nil, ingestions: [PsyLogIngestion]) {
         self.title = title
         self.isFavorite = false
         self.creationDate = creationDate
         self.sortDate = sortDate
         self.text = ""
+        self.location = location
         self.ingestions = ingestions
     }
 
@@ -229,6 +239,7 @@ private struct PsyLogExperience: Codable {
         creationDate = try c.decode(Int64.self, forKey: .creationDate)
         sortDate = try c.decode(Int64.self, forKey: .sortDate)
         text = try c.decodeIfPresent(String.self, forKey: .text) ?? ""
+        location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
         ingestions = try c.decodeIfPresent([PsyLogIngestion].self, forKey: .ingestions) ?? []
     }
 
@@ -238,7 +249,7 @@ private struct PsyLogExperience: Codable {
         try c.encode(title, forKey: .title)
         try c.encode(isFavorite, forKey: .isFavorite)
         try c.encode(creationDate, forKey: .creationDate)
-        try c.encodeNil(forKey: .location)
+        try c.encode(location, forKey: .location)
         try c.encode(sortDate, forKey: .sortDate)
         try c.encode(text, forKey: .text)
         try c.encode([String](), forKey: .timedNotes)
@@ -254,6 +265,11 @@ private struct PsyLogIngestion: Codable {
     var administrationRoute: String
     var notes: String
     var units: String
+    /// Piru extension: per-ingestion location. PsyLog stores location only at
+    /// the experience level, so this key is absent in cross-app files and is
+    /// encoded only when set — letting a Piru→Piru round-trip preserve a
+    /// dose's own location even when its session spans multiple places.
+    var location: PsyLogLocation?
 
     private enum CodingKeys: String, CodingKey {
         case substanceName
@@ -269,9 +285,10 @@ private struct PsyLogIngestion: Codable {
         case isDoseAnEstimate
         case stomachFullness
         case endTime
+        case location
     }
 
-    init(substanceName: String, dose: Double, time: Int64, route: String, notes: String, units: String) {
+    init(substanceName: String, dose: Double, time: Int64, route: String, notes: String, units: String, location: PsyLogLocation? = nil) {
         self.substanceName = substanceName
         self.customUnitId = nil
         self.dose = dose
@@ -279,6 +296,7 @@ private struct PsyLogIngestion: Codable {
         self.administrationRoute = route
         self.notes = notes
         self.units = units
+        self.location = location
     }
 
     init(from decoder: Decoder) throws {
@@ -290,6 +308,7 @@ private struct PsyLogIngestion: Codable {
         administrationRoute = try c.decodeIfPresent(String.self, forKey: .administrationRoute) ?? "ORAL"
         notes = try c.decodeIfPresent(String.self, forKey: .notes) ?? ""
         units = try c.decodeIfPresent(String.self, forKey: .units) ?? "mg"
+        location = try c.decodeIfPresent(PsyLogLocation.self, forKey: .location)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -307,6 +326,7 @@ private struct PsyLogIngestion: Codable {
         try c.encode(administrationRoute, forKey: .administrationRoute)
         try c.encode(notes, forKey: .notes)
         try c.encode(units, forKey: .units)
+        try c.encodeIfPresent(location, forKey: .location)
     }
 }
 
@@ -416,6 +436,9 @@ private struct LegacyDoseEntry: Decodable {
     var timestamp: Date
     var notes: String?
     var tags: [String]?
+    var locationName: String?
+    var latitude: Double?
+    var longitude: Double?
 }
 
 private struct LegacyDailyDoseItem: Decodable {
@@ -469,13 +492,19 @@ enum DataExportImport {
                     route: entry.route.psylogName,
                     notes: noteText,
                     units: entry.unit,
+                    location: psyLogLocation(for: entry),
                 )
             }
             let earliest = dayEntries.first!.timestamp.msSince1970
+            // PsyLog's location is experience-level; surface a representative one
+            // (the first dose that has a location) for cross-app compatibility.
+            // Per-dose precision is preserved separately on each ingestion.
+            let experienceLocation = dayEntries.lazy.compactMap(psyLogLocation).first
             return PsyLogExperience(
                 title: titleFormatter.string(from: day),
                 creationDate: earliest,
                 sortDate: earliest,
+                location: experienceLocation,
                 ingestions: ingestions,
             )
         }
@@ -591,6 +620,9 @@ enum DataExportImport {
                 guard seenDoseKeys.insert(key).inserted else { continue }
 
                 let extractedTags = TagExtractor.extractTags(from: ingestion.notes)
+                // A dose's own location (Piru extension) wins; otherwise inherit
+                // the experience's location (the only level PsyLog itself carries).
+                let location = ingestion.location ?? experience.location
                 context.insert(DoseEntry(
                     substance: name,
                     amount: dose,
@@ -599,6 +631,9 @@ enum DataExportImport {
                     timestamp: timestamp,
                     notes: ingestion.notes.isEmpty ? nil : ingestion.notes,
                     tags: extractedTags,
+                    locationName: location?.name,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
                 ))
             }
         }
@@ -660,6 +695,9 @@ enum DataExportImport {
                 timestamp: entry.timestamp,
                 notes: entry.notes,
                 tags: entry.tags ?? [],
+                locationName: entry.locationName,
+                latitude: entry.latitude,
+                longitude: entry.longitude,
             ))
         }
 
@@ -687,6 +725,13 @@ enum DataExportImport {
     /// Content-based identity for a dose entry, used to skip duplicates on
     /// import. Lowercased substance/unit so cosmetic casing differences don't
     /// defeat it; millisecond timestamp matches the export precision.
+    /// A dose's location as the exportable shape, or `nil` unless it has both a
+    /// name and a coordinate.
+    private static func psyLogLocation(for entry: DoseEntry) -> PsyLogLocation? {
+        guard let name = entry.locationName, let lat = entry.latitude, let lng = entry.longitude else { return nil }
+        return PsyLogLocation(name: name, latitude: lat, longitude: lng)
+    }
+
     private static func doseDedupKey(substance: String, timestamp: Date, amount: Double, unit: String, route: RouteOfAdministration) -> String {
         "\(substance.lowercased())|\(timestamp.msSince1970)|\(amount)|\(unit.lowercased())|\(route.rawValue)"
     }

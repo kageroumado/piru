@@ -445,3 +445,141 @@ struct DataExportImportRoundTripTests {
         #expect(body.contains("T"))
     }
 }
+
+// MARK: - Location round-trip
+
+@Suite("DataExportImport — location")
+@MainActor
+struct DataExportImportLocationTests {
+    @Test
+    func `Per-dose locations survive a Piru → Piru round-trip`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        // Two doses on the same day with *different* places — a faithful
+        // round-trip must preserve each, which only the per-ingestion location
+        // can do (PsyLog's experience-level location would collapse them).
+        let day = Date(timeIntervalSince1970: 1_700_000_000)
+        context.insert(DoseEntry(
+            substance: "Caffeine", amount: 100, unit: "mg", route: .oral,
+            timestamp: day,
+            locationName: "Blue Bottle", latitude: 37.7765, longitude: -122.4231,
+        ))
+        context.insert(DoseEntry(
+            substance: "L-Theanine", amount: 200, unit: "mg", route: .oral,
+            timestamp: day.addingTimeInterval(3_600),
+            locationName: "Golden Gate Park", latitude: 37.7694, longitude: -122.4862,
+        ))
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(context: context)
+        try DataExportImport.deleteAll(context: context)
+        try context.save()
+        try DataExportImport.importJSON(data: data, context: context)
+
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+        let byName = Dictionary(uniqueKeysWithValues: entries.map { ($0.substance, $0) })
+
+        let caffeine = try #require(byName["Caffeine"])
+        #expect(caffeine.locationName == "Blue Bottle")
+        #expect(caffeine.latitude == 37.7765)
+        #expect(caffeine.longitude == -122.4231)
+        #expect(caffeine.coordinate != nil)
+
+        let theanine = try #require(byName["L-Theanine"])
+        #expect(theanine.locationName == "Golden Gate Park")
+        #expect(theanine.latitude == 37.7694)
+    }
+
+    @Test
+    func `A dose with no location round-trips as nil`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        context.insert(DoseEntry(substance: "Vitamin D", amount: 1000, unit: "IU", route: .oral,
+                                 timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(context: context)
+        try DataExportImport.deleteAll(context: context)
+        try context.save()
+        try DataExportImport.importJSON(data: data, context: context)
+
+        let entry = try #require(try context.fetch(FetchDescriptor<DoseEntry>()).first)
+        #expect(entry.locationName == nil)
+        #expect(entry.latitude == nil)
+        #expect(entry.coordinate == nil)
+    }
+
+    @Test
+    func `Exported JSON carries an experience-level location for PsyLog compatibility`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        context.insert(DoseEntry(
+            substance: "MDMA", amount: 100, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+            locationName: "Festival Grounds", latitude: 51.5, longitude: -0.12,
+        ))
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(context: context)
+        let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let experiences = try #require(json["experiences"] as? [[String: Any]])
+        let location = try #require(experiences.first?["location"] as? [String: Any])
+        #expect(location["name"] as? String == "Festival Grounds")
+        #expect(location["latitude"] as? Double == 51.5)
+    }
+
+    @Test
+    func `A PsyLog file with only experience-level location applies it to every ingestion`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        // A cross-app PsyLog file: location lives only on the experience, and the
+        // ingestions carry no per-dose location — both doses should inherit it.
+        let psyLogJSON = """
+        {
+          "experiences": [
+            {
+              "title": "1 Jan 2025",
+              "creationDate": 1735732800000,
+              "sortDate": 1735732800000,
+              "location": { "name": "Berlin", "latitude": 52.52, "longitude": 13.405 },
+              "ingestions": [
+                { "substanceName": "Caffeine", "dose": 100, "time": 1735732800000, "administrationRoute": "ORAL", "units": "mg", "notes": "" },
+                { "substanceName": "L-Theanine", "dose": 200, "time": 1735736400000, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            }
+          ],
+          "substanceCompanions": []
+        }
+        """
+        try DataExportImport.importJSON(data: Data(psyLogJSON.utf8), context: context)
+
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(entries.count == 2)
+        #expect(entries.allSatisfy { $0.locationName == "Berlin" })
+        #expect(entries.allSatisfy { $0.latitude == 52.52 && $0.longitude == 13.405 })
+    }
+
+    @Test
+    func `A PsyLog file with no location imports doses with no location`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let psyLogJSON = """
+        {
+          "experiences": [
+            {
+              "title": "1 Jan 2025", "creationDate": 1735732800000, "sortDate": 1735732800000,
+              "ingestions": [
+                { "substanceName": "Caffeine", "dose": 100, "time": 1735732800000, "administrationRoute": "ORAL", "units": "mg", "notes": "" }
+              ]
+            }
+          ]
+        }
+        """
+        try DataExportImport.importJSON(data: Data(psyLogJSON.utf8), context: context)
+        let entry = try #require(try context.fetch(FetchDescriptor<DoseEntry>()).first)
+        #expect(entry.locationName == nil)
+        #expect(entry.coordinate == nil)
+    }
+}
