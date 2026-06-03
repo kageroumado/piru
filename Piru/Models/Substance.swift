@@ -831,22 +831,19 @@ struct MechanismOfAction: Codable {
     let description: String
     let primaryTargets: [String]
     let bindings: [ReceptorBinding]
-    let references: [String]
 
     private enum CodingKeys: String, CodingKey {
         case summary
         case description
         case primaryTargets
         case bindings
-        case references
     }
 
-    init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = [], references: [String]) {
+    init(summary: String, description: String, primaryTargets: [String] = [], bindings: [ReceptorBinding] = []) {
         self.summary = summary
         self.description = description
         self.primaryTargets = primaryTargets.isEmpty ? bindings.map(\.target) : primaryTargets
         self.bindings = bindings
-        self.references = references
     }
 
     init(from decoder: Decoder) throws {
@@ -855,7 +852,6 @@ struct MechanismOfAction: Codable {
         description = try container.decode(String.self, forKey: .description)
         primaryTargets = try container.decodeIfPresent([String].self, forKey: .primaryTargets) ?? []
         bindings = try container.decodeIfPresent([ReceptorBinding].self, forKey: .bindings) ?? []
-        references = try container.decode([String].self, forKey: .references)
     }
 }
 

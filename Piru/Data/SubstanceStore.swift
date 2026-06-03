@@ -1205,7 +1205,6 @@ final class SubstanceStore {
             description: row?["description"] ?? "",
             primaryTargets: bindings.map(\.target),
             bindings: bindings,
-            references: [],
         )
     }
 
