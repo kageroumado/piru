@@ -468,8 +468,19 @@ enum RampDownScheduler {
         content.categoryIdentifier = category
         if let threadId { content.threadIdentifier = threadId }
 
+        // A non-positive interval means the fire time is already in the past
+        // (most commonly a retroactively-logged dose). Skip it outright — the
+        // old `max(5, …)` floor clamped such intervals to 5 s and fired the
+        // notification immediately, which is exactly the "logged an old entry,
+        // got buzzed right away" bug. UNTimeIntervalNotificationTrigger also
+        // requires a strictly-positive interval.
+        guard timeInterval > 0 else {
+            logger.debug("\(category) notification skipped — fire time already past (\(Int(timeInterval))s)")
+            return
+        }
+
         let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: max(5, timeInterval),
+            timeInterval: timeInterval,
             repeats: false,
         )
 
