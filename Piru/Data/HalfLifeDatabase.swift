@@ -12,8 +12,6 @@ import Foundation
 /// ## Sources
 ///
 /// - DrugBank
-/// - *Goodman & Gilman's Pharmacological Basis of Therapeutics* (14th ed)
-/// - *Stahl's Essential Psychopharmacology*
 /// - PubMed pharmacokinetic studies
 /// - FDA-approved prescribing information (DailyMed)
 /// - TripSit

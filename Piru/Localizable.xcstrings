@@ -2221,6 +2221,7 @@
       }
     },
     "About" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4176,6 +4177,7 @@
       }
     },
     "Backup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5217,6 +5219,7 @@
       }
     },
     "Change Substance Colors" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5564,6 +5567,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顏色名稱（可選）"
+          }
+        }
+      }
+    },
+    "Colors appear here after you log your first entry. Tap one to change it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录第一条条目后，配色会显示在这里。点按即可更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄第一筆項目後，配色會顯示在這裡。點按即可更改。"
           }
         }
       }
@@ -6225,6 +6244,22 @@
         }
       }
     },
+    "Create or personalize substances — adjust dose ranges, duration, and units to match your own data and tolerance." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建或个性化物质——调整剂量范围、作用时长和单位，以匹配你自己的数据和耐受度。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立或個人化物質——調整劑量範圍、作用時長和單位，以符合你自己的資料和耐受度。"
+          }
+        }
+      }
+    },
     "Crisis Hotline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6516,6 +6551,7 @@
       }
     },
     "Custom substances you create will appear here. You can also create them from the Quick Log search." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -6676,6 +6712,22 @@
         }
       }
     },
+    "Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料"
+          }
+        }
+      }
+    },
     "Data & Backup" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6801,6 +6853,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日期範圍"
+          }
+        }
+      }
+    },
+    "Day Grouping" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分日方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分日方式"
           }
         }
       }
@@ -7848,6 +7916,7 @@
       }
     },
     "Doses logged before this hour are grouped with the previous day's session — so a 02:00 dose joins the night before instead of starting a new day at midnight. Set to 12 AM for classic calendar-day grouping." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7859,6 +7928,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在此小時之前記錄的劑量會與前一天的工作階段分到一組 — 例如 02:00 的劑量會歸入前一晚,而不是從午夜開始新的一天。設為凌晨 12 點即為傳統日曆日分組。"
+          }
+        }
+      }
+    },
+    "Doses logged before this hour count toward the previous day — so a 2 AM dose stays with the night before instead of starting a new day at midnight. Set to 12 AM for standard calendar days." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此时刻之前记录的剂量将归入前一天——因此凌晨 2 点的剂量会留在前一晚，而不是在午夜开启新的一天。设为午夜 12 点即按标准日历日分组。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此時刻之前記錄的劑量將歸入前一天——因此凌晨 2 點的劑量會留在前一晚，而不是在午夜開啟新的一天。設為午夜 12 點即按標準日曆日分組。"
           }
         }
       }
@@ -9415,6 +9500,7 @@
       }
     },
     "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10405,6 +10491,7 @@
       }
     },
     "Harm Reduction" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -13571,6 +13658,22 @@
         }
       }
     },
+    "My Substances" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的物質"
+          }
+        }
+      }
+    },
     "NAM" : {
       "localizations" : {
         "zh-Hans" : {
@@ -13941,6 +14044,7 @@
       }
     },
     "No Custom Substances" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14164,6 +14268,22 @@
         }
       }
     },
+    "No Substance Colors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无物质配色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無物質配色"
+          }
+        }
+      }
+    },
     "No substances logged in this session." : {
       "localizations" : {
         "zh-Hans" : {
@@ -14198,6 +14318,7 @@
       }
     },
     "No substances logged yet. Colors will appear here after you log your first entry." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14225,6 +14346,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有符合 \"%@\" 的物質"
+          }
+        }
+      }
+    },
+    "No Substances Yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無物質"
           }
         }
       }
@@ -14353,6 +14490,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無"
+          }
+        }
+      }
+    },
+    "None yet" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無"
           }
         }
       }
@@ -14513,6 +14666,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不會意外刪除任何資料"
+          }
+        }
+      }
+    },
+    "Notifications" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         }
       }
@@ -15415,6 +15584,7 @@
       }
     },
     "Pharmacological data in this app is compiled from the sources listed above. Dosage ranges, half-lives, duration profiles, mechanisms of action, and interaction data are sourced from peer-reviewed literature, FDA-approved labeling, and established pharmacological databases. Mechanism of action descriptions are based on human pharmacological research only. This information is provided for harm reduction and educational purposes only. Always consult a qualified healthcare professional before making any decisions about substance use." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15426,6 +15596,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此應用中的藥理資料彙編自上述來源。劑量範圍、半衰期、持續時間、作用機制及相互作用資料來源於同行評審文獻、FDA 批准的標籤和成熟的藥理學資料庫。作用機制描述僅基於人類藥理學研究。此資訊僅用於減害和教育目的。在做出任何關於物質使用的決定前,請始終諮詢合格的醫療專業人員。"
+          }
+        }
+      }
+    },
+    "Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药理数据汇编自上述来源——社区减害数据库、FDA 药品标签以及同行评审文献。仅供减害与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥理資料彙編自上述來源——社群減害資料庫、FDA 藥品標籤以及同行評審文獻。僅供減害與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。"
           }
         }
       }
@@ -15730,6 +15916,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "物質消退時照顧自己的實用建議。每個類別都不同 — 點擊下方任意一項查看具體指導。"
+          }
+        }
+      }
+    },
+    "Preferences" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好設定"
           }
         }
       }
@@ -16199,6 +16401,7 @@
       }
     },
     "Quick Log" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18626,6 +18829,7 @@
       }
     },
     "Session Day" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -19347,6 +19551,7 @@
       }
     },
     "Sources & References" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -20099,6 +20304,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "物質庫中的物質"
+          }
+        }
+      }
+    },
+    "Substances you create or personalize appear here. You can also create them from the Quick Log search." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你创建或个性化的物质会显示在这里。你也可以在快速记录搜索中创建它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你建立或個人化的物質會顯示在這裡。你也可以在快速記錄搜尋中建立它們。"
           }
         }
       }
@@ -21846,6 +22067,7 @@
       }
     },
     "Version" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22854,210 +23076,18 @@
         }
       }
     },
-    "My Substances" : {
+    "This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4× elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), and DrugBank. Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我的物质"
+            "value" : "此计算器使用一房室口服药代动力学模型,包含吸收和消除两个阶段。如有已知的持续时间数据(起效 + 上升期),则吸收速率会由此估算;否则使用默认的 4× 消除速率比。群体平均消除半衰期来源于 FDA 批准的处方信息、已发表的药代动力学研究(PubMed)以及 DrugBank。部分研究化学品和新型物质的半衰期是根据结构类似的化合物估算的,可能不够可靠。\n\n实际药代动力学因个人代谢、遗传、肝肾功能、体成分、年龄、药物相互作用、耐受性和给药途径而显著不同。多房室分布、蛋白结合、活性代谢物和肠肝循环未被纳入考虑。多药联用可能不可预测地改变消除速率。\n\n这些数字是群体的近似平均值 — 不能替代临床监测或专业医疗建议。请始终咨询合格的医疗专业人员。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "我的物質"
-          }
-        }
-      }
-    },
-    "Notifications" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通知"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通知"
-          }
-        }
-      }
-    },
-    "Preferences" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏好设置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偏好設定"
-          }
-        }
-      }
-    },
-    "Data" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "資料"
-          }
-        }
-      }
-    },
-    "Day Grouping" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分日方式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分日方式"
-          }
-        }
-      }
-    },
-    "None yet" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暂无"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暫無"
-          }
-        }
-      }
-    },
-    "No Substance Colors" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暂无物质配色"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暫無物質配色"
-          }
-        }
-      }
-    },
-    "No Substances Yet" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暂无物质"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暫無物質"
-          }
-        }
-      }
-    },
-    "Create or personalize substances — adjust dose ranges, duration, and units to match your own data and tolerance." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "创建或个性化物质——调整剂量范围、作用时长和单位，以匹配你自己的数据和耐受度。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "建立或個人化物質——調整劑量範圍、作用時長和單位，以符合你自己的資料和耐受度。"
-          }
-        }
-      }
-    },
-    "Doses logged before this hour count toward the previous day — so a 2 AM dose stays with the night before instead of starting a new day at midnight. Set to 12 AM for standard calendar days." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在此时刻之前记录的剂量将归入前一天——因此凌晨 2 点的剂量会留在前一晚，而不是在午夜开启新的一天。设为午夜 12 点即按标准日历日分组。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在此時刻之前記錄的劑量將歸入前一天——因此凌晨 2 點的劑量會留在前一晚，而不是在午夜開啟新的一天。設為午夜 12 點即按標準日曆日分組。"
-          }
-        }
-      }
-    },
-    "Pharmacological data is compiled from the sources above — community harm-reduction databases, FDA labeling, and peer-reviewed literature. Provided for harm-reduction and educational purposes only. Always consult a qualified healthcare professional before making decisions about substance use." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "药理数据汇编自上述来源——社区减害数据库、FDA 药品标签以及同行评审文献。仅供减害与教育用途。在做出任何有关物质使用的决定前，请务必咨询合格的医疗专业人员。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "藥理資料彙編自上述來源——社群減害資料庫、FDA 藥品標籤以及同行評審文獻。僅供減害與教育用途。在做出任何有關物質使用的決定前，請務必諮詢合格的醫療專業人員。"
-          }
-        }
-      }
-    },
-    "Colors appear here after you log your first entry. Tap one to change it." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录第一条条目后，配色会显示在这里。点按即可更改。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記錄第一筆項目後，配色會顯示在這裡。點按即可更改。"
-          }
-        }
-      }
-    },
-    "Substances you create or personalize appear here. You can also create them from the Quick Log search." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你创建或个性化的物质会显示在这里。你也可以在快速记录搜索中创建它们。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你建立或個人化的物質會顯示在這裡。你也可以在快速記錄搜尋中建立它們。"
+            "value" : "此計算器使用一房室口服藥動學模型,包含吸收和消除兩個階段。如有已知的持續時間資料(起效 + 上升期),則吸收速率會由此估算;否則使用預設的 4× 消除速率比。族群平均消除半衰期來源於 FDA 批准的處方資訊、已發表的藥動學研究(PubMed)以及 DrugBank。部分研究化學品和新型物質的半衰期是根據結構類似的化合物估算的,可能不夠可靠。\n\n實際藥動學因個人代謝、遺傳、肝腎功能、體成分、年齡、藥物相互作用、耐受性和給藥途徑而顯著不同。多房室分布、蛋白質結合、活性代謝物和腸肝循環未被納入考慮。多藥聯用可能不可預測地改變消除速率。\n\n這些數字是族群的近似平均值 — 不能替代臨床監測或專業醫療建議。請始終諮詢合格的醫療專業人員。"
           }
         }
       }
