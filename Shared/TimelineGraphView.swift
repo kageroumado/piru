@@ -137,6 +137,15 @@ struct TimelineGraphView: View {
     /// flicker. See ``TimelineModelCache``.
     @State private var derivedBox: Derived?
 
+    /// The ``DerivedKey`` that ``derivedBox`` was computed for. Lets ``loadModel``
+    /// tell "already showing the model for *this* key" (skip — the common
+    /// re-appear/scroll case) from "showing a *stale* model for a previous key"
+    /// (adopt the new one). Without it, deleting a dose left the old curves drawn
+    /// whenever the smaller post-deletion set was already cached: the `.task`
+    /// re-fired, hit the cache, but the old guard refused to overwrite a non-nil
+    /// box, so the lines persisted while the live-drawn phase background updated.
+    @State private var loadedKey: DerivedKey?
+
     /// Benign zero model so the rendering accessors stay total even if a layout
     /// pass touches them before `derivedBox` is populated (the body shows the
     /// placeholder, not the graph, in that window).
@@ -192,11 +201,14 @@ struct TimelineGraphView: View {
                 TimelineModelCache.shared.insert(model, for: key)
                 _derivedBox = State(initialValue: model)
             }
+            _loadedKey = State(initialValue: key)
         } else {
             // Synchronous cache read only — never compute here. A hit renders
             // immediately (no placeholder frame); a miss leaves `nil` and the
             // `.task` computes off-main, popping the curves in when ready.
-            _derivedBox = State(initialValue: TimelineModelCache.shared.cached(key))
+            let cached = TimelineModelCache.shared.cached(key)
+            _derivedBox = State(initialValue: cached)
+            _loadedKey = State(initialValue: cached != nil ? key : nil)
         }
     }
 
@@ -205,8 +217,12 @@ struct TimelineGraphView: View {
     /// only when the inputs actually change.
     private func loadModel() async {
         let key = derivedKey
+        // Already displaying the model for this exact key (re-appear / scroll /
+        // a live `.now` tick) — nothing to recompute or re-assign.
+        if loadedKey == key, derivedBox != nil { return }
         if let cached = TimelineModelCache.shared.cached(key) {
-            if derivedBox == nil { derivedBox = cached }
+            derivedBox = cached
+            loadedKey = key
             return
         }
         let subs = substances
@@ -221,6 +237,7 @@ struct TimelineGraphView: View {
         }.value
         TimelineModelCache.shared.insert(model, for: key)
         derivedBox = model
+        loadedKey = key
     }
 
     private var earliestDose: Date { derived.earliestDose }
