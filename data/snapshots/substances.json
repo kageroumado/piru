@@ -3651,7 +3651,6 @@
     "name": "25B-NBOH",
     "display_name": "",
     "aliases": [
-      "25B NBOH",
       "25bnboh",
       "2c-b-nboh",
       "2cb-nboh",
@@ -7289,9 +7288,9 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
-      "3-Chloroethcathinone",
       "3-Cl-ethcathinone",
-      "3-chloro-NEC"
+      "3-chloro-NEC",
+      "3-chloroethcathinone"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -7325,6 +7324,7 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
+      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
@@ -7775,7 +7775,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-FPM",
+      "3-fpm",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -9429,7 +9429,8 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-Fluoro-PiHP",
+      "3-fluoro-PiHP",
+      "3F-Alpha-PHIP",
       "3F-PHIP",
       "3F-alpha-PiHP",
       "3F-α-PiHP"
@@ -11507,7 +11508,6 @@
     "display_name": "",
     "aliases": [
       "4-F-Phenibut",
-      "F-Phenibut",
       "F-Phenibut FAA",
       "Fluorobut",
       "Fluorophenibut"
@@ -13913,10 +13913,10 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-Cl-IBF",
+      "4-Cl-iBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-IBF",
+      "p-Cl-iBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -32514,7 +32514,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-II-90",
+      "DM-ii-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -39329,6 +39329,7 @@
     "display_name": "",
     "aliases": [
       "CID 180081",
+      "MK-801",
       "mk801"
     ],
     "category": "Dissociative",
@@ -55916,10 +55917,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
-      "Purple Drank",
       "barre",
       "drank",
       "pint",
+      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -57820,13 +57821,13 @@
       "Stimulation"
     ],
     "references": [
+      "https://psychonautwiki.org/wiki/LSD",
       "TIHKAL by Alexander & Ann Shulgin (Transform Press, 1997) — text used with permission per https://erowid.org/library/books_online/tihkal/tihkal.shtml",
       "https://erowid.org/library/books_online/tihkal/tihkal26.shtml",
       "TripSit drugs.json: https://github.com/TripSit/drugs",
       "Wikidata: https://www.wikidata.org/wiki/Q23118",
       "PubChem CID 5761: https://pubchem.ncbi.nlm.nih.gov/compound/5761",
-      "CAS 50-37-3",
-      "https://psychonautwiki.org/wiki/LSD"
+      "CAS 50-37-3"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -65324,8 +65325,8 @@
     "aliases": [
       "Convulsion root",
       "Corpse plant",
+      "Ghost Pipe",
       "Ghost flower",
-      "Ghost pipe",
       "Ghost plant",
       "Ice plant",
       "Indian pipe"
@@ -74945,7 +74946,6 @@
     "aliases": [
       "DPPEA",
       "MK-306",
-      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -90022,8 +90022,7 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon",
-      "Ziprasidone mesylate"
+      "Geodon"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",
