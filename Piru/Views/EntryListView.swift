@@ -374,7 +374,7 @@ struct EntryListView: View {
                     .listRowBackground(Color.clear)
                 }
             } header: {
-                HStack(spacing: 6) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
                     Text(day.dateTitle)
                         .font(.headline)
                     Text(day.weekday)
@@ -778,10 +778,7 @@ struct JournalCalendarView: View {
     }
 
     private func entriesFor(date: Date) -> Int {
-        let comps = calendar.dateComponents([.year, .month, .day], from: date)
-        let start = calendar.date(from: comps)!
-        let end = start.addingTimeInterval(86_400)
-        return entries.count(where: { $0.timestamp >= start && $0.timestamp < end })
+        entries.count(where: { calendar.isDate($0.timestamp, inSameDayAs: date) })
     }
 
     var body: some View {
