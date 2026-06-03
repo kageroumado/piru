@@ -38,6 +38,16 @@ T = {
         "位置访问已关闭。请在“设置”中开启以使用当前位置。",
         "位置存取已關閉。請在「設定」中開啟以使用目前位置。",
     ),
+    "Piru Backup": ("Piru 备份", "Piru 備份"),
+    "A complete backup you can restore into Piru": (
+        "可恢复到 Piru 的完整备份",
+        "可還原至 Piru 的完整備份",
+    ),
+    "PsychonautWiki Format": ("PsychonautWiki 格式", "PsychonautWiki 格式"),
+    "For importing into the PsychonautWiki app": (
+        "用于导入 PsychonautWiki 应用",
+        "用於匯入 PsychonautWiki 應用程式",
+    ),
     "Log a dose to start your first session.": (
         "记录一次剂量以开始你的第一段记录。",
         "記錄一次劑量以開始你的第一段記錄。",
@@ -1932,6 +1942,8 @@ if __name__ == "__main__":
         "Location", "Current Location", "Results", "Add Location", "Change Location",
         "Remove location", "Search for a place or address",
         "Location access is off. Turn it on in Settings to use your current location.",
+        "Piru Backup", "A complete backup you can restore into Piru",
+        "PsychonautWiki Format", "For importing into the PsychonautWiki app",
     }
 
     print("--- Piru main app catalog ---")
