@@ -31,12 +31,18 @@ struct BackupView: View {
     @State private var showingPlainImporter = false
     @State private var generatingFormat: ExportFormat?
 
+    // Journal data — report + delete.
+    @State private var showingReport = false
+    @State private var showingDeleteConfirmation = false
+
     var body: some View {
         List {
             automaticSection
             exportSection
             importRestoreSection
+            reportSection
             howItWorksSection
+            deleteSection
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
@@ -87,6 +93,15 @@ struct BackupView: View {
         }
         .alert(item: $notice) { notice in
             Alert(title: Text(notice.title), message: Text(notice.message), dismissButton: .default(Text("OK")))
+        }
+        .sheet(isPresented: $showingReport) {
+            ReportView()
+        }
+        .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
+            Button("Delete", role: .destructive) { deleteAllData() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Are you sure you want to delete all your data? This action cannot be undone.")
         }
     }
 
@@ -148,13 +163,13 @@ struct BackupView: View {
             dataRow(
                 title: "Piru Backup",
                 subtitle: "A complete backup you can restore into Piru",
-                systemImage: "checklist",
+                systemImage: "arrow.up.doc",
                 showSpinner: generatingFormat == .piru,
             ) { exportPlain(.piru) }
             dataRow(
                 title: "PsychonautWiki Format",
                 subtitle: "For importing into the PsychonautWiki app",
-                systemImage: "arrow.left.arrow.right",
+                systemImage: "arrow.up.doc",
                 showSpinner: generatingFormat == .psyLog,
             ) { exportPlain(.psyLog) }
             dataRow(
@@ -177,12 +192,12 @@ struct BackupView: View {
             dataRow(
                 title: "Import from a File…",
                 subtitle: "A Piru or PsychonautWiki JSON file",
-                systemImage: "square.and.arrow.down",
+                systemImage: "arrow.down.doc",
             ) { showingPlainImporter = true }
             dataRow(
                 title: "Restore Encrypted Backup…",
                 subtitle: "A passphrase-protected .piruenc file",
-                systemImage: "arrow.down.doc",
+                systemImage: "lock.doc",
             ) { showingFileImporter = true }
             if manager.iCloudAvailable {
                 dataRow(
@@ -260,6 +275,33 @@ struct BackupView: View {
             )
         } header: {
             Text("How Encryption Works")
+        }
+    }
+
+    // MARK: - Report & delete
+
+    private var reportSection: some View {
+        Section {
+            dataRow(
+                title: "Generate Medical Report",
+                subtitle: "A PDF summary to share with a clinician",
+                systemImage: "doc.richtext",
+            ) { showingReport = true }
+        } header: {
+            Text("Report")
+        }
+    }
+
+    private var deleteSection: some View {
+        Section {
+            Button(role: .destructive) {
+                showingDeleteConfirmation = true
+            } label: {
+                Label("Delete Everything", systemImage: "trash")
+            }
+            .listRowBackground(Theme.cardBackground)
+        } footer: {
+            Text("Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.")
         }
     }
 
@@ -413,6 +455,17 @@ struct BackupView: View {
         pendingData = nil
         pendingIsICloud = false
         pendingPassphrase = nil
+    }
+
+    private func deleteAllData() {
+        // Never delete without a recoverable copy: snapshot the populated store
+        // aside first, so an accidental "Delete Everything" can be restored.
+        StoreRecovery.snapshotStore(reason: "predelete")
+        do {
+            try DataExportImport.deleteAll(context: modelContext)
+        } catch {
+            notice = Notice(title: String(localized: "Delete Failed"), message: error.localizedDescription)
+        }
     }
 }
 

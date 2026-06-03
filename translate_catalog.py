@@ -90,6 +90,16 @@ T = {
         "导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换；iCloud 和你自己的口令备份会自动解锁或提示输入口令。",
         "匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代；iCloud 和你自己的通行密語備份會自動解鎖或提示輸入通行密語。",
     ),
+    "Report": ("报告", "報告"),
+    "A PDF summary to share with a clinician": (
+        "可与医生分享的 PDF 摘要",
+        "可與醫師分享的 PDF 摘要",
+    ),
+    "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.": (
+        "永久删除每一条剂量、记录和设置。删除前会先创建可恢复的快照。",
+        "永久刪除每一筆劑量、記錄和設定。刪除前會先建立可還原的快照。",
+    ),
+    "Delete Failed": ("删除失败", "刪除失敗"),
     "Log a dose to start your first session.": (
         "记录一次剂量以开始你的第一段记录。",
         "記錄一次劑量以開始你的第一段記錄。",
@@ -1996,6 +2006,8 @@ if __name__ == "__main__":
         "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default.",
         "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**",
         "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase.",
+        "Report", "A PDF summary to share with a clinician", "Delete Failed",
+        "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.",
     }
 
     print("--- Piru main app catalog ---")
