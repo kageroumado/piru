@@ -48,6 +48,48 @@ T = {
         "用于导入 PsychonautWiki 应用",
         "用於匯入 PsychonautWiki 應用程式",
     ),
+    "Data & Backup": ("数据与备份", "資料與備份"),
+    "iCloud Backup": ("iCloud 备份", "iCloud 備份"),
+    "Export": ("导出", "匯出"),
+    "Encrypted Backup…": ("加密备份…", "加密備份…"),
+    "Passphrase-protected — save or send it anywhere": (
+        "由口令保护——可保存或发送到任何地方",
+        "由通行密語保護——可儲存或傳送到任何地方",
+    ),
+    "Import & Restore": ("导入与恢复", "匯入與還原"),
+    "Import from a File…": ("从文件导入…", "從檔案匯入…"),
+    "A Piru or PsychonautWiki JSON file": (
+        "Piru 或 PsychonautWiki 的 JSON 文件",
+        "Piru 或 PsychonautWiki 的 JSON 檔案",
+    ),
+    "Restore Encrypted Backup…": ("恢复加密备份…", "還原加密備份…"),
+    "A passphrase-protected .piruenc file": (
+        "由口令保护的 .piruenc 文件",
+        "由通行密語保護的 .piruenc 檔案",
+    ),
+    "From your automatic iCloud backups": (
+        "来自你的自动 iCloud 备份",
+        "來自你的自動 iCloud 備份",
+    ),
+    "Import Failed": ("导入失败", "匯入失敗"),
+    "Import Complete": ("导入完成", "匯入完成"),
+    "Your data was imported.": ("你的数据已导入。", "你的資料已匯入。"),
+    "Export and import your journal under Data & Backup above.": (
+        "在上方的“数据与备份”中导出和导入你的记录。",
+        "在上方的「資料與備份」中匯出和匯入你的記錄。",
+    ),
+    "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default.": (
+        "导出、导入，以及加密备份到 iCloud 或口令保护的文件。备份为可选项，默认关闭。",
+        "匯出、匯入，以及加密備份到 iCloud 或通行密語保護的檔案。備份為可選項，預設關閉。",
+    ),
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**": (
+        "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。加密备份由你设定的口令保护——**若忘记口令，文件将无法打开，我们也不能。**",
+        "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。加密備份由你設定的通行密語保護——**若忘記通行密語，檔案將無法開啟，我們也不能。**",
+    ),
+    "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase.": (
+        "导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换；iCloud 和你自己的口令备份会自动解锁或提示输入口令。",
+        "匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代；iCloud 和你自己的通行密語備份會自動解鎖或提示輸入通行密語。",
+    ),
     "Log a dose to start your first session.": (
         "记录一次剂量以开始你的第一段记录。",
         "記錄一次劑量以開始你的第一段記錄。",
@@ -1944,6 +1986,16 @@ if __name__ == "__main__":
         "Location access is off. Turn it on in Settings to use your current location.",
         "Piru Backup", "A complete backup you can restore into Piru",
         "PsychonautWiki Format", "For importing into the PsychonautWiki app",
+        "Data & Backup", "iCloud Backup", "Export", "Encrypted Backup…",
+        "Passphrase-protected — save or send it anywhere",
+        "Import & Restore", "Import from a File…", "A Piru or PsychonautWiki JSON file",
+        "Restore Encrypted Backup…", "A passphrase-protected .piruenc file",
+        "From your automatic iCloud backups", "Import Failed", "Import Complete",
+        "Your data was imported.",
+        "Export and import your journal under Data & Backup above.",
+        "Export, import, and encrypted backups to iCloud or a passphrase-protected file. Backups are optional and off by default.",
+        "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**",
+        "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase.",
     }
 
     print("--- Piru main app catalog ---")
