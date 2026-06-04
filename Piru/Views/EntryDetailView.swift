@@ -361,45 +361,13 @@ struct EntryDetailView: View {
             let end = start.addingTimeInterval(state.totalMinutes * 60)
 
             if now >= start, now < end {
-                let elapsed = now.timeIntervalSince(start) / 60
-                let fraction = state.totalMinutes > 0 ? min(1, max(0, elapsed / state.totalMinutes)) : 0
-                let phase = currentPhase(state, elapsedMinutes: elapsed)
-                VStack(alignment: .leading, spacing: 7) {
-                    progressBar(fraction: fraction, color: phase.color)
-                    HStack(spacing: 6) {
-                        HStack(spacing: 5) {
-                            Circle()
-                                .fill(phase.color)
-                                .frame(width: 6, height: 6)
-                            Text(phase.name)
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(phase.color)
-                        }
-                        Spacer(minLength: 8)
-                        Text("\(now.timeIntervalSince(start).durationHM) in \u{00B7} \(end.timeIntervalSince(now).durationHM) left")
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .monospacedDigit()
-                    }
-                }
+                DosePhaseProgressBar(state: state, now: now)
             } else if now >= end {
                 Label("Effects ended", systemImage: "checkmark.circle")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
         }
-    }
-
-    private func progressBar(fraction: Double, color: Color) -> some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Capsule().fill(color.opacity(0.18))
-                Capsule()
-                    .fill(color)
-                    .frame(width: max(0, geo.size.width * fraction))
-            }
-        }
-        .frame(height: 6)
     }
 
     // MARK: - Edit mode
@@ -553,40 +521,6 @@ struct EntryDetailView: View {
     }
 
     // MARK: - Phases
-
-    private enum DosePhase {
-        case onset, comeup, peak, offset, after
-
-        /// Mirrors the timeline graph's phase-band hues so the hero reads
-        /// coherently with the curve directly above it.
-        var color: Color {
-            switch self {
-            case .onset: Color(hex: "9B9BA1")
-            case .comeup: Color(hex: "3A8DEF")
-            case .peak: Color(hex: "34C759")
-            case .offset: Color(hex: "FF9F0A")
-            case .after: Color(hex: "9B9BA1")
-            }
-        }
-
-        var name: LocalizedStringResource {
-            switch self {
-            case .onset: "Onset"
-            case .comeup: "Come-up"
-            case .peak: "Peak"
-            case .offset: "Offset"
-            case .after: "Afterglow"
-            }
-        }
-    }
-
-    private func currentPhase(_ state: ActiveSubstanceState, elapsedMinutes: Double) -> DosePhase {
-        if elapsedMinutes <= state.onsetEndMinutes { .onset }
-        else if elapsedMinutes <= state.comeupEndMinutes { .comeup }
-        else if elapsedMinutes <= state.peakEndMinutes { .peak }
-        else if elapsedMinutes <= state.offsetEndMinutes { .offset }
-        else { .after }
-    }
 
     // MARK: - Actions
 

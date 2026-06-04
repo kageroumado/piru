@@ -31,11 +31,18 @@ enum SessionService {
 
     // MARK: - Single-dose assignment (log time)
 
-    /// Assign `entry` to the session it temporally follows, or a new one. The
-    /// candidate is the most recent session whose last dose is at or before this
-    /// dose — the session this dose would extend. A dose logged retroactively
-    /// between or before existing sessions simply starts its own; the user
-    /// reconciles with merge/split rather than us silently re-clustering.
+    /// Assign `entry` to the session it belongs to, or a new one. Precedence:
+    /// 1. **In-span** — if the dose's timestamp falls inside an existing
+    ///    session's `[first … last]` dose range, it belongs to that session
+    ///    (even when logged out of order), so it joins rather than spawning an
+    ///    overlapping session. Among any transitional overlaps the most recent
+    ///    start wins.
+    /// 2. **Extend** — otherwise the candidate is the most recent session whose
+    ///    last dose is at or before this dose; the clustering heuristic decides
+    ///    join-vs-new from the trailing gap.
+    /// 3. **New** — failing both, start a fresh session.
+    ///
+    /// The user still owns the result afterwards via merge / split / reassign.
     @discardableResult
     static func assignSession(for entry: DoseEntry, in context: ModelContext) -> Session {
         let target = entry.timestamp
@@ -43,6 +50,19 @@ enum SessionService {
             FetchDescriptor<Session>(sortBy: [SortDescriptor(\.startDate, order: .reverse)]),
         )) ?? []
 
+        // 1. In-span join — a dose inside a session's active window is part of
+        //    it, no gap to weigh. Keeps sessions from overlapping.
+        for session in sessions {
+            let stamps = session.orderedDoses.filter { $0 !== entry }.map(\.timestamp)
+            guard let first = stamps.min(), let last = stamps.max() else { continue }
+            if target >= first, target <= last {
+                entry.session = session
+                session.refreshStartDate()
+                return session
+            }
+        }
+
+        // 2. Extend the session this dose follows.
         var candidate: Session?
         var candidateLast = Date.distantPast
         for session in sessions {
