@@ -62,6 +62,33 @@ struct EntryListView: View {
         !filterCategories.isEmpty || filterDay != nil
     }
 
+    /// Surface the live session as a hero card atop the Journal. Independent of
+    /// the tag/category filters — "what's active right now" is a status banner,
+    /// not part of the filtered history.
+    private var showActiveHero: Bool {
+        !isSearchSurface && ActiveSessionManager.shared.hasActiveSession
+    }
+
+    /// The day-list card representing the currently-active session — the cluster
+    /// the user is in right now, matched by the *most-recent* active dose. (Using
+    /// the latest rather than the earliest keeps the tap on the real current
+    /// session even when an older long-acting dose in a separate, overlapping
+    /// session is still pharmacologically active.) It's excluded from the day
+    /// list (and its header suppressed when it was the day's only session)
+    /// because the hero already represents it.
+    private var activeSessionCardID: UUID? {
+        guard showActiveHero,
+              let anchor = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp).max()
+        else { return nil }
+        for day in model.sessionDays {
+            for card in day.sessions
+                where card.entries.contains(where: { abs($0.timestamp.timeIntervalSince(anchor)) < 1 }) {
+                return card.id
+            }
+        }
+        return nil
+    }
+
     // MARK: - Derived State
 
     /// All derived journal state — the grouped buckets, colour map, category
@@ -124,6 +151,29 @@ struct EntryListView: View {
                     .listRowBackground(Color.clear)
             }
 
+            // The live session is promoted to a hero card above the history —
+            // no "Today" header (its card is pulled from the day list below).
+            if showActiveHero {
+                ActiveSessionHeroCard(
+                    states: ActiveSessionManager.shared.activeSubstanceStates,
+                    onTap: {
+                        // Push the session detail like a day card does (not the
+                        // accessory's sheet). Fall back to the live-session sheet
+                        // only if the card hasn't been matched yet (e.g. the day
+                        // groups are mid-rebuild right after logging).
+                        if let id = activeSessionCardID {
+                            navigator.push(.session(id: id))
+                        } else {
+                            guard navigator.sheetStack.isEmpty else { return }
+                            navigator.present(.sessionDetail)
+                        }
+                    },
+                )
+                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 10, trailing: 16))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+            }
+
             // Main content
             switch grouping {
             case .recent: recentContent
@@ -134,6 +184,7 @@ struct EntryListView: View {
         }
         .id(grouping)
         .listStyle(.plain)
+        .listSectionSpacing(.custom(2))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .appHeader(
@@ -355,34 +406,42 @@ struct EntryListView: View {
     /// first. A maintenance session (only background meds) renders as a compact
     /// row; everything else is a full card with a mini per-session timeline.
     private var sessionGroupedContent: some View {
-        ForEach(model.sessionDays) { day in
-            Section {
-                ForEach(day.sessions) { card in
-                    // A plain Button (not NavigationLink) pushes programmatically
-                    // so the whole card is tappable with no system disclosure
-                    // chevron over the graph.
-                    Button {
-                        if let session = card.session {
-                            navigator.push(.session(id: session.id))
+        let activeID = activeSessionCardID
+        return ForEach(model.sessionDays) { day in
+            // The active session lives in the hero card, so drop it here. A day
+            // left empty by that removal (e.g. Today held only the live session)
+            // renders nothing — no orphan header.
+            let cards = day.sessions.filter { $0.id != activeID }
+            if !cards.isEmpty {
+                Section {
+                    ForEach(cards) { card in
+                        // A plain Button (not NavigationLink) pushes programmatically
+                        // so the whole card is tappable with no system disclosure
+                        // chevron over the graph.
+                        Button {
+                            if let session = card.session {
+                                navigator.push(.session(id: session.id))
+                            }
+                        } label: {
+                            SessionCardView(card: card, colorMap: model.colorMap)
                         }
-                    } label: {
-                        SessionCardView(card: card, colorMap: model.colorMap)
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                     }
-                    .buttonStyle(.plain)
-                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                } header: {
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text(day.dateTitle)
+                            .font(.headline)
+                        Text(day.weekday)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                        Spacer()
+                    }
+                    .textCase(nil)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 2, trailing: 16))
                 }
-            } header: {
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Text(day.dateTitle)
-                        .font(.headline)
-                    Text(day.weekday)
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Spacer()
-                }
-                .textCase(nil)
             }
         }
     }
@@ -752,6 +811,111 @@ struct SessionCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .allowsHitTesting(false)
         }
+    }
+}
+
+// MARK: - Active Session Hero Card
+
+/// The live session, promoted to a large card at the top of the Journal — the
+/// "what's happening right now" focal point. A pulsing dot + the substances, a
+/// minute-ticking "{elapsed} in · {remaining} left" line, and a full-width PK
+/// curve with the now-indicator. Tapping the body opens the session detail; the
+/// accent "+" logs another dose. This is content, so it rides on `themeCard` —
+/// never glass.
+private struct ActiveSessionHeroCard: View {
+    let states: [ActiveSubstanceState]
+    var onTap: () -> Void
+
+    @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
+
+    var body: some View {
+        // Mirror the tab-bar accessory: re-evaluate every minute so the elapsed
+        // / remaining countdown and the now-indicator stay live.
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            let now = context.date
+            // The card body is one Button (opens the session detail) so it's a
+            // single, properly-traited accessibility element — the active card
+            // is no longer in the day list, so this is VoiceOver's only path to
+            // it. The "+" is a sibling Button overlaid on top: taps there hit it,
+            // taps anywhere else hit the body.
+            Button(action: onTap) {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(alignment: .center, spacing: 10) {
+                        Image(systemName: "circle.fill")
+                            .font(.system(size: 9))
+                            .foregroundStyle(Theme.accent)
+                            .symbolEffect(.pulse, options: .repeating)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(uniqueNames)
+                                .font(.headline)
+                                .lineLimit(1)
+                            // A single active dose gets the phase progress bar
+                            // (below); multiple substances keep the aggregate
+                            // "in / left" line, where no one phase applies.
+                            if states.count > 1 {
+                                // Same localized key as the session accessory
+                                // ("%@ in · %@ left") — no new catalog entry.
+                                Text("\(elapsedText(now: now)) in \u{00B7} \(remainingText(now: now)) left")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .lineLimit(1)
+                            }
+                        }
+
+                        Spacer(minLength: 8)
+
+                        // Disclosure chevron — signals the whole card opens the
+                        // session detail.
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.tertiary)
+                    }
+
+                    // Single dose: the phase progress bar, matching the dose
+                    // detail screen.
+                    if states.count == 1, let state = states.first {
+                        DosePhaseProgressBar(state: state, now: now)
+                    }
+
+                    TimelineGraphView(
+                        substances: states,
+                        currentTime: now,
+                        compact: true,
+                        stackRedoses: stackRedoses,
+                    )
+                    .frame(height: 116)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .allowsHitTesting(false)
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(RoundedRectangle(cornerRadius: 16))
+            }
+            .buttonStyle(.plain)
+            .themeCard()
+        }
+    }
+
+    private var uniqueNames: String {
+        var seen = Set<String>()
+        return states.compactMap { state in
+            let key = state.substanceName.lowercased()
+            guard !seen.contains(key) else { return nil }
+            seen.insert(key)
+            return state.substanceName
+        }.joined(separator: ", ")
+    }
+
+    private func elapsedText(now: Date) -> String {
+        guard let start = states.map(\.doseTimestamp).min() else { return 0.0.durationHM }
+        return max(0, now.timeIntervalSince(start)).durationHM
+    }
+
+    private func remainingText(now: Date) -> String {
+        let end = states.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) }.max() ?? now
+        return max(0, end.timeIntervalSince(now)).durationHM
     }
 }
 

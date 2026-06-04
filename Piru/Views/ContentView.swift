@@ -102,11 +102,13 @@ struct ContentView: View {
             Tab("Journal", systemImage: "book", value: AppTab.journal) {
                 NavigationStack(path: navigator.pathBinding(for: .journal)) {
                     journalContent
+                        // The floating add button stays put on the journal root
+                        // regardless of session state — muscle memory. (The
+                        // session accessory is what we suppress here; see
+                        // `journalShowingActiveHero`.)
                         .overlay(alignment: .bottom) {
-                            if !ActiveSessionManager.shared.hasActiveSession {
-                                addMenu
-                                    .padding(.bottom, 16)
-                            }
+                            addMenu
+                                .padding(.bottom, 16)
                         }
                         .withAppDestinations()
                 }
@@ -143,10 +145,13 @@ struct ContentView: View {
             }
         }
         .withSessionAccessory(
-            // Suppress the accessory while the journal is showing the day-detail
-            // for the session's own day — the curve, substances and timing are
-            // already on screen there, so the floating pill only duplicates them.
-            isActive: ActiveSessionManager.shared.hasActiveSession && !viewingActiveSessionDay,
+            // Suppress the accessory while the journal already shows the live
+            // session: on its day-detail (curve/substances/timing on screen) or
+            // on the journal root, where the hero card now carries it. The
+            // floating pill would only duplicate them.
+            isActive: ActiveSessionManager.shared.hasActiveSession
+                && !viewingActiveSessionDay
+                && !journalShowingActiveHero,
             // Only treat the toggle as "on" when the sheet is at the TOP of
             // the stack — anything buried under another sheet isn't actually
             // visible, so flipping the toggle would otherwise no-op against
@@ -182,16 +187,31 @@ struct ContentView: View {
     /// active doses belong to. The session accessory would only echo what that
     /// screen already shows, so we hide it there. Matches by membership: the
     /// viewed session contains the active session's earliest dose.
+    /// True when the journal is at its root with a live session — the new hero
+    /// card there already carries the session, so the floating accessory would
+    /// only echo it. (The journal root is never a search surface, so this lines
+    /// up exactly with `EntryListView`'s own hero-visibility condition.)
+    private var journalShowingActiveHero: Bool {
+        navigator.selectedTab == .journal
+            && navigator.path(for: .journal).isEmpty
+            && ActiveSessionManager.shared.hasActiveSession
+    }
+
     private var viewingActiveSessionDay: Bool {
         guard navigator.selectedTab == .journal,
-              case let .session(id) = navigator.path(for: .journal).last,
-              let sessionStart = ActiveSessionManager.shared.activeSubstanceStates
-              .map(\.doseTimestamp).min()
+              case let .session(id) = navigator.path(for: .journal).last
         else { return false }
+        let activeStamps = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp)
+        guard !activeStamps.isEmpty else { return false }
         var descriptor = FetchDescriptor<Session>(predicate: #Predicate { $0.id == id })
         descriptor.fetchLimit = 1
         guard let session = try? modelContext.fetch(descriptor).first else { return false }
-        return session.orderedDoses.contains { abs($0.timestamp.timeIntervalSince(sessionStart)) < 1 }
+        // Suppress the accessory whenever the viewed session holds *any* active
+        // dose — covers the current cluster even if a separate, overlapping
+        // session also has a still-active long-acting dose.
+        return session.orderedDoses.contains { dose in
+            activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
+        }
     }
 
     // MARK: - Add Menu
