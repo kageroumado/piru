@@ -6390,7 +6390,6 @@
       }
     },
     "Current Session" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
