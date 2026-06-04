@@ -75,6 +75,18 @@ extension View {
         modifier(ThemedBackground(shape: RoundedRectangle(cornerRadius: cornerRadius)))
     }
 
+    /// Conditionally apply the card background — for rows that live inside a
+    /// shared grouped container, where the container draws the background and the
+    /// row should not.
+    @ViewBuilder
+    func themeCard(enabled: Bool, cornerRadius: CGFloat = 16) -> some View {
+        if enabled {
+            themeCard(cornerRadius: cornerRadius)
+        } else {
+            self
+        }
+    }
+
     func themeCapsule() -> some View {
         modifier(ThemedBackground(shape: Capsule()))
     }
