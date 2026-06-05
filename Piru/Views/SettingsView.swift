@@ -80,7 +80,7 @@ struct SettingsView: View {
 
                 Section("Data") {
                     NavigationLink {
-                        BackupView()
+                        DataStorageView()
                     } label: {
                         Label("Data & Backup", systemImage: "lock.icloud")
                     }
