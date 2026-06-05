@@ -47,6 +47,10 @@ struct DataStorageView: View {
     @State private var showingPlainImporter = false
     @State private var generatingFormat: ExportFormat?
 
+    // Export / import option popovers.
+    @State private var showingExportOptions = false
+    @State private var showingImportOptions = false
+
     // Report + delete.
     @State private var showingReport = false
     @State private var showingDeleteConfirmation = false
@@ -62,6 +66,7 @@ struct DataStorageView: View {
             storageSection
             backupSection
             exportImportSection
+            reportSection
             howItWorksSection
             recoverableSection
             deleteSection
@@ -189,12 +194,14 @@ struct DataStorageView: View {
             }
             .font(.footnote)
         default:
-            LabeledContent("Last Backup") {
+            LabeledContent {
                 if let date = manager.lastBackupDate {
                     Text(date.formatted(date: .abbreviated, time: .shortened)).foregroundStyle(Theme.secondaryLabel)
                 } else {
                     Text("Never").foregroundStyle(Theme.secondaryLabel)
                 }
+            } label: {
+                Label("Last Backup", systemImage: "clock.arrow.circlepath")
             }
         }
     }
@@ -203,26 +210,17 @@ struct DataStorageView: View {
 
     private var exportImportSection: some View {
         Section {
-            dataRow(title: "Piru Backup", subtitle: "A complete backup you can restore into Piru",
-                    systemImage: "arrow.up.doc", showSpinner: generatingFormat == .piru) { exportPlain(.piru) }
-            dataRow(title: "PsychonautWiki Format", subtitle: "For importing into the PsychonautWiki app",
-                    systemImage: "arrow.up.doc", showSpinner: generatingFormat == .psyLog) { exportPlain(.psyLog) }
-            dataRow(title: "Encrypted Backup…", subtitle: "Passphrase-protected — save or send it anywhere",
-                    systemImage: "lock.doc") { showingExportPassphrase = true }
-            dataRow(title: "Import from a File…", subtitle: "A Piru or PsychonautWiki JSON file",
-                    systemImage: "arrow.down.doc") { showingPlainImporter = true }
-            dataRow(title: "Restore Encrypted Backup…", subtitle: "A passphrase-protected .piruenc file",
-                    systemImage: "lock.doc") { showingFileImporter = true }
-            if manager.iCloudAvailable {
-                dataRow(title: "Restore Latest iCloud Backup", subtitle: "From your automatic iCloud backups",
-                        systemImage: "arrow.clockwise.icloud") {
-                    pendingIsICloud = true
-                    pendingPassphrase = nil
-                    showingStrategyDialog = true
-                }
+            dataRow(title: "Export…", subtitle: "Piru, PsychonautWiki, or an encrypted backup",
+                    systemImage: "square.and.arrow.up", showSpinner: generatingFormat != nil) {
+                showingExportOptions = true
             }
-            dataRow(title: "Generate Medical Report", subtitle: "A PDF summary to share with a clinician",
-                    systemImage: "doc.richtext") { showingReport = true }
+            .popover(isPresented: $showingExportOptions) { exportOptions }
+
+            dataRow(title: "Import & Restore…", subtitle: "From a file, an encrypted backup, or iCloud",
+                    systemImage: "square.and.arrow.down") {
+                showingImportOptions = true
+            }
+            .popover(isPresented: $showingImportOptions) { importOptions }
         } header: {
             Text("Export & Import")
         } footer: {
@@ -231,6 +229,71 @@ struct DataStorageView: View {
         .disabled(generatingFormat != nil)
     }
 
+    /// Choices inside the Export popover.
+    private var exportOptions: some View {
+        chooser {
+            optionRow(title: "Piru Backup", subtitle: "A complete backup you can restore into Piru",
+                      systemImage: "arrow.up.doc") { showingExportOptions = false; exportPlain(.piru) }
+            optionRow(title: "PsychonautWiki Format", subtitle: "For importing into the PsychonautWiki app",
+                      systemImage: "arrow.up.doc") { showingExportOptions = false; exportPlain(.psyLog) }
+            optionRow(title: "Encrypted Backup…", subtitle: "Passphrase-protected — save or send it anywhere",
+                      systemImage: "lock.doc") { showingExportOptions = false; showingExportPassphrase = true }
+        }
+    }
+
+    /// Choices inside the Import & Restore popover.
+    private var importOptions: some View {
+        chooser {
+            optionRow(title: "Import from a File…", subtitle: "A Piru or PsychonautWiki JSON file",
+                      systemImage: "arrow.down.doc") { showingImportOptions = false; showingPlainImporter = true }
+            optionRow(title: "Restore Encrypted Backup…", subtitle: "A passphrase-protected .piruenc file",
+                      systemImage: "lock.doc") { showingImportOptions = false; showingFileImporter = true }
+            if manager.iCloudAvailable {
+                optionRow(title: "Restore Latest iCloud Backup", subtitle: "From your automatic iCloud backups",
+                          systemImage: "arrow.clockwise.icloud") {
+                    showingImportOptions = false
+                    pendingIsICloud = true
+                    pendingPassphrase = nil
+                    showingStrategyDialog = true
+                }
+            }
+        }
+    }
+
+    /// Compact popover container (a real popover even on iPhone) holding option rows.
+    private func chooser(@ViewBuilder _ content: () -> some View) -> some View {
+        VStack(alignment: .leading, spacing: 0) { content() }
+            .padding(.vertical, 8)
+            .frame(minWidth: 300)
+            .presentationCompactAdaptation(.popover)
+    }
+
+    /// A single tappable option inside a chooser popover.
+    private func optionRow(
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey,
+        systemImage: String,
+        action: @escaping () -> Void,
+    ) -> some View {
+        Button(action: action) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: systemImage)
+                    .font(.title3).foregroundStyle(Theme.accent).frame(width: 28)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title).foregroundStyle(.primary)
+                    Text(subtitle).font(.caption).foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .contentShape(Rectangle())
+            .padding(.horizontal, 16).padding(.vertical, 10)
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// A list row with an accent icon, a title, a one-line description, and an
+    /// optional trailing spinner. Used for the Export/Import and Report entries.
     private func dataRow(
         title: LocalizedStringKey,
         subtitle: LocalizedStringKey,
@@ -254,6 +317,17 @@ struct DataStorageView: View {
         }
         .buttonStyle(.plain)
         .listRowBackground(Theme.cardBackground)
+    }
+
+    // MARK: - Report
+
+    private var reportSection: some View {
+        Section {
+            dataRow(title: "Generate Medical Report", subtitle: "A PDF summary to share with a clinician",
+                    systemImage: "doc.richtext") { showingReport = true }
+        } header: {
+            Text("Report")
+        }
     }
 
     // MARK: - How encryption works
