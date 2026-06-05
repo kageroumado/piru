@@ -54,3 +54,6 @@ docs/audit/verification-dump/
 data/enrichment/merged.json
 data/enrichment/class-context.json
 data/enrichment/coverage.csv
+
+# Local archives / exports (not source)
+Exports/

@@ -74,6 +74,23 @@ struct SessionServiceTests {
         #expect(try sessions(context).count == first)
     }
 
+    @Test("ensureSessionsPopulated clusters session-less doses unconditionally (recovery regression)")
+    func ensurePopulatedClustersRecoveredDoses() throws {
+        // Mirrors the post-recovery state: doses exist with no session (e.g.
+        // restored from a pre-session backup). This must cluster them even though
+        // a prior empty-launch may have set the old "already populated" flag —
+        // the flag gating was the bug that left every dose as its own session.
+        let context = try makeContext()
+        let doses = [0.0, 1, 2, 20, 21, 48].map { insert(context, hoursFromNow: $0) }
+        try context.save()
+        for dose in doses { #expect(dose.session == nil) }
+
+        SessionService.ensureSessionsPopulated(in: context)
+
+        for dose in doses { #expect(dose.session != nil) }
+        #expect(try sessions(context).count == 3) // {0,1,2} {20,21} {48}
+    }
+
     @Test("startDate equals the session's earliest dose")
     func startDateIsEarliest() throws {
         let context = try makeContext()

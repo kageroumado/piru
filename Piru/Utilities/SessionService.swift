@@ -16,8 +16,6 @@ import SwiftData
 /// on render. The user owns the result afterwards via merge / split / reassign.
 @MainActor
 enum SessionService {
-    private static let appGroupID = "group.dev.yumeji.piru"
-    private static let populatedKey = "didPopulateSessions.v1"
 
     /// Map a dose to clustering input, resolving its modeled effect duration from
     /// the substance library (the curve length the timeline would draw).
@@ -171,14 +169,19 @@ enum SessionService {
         session.note = trimmed.isEmpty ? nil : trimmed
     }
 
-    /// One-time, idempotent backfill of sessions over all history. Guards on a
-    /// flag so routine launches skip it; safe to call on every launch. If it
-    /// fails midway, dose data is untouched (only the optional relationship is
-    /// set), and the next launch re-runs it.
+    /// Sweep every session-less dose into a session. Safe and cheap to call on
+    /// each launch: ``assignUnassignedDoses(in:)`` only touches `session == nil`
+    /// doses (a no-op once everything is grouped) and never disturbs the user's
+    /// manual merges / splits.
+    ///
+    /// This deliberately has **no** "already done" flag. The previous flag-gated
+    /// version stranded data: a launch that ran on an empty in-memory store (while
+    /// the persistent store was temporarily unavailable — see StoreRecovery) set
+    /// the flag with zero doses, so when the real data was later recovered every
+    /// dose stayed session-less and rendered as its own session. Sweeping
+    /// unconditionally self-heals that, and any pre-session / imported / recovered
+    /// history, without ever re-clustering doses that already have a session.
     static func ensureSessionsPopulated(in context: ModelContext) {
-        let defaults = UserDefaults(suiteName: appGroupID) ?? .standard
-        guard !defaults.bool(forKey: populatedKey) else { return }
         assignUnassignedDoses(in: context)
-        defaults.set(true, forKey: populatedKey)
     }
 }
