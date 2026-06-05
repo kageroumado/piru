@@ -218,6 +218,7 @@ T = {
     "Note": ("备注", "備註"),
     "Split Session Here": ("在此拆分记录", "在此拆分記錄"),
     "Session Note": ("记录备注", "記錄備註"),
+    "Share session log": ("分享记录日志", "分享記錄日誌"),
     "No substances logged in this session.": (
         "本次记录中没有记录任何物质。",
         "本次記錄中沒有記錄任何物質。",
@@ -2153,6 +2154,7 @@ if __name__ == "__main__":
         "A PDF summary to share with a clinician",
         "Delete Failed",
         "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.",
+        "Share session log",
     }
 
     print("--- Piru main app catalog ---")

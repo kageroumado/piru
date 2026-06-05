@@ -23699,6 +23699,22 @@
           }
         }
       }
+    },
+    "Share session log" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享记录日志"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享記錄日誌"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
