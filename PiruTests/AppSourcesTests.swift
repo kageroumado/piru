@@ -5,7 +5,7 @@ import Testing
 struct AppSourcesTests {
     @Test
     func `Has expected number of sources`() {
-        #expect(AppSources.all.count == 14)
+        #expect(AppSources.all.count == 10)
     }
 
     @Test
