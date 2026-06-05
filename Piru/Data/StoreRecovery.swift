@@ -1,8 +1,9 @@
 import Foundation
+import Observation
 import os
 import SwiftData
 
-private let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "StoreRecovery")
+private nonisolated(unsafe) let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "StoreRecovery")
 
 /// Owns the on-disk SwiftData store: where it lives, recovering orphaned data
 /// into it, and backing it up before anything destructive.
@@ -81,12 +82,18 @@ enum PiruMigrationPlan: SchemaMigrationPlan {
     }
 }
 
-enum StoreRecovery {
+nonisolated enum StoreRecovery {
     static let appGroupID = "group.dev.yumeji.piru"
     static let storeName = "default.store"
     /// Sibling files a SwiftData/SQLite store is made of.
     static let storeSuffixes = ["", "-shm", "-wal"]
-    private static let migrationFlagKey = "storeRecoveryCompleted.v2"
+
+    /// Sidecar reasons that represent a deliberate user choice (Delete Everything,
+    /// or the pre-restore snapshot). These are NEVER auto-recovered — resurrecting
+    /// them would undo an intentional delete. They remain visible for *manual*
+    /// recovery in the Data & Storage screen. Everything else (``corrupt``,
+    /// ``empty-before-recovery``) is an unintended quarantine and IS auto-recovered.
+    static let intentionalReasons: Set<String> = ["predelete", "prerestore"]
 
     /// The user-data models, in one place so counting and recovery agree.
     nonisolated static var models: [any PersistentModel.Type] {
@@ -120,68 +127,61 @@ enum StoreRecovery {
 
     // MARK: - Recovery (run before opening the main container)
 
-    /// Ensure the canonical store holds the user's data. If it's empty/absent
-    /// but a data-bearing legacy / backup / quarantine store exists, recover it
-    /// (backing up the empty canonical first). Returns the canonical URL to open.
+    /// Ensure the canonical store holds the user's data. If it's empty/absent but
+    /// a data-bearing legacy or *unintentionally-quarantined* store exists,
+    /// recover the richest one (backing up the empty canonical first). Returns the
+    /// canonical URL to open.
+    ///
+    /// Correctness no longer hinges on a "completed" flag — the earlier flag-gated
+    /// design stranded data when a prior run set the flag and then a later failure
+    /// quarantined the real store behind it. Instead, intent is encoded in the
+    /// sidecar *name*: ``intentionalReasons`` (a deliberate Delete Everything /
+    /// pre-restore snapshot) are excluded from auto-recovery, so an empty store the
+    /// user chose stays empty, while a `corrupt-*` quarantine is always reclaimed.
     @discardableResult
     static func prepareCanonicalStore() -> URL {
         let canonical = canonicalStoreURL()
-        let defaults = UserDefaults(suiteName: appGroupID) ?? .standard
 
-        // If the canonical store already holds data, we're done — record it so
-        // routine launches skip the scan entirely.
-        let canonicalCount = userDataCount(at: canonical)
-        if canonicalCount > 0 {
-            defaults.set(true, forKey: migrationFlagKey)
+        // Canonical already holds data → nothing to do (the common, fast path).
+        if userDataCount(at: canonical) > 0 { return canonical }
+
+        // Empty / absent / unreadable: recover the richest *unintended* candidate.
+        guard let (source, count) = richestRecoverableStore(excluding: canonical), count > 0 else {
+            recoveryLogger.info("No data-bearing store to recover; canonical stays as-is.")
             return canonical
         }
-
-        // Canonical is empty (0), absent, or unreadable (-1). Only honour the
-        // completion flag — i.e. skip the recovery scan — when the canonical
-        // store still physically exists (a genuinely-empty store). NEVER skip
-        // when it's missing: a prior "completed" run could have been blind
-        // (e.g. every open failed) and moved real data aside to a sidecar, and
-        // skipping here would strand that data behind the flag forever.
-        if defaults.bool(forKey: migrationFlagKey), anyFileExists(at: canonical) {
-            return canonical
+        // Never overwrite: move the current (empty/unreadable) canonical aside first.
+        if anyFileExists(at: canonical) {
+            backUpStore(at: canonical, reason: "empty-before-recovery")
         }
-
-        // Find the data-bearing store with the most entries among every candidate.
-        var best: URL?
-        var bestCount = 0
-        for candidate in recoveryCandidates(excluding: canonical) {
-            let n = userDataCount(at: candidate)
-            if n > bestCount {
-                best = candidate
-                bestCount = n
-            }
+        do {
+            try copyStore(from: source, to: canonical)
+            recoveryLogger.notice(
+                "Recovered \(count, privacy: .public) entries into the canonical store from \(source.lastPathComponent, privacy: .public)",
+            )
+        } catch {
+            recoveryLogger.error("Store recovery copy failed: \(error.localizedDescription, privacy: .public)")
         }
-
-        if let source = best, bestCount > 0 {
-            // Never overwrite: move the current (empty/unreadable) canonical aside.
-            if anyFileExists(at: canonical) {
-                backUpStore(at: canonical, reason: "empty-before-recovery")
-            }
-            do {
-                try copyStore(from: source, to: canonical)
-                recoveryLogger.notice(
-                    "Recovered \(bestCount, privacy: .public) entries into the canonical store from \(source.lastPathComponent, privacy: .public)",
-                )
-            } catch {
-                recoveryLogger.error("Store recovery copy failed: \(error.localizedDescription, privacy: .public)")
-            }
-        } else {
-            recoveryLogger.info("No data-bearing store found to recover; canonical stays as-is.")
-        }
-
-        defaults.set(true, forKey: migrationFlagKey)
         return canonical
+    }
+
+    /// The data-bearing recovery candidate with the most rows, or `nil` if none
+    /// hold data. Excludes intentional snapshots (see ``intentionalReasons``).
+    static func richestRecoverableStore(excluding canonical: URL) -> (url: URL, count: Int)? {
+        var best: (url: URL, count: Int)?
+        for candidate in recoveryCandidates(excluding: canonical, includeIntentional: false) {
+            let n = userDataCount(at: candidate)
+            if n > (best?.count ?? 0) { best = (candidate, n) }
+        }
+        return best
     }
 
     /// Stores we might recover from: the legacy sandbox store, plus any
     /// timestamped sidecars (quarantined / backed-up / superseded) in either the
-    /// canonical or the legacy directory.
-    private static func recoveryCandidates(excluding canonical: URL) -> [URL] {
+    /// canonical or the legacy directory. When `includeIntentional` is false,
+    /// deliberate snapshots (`predelete` / `prerestore`) are omitted so they are
+    /// never auto-resurrected.
+    static func recoveryCandidates(excluding canonical: URL, includeIntentional: Bool) -> [URL] {
         var out: [URL] = []
         if let legacy = legacyStoreURL(), legacy.path != canonical.path {
             out.append(legacy)
@@ -198,10 +198,27 @@ enum StoreRecovery {
                 // Sidecar main files only (skip their -shm/-wal): default.store.<tag>-<ts>
                 guard name.hasPrefix(storeName + "."), !name.hasSuffix("-shm"), !name.hasSuffix("-wal")
                 else { continue }
+                if !includeIntentional, let reason = sidecarReason(name), intentionalReasons.contains(reason) {
+                    continue
+                }
                 out.append(dir.appendingPathComponent(name))
             }
         }
         return out
+    }
+
+    /// Extract the `<reason>` from a sidecar filename `default.store.<reason>-<ts>`
+    /// (ignoring a trailing `-shm`/`-wal`). Returns `nil` for a non-sidecar name.
+    static func sidecarReason(_ fileName: String) -> String? {
+        let prefix = storeName + "."
+        guard fileName.hasPrefix(prefix) else { return nil }
+        var tag = String(fileName.dropFirst(prefix.count))
+        for suffix in ["-shm", "-wal"] where tag.hasSuffix(suffix) {
+            tag = String(tag.dropLast(suffix.count))
+        }
+        // Drop the trailing `-<timestamp>`.
+        guard let dash = tag.lastIndex(of: "-") else { return tag }
+        return String(tag[tag.startIndex ..< dash])
     }
 
     // MARK: - Backup
@@ -251,30 +268,55 @@ enum StoreRecovery {
 
     // MARK: - Helpers
 
-    /// Count user-data rows in the store at `url` WITHOUT mutating it
-    /// (read-only). Returns 0 if the store is absent/empty, or -1 if it exists
-    /// but can't be opened/read (incompatible schema, locked, encrypted).
+    /// Count user-data rows in the store at `url`. Returns 0 if the store is
+    /// absent/empty, or -1 if it exists but no strategy can read it (genuine
+    /// corruption, locked/encrypted, or an irreconcilable schema).
+    ///
+    /// Three strategies, cheapest first:
+    /// 1. Read-only open under the *current* schema (works once the store is at
+    ///    the latest version).
+    /// 2. Read-only open under the original *V1* schema — the shape an upgrading
+    ///    user's on-disk store has at launch, before the main container migrates.
+    /// 3. A migrating copy: clone the store to scratch and open it with automatic
+    ///    lightweight migration (which a read-only probe cannot do), then count.
+    ///    This is what makes an *intermediate* dev schema — neither exactly V1 nor
+    ///    V2, the shape that caused the quarantine bug — countable, so recovery
+    ///    can see its data instead of writing it off as unreadable.
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
-        // Probe read-only with the current schema first; for a store that
-        // predates the latest additive migration (still V1 on disk, as it is
-        // when this runs at launch *before* the main container migrates), a
-        // read-only open under the current schema can't migrate-to-load, so fall
-        // back to counting under the original V1 schema it was written with. The
-        // five counted models exist in every version, so the count is exact
-        // either way — and we never mutate the store with a -1 "unreadable" that
-        // could mislead recovery on a perfectly good older store.
         if let count = countUserRows(at: url, schema: Schema(models)) { return count }
         if let count = countUserRows(at: url, schema: Schema(PiruSchemaV1.models)) { return count }
+        if let count = countViaMigratingCopy(at: url) { return count }
         return -1
     }
 
-    private static func countUserRows(at url: URL, schema: Schema) -> Int? {
+    /// Strategy 3 of ``userDataCount(at:)``: copy the store to a scratch location
+    /// and open it with automatic lightweight migration (allowing saves, since
+    /// migration writes), then count. Operates on a *copy* so the original is
+    /// never mutated by the probe. Returns `nil` if even this fails.
+    private static func countViaMigratingCopy(at url: URL) -> Int? {
+        let fm = FileManager.default
+        let scratch = fm.temporaryDirectory
+            .appendingPathComponent("piru-count-\(UUID().uuidString)", isDirectory: true)
+        defer { try? fm.removeItem(at: scratch) }
         do {
-            // .none — never let the iCloud entitlement pull this read-only probe
-            // into CloudKit setup (the schema is CloudKit-incompatible). See
-            // PiruApp.makeContainer.
-            let config = ModelConfiguration(url: url, allowsSave: false, cloudKitDatabase: .none)
+            try fm.createDirectory(at: scratch, withIntermediateDirectories: true)
+            let dest = scratch.appendingPathComponent(storeName)
+            try copyStore(from: url, to: dest)
+            // No migration plan → SwiftData infers a lightweight migration from the
+            // store's on-disk shape to the current models. Additive intermediate
+            // schemas migrate cleanly; the count is then exact.
+            return countUserRows(at: dest, schema: Schema(models), allowsSave: true)
+        } catch {
+            return nil
+        }
+    }
+
+    private static func countUserRows(at url: URL, schema: Schema, allowsSave: Bool = false) -> Int? {
+        do {
+            // .none — never let the iCloud entitlement pull this probe into CloudKit
+            // setup (the schema is CloudKit-incompatible). See PiruApp.makeContainer.
+            let config = ModelConfiguration(url: url, allowsSave: allowsSave, cloudKitDatabase: .none)
             let container = try ModelContainer(for: schema, configurations: config)
             let context = ModelContext(container)
             // DoseEntry is the journal — the data "No Entries" refers to — plus
@@ -315,4 +357,119 @@ enum StoreRecovery {
             try fm.copyItem(at: src, to: dst)
         }
     }
+
+    // MARK: - Inventory & manual recovery (Data & Storage screen)
+
+    /// Total on-disk size of the canonical store and its `-wal`/`-shm` siblings.
+    static func canonicalStoreBytes() -> Int64 {
+        byteSize(of: canonicalStoreURL())
+    }
+
+    /// Combined byte size of a store main file plus its `-wal`/`-shm` siblings.
+    static func byteSize(of storeURL: URL) -> Int64 {
+        let fm = FileManager.default
+        let dir = storeURL.deletingLastPathComponent()
+        let base = storeURL.lastPathComponent
+        var total: Int64 = 0
+        for suffix in storeSuffixes {
+            let path = dir.appendingPathComponent(base + suffix).path
+            if let size = (try? fm.attributesOfItem(atPath: path))?[.size] as? NSNumber {
+                total += size.int64Value
+            }
+        }
+        return total
+    }
+
+    /// Every sidecar store on disk that could be restored — quarantined
+    /// (`corrupt`), pre-recovery, *and* intentional snapshots (`predelete` /
+    /// `prerestore`) — each with its row count, size, and timestamp, newest first.
+    /// Unlike auto-recovery, this lists intentional snapshots too so the user can
+    /// deliberately roll back from the Data & Storage screen.
+    static func recoverableStores() -> [RecoverableStore] {
+        let canonical = canonicalStoreURL()
+        return recoveryCandidates(excluding: canonical, includeIntentional: true)
+            .map { url in
+                let name = url.lastPathComponent
+                return RecoverableStore(
+                    url: url,
+                    reason: sidecarReason(name) ?? "backup",
+                    rowCount: userDataCount(at: url),
+                    timestamp: sidecarTimestamp(name),
+                    bytes: byteSize(of: url),
+                )
+            }
+            // Only real files on disk: a candidate path that doesn't exist (e.g. the
+            // legacy store on a fresh install) has zero bytes and is not a "copy" to
+            // surface. Unreadable-but-present stores (bytes > 0, rowCount -1) stay —
+            // the user can still send their logs from them.
+            .filter { $0.bytes > 0 }
+            .sorted { ($0.timestamp ?? .distantPast) > ($1.timestamp ?? .distantPast) }
+    }
+
+    /// Restore a specific sidecar into the canonical slot, snapshotting the
+    /// current canonical aside first (never destructive). The app must be
+    /// relaunched afterwards so a fresh `ModelContainer` opens the restored store.
+    static func restore(from sidecar: URL) throws {
+        let canonical = canonicalStoreURL()
+        if anyFileExists(at: canonical) {
+            backUpStore(at: canonical, reason: "before-manual-restore")
+        }
+        try copyStore(from: sidecar, to: canonical)
+        recoveryLogger.notice("Manually restored canonical store from \(sidecar.lastPathComponent, privacy: .public)")
+    }
+
+    /// Parse the trailing `-<unix-seconds>` timestamp from a sidecar filename.
+    static func sidecarTimestamp(_ fileName: String) -> Date? {
+        var tag = fileName
+        for suffix in ["-shm", "-wal"] where tag.hasSuffix(suffix) {
+            tag = String(tag.dropLast(suffix.count))
+        }
+        guard let dash = tag.lastIndex(of: "-") else { return nil }
+        let stamp = tag[tag.index(after: dash)...]
+        guard let seconds = TimeInterval(stamp) else { return nil }
+        return Date(timeIntervalSince1970: seconds)
+    }
+}
+
+// MARK: - Launch state
+
+/// Observable launch-time health of the on-disk store. Set by
+/// ``PiruApp/makeContainer()`` when it cannot open the persistent store and has
+/// fallen back to a transient in-memory store. The UI watches this to show a
+/// reassuring "data temporarily unavailable" alert — the bytes are preserved on
+/// disk and a later launch / app version restores them; nothing is deleted.
+@MainActor
+@Observable
+final class StoreLaunchState {
+    static let shared = StoreLaunchState()
+
+    /// `true` when the app is running on an in-memory fallback store because the
+    /// persistent store could not be opened this launch.
+    var storeUnavailable = false
+
+    /// The underlying open-failure description, surfaced only in the diagnostics
+    /// report sent to the developer (never shown raw to the user).
+    var failureDetail: String?
+
+    private init() {}
+}
+
+// MARK: - Recoverable store descriptor
+
+/// A restorable on-disk sidecar store surfaced in the Data & Storage screen.
+struct RecoverableStore: Identifiable {
+    let id = UUID()
+    let url: URL
+    /// Why it was set aside: `corrupt`, `empty-before-recovery`, `predelete`, …
+    let reason: String
+    /// User-data row count (`-1` if it can't be read).
+    let rowCount: Int
+    /// When it was set aside, parsed from the filename.
+    let timestamp: Date?
+    /// On-disk size in bytes (main + `-wal`/`-shm`).
+    let bytes: Int64
+
+    /// A deliberate user snapshot (Delete Everything / pre-restore) rather than an
+    /// automatic quarantine.
+    var isIntentional: Bool { StoreRecovery.intentionalReasons.contains(reason) }
 }

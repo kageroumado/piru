@@ -28,6 +28,14 @@ struct ContentView: View {
     @AppStorage("discordPromptDismissedForever") private var discordDismissed = false
     @State private var showDiscordPrompt = false
 
+    /// Launch-time store health. When the persistent store can't be opened the app
+    /// runs in-memory; we surface a reassuring alert (the data is safe, not lost).
+    @State private var storeLaunch = StoreLaunchState.shared
+    @State private var dismissedStoreAlert = false
+    @State private var preparingDiagnostics = false
+    @State private var diagnosticsFile: DiagnosticsFile?
+    @State private var diagnosticsError: String?
+
     var body: some View {
         @Bindable var navigator = navigator
         liquidGlassBody
@@ -74,6 +82,59 @@ struct ContentView: View {
                     ActiveSessionManager.shared.refresh()
                 }
             }
+            .alert("Your Data Is Safe", isPresented: storeUnavailableAlertBinding) {
+                Button("Send Logs to Developer") { prepareDiagnostics() }
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.")
+            }
+            .sheet(item: $diagnosticsFile, onDismiss: cleanupDiagnostics) { file in
+                ShareSheet(items: [file.url])
+            }
+            .alert("Couldn't Prepare Logs", isPresented: diagnosticsErrorBinding) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(diagnosticsError ?? "")
+            }
+            .overlay {
+                if preparingDiagnostics {
+                    ProgressView().controlSize(.large)
+                        .padding(24)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                }
+            }
+    }
+
+    private var diagnosticsErrorBinding: Binding<Bool> {
+        Binding(get: { diagnosticsError != nil }, set: { if !$0 { diagnosticsError = nil } })
+    }
+
+    /// Shows the reassurance alert when the store is unavailable, until dismissed.
+    private var storeUnavailableAlertBinding: Binding<Bool> {
+        Binding(
+            get: { storeLaunch.storeUnavailable && !dismissedStoreAlert },
+            set: { if !$0 { dismissedStoreAlert = true } },
+        )
+    }
+
+    /// Build the diagnostics report off the main actor, then present a share sheet.
+    /// On failure, surface an error — never leave the user tapping with no result.
+    private func prepareDiagnostics() {
+        preparingDiagnostics = true
+        Task {
+            defer { preparingDiagnostics = false }
+            do {
+                let url = try await StoreDiagnostics.writeReport()
+                diagnosticsFile = DiagnosticsFile(url: url)
+            } catch {
+                diagnosticsError = error.localizedDescription
+            }
+        }
+    }
+
+    private func cleanupDiagnostics() {
+        if let url = diagnosticsFile?.url { try? FileManager.default.removeItem(at: url) }
+        diagnosticsFile = nil
     }
 
     // MARK: - Shared Tab Content
@@ -511,4 +572,10 @@ private struct SessionAccessoryView: View {
     private static func formatDuration(_ interval: TimeInterval) -> String {
         interval.durationHM
     }
+}
+
+/// Identifiable wrapper so a generated diagnostics file can drive a `.sheet(item:)`.
+private struct DiagnosticsFile: Identifiable {
+    let id = UUID()
+    let url: URL
 }
