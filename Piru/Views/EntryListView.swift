@@ -51,15 +51,13 @@ struct EntryListView: View {
     /// computes geometry under the same key the cards will look up.
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
-    // Filter state — category facets, plus an optional single day from the
-    // calendar. (Substance and free date-range filtering were dropped:
-    // substance duplicates Search, and a chronological day list makes time
-    // windows pointless.)
+    // Filter state — category facets only. (Substance and date filtering were
+    // dropped: substance duplicates Search, and a chronological day list makes
+    // time windows pointless — the calendar *scrolls* to a day instead.)
     @State private var filterCategories: Set<SubstanceCategory> = []
-    @State private var filterDay: Date? = nil
 
     private var hasActiveFilters: Bool {
-        !filterCategories.isEmpty || filterDay != nil
+        !filterCategories.isEmpty
     }
 
     /// Surface the live session as a hero card atop the Journal. Independent of
@@ -139,7 +137,6 @@ struct EntryListView: View {
             searchText: searchText,
             selectedTag: selectedTag,
             filterCategories: filterCategories,
-            filterDay: filterDay,
             stackRedoses: stackRedoses,
         )
     }
@@ -147,6 +144,12 @@ struct EntryListView: View {
     // MARK: - Body
 
     var body: some View {
+        ScrollViewReader { proxy in
+            list(proxy: proxy)
+        }
+    }
+
+    private func list(proxy: ScrollViewProxy) -> some View {
         List {
             if !isSearchSurface, !model.tags.isEmpty {
                 tagChipBar
@@ -223,9 +226,35 @@ struct EntryListView: View {
         .onChange(of: grouping) { regroup() }
         .onChange(of: substanceColors.count) { rebuildAll() }
         .sheet(isPresented: $showingCalendar) {
-            calendarSheet
+            calendarSheet(proxy: proxy)
                 .presentationDetents([.medium])
                 .presentationBackground(.regularMaterial)
+        }
+    }
+
+    /// Scroll the day list to the selected calendar date. Switches to the Days
+    /// grouping if needed, then targets the nearest rendered day at or before
+    /// the tapped date (the list is newest-first), falling back to the oldest.
+    private func jump(to date: Date, proxy: ScrollViewProxy) {
+        if grouping != .byDay {
+            grouping = .byDay
+            regroup()
+        }
+        let target = Calendar.current.startOfDay(for: date)
+        // A day whose only session is the live one renders no section (the hero
+        // card represents it), so only days that actually put rows on screen
+        // are valid scroll targets.
+        let rendered = model.sessionDays.filter { day in
+            day.sessions.contains { $0.id != activeSessionCardID }
+        }
+        guard let day = rendered.first(where: { $0.date <= target }) ?? rendered.last else { return }
+        // Let the sheet dismissal (and a possible grouping switch, which
+        // recreates the List via `.id(grouping)`) settle before scrolling.
+        Task {
+            try? await Task.sleep(for: .milliseconds(350))
+            withAnimation {
+                proxy.scrollTo(day.id, anchor: .top)
+            }
         }
     }
 
@@ -324,7 +353,6 @@ struct EntryListView: View {
 
     private func clearFilters() {
         filterCategories = []
-        filterDay = nil
         regroup()
     }
 
@@ -445,6 +473,8 @@ struct EntryListView: View {
                     .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
+                    // Scroll anchor for the calendar's "Jump to Date".
+                    .id(day.id)
                 } header: {
                     HStack(alignment: .firstTextBaseline, spacing: 7) {
                         Text(day.dateTitle)
@@ -555,15 +585,14 @@ struct EntryListView: View {
 
     // MARK: - Calendar Sheet
 
-    private var calendarSheet: some View {
+    private func calendarSheet(proxy: ScrollViewProxy) -> some View {
         NavigationStack {
             JournalCalendarView(
                 entries: entries,
                 colorMap: model.colorMap,
                 onSelectDate: { date in
-                    filterDay = date
                     showingCalendar = false
-                    regroup()
+                    jump(to: date, proxy: proxy)
                 },
             )
             .navigationTitle("Jump to Date")

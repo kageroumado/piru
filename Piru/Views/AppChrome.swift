@@ -5,32 +5,25 @@ import SwiftUI
 /// menu (Settings, Help, plus any per-screen `menuExtras`); screens can also
 /// inject their own `leadingControls` (e.g. the Journal's grouping picker and
 /// filter) before it. Lives in a top `safeAreaBar` (so the soft scroll-edge
-/// effect has a bar to render under), and fades + slides up as the content
-/// scrolls so it reads as "scrolling away".
+/// effect has a bar to render under) and stays pinned while the content
+/// scrolls beneath it.
 struct ScreenHeaderBar<Leading: View, Extras: View>: View {
     private let title: LocalizedStringKey
-    private let scrollOffset: CGFloat
     private let leadingControls: Leading
     private let menuExtras: Extras
     @Environment(\.appNavigator) private var navigator
 
-    /// Distance over which the header fades out and finishes sliding up.
-    private let fadeDistance: CGFloat = 44
-
     init(
         _ title: LocalizedStringKey,
-        scrollOffset: CGFloat = 0,
         @ViewBuilder leadingControls: () -> Leading = { EmptyView() },
         @ViewBuilder menuExtras: () -> Extras = { EmptyView() },
     ) {
         self.title = title
-        self.scrollOffset = scrollOffset
         self.leadingControls = leadingControls()
         self.menuExtras = menuExtras()
     }
 
     var body: some View {
-        let progress = min(max(scrollOffset / fadeDistance, 0), 1)
         HStack(alignment: .center, spacing: 8) {
             Text(title)
                 .font(.largeTitle.bold())
@@ -49,8 +42,6 @@ struct ScreenHeaderBar<Leading: View, Extras: View>: View {
         .padding(.horizontal)
         .padding(.top, 4)
         .padding(.bottom, 8)
-        .opacity(1 - progress)
-        .offset(y: -min(scrollOffset, fadeDistance))
     }
 
     private var overflowMenu: some View {
@@ -85,26 +76,19 @@ struct ScreenHeaderBar<Leading: View, Extras: View>: View {
 }
 
 /// Attaches the standard app header (title + control cluster) to a scrollable
-/// screen: pins it as a top bar for the soft scroll-edge blur, tracks scroll so
-/// the header fades/slides away, and hides the system navigation bar.
+/// screen: pins it as a top bar for the soft scroll-edge blur and hides the
+/// system navigation bar.
 private struct AppHeaderModifier<Leading: View, Extras: View>: ViewModifier {
     let title: LocalizedStringKey
     @ViewBuilder let leadingControls: () -> Leading
     @ViewBuilder let menuExtras: () -> Extras
-    @State private var scrollOffset: CGFloat = 0
 
     func body(content: Content) -> some View {
         content
             .scrollEdgeEffectStyle(.soft, for: .top)
-            .onScrollGeometryChange(for: CGFloat.self) { geo in
-                max(0, geo.contentOffset.y + geo.contentInsets.top)
-            } action: { _, value in
-                scrollOffset = value
-            }
             .safeAreaBar(edge: .top) {
                 ScreenHeaderBar(
                     title,
-                    scrollOffset: scrollOffset,
                     leadingControls: leadingControls,
                     menuExtras: menuExtras,
                 )
@@ -116,7 +100,8 @@ private struct AppHeaderModifier<Leading: View, Extras: View>: ViewModifier {
 extension View {
     /// App-Store-style large title header with a `•••` overflow (Settings/Help)
     /// plus optional per-screen `leadingControls` and `menuExtras`. Soft
-    /// scroll-edge and scroll-away fade. Apply to a scrollable tab root.
+    /// scroll-edge effect; the header stays pinned. Apply to a scrollable tab
+    /// root.
     func appHeader(
         _ title: LocalizedStringKey,
         @ViewBuilder leadingControls: @escaping () -> some View = { EmptyView() },

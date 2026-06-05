@@ -101,7 +101,6 @@ final class JournalModel {
         searchText: String,
         selectedTag: String?,
         filterCategories: Set<SubstanceCategory>,
-        filterDay: Date?,
         stackRedoses: Bool,
     ) {
         var sigHasher = Hasher()
@@ -109,7 +108,6 @@ final class JournalModel {
         sigHasher.combine(searchText)
         sigHasher.combine(selectedTag)
         sigHasher.combine(filterCategories)
-        sigHasher.combine(filterDay)
         sigHasher.combine(lastDerivedSignature)
         let signature = sigHasher.finalize()
         guard signature != lastGroupsSignature else { return }
@@ -121,7 +119,6 @@ final class JournalModel {
             searchText: searchText,
             selectedTag: selectedTag,
             filterCategories: filterCategories,
-            filterDay: filterDay,
         )
         filtered = result
 
@@ -196,7 +193,6 @@ final class JournalModel {
         searchText: String,
         selectedTag: String?,
         filterCategories: Set<SubstanceCategory>,
-        filterDay: Date?,
     ) -> [DoseEntry] {
         var result = entries
 
@@ -220,12 +216,6 @@ final class JournalModel {
                         $0.tags.contains { $0.localizedCaseInsensitiveContains(query) }
                 }
             }
-        }
-
-        if let day = filterDay {
-            let start = Calendar.current.sessionDayStart(for: day)
-            let end = start.addingTimeInterval(86_400)
-            result = result.filter { $0.timestamp >= start && $0.timestamp < end }
         }
 
         if !filterCategories.isEmpty {
