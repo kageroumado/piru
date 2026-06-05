@@ -106,6 +106,18 @@
             "state" : "new",
             "value" : "%1$lldh %2$lldm"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小时 %2$lld 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld 小時 %2$lld 分鐘"
+          }
         }
       }
     },
@@ -142,7 +154,20 @@
       }
     },
     "%lldm" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分鐘"
+          }
+        }
+      }
     },
     "%lldm ago" : {
       "localizations" : {

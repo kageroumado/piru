@@ -1173,6 +1173,22 @@
         }
       }
     },
+    "%lld records" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 条记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 筆記錄"
+          }
+        }
+      }
+    },
     "%lld results" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3839,7 +3855,24 @@
         }
       }
     },
+    "Auto-recovered Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动恢复的数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動還原的資料"
+          }
+        }
+      }
+    },
     "Automatic Backup" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4177,7 +4210,6 @@
       }
     },
     "Backup" : {
-      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -4302,6 +4334,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "務必小心。不要與其他抑制劑混用。如果可能,請準備納洛酮。"
+          }
+        }
+      }
+    },
+    "Before a Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原前"
+          }
+        }
+      }
+    },
+    "Before You Deleted Everything" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除全部数据前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除全部資料前"
           }
         }
       }
@@ -5379,6 +5443,22 @@
         }
       }
     },
+    "Checking for recoverable copies…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在检查可恢复的副本…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在檢查可還原的副本…"
+          }
+        }
+      }
+    },
     "Checking…" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6163,6 +6243,38 @@
         }
       }
     },
+    "Couldn't Prepare Logs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法准备日志"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法準備記錄檔"
+          }
+        }
+      }
+    },
+    "Couldn't prepare the diagnostics file." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法准备诊断文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法準備診斷檔案。"
+          }
+        }
+      }
+    },
     "Count" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6437,6 +6549,22 @@
         }
       }
     },
+    "Custom Colors" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义颜色"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂顏色"
+          }
+        }
+      }
+    },
     "Custom days" : {
       "localizations" : {
         "zh-Hans" : {
@@ -6642,6 +6770,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每週日均"
+          }
+        }
+      }
+    },
+    "Daily Medications" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日用药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日用藥"
           }
         }
       }
@@ -7894,6 +8038,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以低毫克量級給藥 — 請使用精密毫克秤（0.001 克精度）。靠目測或廚房秤難以準確秤量。"
+          }
+        }
+      }
+    },
+    "Doses" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "劑量"
           }
         }
       }
@@ -9285,6 +9445,22 @@
         }
       }
     },
+    "Everything Piru stores locally. Your dose data lives only on this device unless you turn on iCloud backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 在本机存储的全部内容。除非开启 iCloud 备份，你的剂量数据只保存在这台设备上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 在本機儲存的全部內容。除非開啟 iCloud 備份，你的劑量資料只保存在這部裝置上。"
+          }
+        }
+      }
+    },
     "Exact mechanism incompletely understood. Inhibits inositol monophosphatase (IMPase), depleting inositol and modulating phosphoinositide signaling. Inhibits glycogen synthase kinase-3β (GSK-3β), regulating neuroplasticity, circadian rhythm, and neuroprotection. Modulates glutamate neurotransmission by reducing NMDA receptor activity. Also affects protein kinase C, cAMP, and arachidonic acid metabolism." : {
       "localizations" : {
         "zh-Hans" : {
@@ -9399,6 +9575,7 @@
       }
     },
     "Export" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -9410,6 +9587,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出"
+          }
+        }
+      }
+    },
+    "Export & Import" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出与导入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出與匯入"
           }
         }
       }
@@ -9511,6 +9704,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯出、匯入，以及加密備份到 iCloud 或通行密語保護的檔案。備份為可選項，預設關閉。"
+          }
+        }
+      }
+    },
+    "Export…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯出…"
           }
         }
       }
@@ -9926,6 +10135,22 @@
         }
       }
     },
+    "From a file, an encrypted backup, or iCloud" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从文件、加密备份或 iCloud"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從檔案、加密備份或 iCloud"
+          }
+        }
+      }
+    },
     "From journal" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10199,7 +10424,20 @@
       }
     },
     "Generated by Piru · kagerou.glass/piru" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 Piru 生成 · kagerou.glass/piru"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由 Piru 產生 · kagerou.glass/piru"
+          }
+        }
+      }
     },
     "Gentle sensory input (music, soft textures) can help you reconnect." : {
       "localizations" : {
@@ -11123,6 +11361,7 @@
       }
     },
     "Import & Restore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -11134,6 +11373,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "匯入與還原"
+          }
+        }
+      }
+    },
+    "Import & Restore…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入与恢复…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入與還原…"
           }
         }
       }
@@ -11221,6 +11476,7 @@
       }
     },
     "Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace; iCloud and your own passphrase backups unlock automatically or prompt for the passphrase." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14235,6 +14491,22 @@
         }
       }
     },
+    "No recoverable copies on this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备上没有可恢复的副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置上沒有可還原的副本。"
+          }
+        }
+      }
+    },
     "No Results" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14809,6 +15081,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "U-100 注射器刻度"
+          }
+        }
+      }
+    },
+    "On This Device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此设备上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此裝置上"
           }
         }
       }
@@ -15728,6 +16016,7 @@
       }
     },
     "Piru and PsychonautWiki files are plain, unencrypted JSON. An encrypted backup is protected by a passphrase you choose — **if you forget it, the file cannot be opened, not even by us.**" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -15739,6 +16028,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。加密備份由你設定的通行密語保護——**若忘記通行密語，檔案將無法開啟，我們也不能。**"
+          }
+        }
+      }
+    },
+    "Piru and PsychonautWiki files are plain, unencrypted JSON. Imported entries are added to your journal (duplicates are skipped). Encrypted restores can merge or replace." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 文件是未加密的纯 JSON。导入的记录会添加到你的日志中（重复项会被跳过）。加密恢复可选择合并或替换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 和 PsychonautWiki 檔案是未加密的純 JSON。匯入的記錄會新增到你的日誌中（重複項會被略過）。加密還原可選擇合併或取代。"
           }
         }
       }
@@ -15759,6 +16064,38 @@
         }
       }
     },
+    "Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 这次未能打开你的日志，目前正以临时存储运行。**没有任何数据被删除**——你的剂量和记录仍安全保存在这台设备上，未来的更新会自动恢复它们。\n\n发送日志能帮助我们更快推出修复。日志只描述存储问题本身——绝不包含你的剂量数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 這次未能開啟你的日誌，目前正以暫時儲存空間執行。**沒有任何資料被刪除**——你的劑量和記錄仍安全保存在這部裝置上，未來的更新會自動還原它們。\n\n傳送記錄檔能幫助我們更快推出修正。記錄檔只描述儲存問題本身——絕不包含你的劑量資料。"
+          }
+        }
+      }
+    },
+    "Piru never deletes a store outright. Copies set aside automatically (after an upgrade hiccup) or before you deleted or restored data appear here, ready to restore." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 绝不会直接删除数据存储。系统自动留存的副本（升级出现问题后），或在你删除、恢复数据之前留存的副本，都会显示在这里，随时可以恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru 絕不會直接刪除資料儲存。系統自動留存的副本（升級出現問題後），或在你刪除、還原資料之前留存的副本，都會顯示在這裡，隨時可以還原。"
+          }
+        }
+      }
+    },
     "Piru will notify you as the comedown approaches with practical care reminders — hydration, nutrition, and rest tips tailored to what you took." : {
       "localizations" : {
         "zh-Hans" : {
@@ -15771,6 +16108,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "緩和期來臨時,Piru 會以實用的護理提醒通知您 — 根據您所服用的物質,提供補水、營養和休息建議。"
+          }
+        }
+      }
+    },
+    "Piru, PsychonautWiki, or an encrypted backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru、PsychonautWiki 或加密备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piru、PsychonautWiki 或加密備份"
           }
         }
       }
@@ -16417,6 +16770,22 @@
         }
       }
     },
+    "Quick-Log Shortcuts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速记录快捷项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速記錄快捷項目"
+          }
+        }
+      }
+    },
     "Racetam Nootropic (Glutamatergic/Cholinergic Modulator)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16605,6 +16974,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "復溶計算器"
+          }
+        }
+      }
+    },
+    "Recoverable Copies" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可恢复的副本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可還原的副本"
+          }
+        }
+      }
+    },
+    "Recovered Data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复的数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原的資料"
           }
         }
       }
@@ -17397,6 +17798,38 @@
         }
       }
     },
+    "Restore This Copy?" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复此副本？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原此副本？"
+          }
+        }
+      }
+    },
+    "Restored" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已恢复"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已還原"
+          }
+        }
+      }
+    },
     "Restoring reads an encrypted backup and adds its entries back. Passphrase backups will ask for the passphrase; iCloud backups unlock automatically on your own devices." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -17858,6 +18291,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存"
+          }
+        }
+      }
+    },
+    "Saved Copy" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已保存的副本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已儲存的副本"
           }
         }
       }
@@ -18491,6 +18940,22 @@
         }
       }
     },
+    "Send Logs to Developer" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向开发者发送日志"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傳送記錄檔給開發者"
+          }
+        }
+      }
+    },
     "Sequence" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18873,6 +19338,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄標題"
+          }
+        }
+      }
+    },
+    "Sessions" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄"
           }
         }
       }
@@ -20016,6 +20497,22 @@
         }
       }
     },
+    "Store Size" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存储大小"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存空間大小"
+          }
+        }
+      }
+    },
     "Store solutions in clearly marked, child-proof containers." : {
       "localizations" : {
         "zh-Hans" : {
@@ -20406,7 +20903,20 @@
       }
     },
     "Summary" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摘要"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摘要"
+          }
+        }
+      }
     },
     "Supplement" : {
       "localizations" : {
@@ -21177,6 +21687,22 @@
         }
       }
     },
+    "This replaces your current data with the %@ in this copy. A snapshot of your current data is taken first, so it's reversible. Restart Piru afterwards to load it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这将用此副本中的 %@ 替换你当前的数据。替换前会先为当前数据创建快照，因此可以撤销。之后请重新启动 Piru 以加载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會用此副本中的 %@ 取代你目前的資料。取代前會先為目前資料建立快照，因此可以復原。之後請重新啟動 Piru 以載入。"
+          }
+        }
+      }
+    },
     "This substance's mechanism of action may involve multiple pharmacological targets or may not be fully characterized. Consult specific pharmacological references for detailed mechanistic information." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21809,6 +22335,22 @@
         }
       }
     },
+    "unknown date" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知日期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知日期"
+          }
+        }
+      }
+    },
     "Unpredictable intensification — cannabis can trigger anxiety or thought loops." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21821,6 +22363,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不可預測的強化 — 大麻可能引發焦慮或思維迴圈。"
+          }
+        }
+      }
+    },
+    "unreadable" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法读取"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法讀取"
           }
         }
       }
@@ -22454,6 +23012,7 @@
       }
     },
     "When on, Piru encrypts your journal and saves it to your private iCloud Drive each time you leave the app. The encryption key is stored only in your iCloud Keychain, so the backup is end-to-end encrypted — **neither Apple nor Piru can read it**, and it restores automatically on your other devices signed in to the same Apple Account." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22465,6 +23024,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開啟後，每次你離開 App 時，Piru 會加密你的記錄並儲存到你的私人 iCloud 雲碟。加密金鑰僅儲存在你的 iCloud 鑰匙圈中，因此備份為端對端加密——**Apple 與 Piru 皆無法讀取**，並會在你登入同一 Apple 帳戶的其他裝置上自動還原。"
+          }
+        }
+      }
+    },
+    "When on, Piru encrypts your journal and saves it to your private iCloud Drive each time you leave the app. The key is stored only in your iCloud Keychain, so it's end-to-end encrypted — **neither Apple nor Piru can read it** — and it restores on your other devices signed in to the same Apple Account." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启后，每次你离开 App 时，Piru 都会加密你的日志并保存到你的私人 iCloud 云盘。密钥只存储在你的 iCloud 钥匙串中，因此是端到端加密——**Apple 和 Piru 都无法读取**——并且会在登录同一 Apple 账户的其他设备上自动恢复。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟後，每次你離開 App 時，Piru 都會加密你的日誌並儲存到你的私人 iCloud 雲碟。金鑰只儲存在你的 iCloud 鑰匙圈中，因此是端對端加密——**Apple 和 Piru 都無法讀取**——並且會在登入同一 Apple 帳號的其他裝置上自動還原。"
           }
         }
       }
@@ -22805,6 +23380,22 @@
         }
       }
     },
+    "Your Data Is Safe" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据是安全的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的資料是安全的"
+          }
+        }
+      }
+    },
     "Your data was imported." : {
       "localizations" : {
         "zh-Hans" : {
@@ -22817,6 +23408,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的資料已匯入。"
+          }
+        }
+      }
+    },
+    "Your data was restored. Please force-quit and reopen Piru to load it." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据已恢复。请强制退出并重新打开 Piru 以加载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的資料已還原。請強制結束並重新開啟 Piru 以載入。"
           }
         }
       }
