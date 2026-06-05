@@ -102,7 +102,9 @@ struct StoreRecoveryTests {
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
         let ctx = ModelContext(container)
-        for i in 0 ..< n { ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i))) }
+        for i in 0 ..< n {
+            ctx.insert(DoseEntry(substance: "Caffeine", amount: Double(50 + i)))
+        }
         try ctx.save()
     }
 
@@ -167,8 +169,10 @@ struct StoreRecoveryTests {
         #expect(StoreRecovery.sidecarReason("default.store.corrupt-1780683124") == "corrupt")
         #expect(StoreRecovery.sidecarReason("default.store.empty-before-recovery-12-wal") == "empty-before-recovery")
         #expect(StoreRecovery.sidecarReason("default.store") == nil)
-        #expect(StoreRecovery.sidecarTimestamp("default.store.corrupt-1780683124")
-            == Date(timeIntervalSince1970: 1_780_683_124))
+        #expect(
+            StoreRecovery.sidecarTimestamp("default.store.corrupt-1780683124")
+                == Date(timeIntervalSince1970: 1_780_683_124),
+        )
         #expect(StoreRecovery.sidecarTimestamp("default.store") == nil)
     }
 }

@@ -103,12 +103,12 @@ struct AppNavigatorTests {
     }
 
     @Test
-    func `pathBinding read and write round-trip through the navigator`() {
+    func `pathBinding read and write round-trip through the navigator`() throws {
         let nav = makeNavigator(selectedTab: .insights)
         let binding = nav.pathBinding(for: .insights)
-        binding.wrappedValue = [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000010")!)]
+        binding.wrappedValue = try [.session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000010")))]
         #expect(nav.path(for: .insights).count == 1)
-        nav.push(.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000020")!))
+        try nav.push(.session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000020"))))
         #expect(binding.wrappedValue.count == 2)
     }
 
@@ -291,11 +291,11 @@ struct AppNavigatorTests {
     }
 
     @Test
-    func `Setting snapshot replaces navigator state`() {
+    func `Setting snapshot replaces navigator state`() throws {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
         snap.selectedTab = .tools
-        snap.paths[.journal] = [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000030")!)]
+        snap.paths[.journal] = try [.session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000030")))]
         snap.sheetStack = [.help, .settings]
         nav.snapshot = snap
         #expect(nav.selectedTab == .tools)
@@ -363,10 +363,10 @@ struct RoutesCodableTests {
 
     @Test
     func `A full NavigatorSnapshot round-trips`() throws {
-        let snap = NavigatorSnapshot(
+        let snap = try NavigatorSnapshot(
             selectedTab: .library,
             paths: [
-                .journal: [.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000050")!), .entry(timestamp: Date(timeIntervalSince1970: 2))],
+                .journal: [.session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000050"))), .entry(timestamp: Date(timeIntervalSince1970: 2))],
                 .library: [.substance(name: "DMT")],
             ],
             sheetStack: [

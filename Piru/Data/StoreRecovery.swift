@@ -471,5 +471,7 @@ struct RecoverableStore: Identifiable {
 
     /// A deliberate user snapshot (Delete Everything / pre-restore) rather than an
     /// automatic quarantine.
-    var isIntentional: Bool { StoreRecovery.intentionalReasons.contains(reason) }
+    var isIntentional: Bool {
+        StoreRecovery.intentionalReasons.contains(reason)
+    }
 }

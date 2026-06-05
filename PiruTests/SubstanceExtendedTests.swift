@@ -148,7 +148,7 @@ struct SubstanceExtendedTests {
                 afterglow: nil,
                 // ~37.5h total — outlasts any acute window, so it must NOT draw a
                 // curve (it falls through to a timestamp marker instead).
-                total: DurationRange(min: 1800, max: 2700),
+                total: DurationRange(min: 1_800, max: 2_700),
             ),
         )
         let substance = Substance(
@@ -213,23 +213,23 @@ struct SubstanceExtendedTests {
             try JSONDecoder().decode(DurationOfAction.self, from: Data(json.utf8))
         }
         let days = try decode(#"{"min": 7, "max": 10, "unit": "days"}"#)
-        #expect(days.minMinutes == 7 * 1440)
-        #expect(days.maxMinutes == 10 * 1440)
+        #expect(days.minMinutes == 7 * 1_440)
+        #expect(days.maxMinutes == 10 * 1_440)
 
         let weeks = try decode(#"{"min": 2, "max": 4, "unit": "weeks"}"#)
-        #expect(weeks.minMinutes == 2 * 1440 * 7)
+        #expect(weeks.minMinutes == 2 * 1_440 * 7)
 
         // Missing unit defaults to days.
         let bare = try decode(#"{"min": 1, "max": 3}"#)
-        #expect(bare.maxMinutes == 3 * 1440)
+        #expect(bare.maxMinutes == 3 * 1_440)
     }
 
     @Test
     func `durationOfAction picks a readable display unit`() {
         // ≤3 weeks → days; ≥3 weeks → weeks; ≥90 days → months.
-        #expect(DurationOfAction(minMinutes: 7 * 1440, maxMinutes: 10 * 1440).formattedWindow == "7–10 days")
-        #expect(DurationOfAction(minMinutes: 56 * 1440, maxMinutes: 84 * 1440).formattedWindow == "8–12 weeks")
-        #expect(DurationOfAction(minMinutes: 120 * 1440, maxMinutes: 180 * 1440).formattedWindow == "4–6 months")
+        #expect(DurationOfAction(minMinutes: 7 * 1_440, maxMinutes: 10 * 1_440).formattedWindow == "7–10 days")
+        #expect(DurationOfAction(minMinutes: 56 * 1_440, maxMinutes: 84 * 1_440).formattedWindow == "8–12 weeks")
+        #expect(DurationOfAction(minMinutes: 120 * 1_440, maxMinutes: 180 * 1_440).formattedWindow == "4–6 months")
     }
 
     // MARK: - Hashable / Equatable

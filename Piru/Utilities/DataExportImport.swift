@@ -137,7 +137,7 @@ private extension Date {
 
 // MARK: - PsyLog Codable Types
 
-private nonisolated struct PsyLogFile: Codable, Sendable {
+private nonisolated struct PsyLogFile: Codable {
     var experiences: [PsyLogExperience]
     var substanceCompanions: [PsyLogCompanion]
     var customUnits: [PsyLogCustomUnit]
@@ -206,13 +206,13 @@ private nonisolated struct PsyLogFile: Codable, Sendable {
 
 /// A place attached to an experience (and, as a Piru extension, to an
 /// individual ingestion). Matches PsyLog's `{name, latitude, longitude}` shape.
-private nonisolated struct PsyLogLocation: Codable, Sendable {
+private nonisolated struct PsyLogLocation: Codable {
     var name: String
     var latitude: Double
     var longitude: Double
 }
 
-private nonisolated struct PsyLogExperience: Codable, Sendable {
+private nonisolated struct PsyLogExperience: Codable {
     var title: String
     var isFavorite: Bool
     var creationDate: Int64
@@ -268,7 +268,7 @@ private nonisolated struct PsyLogExperience: Codable, Sendable {
     }
 }
 
-private nonisolated struct PsyLogIngestion: Codable, Sendable {
+private nonisolated struct PsyLogIngestion: Codable {
     var substanceName: String?
     var customUnitId: Int?
     var dose: Double?
@@ -345,12 +345,12 @@ private nonisolated struct PsyLogIngestion: Codable, Sendable {
     }
 }
 
-private nonisolated struct PsyLogCompanion: Codable, Sendable {
+private nonisolated struct PsyLogCompanion: Codable {
     var color: String
     var substanceName: String
 }
 
-private nonisolated struct PsyLogDailyDoseItem: Codable, Sendable {
+private nonisolated struct PsyLogDailyDoseItem: Codable {
     var substance: String
     var amount: Double
     var unit: String
@@ -364,7 +364,7 @@ private nonisolated struct PsyLogDailyDoseItem: Codable, Sendable {
 /// timeline-graph behaviour for substances the bundled library lacks data
 /// for. Cross-app PsyLog files typically omit this key or carry an empty
 /// string array; the file-level decoder treats both as "no customs".
-private nonisolated struct PsyLogCustomSubstance: Codable, Sendable {
+private nonisolated struct PsyLogCustomSubstance: Codable {
     var id: UUID
     var name: String
     var category: SubstanceCategory
@@ -401,7 +401,7 @@ private nonisolated struct PsyLogCustomSubstance: Codable, Sendable {
     }
 }
 
-private nonisolated struct PsyLogCustomUnit: Codable, Sendable {
+private nonisolated struct PsyLogCustomUnit: Codable {
     var id: Int
     var name: String
     var unit: String
@@ -485,7 +485,7 @@ private nonisolated struct LegacyUserColor: Decodable {
 /// favourites, user colours, and daily-dose schedules. Detected on import by
 /// the `piruExportVersion` key. Timestamps are epoch milliseconds, matching the
 /// PsyLog format's convention.
-private nonisolated struct PiruFile: Codable, Sendable {
+private nonisolated struct PiruFile: Codable {
     var piruExportVersion: Int
     /// The app version that produced the file, e.g. "Piru 1.4 (212)".
     var appVersion: String
@@ -500,7 +500,7 @@ private nonisolated struct PiruFile: Codable, Sendable {
     var customSubstances: [PsyLogCustomSubstance]
 }
 
-private nonisolated struct PiruSessionData: Codable, Sendable {
+private nonisolated struct PiruSessionData: Codable {
     var id: UUID
     var startDate: Int64
     var title: String?
@@ -508,7 +508,7 @@ private nonisolated struct PiruSessionData: Codable, Sendable {
     var doses: [PiruDoseData]
 }
 
-private nonisolated struct PiruDoseData: Codable, Sendable {
+private nonisolated struct PiruDoseData: Codable {
     var substance: String
     var amount: Double
     var unit: String
@@ -522,7 +522,7 @@ private nonisolated struct PiruDoseData: Codable, Sendable {
     var longitude: Double?
 }
 
-private nonisolated struct PiruDailyDoseData: Codable, Sendable {
+private nonisolated struct PiruDailyDoseData: Codable {
     var substance: String
     var amount: Double
     var unit: String
@@ -535,18 +535,18 @@ private nonisolated struct PiruDailyDoseData: Codable, Sendable {
     var startDate: Int64
 }
 
-private nonisolated struct PiruColorData: Codable, Sendable {
+private nonisolated struct PiruColorData: Codable {
     var substance: String
     var hexColor: String
 }
 
-private nonisolated struct PiruUserColorData: Codable, Sendable {
+private nonisolated struct PiruUserColorData: Codable {
     var hex: String
     var name: String
     var createdAt: Int64
 }
 
-private nonisolated struct PiruFavoriteData: Codable, Sendable {
+private nonisolated struct PiruFavoriteData: Codable {
     var substance: String
     var createdAt: Int64
 }
@@ -827,7 +827,9 @@ enum DataExportImport {
                 note: experience.text.isEmpty ? nil : experience.text,
             )
             context.insert(session)
-            for dose in sessionDoses { dose.session = session }
+            for dose in sessionDoses {
+                dose.session = session
+            }
             session.refreshStartDate()
         }
 
@@ -921,13 +923,17 @@ enum DataExportImport {
                 context.insert(session)
                 sessionsByID[sessionData.id] = session
             }
-            for dose in doses { dose.session = session }
+            for dose in doses {
+                dose.session = session
+            }
             session.refreshStartDate()
         }
 
         // Session-less doses (defensive) are left unassigned; importJSON's
         // clustering pass groups them afterwards.
-        for orphan in file.orphanDoses { _ = makeDose(orphan) }
+        for orphan in file.orphanDoses {
+            _ = makeDose(orphan)
+        }
 
         // Colours — skip substances that already have one.
         var importedColors = Set(((try? context.fetch(FetchDescriptor<SubstanceColor>())) ?? []).map { $0.substance.lowercased() })

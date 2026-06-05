@@ -16,7 +16,6 @@ import SwiftData
 /// on render. The user owns the result afterwards via merge / split / reassign.
 @MainActor
 enum SessionService {
-
     /// Map a dose to clustering input, resolving its modeled effect duration from
     /// the substance library (the curve length the timeline would draw).
     static func clusterDose(for entry: DoseEntry) -> SessionClustering.Dose {
@@ -108,7 +107,9 @@ enum SessionService {
             guard let start = doses.map(\.timestamp).min() else { continue }
             let session = Session(startDate: start)
             context.insert(session)
-            for dose in doses { dose.session = session }
+            for dose in doses {
+                dose.session = session
+            }
         }
         try? context.save()
     }
@@ -120,7 +121,9 @@ enum SessionService {
     /// heuristic re-evaluation. No-op if they're the same session.
     static func merge(_ source: Session, into target: Session, in context: ModelContext) {
         guard source.persistentModelID != target.persistentModelID else { return }
-        for dose in source.orderedDoses { dose.session = target }
+        for dose in source.orderedDoses {
+            dose.session = target
+        }
         context.delete(source)
         target.refreshStartDate()
     }
@@ -135,7 +138,9 @@ enum SessionService {
         let moving = Array(doses[index...])
         let newSession = Session(startDate: pivot.timestamp)
         context.insert(newSession)
-        for dose in moving { dose.session = newSession }
+        for dose in moving {
+            dose.session = newSession
+        }
         session.refreshStartDate()
         newSession.refreshStartDate()
         return newSession

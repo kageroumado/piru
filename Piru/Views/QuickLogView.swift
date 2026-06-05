@@ -278,7 +278,9 @@ struct QuickLogView: View {
     private var sessionTagSuggestions: [String] {
         var counts: [String: Int] = [:]
         for entry in allEntries {
-            for tag in entry.tags { counts[tag, default: 0] += 1 }
+            for tag in entry.tags {
+                counts[tag, default: 0] += 1
+            }
         }
         let used = counts.sorted { $0.value > $1.value }.map(\.key)
         let extras = TagExtractor.suggestions.filter { !used.contains($0) }
@@ -791,7 +793,7 @@ struct QuickLogView: View {
     private func moveChip(group: SubstanceGroup, chip: DoseChip, toFront: Bool) {
         guard let dose = quickLogDose(for: group, chip: chip) else { return }
         let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)"
-        let siblings = quickLogDoses.filter { "\($0.substance.lowercased())|\($0.route.rawValue)" == key }
+        let siblings = quickLogDoses.filter { key == "\($0.substance.lowercased())|\($0.route.rawValue)" }
         if toFront {
             dose.sortOrder = (siblings.map(\.sortOrder).min() ?? 0) - 1
         } else {

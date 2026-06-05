@@ -333,7 +333,6 @@ struct DurationProfile: Codable, Hashable {
             total: total,
         )
     }
-
 }
 
 extension DurationProfile {
@@ -545,34 +544,34 @@ struct DurationOfAction: Codable, Hashable {
 
     func encode(to encoder: Encoder) throws {
         var c = encoder.container(keyedBy: CodingKeys.self)
-        try c.encode(minMinutes / 1440, forKey: .min)
-        try c.encode(maxMinutes / 1440, forKey: .max)
+        try c.encode(minMinutes / 1_440, forKey: .min)
+        try c.encode(maxMinutes / 1_440, forKey: .max)
         try c.encode("days", forKey: .unit)
     }
 
     static func minutesPerUnit(_ unit: String) -> Double {
         switch unit.lowercased() {
         case "hour", "hours", "h": 60
-        case "week", "weeks", "w": 1440 * 7
-        case "month", "months", "mo": 1440 * 30
-        default: 1440 // days
+        case "week", "weeks", "w": 1_440 * 7
+        case "month", "months", "mo": 1_440 * 30
+        default: 1_440 // days
         }
     }
 
     /// Human-friendly release window for the drug card — picks the most readable
     /// unit (e.g. "7–10 days", "8–12 weeks", "4–6 months"). Localized.
     var formattedWindow: String {
-        let maxDays = maxMinutes / 1440
+        let maxDays = maxMinutes / 1_440
         func n(_ minutes: Double, per: Double) -> String {
             let v = minutes / per
             return v.rounded() == v ? String(Int(v)) : v.formatted(.number.precision(.fractionLength(1)))
         }
         if maxDays >= 90 {
-            return String(localized: "\(n(minMinutes, per: 1440 * 30))–\(n(maxMinutes, per: 1440 * 30)) months", comment: "Long-acting release window")
+            return String(localized: "\(n(minMinutes, per: 1_440 * 30))–\(n(maxMinutes, per: 1_440 * 30)) months", comment: "Long-acting release window")
         } else if maxDays >= 21 {
-            return String(localized: "\(n(minMinutes, per: 1440 * 7))–\(n(maxMinutes, per: 1440 * 7)) weeks", comment: "Long-acting release window")
+            return String(localized: "\(n(minMinutes, per: 1_440 * 7))–\(n(maxMinutes, per: 1_440 * 7)) weeks", comment: "Long-acting release window")
         } else {
-            return String(localized: "\(n(minMinutes, per: 1440))–\(n(maxMinutes, per: 1440)) days", comment: "Long-acting release window")
+            return String(localized: "\(n(minMinutes, per: 1_440))–\(n(maxMinutes, per: 1_440)) days", comment: "Long-acting release window")
         }
     }
 }

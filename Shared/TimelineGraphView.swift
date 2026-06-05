@@ -21,7 +21,7 @@ enum GraphMetrics {
 }
 
 /// A dose without duration data, shown as a timestamp marker on the graph.
-struct DoseMarker: Hashable, Sendable {
+struct DoseMarker: Hashable {
     let substanceName: String
     let timestamp: Date
     let colorHex: String
@@ -72,13 +72,13 @@ struct TimelineGraphView: View {
     /// When set (case-insensitive substance name), that curve renders at full
     /// strength and every other curve is dimmed — drives the fullscreen legend's
     /// tap-to-isolate. Nil means the normal active/worn-off emphasis applies.
-    var highlighted: String? = nil
+    var highlighted: String?
     /// Desired visible window in minutes, set by the fullscreen detail view's
     /// window presets (4h/8h/12h/24h). `nil` means "fit everything" (the All
     /// preset / the embedded default). Applied to `zoom` on appear and whenever
     /// it changes; the user can still pinch/pan afterwards. Ignored when
     /// `compact`.
-    var presetSpanMinutes: Double? = nil
+    var presetSpanMinutes: Double?
     /// Bounds the axis to a single 24h day. When set, the scrollable extent and
     /// every span computation are capped at 1440 min so a late-night long-acting
     /// dose can't stretch the axis past midnight (an entry stays on its own day
@@ -106,7 +106,7 @@ struct TimelineGraphView: View {
     /// (each `visibleSpan`/`totalSpan` read re-ran the 240-step `renderedTail`
     /// scan ~10×, and `earliestDose` re-mapped + re-`min`'d the dose array on
     /// every one of its 24 call sites) down to a single evaluation per instance.
-    struct Derived: Sendable {
+    struct Derived {
         let earliestDose: Date
         let maxDoseBySubstance: [String: Double]
         let stackedGroups: [[ActiveSubstanceState]]
@@ -123,7 +123,7 @@ struct TimelineGraphView: View {
     /// empty-input fallback) so a live view whose `.now` ticks each frame still
     /// hits the cache, and excludes `compact`/`showNowIndicator`/`highlighted`
     /// (presentation-only, not part of the curve geometry).
-    struct DerivedKey: Hashable, Sendable {
+    struct DerivedKey: Hashable {
         let substances: [ActiveSubstanceState]
         let markers: [DoseMarker]
         let stackRedoses: Bool
@@ -159,7 +159,9 @@ struct TimelineGraphView: View {
         rawActivityTail: 1,
     )
 
-    private var derived: Derived { derivedBox ?? Self.emptyDerived }
+    private var derived: Derived {
+        derivedBox ?? Self.emptyDerived
+    }
 
     private var derivedKey: DerivedKey {
         DerivedKey(substances: substances, markers: markers, stackRedoses: stackRedoses, dayBounded: dayBounded)
@@ -238,7 +240,9 @@ struct TimelineGraphView: View {
         loadedKey = key
     }
 
-    private var earliestDose: Date { derived.earliestDose }
+    private var earliestDose: Date {
+        derived.earliestDose
+    }
 
     /// Height reserved for time labels below the graph
     private var labelAreaHeight: CGFloat {
@@ -425,7 +429,9 @@ struct TimelineGraphView: View {
                 results.append((item.key, model))
             }
             await MainActor.run {
-                for (key, model) in results { TimelineModelCache.shared.insert(model, for: key) }
+                for (key, model) in results {
+                    TimelineModelCache.shared.insert(model, for: key)
+                }
             }
         }
     }
@@ -537,7 +543,9 @@ struct TimelineGraphView: View {
     }
 
     /// Max dose amount per substance name, used to scale curve heights proportionally.
-    private var maxDoseBySubstance: [String: Double] { derived.maxDoseBySubstance }
+    private var maxDoseBySubstance: [String: Double] {
+        derived.maxDoseBySubstance
+    }
 
     /// Single-dose (non-stacked) height: the same saturating Hill link applied
     /// to this dose's magnitude, so a lone dose and a stacked group of the same
@@ -554,7 +562,7 @@ struct TimelineGraphView: View {
         substances _: [ActiveSubstanceState],
         maxDose _: [String: Double],
     ) -> Double {
-        max(0.0001, Self.hill(substance.doseMagnitude))
+        max(0.0001, hill(substance.doseMagnitude))
     }
 
     /// Highest curve peak across all substances/groups. Used to normalize the
@@ -588,7 +596,9 @@ struct TimelineGraphView: View {
 
     /// Multiplier mapping the tallest curve to full height (capped so a tiny
     /// floor value can't blow up beyond the graph).
-    private var yNormalization: Double { derived.yNormalization }
+    private var yNormalization: Double {
+        derived.yNormalization
+    }
 
     /// Compression exponent applied to each curve's *amplitude* — the peak
     /// height it's scaled to — never to its time-varying shape. Linear
@@ -836,7 +846,7 @@ struct TimelineGraphView: View {
     /// the fullscreen detail view; the embedded graph never sets a preset.
     private func frameToPreset(_ span: Double?) {
         guard !compact, autoFitSpan > 0, totalSpan > 0 else { return }
-        let target = min(max((span ?? totalSpan), 1), totalSpan)
+        let target = min(max(span ?? totalSpan, 1), totalSpan)
         let z = CGFloat(autoFitSpan / target)
         zoom = min(max(minZoom, z), 10)
         gestureStartZoom = zoom
@@ -1575,12 +1585,17 @@ struct TimelineGraphView: View {
         context.draw(label, at: CGPoint(x: graphInset + labelInset + dotR * 2 + 4, y: laneTop + labelInset + dotR), anchor: .leading)
     }
 
+    // swiftlint:disable function_parameter_count
+
     /// A single duration-less dose as a lollipop: a thin stem rising from the
     /// lane baseline to a filled, ringed head at `headCenterY`. The stem grounds
     /// the dose to the time axis while the head gives it the vertical presence of
     /// a curve's hump, so an instant dose reads as a real logged event rather
     /// than a stray fleck on an otherwise empty lane. Mirrors the marker-line +
     /// circle treatment the non-lane overlay already uses.
+    ///
+    /// The parameters are flat lane/viewport geometry scalars for a single
+    /// Canvas draw pass, so the count exemption beats a one-off wrapper struct.
     private func drawMarkerLollipop(_ marker: DoseMarker, context: GraphicsContext, baseline: CGFloat, laneTop: CGFloat, amplitude: CGFloat, liftFraction: CGFloat, labelWidth: CGFloat, radius r: CGFloat, visibleStart: Double, visibleSpan: Double, graphWidth: CGFloat, graphInset: CGFloat, color: Color) {
         let off = marker.timestamp.timeIntervalSince(earliestDose) / 60
         let rawX = graphInset + CGFloat((off - visibleStart) / visibleSpan) * graphWidth
@@ -1612,6 +1627,8 @@ struct TimelineGraphView: View {
         let head = Path(ellipseIn: CGRect(x: x - r, y: headCenterY - r, width: r * 2, height: r * 2))
         context.fill(head, with: .color(color))
     }
+
+    // swiftlint:enable function_parameter_count
 
     /// The "you are here" dot: a filled, white-ringed circle on a curve at the
     /// current moment. Shared by the overlapping, stacked, and lane renderers so
@@ -1715,7 +1732,9 @@ struct TimelineGraphView: View {
     ///   well-formed. A long plateau pushes the target peak late, driving
     ///   `ka → ke` and naturally yielding the broad, rounded `ke·t·e^(−ke·t)`
     ///   top — a sustained peak without the artificial flat trapezoid lid.
-    func pkParams(for s: ActiveSubstanceState) -> PKCurveParams { Self.pkParams(for: s) }
+    func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
+        Self.pkParams(for: s)
+    }
 
     nonisolated static func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
         let total = max(s.totalMinutes, 1)
@@ -1930,7 +1949,9 @@ struct TimelineGraphView: View {
     // MARK: - Stacked Rendering
 
     /// Groups substance states by lowercased substance name, preserving original order.
-    private var stackedGroups: [[ActiveSubstanceState]] { derived.stackedGroups }
+    private var stackedGroups: [[ActiveSubstanceState]] {
+        derived.stackedGroups
+    }
 
     private nonisolated static func stackedGroups(of substances: [ActiveSubstanceState]) -> [[ActiveSubstanceState]] {
         // Group by (substance, route) so that e.g. insufflated heroin and smoked
@@ -2066,7 +2087,9 @@ struct TimelineGraphView: View {
             if let groupPeak = vs.max(), groupPeak > 0 {
                 let factor = compressedAmplitude(groupPeak) / groupPeak
                 if factor != 1 {
-                    for i in vs.indices { vs[i] *= factor }
+                    for i in vs.indices {
+                        vs[i] *= factor
+                    }
                 }
             }
 

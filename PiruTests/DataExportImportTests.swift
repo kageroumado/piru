@@ -502,8 +502,13 @@ struct DataExportImportLocationTests {
     func `A dose with no location round-trips as nil`() throws {
         let container = try makeTestContainer()
         let context = ModelContext(container)
-        context.insert(DoseEntry(substance: "Vitamin D", amount: 1000, unit: "IU", route: .oral,
-                                 timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        context.insert(DoseEntry(
+            substance: "Vitamin D",
+            amount: 1_000,
+            unit: "IU",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
         try context.save()
 
         let data = try DataExportImport.exportJSON(context: context)
@@ -729,14 +734,30 @@ struct DataExportImportFormatTests {
     /// or PW throws on an unknown `administrationRoute`.
     @Test
     func `PsyLog export uses route names valid in PsychonautWiki`() throws {
-        let valid: Set<String> = ["oral", "sublingual", "buccal", "insufflated", "rectal",
-                                  "transdermal", "subcutaneous", "intramuscular", "intravenous", "smoked", "inhaled"]
+        let valid: Set = [
+            "oral",
+            "sublingual",
+            "buccal",
+            "insufflated",
+            "rectal",
+            "transdermal",
+            "subcutaneous",
+            "intramuscular",
+            "intravenous",
+            "smoked",
+            "inhaled",
+        ]
         let container = try makeTestContainer()
         let context = ModelContext(container)
         let base = Date(timeIntervalSince1970: 1_700_000_000)
         for (i, route) in RouteOfAdministration.allCases.enumerated() {
-            context.insert(DoseEntry(substance: "S\(i)", amount: 10, unit: "mg", route: route,
-                                     timestamp: base.addingTimeInterval(Double(i) * 60)))
+            context.insert(DoseEntry(
+                substance: "S\(i)",
+                amount: 10,
+                unit: "mg",
+                route: route,
+                timestamp: base.addingTimeInterval(Double(i) * 60),
+            ))
         }
         try context.save()
 

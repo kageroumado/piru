@@ -236,7 +236,11 @@ struct PreciseScaleNote: View {
 /// begins (blue), rising (teal), warm at the height (orange), cooling on the
 /// way down (purple), then neutral residue (gray).
 private enum ExperiencePhase: CaseIterable {
-    case onset, comeup, peak, offset, afterglow
+    case onset
+    case comeup
+    case peak
+    case offset
+    case afterglow
 
     var label: LocalizedStringResource {
         switch self {
@@ -430,7 +434,7 @@ struct RouteDosingCard: View {
     let doses: DoseRange?
     let duration: DurationProfile?
     /// Long-acting release window (`DurationOfAction.formattedWindow`), if any.
-    var releaseWindow: String? = nil
+    var releaseWindow: String?
     var showsDoseLadder = true
     var showsDuration = true
     /// Volumetric / precise-scale / THC safety notes — shown in the app, hidden
@@ -440,8 +444,12 @@ struct RouteDosingCard: View {
     /// header and the route picker already name it); on in the share image.
     var showsTitle = true
 
-    private var hasDosage: Bool { showsDoseLadder && (doses?.hasAnyValue ?? false) }
-    private var hasDuration: Bool { showsDuration && duration != nil }
+    private var hasDosage: Bool {
+        showsDoseLadder && (doses?.hasAnyValue ?? false)
+    }
+    private var hasDuration: Bool {
+        showsDuration && duration != nil
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {

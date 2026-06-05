@@ -76,7 +76,7 @@ nonisolated enum StoreDiagnostics {
     private static func logLines() -> [String] {
         do {
             let store = try OSLogStore(scope: .currentProcessIdentifier)
-            let since = store.position(date: stamp().addingTimeInterval(-1800))
+            let since = store.position(date: stamp().addingTimeInterval(-1_800))
             let entries = try store.getEntries(
                 at: since,
                 matching: NSPredicate(format: "subsystem == %@", subsystem),
@@ -108,5 +108,7 @@ nonisolated enum StoreDiagnostics {
 
     /// A wall-clock timestamp. `Date()` is intentionally used here (diagnostics are
     /// one-shot and never replayed), isolated to one place.
-    private static func stamp() -> Date { Date() }
+    private static func stamp() -> Date {
+        Date()
+    }
 }
