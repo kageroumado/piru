@@ -539,28 +539,22 @@ struct TimelineGraphView: View {
     /// Max dose amount per substance name, used to scale curve heights proportionally.
     private var maxDoseBySubstance: [String: Double] { derived.maxDoseBySubstance }
 
-    /// Height scale factor combining dose intensity (vs heavy threshold) and
-    /// relative scaling when multiple doses of the same substance are present.
-    /// The multi-dose multiplier preserves PsychonautWiki-style behavior where
-    /// a 17g alcohol next to a 34g alcohol renders at roughly half the height.
+    /// Single-dose (non-stacked) height: the same saturating Hill link applied
+    /// to this dose's magnitude, so a lone dose and a stacked group of the same
+    /// total agree on height. The *unclamped* magnitude already encodes relative
+    /// dose size (a 17 g alcohol renders ~half a 34 g, a heavy dose saturates),
+    /// so no separate multi-dose multiplier is needed. `substances`/`maxDose`
+    /// are retained for call-site symmetry with the stacked path.
     private func heightScale(for substance: ActiveSubstanceState) -> Double {
         Self.heightScale(for: substance, substances: substances, maxDose: derived.maxDoseBySubstance)
     }
 
     private nonisolated static func heightScale(
         for substance: ActiveSubstanceState,
-        substances: [ActiveSubstanceState],
-        maxDose: [String: Double],
+        substances _: [ActiveSubstanceState],
+        maxDose _: [String: Double],
     ) -> Double {
-        var scale = substance.doseIntensity
-        let key = substance.substanceName.lowercased()
-        if let m = maxDose[key], m > 0 {
-            let count = substances.count(where: { $0.substanceName.lowercased() == key })
-            if count > 1 {
-                scale *= max(0.2, substance.amount / m)
-            }
-        }
-        return max(0.05, scale)
+        max(0.0001, Self.hill(substance.doseMagnitude))
     }
 
     /// Highest curve peak across all substances/groups. Used to normalize the
@@ -950,11 +944,26 @@ struct TimelineGraphView: View {
 
     private var graphCanvas: some View {
         Canvas { context, size in
+            var context = context
             let geom = graphGeometry(for: size)
             let graphInset = geom.inset
             let graphTop = geom.top
             let graphWidth = geom.width
             let graphHeight = geom.height
+
+            // Clip every draw to the inset plot column. A curve is drawn out to
+            // `curveExtent` (its ~1.5 % taper), which can run a hair past the
+            // at-rest visible span (a 4 %-height threshold) — so its elimination
+            // tail would otherwise bleed into the right inset and clip at the bare
+            // canvas edge, leaving the curve flush-right but inset-left (the
+            // asymmetric-padding bug). Clipping to `[graphInset, width-graphInset]`
+            // makes both margins exactly `graphInset`. Labels anchor inside this
+            // band, so they're unaffected; the full height is kept for the
+            // top/bottom label rows.
+            context.clip(to: Path(CGRect(
+                x: graphInset, y: 0,
+                width: max(0, size.width - graphInset * 2), height: size.height,
+            )))
 
             let vStart = visibleStart
             let vSpan = visibleSpan
@@ -1072,8 +1081,8 @@ struct TimelineGraphView: View {
                 nowLine.addLine(to: CGPoint(x: nowX, y: graphTop + graphHeight))
                 context.stroke(
                     nowLine,
-                    with: .color(.primary.opacity(0.4)),
-                    lineWidth: compact ? 1 : 1.5,
+                    with: .color(.primary.opacity(0.55)),
+                    lineWidth: compact ? 1 : 2,
                 )
             }
 
@@ -1390,6 +1399,28 @@ struct TimelineGraphView: View {
                     )
                     context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
                 }
+
+                // "You are here" dot on this lane's frontmost active dose, so a
+                // busy day still marks the present per-substance — matching the
+                // overlapping/stacked renderers.
+                if showNowIndicator, scrubX == nil {
+                    let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
+                    let nowX = graphInset + CGFloat((nowGlobal - visibleStart) / visibleSpan) * graphWidth
+                    if nowX >= graphInset, nowX <= graphInset + graphWidth {
+                        var bestV = -1.0
+                        for dose in lane.doses {
+                            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
+                            let elapsed = nowGlobal - offset
+                            guard elapsed >= 0, elapsed <= dose.totalMinutes else { continue }
+                            let v = intensity(at: elapsed, for: dose, params: pkParams(for: dose)) * heightScale(for: dose) * norm
+                            bestV = max(bestV, v)
+                        }
+                        if bestV >= 0 {
+                            let y = baseline - CGFloat(min(1, max(0, bestV))) * amplitude * 0.93
+                            drawNowDot(context, x: nowX, y: y, color: color)
+                        }
+                    }
+                }
             }
 
             drawLaneLabel(lane.name, color: color, context: context, laneTop: laneTop, graphInset: graphInset, labelInset: labelInset)
@@ -1455,17 +1486,12 @@ struct TimelineGraphView: View {
         guard gSpan > 0 else { return }
         let params = group.map { pkParams(for: $0) }
         let steps = compact ? 48 : 140
-        let dt = gSpan / Double(steps)
-        let tau = min(max(gSpan * 0.04, 12), 90)
 
         var vs: [Double] = []
         vs.reserveCapacity(steps + 1)
         for i in 0 ... steps {
             let t = gStart + Double(i) / Double(steps) * gSpan
             vs.append(stackedIntensity(atGlobalMinutes: t, group: group, params: params) * norm)
-        }
-        if group.count > 1 {
-            vs = effectSiteSmoothed(vs, dtMinutes: dt, tauMinutes: tau)
         }
 
         var pts: [CGPoint] = []
@@ -1489,6 +1515,24 @@ struct TimelineGraphView: View {
         var stroke = Path()
         addSmoothCurve(pts, to: &stroke, startNew: true)
         context.stroke(stroke, with: .color(color.opacity(0.9)), lineWidth: 1.6)
+
+        // "You are here" dot, read from the same smoothed sample array so it
+        // stays glued to the rendered envelope.
+        if showNowIndicator, scrubX == nil {
+            let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
+            if nowGlobal >= gStart, nowGlobal <= gEnd {
+                let nowX = graphInset + CGFloat((nowGlobal - visibleStart) / visibleSpan) * graphWidth
+                if nowX >= graphInset, nowX <= graphInset + graphWidth {
+                    let idx = max(0, min(Double(steps), (nowGlobal - gStart) / gSpan * Double(steps)))
+                    let lo = Int(idx.rounded(.down))
+                    let hi = min(lo + 1, steps)
+                    let frac = idx - Double(lo)
+                    let v = min(1, max(0, vs[lo] * (1 - frac) + vs[hi] * frac))
+                    let y = baseline - CGFloat(v) * amplitude * 0.93
+                    drawNowDot(context, x: nowX, y: y, color: color)
+                }
+            }
+        }
     }
 
     /// A duration-less substance rendered as its own lane: a name label plus a
@@ -1567,6 +1611,15 @@ struct TimelineGraphView: View {
 
         let head = Path(ellipseIn: CGRect(x: x - r, y: headCenterY - r, width: r * 2, height: r * 2))
         context.fill(head, with: .color(color))
+    }
+
+    /// The "you are here" dot: a filled, white-ringed circle on a curve at the
+    /// current moment. Shared by the overlapping, stacked, and lane renderers so
+    /// every graph marks the present the same way.
+    private func drawNowDot(_ context: GraphicsContext, x: CGFloat, y: CGFloat, color: Color, size: CGFloat = 7) {
+        let dot = Path(ellipseIn: CGRect(x: x - size / 2, y: y - size / 2, width: size, height: size))
+        context.fill(dot, with: .color(color))
+        context.stroke(dot, with: .color(.white.opacity(0.85)), lineWidth: 1)
     }
 
     // MARK: - Path Builders
@@ -1709,7 +1762,9 @@ struct TimelineGraphView: View {
     ///
     /// - **σ↑** `= (comeupEnd − onsetEnd) / comeupSharpness` widens the rising
     ///   shoulder to span the come-up; the **onset delay falls out for free** as
-    ///   that shoulder's far-left tail (≈0 through the onset window).
+    ///   that shoulder's far-left tail (≈0 through the onset window). `comeupEnd`
+    ///   is the ``effectiveComeupEnd`` — synthesized when the data lists no
+    ///   come-up phase, so the rise never collapses to a vertical wall.
     /// - **σ↓** `= (offsetEnd − peakEnd) / offsetSharpness` widens the falling
     ///   shoulder to span the offset.
     /// - **crest** holds at 1.0 between `leftEdge`/`rightEdge`; ``peakDome`` shrinks
@@ -1720,13 +1775,13 @@ struct TimelineGraphView: View {
     /// at its mean), so the whole curve is C¹-smooth — no shoulder kinks like the
     /// old smoothstep+sine. The asymmetry users expect (fast rise, slow fall)
     /// comes from the offset window being wider than the come-up window in the
-    /// data, not from the constants. Tuned in `piru_curve_tuner.html`.
+    /// data, not from the constants. Tuned with the offline curve tools.
     private nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
         guard minutes >= 0 else { return 0 }
         let onsetEnd = s.onsetEndMinutes
-        let comeupEnd = max(s.comeupEndMinutes, onsetEnd + 1)
-        let peakEnd = max(s.peakEndMinutes, comeupEnd)
+        let peakEnd = max(s.peakEndMinutes, onsetEnd + 2)
         let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
+        let comeupEnd = Self.effectiveComeupEnd(for: s, onsetEnd: onsetEnd, peakEnd: peakEnd)
 
         let sigmaUp = max((comeupEnd - onsetEnd) / Self.comeupSharpness, 1e-3)
         let sigmaDown = max((offsetEnd - peakEnd) / Self.offsetSharpness, 1e-3)
@@ -1741,6 +1796,28 @@ struct TimelineGraphView: View {
         if minutes <= rightEdge { return 1 }
         let z = (minutes - rightEdge) / sigmaDown
         return exp(-0.5 * z * z)
+    }
+
+    /// The come-up boundary the rising shoulder is fit to — synthesizing a
+    /// plausible climb when the source data carries **no come-up phase**.
+    ///
+    /// Many profiles list only onset → peak (kratom oral: onset, peak, offset,
+    /// no come-up), so `comeupEndMinutes` collapses onto `onsetEnd`. The old
+    /// `max(comeupEnd, onsetEnd + 1)` left a 1-minute window → the curve shot up
+    /// as a near-vertical wall, which is wrong for an absorbed (oral) dose. When
+    /// the explicit window is essentially empty we instead borrow a come-up from
+    /// the dose's own timing: as long as the onset itself, floored at 12 min, but
+    /// capped at 60 % of the onset→peak gap so a flat peak still remains. Because
+    /// it scales off `onsetEnd`, a 30-min oral onset yields a broad ~30-min climb
+    /// while a 2-min insufflated onset stays quick — route falls out of the data.
+    /// A genuine come-up in the data is kept exactly as given.
+    private nonisolated static func effectiveComeupEnd(for s: ActiveSubstanceState, onsetEnd: Double, peakEnd: Double) -> Double {
+        let explicit = s.comeupEndMinutes - onsetEnd
+        let gap = peakEnd - onsetEnd
+        let window = explicit > 1
+            ? explicit
+            : min(max(onsetEnd * 0.6, 8), gap * 0.5)
+        return onsetEnd + max(window, 1e-3)
     }
 
     /// σ↑ divisor: how many standard deviations the come-up window spans. Higher =
@@ -1794,40 +1871,60 @@ struct TimelineGraphView: View {
         return min(max(end, 1), Self.maxDisplayMinutes)
     }
 
-    /// Append a smooth curve through `pts` using a uniform Catmull-Rom spline
-    /// converted to cubic Bézier segments — renders the sampled PK points as a
-    /// continuous biological shape instead of faceted line segments. When
-    /// `startNew` is false the current point is assumed to be `pts[0]` (used by
-    /// the fill path, which has already moved to the baseline start).
+    /// Append a smooth curve through `pts` using a **monotone** cubic Hermite
+    /// spline (Fritsch–Carlson tangents) converted to cubic Bézier segments.
+    ///
+    /// The earlier uniform Catmull-Rom rendered the sampled PK points smoothly
+    /// but overshot at sharp transitions: a fast-onset dose (kratom) sits flat at
+    /// baseline through the onset, then rises near-vertically — Catmull-Rom's
+    /// averaged tangent at that corner dipped the spline *below the baseline*
+    /// before the rise (the "broken curve" artifact) and could bulge *above* the
+    /// flat peak plateau. Fritsch–Carlson clamps each tangent so the interpolant
+    /// stays monotone within every monotone data run: zero slope at extrema (a
+    /// rounded peak, a clean baseline touchdown) and no excursion past the data.
+    /// Because x is strictly increasing for a sampled curve we interpolate y as a
+    /// function of x, so the guarantee holds in screen space directly.
+    ///
+    /// When `startNew` is false the current point is assumed to be `pts[0]` (used
+    /// by the fill path, which has already moved to the baseline start).
     private func addSmoothCurve(_ pts: [CGPoint], to path: inout Path, startNew: Bool) {
         guard pts.count >= 2 else {
             if let p = pts.first { startNew ? path.move(to: p) : path.addLine(to: p) }
             return
         }
-        if startNew { path.move(to: pts[0]) } else { path.addLine(to: pts[0]) }
-        for i in 0 ..< pts.count - 1 {
-            let p0 = pts[max(i - 1, 0)]
-            let p1 = pts[i]
-            let p2 = pts[i + 1]
-            let p3 = pts[min(i + 2, pts.count - 1)]
-            let c1 = CGPoint(x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6)
-            let c2 = CGPoint(x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6)
-            path.addCurve(to: p2, control1: c1, control2: c2)
-        }
-    }
+        let n = pts.count
 
-    /// Zero-phase one-pole low-pass over evenly-spaced samples — a discrete
-    /// effect-site (PK/PD) filter. Frequent redoses produce a spiky summed
-    /// *plasma* curve, but subjective *effect* lags and integrates it, so the
-    /// sawtooth becomes one smooth session envelope. Running the filter forward
-    /// then backward cancels phase lag so the peak doesn't drift in time.
-    private func effectSiteSmoothed(_ v: [Double], dtMinutes: Double, tauMinutes: Double) -> [Double] {
-        guard v.count > 2, dtMinutes > 0, tauMinutes > 0 else { return v }
-        let alpha = 1 - exp(-dtMinutes / tauMinutes)
-        var out = v
-        for i in 1 ..< out.count { out[i] = out[i - 1] + alpha * (out[i] - out[i - 1]) }
-        for i in stride(from: out.count - 2, through: 0, by: -1) { out[i] = out[i + 1] + alpha * (out[i] - out[i + 1]) }
-        return out
+        // Secant slopes dy/dx between consecutive samples. x increases left→right,
+        // so dx > 0; guard against a degenerate coincident pair anyway.
+        var delta = [Double](repeating: 0, count: n - 1)
+        for i in 0 ..< n - 1 {
+            let dx = Double(pts[i + 1].x - pts[i].x)
+            delta[i] = dx != 0 ? Double(pts[i + 1].y - pts[i].y) / dx : 0
+        }
+
+        // Fritsch–Carlson tangents: average adjacent secants, force zero at any
+        // sign change (local extremum), and cap magnitude at 3× the smaller
+        // neighbouring secant so a cubic segment can't overshoot its endpoints.
+        var m = [Double](repeating: 0, count: n)
+        m[0] = delta[0]
+        m[n - 1] = delta[n - 2]
+        for i in 1 ..< n - 1 {
+            if delta[i - 1] * delta[i] <= 0 {
+                m[i] = 0
+            } else {
+                let avg = (delta[i - 1] + delta[i]) / 2
+                let lim = 3 * min(abs(delta[i - 1]), abs(delta[i]))
+                m[i] = min(max(avg, -lim), lim)
+            }
+        }
+
+        if startNew { path.move(to: pts[0]) } else { path.addLine(to: pts[0]) }
+        for i in 0 ..< n - 1 {
+            let dx = Double(pts[i + 1].x - pts[i].x)
+            let c1 = CGPoint(x: pts[i].x + CGFloat(dx / 3), y: pts[i].y + CGFloat(m[i] * dx / 3))
+            let c2 = CGPoint(x: pts[i + 1].x - CGFloat(dx / 3), y: pts[i + 1].y - CGFloat(m[i + 1] * dx / 3))
+            path.addCurve(to: pts[i + 1], control1: c1, control2: c2)
+        }
     }
 
     // MARK: - Stacked Rendering
@@ -1854,28 +1951,61 @@ struct TimelineGraphView: View {
         return order.compactMap { buckets[$0] }
     }
 
-    /// Raw summed intensity of a group at a given global time (minutes since
-    /// earliestDose). Each dose contributes `intensity(localT) * doseIntensity`.
+    /// Combined intensity of a group at a given global time (minutes since
+    /// earliestDose) — the **upper envelope** (max) of the per-dose curves, each
+    /// weighted by its `doseIntensity`.
     ///
-    /// The sum is intentionally **not** clamped here: clamping to 1.0 would pin
-    /// overlapping redoses flat at the ceiling and carve an artificial dip
-    /// between them (an implausible "M"). Instead the caller normalizes by the
-    /// true combined peak (`peakCurveValue`), so superposed doses render as a
-    /// single rounded envelope — what real serial-dose plasma curves look like.
+    /// This is deliberately *not* a numeric sum. The curve is a coarse subjective
+    /// approximation (a flat-topped plateau, not a precise plasma trace), so
+    /// summing two overlapping doses produced a stepped, far-too-wavy shape — two
+    /// plateaus adding to 2× in the overlap and dropping back on the flanks — that
+    /// read as arithmetic rather than as one sustained effect. The envelope
+    /// instead merges overlapping redoses into a single clean plateau (as smooth
+    /// as one dose, just longer), a bigger redose still rises higher where it
+    /// dominates, and well-separated doses keep their distinct humps. The caller
+    /// normalizes by the combined peak (`peakCurveValue`); the effect-site
+    /// low-pass then rounds the hand-off where one dose overtakes another.
     /// `params` holds the precomputed Bateman fit per dose, aligned to `group`.
     private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [PKCurveParams]) -> Double {
         Self.stackedIntensity(atGlobalMinutes: global, group: group, params: params, earliestDose: derived.earliestDose)
     }
 
     private nonisolated static func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [PKCurveParams], earliestDose: Date) -> Double {
+        // Linear dose superposition, then ONE saturating Hill link. Each dose
+        // contributes `magnitude × bell`; summing the *unclamped* magnitudes
+        // means a genuine 4× stack reaches 4× the input, and a single combined
+        // dose of the same total lands identically — `4×20 mg ≡ 1×80 mg` falls
+        // out for free. Hill then saturates the sum so overlapping crests flatten
+        // (no dome) while doses spaced wider than their bells stay distinct humps.
         var sum = 0.0
         for (i, dose) in group.enumerated() {
             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
             let local = global - offset
             guard local >= 0 else { continue }
-            sum += Self.intensity(at: local, for: dose, params: params[i]) * dose.doseIntensity
+            sum += dose.doseMagnitude * Self.intensity(at: local, for: dose, params: params[i])
         }
-        return sum
+        return Self.hill(sum)
+    }
+
+    /// Half-saturation point of the effect link, in dose-magnitude units: a dose
+    /// at `amount = hillEC50 × heavy_threshold` sits at half the saturated
+    /// height. Pinned *above* a typical single dose so single doses live in
+    /// Hill's near-linear region — their come-up stays uncompressed — while
+    /// stacks push into saturation and flatten. Tuned with the offline curve
+    /// tools (a scorer verifies the `4×20 ≡ 1×80` superposition invariant).
+    private nonisolated static let hillEC50: Double = 0.78
+    /// Hill exponent — saturation sharpness and stacking dynamic range. `1.4`
+    /// gives the flattest overlap crest while still separating 2- from 4-dose
+    /// stacks; raising it pushes stacks harder toward the ceiling.
+    private nonisolated static let hillExponent: Double = 1.4
+
+    /// Saturating dose→height link `Cʰ / (EC50ʰ + Cʰ)` (Emax = 1). Applied once
+    /// to the superposed dose magnitude, so a single dose and a stack of the
+    /// same total render identically and overlapping crests saturate flat.
+    private nonisolated static func hill(_ magnitude: Double) -> Double {
+        guard magnitude > 0 else { return 0 }
+        let m = pow(magnitude, hillExponent)
+        return m / (pow(hillEC50, hillExponent) + m)
     }
 
     private func stackedGroupRange(_ group: [ActiveSubstanceState]) -> (start: Double, end: Double) {
@@ -1918,11 +2048,11 @@ struct TimelineGraphView: View {
             let activeEnd = group.map { $0.doseTimestamp.timeIntervalSince(earliestDose) / 60 + $0.totalMinutes }.max() ?? gEnd
             let emph = emphasis(name: first.substanceName, isActive: nowGlobal >= gStart && nowGlobal <= activeEnd)
 
-            // Sample the summed curve, then (for genuine redose stacks) pass it
-            // through an effect-site low-pass so frequent redoses read as one
-            // smooth session envelope rather than a spiky plasma sawtooth.
-            let dt = gSpan / Double(steps)
-            let tau = min(max(gSpan * 0.04, 12), 90)
+            // Sample the merged curve `Hill(Σ magnitude·bell)`. The Hill
+            // superposition is already smooth and keeps overlapping crests flat,
+            // so no post-hoc envelope low-pass is needed — and spread-out redoses
+            // whose bells don't overlap stay as distinct humps (correct: they're
+            // separate experiences), instead of being fused into one dome.
             var vs: [Double] = []
             vs.reserveCapacity(steps + 1)
             for i in 0 ... steps {
@@ -1938,9 +2068,6 @@ struct TimelineGraphView: View {
                 if factor != 1 {
                     for i in vs.indices { vs[i] *= factor }
                 }
-            }
-            if group.count > 1 {
-                vs = effectSiteSmoothed(vs, dtMinutes: dt, tauMinutes: tau)
             }
 
             func curveValue(atFraction f: Double) -> Double {
@@ -2039,10 +2166,16 @@ struct TimelineGraphView: View {
         guard graphWidth > 0, visibleSpan > 0 else { return }
         let doseOffset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
 
+        // Use the same synthesized come-up the curve is fit to, so the blue
+        // band tracks the rendered rise even when the source data lists no
+        // come-up phase (otherwise the curve climbs through a "peak"-coloured
+        // band with no come-up band at all).
+        let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
+        let comeupEndForBands = Self.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
         let bands: [(start: Double, end: Double, color: Color)] = [
             (0, s.onsetEndMinutes, Color(hex: "9B9BA1")),
-            (s.onsetEndMinutes, s.comeupEndMinutes, Color(hex: "3A8DEF")),
-            (s.comeupEndMinutes, s.peakEndMinutes, Color(hex: "34C759")),
+            (s.onsetEndMinutes, comeupEndForBands, Color(hex: "3A8DEF")),
+            (comeupEndForBands, s.peakEndMinutes, Color(hex: "34C759")),
             (s.peakEndMinutes, s.offsetEndMinutes, Color(hex: "FF9F0A")),
         ]
 

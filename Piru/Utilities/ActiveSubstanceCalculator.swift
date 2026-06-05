@@ -125,7 +125,7 @@ enum ActiveSubstanceCalculator {
 
 extension ActiveSubstanceState {
     /// Build from a pre-resolved duration profile and basic dose info.
-    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
+    init?(name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, duration: DurationProfile?, category: SubstanceCategory? = nil, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0) {
         guard let rawDuration = duration else { return nil }
         // Endpoint-only data (a `total` with no come-up/peak/offset) would
         // otherwise collapse the curve to the onset length; synthesize the
@@ -147,6 +147,7 @@ extension ActiveSubstanceState {
             afterglowEndMinutes: duration.afterglow != nil ? boundaries.afterglowEnd : nil,
             totalMinutes: duration.estimatedTotalMinutes,
             doseIntensity: doseIntensity,
+            doseMagnitude: doseMagnitude,
             tachyphylaxis: tachyphylaxis,
         )
     }
@@ -159,7 +160,7 @@ extension ActiveSubstanceState {
     /// `peakCenter` (a few hours, never tied to the half-life — a long-acting drug
     /// still absorbs quickly). `totalMinutes` is derived from the half-life
     /// (`ln(20)/ke` past the peak) so a longer half-life stretches the offset.
-    init(synthesizedForName name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, halfLifeMinutes: Double, doseIntensity: Double) {
+    init(synthesizedForName name: String, colorHex: String, timestamp: Date, amount: Double, unit: String, routeDisplayName: String, halfLifeMinutes: Double, doseIntensity: Double, doseMagnitude: Double? = nil) {
         let ke = log(2) / halfLifeMinutes
         let peakCenter = min(max(halfLifeMinutes * 0.15, 20), 180)
         let total = peakCenter + log(20) / ke
@@ -177,6 +178,7 @@ extension ActiveSubstanceState {
             afterglowEndMinutes: nil,
             totalMinutes: total,
             doseIntensity: doseIntensity,
+            doseMagnitude: doseMagnitude,
         )
     }
 
@@ -194,10 +196,9 @@ extension ActiveSubstanceState {
     /// 3. **Neither** → `nil`, so the dose falls through to a timestamp marker.
     static func from(entry: DoseEntry, colorHex: String) -> ActiveSubstanceState? {
         guard let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance) else { return nil }
-        let intensity = Self.computeDoseIntensity(
-            amount: entry.amount,
-            doseRange: Self.resolveDoseRange(substance: substance, route: entry.route),
-        )
+        let doseRange = Self.resolveDoseRange(substance: substance, route: entry.route)
+        let intensity = Self.computeDoseIntensity(amount: entry.amount, doseRange: doseRange)
+        let magnitude = Self.computeDoseMagnitude(amount: entry.amount, doseRange: doseRange)
         if let duration = substance.timelineDuration(for: entry.route) {
             return ActiveSubstanceState(
                 name: entry.substance,
@@ -209,6 +210,7 @@ extension ActiveSubstanceState {
                 duration: duration,
                 category: substance.category,
                 doseIntensity: intensity,
+                doseMagnitude: magnitude,
                 tachyphylaxis: substance.category.acuteToleranceFactor,
             )
         }
@@ -222,6 +224,7 @@ extension ActiveSubstanceState {
                 routeDisplayName: entry.route.displayName,
                 halfLifeMinutes: halfLife,
                 doseIntensity: intensity,
+                doseMagnitude: magnitude,
             )
         }
         return nil
@@ -306,23 +309,34 @@ extension ActiveSubstanceState {
     static let minimumIntensity: Double = 0.05
 
     static func computeDoseIntensity(amount: Double, doseRange: DoseRange?) -> Double {
-        guard let range = doseRange else { return unknownIntensity }
-
-        let reference: Double
-        if let heavy = range.heavy, heavy > 0 {
-            reference = heavy
-        } else if let strong = range.strong, strong.upperBound > 0 {
-            reference = strong.upperBound
-        } else if let common = range.common, common.upperBound > 0 {
-            // Approximate a heavy threshold when only common is defined.
-            reference = common.upperBound * 1.5
-        } else if let light = range.light, light.upperBound > 0 {
-            reference = light.upperBound * 3
-        } else if let threshold = range.threshold, threshold > 0 {
-            reference = threshold * 10
-        } else {
-            return unknownIntensity
-        }
+        guard let reference = heavyReference(for: doseRange) else { return unknownIntensity }
         return min(1.0, max(minimumIntensity, amount / reference))
+    }
+
+    /// The **unclamped** dose magnitude — `amount / heavy_threshold` with no 1.0
+    /// cap. Single source for the timeline's dose-superposition: stacked doses
+    /// sum their magnitudes and a single combined dose of the same total lands
+    /// identically, so the merged curve passes one Hill link and
+    /// `4×20 mg ≡ 1×80 mg`. Still floored at ``minimumIntensity`` so a
+    /// sub-threshold dose keeps a visible nub. Falls back to ``unknownIntensity``
+    /// when no dose-range reference exists (mirrors ``computeDoseIntensity``).
+    static func computeDoseMagnitude(amount: Double, doseRange: DoseRange?) -> Double {
+        guard let reference = heavyReference(for: doseRange) else { return unknownIntensity }
+        return max(minimumIntensity, amount / reference)
+    }
+
+    /// Resolve the "heavy" reference dose used as the denominator for both
+    /// intensity and magnitude, with looser fallbacks (strong upper, common
+    /// upper × 1.5, …) when `heavy` isn't defined. `nil` when nothing is
+    /// populated, so callers can substitute ``unknownIntensity``.
+    private static func heavyReference(for doseRange: DoseRange?) -> Double? {
+        guard let range = doseRange else { return nil }
+        if let heavy = range.heavy, heavy > 0 { return heavy }
+        if let strong = range.strong, strong.upperBound > 0 { return strong.upperBound }
+        // Approximate a heavy threshold when only common is defined.
+        if let common = range.common, common.upperBound > 0 { return common.upperBound * 1.5 }
+        if let light = range.light, light.upperBound > 0 { return light.upperBound * 3 }
+        if let threshold = range.threshold, threshold > 0 { return threshold * 10 }
+        return nil
     }
 }

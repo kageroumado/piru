@@ -54,6 +54,15 @@ struct ActiveSubstanceState: Codable, Hashable, Sendable {
     /// they still render as a visible nub instead of disappearing.
     let doseIntensity: Double
 
+    /// Unclamped dose magnitude — `amount / heavy_threshold` with the *same*
+    /// reference as ``doseIntensity`` but **without the 1.0 cap**. This is the
+    /// linear quantity the timeline superposes: stacked doses sum their
+    /// magnitudes (`4×0.7 → 2.8`) and a single combined dose of the same total
+    /// (`80 mg → 2.8`) lands identically, so the merged curve passes one
+    /// saturating Hill link and `4×20 mg ≡ 1×80 mg` falls out for free. Floored
+    /// at `minimumIntensity`; defaults to ``doseIntensity`` when not supplied.
+    let doseMagnitude: Double
+
     /// Acute-tolerance (tachyphylaxis) strength, `0...1`, from the substance's
     /// category (`SubstanceCategory.acuteToleranceFactor`). Drives the timeline
     /// curve's descending-limb gate: stimulants/empathogens crash faster than
@@ -62,7 +71,7 @@ struct ActiveSubstanceState: Codable, Hashable, Sendable {
     /// leaves the pure Bateman offset unchanged.
     let tachyphylaxis: Double
 
-    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, tachyphylaxis: Double = 0) {
+    init(substanceName: String, colorHex: String, doseTimestamp: Date, amount: Double, unit: String, route: String, onsetEndMinutes: Double, comeupEndMinutes: Double, peakEndMinutes: Double, offsetEndMinutes: Double, afterglowEndMinutes: Double?, totalMinutes: Double, doseIntensity: Double = 1.0, doseMagnitude: Double? = nil, tachyphylaxis: Double = 0) {
         self.substanceName = substanceName
         self.colorHex = colorHex
         self.doseTimestamp = doseTimestamp
@@ -76,6 +85,7 @@ struct ActiveSubstanceState: Codable, Hashable, Sendable {
         self.afterglowEndMinutes = afterglowEndMinutes
         self.totalMinutes = totalMinutes
         self.doseIntensity = doseIntensity
+        self.doseMagnitude = doseMagnitude ?? doseIntensity
         self.tachyphylaxis = tachyphylaxis
     }
 
@@ -94,6 +104,7 @@ struct ActiveSubstanceState: Codable, Hashable, Sendable {
         afterglowEndMinutes = try c.decodeIfPresent(Double.self, forKey: .afterglowEndMinutes)
         totalMinutes = try c.decode(Double.self, forKey: .totalMinutes)
         doseIntensity = try c.decodeIfPresent(Double.self, forKey: .doseIntensity) ?? 1.0
+        doseMagnitude = try c.decodeIfPresent(Double.self, forKey: .doseMagnitude) ?? doseIntensity
         tachyphylaxis = try c.decodeIfPresent(Double.self, forKey: .tachyphylaxis) ?? 0
     }
 }
