@@ -1110,7 +1110,6 @@ struct SubstanceDetailView: View {
 
     // MARK: - Mechanism + Literature bodies
 
-    @ViewBuilder
     private func mechanismBody(_ moa: MechanismOfAction) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(moa.summary)
@@ -1127,7 +1126,7 @@ struct SubstanceDetailView: View {
                     GridRow {
                         Text("Target")
                         Text("Action")
-                        Text("")
+                        Text(verbatim: "")
                     }
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
@@ -1396,7 +1395,9 @@ private enum ShareSheetPresenter {
         else { return }
 
         var top = root
-        while let presented = top.presentedViewController { top = presented }
+        while let presented = top.presentedViewController {
+            top = presented
+        }
 
         let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         // Anchor the popover on iPad / Mac Catalyst so it has a valid source.
