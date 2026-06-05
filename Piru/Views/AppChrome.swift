@@ -117,10 +117,10 @@ extension View {
     /// App-Store-style large title header with a `•••` overflow (Settings/Help)
     /// plus optional per-screen `leadingControls` and `menuExtras`. Soft
     /// scroll-edge and scroll-away fade. Apply to a scrollable tab root.
-    func appHeader<Leading: View, Extras: View>(
+    func appHeader(
         _ title: LocalizedStringKey,
-        @ViewBuilder leadingControls: @escaping () -> Leading = { EmptyView() },
-        @ViewBuilder menuExtras: @escaping () -> Extras = { EmptyView() },
+        @ViewBuilder leadingControls: @escaping () -> some View = { EmptyView() },
+        @ViewBuilder menuExtras: @escaping () -> some View = { EmptyView() },
     ) -> some View {
         modifier(AppHeaderModifier(title: title, leadingControls: leadingControls, menuExtras: menuExtras))
     }
@@ -129,11 +129,11 @@ extension View {
     /// — e.g. a view used both as a tab root (header on) and embedded in the
     /// Search surface (header off).
     @ViewBuilder
-    func appHeader<Leading: View, Extras: View>(
+    func appHeader(
         _ title: LocalizedStringKey,
         enabled: Bool,
-        @ViewBuilder leadingControls: @escaping () -> Leading = { EmptyView() },
-        @ViewBuilder menuExtras: @escaping () -> Extras = { EmptyView() },
+        @ViewBuilder leadingControls: @escaping () -> some View = { EmptyView() },
+        @ViewBuilder menuExtras: @escaping () -> some View = { EmptyView() },
     ) -> some View {
         if enabled {
             appHeader(title, leadingControls: leadingControls, menuExtras: menuExtras)

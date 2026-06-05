@@ -24,7 +24,7 @@ struct SessionServiceTests {
         let entry = DoseEntry(
             substance: unknown,
             amount: 100,
-            timestamp: Date(timeIntervalSince1970: 1_700_000_000).addingTimeInterval(hoursFromNow * 3600),
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000).addingTimeInterval(hoursFromNow * 3_600),
             isBackgroundMed: background,
         )
         context.insert(entry)
@@ -37,22 +37,24 @@ struct SessionServiceTests {
 
     // MARK: - Populate (history backfill)
 
-    @Test("Populate assigns every dose to exactly one session — none orphaned or duplicated")
-    func populateInvariant() throws {
+    @Test
+    func `Populate assigns every dose to exactly one session — none orphaned or duplicated`() throws {
         let context = try makeContext()
         let doses = [0.0, 1, 2, 20, 21, 48].map { insert(context, hoursFromNow: $0) }
         try context.save()
 
         SessionService.assignUnassignedDoses(in: context)
 
-        for dose in doses { #expect(dose.session != nil) }
-        let assigned = try sessions(context).flatMap { $0.orderedDoses }
+        for dose in doses {
+            #expect(dose.session != nil)
+        }
+        let assigned = try sessions(context).flatMap(\.orderedDoses)
         #expect(assigned.count == doses.count) // no duplicates
-        #expect(Set(assigned.map { $0.persistentModelID }).count == doses.count)
+        #expect(Set(assigned.map(\.persistentModelID)).count == doses.count)
     }
 
-    @Test("Populate splits widely-spaced doses and groups close ones")
-    func populateBoundaries() throws {
+    @Test
+    func `Populate splits widely-spaced doses and groups close ones`() throws {
         let context = try makeContext()
         // Three clusters: {0,1,2}, {20,21}, {48}.
         _ = [0.0, 1, 2, 20, 21, 48].map { insert(context, hoursFromNow: $0) }
@@ -62,8 +64,8 @@ struct SessionServiceTests {
         #expect(try sessions(context).count == 3)
     }
 
-    @Test("Populate is idempotent — a second run creates no new sessions")
-    func populateIdempotent() throws {
+    @Test
+    func `Populate is idempotent — a second run creates no new sessions`() throws {
         let context = try makeContext()
         _ = [0.0, 1, 20].map { insert(context, hoursFromNow: $0) }
         try context.save()
@@ -74,8 +76,8 @@ struct SessionServiceTests {
         #expect(try sessions(context).count == first)
     }
 
-    @Test("ensureSessionsPopulated clusters session-less doses unconditionally (recovery regression)")
-    func ensurePopulatedClustersRecoveredDoses() throws {
+    @Test
+    func `ensureSessionsPopulated clusters session-less doses unconditionally (recovery regression)`() throws {
         // Mirrors the post-recovery state: doses exist with no session (e.g.
         // restored from a pre-session backup). This must cluster them even though
         // a prior empty-launch may have set the old "already populated" flag —
@@ -83,16 +85,20 @@ struct SessionServiceTests {
         let context = try makeContext()
         let doses = [0.0, 1, 2, 20, 21, 48].map { insert(context, hoursFromNow: $0) }
         try context.save()
-        for dose in doses { #expect(dose.session == nil) }
+        for dose in doses {
+            #expect(dose.session == nil)
+        }
 
         SessionService.ensureSessionsPopulated(in: context)
 
-        for dose in doses { #expect(dose.session != nil) }
+        for dose in doses {
+            #expect(dose.session != nil)
+        }
         #expect(try sessions(context).count == 3) // {0,1,2} {20,21} {48}
     }
 
-    @Test("startDate equals the session's earliest dose")
-    func startDateIsEarliest() throws {
+    @Test
+    func `startDate equals the session's earliest dose`() throws {
         let context = try makeContext()
         _ = [0.0, 1, 2].map { insert(context, hoursFromNow: $0) }
         try context.save()
@@ -104,8 +110,8 @@ struct SessionServiceTests {
 
     // MARK: - Log-time assignment
 
-    @Test("A close follow-up dose joins; a distant one starts a new session")
-    func sequentialAssignment() throws {
+    @Test
+    func `A close follow-up dose joins; a distant one starts a new session`() throws {
         let context = try makeContext()
 
         let a = insert(context, hoursFromNow: 0)
@@ -125,8 +131,8 @@ struct SessionServiceTests {
 
     // MARK: - Background medications
 
-    @Test("A lone background med forms its own maintenance session")
-    func loneBackgroundMedIsMaintenance() throws {
+    @Test
+    func `A lone background med forms its own maintenance session`() throws {
         let context = try makeContext()
         let med = insert(context, hoursFromNow: 0, background: true)
         SessionService.assignSession(for: med, in: context)
@@ -135,8 +141,8 @@ struct SessionServiceTests {
         #expect(session.isMaintenance)
     }
 
-    @Test("A background med during an active session folds in and the session stays non-maintenance")
-    func backgroundMedJoinsActiveSession() throws {
+    @Test
+    func `A background med during an active session folds in and the session stays non-maintenance`() throws {
         let context = try makeContext()
         let rec = insert(context, hoursFromNow: 0) // recreational, ~4.8 h window
         SessionService.assignSession(for: rec, in: context)
@@ -151,8 +157,8 @@ struct SessionServiceTests {
 
     // MARK: - Manual overrides
 
-    @Test("Merge moves all doses into the target and deletes the source")
-    func mergeCombinesSessions() throws {
+    @Test
+    func `Merge moves all doses into the target and deletes the source`() throws {
         let context = try makeContext()
         let a = insert(context, hoursFromNow: 0)
         SessionService.assignSession(for: a, in: context)
@@ -170,8 +176,8 @@ struct SessionServiceTests {
         #expect(target.startDate == a.timestamp) // earliest preserved
     }
 
-    @Test("Split moves the pivot and later doses into a new session")
-    func splitDividesSession() throws {
+    @Test
+    func `Split moves the pivot and later doses into a new session`() throws {
         let context = try makeContext()
         let doses = [0.0, 1, 2, 3].map { insert(context, hoursFromNow: $0) }
         SessionService.assignUnassignedDoses(in: context)
@@ -180,14 +186,14 @@ struct SessionServiceTests {
 
         let newSession = try #require(SessionService.split(original, at: doses[2], in: context))
 
-        #expect(original.orderedDoses.map { $0.timestamp } == [doses[0], doses[1]].map { $0.timestamp })
-        #expect(newSession.orderedDoses.map { $0.timestamp } == [doses[2], doses[3]].map { $0.timestamp })
+        #expect(original.orderedDoses.map(\.timestamp) == [doses[0], doses[1]].map(\.timestamp))
+        #expect(newSession.orderedDoses.map(\.timestamp) == [doses[2], doses[3]].map(\.timestamp))
         #expect(newSession.startDate == doses[2].timestamp)
         #expect(try sessions(context).count == 2)
     }
 
-    @Test("Splitting at the first dose is a no-op")
-    func splitAtFirstDoseIsNoop() throws {
+    @Test
+    func `Splitting at the first dose is a no-op`() throws {
         let context = try makeContext()
         let doses = [0.0, 1].map { insert(context, hoursFromNow: $0) }
         SessionService.assignUnassignedDoses(in: context)
@@ -196,8 +202,8 @@ struct SessionServiceTests {
         #expect(try sessions(context).count == 1)
     }
 
-    @Test("Moving the last dose out of a session deletes the empty source")
-    func moveLastDoseDeletesSource() throws {
+    @Test
+    func `Moving the last dose out of a session deletes the empty source`() throws {
         let context = try makeContext()
         let a = insert(context, hoursFromNow: 0)
         SessionService.assignSession(for: a, in: context)
@@ -213,8 +219,8 @@ struct SessionServiceTests {
         #expect((source.doses ?? []).isEmpty)
     }
 
-    @Test("Setting and clearing a title")
-    func titleSetAndClear() throws {
+    @Test
+    func `Setting and clearing a title`() throws {
         let context = try makeContext()
         let a = insert(context, hoursFromNow: 0)
         SessionService.assignSession(for: a, in: context)

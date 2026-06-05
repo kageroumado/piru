@@ -13,7 +13,11 @@ struct DosePhaseProgressBar: View {
     /// Phase bands, mirroring the timeline graph's hues so the bar reads
     /// coherently with a curve drawn near it.
     enum Phase {
-        case onset, comeup, peak, offset, after
+        case onset
+        case comeup
+        case peak
+        case offset
+        case after
 
         var color: Color {
             switch self {

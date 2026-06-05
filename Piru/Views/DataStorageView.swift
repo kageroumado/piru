@@ -210,14 +210,21 @@ struct DataStorageView: View {
 
     private var exportImportSection: some View {
         Section {
-            dataRow(title: "Export…", subtitle: "Piru, PsychonautWiki, or an encrypted backup",
-                    systemImage: "square.and.arrow.up", showSpinner: generatingFormat != nil) {
+            dataRow(
+                title: "Export…",
+                subtitle: "Piru, PsychonautWiki, or an encrypted backup",
+                systemImage: "square.and.arrow.up",
+                showSpinner: generatingFormat != nil,
+            ) {
                 showingExportOptions = true
             }
             .popover(isPresented: $showingExportOptions) { exportOptions }
 
-            dataRow(title: "Import & Restore…", subtitle: "From a file, an encrypted backup, or iCloud",
-                    systemImage: "square.and.arrow.down") {
+            dataRow(
+                title: "Import & Restore…",
+                subtitle: "From a file, an encrypted backup, or iCloud",
+                systemImage: "square.and.arrow.down",
+            ) {
                 showingImportOptions = true
             }
             .popover(isPresented: $showingImportOptions) { importOptions }
@@ -232,25 +239,43 @@ struct DataStorageView: View {
     /// Choices inside the Export popover.
     private var exportOptions: some View {
         chooser {
-            optionRow(title: "Piru Backup", subtitle: "A complete backup you can restore into Piru",
-                      systemImage: "arrow.up.doc") { showingExportOptions = false; exportPlain(.piru) }
-            optionRow(title: "PsychonautWiki Format", subtitle: "For importing into the PsychonautWiki app",
-                      systemImage: "arrow.up.doc") { showingExportOptions = false; exportPlain(.psyLog) }
-            optionRow(title: "Encrypted Backup…", subtitle: "Passphrase-protected — save or send it anywhere",
-                      systemImage: "lock.doc") { showingExportOptions = false; showingExportPassphrase = true }
+            optionRow(
+                title: "Piru Backup",
+                subtitle: "A complete backup you can restore into Piru",
+                systemImage: "arrow.up.doc",
+            ) { showingExportOptions = false; exportPlain(.piru) }
+            optionRow(
+                title: "PsychonautWiki Format",
+                subtitle: "For importing into the PsychonautWiki app",
+                systemImage: "arrow.up.doc",
+            ) { showingExportOptions = false; exportPlain(.psyLog) }
+            optionRow(
+                title: "Encrypted Backup…",
+                subtitle: "Passphrase-protected — save or send it anywhere",
+                systemImage: "lock.doc",
+            ) { showingExportOptions = false; showingExportPassphrase = true }
         }
     }
 
     /// Choices inside the Import & Restore popover.
     private var importOptions: some View {
         chooser {
-            optionRow(title: "Import from a File…", subtitle: "A Piru or PsychonautWiki JSON file",
-                      systemImage: "arrow.down.doc") { showingImportOptions = false; showingPlainImporter = true }
-            optionRow(title: "Restore Encrypted Backup…", subtitle: "A passphrase-protected .piruenc file",
-                      systemImage: "lock.doc") { showingImportOptions = false; showingFileImporter = true }
+            optionRow(
+                title: "Import from a File…",
+                subtitle: "A Piru or PsychonautWiki JSON file",
+                systemImage: "arrow.down.doc",
+            ) { showingImportOptions = false; showingPlainImporter = true }
+            optionRow(
+                title: "Restore Encrypted Backup…",
+                subtitle: "A passphrase-protected .piruenc file",
+                systemImage: "lock.doc",
+            ) { showingImportOptions = false; showingFileImporter = true }
             if manager.iCloudAvailable {
-                optionRow(title: "Restore Latest iCloud Backup", subtitle: "From your automatic iCloud backups",
-                          systemImage: "arrow.clockwise.icloud") {
+                optionRow(
+                    title: "Restore Latest iCloud Backup",
+                    subtitle: "From your automatic iCloud backups",
+                    systemImage: "arrow.clockwise.icloud",
+                ) {
                     showingImportOptions = false
                     pendingIsICloud = true
                     pendingPassphrase = nil
@@ -323,8 +348,11 @@ struct DataStorageView: View {
 
     private var reportSection: some View {
         Section {
-            dataRow(title: "Generate Medical Report", subtitle: "A PDF summary to share with a clinician",
-                    systemImage: "doc.richtext") { showingReport = true }
+            dataRow(
+                title: "Generate Medical Report",
+                subtitle: "A PDF summary to share with a clinician",
+                systemImage: "doc.richtext",
+            ) { showingReport = true }
         } header: {
             Text("Report")
         }
@@ -334,14 +362,26 @@ struct DataStorageView: View {
 
     private var howItWorksSection: some View {
         Section {
-            howItWorksRow(icon: "lock.shield", title: "Strong encryption",
-                          detail: "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused.")
-            howItWorksRow(icon: "key.icloud", title: "Your key, your device",
-                          detail: "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob.")
-            howItWorksRow(icon: "key.horizontal", title: "Passphrase backups",
-                          detail: "Manual exports turn your passphrase into a key with 600,000 rounds of PBKDF2. The passphrase is never saved or sent. Choose one you won't forget — there's no recovery.")
-            howItWorksRow(icon: "checkmark.shield", title: "Nothing is deleted by surprise",
-                          detail: "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on.")
+            howItWorksRow(
+                icon: "lock.shield",
+                title: "Strong encryption",
+                detail: "Every backup is sealed with AES-256-GCM — the same authenticated encryption used by modern secure messengers. Tampering is detected and refused.",
+            )
+            howItWorksRow(
+                icon: "key.icloud",
+                title: "Your key, your device",
+                detail: "Automatic backups use a random key kept in your iCloud Keychain. It never leaves your devices in readable form, so iCloud only ever holds an unreadable blob.",
+            )
+            howItWorksRow(
+                icon: "key.horizontal",
+                title: "Passphrase backups",
+                detail: "Manual exports turn your passphrase into a key with 600,000 rounds of PBKDF2. The passphrase is never saved or sent. Choose one you won't forget — there's no recovery.",
+            )
+            howItWorksRow(
+                icon: "checkmark.shield",
+                title: "Nothing is deleted by surprise",
+                detail: "Replacing your data on restore takes a recoverable snapshot first. Backups are always optional and off until you turn them on.",
+            )
         } header: {
             Text("How Encryption Works")
         }
@@ -362,7 +402,6 @@ struct DataStorageView: View {
 
     // MARK: - Recoverable copies
 
-    @ViewBuilder
     private var recoverableSection: some View {
         Section {
             if loadingRecoverable {
@@ -446,7 +485,9 @@ struct DataStorageView: View {
         return "\(rows) · \(byteString(store.bytes)) · \(when)"
     }
 
-    private func rowCountText(_ count: Int) -> String { String(localized: "\(count) records") }
+    private func rowCountText(_ count: Int) -> String {
+        String(localized: "\(count) records")
+    }
 
     private func byteString(_ bytes: Int64) -> String {
         ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)

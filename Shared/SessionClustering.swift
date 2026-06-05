@@ -106,7 +106,9 @@ enum SessionClustering {
         init?(doses: [Dose]) {
             guard let first = doses.first else { return nil }
             self.init(firstDose: first)
-            for dose in doses.dropFirst() { extend(with: dose) }
+            for dose in doses.dropFirst() {
+                extend(with: dose)
+            }
         }
 
         /// Fold a dose into this session (caller has already decided it joins).

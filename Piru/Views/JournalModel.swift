@@ -83,7 +83,9 @@ final class JournalModel {
                 )
                 : nil
             map[entry.persistentModelID] = EntryDerived(category: category, state: state, marker: marker)
-            for tag in entry.tags { tagCounts[tag, default: 0] += 1 }
+            for tag in entry.tags {
+                tagCounts[tag, default: 0] += 1
+            }
         }
         derived = map
         categories = cats.sorted { $0.rawValue < $1.rawValue }

@@ -11,27 +11,29 @@ struct SessionClusteringTests {
     /// (`nil` → use the heuristic's fallback).
     private func dose(_ hours: Double, effectHours: Double?, background: Bool = false) -> SessionClustering.Dose {
         SessionClustering.Dose(
-            timestamp: base.addingTimeInterval(hours * 3600),
+            timestamp: base.addingTimeInterval(hours * 3_600),
             effectDurationMinutes: effectHours.map { $0 * 60 },
             isBackgroundMed: background,
         )
     }
 
     /// Flattened group membership, for invariant checks.
-    private func allIndices(_ groups: [[Int]]) -> [Int] { groups.flatMap { $0 }.sorted() }
+    private func allIndices(_ groups: [[Int]]) -> [Int] {
+        groups.flatMap(\.self).sorted()
+    }
 
     // MARK: - Canonical cases from the plan
 
-    @Test("9 AM coffee and 3:45 AM next-dose are different sessions")
-    func falseMergeIsSplit() {
+    @Test
+    func `9 AM coffee and 3:45 AM next-dose are different sessions`() {
         // Caffeine at 09:00 (~5 h effect), then a dose ~18.75 h later (next pre-dawn).
         let doses = [dose(0, effectHours: 5), dose(18.75, effectHours: 4)]
         let groups = SessionClustering.cluster(doses)
         #expect(groups == [[0], [1]])
     }
 
-    @Test("All-nighter re-dosing every 2.5 h is one session crossing the clock cutoff")
-    func allNighterMerges() {
+    @Test
+    func `All-nighter re-dosing every 2.5 h is one session crossing the clock cutoff`() {
         // 22:00, 00:30, 03:00, 05:00 — every gap ≤ floor.
         let doses = [
             dose(0, effectHours: 4),
@@ -43,8 +45,8 @@ struct SessionClusteringTests {
         #expect(groups == [[0, 1, 2, 3]])
     }
 
-    @Test("A short hit dropped into a long trip stays in the trip")
-    func shortDoseDoesNotCloseLongSession() {
+    @Test
+    func `A short hit dropped into a long trip stays in the trip`() {
         // LSD (12 h) at 0, nicotine (1 h) at +1, caffeine (5 h) at +5.
         // The nicotine must not collapse the session's effect window.
         let doses = [
@@ -56,8 +58,8 @@ struct SessionClusteringTests {
         #expect(groups == [[0, 1, 2]])
     }
 
-    @Test("The sleep ceiling splits even a long-acting drug across a quiescent night")
-    func ceilingOverridesEffectWindow() {
+    @Test
+    func `The sleep ceiling splits even a long-acting drug across a quiescent night`() {
         // LSD effect window runs ~14 h, but a 10 h quiescent gap (sleep) still splits.
         let doses = [dose(0, effectHours: 12), dose(10, effectHours: 12)]
         let groups = SessionClustering.cluster(doses)
@@ -66,8 +68,8 @@ struct SessionClusteringTests {
 
     // MARK: - Floor / fallback behavior
 
-    @Test("Unknown-duration doses within the floor group; beyond the effect window split")
-    func unknownDurationUsesFallback() {
+    @Test
+    func `Unknown-duration doses within the floor group; beyond the effect window split`() {
         // Fallback effect is 4 h → scaled end 4.8 h.
         #expect(SessionClustering.cluster([dose(0, effectHours: nil), dose(2, effectHours: nil)]) == [[0, 1]])
         #expect(SessionClustering.cluster([dose(0, effectHours: nil), dose(6, effectHours: nil)]) == [[0], [1]])
@@ -75,28 +77,28 @@ struct SessionClusteringTests {
 
     // MARK: - Background medications
 
-    @Test("A lone background med is its own session")
-    func loneBackgroundMedStandsAlone() {
+    @Test
+    func `A lone background med is its own session`() {
         let groups = SessionClustering.cluster([dose(0, effectHours: nil, background: true)])
         #expect(groups == [[0]])
     }
 
-    @Test("A background med taken during an active session folds into it")
-    func backgroundMedJoinsActiveSession() {
+    @Test
+    func `A background med taken during an active session folds into it`() {
         // LSD at 0 (active ~14 h), maintenance pill at +2 h.
         let doses = [dose(0, effectHours: 12), dose(2, effectHours: nil, background: true)]
         #expect(SessionClustering.cluster(doses) == [[0, 1]])
     }
 
-    @Test("A background med after the active window does not glue onto the ended session")
-    func backgroundMedAfterWindowSplits() {
+    @Test
+    func `A background med after the active window does not glue onto the ended session`() {
         // Caffeine (2 h → window 2.4 h) at 0, pill at +4 h (within ceiling, past the window).
         let doses = [dose(0, effectHours: 2), dose(4, effectHours: nil, background: true)]
         #expect(SessionClustering.cluster(doses) == [[0], [1]])
     }
 
-    @Test("Co-administered background meds form one maintenance session")
-    func coAdministeredMedsMerge() {
+    @Test
+    func `Co-administered background meds form one maintenance session`() {
         let doses = [
             dose(0, effectHours: nil, background: true),
             dose(0.1, effectHours: nil, background: true),
@@ -105,14 +107,14 @@ struct SessionClusteringTests {
         #expect(SessionClustering.cluster(doses) == [[0, 1, 2]])
     }
 
-    @Test("Morning and evening meds are separate maintenance sessions")
-    func medsFarApartSplit() {
+    @Test
+    func `Morning and evening meds are separate maintenance sessions`() {
         let doses = [dose(0, effectHours: nil, background: true), dose(12, effectHours: nil, background: true)]
         #expect(SessionClustering.cluster(doses) == [[0], [1]])
     }
 
-    @Test("A normal dose never absorbs a preceding maintenance session")
-    func normalDoseDoesNotJoinMaintenance() {
+    @Test
+    func `A normal dose never absorbs a preceding maintenance session`() {
         // Morning vitamin (background), then a recreational dose 1 h later.
         let doses = [dose(0, effectHours: nil, background: true), dose(1, effectHours: 5)]
         #expect(SessionClustering.cluster(doses) == [[0], [1]])
@@ -120,8 +122,8 @@ struct SessionClusteringTests {
 
     // MARK: - Invariants
 
-    @Test("Every dose lands in exactly one session; nothing orphaned or duplicated")
-    func partitionInvariant() {
+    @Test
+    func `Every dose lands in exactly one session; nothing orphaned or duplicated`() {
         let doses = [
             dose(0, effectHours: 12),
             dose(1, effectHours: 1),
@@ -133,11 +135,11 @@ struct SessionClusteringTests {
         ]
         let groups = SessionClustering.cluster(doses)
         #expect(allIndices(groups) == Array(0 ..< doses.count))
-        #expect(groups.flatMap { $0 }.count == doses.count) // no duplicates
+        #expect(groups.flatMap(\.self).count == doses.count) // no duplicates
     }
 
-    @Test("Clustering is idempotent: re-running over the same doses is identical")
-    func idempotent() {
+    @Test
+    func `Clustering is idempotent: re-running over the same doses is identical`() {
         let doses = [
             dose(0, effectHours: 8),
             dose(3, effectHours: 4),
@@ -150,42 +152,42 @@ struct SessionClusteringTests {
         #expect(first == second)
     }
 
-    @Test("Empty input produces no sessions")
-    func emptyInput() {
+    @Test
+    func `Empty input produces no sessions`() {
         #expect(SessionClustering.cluster([]).isEmpty)
     }
 
     // MARK: - canJoinKeepingTime (reassign cross-day guard)
 
-    @Test("A dose inside the session's span can join keeping its time")
-    func joinWithinSpan() {
+    @Test
+    func `A dose inside the session's span can join keeping its time`() {
         let first = base
-        let last = base.addingTimeInterval(4 * 3600)
-        let inside = base.addingTimeInterval(2 * 3600)
+        let last = base.addingTimeInterval(4 * 3_600)
+        let inside = base.addingTimeInterval(2 * 3_600)
         #expect(SessionClustering.canJoinKeepingTime(doseTime: inside, sessionFirst: first, sessionLast: last))
     }
 
-    @Test("A dose within the 8h ceiling of an edge can join keeping its time")
-    func joinWithinCeiling() {
+    @Test
+    func `A dose within the 8h ceiling of an edge can join keeping its time`() {
         let first = base
-        let last = base.addingTimeInterval(4 * 3600)
+        let last = base.addingTimeInterval(4 * 3_600)
         // 6h after the last dose — beyond the span but within the 8h ceiling.
-        let after = last.addingTimeInterval(6 * 3600)
+        let after = last.addingTimeInterval(6 * 3_600)
         #expect(SessionClustering.canJoinKeepingTime(doseTime: after, sessionFirst: first, sessionLast: last))
         // 5h before the first dose — within the ceiling on the leading edge too.
-        let before = first.addingTimeInterval(-5 * 3600)
+        let before = first.addingTimeInterval(-5 * 3_600)
         #expect(SessionClustering.canJoinKeepingTime(doseTime: before, sessionFirst: first, sessionLast: last))
     }
 
-    @Test("A dose beyond the 8h ceiling needs re-timing (cannot join as-is)")
-    func farDoseNeedsRetime() {
+    @Test
+    func `A dose beyond the 8h ceiling needs re-timing (cannot join as-is)`() {
         let first = base
-        let last = base.addingTimeInterval(4 * 3600)
+        let last = base.addingTimeInterval(4 * 3_600)
         // ~37h after the last dose — a different day; must re-time.
-        let nextDay = last.addingTimeInterval(37 * 3600)
+        let nextDay = last.addingTimeInterval(37 * 3_600)
         #expect(!SessionClustering.canJoinKeepingTime(doseTime: nextDay, sessionFirst: first, sessionLast: last))
         // Just past the ceiling on the trailing edge.
-        let justPast = last.addingTimeInterval(8 * 3600 + 60)
+        let justPast = last.addingTimeInterval(8 * 3_600 + 60)
         #expect(!SessionClustering.canJoinKeepingTime(doseTime: justPast, sessionFirst: first, sessionLast: last))
     }
 }

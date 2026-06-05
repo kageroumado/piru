@@ -11,11 +11,15 @@ struct SessionDetailView: View {
 
     /// The session's doses in time order — the view's working set, replacing the
     /// former calendar-day `@Query` window.
-    private var entries: [DoseEntry] { session.orderedDoses }
+    private var entries: [DoseEntry] {
+        session.orderedDoses
+    }
 
     /// Alias so the existing day-derived title/recency helpers read the session's
     /// start instead of a passed-in date.
-    private var date: Date { session.startDate }
+    private var date: Date {
+        session.startDate
+    }
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
     /// The session immediately before this one in time — the target for
@@ -89,9 +93,15 @@ struct SessionDetailView: View {
         }
     }
 
-    private var substanceStates: [ActiveSubstanceState] { resolvedDay.states }
-    private var doseMarkers: [DoseMarker] { resolvedDay.markers }
-    private var dayInteractions: [InteractionResult] { resolvedDay.interactions }
+    private var substanceStates: [ActiveSubstanceState] {
+        resolvedDay.states
+    }
+    private var doseMarkers: [DoseMarker] {
+        resolvedDay.markers
+    }
+    private var dayInteractions: [InteractionResult] {
+        resolvedDay.interactions
+    }
 
     /// Content fingerprint of the day's doses + colour count — the memo key, so
     /// the resolve re-runs on an edit but not on every body re-evaluation.
@@ -159,7 +169,6 @@ struct SessionDetailView: View {
         .tint(severity.labelColor)
     }
 
-    @ViewBuilder
     private func cumulativeRow(_ item: (substance: String, total: Double, unit: String, count: Int)) -> some View {
         HStack(spacing: 8) {
             Circle()
@@ -286,10 +295,12 @@ struct SessionDetailView: View {
                                     Button {
                                         timelineEnlarged.toggle()
                                     } label: {
-                                        Image(systemName: timelineEnlarged
-                                            ? "arrow.down.right.and.arrow.up.left"
-                                            : "arrow.up.backward.and.arrow.down.forward")
-                                            .font(.caption.weight(.semibold))
+                                        Image(
+                                            systemName: timelineEnlarged
+                                                ? "arrow.down.right.and.arrow.up.left"
+                                                : "arrow.up.backward.and.arrow.down.forward",
+                                        )
+                                        .font(.caption.weight(.semibold))
                                     }
                                     .buttonStyle(.plain)
                                     .foregroundStyle(Theme.accent)
@@ -763,7 +774,9 @@ private struct MoveToSessionView: View {
     @Query private var substanceColors: [SubstanceColor]
     @State private var retimeTarget: Session?
 
-    private var currentSessionID: PersistentIdentifier? { dose.session?.persistentModelID }
+    private var currentSessionID: PersistentIdentifier? {
+        dose.session?.persistentModelID
+    }
 
     /// Every session except the one the dose already belongs to — the valid
     /// move targets, in the journal's reverse-chronological order.
@@ -905,7 +918,9 @@ private struct SessionTargetRow: View {
     /// a small clock cue so the extra step isn't a surprise.
     let requiresRetime: Bool
 
-    private var doses: [DoseEntry] { session.orderedDoses }
+    private var doses: [DoseEntry] {
+        session.orderedDoses
+    }
 
     private var title: String {
         if let t = session.title, !t.isEmpty { return t }

@@ -89,7 +89,9 @@ struct EntryListView: View {
         return nil
     }
 
-    private var activeSessionCardID: UUID? { activeSessionCard?.id }
+    private var activeSessionCardID: UUID? {
+        activeSessionCard?.id
+    }
 
     // MARK: - Derived State
 
@@ -390,7 +392,6 @@ struct EntryListView: View {
 
     /// One dose entry as a tappable card row (chevron-free, pushes to detail).
     /// Shared by the flat, substance-grouped, and category-grouped lists.
-    @ViewBuilder
     private func entryRow(_ entry: DoseEntry) -> some View {
         Button {
             navigator.push(.entry(timestamp: entry.timestamp))
@@ -699,7 +700,9 @@ struct SessionDay: Identifiable {
     let dateTitle: String
     let weekday: String
     let sessions: [SessionCard]
-    var id: Date { date }
+    var id: Date {
+        date
+    }
 
     init(date: Date, sessions: [SessionCard]) {
         self.date = date
@@ -774,11 +777,13 @@ struct SessionCardView: View {
             VStack(alignment: .leading, spacing: 5) {
                 Text(card.title ?? card.timeLabel)
                     .font(.headline)
-                Text(verbatim: card.title == nil
-                    ? card.doseCountText
-                    : "\(card.timeLabel)  ·  \(card.doseCountText)")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                Text(
+                    verbatim: card.title == nil
+                        ? card.doseCountText
+                        : "\(card.timeLabel)  ·  \(card.doseCountText)",
+                )
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
                 HStack(spacing: 6) {
                     substanceDots
                     Text(card.substanceSummary)
@@ -802,7 +807,6 @@ struct SessionCardView: View {
         .contentShape(RoundedRectangle(cornerRadius: 16))
     }
 
-    @ViewBuilder
     private var substanceDots: some View {
         HStack(spacing: 3) {
             ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in
@@ -859,7 +863,9 @@ private struct ActiveSessionHeroCard: View {
 
     @AppStorage("stackRedoses", store: UserDefaults(suiteName: "group.dev.yumeji.piru")) private var stackRedoses = true
 
-    private var isSingleDose: Bool { states.count == 1 }
+    private var isSingleDose: Bool {
+        states.count == 1
+    }
 
     var body: some View {
         // Re-evaluate every minute so the now-line, the phase bar's countdown,
@@ -1037,7 +1043,6 @@ private struct ActiveSessionHeroCard: View {
         card?.states ?? states
     }
 
-    @ViewBuilder
     private var substanceDots: some View {
         HStack(spacing: 3) {
             ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in

@@ -65,8 +65,13 @@ struct DoseEntryTests {
 
     @Test
     func `coordinate is non-nil only when both latitude and longitude are set`() {
-        let full = DoseEntry(substance: "Test", amount: 10,
-                             locationName: "Home", latitude: 51.5, longitude: -0.12)
+        let full = DoseEntry(
+            substance: "Test",
+            amount: 10,
+            locationName: "Home",
+            latitude: 51.5,
+            longitude: -0.12,
+        )
         #expect(full.coordinate?.latitude == 51.5)
         #expect(full.coordinate?.longitude == -0.12)
 

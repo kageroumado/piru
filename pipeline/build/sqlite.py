@@ -2047,10 +2047,18 @@ class Build:
                 pass
 
     _DOA_UNIT_MINUTES = {
-        "hour": 60, "hours": 60, "h": 60,
-        "day": 1440, "days": 1440, "d": 1440,
-        "week": 1440 * 7, "weeks": 1440 * 7, "w": 1440 * 7,
-        "month": 1440 * 30, "months": 1440 * 30, "mo": 1440 * 30,
+        "hour": 60,
+        "hours": 60,
+        "h": 60,
+        "day": 1440,
+        "days": 1440,
+        "d": 1440,
+        "week": 1440 * 7,
+        "weeks": 1440 * 7,
+        "w": 1440 * 7,
+        "month": 1440 * 30,
+        "months": 1440 * 30,
+        "mo": 1440 * 30,
     }
 
     def add_duration_of_action(
@@ -2139,9 +2147,7 @@ class Build:
             sid = name_to_id.get(name)
             if sid is None:
                 continue
-            n = cur.execute(
-                "DELETE FROM durations WHERE substance_id = ?", (sid,)
-            ).rowcount
+            n = cur.execute("DELETE FROM durations WHERE substance_id = ?", (sid,)).rowcount
             if n:
                 stats["scrub_substances"] += 1
                 stats["scrub_rows"] += n

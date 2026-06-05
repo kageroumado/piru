@@ -82,9 +82,9 @@ struct PresetColorTests {
 
 @Suite("PresetColor.deterministic")
 struct DeterministicColorTests {
-    // Pinned expected hexes. If the palette or hash function changes, these
-    // fail — a deliberate tripwire, because changing them silently re-colours
-    // every unassigned substance in everyone's journal.
+    /// Pinned expected hexes. If the palette or hash function changes, these
+    /// fail — a deliberate tripwire, because changing them silently re-colours
+    /// every unassigned substance in everyone's journal.
     @Test
     func `Same name maps to the same colour every call`() {
         for name in ["Amphetamine", "Metformin", "2C-E", "Lisinopril", "Caffeine"] {

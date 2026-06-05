@@ -65,8 +65,13 @@ struct BackupManagerRoundTripTests {
     func `Wrong passphrase fails and never wipes data on replace`() async throws {
         let container = try makeContainer()
         let context = ModelContext(container)
-        context.insert(DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", route: .oral,
-                                 timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        context.insert(DoseEntry(
+            substance: "Caffeine",
+            amount: 100,
+            unit: "mg",
+            route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
         try context.save()
 
         let url = try await BackupManager.shared.exportEncrypted(context: context, passphrase: "the right passphrase")

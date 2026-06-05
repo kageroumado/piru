@@ -58,7 +58,9 @@ struct EntryDetailView: View {
         }?.hexColor ?? "007AFF"
     }
 
-    private var substanceColor: Color { Color(hex: currentColorHex) }
+    private var substanceColor: Color {
+        Color(hex: currentColorHex)
+    }
 
     /// PK state driving the graph (and, in read mode, the hero's live progress).
     /// While editing it reflects the in-progress drafts via a throwaway,

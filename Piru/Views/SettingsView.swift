@@ -16,15 +16,21 @@ struct SettingsView: View {
                     NavigationLink {
                         MedicationsSettingsView()
                     } label: {
-                        countRow("Prescriptions", systemImage: "pills",
-                                 value: "\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")")
+                        countRow(
+                            "Prescriptions",
+                            systemImage: "pills",
+                            value: "\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")",
+                        )
                     }
 
                     NavigationLink {
                         CustomSubstancesListView()
                     } label: {
-                        countRow("My Substances", systemImage: "flask",
-                                 value: "\(customSubstanceStore.all.count)")
+                        countRow(
+                            "My Substances",
+                            systemImage: "flask",
+                            value: "\(customSubstanceStore.all.count)",
+                        )
                     }
 
                     NavigationLink {
@@ -88,8 +94,11 @@ struct SettingsView: View {
                     NavigationLink {
                         SubstanceDatabaseView()
                     } label: {
-                        countRow("Substance Database", systemImage: "books.vertical",
-                                 value: "\(SubstanceStore.shared.count)")
+                        countRow(
+                            "Substance Database",
+                            systemImage: "books.vertical",
+                            value: "\(SubstanceStore.shared.count)",
+                        )
                     }
                 }
 
