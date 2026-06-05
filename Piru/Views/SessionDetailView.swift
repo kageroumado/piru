@@ -383,21 +383,25 @@ struct SessionDetailView: View {
                             ProgressView()
                                 .tint(Theme.accent)
                         } else {
-                            Image(systemName: "camera")
+                            Image(systemName: "square.and.arrow.up")
                         }
                     }
                     .disabled(isExporting)
+                    .accessibilityLabel(Text("Share session log"))
                 }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
             }
             ToolbarItem(placement: .topBarTrailing) {
                 sessionMenu
             }
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    navigator.present(.quickLog)
-                } label: {
-                    Image(systemName: "plus")
-                }
+        }
+        // Primary action floats at the bottom, mirroring the journal root's add
+        // button — unless the live-session accessory pill is on screen beneath
+        // this detail, which already carries its own plus.
+        .overlay(alignment: .bottom) {
+            if !accessoryCarriesAdd {
+                addDoseButton
+                    .padding(.bottom, 16)
             }
         }
         .alert("Rename Session", isPresented: $showRename) {
@@ -464,7 +468,40 @@ struct SessionDetailView: View {
                 }
             }
         } label: {
-            Image(systemName: "ellipsis.circle")
+            Image(systemName: "ellipsis")
+        }
+    }
+
+    /// Floating add-dose button — same 56pt tinted glass circle as the journal
+    /// root's, so the primary action lives in the same place on both screens.
+    private var addDoseButton: some View {
+        Button {
+            navigator.present(.quickLog)
+        } label: {
+            Image(systemName: "plus")
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(.white)
+                .frame(width: 56, height: 56)
+                .contentShape(Circle())
+                .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
+        }
+        .accessibilityLabel(Text("Log dose"))
+    }
+
+    /// True while the floating session accessory is on screen beneath this
+    /// detail — a session is live and it isn't this one (`ContentView` hides
+    /// the accessory when the viewed session holds an active dose). The
+    /// accessory already ends in a plus button, so the detail's own floating
+    /// add button yields to it rather than doubling up.
+    private var accessoryCarriesAdd: Bool {
+        // The accessory itself is gated on 26.1 in `withSessionAccessory` —
+        // below that there is no pill to defer to.
+        guard #available(iOS 26.1, *) else { return false }
+        guard ActiveSessionManager.shared.hasActiveSession else { return false }
+        let activeStamps = ActiveSessionManager.shared.activeSubstanceStates.map(\.doseTimestamp)
+        guard !activeStamps.isEmpty else { return false }
+        return !entries.contains { dose in
+            activeStamps.contains { abs($0.timeIntervalSince(dose.timestamp)) < 1 }
         }
     }
 
