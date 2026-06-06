@@ -2,18 +2,26 @@ import SwiftUI
 
 // MARK: - Staged Dose
 
-/// A dose staged in the quick-log tray, not yet committed. A staged chip is
-/// already a complete dose (substance + amount + unit + route); everything
-/// else here is optional enrichment.
+/// A dose staged in the quick-log tray, not yet committed. Doses of the same
+/// substance + route + unit merge into one staged row; each distinct chip
+/// amount stays a component inside it so the chips can mirror staged state.
+/// A staged chip is already a complete dose; everything else here is optional
+/// enrichment.
 struct StagedDose: Identifiable {
+    /// One tapped chip (or typed amount) inside a staged dose. Re-tapping the
+    /// same chip bumps `count` ("took two pills"); tapping a different amount
+    /// adds a component ("a 150 and a 182").
+    struct Component: Identifiable {
+        let id = UUID()
+        var amount: Double
+        var count: Int = 1
+    }
+
     let id = UUID()
     var substanceName: String
-    var amount: Double
+    var components: [Component]
     var unit: String
     var route: RouteOfAdministration
-    /// Repeat count for "two 150 mg capsules" — commits as one entry of
-    /// `amount × count` (PK superposition is linear, so they're equivalent).
-    var count: Int = 1
     var note: String = ""
     var colorHex: String?
     var librarySubstance: Substance?
@@ -23,8 +31,46 @@ struct StagedDose: Identifiable {
     /// Carried from `DailyDoseItem.isBackgroundMed` onto the committed entry.
     var isBackgroundMed = false
 
+    init(
+        substanceName: String,
+        amount: Double,
+        unit: String,
+        route: RouteOfAdministration,
+        colorHex: String? = nil,
+        librarySubstance: Substance? = nil,
+        isFromDailySet: Bool = false,
+        isBackgroundMed: Bool = false,
+    ) {
+        self.substanceName = substanceName
+        self.components = [Component(amount: amount)]
+        self.unit = unit
+        self.route = route
+        self.colorHex = colorHex
+        self.librarySubstance = librarySubstance
+        self.isFromDailySet = isFromDailySet
+        self.isBackgroundMed = isBackgroundMed
+    }
+
+    /// Commits as one entry — PK superposition is linear, so 150 + 182 mg is
+    /// equivalent to a single 332 mg dose.
     var totalAmount: Double {
-        amount * Double(count)
+        components.reduce(0) { $0 + $1.amount * Double($1.count) }
+    }
+
+    /// Editor-facing amount: reads the merged total; writing collapses the
+    /// components into a single custom amount.
+    var amount: Double {
+        get { totalAmount }
+        set { components = [Component(amount: newValue)] }
+    }
+
+    /// "2 × 150" / "150 + 182" — shown wherever the merged total alone would
+    /// hide how the dose was assembled.
+    var breakdownLabel: String? {
+        guard components.count > 1 || (components.first?.count ?? 1) > 1 else { return nil }
+        return components
+            .map { $0.count > 1 ? "\($0.count) × \($0.amount.doseFormatted)" : $0.amount.doseFormatted }
+            .joined(separator: " + ")
     }
 
     var color: Color {
@@ -109,7 +155,9 @@ final class DoseTrayModel {
     var time: TrayTime = .now
     var tags: Set<String> = []
     var location: PickedLocation?
-    var expandedItemID: UUID?
+    /// Every staged dose the user has opened inline — multiple can stay
+    /// expanded at once, so a complex stack can be composed in one pass.
+    var expandedItemIDs: Set<UUID> = []
     var sharedDetailsExpanded = false
 
     /// Haptic triggers — bumped on discrete staging events so the view can
@@ -122,17 +170,19 @@ final class DoseTrayModel {
     }
 
     var isCommittable: Bool {
-        !staged.isEmpty && staged.allSatisfy { $0.amount > 0 }
+        !staged.isEmpty && staged.allSatisfy { $0.totalAmount > 0 }
     }
 
     /// How many of a given chip are staged (drives the chip's count badge).
     func quantity(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> Int {
-        stagedIndex(substance: substance, route: route, amount: amount, unit: unit)
-            .map { staged[$0].count } ?? 0
+        guard let index = stagedIndex(substance: substance, route: route, unit: unit) else { return 0 }
+        return staged[index].components.first { $0.amount.doseFormatted == amount.doseFormatted }?.count ?? 0
     }
 
-    /// Stage a chip; re-staging the same chip increments its count ("took two
-    /// pills") — one entry of amount × count at commit, never two entries.
+    /// Stage a chip. Same substance + route + unit merges into the existing
+    /// row: re-staging the same amount increments its count ("took two
+    /// pills"), a different amount joins as a new component ("a 150 and a
+    /// 182") — always one entry of the summed total at commit, never two.
     func stage(
         substance: String,
         route: RouteOfAdministration,
@@ -143,8 +193,12 @@ final class DoseTrayModel {
         isFromDailySet: Bool = false,
         isBackgroundMed: Bool = false,
     ) {
-        if let index = stagedIndex(substance: substance, route: route, amount: amount, unit: unit) {
-            staged[index].count += 1
+        if let index = stagedIndex(substance: substance, route: route, unit: unit) {
+            if let componentIndex = staged[index].components.firstIndex(where: { $0.amount.doseFormatted == amount.doseFormatted }) {
+                staged[index].components[componentIndex].count += 1
+            } else {
+                staged[index].components.append(.init(amount: amount))
+            }
             incrementTick += 1
         } else {
             staged.append(StagedDose(
@@ -163,8 +217,13 @@ final class DoseTrayModel {
 
     /// Stage a draft (from search / the ⋯ chip) and open it for editing.
     /// Prefilled with the library's common dose when one is known — the
-    /// editor focuses the amount field only when it opens empty.
+    /// editor focuses the amount field only when it opens empty. A draft for
+    /// an already-staged substance opens that row instead of duplicating it.
     func stageDraft(substance: String, route: RouteOfAdministration, unit: String, colorHex: String?, librarySubstance: Substance?) {
+        if let index = stagedIndex(substance: substance, route: route, unit: unit) {
+            expandedItemIDs.insert(staged[index].id)
+            return
+        }
         let draft = StagedDose(
             substanceName: substance,
             amount: StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit) ?? 0,
@@ -174,23 +233,23 @@ final class DoseTrayModel {
             librarySubstance: librarySubstance,
         )
         staged.append(draft)
-        expandedItemID = draft.id
+        expandedItemIDs.insert(draft.id)
         stageTick += 1
     }
 
     func remove(_ item: StagedDose) {
         staged.removeAll { $0.id == item.id }
-        if expandedItemID == item.id { expandedItemID = nil }
+        expandedItemIDs.remove(item.id)
     }
 
-    /// Amounts match on their *display* form — the user-perceived identity of
+    /// Staged rows merge on substance + route + unit; the distinct amounts
+    /// inside match on their *display* form — the user-perceived identity of
     /// a chip. Exact-double matching breaks when the editor round-trips an
     /// amount through its text field (31.700000000000003 → "31.7" → 31.7).
-    private func stagedIndex(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> Int? {
+    private func stagedIndex(substance: String, route: RouteOfAdministration, unit: String) -> Int? {
         staged.firstIndex {
             $0.substanceName.lowercased() == substance.lowercased()
                 && $0.route == route
-                && $0.amount.doseFormatted == amount.doseFormatted
                 && $0.unit == unit
         }
     }
@@ -211,6 +270,9 @@ struct DoseTrayView: View {
     let onCommit: () -> Void
 
     @State private var showLocationPicker = false
+    /// Ties each collapsed row to its expanded editor so the name, amount,
+    /// route, and chevron morph in place instead of cross-fading.
+    @Namespace private var morphNamespace
 
     private var interactions: [InteractionResult] {
         let names = Array(Set(model.staged.map(\.substanceName)))
@@ -221,21 +283,21 @@ struct DoseTrayView: View {
     var body: some View {
         VStack(spacing: 0) {
             ForEach($model.staged) { $item in
-                if model.expandedItemID == item.id {
-                    StagedDoseEditor(item: $item) {
-                        withAnimation(.snappy) { model.expandedItemID = nil }
+                if model.expandedItemIDs.contains(item.id) {
+                    StagedDoseEditor(item: $item, namespace: morphNamespace) {
+                        withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
                     } onRemove: {
                         withAnimation(.snappy) { model.remove(item) }
                     }
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 10)
                 } else {
-                    TrayRow(dose: item) {
-                        withAnimation(.snappy) { model.expandedItemID = item.id }
+                    TrayRow(dose: item, namespace: morphNamespace) {
+                        withAnimation(.snappy) { _ = model.expandedItemIDs.insert(item.id) }
                     } onDelete: {
                         withAnimation(.snappy) { model.remove(item) }
                     }
                 }
-                Divider().padding(.leading, 20)
+                Divider().padding(.leading, 19)
             }
 
             addMoreRow
@@ -246,12 +308,12 @@ struct DoseTrayView: View {
                         InteractionWarningRow(warning: warning)
                     }
                 }
-                .padding(.top, 8)
+                .padding(.top, 10)
             }
 
             if model.sharedDetailsExpanded {
                 sharedDetails
-                    .padding(.top, 10)
+                    .padding(.top, 12)
             }
 
             HStack(spacing: 8) {
@@ -260,12 +322,13 @@ struct DoseTrayView: View {
                 locationChip
                 Spacer(minLength: 0)
             }
-            .padding(.top, 10)
+            .padding(.top, 12)
 
             commitButton
-                .padding(.top, 10)
+                .padding(.top, 14)
         }
-        .padding(14)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 16)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView { picked in
@@ -477,10 +540,12 @@ struct DoseTrayView: View {
 
 // MARK: - Tray Row
 
-/// A staged dose as a compact row: chevron-only affordance — tap expands the
-/// inline editor, swipe left reveals delete (with full-swipe to remove).
+/// A staged dose as a compact row: a downward disclosure chevron (it expands
+/// in place — never navigates) — tap expands the inline editor, swipe left
+/// reveals delete (with full-swipe to remove).
 private struct TrayRow: View {
     let dose: StagedDose
+    let namespace: Namespace.ID
     let onTap: () -> Void
     let onDelete: () -> Void
 
@@ -507,12 +572,22 @@ private struct TrayRow: View {
             Circle()
                 .fill(dose.color)
                 .frame(width: 9, height: 9)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(verbatim: "\(dose.substanceName) \(countPrefix)\(dose.amount.doseFormatted) \(dose.unit)")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
+                .matchedGeometryEffect(id: "dot-\(dose.id)", in: namespace)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 5) {
+                    Text(dose.substanceName)
+                        .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
+                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
+                        .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
                 HStack(spacing: 4) {
                     Text(dose.route.localizedName)
+                        .matchedGeometryEffect(id: "route-\(dose.id)", in: namespace)
+                    if let breakdown = dose.breakdownLabel {
+                        Text(verbatim: "· \(breakdown)")
+                    }
                     if !dose.note.isEmpty {
                         Text(verbatim: "·")
                         Image(systemName: "note.text")
@@ -523,11 +598,12 @@ private struct TrayRow: View {
                 .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
-            Image(systemName: "chevron.right")
-                .font(.caption2.weight(.semibold))
+            Image(systemName: "chevron.down")
+                .font(.footnote.weight(.semibold))
                 .foregroundStyle(.tertiary)
+                .matchedGeometryEffect(id: "chevron-\(dose.id)", in: namespace)
         }
-        .padding(.vertical, 9)
+        .padding(.vertical, 12)
         .contentShape(Rectangle())
         .onTapGesture {
             if offset != 0 {
@@ -568,10 +644,6 @@ private struct TrayRow: View {
                 }
             }
     }
-
-    private var countPrefix: String {
-        dose.count > 1 ? "\(dose.count) × " : ""
-    }
 }
 
 // MARK: - Staged Dose Editor
@@ -581,6 +653,7 @@ private struct TrayRow: View {
 /// unit, route, and note; time lives only on the tray's shared When chip.
 private struct StagedDoseEditor: View {
     @Binding var item: StagedDose
+    let namespace: Namespace.ID
     let onCollapse: () -> Void
     let onRemove: () -> Void
 
@@ -594,21 +667,24 @@ private struct StagedDoseEditor: View {
     private static let unitChoices = ["µg", "mg", "g", "mL"]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 12) {
             header
 
-            HStack(spacing: 8) {
-                stepButton(systemImage: "minus") {
-                    setAmount(max(0, item.amount - amountStep))
+            VStack(alignment: .center, spacing: 5) {
+                HStack(spacing: 8) {
+                    stepButton(systemImage: "minus") {
+                        setAmount(max(0, item.amount - amountStep))
+                    }
+                    amountField
+                    stepButton(systemImage: "plus") {
+                        setAmount(item.amount + amountStep)
+                    }
                 }
-                amountField
-                stepButton(systemImage: "plus") {
-                    setAmount(item.amount + amountStep)
-                }
-                if item.count > 1 {
-                    Text(verbatim: "× \(item.count)")
-                        .font(.subheadline.weight(.semibold))
+                if let breakdown = item.breakdownLabel {
+                    Text(verbatim: "= \(breakdown) \(item.unit)")
+                        .font(.caption.weight(.medium))
                         .foregroundStyle(Theme.secondaryLabel)
+                        .frame(maxWidth: .infinity)
                 }
             }
 
@@ -631,24 +707,27 @@ private struct StagedDoseEditor: View {
             Circle()
                 .fill(item.color)
                 .frame(width: 9, height: 9)
+                .matchedGeometryEffect(id: "dot-\(item.id)", in: namespace)
             Text(item.substanceName)
                 .font(.headline)
+                .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
             Spacer()
             Button(action: onRemove) {
                 Image(systemName: "trash")
-                    .font(.caption.weight(.semibold))
+                    .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.red)
-                    .padding(6)
+                    .frame(width: 38, height: 38)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove")
             Button(action: onCollapse) {
                 Image(systemName: "chevron.up")
-                    .font(.caption.weight(.semibold))
+                    .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.secondaryLabel)
-                    .padding(6)
+                    .frame(width: 38, height: 38)
                     .contentShape(Rectangle())
+                    .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Collapse")
@@ -707,6 +786,7 @@ private struct StagedDoseEditor: View {
         .frame(height: 42)
         .frame(maxWidth: .infinity)
         .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 12))
+        .matchedGeometryEffect(id: "amount-\(item.id)", in: namespace)
     }
 
     private var unitMenuChoices: [String] {
@@ -789,5 +869,6 @@ private struct StagedDoseEditor: View {
             .foregroundStyle(.primary)
         }
         .buttonStyle(.plain)
+        .matchedGeometryEffect(id: "route-\(item.id)", in: namespace)
     }
 }

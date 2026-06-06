@@ -1069,12 +1069,14 @@ struct QuickLogView: View {
             )
             modelContext.insert(entry)
             SessionService.assignSession(for: entry, in: modelContext)
-            // Record the chip amount (not amount × count) so the curated list
-            // floats the chip the user actually tapped, without minting a new
-            // chip for every multiple. Daily routine items keep their own
-            // surface and don't mint quick-log chips.
+            // Record each component's chip amount (not the merged total) so
+            // the curated list floats the chips the user actually tapped,
+            // without minting a chip for every sum. Daily routine items keep
+            // their own surface and don't mint quick-log chips.
             if !item.isFromDailySet {
-                QuickLogManager.record(substance: item.substanceName, route: item.route, amount: item.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+                for component in item.components {
+                    QuickLogManager.record(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+                }
             }
 
             // Schedule wellness notifications & check cumulative dose
