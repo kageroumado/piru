@@ -44,6 +44,12 @@ struct QuickLogView: View {
     /// native partial-detent sheet on iOS 26.
     private static let dockEdgeInset: CGFloat = 8
 
+    /// The dock's corner radius, resolved by UIKit as concentric with the
+    /// screen for the glass surface's exact frame (see
+    /// ``ConcentricRadiusReader``). Starts at a sane floor until the first
+    /// layout pass reports the real value.
+    @State private var dockCornerRadius: CGFloat = 24
+
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedHistoryNames: Set<String> = []
@@ -304,10 +310,19 @@ struct QuickLogView: View {
         .background {
             // The glass floats: it runs below the content (which respects
             // the safe area) to 8pt above the physical screen bottom. The
-            // concentric shape derives its corner radius from the screen
-            // corners minus the 8pt inset, like a native floating sheet.
+            // corner radius is UIKit-resolved as concentric with the screen
+            // corners (54pt = display radius − 8pt inset on a Pro Max,
+            // capsule-clamped on the short idle face) — SwiftUI's
+            // ConcentricRectangle resolves against the presenting sheet's
+            // container shape instead and lands on the wrong radius.
             Color.clear
-                .glassEffect(.regular, in: ConcentricRectangle(corners: .concentric(minimum: 24), isUniform: true))
+                .glassEffect(.regular, in: .rect(cornerRadius: dockCornerRadius, style: .continuous))
+                .overlay {
+                    ConcentricRadiusReader { radius in
+                        guard radius > 0, abs(radius - dockCornerRadius) > 0.5 else { return }
+                        withAnimation(.snappy) { dockCornerRadius = radius }
+                    }
+                }
                 .padding(.bottom, Self.dockEdgeInset)
                 .ignoresSafeArea(.container, edges: .bottom)
         }
@@ -1405,5 +1420,44 @@ struct DoseChip: Identifiable {
 
     var formattedAmount: String {
         amount.doseFormatted
+    }
+}
+
+/// Reports the corner radius UIKit resolves as *concentric with the screen*
+/// for this view's frame, via the public iOS 26 corner-configuration API.
+///
+/// SwiftUI's `ConcentricRectangle` resolves against the nearest SwiftUI
+/// container shape — inside a sheet that's the presentation's shape, not the
+/// device screen, so a bottom-floating surface gets the wrong radius. UIKit's
+/// `containerConcentric` resolution walks the real view/window hierarchy, so
+/// it derives the radius from the display corners. Overlay this on the glass
+/// surface (same frame) and feed the reported value back as a fixed radius.
+private struct ConcentricRadiusReader: UIViewRepresentable {
+    var onResolve: (CGFloat) -> Void
+
+    func makeUIView(context _: Context) -> ResolverView {
+        let view = ResolverView()
+        view.onResolve = onResolve
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        view.cornerConfiguration = .corners(radius: .containerConcentric(minimum: 0))
+        return view
+    }
+
+    func updateUIView(_ uiView: ResolverView, context _: Context) {
+        uiView.onResolve = onResolve
+    }
+
+    final class ResolverView: UIView {
+        var onResolve: ((CGFloat) -> Void)?
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            let radius = effectiveRadius(corner: .bottomLeft)
+            // Defer out of the layout pass before touching SwiftUI state.
+            DispatchQueue.main.async { [weak self] in
+                self?.onResolve?(radius)
+            }
+        }
     }
 }
