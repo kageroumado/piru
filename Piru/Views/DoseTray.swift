@@ -15,11 +15,13 @@ struct StagedDose: Identifiable {
     /// `amount × count` (PK superposition is linear, so they're equivalent).
     var count: Int = 1
     var note: String = ""
-    /// Per-dose timestamp override for staggered stacks; `nil` uses the
-    /// tray-wide time.
-    var timeOverride: Date?
     var colorHex: String?
     var librarySubstance: Substance?
+    /// Staged from the Daily routine card. Daily items keep their own surface,
+    /// so they don't mint quick-log chips on commit.
+    var isFromDailySet = false
+    /// Carried from `DailyDoseItem.isBackgroundMed` onto the committed entry.
+    var isBackgroundMed = false
 
     var totalAmount: Double {
         amount * Double(count)
@@ -28,12 +30,33 @@ struct StagedDose: Identifiable {
     var color: Color {
         colorHex.map { Color(hex: $0) } ?? .gray
     }
+
+    /// The library's reference dose for this item's route, in this item's
+    /// unit — anchors stepper increments and draft prefills to what a person
+    /// actually takes (LSD steps in 10 µg, not 0.25 µg).
+    var referenceDose: Double? {
+        Self.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit)
+    }
+
+    static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String) -> Double? {
+        guard let substance,
+              let routeInfo = substance.routes.first(where: { $0.route == route }),
+              routeInfo.unit == unit
+        else { return nil }
+        let doses = routeInfo.doses
+        return doses.common?.lowerBound
+            ?? doses.light?.upperBound
+            ?? doses.strong?.lowerBound
+            ?? doses.threshold
+            ?? doses.heavy
+    }
 }
 
 // MARK: - Tray Time
 
-/// The tray-wide "When" — applied to every staged dose without an override.
-/// Offsets resolve at commit time, so a tray left open doesn't drift.
+/// The tray-wide "When" — the *only* time control in the quick-log flow,
+/// applied to every staged dose. Offsets resolve at commit time, so a tray
+/// left open doesn't drift. A staggered stack is two commits.
 enum TrayTime: Equatable {
     case now
     case offset(minutes: Int)
@@ -89,6 +112,11 @@ final class DoseTrayModel {
     var expandedItemID: UUID?
     var sharedDetailsExpanded = false
 
+    /// Haptic triggers — bumped on discrete staging events so the view can
+    /// attach `.sensoryFeedback` without coupling feedback to every tap.
+    private(set) var stageTick = 0
+    private(set) var incrementTick = 0
+
     var isEmpty: Bool {
         staged.isEmpty
     }
@@ -103,10 +131,21 @@ final class DoseTrayModel {
             .map { staged[$0].count } ?? 0
     }
 
-    /// Stage a chip; re-staging the same chip increments its count.
-    func stage(substance: String, route: RouteOfAdministration, amount: Double, unit: String, colorHex: String?, librarySubstance: Substance?) {
+    /// Stage a chip; re-staging the same chip increments its count ("took two
+    /// pills") — one entry of amount × count at commit, never two entries.
+    func stage(
+        substance: String,
+        route: RouteOfAdministration,
+        amount: Double,
+        unit: String,
+        colorHex: String?,
+        librarySubstance: Substance?,
+        isFromDailySet: Bool = false,
+        isBackgroundMed: Bool = false,
+    ) {
         if let index = stagedIndex(substance: substance, route: route, amount: amount, unit: unit) {
             staged[index].count += 1
+            incrementTick += 1
         } else {
             staged.append(StagedDose(
                 substanceName: substance,
@@ -115,16 +154,20 @@ final class DoseTrayModel {
                 route: route,
                 colorHex: colorHex,
                 librarySubstance: librarySubstance,
+                isFromDailySet: isFromDailySet,
+                isBackgroundMed: isBackgroundMed,
             ))
+            stageTick += 1
         }
     }
 
-    /// Stage an amount-less draft (from search / the ⋯ chip) and open it for
-    /// editing so the amount field gets focus.
+    /// Stage a draft (from search / the ⋯ chip) and open it for editing.
+    /// Prefilled with the library's common dose when one is known — the
+    /// editor focuses the amount field only when it opens empty.
     func stageDraft(substance: String, route: RouteOfAdministration, unit: String, colorHex: String?, librarySubstance: Substance?) {
         let draft = StagedDose(
             substanceName: substance,
-            amount: 0,
+            amount: StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit) ?? 0,
             unit: unit,
             route: route,
             colorHex: colorHex,
@@ -132,6 +175,7 @@ final class DoseTrayModel {
         )
         staged.append(draft)
         expandedItemID = draft.id
+        stageTick += 1
     }
 
     func remove(_ item: StagedDose) {
@@ -139,11 +183,14 @@ final class DoseTrayModel {
         if expandedItemID == item.id { expandedItemID = nil }
     }
 
+    /// Amounts match on their *display* form — the user-perceived identity of
+    /// a chip. Exact-double matching breaks when the editor round-trips an
+    /// amount through its text field (31.700000000000003 → "31.7" → 31.7).
     private func stagedIndex(substance: String, route: RouteOfAdministration, amount: Double, unit: String) -> Int? {
         staged.firstIndex {
             $0.substanceName.lowercased() == substance.lowercased()
                 && $0.route == route
-                && $0.amount == amount
+                && $0.amount.doseFormatted == amount.doseFormatted
                 && $0.unit == unit
         }
     }
@@ -154,9 +201,13 @@ final class DoseTrayModel {
 /// The commit surface for quick logging: staged doses, shared When/Tags/
 /// Location controls, a live interaction check, and the Log button. Items
 /// expand inline for per-dose enrichment — never a second sheet.
+///
+/// Renders content only; the dock in `QuickLogView` owns the glass surface,
+/// so nothing here layers material on material.
 struct DoseTrayView: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
+    let onAddMore: () -> Void
     let onCommit: () -> Void
 
     @State private var showLocationPicker = false
@@ -171,19 +222,23 @@ struct DoseTrayView: View {
         VStack(spacing: 0) {
             ForEach($model.staged) { $item in
                 if model.expandedItemID == item.id {
-                    StagedDoseEditor(item: $item, trayTime: model.time) {
+                    StagedDoseEditor(item: $item) {
                         withAnimation(.snappy) { model.expandedItemID = nil }
                     } onRemove: {
                         withAnimation(.snappy) { model.remove(item) }
                     }
                     .padding(.vertical, 6)
                 } else {
-                    compactRow($item)
+                    TrayRow(dose: item) {
+                        withAnimation(.snappy) { model.expandedItemID = item.id }
+                    } onDelete: {
+                        withAnimation(.snappy) { model.remove(item) }
+                    }
                 }
-                if item.id != model.staged.last?.id {
-                    Divider().padding(.leading, 20)
-                }
+                Divider().padding(.leading, 20)
             }
+
+            addMoreRow
 
             if !interactions.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
@@ -211,12 +266,7 @@ struct DoseTrayView: View {
                 .padding(.top, 10)
         }
         .padding(14)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 26))
-        .overlay(
-            RoundedRectangle(cornerRadius: 26)
-                .strokeBorder(.quaternary, lineWidth: 0.5),
-        )
-        .shadow(color: .black.opacity(0.18), radius: 18, y: 8)
+        .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView { picked in
                 model.location = picked
@@ -226,54 +276,23 @@ struct DoseTrayView: View {
 
     // MARK: Rows
 
-    private func compactRow(_ item: Binding<StagedDose>) -> some View {
-        let dose = item.wrappedValue
-        return HStack(spacing: 10) {
-            Circle()
-                .fill(dose.color)
-                .frame(width: 9, height: 9)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(verbatim: "\(dose.substanceName) \(countPrefix(dose))\(dose.amount.doseFormatted) \(dose.unit)")
+    /// Re-opens search inside the dock — staging never requires dismissing
+    /// the tray. The plus is sized to the row dots so the labels align.
+    private var addMoreRow: some View {
+        Button(action: onAddMore) {
+            HStack(spacing: 10) {
+                Image(systemName: "plus")
+                    .font(.footnote.weight(.semibold))
+                    .frame(width: 9)
+                Text("Add another…")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
-                HStack(spacing: 4) {
-                    Text(dose.route.localizedName)
-                    if dose.timeOverride != nil {
-                        Text(verbatim: "·")
-                        Image(systemName: "clock")
-                            .imageScale(.small)
-                    }
-                    if !dose.note.isEmpty {
-                        Text(verbatim: "·")
-                        Image(systemName: "note.text")
-                            .imageScale(.small)
-                    }
-                }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                Spacer()
             }
-            Spacer()
-            Image(systemName: "chevron.right")
-                .font(.caption2.weight(.semibold))
-                .foregroundStyle(.tertiary)
-            Button {
-                withAnimation(.snappy) { model.remove(dose) }
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Remove")
+            .foregroundStyle(Theme.accent)
+            .padding(.vertical, 9)
+            .contentShape(Rectangle())
         }
-        .padding(.vertical, 7)
-        .contentShape(Rectangle())
-        .onTapGesture {
-            withAnimation(.snappy) { model.expandedItemID = dose.id }
-        }
-    }
-
-    private func countPrefix(_ dose: StagedDose) -> String {
-        dose.count > 1 ? "\(dose.count) × " : ""
+        .buttonStyle(.plain)
     }
 
     // MARK: Shared controls
@@ -434,7 +453,7 @@ struct DoseTrayView: View {
 
     private var commitButton: some View {
         Button(action: onCommit) {
-            Text(model.staged.count == 1 ? String(localized: "Log Dose") : String(localized: "Log \(model.staged.count) Doses"))
+            Text(commitLabel)
                 .font(.headline)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
@@ -445,20 +464,131 @@ struct DoseTrayView: View {
         .disabled(!model.isCommittable)
         .opacity(model.isCommittable ? 1 : 0.5)
     }
+
+    /// The CTA echoes a backdate ("Log 2 · 1h ago") so a stale time can't be
+    /// committed blind.
+    private var commitLabel: String {
+        let base = model.staged.count == 1
+            ? String(localized: "Log Dose")
+            : String(localized: "Log \(model.staged.count) Doses")
+        return model.time.isNow ? base : "\(base) · \(model.time.chipLabel)"
+    }
+}
+
+// MARK: - Tray Row
+
+/// A staged dose as a compact row: chevron-only affordance — tap expands the
+/// inline editor, swipe left reveals delete (with full-swipe to remove).
+private struct TrayRow: View {
+    let dose: StagedDose
+    let onTap: () -> Void
+    let onDelete: () -> Void
+
+    @State private var offset: CGFloat = 0
+
+    private static let revealWidth: CGFloat = 64
+    private static let fullSwipeThreshold: CGFloat = 180
+
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            deleteBackdrop
+            rowContent
+                .offset(x: offset)
+        }
+        // The delete backdrop fills the row height — without this the
+        // greedy frame stretches every row to fill the dock's safe area.
+        .fixedSize(horizontal: false, vertical: true)
+        .clipped()
+        .gesture(swipeGesture)
+    }
+
+    private var rowContent: some View {
+        HStack(spacing: 10) {
+            Circle()
+                .fill(dose.color)
+                .frame(width: 9, height: 9)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(verbatim: "\(dose.substanceName) \(countPrefix)\(dose.amount.doseFormatted) \(dose.unit)")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+                HStack(spacing: 4) {
+                    Text(dose.route.localizedName)
+                    if !dose.note.isEmpty {
+                        Text(verbatim: "·")
+                        Image(systemName: "note.text")
+                            .imageScale(.small)
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(.tertiary)
+        }
+        .padding(.vertical, 9)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if offset != 0 {
+                withAnimation(.snappy) { offset = 0 }
+            } else {
+                onTap()
+            }
+        }
+    }
+
+    private var deleteBackdrop: some View {
+        Button(action: onDelete) {
+            Image(systemName: "trash.fill")
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .frame(width: Self.revealWidth)
+                .frame(maxHeight: .infinity)
+                .background(.red)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Remove")
+        .opacity(offset < -1 ? 1 : 0)
+    }
+
+    private var swipeGesture: some Gesture {
+        DragGesture(minimumDistance: 20)
+            .onChanged { value in
+                guard abs(value.translation.width) > abs(value.translation.height) else { return }
+                offset = min(0, value.translation.width)
+            }
+            .onEnded { value in
+                if offset < -Self.fullSwipeThreshold || value.predictedEndTranslation.width < -Self.fullSwipeThreshold * 1.5 {
+                    onDelete()
+                } else if offset < -Self.revealWidth / 2 {
+                    withAnimation(.snappy) { offset = -Self.revealWidth }
+                } else {
+                    withAnimation(.snappy) { offset = 0 }
+                }
+            }
+    }
+
+    private var countPrefix: String {
+        dose.count > 1 ? "\(dose.count) × " : ""
+    }
 }
 
 // MARK: - Staged Dose Editor
 
-/// Inline per-dose editor — Draft B's composer relocated into the tray.
-/// Amount, unit, route, per-dose time override, and note; opened by tapping a
-/// tray row, with the amount field focused automatically for drafts.
+/// Inline per-dose editor: rows directly on the tray surface — fields use
+/// fills, never their own card, so the dock stays a single material. Amount,
+/// unit, route, and note; time lives only on the tray's shared When chip.
 private struct StagedDoseEditor: View {
     @Binding var item: StagedDose
-    let trayTime: TrayTime
     let onCollapse: () -> Void
     let onRemove: () -> Void
 
     @State private var amountText = ""
+    /// Suppresses the text→amount sync when `amountText` is being set *from*
+    /// the model (onAppear / stepper), so opening the editor never rewrites
+    /// the staged amount through display rounding.
+    @State private var suppressAmountSync = false
     @FocusState private var amountFocused: Bool
 
     private static let unitChoices = ["µg", "mg", "g", "mL"]
@@ -484,44 +614,35 @@ private struct StagedDoseEditor: View {
 
             HStack(spacing: 8) {
                 routeMenu
-                timeOverrideMenu
-            }
-
-            TextField("Add note…", text: $item.note, axis: .vertical)
-                .font(.subheadline)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 12))
-
-            if let override = item.timeOverride {
-                DatePicker(
-                    "Time",
-                    selection: Binding(
-                        get: { override },
-                        set: { item.timeOverride = $0 },
-                    ),
-                    in: ...Date.now,
-                )
-                .font(.footnote.weight(.semibold))
-                .datePickerStyle(.compact)
+                noteField
             }
         }
-        .padding(12)
-        .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 18))
         .onAppear {
-            amountText = item.amount > 0 ? item.amount.doseFormatted : ""
+            if item.amount > 0 {
+                suppressAmountSync = true
+                amountText = item.amount.doseFormatted
+            }
             if item.amount <= 0 { amountFocused = true }
         }
     }
 
     private var header: some View {
-        HStack(spacing: 9) {
+        HStack(spacing: 10) {
             Circle()
                 .fill(item.color)
-                .frame(width: 10, height: 10)
+                .frame(width: 9, height: 9)
             Text(item.substanceName)
                 .font(.headline)
             Spacer()
+            Button(action: onRemove) {
+                Image(systemName: "trash")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.red)
+                    .padding(6)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Remove")
             Button(action: onCollapse) {
                 Image(systemName: "chevron.up")
                     .font(.caption.weight(.semibold))
@@ -531,15 +652,18 @@ private struct StagedDoseEditor: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Collapse")
-            Button(action: onRemove) {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Remove")
         }
         .contentShape(Rectangle())
         .onTapGesture(perform: onCollapse)
+    }
+
+    /// Styled like every other control pill in the tray.
+    private var noteField: some View {
+        TextField("Add note…", text: $item.note)
+            .font(.footnote.weight(.medium))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color(.secondarySystemFill), in: Capsule())
     }
 
     private var amountField: some View {
@@ -550,6 +674,10 @@ private struct StagedDoseEditor: View {
                 .multilineTextAlignment(.center)
                 .font(.title3.weight(.semibold))
                 .onChange(of: amountText) {
+                    if suppressAmountSync {
+                        suppressAmountSync = false
+                        return
+                    }
                     item.amount = Double(amountText.replacingOccurrences(of: ",", with: ".")) ?? 0
                 }
             Menu {
@@ -596,9 +724,14 @@ private struct StagedDoseEditor: View {
         .buttonStyle(.plain)
     }
 
-    /// Magnitude-aware step so µg- and g-scale doses both nudge sensibly.
+    /// Stepper increment anchored to the substance's reference dose when the
+    /// library knows one (LSD → 10 µg, pregabalin → 25 mg), falling back to a
+    /// magnitude table for unknowns.
     private var amountStep: Double {
-        switch item.amount {
+        if let reference = item.referenceDose {
+            return Self.niceStep(for: reference)
+        }
+        return switch item.amount {
         case ..<2: 0.25
         case ..<10: 1
         case ..<100: 5
@@ -607,9 +740,25 @@ private struct StagedDoseEditor: View {
         }
     }
 
+    /// ≈10% of the reference dose, snapped to a 1 / 2.5 / 5 × 10ᵏ series.
+    static func niceStep(for reference: Double) -> Double {
+        guard reference > 0 else { return 1 }
+        let raw = reference / 10
+        let magnitude = pow(10, floor(log10(raw)))
+        let normalized = raw / magnitude
+        let snapped: Double = normalized < 1.75 ? 1 : normalized < 3.75 ? 2.5 : normalized < 7.5 ? 5 : 10
+        return snapped * magnitude
+    }
+
     private func setAmount(_ value: Double) {
         item.amount = value
-        amountText = value > 0 ? value.doseFormatted : ""
+        let newText = value > 0 ? value.doseFormatted : ""
+        // Only arm the suppress flag when onChange will actually fire,
+        // otherwise it would stay latched and swallow the next keystroke.
+        if newText != amountText {
+            suppressAmountSync = true
+            amountText = newText
+        }
     }
 
     private var routeMenu: some View {
@@ -638,44 +787,6 @@ private struct StagedDoseEditor: View {
             .padding(.vertical, 8)
             .background(Color(.secondarySystemFill), in: Capsule())
             .foregroundStyle(.primary)
-        }
-        .buttonStyle(.plain)
-    }
-
-    /// Per-dose time: shared tray time by default, overridable for staggered
-    /// stacks ("the kratom was an hour before everything else").
-    private var timeOverrideMenu: some View {
-        Menu {
-            Button {
-                withAnimation(.snappy) { item.timeOverride = nil }
-            } label: {
-                if item.timeOverride == nil {
-                    Label("Shared time", systemImage: "checkmark")
-                } else {
-                    Text("Shared time")
-                }
-            }
-            Button {
-                withAnimation(.snappy) { item.timeOverride = trayTime.resolved }
-            } label: {
-                Label("Custom…", systemImage: "clock")
-            }
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: "clock")
-                    .imageScale(.small)
-                Text(item.timeOverride == nil ? trayTime.chipLabel : item.timeOverride!.formatted(.dateTime.hour().minute()))
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.semibold))
-            }
-            .font(.footnote.weight(.semibold))
-            .padding(.horizontal, 11)
-            .padding(.vertical, 8)
-            .background(
-                item.timeOverride == nil ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Color.orange.opacity(0.18)),
-                in: Capsule(),
-            )
-            .foregroundStyle(item.timeOverride == nil ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.orange))
         }
         .buttonStyle(.plain)
     }

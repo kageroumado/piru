@@ -91,8 +91,13 @@ struct SheetRouteView: View {
         case let .personalizeSubstance(name):
             PersonalizeSubstanceHost(name: name)
 
-        case .dailyDoseSettings,
-             .dailyDoseItemForm,
+        case .dailyDoseSettings:
+            NavigationStack {
+                MedicationsSettingsView()
+                    .withCancellationCloseButton()
+            }
+
+        case .dailyDoseItemForm,
              .customSubstancesList,
              .customSubstanceForm,
              .journalFilters,
