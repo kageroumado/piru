@@ -7,6 +7,23 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Quick-log redesign — dose tray (staging, shared When/Tags/Location, inline editor)
+    "%lld min ago": ("%lld 分钟前", "%lld 分鐘前"),
+    "Pick date & time…": ("选择日期和时间…", "選擇日期和時間…"),
+    "Remove": ("移除", "移除"),
+    "When": ("时间", "時間"),
+    "Log Dose": ("记录剂量", "記錄劑量"),
+    "Log %lld Doses": ("记录 %lld 剂", "記錄 %lld 劑"),
+    "Add note…": ("添加备注…", "新增備註…"),
+    "Collapse": ("收起", "收合"),
+    "Shared time": ("统一时间", "統一時間"),
+    "Custom…": ("自定…", "自訂…"),
+    "Discard staged doses?": ("舍弃待记录的剂量？", "捨棄待記錄的劑量？"),
+    "Discard Doses": ("舍弃剂量", "捨棄劑量"),
+    "Keep Logging": ("继续记录", "繼續記錄"),
+    "Show %lld more doses": ("显示另外 %lld 个剂量", "顯示另外 %lld 個劑量"),
+    "Custom dose": ("自定剂量", "自訂劑量"),
+    "Active dose details": ("活性剂量详情", "活性劑量詳情"),
     # Settings restructure — progressive disclosure cleanup
     "My Substances": ("我的物质", "我的物質"),
     "Notifications": ("通知", "通知"),
@@ -2155,6 +2172,23 @@ if __name__ == "__main__":
         "Delete Failed",
         "Permanently removes every dose, session, and setting. A recoverable snapshot is taken first.",
         "Share session log",
+        # Quick-log dose tray
+        "%lld min ago",
+        "Pick date & time…",
+        "Remove",
+        "When",
+        "Log Dose",
+        "Log %lld Doses",
+        "Add note…",
+        "Collapse",
+        "Shared time",
+        "Custom…",
+        "Discard staged doses?",
+        "Discard Doses",
+        "Keep Logging",
+        "Show %lld more doses",
+        "Custom dose",
+        "Active dose details",
     }
 
     print("--- Piru main app catalog ---")
