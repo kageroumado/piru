@@ -40,7 +40,6 @@ struct QuickLogView: View {
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
 
-    private static let dockCornerRadius: CGFloat = 34
     /// The floating-sheet inset: 8pt off the screen sides and bottom, like a
     /// native partial-detent sheet on iOS 26.
     private static let dockEdgeInset: CGFloat = 8
@@ -304,9 +303,11 @@ struct QuickLogView: View {
         .frame(maxWidth: .infinity)
         .background {
             // The glass floats: it runs below the content (which respects
-            // the safe area) to 8pt above the physical screen bottom.
+            // the safe area) to 8pt above the physical screen bottom. The
+            // concentric shape derives its corner radius from the screen
+            // corners minus the 8pt inset, like a native floating sheet.
             Color.clear
-                .glassEffect(.regular, in: .rect(cornerRadius: Self.dockCornerRadius))
+                .glassEffect(.regular, in: ConcentricRectangle(corners: .concentric(minimum: 24)))
                 .padding(.bottom, Self.dockEdgeInset)
                 .ignoresSafeArea(.container, edges: .bottom)
         }
