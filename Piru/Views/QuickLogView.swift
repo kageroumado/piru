@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UIKit
 import WidgetKit
 
 struct QuickLogView: View {
@@ -22,16 +23,26 @@ struct QuickLogView: View {
 
     @State private var pendingCustomPrefill: EntryPrefillPayload?
 
-    /// Staged-but-uncommitted doses. Tapping a chip stages it here; the tray
-    /// (rendered above the search bar) is the single commit surface for one
-    /// dose or a whole stack — no separate multi-select mode.
+    /// Staged-but-uncommitted doses. Tapping a chip stages it here; the dock
+    /// (the screen's single bottom surface) is the commit surface for one dose
+    /// or a whole stack.
     @State private var tray = DoseTrayModel()
     /// (substance|route) groups showing their full chip set instead of the
-    /// first `chipLimit`.
+    /// single folded row.
     @State private var expandedGroups: Set<String> = []
     /// Substances whose PK badge has been expanded into the full advice card.
     @State private var expandedPK: Set<String> = []
     @State private var showDiscardConfirm = false
+
+    /// The dock is in search mode: field focused, results render inside the
+    /// dock surface. Entered from the idle pill or the tray's "Add another…";
+    /// exits automatically when focus ends with nothing typed.
+    @State private var searchActive = false
+    @FocusState private var searchFocused: Bool
+    @Namespace private var dockNamespace
+    /// Drives the dock's bottom padding: flush with the safe area normally,
+    /// a small gap when it sits on the keyboard instead.
+    @State private var keyboardVisible = false
 
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
@@ -106,29 +117,18 @@ struct QuickLogView: View {
         cachedFavoriteSet = Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private var filteredCards: [SubstanceCard] {
-        guard !searchText.isEmpty else { return cachedCards }
-        let query = searchText.lowercased()
-        return cachedCards.filter { $0.id.contains(query) }
-    }
-
     // MARK: - Favorites
 
     private var favoriteCards: [SubstanceCard] {
-        guard searchText.isEmpty else { return [] }
-        return cachedCards.filter { cachedFavoriteSet.contains($0.id) }
+        cachedCards.filter { cachedFavoriteSet.contains($0.id) }
     }
 
     private var nonFavoriteCards: [SubstanceCard] {
-        if searchText.isEmpty {
-            return cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
-        }
-        return filteredCards
+        cachedCards.filter { !cachedFavoriteSet.contains($0.id) }
     }
 
     private var favoriteLibrarySubstances: [Substance] {
-        guard searchText.isEmpty else { return [] }
-        return favorites
+        favorites
             .filter { !cachedHistoryNames.contains($0.substance.lowercased()) }
             .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.substance.lowercased()) }
     }
@@ -171,11 +171,7 @@ struct QuickLogView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if !dailyDoseItems.isEmpty, searchText.isEmpty {
-                        medicationsButton
-                    }
-
-                    if cachedCards.isEmpty, searchText.isEmpty {
+                    if cachedCards.isEmpty, dailyGroups.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -188,18 +184,16 @@ struct QuickLogView: View {
                 .padding(.horizontal)
                 .padding(.top, 4)
                 .padding(.bottom, 64)
+                // Tapping anywhere outside the dock ends a search — the
+                // standard iOS dismissal, no dimming, no Cancel button.
+                .simultaneousGesture(
+                    TapGesture().onEnded {
+                        if searchActive { cancelSearch() }
+                    },
+                    isEnabled: searchActive,
+                )
             }
-            .safeAreaInset(edge: .bottom) {
-                VStack(spacing: 10) {
-                    if !tray.isEmpty {
-                        DoseTrayView(model: tray, tagSuggestions: sessionTagSuggestions, onCommit: commitTray)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-                    searchBar
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 8)
-            }
+            .safeAreaInset(edge: .bottom) { dock }
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
             .navigationTitle("Log")
@@ -214,6 +208,20 @@ struct QuickLogView: View {
                         }
                     } label: {
                         Image(systemName: "xmark")
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Button {
+                            navigator.present(.dailyDoseSettings)
+                        } label: {
+                            Label("Manage Routines…", systemImage: "pills")
+                        }
+                        Toggle(isOn: $quickLogFixedOrder) {
+                            Label("Keep Quick-Log Order", systemImage: "pin")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
                     }
                 }
             }
@@ -247,6 +255,17 @@ struct QuickLogView: View {
                 rebuildCards()
             }
             .onChange(of: favorites.count) { rebuildFavorites() }
+            .onChange(of: searchFocused) {
+                if !searchFocused, searchText.isEmpty {
+                    withAnimation(.snappy) { searchActive = false }
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+                withAnimation(.snappy) { keyboardVisible = true }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+                withAnimation(.snappy) { keyboardVisible = false }
+            }
             .task(id: searchText) {
                 guard !searchText.isEmpty else {
                     cachedLibraryResults = []
@@ -260,19 +279,333 @@ struct QuickLogView: View {
         }
     }
 
-    // MARK: - Search Bar
+    // MARK: - Dock
 
-    private var searchBar: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(Theme.secondaryLabel)
-            TextField("Search substances...", text: $searchText)
-                .textFieldStyle(.plain)
-                .autocorrectionDisabled()
+    /// Which face the dock is showing. One surface, three sizes — search pill
+    /// when idle, the tray once something is staged, and in-dock search when
+    /// the field is active. Never two materials at once.
+    private enum DockState {
+        case idle
+        case search
+        case tray
+    }
+
+    private var dockState: DockState {
+        if searchActive { .search } else if !tray.isEmpty { .tray } else { .idle }
+    }
+
+    /// The screen's single bottom surface. `glassEffectID` ties the three
+    /// faces to one Liquid Glass shape so state changes morph (capsule ⇄
+    /// rounded rect) instead of cross-fading two layers.
+    private var dock: some View {
+        GlassEffectContainer {
+            Group {
+                switch dockState {
+                case .idle: idleDock
+                case .search: searchDock
+                case .tray: trayDock
+                }
+            }
         }
-        .padding(.horizontal, 12)
-        .frame(height: 50)
-        .glassEffect(.regular, in: .capsule)
+        .padding(.horizontal)
+        .padding(.bottom, keyboardVisible ? 8 : 0)
+        .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
+        .sensoryFeedback(.increase, trigger: tray.incrementTick)
+    }
+
+    private var idleDock: some View {
+        Button(action: activateSearch) {
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(Theme.secondaryLabel)
+                Text("Search substances...")
+                    .foregroundStyle(Theme.secondaryLabel)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 50)
+            .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .glassEffect(.regular.interactive(), in: .capsule)
+        .glassEffectID("dock", in: dockNamespace)
+    }
+
+    private var trayDock: some View {
+        DoseTrayView(
+            model: tray,
+            tagSuggestions: sessionTagSuggestions,
+            onAddMore: activateSearch,
+            onCommit: commitTray,
+        )
+        .glassEffect(.regular, in: .rect(cornerRadius: 26))
+        .glassEffectID("dock", in: dockNamespace)
+    }
+
+    /// Results stack *above* the field — the field stays pinned at the bottom
+    /// of the dock while suggestions grow upward.
+    private var searchDock: some View {
+        VStack(spacing: 0) {
+            if isHelpSearch {
+                quickLogHelpBanner
+                    .padding([.horizontal, .top], 10)
+            } else if !searchText.isEmpty {
+                searchResultsList
+            }
+
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(Theme.secondaryLabel)
+                TextField("Search substances...", text: $searchText)
+                    .textFieldStyle(.plain)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .focused($searchFocused)
+                    .submitLabel(.search)
+                if !tray.isEmpty {
+                    stagedCountPill
+                } else if !searchText.isEmpty {
+                    Button {
+                        searchText = ""
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Clear search")
+                }
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 50)
+        }
+        .glassEffect(.regular, in: .rect(cornerRadius: 26))
+        .glassEffectID("dock", in: dockNamespace)
+        .onAppear { searchFocused = true }
+    }
+
+    /// Returns to the tray without losing the staged stack.
+    private var stagedCountPill: some View {
+        Button(action: cancelSearch) {
+            Text(verbatim: "\(tray.staged.count)")
+                .font(.footnote.weight(.bold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 9)
+                .padding(.vertical, 4)
+                .background(Theme.accent, in: Capsule())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Back to staged doses")
+    }
+
+    private func activateSearch() {
+        withAnimation(.snappy) { searchActive = true }
+    }
+
+    private func cancelSearch() {
+        searchFocused = false
+        withAnimation(.snappy) {
+            searchActive = false
+            searchText = ""
+        }
+    }
+
+    // MARK: - In-dock search results
+
+    private enum DockResult: Identifiable {
+        case recent(SubstanceCard)
+        case library(Substance)
+        case custom(Substance)
+
+        var id: String {
+            switch self {
+            case let .recent(card): "recent|\(card.id)"
+            case let .library(substance): "library|\(substance.name.lowercased())"
+            case let .custom(substance): "custom|\(substance.name.lowercased())"
+            }
+        }
+    }
+
+    private var dockResults: [DockResult] {
+        let query = searchText.lowercased()
+        guard !query.isEmpty else { return [] }
+        var results: [DockResult] = cachedCards
+            .filter { $0.id.contains(query) }
+            .prefix(2)
+            .map { .recent($0) }
+        results += cachedLibraryResults.prefix(3).map { .library($0) }
+        results += filteredCustomSubstances.prefix(1).map { .custom($0) }
+        return Array(results.prefix(4))
+    }
+
+    /// Best match sits at the bottom, adjacent to the field; the create CTA
+    /// is farthest away (the list reads upward from the field).
+    private var searchResultsList: some View {
+        VStack(spacing: 0) {
+            if !exactMatchExists {
+                createCustomRow
+                Divider().padding(.leading, 16)
+            }
+            ForEach(dockResults.reversed()) { result in
+                dockResultRow(result)
+                Divider().padding(.leading, 16)
+            }
+        }
+        .padding(.top, 6)
+    }
+
+    @ViewBuilder
+    private func dockResultRow(_ result: DockResult) -> some View {
+        switch result {
+        case let .recent(card):
+            resultRow(
+                name: customSubstanceStore.displayName(for: card.substanceName),
+                source: String(localized: "Recent"),
+                tint: card.colorHex.map { Color(hex: $0) } ?? .gray,
+                detail: card.routes.first?.librarySubstance.flatMap(substanceDetail)
+                    ?? card.routes.first.map { String(localized: $0.route.localizedName) },
+                description: card.routes.first?.librarySubstance.flatMap(substanceDescription),
+            ) {
+                stageFromCard(card)
+            }
+        case let .library(substance):
+            resultRow(
+                name: substance.name,
+                source: String(localized: "Library"),
+                tint: substance.category.color,
+                detail: substanceDetail(substance),
+                description: substanceDescription(substance),
+            ) {
+                openLibrarySubstance(substance)
+            }
+        case let .custom(substance):
+            resultRow(
+                name: substance.name,
+                source: String(localized: "Custom"),
+                tint: substance.category.color,
+                detail: substanceDetail(substance),
+                description: substanceDescription(substance),
+            ) {
+                openLibrarySubstance(substance)
+            }
+        }
+    }
+
+    /// "Psychedelic · Common 75–150 µg" — class plus the default route's
+    /// common-dose band.
+    private func substanceDetail(_ substance: Substance) -> String? {
+        var parts = [String(localized: substance.category.displayName)]
+        if let routeInfo = substance.routes.first(where: { $0.route == substance.defaultRoute }),
+           let common = routeInfo.doses.common {
+            let low = common.lowerBound.doseFormatted
+            let high = common.upperBound.doseFormatted
+            parts.append(String(localized: "Common \(low)–\(high) \(routeInfo.unit)"))
+        }
+        return parts.joined(separator: " · ")
+    }
+
+    private func substanceDescription(_ substance: Substance) -> String? {
+        substance.mechanismOfAction?.summary
+    }
+
+    /// Leading chevron (mirroring the trailing source tag for symmetry),
+    /// tinted with the substance/category colour.
+    private func resultRow(
+        name: String,
+        source: String,
+        tint: Color,
+        detail: String?,
+        description: String?,
+        action: @escaping () -> Void,
+    ) -> some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(tint)
+                    .frame(width: 16)
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 8) {
+                        Text(name)
+                            .font(.body.weight(.medium))
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
+                        Spacer(minLength: 0)
+                        Text(source)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                    }
+                    if let detail {
+                        Text(detail)
+                            .font(.caption)
+                            .foregroundStyle(Theme.secondaryLabel)
+                            .lineLimit(1)
+                    }
+                    if let description {
+                        Text(description)
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 9)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var createCustomRow: some View {
+        Button {
+            showCustomForm = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "flask.fill")
+                    .imageScale(.small)
+                    .foregroundStyle(Theme.accent)
+                    .frame(width: 16)
+                Text("Create \"\(searchText.trimmingCharacters(in: .whitespaces))\"")
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
+                Spacer()
+                Image(systemName: "plus.circle.fill")
+                    .foregroundStyle(Theme.accent)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// A recent-substance search hit stages a draft from its most recent
+    /// route group, same as the card's ⋯ chip.
+    private func stageFromCard(_ card: SubstanceCard) {
+        guard let group = card.routes.first else { return }
+        searchFocused = false
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: group.substanceName,
+                route: group.route,
+                unit: group.doses.first?.unit ?? "mg",
+                colorHex: group.colorHex,
+                librarySubstance: group.librarySubstance,
+            )
+            searchActive = false
+            searchText = ""
+        }
+    }
+
+    /// True when `searchText` exactly matches the name of any substance
+    /// already known to the app (library, custom store, or recently logged).
+    private var exactMatchExists: Bool {
+        let needle = searchText.trimmingCharacters(in: .whitespaces).lowercased()
+        guard !needle.isEmpty else { return false }
+        if cachedLibraryResults.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if filteredCustomSubstances.contains(where: { $0.name.lowercased() == needle }) { return true }
+        if cachedCards.contains(where: { $0.substanceName.lowercased() == needle }) { return true }
+        return false
     }
 
     // MARK: - Session Tags
@@ -309,12 +642,10 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
-        // Help resources — shown when user searches for help
-        if isHelpSearch {
-            quickLogHelpBanner
+        if !dailyGroups.isEmpty {
+            dailySection
         }
 
-        // Favorites section (only when not searching)
         if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
             Section {
                 ForEach(favoriteCards) { card in
@@ -340,7 +671,6 @@ struct QuickLogView: View {
             }
         }
 
-        // Recent / search results
         if !nonFavoriteCards.isEmpty {
             Section {
                 ForEach(nonFavoriteCards) { card in
@@ -348,116 +678,156 @@ struct QuickLogView: View {
                         .id("\(card.id)_recent")
                 }
             } header: {
-                if !favoriteCards.isEmpty, searchText.isEmpty {
+                if !favoriteCards.isEmpty {
                     Label("Recent", systemImage: "clock")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(Theme.secondaryLabel)
                         .textCase(.uppercase)
                 }
             }
-        } else if !searchText.isEmpty, cachedLibraryResults.isEmpty, filteredCustomSubstances.isEmpty, favoriteCards.isEmpty {
-            ContentUnavailableView.search(text: searchText)
-        }
-
-        if !filteredCustomSubstances.isEmpty {
-            Section {
-                ForEach(filteredCustomSubstances) { substance in
-                    customSubstanceRow(substance)
-                }
-            } header: {
-                Label("Custom", systemImage: "flask")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .padding(.top, 8)
-            }
-        }
-
-        if !cachedLibraryResults.isEmpty {
-            Section {
-                ForEach(cachedLibraryResults) { substance in
-                    libraryRow(substance)
-                }
-            } header: {
-                Text("From Library")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .textCase(.uppercase)
-                    .padding(.top, 8)
-            }
-        }
-
-        // Show the "Add as custom" CTA whenever the user has typed something
-        // that doesn't *exactly* match an existing substance (case- and
-        // whitespace-insensitive). Partial matches in the library still
-        // appear above; the button lets the user add a new substance without
-        // having to clear the search first.
-        if !searchText.isEmpty, !exactMatchExists {
-            createCustomButton
         }
     }
 
-    /// True when `searchText` exactly matches the name of any substance
-    /// already known to the app (library, custom store, or recently logged).
-    private var exactMatchExists: Bool {
-        let needle = searchText.trimmingCharacters(in: .whitespaces).lowercased()
-        guard !needle.isEmpty else { return false }
-        if cachedLibraryResults.contains(where: { $0.name.lowercased() == needle }) { return true }
-        if filteredCustomSubstances.contains(where: { $0.name.lowercased() == needle }) { return true }
-        if cachedCards.contains(where: { $0.substanceName.lowercased() == needle }) { return true }
-        return false
+    // MARK: - Daily routine
+
+    /// "Prescriptions" reconceived: pre-set daily drugs (meds, supplements,
+    /// anything routine) as first-class cards whose item-chips stage into the
+    /// same tray as everything else.
+    private struct DailyCategoryGroup: Identifiable {
+        let id: String
+        let title: String
+        let icon: String
+        let items: [DailyDoseItem]
+        let remaining: [DailyDoseItem]
     }
 
-    // MARK: - Medications
+    private var dailyGroups: [DailyCategoryGroup] {
+        guard !dailyDoseItems.isEmpty else { return [] }
+        let loggedToday = substancesLoggedToday
 
-    private var medicationsButton: some View {
-        let activeCategories = dailyDoseCategories.filter { cat in
-            dailyDoseItems.contains { $0.category == cat }
+        func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
+            items.filter { !loggedToday.contains($0.substance.lowercased()) }
+        }
+
+        var groups: [DailyCategoryGroup] = []
+        for category in dailyDoseCategories {
+            let items = dailyDoseItems.filter { $0.category == category }
+            guard !items.isEmpty else { continue }
+            groups.append(DailyCategoryGroup(
+                id: category,
+                title: category,
+                icon: iconForCategory(category),
+                items: items,
+                remaining: remaining(in: items),
+            ))
         }
         let uncategorized = dailyDoseItems.filter(\.category.isEmpty)
+        if !uncategorized.isEmpty {
+            groups.append(DailyCategoryGroup(
+                id: "",
+                title: String(localized: "Routine"),
+                icon: "pills",
+                items: uncategorized,
+                remaining: remaining(in: uncategorized),
+            ))
+        }
+        return groups
+    }
 
-        // Compact pill per category — the prescriptions flow is a *link*, not
-        // content, so it shouldn't out-weigh the dose chips below it.
-        return FlowLayout(spacing: 6) {
-            ForEach(activeCategories, id: \.self) { cat in
-                let catCount = dailyDoseItems.count(where: { $0.category == cat })
-                medicationPill(
-                    title: cat,
-                    icon: iconForCategory(cat),
-                    count: catCount,
-                    category: cat,
-                )
+    /// Substance-level "taken today" check. Amounts aren't matched so a
+    /// double-dose commit (2 × one pill) still marks the routine item done.
+    private var substancesLoggedToday: Set<String> {
+        var names: Set<String> = []
+        for entry in allEntries {
+            // allEntries is sorted newest-first; stop at yesterday.
+            guard Calendar.current.isDateInToday(entry.timestamp) else { break }
+            names.insert(entry.substance.lowercased())
+        }
+        return names
+    }
+
+    private var dailySection: some View {
+        Section {
+            FlowLayout(spacing: 8) {
+                ForEach(dailyGroups) { group in
+                    routinePill(group)
+                }
             }
+        } header: {
+            Label {
+                Text("Daily")
+                    .foregroundStyle(Theme.secondaryLabel)
+            } icon: {
+                Image(systemName: "sun.max.fill")
+                    .foregroundStyle(Theme.legibleYellow)
+            }
+            .font(.footnote.weight(.semibold))
+            .textCase(.uppercase)
+        }
+    }
 
-            if !uncategorized.isEmpty {
-                medicationPill(
-                    title: activeCategories.isEmpty ? String(localized: "Prescriptions") : String(localized: "Other"),
-                    icon: "pills",
-                    count: uncategorized.count,
-                    category: "",
-                )
+    /// A routine is one pill — a *shortcut* that stages its whole set into
+    /// the tray in one tap (the eight-supplements use case), idempotent for
+    /// anything already staged. The checkmark is informational ("all of these
+    /// were logged today"); the pill stays tappable for re-logs. Long-press
+    /// to edit the routine itself.
+    private func routinePill(_ group: DailyCategoryGroup) -> some View {
+        let done = group.remaining.isEmpty
+        let allStaged = group.items.allSatisfy { stagedQuantity($0) > 0 }
+        return Button {
+            withAnimation(.snappy) {
+                for item in group.items where stagedQuantity(item) == 0 {
+                    stageDailyItem(item)
+                }
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: done ? "checkmark" : group.icon)
+                    .imageScale(.small)
+                Text(group.title)
+                Text(verbatim: "· \(group.items.count)")
+                    .opacity(0.75)
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(
+                allStaged
+                    ? AnyShapeStyle(Theme.accent)
+                    : done ? AnyShapeStyle(Color.green.opacity(0.12)) : AnyShapeStyle(Theme.accent.opacity(0.12)),
+                in: Capsule(),
+            )
+            .foregroundStyle(
+                allStaged
+                    ? AnyShapeStyle(.white)
+                    : done ? AnyShapeStyle(Color.green) : AnyShapeStyle(Theme.accent),
+            )
+        }
+        .buttonStyle(.plain)
+        .contextMenu {
+            Button {
+                navigator.present(.dailyDoseSettings)
+            } label: {
+                Label("Edit Routine…", systemImage: "pencil")
             }
         }
     }
 
-    private func medicationPill(title: String, icon: String, count: Int, category: String) -> some View {
-        Button {
-            navigator.present(.dailyDoseLog(category: category))
-        } label: {
-            HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .imageScale(.small)
-                Text(title)
-                Text(verbatim: "· \(count)")
-                    .opacity(0.7)
-            }
-            .font(.footnote.weight(.semibold))
-            .foregroundStyle(Theme.accent)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(Theme.accent.opacity(0.1), in: Capsule())
-        }
-        .buttonStyle(.plain)
+    private func stagedQuantity(_ item: DailyDoseItem) -> Int {
+        tray.quantity(substance: item.substance, route: item.route, amount: item.amount, unit: item.unit)
+    }
+
+    private func stageDailyItem(_ item: DailyDoseItem) {
+        tray.stage(
+            substance: item.substance,
+            route: item.route,
+            amount: item.amount,
+            unit: item.unit,
+            colorHex: cachedColorLookup[item.substance.lowercased()],
+            librarySubstance: SubstanceLibrary.lookupByNameOrAlias(item.substance.lowercased()),
+            isFromDailySet: true,
+            isBackgroundMed: item.isBackgroundMed,
+        )
     }
 
     private func iconForCategory(_ category: String) -> String {
@@ -489,18 +859,19 @@ struct QuickLogView: View {
                 Text(customSubstanceStore.displayName(for: card.substanceName))
                     .font(.headline)
                 // PK status as a glanceable badge instead of a two-line card —
-                // tap to expand the full advice when it actually matters.
-                if showsBadge, let pkStatus, let lastEntry {
+                // tap to expand the full advice when it actually matters. The
+                // badge hides while the card is open so the same fact never
+                // shows twice; tapping the card collapses it back.
+                if showsBadge, let pkStatus, let lastEntry, !expandedPK.contains(card.id) {
                     Button {
-                        withAnimation(.snappy) {
-                            if expandedPK.contains(card.id) {
-                                expandedPK.remove(card.id)
-                            } else {
-                                expandedPK.insert(card.id)
-                            }
-                        }
+                        withAnimation(.snappy) { _ = expandedPK.insert(card.id) }
                     } label: {
-                        DosePKBadge(remainingPercent: pkStatus.remainingPercent, lastDoseTimestamp: lastEntry.timestamp)
+                        DosePKBadge(
+                            remainingPercent: pkStatus.remainingPercent,
+                            lastDoseAmount: lastEntry.amount,
+                            unit: lastEntry.unit,
+                            waitMinutes: pkStatus.waitMinutes,
+                        )
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Active dose details")
@@ -522,20 +893,27 @@ struct QuickLogView: View {
             }
 
             if showsBadge, expandedPK.contains(card.id), let lastEntry {
-                DoseSuggestionCard(
-                    substanceName: card.substanceName,
-                    lastDoseAmount: lastEntry.amount,
-                    lastDoseTimestamp: lastEntry.timestamp,
-                    unit: lastEntry.unit,
-                    route: lastEntry.route,
-                )
+                Button {
+                    withAnimation(.snappy) { _ = expandedPK.remove(card.id) }
+                } label: {
+                    DoseSuggestionCard(
+                        substanceName: card.substanceName,
+                        lastDoseAmount: lastEntry.amount,
+                        lastDoseTimestamp: lastEntry.timestamp,
+                        unit: lastEntry.unit,
+                        route: lastEntry.route,
+                    )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Collapse")
             }
 
             ForEach(card.routes) { group in
                 routeSection(group, color: color)
             }
         }
-        .padding(.vertical, 4)
+        .padding(14)
+        .background(RoundedRectangle(cornerRadius: 20).fill(Theme.cardBackground))
     }
 
     private func routeSection(_ group: SubstanceGroup, color: Color) -> some View {
@@ -549,37 +927,16 @@ struct QuickLogView: View {
         }
     }
 
-    /// Chips visible per group before the "+N" overflow takes over. Eight
-    /// near-duplicate amounts are noise; four cover the habitual doses.
-    private static let chipLimit = 4
-
     private func doseChips(for group: SubstanceGroup, color: Color) -> some View {
-        let allDoses = group.doses
-        let isExpanded = expandedGroups.contains(group.id)
-        let visible = isExpanded ? allDoses : Array(allDoses.prefix(Self.chipLimit))
-        let hiddenCount = allDoses.count - visible.count
-
-        return FlowLayout(spacing: 6) {
-            ForEach(visible) { chip in
-                doseChip(chip, group: group, color: color)
-            }
-
-            if hiddenCount > 0 {
-                Button {
-                    withAnimation(.snappy) { _ = expandedGroups.insert(group.id) }
-                } label: {
-                    Text(verbatim: "+\(hiddenCount)")
-                        .font(.subheadline.weight(.medium))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(Color(.secondarySystemFill))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .clipShape(Capsule())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Show \(hiddenCount) more doses")
-            }
-
+        OneRowChips(
+            items: group.doses,
+            isExpanded: expandedGroups.contains(group.id),
+            onExpand: {
+                withAnimation(.snappy) { _ = expandedGroups.insert(group.id) }
+            },
+        ) { chip in
+            doseChip(chip, group: group, color: color)
+        } trailing: {
             Button {
                 withAnimation(.snappy) {
                     tray.stageDraft(
@@ -604,8 +961,9 @@ struct QuickLogView: View {
         }
     }
 
-    /// A single dose chip. Tapping stages it into the tray (re-tap increments
-    /// the count); a filled background + count badge mirror the staged state.
+    /// A single dose chip. Tapping stages it into the tray; re-tap increments
+    /// the count ("took two pills" — one bigger entry, never two). A filled
+    /// background + count badge mirror the staged state.
     private func doseChip(_ chip: DoseChip, group: SubstanceGroup, color: Color) -> some View {
         let stagedCount = tray.quantity(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
         return Text("\(chip.formattedAmount) \(chip.unit)")
@@ -618,13 +976,7 @@ struct QuickLogView: View {
             .contentShape(Capsule())
             .overlay(alignment: .topTrailing) {
                 if stagedCount > 1 {
-                    Text(verbatim: "\(stagedCount)")
-                        .font(.caption2.weight(.bold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 1)
-                        .background(Theme.accent, in: Capsule())
-                        .offset(x: 6, y: -7)
+                    chipCountBadge(stagedCount)
                 }
             }
             .onTapGesture {
@@ -653,62 +1005,14 @@ struct QuickLogView: View {
             }
     }
 
-    // MARK: - Custom Substance
-
-    private var createCustomButton: some View {
-        Button {
-            showCustomForm = true
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "flask.fill")
-                    .foregroundStyle(Theme.accent)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Create \"\(searchText.trimmingCharacters(in: .whitespaces))\"")
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    Text("Add as custom substance")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                Image(systemName: "plus.circle.fill")
-                    .foregroundStyle(Theme.accent)
-            }
-            .padding(12)
-            .background(Theme.accent.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
-    }
-
-    private func customSubstanceRow(_ substance: Substance) -> some View {
-        Button {
-            openLibrarySubstance(substance)
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "flask")
-                    .foregroundStyle(substance.category.color)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(substance.name)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    Text("\(substance.defaultRoute.displayName) \u{2014} \(substance.defaultUnit)")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                Text("Custom")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Theme.secondaryLabel.opacity(0.12))
-                    .clipShape(Capsule())
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
-            }
-            .padding(.vertical, 4)
-        }
+    private func chipCountBadge(_ count: Int) -> some View {
+        Text(verbatim: "\(count)")
+            .font(.caption2.weight(.bold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 1)
+            .background(Theme.accent, in: Capsule())
+            .offset(x: 6, y: -7)
     }
 
     // MARK: - Library Row
@@ -733,16 +1037,18 @@ struct QuickLogView: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            .padding(.vertical, 4)
+            .padding(14)
+            .background(Theme.cardBackground, in: RoundedRectangle(cornerRadius: 20))
         }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Actions
 
-    /// Commit every staged dose at the tray's shared time (or each item's
-    /// override), stamping the tray-wide tags and location. One entry per
-    /// staged item — a count of 2 × 150 mg commits as a single 300 mg entry,
-    /// which is PK-equivalent under linear superposition.
+    /// Commit every staged dose at the tray's shared time, stamping the
+    /// tray-wide tags and location. One entry per staged item — a count of
+    /// 2 × 150 mg commits as a single 300 mg entry, which is PK-equivalent
+    /// under linear superposition.
     private func commitTray() {
         guard tray.isCommittable else { return }
         let sharedTime = tray.time.resolved
@@ -753,9 +1059,10 @@ struct QuickLogView: View {
                 amount: item.totalAmount,
                 unit: item.unit,
                 route: item.route,
-                timestamp: item.timeOverride ?? sharedTime,
+                timestamp: sharedTime,
                 notes: item.note.isEmpty ? nil : item.note,
                 tags: Array(tray.tags),
+                isBackgroundMed: item.isBackgroundMed,
                 locationName: tray.location?.name,
                 latitude: tray.location?.latitude,
                 longitude: tray.location?.longitude,
@@ -764,8 +1071,11 @@ struct QuickLogView: View {
             SessionService.assignSession(for: entry, in: modelContext)
             // Record the chip amount (not amount × count) so the curated list
             // floats the chip the user actually tapped, without minting a new
-            // chip for every multiple.
-            QuickLogManager.record(substance: item.substanceName, route: item.route, amount: item.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+            // chip for every multiple. Daily routine items keep their own
+            // surface and don't mint quick-log chips.
+            if !item.isFromDailySet {
+                QuickLogManager.record(substance: item.substanceName, route: item.route, amount: item.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+            }
 
             // Schedule wellness notifications & check cumulative dose
             scheduleWellnessIfNeeded(entry: entry, substance: item.librarySubstance)
@@ -785,6 +1095,11 @@ struct QuickLogView: View {
         }
 
         WidgetCenter.shared.reloadAllTimelines()
+
+        // The commit is the flow's one success moment — the only notification
+        // haptic in quick logging. Played directly because the sheet tears
+        // down before a `sensoryFeedback` trigger would fire.
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
 
         // Quick-log completes a logging flow; clear the entire sheet chain.
         navigator.dismissAll()
@@ -824,6 +1139,7 @@ struct QuickLogView: View {
     /// expanded in the tray with the amount field focused — the full entry
     /// form no longer participates in quick logging.
     private func openLibrarySubstance(_ substance: Substance) {
+        searchFocused = false
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: substance.name,
@@ -832,6 +1148,7 @@ struct QuickLogView: View {
                 colorHex: cachedColorLookup[substance.name.lowercased()],
                 librarySubstance: substance,
             )
+            searchActive = false
             searchText = ""
         }
     }
@@ -839,7 +1156,7 @@ struct QuickLogView: View {
     private func onCustomFormDismiss() {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
-        searchText = ""
+        searchFocused = false
         withAnimation(.snappy) {
             tray.stageDraft(
                 substance: prefill.substance,
@@ -848,6 +1165,8 @@ struct QuickLogView: View {
                 colorHex: cachedColorLookup[prefill.substance.lowercased()],
                 librarySubstance: SubstanceLibrary.lookupByNameOrAlias(prefill.substance.lowercased()),
             )
+            searchActive = false
+            searchText = ""
         }
     }
 
@@ -953,6 +1272,67 @@ struct QuickLogView: View {
                 unit: entry.unit,
                 category: category,
             )
+        }
+    }
+}
+
+// MARK: - One-Row Chip Fold
+
+/// Lays out chips on exactly one row, folding whatever doesn't fit into a
+/// width-aware "+N" chip — the row never wraps. Tapping "+N" is a disclosure:
+/// the row expands in place to a wrapping layout showing every chip.
+///
+/// Implemented with `ViewThatFits`: candidate rows from "all chips" down to
+/// "one chip + fold" are proposed in order and the widest that fits wins.
+private struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: View>: View {
+    let items: [Item]
+    let isExpanded: Bool
+    let onExpand: () -> Void
+    @ViewBuilder let chip: (Item) -> ChipView
+    @ViewBuilder let trailing: () -> TrailingView
+
+    var body: some View {
+        if isExpanded || items.count <= 1 {
+            FlowLayout(spacing: 6) {
+                ForEach(items) { item in
+                    chip(item)
+                }
+                trailing()
+            }
+        } else {
+            ViewThatFits(in: .horizontal) {
+                ForEach(Array(stride(from: items.count, through: 1, by: -1)), id: \.self) { visibleCount in
+                    candidateRow(visibleCount: visibleCount)
+                }
+            }
+        }
+    }
+
+    private func candidateRow(visibleCount: Int) -> some View {
+        HStack(spacing: 6) {
+            ForEach(items.prefix(visibleCount)) { item in
+                chip(item)
+                    // Chips must not compress, otherwise every candidate
+                    // "fits" and the widest always wins. The last candidate
+                    // stays compressible as the give-up fallback.
+                    .fixedSize(horizontal: visibleCount > 1, vertical: false)
+            }
+            if visibleCount < items.count {
+                Button(action: onExpand) {
+                    Text(verbatim: "+\(items.count - visibleCount)")
+                        .font(.subheadline.weight(.medium))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(Color(.secondarySystemFill))
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .fixedSize()
+                .accessibilityLabel("Show \(items.count - visibleCount) more doses")
+            }
+            trailing()
+                .fixedSize()
         }
     }
 }

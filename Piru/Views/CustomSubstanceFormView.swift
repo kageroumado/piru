@@ -8,7 +8,11 @@ import SwiftUI
 /// / half-life fields pre-fill from the shipped values so the user edits from real
 /// numbers. Both modes persist a `CustomSubstanceEntry` (keyed by canonical name).
 struct CustomSubstanceFormView: View {
-    @Environment(\.appNavigator) private var navigator
+    /// Presented as a *local* sheet (quick-log search, custom list) as well as
+    /// a navigator route — the environment dismiss targets whichever
+    /// presentation actually owns it, where `navigator.dismiss()` would pop
+    /// the navigator's top sheet out from under a local one.
+    @Environment(\.dismiss) private var dismiss
     @State private var store = CustomSubstanceStore.shared
 
     var existing: CustomSubstanceEntry?
@@ -283,12 +287,22 @@ struct CustomSubstanceFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { navigator.dismiss() }
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .accessibilityLabel("Cancel")
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(isEditing || isPersonalizing ? "Save" : "Add") { save() }
-                        .fontWeight(.semibold)
-                        .disabled(!canSave)
+                    Button {
+                        save()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .fontWeight(.semibold)
+                    .disabled(!canSave)
+                    .accessibilityLabel(isEditing || isPersonalizing ? "Save" : "Add")
                 }
             }
             .alert("Duplicate Name", isPresented: $showDuplicateAlert) {
@@ -367,6 +381,6 @@ struct CustomSubstanceFormView: View {
         }
 
         onSaved?(saved)
-        navigator.dismiss()
+        dismiss()
     }
 }

@@ -126,7 +126,7 @@ struct MedicationsSettingsView: View {
                 } header: {
                     Text("Categories")
                 } footer: {
-                    Text("Organize prescriptions by time of day or purpose. Drag items onto a category to assign them.")
+                    Text("Group items into routines by time of day or purpose — a routine stages everything in it with one tap on the Log screen. Drag items onto a category to assign them.")
                 }
 
                 // Items
@@ -134,9 +134,9 @@ struct MedicationsSettingsView: View {
                     Section {
                         VStack(spacing: 16) {
                             ContentUnavailableView(
-                                "No Prescriptions",
+                                "No Routine Items",
                                 systemImage: "pills",
-                                description: Text("Add prescriptions you take regularly."),
+                                description: Text("Add the meds and supplements you take regularly."),
                             )
                             Button {
                                 showingAddSheetCategory = ""
@@ -153,7 +153,7 @@ struct MedicationsSettingsView: View {
                     // Categorized items
                     ForEach(categories, id: \.self) { cat in
                         let catItems = items.filter { $0.category == cat }
-                        Section("\(cat) \u{2014} \(catItems.count) prescription\(catItems.count == 1 ? "" : "s")") {
+                        Section("\(cat) \u{2014} \(catItems.count) item\(catItems.count == 1 ? "" : "s")") {
                             ForEach(catItems) { item in
                                 itemRow(item)
                                     .draggable(itemKey(for: item))
@@ -175,7 +175,7 @@ struct MedicationsSettingsView: View {
                     // Uncategorized items
                     let uncategorized = items.filter(\.category.isEmpty)
                     if !uncategorized.isEmpty {
-                        Section(categories.isEmpty ? "\(items.count) prescription\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) prescription\(uncategorized.count == 1 ? "" : "s")") {
+                        Section(categories.isEmpty ? "\(items.count) item\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) item\(uncategorized.count == 1 ? "" : "s")") {
                             ForEach(uncategorized) { item in
                                 itemRow(item)
                                     .draggable(itemKey(for: item))
@@ -192,7 +192,7 @@ struct MedicationsSettingsView: View {
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Prescriptions")
+        .navigationTitle("Routines")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
