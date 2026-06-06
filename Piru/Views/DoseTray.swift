@@ -274,6 +274,12 @@ struct DoseTrayView: View {
     /// route, and chevron morph in place instead of cross-fading.
     @Namespace private var morphNamespace
 
+    /// Measured height of the staged-rows stack; past ``rowsMaxHeight`` the
+    /// rows scroll internally so the chips and Log button never leave the
+    /// screen.
+    @State private var rowsHeight: CGFloat = 0
+    private static let rowsMaxHeight: CGFloat = 320
+
     private var interactions: [InteractionResult] {
         let names = Array(Set(model.staged.map(\.substanceName)))
         guard names.count >= 2 else { return [] }
@@ -282,23 +288,7 @@ struct DoseTrayView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ForEach($model.staged) { $item in
-                if model.expandedItemIDs.contains(item.id) {
-                    StagedDoseEditor(item: $item, namespace: morphNamespace) {
-                        withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
-                    } onRemove: {
-                        withAnimation(.snappy) { model.remove(item) }
-                    }
-                    .padding(.vertical, 10)
-                } else {
-                    TrayRow(dose: item, namespace: morphNamespace) {
-                        withAnimation(.snappy) { _ = model.expandedItemIDs.insert(item.id) }
-                    } onDelete: {
-                        withAnimation(.snappy) { model.remove(item) }
-                    }
-                }
-                Divider().padding(.leading, 19)
-            }
+            stagedRowsList
 
             addMoreRow
 
@@ -340,20 +330,56 @@ struct DoseTrayView: View {
 
     // MARK: Rows
 
+    /// The staged rows, capped at ``rowsMaxHeight``: a tall stack scrolls
+    /// internally instead of pushing the chips and Log button off screen.
+    /// Height is measured because a bare `maxHeight` would let the greedy
+    /// ScrollView claim the cap even for a single row.
+    private var stagedRowsList: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach($model.staged) { $item in
+                    if model.expandedItemIDs.contains(item.id) {
+                        StagedDoseEditor(item: $item, namespace: morphNamespace) {
+                            withAnimation(.snappy) { _ = model.expandedItemIDs.remove(item.id) }
+                        } onRemove: {
+                            withAnimation(.snappy) { model.remove(item) }
+                        }
+                        .padding(.vertical, 10)
+                    } else {
+                        TrayRow(dose: item, namespace: morphNamespace) {
+                            withAnimation(.snappy) { _ = model.expandedItemIDs.insert(item.id) }
+                        } onDelete: {
+                            withAnimation(.snappy) { model.remove(item) }
+                        }
+                    }
+                    Divider().padding(.leading, 26)
+                }
+            }
+            .onGeometryChange(for: CGFloat.self, of: \.size.height) { newValue in
+                guard abs(newValue - rowsHeight) > 0.5 else { return }
+                withAnimation(.snappy) { rowsHeight = newValue }
+            }
+        }
+        .frame(height: min(max(rowsHeight, 1), Self.rowsMaxHeight))
+        .scrollDisabled(rowsHeight <= Self.rowsMaxHeight)
+        .scrollBounceBehavior(.basedOnSize)
+    }
+
     /// Re-opens search inside the dock — staging never requires dismissing
-    /// the tray. The plus is sized to the row dots so the labels align.
+    /// the tray. The plus shares the rows' leading chevron column so the
+    /// edges align; generous targets — this is the tray's main growth path.
     private var addMoreRow: some View {
         Button(action: onAddMore) {
             HStack(spacing: 10) {
                 Image(systemName: "plus")
-                    .font(.footnote.weight(.semibold))
-                    .frame(width: 9)
+                    .font(.body.weight(.semibold))
+                    .frame(width: 16)
                 Text("Add another…")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.body.weight(.semibold))
                 Spacer()
             }
             .foregroundStyle(Theme.accent)
-            .padding(.vertical, 9)
+            .padding(.vertical, 12)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -570,6 +596,13 @@ private struct TrayRow: View {
 
     private var rowContent: some View {
         HStack(spacing: 10) {
+            // Disclosure chevron leads the row (matching the search results
+            // and how these rows actually operate — they expand in place).
+            Image(systemName: "chevron.down")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .frame(width: 16)
+                .matchedGeometryEffect(id: "chevron-\(dose.id)", in: namespace)
             Circle()
                 .fill(dose.color)
                 .frame(width: 9, height: 9)
@@ -591,18 +624,14 @@ private struct TrayRow: View {
                     }
                     if !dose.note.isEmpty {
                         Text(verbatim: "·")
-                        Image(systemName: "note.text")
-                            .imageScale(.small)
+                        Text(dose.note)
+                            .lineLimit(1)
                     }
                 }
                 .font(.caption)
                 .foregroundStyle(Theme.secondaryLabel)
             }
             Spacer()
-            Image(systemName: "chevron.down")
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-                .matchedGeometryEffect(id: "chevron-\(dose.id)", in: namespace)
         }
         .padding(.vertical, 12)
         .contentShape(Rectangle())
@@ -665,7 +694,17 @@ private struct StagedDoseEditor: View {
     @State private var suppressAmountSync = false
     @FocusState private var amountFocused: Bool
 
+    /// The note row stays revealed once opened, even while still empty.
+    @State private var noteExpanded = false
+    @FocusState private var noteFocused: Bool
+
+    /// Bumped on each stepper tap — drives the value-change pulse + haptic.
+    @State private var stepTick = 0
+
     private static let unitChoices = ["µg", "mg", "g", "mL"]
+    /// One shared height for the route/note pills — a TextField's intrinsic
+    /// height differs from a Menu label's, so padding alone won't match them.
+    private static let pillHeight: CGFloat = 33
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -681,6 +720,13 @@ private struct StagedDoseEditor: View {
                         setAmount(item.amount + amountStep)
                     }
                 }
+                // A quick breathing pulse on value change, like the system
+                // steppers nudge their surroundings.
+                .phaseAnimator([1.0, 1.03], trigger: stepTick) { content, scale in
+                    content.scaleEffect(scale)
+                } animation: { _ in
+                    .snappy(duration: 0.15)
+                }
                 if let breakdown = item.breakdownLabel {
                     Text(verbatim: "= \(breakdown) \(item.unit)")
                         .font(.caption.weight(.medium))
@@ -691,9 +737,16 @@ private struct StagedDoseEditor: View {
 
             HStack(spacing: 8) {
                 routeMenu
-                noteField
+                if !showsNoteRow {
+                    notePill
+                }
+            }
+
+            if showsNoteRow {
+                noteRow
             }
         }
+        .sensoryFeedback(.increase, trigger: stepTick)
         .onAppear {
             if item.amount > 0 {
                 suppressAmountSync = true
@@ -701,10 +754,23 @@ private struct StagedDoseEditor: View {
             }
             if item.amount <= 0 { amountFocused = true }
         }
+        .onChange(of: noteFocused) {
+            // Fold an untouched note row back into the pill.
+            if !noteFocused, item.note.isEmpty {
+                withAnimation(.snappy) { noteExpanded = false }
+            }
+        }
     }
 
     private var header: some View {
         HStack(spacing: 10) {
+            // Same leading chevron column as the collapsed row — collapsing
+            // flips it in place instead of flying it across the surface.
+            Image(systemName: "chevron.up")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.tertiary)
+                .frame(width: 16)
+                .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
             Circle()
                 .fill(item.color)
                 .frame(width: 9, height: 9)
@@ -722,28 +788,53 @@ private struct StagedDoseEditor: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove")
-            Button(action: onCollapse) {
-                Image(systemName: "chevron.up")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(Theme.secondaryLabel)
-                    .frame(width: 38, height: 38)
-                    .contentShape(Rectangle())
-                    .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Collapse")
         }
         .contentShape(Rectangle())
         .onTapGesture(perform: onCollapse)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Collapses the editor")
     }
 
-    /// Styled like every other control pill in the tray.
-    private var noteField: some View {
-        TextField("Add note…", text: $item.note)
-            .font(.footnote.weight(.medium))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+    private var showsNoteRow: Bool {
+        noteExpanded || !item.note.isEmpty
+    }
+
+    /// Same recipe as the route pill — icon + label, identical font, padding,
+    /// and fixed height. Tapping reveals the full-width note row.
+    private var notePill: some View {
+        Button {
+            withAnimation(.snappy) { noteExpanded = true }
+            noteFocused = true
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "note.text")
+                    .imageScale(.small)
+                Text("Note")
+            }
+            .font(.footnote.weight(.semibold))
+            .padding(.horizontal, 11)
+            .frame(height: Self.pillHeight)
             .background(Color(.secondarySystemFill), in: Capsule())
+            .foregroundStyle(.primary)
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Once a note exists it gets a row of its own — full width, readable,
+    /// still editable in place.
+    private var noteRow: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "note.text")
+                .imageScale(.small)
+                .foregroundStyle(Theme.secondaryLabel)
+            TextField("Add note…", text: $item.note)
+                .font(.footnote.weight(.medium))
+                .focused($noteFocused)
+        }
+        .padding(.horizontal, 12)
+        .frame(height: Self.pillHeight)
+        .frame(maxWidth: .infinity)
+        .background(Color(.secondarySystemFill), in: Capsule())
     }
 
     private var amountField: some View {
@@ -832,6 +923,7 @@ private struct StagedDoseEditor: View {
     }
 
     private func setAmount(_ value: Double) {
+        stepTick += 1
         item.amount = value
         let newText = value > 0 ? value.doseFormatted : ""
         // Only arm the suppress flag when onChange will actually fire,
@@ -865,7 +957,7 @@ private struct StagedDoseEditor: View {
             }
             .font(.footnote.weight(.semibold))
             .padding(.horizontal, 11)
-            .padding(.vertical, 8)
+            .frame(height: Self.pillHeight)
             .background(Color(.secondarySystemFill), in: Capsule())
             .foregroundStyle(.primary)
         }

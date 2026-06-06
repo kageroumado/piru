@@ -32,7 +32,6 @@ struct QuickLogView: View {
     @State private var expandedGroups: Set<String> = []
     /// Substances whose PK badge has been expanded into the full advice card.
     @State private var expandedPK: Set<String> = []
-    @State private var showDiscardConfirm = false
 
     /// The dock is in search mode: field focused, results render inside the
     /// dock surface. Entered from the idle pill or the tray's "Add another…";
@@ -206,14 +205,25 @@ struct QuickLogView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        if tray.isEmpty {
+                    // With staged doses, close is a Menu — it gets the glass
+                    // morph out of the button, unlike a confirmationDialog,
+                    // which anchors to the toolbar as a stray popover.
+                    if tray.isEmpty {
+                        Button {
                             navigator.dismiss()
-                        } else {
-                            showDiscardConfirm = true
+                        } label: {
+                            Image(systemName: "xmark")
                         }
-                    } label: {
-                        Image(systemName: "xmark")
+                    } else {
+                        Menu {
+                            Button(role: .destructive) {
+                                navigator.dismiss()
+                            } label: {
+                                Label("Discard Doses", systemImage: "trash")
+                            }
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
@@ -230,10 +240,6 @@ struct QuickLogView: View {
                         Image(systemName: "ellipsis")
                     }
                 }
-            }
-            .confirmationDialog("Discard staged doses?", isPresented: $showDiscardConfirm, titleVisibility: .visible) {
-                Button("Discard Doses", role: .destructive) { navigator.dismiss() }
-                Button("Keep Logging", role: .cancel) {}
             }
             .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
                 CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in

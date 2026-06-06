@@ -24295,6 +24295,22 @@
           }
         }
       }
+    },
+    "Collapses the editor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起编辑器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收合編輯器"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
