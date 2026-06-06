@@ -39,10 +39,8 @@ struct QuickLogView: View {
     /// exits automatically when focus ends with nothing typed.
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
-    @Namespace private var dockNamespace
-    /// Drives the dock's bottom padding: flush with the safe area normally,
-    /// a small gap when it sits on the keyboard instead.
-    @State private var keyboardVisible = false
+
+    private static let dockCornerRadius: CGFloat = 32
 
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
@@ -260,12 +258,6 @@ struct QuickLogView: View {
                     withAnimation(.snappy) { searchActive = false }
                 }
             }
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-                withAnimation(.snappy) { keyboardVisible = true }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-                withAnimation(.snappy) { keyboardVisible = false }
-            }
             .task(id: searchText) {
                 guard !searchText.isEmpty else {
                     cachedLibraryResults = []
@@ -294,41 +286,58 @@ struct QuickLogView: View {
         if searchActive { .search } else if !tray.isEmpty { .tray } else { .idle }
     }
 
-    /// The screen's single bottom surface. `glassEffectID` ties the three
-    /// faces to one Liquid Glass shape so state changes morph (capsule ⇄
-    /// rounded rect) instead of cross-fading two layers.
+    /// The screen's single bottom surface, styled like a native detented
+    /// sheet — full-width, top-rounded, glass bleeding under the home
+    /// indicator — but driven by our own state machine: native child sheets
+    /// can't morph between faces and never grant programmatic keyboard focus.
     private var dock: some View {
-        GlassEffectContainer {
-            Group {
-                switch dockState {
-                case .idle: idleDock
-                case .search: searchDock
-                case .tray: trayDock
-                }
+        Group {
+            switch dockState {
+            case .idle: idleDock
+            case .search: searchDock
+            case .tray: trayDock
             }
         }
-        .padding(.horizontal)
-        .padding(.bottom, keyboardVisible ? 8 : 0)
+        .frame(maxWidth: .infinity)
+        .background {
+            Color.clear
+                .glassEffect(
+                    .regular,
+                    in: .rect(topLeadingRadius: Self.dockCornerRadius, topTrailingRadius: Self.dockCornerRadius),
+                )
+                .ignoresSafeArea(.container, edges: .bottom)
+        }
         .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
 
+    /// The field's visual — a filled capsule like a native sheet's search
+    /// bar (the glass surface behind it is the sheet, not the field).
+    private func fieldCapsule(@ViewBuilder content: () -> some View) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(Theme.secondaryLabel)
+            content()
+        }
+        .padding(.horizontal, 14)
+        .frame(height: 46)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.secondarySystemFill), in: Capsule())
+    }
+
     private var idleDock: some View {
         Button(action: activateSearch) {
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(Theme.secondaryLabel)
+            fieldCapsule {
                 Text("Search substances...")
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 16)
-            .frame(height: 50)
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
-        .glassEffect(.regular.interactive(), in: .capsule)
-        .glassEffectID("dock", in: dockNamespace)
+        .padding(.horizontal, 10)
+        .padding(.top, 10)
+        .padding(.bottom, 6)
     }
 
     private var trayDock: some View {
@@ -338,8 +347,6 @@ struct QuickLogView: View {
             onAddMore: activateSearch,
             onCommit: commitTray,
         )
-        .glassEffect(.regular, in: .rect(cornerRadius: 26))
-        .glassEffectID("dock", in: dockNamespace)
     }
 
     /// Results stack *above* the field — the field stays pinned at the bottom
@@ -353,9 +360,7 @@ struct QuickLogView: View {
                 searchResultsList
             }
 
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(Theme.secondaryLabel)
+            fieldCapsule {
                 TextField("Search substances...", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
@@ -375,11 +380,10 @@ struct QuickLogView: View {
                     .accessibilityLabel("Clear search")
                 }
             }
-            .padding(.horizontal, 16)
-            .frame(height: 50)
+            .padding(.horizontal, 10)
+            .padding(.bottom, 6)
         }
-        .glassEffect(.regular, in: .rect(cornerRadius: 26))
-        .glassEffectID("dock", in: dockNamespace)
+        .padding(.top, 4)
         .onAppear { searchFocused = true }
     }
 

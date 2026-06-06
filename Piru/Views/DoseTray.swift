@@ -327,8 +327,9 @@ struct DoseTrayView: View {
             commitButton
                 .padding(.top, 14)
         }
-        .padding(.horizontal, 18)
-        .padding(.vertical, 16)
+        .padding(.horizontal, 16)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView { picked in
