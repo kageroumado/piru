@@ -307,7 +307,7 @@ struct QuickLogView: View {
             // concentric shape derives its corner radius from the screen
             // corners minus the 8pt inset, like a native floating sheet.
             Color.clear
-                .glassEffect(.regular, in: ConcentricRectangle(corners: .concentric(minimum: 24)))
+                .glassEffect(.regular, in: ConcentricRectangle(corners: .concentric(minimum: 24), isUniform: true))
                 .padding(.bottom, Self.dockEdgeInset)
                 .ignoresSafeArea(.container, edges: .bottom)
         }
