@@ -40,7 +40,10 @@ struct QuickLogView: View {
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
 
-    private static let dockCornerRadius: CGFloat = 32
+    private static let dockCornerRadius: CGFloat = 34
+    /// The floating-sheet inset: 8pt off the screen sides and bottom, like a
+    /// native partial-detent sheet on iOS 26.
+    private static let dockEdgeInset: CGFloat = 8
 
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
@@ -300,13 +303,14 @@ struct QuickLogView: View {
         }
         .frame(maxWidth: .infinity)
         .background {
+            // The glass floats: it runs below the content (which respects
+            // the safe area) to 8pt above the physical screen bottom.
             Color.clear
-                .glassEffect(
-                    .regular,
-                    in: .rect(topLeadingRadius: Self.dockCornerRadius, topTrailingRadius: Self.dockCornerRadius),
-                )
+                .glassEffect(.regular, in: .rect(cornerRadius: Self.dockCornerRadius))
+                .padding(.bottom, Self.dockEdgeInset)
                 .ignoresSafeArea(.container, edges: .bottom)
         }
+        .padding(.horizontal, Self.dockEdgeInset)
         .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
