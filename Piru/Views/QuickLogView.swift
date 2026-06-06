@@ -22,13 +22,16 @@ struct QuickLogView: View {
 
     @State private var pendingCustomPrefill: EntryPrefillPayload?
 
-    @State private var multiSelectEnabled = false
-    @State private var selectedDoses: [DoseSelection] = []
-
-    /// Tags applied to every dose logged in this quick-log session. Lets the user
-    /// stamp #daily / #prescription at log time — the moment the habit forms —
-    /// instead of digging into the full edit form. Empty by default.
-    @State private var sessionTags: Set<String> = []
+    /// Staged-but-uncommitted doses. Tapping a chip stages it here; the tray
+    /// (rendered above the search bar) is the single commit surface for one
+    /// dose or a whole stack — no separate multi-select mode.
+    @State private var tray = DoseTrayModel()
+    /// (substance|route) groups showing their full chip set instead of the
+    /// first `chipLimit`.
+    @State private var expandedGroups: Set<String> = []
+    /// Substances whose PK badge has been expanded into the full advice card.
+    @State private var expandedPK: Set<String> = []
+    @State private var showDiscardConfirm = false
 
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
@@ -187,9 +190,15 @@ struct QuickLogView: View {
                 .padding(.bottom, 64)
             }
             .safeAreaInset(edge: .bottom) {
-                searchBar
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
+                VStack(spacing: 10) {
+                    if !tray.isEmpty {
+                        DoseTrayView(model: tray, tagSuggestions: sessionTagSuggestions, onCommit: commitTray)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                    searchBar
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 8)
             }
             .scrollDismissesKeyboard(.interactively)
             .background(Theme.background)
@@ -197,24 +206,20 @@ struct QuickLogView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
-                }
-                ToolbarItemGroup(placement: .primaryAction) {
                     Button {
-                        withAnimation {
-                            multiSelectEnabled.toggle()
-                            if !multiSelectEnabled { selectedDoses.removeAll() }
+                        if tray.isEmpty {
+                            navigator.dismiss()
+                        } else {
+                            showDiscardConfirm = true
                         }
                     } label: {
-                        Image(systemName: multiSelectEnabled ? "checklist.checked" : "checklist")
-                    }
-                    if multiSelectEnabled, !selectedDoses.isEmpty {
-                        Button("Add (\(selectedDoses.count))") {
-                            batchLog()
-                        }
-                        .fontWeight(.semibold)
+                        Image(systemName: "xmark")
                     }
                 }
+            }
+            .confirmationDialog("Discard staged doses?", isPresented: $showDiscardConfirm, titleVisibility: .visible) {
+                Button("Discard Doses", role: .destructive) { navigator.dismiss() }
+                Button("Keep Logging", role: .cancel) {}
             }
             .sheet(isPresented: $showCustomForm, onDismiss: onCustomFormDismiss) {
                 CustomSubstanceFormView(initialName: searchText.trimmingCharacters(in: .whitespaces)) { saved in
@@ -272,9 +277,10 @@ struct QuickLogView: View {
 
     // MARK: - Session Tags
 
-    /// Tags offered in the quick-log tag row: the user's previously-used tags
+    /// Tags offered in the tray's tag panel: the user's previously-used tags
     /// (most frequent first) topped up with a few common suggestions, capped so
-    /// the row stays a single glanceable line.
+    /// the panel stays glanceable. The tray appends any active tag that falls
+    /// past the cap.
     private var sessionTagSuggestions: [String] {
         var counts: [String: Int] = [:]
         for entry in allEntries {
@@ -284,51 +290,7 @@ struct QuickLogView: View {
         }
         let used = counts.sorted { $0.value > $1.value }.map(\.key)
         let extras = TagExtractor.suggestions.filter { !used.contains($0) }
-        let ordered = used + extras
-        // Keep any active tag visible even if it would fall past the cap.
-        let capped = Array(ordered.prefix(8))
-        let missingActive = sessionTags.filter { !capped.contains($0) }
-        return capped + Array(missingActive)
-    }
-
-    /// One-line tag picker stamped onto every dose logged this session. Makes the
-    /// tag feature discoverable at the exact moment of logging instead of hiding
-    /// it in the full edit form.
-    private var sessionTagRow: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Label(
-                sessionTags.isEmpty ? "Tag these logs" : "Tagging with",
-                systemImage: "tag",
-            )
-            .font(.caption2.weight(.medium))
-            .foregroundStyle(Theme.secondaryLabel)
-
-            ScrollView(.horizontal) {
-                HStack(spacing: 6) {
-                    ForEach(sessionTagSuggestions, id: \.self) { tag in
-                        let on = sessionTags.contains(tag)
-                        Button {
-                            withAnimation(.snappy) {
-                                if on { sessionTags.remove(tag) } else { sessionTags.insert(tag) }
-                            }
-                        } label: {
-                            Text(verbatim: "#\(tag)")
-                                .font(.subheadline.weight(.medium))
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(
-                                    on ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color(.secondarySystemFill)),
-                                    in: Capsule(),
-                                )
-                                .foregroundStyle(on ? .white : .primary)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-            .scrollIndicators(.hidden)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        return Array((used + extras).prefix(8))
     }
 
     // MARK: - Scroll Content
@@ -347,30 +309,6 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
-        if !isHelpSearch {
-            sessionTagRow
-        }
-
-        // Multi-select hint
-        if !multiSelectEnabled {
-            HStack(spacing: 4) {
-                Text("Press the")
-                Image(systemName: "checklist")
-                    .imageScale(.small)
-                Text("icon to log several at once, or long press a dose to remove or reorder it")
-            }
-            .font(.caption2)
-            .foregroundStyle(Theme.secondaryLabel)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        } else if multiSelectEnabled && !selectedDoses.isEmpty {
-            selectedDosesSection
-        } else {
-            Text("Tap doses to select them, then tap Add to log together.")
-                .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-
         // Help resources — shown when user searches for help
         if isHelpSearch {
             quickLogHelpBanner
@@ -478,10 +416,12 @@ struct QuickLogView: View {
         }
         let uncategorized = dailyDoseItems.filter(\.category.isEmpty)
 
-        return VStack(spacing: 6) {
+        // Compact pill per category — the prescriptions flow is a *link*, not
+        // content, so it shouldn't out-weigh the dose chips below it.
+        return FlowLayout(spacing: 6) {
             ForEach(activeCategories, id: \.self) { cat in
                 let catCount = dailyDoseItems.count(where: { $0.category == cat })
-                medicationRow(
+                medicationPill(
                     title: cat,
                     icon: iconForCategory(cat),
                     count: catCount,
@@ -490,8 +430,8 @@ struct QuickLogView: View {
             }
 
             if !uncategorized.isEmpty {
-                medicationRow(
-                    title: activeCategories.isEmpty ? "Prescriptions" : "Other",
+                medicationPill(
+                    title: activeCategories.isEmpty ? String(localized: "Prescriptions") : String(localized: "Other"),
                     icon: "pills",
                     count: uncategorized.count,
                     category: "",
@@ -500,31 +440,24 @@ struct QuickLogView: View {
         }
     }
 
-    private func medicationRow(title: String, icon: String, count: Int, category: String) -> some View {
+    private func medicationPill(title: String, icon: String, count: Int, category: String) -> some View {
         Button {
             navigator.present(.dailyDoseLog(category: category))
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: 6) {
                 Image(systemName: icon)
-                    .font(.body.weight(.medium))
-                    .foregroundStyle(Theme.accent)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.body.weight(.medium))
-                        .foregroundStyle(.primary)
-                    Text("\(count) prescription\(count == 1 ? "" : "s")")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundStyle(Theme.secondaryLabel)
+                    .imageScale(.small)
+                Text(title)
+                Text(verbatim: "· \(count)")
+                    .opacity(0.7)
             }
-            .padding(12)
-            .background(Theme.accent.opacity(0.06))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(Theme.accent)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Theme.accent.opacity(0.1), in: Capsule())
         }
+        .buttonStyle(.plain)
     }
 
     private func iconForCategory(_ category: String) -> String {
@@ -542,6 +475,11 @@ struct QuickLogView: View {
 
     private func substanceCard(_ card: SubstanceCard, isFavorite: Bool) -> some View {
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
+        let lastEntry = mostRecentEntry(for: card.substanceName)
+        let pkStatus = lastEntry.flatMap {
+            DosePK.status(substanceName: card.substanceName, route: $0.route, lastDoseTimestamp: $0.timestamp)
+        }
+        let showsBadge = (pkStatus?.remainingPercent ?? 0) > 5
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -550,6 +488,23 @@ struct QuickLogView: View {
                     .frame(width: 10, height: 10)
                 Text(customSubstanceStore.displayName(for: card.substanceName))
                     .font(.headline)
+                // PK status as a glanceable badge instead of a two-line card —
+                // tap to expand the full advice when it actually matters.
+                if showsBadge, let pkStatus, let lastEntry {
+                    Button {
+                        withAnimation(.snappy) {
+                            if expandedPK.contains(card.id) {
+                                expandedPK.remove(card.id)
+                            } else {
+                                expandedPK.insert(card.id)
+                            }
+                        }
+                    } label: {
+                        DosePKBadge(remainingPercent: pkStatus.remainingPercent, lastDoseTimestamp: lastEntry.timestamp)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Active dose details")
+                }
                 Spacer()
                 Button {
                     withAnimation(.snappy) {
@@ -566,7 +521,7 @@ struct QuickLogView: View {
                 .accessibilityLabel(isFavorite ? "Remove from Favorites" : "Add to Favorites")
             }
 
-            if let lastEntry = mostRecentEntry(for: card.substanceName) {
+            if showsBadge, expandedPK.contains(card.id), let lastEntry {
                 DoseSuggestionCard(
                     substanceName: card.substanceName,
                     lastDoseAmount: lastEntry.amount,
@@ -594,67 +549,108 @@ struct QuickLogView: View {
         }
     }
 
+    /// Chips visible per group before the "+N" overflow takes over. Eight
+    /// near-duplicate amounts are noise; four cover the habitual doses.
+    private static let chipLimit = 4
+
     private func doseChips(for group: SubstanceGroup, color: Color) -> some View {
-        FlowLayout(spacing: 6) {
-            ForEach(group.doses) { chip in
-                let selected = multiSelectEnabled && isSelected(group: group, chip: chip)
-                HStack(spacing: 4) {
-                    if selected {
-                        Image(systemName: "checkmark")
-                            .font(.caption2.weight(.bold))
-                    }
-                    Text("\(chip.formattedAmount) \(chip.unit)")
-                }
-                .font(.subheadline.weight(.medium))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(selected ? color : color.opacity(0.15))
-                .foregroundStyle(selected ? .white : color)
-                .clipShape(Capsule())
-                .contentShape(Capsule())
-                .onTapGesture {
-                    if multiSelectEnabled {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            toggleSelection(group: group, chip: chip)
-                        }
-                    } else {
-                        instantLog(group: group, chip: chip)
-                    }
-                }
-                .contextMenu {
-                    Button {
-                        moveChip(group: group, chip: chip, toFront: true)
-                    } label: { Label("Move to Front", systemImage: "arrow.up.to.line") }
-                    Button {
-                        moveChip(group: group, chip: chip, toFront: false)
-                    } label: { Label("Move to Back", systemImage: "arrow.down.to.line") }
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.15)) {
-                            if !multiSelectEnabled { multiSelectEnabled = true }
-                            toggleSelection(group: group, chip: chip)
-                        }
-                    } label: { Label("Select", systemImage: "checklist") }
-                    Divider()
-                    Button(role: .destructive) {
-                        removeChip(group: group, chip: chip)
-                    } label: { Label("Remove from Quick Log", systemImage: "trash") }
-                }
+        let allDoses = group.doses
+        let isExpanded = expandedGroups.contains(group.id)
+        let visible = isExpanded ? allDoses : Array(allDoses.prefix(Self.chipLimit))
+        let hiddenCount = allDoses.count - visible.count
+
+        return FlowLayout(spacing: 6) {
+            ForEach(visible) { chip in
+                doseChip(chip, group: group, color: color)
             }
 
-            if !multiSelectEnabled {
+            if hiddenCount > 0 {
                 Button {
-                    openOtherDose(group: group)
+                    withAnimation(.snappy) { _ = expandedGroups.insert(group.id) }
                 } label: {
-                    Label("Other dose", systemImage: "slider.horizontal.3")
+                    Text(verbatim: "+\(hiddenCount)")
                         .font(.subheadline.weight(.medium))
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(.tint.opacity(0.12))
-                        .foregroundStyle(.tint)
+                        .background(Color(.secondarySystemFill))
+                        .foregroundStyle(Theme.secondaryLabel)
                         .clipShape(Capsule())
                 }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Show \(hiddenCount) more doses")
             }
+
+            Button {
+                withAnimation(.snappy) {
+                    tray.stageDraft(
+                        substance: group.substanceName,
+                        route: group.route,
+                        unit: group.doses.first?.unit ?? "mg",
+                        colorHex: group.colorHex,
+                        librarySubstance: group.librarySubstance,
+                    )
+                }
+            } label: {
+                Image(systemName: "slider.horizontal.3")
+                    .font(.subheadline.weight(.medium))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(.tint.opacity(0.12))
+                    .foregroundStyle(.tint)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Custom dose")
         }
+    }
+
+    /// A single dose chip. Tapping stages it into the tray (re-tap increments
+    /// the count); a filled background + count badge mirror the staged state.
+    private func doseChip(_ chip: DoseChip, group: SubstanceGroup, color: Color) -> some View {
+        let stagedCount = tray.quantity(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
+        return Text("\(chip.formattedAmount) \(chip.unit)")
+            .font(.subheadline.weight(.medium))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(stagedCount > 0 ? color : color.opacity(0.15))
+            .foregroundStyle(stagedCount > 0 ? .white : color)
+            .clipShape(Capsule())
+            .contentShape(Capsule())
+            .overlay(alignment: .topTrailing) {
+                if stagedCount > 1 {
+                    Text(verbatim: "\(stagedCount)")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 1)
+                        .background(Theme.accent, in: Capsule())
+                        .offset(x: 6, y: -7)
+                }
+            }
+            .onTapGesture {
+                withAnimation(.snappy) {
+                    tray.stage(
+                        substance: group.substanceName,
+                        route: group.route,
+                        amount: chip.amount,
+                        unit: chip.unit,
+                        colorHex: group.colorHex,
+                        librarySubstance: group.librarySubstance,
+                    )
+                }
+            }
+            .contextMenu {
+                Button {
+                    moveChip(group: group, chip: chip, toFront: true)
+                } label: { Label("Move to Front", systemImage: "arrow.up.to.line") }
+                Button {
+                    moveChip(group: group, chip: chip, toFront: false)
+                } label: { Label("Move to Back", systemImage: "arrow.down.to.line") }
+                Divider()
+                Button(role: .destructive) {
+                    removeChip(group: group, chip: chip)
+                } label: { Label("Remove from Quick Log", systemImage: "trash") }
+            }
     }
 
     // MARK: - Custom Substance
@@ -743,31 +739,52 @@ struct QuickLogView: View {
 
     // MARK: - Actions
 
-    private func instantLog(group: SubstanceGroup, chip: DoseChip) {
-        guard chip.amount > 0 else { return }
-        let entry = DoseEntry(
-            substance: group.substanceName,
-            amount: chip.amount,
-            unit: chip.unit,
-            route: group.route,
-        )
-        entry.tags = Array(sessionTags)
-        modelContext.insert(entry)
-        SessionService.assignSession(for: entry, in: modelContext)
-        QuickLogManager.record(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+    /// Commit every staged dose at the tray's shared time (or each item's
+    /// override), stamping the tray-wide tags and location. One entry per
+    /// staged item — a count of 2 × 150 mg commits as a single 300 mg entry,
+    /// which is PK-equivalent under linear superposition.
+    private func commitTray() {
+        guard tray.isCommittable else { return }
+        let sharedTime = tray.time.resolved
+
+        for item in tray.staged {
+            let entry = DoseEntry(
+                substance: item.substanceName,
+                amount: item.totalAmount,
+                unit: item.unit,
+                route: item.route,
+                timestamp: item.timeOverride ?? sharedTime,
+                notes: item.note.isEmpty ? nil : item.note,
+                tags: Array(tray.tags),
+                locationName: tray.location?.name,
+                latitude: tray.location?.latitude,
+                longitude: tray.location?.longitude,
+            )
+            modelContext.insert(entry)
+            SessionService.assignSession(for: entry, in: modelContext)
+            // Record the chip amount (not amount × count) so the curated list
+            // floats the chip the user actually tapped, without minting a new
+            // chip for every multiple.
+            QuickLogManager.record(substance: item.substanceName, route: item.route, amount: item.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+
+            // Schedule wellness notifications & check cumulative dose
+            scheduleWellnessIfNeeded(entry: entry, substance: item.librarySubstance)
+
+            // Auto-assign a stable palette colour for a brand-new substance up
+            // front (deterministic hash, the same colour the graph already
+            // uses), so the session and journal pick it up immediately.
+            ensureColor(for: item.substanceName)
+
+            // Add to the active session immediately, now that the colour exists.
+            ActiveSessionManager.shared.addDose(
+                entry: entry,
+                substance: item.librarySubstance,
+                colorHex: SubstancePalette.hex(for: item.substanceName, hexMap: Array(substanceColors).hexColorMap),
+                allColors: Array(substanceColors),
+            )
+        }
+
         WidgetCenter.shared.reloadAllTimelines()
-
-        // Schedule wellness notifications & check cumulative dose
-        scheduleWellnessIfNeeded(entry: entry, substance: group.librarySubstance)
-
-        // Auto-assign a stable palette colour for a brand-new substance up
-        // front (deterministic hash, the same colour the graph already uses),
-        // so the session and journal pick it up immediately. No follow-up
-        // picker sheet — the colour stays editable from the entry's detail.
-        ensureColor(for: group.substanceName)
-
-        // Add to the active session immediately, now that the colour exists.
-        startLiveActivity(entry: entry, group: group)
 
         // Quick-log completes a logging flow; clear the entire sheet chain.
         navigator.dismissAll()
@@ -803,131 +820,35 @@ struct QuickLogView: View {
         withAnimation(.snappy) { rebuildCards() }
     }
 
-    private func openOtherDose(group: SubstanceGroup) {
-        navigator.present(.entryForm(prefill: EntryPrefillPayload(
-            substance: group.substanceName,
-            route: group.route,
-            unit: group.doses.first?.unit ?? "mg",
-        )))
-    }
-
+    /// Library / custom search results stage an amount-less draft that opens
+    /// expanded in the tray with the amount field focused — the full entry
+    /// form no longer participates in quick logging.
     private func openLibrarySubstance(_ substance: Substance) {
-        navigator.present(.entryForm(prefill: EntryPrefillPayload(
-            substance: substance.name,
-            route: substance.defaultRoute,
-            unit: substance.defaultUnit,
-        )))
-    }
-
-    private func startLiveActivity(entry: DoseEntry, group: SubstanceGroup) {
-        let colorHex = SubstancePalette.hex(for: entry.substance, hexMap: Array(substanceColors).hexColorMap)
-
-        ActiveSessionManager.shared.addDose(
-            entry: entry,
-            substance: group.librarySubstance,
-            colorHex: colorHex,
-            allColors: Array(substanceColors),
-        )
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: substance.name,
+                route: substance.defaultRoute,
+                unit: substance.defaultUnit,
+                colorHex: cachedColorLookup[substance.name.lowercased()],
+                librarySubstance: substance,
+            )
+            searchText = ""
+        }
     }
 
     private func onCustomFormDismiss() {
         guard let prefill = pendingCustomPrefill else { return }
         pendingCustomPrefill = nil
         searchText = ""
-        navigator.present(.entryForm(prefill: prefill))
-    }
-
-    // MARK: - Multi-Select
-
-    private var selectedDosesSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(selectedDoses) { dose in
-                HStack(spacing: 8) {
-                    if let hex = dose.colorHex {
-                        Circle().fill(Color(hex: hex)).frame(width: 8, height: 8)
-                    }
-                    Text(dose.substanceName)
-                        .font(.subheadline.weight(.medium))
-                    Spacer()
-                    Text("\(dose.amount.doseFormatted) \(dose.unit) — \(String(localized: dose.route.localizedName))")
-                        .font(.caption)
-                        .foregroundStyle(Theme.secondaryLabel)
-                    Button {
-                        withAnimation { selectedDoses.removeAll { $0.id == dose.id } }
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-
-            let interactions = selectedInteractions
-            if !interactions.isEmpty {
-                Divider()
-                ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
-                    InteractionWarningRow(warning: warning)
-                }
-            }
-        }
-        .padding(12)
-        .background(Theme.accent.opacity(0.08))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private var selectedInteractions: [InteractionResult] {
-        let names = Array(Set(selectedDoses.map(\.substanceName)))
-        guard names.count >= 2 else { return [] }
-        return InteractionChecker.checkBatch(names, against: [])
-    }
-
-    private func isSelected(group: SubstanceGroup, chip: DoseChip) -> Bool {
-        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)|\(chip.amount)|\(chip.unit)"
-        return selectedDoses.contains { $0.id == key }
-    }
-
-    private func toggleSelection(group: SubstanceGroup, chip: DoseChip) {
-        let key = "\(group.substanceName.lowercased())|\(group.route.rawValue)|\(chip.amount)|\(chip.unit)"
-        if let index = selectedDoses.firstIndex(where: { $0.id == key }) {
-            selectedDoses.remove(at: index)
-        } else {
-            selectedDoses.append(DoseSelection(
-                substanceName: group.substanceName,
-                amount: chip.amount,
-                unit: chip.unit,
-                route: group.route,
-                colorHex: group.colorHex,
-                librarySubstance: group.librarySubstance,
-            ))
-        }
-    }
-
-    private func batchLog() {
-        for dose in selectedDoses {
-            let entry = DoseEntry(
-                substance: dose.substanceName,
-                amount: dose.amount,
-                unit: dose.unit,
-                route: dose.route,
-            )
-            entry.tags = Array(sessionTags)
-            modelContext.insert(entry)
-            SessionService.assignSession(for: entry, in: modelContext)
-            QuickLogManager.record(substance: dose.substanceName, route: dose.route, amount: dose.amount, unit: dose.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
-            scheduleWellnessIfNeeded(entry: entry, substance: dose.librarySubstance)
-
-            ensureColor(for: dose.substanceName)
-            let colorHex = SubstancePalette.hex(for: dose.substanceName, hexMap: Array(substanceColors).hexColorMap)
-
-            ActiveSessionManager.shared.addDose(
-                entry: entry,
-                substance: dose.librarySubstance,
-                colorHex: colorHex,
-                allColors: Array(substanceColors),
+        withAnimation(.snappy) {
+            tray.stageDraft(
+                substance: prefill.substance,
+                route: prefill.route,
+                unit: prefill.unit,
+                colorHex: cachedColorLookup[prefill.substance.lowercased()],
+                librarySubstance: SubstanceLibrary.lookupByNameOrAlias(prefill.substance.lowercased()),
             )
         }
-        WidgetCenter.shared.reloadAllTimelines()
-        navigator.dismissAll()
     }
 
     // MARK: - Helpers
@@ -1083,19 +1004,6 @@ struct SubstanceGroup: Identifiable {
     }
 }
 
-struct DoseSelection: Identifiable {
-    let substanceName: String
-    let amount: Double
-    let unit: String
-    let route: RouteOfAdministration
-    let colorHex: String?
-    let librarySubstance: Substance?
-
-    var id: String {
-        "\(substanceName.lowercased())|\(route.rawValue)|\(amount)|\(unit)"
-    }
-}
-
 struct DoseChip: Identifiable {
     let amount: Double
     let unit: String
@@ -1105,8 +1013,6 @@ struct DoseChip: Identifiable {
     }
 
     var formattedAmount: String {
-        amount.truncatingRemainder(dividingBy: 1) == 0
-            ? String(format: "%.0f", amount)
-            : String(format: "%.2g", amount)
+        amount.doseFormatted
     }
 }
