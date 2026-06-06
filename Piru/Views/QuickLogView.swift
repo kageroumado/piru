@@ -283,6 +283,11 @@ struct QuickLogView: View {
                     .filter { !cachedHistoryNames.contains($0.name.lowercased()) }
             }
         }
+        // Swipe-down dismissal is off: scrolling the list and dragging in the
+        // dock pass too close to the sheet's drag region, and an accidental
+        // pull-down silently discards staged doses. Closing is the ✕ button,
+        // which routes through the discard menu when something is staged.
+        .interactiveDismissDisabled()
     }
 
     // MARK: - Dock
