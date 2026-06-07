@@ -880,13 +880,11 @@ private struct StagedDoseEditor: View {
 
             HStack(spacing: 8) {
                 routeMenu
-                if !showsNoteRow {
-                    notePill
-                }
+                notePill
             }
 
-            if showsNoteRow {
-                noteRow
+            if noteExpanded {
+                noteEditor
             }
         }
         .sensoryFeedback(.increase, trigger: stepTick)
@@ -936,46 +934,54 @@ private struct StagedDoseEditor: View {
         .accessibilityHint("Collapses the editor")
     }
 
-    private var showsNoteRow: Bool {
-        noteExpanded || !item.note.isEmpty
-    }
-
-    /// Same recipe as the route pill — icon + label, identical font, padding,
-    /// and fixed height. Tapping reveals the full-width note row.
+    /// Behaves like the location chip: neutral "Note" when empty, accent-
+    /// tinted with the note's first words once one exists. Toggles the
+    /// multi-line editor below.
     private var notePill: some View {
         Button {
-            withAnimation(.snappy) { noteExpanded = true }
-            noteFocused = true
+            withAnimation(.snappy) { noteExpanded.toggle() }
+            if noteExpanded { noteFocused = true }
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: "note.text")
                     .imageScale(.small)
-                Text("Note")
+                Text(item.note.isEmpty ? String(localized: "Note") : item.note)
+                    .lineLimit(1)
             }
             .font(.footnote.weight(.semibold))
             .padding(.horizontal, 11)
             .frame(height: Self.pillHeight)
-            .background(Color(.secondarySystemFill), in: Capsule())
-            .foregroundStyle(.primary)
+            .background(
+                item.note.isEmpty ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(Theme.accent.opacity(0.15)),
+                in: Capsule(),
+            )
+            .foregroundStyle(item.note.isEmpty ? AnyShapeStyle(.primary) : AnyShapeStyle(Theme.accent))
         }
         .buttonStyle(.plain)
+        .frame(maxWidth: 180, alignment: .leading)
     }
 
-    /// Once a note exists it gets a row of its own — full width, readable,
-    /// still editable in place.
-    private var noteRow: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "note.text")
-                .imageScale(.small)
-                .foregroundStyle(Theme.secondaryLabel)
-            TextField("Add note…", text: $item.note)
+    /// Multi-line note editor — a single line that grows with its content,
+    /// with an explicit close.
+    private var noteEditor: some View {
+        HStack(alignment: .top, spacing: 8) {
+            TextField("Add note…", text: $item.note, axis: .vertical)
                 .font(.footnote.weight(.medium))
+                .lineLimit(1 ... 6)
                 .focused($noteFocused)
+            Button {
+                noteFocused = false
+                withAnimation(.snappy) { noteExpanded = false }
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 12)
-        .frame(height: Self.pillHeight)
-        .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemFill), in: Capsule())
+        .padding(.vertical, 8)
+        .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 17, style: .continuous))
     }
 
     /// The amount is centered in the pill itself; the unit menu is a trailing
