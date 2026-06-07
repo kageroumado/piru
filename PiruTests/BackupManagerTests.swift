@@ -8,7 +8,11 @@ import Testing
 /// runs cleanly in the test environment. This also proves backups carry the
 /// full Piru-native fidelity (sessions, per-dose location, background flag,
 /// tags, favourites) and that a wrong passphrase never destroys data.
-@Suite("BackupManager — round-trip")
+// Serialized: every export writes the same fixed temp filename
+// (DataExportImport.exportFilename) through the shared BackupManager, so
+// concurrent tests clobber each other's file between export and restore —
+// which surfaces as a spurious `.decryptionFailed` (different salt/key).
+@Suite("BackupManager — round-trip", .serialized)
 @MainActor
 struct BackupManagerRoundTripTests {
     private func makeContainer() throws -> ModelContainer {
