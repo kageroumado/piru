@@ -24311,6 +24311,70 @@
           }
         }
       }
+    },
+    "≈%@ %@ active · %@ ago · %@ left" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内约 %1$@ %2$@ · %3$@前 · 剩 %4$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內約 %1$@ %2$@ · %3$@前 · 剩 %4$@"
+          }
+        }
+      }
+    },
+    "≈%@ %@ active · %@ ago" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内约 %1$@ %2$@ · %3$@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內約 %1$@ %2$@ · %3$@前"
+          }
+        }
+      }
+    },
+    "≈%@ %@ of your %@ %@ dose (%@) is still active — ~%lld%%" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您%5$@服用的 %3$@ %4$@，体内仍约有 %1$@ %2$@（约 %6$lld%%）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您%5$@服用的 %3$@ %4$@，體內仍約有 %1$@ %2$@（約 %6$lld%%）"
+          }
+        }
+      }
+    },
+    "Fixed Order" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定顺序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定順序"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

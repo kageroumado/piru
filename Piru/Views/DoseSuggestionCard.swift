@@ -76,6 +76,7 @@ struct DosePKBadge: View {
     let lastDoseAmount: Double
     let unit: String
     let waitMinutes: Double
+    let lastDoseTimestamp: Date
 
     private var activeAmount: Double {
         lastDoseAmount * remainingPercent / 100
@@ -93,11 +94,12 @@ struct DosePKBadge: View {
 
     private var label: String {
         let amount = activeAmount.doseFormatted
+        let ago = DosePK.shortElapsed(since: lastDoseTimestamp)
         if waitMinutes > 1 {
             let wait = DosePK.shortDuration(minutes: waitMinutes)
-            return String(localized: "≈\(amount) \(unit) active · \(wait) left")
+            return String(localized: "≈\(amount) \(unit) active · \(ago) ago · \(wait) left")
         }
-        return String(localized: "≈\(amount) \(unit) active")
+        return String(localized: "≈\(amount) \(unit) active · \(ago) ago")
     }
 }
 
@@ -119,14 +121,17 @@ struct DoseSuggestionCard: View {
     }
 
     private func cardContent(remainingPercent: Double, waitMinutes: Double) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        let activeAmount = lastDoseAmount * remainingPercent / 100
+        return HStack(alignment: .top, spacing: 8) {
             Image(systemName: "info.circle")
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Theme.accent)
                 .padding(.top, 1)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text("~\(Int(remainingPercent))% of your last dose (\(lastDoseAmount.doseFormatted)\(unit), \(timeAgo)) is still active")
+                // Leads with the same absolute amount as the badge — the two
+                // surfaces must never look like they disagree.
+                Text("≈\(activeAmount.doseFormatted) \(unit) of your \(lastDoseAmount.doseFormatted) \(unit) dose (\(timeAgo)) is still active — ~\(Int(remainingPercent))%")
                     .font(.caption)
                     .foregroundStyle(.primary)
 
