@@ -439,9 +439,12 @@ struct InteractionWarningRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
+            // Fixed 16pt column — in the dose tray this puts the icon on the
+            // same vertical line as the row chevrons and the add-more plus.
             Image(systemName: warning.severity == .dangerous ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
                 .foregroundStyle(warning.severity.labelColor)
-                .font(.title3)
+                .font(.body)
+                .frame(width: 16)
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {

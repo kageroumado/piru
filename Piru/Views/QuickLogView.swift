@@ -370,9 +370,9 @@ struct QuickLogView: View {
     /// can't morph between faces and never grant programmatic keyboard focus.
     /// With nothing to show but the field, the glass collapses to the field
     /// capsule itself and grows back as content appears.
-    /// Half the bare field's height — the radius that makes the glass a
-    /// capsule around it.
-    private static let bareFieldRadius: CGFloat = 23
+    /// Half the bare face's height (46pt field + 6pt platter inset each
+    /// side) — the radius that makes the glass platter a capsule around it.
+    private static let bareFieldRadius: CGFloat = 29
 
     private var dock: some View {
         Group {
@@ -409,9 +409,20 @@ struct QuickLogView: View {
                     }
                 }
                 .padding(.bottom, dockIsBareField ? 0 : Self.dockEdgeInset)
-                .ignoresSafeArea(.container, edges: dockIsBareField ? [] : .bottom)
+                // The keyboard region is ignored too — with it open, the
+                // glass keeps running underneath instead of stopping 8pt
+                // above the content and letting the Log button poke out.
+                .ignoresSafeArea(dockIsBareField ? .container : [.container, .keyboard], edges: dockIsBareField ? [] : .bottom)
         }
+        // The bare capsule floats clear of whatever is below it — the home
+        // indicator or an open keyboard — by the same 8pt the surface uses.
+        .padding(.bottom, dockIsBareField ? Self.dockEdgeInset : 0)
         .padding(.horizontal, Self.dockEdgeInset)
+        // Tapping empty dock space dismisses the keyboard (buttons and
+        // fields consume their own touches, so steppers keep it open).
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
         // The first keystroke flips the bare capsule into the full surface
         // (and every result-set change resizes it) — animate both, otherwise
         // the field snaps smaller the moment typing starts.
@@ -421,10 +432,10 @@ struct QuickLogView: View {
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
 
-    /// The field's visual. Inside the big surface it's a filled capsule like
-    /// a native sheet's search bar; as a bare field the glass capsule behind
-    /// it is the whole chrome, so the fill drops away.
-    private func fieldCapsule(filled: Bool = true, @ViewBuilder content: () -> some View) -> some View {
+    /// The field's visual, Maps-style: a grey filled capsule that looks the
+    /// same in every face — sitting on the glass platter when bare, inside
+    /// the full surface while searching.
+    private func fieldCapsule(@ViewBuilder content: () -> some View) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
@@ -433,13 +444,16 @@ struct QuickLogView: View {
         .padding(.horizontal, 14)
         .frame(height: 46)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(filled ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(.clear), in: Capsule())
+        .background(Color(.secondarySystemFill), in: Capsule())
     }
 
+    /// Breathing room between the grey field and the glass platter's edge in
+    /// the bare faces (Maps' collapsed-bar look).
+    private static let bareFieldPlatterInset: CGFloat = 6
+
     private var idleDock: some View {
-        // No inner padding — the bare glass capsule hugs the field exactly.
         Button(action: activateSearch) {
-            fieldCapsule(filled: false) {
+            fieldCapsule {
                 Text("Search substances...")
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer(minLength: 0)
@@ -447,6 +461,7 @@ struct QuickLogView: View {
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
+        .padding(Self.bareFieldPlatterInset)
     }
 
     private var trayDock: some View {
@@ -487,16 +502,14 @@ struct QuickLogView: View {
                 searchResultsList
             }
 
-            fieldCapsule(filled: !dockIsBareField) {
+            fieldCapsule {
                 TextField("Search substances...", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .focused($searchFocused)
                     .submitLabel(.search)
-                if !tray.isEmpty {
-                    stagedCountPill
-                } else if !searchText.isEmpty {
+                if !searchText.isEmpty {
                     Button {
                         searchText = ""
                     } label: {
@@ -507,25 +520,11 @@ struct QuickLogView: View {
                     .accessibilityLabel("Clear search")
                 }
             }
-            .padding(.horizontal, dockIsBareField ? 0 : 10)
-            .padding(.bottom, dockIsBareField ? 0 : 6)
+            .padding(.horizontal, dockIsBareField ? Self.bareFieldPlatterInset : 10)
+            .padding(.bottom, dockIsBareField ? Self.bareFieldPlatterInset : 6)
         }
-        .padding(.top, dockIsBareField ? 0 : 4)
+        .padding(.top, dockIsBareField ? Self.bareFieldPlatterInset : 4)
         .onAppear { searchFocused = true }
-    }
-
-    /// Returns to the tray without losing the staged stack.
-    private var stagedCountPill: some View {
-        Button(action: cancelSearch) {
-            Text(verbatim: "\(tray.staged.count)")
-                .font(.footnote.weight(.bold))
-                .foregroundStyle(.white)
-                .padding(.horizontal, 9)
-                .padding(.vertical, 4)
-                .background(Theme.accent, in: Capsule())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Back to staged doses")
     }
 
     private func activateSearch() {
