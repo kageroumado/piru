@@ -339,10 +339,29 @@ struct QuickLogView: View {
         if searchActive { .search } else if !tray.isEmpty { .tray } else { .idle }
     }
 
+    /// The dock is showing nothing but the search field — idle, or search
+    /// with nothing typed yet. The field *itself* is then the glass element
+    /// (a floating capsule, like Maps' collapsed bar); content morphs it
+    /// into the full surface. A bare field inside the big surface would
+    /// force a corner radius taller than the face and distort the shape.
+    private var dockIsBareField: Bool {
+        switch dockState {
+        case .idle: true
+        case .search: searchText.isEmpty
+        case .tray: false
+        }
+    }
+
     /// The screen's single bottom surface, styled like a native detented
     /// sheet — full-width, top-rounded, glass bleeding under the home
     /// indicator — but driven by our own state machine: native child sheets
     /// can't morph between faces and never grant programmatic keyboard focus.
+    /// With nothing to show but the field, the glass collapses to the field
+    /// capsule itself and grows back as content appears.
+    /// Half the bare field's height — the radius that makes the glass a
+    /// capsule around it.
+    private static let bareFieldRadius: CGFloat = 23
+
     private var dock: some View {
         Group {
             switch dockState {
@@ -353,32 +372,42 @@ struct QuickLogView: View {
         }
         .frame(maxWidth: .infinity)
         .background {
-            // The glass floats: it runs below the content (which respects
-            // the safe area) to 8pt above the physical screen bottom. The
-            // corner radius is UIKit-resolved as concentric with the screen
-            // corners (54pt = display radius − 8pt inset on a Pro Max,
-            // capsule-clamped on the short idle face) — SwiftUI's
-            // ConcentricRectangle resolves against the presenting sheet's
-            // container shape instead and lands on the wrong radius.
+            // One persistent glass element for every face. Bare field: a
+            // capsule hugging the field inside the safe area. With content:
+            // the surface runs below it to 8pt above the physical screen
+            // bottom, its corner radius UIKit-resolved as concentric with
+            // the screen corners (54pt = display radius − 8pt inset on a
+            // Pro Max) — SwiftUI's ConcentricRectangle resolves against the
+            // presenting sheet's container shape instead and lands on the
+            // wrong radius. NOT a GlassEffectContainer: hoisting the glass
+            // into a container renders it above the dock's own content,
+            // washing the rows out.
             Color.clear
-                .glassEffect(.regular, in: .rect(cornerRadius: dockCornerRadius, style: .continuous))
+                .glassEffect(
+                    .regular,
+                    in: .rect(
+                        cornerRadius: dockIsBareField ? Self.bareFieldRadius : dockCornerRadius,
+                        style: .continuous,
+                    ),
+                )
                 .overlay {
                     ConcentricRadiusReader { radius in
-                        guard radius > 0, abs(radius - dockCornerRadius) > 0.5 else { return }
+                        guard !dockIsBareField, radius > 0, abs(radius - dockCornerRadius) > 0.5 else { return }
                         withAnimation(.snappy) { dockCornerRadius = radius }
                     }
                 }
-                .padding(.bottom, Self.dockEdgeInset)
-                .ignoresSafeArea(.container, edges: .bottom)
+                .padding(.bottom, dockIsBareField ? 0 : Self.dockEdgeInset)
+                .ignoresSafeArea(.container, edges: dockIsBareField ? [] : .bottom)
         }
         .padding(.horizontal, Self.dockEdgeInset)
         .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
 
-    /// The field's visual — a filled capsule like a native sheet's search
-    /// bar (the glass surface behind it is the sheet, not the field).
-    private func fieldCapsule(@ViewBuilder content: () -> some View) -> some View {
+    /// The field's visual. Inside the big surface it's a filled capsule like
+    /// a native sheet's search bar; as a bare field the glass capsule behind
+    /// it is the whole chrome, so the fill drops away.
+    private func fieldCapsule(filled: Bool = true, @ViewBuilder content: () -> some View) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
@@ -387,12 +416,13 @@ struct QuickLogView: View {
         .padding(.horizontal, 14)
         .frame(height: 46)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemFill), in: Capsule())
+        .background(filled ? AnyShapeStyle(Color(.secondarySystemFill)) : AnyShapeStyle(.clear), in: Capsule())
     }
 
     private var idleDock: some View {
+        // No inner padding — the bare glass capsule hugs the field exactly.
         Button(action: activateSearch) {
-            fieldCapsule {
+            fieldCapsule(filled: false) {
                 Text("Search substances...")
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer(minLength: 0)
@@ -400,9 +430,6 @@ struct QuickLogView: View {
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
-        .padding(.horizontal, 10)
-        .padding(.top, 10)
-        .padding(.bottom, 6)
     }
 
     private var trayDock: some View {
@@ -415,7 +442,8 @@ struct QuickLogView: View {
     }
 
     /// Results stack *above* the field — the field stays pinned at the bottom
-    /// of the dock while suggestions grow upward.
+    /// of the dock while suggestions grow upward. With nothing typed the face
+    /// is the bare glass capsule, so the field carries no fill or padding.
     private var searchDock: some View {
         VStack(spacing: 0) {
             if isHelpSearch {
@@ -425,7 +453,7 @@ struct QuickLogView: View {
                 searchResultsList
             }
 
-            fieldCapsule {
+            fieldCapsule(filled: !dockIsBareField) {
                 TextField("Search substances...", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
@@ -445,10 +473,10 @@ struct QuickLogView: View {
                     .accessibilityLabel("Clear search")
                 }
             }
-            .padding(.horizontal, 10)
-            .padding(.bottom, 6)
+            .padding(.horizontal, dockIsBareField ? 0 : 10)
+            .padding(.bottom, dockIsBareField ? 0 : 6)
         }
-        .padding(.top, 4)
+        .padding(.top, dockIsBareField ? 0 : 4)
         .onAppear { searchFocused = true }
     }
 
@@ -507,16 +535,23 @@ struct QuickLogView: View {
     }
 
     /// Best match sits at the bottom, adjacent to the field; the create CTA
-    /// is farthest away (the list reads upward from the field).
+    /// is farthest away (the list reads upward from the field). Dividers sit
+    /// *between* rows only — never after the last one, where the field
+    /// already provides the visual break.
     private var searchResultsList: some View {
-        VStack(spacing: 0) {
+        let results = Array(dockResults.reversed())
+        return VStack(spacing: 0) {
             if !exactMatchExists {
                 createCustomRow
-                Divider().padding(.leading, 16)
+                if !results.isEmpty {
+                    Divider().padding(.leading, 16)
+                }
             }
-            ForEach(dockResults.reversed()) { result in
+            ForEach(Array(results.enumerated()), id: \.element.id) { index, result in
+                if index > 0 {
+                    Divider().padding(.leading, 16)
+                }
                 dockResultRow(result)
-                Divider().padding(.leading, 16)
             }
         }
         .padding(.top, 6)
@@ -578,6 +613,10 @@ struct QuickLogView: View {
 
     /// Leading chevron (mirroring the trailing source tag for symmetry),
     /// tinted with the substance/category colour.
+    /// One fixed height for every result row — content varies (a substance
+    /// may lack a dose band or MOA line), the rhythm must not.
+    private static let resultRowHeight: CGFloat = 64
+
     private func resultRow(
         name: String,
         source: String,
@@ -618,7 +657,7 @@ struct QuickLogView: View {
                 }
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 9)
+            .frame(height: Self.resultRowHeight)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -642,7 +681,7 @@ struct QuickLogView: View {
                     .foregroundStyle(Theme.accent)
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 11)
+            .frame(height: 48)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

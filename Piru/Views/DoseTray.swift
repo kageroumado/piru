@@ -596,9 +596,11 @@ private struct TrayRow: View {
 
     private var rowContent: some View {
         HStack(spacing: 10) {
-            // Disclosure chevron leads the row (matching the search results
-            // and how these rows actually operate — they expand in place).
-            Image(systemName: "chevron.down")
+            // Disclosure chevron leads the row (matching the search results).
+            // Apple's convention: points right collapsed, down expanded — the
+            // editor renders the same glyph rotated 90°, so the matched-
+            // geometry swap reads as the chevron rotating in place.
+            Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.tertiary)
                 .frame(width: 16)
@@ -764,11 +766,13 @@ private struct StagedDoseEditor: View {
 
     private var header: some View {
         HStack(spacing: 10) {
-            // Same leading chevron column as the collapsed row — collapsing
-            // flips it in place instead of flying it across the surface.
-            Image(systemName: "chevron.up")
+            // Same glyph as the collapsed row, rotated to point down
+            // (expanded, per Apple's disclosure convention) — the matched-
+            // geometry swap morphs it in place like a rotation.
+            Image(systemName: "chevron.right")
                 .font(.footnote.weight(.semibold))
                 .foregroundStyle(.tertiary)
+                .rotationEffect(.degrees(90))
                 .frame(width: 16)
                 .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
             Circle()
