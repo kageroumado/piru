@@ -117,7 +117,7 @@ struct AppNavigatorTests {
     @Test
     func `present appends to the sheet stack`() {
         let nav = makeNavigator()
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.present(.colorPicker(substance: "MDMA"))
         #expect(nav.sheetStack.count == 2)
         #expect(nav.sheetStack.last == .colorPicker(substance: "MDMA", remaining: []))
@@ -126,10 +126,10 @@ struct AppNavigatorTests {
     @Test
     func `dismiss removes the top sheet`() {
         let nav = makeNavigator()
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.present(.help)
         nav.dismiss()
-        #expect(nav.sheetStack == [.quickLog])
+        #expect(nav.sheetStack == [.quickLog(routine: nil)])
     }
 
     @Test
@@ -144,7 +144,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.dismissAll()
         #expect(nav.sheetStack.isEmpty)
     }
@@ -154,9 +154,9 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.dismiss(.help)
-        #expect(nav.sheetStack == [.settings, .quickLog])
+        #expect(nav.sheetStack == [.settings, .quickLog(routine: nil)])
     }
 
     @Test
@@ -171,8 +171,8 @@ struct AppNavigatorTests {
     @Test
     func `present with replacingTop on empty stack appends`() {
         let nav = makeNavigator()
-        nav.present(.quickLog, replacingTop: true)
-        #expect(nav.sheetStack == [.quickLog])
+        nav.present(.quickLog(routine: nil), replacingTop: true)
+        #expect(nav.sheetStack == [.quickLog(routine: nil)])
     }
 
     @Test
@@ -180,7 +180,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.truncateSheetStack(to: 1)
         #expect(nav.sheetStack == [.settings])
     }
@@ -188,9 +188,9 @@ struct AppNavigatorTests {
     @Test
     func `truncateSheetStack to a depth >= current size is a no-op`() {
         let nav = makeNavigator()
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.truncateSheetStack(to: 5)
-        #expect(nav.sheetStack == [.quickLog])
+        #expect(nav.sheetStack == [.quickLog(routine: nil)])
     }
 
     @Test
@@ -198,11 +198,11 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         // We're at the cap (3). A fourth append must be dropped.
         nav.present(.sessionDetail)
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
-        #expect(nav.sheetStack.last == .quickLog)
+        #expect(nav.sheetStack.last == .quickLog(routine: nil))
     }
 
     @Test
@@ -210,7 +210,7 @@ struct AppNavigatorTests {
         let nav = makeNavigator()
         nav.present(.settings)
         nav.present(.help)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.present(.sessionDetail, replacingTop: true)
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
         #expect(nav.sheetStack.last == .sessionDetail)
@@ -220,11 +220,11 @@ struct AppNavigatorTests {
     func `Setting snapshot clamps sheetStack to maxSheetDepth`() {
         let nav = makeNavigator()
         var snap = NavigatorSnapshot()
-        snap.sheetStack = [.settings, .help, .quickLog, .sessionDetail, .entryForm(prefill: nil)]
+        snap.sheetStack = [.settings, .help, .quickLog(routine: nil), .sessionDetail, .entryForm(prefill: nil)]
         nav.snapshot = snap
         #expect(nav.sheetStack.count == AppNavigator.maxSheetDepth)
         // First N from the snapshot survive — deeper items are dropped.
-        #expect(nav.sheetStack == [.settings, .help, .quickLog])
+        #expect(nav.sheetStack == [.settings, .help, .quickLog(routine: nil)])
     }
 
     // MARK: - Color picker queue (the Phase 3 bug fix)
@@ -255,7 +255,7 @@ struct AppNavigatorTests {
     func `dismissAll clears the whole chain (logging-flow completion)`() {
         let nav = makeNavigator()
         // Simulate QuickLog → From Library → EntryForm.
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
         nav.present(.entryForm(prefill: EntryPrefillPayload(substance: "Caffeine", route: .oral, unit: "mg")))
         #expect(nav.sheetStack.count == 2)
         // The save handler for a new entry should land us back at root.
@@ -282,12 +282,12 @@ struct AppNavigatorTests {
     func `Snapshot reflects current navigator state`() {
         let nav = makeNavigator(selectedTab: .insights)
         nav.push(.substance(name: "Caffeine"), in: .library)
-        nav.present(.quickLog)
+        nav.present(.quickLog(routine: nil))
 
         let snap = nav.snapshot
         #expect(snap.selectedTab == .insights)
         #expect(snap.paths[.library] == [.substance(name: "Caffeine")])
-        #expect(snap.sheetStack == [.quickLog])
+        #expect(snap.sheetStack == [.quickLog(routine: nil)])
     }
 
     @Test
@@ -334,7 +334,7 @@ struct RoutesCodableTests {
     }
 
     @Test(arguments: [
-        SheetRoute.quickLog,
+        SheetRoute.quickLog(routine: nil),
         .settings,
         .help,
         .onboarding,

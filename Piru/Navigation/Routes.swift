@@ -52,7 +52,9 @@ nonisolated enum Insight: String, Hashable, Codable, CaseIterable, Identifiable 
 /// sheets owned by the view.
 nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     // App-level
-    case quickLog
+    /// `routine` pre-stages that routine's items into the tray on open —
+    /// the landing state for a routine-reminder notification tap.
+    case quickLog(routine: String?)
     case settings
     case help
     case onboarding

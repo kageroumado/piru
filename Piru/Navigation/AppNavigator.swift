@@ -209,7 +209,17 @@ final class AppNavigator {
             selectedTab = tab
         }
         if let sheet = outcome.sheet {
-            present(sheet)
+            // A link targeting the kind of sheet that's already on top is a
+            // no-op: `piru://quicklog?routine=…` while quick-log is open must
+            // not stack a duplicate — or worse, rebuild the tray and discard
+            // whatever the user has staged mid-composition.
+            let topIsSameKind = switch (sheetStack.last, sheet) {
+            case (.quickLog?, .quickLog): true
+            default: sheetStack.last == sheet
+            }
+            if !topIsSameKind {
+                present(sheet)
+            }
         }
     }
 }
