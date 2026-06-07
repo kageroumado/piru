@@ -77,6 +77,19 @@ struct StagedDose: Identifiable {
         colorHex.map { Color(hex: $0) } ?? .gray
     }
 
+    /// Where the merged total lands on the substance's dose ladder — `nil`
+    /// when the library has no meaningful ladder for this route. Amounts in
+    /// a different unit are converted to the route's reference unit first.
+    var doseLevel: DoseLevel? {
+        guard let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
+              let range = librarySubstance.doseRange(for: route) else { return nil }
+        let referenceUnit = librarySubstance.unit(for: route)
+        let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
+            ? totalAmount
+            : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route) ?? totalAmount)
+        return range.level(for: normalized)
+    }
+
     /// The library's reference dose for this item's route, in this item's
     /// unit — anchors stepper increments and draft prefills to what a person
     /// actually takes (LSD steps in 10 µg, not 0.25 µg).
@@ -714,28 +727,39 @@ private struct TrayRow: View {
                 // Same font and leading column as "Add another…" so the
                 // tray reads as one aligned list (the colour dot is gone —
                 // the chips already carry the substance colour).
+                Text(dose.substanceName)
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
+                // Day-list phrase: "oral · 100 mg · strong" — route as
+                // context, the amount emphasised, the level read via colour.
                 HStack(spacing: 5) {
-                    Text(dose.substanceName)
-                        .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
-                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
-                        .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
-                }
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.primary)
-                HStack(spacing: 4) {
-                    Text(dose.route.localizedName)
+                    Text(String(localized: dose.route.localizedName).lowercased())
+                        .foregroundStyle(Theme.secondaryLabel)
                         .matchedGeometryEffect(id: "route-\(dose.id)", in: namespace)
+                    Text(verbatim: "·").foregroundStyle(.tertiary)
+                    Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+                        .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
+                    if let level = dose.doseLevel {
+                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                        Text(String(localized: level.displayName).lowercased())
+                            .foregroundStyle(level.labelColor)
+                    }
                     if let breakdown = dose.breakdownLabel {
-                        Text(verbatim: "· \(breakdown)")
+                        Text(verbatim: "·").foregroundStyle(.tertiary)
+                        Text(verbatim: breakdown)
+                            .foregroundStyle(Theme.secondaryLabel)
                     }
                     if !dose.note.isEmpty {
-                        Text(verbatim: "·")
+                        Text(verbatim: "·").foregroundStyle(.tertiary)
                         Text(dose.note)
+                            .foregroundStyle(Theme.secondaryLabel)
                             .lineLimit(1)
                     }
                 }
-                .font(.caption)
-                .foregroundStyle(Theme.secondaryLabel)
+                .font(.subheadline)
             }
             Spacer()
         }
@@ -833,11 +857,24 @@ private struct StagedDoseEditor: View {
                 } animation: { _ in
                     .snappy(duration: 0.15)
                 }
-                if let breakdown = item.breakdownLabel {
-                    Text(verbatim: "= \(breakdown) \(item.unit)")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(Theme.secondaryLabel)
-                        .frame(maxWidth: .infinity)
+                // Breakdown and/or dose level under the stepper — the level
+                // re-classifies live as the amount changes.
+                if item.breakdownLabel != nil || item.doseLevel != nil {
+                    HStack(spacing: 5) {
+                        if let breakdown = item.breakdownLabel {
+                            Text(verbatim: "= \(breakdown) \(item.unit)")
+                                .foregroundStyle(Theme.secondaryLabel)
+                        }
+                        if item.breakdownLabel != nil, item.doseLevel != nil {
+                            Text(verbatim: "·").foregroundStyle(.tertiary)
+                        }
+                        if let level = item.doseLevel {
+                            Text(String(localized: level.displayName).lowercased())
+                                .foregroundStyle(level.labelColor)
+                        }
+                    }
+                    .font(.caption.weight(.medium))
+                    .frame(maxWidth: .infinity)
                 }
             }
 
