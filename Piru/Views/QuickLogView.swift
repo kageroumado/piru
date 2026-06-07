@@ -251,6 +251,18 @@ struct QuickLogView: View {
                         }
                     }
                 }
+                // Edit (reorder favorites) lives in the nav bar as an icon,
+                // per convention — not as a text button in a section header.
+                if !favoriteCards.isEmpty || !favoriteLibrarySubstances.isEmpty {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            showFavoritesEditor = true
+                        } label: {
+                            Image(systemName: "pencil")
+                        }
+                        .accessibilityLabel("Edit Favorites")
+                    }
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Button {
@@ -400,6 +412,11 @@ struct QuickLogView: View {
                 .ignoresSafeArea(.container, edges: dockIsBareField ? [] : .bottom)
         }
         .padding(.horizontal, Self.dockEdgeInset)
+        // The first keystroke flips the bare capsule into the full surface
+        // (and every result-set change resizes it) — animate both, otherwise
+        // the field snaps smaller the moment typing starts.
+        .animation(.snappy, value: dockIsBareField)
+        .animation(.snappy, value: dockResults.map(\.id))
         .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
@@ -436,9 +453,26 @@ struct QuickLogView: View {
         DoseTrayView(
             model: tray,
             tagSuggestions: sessionTagSuggestions,
+            recentLocations: recentLocations,
             onAddMore: activateSearch,
             onCommit: commitTray,
         )
+    }
+
+    /// Distinct places from dose history, most recent first — feeds the
+    /// tray's inline location panel (first three) and the picker's Recents.
+    private var recentLocations: [PickedLocation] {
+        var seen = Set<String>()
+        var places: [PickedLocation] = []
+        for entry in allEntries {
+            guard let name = entry.locationName, !name.isEmpty,
+                  let latitude = entry.latitude, let longitude = entry.longitude,
+                  seen.insert(name).inserted
+            else { continue }
+            places.append(PickedLocation(name: name, latitude: latitude, longitude: longitude))
+            if places.count == 10 { break }
+        }
+        return places
     }
 
     /// Results stack *above* the field — the field stays pinned at the bottom
@@ -642,18 +676,16 @@ struct QuickLogView: View {
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
-                    if let detail {
-                        Text(detail)
-                            .font(.caption)
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .lineLimit(1)
-                    }
-                    if let description {
-                        Text(description)
-                            .font(.caption2)
-                            .foregroundStyle(.tertiary)
-                            .lineLimit(1)
-                    }
+                    // Both detail lines always render (a space when absent),
+                    // so the title sits at the same height in every row.
+                    Text(verbatim: detail ?? " ")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .lineLimit(1)
+                    Text(verbatim: description ?? " ")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                        .lineLimit(1)
                 }
             }
             .padding(.horizontal, 16)
@@ -668,18 +700,15 @@ struct QuickLogView: View {
             showCustomForm = true
         } label: {
             HStack(spacing: 10) {
-                Image(systemName: "flask.fill")
-                    .imageScale(.small)
-                    .foregroundStyle(Theme.accent)
+                Image(systemName: "plus")
+                    .font(.subheadline.weight(.semibold))
                     .frame(width: 16)
-                Text("Create \"\(searchText.trimmingCharacters(in: .whitespaces))\"")
+                Text("Create custom substance")
                     .font(.body.weight(.medium))
-                    .foregroundStyle(.primary)
                     .lineLimit(1)
                 Spacer()
-                Image(systemName: "plus.circle.fill")
-                    .foregroundStyle(Theme.accent)
             }
+            .foregroundStyle(Theme.accent)
             .padding(.horizontal, 16)
             .frame(height: 48)
             .contentShape(Rectangle())
@@ -764,27 +793,18 @@ struct QuickLogView: View {
                     libraryRow(substance)
                 }
             } header: {
-                HStack {
-                    // Accent-tinted star vs. the neutral "Recent" clock gives the two
-                    // sections a clear at-a-glance distinction (icon colour carries the
-                    // meaning; the labels alone read identically).
-                    Label {
-                        Text("Favorites")
-                            .foregroundStyle(Theme.secondaryLabel)
-                    } icon: {
-                        Image(systemName: "star.fill")
-                            .foregroundStyle(Theme.accent)
-                    }
-                    .font(.footnote.weight(.semibold))
-                    .textCase(.uppercase)
-                    Spacer()
-                    Button("Edit") {
-                        showFavoritesEditor = true
-                    }
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.accent)
-                    .buttonStyle(.plain)
+                // Accent-tinted star vs. the neutral "Recent" clock gives the two
+                // sections a clear at-a-glance distinction (icon colour carries the
+                // meaning; the labels alone read identically).
+                Label {
+                    Text("Favorites")
+                        .foregroundStyle(Theme.secondaryLabel)
+                } icon: {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(Theme.accent)
                 }
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
             }
         }
 
