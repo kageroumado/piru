@@ -131,3 +131,54 @@ final class DailyDoseItem {
         self.isBackgroundMed = isBackgroundMed
     }
 }
+
+// MARK: - Routine
+
+/// A named set of daily-dose items — "Pre-workout", "Night" — staged together
+/// from one pill on the Log screen, with an optional time of day and a
+/// repeating reminder.
+///
+/// Items join a routine by ``DailyDoseItem/category`` `== name` (string-keyed
+/// like `SubstanceColor`; no SwiftData relationship, so the schema stays flat
+/// and portable across the widget targets). Renaming a routine must cascade
+/// the new name to its items' `category`.
+@Model
+final class DoseRoutine {
+    @Attribute(.unique) var name: String
+    /// User-defined position in the Routines list and the Log screen pills.
+    var sortOrder: Int = 0
+    /// Optional time of day as minutes from midnight (420 = 7:00). Drives
+    /// pill ordering and, when ``remind`` is on, the daily reminder.
+    var timeMinutes: Int?
+    /// Schedule a repeating daily reminder notification at ``timeMinutes``.
+    var remind: Bool = false
+
+    init(name: String, sortOrder: Int = 0, timeMinutes: Int? = nil, remind: Bool = false) {
+        self.name = name
+        self.sortOrder = sortOrder
+        self.timeMinutes = timeMinutes
+        self.remind = remind
+    }
+
+    /// `timeMinutes` as a `Date` today, for `DatePicker` round-trips and
+    /// time-style formatting.
+    var timeAsDate: Date? {
+        get {
+            guard let timeMinutes else { return nil }
+            return Calendar.current.date(
+                bySettingHour: timeMinutes / 60,
+                minute: timeMinutes % 60,
+                second: 0,
+                of: .now,
+            )
+        }
+        set {
+            guard let newValue else {
+                timeMinutes = nil
+                return
+            }
+            let components = Calendar.current.dateComponents([.hour, .minute], from: newValue)
+            timeMinutes = (components.hour ?? 0) * 60 + (components.minute ?? 0)
+        }
+    }
+}

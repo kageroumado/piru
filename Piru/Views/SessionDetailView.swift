@@ -514,6 +514,7 @@ struct SessionDetailView: View {
         let name = entry.substance
         let timestamp = entry.timestamp
 
+        DoseNotificationManager.doseDeleted(timestamp: timestamp)
         withAnimation {
             modelContext.delete(entry)
         }
@@ -696,6 +697,9 @@ private struct TimeAdjustSheet: View {
                 entry: entry,
                 allColors: Array(substanceColors),
             )
+            // Pending reminders are keyed to the old timestamp — a moved dose
+            // must drop them and reschedule from its new time.
+            DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
         }
     }
 }
@@ -917,7 +921,9 @@ private struct MoveToSessionView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(item: $retimeTarget) { session in
                 RetimeMoveView(dose: dose, session: session) { newDate in
+                    let previousTimestamp = dose.timestamp
                     dose.timestamp = newDate
+                    DoseNotificationManager.doseRescheduled(entry: dose, previousTimestamp: previousTimestamp)
                     move(to: session)
                 }
             }

@@ -93,7 +93,7 @@ struct SheetRouteView: View {
 
         case .dailyDoseSettings:
             NavigationStack {
-                MedicationsSettingsView()
+                RoutinesSettingsView()
                     .withCancellationCloseButton()
             }
 
@@ -278,6 +278,9 @@ private struct TimeAdjustHost: View {
             entry: entry,
             allColors: Array(substanceColors),
         )
+        // Pending reminders are keyed to the old timestamp — a moved dose
+        // must drop them and reschedule from its new time.
+        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: original)
     }
 }
 

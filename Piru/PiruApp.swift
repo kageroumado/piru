@@ -98,7 +98,7 @@ struct PiruApp: App {
         // 1. Explicit versioned migration (also the fresh-install path).
         do {
             return try ModelContainer(
-                for: Schema(versionedSchema: PiruSchemaV2.self),
+                for: Schema(versionedSchema: PiruSchemaV3.self),
                 migrationPlan: PiruMigrationPlan.self,
                 configurations: config,
             )

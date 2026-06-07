@@ -1,195 +1,81 @@
 import SwiftData
 import SwiftUI
-import UserNotifications
 
-// MARK: - Reminder Time Model
-
-struct ReminderTime: Codable, Identifiable, Equatable {
-    var id: Int {
-        hour * 60 + minute
-    }
-    var hour: Int
-    var minute: Int
-
-    var date: Date {
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        return Calendar.current.date(from: components) ?? .now
-    }
-
-    var formatted: String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
-    }
-}
-
-struct MedicationsSettingsView: View {
+/// Reminders-style management for routines: a list of named routines (like
+/// Reminders' lists), each opening a detail screen with its name, optional
+/// time of day + daily reminder, and its items.
+struct RoutinesSettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
     @Query(sort: \DailyDoseItem.sortOrder) private var items: [DailyDoseItem]
 
-    @AppStorage("dailyDoseReminderEnabled") private var reminderEnabled = false
-    @AppStorage("dailyDoseReminderTimes") private var reminderTimesData = Data()
-    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
-
-    @State private var reminderTimes: [ReminderTime] = []
-    @State private var categories: [String] = []
-    @State private var isEditing = false
-    @State private var showingAddSheet = false
-    @State private var showingAddSheetCategory = ""
+    @State private var showingNewRoutine = false
+    @State private var newRoutineName = ""
     @State private var editingItem: DailyDoseItem?
-    @State private var showingTimePicker = false
-    @State private var newReminderDate = Date.now
-    @State private var showingAddCategory = false
-    @State private var newCategoryName = ""
-    @State private var editingCategory: String?
-    @State private var editedCategoryName = ""
+
+    /// Items whose category doesn't match any routine (deleted routine,
+    /// import) — kept visible so nothing is unreachable.
+    private var unassignedItems: [DailyDoseItem] {
+        let names = Set(routines.map(\.name))
+        return items.filter { !names.contains($0.category) }
+    }
 
     var body: some View {
         List {
-            Group {
-                // Reminders
+            if routines.isEmpty, items.isEmpty {
                 Section {
-                    Toggle("Daily Reminders", isOn: $reminderEnabled)
-                        .onChange(of: reminderEnabled) { _, enabled in
-                            if enabled {
-                                requestNotificationPermission()
-                            } else {
-                                cancelAllReminders()
-                            }
-                        }
-
-                    if reminderEnabled {
-                        ForEach(reminderTimes.sorted { $0.id < $1.id }) { time in
-                            HStack {
-                                Image(systemName: "bell.fill")
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                    .font(.caption)
-                                Text(time.formatted)
-                            }
-                        }
-                        .onDelete(perform: deleteReminder)
-
+                    VStack(spacing: 16) {
+                        ContentUnavailableView(
+                            "No Routines",
+                            systemImage: "repeat",
+                            description: Text("Group the meds and supplements you take together — Pre-workout, Night — and stage a whole set with one tap."),
+                        )
                         Button {
-                            newReminderDate = Date.now
-                            showingTimePicker = true
+                            promptNewRoutine()
                         } label: {
-                            Label("Add Reminder", systemImage: "plus.circle")
+                            Text("New Routine")
+                                .font(.body.weight(.medium))
+                                .frame(maxWidth: .infinity)
                         }
-                    }
-                } header: {
-                    Text("Reminders")
-                } footer: {
-                    if reminderEnabled, !reminderTimes.isEmpty {
-                        Text("\(reminderTimes.count) daily reminder\(reminderTimes.count == 1 ? "" : "s") scheduled.")
+                        .buttonStyle(.borderedProminent)
                     }
                 }
-
-                // Categories
+                .listRowBackground(Theme.cardBackground)
+            } else {
                 Section {
-                    ForEach(categories, id: \.self) { cat in
-                        HStack {
-                            Label(cat, systemImage: iconForCategory(cat))
-                            Spacer()
-                            Text("\(items.count(where: { $0.category == cat }))")
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        .contentShape(Rectangle())
-                        .dropDestination(for: String.self) { droppedKeys, _ in
-                            assignItems(keys: droppedKeys, toCategory: cat)
-                            return true
-                        }
-                        .contextMenu {
-                            Button {
-                                editingCategory = cat
-                                editedCategoryName = cat
-                            } label: {
-                                Label("Rename", systemImage: "pencil")
-                            }
-                            Button(role: .destructive) {
-                                deleteCategory(cat)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                    ForEach(routines) { routine in
+                        NavigationLink {
+                            RoutineDetailView(routine: routine)
+                        } label: {
+                            routineRow(routine)
                         }
                     }
-                    .onDelete(perform: deleteCategories)
-                    .onMove(perform: moveCategories)
+                    .onMove(perform: moveRoutines)
+                    .onDelete(perform: deleteRoutines)
 
                     Button {
-                        newCategoryName = ""
-                        showingAddCategory = true
+                        promptNewRoutine()
                     } label: {
-                        Label("Add Category", systemImage: "plus.circle")
+                        Label("New Routine", systemImage: "plus.circle")
                     }
-                } header: {
-                    Text("Categories")
-                } footer: {
-                    Text("Group items into routines by time of day or purpose — a routine stages everything in it with one tap on the Log screen. Drag items onto a category to assign them.")
                 }
+                .listRowBackground(Theme.cardBackground)
 
-                // Items
-                if items.isEmpty {
-                    Section {
-                        VStack(spacing: 16) {
-                            ContentUnavailableView(
-                                "No Routine Items",
-                                systemImage: "pills",
-                                description: Text("Add the meds and supplements you take regularly."),
-                            )
-                            Button {
-                                showingAddSheetCategory = ""
-                                showingAddSheet = true
-                            } label: {
-                                Text("Add Item")
-                                    .font(.body.weight(.medium))
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .buttonStyle(.borderedProminent)
+                if !unassignedItems.isEmpty {
+                    Section("Unassigned") {
+                        ForEach(unassignedItems) { item in
+                            RoutineItemRow(item: item) { editingItem = item }
                         }
-                    }
-                } else {
-                    // Categorized items
-                    ForEach(categories, id: \.self) { cat in
-                        let catItems = items.filter { $0.category == cat }
-                        Section("\(cat) \u{2014} \(catItems.count) item\(catItems.count == 1 ? "" : "s")") {
-                            ForEach(catItems) { item in
-                                itemRow(item)
-                                    .draggable(itemKey(for: item))
-                            }
-                            .onDelete { offsets in
-                                deleteItems(catItems, at: offsets)
-                            }
-
-                            Button {
-                                showingAddSheetCategory = cat
-                                showingAddSheet = true
-                            } label: {
-                                Label("Add to \(cat)", systemImage: "plus.circle")
-                                    .font(.subheadline)
+                        .onDelete { offsets in
+                            for index in offsets {
+                                modelContext.delete(unassignedItems[index])
                             }
                         }
                     }
-
-                    // Uncategorized items
-                    let uncategorized = items.filter(\.category.isEmpty)
-                    if !uncategorized.isEmpty {
-                        Section(categories.isEmpty ? "\(items.count) item\(items.count == 1 ? "" : "s")" : "Uncategorized \u{2014} \(uncategorized.count) item\(uncategorized.count == 1 ? "" : "s")") {
-                            ForEach(uncategorized) { item in
-                                itemRow(item)
-                                    .draggable(itemKey(for: item))
-                            }
-                            .onDelete { offsets in
-                                deleteItems(uncategorized, at: offsets)
-                            }
-                        }
-                    }
+                    .listRowBackground(Theme.cardBackground)
                 }
             }
-            .listRowBackground(Theme.cardBackground)
         }
-        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle("Routines")
@@ -197,75 +83,247 @@ struct MedicationsSettingsView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    showingAddSheetCategory = ""
-                    showingAddSheet = true
+                    promptNewRoutine()
                 } label: {
                     Image(systemName: "plus")
                 }
             }
-            if !items.isEmpty || !categories.isEmpty {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        withAnimation { isEditing.toggle() }
-                    } label: {
-                        Image(systemName: isEditing ? "checkmark.circle.fill" : "pencil")
-                    }
-                }
-            }
         }
-        .sheet(isPresented: $showingAddSheet) {
-            MedicationItemFormView(initialCategory: showingAddSheetCategory)
+        .alert("New Routine", isPresented: $showingNewRoutine) {
+            TextField("Name", text: $newRoutineName)
+            Button("Add") { addRoutine() }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("e.g. Morning, Pre-workout, Night")
         }
         .sheet(item: $editingItem) { item in
             MedicationItemFormView(item: item)
         }
-        .sheet(isPresented: $showingTimePicker) {
-            NavigationStack {
-                Form {
-                    DatePicker("Time", selection: $newReminderDate, displayedComponents: .hourAndMinute)
-                        .datePickerStyle(.wheel)
-                        .labelsHidden()
-                }
-                .navigationTitle("Add Reminder")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button { showingTimePicker = false } label: { Image(systemName: "xmark") }
+    }
+
+    /// Reminders-style row: tinted icon disc, name, item count + time.
+    private func routineRow(_ routine: DoseRoutine) -> some View {
+        let count = items.count(where: { $0.category == routine.name })
+        return HStack(spacing: 12) {
+            Image(systemName: RoutineIcon.symbol(for: routine.name))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white)
+                .frame(width: 30, height: 30)
+                .background(Theme.accent, in: Circle())
+            VStack(alignment: .leading, spacing: 2) {
+                Text(routine.name)
+                    .font(.body)
+                HStack(spacing: 4) {
+                    Text("\(count) item\(count == 1 ? "" : "s")")
+                    if let time = routine.timeAsDate {
+                        Text(verbatim: "·")
+                        Text(time, style: .time)
+                        if routine.remind {
+                            Image(systemName: "bell.fill")
+                                .font(.caption2)
+                        }
                     }
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button { addReminder() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
-                    }
                 }
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
             }
-            .presentationDetents([.medium])
-        }
-        .alert("Add Category", isPresented: $showingAddCategory) {
-            TextField("Category name", text: $newCategoryName)
-            Button("Add") { addCategory() }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("e.g. Morning, Noon, Night")
-        }
-        .alert("Rename Category", isPresented: Binding(
-            get: { editingCategory != nil },
-            set: { if !$0 { editingCategory = nil } },
-        )) {
-            TextField("Category name", text: $editedCategoryName)
-            Button("Save") { renameCategory() }
-            Button("Cancel", role: .cancel) { editingCategory = nil }
-        }
-        .onAppear {
-            loadReminderTimes()
-            loadCategories()
         }
     }
 
-    // MARK: - Item Row
+    private func promptNewRoutine() {
+        newRoutineName = ""
+        showingNewRoutine = true
+    }
 
-    private func itemRow(_ item: DailyDoseItem) -> some View {
-        Button {
-            editingItem = item
-        } label: {
+    private func addRoutine() {
+        let trimmed = newRoutineName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !routines.contains(where: { $0.name == trimmed }) else { return }
+        let nextOrder = (routines.map(\.sortOrder).max() ?? -1) + 1
+        modelContext.insert(DoseRoutine(name: trimmed, sortOrder: nextOrder))
+    }
+
+    private func moveRoutines(from source: IndexSet, to destination: Int) {
+        var ordered = routines
+        ordered.move(fromOffsets: source, toOffset: destination)
+        for (index, routine) in ordered.enumerated() {
+            routine.sortOrder = index
+        }
+    }
+
+    private func deleteRoutines(at offsets: IndexSet) {
+        for index in offsets {
+            let routine = routines[index]
+            // Items survive the routine — they fall to Unassigned.
+            for item in items where item.category == routine.name {
+                item.category = ""
+            }
+            modelContext.delete(routine)
+        }
+        DoseNotificationManager.syncRoutineReminders(routines: routines)
+    }
+}
+
+// MARK: - Routine Detail
+
+/// One routine, Reminders-detail-style: rename field, time-of-day toggle +
+/// picker with an optional daily reminder, and the routine's items.
+struct RoutineDetailView: View {
+    @Bindable var routine: DoseRoutine
+
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Query(sort: \DailyDoseItem.sortOrder) private var allItems: [DailyDoseItem]
+    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
+
+    /// Renames are staged and applied on commit so every keystroke doesn't
+    /// cascade through the items' category strings (and half-typed names
+    /// can't collide with the unique constraint).
+    @State private var name = ""
+    @State private var showingAddItem = false
+    @State private var editingItem: DailyDoseItem?
+
+    private var routineItems: [DailyDoseItem] {
+        allItems.filter { $0.category == routine.name }
+    }
+
+    var body: some View {
+        List {
+            Section {
+                TextField("Routine Name", text: $name)
+                    .onSubmit(applyRename)
+            }
+            .listRowBackground(Theme.cardBackground)
+
+            Section {
+                Toggle(isOn: hasTime) {
+                    Label("Time", systemImage: "clock")
+                }
+                if routine.timeMinutes != nil {
+                    DatePicker(
+                        "Time of day",
+                        selection: timeAsDate,
+                        displayedComponents: .hourAndMinute,
+                    )
+                    Toggle(isOn: $routine.remind) {
+                        Label("Remind Me", systemImage: "bell")
+                    }
+                }
+            } footer: {
+                if routine.remind, routine.timeMinutes != nil {
+                    Text("A notification repeats daily at this time.")
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+
+            Section("Items") {
+                ForEach(routineItems) { item in
+                    RoutineItemRow(item: item) { editingItem = item }
+                }
+                .onDelete { offsets in
+                    for index in offsets {
+                        modelContext.delete(routineItems[index])
+                    }
+                }
+
+                Button {
+                    showingAddItem = true
+                } label: {
+                    Label("Add Item", systemImage: "plus.circle")
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+
+            Section {
+                Button("Delete Routine", role: .destructive) {
+                    deleteRoutine()
+                }
+            }
+            .listRowBackground(Theme.cardBackground)
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle(routine.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showingAddItem) {
+            MedicationItemFormView(initialCategory: routine.name)
+        }
+        .sheet(item: $editingItem) { item in
+            MedicationItemFormView(item: item)
+        }
+        .onAppear { name = routine.name }
+        .onDisappear {
+            applyRename()
+            DoseNotificationManager.syncRoutineReminders(routines: routines)
+        }
+        .onChange(of: routine.remind) { syncReminders() }
+        .onChange(of: routine.timeMinutes) { syncReminders() }
+    }
+
+    // MARK: Bindings
+
+    private var hasTime: Binding<Bool> {
+        Binding(
+            get: { routine.timeMinutes != nil },
+            set: { on in
+                withAnimation(.snappy) {
+                    if on {
+                        routine.timeMinutes = routine.timeMinutes ?? 9 * 60
+                    } else {
+                        routine.timeMinutes = nil
+                        routine.remind = false
+                    }
+                }
+            },
+        )
+    }
+
+    private var timeAsDate: Binding<Date> {
+        Binding(
+            get: { routine.timeAsDate ?? .now },
+            set: { routine.timeAsDate = $0 },
+        )
+    }
+
+    // MARK: Actions
+
+    private func applyRename() {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, trimmed != routine.name else { return }
+        guard !routines.contains(where: { $0.name == trimmed && $0.persistentModelID != routine.persistentModelID }) else {
+            name = routine.name
+            return
+        }
+        // Items join by name — the rename must cascade.
+        for item in allItems where item.category == routine.name {
+            item.category = trimmed
+        }
+        routine.name = trimmed
+    }
+
+    private func deleteRoutine() {
+        for item in routineItems {
+            item.category = ""
+        }
+        let remaining = routines.filter { $0.persistentModelID != routine.persistentModelID }
+        modelContext.delete(routine)
+        DoseNotificationManager.syncRoutineReminders(routines: remaining)
+        dismiss()
+    }
+
+    private func syncReminders() {
+        DoseNotificationManager.syncRoutineReminders(routines: routines)
+    }
+}
+
+// MARK: - Shared bits
+
+/// Item row used by both the routine detail and the Unassigned section.
+private struct RoutineItemRow: View {
+    let item: DailyDoseItem
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.substance)
@@ -287,218 +345,19 @@ struct MedicationsSettingsView: View {
             }
             .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
     }
+}
 
-    // MARK: - Category Helpers
-
-    private func iconForCategory(_ category: String) -> String {
-        switch category.lowercased() {
+/// Symbol for a routine pill/row, inferred from common names.
+enum RoutineIcon {
+    static func symbol(for name: String) -> String {
+        switch name.lowercased() {
         case "morning": "sunrise"
-        case "afternoon": "sun.max"
-        case "noon", "midday": "sun.max"
+        case "afternoon", "noon", "midday": "sun.max"
         case "evening": "sunset"
         case "night", "bedtime": "moon"
-        default: "tag"
+        default: "pills"
         }
-    }
-
-    // MARK: - Drag & Drop
-
-    private func itemKey(for item: DailyDoseItem) -> String {
-        item.substance + "|" + String(item.sortOrder)
-    }
-
-    private func findItem(byKey key: String) -> DailyDoseItem? {
-        let parts = key.split(separator: "|", maxSplits: 1)
-        guard parts.count == 2,
-              let order = Int(parts[1]) else { return nil }
-        let name = String(parts[0])
-        return items.first { $0.substance == name && $0.sortOrder == order }
-    }
-
-    private func assignItems(keys: [String], toCategory category: String) {
-        for key in keys {
-            if let item = findItem(byKey: key) {
-                item.category = category
-            }
-        }
-    }
-
-    private func deleteCategories(at offsets: IndexSet) {
-        for index in offsets {
-            deleteCategory(categories[index])
-        }
-    }
-
-    // MARK: - Categories Management
-
-    private func loadCategories() {
-        guard !categoriesData.isEmpty,
-              let decoded = try? JSONDecoder().decode([String].self, from: categoriesData) else {
-            categories = []
-            return
-        }
-        categories = decoded
-    }
-
-    private func saveCategories() {
-        categoriesData = (try? JSONEncoder().encode(categories)) ?? Data()
-    }
-
-    private func addCategory() {
-        let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, !categories.contains(trimmed) else { return }
-        categories.append(trimmed)
-        saveCategories()
-    }
-
-    private func deleteCategory(_ category: String) {
-        // Reset items in this category to uncategorized
-        for item in items where item.category == category {
-            item.category = ""
-        }
-        categories.removeAll { $0 == category }
-        saveCategories()
-    }
-
-    private func renameCategory() {
-        guard let old = editingCategory else { return }
-        let trimmed = editedCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, !categories.contains(trimmed) else {
-            editingCategory = nil
-            return
-        }
-        // Update items with the old category name
-        for item in items where item.category == old {
-            item.category = trimmed
-        }
-        if let idx = categories.firstIndex(of: old) {
-            categories[idx] = trimmed
-        }
-        saveCategories()
-        editingCategory = nil
-    }
-
-    private func moveCategories(from source: IndexSet, to destination: Int) {
-        categories.move(fromOffsets: source, toOffset: destination)
-        saveCategories()
-    }
-
-    // MARK: - Daily Dose Items
-
-    private func deleteItems(_ subset: [DailyDoseItem], at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(subset[index])
-        }
-    }
-
-    // MARK: - Reminder Times
-
-    private func loadReminderTimes() {
-        guard !reminderTimesData.isEmpty,
-              let decoded = try? JSONDecoder().decode([ReminderTime].self, from: reminderTimesData) else {
-            // Migrate from old single-reminder format
-            if reminderEnabled {
-                let oldHour = UserDefaults.standard.integer(forKey: "dailyDoseReminderHour")
-                let oldMinute = UserDefaults.standard.integer(forKey: "dailyDoseReminderMinute")
-                if oldHour != 0 || oldMinute != 0 {
-                    reminderTimes = [ReminderTime(hour: oldHour, minute: oldMinute)]
-                    saveReminderTimes()
-                    return
-                }
-            }
-            reminderTimes = []
-            return
-        }
-        reminderTimes = decoded
-    }
-
-    private func saveReminderTimes() {
-        reminderTimesData = (try? JSONEncoder().encode(reminderTimes)) ?? Data()
-        scheduleAllReminders()
-    }
-
-    private func addReminder() {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: newReminderDate)
-        let newTime = ReminderTime(hour: components.hour ?? 9, minute: components.minute ?? 0)
-
-        // Don't add duplicates
-        guard !reminderTimes.contains(where: { $0.id == newTime.id }) else {
-            showingTimePicker = false
-            return
-        }
-
-        reminderTimes.append(newTime)
-        saveReminderTimes()
-        showingTimePicker = false
-    }
-
-    private func deleteReminder(at offsets: IndexSet) {
-        // ForEach displays reminderTimes sorted by id, so offsets index into the sorted array
-        let sorted = reminderTimes.sorted { $0.id < $1.id }
-        let idsToRemove = Set(offsets.map { sorted[$0].id })
-        reminderTimes.removeAll { idsToRemove.contains($0.id) }
-        saveReminderTimes()
-    }
-
-    // MARK: - Notifications
-
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
-            DispatchQueue.main.async {
-                if granted {
-                    if reminderTimes.isEmpty {
-                        // Add a default 9:00 AM reminder
-                        reminderTimes = [ReminderTime(hour: 9, minute: 0)]
-                        saveReminderTimes()
-                    } else {
-                        scheduleAllReminders()
-                    }
-                } else {
-                    reminderEnabled = false
-                }
-            }
-        }
-    }
-
-    private func scheduleAllReminders() {
-        let center = UNUserNotificationCenter.current()
-        // Remove all existing daily dose reminders
-        center.removePendingNotificationRequests(
-            withIdentifiers:
-            reminderIdentifiers(count: 20), // Remove up to 20 old ones
-        )
-
-        guard reminderEnabled else { return }
-
-        for (index, time) in reminderTimes.enumerated() {
-            let content = UNMutableNotificationContent()
-            content.title = String(localized: "Prescriptions")
-            content.body = String(localized: "Time to take your prescriptions.")
-            content.sound = .default
-
-            var dateComponents = DateComponents()
-            dateComponents.hour = time.hour
-            dateComponents.minute = time.minute
-
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            let request = UNNotificationRequest(
-                identifier: "dailyDoseReminder_\(index)",
-                content: content,
-                trigger: trigger,
-            )
-            center.add(request)
-        }
-    }
-
-    private func cancelAllReminders() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: reminderIdentifiers(count: 20),
-        )
-    }
-
-    private func reminderIdentifiers(count: Int) -> [String] {
-        // Include old single-reminder ID for migration cleanup
-        ["dailyDoseReminder"] + (0 ..< count).map { "dailyDoseReminder_\($0)" }
     }
 }

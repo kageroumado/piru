@@ -10,6 +10,7 @@ struct QuickLogView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
+    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
     @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
     @Query private var quickLogDoses: [QuickLogDose]
 
@@ -20,7 +21,6 @@ struct QuickLogView: View {
     @State private var searchText = ""
     @State private var showCustomForm = false
     @State private var showFavoritesEditor = false
-    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
     @State private var pendingCustomPrefill: EntryPrefillPayload?
 
@@ -56,10 +56,6 @@ struct QuickLogView: View {
     @State private var cachedHistoryNames: Set<String> = []
     @State private var cachedLibraryResults: [Substance] = []
     @State private var cachedColorLookup: [String: String] = [:]
-
-    private var dailyDoseCategories: [String] {
-        (try? JSONDecoder().decode([String].self, from: categoriesData)) ?? []
-    }
 
     // MARK: - Grouping
 
@@ -282,6 +278,7 @@ struct QuickLogView: View {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
                 try? await Task.sleep(for: .milliseconds(50))
                 QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
+                RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
                 rebuildColorLookup()
                 rebuildCards()
@@ -783,27 +780,40 @@ struct QuickLogView: View {
             items.filter { !loggedToday.contains($0.substance.lowercased()) }
         }
 
+        // Routines flow through the day: timed ones first by clock,
+        // untimed after in the user's arranged order.
+        let ordered = routines.sorted {
+            ($0.timeMinutes ?? .max, $0.sortOrder) < ($1.timeMinutes ?? .max, $1.sortOrder)
+        }
+
         var groups: [DailyCategoryGroup] = []
-        for category in dailyDoseCategories {
-            let items = dailyDoseItems.filter { $0.category == category }
+        var claimed: Set<String> = []
+        for routine in ordered {
+            claimed.insert(routine.name)
+            let items = dailyDoseItems.filter { $0.category == routine.name }
             guard !items.isEmpty else { continue }
             groups.append(DailyCategoryGroup(
-                id: category,
-                title: category,
-                icon: iconForCategory(category),
+                id: routine.name,
+                title: routine.name,
+                icon: RoutineIcon.symbol(for: routine.name),
                 items: items,
                 remaining: remaining(in: items),
             ))
         }
-        let uncategorized = dailyDoseItems.filter(\.category.isEmpty)
-        if !uncategorized.isEmpty {
-            groups.append(DailyCategoryGroup(
-                id: "",
-                title: String(localized: "Routine"),
-                icon: "pills",
-                items: uncategorized,
-                remaining: remaining(in: uncategorized),
-            ))
+
+        // Items whose category has no routine row (first launch before
+        // seeding, or an import) still get a pill so nothing is unreachable.
+        let orphans = dailyDoseItems.filter { !claimed.contains($0.category) }
+        if !orphans.isEmpty {
+            for (category, items) in Dictionary(grouping: orphans, by: \.category).sorted(by: { $0.key < $1.key }) {
+                groups.append(DailyCategoryGroup(
+                    id: category.isEmpty ? "·uncategorized" : category,
+                    title: category.isEmpty ? String(localized: "Routine") : category,
+                    icon: RoutineIcon.symbol(for: category),
+                    items: items,
+                    remaining: remaining(in: items),
+                ))
+            }
         }
         return groups
     }
@@ -829,11 +839,11 @@ struct QuickLogView: View {
             }
         } header: {
             Label {
-                Text("Daily")
+                Text("Routines")
                     .foregroundStyle(Theme.secondaryLabel)
             } icon: {
-                Image(systemName: "sun.max.fill")
-                    .foregroundStyle(Theme.legibleYellow)
+                Image(systemName: "repeat")
+                    .foregroundStyle(Theme.accent)
             }
             .font(.footnote.weight(.semibold))
             .textCase(.uppercase)
@@ -902,17 +912,6 @@ struct QuickLogView: View {
             isFromDailySet: true,
             isBackgroundMed: item.isBackgroundMed,
         )
-    }
-
-    private func iconForCategory(_ category: String) -> String {
-        switch category.lowercased() {
-        case "morning": "sunrise"
-        case "afternoon": "sun.max"
-        case "noon", "midday": "sun.max"
-        case "evening": "sunset"
-        case "night", "bedtime": "moon"
-        default: "tag"
-        }
     }
 
     // MARK: - Substance Card
@@ -1155,7 +1154,7 @@ struct QuickLogView: View {
             }
 
             // Schedule wellness notifications & check cumulative dose
-            scheduleWellnessIfNeeded(entry: entry, substance: item.librarySubstance)
+            DoseNotificationManager.doseLogged(entry: entry, recentEntries: Array(allEntries))
 
             // Auto-assign a stable palette colour for a brand-new substance up
             // front (deterministic hash, the same colour the graph already
@@ -1311,44 +1310,6 @@ struct QuickLogView: View {
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.primary)
             }
-        }
-    }
-
-    // MARK: - Wellness Notifications
-
-    private func scheduleWellnessIfNeeded(entry: DoseEntry, substance: Substance?) {
-        let category = substance?.category
-        let duration = substance?.resolveDuration(for: entry.route)
-        let stimHours = RampDownScheduler.stimulantSessionHours(from: Array(allEntries))
-
-        RampDownScheduler.scheduleWellnessNotifications(
-            substanceName: entry.substance,
-            category: category,
-            doseTime: entry.timestamp,
-            duration: duration,
-            recentStimHours: stimHours,
-        )
-        RampDownScheduler.schedulePhaseNotifications(
-            substanceName: entry.substance,
-            doseTime: entry.timestamp,
-            duration: duration,
-        )
-
-        // Check cumulative dose
-        let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
-            substanceName: entry.substance,
-            newAmount: entry.amount,
-            unit: entry.unit,
-            route: entry.route,
-            existingEntries: Array(allEntries),
-        )
-        if shouldAlert {
-            RampDownScheduler.scheduleCumulativeDoseNotification(
-                substanceName: entry.substance,
-                totalAmount: total,
-                unit: entry.unit,
-                category: category,
-            )
         }
     }
 }

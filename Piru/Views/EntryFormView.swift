@@ -367,6 +367,14 @@ struct EntryFormView: View {
                 colorHex: colorHex,
                 allColors: Array(substanceColors),
             )
+
+            // Pending reminders are keyed to the old timestamp — a moved dose
+            // must drop them and reschedule from its new time.
+            DoseNotificationManager.doseRescheduled(
+                entry: entry,
+                previousTimestamp: previousTimestamp,
+                recentEntries: Array(recentEntries),
+            )
         } else {
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
             let newEntry = DoseEntry(
@@ -387,38 +395,7 @@ struct EntryFormView: View {
             savedEntry = newEntry
 
             // Schedule wellness notifications & check cumulative dose
-            let category = selectedSubstance?.category
-            let duration = selectedSubstance?.resolveDuration(for: route)
-            let stimHours = RampDownScheduler.stimulantSessionHours(from: Array(recentEntries))
-
-            RampDownScheduler.scheduleWellnessNotifications(
-                substanceName: substance,
-                category: category,
-                doseTime: timestamp,
-                duration: duration,
-                recentStimHours: stimHours,
-            )
-            RampDownScheduler.schedulePhaseNotifications(
-                substanceName: substance,
-                doseTime: timestamp,
-                duration: duration,
-            )
-
-            let (total, shouldAlert) = RampDownScheduler.checkCumulativeDose(
-                substanceName: substance,
-                newAmount: parsedAmount,
-                unit: unit,
-                route: route,
-                existingEntries: Array(recentEntries),
-            )
-            if shouldAlert {
-                RampDownScheduler.scheduleCumulativeDoseNotification(
-                    substanceName: substance,
-                    totalAmount: total,
-                    unit: unit,
-                    category: category,
-                )
-            }
+            DoseNotificationManager.doseLogged(entry: newEntry, recentEntries: Array(recentEntries))
         }
 
         WidgetCenter.shared.reloadAllTimelines()

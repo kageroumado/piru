@@ -3,7 +3,10 @@ import SwiftUI
 
 struct MedicationItemFormView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.appNavigator) private var navigator
+    /// Always presented as a *local* sheet (from the Routines screens) —
+    /// dismissal must be the environment dismiss, not navigator.dismiss(),
+    /// which would pop the hosting navigator sheet out from under it.
+    @Environment(\.dismiss) private var dismiss
 
     var item: DailyDoseItem?
     var initialCategory: String = ""
@@ -23,9 +26,8 @@ struct MedicationItemFormView: View {
     @State private var selectedSubstance: Substance?
     @State private var availableRoutes: [RouteOfAdministration] = RouteOfAdministration.allCases
 
-    @AppStorage("dailyDoseCategories") private var categoriesData = Data()
-
     @Query(sort: \DailyDoseItem.sortOrder) private var existingItems: [DailyDoseItem]
+    @Query(sort: \DoseRoutine.sortOrder) private var routines: [DoseRoutine]
 
     private var isEditing: Bool {
         item != nil
@@ -134,8 +136,8 @@ struct MedicationItemFormView: View {
                     }
 
                     if !categories.isEmpty {
-                        Section("Category") {
-                            Picker("Category", selection: $category) {
+                        Section("Routine") {
+                            Picker("Routine", selection: $category) {
                                 Text("None").tag("")
                                 ForEach(categories, id: \.self) { cat in
                                     Text(cat).tag(cat)
@@ -148,11 +150,11 @@ struct MedicationItemFormView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Theme.background)
-            .navigationTitle(isEditing ? "Edit Prescription" : "Add Prescription")
+            .navigationTitle(isEditing ? "Edit Item" : "Add Item")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
+                    Button { dismiss() } label: { Image(systemName: "xmark") }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
@@ -201,7 +203,13 @@ struct MedicationItemFormView: View {
     }
 
     private var categories: [String] {
-        (try? JSONDecoder().decode([String].self, from: categoriesData)) ?? []
+        // An item edited out of a deleted routine can still carry its old
+        // name — keep it pickable so the selection isn't silently lost.
+        var names = routines.map(\.name)
+        if !category.isEmpty, !names.contains(category) {
+            names.append(category)
+        }
+        return names
     }
 
     private func loadItem() {
@@ -255,6 +263,6 @@ struct MedicationItemFormView: View {
             modelContext.insert(newItem)
         }
 
-        navigator.dismiss()
+        dismiss()
     }
 }
