@@ -587,6 +587,10 @@ struct EntryDetailView: View {
             allColors: Array(substanceColors),
         )
 
+        // Pending reminders are keyed to the old timestamp — a moved dose
+        // must drop them and reschedule from its new time.
+        DoseNotificationManager.doseRescheduled(entry: entry, previousTimestamp: previousTimestamp)
+
         WidgetCenter.shared.reloadAllTimelines()
         isEditing = false
     }
@@ -607,6 +611,7 @@ struct EntryDetailView: View {
         // Capture before delete — the entry is invalid afterwards.
         let name = entry.substance
         let timestamp = entry.timestamp
+        DoseNotificationManager.doseDeleted(timestamp: timestamp)
         modelContext.delete(entry)
         // Tear the dose out of the active session / Live Activity too; otherwise
         // a deleted "taking now" dose leaves the Live Activity and progress

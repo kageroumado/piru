@@ -14,12 +14,12 @@ struct SettingsView: View {
             Group {
                 Section {
                     NavigationLink {
-                        MedicationsSettingsView()
+                        RoutinesSettingsView()
                     } label: {
                         countRow(
-                            "Prescriptions",
-                            systemImage: "pills",
-                            value: "\(dailyDoseItems.count) prescription\(dailyDoseItems.count == 1 ? "" : "s")",
+                            "Routines",
+                            systemImage: "repeat",
+                            value: "\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s")",
                         )
                     }
 

@@ -349,6 +349,7 @@
       }
     },
     "%@ — %lld item%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -920,6 +921,7 @@
       }
     },
     "%lld daily reminder%@ scheduled." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1706,6 +1708,7 @@
       }
     },
     "~%lld%% of your last dose (%@%@, %@) is still active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1728,6 +1731,7 @@
       }
     },
     "≈%@ %@ active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1743,7 +1747,40 @@
         }
       }
     },
+    "≈%@ %@ active · %@ ago" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内约 %1$@ %2$@ · %3$@前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內約 %1$@ %2$@ · %3$@前"
+          }
+        }
+      }
+    },
+    "≈%@ %@ active · %@ ago · %@ left" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体内约 %1$@ %2$@ · %3$@前 · 剩 %4$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "體內約 %1$@ %2$@ · %3$@前 · 剩 %4$@"
+          }
+        }
+      }
+    },
     "≈%@ %@ active · %@ left" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -1755,6 +1792,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "體內約 %1$@ %2$@ · 剩 %3$@"
+          }
+        }
+      }
+    },
+    "≈%@ %@ of your %@ %@ dose (%@) is still active — ~%lld%%" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您%5$@服用的 %3$@ %4$@，体内仍约有 %1$@ %2$@（约 %6$lld%%）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您%5$@服用的 %3$@ %4$@，體內仍約有 %1$@ %2$@（約 %6$lld%%）"
           }
         }
       }
@@ -2027,6 +2080,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開始之前需要先設定幾項內容。"
+          }
+        }
+      }
+    },
+    "A notification repeats daily at this time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天此时重复发送通知。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每天此時重複傳送通知。"
           }
         }
       }
@@ -2915,6 +2984,7 @@
       }
     },
     "Add Category" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3043,6 +3113,7 @@
       }
     },
     "Add Prescription" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3092,6 +3163,7 @@
       }
     },
     "Add Reminder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3124,6 +3196,7 @@
       }
     },
     "Add the meds and supplements you take regularly." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -3156,6 +3229,7 @@
       }
     },
     "Add to %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5273,6 +5347,7 @@
       }
     },
     "Category name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -5829,6 +5904,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收合"
+          }
+        }
+      }
+    },
+    "Collapses the editor" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起编辑器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收合編輯器"
           }
         }
       }
@@ -7054,6 +7145,7 @@
       }
     },
     "Daily Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -7440,6 +7532,22 @@
         }
       }
     },
+    "Delete Routine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除日常"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除日常"
+          }
+        }
+      }
+    },
     "Delete this entry?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -7601,6 +7709,7 @@
       }
     },
     "Discard staged doses?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8789,6 +8898,7 @@
       }
     },
     "e.g. Morning, Noon, Night" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -8800,6 +8910,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "例如：早上、中午、晚上"
+          }
+        }
+      }
+    },
+    "e.g. Morning, Pre-workout, Night" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "例如：早晨、锻炼前、夜间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "例如：早晨、鍛鍊前、夜間"
           }
         }
       }
@@ -8980,6 +9106,22 @@
         }
       }
     },
+    "Edit Item" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯項目"
+          }
+        }
+      }
+    },
     "Edit Note" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9013,6 +9155,7 @@
       }
     },
     "Edit Prescription" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10264,6 +10407,22 @@
         }
       }
     },
+    "Fixed Order" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定顺序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定順序"
+          }
+        }
+      }
+    },
     "For importing into the PsychonautWiki app" : {
       "localizations" : {
         "zh-Hans" : {
@@ -10960,6 +11119,7 @@
       }
     },
     "Group items into routines by time of day or purpose — a routine stages everything in it with one tap on the Log screen. Drag items onto a category to assign them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -10971,6 +11131,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按時間或用途將項目分組為日常組合 — 在記錄頁上點一下即可將整組加入待記。把項目拖到分類上進行歸類。"
+          }
+        }
+      }
+    },
+    "Group the meds and supplements you take together — Pre-workout, Night — and stage a whole set with one tap." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把一起服用的药物和补充剂分成组——锻炼前、夜间——一键备入整组。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把一起服用的藥物和補充劑分成組——鍛鍊前、夜間——一鍵備入整組。"
           }
         }
       }
@@ -12414,6 +12590,22 @@
         }
       }
     },
+    "Items" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "項目"
+          }
+        }
+      }
+    },
     "Join Discord" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12528,6 +12720,7 @@
       }
     },
     "Keep Logging" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14531,6 +14724,22 @@
         }
       }
     },
+    "New Routine" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建日常"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增日常"
+          }
+        }
+      }
+    },
     "New Session" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14934,6 +15143,7 @@
       }
     },
     "No Routine Items" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -14945,6 +15155,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫無日常項目"
+          }
+        }
+      }
+    },
+    "No Routines" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无日常"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無日常"
           }
         }
       }
@@ -16765,6 +16991,7 @@
       }
     },
     "Prescriptions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17729,7 +17956,24 @@
         }
       }
     },
+    "Remind Me" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒我"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒我"
+          }
+        }
+      }
+    },
     "Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -17859,6 +18103,7 @@
       }
     },
     "Rename Category" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -18609,6 +18854,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常"
+          }
+        }
+      }
+    },
+    "Routine Name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常名稱"
           }
         }
       }
@@ -22362,6 +22623,38 @@
         }
       }
     },
+    "Time for your %@ routine." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该进行「%@」日常了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該進行「%@」日常了。"
+          }
+        }
+      }
+    },
+    "Time of day" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "具体时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "具體時間"
+          }
+        }
+      }
+    },
     "Time of Day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22427,6 +22720,7 @@
       }
     },
     "Time to take your prescriptions." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22796,7 +23090,24 @@
         }
       }
     },
+    "Unassigned" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未分组"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未分組"
+          }
+        }
+      }
+    },
     "Uncategorized — %lld item%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24292,86 +24603,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "μ-阿片受體激動劑兼去甲腎上腺素再攝取抑制劑"
-          }
-        }
-      }
-    },
-    "Collapses the editor" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收起编辑器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收合編輯器"
-          }
-        }
-      }
-    },
-    "≈%@ %@ active · %@ ago · %@ left" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体内约 %1$@ %2$@ · %3$@前 · 剩 %4$@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "體內約 %1$@ %2$@ · %3$@前 · 剩 %4$@"
-          }
-        }
-      }
-    },
-    "≈%@ %@ active · %@ ago" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体内约 %1$@ %2$@ · %3$@前"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "體內約 %1$@ %2$@ · %3$@前"
-          }
-        }
-      }
-    },
-    "≈%@ %@ of your %@ %@ dose (%@) is still active — ~%lld%%" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您%5$@服用的 %3$@ %4$@，体内仍约有 %1$@ %2$@（约 %6$lld%%）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您%5$@服用的 %3$@ %4$@，體內仍約有 %1$@ %2$@（約 %6$lld%%）"
-          }
-        }
-      }
-    },
-    "Fixed Order" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "固定顺序"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "固定順序"
           }
         }
       }

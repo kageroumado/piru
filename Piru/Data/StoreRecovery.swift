@@ -70,16 +70,42 @@ enum PiruSchemaV2: VersionedSchema {
         Schema.Version(2, 0, 0)
     }
     nonisolated static var models: [any PersistentModel.Type] {
+        [
+            DoseEntry.self,
+            SubstanceColor.self,
+            UserColor.self,
+            DailyDoseItem.self,
+            FavoriteSubstance.self,
+            QuickLogDose.self,
+            Session.self,
+        ]
+    }
+}
+
+/// Adds ``DoseRoutine`` (named multi-routine sets with optional time +
+/// reminder). Purely additive — one new entity, no changes to existing
+/// models — so V2→V3 is lightweight. V2's model list is frozen above (it
+/// previously aliased `StoreRecovery.models`); a version's entity set is
+/// what distinguishes its checksum, so the live list and the frozen V2 list
+/// must be allowed to diverge.
+enum PiruSchemaV3: VersionedSchema {
+    nonisolated static var versionIdentifier: Schema.Version {
+        Schema.Version(3, 0, 0)
+    }
+    nonisolated static var models: [any PersistentModel.Type] {
         StoreRecovery.models
     }
 }
 
 enum PiruMigrationPlan: SchemaMigrationPlan {
     nonisolated static var schemas: [any VersionedSchema.Type] {
-        [PiruSchemaV1.self, PiruSchemaV2.self]
+        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self]
     }
     nonisolated static var stages: [MigrationStage] {
-        [.lightweight(fromVersion: PiruSchemaV1.self, toVersion: PiruSchemaV2.self)]
+        [
+            .lightweight(fromVersion: PiruSchemaV1.self, toVersion: PiruSchemaV2.self),
+            .lightweight(fromVersion: PiruSchemaV2.self, toVersion: PiruSchemaV3.self),
+        ]
     }
 }
 
@@ -106,6 +132,7 @@ nonisolated enum StoreRecovery {
             FavoriteSubstance.self,
             QuickLogDose.self,
             Session.self,
+            DoseRoutine.self,
         ]
     }
 
@@ -286,6 +313,7 @@ nonisolated enum StoreRecovery {
     static func userDataCount(at url: URL) -> Int {
         guard anyFileExists(at: url) else { return 0 }
         if let count = countUserRows(at: url, schema: Schema(models)) { return count }
+        if let count = countUserRows(at: url, schema: Schema(PiruSchemaV2.models)) { return count }
         if let count = countUserRows(at: url, schema: Schema(PiruSchemaV1.models)) { return count }
         if let count = countViaMigratingCopy(at: url) { return count }
         return -1
