@@ -344,7 +344,13 @@ struct DoseTrayView: View {
                         } onRemove: {
                             withAnimation(.snappy) { model.remove(item) }
                         }
-                        .padding(.vertical, 10)
+                        // Top is 4, not 10: with the tray's 12pt top padding
+                        // and the 38pt header row, the trash button's center
+                        // lands 35pt from the surface top — the same 35pt
+                        // (16pt content inset + half of 38) it sits from the
+                        // right edge, so it reads concentric in the corner.
+                        .padding(.top, 4)
+                        .padding(.bottom, 10)
                     } else {
                         TrayRow(dose: item, namespace: morphNamespace) {
                             withAnimation(.snappy) { _ = model.expandedItemIDs.insert(item.id) }
@@ -605,18 +611,17 @@ private struct TrayRow: View {
                 .foregroundStyle(.tertiary)
                 .frame(width: 16)
                 .matchedGeometryEffect(id: "chevron-\(dose.id)", in: namespace)
-            Circle()
-                .fill(dose.color)
-                .frame(width: 9, height: 9)
-                .matchedGeometryEffect(id: "dot-\(dose.id)", in: namespace)
             VStack(alignment: .leading, spacing: 2) {
+                // Same font and leading column as "Add another…" so the
+                // tray reads as one aligned list (the colour dot is gone —
+                // the chips already carry the substance colour).
                 HStack(spacing: 5) {
                     Text(dose.substanceName)
                         .matchedGeometryEffect(id: "title-\(dose.id)", in: namespace)
                     Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
                         .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
                 }
-                .font(.subheadline.weight(.semibold))
+                .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
                 HStack(spacing: 4) {
                     Text(dose.route.localizedName)
@@ -775,12 +780,8 @@ private struct StagedDoseEditor: View {
                 .rotationEffect(.degrees(90))
                 .frame(width: 16)
                 .matchedGeometryEffect(id: "chevron-\(item.id)", in: namespace)
-            Circle()
-                .fill(item.color)
-                .frame(width: 9, height: 9)
-                .matchedGeometryEffect(id: "dot-\(item.id)", in: namespace)
             Text(item.substanceName)
-                .font(.headline)
+                .font(.body.weight(.semibold))
                 .matchedGeometryEffect(id: "title-\(item.id)", in: namespace)
             Spacer()
             Button(action: onRemove) {
@@ -889,12 +890,14 @@ private struct StagedDoseEditor: View {
         Self.unitChoices.contains(item.unit) ? Self.unitChoices : [item.unit] + Self.unitChoices
     }
 
+    /// 38pt wide — the same width as the header's trash button, so the
+    /// trailing stepper's plus shares the trash button's center line.
     private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
-                .frame(width: 40, height: 42)
+                .frame(width: 38, height: 42)
                 .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)
