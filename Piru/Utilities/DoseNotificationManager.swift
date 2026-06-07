@@ -119,6 +119,11 @@ enum DoseNotificationManager {
                 content.title = routine.name
                 content.body = String(localized: "Time for your \(routine.name) routine.")
                 content.sound = .default
+                // Tapping the reminder lands in quick-log with this routine's
+                // items already staged (handled by DoseNotificationDelegate).
+                if let link = routineDeepLink(name: routine.name) {
+                    content.userInfo = [Self.deepLinkUserInfoKey: link.absoluteString]
+                }
 
                 var components = DateComponents()
                 components.hour = routine.timeMinutes / 60
@@ -137,5 +142,56 @@ enum DoseNotificationManager {
 
     private static func routineReminderIdentifier(name: String) -> String {
         routineReminderPrefix + name.lowercased()
+    }
+
+    // MARK: - Deep links
+
+    nonisolated static let deepLinkUserInfoKey = "deepLink"
+
+    /// `piru://quicklog?routine=<name>` — URLComponents handles the
+    /// percent-encoding for arbitrary routine names.
+    private nonisolated static func routineDeepLink(name: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = DeepLink.scheme
+        components.host = "quicklog"
+        components.queryItems = [URLQueryItem(name: "routine", value: name)]
+        return components.url
+    }
+}
+
+// MARK: - Notification Delegate
+
+/// Routes notification taps. A notification carrying a `piru://` URL in
+/// `userInfo[deepLink]` lands at that destination through the same codec the
+/// URL scheme uses. Registered once at app init (the center holds the
+/// delegate weakly, hence the shared instance).
+final class DoseNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = DoseNotificationDelegate()
+
+    /// The completion-handler variant, NOT the async one: UIKit runs its
+    /// snapshot/state-restoration work synchronously when the handler is
+    /// invoked and asserts it's on the main thread — the async variant resumes
+    /// on the caller's (background) executor and crashes with SIGABRT in
+    /// `_updateStateRestorationArchiveForBackgroundEvent`.
+    nonisolated func userNotificationCenter(
+        _: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping @Sendable () -> Void,
+    ) {
+        // Extract before hopping — UNNotificationResponse is not Sendable.
+        let isDefaultAction = response.actionIdentifier == UNNotificationDefaultActionIdentifier
+        let link = response.notification.request.content
+            .userInfo[DoseNotificationManager.deepLinkUserInfoKey] as? String
+
+        DispatchQueue.main.async {
+            defer { completionHandler() }
+            // Only the default tap action navigates; dismissals do nothing.
+            guard isDefaultAction,
+                  let link,
+                  let url = URL(string: link),
+                  let outcome = DeepLink.decode(url)
+            else { return }
+            AppNavigator.shared.apply(outcome)
+        }
     }
 }

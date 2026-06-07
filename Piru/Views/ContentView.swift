@@ -231,12 +231,14 @@ struct ContentView: View {
                 },
             ),
             showingForm: Binding(
-                get: { navigator.sheetStack.last == .quickLog },
+                get: {
+                    if case .quickLog? = navigator.sheetStack.last { true } else { false }
+                },
                 set: { isShowing in
                     if isShowing {
                         guard navigator.sheetStack.isEmpty else { return }
-                        navigator.present(.quickLog)
-                    } else if navigator.sheetStack.last == .quickLog {
+                        navigator.present(.quickLog(routine: nil))
+                    } else if case .quickLog? = navigator.sheetStack.last {
                         navigator.dismiss()
                     }
                 },
@@ -280,7 +282,7 @@ struct ContentView: View {
     private var addMenu: some View {
         Button {
             guard navigator.sheetStack.isEmpty else { return }
-            navigator.present(.quickLog)
+            navigator.present(.quickLog(routine: nil))
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))

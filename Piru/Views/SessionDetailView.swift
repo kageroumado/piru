@@ -476,7 +476,7 @@ struct SessionDetailView: View {
     /// root's, so the primary action lives in the same place on both screens.
     private var addDoseButton: some View {
         Button {
-            navigator.present(.quickLog)
+            navigator.present(.quickLog(routine: nil))
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))

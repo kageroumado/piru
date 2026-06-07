@@ -14,7 +14,8 @@ import Foundation
 /// `piru://search`.
 ///
 /// **App-level sheets** (open over the current tab):
-/// - `piru://quicklog` → present `.quickLog`
+/// - `piru://quicklog[?routine=<name>]` → present `.quickLog`, optionally
+///   pre-staging a routine's items (routine-reminder notification taps)
 /// - `piru://settings` → present `.settings`
 /// - `piru://help` → present `.help`
 ///
@@ -81,7 +82,7 @@ nonisolated enum DeepLink {
         switch host {
         case "quicklog":
             // App-level sheets preserve the current tab by default.
-            return DeepLinkOutcome(tab: overrideTab, sheet: .quickLog)
+            return DeepLinkOutcome(tab: overrideTab, sheet: .quickLog(routine: query["routine"]))
 
         case "settings":
             return DeepLinkOutcome(tab: overrideTab, sheet: .settings)
@@ -152,8 +153,11 @@ nonisolated enum DeepLink {
         components.scheme = scheme
 
         switch sheet {
-        case .quickLog:
+        case let .quickLog(routine):
             components.host = "quicklog"
+            if let routine {
+                components.queryItems = [URLQueryItem(name: "routine", value: routine)]
+            }
 
         case .settings:
             components.host = "settings"

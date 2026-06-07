@@ -2,6 +2,7 @@ import BackgroundTasks
 import os
 import SwiftData
 import SwiftUI
+import UserNotifications
 import WidgetKit
 
 private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
@@ -23,6 +24,11 @@ struct PiruApp: App {
         StoreRecovery.prepareCanonicalStore()
 
         container = Self.makeContainer()
+
+        // Routes notification taps (routine reminders carry a piru:// deep
+        // link). The center holds its delegate weakly — the shared instance
+        // keeps it alive.
+        UNUserNotificationCenter.current().delegate = DoseNotificationDelegate.shared
 
         // Register on the main queue so the launch handler runs on the MainActor
         // executor. Otherwise — under `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` —

@@ -35,7 +35,23 @@ struct DeepLinkTests {
     func `piru://quicklog presents QuickLog without switching tab`() {
         let outcome = decode("piru://quicklog")
         #expect(outcome?.tab == nil) // preserves current
-        #expect(outcome?.sheet == .quickLog)
+        #expect(outcome?.sheet == .quickLog(routine: nil))
+    }
+
+    @Test
+    func `piru://quicklog?routine= carries the routine to pre-stage`() {
+        let outcome = decode("piru://quicklog?routine=Pre-workout")
+        #expect(outcome?.tab == nil)
+        #expect(outcome?.sheet == .quickLog(routine: "Pre-workout"))
+    }
+
+    @Test
+    func `quickLog with a routine round-trips through encode`() {
+        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.quickLog(routine: "Night Meds")])
+        let url = DeepLink.encode(snap)
+        #expect(url != nil)
+        let outcome = url.flatMap(DeepLink.decode)
+        #expect(outcome?.sheet == .quickLog(routine: "Night Meds"))
     }
 
     @Test
@@ -56,7 +72,7 @@ struct DeepLinkTests {
     func `?tab=library on an app-level sheet overrides preserve behaviour`() {
         let outcome = decode("piru://quicklog?tab=library")
         #expect(outcome?.tab == .library)
-        #expect(outcome?.sheet == .quickLog)
+        #expect(outcome?.sheet == .quickLog(routine: nil))
     }
 
     // MARK: - Journal-flow sheets (default to journal tab)
@@ -141,9 +157,9 @@ struct DeepLinkTests {
     @Test
     func `Applying a sheet-only outcome does not change the selected tab`() {
         let nav = AppNavigator(selectedTab: .library, storage: makeIsolatedDefaults())
-        nav.apply(DeepLinkOutcome(tab: nil, sheet: .quickLog))
+        nav.apply(DeepLinkOutcome(tab: nil, sheet: .quickLog(routine: nil)))
         #expect(nav.selectedTab == .library)
-        #expect(nav.sheetStack == [.quickLog])
+        #expect(nav.sheetStack == [.quickLog(routine: nil)])
     }
 
     @MainActor
@@ -175,7 +191,7 @@ struct DeepLinkTests {
 
     @Test
     func `Encoding a quicklog sheet snapshot`() {
-        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.quickLog])
+        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.quickLog(routine: nil)])
         #expect(DeepLink.encode(snap)?.absoluteString == "piru://quicklog")
     }
 
@@ -189,7 +205,7 @@ struct DeepLinkTests {
 
     @Test
     func `Encoding a non-default tab adds a tab query param`() {
-        let snap = NavigatorSnapshot(selectedTab: .library, sheetStack: [.quickLog])
+        let snap = NavigatorSnapshot(selectedTab: .library, sheetStack: [.quickLog(routine: nil)])
         let url = DeepLink.encode(snap)
         #expect(url?.absoluteString.contains("tab=library") == true)
     }
@@ -229,13 +245,13 @@ struct DeepLinkTests {
 
     @Test
     func `Round trip through an app-level sheet preserves the sheet (and honors tab override)`() {
-        let snap = NavigatorSnapshot(selectedTab: .library, sheetStack: [.quickLog])
+        let snap = NavigatorSnapshot(selectedTab: .library, sheetStack: [.quickLog(routine: nil)])
         guard let url = DeepLink.encode(snap), let outcome = DeepLink.decode(url) else {
             Issue.record("Expected encode+decode to succeed")
             return
         }
         #expect(outcome.tab == .library)
-        #expect(outcome.sheet == .quickLog)
+        #expect(outcome.sheet == .quickLog(routine: nil))
     }
 }
 

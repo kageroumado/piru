@@ -4,6 +4,10 @@ import UIKit
 import WidgetKit
 
 struct QuickLogView: View {
+    /// Stage this routine's items into the tray on open — the landing state
+    /// for a routine-reminder notification tap (`piru://quicklog?routine=`).
+    var prestagedRoutine: String?
+
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
 
@@ -282,6 +286,9 @@ struct QuickLogView: View {
                 seedFavoriteOrderIfNeeded()
                 rebuildColorLookup()
                 rebuildCards()
+                if let prestagedRoutine {
+                    stageRoutine(named: prestagedRoutine)
+                }
             }
             .task(id: quickLogDoses.count) {
                 try? await Task.sleep(for: .milliseconds(200))
@@ -899,6 +906,18 @@ struct QuickLogView: View {
 
     private func stagedQuantity(_ item: DailyDoseItem) -> Int {
         tray.quantity(substance: item.substance, route: item.route, amount: item.amount, unit: item.unit)
+    }
+
+    /// Stage every item of the named routine, exactly as if its pill were
+    /// tapped (idempotent) — the landing state for a reminder-notification tap.
+    private func stageRoutine(named name: String) {
+        let items = dailyDoseItems.filter { $0.category == name }
+        guard !items.isEmpty else { return }
+        withAnimation(.snappy) {
+            for item in items where stagedQuantity(item) == 0 {
+                stageDailyItem(item)
+            }
+        }
     }
 
     private func stageDailyItem(_ item: DailyDoseItem) {
