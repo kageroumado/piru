@@ -142,7 +142,10 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
 /// A sheet for attaching a place to a dose: tap "Current Location" or search for
 /// an address / point of interest. Picking one calls `onPick` and dismisses.
 struct LocationPickerView: View {
+    /// Previously used places (most recent first), shown while not searching.
+    var recents: [PickedLocation] = []
     let onPick: (PickedLocation) -> Void
+
     @Environment(\.dismiss) private var dismiss
     @State private var model = LocationSearchModel()
     @State private var query = ""
@@ -171,6 +174,26 @@ struct LocationPickerView: View {
                 } footer: {
                     if model.authDenied {
                         Text("Location access is off. Turn it on in Settings to use your current location.")
+                    }
+                }
+
+                if model.results.isEmpty, !recents.isEmpty {
+                    Section("Recents") {
+                        ForEach(recents, id: \.name) { place in
+                            Button {
+                                onPick(place)
+                                dismiss()
+                            } label: {
+                                Label {
+                                    Text(place.name)
+                                        .foregroundStyle(.primary)
+                                } icon: {
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundStyle(Theme.accent)
+                                }
+                            }
+                            .listRowBackground(Theme.cardBackground)
+                        }
                     }
                 }
 

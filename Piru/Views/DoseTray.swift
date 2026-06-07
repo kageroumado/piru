@@ -266,10 +266,17 @@ final class DoseTrayModel {
 struct DoseTrayView: View {
     @Bindable var model: DoseTrayModel
     let tagSuggestions: [String]
+    /// Distinct places from dose history, most recent first — the inline
+    /// location panel offers the first three, the full picker all of them.
+    let recentLocations: [PickedLocation]
     let onAddMore: () -> Void
     let onCommit: () -> Void
 
     @State private var showLocationPicker = false
+    /// The location chip expands into an inline panel (like the tag panel) —
+    /// current location + recent places; the full search stays a sheet.
+    @State private var locationPanelExpanded = false
+    @State private var locationModel = LocationSearchModel()
     /// Ties each collapsed row to its expanded editor so the name, amount,
     /// route, and chevron morph in place instead of cross-fading.
     @Namespace private var morphNamespace
@@ -306,6 +313,11 @@ struct DoseTrayView: View {
                     .padding(.top, 12)
             }
 
+            if locationPanelExpanded {
+                locationPanel
+                    .padding(.top, 12)
+            }
+
             HStack(spacing: 8) {
                 whenChip
                 tagsChip
@@ -322,8 +334,9 @@ struct DoseTrayView: View {
         .padding(.bottom, 8)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
-            LocationPickerView { picked in
+            LocationPickerView(recents: recentLocations) { picked in
                 model.location = picked
+                locationPanelExpanded = false
             }
         }
     }
@@ -470,11 +483,7 @@ struct DoseTrayView: View {
 
     private var locationChip: some View {
         Button {
-            if model.location == nil {
-                showLocationPicker = true
-            } else {
-                withAnimation(.snappy) { model.location = nil }
-            }
+            withAnimation(.snappy) { locationPanelExpanded.toggle() }
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: model.location == nil ? "mappin.and.ellipse" : "mappin.circle.fill")
@@ -482,8 +491,6 @@ struct DoseTrayView: View {
                 if let location = model.location {
                     Text(location.name)
                         .lineLimit(1)
-                    Image(systemName: "xmark")
-                        .font(.caption2.weight(.bold))
                 } else {
                     Text("Location")
                 }
@@ -499,6 +506,98 @@ struct DoseTrayView: View {
         }
         .buttonStyle(.plain)
         .frame(maxWidth: 180, alignment: .leading)
+    }
+
+    /// Inline location options, Calendar-style: current location, the last
+    /// few places, and a row that opens the full search sheet. Selection
+    /// collapses the panel.
+    private var locationPanel: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            locationRow(
+                icon: "location.fill",
+                title: String(localized: "Current Location"),
+                tint: Theme.accent,
+                showsProgress: locationModel.isLocating,
+            ) {
+                Task {
+                    guard let picked = await locationModel.requestCurrentLocation() else { return }
+                    withAnimation(.snappy) {
+                        model.location = picked
+                        locationPanelExpanded = false
+                    }
+                }
+            }
+
+            ForEach(Array(recentLocations.prefix(3)), id: \.name) { place in
+                Divider().padding(.leading, 26)
+                locationRow(
+                    icon: "mappin.circle.fill",
+                    title: place.name,
+                    isSelected: model.location == place,
+                ) {
+                    withAnimation(.snappy) {
+                        model.location = model.location == place ? nil : place
+                        locationPanelExpanded = false
+                    }
+                }
+            }
+
+            Divider().padding(.leading, 26)
+            locationRow(icon: "magnifyingglass", title: String(localized: "Find a Place…")) {
+                showLocationPicker = true
+            }
+
+            if model.location != nil {
+                Divider().padding(.leading, 26)
+                locationRow(icon: "xmark", title: String(localized: "Remove location"), tint: .red) {
+                    withAnimation(.snappy) {
+                        model.location = nil
+                        locationPanelExpanded = false
+                    }
+                }
+            }
+
+            if locationModel.authDenied {
+                Text("Location access is off. Turn it on in Settings to use your current location.")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .padding(.top, 6)
+            }
+        }
+    }
+
+    private func locationRow(
+        icon: String,
+        title: String,
+        tint: Color? = nil,
+        isSelected: Bool = false,
+        showsProgress: Bool = false,
+        action: @escaping () -> Void,
+    ) -> some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .imageScale(.small)
+                    .frame(width: 16)
+                Text(title)
+                    .font(.subheadline.weight(.medium))
+                    .lineLimit(1)
+                Spacer()
+                if showsProgress {
+                    ProgressView()
+                        .controlSize(.small)
+                } else if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Theme.accent)
+                }
+            }
+            .foregroundStyle(tint.map(AnyShapeStyle.init) ?? AnyShapeStyle(.primary))
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(showsProgress)
     }
 
     /// Expanded shared panel: custom time picker (when active) + tag chips.
@@ -882,7 +981,7 @@ private struct StagedDoseEditor: View {
         .padding(.horizontal, 12)
         .frame(height: 42)
         .frame(maxWidth: .infinity)
-        .background(Theme.inputBackground, in: RoundedRectangle(cornerRadius: 12))
+        .background(Theme.inputBackground, in: Capsule())
         .matchedGeometryEffect(id: "amount-\(item.id)", in: namespace)
     }
 
@@ -898,7 +997,7 @@ private struct StagedDoseEditor: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
                 .frame(width: 38, height: 42)
-                .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: 12))
+                .background(Color(.secondarySystemFill), in: Capsule())
         }
         .buttonStyle(.plain)
     }
