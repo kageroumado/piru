@@ -49,8 +49,9 @@ enum PiruSchemaV1: VersionedSchema {
 /// Adds ``QuickLogDose`` (the curated quick-log list) and ``Session`` (the
 /// Journal's session model) plus the optional ``DoseEntry/session`` /
 /// ``DoseEntry/isBackgroundMed`` and ``DailyDoseItem/isBackgroundMed``
-/// properties, and the optional ``DoseEntry/locationName`` /
-/// ``DoseEntry/latitude`` / ``DoseEntry/longitude`` location fields. All purely
+/// properties, the optional ``DoseEntry/locationName`` /
+/// ``DoseEntry/latitude`` / ``DoseEntry/longitude`` location fields, and the
+/// defaulted ``FavoriteSubstance/sortOrder``. All purely
 /// additive — new entities and new optional/defaulted properties, no changes to
 /// existing required ones — so the V1→V2 migration is lightweight (automatic)
 /// and existing data is untouched. The location fields are folded into V2 in

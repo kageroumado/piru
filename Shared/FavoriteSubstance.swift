@@ -5,10 +5,14 @@ import SwiftData
 final class FavoriteSubstance {
     @Attribute(.unique) var substance: String
     var createdAt: Date
+    /// User-defined position in the Favorites section (lower = first). New
+    /// favorites append at the end; reorder via the quick-log Edit sheet.
+    var sortOrder: Int = 0
 
-    init(substance: String) {
+    init(substance: String, sortOrder: Int = 0) {
         self.substance = substance
         self.createdAt = .now
+        self.sortOrder = sortOrder
     }
 }
 

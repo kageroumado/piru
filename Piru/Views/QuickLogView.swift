@@ -10,7 +10,7 @@ struct QuickLogView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse, transaction: .init(animation: nil)) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyDoseItems: [DailyDoseItem]
-    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
     @Query private var quickLogDoses: [QuickLogDose]
 
     @AppStorage(QuickLogManager.fixedOrderDefaultsKey) private var quickLogFixedOrder = false
@@ -19,6 +19,7 @@ struct QuickLogView: View {
 
     @State private var searchText = ""
     @State private var showCustomForm = false
+    @State private var showFavoritesEditor = false
     @AppStorage("dailyDoseCategories") private var categoriesData = Data()
 
     @State private var pendingCustomPrefill: EntryPrefillPayload?
@@ -51,6 +52,7 @@ struct QuickLogView: View {
 
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
+    @State private var cachedFavoriteOrder: [String: Int] = [:]
     @State private var cachedHistoryNames: Set<String> = []
     @State private var cachedLibraryResults: [Substance] = []
     @State private var cachedColorLookup: [String: String] = [:]
@@ -120,12 +122,22 @@ struct QuickLogView: View {
 
     private func rebuildFavorites() {
         cachedFavoriteSet = Set(favorites.map { $0.substance.lowercased() })
+        // `uniquingKeysWith` guards against two casings of one name colliding
+        // when lowercased (the unique attribute is case-sensitive).
+        cachedFavoriteOrder = Dictionary(
+            favorites.enumerated().map { ($0.element.substance.lowercased(), $0.offset) },
+            uniquingKeysWith: { first, _ in first },
+        )
     }
 
     // MARK: - Favorites
 
+    /// Favorites hold their user-given positions (the reorder sheet) instead
+    /// of jumping around with logging recency like the Recent section.
     private var favoriteCards: [SubstanceCard] {
-        cachedCards.filter { cachedFavoriteSet.contains($0.id) }
+        cachedCards
+            .filter { cachedFavoriteSet.contains($0.id) }
+            .sorted { (cachedFavoriteOrder[$0.id] ?? .max) < (cachedFavoriteOrder[$1.id] ?? .max) }
     }
 
     private var nonFavoriteCards: [SubstanceCard] {
@@ -159,6 +171,16 @@ struct QuickLogView: View {
             .compactMap { SubstanceLibrary.lookupByNameOrAlias($0.name) ?? $0.asSubstance }
     }
 
+    /// Pre-`sortOrder` favorites are all 0 — stamp them with their current
+    /// display order (newest first, matching the old query) exactly once, so
+    /// reordering has distinct positions to work with.
+    private func seedFavoriteOrderIfNeeded() {
+        guard favorites.count > 1, favorites.allSatisfy({ $0.sortOrder == 0 }) else { return }
+        for (index, favorite) in favorites.sorted(by: { $0.createdAt > $1.createdAt }).enumerated() {
+            favorite.sortOrder = index
+        }
+    }
+
     private func toggleFavorite(_ name: String) {
         let lowered = name.lowercased()
         if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
@@ -166,7 +188,10 @@ struct QuickLogView: View {
             modelContext.delete(existing)
         } else {
             cachedFavoriteSet.insert(lowered)
-            modelContext.insert(FavoriteSubstance(substance: name))
+            // Append at the end — a new favorite never displaces the order
+            // the user has arranged.
+            let nextOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
+            modelContext.insert(FavoriteSubstance(substance: name, sortOrder: nextOrder))
         }
     }
 
@@ -234,7 +259,7 @@ struct QuickLogView: View {
                             Label("Manage Routines…", systemImage: "pills")
                         }
                         Toggle(isOn: $quickLogFixedOrder) {
-                            Label("Keep Quick-Log Order", systemImage: "pin")
+                            Label("Fixed Order", systemImage: "pin")
                         }
                     } label: {
                         Image(systemName: "ellipsis")
@@ -250,10 +275,14 @@ struct QuickLogView: View {
                     )
                 }
             }
+            .sheet(isPresented: $showFavoritesEditor) {
+                FavoritesReorderView()
+            }
             .task {
                 // Defer rebuild to next run loop so sheet presentation isn't blocked
                 try? await Task.sleep(for: .milliseconds(50))
                 QuickLogManager.seedIfNeeded(history: allEntries, context: modelContext)
+                seedFavoriteOrderIfNeeded()
                 rebuildColorLookup()
                 rebuildCards()
             }
@@ -266,7 +295,8 @@ struct QuickLogView: View {
                 rebuildColorLookup()
                 rebuildCards()
             }
-            .onChange(of: favorites.count) { rebuildFavorites() }
+            // Keyed on names, not count — a reorder changes order only.
+            .onChange(of: favorites.map(\.substance)) { rebuildFavorites() }
             .onChange(of: searchFocused) {
                 if !searchFocused, searchText.isEmpty {
                     withAnimation(.snappy) { searchActive = false }
@@ -691,18 +721,27 @@ struct QuickLogView: View {
                     libraryRow(substance)
                 }
             } header: {
-                // Accent-tinted star vs. the neutral "Recent" clock gives the two
-                // sections a clear at-a-glance distinction (icon colour carries the
-                // meaning; the labels alone read identically).
-                Label {
-                    Text("Favorites")
-                        .foregroundStyle(Theme.secondaryLabel)
-                } icon: {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(Theme.accent)
+                HStack {
+                    // Accent-tinted star vs. the neutral "Recent" clock gives the two
+                    // sections a clear at-a-glance distinction (icon colour carries the
+                    // meaning; the labels alone read identically).
+                    Label {
+                        Text("Favorites")
+                            .foregroundStyle(Theme.secondaryLabel)
+                    } icon: {
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(Theme.accent)
+                    }
+                    .font(.footnote.weight(.semibold))
+                    .textCase(.uppercase)
+                    Spacer()
+                    Button("Edit") {
+                        showFavoritesEditor = true
+                    }
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                    .buttonStyle(.plain)
                 }
-                .font(.footnote.weight(.semibold))
-                .textCase(.uppercase)
             }
         }
 
@@ -906,6 +945,7 @@ struct QuickLogView: View {
                             lastDoseAmount: lastEntry.amount,
                             unit: lastEntry.unit,
                             waitMinutes: pkStatus.waitMinutes,
+                            lastDoseTimestamp: lastEntry.timestamp,
                         )
                     }
                     .buttonStyle(.plain)
@@ -1370,6 +1410,69 @@ private struct OneRowChips<Item: Identifiable, ChipView: View, TrailingView: Vie
             }
             trailing()
                 .fixedSize()
+        }
+    }
+}
+
+// MARK: - Favorites Reorder
+
+/// Native drag-handle reorder for favorites, presented from the Favorites
+/// section header's Edit button. Always in edit mode — drag to reorder,
+/// swipe/minus to unfavorite. Local sheet, so `@Environment(\.dismiss)`
+/// (NOT `navigator.dismiss()`, which would pop the whole Log sheet).
+private struct FavoritesReorderView: View {
+    @Query(sort: [SortDescriptor(\FavoriteSubstance.sortOrder), SortDescriptor(\FavoriteSubstance.createdAt, order: .reverse)]) private var favorites: [FavoriteSubstance]
+    @Query private var substanceColors: [SubstanceColor]
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @State private var customStore = CustomSubstanceStore.shared
+
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(favorites) { favorite in
+                    HStack(spacing: 10) {
+                        Circle()
+                            .fill(color(for: favorite.substance))
+                            .frame(width: 10, height: 10)
+                        Text(customStore.displayName(for: favorite.substance))
+                    }
+                }
+                .onMove(perform: move)
+                .onDelete(perform: delete)
+            }
+            .environment(\.editMode, .constant(.active))
+            .navigationTitle("Favorites")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+    }
+
+    private func color(for substance: String) -> Color {
+        Array(substanceColors).hexColorMap[substance.lowercased()]
+            .map { Color(hex: $0) } ?? .gray
+    }
+
+    private func move(from source: IndexSet, to destination: Int) {
+        var ordered = favorites
+        ordered.move(fromOffsets: source, toOffset: destination)
+        for (index, favorite) in ordered.enumerated() {
+            favorite.sortOrder = index
+        }
+    }
+
+    private func delete(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(favorites[index])
         }
     }
 }
