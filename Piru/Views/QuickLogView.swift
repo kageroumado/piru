@@ -44,16 +44,6 @@ struct QuickLogView: View {
     @State private var searchActive = false
     @FocusState private var searchFocused: Bool
 
-    /// The floating-sheet inset: 8pt off the screen sides and bottom, like a
-    /// native partial-detent sheet on iOS 26.
-    private static let dockEdgeInset: CGFloat = 8
-
-    /// The dock's corner radius, resolved by UIKit as concentric with the
-    /// screen for the glass surface's exact frame (see
-    /// ``ConcentricRadiusReader``). Starts at a sane floor until the first
-    /// layout pass reports the real value.
-    @State private var dockCornerRadius: CGFloat = 24
-
     @State private var cachedCards: [SubstanceCard] = []
     @State private var cachedFavoriteSet: Set<String> = []
     @State private var cachedFavoriteOrder: [String: Int] = [:]
@@ -364,96 +354,39 @@ struct QuickLogView: View {
         }
     }
 
-    /// The screen's single bottom surface, styled like a native detented
-    /// sheet — full-width, top-rounded, glass bleeding under the home
-    /// indicator — but driven by our own state machine: native child sheets
-    /// can't morph between faces and never grant programmatic keyboard focus.
-    /// With nothing to show but the field, the glass collapses to the field
-    /// capsule itself and grows back as content appears.
-    /// Half the bare face's height (46pt field + 6pt platter inset each
-    /// side) — the radius that makes the glass platter a capsule around it.
-    private static let bareFieldRadius: CGFloat = 29
-
     private var dock: some View {
-        Group {
+        GlassDock(isBare: dockIsBareField) {
             switch dockState {
             case .idle: idleDock
             case .search: searchDock
             case .tray: trayDock
             }
         }
-        .frame(maxWidth: .infinity)
-        .background {
-            // One persistent glass element for every face. Bare field: a
-            // capsule hugging the field inside the safe area. With content:
-            // the surface runs below it to 8pt above the physical screen
-            // bottom, its corner radius UIKit-resolved as concentric with
-            // the screen corners (54pt = display radius − 8pt inset on a
-            // Pro Max) — SwiftUI's ConcentricRectangle resolves against the
-            // presenting sheet's container shape instead and lands on the
-            // wrong radius. NOT a GlassEffectContainer: hoisting the glass
-            // into a container renders it above the dock's own content,
-            // washing the rows out.
-            Color.clear
-                .glassEffect(
-                    .regular,
-                    in: .rect(
-                        cornerRadius: dockIsBareField ? Self.bareFieldRadius : dockCornerRadius,
-                        style: .continuous,
-                    ),
-                )
-                .overlay {
-                    ConcentricRadiusReader { radius in
-                        guard !dockIsBareField, radius > 0, abs(radius - dockCornerRadius) > 0.5 else { return }
-                        withAnimation(.snappy) { dockCornerRadius = radius }
-                    }
-                }
-                .padding(.bottom, dockIsBareField ? 0 : Self.dockEdgeInset)
-                // The keyboard region is ignored too — with it open, the
-                // glass keeps running underneath instead of stopping 8pt
-                // above the content and letting the Log button poke out.
-                .ignoresSafeArea(dockIsBareField ? .container : [.container, .keyboard], edges: dockIsBareField ? [] : .bottom)
-        }
-        // The bare capsule floats clear of whatever is below it — the home
-        // indicator or an open keyboard — by the same 8pt the surface uses.
-        .padding(.bottom, dockIsBareField ? Self.dockEdgeInset : 0)
-        .padding(.horizontal, Self.dockEdgeInset)
-        // Tapping empty dock space dismisses the keyboard (buttons and
-        // fields consume their own touches, so steppers keep it open).
-        .onTapGesture {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
-        // The first keystroke flips the bare capsule into the full surface
-        // (and every result-set change resizes it) — animate both, otherwise
-        // the field snaps smaller the moment typing starts.
-        .animation(.snappy, value: dockIsBareField)
+        // Every result-set change resizes the surface — animate it, same as
+        // the bare⇄full flip GlassDock already animates.
         .animation(.snappy, value: dockResults.map(\.id))
         .sensoryFeedback(.impact(weight: .light), trigger: tray.stageTick)
         .sensoryFeedback(.increase, trigger: tray.incrementTick)
     }
 
-    /// The field's visual, Maps-style: a grey filled capsule that looks the
-    /// same in every face — sitting on the glass platter when bare, inside
-    /// the full surface while searching.
-    private func fieldCapsule(@ViewBuilder content: () -> some View) -> some View {
+    /// The field's visual: bare on the glass platter while nothing is typed
+    /// (the capsule platter *is* the field), fading in a grey fill once text
+    /// appears and the surface grows around it.
+    private func fieldCapsule(filled: Bool, @ViewBuilder content: () -> some View) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Theme.secondaryLabel)
             content()
         }
         .padding(.horizontal, 14)
-        .frame(height: 46)
+        .frame(height: GlassDockMetrics.controlHeight)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemFill), in: Capsule())
+        .background(Color(.secondarySystemFill).opacity(filled ? 1 : 0), in: Capsule())
     }
-
-    /// Breathing room between the grey field and the glass platter's edge in
-    /// the bare faces (Maps' collapsed-bar look).
-    private static let bareFieldPlatterInset: CGFloat = 6
 
     private var idleDock: some View {
         Button(action: activateSearch) {
-            fieldCapsule {
+            fieldCapsule(filled: false) {
                 Text("Search substances...")
                     .foregroundStyle(Theme.secondaryLabel)
                 Spacer(minLength: 0)
@@ -461,7 +394,7 @@ struct QuickLogView: View {
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
-        .padding(Self.bareFieldPlatterInset)
+        .padding(GlassDockMetrics.bareInset)
     }
 
     private var trayDock: some View {
@@ -492,17 +425,20 @@ struct QuickLogView: View {
 
     /// Results stack *above* the field — the field stays pinned at the bottom
     /// of the dock while suggestions grow upward. With nothing typed the face
-    /// is the bare glass capsule, so the field carries no fill or padding.
+    /// is the bare glass capsule, so the field carries no fill or padding;
+    /// once typed it sits at the same frame as the tray's Log button, so the
+    /// two morph into one another when a result stages.
     private var searchDock: some View {
         VStack(spacing: 0) {
             if isHelpSearch {
                 quickLogHelpBanner
-                    .padding([.horizontal, .top], 10)
+                    .padding(.horizontal, GlassDockMetrics.contentInsets.leading)
+                    .padding(.bottom, 8)
             } else if !searchText.isEmpty {
                 searchResultsList
             }
 
-            fieldCapsule {
+            fieldCapsule(filled: !dockIsBareField) {
                 TextField("Search substances...", text: $searchText)
                     .textFieldStyle(.plain)
                     .autocorrectionDisabled()
@@ -520,10 +456,10 @@ struct QuickLogView: View {
                     .accessibilityLabel("Clear search")
                 }
             }
-            .padding(.horizontal, dockIsBareField ? Self.bareFieldPlatterInset : 10)
-            .padding(.bottom, dockIsBareField ? Self.bareFieldPlatterInset : 6)
+            .padding(.horizontal, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.leading)
+            .padding(.bottom, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.bottom)
         }
-        .padding(.top, dockIsBareField ? Self.bareFieldPlatterInset : 4)
+        .padding(.top, dockIsBareField ? GlassDockMetrics.bareInset : GlassDockMetrics.contentInsets.top)
         .onAppear { searchFocused = true }
     }
 
@@ -567,27 +503,24 @@ struct QuickLogView: View {
         return Array(results.prefix(4))
     }
 
-    /// Best match sits at the bottom, adjacent to the field; the create CTA
-    /// is farthest away (the list reads upward from the field). Dividers sit
-    /// *between* rows only — never after the last one, where the field
-    /// already provides the visual break.
+    /// The list reads upward from the field: best match at the bottom of the
+    /// results, weaker matches above. The create CTA is pinned as the
+    /// bottommost row in every search, so it's always in the same place.
     private var searchResultsList: some View {
         let results = Array(dockResults.reversed())
         return VStack(spacing: 0) {
-            if !exactMatchExists {
-                createCustomRow
-                if !results.isEmpty {
-                    Divider().padding(.leading, 16)
-                }
-            }
             ForEach(Array(results.enumerated()), id: \.element.id) { index, result in
                 if index > 0 {
                     Divider().padding(.leading, 16)
                 }
                 dockResultRow(result)
             }
+            if !results.isEmpty {
+                Divider().padding(.leading, 16)
+            }
+            createCustomRow
         }
-        .padding(.top, 6)
+        .padding(.bottom, 6)
     }
 
     @ViewBuilder
@@ -600,7 +533,6 @@ struct QuickLogView: View {
                 tint: card.colorHex.map { Color(hex: $0) } ?? .gray,
                 detail: card.routes.first?.librarySubstance.flatMap(substanceDetail)
                     ?? card.routes.first.map { String(localized: $0.route.localizedName) },
-                description: card.routes.first?.librarySubstance.flatMap(substanceDescription),
             ) {
                 stageFromCard(card)
             }
@@ -610,7 +542,6 @@ struct QuickLogView: View {
                 source: String(localized: "Library"),
                 tint: substance.category.color,
                 detail: substanceDetail(substance),
-                description: substanceDescription(substance),
             ) {
                 openLibrarySubstance(substance)
             }
@@ -620,7 +551,6 @@ struct QuickLogView: View {
                 source: String(localized: "Custom"),
                 tint: substance.category.color,
                 detail: substanceDetail(substance),
-                description: substanceDescription(substance),
             ) {
                 openLibrarySubstance(substance)
             }
@@ -640,22 +570,17 @@ struct QuickLogView: View {
         return parts.joined(separator: " · ")
     }
 
-    private func substanceDescription(_ substance: Substance) -> String? {
-        substance.mechanismOfAction?.summary
-    }
-
     /// Leading chevron (mirroring the trailing source tag for symmetry),
     /// tinted with the substance/category colour.
     /// One fixed height for every result row — content varies (a substance
-    /// may lack a dose band or MOA line), the rhythm must not.
-    private static let resultRowHeight: CGFloat = 64
+    /// may lack a dose band), the rhythm must not.
+    private static let resultRowHeight: CGFloat = 56
 
     private func resultRow(
         name: String,
         source: String,
         tint: Color,
         detail: String?,
-        description: String?,
         action: @escaping () -> Void,
     ) -> some View {
         Button(action: action) {
@@ -675,15 +600,11 @@ struct QuickLogView: View {
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryLabel)
                     }
-                    // Both detail lines always render (a space when absent),
+                    // The detail line always renders (a space when absent),
                     // so the title sits at the same height in every row.
                     Text(verbatim: detail ?? " ")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
-                        .lineLimit(1)
-                    Text(verbatim: description ?? " ")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
                         .lineLimit(1)
                 }
             }
@@ -731,17 +652,6 @@ struct QuickLogView: View {
             searchActive = false
             searchText = ""
         }
-    }
-
-    /// True when `searchText` exactly matches the name of any substance
-    /// already known to the app (library, custom store, or recently logged).
-    private var exactMatchExists: Bool {
-        let needle = searchText.trimmingCharacters(in: .whitespaces).lowercased()
-        guard !needle.isEmpty else { return false }
-        if cachedLibraryResults.contains(where: { $0.name.lowercased() == needle }) { return true }
-        if filteredCustomSubstances.contains(where: { $0.name.lowercased() == needle }) { return true }
-        if cachedCards.contains(where: { $0.substanceName.lowercased() == needle }) { return true }
-        return false
     }
 
     // MARK: - Session Tags
@@ -1572,44 +1482,5 @@ struct DoseChip: Identifiable {
 
     var formattedAmount: String {
         amount.doseFormatted
-    }
-}
-
-/// Reports the corner radius UIKit resolves as *concentric with the screen*
-/// for this view's frame, via the public iOS 26 corner-configuration API.
-///
-/// SwiftUI's `ConcentricRectangle` resolves against the nearest SwiftUI
-/// container shape — inside a sheet that's the presentation's shape, not the
-/// device screen, so a bottom-floating surface gets the wrong radius. UIKit's
-/// `containerConcentric` resolution walks the real view/window hierarchy, so
-/// it derives the radius from the display corners. Overlay this on the glass
-/// surface (same frame) and feed the reported value back as a fixed radius.
-private struct ConcentricRadiusReader: UIViewRepresentable {
-    var onResolve: (CGFloat) -> Void
-
-    func makeUIView(context _: Context) -> ResolverView {
-        let view = ResolverView()
-        view.onResolve = onResolve
-        view.backgroundColor = .clear
-        view.isUserInteractionEnabled = false
-        view.cornerConfiguration = .corners(radius: .containerConcentric(minimum: 0))
-        return view
-    }
-
-    func updateUIView(_ uiView: ResolverView, context _: Context) {
-        uiView.onResolve = onResolve
-    }
-
-    final class ResolverView: UIView {
-        var onResolve: ((CGFloat) -> Void)?
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            let radius = effectiveRadius(corner: .bottomLeft)
-            // Defer out of the layout pass before touching SwiftUI state.
-            DispatchQueue.main.async { [weak self] in
-                self?.onResolve?(radius)
-            }
-        }
     }
 }

@@ -342,9 +342,7 @@ struct DoseTrayView: View {
             commitButton
                 .padding(.top, 14)
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 12)
-        .padding(.bottom, 8)
+        .padding(GlassDockMetrics.contentInsets)
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView(recents: recentLocations) { picked in
@@ -398,12 +396,13 @@ struct DoseTrayView: View {
     }
 
     /// Re-opens search inside the dock — staging never requires dismissing
-    /// the tray. The plus shares the rows' leading chevron column so the
-    /// edges align; generous targets — this is the tray's main growth path.
+    /// the tray. A magnifier, not a plus: the row brings up search. It shares
+    /// the rows' leading chevron column so the edges align; generous
+    /// targets — this is the tray's main growth path.
     private var addMoreRow: some View {
         Button(action: onAddMore) {
             HStack(spacing: 10) {
-                Image(systemName: "plus")
+                Image(systemName: "magnifyingglass")
                     .font(.body.weight(.semibold))
                     .frame(width: 16)
                 Text("Add another…")
@@ -665,7 +664,9 @@ struct DoseTrayView: View {
                 .font(.headline)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 48)
+                // The dock contract: the Log button and the search field
+                // share one frame, so the faces morph into one another.
+                .frame(height: GlassDockMetrics.controlHeight)
                 .background(Theme.accent, in: Capsule())
         }
         .buttonStyle(.plain)
@@ -705,9 +706,6 @@ private struct TrayRow: View {
             rowContent
                 .offset(x: offset)
         }
-        // The delete backdrop fills the row height — without this the
-        // greedy frame stretches every row to fill the dock's safe area.
-        .fixedSize(horizontal: false, vertical: true)
         .clipped()
         .gesture(swipeGesture)
     }
@@ -741,6 +739,12 @@ private struct TrayRow: View {
                     Text(verbatim: "\(dose.totalAmount.doseFormatted) \(dose.unit)")
                         .fontWeight(.semibold)
                         .foregroundStyle(.primary)
+                        // During the collapse morph the matched siblings carry
+                        // inflated mid-flight frames (the route text pairs with
+                        // the editor's wide pill), squeezing this text into a
+                        // momentary "37.…" ellipsis. Fixed-size keeps it at its
+                        // intrinsic width for the whole animation.
+                        .fixedSize()
                         .matchedGeometryEffect(id: "amount-\(dose.id)", in: namespace)
                     if let level = dose.doseLevel {
                         Text(verbatim: "·").foregroundStyle(.tertiary)
@@ -774,14 +778,15 @@ private struct TrayRow: View {
         }
     }
 
+    /// A compact red capsule, not a full-height block — centered in the
+    /// revealed strip with breathing room on every side.
     private var deleteBackdrop: some View {
         Button(action: onDelete) {
             Image(systemName: "trash.fill")
                 .font(.subheadline)
                 .foregroundStyle(.white)
-                .frame(width: Self.revealWidth)
-                .frame(maxHeight: .infinity)
-                .background(.red)
+                .frame(width: Self.revealWidth - 8, height: 34)
+                .background(.red, in: Capsule())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Remove")
