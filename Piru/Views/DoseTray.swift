@@ -978,63 +978,70 @@ private struct StagedDoseEditor: View {
         .background(Color(.secondarySystemFill), in: Capsule())
     }
 
+    /// The amount is centered in the pill itself; the unit menu is a trailing
+    /// overlay so it never shifts the number off-center.
     private var amountField: some View {
-        HStack(spacing: 4) {
-            TextField("0", text: $amountText)
-                .keyboardType(.decimalPad)
-                .focused($amountFocused)
-                .multilineTextAlignment(.center)
-                .font(.title3.weight(.semibold))
-                .onChange(of: amountText) {
-                    if suppressAmountSync {
-                        suppressAmountSync = false
-                        return
-                    }
-                    item.amount = Double(amountText.replacingOccurrences(of: ",", with: ".")) ?? 0
+        TextField("0", text: $amountText)
+            .keyboardType(.decimalPad)
+            .focused($amountFocused)
+            .multilineTextAlignment(.center)
+            .font(.title3.weight(.semibold))
+            .onChange(of: amountText) {
+                if suppressAmountSync {
+                    suppressAmountSync = false
+                    return
                 }
-            Menu {
-                ForEach(unitMenuChoices, id: \.self) { unit in
-                    Button {
-                        item.unit = unit
-                    } label: {
-                        if unit == item.unit {
-                            Label(unit, systemImage: "checkmark")
-                        } else {
-                            Text(unit)
-                        }
-                    }
-                }
-            } label: {
-                HStack(spacing: 2) {
-                    Text(item.unit)
-                    Image(systemName: "chevron.down")
-                        .font(.caption2.weight(.semibold))
-                }
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(Theme.secondaryLabel)
+                item.amount = Double(amountText.replacingOccurrences(of: ",", with: ".")) ?? 0
             }
-            .buttonStyle(.plain)
+            .frame(height: 42)
+            .frame(maxWidth: .infinity)
+            .background(Theme.inputBackground, in: Capsule())
+            .overlay(alignment: .trailing) {
+                unitMenu
+                    .padding(.trailing, 12)
+            }
+            .matchedGeometryEffect(id: "amount-\(item.id)", in: namespace)
+    }
+
+    private var unitMenu: some View {
+        Menu {
+            ForEach(unitMenuChoices, id: \.self) { unit in
+                Button {
+                    item.unit = unit
+                } label: {
+                    if unit == item.unit {
+                        Label(unit, systemImage: "checkmark")
+                    } else {
+                        Text(unit)
+                    }
+                }
+            }
+        } label: {
+            HStack(spacing: 2) {
+                Text(item.unit)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.semibold))
+            }
+            .font(.subheadline.weight(.medium))
+            .foregroundStyle(Theme.secondaryLabel)
         }
-        .padding(.horizontal, 12)
-        .frame(height: 42)
-        .frame(maxWidth: .infinity)
-        .background(Theme.inputBackground, in: Capsule())
-        .matchedGeometryEffect(id: "amount-\(item.id)", in: namespace)
+        .buttonStyle(.plain)
     }
 
     private var unitMenuChoices: [String] {
         Self.unitChoices.contains(item.unit) ? Self.unitChoices : [item.unit] + Self.unitChoices
     }
 
-    /// 38pt wide — the same width as the header's trash button, so the
-    /// trailing stepper's plus shares the trash button's center line.
+    /// 38pt circles — the trash button's width, so the trailing plus shares
+    /// its center line; equal height makes them true circles beside the
+    /// 42pt field.
     private func stepButton(systemImage: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.primary)
-                .frame(width: 38, height: 42)
-                .background(Color(.secondarySystemFill), in: Capsule())
+                .frame(width: 38, height: 38)
+                .background(Color(.secondarySystemFill), in: Circle())
         }
         .buttonStyle(.plain)
     }
