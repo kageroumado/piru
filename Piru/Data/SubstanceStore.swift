@@ -123,13 +123,21 @@ final class SubstanceStore {
         reloadUserProfile()
         buildIndexes()
         logger.info("SubstanceStore opened: \(self.allNames.count) substances, \(self.enabledSourceOrder.count) enabled sources, profile=\(self.userProfile.rawValue, privacy: .public)")
-        // Eager-prefill the `all`/`substances(in:)` cache on a background
-        // queue. The first Library-tab tap was paying a 1-2s synchronous
-        // resolve of all 1700+ substances; doing it here keeps launch snappy
-        // and the tab responsive once the user gets there.
-        Task.detached(priority: .utility) { [self] in
-            await MainActor.run {
-                _ = self.all
+        // Eager-prefill the `all` cache *off the main thread*. The first
+        // Library-tab tap — and, more visibly, the first quick-log open — was
+        // paying a ~660 ms synchronous resolve of all 1700+ substances on the
+        // main actor (the old prefill hopped to `MainActor.run` to build the
+        // batch, so it blocked the main thread whenever it happened to run).
+        // The batch loader is now a `nonisolated static` that does its SQL +
+        // struct building on this background task; we only hop back to main to
+        // publish the finished array into the cache.
+        let prewarmDB = substancesDB
+        let prewarmOrder = enabledSourceOrder
+        Task.detached(priority: .userInitiated) {
+            let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
+            await MainActor.run { [weak self] in
+                guard let self, self.allCache == nil else { return }
+                self.allCache = resolved
             }
         }
     }
@@ -394,7 +402,7 @@ final class SubstanceStore {
     /// substance so partial fills still benefit from prior work).
     var all: [Substance] {
         if let cached = allCache { return cached }
-        let resolved = loadAllSubstancesBatch()
+        let resolved = Self.loadAllSubstancesBatch(db: substancesDB, order: enabledSourceOrder)
         allCache = resolved
         // Intentionally NOT writing to resolvedCache: the batch path omits
         // mechanism / subjective effects / tolerance (loaded by lookup() on
@@ -410,17 +418,22 @@ final class SubstanceStore {
     /// Rank routes by `RouteOfAdministration.allCases` order — oral first,
     /// sublingual second, intravenous mid-list, etc. — so substances default
     /// to the route a typical user would log first.
-    private static let routeRanks: [RouteOfAdministration: Int] = Dictionary(
+    private nonisolated static let routeRanks: [RouteOfAdministration: Int] = Dictionary(
         uniqueKeysWithValues: RouteOfAdministration.allCases.enumerated().map { ($1, $0) },
     )
-    private static func routeRank(_ r: RouteOfAdministration) -> Int {
+    private nonisolated static func routeRank(_ r: RouteOfAdministration) -> Int {
         routeRanks[r] ?? Int.max
     }
 
-    private func loadAllSubstancesBatch() -> [Substance] {
-        guard !enabledSourceOrder.isEmpty else { return [] }
+    private nonisolated static func loadAllSubstancesBatch(db queue: DatabaseQueue, order: [String]) -> [Substance] {
+        guard !order.isEmpty else { return [] }
+        // Build the priority/source SQL fragments once up front so the read
+        // closure captures plain strings (and statics) instead of `self` —
+        // that's what lets the whole resolve run off the main actor.
+        let priorityCaseSQL = priorityCaseSQL(order)
+        let enabledSourceListSQL = enabledSourceListSQL(order)
         do {
-            return try substancesDB.read { db in
+            return try queue.read { db in
                 let allRows = try Row.fetchAll(
                     db,
                     sql:
@@ -467,10 +480,10 @@ final class SubstanceStore {
                     SELECT substance_id, category FROM (
                         SELECT c.substance_id, c.category,
                                ROW_NUMBER() OVER (PARTITION BY c.substance_id
-                                                  ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                                                  ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM categories c
                           JOIN sources src ON src.id = c.source_id
-                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                         WHERE src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """)
                 var categoryByID: [Int64: SubstanceCategory] = [:]
@@ -486,7 +499,7 @@ final class SubstanceStore {
                     SELECT DISTINCT t.substance_id, t.tag
                       FROM tags t
                       JOIN sources src ON src.id = t.source_id
-                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                     WHERE src.slug IN (\(enabledSourceListSQL))
                      ORDER BY t.tag
                 """) {
                     tagsByID[row["substance_id"], default: []].append(row["tag"])
@@ -502,19 +515,19 @@ final class SubstanceStore {
                       FROM (
                         SELECT d.*, ROW_NUMBER() OVER (
                             PARTITION BY d.substance_id, d.route
-                            ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                            ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM dose_ranges d
                           JOIN sources src ON src.id = d.source_id
-                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                         WHERE src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """) {
                     let sid: Int64 = row["substance_id"]
                     let route: String = row["route"]
                     let dose = DoseRange(
                         threshold: row["threshold"],
-                        light: self.rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
-                        common: self.rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
-                        strong: self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
+                        light: Self.rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
+                        common: Self.rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
+                        strong: Self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
                         heavy: row["heavy"],
                     )
                     dosesByKey[DoseKey(sid: sid, route: route)] = (row["unit"] ?? "mg", dose)
@@ -534,10 +547,10 @@ final class SubstanceStore {
                                du.min_minutes, du.max_minutes,
                                ROW_NUMBER() OVER (
                                    PARTITION BY du.substance_id, du.route, du.phase
-                                   ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                                   ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM durations du
                           JOIN sources src ON src.id = du.source_id
-                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                         WHERE src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """)
                 var phasesByKey: [DoseKey: [String: DurationRange]] = [:]
@@ -561,10 +574,10 @@ final class SubstanceStore {
                     SELECT substance_id, half_life_minutes FROM (
                         SELECT h.substance_id, h.half_life_minutes,
                                ROW_NUMBER() OVER (PARTITION BY h.substance_id
-                                                  ORDER BY \(self.priorityCaseSQL) ASC) AS rn
+                                                  ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM half_lives h
                           JOIN sources src ON src.id = h.source_id
-                         WHERE src.slug IN (\(self.enabledSourceListSQL))
+                         WHERE src.slug IN (\(enabledSourceListSQL))
                     ) WHERE rn = 1
                 """) {
                     halfLifeByID[row["substance_id"]] = row["half_life_minutes"]
@@ -576,7 +589,7 @@ final class SubstanceStore {
                     SELECT DISTINCT e.substance_id, e.text
                       FROM effects e
                       JOIN sources src ON src.id = e.source_id
-                     WHERE src.slug IN (\(self.enabledSourceListSQL))
+                     WHERE src.slug IN (\(enabledSourceListSQL))
                      ORDER BY e.text
                 """) {
                     effectsByID[row["substance_id"], default: []].append(row["text"])
@@ -594,7 +607,7 @@ final class SubstanceStore {
                         UNION SELECT substance_id, source_id FROM bindings
                     ) uses
                     JOIN sources src ON src.id = uses.source_id
-                    WHERE src.slug IN (\(self.enabledSourceListSQL))
+                    WHERE src.slug IN (\(enabledSourceListSQL))
                     ORDER BY src.slug
                 """) {
                     sourcesByID[row["substance_id"], default: []].append(row["slug"])
@@ -644,8 +657,8 @@ final class SubstanceStore {
                 }
             }
         } catch {
-            logger.error("loadAllSubstancesBatch failed: \(error.localizedDescription, privacy: .public). Falling back to per-substance resolve.")
-            return allNames.compactMap { lookup($0) }
+            logger.error("loadAllSubstancesBatch failed: \(error.localizedDescription, privacy: .public)")
+            return []
         }
     }
 
@@ -829,18 +842,29 @@ final class SubstanceStore {
     /// Builds a `CASE src.slug WHEN ... THEN ... END` expression that maps
     /// enabled source slugs to their priority rank. Used in `ORDER BY`.
     private var priorityCaseSQL: String {
-        guard !enabledSourceOrder.isEmpty else {
+        Self.priorityCaseSQL(enabledSourceOrder)
+    }
+    private var enabledSourceListSQL: String {
+        Self.enabledSourceListSQL(enabledSourceOrder)
+    }
+
+    /// Pure SQL builders, parameterised by the enabled-source order so they can
+    /// run on a background thread during the off-main batch prewarm (see
+    /// ``loadAllSubstancesBatch(db:order:)``) as well as from the main-actor
+    /// per-substance resolvers.
+    private nonisolated static func priorityCaseSQL(_ order: [String]) -> String {
+        guard !order.isEmpty else {
             return "999"
         }
-        let cases = enabledSourceOrder.enumerated().map { idx, slug in
+        let cases = order.enumerated().map { idx, slug in
             "WHEN '\(slug.replacingOccurrences(of: "'", with: "''"))' THEN \(idx)"
         }.joined(separator: " ")
         return "CASE src.slug \(cases) ELSE 999 END"
     }
 
-    private var enabledSourceListSQL: String {
-        if enabledSourceOrder.isEmpty { return "''" }
-        return enabledSourceOrder.map { "'\($0.replacingOccurrences(of: "'", with: "''"))'" }.joined(separator: ", ")
+    private nonisolated static func enabledSourceListSQL(_ order: [String]) -> String {
+        if order.isEmpty { return "''" }
+        return order.map { "'\($0.replacingOccurrences(of: "'", with: "''"))'" }.joined(separator: ", ")
     }
 
     private func resolvedCategory(db: Database, substanceID: Int64) throws -> SubstanceCategory? {
@@ -1142,9 +1166,15 @@ final class SubstanceStore {
         )
     }
 
-    private func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
+    private nonisolated static func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
         guard let lo = lower, let hi = upper, lo <= hi else { return nil }
         return lo ... hi
+    }
+
+    /// Instance shim kept for the main-actor per-substance resolvers that still
+    /// call `rangeFrom` unqualified.
+    private nonisolated func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
+        Self.rangeFrom(lower: lower, upper: upper)
     }
 
     private func resolvedHalfLife(db: Database, substanceID: Int64) throws -> Double? {
