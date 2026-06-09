@@ -5,6 +5,7 @@ import SwiftUI
 struct SessionDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.appNavigator) private var navigator
+    @Environment(\.quickLogZoomNamespace) private var quickLogZoom
     let session: Session
     @Query private var substanceColors: [SubstanceColor]
     @Query(sort: \Session.startDate, order: .reverse) private var allSessions: [Session]
@@ -474,9 +475,10 @@ struct SessionDetailView: View {
 
     /// Floating add-dose button — same 56pt tinted glass circle as the journal
     /// root's, so the primary action lives in the same place on both screens.
+    @ViewBuilder
     private var addDoseButton: some View {
-        Button {
-            navigator.present(.quickLog(routine: nil))
+        let button = Button {
+            navigator.present(.quickLog(routine: nil), zoomSource: QuickLogTransition.dayDetailID)
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
@@ -486,6 +488,19 @@ struct SessionDetailView: View {
                 .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
         }
         .accessibilityLabel(Text("Log dose"))
+
+        // Grow the quick-log sheet out of this button (Mail-style), matching the
+        // journal root. A distinct id keeps it from clashing with the root's
+        // floating button still mounted beneath the pushed detail. Only when
+        // presented as a pushed day view (depth 0) is the namespace published;
+        // when this detail is itself a sheet the source is harmlessly unused.
+        if let quickLogZoom {
+            button.matchedTransitionSource(id: QuickLogTransition.dayDetailID, in: quickLogZoom) { source in
+                source.clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+            }
+        } else {
+            button
+        }
     }
 
     /// True while the floating session accessory is on screen beneath this

@@ -36,6 +36,12 @@ struct ContentView: View {
     @State private var diagnosticsFile: DiagnosticsFile?
     @State private var diagnosticsError: String?
 
+    /// Shared namespace for the quick-log zoom transition. The floating add
+    /// button and the session accessory's add button tag themselves as the
+    /// source; the presented quick-log sheet grows out of whichever is on
+    /// screen instead of sliding up from the bottom (Mail-style).
+    @Namespace private var quickLogZoom
+
     var body: some View {
         @Bindable var navigator = navigator
         liquidGlassBody
@@ -55,7 +61,8 @@ struct ContentView: View {
                 // app launches on, so cover the launch-onto-Search case here.
                 applyScopePickerFont(forSearchActive: navigator.selectedTab == .search)
             }
-            .sheetStackPresenter(navigator)
+            .environment(\.quickLogZoomNamespace, quickLogZoom)
+            .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
             .fullScreenCover(isPresented: .init(
                 get: { !hasCompletedOnboarding },
                 set: { if !$0 { hasCompletedOnboarding = true } },
@@ -206,19 +213,17 @@ struct ContentView: View {
             }
         }
         .withSessionAccessory(
-            // Suppress the accessory while the journal already shows the live
-            // session: on its day-detail (curve/substances/timing on screen) or
-            // on the journal root, where the hero card now carries it. The
-            // floating pill would only duplicate them.
-            isActive: ActiveSessionManager.shared.hasActiveSession
-                && !viewingActiveSessionDay
-                && !journalShowingActiveHero,
+            isActive: sessionAccessoryActive,
             // Only treat the toggle as "on" when the sheet is at the TOP of
             // the stack — anything buried under another sheet isn't actually
             // visible, so flipping the toggle would otherwise no-op against
             // a stale getter reading. Same for setting: refuse to stack a
             // second sheet on top of an existing one (matches the addMenu
             // guard).
+            //
+            // The accessory's sheets present as a normal slide-up. iOS hosts
+            // the accessory in a separate context, so a zoom can't anchor to
+            // it — see the note in `withSessionAccessory`.
             showingSessionDetail: Binding(
                 get: { navigator.sheetStack.last == .sessionDetail },
                 set: { isShowing in
@@ -244,6 +249,16 @@ struct ContentView: View {
                 },
             ),
         )
+    }
+
+    /// Whether the floating session accessory is shown. Suppressed while the
+    /// journal already surfaces the live session — on its day-detail (curve /
+    /// substances / timing on screen) or at the journal root, where the hero
+    /// card carries it — since the pill would only duplicate them.
+    private var sessionAccessoryActive: Bool {
+        ActiveSessionManager.shared.hasActiveSession
+            && !viewingActiveSessionDay
+            && !journalShowingActiveHero
     }
 
     /// True when the journal stack's top screen is the detail for the session the
@@ -282,7 +297,7 @@ struct ContentView: View {
     private var addMenu: some View {
         Button {
             guard navigator.sheetStack.isEmpty else { return }
-            navigator.present(.quickLog(routine: nil))
+            navigator.present(.quickLog(routine: nil), zoomSource: QuickLogTransition.floatingID)
         } label: {
             Image(systemName: "plus")
                 .font(.title2.weight(.semibold))
@@ -290,6 +305,15 @@ struct ContentView: View {
                 .frame(width: 56, height: 56)
                 .contentShape(Circle())
                 .glassEffect(.regular.tint(Theme.accent).interactive(), in: Circle())
+        }
+        // Clip the transition source to the button's circle (the default
+        // rectangular placeholder leaves a faint card behind the glass capsule
+        // as the dismissal zoom completes).
+        .matchedTransitionSource(id: QuickLogTransition.floatingID, in: quickLogZoom) { source in
+            // Full corner radius (half the 56pt side) → a circle. `clipShape`
+            // here only accepts `RoundedRectangle`, so `.circle`/`.capsule` are
+            // out; this matches the glass capsule and kills the faint card.
+            source.clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         }
     }
 
@@ -465,6 +489,12 @@ private struct SearchView: View {
 // MARK: - Session Bottom Accessory
 
 private extension View {
+    /// iOS hosts `tabViewBottomAccessory` content in a context separate from the
+    /// main view tree, so a `matchedTransitionSource` placed *inside* the
+    /// accessory can't anchor a sheet's zoom (it falls back to a centre zoom).
+    /// The accessory's sheets therefore present as a normal slide-up rather than
+    /// zooming — only the journal's floating + and the day-detail + (both in the
+    /// main tree) get the grow-from-button effect.
     @ViewBuilder
     func withSessionAccessory(
         isActive: Bool,
