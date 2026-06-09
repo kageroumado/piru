@@ -51,10 +51,64 @@ struct QuickLogView: View {
     @State private var cachedLibraryResults: [Substance] = []
     @State private var cachedColorLookup: [String: String] = [:]
 
+    /// Everything derived from the (large) `allEntries` query is computed once
+    /// per change and cached — otherwise each of these scanned the full dose
+    /// history on *every* `body` evaluation, which is what made tapping a chip
+    /// (a body re-eval) and opening the sheet cost hundreds of ms in the trace.
+    /// Lowercased substance names logged today — drives the routine "done" check.
+    @State private var cachedLoggedToday: Set<String> = []
+    /// Most-recent entry per lowercased substance name — feeds each card's PK badge.
+    @State private var cachedMostRecent: [String: DoseEntry] = [:]
+    /// Distinct dose locations, most recent first — the tray's location panel.
+    @State private var cachedRecentLocations: [PickedLocation] = []
+    /// Tag suggestions (used-most-first + common extras) — the tray's tag panel.
+    @State private var cachedTagSuggestions: [String] = []
+
     // MARK: - Grouping
 
     private func rebuildColorLookup() {
         cachedColorLookup = Array(substanceColors).hexColorMap
+    }
+
+    /// Recompute everything derived from `allEntries` in a single pass. Called
+    /// on open and whenever the history changes (a logged dose) — never from
+    /// `body`, so chip taps and sheet presentation no longer re-scan the whole
+    /// dose history. `allEntries` is newest-first, which every consumer relies
+    /// on (today's slice stops at the first non-today row; most-recent wins).
+    private func rebuildEntryDerived() {
+        var loggedToday: Set<String> = []
+        var mostRecent: [String: DoseEntry] = [:]
+        var seenLocations = Set<String>()
+        var locations: [PickedLocation] = []
+        var tagCounts: [String: Int] = [:]
+        var stillToday = true
+
+        for entry in allEntries {
+            let lower = entry.substance.lowercased()
+            if mostRecent[lower] == nil { mostRecent[lower] = entry }
+            if stillToday, Calendar.current.isDateInToday(entry.timestamp) {
+                loggedToday.insert(lower)
+            } else {
+                stillToday = false
+            }
+            for tag in entry.tags {
+                tagCounts[tag, default: 0] += 1
+            }
+            if locations.count < 10,
+               let name = entry.locationName, !name.isEmpty,
+               let latitude = entry.latitude, let longitude = entry.longitude,
+               seenLocations.insert(name).inserted {
+                locations.append(PickedLocation(name: name, latitude: latitude, longitude: longitude))
+            }
+        }
+
+        let used = tagCounts.sorted { $0.value > $1.value }.map(\.key)
+        let extras = TagExtractor.suggestions.filter { !used.contains($0) }
+
+        cachedLoggedToday = loggedToday
+        cachedMostRecent = mostRecent
+        cachedRecentLocations = locations
+        cachedTagSuggestions = Array((used + extras).prefix(8))
     }
 
     private func rebuildCards() {
@@ -287,6 +341,7 @@ struct QuickLogView: View {
                 RoutineMigrator.seedIfNeeded(context: modelContext)
                 seedFavoriteOrderIfNeeded()
                 rebuildColorLookup()
+                rebuildEntryDerived()
                 rebuildCards()
                 if let prestagedRoutine {
                     stageRoutine(named: prestagedRoutine)
@@ -296,6 +351,11 @@ struct QuickLogView: View {
                 try? await Task.sleep(for: .milliseconds(200))
                 guard !Task.isCancelled else { return }
                 rebuildCards()
+            }
+            // A logged dose (here or elsewhere) changes the history-derived
+            // caches — refresh them off the body, keyed on the cheap count.
+            .onChange(of: allEntries.count) {
+                rebuildEntryDerived()
             }
             .onChange(of: substanceColors.count) {
                 rebuildColorLookup()
@@ -400,27 +460,11 @@ struct QuickLogView: View {
     private var trayDock: some View {
         DoseTrayView(
             model: tray,
-            tagSuggestions: sessionTagSuggestions,
-            recentLocations: recentLocations,
+            tagSuggestions: cachedTagSuggestions,
+            recentLocations: cachedRecentLocations,
             onAddMore: activateSearch,
             onCommit: commitTray,
         )
-    }
-
-    /// Distinct places from dose history, most recent first — feeds the
-    /// tray's inline location panel (first three) and the picker's Recents.
-    private var recentLocations: [PickedLocation] {
-        var seen = Set<String>()
-        var places: [PickedLocation] = []
-        for entry in allEntries {
-            guard let name = entry.locationName, !name.isEmpty,
-                  let latitude = entry.latitude, let longitude = entry.longitude,
-                  seen.insert(name).inserted
-            else { continue }
-            places.append(PickedLocation(name: name, latitude: latitude, longitude: longitude))
-            if places.count == 10 { break }
-        }
-        return places
     }
 
     /// Results stack *above* the field — the field stays pinned at the bottom
@@ -654,24 +698,6 @@ struct QuickLogView: View {
         }
     }
 
-    // MARK: - Session Tags
-
-    /// Tags offered in the tray's tag panel: the user's previously-used tags
-    /// (most frequent first) topped up with a few common suggestions, capped so
-    /// the panel stays glanceable. The tray appends any active tag that falls
-    /// past the cap.
-    private var sessionTagSuggestions: [String] {
-        var counts: [String: Int] = [:]
-        for entry in allEntries {
-            for tag in entry.tags {
-                counts[tag, default: 0] += 1
-            }
-        }
-        let used = counts.sorted { $0.value > $1.value }.map(\.key)
-        let extras = TagExtractor.suggestions.filter { !used.contains($0) }
-        return Array((used + extras).prefix(8))
-    }
-
     // MARK: - Scroll Content
 
     private static let helpKeywords: Set<String> = [
@@ -749,7 +775,7 @@ struct QuickLogView: View {
 
     private var dailyGroups: [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
-        let loggedToday = substancesLoggedToday
+        let loggedToday = cachedLoggedToday
 
         func remaining(in items: [DailyDoseItem]) -> [DailyDoseItem] {
             items.filter { !loggedToday.contains($0.substance.lowercased()) }
@@ -791,18 +817,6 @@ struct QuickLogView: View {
             }
         }
         return groups
-    }
-
-    /// Substance-level "taken today" check. Amounts aren't matched so a
-    /// double-dose commit (2 × one pill) still marks the routine item done.
-    private var substancesLoggedToday: Set<String> {
-        var names: Set<String> = []
-        for entry in allEntries {
-            // allEntries is sorted newest-first; stop at yesterday.
-            guard Calendar.current.isDateInToday(entry.timestamp) else { break }
-            names.insert(entry.substance.lowercased())
-        }
-        return names
     }
 
     private var dailySection: some View {
@@ -905,7 +919,7 @@ struct QuickLogView: View {
 
     private func substanceCard(_ card: SubstanceCard, isFavorite: Bool) -> some View {
         let color = card.colorHex.map { Color(hex: $0) } ?? .gray
-        let lastEntry = mostRecentEntry(for: card.substanceName)
+        let lastEntry = cachedMostRecent[card.id]
         let pkStatus = lastEntry.flatMap {
             DosePK.status(substanceName: card.substanceName, route: $0.route, lastDoseTimestamp: $0.timestamp)
         }
@@ -1132,12 +1146,15 @@ struct QuickLogView: View {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         navigator.dismissAll()
 
-        // Defer the SwiftData inserts + session / notification / widget work to
-        // the next runloop tick. Run inline they block the dismissal's first
-        // frame (~580 ms in the Time Profiler); deferred, the sheet animates
-        // away instantly and the doses land a frame later — before the journal
-        // behind it has finished settling, so there's no visible pop-in.
+        // Tier 1 — next runloop tick: the work that makes the dose *appear*
+        // and persist (inserts, session assignment, colour, active-session
+        // update, one save). Deferred a tick so it doesn't block the
+        // dismissal's first frame, but kept prompt so the journal behind the
+        // sheet shows the dose as the sheet slides away — no pop-in.
         DispatchQueue.main.async {
+            var createdEntries: [DoseEntry] = []
+            var curation: [QuickLogManager.LoggedDose] = []
+
             for item in stagedItems {
                 let entry = DoseEntry(
                     substance: item.substanceName,
@@ -1154,18 +1171,17 @@ struct QuickLogView: View {
                 )
                 context.insert(entry)
                 SessionService.assignSession(for: entry, in: context)
+                createdEntries.append(entry)
+
                 // Record each component's chip amount (not the merged total) so
                 // the curated list floats the chips the user actually tapped,
                 // without minting a chip for every sum. Daily routine items keep
                 // their own surface and don't mint quick-log chips.
                 if !item.isFromDailySet {
                     for component in item.components {
-                        QuickLogManager.record(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit, fixedOrder: fixedOrder, context: context)
+                        curation.append(QuickLogManager.LoggedDose(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit))
                     }
                 }
-
-                // Schedule wellness notifications & check cumulative dose.
-                DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
 
                 // Auto-assign a stable palette colour for a brand-new substance
                 // up front (deterministic hash, the same colour the graph uses),
@@ -1184,10 +1200,26 @@ struct QuickLogView: View {
                     allColors: colors,
                 )
             }
+            try? context.save()
 
-            WidgetCenter.shared.reloadAllTimelines()
+            // Tier 2 — after the dismissal animation: bookkeeping that isn't
+            // on screen (curated-list maintenance, wellness notifications,
+            // widget reload). Running it now would drop frames *during* the
+            // slide-down; none of it is visible until the next quick-log open
+            // or a widget refresh, so it waits for the transition to settle.
+            DispatchQueue.main.asyncAfter(deadline: .now() + Self.postCommitDelay) {
+                QuickLogManager.record(curation, fixedOrder: fixedOrder, context: context)
+                for entry in createdEntries {
+                    DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
+                }
+                WidgetCenter.shared.reloadAllTimelines()
+            }
         }
     }
+
+    /// Delay before the non-visible post-commit bookkeeping runs — long enough
+    /// to clear the sheet's dismissal animation so it doesn't drop frames.
+    private static let postCommitDelay: TimeInterval = 0.45
 
     // MARK: - Quick-log list curation
 
@@ -1255,11 +1287,6 @@ struct QuickLogView: View {
     }
 
     // MARK: - Helpers
-
-    private func mostRecentEntry(for substanceName: String) -> DoseEntry? {
-        let lowered = substanceName.lowercased()
-        return allEntries.first { $0.substance.lowercased() == lowered }
-    }
 
     // MARK: - Help Banner
 
