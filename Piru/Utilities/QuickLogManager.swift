@@ -71,9 +71,15 @@ enum QuickLogManager {
 
     // MARK: - Maintenance on log
 
-    /// Record a freshly-logged dose. Refreshes recency; floats the dose to the
-    /// front of its group unless `fixedOrder` (then it stays put / new doses
-    /// append at the back). Evicts the least-recently-used chip past the cap.
+    /// One freshly-logged dose to fold into the curated list.
+    struct LoggedDose {
+        let substance: String
+        let route: RouteOfAdministration
+        let amount: Double
+        let unit: String
+    }
+
+    /// Record a freshly-logged dose. Convenience wrapper around the batch form.
     static func record(
         substance: String,
         route: RouteOfAdministration,
@@ -82,48 +88,74 @@ enum QuickLogManager {
         fixedOrder: Bool,
         context: ModelContext,
     ) {
-        let group = fetchGroup(substance: substance, route: route, context: context)
-        let key = QuickLogDose.makeKey(substance: substance, route: route, amount: amount, unit: unit)
+        record(
+            [LoggedDose(substance: substance, route: route, amount: amount, unit: unit)],
+            fixedOrder: fixedOrder,
+            context: context,
+        )
+    }
+
+    /// Record several freshly-logged doses in one pass. Each refreshes recency
+    /// and floats to the front of its (substance, route) group unless
+    /// `fixedOrder` (then it stays put / new doses append at the back), evicting
+    /// the least-recently-used chip past the cap.
+    ///
+    /// The whole `QuickLogDose` table is fetched *once* and the context saved
+    /// *once*, no matter how many doses commit together — the old per-call form
+    /// did two full-table fetches and a save *per dose*, which showed up as
+    /// ~160 ms of the Log-button hang when a multi-chip tray committed.
+    static func record(_ doses: [LoggedDose], fixedOrder: Bool, context: ModelContext) {
+        guard !doses.isEmpty else { return }
+        var all = (try? context.fetch(FetchDescriptor<QuickLogDose>())) ?? []
+        for dose in doses {
+            apply(dose, fixedOrder: fixedOrder, all: &all, context: context)
+        }
+        try? context.save()
+    }
+
+    /// Fold one dose into the in-memory `all` snapshot (mutating it so later
+    /// doses in the same batch see freshly-inserted chips), inserting/deleting
+    /// in the context but never fetching or saving — the batch driver owns that.
+    private static func apply(
+        _ dose: LoggedDose,
+        fixedOrder: Bool,
+        all: inout [QuickLogDose],
+        context: ModelContext,
+    ) {
+        let name = dose.substance.lowercased()
+        var group = all.filter { $0.substance.lowercased() == name && $0.route == dose.route }
+        let key = QuickLogDose.makeKey(substance: dose.substance, route: dose.route, amount: dose.amount, unit: dose.unit)
 
         if let existing = group.first(where: { $0.key == key }) {
             existing.lastUsedAt = .now
             if !fixedOrder, let minOrder = group.map(\.sortOrder).min() {
                 existing.sortOrder = minOrder - 1
             }
-        } else {
-            let sortOrder: Double = if fixedOrder {
-                (group.map(\.sortOrder).max() ?? -1) + 1
-            } else {
-                (group.map(\.sortOrder).min() ?? 0) - 1
-            }
-            context.insert(QuickLogDose(
-                substance: substance,
-                route: route,
-                amount: amount,
-                unit: unit,
-                sortOrder: sortOrder,
-            ))
-            evictIfNeeded(substance: substance, route: route, context: context)
+            return
         }
-        try? context.save()
-    }
 
-    /// Drop least-recently-used chips once a group exceeds the cap.
-    private static func evictIfNeeded(substance: String, route: RouteOfAdministration, context: ModelContext) {
-        let group = fetchGroup(substance: substance, route: route, context: context)
+        let sortOrder: Double = if fixedOrder {
+            (group.map(\.sortOrder).max() ?? -1) + 1
+        } else {
+            (group.map(\.sortOrder).min() ?? 0) - 1
+        }
+        let inserted = QuickLogDose(
+            substance: dose.substance,
+            route: dose.route,
+            amount: dose.amount,
+            unit: dose.unit,
+            sortOrder: sortOrder,
+        )
+        context.insert(inserted)
+        all.append(inserted)
+        group.append(inserted)
+
+        // Evict least-recently-used chips once the group exceeds the cap.
         guard group.count > QuickLogDose.perGroupLimit else { return }
         let byRecency = group.sorted { $0.lastUsedAt > $1.lastUsedAt }
         for stale in byRecency[QuickLogDose.perGroupLimit...] {
             context.delete(stale)
+            all.removeAll { $0 === stale }
         }
-    }
-
-    /// All curated chips for a (substance, route) group. The list is tiny, so a
-    /// fetch-all + in-memory filter (case-insensitive substance) is fine and
-    /// avoids `#Predicate` enum/case-folding limitations.
-    private static func fetchGroup(substance: String, route: RouteOfAdministration, context: ModelContext) -> [QuickLogDose] {
-        let all = (try? context.fetch(FetchDescriptor<QuickLogDose>())) ?? []
-        let name = substance.lowercased()
-        return all.filter { $0.substance.lowercased() == name && $0.route == route }
     }
 }
