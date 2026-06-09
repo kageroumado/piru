@@ -27,7 +27,7 @@ struct DoseRange {
     let strong: ClosedRange<Double>?
     let heavy: Double?
 
-    init(
+    nonisolated init(
         threshold: Double? = nil,
         light: ClosedRange<Double>? = nil,
         common: ClosedRange<Double>? = nil,
@@ -589,7 +589,7 @@ struct SubstanceRoute: Codable {
     /// acute timeline curve.
     let durationOfAction: DurationOfAction?
 
-    init(
+    nonisolated init(
         route: RouteOfAdministration,
         unit: String,
         doses: DoseRange,
@@ -642,7 +642,7 @@ enum SubstanceCategory: String, Codable, CaseIterable, Identifiable {
     ]
 
     /// Map TripSit lowercase categories to our enum
-    static func from(tripSitCategory: String) -> SubstanceCategory {
+    nonisolated static func from(tripSitCategory: String) -> SubstanceCategory {
         switch tripSitCategory.lowercased() {
         case "stimulant": .stimulant
         case "psychedelic", "hallucinogen": .psychedelic
@@ -1007,7 +1007,7 @@ struct Substance: Identifiable {
     /// curated claims. Detail-only (empty in the batch/browse path).
     let references: [Citation]
 
-    init(
+    nonisolated init(
         name: String,
         displayName: String? = nil,
         aliases: [String],

@@ -49,7 +49,7 @@ enum RouteOfAdministration: String, Codable, CaseIterable, Identifiable {
 
 extension RouteOfAdministration {
     /// Parse a route string from TripSit/OpenFDA into our enum
-    static func from(string: String) -> RouteOfAdministration {
+    nonisolated static func from(string: String) -> RouteOfAdministration {
         switch string.lowercased().trimmingCharacters(in: .whitespaces) {
         case "oral", "oral_ir", "oral_er", "oral(benzedrex)", "oral(pure)": .oral
         case "sublingual": .sublingual

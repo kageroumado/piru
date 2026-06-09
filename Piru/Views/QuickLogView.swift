@@ -1112,60 +1112,81 @@ struct QuickLogView: View {
     /// under linear superposition.
     private func commitTray() {
         guard tray.isCommittable else { return }
-        let sharedTime = tray.time.resolved
 
-        for item in tray.staged {
-            let entry = DoseEntry(
-                substance: item.substanceName,
-                amount: item.totalAmount,
-                unit: item.unit,
-                route: item.route,
-                timestamp: sharedTime,
-                notes: item.note.isEmpty ? nil : item.note,
-                tags: Array(tray.tags),
-                isBackgroundMed: item.isBackgroundMed,
-                locationName: tray.location?.name,
-                latitude: tray.location?.latitude,
-                longitude: tray.location?.longitude,
-            )
-            modelContext.insert(entry)
-            SessionService.assignSession(for: entry, in: modelContext)
-            // Record each component's chip amount (not the merged total) so
-            // the curated list floats the chips the user actually tapped,
-            // without minting a chip for every sum. Daily routine items keep
-            // their own surface and don't mint quick-log chips.
-            if !item.isFromDailySet {
-                for component in item.components {
-                    QuickLogManager.record(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit, fixedOrder: quickLogFixedOrder, context: modelContext)
+        // Snapshot everything the writes need *before* dismissing. The view's
+        // `@State` tray and `@Query` results start tearing down the instant we
+        // dismiss, so reading them inside the deferred block would be racy.
+        let stagedItems = tray.staged
+        let sharedTime = tray.time.resolved
+        let tags = Array(tray.tags)
+        let location = tray.location
+        let fixedOrder = quickLogFixedOrder
+        let context = modelContext
+        let recentEntries = Array(allEntries)
+        var colors = Array(substanceColors)
+
+        // The success haptic + dismiss fire *first*, on this runloop, so the
+        // sheet starts sliding away immediately. (Haptic played directly
+        // because the sheet tears down before a `sensoryFeedback` trigger
+        // would fire.) Quick-log completes a flow, so clear the whole chain.
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        navigator.dismissAll()
+
+        // Defer the SwiftData inserts + session / notification / widget work to
+        // the next runloop tick. Run inline they block the dismissal's first
+        // frame (~580 ms in the Time Profiler); deferred, the sheet animates
+        // away instantly and the doses land a frame later — before the journal
+        // behind it has finished settling, so there's no visible pop-in.
+        DispatchQueue.main.async {
+            for item in stagedItems {
+                let entry = DoseEntry(
+                    substance: item.substanceName,
+                    amount: item.totalAmount,
+                    unit: item.unit,
+                    route: item.route,
+                    timestamp: sharedTime,
+                    notes: item.note.isEmpty ? nil : item.note,
+                    tags: tags,
+                    isBackgroundMed: item.isBackgroundMed,
+                    locationName: location?.name,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
+                )
+                context.insert(entry)
+                SessionService.assignSession(for: entry, in: context)
+                // Record each component's chip amount (not the merged total) so
+                // the curated list floats the chips the user actually tapped,
+                // without minting a chip for every sum. Daily routine items keep
+                // their own surface and don't mint quick-log chips.
+                if !item.isFromDailySet {
+                    for component in item.components {
+                        QuickLogManager.record(substance: item.substanceName, route: item.route, amount: component.amount, unit: item.unit, fixedOrder: fixedOrder, context: context)
+                    }
                 }
+
+                // Schedule wellness notifications & check cumulative dose.
+                DoseNotificationManager.doseLogged(entry: entry, recentEntries: recentEntries)
+
+                // Auto-assign a stable palette colour for a brand-new substance
+                // up front (deterministic hash, the same colour the graph uses),
+                // tracking it in the local `colors` snapshot so the session
+                // picks it up immediately without a store round-trip.
+                if !colors.hasColor(for: item.substanceName) {
+                    let newColor = SubstanceColor(substance: item.substanceName, hexColor: PresetColor.deterministic(for: item.substanceName).hex)
+                    context.insert(newColor)
+                    colors.append(newColor)
+                }
+
+                ActiveSessionManager.shared.addDose(
+                    entry: entry,
+                    substance: item.librarySubstance,
+                    colorHex: SubstancePalette.hex(for: item.substanceName, hexMap: colors.hexColorMap),
+                    allColors: colors,
+                )
             }
 
-            // Schedule wellness notifications & check cumulative dose
-            DoseNotificationManager.doseLogged(entry: entry, recentEntries: Array(allEntries))
-
-            // Auto-assign a stable palette colour for a brand-new substance up
-            // front (deterministic hash, the same colour the graph already
-            // uses), so the session and journal pick it up immediately.
-            ensureColor(for: item.substanceName)
-
-            // Add to the active session immediately, now that the colour exists.
-            ActiveSessionManager.shared.addDose(
-                entry: entry,
-                substance: item.librarySubstance,
-                colorHex: SubstancePalette.hex(for: item.substanceName, hexMap: Array(substanceColors).hexColorMap),
-                allColors: Array(substanceColors),
-            )
+            WidgetCenter.shared.reloadAllTimelines()
         }
-
-        WidgetCenter.shared.reloadAllTimelines()
-
-        // The commit is the flow's one success moment — the only notification
-        // haptic in quick logging. Played directly because the sheet tears
-        // down before a `sensoryFeedback` trigger would fire.
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-
-        // Quick-log completes a logging flow; clear the entire sheet chain.
-        navigator.dismissAll()
     }
 
     // MARK: - Quick-log list curation
@@ -1234,18 +1255,6 @@ struct QuickLogView: View {
     }
 
     // MARK: - Helpers
-
-    private func hasColor(for name: String) -> Bool {
-        Array(substanceColors).hasColor(for: name)
-    }
-
-    /// Persist the substance's stable deterministic colour if it has none yet,
-    /// so a first-time substance is coloured the moment it's logged — no extra
-    /// picker step. Editable later from the entry detail's colour picker.
-    private func ensureColor(for name: String) {
-        guard !hasColor(for: name) else { return }
-        modelContext.insert(SubstanceColor(substance: name, hexColor: PresetColor.deterministic(for: name).hex))
-    }
 
     private func mostRecentEntry(for substanceName: String) -> DoseEntry? {
         let lowered = substanceName.lowercased()
