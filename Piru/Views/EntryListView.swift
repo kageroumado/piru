@@ -862,6 +862,7 @@ struct SessionCardView: View {
                 showNowIndicator: false,
                 dayBounded: true,
             )
+            .equatable()
             .frame(width: 96, height: 52)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .allowsHitTesting(false)
@@ -992,6 +993,7 @@ private struct ActiveSessionHeroCard: View {
             currentTime: now,
             compact: false,
         )
+        .equatable()
         .frame(height: 160)
         .allowsHitTesting(false)
     }
@@ -1028,6 +1030,7 @@ private struct ActiveSessionHeroCard: View {
             stackRedoses: stackRedoses,
             dayBounded: true,
         )
+        .equatable()
         .frame(height: multiGraphHeight)
         .allowsHitTesting(false)
         // No aggregate "elapsed / next phase" line here: across several

@@ -59,7 +59,7 @@ final class TimelineModelCache {
     }
 }
 
-struct TimelineGraphView: View {
+struct TimelineGraphView: View, Equatable {
     let substances: [ActiveSubstanceState]
     let currentTime: Date
     let compact: Bool
@@ -161,6 +161,34 @@ struct TimelineGraphView: View {
 
     private var derived: Derived {
         derivedBox ?? Self.emptyDerived
+    }
+
+    /// Equatable so call sites can wrap the graph in `.equatable()` and let
+    /// SwiftUI skip re-evaluating its `body` — and therefore re-running the
+    /// `Canvas`, which rebuilds every 240-step curve path — when a parent
+    /// re-render (a journal `rebuildAll`, a scroll, a sibling's 60 s tick)
+    /// leaves the graph's actual inputs unchanged. Internal `@State` (zoom /
+    /// pan / scrub / the derived box) is preserved and still drives its own
+    /// updates; this only gates *parent-driven* redraws.
+    ///
+    /// `currentTime` is compared only when the now-indicator is on — there it
+    /// moves the now-dot and flips active/worn-off emphasis, so compare at
+    /// minute granularity so a per-frame `.now` doesn't thrash the Canvas.
+    /// Historical thumbnails (`showNowIndicator == false`) ignore it entirely;
+    /// their curves are all in the past and don't move.
+    static func == (lhs: TimelineGraphView, rhs: TimelineGraphView) -> Bool {
+        guard lhs.compact == rhs.compact,
+              lhs.stackRedoses == rhs.stackRedoses,
+              lhs.dayBounded == rhs.dayBounded,
+              lhs.showNowIndicator == rhs.showNowIndicator,
+              lhs.highlighted == rhs.highlighted,
+              lhs.presetSpanMinutes == rhs.presetSpanMinutes,
+              lhs.markers == rhs.markers,
+              lhs.substances == rhs.substances
+        else { return false }
+        guard lhs.showNowIndicator else { return true }
+        return Int(lhs.currentTime.timeIntervalSinceReferenceDate / 60)
+            == Int(rhs.currentTime.timeIntervalSinceReferenceDate / 60)
     }
 
     private var derivedKey: DerivedKey {

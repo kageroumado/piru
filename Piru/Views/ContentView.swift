@@ -540,6 +540,7 @@ private struct SessionAccessoryView: View {
                             compact: true,
                             stackRedoses: stackRedoses,
                         )
+                        .equatable()
                         .frame(width: 60, height: 36)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .allowsHitTesting(false)
