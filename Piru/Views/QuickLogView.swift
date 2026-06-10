@@ -66,6 +66,11 @@ struct QuickLogView: View {
     @State private var cachedNonFavoriteCards: [SubstanceCard] = []
     @State private var cachedFavoriteLibrarySubstances: [Substance] = []
 
+    /// Routine pills — the sort+filter+grouping that builds them ran on every
+    /// body eval (≈18 ms in the profiler); cached off the body and rebuilt only
+    /// when the routines, daily items, or today's log change.
+    @State private var cachedDailyGroups: [DailyCategoryGroup] = []
+
     // MARK: - Grouping
 
     private func rebuildColorLookup() {
@@ -111,6 +116,9 @@ struct QuickLogView: View {
         cachedMostRecent = mostRecent
         cachedRecentLocations = locations
         cachedTagSuggestions = Array((used + extras).prefix(8))
+        // `makeDailyGroups` reads `cachedLoggedToday` (the "done" check), so it
+        // must rebuild after that's assigned above.
+        cachedDailyGroups = makeDailyGroups()
     }
 
     private func rebuildCards() {
@@ -239,7 +247,7 @@ struct QuickLogView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    if cachedCards.isEmpty, dailyGroups.isEmpty {
+                    if cachedCards.isEmpty, cachedDailyGroups.isEmpty {
                         ContentUnavailableView(
                             "No Previous Substances",
                             systemImage: "magnifyingglass",
@@ -357,6 +365,9 @@ struct QuickLogView: View {
             }
             // Keyed on names, not count — a reorder changes order only.
             .onChange(of: favorites.map(\.substance)) { rebuildFavorites() }
+            // Routine pills depend on the routine rows + daily items; refresh
+            // the cache when either is edited (the Manage Routines sheet).
+            .onChange(of: routineSignature) { cachedDailyGroups = makeDailyGroups() }
             .onChange(of: searchFocused) {
                 if !searchFocused, searchText.isEmpty {
                     withAnimation(.snappy) { searchActive = false }
@@ -708,7 +719,7 @@ struct QuickLogView: View {
 
     @ViewBuilder
     private var scrollContentInner: some View {
-        if !dailyGroups.isEmpty {
+        if !cachedDailyGroups.isEmpty {
             dailySection
         }
 
@@ -767,7 +778,23 @@ struct QuickLogView: View {
         let remaining: [DailyDoseItem]
     }
 
-    private var dailyGroups: [DailyCategoryGroup] {
+    /// Cheap change-signature for the routine pills' inputs (tiny N), used to
+    /// invalidate `cachedDailyGroups` on an in-place edit from the settings
+    /// sheet. Covers both the routine rows and the daily items in one key so
+    /// the body adds a single `onChange` rather than two.
+    private var routineSignature: [String] {
+        var parts: [String] = []
+        for routine in routines {
+            let minutes = routine.timeMinutes ?? -1
+            parts.append("r:\(routine.name)|\(minutes)|\(routine.sortOrder)")
+        }
+        for item in dailyDoseItems {
+            parts.append("i:\(item.substance)|\(item.category)|\(item.sortOrder)")
+        }
+        return parts
+    }
+
+    private func makeDailyGroups() -> [DailyCategoryGroup] {
         guard !dailyDoseItems.isEmpty else { return [] }
         let loggedToday = cachedLoggedToday
 
@@ -816,7 +843,7 @@ struct QuickLogView: View {
     private var dailySection: some View {
         Section {
             FlowLayout(spacing: 8) {
-                ForEach(dailyGroups) { group in
+                ForEach(cachedDailyGroups) { group in
                     routinePill(group)
                 }
             }
