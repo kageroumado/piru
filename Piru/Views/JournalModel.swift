@@ -38,56 +38,124 @@ final class JournalModel {
     private(set) var substanceGroups: [(name: String, entries: [DoseEntry])] = []
     private(set) var categoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
 
-    /// Signature of the inputs `derived` was last built from — skips the
-    /// redundant rebuild the appear-`.task` and the `entriesSignature`-`.task`
-    /// would both run at launch, and the rebuild on every list re-appear when
-    /// nothing changed.
-    private var lastDerivedSignature: Int?
     /// Same guard for the grouping pass (bucketing + day-card formatting).
     private var lastGroupsSignature: Int?
+
+    /// Per-entry content fingerprint from the last derive, keyed by identity.
+    /// The diff engine compares each entry's current fingerprint against this to
+    /// decide what to re-resolve — so a new dose against five years of history
+    /// resolves *one* entry, not the whole table. See ``rebuildDerived``.
+    private var fingerprints: [PersistentIdentifier: Int] = [:]
+    /// Signature of the colour assignments the `derived` states were resolved
+    /// under. A recolour changes every entry's `colorHex`, so it forces a full
+    /// re-resolve (rare — only when the user assigns a substance colour).
+    private var lastColorSignature: Int?
 
     func refreshColorMap(_ colors: [SubstanceColor]) {
         colorMap = Array(colors).colorMap
     }
 
-    /// Resolve each entry's category, timeline inputs, colour, and tags once.
-    /// Run when entries or colours change — never on a filter tap. `entriesSignature`
-    /// is the view's entries fingerprint; the colour count is folded in here so a
-    /// recolour also invalidates.
-    func rebuildDerived(entries: [DoseEntry], colors: [SubstanceColor], entriesSignature: Int) {
-        var sigHasher = Hasher()
-        sigHasher.combine(entriesSignature)
-        sigHasher.combine(colors.count)
-        let signature = sigHasher.finalize()
-        guard signature != lastDerivedSignature else { return }
-        lastDerivedSignature = signature
+    /// The fields `derived` actually depends on, hashed cheaply (no SQL / PK).
+    /// Drives the diff: an entry whose fingerprint is unchanged keeps its cached
+    /// `EntryDerived` instead of re-resolving the substance + timeline.
+    private static func fingerprint(_ entry: DoseEntry) -> Int {
+        var hasher = Hasher()
+        hasher.combine(entry.timestamp)
+        hasher.combine(entry.amount)
+        hasher.combine(entry.substance)
+        hasher.combine(entry.route)
+        hasher.combine(entry.unit)
+        return hasher.finalize()
+    }
 
+    /// Resolve a single entry's category + timeline inputs (the expensive part:
+    /// the `SubstanceLibrary` lookup and PK-state synthesis).
+    private func resolveEntry(_ entry: DoseEntry, hexMap: [String: String]) -> EntryDerived {
+        let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
+        let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
+        let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
+        let marker = state == nil
+            ? DoseMarker(
+                substanceName: entry.substance,
+                timestamp: entry.timestamp,
+                colorHex: hex,
+                amount: entry.amount,
+                unit: entry.unit,
+            )
+            : nil
+        return EntryDerived(category: category, state: state, marker: marker)
+    }
+
+    /// Incrementally resolve each entry's category, timeline inputs, and colour.
+    /// Run when entries or colours change — never on a filter tap.
+    ///
+    /// A **diff engine**: it fingerprints every entry (cheap — no SQL/PK), then
+    /// re-resolves only the entries that are new or whose fingerprint changed and
+    /// drops the ones that disappeared, reusing the cached `EntryDerived` for the
+    /// rest. So logging one dose into a five-year history does one expensive
+    /// resolve, not thousands. A colour change is the one fast-path exception:
+    /// it alters every state's `colorHex`, so it re-resolves the whole set (rare).
+    func rebuildDerived(entries: [DoseEntry], colors: [SubstanceColor]) {
+        let colorSignature = colors.reduce(into: Hasher()) { h, c in
+            h.combine(c.substance)
+            h.combine(c.hexColor)
+        }.finalize()
+        let colorsChanged = colorSignature != lastColorSignature
         let hexMap = Array(colors).hexColorMap
-        var map: [PersistentIdentifier: EntryDerived] = [:]
-        map.reserveCapacity(entries.count)
+
+        var newDerived: [PersistentIdentifier: EntryDerived] = colorsChanged ? [:] : derived
+        newDerived.reserveCapacity(entries.count)
+        var newFingerprints: [PersistentIdentifier: Int] = [:]
+        newFingerprints.reserveCapacity(entries.count)
+
+        var resolvedCount = 0
+        for entry in entries {
+            let id = entry.persistentModelID
+            let fp = Self.fingerprint(entry)
+            newFingerprints[id] = fp
+            // Reuse the cached resolution when the entry is byte-identical to the
+            // last derive (and colours didn't shift underneath it).
+            if !colorsChanged, fingerprints[id] == fp, newDerived[id] != nil {
+                continue
+            }
+            newDerived[id] = resolveEntry(entry, hexMap: hexMap)
+            resolvedCount += 1
+        }
+
+        // Drop entries that no longer exist (deletions / merges away) — any key
+        // carried over from the old map that isn't in the current entry set.
+        let removed = newDerived.keys.filter { newFingerprints[$0] == nil }
+        for id in removed {
+            newDerived[id] = nil
+        }
+
+        // Nothing actually changed — bail before touching published state so a
+        // no-op trigger doesn't invalidate the views downstream.
+        if !colorsChanged, resolvedCount == 0, removed.isEmpty {
+            return
+        }
+
+        derived = newDerived
+        fingerprints = newFingerprints
+        lastColorSignature = colorSignature
+        rebuildFacets(entries: entries)
+    }
+
+    /// Recompute the category facets + tag list from the (already resolved)
+    /// `derived` map and the entries. Cheap aggregation — no SQL/PK — so running
+    /// it on every derive is fine even though only a diff was resolved.
+    private func rebuildFacets(entries: [DoseEntry]) {
         var seen = Set<SubstanceCategory>()
         var cats: [SubstanceCategory] = []
         var tagCounts: [String: Int] = [:]
         for entry in entries {
-            let category = SubstanceLibrary.lookupByNameOrAlias(entry.substance)?.category ?? .other
-            if seen.insert(category).inserted { cats.append(category) }
-            let hex = SubstancePalette.hex(for: entry.substance, hexMap: hexMap)
-            let state = ActiveSubstanceState.from(entry: entry, colorHex: hex)
-            let marker = state == nil
-                ? DoseMarker(
-                    substanceName: entry.substance,
-                    timestamp: entry.timestamp,
-                    colorHex: hex,
-                    amount: entry.amount,
-                    unit: entry.unit,
-                )
-                : nil
-            map[entry.persistentModelID] = EntryDerived(category: category, state: state, marker: marker)
+            if let category = derived[entry.persistentModelID]?.category, seen.insert(category).inserted {
+                cats.append(category)
+            }
             for tag in entry.tags {
                 tagCounts[tag, default: 0] += 1
             }
         }
-        derived = map
         categories = cats.sorted { $0.rawValue < $1.rawValue }
         tags = tagCounts.sorted { $0.value > $1.value }.map(\.key)
     }
@@ -102,13 +170,18 @@ final class JournalModel {
         selectedTag: String?,
         filterCategories: Set<SubstanceCategory>,
         stackRedoses: Bool,
+        entriesSignature: Int,
     ) {
         var sigHasher = Hasher()
         sigHasher.combine(grouping)
         sigHasher.combine(searchText)
         sigHasher.combine(selectedTag)
         sigHasher.combine(filterCategories)
-        sigHasher.combine(lastDerivedSignature)
+        // Fold the entries fingerprint in so a change that affects *grouping*
+        // but not per-entry resolution — a session split/merge, a moved
+        // timestamp — still re-buckets. (The derive step may legitimately no-op
+        // on such a change, since `EntryDerived` doesn't depend on session.)
+        sigHasher.combine(entriesSignature)
         let signature = sigHasher.finalize()
         guard signature != lastGroupsSignature else { return }
         lastGroupsSignature = signature

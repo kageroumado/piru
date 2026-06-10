@@ -125,7 +125,7 @@ struct EntryListView: View {
     /// Resolve derived data + regroup — entries or colours changed.
     private func rebuildAll() {
         model.refreshColorMap(substanceColors)
-        model.rebuildDerived(entries: entries, colors: substanceColors, entriesSignature: entriesSignature)
+        model.rebuildDerived(entries: entries, colors: substanceColors)
         regroup()
     }
 
@@ -138,6 +138,7 @@ struct EntryListView: View {
             selectedTag: selectedTag,
             filterCategories: filterCategories,
             stackRedoses: stackRedoses,
+            entriesSignature: entriesSignature,
         )
     }
 
@@ -219,7 +220,12 @@ struct EntryListView: View {
         .task(id: entriesSignature) {
             try? await Task.sleep(for: .milliseconds(100))
             guard !Task.isCancelled else { return }
-            rebuildAll()
+            // Animate the diff so a newly-logged session slides in and pushes the
+            // others down instead of snapping. Safe to wrap unconditionally: the
+            // model's incremental derive bails when nothing actually changed (the
+            // initial appear / a re-appear), so `withAnimation` wraps a no-op and
+            // nothing animates on first load.
+            withAnimation(.smooth(duration: 0.35)) { rebuildAll() }
         }
         .onChange(of: searchText) { regroup() }
         .onChange(of: selectedTag) { regroup() }
@@ -992,6 +998,12 @@ private struct ActiveSessionHeroCard: View {
             substances: [state],
             currentTime: now,
             compact: false,
+            // The hero is the focal, on-screen graph: compute its geometry
+            // synchronously so it draws at the right span on the first frame
+            // instead of flashing the placeholder, then popping + jumping a few
+            // px right when the off-main model lands. One small graph, cached
+            // after — cheap enough for the main thread.
+            synchronous: true,
         )
         .equatable()
         .frame(height: 160)
@@ -1029,6 +1041,10 @@ private struct ActiveSessionHeroCard: View {
             markers: card?.markers ?? [],
             stackRedoses: stackRedoses,
             dayBounded: true,
+            // Focal on-screen graph — compute inline so it lands at the right
+            // span immediately (no placeholder pop / span jump). See the
+            // single-dose hero for the rationale.
+            synchronous: true,
         )
         .equatable()
         .frame(height: multiGraphHeight)
