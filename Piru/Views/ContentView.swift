@@ -3,7 +3,6 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.appNavigator) private var navigator
 
@@ -44,72 +43,87 @@ struct ContentView: View {
 
     var body: some View {
         @Bindable var navigator = navigator
-        liquidGlassBody
-            .onChange(of: navigator.selectedTab) { oldValue, newValue in
-                if newValue == .search {
-                    // Seed the scope from where the user came from; Library is
-                    // the natural default from Tools/Insights/Search itself.
-                    searchScope = (oldValue == .journal) ? .journal : .library
-                    tabBeforeSearch = oldValue
-                }
-                searchText = ""
-                librarySearchText = ""
-                applyScopePickerFont(forSearchActive: newValue == .search)
+        // `MainTabView` is a dedicated `Equatable` struct, not a computed
+        // property: this `body` observes `navigator.sheetStack` (via
+        // `.sheetStackPresenter`, which must watch it to present sheets), so it
+        // re-runs on every sheet open/close. Extracting the tab view lets SwiftUI
+        // skip rebuilding it on those re-runs — the journal no longer re-renders
+        // behind a presenting sheet. Its real inputs still update it via
+        // `@Observable` tracking; only `scopePickerToken` gates the comparison.
+        MainTabView(
+            searchScope: $searchScope,
+            searchText: $searchText,
+            librarySearchText: $librarySearchText,
+            tabBeforeSearch: $tabBeforeSearch,
+            scopePickerToken: scopePickerToken,
+            quickLogZoom: quickLogZoom,
+        )
+        .equatable()
+        .onChange(of: navigator.selectedTab) { oldValue, newValue in
+            if newValue == .search {
+                // Seed the scope from where the user came from; Library is
+                // the natural default from Tools/Insights/Search itself.
+                searchScope = (oldValue == .journal) ? .journal : .library
+                tabBeforeSearch = oldValue
             }
-            .task {
-                // Initial application — `onChange` doesn't fire for the tab the
-                // app launches on, so cover the launch-onto-Search case here.
-                applyScopePickerFont(forSearchActive: navigator.selectedTab == .search)
+            searchText = ""
+            librarySearchText = ""
+            applyScopePickerFont(forSearchActive: newValue == .search)
+        }
+        .task {
+            // Initial application — `onChange` doesn't fire for the tab the
+            // app launches on, so cover the launch-onto-Search case here.
+            applyScopePickerFont(forSearchActive: navigator.selectedTab == .search)
+        }
+        .environment(\.quickLogZoomNamespace, quickLogZoom)
+        .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
+        .fullScreenCover(isPresented: .init(
+            get: { !hasCompletedOnboarding },
+            set: { if !$0 { hasCompletedOnboarding = true } },
+        )) {
+            OnboardingView()
+        }
+        .sheet(isPresented: $showDiscordPrompt) {
+            DiscordPromptView()
+        }
+        .task {
+            // Invite to Discord once per launch (after onboarding, so modals
+            // don't stack) until the user dismisses it forever.
+            guard hasCompletedOnboarding, !discordDismissed else { return }
+            try? await Task.sleep(for: .seconds(0.8))
+            if hasCompletedOnboarding, !discordDismissed {
+                showDiscordPrompt = true
             }
-            .environment(\.quickLogZoomNamespace, quickLogZoom)
-            .sheetStackPresenter(navigator, quickLogZoom: quickLogZoom)
-            .fullScreenCover(isPresented: .init(
-                get: { !hasCompletedOnboarding },
-                set: { if !$0 { hasCompletedOnboarding = true } },
-            )) {
-                OnboardingView()
+        }
+        .onOpenURL { url in
+            handleDeepLink(url)
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .active {
+                ActiveSessionManager.shared.refresh()
             }
-            .sheet(isPresented: $showDiscordPrompt) {
-                DiscordPromptView()
+        }
+        .alert("Your Data Is Safe", isPresented: storeUnavailableAlertBinding) {
+            Button("Send Logs to Developer") { prepareDiagnostics() }
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.")
+        }
+        .sheet(item: $diagnosticsFile, onDismiss: cleanupDiagnostics) { file in
+            ShareSheet(items: [file.url])
+        }
+        .alert("Couldn't Prepare Logs", isPresented: diagnosticsErrorBinding) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(diagnosticsError ?? "")
+        }
+        .overlay {
+            if preparingDiagnostics {
+                ProgressView().controlSize(.large)
+                    .padding(24)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
             }
-            .task {
-                // Invite to Discord once per launch (after onboarding, so modals
-                // don't stack) until the user dismisses it forever.
-                guard hasCompletedOnboarding, !discordDismissed else { return }
-                try? await Task.sleep(for: .seconds(0.8))
-                if hasCompletedOnboarding, !discordDismissed {
-                    showDiscordPrompt = true
-                }
-            }
-            .onOpenURL { url in
-                handleDeepLink(url)
-            }
-            .onChange(of: scenePhase) {
-                if scenePhase == .active {
-                    ActiveSessionManager.shared.refresh()
-                }
-            }
-            .alert("Your Data Is Safe", isPresented: storeUnavailableAlertBinding) {
-                Button("Send Logs to Developer") { prepareDiagnostics() }
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text("Piru couldn't open your journal this time, so it's running with temporary storage. **Nothing has been deleted** — your doses and sessions are safe on this device and a future update will restore them automatically.\n\nSending the logs helps us ship that fix faster. They describe the storage problem only — never your dose data.")
-            }
-            .sheet(item: $diagnosticsFile, onDismiss: cleanupDiagnostics) { file in
-                ShareSheet(items: [file.url])
-            }
-            .alert("Couldn't Prepare Logs", isPresented: diagnosticsErrorBinding) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(diagnosticsError ?? "")
-            }
-            .overlay {
-                if preparingDiagnostics {
-                    ProgressView().controlSize(.large)
-                        .padding(24)
-                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
-                }
-            }
+        }
     }
 
     private var diagnosticsErrorBinding: Binding<Bool> {
@@ -144,27 +158,67 @@ struct ContentView: View {
         diagnosticsFile = nil
     }
 
-    // MARK: - Shared Tab Content
+    // MARK: - Deep Linking
 
-    private var journalContent: some View {
-        EntryListView(searchText: $searchText)
+    private func handleDeepLink(_ url: URL) {
+        guard let outcome = DeepLink.decode(url) else { return }
+        navigator.apply(outcome)
     }
 
-    private var libraryContent: some View {
-        SubstanceLibraryView(searchText: $librarySearchText)
+    /// Enlarges the search scope picker's title font while Search is active and
+    /// restores the default otherwise. SwiftUI's segmented `Picker` ignores a
+    /// `.font` on its labels, so the global `UISegmentedControl` appearance
+    /// proxy is the only lever. Managing it here on the always-mounted root —
+    /// rather than inside `SearchView` — means the restore runs in the tab-change
+    /// transaction *before* a sibling tab's picker is created, so the app's other
+    /// segmented controls (Tools, Insights, …) never inherit the larger font.
+    private func applyScopePickerFont(forSearchActive active: Bool) {
+        let attributes: [NSAttributedString.Key: Any]? = active
+            ? [.font: UIFont.preferredFont(forTextStyle: .body)]
+            : nil
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
+        if active { scopePickerToken += 1 }
+    }
+}
+
+// MARK: - Main Tab View
+
+/// The tab bar, its five navigation stacks, and the session bottom accessory.
+///
+/// Extracted from `ContentView` as a dedicated **`Equatable`** struct rather than
+/// a computed `some View` property. `ContentView.body` observes
+/// `navigator.sheetStack` (via `.sheetStackPresenter`, which must watch it to
+/// drive sheet presentation), so it re-runs on every sheet open *and* close. As
+/// a computed property the tab view was rebuilt on each of those re-runs —
+/// cascading a full journal re-render (the hero card plus every day card,
+/// twice) behind whatever sheet was presenting. As a separate `Equatable` view
+/// SwiftUI skips re-evaluating it when only `sheetStack` changed; the inputs
+/// that genuinely affect it (selected tab, nav paths, active-session state,
+/// search text) still update it through `@Observable` tracking or the leaf
+/// views' own bindings, independent of the `==` comparison.
+private struct MainTabView: View, Equatable {
+    @Environment(\.appNavigator) private var navigator
+    @Environment(\.modelContext) private var modelContext
+
+    @Binding var searchScope: SearchTabScope
+    @Binding var searchText: String
+    @Binding var librarySearchText: String
+    @Binding var tabBeforeSearch: AppTab
+    let scopePickerToken: Int
+    let quickLogZoom: Namespace.ID
+
+    /// Only `scopePickerToken` gates parent-driven re-evaluation — it's the one
+    /// input `ContentView.body` changes that this view must rebuild for (the
+    /// segmented picker re-creates to pick up the font appearance). Everything
+    /// else that should update the tab view flows through `@Observable` tracking
+    /// (selected tab, nav paths, `ActiveSessionManager`) or the leaf views'
+    /// bindings (`searchText`), all of which fire regardless of this comparison.
+    static func == (lhs: MainTabView, rhs: MainTabView) -> Bool {
+        lhs.scopePickerToken == rhs.scopePickerToken
     }
 
-    private var toolsContent: some View {
-        ToolsView()
-    }
-
-    private var insightsContent: some View {
-        InsightsView()
-    }
-
-    // MARK: - Tab View
-
-    private var liquidGlassBody: some View {
+    var body: some View {
         @Bindable var navigator = navigator
         return TabView(selection: $navigator.selectedTab) {
             Tab("Journal", systemImage: "book", value: AppTab.journal) {
@@ -214,42 +268,42 @@ struct ContentView: View {
         }
         .withSessionAccessory(
             isActive: sessionAccessoryActive,
-            // Only treat the toggle as "on" when the sheet is at the TOP of
-            // the stack — anything buried under another sheet isn't actually
-            // visible, so flipping the toggle would otherwise no-op against
-            // a stale getter reading. Same for setting: refuse to stack a
-            // second sheet on top of an existing one (matches the addMenu
-            // guard).
-            //
-            // The accessory's sheets present as a normal slide-up. iOS hosts
-            // the accessory in a separate context, so a zoom can't anchor to
-            // it — see the note in `withSessionAccessory`.
-            showingSessionDetail: Binding(
-                get: { navigator.sheetStack.last == .sessionDetail },
-                set: { isShowing in
-                    if isShowing {
-                        guard navigator.sheetStack.isEmpty else { return }
-                        navigator.present(.sessionDetail)
-                    } else if navigator.sheetStack.last == .sessionDetail {
-                        navigator.dismiss()
-                    }
-                },
-            ),
-            showingForm: Binding(
-                get: {
-                    if case .quickLog? = navigator.sheetStack.last { true } else { false }
-                },
-                set: { isShowing in
-                    if isShowing {
-                        guard navigator.sheetStack.isEmpty else { return }
-                        navigator.present(.quickLog(routine: nil))
-                    } else if case .quickLog? = navigator.sheetStack.last {
-                        navigator.dismiss()
-                    }
-                },
-            ),
+            // Plain actions, *not* sheetStack-reading bindings. The accessory only
+            // ever triggers a present (its sheet dismisses itself), so a binding's
+            // getter was dead weight — and reading `sheetStack` in that getter
+            // subscribed this whole view to it, re-rendering the entire journal
+            // behind every sheet present/dismiss. Closures read `sheetStack` only
+            // when tapped, so the body no longer depends on it.
+            onShowSessionDetail: {
+                guard navigator.sheetStack.isEmpty else { return }
+                navigator.present(.sessionDetail)
+            },
+            onAdd: {
+                guard navigator.sheetStack.isEmpty else { return }
+                navigator.present(.quickLog(routine: nil))
+            },
         )
     }
+
+    // MARK: Tab Content
+
+    private var journalContent: some View {
+        EntryListView(searchText: $searchText)
+    }
+
+    private var libraryContent: some View {
+        SubstanceLibraryView(searchText: $librarySearchText)
+    }
+
+    private var toolsContent: some View {
+        ToolsView()
+    }
+
+    private var insightsContent: some View {
+        InsightsView()
+    }
+
+    // MARK: Session Accessory Visibility
 
     /// Whether the floating session accessory is shown. Suppressed while the
     /// journal already surfaces the live session — on its day-detail (curve /
@@ -261,10 +315,6 @@ struct ContentView: View {
             && !journalShowingActiveHero
     }
 
-    /// True when the journal stack's top screen is the detail for the session the
-    /// active doses belong to. The session accessory would only echo what that
-    /// screen already shows, so we hide it there. Matches by membership: the
-    /// viewed session contains the active session's earliest dose.
     /// True when the journal is at its root with a live session — the new hero
     /// card there already carries the session, so the floating accessory would
     /// only echo it. (The journal root is never a search surface, so this lines
@@ -275,6 +325,10 @@ struct ContentView: View {
             && ActiveSessionManager.shared.hasActiveSession
     }
 
+    /// True when the journal stack's top screen is the detail for the session the
+    /// active doses belong to. The session accessory would only echo what that
+    /// screen already shows, so we hide it there. Matches by membership: the
+    /// viewed session contains the active session's earliest dose.
     private var viewingActiveSessionDay: Bool {
         guard navigator.selectedTab == .journal,
               case let .session(id) = navigator.path(for: .journal).last
@@ -292,7 +346,7 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Add Menu
+    // MARK: Add Menu
 
     private var addMenu: some View {
         Button {
@@ -317,7 +371,7 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Toolbar
+    // MARK: Toolbar
 
     @ToolbarContentBuilder
     private var sharedToolbar: some ToolbarContent {
@@ -337,29 +391,6 @@ struct ContentView: View {
                 Image(systemName: "lifepreserver")
             }
         }
-    }
-
-    // MARK: - Deep Linking
-
-    private func handleDeepLink(_ url: URL) {
-        guard let outcome = DeepLink.decode(url) else { return }
-        navigator.apply(outcome)
-    }
-
-    /// Enlarges the search scope picker's title font while Search is active and
-    /// restores the default otherwise. SwiftUI's segmented `Picker` ignores a
-    /// `.font` on its labels, so the global `UISegmentedControl` appearance
-    /// proxy is the only lever. Managing it here on the always-mounted root —
-    /// rather than inside `SearchView` — means the restore runs in the tab-change
-    /// transaction *before* a sibling tab's picker is created, so the app's other
-    /// segmented controls (Tools, Insights, …) never inherit the larger font.
-    private func applyScopePickerFont(forSearchActive active: Bool) {
-        let attributes: [NSAttributedString.Key: Any]? = active
-            ? [.font: UIFont.preferredFont(forTextStyle: .body)]
-            : nil
-        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
-        if active { scopePickerToken += 1 }
     }
 }
 
@@ -498,8 +529,8 @@ private extension View {
     @ViewBuilder
     func withSessionAccessory(
         isActive: Bool,
-        showingSessionDetail: Binding<Bool>,
-        showingForm: Binding<Bool>,
+        onShowSessionDetail: @escaping () -> Void,
+        onAdd: @escaping () -> Void,
     ) -> some View {
         if #available(iOS 26.1, *) {
             self.tabViewBottomAccessory(isEnabled: isActive) {
@@ -507,8 +538,8 @@ private extension View {
                     SessionAccessoryView(
                         states: ActiveSessionManager.shared.activeSubstanceStates,
                         currentTime: context.date,
-                        onTapSession: { showingSessionDetail.wrappedValue = true },
-                        onAdd: { showingForm.wrappedValue = true },
+                        onTapSession: onShowSessionDetail,
+                        onAdd: onAdd,
                     )
                 }
             }
