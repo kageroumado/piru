@@ -38,6 +38,7 @@ struct FavoritesReorderView: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
+                    .accessibilityLabel("Done")
                 }
             }
         }

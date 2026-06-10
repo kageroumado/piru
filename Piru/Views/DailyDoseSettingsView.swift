@@ -87,6 +87,7 @@ struct RoutinesSettingsView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityLabel("Add Routine")
             }
         }
         .alert("New Routine", isPresented: $showingNewRoutine) {
