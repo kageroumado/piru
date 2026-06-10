@@ -135,12 +135,6 @@ private struct BindingHitRow: View {
         }
         .padding(.vertical, 2)
     }
-
-    private func formatNm(_ value: Double) -> String {
-        if value >= 100 { return String(format: "%.0f", value) }
-        if value >= 10 { return String(format: "%.1f", value) }
-        return String(format: "%.2f", value)
-    }
 }
 
 #Preview {

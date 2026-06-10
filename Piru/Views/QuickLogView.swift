@@ -77,6 +77,23 @@ struct QuickLogView: View {
         cachedColorLookup = Array(substanceColors).hexColorMap
     }
 
+    /// Cheap content fingerprint of the dose history, used as the rebuild
+    /// trigger. `allEntries.count` alone misses an in-place edit (re-dating a
+    /// dose, renaming its substance, retagging): the count is unchanged, so
+    /// the caches would go stale. Hashing the fields the derived caches
+    /// depend on closes that gap.
+    private var entriesSignature: Int {
+        var hasher = Hasher()
+        for entry in allEntries {
+            hasher.combine(entry.persistentModelID)
+            hasher.combine(entry.timestamp)
+            hasher.combine(entry.substance)
+            hasher.combine(entry.tags)
+            hasher.combine(entry.locationName)
+        }
+        return hasher.finalize()
+    }
+
     /// Recompute everything derived from `allEntries` in a single pass. Called
     /// on open and whenever the history changes (a logged dose) — never from
     /// `body`, so chip taps and sheet presentation no longer re-scan the whole
@@ -355,8 +372,9 @@ struct QuickLogView: View {
                 rebuildCards()
             }
             // A logged dose (here or elsewhere) changes the history-derived
-            // caches — refresh them off the body, keyed on the cheap count.
-            .onChange(of: allEntries.count) {
+            // caches — refresh them off the body, keyed on a content signature
+            // so in-place edits invalidate too.
+            .onChange(of: entriesSignature) {
                 rebuildEntryDerived()
             }
             .onChange(of: substanceColors.count) {
@@ -565,16 +583,8 @@ struct QuickLogView: View {
 
     // MARK: - Scroll Content
 
-    private static let helpKeywords: Set<String> = [
-        "help", "emergency", "overdose", "bad trip", "dying", "scared",
-        "panic", "ambulance", "hospital", "not okay", "freaking out",
-        "call 911", "911", "poisoning", "too much", "od", "can't breathe",
-    ]
-
     private var isHelpSearch: Bool {
-        guard !searchText.isEmpty else { return false }
-        let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
-        return Self.helpKeywords.contains(where: { query.contains($0) })
+        CrisisKeywords.matches(searchText)
     }
 
     @ViewBuilder
