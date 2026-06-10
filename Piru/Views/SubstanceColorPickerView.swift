@@ -51,6 +51,7 @@ struct SubstanceColorPickerView: View {
                         Image(systemName: "checkmark").fontWeight(.semibold)
                     }
                     .disabled(selectedHex == nil)
+                    .accessibilityLabel("Done")
                 }
             }
         }
@@ -160,7 +161,7 @@ struct SubstanceColorPickerView: View {
                         }
                     }
                 Text(isTaken ? (takenBy ?? name) : name)
-                    .font(.system(size: 8))
+                    .font(.caption2)
                     .foregroundStyle(.tertiary)
                     .lineLimit(1)
                     .frame(width: 44)
@@ -307,19 +308,19 @@ struct SubstanceColorPickerView: View {
     private func addCustomColor() {
         let hex = sanitizedHex
         guard hex.count == 6 else {
-            customError = "Enter a valid 6-digit hex code"
+            customError = String(localized: "Enter a valid 6-digit hex code")
             return
         }
 
         // Check against existing preset colors
         if PresetColor.all.contains(where: { $0.hex == hex }) {
-            customError = "This shade already exists in the preset palette"
+            customError = String(localized: "This shade already exists in the preset palette")
             return
         }
 
         // Check against existing user colors
         if userColors.contains(where: { $0.hex == hex }) {
-            customError = "You've already created this shade"
+            customError = String(localized: "You've already created this shade")
             return
         }
 

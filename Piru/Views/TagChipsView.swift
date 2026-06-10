@@ -42,9 +42,16 @@ struct TagEditorView: View {
                                     tags.removeAll { $0 == tag }
                                 }
                             } label: {
+                                // Inner padding grows the tappable area toward
+                                // 44pt; the outer negative padding cancels it
+                                // out of layout so the chip looks unchanged.
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.caption2)
+                                    .padding(12)
+                                    .contentShape(Rectangle())
                             }
+                            .padding(-12)
+                            .accessibilityLabel(Text("Remove \(tag)"))
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
