@@ -52,7 +52,12 @@ final class LocationSearchModel: NSObject, MKLocalSearchCompleterDelegate, CLLoc
     /// Request the device's current location and reverse-geocode it to a named
     /// place. Returns `nil` if access is denied or the fix fails. Prompts for
     /// when-in-use authorization the first time.
+    ///
+    /// Single-flight: a second call while one is pending would overwrite the
+    /// stored continuations and leak the first (hanging its caller), so it
+    /// bails out immediately instead.
     func requestCurrentLocation() async -> PickedLocation? {
+        guard !isLocating else { return nil }
         isLocating = true
         defer { isLocating = false }
 
@@ -233,6 +238,7 @@ struct LocationPickerView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel("Close")
                 }
             }
         }
