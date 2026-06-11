@@ -10,23 +10,7 @@ struct SubstanceLibraryView: View {
     var isSearchSurface = false
 
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
     @State private var searchResults: [Substance] = []
-
-    /// Up to 10 most recently logged substances, de-duplicated, resolved to the
-    /// library entry. Drives the Search surface's empty state.
-    private var recentSubstances: [Substance] {
-        var seen = Set<String>()
-        var result: [Substance] = []
-        for entry in recentEntries {
-            let key = entry.substance.lowercased()
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
-                result.append(substance)
-                if result.count >= 10 { break }
-            }
-        }
-        return result
-    }
 
     private var favoriteSubstances: [Substance] {
         favorites.compactMap { fav in
@@ -38,20 +22,11 @@ struct SubstanceLibraryView: View {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private func toggleFavorite(_ name: String) {
-        let lowered = name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: name))
-        }
-    }
-
     var body: some View {
         List {
             if searchText.isEmpty {
                 if isSearchSurface {
-                    recentSection
+                    RecentSubstancesSection()
                 } else {
                     categoryGrid
                 }
@@ -71,28 +46,6 @@ struct SubstanceLibraryView: View {
             try? await Task.sleep(for: .milliseconds(150))
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
-        }
-    }
-
-    // MARK: - Recent (Search surface)
-
-    @ViewBuilder
-    private var recentSection: some View {
-        if recentSubstances.isEmpty {
-            ContentUnavailableView(
-                "Search Substances",
-                systemImage: "magnifyingglass",
-                description: Text("Find any substance by name or alias."),
-            )
-        } else {
-            Section("Recent") {
-                ForEach(recentSubstances) { substance in
-                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance)
-                    }
-                }
-            }
-            .listSectionSeparator(.hidden, edges: .top)
         }
     }
 
@@ -170,7 +123,7 @@ struct SubstanceLibraryView: View {
                     .swipeActions(edge: .trailing) {
                         let isFav = favoriteNames.contains(substance.name.lowercased())
                         Button {
-                            toggleFavorite(substance.name)
+                            FavoriteService.toggle(substance.name, in: modelContext)
                         } label: {
                             Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                         }
@@ -288,6 +241,51 @@ struct SubstanceLibraryView: View {
     }
 }
 
+// MARK: - Recent (Search surface)
+
+/// The Search surface's empty-query content: up to 10 most recently logged
+/// substances, de-duplicated and resolved to their library entries.
+///
+/// Owns the `DoseEntry` query so that *only this section* — which exists just
+/// while the search surface shows it — invalidates when doses change. Hosting
+/// the query on ``SubstanceLibraryView`` itself subscribed the entire Library
+/// tab to every dose mutation for the sake of these ten rows.
+private struct RecentSubstancesSection: View {
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
+
+    private var recentSubstances: [Substance] {
+        var seen = Set<String>()
+        var result: [Substance] = []
+        for entry in recentEntries {
+            let key = entry.substance.lowercased()
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+                result.append(substance)
+                if result.count >= 10 { break }
+            }
+        }
+        return result
+    }
+
+    var body: some View {
+        if recentSubstances.isEmpty {
+            ContentUnavailableView(
+                "Search Substances",
+                systemImage: "magnifyingglass",
+                description: Text("Find any substance by name or alias."),
+            )
+        } else {
+            Section("Recent") {
+                ForEach(recentSubstances) { substance in
+                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                        SubstanceRowView(substance: substance)
+                    }
+                }
+            }
+            .listSectionSeparator(.hidden, edges: .top)
+        }
+    }
+}
+
 // MARK: - Category Substance List
 
 struct SubstanceCategoryListView: View {
@@ -327,15 +325,6 @@ struct SubstanceCategoryListView: View {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private func toggleFavorite(_ name: String) {
-        let lowered = name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: name))
-        }
-    }
-
     var body: some View {
         List {
             ForEach(sortedSubstances) { substance in
@@ -345,7 +334,7 @@ struct SubstanceCategoryListView: View {
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
                     Button {
-                        toggleFavorite(substance.name)
+                        FavoriteService.toggle(substance.name, in: modelContext)
                     } label: {
                         Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                     }
@@ -577,12 +566,7 @@ struct SubstanceDetailView: View {
     }
 
     private func toggleFavorite() {
-        let lowered = substance.name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: substance.name))
-        }
+        FavoriteService.toggle(substance.name, in: modelContext)
         try? modelContext.save()
     }
 
