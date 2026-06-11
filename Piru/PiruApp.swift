@@ -2,10 +2,31 @@ import BackgroundTasks
 import os
 import SwiftData
 import SwiftUI
+import UIKit
 import UserNotifications
 import WidgetKit
 
 private let appLogger = Logger(subsystem: "dev.yumeji.piru", category: "App")
+
+/// A UIKit background-execution assertion that ends itself exactly once —
+/// explicitly via ``end()`` when the protected work finishes, or from the
+/// system's expiration handler if time runs out first.
+@MainActor
+private final class BackgroundTaskAssertion {
+    private var id: UIBackgroundTaskIdentifier = .invalid
+
+    init(name: String) {
+        id = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+            self?.end()
+        }
+    }
+
+    func end() {
+        guard id != .invalid else { return }
+        UIApplication.shared.endBackgroundTask(id)
+        id = .invalid
+    }
+}
 
 // MARK: - App
 
@@ -68,7 +89,14 @@ struct PiruApp: App {
             // unless the user enabled it; debounced and change-gated internally.
             if phase == .background {
                 let context = container.mainContext
-                Task { await BackupManager.shared.runAutomaticBackup(context: context) }
+                // Hold a background-execution assertion across the await so
+                // iOS can't suspend the process mid-write; ended on completion
+                // or expiration, whichever comes first.
+                let assertion = BackgroundTaskAssertion(name: "AutomaticBackup")
+                Task {
+                    defer { assertion.end() }
+                    await BackupManager.shared.runAutomaticBackup(context: context)
+                }
             }
         }
     }

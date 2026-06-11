@@ -1,6 +1,6 @@
 # Piru
 
-Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1100+ substances from TripSit/PsychonautWiki/DailyMed APIs, checks interactions, and provides pharmacokinetic insights.
+Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, browses 1100+ substances from a bundled SQLite database (sourced from TripSit/PsychonautWiki/DailyMed and curated data), checks interactions, and provides pharmacokinetic insights.
 
 ## Working Style
 
@@ -12,10 +12,10 @@ Substance dose tracking iOS app built with SwiftUI and SwiftData. Logs doses, br
 
 ```bash
 # Build
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
 
 # Run tests (uses Apple Testing framework, not XCTest)
-xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+xcodebuild -scheme Piru -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' test
 
 # Build SubstanceValidator CLI tool
 cd Tools/SubstanceValidator && swift build
@@ -34,15 +34,15 @@ Piru/
 ├── Views/           # SwiftUI views (ContentView has 4 tabs: Journal, Library, Tools, Insights)
 │   ├── Insights/    # Adherence, half-life calc, activity charts, usage stats
 │   └── Components/
-├── Data/            # SubstanceLibrary (singleton), HalfLifeDatabase, Interactions, AppSources
-├── Services/        # TripSitAPI, PsychonautWikiAPI, DailyMedAPI
-├── Utilities/       # ActiveSubstanceCalculator, PKModel, RampDownScheduler, etc.
+├── Data/            # SubstanceStore (GRDB over bundled SQLite), HalfLifeDatabase, Interactions, AppSources, StoreRecovery, BackupManager
+├── Utilities/       # ActiveSubstanceCalculator, RampDownScheduler, LiveActivityManager, etc.
 ├── Navigation/      # AppNavigator + route enums + deep link codec — single source of truth for tab/sheet/path state
-Shared/              # Code shared across all targets: models, ColorHex, DoseFormatting, timeline graph
+Shared/              # Code shared across all targets: SwiftData models, PKModel, DoseFormatting, timeline graph
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
-PiruTests/           # 31 test files, 387 tests using Apple Testing framework (@Suite, @Test)
+PiruTests/           # 48 test files, ~620 tests using Apple Testing framework (@Suite, @Test)
 Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against APIs
+pipeline/            # Python data pipeline that builds the bundled substance SQLite DB
 ```
 
 ## Key Files
@@ -55,15 +55,17 @@ Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against
 | `Shared/SubstanceColor.swift` | SwiftData `@Model` + 31 preset colors (shared with widget) |
 | `Shared/RouteOfAdministration.swift` | 10 routes enum (shared with widget) |
 | `Shared/DoseFormatting.swift` | `Double.doseFormatted` extension (shared with widget) |
-| `Data/SubstanceLibrary.swift` | `@Observable @MainActor` singleton — fetches/caches/merges API data, fuzzy search |
+| `Data/SubstanceStore.swift` | `@Observable @MainActor` singleton — GRDB queries over the bundled SQLite DB with per-field source-priority resolution, ranked search, caches. Also hosts the `SubstanceLibrary` static façade (overlay-aware lookups) at the bottom of the file |
+| `Data/SubstanceDBUpdater.swift` | Opt-in over-the-air updates for the bundled substance DB (manifest + checksum) |
+| `Data/StoreRecovery.swift` | Never-delete SwiftData store recovery: versioned migration plan + data-aware fallback |
 | `Data/HalfLifeDatabase.swift` | 1100+ hardcoded half-life values (minutes) |
 | `Data/Interactions.swift` | Drug class mapping + 59 interaction severity rules |
-| `Utilities/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
+| `Shared/PKModel.swift` | One-compartment oral PK model (concentration, Tmax, Cmax, ka estimation) |
 | `Utilities/RampDownScheduler.swift` | Harm-reduction notifications with session-based grouping |
 | `Views/InteractionTimelineView.swift` | PK curve overlay with interaction danger window visualization |
 | `Views/DoseSuggestionCard.swift` | Smart dose suggestion card shown during quick-log |
 | `Views/ContentView.swift` | Main TabView (Journal, Library, Tools, Insights) |
-| `Views/QuickLogView.swift` | Modal for quick dose logging (~880 LOC) |
+| `Views/QuickLogView.swift` | Modal for quick dose logging (plus per-type `QuickLog*.swift` files split out alongside it) |
 | `Navigation/AppNavigator.swift` | `@Observable @MainActor` singleton owning `selectedTab`, per-tab push paths, and the sheet stack |
 | `Navigation/Routes.swift` | `AppTab`, `PushRoute`, `SheetRoute` enums + `NavigatorSnapshot` (all Codable for deep links) |
 | `Navigation/DeepLink.swift` | `piru://` URL ↔ `NavigatorSnapshot` codec |
@@ -73,8 +75,9 @@ Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against
 ## Data Layer
 
 - **Persistence**: SwiftData for user data (DoseEntry, DailyDoseItem, SubstanceColor, FavoriteSubstance, UserColor)
-- **Substance data**: Fetched from 3 APIs (TripSit, PsychonautWiki, DailyMed), merged with deduplication, cached to `substances_cache.json` with 7-day TTL
+- **Substance data**: Ships as a bundled SQLite DB (`Piru/Data/piru-substances.sqlite`) built by `python3 pipeline/build/sqlite.py` from TripSit/PsychonautWiki/DailyMed + curated data — editing pipeline JSON does nothing without a rebuild. `SubstanceStore` resolves each field by per-source priority (user-reorderable); `SubstanceDBUpdater` handles opt-in DB updates
 - **Queries**: Use `@Query` macro in views for SwiftData, `SubstanceLibrary.all` for substance lookups
+- **Substance lookups go through the `SubstanceLibrary` façade** (bottom of `SubstanceStore.swift`), never raw `SubstanceStore.shared.lookup*` — the façade overlays `CustomSubstanceStore` user edits (duration overrides, relabels); bypassing it silently drops those overrides
 - **Search**: Ranked cascade (exact → alias → prefix → contains → fuzzy via Levenshtein distance)
 - **Export**: PsyLog-compatible JSON format via `DataExportImport`; PDF reports with PK charts via `PDFReportGenerator`
 - **Shared code**: SwiftData models + formatting live in `Shared/` with multi-target membership (Piru, PiruWidget, PiruLiveActivityExtension)
@@ -101,7 +104,7 @@ struct DoseEntryTests {
 }
 ```
 
-**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (SubstanceLibrary, Interactions, HalfLifeDatabase, AppSources), Services (TripSitAPI parsing), Utilities (AdherenceCalculator, DataExportImport, PKModel, SubstanceDeduplicator, RampDownScheduler, TagExtractor, ColorHex), Features (FuzzySearch, NotificationGrouping).
+**Coverage areas**: Models (Substance, DoseEntry, DoseRange, DurationProfile, RouteOfAdministration, etc.), Data (BundledDatabase, SourcePriorityResolution, SubstanceLibrary, SubstanceCustomOverlay, Interactions, HalfLifeDatabase, AppSources, StoreRecovery, BackupCrypto/BackupManager, SubstanceDBUpdater), Utilities (AdherenceCalculator, DataExportImport, PKModel, RampDownScheduler, TagExtractor, ColorHex, SessionClustering, SessionService), Features (FuzzySearch, NotificationGrouping, Navigation/DeepLink).
 
 ## Conventions
 

@@ -1,6 +1,20 @@
 import Foundation
 import UIKit
 
+/// Renders the shareable medical PDF report from pre-snapshotted data.
+///
+/// **Why this stays MainActor-bound** (the target's default isolation), even
+/// though `UIGraphicsPDFRenderer` itself is documented thread-safe: the draw
+/// passes call into MainActor-isolated code that this generator doesn't own —
+/// `InteractionChecker.drugClasses(for:)` (memoises into a mutable static
+/// cache and resolves through the `SubstanceLibrary`/`SubstanceStore`
+/// singleton), `HalfLifeDatabase.halfLife(for:)`, `Calendar.sessionDayStart`,
+/// and `Double.doseFormatted`, all of which are `@MainActor` under the
+/// target-wide default isolation. Marking `generate` `nonisolated` does not
+/// compile until those lookups are either marked `nonisolated` at their
+/// declarations (most are pure and safely could be) or resolved into the
+/// snapshot types up front. Until then, callers should yield before invoking
+/// so pending UI gets a frame — see `ReportView.generateReport()`.
 enum PDFReportGenerator {
     // MARK: - Layout
 

@@ -87,7 +87,7 @@ struct OnboardingView: View {
 
             Spacer(minLength: 0)
 
-            Toggle("", isOn: isOn)
+            Toggle(isOn: isOn) { Text(title) }
                 .labelsHidden()
                 .tint(Theme.accent)
         }

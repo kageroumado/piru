@@ -231,6 +231,17 @@ final class JournalModel {
                 cards.append(SessionCard(session: bucket.session, entries: sessionEntries, states: states, markers: markers))
             }
 
+            // Calendar-display bucketing — deliberately plain `startOfDay`, not
+            // `calendar.sessionDayStart`. The day header names a calendar date
+            // and the cards under it show raw timestamps, so the two must agree:
+            // a fresh 2 AM session under the previous day's header would
+            // contradict its own times. Late-night doses still roll into the
+            // prior evening's card the natural way — gap-based session
+            // clustering keeps them in the session that started that evening.
+            // Session-day bucketing that honors the user's day-cutoff hour
+            // (`sessionDayStart`) lives where days are *counted*, not displayed:
+            // DataExportImport, PDFReportGenerator, ActiveSessionManager, and
+            // the Insights stats.
             let byDay = Dictionary(grouping: cards) { calendar.startOfDay(for: $0.startDate) }
             sessionDays = byDay.sorted { $0.key > $1.key }.map { day, dayCards in
                 SessionDay(date: day, sessions: dayCards.sorted { $0.startDate > $1.startDate })

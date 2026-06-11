@@ -14,6 +14,11 @@ struct ReportView: View {
     @State private var notes: String = ""
     @State private var isGenerating = false
     @State private var shareItem: PDFShareItem?
+    /// Entries within the selected range + their interaction check, recomputed
+    /// only when the range or the data changes — not in `body` on every
+    /// keystroke of the name/notes fields.
+    @State private var filteredEntries: [DoseEntry] = []
+    @State private var interactions: [InteractionResult] = []
 
     enum DateRange: String, CaseIterable {
         case last7 = "Last 7 Days"
@@ -56,9 +61,14 @@ struct ReportView: View {
         return (earliest, end)
     }
 
-    private var filteredEntries: [DoseEntry] {
-        let range = dateRange
-        return allEntries.filter { $0.timestamp >= range.start && $0.timestamp <= range.end }
+    /// Recompute token: the selected range plus the entries' content.
+    private var filterToken: Int {
+        var hasher = Hasher()
+        hasher.combine(selectedRange)
+        hasher.combine(customStart)
+        hasher.combine(customEnd)
+        hasher.combine(EntriesFingerprint.make(allEntries))
+        return hasher.finalize()
     }
 
     private var entryCount: Int {
@@ -117,7 +127,7 @@ struct ReportView: View {
                     HStack {
                         Label("Interaction Alerts", systemImage: "exclamationmark.triangle")
                         Spacer()
-                        let count = getInteractions().count
+                        let count = interactions.count
                         Text("\(count)")
                             .foregroundStyle(count > 0 ? .orange : Theme.secondaryLabel)
                     }
@@ -156,6 +166,7 @@ struct ReportView: View {
             }
             .navigationTitle("Medical Report")
             .navigationBarTitleDisplayMode(.inline)
+            .task(id: filterToken) { recomputeFiltered() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
@@ -164,6 +175,7 @@ struct ReportView: View {
                         Image(systemName: "xmark")
                             .font(.body.weight(.semibold))
                     }
+                    .accessibilityLabel(Text("Close"))
                 }
             }
             .sheet(item: $shareItem) { item in
@@ -174,9 +186,11 @@ struct ReportView: View {
 
     // MARK: - Actions
 
-    private func getInteractions() -> [InteractionResult] {
+    private func recomputeFiltered() {
+        let range = dateRange
+        filteredEntries = allEntries.filter { $0.timestamp >= range.start && $0.timestamp <= range.end }
         let substances = Array(Set(filteredEntries.map(\.substance)))
-        return InteractionChecker.checkBatch(substances, against: filteredEntries)
+        interactions = InteractionChecker.checkBatch(substances, against: filteredEntries)
     }
 
     private func generateReport() {
@@ -204,7 +218,7 @@ struct ReportView: View {
             )
         }
 
-        let interactionSnapshots = getInteractions().map { i in
+        let interactionSnapshots = interactions.map { i in
             PDFReportGenerator.InteractionSnapshot(
                 severity: i.severity,
                 substanceA: i.substanceA,
@@ -225,16 +239,24 @@ struct ReportView: View {
             patientName: patientName,
         )
 
-        let pdfData = PDFReportGenerator.generate(from: data)
+        Task {
+            // PDFReportGenerator must stay MainActor-bound: its draw passes
+            // hit MainActor state (drug-class memoisation via
+            // SubstanceLibrary) and default-isolated helpers — see the note on
+            // `PDFReportGenerator`. So: yield once so the spinner gets a
+            // frame, and move only the file write off the main actor.
+            await Task.yield()
+            let pdfData = PDFReportGenerator.generate(from: data)
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let filename = "Piru Report \(formatter.string(from: .now)).pdf"
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-        try? pdfData.write(to: url)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+            try? await Task.detached { try pdfData.write(to: url) }.value
 
-        isGenerating = false
-        shareItem = PDFShareItem(url: url)
+            isGenerating = false
+            shareItem = PDFShareItem(url: url)
+        }
     }
 }
 
@@ -245,6 +267,9 @@ struct PDFShareItem: Identifiable {
     let url: URL
 }
 
+/// UIKit share sheet wrapper, kept over `ShareLink` because these flows present
+/// the sheet *programmatically* after async work (PDF render, encrypted export)
+/// — `ShareLink` only presents from its own tap. Also used by `ContentView`.
 struct ShareSheet: UIViewControllerRepresentable {
     let items: [Any]
 

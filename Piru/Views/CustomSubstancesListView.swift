@@ -62,6 +62,7 @@ struct CustomSubstancesListView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityLabel("Add Custom Substance")
             }
         }
         .sheet(isPresented: $showingForm) {

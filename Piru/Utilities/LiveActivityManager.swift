@@ -178,11 +178,30 @@ final class LiveActivityManager {
         }
         scheduleBackgroundRefresh()
 
-        task.expirationHandler = {}
+        // Complete the BGTask only after the activity update has actually
+        // landed — completing while a fire-and-forget update is still in
+        // flight lets iOS suspend the process before the widget refreshes.
+        let work = Task {
+            await self.performBackgroundUpdate()
+            task.setTaskCompleted(success: !Task.isCancelled)
+        }
+        task.expirationHandler = { @Sendable in
+            work.cancel()
+        }
+    }
 
+    /// Awaited variant of the refresh push, driven by `handleBackgroundRefresh`.
+    private func performBackgroundUpdate() async {
         let session = ActiveSessionManager.shared
         if !session.activeEntries.isEmpty {
-            periodicUpdate()
+            session.refresh()
+            guard !session.activeEntries.isEmpty else {
+                stopUpdateTimer()
+                return
+            }
+            guard currentActivity != nil else { return }
+            let state = session.buildContentState(colorMap: session.cachedColorMap)
+            await pushUpdateAwaiting(ActivityContent(state: state, staleDate: staleDate()))
         } else if let currentActivity {
             // App was relaunched — push a lightweight update to force widget re-render
             var state = currentActivity.content.state
@@ -190,10 +209,8 @@ final class LiveActivityManager {
             let stale = state.activeSubstances.map {
                 $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60)
             }.max()
-            pushUpdate(ActivityContent(state: state, staleDate: stale))
+            await pushUpdateAwaiting(ActivityContent(state: state, staleDate: stale))
         }
-
-        task.setTaskCompleted(success: true)
     }
 
     func scheduleBackgroundRefresh() {
@@ -214,6 +231,14 @@ final class LiveActivityManager {
         guard let currentActivity else { return }
         nonisolated(unsafe) let activity = currentActivity
         Task { await activity.update(content) }
+    }
+
+    /// Awaitable counterpart of ``pushUpdate(_:)`` for callers that must not
+    /// return until the update has landed (the BGTask refresh path).
+    private func pushUpdateAwaiting(_ content: ActivityContent<PiruActivityAttributes.ContentState>) async {
+        guard let currentActivity else { return }
+        nonisolated(unsafe) let activity = currentActivity
+        await activity.update(content)
     }
 
     /// Push a final state and end the live activity.

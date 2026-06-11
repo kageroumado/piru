@@ -29,8 +29,7 @@ struct AdherenceView: View {
                 .padding()
             }
             .background(Theme.background)
-            .task { recompute() }
-            .onChange(of: allEntries.count) { recompute() }
+            .task(id: EntriesFingerprint.make(allEntries)) { recompute() }
             .onChange(of: displayedMonth) { recompute() }
             .sheet(item: $selectedDay) { day in
                 AdherenceDayDetailSheet(day: day)
@@ -90,6 +89,7 @@ struct AdherenceView: View {
                 Image(systemName: "chevron.left")
                     .font(.body.weight(.semibold))
             }
+            .accessibilityLabel(Text("Previous Month"))
             Spacer()
             Text(displayedMonth.formatted(.dateTime.month(.wide).year()))
                 .font(.headline)
@@ -102,6 +102,7 @@ struct AdherenceView: View {
                 Image(systemName: "chevron.right")
                     .font(.body.weight(.semibold))
             }
+            .accessibilityLabel(Text("Next Month"))
             .disabled(calendar.isDate(displayedMonth, equalTo: .now, toGranularity: .month))
         }
     }
@@ -229,6 +230,19 @@ struct AdherenceCalendarCell: View {
             }
         }
         .frame(height: 36)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: "\(day)"))
+        .accessibilityValue(Text(statusDescription))
+    }
+
+    /// Status wording matching `AdherenceDayDetailSheet`'s badge.
+    private var statusDescription: LocalizedStringResource {
+        switch status {
+        case .complete: "All taken"
+        case .partial: "Partially taken"
+        case .missed: "All missed"
+        case .noData: "Nothing due"
+        }
     }
 
     @ViewBuilder

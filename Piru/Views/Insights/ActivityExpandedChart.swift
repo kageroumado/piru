@@ -13,8 +13,10 @@ struct ActivityExpandedChart: View {
     @State private var gestureStartZoom: CGFloat = 1.0
     @State private var selectedDay: Date?
 
-    /// Aggregate per-day totals for a cleaner look
-    private var dailyTotals: [(date: Date, total: Int, substances: [(name: String, count: Int, color: Color)])] {
+    /// Aggregate per-day totals for a cleaner look. Computed once per body
+    /// evaluation and passed down — as a computed property it was re-aggregated
+    /// on every read (2–3× per pass, including during the magnify gesture).
+    private func aggregatedDailyTotals() -> [(date: Date, total: Int, substances: [(name: String, count: Int, color: Color)])] {
         let calendar = Calendar.current
         var dayMap: [Date: [String: Int]] = [:]
 
@@ -32,13 +34,14 @@ struct ActivityExpandedChart: View {
         }
     }
 
-    private var chartWidth: CGFloat {
-        let dayCount = max(dailyTotals.count, 7)
+    private func chartWidth(dayCount: Int) -> CGFloat {
         let ptPerDay: CGFloat = 32 * zoom
-        return max(CGFloat(dayCount) * ptPerDay, 300)
+        return max(CGFloat(max(dayCount, 7)) * ptPerDay, 300)
     }
 
     var body: some View {
+        let dailyTotals = aggregatedDailyTotals()
+
         VStack(spacing: 8) {
             ScrollViewReader { _ in
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -51,7 +54,7 @@ struct ActivityExpandedChart: View {
                         .foregroundStyle(colorMap[item.key.substance.lowercased()] ?? .accentColor)
                         .cornerRadius(3)
                     }
-                    .frame(width: chartWidth, height: 260)
+                    .frame(width: chartWidth(dayCount: dailyTotals.count), height: 260)
                     .chartPlotStyle { plotArea in
                         plotArea
                             .padding(.bottom, 4)
@@ -63,7 +66,7 @@ struct ActivityExpandedChart: View {
                                 .foregroundStyle(Theme.secondaryLabel.opacity(0.6))
                         }
                         // Labels on stride days
-                        AxisMarks(values: .stride(by: .day, count: xAxisStride)) { value in
+                        AxisMarks(values: .stride(by: .day, count: xAxisStride(dayCount: dailyTotals.count))) { value in
                             AxisTick(length: 6, stroke: StrokeStyle(lineWidth: 1))
                                 .foregroundStyle(Theme.secondaryLabel.opacity(0.8))
                             AxisValueLabel {
@@ -130,11 +133,11 @@ struct ActivityExpandedChart: View {
         )
     }
 
-    private var xAxisStride: Int {
+    private func xAxisStride(dayCount: Int) -> Int {
         if zoom > 2.0 { return 1 }
         if zoom > 1.0 { return 2 }
-        if dailyTotals.count > 60 { return 7 }
-        if dailyTotals.count > 30 { return 3 }
+        if dayCount > 60 { return 7 }
+        if dayCount > 30 { return 3 }
         return 2
     }
 }

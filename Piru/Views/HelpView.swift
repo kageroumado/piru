@@ -6,6 +6,7 @@ struct HelpView: View {
     @Query private var recentEntries: [DoseEntry]
     @Environment(\.appNavigator) private var navigator
     @State private var copiedSummary = false
+    @State private var activeSubstances: [ActiveSubstance] = []
 
     init() {
         let cutoff = Date.now.addingTimeInterval(-72 * 3_600)
@@ -13,13 +14,6 @@ struct HelpView: View {
             filter: #Predicate<DoseEntry> { $0.timestamp > cutoff },
             sort: \DoseEntry.timestamp,
             order: .reverse,
-        )
-    }
-
-    private var activeSubstances: [ActiveSubstance] {
-        ActiveSubstanceCalculator.compute(
-            from: recentEntries,
-            colorMap: substanceColors.colorMap,
         )
     }
 
@@ -68,9 +62,16 @@ struct HelpView: View {
             .scrollContentBackground(.hidden)
             .background(Theme.background)
             .navigationTitle("Get Help")
+            .task(id: EntriesFingerprint.make(recentEntries, colors: substanceColors)) {
+                activeSubstances = ActiveSubstanceCalculator.compute(
+                    from: recentEntries,
+                    colorMap: substanceColors.colorMap,
+                )
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel(Text("Close"))
                 }
             }
         }
