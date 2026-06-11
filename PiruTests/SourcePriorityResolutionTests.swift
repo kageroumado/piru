@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import Piru
 
@@ -6,18 +7,16 @@ import Testing
 /// "piru-curated"` (in `BundledDatabaseTests`) only verifies the bookkeeping;
 /// these tests verify the bookkeeping shows up in resolved field values.
 ///
-/// Serialized: `SubstanceStore` is a singleton — letting these mutate
-/// `enabledSourceOrder` concurrently with other source-priority tests
-/// (`UserProfileTests.SourcePriorityTests`) would interleave the writes and
-/// leak state across tests.
-@Suite("Source priority resolution", .serialized)
+/// Each test mutates source priority on its own isolated store (temp-dir
+/// user-prefs DB), so nothing leaks into other suites or the shared singleton.
+@Suite("Source priority resolution")
 struct SourcePriorityResolutionTests {
     @Test
     @MainActor
-    func `Reordering changes the resolved category source`() {
-        let store = SubstanceStore.shared
+    func `Reordering changes the resolved category source`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
         let original = store.enabledSourceOrder
-        defer { store.setSourcePriority(orderedSlugs: original) }
 
         // Find a substance whose category disagrees across sources — that's
         // where reordering has visible effect. Caffeine is a safe baseline
@@ -39,9 +38,9 @@ struct SourcePriorityResolutionTests {
 
     @Test
     @MainActor
-    func `Disabled source never appears in resolved provenance`() {
-        let store = SubstanceStore.shared
-        defer { store.setSource("tripsit", enabled: true) }
+    func `Disabled source never appears in resolved provenance`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
 
         store.setSource("tripsit", enabled: false)
         let prov = store.provenance(forSubstanceName: "Caffeine")
