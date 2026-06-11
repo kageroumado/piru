@@ -1502,7 +1502,7 @@ struct SubstanceTagFlow: View {
     let accent: Color
 
     var body: some View {
-        TagFlowLayout(spacing: 6) {
+        FlowLayout(spacing: 6) {
             ForEach(tags, id: \.self) { tag in
                 Text(tag)
                     .font(.caption2.weight(.medium))
@@ -1512,50 +1512,5 @@ struct SubstanceTagFlow: View {
                     .foregroundStyle(accent)
             }
         }
-    }
-}
-
-/// Minimal flow layout — wraps subviews to additional lines as they overflow
-/// the proposed width. Used by ``SubstanceTagFlow`` so the chip row matches
-/// row width regardless of tag count.
-private struct TagFlowLayout: Layout {
-    var spacing: CGFloat = 6
-
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
-        let width = proposal.width ?? .infinity
-        let arrangement = arrange(subviews: subviews, in: width)
-        return CGSize(width: arrangement.size.width, height: arrangement.size.height)
-    }
-
-    func placeSubviews(in bounds: CGRect, proposal _: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
-        let arrangement = arrange(subviews: subviews, in: bounds.width)
-        for (idx, sub) in subviews.enumerated() {
-            let origin = arrangement.offsets[idx]
-            sub.place(
-                at: CGPoint(x: bounds.minX + origin.x, y: bounds.minY + origin.y),
-                proposal: .unspecified,
-            )
-        }
-    }
-
-    private func arrange(subviews: Subviews, in maxWidth: CGFloat) -> (offsets: [CGPoint], size: CGSize) {
-        var offsets: [CGPoint] = []
-        var x: CGFloat = 0
-        var y: CGFloat = 0
-        var rowHeight: CGFloat = 0
-        var totalWidth: CGFloat = 0
-        for sub in subviews {
-            let size = sub.sizeThatFits(.unspecified)
-            if x > 0, x + size.width > maxWidth {
-                x = 0
-                y += rowHeight + spacing
-                rowHeight = 0
-            }
-            offsets.append(CGPoint(x: x, y: y))
-            x += size.width + spacing
-            rowHeight = max(rowHeight, size.height)
-            totalWidth = max(totalWidth, x - spacing)
-        }
-        return (offsets, CGSize(width: totalWidth, height: y + rowHeight))
     }
 }
