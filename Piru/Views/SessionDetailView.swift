@@ -526,6 +526,8 @@ struct SessionDetailView: View {
     }
 
     private func deleteEntry(_ entry: DoseEntry) {
+        // Capture before delete — the entry is invalid afterwards.
+        let id = entry.id
         let name = entry.substance
         let timestamp = entry.timestamp
 
@@ -536,6 +538,7 @@ struct SessionDetailView: View {
 
         // Also remove from live activity if active
         ActiveSessionManager.shared.removeDose(
+            id: id,
             substanceName: name,
             timestamp: timestamp,
             allColors: Array(substanceColors),
@@ -739,7 +742,7 @@ private struct DayEntryRow: View {
     @Environment(\.appNavigator) private var navigator
 
     var body: some View {
-        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp)) {
+        NavigationLink(value: PushRoute.entry(timestamp: entry.timestamp, id: entry.id)) {
             EntryRowView(entry: entry, color: color, showRelativeTime: showRelativeTime)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {

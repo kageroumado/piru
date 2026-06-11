@@ -38,9 +38,11 @@ struct StoreRecoveryTests {
         try seedStore(at: url, entries: 3)
 
         // Reopen with the current versioned schema + migration plan, as the app
-        // now does — the V1→V2 lightweight migration must preserve all data.
+        // now does — walking the full stage chain must preserve all data.
+        // (The target must be the plan's final version: a mid-plan target like
+        // V2 stopped loading once the plan continued past it to V3/V4.)
         let container = try ModelContainer(
-            for: Schema(versionedSchema: PiruSchemaV2.self),
+            for: Schema(versionedSchema: PiruSchemaV4.self),
             migrationPlan: PiruMigrationPlan.self,
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
@@ -174,5 +176,176 @@ struct StoreRecoveryTests {
                 == Date(timeIntervalSince1970: 1_780_683_124),
         )
         #expect(StoreRecovery.sidecarTimestamp("default.store") == nil)
+    }
+}
+
+// MARK: - Schema V4 (DoseEntry stable id)
+
+/// The V3→V4 migration adds `DoseEntry.id`. These tests build the legacy store
+/// with the class-level frozen `PiruSchemaV3` copies (the exact pre-`id` shape
+/// real devices have on disk), open it through the real plan, and assert the
+/// invariant the whole stable-identity feature rests on: every row keeps its
+/// data and gets its own unique id.
+///
+/// `@MainActor` is required, not stylistic: the V3→V4 stage's `didMigrate`
+/// only runs its per-row UUID pass when the container is opened from the main
+/// thread (matching how the app opens it — see `PiruMigrationPlan`).
+@Suite("Schema V4 migration")
+@MainActor
+struct SchemaV4MigrationTests {
+    private func tmpStoreURL() -> URL {
+        let dir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("piru-v4test-\(UUID().uuidString)", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir.appendingPathComponent("default.store")
+    }
+
+    /// Seed a store in the exact shape shipped as V3: the frozen
+    /// `PiruSchemaV3.DoseEntry` (no `id` column) + `PiruSchemaV3.Session`,
+    /// with `n` doses, the first two grouped into a titled session.
+    private func seedV3Store(at url: URL, entries n: Int) throws {
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV3.self),
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        var doses: [PiruSchemaV3.DoseEntry] = []
+        for i in 0 ..< n {
+            let dose = PiruSchemaV3.DoseEntry(
+                substance: "Caffeine",
+                amount: Double(50 + i),
+                timestamp: Date(timeIntervalSince1970: 1_700_000_000 + Double(i) * 60),
+            )
+            ctx.insert(dose)
+            doses.append(dose)
+        }
+        if doses.count >= 2 {
+            let session = PiruSchemaV3.Session(startDate: doses[0].timestamp, title: "Morning")
+            ctx.insert(session)
+            doses[0].session = session
+            doses[1].session = session
+        }
+        try ctx.save()
+    }
+
+    @Test
+    func `V3 store migrates through the plan with all rows preserved and unique per-row ids`() throws {
+        let url = tmpStoreURL()
+        try seedV3Store(at: url, entries: 5)
+
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV4.self),
+            migrationPlan: PiruMigrationPlan.self,
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        let entries = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))
+
+        // Every row survived, fields untouched.
+        #expect(entries.count == 5)
+        #expect(entries.map(\.amount) == [50, 51, 52, 53, 54])
+        #expect(entries.allSatisfy { $0.substance == "Caffeine" })
+
+        // The whole point of V4: per-row unique ids. A plain `.lightweight`
+        // stage fills ONE shared UUID into every row — the custom stage's
+        // didMigrate must have reassigned them.
+        #expect(Set(entries.map(\.id)).count == 5)
+
+        // The frozen Session ↔ DoseEntry relationship mapped across.
+        let sessions = try ctx.fetch(FetchDescriptor<Session>())
+        let session = try #require(sessions.first { $0.title == "Morning" })
+        #expect(session.orderedDoses.count == 2)
+    }
+
+    @Test
+    func `A fresh V4 store round-trips ids across reopen`() throws {
+        let url = tmpStoreURL()
+        let fixedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000001"))
+
+        do {
+            let container = try ModelContainer(
+                for: Schema(versionedSchema: PiruSchemaV4.self),
+                migrationPlan: PiruMigrationPlan.self,
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            let entry = DoseEntry(substance: "Caffeine", amount: 100)
+            entry.id = fixedID
+            ctx.insert(entry)
+            ctx.insert(DoseEntry(substance: "Melatonin", amount: 3))
+            try ctx.save()
+        }
+
+        // Reopen with the same plan — already at V4, no migration must run and
+        // the persisted ids must come back verbatim.
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV4.self),
+            migrationPlan: PiruMigrationPlan.self,
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        let entries = try ctx.fetch(FetchDescriptor<DoseEntry>())
+        #expect(entries.count == 2)
+        #expect(entries.first { $0.substance == "Caffeine" }?.id == fixedID)
+        #expect(Set(entries.map(\.id)).count == 2)
+    }
+
+    // MARK: - Post-open backfill (the auto-lightweight fallback path)
+
+    @Test
+    func `Backfill uniquifies all-duplicate ids without touching other fields`() throws {
+        // Simulate the automatic-lightweight outcome: the store opened without
+        // the staged plan, so every pre-existing row carries the SAME UUID.
+        let container = try ModelContainer(
+            for: Schema(StoreRecovery.models),
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
+        )
+        let ctx = container.mainContext
+        let sharedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000002"))
+        for i in 0 ..< 4 {
+            let entry = DoseEntry(
+                substance: "Sub\(i)",
+                amount: Double(10 + i),
+                timestamp: Date(timeIntervalSince1970: 1_700_000_000 + Double(i) * 60),
+            )
+            entry.id = sharedID
+            ctx.insert(entry)
+        }
+        try ctx.save()
+
+        StoreRecovery.backfillDuplicateEntryIDs(container: container)
+
+        let entries = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))
+        #expect(entries.count == 4)
+        #expect(Set(entries.map(\.id)).count == 4)
+        // The first occurrence keeps the original id (stable references survive).
+        #expect(entries.contains { $0.id == sharedID })
+        // No other field was touched.
+        #expect(entries.map(\.substance) == ["Sub0", "Sub1", "Sub2", "Sub3"])
+        #expect(entries.map(\.amount) == [10, 11, 12, 13])
+
+        // Idempotent: a second run changes nothing.
+        let idsAfterFirstRun = entries.map(\.id)
+        StoreRecovery.backfillDuplicateEntryIDs(container: container)
+        let again = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))
+        #expect(again.map(\.id) == idsAfterFirstRun)
+    }
+
+    @Test
+    func `Backfill is a no-op when ids are already unique`() throws {
+        let container = try ModelContainer(
+            for: Schema(StoreRecovery.models),
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none),
+        )
+        let ctx = container.mainContext
+        ctx.insert(DoseEntry(substance: "Caffeine", amount: 100))
+        ctx.insert(DoseEntry(substance: "Melatonin", amount: 3))
+        try ctx.save()
+        let before = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.amount)])).map(\.id)
+
+        StoreRecovery.backfillDuplicateEntryIDs(container: container)
+
+        let after = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.amount)])).map(\.id)
+        #expect(after == before)
     }
 }

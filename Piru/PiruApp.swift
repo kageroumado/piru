@@ -46,6 +46,12 @@ struct PiruApp: App {
 
         container = Self.makeContainer()
 
+        // Stores that opened through the automatic-lightweight fallback below
+        // (rather than the staged V3→V4 migration) have the SAME UUID filled
+        // into every pre-existing DoseEntry — uniquify before any UI reads.
+        // Idempotent and cheap when there's nothing to do.
+        StoreRecovery.backfillDuplicateEntryIDs(container: container)
+
         // Routes notification taps (routine reminders carry a piru:// deep
         // link). The center holds its delegate weakly — the shared instance
         // keeps it alive.
@@ -129,10 +135,12 @@ struct PiruApp: App {
         // attributes, .unique constraints), failing every container open.
         let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
-        // 1. Explicit versioned migration (also the fresh-install path).
+        // 1. Explicit versioned migration (also the fresh-install path). A
+        //    store at the shipped V3 shape takes the custom V3→V4 stage, which
+        //    assigns each pre-existing DoseEntry a fresh unique id.
         do {
             return try ModelContainer(
-                for: Schema(versionedSchema: PiruSchemaV3.self),
+                for: Schema(versionedSchema: PiruSchemaV4.self),
                 migrationPlan: PiruMigrationPlan.self,
                 configurations: config,
             )

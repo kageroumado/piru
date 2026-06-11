@@ -772,3 +772,146 @@ struct DataExportImportFormatTests {
         }
     }
 }
+
+// MARK: - Stable dose ids (schema V4)
+
+@Suite("DataExportImport — stable ids")
+@MainActor
+struct DataExportImportStableIDTests {
+    /// The Piru-native export always emits each dose's stable `id` — both for
+    /// session-grouped doses and orphans.
+    @Test
+    func `Export emits the dose's stable id`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+
+        let session = Session(startDate: Date(timeIntervalSince1970: 1_700_000_000))
+        context.insert(session)
+        let grouped = DoseEntry(
+            substance: "MDMA", amount: 100, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        )
+        context.insert(grouped)
+        grouped.session = session
+        let orphan = DoseEntry(
+            substance: "Caffeine", amount: 80, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_100_000),
+        )
+        context.insert(orphan)
+        try context.save()
+
+        let data = try DataExportImport.exportJSON(format: .piru, context: context)
+        let json = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        let sessions = try #require(json["sessions"] as? [[String: Any]])
+        let sessionDoses = try #require(sessions.first?["doses"] as? [[String: Any]])
+        #expect(sessionDoses.first?["id"] as? String == grouped.id.uuidString)
+
+        let orphans = try #require(json["orphanDoses"] as? [[String: Any]])
+        #expect(orphans.first?["id"] as? String == orphan.id.uuidString)
+    }
+
+    @Test
+    func `Round-trip preserves each dose's id`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        context.insert(DoseEntry(
+            substance: "Caffeine", amount: 100, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        ))
+        context.insert(DoseEntry(
+            substance: "Melatonin", amount: 3, unit: "mg", route: .sublingual,
+            timestamp: Date(timeIntervalSince1970: 1_700_100_000),
+        ))
+        try context.save()
+        let original = try context.fetch(FetchDescriptor<DoseEntry>())
+        let idsBySubstance = Dictionary(uniqueKeysWithValues: original.map { ($0.substance, $0.id) })
+
+        let data = try DataExportImport.exportJSON(format: .piru, context: context)
+        try DataExportImport.deleteAll(context: context)
+        try context.save()
+        try DataExportImport.importJSON(data: data, context: context)
+
+        let imported = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(imported.count == 2)
+        for entry in imported {
+            #expect(entry.id == idsBySubstance[entry.substance])
+        }
+    }
+
+    /// A pre-V4 Piru-native file has no `id` fields — every imported dose gets
+    /// a fresh, unique UUID.
+    @Test
+    func `Legacy native file without ids imports with fresh unique ids`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let legacyJSON = """
+        {
+          "piruExportVersion": 1,
+          "appVersion": "Piru 1.0 (1)",
+          "exportedAt": 1700000000000,
+          "sessions": [],
+          "orphanDoses": [
+            { "substance": "Caffeine", "amount": 100, "unit": "mg", "route": "oral",
+              "timestamp": 1700000000000, "tags": [], "isBackgroundMed": false },
+            { "substance": "Melatonin", "amount": 3, "unit": "mg", "route": "sublingual",
+              "timestamp": 1700100000000, "tags": [], "isBackgroundMed": false }
+          ],
+          "dailyDoseItems": [],
+          "substanceColors": [],
+          "userColors": [],
+          "favorites": [],
+          "customSubstances": []
+        }
+        """
+        try DataExportImport.importJSON(data: Data(legacyJSON.utf8), context: context)
+
+        let imported = try context.fetch(FetchDescriptor<DoseEntry>())
+        #expect(imported.count == 2)
+        #expect(Set(imported.map(\.id)).count == 2)
+    }
+
+    /// Merge safety: when an imported dose's id is already taken in the store
+    /// (same-id, different-content — e.g. one side edited the dose after
+    /// export), the existing row keeps the id and the imported dose gets a
+    /// fresh one. Content dedup is untouched by ids.
+    @Test
+    func `Imported id colliding with an existing entry yields a fresh id`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let takenID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000005"))
+        let existing = DoseEntry(
+            substance: "Caffeine", amount: 100, unit: "mg", route: .oral,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000),
+        )
+        existing.id = takenID
+        context.insert(existing)
+        try context.save()
+
+        // Same id, different content — must not dedup (content differs) and
+        // must not steal the id.
+        let mergeJSON = """
+        {
+          "piruExportVersion": 1,
+          "appVersion": "Piru 1.0 (1)",
+          "exportedAt": 1700000000000,
+          "sessions": [],
+          "orphanDoses": [
+            { "id": "\(takenID.uuidString)", "substance": "Caffeine", "amount": 200, "unit": "mg",
+              "route": "oral", "timestamp": 1700200000000, "tags": [], "isBackgroundMed": false }
+          ],
+          "dailyDoseItems": [],
+          "substanceColors": [],
+          "userColors": [],
+          "favorites": [],
+          "customSubstances": []
+        }
+        """
+        try DataExportImport.importJSON(data: Data(mergeJSON.utf8), context: context)
+
+        let entries = try context.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))
+        #expect(entries.count == 2)
+        #expect(entries[0].id == takenID)
+        #expect(entries[1].id != takenID)
+    }
+}

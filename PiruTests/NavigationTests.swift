@@ -55,7 +55,7 @@ struct AppNavigatorTests {
     func `Push appends to the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.session(id: UUID()))
-        nav.push(.entry(timestamp: .now))
+        nav.push(.entry(timestamp: .now, id: UUID()))
         #expect(nav.path(for: .journal).count == 2)
     }
 
@@ -71,7 +71,7 @@ struct AppNavigatorTests {
     func `Pop removes the last element of the current tab's path`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.session(id: UUID()))
-        nav.push(.entry(timestamp: .now))
+        nav.push(.entry(timestamp: .now, id: UUID()))
         nav.pop()
         #expect(nav.path(for: .journal).count == 1)
     }
@@ -87,7 +87,7 @@ struct AppNavigatorTests {
     func `popToRoot clears the current tab`() {
         let nav = makeNavigator(selectedTab: .journal)
         nav.push(.session(id: UUID()))
-        nav.push(.entry(timestamp: .now))
+        nav.push(.entry(timestamp: .now, id: UUID()))
         nav.popToRoot()
         #expect(nav.path(for: .journal).isEmpty)
     }
@@ -323,7 +323,16 @@ struct RoutesCodableTests {
 
     @Test(arguments: [
         PushRoute.session(id: UUID(uuidString: "00000000-0000-0000-0000-000000000040")!),
-        PushRoute.entry(timestamp: Date(timeIntervalSince1970: 1_700_000_500)),
+        PushRoute.entry(timestamp: Date(timeIntervalSince1970: 1_700_000_500), id: nil),
+        PushRoute.entry(
+            timestamp: Date(timeIntervalSince1970: 1_700_000_500),
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000060"),
+        ),
+        PushRoute.rampDown(timestamp: Date(timeIntervalSince1970: 1_700_000_600), id: nil),
+        PushRoute.rampDown(
+            timestamp: Date(timeIntervalSince1970: 1_700_000_600),
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000061"),
+        ),
         PushRoute.substance(name: "LSD"),
         .libraryCategory(.stimulant),
         .libraryCategory(.psychedelic),
@@ -333,13 +342,44 @@ struct RoutesCodableTests {
         #expect(try roundTrip(route) == route)
     }
 
+    /// Pre-V4 payloads carry no `id` key — the synthesized Codable must decode
+    /// them with `id == nil` (the timestamp-fallback contract for persisted
+    /// snapshots and old deep links). Fixture dates are
+    /// `timeIntervalSinceReferenceDate` seconds, JSONEncoder's default coding.
+    @Test
+    func `Pre-V4 entry payloads without an id still decode`() throws {
+        let decoder = JSONDecoder()
+
+        let oldEntry = Data(#"{"entry":{"timestamp":700000000}}"#.utf8)
+        #expect(
+            try decoder.decode(PushRoute.self, from: oldEntry)
+                == .entry(timestamp: Date(timeIntervalSinceReferenceDate: 700_000_000), id: nil),
+        )
+
+        let oldRampDown = Data(#"{"rampDown":{"timestamp":700000000}}"#.utf8)
+        #expect(
+            try decoder.decode(PushRoute.self, from: oldRampDown)
+                == .rampDown(timestamp: Date(timeIntervalSinceReferenceDate: 700_000_000), id: nil),
+        )
+
+        let oldEntryDetail = Data(#"{"entryDetail":{"timestamp":700000000}}"#.utf8)
+        #expect(
+            try decoder.decode(SheetRoute.self, from: oldEntryDetail)
+                == .entryDetail(timestamp: Date(timeIntervalSinceReferenceDate: 700_000_000), id: nil),
+        )
+    }
+
     @Test(arguments: [
         SheetRoute.quickLog(routine: nil),
         .settings,
         .help,
         .onboarding,
         .sessionDetail,
-        .entryDetail(timestamp: Date(timeIntervalSince1970: 100)),
+        .entryDetail(timestamp: Date(timeIntervalSince1970: 100), id: nil),
+        .entryDetail(
+            timestamp: Date(timeIntervalSince1970: 100),
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000062"),
+        ),
         .entryForm(prefill: nil),
         .entryForm(prefill: EntryPrefillPayload(substance: "MDMA", route: .oral, unit: "mg")),
         .entryEdit(timestamp: Date(timeIntervalSince1970: 200)),
@@ -366,7 +406,13 @@ struct RoutesCodableTests {
         let snap = try NavigatorSnapshot(
             selectedTab: .library,
             paths: [
-                .journal: [.session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000050"))), .entry(timestamp: Date(timeIntervalSince1970: 2))],
+                .journal: [
+                    .session(id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000050"))),
+                    .entry(
+                        timestamp: Date(timeIntervalSince1970: 2),
+                        id: #require(UUID(uuidString: "00000000-0000-0000-0000-000000000051")),
+                    ),
+                ],
                 .library: [.substance(name: "DMT")],
             ],
             sheetStack: [

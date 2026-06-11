@@ -85,10 +85,26 @@ struct DeepLinkTests {
     }
 
     @Test
-    func `piru://entry/<timestamp> lands on journal with entry detail`() {
+    func `piru://entry/<timestamp> lands on journal with entry detail (id-less fallback)`() {
+        // Timestamp-only URLs — pre-V4 links and everything the Live Activity
+        // emits — must keep decoding, with a nil id (resolved by the ±2 s
+        // window downstream).
         let outcome = decode("piru://entry/1700000000")
         #expect(outcome?.tab == .journal)
-        #expect(outcome?.sheet == .entryDetail(timestamp: Date(timeIntervalSince1970: 1_700_000_000)))
+        #expect(outcome?.sheet == .entryDetail(timestamp: Date(timeIntervalSince1970: 1_700_000_000), id: nil))
+    }
+
+    @Test
+    func `piru://entry with an id query carries the stable id`() throws {
+        let id = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000003"))
+        let outcome = decode("piru://entry/1700000000?id=\(id.uuidString)")
+        #expect(outcome?.sheet == .entryDetail(timestamp: Date(timeIntervalSince1970: 1_700_000_000), id: id))
+    }
+
+    @Test
+    func `piru://entry with a malformed id decodes with nil id`() {
+        let outcome = decode("piru://entry/1700000000?id=not-a-uuid")
+        #expect(outcome?.sheet == .entryDetail(timestamp: Date(timeIntervalSince1970: 1_700_000_000), id: nil))
     }
 
     @Test
@@ -196,11 +212,22 @@ struct DeepLinkTests {
     }
 
     @Test
-    func `Encoding an entry detail snapshot`() {
+    func `Encoding an id-less entry detail snapshot`() {
         let ts = Date(timeIntervalSince1970: 1_700_000_500)
-        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.entryDetail(timestamp: ts)])
+        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.entryDetail(timestamp: ts, id: nil)])
         let url = DeepLink.encode(snap)
         #expect(url?.absoluteString == "piru://entry/1700000500.0")
+    }
+
+    @Test
+    func `Encoding an entry detail snapshot carries the id and round-trips`() throws {
+        let ts = Date(timeIntervalSince1970: 1_700_000_500)
+        let id = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000004"))
+        let snap = NavigatorSnapshot(selectedTab: .journal, sheetStack: [.entryDetail(timestamp: ts, id: id)])
+        let url = try #require(DeepLink.encode(snap))
+        #expect(url.absoluteString == "piru://entry/1700000500.0?id=\(id.uuidString)")
+        let outcome = DeepLink.decode(url)
+        #expect(outcome?.sheet == .entryDetail(timestamp: ts, id: id))
     }
 
     @Test

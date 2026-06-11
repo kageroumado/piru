@@ -43,20 +43,21 @@ private struct PushRouteView: View {
                 SessionDetailView(session: session)
             }
 
-        case let .entry(timestamp):
-            // Look up the entry by timestamp (±2s, matching the deep-link
-            // semantics in SheetRouteView). If the entry has been deleted
-            // since the route was pushed, render nothing — the stack will
-            // typically pop the dead route on next interaction.
-            if let entry = lookupEntry(at: timestamp) {
+        case let .entry(timestamp, id):
+            // Look up the entry by its stable id, falling back to the ±2s
+            // timestamp window for id-less routes (pre-V4 payloads, Live
+            // Activity links). If the entry has been deleted since the route
+            // was pushed, render nothing — the stack will typically pop the
+            // dead route on next interaction.
+            if let entry = lookupEntry(id: id, near: timestamp) {
                 EntryDetailView(entry: entry)
             }
 
-        case let .rampDown(timestamp):
+        case let .rampDown(timestamp, id):
             // Resolve the entry like `.entry`, then re-derive the duration
             // profile the same way EntryDetailView gates its link — if either
             // is gone, render nothing.
-            if let entry = lookupEntry(at: timestamp),
+            if let entry = lookupEntry(id: id, near: timestamp),
                let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
                let duration = substance.resolveDuration(for: entry.route) {
                 RampDownView(entry: entry, duration: duration)
@@ -115,7 +116,18 @@ private struct PushRouteView: View {
         return try? modelContext.fetch(descriptor).first
     }
 
-    private func lookupEntry(at timestamp: Date) -> DoseEntry? {
+    /// Resolve an entry by its stable `id` first; for id-less routes (pre-V4
+    /// payloads, the Live Activity's timestamp-only deep links) — or if the id
+    /// no longer matches (store replaced by a restore) — fall back to the
+    /// legacy ±2 s timestamp window.
+    private func lookupEntry(id: UUID?, near timestamp: Date) -> DoseEntry? {
+        if let id {
+            var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.id == id })
+            descriptor.fetchLimit = 1
+            if let entry = try? modelContext.fetch(descriptor).first {
+                return entry
+            }
+        }
         let lower = timestamp.addingTimeInterval(-2)
         let upper = timestamp.addingTimeInterval(2)
         var descriptor = FetchDescriptor<DoseEntry>(

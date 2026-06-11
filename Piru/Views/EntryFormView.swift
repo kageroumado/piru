@@ -355,10 +355,6 @@ struct EntryFormView: View {
             entry.locationName = location?.name
             entry.latitude = location?.latitude
             entry.longitude = location?.longitude
-            // The detail/edit screens are keyed by timestamp; if the edit moved
-            // the dose in time, repoint the originating route so it doesn't go
-            // blank when we dismiss back to it.
-            navigator.remapEntryRoute(from: previousTimestamp, to: timestamp)
 
             // The session accessory & Live Activity read from ActiveSessionManager's
             // snapshot, not SwiftData — without this, the bottom mini-graph keeps

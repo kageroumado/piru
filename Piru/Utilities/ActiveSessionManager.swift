@@ -126,13 +126,20 @@ final class ActiveSessionManager {
         }
     }
 
+    /// Remove a tracked dose, matched by its stable `id`. The substance name +
+    /// timestamp serve only the fallback for snapshots recovered from a running
+    /// Live Activity, which carry no id (see ``DoseSnapshot/id``).
     func removeDose(
+        id: UUID,
         substanceName: String,
         timestamp: Date,
         allColors: [SubstanceColor],
     ) {
         activeEntries.removeAll { item in
-            item.snapshot.substance == substanceName &&
+            if let snapshotID = item.snapshot.id {
+                return snapshotID == id
+            }
+            return item.snapshot.substance == substanceName &&
                 abs(item.snapshot.timestamp.timeIntervalSince(timestamp)) < 1
         }
 
@@ -151,13 +158,16 @@ final class ActiveSessionManager {
 
     /// Update a tracked dose after the user edits its `DoseEntry`.
     ///
-    /// The dose is matched by the substance name + timestamp it had *before*
-    /// the edit (the values stored in its snapshot). When found, the snapshot
-    /// and resolved duration are rebuilt from the edited entry; if no match
-    /// exists — e.g. the dose had expired and been pruned but the edit moved it
-    /// back into an active window — the refreshed snapshot is appended instead.
-    /// Newly-expired results are pruned, keeping the session accessory and Live
-    /// Activity in sync with SwiftData without waiting for an app relaunch.
+    /// The dose is matched by the entry's stable `id`, which survives edits to
+    /// any field — including the timestamp. The pre-edit substance name +
+    /// timestamp serve only the fallback for snapshots recovered from a running
+    /// Live Activity, which carry no id (see ``DoseSnapshot/id``). When found,
+    /// the snapshot and resolved duration are rebuilt from the edited entry; if
+    /// no match exists — e.g. the dose had expired and been pruned but the edit
+    /// moved it back into an active window — the refreshed snapshot is appended
+    /// instead. Newly-expired results are pruned, keeping the session accessory
+    /// and Live Activity in sync with SwiftData without waiting for an app
+    /// relaunch.
     func updateDose(
         previousSubstanceName: String,
         previousTimestamp: Date,
@@ -175,7 +185,10 @@ final class ActiveSessionManager {
         let updated = (snapshot: snapshot, duration: duration, colorHex: hex)
 
         if let index = activeEntries.firstIndex(where: { item in
-            item.snapshot.substance == previousSubstanceName &&
+            if let snapshotID = item.snapshot.id {
+                return snapshotID == entry.id
+            }
+            return item.snapshot.substance == previousSubstanceName &&
                 abs(item.snapshot.timestamp.timeIntervalSince(previousTimestamp)) < 1
         }) {
             activeEntries[index] = updated
