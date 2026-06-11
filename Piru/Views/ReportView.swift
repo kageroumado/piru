@@ -240,10 +240,11 @@ struct ReportView: View {
         )
 
         Task {
-            // PDFReportGenerator is MainActor-bound (target-wide default
-            // isolation), so the render pass itself can't hop off main without
-            // touching that file — yield once so the spinner gets a frame, and
-            // move the file write off the main actor.
+            // PDFReportGenerator must stay MainActor-bound: its draw passes
+            // hit MainActor state (drug-class memoisation via
+            // SubstanceLibrary) and default-isolated helpers — see the note on
+            // `PDFReportGenerator`. So: yield once so the spinner gets a
+            // frame, and move only the file write off the main actor.
             await Task.yield()
             let pdfData = PDFReportGenerator.generate(from: data)
 
