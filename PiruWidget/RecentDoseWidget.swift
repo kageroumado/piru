@@ -50,25 +50,8 @@ struct RecentDoseProvider: TimelineProvider {
         completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
     }
 
-    private static let appGroupID = "group.dev.yumeji.piru"
-
     private func fetchEntry() -> RecentDoseEntry {
-        let container: ModelContainer
-        do {
-            guard let groupURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroupID,
-            ) else {
-                return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
-            }
-            let storeURL = groupURL.appendingPathComponent("default.store")
-            let config = ModelConfiguration(url: storeURL)
-            container = try ModelContainer(
-                for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
-                DoseRoutine.self,
-                configurations: config,
-            )
-        } catch {
+        guard let container = WidgetStoreAccess.makeContainer() else {
             return RecentDoseEntry(date: .now, substance: nil, amount: 0, unit: "mg", route: "Oral", doseTime: nil, colorHex: "F56297")
         }
         let context = ModelContext(container)
@@ -90,7 +73,7 @@ struct RecentDoseProvider: TimelineProvider {
         // Apply a personal display-name override (e.g. THC → "joint") from the
         // lightweight app-group map the main app maintains.
         let displayNames = (
-            UserDefaults(suiteName: Self.appGroupID)?
+            UserDefaults(suiteName: WidgetStoreAccess.appGroupID)?
                 .dictionary(forKey: "piru.substanceDisplayNames.v1") as? [String: String],
         ) ?? [:]
         let shownSubstance = displayNames[entry.substance.lowercased()] ?? entry.substance
@@ -125,21 +108,6 @@ struct RecentDoseView: View {
         }
     }
 
-    private var timeAgo: String {
-        guard let doseTime = entry.doseTime else { return "" }
-        let interval = Date.now.timeIntervalSince(doseTime)
-        let minutes = Int(interval / 60)
-        let hours = minutes / 60
-
-        if hours > 0 {
-            let remainingMin = minutes % 60
-            return remainingMin > 0
-                ? String(localized: "\(hours)h \(remainingMin)m ago")
-                : String(localized: "\(hours)h ago")
-        }
-        return String(localized: "\(minutes)m ago")
-    }
-
     private var smallView: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -162,9 +130,15 @@ struct RecentDoseView: View {
                     Text("\(entry.amount.doseFormatted) \(entry.unit)")
                         .font(.title3.weight(.bold))
                         .foregroundStyle(WidgetColors.accent)
-                    Text(timeAgo)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                    if let doseTime = entry.doseTime {
+                        // Self-updating elapsed time — stays fresh between the
+                        // provider's 15-minute timeline reloads.
+                        Text(doseTime, style: .relative)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
                 }
             } else {
                 Text("No doses yet")
@@ -181,6 +155,9 @@ struct RecentDoseView: View {
                 Image(systemName: "pill.fill")
                     .font(.caption)
                     .foregroundStyle(WidgetColors.accent)
+                // Deliberately static: the self-updating relative/timer styles
+                // render too wide ("1 hr, 5 min" / "1:05:32") for a ~50pt
+                // circular face. Refreshes with the 15-minute timeline reload.
                 Text(shortTimeAgo)
                     .font(.system(size: 12, weight: .bold, design: .rounded))
                 Text(String(substance.prefix(5)))
@@ -201,9 +178,14 @@ struct RecentDoseView: View {
                     Text(substance)
                         .font(.headline)
                         .lineLimit(1)
-                    Text("\(entry.amount.doseFormatted) \(entry.unit) · \(timeAgo)")
+                    // Concatenated so the relative component self-updates.
+                    // Amount + unit are verbatim numerals — nothing to localize.
+                    (Text(verbatim: "\(entry.amount.doseFormatted) \(entry.unit) · ")
+                        + (entry.doseTime.map { Text($0, style: .relative) } ?? Text(verbatim: "")))
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                 }
             } else {
                 Text("No recent doses")

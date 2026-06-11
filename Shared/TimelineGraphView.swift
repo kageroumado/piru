@@ -244,7 +244,12 @@ struct TimelineGraphView: View, Equatable {
         let model = await Task.detached(priority: .userInitiated) {
             TimelineCurveModel.computeDerived(substances: subs, markers: mks, stackRedoses: sr, dayBounded: db, currentTime: ct)
         }.value
+        // Caching under the key is always safe, even for a superseded task.
         TimelineModelCache.shared.insert(model, for: key)
+        // Inputs changed mid-compute: `.task(id:)` cancelled this task, but the
+        // detached child doesn't throw, so we'd otherwise publish a stale model
+        // *after* the replacement task already finished (e.g. on a cache hit).
+        guard !Task.isCancelled else { return }
         derivedBox = model
         loadedKey = key
     }
@@ -819,21 +824,11 @@ struct TimelineGraphView: View, Equatable {
                     }
                 }
 
-                // Group slots by their x position for even vertical distribution
-                let groupedSlots: [[Int]] = groups
                 markerSlots = slots.compactMap { item in
                     let markerOffset = item.marker.timestamp.timeIntervalSince(earliestDose) / 60
                     let rawX = graphInset + CGFloat((markerOffset - vStart) / vSpan) * graphWidth
                     guard rawX >= -5, rawX <= size.width + 5 else { return nil }
                     let x = max(graphInset + diamondSize + 1, rawX)
-
-                    // Find which group this marker belongs to
-                    let groupIndex = groupedSlots.firstIndex { group in
-                        group.contains { j in
-                            abs(markers[j].timestamp.timeIntervalSince(item.marker.timestamp)) < 120
-                        }
-                    } ?? 0
-                    _ = groupedSlots[groupIndex].count
 
                     // Stack diamonds from the bottom of the graph upward, clamped to graph area
                     let usableBottom = graphTop + graphHeight - diamondSize - 2
@@ -1872,10 +1867,7 @@ struct TimelineGraphView: View, Equatable {
 
             if x >= 0, x <= size.width {
                 let minute = calendar.component(.minute, from: tickDate)
-                let hour = calendar.component(.hour, from: tickDate)
-                let label: String = if minute == 0, hour == 0 {
-                    "12 AM"
-                } else if minute == 0 {
+                let label: String = if minute == 0 {
                     Self.timeHourFormatter.string(from: tickDate)
                 } else {
                     Self.timeLabelFormatter.string(from: tickDate)
@@ -1940,7 +1932,7 @@ struct TimelineGraphView: View, Equatable {
             let x = inset + CGFloat((minutePos - visibleStart) / visibleSpan) * graphWidth
 
             if x >= -10, x <= size.width + 10 {
-                let label = "\(hour)h"
+                let label = String(localized: "\(hour)h")
 
                 let text = Text(label)
                     .font(.system(size: 9, weight: .medium, design: .rounded))

@@ -45,10 +45,10 @@ struct MedicationItemFormView: View {
         return defaultUnits
     }
 
-    private static let weekdaySymbols: [(index: Int, short: String)] = {
+    private static let weekdaySymbols: [(index: Int, short: String, full: String)] = {
         let cal = Calendar.current
         // 1=Sunday .. 7=Saturday
-        return (1 ... 7).map { ($0, cal.shortWeekdaySymbols[$0 - 1]) }
+        return (1 ... 7).map { ($0, cal.shortWeekdaySymbols[$0 - 1], cal.weekdaySymbols[$0 - 1]) }
     }()
 
     var body: some View {
@@ -106,14 +106,22 @@ struct MedicationItemFormView: View {
                                                 selectedWeekdays.insert(day.index)
                                             }
                                         } label: {
+                                            // 44pt hit target around the 34pt
+                                            // circle; the negative padding keeps
+                                            // the row's layout identical.
                                             Text(String(day.short.prefix(2)))
                                                 .font(.caption.weight(.semibold))
                                                 .frame(width: 34, height: 34)
                                                 .background(isSelected ? Theme.accent : Color(.tertiarySystemFill))
                                                 .foregroundStyle(isSelected ? .white : .primary)
                                                 .clipShape(Circle())
+                                                .frame(width: 44, height: 44)
+                                                .contentShape(Rectangle())
                                         }
                                         .buttonStyle(.plain)
+                                        .padding(-5)
+                                        .accessibilityLabel(day.full)
+                                        .accessibilityAddTraits(isSelected ? .isSelected : [])
                                     }
                                 }
                             }
@@ -155,10 +163,12 @@ struct MedicationItemFormView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel("Cancel")
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
                         .disabled(substance.isEmpty || amount.isEmpty || (frequency == .specificDays && selectedWeekdays.isEmpty))
+                        .accessibilityLabel("Save")
                 }
             }
             .onAppear(perform: loadItem)

@@ -15,7 +15,6 @@ struct UsageStatsView: View {
     @State private var categoryAngleValue: Int?
     @State private var filteredEntries: [CachedEntry] = []
     @State private var selectedActivityDay: Date?
-    @State private var selectedTrendDay: Date?
     @State private var trendZoom: CGFloat = 1.0
     @State private var trendGestureStartZoom: CGFloat = 1.0
     @State private var availableWidth: CGFloat = 350
@@ -225,7 +224,7 @@ struct UsageStatsView: View {
             }
         }
         .background(Theme.background)
-        .task(id: allEntries.count) {
+        .task(id: EntriesFingerprint.make(allEntries, colors: substanceColors)) {
             await Task.yield()
             rebuildFilteredEntries()
         }
@@ -314,7 +313,10 @@ struct UsageStatsView: View {
                     Image(systemName: activityExpanded ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                         .font(.subheadline)
                         .foregroundStyle(Theme.secondaryLabel)
+                        .frame(width: 44, height: 44, alignment: .trailing)
+                        .contentShape(Rectangle())
                 }
+                .accessibilityLabel(activityExpanded ? Text("Collapse Chart") : Text("Expand Chart"))
             }
 
             if activityExpanded {
@@ -587,7 +589,6 @@ struct UsageStatsView: View {
                             let isSelected = selectedTrendSubstance == name
                             Button {
                                 selectedTrendSubstance = isSelected ? nil : name
-                                selectedTrendDay = nil
                             } label: {
                                 Text(name)
                                     .font(.caption.weight(.medium))
@@ -644,52 +645,6 @@ struct UsageStatsView: View {
             .padding()
             .themeCard()
         }
-    }
-
-    @ViewBuilder
-    private func trendDayDetail(substance: String, date: Date, total: Double, unit: String, color: Color) -> some View {
-        let dayEntries = allEntries
-            .filter { $0.substance == substance && Calendar.current.isDate($0.timestamp, inSameDayAs: date) }
-            .sorted { $0.timestamp < $1.timestamp }
-
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(date.formatted(.dateTime.weekday(.wide).day().month(.wide)))
-                    .font(.subheadline.weight(.semibold))
-                Spacer()
-                Text("\(String(format: "%.1f", total)) \(unit) total")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(color)
-            }
-
-            if !dayEntries.isEmpty {
-                Divider()
-                ForEach(dayEntries) { entry in
-                    HStack(spacing: 8) {
-                        Text(entry.timestamp.formatted(.dateTime.hour().minute()))
-                            .font(.caption.weight(.medium))
-                            .foregroundStyle(Theme.secondaryLabel)
-                            .frame(width: 52, alignment: .leading)
-                        Text(String(format: "%.1f %@", entry.amount, entry.unit))
-                            .font(.caption.weight(.semibold))
-                        Text("\u{00B7} \(String(localized: entry.route.localizedName))")
-                            .font(.caption2)
-                            .foregroundStyle(Theme.secondaryLabel)
-                        if let notes = entry.notes, !notes.isEmpty {
-                            Spacer()
-                            Text(notes)
-                                .font(.caption2)
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .lineLimit(1)
-                        }
-                        Spacer(minLength: 0)
-                    }
-                }
-            }
-        }
-        .padding(10)
-        .themeCard(cornerRadius: 10)
-        .transition(.opacity.combined(with: .scale(scale: 0.95)))
     }
 
     // MARK: - Time of Day
@@ -980,7 +935,10 @@ private struct CategoryBreakdownContent: View {
                         Image(systemName: "chevron.left")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
+                            .frame(width: 44, height: 44, alignment: .leading)
+                            .contentShape(Rectangle())
                     }
+                    .accessibilityLabel(Text("Back"))
                     Text(selected.displayName)
                         .font(.headline)
                 }

@@ -36,7 +36,7 @@ struct RampDownView: View {
         .navigationTitle("Ramp Down")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            isActive = RampDownScheduler.isActive(for: entry.persistentModelID.hashValue)
+            isActive = RampDownScheduler.isActive(for: RampDownScheduler.entryKey(for: entry))
         }
         .alert("Notifications Disabled", isPresented: $permissionDenied) {
             Button("OK") {}
@@ -163,9 +163,7 @@ struct RampDownView: View {
                         .foregroundStyle(Theme.secondaryLabel)
                 }
             }
-            NavigationLink {
-                ComedownGuideView()
-            } label: {
+            NavigationLink(value: PushRoute.comedownGuide) {
                 Label("Full recovery guide", systemImage: "heart.text.clipboard")
                     .font(.subheadline)
             }
@@ -181,23 +179,25 @@ struct RampDownView: View {
                 permissionDenied = true
                 return
             }
+            let entryKey = RampDownScheduler.entryKey(for: entry)
             RampDownScheduler.scheduleNotification(
                 substanceName: entry.substance,
                 initialAmount: entry.amount,
                 unit: entry.unit,
                 doseTime: entry.timestamp,
                 duration: duration,
-                entryID: entry.persistentModelID.hashValue,
+                entryKey: entryKey,
                 category: category,
             )
-            RampDownScheduler.saveActiveEntry(entry.persistentModelID.hashValue)
+            RampDownScheduler.saveActiveEntry(entryKey)
             isActive = true
         }
     }
 
     private func cancelAlert() {
-        RampDownScheduler.cancelNotification(for: entry.persistentModelID.hashValue)
-        RampDownScheduler.removeActiveEntry(entry.persistentModelID.hashValue)
+        let entryKey = RampDownScheduler.entryKey(for: entry)
+        RampDownScheduler.cancelNotification(for: entryKey)
+        RampDownScheduler.removeActiveEntry(entryKey)
         isActive = false
     }
 }

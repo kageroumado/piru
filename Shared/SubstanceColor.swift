@@ -49,6 +49,9 @@ final class SubstanceColor {
 /// preset by ``name`` or ``hex`` when you need the human-readable label
 /// for a stored hex value.
 struct PresetColor: Identifiable, Hashable {
+    /// Fallback hex (system blue) for a substance with no assigned color.
+    static let defaultHex = "007AFF"
+
     /// Hex string (without `#`).
     let hex: String
     /// Human-readable name shown in the UI (e.g. `"Sky"`, `"Light Lavender"`).
