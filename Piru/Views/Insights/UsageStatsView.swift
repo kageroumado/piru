@@ -6,6 +6,7 @@ struct UsageStatsView: View {
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
     @Query private var substanceColors: [SubstanceColor]
 
+    @State private var model = UsageStatsModel()
     @State private var timeRange: TimeRange = .thirtyDays
     @State private var selectedTrendSubstance: String?
     @State private var trendSearch = ""
@@ -13,31 +14,13 @@ struct UsageStatsView: View {
     @State private var selectedCategory: SubstanceCategory?
     @State private var activityCategoryFilter: SubstanceCategory?
     @State private var categoryAngleValue: Int?
-    @State private var filteredEntries: [CachedEntry] = []
     @State private var selectedActivityDay: Date?
     @State private var selectedTrendDay: Date?
     @State private var trendZoom: CGFloat = 1.0
     @State private var trendGestureStartZoom: CGFloat = 1.0
     @State private var availableWidth: CGFloat = 350
 
-    /// Lightweight copy of DoseEntry fields — avoids SwiftData model accessor overhead in chart views.
-    struct CachedEntry {
-        let substance: String
-        let amount: Double
-        let unit: String
-        let timestamp: Date
-    }
-
-    struct DaySubstance: Hashable {
-        let date: Date
-        let substance: String
-    }
-
-    struct TrendDataPoint: Identifiable {
-        let id = UUID()
-        let date: Date
-        let total: Double
-    }
+    typealias DaySubstance = UsageStatsModel.DaySubstance
 
     enum TimeRange: String, CaseIterable, Identifiable {
         case sevenDays = "7D"
@@ -67,130 +50,16 @@ struct UsageStatsView: View {
         }
     }
 
-    private func rebuildFilteredEntries() {
-        let filtered: [DoseEntry]
-        if let days = timeRange.days {
-            let cutoff = Date.now.addingTimeInterval(-Double(days) * 86_400)
-            filtered = allEntries.filter { $0.timestamp >= cutoff }
-        } else {
-            filtered = Array(allEntries)
-        }
-
-        // Single pass: snapshot SwiftData fields into lightweight structs
-        // and pre-compute timeline + trend data (avoids repeated Calendar work in chart views)
-        let calendar = Calendar.current
-        var entries: [CachedEntry] = []
-        entries.reserveCapacity(filtered.count)
-        var dayBuckets: [DaySubstance: Int] = [:]
-        var substanceDays: [String: Set<Date>] = [:]
-        var substanceCounts: [String: Int] = [:]
-        var uniqueNames = Set<String>()
-        var morning = 0, afternoon = 0, evening = 0, night = 0
-
-        for e in filtered {
-            let ce = CachedEntry(substance: e.substance, amount: e.amount, unit: e.unit, timestamp: e.timestamp)
-            entries.append(ce)
-            let day = calendar.sessionDayStart(for: ce.timestamp)
-            dayBuckets[DaySubstance(date: day, substance: ce.substance), default: 0] += 1
-            substanceDays[ce.substance, default: []].insert(day)
-            substanceCounts[ce.substance, default: 0] += 1
-            uniqueNames.insert(ce.substance.lowercased())
-
-            let hour = calendar.component(.hour, from: ce.timestamp)
-            switch hour {
-            case 6 ..< 12: morning += 1
-            case 12 ..< 18: afternoon += 1
-            case 18 ..< 24: evening += 1
-            default: night += 1
-            }
-        }
-
-        filteredEntries = entries
-        cachedColorMap = substanceColors.colorMap
-
-        // Frequency (top 10)
-        cachedFrequencyTotal = entries.count
-        cachedFrequencyData = substanceCounts.sorted { $0.value > $1.value }
-            .prefix(10).map { (substance: $0.key, count: $0.value) }
-
-        // Time of day
-        cachedTimeOfDayBuckets = [morning, afternoon, evening, night]
-
-        // Summary
-        cachedUniqueSubstances = uniqueNames.count
-        cachedMostLogged = substanceCounts.max(by: { $0.value < $1.value })?.key ?? "—"
-
-        // Timeline data (per-substance for expanded chart)
-        cachedTimelineData = dayBuckets.map { (key: $0.key, count: $0.value) }
-            .sorted { $0.key.date < $1.key.date }
-
-        // Daily totals (aggregated for compact chart — 1 bar per day)
-        var dailyAgg: [Date: Int] = [:]
-        for (key, count) in dayBuckets {
-            dailyAgg[key.date, default: 0] += count
-        }
-        cachedDailyTotals = dailyAgg.sorted { $0.key < $1.key }
-            .map { (date: $0.key, count: $0.value) }
-
-        var seen = Set<String>()
-        var legend: [(name: String, color: Color)] = []
-        for item in cachedTimelineData {
-            let name = item.key.substance
-            if seen.insert(name.lowercased()).inserted {
-                legend.append((name: name, color: cachedColorMap[name.lowercased()] ?? Theme.accent))
-            }
-        }
-        cachedTimelineLegend = legend.sorted { $0.name < $1.name }
-
-        // Trend substances (2+ entries on 2+ distinct days)
-        var trends: [(name: String, count: Int)] = []
-        for (name, days) in substanceDays {
-            let count = substanceCounts[name] ?? 0
-            guard count >= 2, days.count >= 2 else { continue }
-            trends.append((name: name, count: count))
-        }
-        cachedTrendSubstances = trends.sorted { $0.count > $1.count }
-
-        rebuildCategoryData()
-    }
-
-    private func rebuildCategoryData() {
-        var categoryCounts: [SubstanceCategory: Int] = [:]
-        var substanceByCat: [SubstanceCategory: [String: Int]] = [:]
-
-        for entry in filteredEntries {
-            let cat = SubstanceLibrary.lookup(entry.substance.lowercased())?.category ?? .other
-            categoryCounts[cat, default: 0] += 1
-            substanceByCat[cat, default: [:]][entry.substance, default: 0] += 1
-        }
-
-        cachedCategoryCounts = categoryCounts
-            .sorted { $0.value > $1.value }
-            .map { (category: $0.key, count: $0.value) }
-
-        cachedCategorySubstanceCounts = substanceByCat.mapValues { counts in
-            counts.sorted { $0.value > $1.value }.map { ($0.key, $0.value) }
-        }
+    private func rebuild() {
+        model.rebuild(entries: allEntries, colors: substanceColors, rangeDays: timeRange.days)
 
         // Reset stale category selection if it no longer exists in the data
-        if let selected = selectedCategory, categoryCounts[selected] == nil {
+        if let selected = selectedCategory,
+           !model.categoryCounts.contains(where: { $0.category == selected }) {
             selectedCategory = nil
             categoryAngleValue = nil
         }
     }
-
-    @State private var cachedColorMap: [String: Color] = [:]
-    @State private var cachedTimelineData: [(key: DaySubstance, count: Int)] = []
-    @State private var cachedTimelineLegend: [(name: String, color: Color)] = []
-    @State private var cachedTrendSubstances: [(name: String, count: Int)] = []
-    @State private var cachedCategoryCounts: [(category: SubstanceCategory, count: Int)] = []
-    @State private var cachedCategorySubstanceCounts: [SubstanceCategory: [(substance: String, count: Int)]] = [:]
-    @State private var cachedFrequencyData: [(substance: String, count: Int)] = []
-    @State private var cachedDailyTotals: [(date: Date, count: Int)] = []
-    @State private var cachedTimeOfDayBuckets: [Int] = [0, 0, 0, 0]
-    @State private var cachedUniqueSubstances = 0
-    @State private var cachedMostLogged = "—"
-    @State private var cachedFrequencyTotal = 0
 
     var body: some View {
         VStack(spacing: 0) {
@@ -207,7 +76,7 @@ struct UsageStatsView: View {
                             systemImage: "chart.bar",
                             description: Text("Log some entries to see usage stats."),
                         )
-                    } else if !filteredEntries.isEmpty {
+                    } else if !model.filteredEntries.isEmpty {
                         summaryRow
                         frequencyChart
                         timelineChart
@@ -227,9 +96,9 @@ struct UsageStatsView: View {
         .background(Theme.background)
         .task(id: allEntries.count) {
             await Task.yield()
-            rebuildFilteredEntries()
+            rebuild()
         }
-        .onChange(of: timeRange) { rebuildFilteredEntries() }
+        .onChange(of: timeRange) { rebuild() }
     }
 
     // MARK: - Time Range Picker
@@ -246,7 +115,7 @@ struct UsageStatsView: View {
     // MARK: - Summary
 
     private var summaryRow: some View {
-        let entries = filteredEntries
+        let entries = model.filteredEntries
         let totalDays: Double = {
             guard let days = timeRange.days else {
                 guard let oldest = entries.last?.timestamp,
@@ -260,11 +129,11 @@ struct UsageStatsView: View {
         return VStack(spacing: 12) {
             HStack {
                 statCard(value: "\(entries.count)", label: "Entries")
-                statCard(value: "\(cachedUniqueSubstances)", label: "Substances")
+                statCard(value: "\(model.uniqueSubstances)", label: "Substances")
             }
             HStack {
                 statCard(value: String(format: "%.1f", avgPerDay), label: "Per day")
-                statCard(value: cachedMostLogged, label: "Most logged")
+                statCard(value: model.mostLogged, label: "Most logged")
             }
         }
     }
@@ -287,14 +156,14 @@ struct UsageStatsView: View {
     // MARK: - Frequency Chart
 
     private var frequencyChart: some View {
-        FrequencyChartContent(data: cachedFrequencyData, total: cachedFrequencyTotal, colorMap: cachedColorMap)
+        FrequencyChartContent(data: model.frequencyData, total: model.frequencyTotal, colorMap: model.colorMap)
     }
 
     // MARK: - Timeline Chart
 
     private var timelineChart: some View {
-        let data = cachedTimelineData
-        let uniqueSubstances = cachedTimelineLegend
+        let data = model.timelineData
+        let uniqueSubstances = model.timelineLegend
 
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -379,7 +248,7 @@ struct UsageStatsView: View {
                 // Expanded: scrollable + zoomable chart
                 ActivityExpandedChart(
                     data: chartData,
-                    colorMap: cachedColorMap,
+                    colorMap: model.colorMap,
                     maxCount: chartMax,
                     strideComponent: strideComponent,
                     strideCount: strideCount,
@@ -406,7 +275,7 @@ struct UsageStatsView: View {
                 .padding(.top, 4)
             } else {
                 // Compact: aggregated daily totals (1 bar per day for performance)
-                Chart(cachedDailyTotals, id: \.date) { item in
+                Chart(model.dailyTotals, id: \.date) { item in
                     BarMark(
                         x: .value("Date", item.date, unit: .day),
                         y: .value("Count", item.count),
@@ -446,7 +315,7 @@ struct UsageStatsView: View {
                             ForEach(dayEntries, id: \.key) { item in
                                 HStack(spacing: 3) {
                                     Circle()
-                                        .fill(cachedColorMap[item.key.substance.lowercased()] ?? Theme.accent)
+                                        .fill(model.colorMap[item.key.substance.lowercased()] ?? Theme.accent)
                                         .frame(width: 6, height: 6)
                                     Text("\(item.count)")
                                         .font(.caption2.weight(.medium))
@@ -492,73 +361,9 @@ struct UsageStatsView: View {
 
     // MARK: - Dose Trends
 
-    /// Build trend data from filtered entries for a substance, auto-aggregating to daily averages per week if span exceeds threshold.
-    /// The threshold scales with zoom — zooming in deep enough reveals individual daily data points.
-    private func trendData(for substance: String) -> (points: [TrendDataPoint], unit: String, weekly: Bool, maLookup: [Date: Double], mixedUnits: Bool) {
-        let allSubstanceEntries = filteredEntries
-            .filter { $0.substance == substance }
-            .sorted { $0.timestamp < $1.timestamp }
-
-        guard !allSubstanceEntries.isEmpty else { return ([], "mg", false, [:], false) }
-
-        // Determine predominant unit; filter if mixed
-        var unitCounts: [String: Int] = [:]
-        for e in allSubstanceEntries {
-            unitCounts[e.unit, default: 0] += 1
-        }
-        let unit = unitCounts.max(by: { $0.value < $1.value })?.key ?? "mg"
-        let mixedUnits = unitCounts.count > 1
-        let entries = mixedUnits ? allSubstanceEntries.filter { $0.unit == unit } : allSubstanceEntries
-
-        guard !entries.isEmpty else { return ([], unit, false, [:], mixedUnits) }
-
-        let calendar = Calendar.current
-
-        let span = (entries.last?.timestamp.timeIntervalSince(entries.first?.timestamp ?? .now) ?? 0) / 86_400
-        let weekly = span > 90 * Double(trendZoom)
-
-        var buckets: [Date: Double] = [:]
-        for entry in entries {
-            let key: Date = if weekly {
-                calendar.dateInterval(of: .weekOfYear, for: entry.timestamp)?.start
-                    ?? calendar.sessionDayStart(for: entry.timestamp)
-            } else {
-                calendar.sessionDayStart(for: entry.timestamp)
-            }
-            buckets[key, default: 0] += entry.amount
-        }
-
-        // When aggregating weekly, convert totals to daily averages
-        if weekly {
-            let now = Date.now
-            for (weekStart, total) in buckets {
-                let weekEnd = calendar.date(byAdding: .day, value: 7, to: weekStart) ?? weekStart
-                let isComplete = weekEnd <= now
-                let days = isComplete ? 7 : max(1, (calendar.dateComponents([.day], from: weekStart, to: now).day ?? 0) + 1)
-                buckets[weekStart] = total / Double(days)
-            }
-        }
-
-        let points = buckets.map { TrendDataPoint(date: $0.key, total: $0.value) }
-            .sorted { $0.date < $1.date }
-
-        // Compute moving average lookup
-        var maLookup: [Date: Double] = [:]
-        if points.count >= 3 {
-            let window = weekly ? 4 : 7
-            for i in 0 ..< points.count {
-                let start = max(0, i - window + 1)
-                let slice = points[start ... i]
-                maLookup[points[i].date] = slice.map(\.total).reduce(0, +) / Double(slice.count)
-            }
-        }
-
-        return (points, unit, weekly, maLookup, mixedUnits)
-    }
-
     @ViewBuilder
     private var doseTrendChart: some View {
-        let substances = cachedTrendSubstances
+        let substances = model.trendSubstances
         if !substances.isEmpty {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Dose Trends")
@@ -595,7 +400,7 @@ struct UsageStatsView: View {
                                     .padding(.vertical, 5)
                                     .background(
                                         isSelected
-                                            ? (cachedColorMap[name.lowercased()] ?? Theme.accent)
+                                            ? (model.colorMap[name.lowercased()] ?? Theme.accent)
                                             : Color.clear,
                                     )
                                     .foregroundStyle(isSelected ? .white : .primary)
@@ -608,8 +413,8 @@ struct UsageStatsView: View {
 
                 if let selected = selectedTrendSubstance,
                    names.contains(selected) {
-                    let (data, unit, weekly, maLookup, mixedUnits) = trendData(for: selected)
-                    let color = cachedColorMap[selected.lowercased()] ?? Theme.accent
+                    let (data, unit, weekly, maLookup, mixedUnits) = model.trendData(for: selected, zoom: trendZoom)
+                    let color = model.colorMap[selected.lowercased()] ?? Theme.accent
 
                     if data.isEmpty {
                         Text("No entries for \(selected)")
@@ -695,16 +500,16 @@ struct UsageStatsView: View {
     // MARK: - Time of Day
 
     private var timeOfDayChart: some View {
-        TimeOfDayChartContent(buckets: cachedTimeOfDayBuckets)
+        TimeOfDayChartContent(buckets: model.timeOfDayBuckets)
     }
 
     // MARK: - Category Breakdown
 
     private var categoryBreakdownChart: some View {
         CategoryBreakdownContent(
-            categoryCounts: cachedCategoryCounts,
-            substanceCounts: cachedCategorySubstanceCounts,
-            colorMap: cachedColorMap,
+            categoryCounts: model.categoryCounts,
+            substanceCounts: model.categorySubstanceCounts,
+            colorMap: model.colorMap,
             selectedCategory: $selectedCategory,
             categoryAngleValue: $categoryAngleValue,
         )
@@ -820,7 +625,7 @@ private struct TimeOfDayChartContent: View {
 }
 
 private struct DoseTrendInnerChart: View {
-    let data: [UsageStatsView.TrendDataPoint]
+    let data: [UsageStatsModel.TrendDataPoint]
     let maLookup: [Date: Double]
     let color: Color
     let unit: String
