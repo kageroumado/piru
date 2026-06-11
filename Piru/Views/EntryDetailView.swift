@@ -103,9 +103,14 @@ struct EntryDetailView: View {
 
     // MARK: - Draft helpers (edit mode)
 
+    /// The draft amount keeps a String binding (not `value:format:`) so the
+    /// dose-level tint and badge update per keystroke. Invariant dot-decimal
+    /// first (`beginEditing` populates the field with dot-decimal text), then
+    /// a locale-aware parse for locale keyboards.
     private var parsedDraftAmount: Double? {
-        guard let value = Double(draftAmount.replacingOccurrences(of: ",", with: ".")),
-              value > 0 else { return nil }
+        let parsed = Double(draftAmount.replacingOccurrences(of: ",", with: "."))
+            ?? (try? Double(draftAmount, format: .number))
+        guard let value = parsed, value > 0 else { return nil }
         return value
     }
 
