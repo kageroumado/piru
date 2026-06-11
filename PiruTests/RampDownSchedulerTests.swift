@@ -83,48 +83,56 @@ struct RampDownSchedulerTests {
     func `Notification identifiers are deterministic`() {
         // Test via the public isActive/saveActiveEntry/removeActiveEntry API
         // These use UserDefaults, so we test the key format indirectly
-        let entryID = 42
-        RampDownScheduler.saveActiveEntry(entryID)
-        #expect(RampDownScheduler.isActive(for: entryID))
-        RampDownScheduler.removeActiveEntry(entryID)
-        #expect(!RampDownScheduler.isActive(for: entryID))
+        let entryKey = "Caffeine-1700000000.0"
+        RampDownScheduler.saveActiveEntry(entryKey)
+        #expect(RampDownScheduler.isActive(for: entryKey))
+        RampDownScheduler.removeActiveEntry(entryKey)
+        #expect(!RampDownScheduler.isActive(for: entryKey))
+    }
+
+    @Test
+    func `Entry key is deterministic for the same entry`() {
+        let timestamp = Date(timeIntervalSince1970: 1_700_000_000)
+        let a = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", timestamp: timestamp)
+        let b = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", timestamp: timestamp)
+        #expect(RampDownScheduler.entryKey(for: a) == RampDownScheduler.entryKey(for: b))
     }
 
     // MARK: - Persistence (UserDefaults)
 
     @Test
     func `Save and check active entry`() {
-        let id = Int.random(in: 100_000 ... 999_999)
-        RampDownScheduler.saveActiveEntry(id)
-        #expect(RampDownScheduler.isActive(for: id))
+        let key = "Test-\(Double.random(in: 100_000 ... 999_999))"
+        RampDownScheduler.saveActiveEntry(key)
+        #expect(RampDownScheduler.isActive(for: key))
         // Cleanup
-        RampDownScheduler.removeActiveEntry(id)
+        RampDownScheduler.removeActiveEntry(key)
     }
 
     @Test
     func `Remove clears active entry`() {
-        let id = Int.random(in: 100_000 ... 999_999)
-        RampDownScheduler.saveActiveEntry(id)
-        RampDownScheduler.removeActiveEntry(id)
-        #expect(!RampDownScheduler.isActive(for: id))
+        let key = "Test-\(Double.random(in: 100_000 ... 999_999))"
+        RampDownScheduler.saveActiveEntry(key)
+        RampDownScheduler.removeActiveEntry(key)
+        #expect(!RampDownScheduler.isActive(for: key))
     }
 
     @Test
     func `Non-existent entry is not active`() {
-        #expect(!RampDownScheduler.isActive(for: -999))
+        #expect(!RampDownScheduler.isActive(for: "Nonexistent--999"))
     }
 
     @Test
     func `Multiple entries can be active simultaneously`() {
-        let id1 = Int.random(in: 100_000 ... 999_999)
-        let id2 = Int.random(in: 100_000 ... 999_999)
-        RampDownScheduler.saveActiveEntry(id1)
-        RampDownScheduler.saveActiveEntry(id2)
-        #expect(RampDownScheduler.isActive(for: id1))
-        #expect(RampDownScheduler.isActive(for: id2))
+        let key1 = "TestA-\(Double.random(in: 100_000 ... 999_999))"
+        let key2 = "TestB-\(Double.random(in: 100_000 ... 999_999))"
+        RampDownScheduler.saveActiveEntry(key1)
+        RampDownScheduler.saveActiveEntry(key2)
+        #expect(RampDownScheduler.isActive(for: key1))
+        #expect(RampDownScheduler.isActive(for: key2))
         // Cleanup
-        RampDownScheduler.removeActiveEntry(id1)
-        RampDownScheduler.removeActiveEntry(id2)
+        RampDownScheduler.removeActiveEntry(key1)
+        RampDownScheduler.removeActiveEntry(key2)
     }
 
     // MARK: - Cumulative dose check

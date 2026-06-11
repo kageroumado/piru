@@ -9,9 +9,42 @@ struct InteractionTimelineView: View {
 
     @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
 
-    @State private var ingestTimeA: Date = .now
-    @State private var ingestTimeB: Date = .now
+    @State private var ingestTimeA: Date
+    @State private var ingestTimeB: Date
     @State private var didAutoDetect = false
+
+    // Resolved PK params + generated curves are cached in @State and refreshed
+    // by `.task(id: curveInputs)` — one library lookup, Newton ka solve, and
+    // 200-sample generation per input change instead of several per body eval.
+    @State private var paramsA: PKParams?
+    @State private var paramsB: PKParams?
+    @State private var chartData: ChartData?
+    @State private var computedFor: CurveInputs?
+
+    init(substanceA: String, substanceB: String, severity: InteractionSeverity) {
+        self.substanceA = substanceA
+        self.substanceB = substanceB
+        self.severity = severity
+        // Seed synchronously so the first frame already renders the chart,
+        // exactly as when everything was computed inline in `body`.
+        let now = Date.now
+        let pA = Self.resolveParams(for: substanceA)
+        let pB = Self.resolveParams(for: substanceB)
+        _ingestTimeA = State(initialValue: now)
+        _ingestTimeB = State(initialValue: now)
+        _paramsA = State(initialValue: pA)
+        _paramsB = State(initialValue: pB)
+        if let pA, let pB {
+            _chartData = State(initialValue: Self.generateCurveData(
+                pA: pA, pB: pB,
+                substanceA: substanceA, substanceB: substanceB,
+                ingestTimeA: now, ingestTimeB: now,
+            ))
+        }
+        _computedFor = State(initialValue: CurveInputs(
+            substanceA: substanceA, substanceB: substanceB, timeA: now, timeB: now,
+        ))
+    }
 
     private struct PKParams {
         let ke: Double
@@ -20,7 +53,36 @@ struct InteractionTimelineView: View {
         let timeToPeakMinutes: Double
     }
 
-    private func resolveParams(for name: String) -> PKParams? {
+    private struct CurveInputs: Equatable {
+        let substanceA: String
+        let substanceB: String
+        let timeA: Date
+        let timeB: Date
+    }
+
+    private var curveInputs: CurveInputs {
+        CurveInputs(substanceA: substanceA, substanceB: substanceB, timeA: ingestTimeA, timeB: ingestTimeB)
+    }
+
+    private func recompute(for inputs: CurveInputs) {
+        guard inputs != computedFor else { return }
+        let pA = Self.resolveParams(for: inputs.substanceA)
+        let pB = Self.resolveParams(for: inputs.substanceB)
+        paramsA = pA
+        paramsB = pB
+        if let pA, let pB {
+            chartData = Self.generateCurveData(
+                pA: pA, pB: pB,
+                substanceA: inputs.substanceA, substanceB: inputs.substanceB,
+                ingestTimeA: inputs.timeA, ingestTimeB: inputs.timeB,
+            )
+        } else {
+            chartData = nil
+        }
+        computedFor = inputs
+    }
+
+    private static func resolveParams(for name: String) -> PKParams? {
         let substance = SubstanceLibrary.lookupByNameOrAlias(name)
         let halfLife = substance?.halfLifeMinutes ?? HalfLifeDatabase.halfLife(for: name)
         guard let halfLife, halfLife > 0 else { return nil }
@@ -43,13 +105,6 @@ struct InteractionTimelineView: View {
         return PKParams(ke: ke, ka: ka, halfLifeMinutes: halfLife, timeToPeakMinutes: tmax)
     }
 
-    private var paramsA: PKParams? {
-        resolveParams(for: substanceA)
-    }
-    private var paramsB: PKParams? {
-        resolveParams(for: substanceB)
-    }
-
     private var missingData: [String] {
         var missing: [String] = []
         if paramsA == nil { missing.append(substanceA) }
@@ -64,10 +119,10 @@ struct InteractionTimelineView: View {
                     missingDataSection
                 }
 
-                if let pA = paramsA, let pB = paramsB {
-                    chartSection(pA: pA, pB: pB)
+                if let data = chartData {
+                    chartSection(data: data)
                     timeControlsSection
-                    overlapCard(pA: pA, pB: pB)
+                    overlapCard(data: data)
                 }
 
                 warningCard
@@ -82,6 +137,7 @@ struct InteractionTimelineView: View {
         .background(Theme.background)
         .navigationTitle("Interaction Timeline")
         .navigationBarTitleDisplayMode(.inline)
+        .task(id: curveInputs) { recompute(for: curveInputs) }
         .onAppear { autoDetectTimes() }
     }
 
@@ -138,17 +194,22 @@ struct InteractionTimelineView: View {
 
     // MARK: - Chart
 
-    private struct CurvePoint: Identifiable {
-        let id = UUID()
+    private struct CurvePoint {
         let hours: Double
         let concentration: Double
         let substance: String
     }
 
-    private struct OverlapPoint: Identifiable {
-        let id = UUID()
+    private struct OverlapPoint {
         let hours: Double
         let minConcentration: Double
+    }
+
+    private struct ChartData {
+        let pointsA: [CurvePoint]
+        let pointsB: [CurvePoint]
+        let overlap: [OverlapPoint]
+        let totalHours: Double
     }
 
     /// Reference time for the chart x-axis (the earlier of the two ingestion times).
@@ -156,7 +217,12 @@ struct InteractionTimelineView: View {
         min(ingestTimeA, ingestTimeB)
     }
 
-    private func generateCurveData(pA: PKParams, pB: PKParams) -> (pointsA: [CurvePoint], pointsB: [CurvePoint], overlap: [OverlapPoint], totalHours: Double) {
+    private static func generateCurveData(
+        pA: PKParams, pB: PKParams,
+        substanceA: String, substanceB: String,
+        ingestTimeA: Date, ingestTimeB: Date,
+    ) -> ChartData {
+        let referenceTime = min(ingestTimeA, ingestTimeB)
         let offsetAMinutes = ingestTimeA.timeIntervalSince(referenceTime) / 60
         let offsetBMinutes = ingestTimeB.timeIntervalSince(referenceTime) / 60
 
@@ -200,14 +266,13 @@ struct InteractionTimelineView: View {
             }
         }
 
-        return (pointsA, pointsB, overlap, totalHours)
+        return ChartData(pointsA: pointsA, pointsB: pointsB, overlap: overlap, totalHours: totalHours)
     }
 
     private let colorA = Color.blue
     private let colorB = Color.orange
 
-    private func chartSection(pA: PKParams, pB: PKParams) -> some View {
-        let data = generateCurveData(pA: pA, pB: pB)
+    private func chartSection(data: ChartData) -> some View {
         let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
         let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
 
@@ -216,7 +281,7 @@ struct InteractionTimelineView: View {
                 .font(.headline)
 
             Chart {
-                ForEach(data.overlap) { point in
+                ForEach(data.overlap, id: \.hours) { point in
                     AreaMark(
                         x: .value("Time", point.hours),
                         y: .value("Conc", point.minConcentration),
@@ -225,7 +290,7 @@ struct InteractionTimelineView: View {
                     .interpolationMethod(.monotone)
                 }
 
-                ForEach(data.pointsA) { point in
+                ForEach(data.pointsA, id: \.hours) { point in
                     LineMark(
                         x: .value("Time", point.hours),
                         y: .value("Conc", point.concentration),
@@ -235,7 +300,7 @@ struct InteractionTimelineView: View {
                     .lineStyle(StrokeStyle(lineWidth: 2))
                 }
 
-                ForEach(data.pointsB) { point in
+                ForEach(data.pointsB, id: \.hours) { point in
                     LineMark(
                         x: .value("Time", point.hours),
                         y: .value("Conc", point.concentration),
@@ -370,14 +435,13 @@ struct InteractionTimelineView: View {
 
     // MARK: - Overlap Window
 
-    private func overlapWindow(pA: PKParams, pB: PKParams) -> (start: Double, end: Double)? {
-        let data = generateCurveData(pA: pA, pB: pB)
+    private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
         guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
         return (first.hours, last.hours)
     }
 
-    private func overlapCard(pA: PKParams, pB: PKParams) -> some View {
-        let window = overlapWindow(pA: pA, pB: pB)
+    private func overlapCard(data: ChartData) -> some View {
+        let window = overlapWindow(in: data)
 
         return VStack(alignment: .leading, spacing: 8) {
             if let window {

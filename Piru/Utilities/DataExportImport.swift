@@ -66,7 +66,7 @@ private enum PsyLogColorMap {
     private static let hexToName: [String: String] = Dictionary(nameToHex.map { ($0.value.uppercased(), $0.key) }, uniquingKeysWith: { first, _ in first })
 
     static func hex(from name: String) -> String {
-        nameToHex[name.uppercased()] ?? "007AFF"
+        nameToHex[name.uppercased()] ?? PresetColor.defaultHex
     }
 
     static func name(from hex: String) -> String {

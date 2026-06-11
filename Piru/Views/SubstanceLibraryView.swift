@@ -10,23 +10,7 @@ struct SubstanceLibraryView: View {
     var isSearchSurface = false
 
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
     @State private var searchResults: [Substance] = []
-
-    /// Up to 10 most recently logged substances, de-duplicated, resolved to the
-    /// library entry. Drives the Search surface's empty state.
-    private var recentSubstances: [Substance] {
-        var seen = Set<String>()
-        var result: [Substance] = []
-        for entry in recentEntries {
-            let key = entry.substance.lowercased()
-            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
-                result.append(substance)
-                if result.count >= 10 { break }
-            }
-        }
-        return result
-    }
 
     private var favoriteSubstances: [Substance] {
         favorites.compactMap { fav in
@@ -38,20 +22,11 @@ struct SubstanceLibraryView: View {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private func toggleFavorite(_ name: String) {
-        let lowered = name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: name))
-        }
-    }
-
     var body: some View {
         List {
             if searchText.isEmpty {
                 if isSearchSurface {
-                    recentSection
+                    RecentSubstancesSection()
                 } else {
                     categoryGrid
                 }
@@ -74,28 +49,6 @@ struct SubstanceLibraryView: View {
         }
     }
 
-    // MARK: - Recent (Search surface)
-
-    @ViewBuilder
-    private var recentSection: some View {
-        if recentSubstances.isEmpty {
-            ContentUnavailableView(
-                "Search Substances",
-                systemImage: "magnifyingglass",
-                description: Text("Find any substance by name or alias."),
-            )
-        } else {
-            Section("Recent") {
-                ForEach(recentSubstances) { substance in
-                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                        SubstanceRowView(substance: substance)
-                    }
-                }
-            }
-            .listSectionSeparator(.hidden, edges: .top)
-        }
-    }
-
     // MARK: - Category Grid
 
     private var categoryGrid: some View {
@@ -111,7 +64,7 @@ struct SubstanceLibraryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Favorites")
                                 .font(.body)
-                            Text("\(count) substance\(count == 1 ? "" : "s")")
+                            Text("^[\(count) substance](inflect: true)")
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -131,7 +84,7 @@ struct SubstanceLibraryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(category.displayName)
                                 .font(.body)
-                            Text("\(count) substance\(count == 1 ? "" : "s")")
+                            Text("^[\(count) substance](inflect: true)")
                                 .font(.caption)
                                 .foregroundStyle(Theme.secondaryLabel)
                         }
@@ -145,23 +98,8 @@ struct SubstanceLibraryView: View {
 
     // MARK: - Search Results
 
-    private static let helpKeywords: Set<String> = [
-        "help", "emergency", "overdose", "bad trip", "dying", "scared",
-        "panic", "ambulance", "hospital", "not okay", "freaking out",
-        "call 911", "911", "poisoning", "too much", "od", "can't breathe",
-    ]
-
     private var isHelpSearch: Bool {
-        let query = searchText.lowercased().trimmingCharacters(in: .whitespaces)
-        guard !query.isEmpty else { return false }
-        // Match single-word keywords on whole-word boundaries so a substance
-        // name that merely *contains* a keyword as a substring (e.g. "armod"
-        // contains "od") doesn't trip the crisis panel. Multi-word keywords
-        // ("bad trip", "call 911") are matched as phrases.
-        let words = Set(query.split(whereSeparator: { !$0.isLetter && !$0.isNumber }).map(String.init))
-        return Self.helpKeywords.contains { keyword in
-            keyword.contains(" ") ? query.contains(keyword) : words.contains(keyword)
-        }
+        CrisisKeywords.matches(searchText)
     }
 
     @ViewBuilder
@@ -185,7 +123,7 @@ struct SubstanceLibraryView: View {
                     .swipeActions(edge: .trailing) {
                         let isFav = favoriteNames.contains(substance.name.lowercased())
                         Button {
-                            toggleFavorite(substance.name)
+                            FavoriteService.toggle(substance.name, in: modelContext)
                         } label: {
                             Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                         }
@@ -280,7 +218,7 @@ struct SubstanceLibraryView: View {
         }
     }
 
-    private func helpLink(icon: String, color: Color, title: String, detail: String, url: String) -> some View {
+    private func helpLink(icon: String, color: Color, title: LocalizedStringKey, detail: LocalizedStringKey, url: String) -> some View {
         Link(destination: URL(string: url)!) {
             HStack(spacing: 10) {
                 Image(systemName: icon)
@@ -299,6 +237,51 @@ struct SubstanceLibraryView: View {
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
             }
+        }
+    }
+}
+
+// MARK: - Recent (Search surface)
+
+/// The Search surface's empty-query content: up to 10 most recently logged
+/// substances, de-duplicated and resolved to their library entries.
+///
+/// Owns the `DoseEntry` query so that *only this section* — which exists just
+/// while the search surface shows it — invalidates when doses change. Hosting
+/// the query on ``SubstanceLibraryView`` itself subscribed the entire Library
+/// tab to every dose mutation for the sake of these ten rows.
+private struct RecentSubstancesSection: View {
+    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var recentEntries: [DoseEntry]
+
+    private var recentSubstances: [Substance] {
+        var seen = Set<String>()
+        var result: [Substance] = []
+        for entry in recentEntries {
+            let key = entry.substance.lowercased()
+            if seen.insert(key).inserted, let substance = SubstanceLibrary.lookup(key) {
+                result.append(substance)
+                if result.count >= 10 { break }
+            }
+        }
+        return result
+    }
+
+    var body: some View {
+        if recentSubstances.isEmpty {
+            ContentUnavailableView(
+                "Search Substances",
+                systemImage: "magnifyingglass",
+                description: Text("Find any substance by name or alias."),
+            )
+        } else {
+            Section("Recent") {
+                ForEach(recentSubstances) { substance in
+                    NavigationLink(value: PushRoute.substance(name: substance.name)) {
+                        SubstanceRowView(substance: substance)
+                    }
+                }
+            }
+            .listSectionSeparator(.hidden, edges: .top)
         }
     }
 }
@@ -342,15 +325,6 @@ struct SubstanceCategoryListView: View {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
-    private func toggleFavorite(_ name: String) {
-        let lowered = name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: name))
-        }
-    }
-
     var body: some View {
         List {
             ForEach(sortedSubstances) { substance in
@@ -360,7 +334,7 @@ struct SubstanceCategoryListView: View {
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
                     Button {
-                        toggleFavorite(substance.name)
+                        FavoriteService.toggle(substance.name, in: modelContext)
                     } label: {
                         Label(isFav ? "Unfavorite" : "Favorite", systemImage: isFav ? "star.slash" : "star")
                     }
@@ -448,6 +422,11 @@ struct SubstanceDetailView: View {
     @State private var showAllHistory = false
     @State private var showEntries = false
     @State private var showingPersonalize = false
+
+    /// O(n) dose-history aggregates for the history card, memoized off `body`
+    /// so toggling a disclosure doesn't re-scan the full history. Rebuilt by
+    /// the `historySignature`-keyed task whenever the entries change.
+    @State private var historyStats = HistoryStats()
 
     /// The route the dose/duration card is showing. `nil` defaults to the
     /// substance's default route (resolved in ``activeSubstanceRoute``).
@@ -587,12 +566,7 @@ struct SubstanceDetailView: View {
     }
 
     private func toggleFavorite() {
-        let lowered = substance.name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(FavoriteSubstance(substance: substance.name))
-        }
+        FavoriteService.toggle(substance.name, in: modelContext)
         try? modelContext.save()
     }
 
@@ -1082,6 +1056,9 @@ struct SubstanceDetailView: View {
                 literatureBindings = []
             }
         }
+        .task(id: historySignature) {
+            rebuildHistoryStats()
+        }
         .onChange(of: profile) { _, _ in
             // Reset stuck Bool? overrides so the new tier's policy defaults
             // win. Any disclosure the user touches after this point sticks
@@ -1096,6 +1073,36 @@ struct SubstanceDetailView: View {
     private struct TaskKey: Hashable {
         let substanceName: String
         let profile: UserProfile
+    }
+
+    private struct HistoryStats {
+        var minDose: Double = 0
+        var maxDose: Double = 0
+        var mostCommon: Double = 0
+    }
+
+    /// Cheap content fingerprint of the dose history — membership plus the
+    /// amounts the aggregates depend on, so an in-place edit invalidates too.
+    private var historySignature: Int {
+        var hasher = Hasher()
+        for entry in historyEntries {
+            hasher.combine(entry.persistentModelID)
+            hasher.combine(entry.amount)
+        }
+        return hasher.finalize()
+    }
+
+    private func rebuildHistoryStats() {
+        let amounts = historyEntries.map(\.amount)
+        var freq: [Double: Int] = [:]
+        for a in amounts {
+            freq[a, default: 0] += 1
+        }
+        historyStats = HistoryStats(
+            minDose: amounts.min() ?? 0,
+            maxDose: amounts.max() ?? 0,
+            mostCommon: freq.max(by: { $0.value < $1.value })?.key ?? 0,
+        )
     }
 
     // MARK: - Source attribution
@@ -1203,19 +1210,10 @@ struct SubstanceDetailView: View {
     private var historySection: some View {
         let entries = historyEntries
         let count = entries.count
-        let amounts = entries.map(\.amount)
-        let minDose = amounts.min() ?? 0
-        let maxDose = amounts.max() ?? 0
+        let minDose = historyStats.minDose
+        let maxDose = historyStats.maxDose
+        let mostCommon = historyStats.mostCommon
         let unit = entries.first?.unit ?? substance.defaultUnit
-
-        // Most common dose
-        let mostCommon: Double = {
-            var freq: [Double: Int] = [:]
-            for a in amounts {
-                freq[a, default: 0] += 1
-            }
-            return freq.max(by: { $0.value < $1.value })?.key ?? 0
-        }()
 
         // Date range
         let earliest = entries.last?.timestamp
@@ -1251,7 +1249,7 @@ struct SubstanceDetailView: View {
             } label: {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("\(count) entr\(count == 1 ? "y" : "ies")")
+                        Text("^[\(count) entry](inflect: true)")
                             .font(.subheadline.weight(.medium))
                         if let earliest, let latest {
                             if Calendar.current.isDate(earliest, equalTo: latest, toGranularity: .month) {
@@ -1471,12 +1469,14 @@ private struct ReceptorLiteratureRow: View {
                 .foregroundStyle(accent)
         }
     }
+}
 
-    private func formatNm(_ value: Double) -> String {
-        if value >= 100 { return String(format: "%.0f", value) }
-        if value >= 10 { return String(format: "%.1f", value) }
-        return String(format: "%.2f", value)
-    }
+/// Ki/EC50 display formatter shared with `AdvancedSearchView` — precision
+/// scales with magnitude so small affinities keep their decimals.
+func formatNm(_ value: Double) -> String {
+    if value >= 100 { return String(format: "%.0f", value) }
+    if value >= 10 { return String(format: "%.1f", value) }
+    return String(format: "%.2f", value)
 }
 
 // MARK: - Effect Label Style
