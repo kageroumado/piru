@@ -87,7 +87,7 @@
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "35b99acef7251e3d6561d53cd9b40867b259f9e02b28dcb42cdac5bf807957c4",
+  "sqlite_sha256": "5c3a32f047e6e81dc818738af201a3c614af2e073d777802d0f30e0f7549b285",
   "sqlite_size_bytes": 15548416,
   "substance_count": 2326
 }

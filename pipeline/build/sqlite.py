@@ -3974,8 +3974,12 @@ def main() -> int:
     )
     db.commit()
 
-    # Vacuum + analyze for deterministic, optimised output
+    # Vacuum + analyze for deterministic, optimised output. The shipped file
+    # must be self-contained: a WAL-mode DB opened read-only from the app
+    # bundle fails with SQLITE_CANTOPEN unless its -shm/-wal sidecars ship
+    # too (they're gitignored, so fresh checkouts would crash at launch).
     db.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+    db.execute("PRAGMA journal_mode = DELETE")
     db.execute("VACUUM")
     db.execute("ANALYZE")
     db.commit()
