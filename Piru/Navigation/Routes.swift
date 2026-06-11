@@ -17,15 +17,18 @@ nonisolated enum AppTab: String, Hashable, Codable, CaseIterable {
 /// in `View.withAppDestinations()` so push destinations are registered exactly
 /// once per stack.
 ///
-/// Entry references use the entry's `timestamp` rather than a SwiftData
-/// identifier so the same route values are usable for deep links (the
-/// Live Activity already emits `piru://entry/<timestamp>` URLs).
+/// Entry references carry the entry's stable `id` (so the route survives
+/// timestamp edits) plus its `timestamp` as a resolution fallback: routes
+/// decoded from pre-V4 payloads and from id-less deep links (the Live Activity
+/// emits `piru://entry/<timestamp>` URLs) arrive with `id == nil` and resolve
+/// through the legacy ±2 s window instead. The synthesized `Codable` decodes a
+/// missing `id` key as `nil`, so old persisted snapshots keep decoding.
 nonisolated enum PushRoute: Hashable, Codable {
     case session(id: UUID)
-    case entry(timestamp: Date)
-    /// Comedown-alert screen for a dose, identified by timestamp like
-    /// `.entry`; the duration profile is re-derived from the resolved entry.
-    case rampDown(timestamp: Date)
+    case entry(timestamp: Date, id: UUID?)
+    /// Comedown-alert screen for a dose, identified like `.entry`; the
+    /// duration profile is re-derived from the resolved entry.
+    case rampDown(timestamp: Date, id: UUID?)
     case comedownGuide
     case substance(name: String)
     case libraryCategory(SubstanceCategory)
@@ -65,7 +68,10 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
 
     // Session / entries
     case sessionDetail
-    case entryDetail(timestamp: Date)
+    /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
+    /// as the resolution fallback (see `PushRoute` — same compatibility
+    /// contract for pre-V4 payloads and id-less `piru://entry/<ts>` URLs).
+    case entryDetail(timestamp: Date, id: UUID?)
     case entryForm(prefill: EntryPrefillPayload?)
     case entryEdit(timestamp: Date)
 

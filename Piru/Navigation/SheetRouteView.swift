@@ -36,8 +36,8 @@ struct SheetRouteView: View {
                     .withAppDestinations()
             }
 
-        case let .entryDetail(timestamp):
-            EntryByTimestampView(timestamp: timestamp) { entry in
+        case let .entryDetail(timestamp, id):
+            EntryLookupView(id: id, timestamp: timestamp) { entry in
                 NavigationStack {
                     EntryDetailView(entry: entry)
                         .withCancellationCloseButton()
@@ -57,7 +57,7 @@ struct SheetRouteView: View {
             }
 
         case let .entryEdit(timestamp):
-            EntryByTimestampView(timestamp: timestamp) { entry in
+            EntryLookupView(id: nil, timestamp: timestamp) { entry in
                 EntryFormView(entry: entry)
             }
 
@@ -69,7 +69,7 @@ struct SheetRouteView: View {
             )
 
         case let .timeAdjust(timestamp):
-            EntryByTimestampView(timestamp: timestamp) { entry in
+            EntryLookupView(id: nil, timestamp: timestamp) { entry in
                 TimeAdjustHost(entry: entry)
             }
 
@@ -134,11 +134,14 @@ private extension View {
     }
 }
 
-/// Resolves a `DoseEntry` from a timestamp (±2s window, matching the existing
-/// deep-link semantics) and renders `content` with the result. Falls back to
-/// nothing visible if the entry can't be found — the navigator typically
-/// dismisses the sheet shortly after.
-private struct EntryByTimestampView<Content: View>: View {
+/// Resolves a `DoseEntry` — by its stable `id` first, falling back to a ±2 s
+/// timestamp window for id-less routes (pre-V4 payloads, the Live Activity's
+/// timestamp-only deep links; mirrors `PushRouteView.lookupEntry`) — and
+/// renders `content` with the result. Falls back to nothing visible if the
+/// entry can't be found — the navigator typically dismisses the sheet shortly
+/// after.
+private struct EntryLookupView<Content: View>: View {
+    let id: UUID?
     let timestamp: Date
     @ViewBuilder let content: (DoseEntry) -> Content
 
@@ -151,6 +154,13 @@ private struct EntryByTimestampView<Content: View>: View {
     }
 
     private func lookup() -> DoseEntry? {
+        if let id {
+            var descriptor = FetchDescriptor<DoseEntry>(predicate: #Predicate { $0.id == id })
+            descriptor.fetchLimit = 1
+            if let entry = try? modelContext.fetch(descriptor).first {
+                return entry
+            }
+        }
         let lower = timestamp.addingTimeInterval(-2)
         let upper = timestamp.addingTimeInterval(2)
         var descriptor = FetchDescriptor<DoseEntry>(

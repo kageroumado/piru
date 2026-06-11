@@ -21,7 +21,9 @@ import Foundation
 ///
 /// **Entry-flow sheets** (select journal, then present):
 /// - `piru://day` → present `.sessionDetail`
-/// - `piru://entry/<unix-timestamp>` → present `.entryDetail(timestamp:)`
+/// - `piru://entry/<unix-timestamp>[?id=<uuid>]` → present
+///   `.entryDetail(timestamp:id:)`; `id` is the dose's stable identity, and
+///   id-less URLs (pre-V4 links, the Live Activity) resolve by timestamp
 /// - `piru://entryform?substance=&route=&unit=` → present `.entryForm`
 ///   with optional prefill (omit the query for a blank form)
 ///
@@ -99,9 +101,12 @@ nonisolated enum DeepLink {
             guard let tsString = pathSegments.first,
                   let ts = TimeInterval(tsString) else { return nil }
             let timestamp = Date(timeIntervalSince1970: ts)
+            // `id` is optional: pre-V4 URLs and the Live Activity's
+            // timestamp-only links omit it, and the route's lookup falls back
+            // to the ±2 s window.
             return DeepLinkOutcome(
                 tab: overrideTab ?? .journal,
-                sheet: .entryDetail(timestamp: timestamp),
+                sheet: .entryDetail(timestamp: timestamp, id: query["id"].flatMap(UUID.init(uuidString:))),
             )
 
         case "entryform":
@@ -168,9 +173,12 @@ nonisolated enum DeepLink {
         case .sessionDetail:
             components.host = "day"
 
-        case let .entryDetail(timestamp):
+        case let .entryDetail(timestamp, id):
             components.host = "entry"
             components.path = "/\(timestamp.timeIntervalSince1970)"
+            if let id {
+                components.queryItems = [URLQueryItem(name: "id", value: id.uuidString)]
+            }
 
         case let .entryForm(prefill):
             components.host = "entryform"
