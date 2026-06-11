@@ -83,9 +83,14 @@ struct EntryFormView: View {
         return defaultUnits
     }
 
+    /// The amount field keeps a String binding (not `value:format:`) so the
+    /// dose-level tint, badge, and dose reference update per keystroke.
+    /// Invariant dot-decimal first (`loadEntry` populates the field with
+    /// dot-decimal text), then a locale-aware parse for locale keyboards.
     private var parsedAmount: Double? {
-        guard let value = Double(amount.replacingOccurrences(of: ",", with: ".")),
-              value > 0 else { return nil }
+        let parsed = Double(amount.replacingOccurrences(of: ",", with: "."))
+            ?? (try? Double(amount, format: .number))
+        guard let value = parsed, value > 0 else { return nil }
         return value
     }
 

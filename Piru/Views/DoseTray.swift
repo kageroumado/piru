@@ -1008,7 +1008,15 @@ private struct StagedDoseEditor: View {
                     suppressAmountSync = false
                     return
                 }
-                item.amount = Double(amountText.replacingOccurrences(of: ",", with: ".")) ?? 0
+                // String binding (not value:format:) is deliberate — the staged
+                // amount must update per keystroke for the live dose-level /
+                // breakdown reclassification, and the suppress-flag sync above
+                // relies on owning the text. Invariant dot-decimal first (the
+                // field is populated from `doseFormatted`, which always emits
+                // "."), then a locale-aware parse for locale keyboards.
+                item.amount = Double(amountText.replacingOccurrences(of: ",", with: "."))
+                    ?? (try? Double(amountText, format: .number))
+                    ?? 0
             }
             .frame(height: 42)
             .frame(maxWidth: .infinity)
