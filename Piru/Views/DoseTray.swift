@@ -300,10 +300,13 @@ struct DoseTrayView: View {
     @State private var rowsHeight: CGFloat = 0
     private static let rowsMaxHeight: CGFloat = 320
 
-    private var interactions: [InteractionResult] {
-        let names = Array(Set(model.staged.map(\.substanceName)))
-        guard names.count >= 2 else { return [] }
-        return InteractionChecker.checkBatch(names, against: [])
+    /// Memoized interaction check — the result depends only on the set of
+    /// staged substance names, so it's recomputed in `onChange` rather than on
+    /// every body evaluation (which fires per keystroke in the amount field).
+    @State private var interactions: [InteractionResult] = []
+
+    private var stagedNameSet: Set<String> {
+        Set(model.staged.map(\.substanceName))
     }
 
     var body: some View {
@@ -314,7 +317,7 @@ struct DoseTrayView: View {
 
             if !interactions.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
-                    ForEach(Array(interactions.enumerated()), id: \.offset) { _, warning in
+                    ForEach(interactions.enumerated(), id: \.offset) { _, warning in
                         InteractionWarningRow(warning: warning)
                     }
                 }
@@ -343,6 +346,9 @@ struct DoseTrayView: View {
                 .padding(.top, 14)
         }
         .padding(GlassDockMetrics.contentInsets)
+        .onChange(of: stagedNameSet, initial: true) { _, names in
+            interactions = names.count >= 2 ? InteractionChecker.checkBatch(Array(names), against: []) : []
+        }
         .sensoryFeedback(.selection, trigger: model.time)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerView(recents: recentLocations) { picked in
