@@ -248,31 +248,41 @@ import SwiftData
             // ── Today: a session that's active right now ────────
             // Anchored to the seeding moment (not clock hours) so the Journal's
             // "Current Session" hero card shows whenever screenshots are taken.
+            // Session recovery only fetches the current session day, so clamp
+            // each timestamp to just after the day cutoff — otherwise seeding
+            // shortly after the cutoff (e.g. 04:15 with a 04:00 boundary)
+            // back-dates the doses into yesterday and no session recovers.
 
             let now = Date()
+            let sessionDayStart = cal.sessionDayStart(for: now)
+            func recent(_ hoursAgo: Double, slot: Double) -> Date {
+                let ideal = now.addingTimeInterval(-hoursAgo * 3_600)
+                let floor = sessionDayStart.addingTimeInterval((5 + slot * 4) * 60)
+                return max(ideal, floor)
+            }
             entries.append(DoseEntry(
                 substance: "Caffeine",
                 amount: 110, unit: "mg", route: .oral,
-                timestamp: now.addingTimeInterval(-2.1 * 3_600),
+                timestamp: recent(2.1, slot: 0),
                 notes: "Flat white",
                 tags: ["coffee", "morning"],
             ))
             entries.append(DoseEntry(
                 substance: "L-Theanine",
                 amount: 200, unit: "mg", route: .oral,
-                timestamp: now.addingTimeInterval(-2.0 * 3_600),
+                timestamp: recent(2.0, slot: 1),
                 tags: ["coffee", "supplement"],
             ))
             entries.append(DoseEntry(
                 substance: "Vitamin D3",
                 amount: 4_000, unit: "IU", route: .oral,
-                timestamp: now.addingTimeInterval(-1.9 * 3_600),
+                timestamp: recent(1.9, slot: 2),
                 tags: ["supplement"],
             ))
             entries.append(DoseEntry(
                 substance: "Caffeine",
                 amount: 60, unit: "mg", route: .oral,
-                timestamp: now.addingTimeInterval(-0.4 * 3_600),
+                timestamp: recent(0.4, slot: 3),
                 notes: "Top-up",
                 tags: ["coffee"],
             ))
