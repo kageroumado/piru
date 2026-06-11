@@ -2066,6 +2066,62 @@ T = {
         "此计算器使用一房室口服药代动力学模型,包含吸收和消除两个阶段。如有已知的持续时间数据(起效 + 上升期),则吸收速率会由此估算;否则使用默认的 4× 消除速率比。群体平均消除半衰期来源于 FDA 批准的处方信息、已发表的药代动力学研究(PubMed)以及 DrugBank。部分研究化学品和新型物质的半衰期是根据结构类似的化合物估算的,可能不够可靠。\n\n实际药代动力学因个人代谢、遗传、肝肾功能、体成分、年龄、药物相互作用、耐受性和给药途径而显著不同。多房室分布、蛋白结合、活性代谢物和肠肝循环未被纳入考虑。多药联用可能不可预测地改变消除速率。\n\n这些数字是群体的近似平均值 — 不能替代临床监测或专业医疗建议。请始终咨询合格的医疗专业人员。",
         "此計算器使用一房室口服藥動學模型,包含吸收和消除兩個階段。如有已知的持續時間資料(起效 + 上升期),則吸收速率會由此估算;否則使用預設的 4× 消除速率比。族群平均消除半衰期來源於 FDA 批准的處方資訊、已發表的藥動學研究(PubMed)以及 DrugBank。部分研究化學品和新型物質的半衰期是根據結構類似的化合物估算的,可能不夠可靠。\n\n實際藥動學因個人代謝、遺傳、肝腎功能、體成分、年齡、藥物相互作用、耐受性和給藥途徑而顯著不同。多房室分布、蛋白質結合、活性代謝物和腸肝循環未被納入考慮。多藥聯用可能不可預測地改變消除速率。\n\n這些數字是族群的近似平均值 — 不能替代臨床監測或專業醫療建議。請始終諮詢合格的醫療專業人員。",
     ),
+    # 2026-06 review fixes — crisis help links (previously plain String, never localized)
+    "Emergency: 911": ("紧急情况：911", "緊急情況：911"),
+    "Poison Control: 1-800-222-1222": (
+        "中毒控制中心：1-800-222-1222",
+        "中毒控制中心：1-800-222-1222",
+    ),
+    "Crisis Lifeline: 988": ("危机生命线：988", "危機生命線：988"),
+    "Crisis Text: HOME to 741741": (
+        "危机短信：发送 HOME 至 741741",
+        "危機簡訊：傳送 HOME 至 741741",
+    ),
+    "Call 911 (US) or your local emergency number": (
+        "拨打 911（美国）或当地紧急电话",
+        "撥打 911（美國）或當地緊急電話",
+    ),
+    "1-800-222-1222 (US)": ("1-800-222-1222（美国）", "1-800-222-1222（美國）"),
+    "988 Suicide & Crisis Lifeline": ("988 自杀与危机生命线", "988 自殺與危機生命線"),
+    "Call or text 988": ("拨打或发送短信至 988", "撥打或傳送簡訊至 988"),
+    "Text HOME to 741741": ("发送 HOME 至 741741", "傳送 HOME 至 741741"),
+    "1-800-662-4357 — Free, confidential, 24/7": (
+        "1-800-662-4357 — 免费、保密、全天候",
+        "1-800-662-4357 — 免費、保密、全天候",
+    ),
+    # 2026-06 review fixes — inflected plurals (replace hand-rolled "s"/"ies" suffixes)
+    "^[%lld substance](inflect: true)": ("%lld 种物质", "%lld 種物質"),
+    "^[%lld entry](inflect: true)": ("%lld 条记录", "%lld 條記錄"),
+    "^[%lld item](inflect: true)": ("%lld 项", "%lld 項"),
+    # 2026-06 review fixes — accessibility labels & chart descriptions
+    "Back": ("返回", "返回"),
+    "Expand Chart": ("展开图表", "展開圖表"),
+    "Collapse Chart": ("收起图表", "收起圖表"),
+    "Previous Month": ("上个月", "上個月"),
+    "Next Month": ("下个月", "下個月"),
+    "Add Routine": ("添加日常", "新增日常"),
+    "Add Custom Substance": ("添加自定义物质", "新增自訂物質"),
+    "Log %@ %@": ("记录 %1$@ %2$@", "記錄 %1$@ %2$@"),
+    "Concentration curve": ("浓度曲线", "濃度曲線"),
+    "Elimination curve for %@": ("%@ 的消除曲线", "%@ 的消除曲線"),
+    "%@ %@ remaining, %lld%% eliminated, half-life %@": (
+        "剩余 %1$@ %2$@，已消除 %3$lld%%，半衰期 %4$@",
+        "剩餘 %1$@ %2$@，已消除 %3$lld%%，半衰期 %4$@",
+    ),
+    "Peak after %@, %@ of %@ %@ remaining now": (
+        "%1$@ 后达到峰值，%3$@ %4$@ 中目前剩余 %2$@",
+        "%1$@ 後達到峰值，%3$@ %4$@ 中目前剩餘 %2$@",
+    ),
+    # 2026-06 review fixes — color picker validation errors
+    "Enter a valid 6-digit hex code": (
+        "请输入有效的 6 位十六进制颜色代码",
+        "請輸入有效的 6 位十六進位顏色代碼",
+    ),
+    "This shade already exists in the preset palette": (
+        "预设调色板中已有此颜色",
+        "預設調色盤中已有此顏色",
+    ),
+    "You've already created this shade": ("你已创建过此颜色", "你已建立過此顏色"),
 }
 
 # Widget translations
@@ -2292,6 +2348,35 @@ if __name__ == "__main__":
         "%@ — %lld item%@",
         "%lld item%@",
         "Uncategorized — %lld item%@",
+        # 2026-06 review fixes
+        "Emergency: 911",
+        "Poison Control: 1-800-222-1222",
+        "Crisis Lifeline: 988",
+        "Crisis Text: HOME to 741741",
+        "Call 911 (US) or your local emergency number",
+        "1-800-222-1222 (US)",
+        "988 Suicide & Crisis Lifeline",
+        "Call or text 988",
+        "Text HOME to 741741",
+        "1-800-662-4357 — Free, confidential, 24/7",
+        "^[%lld substance](inflect: true)",
+        "^[%lld entry](inflect: true)",
+        "^[%lld item](inflect: true)",
+        "Back",
+        "Expand Chart",
+        "Collapse Chart",
+        "Previous Month",
+        "Next Month",
+        "Add Routine",
+        "Add Custom Substance",
+        "Log %@ %@",
+        "Concentration curve",
+        "Elimination curve for %@",
+        "%@ %@ remaining, %lld%% eliminated, half-life %@",
+        "Peak after %@, %@ of %@ %@ remaining now",
+        "Enter a valid 6-digit hex code",
+        "This shade already exists in the preset palette",
+        "You've already created this shade",
     }
 
     print("--- Piru main app catalog ---")
