@@ -122,6 +122,7 @@ private struct CancellationCloseButton: ViewModifier {
                 } label: {
                     Image(systemName: "xmark")
                 }
+                .accessibilityLabel("Close")
             }
         }
     }
@@ -260,6 +261,7 @@ private struct TimeAdjustHost: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .accessibilityLabel("Close")
                 }
             }
         }
