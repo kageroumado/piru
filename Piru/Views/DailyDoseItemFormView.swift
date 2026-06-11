@@ -12,7 +12,7 @@ struct MedicationItemFormView: View {
     var initialCategory: String = ""
 
     @State private var substance = ""
-    @State private var amount = ""
+    @State private var amount: Double?
     @State private var unit = "mg"
     @State private var route: RouteOfAdministration = .oral
     @State private var category = ""
@@ -65,7 +65,7 @@ struct MedicationItemFormView: View {
 
                     Section("Dosage") {
                         HStack {
-                            TextField("Amount", text: $amount)
+                            TextField("Amount", value: $amount, format: .number)
                                 .keyboardType(.decimalPad)
                             Picker("Unit", selection: $unit) {
                                 ForEach(currentUnits, id: \.self) { Text($0) }
@@ -167,7 +167,7 @@ struct MedicationItemFormView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button { save() } label: { Image(systemName: "checkmark").fontWeight(.semibold) }
-                        .disabled(substance.isEmpty || amount.isEmpty || (frequency == .specificDays && selectedWeekdays.isEmpty))
+                        .disabled(substance.isEmpty || amount == nil || (frequency == .specificDays && selectedWeekdays.isEmpty))
                         .accessibilityLabel("Save")
                 }
             }
@@ -225,7 +225,7 @@ struct MedicationItemFormView: View {
     private func loadItem() {
         if let item {
             substance = item.substance
-            amount = String(item.amount)
+            amount = item.amount
             unit = item.unit
             route = item.route
             category = item.category
@@ -245,7 +245,7 @@ struct MedicationItemFormView: View {
     }
 
     private func save() {
-        guard let parsedAmount = Double(amount.replacingOccurrences(of: ",", with: ".")) else { return }
+        guard let parsedAmount = amount else { return }
 
         if let item {
             item.substance = substance
