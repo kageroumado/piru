@@ -5,8 +5,8 @@ dose; overlays pharmacokinetic curves so you can see what's still active;
 warns about drug interactions before you stack them.
 
 <p align="center">
-  <img src=".github/screenshot-journal.png" alt="Piru Journal — days view grouped by date with category tags" width="300">
-  <img src=".github/screenshot-day.png" alt="Piru day detail with a pharmacokinetic timeline graph for an Alcohol dose" width="300">
+  <img src=".github/screenshot-journal.png" alt="Piru Journal — sessions grouped by day with pharmacokinetic timeline previews and tag filters" width="300">
+  <img src=".github/screenshot-day.png" alt="Piru session detail — a Friday evening of alcohol doses and a melatonin dose overlaid on a pharmacokinetic timeline" width="300">
 </p>
 
 Built primarily for harm reduction: medication adherence, recreational

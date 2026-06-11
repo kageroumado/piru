@@ -24,16 +24,15 @@ import SwiftData
 
         // MARK: - Showcase Data (~500 entries)
 
-        /// Inserts a realistic 120-day dose history for app showcasing.
+        /// Inserts a realistic 90-day dose history for app showcasing.
         ///
-        /// Models the kind of journal Piru is actually used for in the wild: a
-        /// nootropic stack (Pregabalin nightly, Memantine for stimulant tolerance,
-        /// Kratom across the day) with weekday stimulant rotation (2-FMA,
-        /// Amphetamine, occasional 4F-MPH) and infrequent recreational doses
-        /// (3-MMC weekends, Bromazepam PRN, the occasional dissociative session).
-        /// Patterns and dose ranges are derived from a real journal export; names
-        /// are kept as-is so timeline / interaction / half-life surfaces all
-        /// exercise the merged DB.
+        /// Models an everyday journal: morning coffee with the occasional
+        /// L-Theanine, a small supplement routine (Vitamin D3, Magnesium,
+        /// Creatine on gym days), melatonin some nights, ibuprofen as needed —
+        /// plus light weekend drinking, a couple of cannabis evenings a week,
+        /// and two one-off events (an MDMA club night, a mushroom afternoon).
+        /// Kept to a few entries per day so the journal cards and PK curves
+        /// read cleanly in screenshots.
         ///
         /// Only runs when fewer than 50 entries exist; clears existing data first.
         @MainActor
@@ -47,10 +46,10 @@ import SwiftData
             try? context.delete(model: FavoriteSubstance.self)
             try? context.delete(model: DailyDoseItem.self)
 
-            var rng = SeededRNG(seed: 20_260_315)
+            var rng = SeededRNG(seed: 20_260_611)
             let cal = Calendar.current
             let today = cal.startOfDay(for: Date())
-            let totalDays = 120
+            let totalDays = 90
 
             func ts(_ daysAgo: Int, _ hour: Double, variance: Double = 20, weekendShift: Bool = false) -> Date {
                 let dayStart = today.addingTimeInterval(-Double(daysAgo) * 86_400)
@@ -68,140 +67,176 @@ import SwiftData
             }
 
             var entries: [DoseEntry] = []
-            entries.reserveCapacity(700)
+            entries.reserveCapacity(500)
+
+            // One-off events land on specific past Saturdays so the recent
+            // week stays tidy for the journal screenshot.
+            var saturdaysAgo: [Int] = []
+            for day in 0 ..< totalDays where cal.component(.weekday, from: today.addingTimeInterval(-Double(day) * 86_400)) == 7 {
+                saturdaysAgo.append(day)
+            }
+            let clubNight = saturdaysAgo.count > 5 ? saturdaysAgo[5] : 38
+            let mushroomDay = saturdaysAgo.count > 9 ? saturdaysAgo[9] : 66
 
             for day in (0 ..< totalDays).reversed() {
                 let dayStart = today.addingTimeInterval(-Double(day) * 86_400)
+                let weekday = cal.component(.weekday, from: dayStart)
                 let isWeekend = cal.isDateInWeekend(dayStart)
+                let isFridayOrSaturday = weekday == 6 || weekday == 7
+                let isGymDay = weekday == 2 || weekday == 4 || weekday == 6
 
-                // ── Nightly anxiolytic ──────────────────────────
+                // ── Coffee ──────────────────────────────────────
 
-                // Pregabalin 200mg oral — evening, ~92% adherence
-                if takes(0.92) {
+                if takes(0.95) {
                     entries.append(DoseEntry(
-                        substance: "Pregabalin",
-                        amount: jitterAmount(200, plusOrMinus: 25),
+                        substance: "Caffeine",
+                        amount: (jitterAmount(110, plusOrMinus: 30) / 5).rounded() * 5,
                         unit: "mg", route: .oral,
-                        timestamp: ts(day, 22.0, variance: 30),
-                        tags: ["nightly", "anxiolytic"],
+                        timestamp: ts(day, 8.0, variance: 25, weekendShift: true),
+                        notes: [nil, nil, nil, "Flat white"].randomElement(using: &rng)!,
+                        tags: ["coffee", "morning"],
                     ))
-                }
-
-                // ── Tolerance management ────────────────────────
-
-                // Memantine 20mg oral — morning, ~75% adherence (skipped some weekends)
-                if takes(isWeekend ? 0.55 : 0.85) {
-                    entries.append(DoseEntry(
-                        substance: "Memantine",
-                        amount: takes(0.7) ? 20 : 10,
-                        unit: "mg", route: .oral,
-                        timestamp: ts(day, 9.0, weekendShift: true),
-                        tags: ["nootropic", "tolerance"],
-                    ))
-                }
-
-                // ── Daily Kratom — 1–3x/day with redoses ───────
-
-                let kratomBouts: Int = {
-                    if takes(0.85) {
-                        if takes(0.4) { return 3 }
-                        if takes(0.6) { return 2 }
-                        return 1
-                    }
-                    return 0
-                }()
-                for bout in 0 ..< kratomBouts {
-                    let hour = 10.5 + Double(bout) * 4.5 + Double.random(in: -0.5 ... 0.5, using: &rng)
-                    entries.append(DoseEntry(
-                        substance: "Kratom",
-                        amount: jitterAmount(3.0, plusOrMinus: 0.7),
-                        unit: "g", route: .oral,
-                        timestamp: ts(day, hour),
-                        notes: bout == 0
-                            ? [nil, nil, nil, "Empty stomach"].randomElement(using: &rng)!
-                            : [nil, nil, "Top-up", "Redose"].randomElement(using: &rng)!,
-                        tags: ["kratom", bout == 0 ? "primary" : "redose"],
-                    ))
-                }
-
-                // ── Stimulant rotation (weekday-leaning) ────────
-
-                // 2-FMA 60mg oral — preferred functional stimulant
-                if !isWeekend, takes(0.55) {
-                    entries.append(DoseEntry(
-                        substance: "2-FMA",
-                        amount: jitterAmount(60, plusOrMinus: 15),
-                        unit: "mg", route: .oral,
-                        timestamp: ts(day, 11.0, variance: 25),
-                        tags: ["stimulant"],
-                    ))
-                    // Mid-afternoon redose, sometimes
-                    if takes(0.4) {
+                    // L-Theanine alongside, sometimes
+                    if takes(0.35) {
                         entries.append(DoseEntry(
-                            substance: "2-FMA",
-                            amount: jitterAmount(30, plusOrMinus: 10),
-                            unit: "mg", route: .oral,
-                            timestamp: ts(day, 15.5, variance: 25),
-                            notes: "Redose",
-                            tags: ["stimulant", "redose"],
+                            substance: "L-Theanine",
+                            amount: 200, unit: "mg", route: .oral,
+                            timestamp: ts(day, 8.2, variance: 25, weekendShift: true),
+                            tags: ["coffee", "supplement"],
                         ))
                     }
-                } else if takes(0.30) {
-                    // Amphetamine alternative on days without 2-FMA
+                    // Afternoon cup on weekdays, mostly
+                    if takes(isWeekend ? 0.25 : 0.55) {
+                        entries.append(DoseEntry(
+                            substance: "Caffeine",
+                            amount: (jitterAmount(70, plusOrMinus: 15) / 5).rounded() * 5,
+                            unit: "mg", route: .oral,
+                            timestamp: ts(day, 13.5, variance: 40),
+                            tags: ["coffee"],
+                        ))
+                    }
+                }
+
+                // ── Supplements ─────────────────────────────────
+
+                if takes(0.85) {
                     entries.append(DoseEntry(
-                        substance: "Amphetamine",
-                        amount: jitterAmount(25, plusOrMinus: 5),
+                        substance: "Vitamin D3",
+                        amount: 4_000, unit: "IU", route: .oral,
+                        timestamp: ts(day, 8.5, variance: 30, weekendShift: true),
+                        tags: ["supplement"],
+                    ))
+                }
+                if isGymDay, takes(0.7) {
+                    entries.append(DoseEntry(
+                        substance: "Creatine",
+                        amount: 5, unit: "g", route: .oral,
+                        timestamp: ts(day, 17.0, variance: 45),
+                        notes: [nil, nil, "Post-workout"].randomElement(using: &rng)!,
+                        tags: ["gym"],
+                    ))
+                }
+                if takes(0.8) {
+                    entries.append(DoseEntry(
+                        substance: "Magnesium",
+                        amount: jitterAmount(350, plusOrMinus: 50).rounded(),
                         unit: "mg", route: .oral,
-                        timestamp: ts(day, 11.5, variance: 30),
-                        tags: ["stimulant"],
+                        timestamp: ts(day, 22.0, variance: 30),
+                        tags: ["supplement", "sleep"],
                     ))
                 }
 
-                // 4F-MPH — occasional sublingual, ~12% of days
-                if takes(0.12) {
+                // Melatonin — some nights
+                if takes(0.22) {
                     entries.append(DoseEntry(
-                        substance: "4F-MPH",
-                        amount: jitterAmount(15, plusOrMinus: 5),
+                        substance: "Melatonin",
+                        amount: takes(0.6) ? 0.5 : 1,
                         unit: "mg", route: .sublingual,
-                        timestamp: ts(day, 13.0, variance: 60),
-                        tags: ["stimulant", "as-needed"],
+                        timestamp: ts(day, 23.0, variance: 25),
+                        tags: ["sleep"],
                     ))
                 }
 
-                // ── PRN anxiolytic / dissociative / recreational ─
-
-                // Bromazepam 3mg sublingual — anxiolytic PRN, ~8% of days
-                if takes(0.08) {
+                // Ibuprofen — as needed
+                if takes(0.07) {
                     entries.append(DoseEntry(
-                        substance: "Bromazepam",
-                        amount: 3, unit: "mg", route: .sublingual,
-                        timestamp: ts(day, Double.random(in: 19 ... 22, using: &rng)),
-                        notes: [nil, nil, "Anxiety", "Wind-down"].randomElement(using: &rng)!,
-                        tags: ["benzo", "as-needed"],
+                        substance: "Ibuprofen",
+                        amount: 400, unit: "mg", route: .oral,
+                        timestamp: ts(day, Double.random(in: 10 ... 20, using: &rng)),
+                        notes: ["Headache", "Headache", "Sore from the gym"].randomElement(using: &rng)!,
+                        tags: ["as-needed"],
                     ))
                 }
 
-                // 3-MMC 100mg — recreational, weekend leaning, ~10% of weekends
-                if isWeekend, takes(0.15) {
+                // ── Weekend drinks ──────────────────────────────
+
+                if day == clubNight {
+                    // One big night out, ~5 Saturdays back: MDMA + a couple of drinks.
                     entries.append(DoseEntry(
-                        substance: "3-MMC",
-                        amount: jitterAmount(100, plusOrMinus: 25),
-                        unit: "mg",
-                        route: takes(0.4) ? .insufflation : .oral,
-                        timestamp: ts(day, Double.random(in: 20 ... 23, using: &rng)),
-                        tags: ["recreational", "weekend"],
+                        substance: "MDMA",
+                        amount: 120, unit: "mg", route: .oral,
+                        timestamp: ts(day, 22.5, variance: 15),
+                        notes: "Club night",
+                        tags: ["party"],
+                    ))
+                    entries.append(DoseEntry(
+                        substance: "MDMA",
+                        amount: 60, unit: "mg", route: .oral,
+                        timestamp: ts(day, 24.5, variance: 15),
+                        notes: "Redose",
+                        tags: ["party"],
+                    ))
+                    entries.append(DoseEntry(
+                        substance: "Alcohol",
+                        amount: 2, unit: "units", route: .oral,
+                        timestamp: ts(day, 21.0, variance: 20),
+                        tags: ["party"],
+                    ))
+                } else if isFridayOrSaturday, takes(0.65) {
+                    // A normal evening out or in: 2–4 drinks over a few hours.
+                    let rounds = takes(0.5) ? 2 : (takes(0.5) ? 1 : 3)
+                    for round in 0 ... rounds {
+                        entries.append(DoseEntry(
+                            substance: "Alcohol",
+                            amount: takes(0.7) ? 1 : 2,
+                            unit: "units", route: .oral,
+                            timestamp: ts(day, 19.5 + Double(round) * 1.4, variance: 25),
+                            notes: round == 0 ? [nil, nil, "Drinks with friends"].randomElement(using: &rng)! : nil,
+                            tags: ["drinks", "social"],
+                        ))
+                    }
+                } else if takes(0.08) {
+                    // The odd weekday beer.
+                    entries.append(DoseEntry(
+                        substance: "Alcohol",
+                        amount: 1, unit: "units", route: .oral,
+                        timestamp: ts(day, 20.5, variance: 40),
+                        tags: ["drinks"],
                     ))
                 }
 
-                // 2-Fluorodeschloroketamine — occasional, ~3% of days
-                if takes(0.03) {
+                // ── Cannabis — a couple of evenings a week ──────
+
+                if day != clubNight, day != mushroomDay, takes(isWeekend ? 0.35 : 0.22) {
                     entries.append(DoseEntry(
-                        substance: "2-Fluorodeschloroketamine",
-                        amount: jitterAmount(40, plusOrMinus: 10),
-                        unit: "mg",
-                        route: .insufflation,
-                        timestamp: ts(day, Double.random(in: 20 ... 23, using: &rng)),
-                        tags: ["dissociative", "as-needed"],
+                        substance: "Cannabis",
+                        amount: jitterAmount(7, plusOrMinus: 3).rounded(),
+                        unit: "mg", route: .inhalation,
+                        timestamp: ts(day, 21.3, variance: 45),
+                        notes: [nil, nil, nil, "Movie night"].randomElement(using: &rng)!,
+                        tags: ["chill"],
+                    ))
+                }
+
+                // ── Mushroom afternoon, ~9 Saturdays back ───────
+
+                if day == mushroomDay {
+                    entries.append(DoseEntry(
+                        substance: "Psilocybin mushrooms",
+                        amount: 1.8, unit: "g", route: .oral,
+                        timestamp: ts(day, 14.0, variance: 20),
+                        notes: "Forest walk",
+                        tags: ["trip"],
                     ))
                 }
             }
@@ -213,15 +248,17 @@ import SwiftData
             // ── Substance Colors (preset palette) ──
 
             let colors: [(String, String)] = [
-                ("pregabalin", "5C7CFA"), // Iris — blue
-                ("memantine", "F5A623"), // Mustard — amber
-                ("kratom", "8FAE5C"), // Olive — sage
-                ("2-fma", "21b26a"), // Green
-                ("amphetamine", "2ca2f5"), // Azure — bright blue
-                ("4f-mph", "00b3a2"), // Cyan — teal
-                ("bromazepam", "8394ff"), // Lavender
-                ("3-mmc", "CBA6F7"), // Violet — purple
-                ("2-fluorodeschloroketamine", "f17395"), // Rose
+                ("caffeine", "F5A623"), // Mustard — amber
+                ("l-theanine", "00b3a2"), // Cyan — teal
+                ("vitamin d3", "F9E2AF"), // Honey — soft yellow
+                ("creatine", "2ca2f5"), // Azure — bright blue
+                ("magnesium", "A6E3A1"), // Sage — green
+                ("melatonin", "8394ff"), // Lavender
+                ("ibuprofen", "f17395"), // Rose
+                ("alcohol", "CBA6F7"), // Violet — purple
+                ("cannabis", "8FAE5C"), // Olive — sage
+                ("mdma", "FF6B9D"), // Pink
+                ("psilocybin mushrooms", "5C7CFA"), // Iris — blue
             ]
             for (name, hex) in colors {
                 context.insert(SubstanceColor(substance: name, hexColor: hex))
@@ -229,15 +266,15 @@ import SwiftData
 
             // ── Favorites ──
 
-            for name in ["Pregabalin", "Kratom", "Memantine", "2-FMA"] {
+            for name in ["Caffeine", "Magnesium", "Vitamin D3", "Melatonin"] {
                 context.insert(FavoriteSubstance(substance: name))
             }
 
-            // ── Daily medication schedule (the regular ones) ──
+            // ── Daily supplement routine ──
 
             let schedule: [(String, Double, String, Int)] = [
-                ("Memantine", 20, "mg", 0),
-                ("Pregabalin", 200, "mg", 1),
+                ("Vitamin D3", 4_000, "IU", 0),
+                ("Magnesium", 350, "mg", 1),
             ]
             for (name, amount, unit, order) in schedule {
                 context.insert(DailyDoseItem(substance: name, amount: amount, unit: unit, sortOrder: order))
