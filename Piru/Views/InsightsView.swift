@@ -28,10 +28,14 @@ struct InsightsView: View {
         .task(id: changeToken) { recompute() }
     }
 
-    /// Re-derive summaries when the underlying data changes. Keyed on counts so
-    /// a glanceable overview doesn't recompute the streak scan every redraw.
-    private var changeToken: String {
-        "\(allEntries.count)|\(dailyItems.count)|\(substanceColors.count)"
+    /// Re-derive summaries when the underlying data changes. Keyed on a content
+    /// fingerprint (not counts) so in-place edits refresh the cards too, while
+    /// the streak scan still doesn't recompute on every redraw.
+    private var changeToken: Int {
+        var hasher = Hasher()
+        hasher.combine(EntriesFingerprint.make(allEntries, colors: substanceColors))
+        hasher.combine(dailyItems.count)
+        return hasher.finalize()
     }
 
     // MARK: - Cards
