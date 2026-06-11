@@ -82,12 +82,42 @@ import SwiftData
             // the daily template would future-date entries (e.g. tonight's
             // magnesium at a 9 AM capture) and never satisfy the active-window
             // check the Journal's "Current Session" hero card keys on.
+            // Day 1 ("Yesterday") is curated too: cannabis evening + ibuprofen,
+            // no supplements — vitamins draw flat, meaningless curves that
+            // crowd the hero/day graphs in screenshots, and an early-morning
+            // capture pulls yesterday's stragglers into the current session.
             for day in (1 ..< totalDays).reversed() {
                 let dayStart = today.addingTimeInterval(-Double(day) * 86_400)
                 let weekday = cal.component(.weekday, from: dayStart)
                 let isWeekend = cal.isDateInWeekend(dayStart)
                 let isFridayOrSaturday = weekday == 6 || weekday == 7
                 let isGymDay = weekday == 2 || weekday == 4 || weekday == 6
+                let isYesterday = day == 1
+
+                if isYesterday {
+                    entries.append(DoseEntry(
+                        substance: "Caffeine",
+                        amount: 110, unit: "mg", route: .oral,
+                        timestamp: ts(day, 8.2, variance: 15),
+                        notes: "Flat white",
+                        tags: ["coffee", "morning"],
+                    ))
+                    entries.append(DoseEntry(
+                        substance: "Ibuprofen",
+                        amount: 400, unit: "mg", route: .oral,
+                        timestamp: ts(day, 14.0, variance: 20),
+                        notes: "Headache",
+                        tags: ["as-needed"],
+                    ))
+                    entries.append(DoseEntry(
+                        substance: "Cannabis",
+                        amount: 8, unit: "mg", route: .inhalation,
+                        timestamp: ts(day, 21.2, variance: 20),
+                        notes: "Movie night",
+                        tags: ["chill"],
+                    ))
+                    continue
+                }
 
                 // ── Coffee ──────────────────────────────────────
 
@@ -265,26 +295,20 @@ import SwiftData
                 amount: 110, unit: "mg", route: .oral,
                 timestamp: recent(2.1, slot: 0),
                 notes: "Flat white",
-                tags: ["coffee", "morning"],
-            ))
-            entries.append(DoseEntry(
-                substance: "L-Theanine",
-                amount: 200, unit: "mg", route: .oral,
-                timestamp: recent(2.0, slot: 1),
-                tags: ["coffee", "supplement"],
-            ))
-            entries.append(DoseEntry(
-                substance: "Vitamin D3",
-                amount: 4_000, unit: "IU", route: .oral,
-                timestamp: recent(1.9, slot: 2),
-                tags: ["supplement"],
-            ))
-            entries.append(DoseEntry(
-                substance: "Caffeine",
-                amount: 60, unit: "mg", route: .oral,
-                timestamp: recent(0.4, slot: 3),
-                notes: "Top-up",
                 tags: ["coffee"],
+            ))
+            entries.append(DoseEntry(
+                substance: "Alcohol",
+                amount: 2, unit: "units", route: .oral,
+                timestamp: recent(1.3, slot: 1),
+                notes: "Drinks with friends",
+                tags: ["drinks", "social"],
+            ))
+            entries.append(DoseEntry(
+                substance: "Alcohol",
+                amount: 1, unit: "units", route: .oral,
+                timestamp: recent(0.4, slot: 2),
+                tags: ["drinks", "social"],
             ))
 
             for entry in entries {
