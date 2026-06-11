@@ -114,8 +114,10 @@ struct DataStorageView: View {
         } message: {
             Text("Merge keeps your current entries and adds the backup's. Replace deletes your current data first (a recovery snapshot is taken automatically) and restores only the backup.")
         }
-        .alert(item: $notice) { notice in
-            Alert(title: Text(notice.title), message: Text(notice.message), dismissButton: .default(Text("OK")))
+        .alert(notice?.title ?? "", isPresented: noticeBinding, presenting: notice) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { notice in
+            Text(notice.message)
         }
         .alert("Delete Everything", isPresented: $showingDeleteConfirmation) {
             Button("Delete", role: .destructive) { deleteAllData() }
@@ -509,6 +511,10 @@ struct DataStorageView: View {
         Binding(get: { pendingRestore != nil }, set: { if !$0 { pendingRestore = nil } })
     }
 
+    private var noticeBinding: Binding<Bool> {
+        Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })
+    }
+
     // MARK: - Actions
 
     private func exportPlain(_ format: ExportFormat) {
@@ -528,17 +534,19 @@ struct DataStorageView: View {
     private func handlePlainImport(_ result: Result<URL, Error>) {
         switch result {
         case let .success(url):
-            guard url.startAccessingSecurityScopedResource() else {
-                notice = Notice(title: String(localized: "Import Failed"), message: String(localized: "Couldn't access the selected file."))
-                return
-            }
-            defer { url.stopAccessingSecurityScopedResource() }
-            do {
-                let data = try Data(contentsOf: url)
-                try DataExportImport.importJSON(data: data, context: modelContext)
-                notice = Notice(title: String(localized: "Import Complete"), message: String(localized: "Your data was imported."))
-            } catch {
-                notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
+            Task {
+                guard url.startAccessingSecurityScopedResource() else {
+                    notice = Notice(title: String(localized: "Import Failed"), message: String(localized: "Couldn't access the selected file."))
+                    return
+                }
+                defer { url.stopAccessingSecurityScopedResource() }
+                do {
+                    let data = try await Task.detached { try Data(contentsOf: url) }.value
+                    try DataExportImport.importJSON(data: data, context: modelContext)
+                    notice = Notice(title: String(localized: "Import Complete"), message: String(localized: "Your data was imported."))
+                } catch {
+                    notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)
+                }
             }
         case let .failure(error):
             notice = Notice(title: String(localized: "Import Failed"), message: error.localizedDescription)

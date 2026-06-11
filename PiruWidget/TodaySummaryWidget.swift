@@ -58,25 +58,8 @@ struct TodaySummaryProvider: TimelineProvider {
         completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
     }
 
-    private static let appGroupID = "group.dev.yumeji.piru"
-
     private func fetchEntry() -> TodaySummaryEntry {
-        let container: ModelContainer
-        do {
-            guard let groupURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: Self.appGroupID,
-            ) else {
-                return TodaySummaryEntry(date: .now, doses: [], totalCount: 0)
-            }
-            let storeURL = groupURL.appendingPathComponent("default.store")
-            let config = ModelConfiguration(url: storeURL)
-            container = try ModelContainer(
-                for: DoseEntry.self, SubstanceColor.self, UserColor.self,
-                DailyDoseItem.self, FavoriteSubstance.self, QuickLogDose.self, Session.self,
-                DoseRoutine.self,
-                configurations: config,
-            )
-        } catch {
+        guard let container = WidgetStoreAccess.makeContainer() else {
             return TodaySummaryEntry(date: .now, doses: [], totalCount: 0)
         }
         let context = ModelContext(container)

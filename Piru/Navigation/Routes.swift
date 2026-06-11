@@ -23,6 +23,10 @@ nonisolated enum AppTab: String, Hashable, Codable, CaseIterable {
 nonisolated enum PushRoute: Hashable, Codable {
     case session(id: UUID)
     case entry(timestamp: Date)
+    /// Comedown-alert screen for a dose, identified by timestamp like
+    /// `.entry`; the duration profile is re-derived from the resolved entry.
+    case rampDown(timestamp: Date)
+    case comedownGuide
     case substance(name: String)
     case libraryCategory(SubstanceCategory)
     case libraryFavorites

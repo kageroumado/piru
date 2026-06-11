@@ -52,15 +52,19 @@ struct HalfLifeCalculatorView: View {
         ScrollView {
             VStack(spacing: 20) {
                 if !cachedActiveSubstances.isEmpty {
-                    inYourSystemSection
+                    TimelineView(.periodic(from: .now, by: 60)) { _ in
+                        inYourSystemSection
+                    }
                 }
 
                 calculatorHeader
                 inputSection
 
                 if let halfLife = effectiveHalfLife, dose > 0 {
-                    decayChart(halfLife: halfLife)
-                    currentAmountCard(halfLife: halfLife)
+                    TimelineView(.periodic(from: .now, by: 60)) { _ in
+                        decayChart(halfLife: halfLife)
+                        currentAmountCard(halfLife: halfLife)
+                    }
                     milestonesSection(halfLife: halfLife)
                 } else if selectedSubstance != nil, !useCustomHalfLife, selectedSubstance?.halfLifeMinutes == nil {
                     noDataCard
@@ -71,7 +75,7 @@ struct HalfLifeCalculatorView: View {
             .padding()
         }
         .background(Theme.background)
-        .task(id: allEntries.count) {
+        .task(id: EntriesFingerprint.make(allEntries, colors: substanceColors)) {
             try? await Task.sleep(for: .milliseconds(200))
             guard !Task.isCancelled else { return }
             cachedActiveSubstances = ActiveSubstanceCalculator.compute(from: allEntries, colorMap: substanceColors.colorMap)
@@ -350,6 +354,8 @@ struct HalfLifeCalculatorView: View {
                 }
             }
             .frame(height: 140)
+            .accessibilityLabel(Text("Elimination curve for \(active.name)"))
+            .accessibilityValue(Text("\(active.totalRemaining.doseFormatted) \(active.unit) remaining, \(Int(active.eliminatedFraction * 100))% eliminated, half-life \(formatDuration(halfLife))"))
         }
     }
 
@@ -453,7 +459,7 @@ struct HalfLifeCalculatorView: View {
                     Text("Time Taken")
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
-                    DatePicker("", selection: $timeTaken)
+                    DatePicker("Time Taken", selection: $timeTaken)
                         .labelsHidden()
                 }
             }
@@ -476,7 +482,9 @@ struct HalfLifeCalculatorView: View {
     // MARK: - Decay Chart
 
     private func decayChart(halfLife: Double) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        let peakTime = pkParameters.map { PKModel.tmax(ke: $0.ke, ka: $0.ka) } ?? 0
+
+        return VStack(alignment: .leading, spacing: 8) {
             Text("Concentration Curve")
                 .font(.headline)
 
@@ -576,6 +584,8 @@ struct HalfLifeCalculatorView: View {
                 }
             }
             .frame(height: 200)
+            .accessibilityLabel(Text("Concentration curve"))
+            .accessibilityValue(Text("Peak after \(formatDuration(peakTime)), \(remainingAmount(halfLife: halfLife).doseFormatted) of \(dose.doseFormatted) \(doseUnit) remaining now"))
         }
         .padding()
         .themeCard()
@@ -583,13 +593,17 @@ struct HalfLifeCalculatorView: View {
 
     // MARK: - Current Amount
 
-    private func currentAmountCard(halfLife: Double) -> some View {
+    /// Estimated amount still in the body right now, for the given half-life.
+    private func remainingAmount(halfLife: Double) -> Double {
         let elapsed = Date.now.timeIntervalSince(timeTaken) / 60
-        let remaining: Double = if let params = pkParameters {
-            dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
-        } else {
-            dose * pow(0.5, max(0, elapsed) / halfLife)
+        if let params = pkParameters {
+            return dose * PKModel.fractionRemainingInBody(at: max(0, elapsed), ke: params.ke, ka: params.ka)
         }
+        return dose * pow(0.5, max(0, elapsed) / halfLife)
+    }
+
+    private func currentAmountCard(halfLife: Double) -> some View {
+        let remaining = remainingAmount(halfLife: halfLife)
         let unit = doseUnit
 
         return HStack {

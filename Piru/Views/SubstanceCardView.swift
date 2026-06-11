@@ -147,43 +147,46 @@ struct SubstanceCardView: View {
     /// background + count badge mirror the staged state.
     private func doseChip(_ chip: DoseChip, group: SubstanceGroup) -> some View {
         let stagedCount = tray.quantity(substance: group.substanceName, route: group.route, amount: chip.amount, unit: chip.unit)
-        return Text("\(chip.formattedAmount) \(chip.unit)")
-            .font(.subheadline.weight(.medium))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(stagedCount > 0 ? color : color.opacity(0.15))
-            .foregroundStyle(stagedCount > 0 ? .white : color)
-            .clipShape(Capsule())
-            .contentShape(Capsule())
-            .overlay(alignment: .topTrailing) {
-                if stagedCount > 1 {
-                    chipCountBadge(stagedCount)
+        return Button {
+            withAnimation(.snappy) {
+                tray.stage(
+                    substance: group.substanceName,
+                    route: group.route,
+                    amount: chip.amount,
+                    unit: chip.unit,
+                    colorHex: group.colorHex,
+                    librarySubstance: group.librarySubstance,
+                )
+            }
+        } label: {
+            Text("\(chip.formattedAmount) \(chip.unit)")
+                .font(.subheadline.weight(.medium))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(stagedCount > 0 ? color : color.opacity(0.15))
+                .foregroundStyle(stagedCount > 0 ? .white : color)
+                .clipShape(Capsule())
+                .contentShape(Capsule())
+                .overlay(alignment: .topTrailing) {
+                    if stagedCount > 1 {
+                        chipCountBadge(stagedCount)
+                    }
                 }
-            }
-            .onTapGesture {
-                withAnimation(.snappy) {
-                    tray.stage(
-                        substance: group.substanceName,
-                        route: group.route,
-                        amount: chip.amount,
-                        unit: chip.unit,
-                        colorHex: group.colorHex,
-                        librarySubstance: group.librarySubstance,
-                    )
-                }
-            }
-            .contextMenu {
-                Button {
-                    onMoveChip(group, chip, true)
-                } label: { Label("Move to Front", systemImage: "arrow.up.to.line") }
-                Button {
-                    onMoveChip(group, chip, false)
-                } label: { Label("Move to Back", systemImage: "arrow.down.to.line") }
-                Divider()
-                Button(role: .destructive) {
-                    onRemoveChip(group, chip)
-                } label: { Label("Remove from Quick Log", systemImage: "trash") }
-            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Log \(chip.formattedAmount) \(chip.unit)")
+        .contextMenu {
+            Button {
+                onMoveChip(group, chip, true)
+            } label: { Label("Move to Front", systemImage: "arrow.up.to.line") }
+            Button {
+                onMoveChip(group, chip, false)
+            } label: { Label("Move to Back", systemImage: "arrow.down.to.line") }
+            Divider()
+            Button(role: .destructive) {
+                onRemoveChip(group, chip)
+            } label: { Label("Remove from Quick Log", systemImage: "trash") }
+        }
     }
 
     private func chipCountBadge(_ count: Int) -> some View {
