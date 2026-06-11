@@ -41,15 +41,15 @@ struct DoseMarker: Hashable {
 final class TimelineModelCache {
     static let shared = TimelineModelCache()
 
-    private var store: [TimelineGraphView.DerivedKey: TimelineGraphView.Derived] = [:]
+    private var store: [TimelineGraphView.DerivedKey: TimelineCurveModel.Derived] = [:]
     private var order: [TimelineGraphView.DerivedKey] = []
     private let limit = 120
 
-    func cached(_ key: TimelineGraphView.DerivedKey) -> TimelineGraphView.Derived? {
+    func cached(_ key: TimelineGraphView.DerivedKey) -> TimelineCurveModel.Derived? {
         store[key]
     }
 
-    func insert(_ value: TimelineGraphView.Derived, for key: TimelineGraphView.DerivedKey) {
+    func insert(_ value: TimelineCurveModel.Derived, for key: TimelineGraphView.DerivedKey) {
         if store[key] == nil { order.append(key) }
         store[key] = value
         while order.count > limit {
@@ -99,25 +99,6 @@ struct TimelineGraphView: View, Equatable {
 
     // MARK: - Memoized geometry
 
-    /// All input-derived geometry that does **not** depend on zoom/pan/scrub —
-    /// computed exactly once in `init` so the `Canvas` closure and the span
-    /// accessors read O(1) stored values instead of re-walking the PK curves on
-    /// every property access. This collapses the former recomputation diamond
-    /// (each `visibleSpan`/`totalSpan` read re-ran the 240-step `renderedTail`
-    /// scan ~10×, and `earliestDose` re-mapped + re-`min`'d the dose array on
-    /// every one of its 24 call sites) down to a single evaluation per instance.
-    struct Derived {
-        let earliestDose: Date
-        let maxDoseBySubstance: [String: Double]
-        let stackedGroups: [[ActiveSubstanceState]]
-        let peakCurveValue: Double
-        let yNormalization: Double
-        /// `renderedTail(threshold: 0.04)` — the full scrollable extent.
-        let rawDataTail: Double
-        /// `renderedTail(threshold: 0.20, framing: true)` — labeled-active window.
-        let rawActivityTail: Double
-    }
-
     /// Identity for the model cache: everything `computeDerived` actually
     /// consumes. Deliberately excludes `currentTime` (used only as the
     /// empty-input fallback) so a live view whose `.now` ticks each frame still
@@ -135,7 +116,7 @@ struct TimelineGraphView: View, Equatable {
     /// an empty placeholder and pops in) — except on a cache hit, where `init`
     /// seeds it synchronously so a re-scrolled or revisited card renders with no
     /// flicker. See ``TimelineModelCache``.
-    @State private var derivedBox: Derived?
+    @State private var derivedBox: TimelineCurveModel.Derived?
 
     /// The ``DerivedKey`` that ``derivedBox`` was computed for. Lets ``loadModel``
     /// tell "already showing the model for *this* key" (skip — the common
@@ -149,7 +130,7 @@ struct TimelineGraphView: View, Equatable {
     /// Benign zero model so the rendering accessors stay total even if a layout
     /// pass touches them before `derivedBox` is populated (the body shows the
     /// placeholder, not the graph, in that window).
-    private static let emptyDerived = Derived(
+    private static let emptyDerived = TimelineCurveModel.Derived(
         earliestDose: .distantPast,
         maxDoseBySubstance: [:],
         stackedGroups: [],
@@ -159,7 +140,7 @@ struct TimelineGraphView: View, Equatable {
         rawActivityTail: 1,
     )
 
-    private var derived: Derived {
+    private var derived: TimelineCurveModel.Derived {
         derivedBox ?? Self.emptyDerived
     }
 
@@ -224,7 +205,7 @@ struct TimelineGraphView: View, Equatable {
             if let cached = TimelineModelCache.shared.cached(key) {
                 _derivedBox = State(initialValue: cached)
             } else {
-                let model = Self.computeDerived(
+                let model = TimelineCurveModel.computeDerived(
                     substances: substances, markers: markers,
                     stackRedoses: stackRedoses, dayBounded: dayBounded, currentTime: currentTime,
                 )
@@ -261,7 +242,7 @@ struct TimelineGraphView: View, Equatable {
         let db = dayBounded
         let ct = currentTime
         let model = await Task.detached(priority: .userInitiated) {
-            Self.computeDerived(substances: subs, markers: mks, stackRedoses: sr, dayBounded: db, currentTime: ct)
+            TimelineCurveModel.computeDerived(substances: subs, markers: mks, stackRedoses: sr, dayBounded: db, currentTime: ct)
         }.value
         TimelineModelCache.shared.insert(model, for: key)
         derivedBox = model
@@ -313,113 +294,6 @@ struct TimelineGraphView: View, Equatable {
         return min(max(maxEnd, 1), displayCapMinutes)
     }
 
-    /// Empirically find where the rendered curve envelope returns toward
-    /// baseline: the latest minute at which the tallest drawn curve still
-    /// exceeds `threshold` of full graph height. Params/scale are precomputed
-    /// once (not per sample) so the scan stays cheap.
-    ///
-    /// When `framing` is true, curves that never decay below `threshold` within
-    /// the window (persistent long-acting background like a daily maintenance
-    /// med) are dropped from the envelope, so they don't drag the default frame
-    /// out to days and crush the acute action. They still count toward the full
-    /// scrollable extent (`framing: false`). If every curve is persistent, none
-    /// are dropped, so a long-acting-only day still shows its curve.
-    private nonisolated static func renderedTail(
-        threshold: Double,
-        framing: Bool,
-        substances: [ActiveSubstanceState],
-        stackedGroups: [[ActiveSubstanceState]],
-        earliestDose: Date,
-        yNorm: Double,
-        maxDose: [String: Double],
-        stackRedoses: Bool,
-        displayCap: Double,
-    ) -> Double {
-        var curves: [(Double) -> Double] = []
-        var upper: Double = 1
-
-        if stackRedoses {
-            for group in stackedGroups {
-                let params = group.map { Self.pkParams(for: $0) }
-                for (di, dose) in group.enumerated() {
-                    let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    upper = max(upper, offset + Self.curveExtent(for: dose, params: params[di]))
-                }
-                curves.append { t in Self.stackedIntensity(atGlobalMinutes: t, group: group, params: params, earliestDose: earliestDose) * yNorm }
-            }
-        } else {
-            for s in substances {
-                let params = Self.pkParams(for: s)
-                let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                let scale = Self.heightScale(for: s, substances: substances, maxDose: maxDose)
-                upper = max(upper, offset + Self.curveExtent(for: s, params: params))
-                curves.append { t in
-                    let local = t - offset
-                    return local >= 0 ? Self.intensity(at: local, for: s, params: params) * scale * yNorm : 0
-                }
-            }
-        }
-        upper = min(upper, displayCap)
-
-        var contributing = curves
-        if framing {
-            let transient = curves.filter { $0(upper) < threshold }
-            if !transient.isEmpty { contributing = transient }
-        }
-
-        let steps = 240
-        var lastActive: Double = 0
-        for i in 0 ... steps {
-            let t = Double(i) / Double(steps) * upper
-            var h = 0.0
-            for curve in contributing {
-                h = max(h, curve(t))
-                if h >= threshold { break }
-            }
-            if h >= threshold { lastActive = t }
-        }
-        return max(lastActive, 1)
-    }
-
-    /// Build the entire ``Derived`` model in dependency order — once, in `init`.
-    /// Every helper it calls is `static`/pure precisely so this can run before
-    /// the view's stored properties are initialized.
-    private nonisolated static func computeDerived(
-        substances: [ActiveSubstanceState],
-        markers: [DoseMarker],
-        stackRedoses: Bool,
-        dayBounded: Bool,
-        currentTime: Date,
-    ) -> Derived {
-        let earliest = (substances.map(\.doseTimestamp) + markers.map(\.timestamp)).min() ?? currentTime
-        var maxDose: [String: Double] = [:]
-        for s in substances {
-            let key = s.substanceName.lowercased()
-            maxDose[key] = max(maxDose[key] ?? 0, s.amount)
-        }
-        let groups = stackRedoses ? Self.stackedGroups(of: substances) : []
-        let peak = Self.peakCurveValue(
-            substances: substances,
-            stackedGroups: groups,
-            earliestDose: earliest,
-            maxDose: maxDose,
-            stackRedoses: stackRedoses,
-        )
-        let yNorm = min(1.0 / peak, 20.0)
-        let displayCap = dayBounded ? 24 * 60 : maxDisplayMinutes
-        let dataTail = Self.renderedTail(threshold: 0.04, framing: false, substances: substances, stackedGroups: groups, earliestDose: earliest, yNorm: yNorm, maxDose: maxDose, stackRedoses: stackRedoses, displayCap: displayCap)
-        let activityTail = Self.renderedTail(threshold: 0.20, framing: true, substances: substances, stackedGroups: groups, earliestDose: earliest, yNorm: yNorm, maxDose: maxDose, stackRedoses: stackRedoses, displayCap: displayCap)
-        return Derived(
-            earliestDose: earliest,
-            maxDoseBySubstance: maxDose,
-            stackedGroups: groups,
-            peakCurveValue: peak,
-            yNormalization: yNorm,
-            rawDataTail: dataTail,
-            rawActivityTail: activityTail,
-        )
-    }
-
     /// Off-main prewarm: compute and cache the ``Derived`` geometry for a batch of
     /// dose sets so the matching cards later render as *synchronous cache hits* —
     /// `init` seeds `derivedBox` from the cache, so there's no `Color.clear`→graph
@@ -447,10 +321,10 @@ struct TimelineGraphView: View, Equatable {
         guard !pending.isEmpty else { return }
         let now = Date.now
         Task.detached(priority: .utility) {
-            var results: [(DerivedKey, Derived)] = []
+            var results: [(DerivedKey, TimelineCurveModel.Derived)] = []
             results.reserveCapacity(pending.count)
             for item in pending {
-                let model = computeDerived(
+                let model = TimelineCurveModel.computeDerived(
                     substances: item.substances, markers: item.markers,
                     stackRedoses: stackRedoses, dayBounded: dayBounded, currentTime: now,
                 )
@@ -464,14 +338,10 @@ struct TimelineGraphView: View, Equatable {
         }
     }
 
-    /// Hard cap on the timeline window (48h). Activity past this is clipped so
-    /// the meaningful first two days stay legible.
-    private nonisolated static let maxDisplayMinutes: Double = 48 * 60
-
     /// Effective ceiling for the axis window. A day-bounded host (journal card,
     /// day detail) clamps to 24h; everything else keeps the 48h default.
     private var displayCapMinutes: Double {
-        dayBounded ? 24 * 60 : Self.maxDisplayMinutes
+        dayBounded ? 24 * 60 : TimelineCurveModel.maxDisplayMinutes
     }
 
     /// Above this many duration-less doses, the compact baseline dots stop
@@ -508,37 +378,8 @@ struct TimelineGraphView: View, Equatable {
 
     /// One lane per distinct substance, in first-dose order, carrying every dose
     /// of that substance so redoses share a lane.
-    private struct LaneGroup {
-        let name: String
-        let colorHex: String
-        let doses: [ActiveSubstanceState]
-    }
-
-    private var laneGroups: [LaneGroup] {
-        var order: [String] = []
-        var doses: [String: [ActiveSubstanceState]] = [:]
-        var colorOf: [String: String] = [:]
-        for s in substances {
-            let key = s.substanceName.lowercased()
-            if doses[key] == nil {
-                order.append(key)
-                colorOf[key] = s.colorHex
-            }
-            doses[key, default: []].append(s)
-        }
-        return order.map { key in
-            LaneGroup(name: doses[key]!.first!.substanceName, colorHex: colorOf[key]!, doses: doses[key]!)
-        }
-    }
-
-    /// Target number of time labels on the x-axis for consistency.
-    private nonisolated static let targetTickCount: Int = 8
-
-    /// Choose a clean tick interval that yields ~8 labels for the given span.
-    private nonisolated static func intervalForSpan(_ span: Double) -> Double {
-        let candidates: [Double] = [15, 30, 60, 120, 240, 480, 720, 1_440]
-        let ideal = span / Double(targetTickCount)
-        return candidates.first { $0 >= ideal } ?? 1_440
+    private var laneGroups: [TimelineCurveModel.LaneGroup] {
+        TimelineCurveModel.laneGroups(of: substances)
     }
 
     /// Full scrollable extent — ends exactly where the last curve does, so a
@@ -562,7 +403,7 @@ struct TimelineGraphView: View, Equatable {
     /// reachable by panning). This keeps simple days showing everything with no
     /// scrollbar, while long-acting compounds no longer crush the acute action.
     private var autoFitSpan: Double {
-        let activityInterval = Self.intervalForSpan(activitySpan)
+        let activityInterval = TimelineCurveModel.intervalForSpan(activitySpan)
         let activity = max(ceil(activitySpan / activityInterval) * activityInterval, 1)
         let full = max(dataSpan, 1)
         // Reframe when the low tail adds real dead axis (> 2.5 h past the
@@ -582,67 +423,13 @@ struct TimelineGraphView: View, Equatable {
     /// so no separate multi-dose multiplier is needed. `substances`/`maxDose`
     /// are retained for call-site symmetry with the stacked path.
     private func heightScale(for substance: ActiveSubstanceState) -> Double {
-        Self.heightScale(for: substance, substances: substances, maxDose: derived.maxDoseBySubstance)
-    }
-
-    private nonisolated static func heightScale(
-        for substance: ActiveSubstanceState,
-        substances _: [ActiveSubstanceState],
-        maxDose _: [String: Double],
-    ) -> Double {
-        max(0.0001, hill(substance.doseMagnitude))
-    }
-
-    /// Highest curve peak across all substances/groups. Used to normalize the
-    /// y-axis so the tallest curve fills the height — a lone low dose then
-    /// reaches the top instead of rendering as a flat sliver, and multiple
-    /// curves keep their relative proportions.
-    private nonisolated static func peakCurveValue(
-        substances: [ActiveSubstanceState],
-        stackedGroups: [[ActiveSubstanceState]],
-        earliestDose: Date,
-        maxDose: [String: Double],
-        stackRedoses: Bool,
-    ) -> Double {
-        if stackRedoses {
-            var maxV = 0.0
-            for group in stackedGroups {
-                let (s, e) = Self.stackedGroupRange(group, earliestDose: earliestDose)
-                guard e > s else { continue }
-                let params = group.map { Self.pkParams(for: $0) }
-                let steps = 48
-                for i in 0 ... steps {
-                    let t = s + Double(i) / Double(steps) * (e - s)
-                    maxV = max(maxV, Self.stackedIntensity(atGlobalMinutes: t, group: group, params: params, earliestDose: earliestDose))
-                }
-            }
-            return max(maxV, 0.0001)
-        } else {
-            return max(substances.map { Self.heightScale(for: $0, substances: substances, maxDose: maxDose) }.max() ?? 1, 0.0001)
-        }
+        TimelineCurveModel.heightScale(for: substance, substances: substances, maxDose: derived.maxDoseBySubstance)
     }
 
     /// Multiplier mapping the tallest curve to full height (capped so a tiny
     /// floor value can't blow up beyond the graph).
     private var yNormalization: Double {
         derived.yNormalization
-    }
-
-    /// Compression exponent applied to each curve's *amplitude* — the peak
-    /// height it's scaled to — never to its time-varying shape. Linear
-    /// (`1.0`) makes a threshold dose beside a heavy one collapse to an
-    /// unreadable sliver and its long elimination skirt hug the axis. `< 1`
-    /// lifts the low end (a 10 %-of-peak dose rises to ~32 % at `0.5`) while
-    /// pinning the tallest curve at full height and preserving dose ordering.
-    /// Because only the amplitude is scaled, onset/peak/offset proportions —
-    /// and the relative tail length — are untouched; the light dose simply
-    /// reads as a real hump instead of a flat smear.
-    private static let amplitudeGamma: Double = 0.5
-
-    /// Map a linear normalized amplitude in `[0, 1]` to its display height,
-    /// compressing the low end so faint doses stay legible next to heavy ones.
-    private func compressedAmplitude(_ amplitude: Double) -> Double {
-        pow(min(max(amplitude, 0), 1), Self.amplitudeGamma)
     }
 
     /// Lowest zoom that still has meaning: the value at which the visible window
@@ -772,7 +559,7 @@ struct TimelineGraphView: View, Equatable {
                 guard let first = group.first else { continue }
                 let (gStart, gEnd) = stackedGroupRange(group)
                 guard global >= gStart, global <= gEnd else { continue }
-                let params = group.map { pkParams(for: $0) }
+                let params = group.map { TimelineCurveModel.pkParams(for: $0) }
                 let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group, params: params) * yNorm))
                 guard v > 0.01 else { continue }
                 out.append(ScrubSample(id: gi, name: first.substanceName, color: Color(hex: first.colorHex), value: v, elapsed: global - gStart))
@@ -781,9 +568,9 @@ struct TimelineGraphView: View, Equatable {
             for (i, s) in substances.enumerated() {
                 let offset = s.doseTimestamp.timeIntervalSince(earliestDose) / 60
                 let local = global - offset
-                let params = pkParams(for: s)
-                guard local >= 0, local <= curveExtent(for: s, params: params) else { continue }
-                let v = min(1, max(0, intensity(at: local, for: s, params: params) * heightScale(for: s) * yNorm))
+                let params = TimelineCurveModel.pkParams(for: s)
+                guard local >= 0, local <= TimelineCurveModel.curveExtent(for: s, params: params) else { continue }
+                let v = min(1, max(0, TimelineCurveModel.intensity(at: local, for: s, params: params) * heightScale(for: s) * yNorm))
                 guard v > 0.01 else { continue }
                 out.append(ScrubSample(id: i, name: s.substanceName, color: Color(hex: s.colorHex), value: v, elapsed: local))
             }
@@ -799,7 +586,7 @@ struct TimelineGraphView: View, Equatable {
         for (i, s) in substances.enumerated() {
             let elapsed = currentTime.timeIntervalSince(s.doseTimestamp) / 60
             guard elapsed >= 0, elapsed <= s.totalMinutes else { continue }
-            let v = intensity(at: elapsed, for: s, params: pkParams(for: s)) * heightScale(for: s) * yNorm
+            let v = TimelineCurveModel.intensity(at: elapsed, for: s, params: TimelineCurveModel.pkParams(for: s)) * heightScale(for: s) * yNorm
             if v > best { best = v; bestIdx = i }
         }
         return bestIdx
@@ -812,7 +599,7 @@ struct TimelineGraphView: View, Equatable {
         for (gi, group) in stackedGroups.enumerated() {
             let (gStart, gEnd) = stackedGroupRange(group)
             guard nowGlobal >= gStart, nowGlobal <= gEnd else { continue }
-            let params = group.map { pkParams(for: $0) }
+            let params = group.map { TimelineCurveModel.pkParams(for: $0) }
             let v = stackedIntensity(atGlobalMinutes: nowGlobal, group: group, params: params) * yNorm
             if v > best { best = v; bestIdx = gi }
         }
@@ -1181,7 +968,7 @@ struct TimelineGraphView: View, Equatable {
                 for (idx, substance) in substances.enumerated() {
                     let color = Color(hex: substance.colorHex)
                     let substanceOffset = substance.doseTimestamp.timeIntervalSince(earliestDose) / 60
-                    let scale = compressedAmplitude(heightScale(for: substance) * yNorm)
+                    let scale = TimelineCurveModel.compressedAmplitude(heightScale(for: substance) * yNorm)
                     let elapsed = currentTime.timeIntervalSince(substance.doseTimestamp) / 60
                     let emph = emphasis(
                         name: substance.substanceName,
@@ -1226,7 +1013,7 @@ struct TimelineGraphView: View, Equatable {
                     if showNowIndicator, scrubX == nil, idx == frontmostNow, emph == .full, elapsed >= 0, elapsed <= substance.totalMinutes {
                         let minutePos = substanceOffset + elapsed
                         let x = graphInset + CGFloat((minutePos - vStart) / vSpan) * graphWidth
-                        let y = graphTop + graphHeight - CGFloat(intensity(at: elapsed, for: substance, params: pkParams(for: substance)) * scale) * graphHeight * 0.93
+                        let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: elapsed, for: substance, params: TimelineCurveModel.pkParams(for: substance)) * scale) * graphHeight * 0.93
                         if x >= -5, x <= graphWidth + 5 {
                             let dotSize: CGFloat = compact ? 5 : 7
                             let dot = Path(ellipseIn: CGRect(
@@ -1346,7 +1133,7 @@ struct TimelineGraphView: View, Equatable {
         // as stray, disconnected points overlapping the bottom lane. Every
         // substance is one labelled horizon strip: curves get a hump, instant
         // doses get a baseline row of dots.
-        let markerLanes = markerOnlyLanes(excluding: curveLanes)
+        let markerLanes = TimelineCurveModel.markerOnlyLanes(excluding: curveLanes, markers: markers)
         let rowCount = curveLanes.count + markerLanes.count
         guard rowCount > 0 else { return }
         let laneHeight = graphHeight / CGFloat(rowCount)
@@ -1375,14 +1162,14 @@ struct TimelineGraphView: View, Equatable {
             // route (matching the global stacked view) instead of a pile of
             // overlapping per-dose humps; otherwise each dose draws on its own.
             if stackRedoses {
-                let groups = Self.stackedGroups(of: lane.doses)
+                let groups = TimelineCurveModel.stackedGroups(of: lane.doses)
                 // Per-lane peak across the summed envelopes so this substance's
                 // tallest moment fills the lane, independent of the others.
                 var peak = 1e-6
                 for group in groups {
                     let (gs, ge) = stackedGroupRange(group)
                     guard ge > gs else { continue }
-                    let params = group.map { pkParams(for: $0) }
+                    let params = group.map { TimelineCurveModel.pkParams(for: $0) }
                     let steps = 40
                     for j in 0 ... steps {
                         let t = gs + Double(j) / Double(steps) * (ge - gs)
@@ -1398,13 +1185,13 @@ struct TimelineGraphView: View, Equatable {
                 // regardless of how it compares to other substances.
                 var peak = 1e-6
                 for dose in lane.doses {
-                    let params = pkParams(for: dose)
+                    let params = TimelineCurveModel.pkParams(for: dose)
                     let hs = heightScale(for: dose)
-                    let end = curveExtent(for: dose, params: params)
+                    let end = TimelineCurveModel.curveExtent(for: dose, params: params)
                     let steps = 40
                     for j in 0 ... steps {
                         let t = Double(j) / Double(steps) * end
-                        peak = max(peak, intensity(at: t, for: dose, params: params) * hs)
+                        peak = max(peak, TimelineCurveModel.intensity(at: t, for: dose, params: params) * hs)
                     }
                 }
                 let norm = 1.0 / peak
@@ -1450,7 +1237,7 @@ struct TimelineGraphView: View, Equatable {
                             let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
                             let elapsed = nowGlobal - offset
                             guard elapsed >= 0, elapsed <= dose.totalMinutes else { continue }
-                            let v = intensity(at: elapsed, for: dose, params: pkParams(for: dose)) * heightScale(for: dose) * norm
+                            let v = TimelineCurveModel.intensity(at: elapsed, for: dose, params: TimelineCurveModel.pkParams(for: dose)) * heightScale(for: dose) * norm
                             bestV = max(bestV, v)
                         }
                         if bestV >= 0 {
@@ -1522,7 +1309,7 @@ struct TimelineGraphView: View, Equatable {
         let (gStart, gEnd) = stackedGroupRange(group)
         let gSpan = gEnd - gStart
         guard gSpan > 0 else { return }
-        let params = group.map { pkParams(for: $0) }
+        let params = group.map { TimelineCurveModel.pkParams(for: $0) }
         let steps = compact ? 48 : 140
 
         var vs: [Double] = []
@@ -1571,33 +1358,6 @@ struct TimelineGraphView: View, Equatable {
                 }
             }
         }
-    }
-
-    /// A duration-less substance rendered as its own lane: a name label plus a
-    /// baseline row of dots, one per dose.
-    private struct MarkerLane {
-        let name: String
-        let colorHex: String
-        let markers: [DoseMarker]
-    }
-
-    /// Distinct marker substances with no curve lane, in first-dose order — each
-    /// becomes its own labelled lane so a logged dose never floats unattached.
-    private func markerOnlyLanes(excluding curveLanes: [LaneGroup]) -> [MarkerLane] {
-        let curveNames = Set(curveLanes.map { $0.name.lowercased() })
-        var order: [String] = []
-        var byKey: [String: [DoseMarker]] = [:]
-        var meta: [String: (name: String, colorHex: String)] = [:]
-        for marker in markers {
-            let key = marker.substanceName.lowercased()
-            guard !curveNames.contains(key) else { continue }
-            if byKey[key] == nil {
-                order.append(key)
-                meta[key] = (marker.substanceName, marker.colorHex)
-            }
-            byKey[key, default: []].append(marker)
-        }
-        return order.map { MarkerLane(name: meta[$0]!.name, colorHex: meta[$0]!.colorHex, markers: byKey[$0]!) }
     }
 
     /// Colour swatch + substance name at a lane's top-left.
@@ -1682,14 +1442,14 @@ struct TimelineGraphView: View, Equatable {
     ) -> Path {
         Path { path in
             let steps = compact ? 48 : 140
-            let params = pkParams(for: substance)
-            let drawEnd = curveExtent(for: substance, params: params)
+            let params = TimelineCurveModel.pkParams(for: substance)
+            let drawEnd = TimelineCurveModel.curveExtent(for: substance, params: params)
             var pts: [CGPoint] = []
             pts.reserveCapacity(steps + 1)
             for i in 0 ... steps {
                 let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
+                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
                 pts.append(CGPoint(x: x, y: y))
             }
             addSmoothCurve(pts, to: &path, startNew: true)
@@ -1710,8 +1470,8 @@ struct TimelineGraphView: View, Equatable {
         Path { path in
             let steps = compact ? 48 : 140
             let baseline = graphTop + graphHeight
-            let params = pkParams(for: substance)
-            let drawEnd = curveExtent(for: substance, params: params)
+            let params = TimelineCurveModel.pkParams(for: substance)
+            let drawEnd = TimelineCurveModel.curveExtent(for: substance, params: params)
 
             let startX = graphInset + CGFloat((substanceOffset - visibleStart) / visibleSpan) * graphWidth
             path.move(to: CGPoint(x: startX, y: baseline))
@@ -1721,7 +1481,7 @@ struct TimelineGraphView: View, Equatable {
             for i in 0 ... steps {
                 let t = Double(i) / Double(steps) * drawEnd
                 let x = graphInset + CGFloat((substanceOffset + t - visibleStart) / visibleSpan) * graphWidth
-                let y = graphTop + graphHeight - CGFloat(intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
+                let y = graphTop + graphHeight - CGFloat(TimelineCurveModel.intensity(at: t, for: substance, params: params) * scale) * graphHeight * 0.93
                 pts.append(CGPoint(x: x, y: y))
             }
             addSmoothCurve(pts, to: &path, startNew: false)
@@ -1730,192 +1490,6 @@ struct TimelineGraphView: View, Equatable {
             path.addLine(to: CGPoint(x: endX, y: baseline))
             path.closeSubpath()
         }
-    }
-
-    // MARK: - Intensity (mechanistic Bateman PK curve)
-
-    /// Absorption / elimination rate constants for a one-compartment Bateman
-    /// curve, fit to a dose's subjective duration profile. Precomputed once per
-    /// curve — the `estimateKa` Newton solve is far too costly to run per pixel.
-    struct PKCurveParams {
-        let ka: Double
-        let ke: Double
-        let cmax: Double
-    }
-
-    /// Fit a Bateman curve to a dose's subjective phase timing.
-    ///
-    /// The duration phases describe *subjective effect*, not plasma
-    /// concentration, so they are not literally Bateman-shaped (a Bateman peak
-    /// always satisfies `tmax < 1/ke`, which a long "peak" plateau violates). We
-    /// therefore map the phases onto the closest well-formed one-compartment
-    /// curve rather than reproduce them:
-    ///
-    /// - **Elimination (`ke`)** is chosen so the curve decays to ~5 % of its
-    ///   peak by `totalMinutes` — the curve fades out exactly when the listed
-    ///   effects end, keeping it consistent with the axis (also built from
-    ///   `totalMinutes`).
-    /// - **Absorption (`ka`)** is chosen so the peak lands at the centre of the
-    ///   subjective peak plateau, clamped just inside `1/ke` so the curve stays
-    ///   well-formed. A long plateau pushes the target peak late, driving
-    ///   `ka → ke` and naturally yielding the broad, rounded `ke·t·e^(−ke·t)`
-    ///   top — a sustained peak without the artificial flat trapezoid lid.
-    func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
-        Self.pkParams(for: s)
-    }
-
-    nonisolated static func pkParams(for s: ActiveSubstanceState) -> PKCurveParams {
-        let total = max(s.totalMinutes, 1)
-        let peakCenter = (s.comeupEndMinutes + s.peakEndMinutes) / 2
-        // Decay to 5% of peak by `total`; anchor the window on the peak centre
-        // but never let it collapse to nothing.
-        let decayWindow = max(total - min(peakCenter, total * 0.5), total * 0.25)
-        let ke = log(20) / decayWindow
-        // Floor the peak time at a few minutes so a very short-duration
-        // substance still shows a visible up-slope rather than a vertical wall.
-        // A feasible Bateman peak must also satisfy tmax < 1/ke — clamp inside.
-        // Critically, do NOT cap absorption *relative to* elimination: a
-        // long-half-life compound has fast absorption and a slow tail
-        // (ka ≫ ke), and a ratio cap would wrongly push its peak out by hours.
-        let tmaxTarget = min(max(peakCenter, 8), 0.85 / ke)
-        let ka = PKModel.estimateKa(timeToPeak: tmaxTarget, ke: ke)
-        let cmax = max(PKModel.cmax(ke: ke, ka: ka), 1e-9)
-        return PKCurveParams(ka: ka, ke: ke, cmax: cmax)
-    }
-
-    /// Normalized `[0, 1]` effect intensity at `minutes` past the dose. Delegates
-    /// the shape to ``effectShape(at:for:)`` (a phase-based subjective-effect
-    /// curve) and, for releasers, crashes the descending limb faster than the
-    /// listed offset via ``toleranceGate``. `params` is retained for call-site
-    /// stability but no longer drives the shape — the curve is built from the
-    /// duration phases, not a plasma-concentration fit.
-    private func intensity(at minutes: Double, for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
-        Self.intensity(at: minutes, for: s, params: params)
-    }
-
-    private nonisolated static func intensity(at minutes: Double, for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
-        let shape = effectShape(at: minutes, for: s)
-        guard shape > 0 else { return 0 }
-        return shape * toleranceGate(at: minutes, for: s)
-    }
-
-    /// Subjective effect-strength curve in `[0, 1]`, built directly from the
-    /// dose's duration phases rather than a plasma-concentration model. The graph
-    /// shows *how strong the effects feel*, not blood level, so:
-    ///
-    /// The curve is a **Gaussian-shouldered bell**: a rising Gaussian half on the
-    /// left, an optional flat (or rounded) crest across the peak, and a falling
-    /// Gaussian half on the right. Each shoulder is anchored to its phase window —
-    ///
-    /// - **σ↑** `= (comeupEnd − onsetEnd) / comeupSharpness` widens the rising
-    ///   shoulder to span the come-up; the **onset delay falls out for free** as
-    ///   that shoulder's far-left tail (≈0 through the onset window). `comeupEnd`
-    ///   is the ``effectiveComeupEnd`` — synthesized when the data lists no
-    ///   come-up phase, so the rise never collapses to a vertical wall.
-    /// - **σ↓** `= (offsetEnd − peakEnd) / offsetSharpness` widens the falling
-    ///   shoulder to span the offset.
-    /// - **crest** holds at 1.0 between `leftEdge`/`rightEdge`; ``peakDome`` shrinks
-    ///   that flat span toward the peak centre, so a short peak rounds to a bell
-    ///   tip while a long one keeps a gently broad crest.
-    ///
-    /// Both shoulders meet the crest with zero slope (a Gaussian's derivative is 0
-    /// at its mean), so the whole curve is C¹-smooth — no shoulder kinks like the
-    /// old smoothstep+sine. The asymmetry users expect (fast rise, slow fall)
-    /// comes from the offset window being wider than the come-up window in the
-    /// data, not from the constants. Tuned with the offline curve tools.
-    private nonisolated static func effectShape(at minutes: Double, for s: ActiveSubstanceState) -> Double {
-        guard minutes >= 0 else { return 0 }
-        let onsetEnd = s.onsetEndMinutes
-        let peakEnd = max(s.peakEndMinutes, onsetEnd + 2)
-        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
-        let comeupEnd = Self.effectiveComeupEnd(for: s, onsetEnd: onsetEnd, peakEnd: peakEnd)
-
-        let sigmaUp = max((comeupEnd - onsetEnd) / Self.comeupSharpness, 1e-3)
-        let sigmaDown = max((offsetEnd - peakEnd) / Self.offsetSharpness, 1e-3)
-        let center = (comeupEnd + peakEnd) / 2
-        let leftEdge = comeupEnd + (center - comeupEnd) * Self.peakDome
-        let rightEdge = peakEnd - (peakEnd - center) * Self.peakDome
-
-        if minutes <= leftEdge {
-            let z = (leftEdge - minutes) / sigmaUp
-            return exp(-0.5 * z * z)
-        }
-        if minutes <= rightEdge { return 1 }
-        let z = (minutes - rightEdge) / sigmaDown
-        return exp(-0.5 * z * z)
-    }
-
-    /// The come-up boundary the rising shoulder is fit to — synthesizing a
-    /// plausible climb when the source data carries **no come-up phase**.
-    ///
-    /// Many profiles list only onset → peak (kratom oral: onset, peak, offset,
-    /// no come-up), so `comeupEndMinutes` collapses onto `onsetEnd`. The old
-    /// `max(comeupEnd, onsetEnd + 1)` left a 1-minute window → the curve shot up
-    /// as a near-vertical wall, which is wrong for an absorbed (oral) dose. When
-    /// the explicit window is essentially empty we instead borrow a come-up from
-    /// the dose's own timing: as long as the onset itself, floored at 12 min, but
-    /// capped at 60 % of the onset→peak gap so a flat peak still remains. Because
-    /// it scales off `onsetEnd`, a 30-min oral onset yields a broad ~30-min climb
-    /// while a 2-min insufflated onset stays quick — route falls out of the data.
-    /// A genuine come-up in the data is kept exactly as given.
-    private nonisolated static func effectiveComeupEnd(for s: ActiveSubstanceState, onsetEnd: Double, peakEnd: Double) -> Double {
-        let explicit = s.comeupEndMinutes - onsetEnd
-        let gap = peakEnd - onsetEnd
-        let window = explicit > 1
-            ? explicit
-            : min(max(onsetEnd * 0.6, 8), gap * 0.5)
-        return onsetEnd + max(window, 1e-3)
-    }
-
-    /// σ↑ divisor: how many standard deviations the come-up window spans. Higher =
-    /// steeper rise hugging the come-up band.
-    private nonisolated static let comeupSharpness: Double = 1.7
-    /// σ↓ divisor: how many standard deviations the offset window spans. `2.4`
-    /// lands the falling shoulder at ~5 % of peak right as the offset band closes
-    /// — a graceful touchdown rather than a clipped cliff. Lowering it pushes
-    /// residual effect past the substance's own stated end.
-    private nonisolated static let offsetSharpness: Double = 2.4
-    /// Peak rounding: `0` keeps a flat plateau across the whole peak band, `1`
-    /// collapses it to a point (pure split-normal bell). `0.46` is a rounded crest
-    /// that still broadens with peak duration.
-    private nonisolated static let peakDome: Double = 0.46
-
-    /// Acute-tolerance (tachyphylaxis) multiplier on the descending limb. For
-    /// `s.tachyphylaxis == 0` it's identity, so non-tolerant compounds keep the
-    /// pure Bateman offset. For releasers (stimulants, empathogens) the felt
-    /// effect crashes faster than plasma: across the offset window
-    /// `[peakEnd, total]` we fade the curve by up to `tachyphylaxis` via a
-    /// smoothstep, so it lands at baseline by `totalMinutes` instead of trailing
-    /// off on the slow elimination tail. Onset and peak are untouched.
-    private nonisolated static func toleranceGate(at minutes: Double, for s: ActiveSubstanceState) -> Double {
-        let kappa = s.tachyphylaxis
-        guard kappa > 0 else { return 1 }
-        let peakEnd = s.peakEndMinutes
-        let end = max(s.totalMinutes, peakEnd + 1)
-        guard minutes > peakEnd else { return 1 }
-        let x = min(1, (minutes - peakEnd) / (end - peakEnd))
-        let smooth = x * x * (3 - 2 * x)
-        return max(0, 1 - kappa * smooth)
-    }
-
-    /// Minutes after the dose at which the curve has returned to baseline — the
-    /// point past which nothing remains to draw. The phase curve eases to zero by
-    /// the end of the offset, so the draw end is simply that point: no long
-    /// elimination tail to chase, and no flat near-zero skirt stretching the axis
-    /// (an explicit `total` or an afterglow phase can sit beyond it). Capped at
-    /// the display window.
-    private func curveExtent(for s: ActiveSubstanceState, params: PKCurveParams) -> Double {
-        Self.curveExtent(for: s, params: params)
-    }
-
-    private nonisolated static func curveExtent(for s: ActiveSubstanceState, params _: PKCurveParams) -> Double {
-        let peakEnd = max(s.peakEndMinutes, s.comeupEndMinutes)
-        let offsetEnd = max(s.offsetEndMinutes, peakEnd + 1)
-        // The falling Gaussian sits at ~5% of peak at `offsetEnd`; draw ½σ further
-        // so it eases to ~1–2% and lands on the axis instead of being clipped.
-        let sigmaDown = (offsetEnd - peakEnd) / Self.offsetSharpness
-        let end = offsetEnd + sigmaDown * 0.5
-        return min(max(end, 1), Self.maxDisplayMinutes)
     }
 
     /// Append a smooth curve through `pts` using a **monotone** cubic Hermite
@@ -1981,25 +1555,6 @@ struct TimelineGraphView: View, Equatable {
         derived.stackedGroups
     }
 
-    private nonisolated static func stackedGroups(of substances: [ActiveSubstanceState]) -> [[ActiveSubstanceState]] {
-        // Group by (substance, route) so that e.g. insufflated heroin and smoked
-        // heroin draw as separate curves even when "Stack Redoses" is on. Doses
-        // of the same substance via the same route still stack into a combined
-        // curve as before.
-        var order: [String] = []
-        var buckets: [String: [ActiveSubstanceState]] = [:]
-        for s in substances {
-            let key = "\(s.substanceName.lowercased())|\(s.route.lowercased())"
-            if buckets[key] == nil {
-                order.append(key)
-                buckets[key] = [s]
-            } else {
-                buckets[key]?.append(s)
-            }
-        }
-        return order.compactMap { buckets[$0] }
-    }
-
     /// Combined intensity of a group at a given global time (minutes since
     /// earliestDose) — the **upper envelope** (max) of the per-dose curves, each
     /// weighted by its `doseIntensity`.
@@ -2015,61 +1570,12 @@ struct TimelineGraphView: View, Equatable {
     /// normalizes by the combined peak (`peakCurveValue`); the effect-site
     /// low-pass then rounds the hand-off where one dose overtakes another.
     /// `params` holds the precomputed Bateman fit per dose, aligned to `group`.
-    private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [PKCurveParams]) -> Double {
-        Self.stackedIntensity(atGlobalMinutes: global, group: group, params: params, earliestDose: derived.earliestDose)
-    }
-
-    private nonisolated static func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [PKCurveParams], earliestDose: Date) -> Double {
-        // Linear dose superposition, then ONE saturating Hill link. Each dose
-        // contributes `magnitude × bell`; summing the *unclamped* magnitudes
-        // means a genuine 4× stack reaches 4× the input, and a single combined
-        // dose of the same total lands identically — `4×20 mg ≡ 1×80 mg` falls
-        // out for free. Hill then saturates the sum so overlapping crests flatten
-        // (no dome) while doses spaced wider than their bells stay distinct humps.
-        var sum = 0.0
-        for (i, dose) in group.enumerated() {
-            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-            let local = global - offset
-            guard local >= 0 else { continue }
-            sum += dose.doseMagnitude * Self.intensity(at: local, for: dose, params: params[i])
-        }
-        return Self.hill(sum)
-    }
-
-    /// Half-saturation point of the effect link, in dose-magnitude units: a dose
-    /// at `amount = hillEC50 × heavy_threshold` sits at half the saturated
-    /// height. Pinned *above* a typical single dose so single doses live in
-    /// Hill's near-linear region — their come-up stays uncompressed — while
-    /// stacks push into saturation and flatten. Tuned with the offline curve
-    /// tools (a scorer verifies the `4×20 ≡ 1×80` superposition invariant).
-    private nonisolated static let hillEC50: Double = 0.78
-    /// Hill exponent — saturation sharpness and stacking dynamic range. `1.4`
-    /// gives the flattest overlap crest while still separating 2- from 4-dose
-    /// stacks; raising it pushes stacks harder toward the ceiling.
-    private nonisolated static let hillExponent: Double = 1.4
-
-    /// Saturating dose→height link `Cʰ / (EC50ʰ + Cʰ)` (Emax = 1). Applied once
-    /// to the superposed dose magnitude, so a single dose and a stack of the
-    /// same total render identically and overlapping crests saturate flat.
-    private nonisolated static func hill(_ magnitude: Double) -> Double {
-        guard magnitude > 0 else { return 0 }
-        let m = pow(magnitude, hillExponent)
-        return m / (pow(hillEC50, hillExponent) + m)
+    private func stackedIntensity(atGlobalMinutes global: Double, group: [ActiveSubstanceState], params: [TimelineCurveModel.PKCurveParams]) -> Double {
+        TimelineCurveModel.stackedIntensity(atGlobalMinutes: global, group: group, params: params, earliestDose: derived.earliestDose)
     }
 
     private func stackedGroupRange(_ group: [ActiveSubstanceState]) -> (start: Double, end: Double) {
-        Self.stackedGroupRange(group, earliestDose: derived.earliestDose)
-    }
-
-    private nonisolated static func stackedGroupRange(_ group: [ActiveSubstanceState], earliestDose: Date) -> (start: Double, end: Double) {
-        var start = Double.greatestFiniteMagnitude
-        var end = 0.0
-        for dose in group {
-            let offset = dose.doseTimestamp.timeIntervalSince(earliestDose) / 60
-            start = min(start, offset)
-            end = max(end, offset + Self.curveExtent(for: dose, params: Self.pkParams(for: dose)))
-        }
-        return (start, end)
+        TimelineCurveModel.stackedGroupRange(group, earliestDose: derived.earliestDose)
     }
 
     private func drawStackedCurves(
@@ -2093,7 +1599,7 @@ struct TimelineGraphView: View, Equatable {
             let (gStart, gEnd) = stackedGroupRange(group)
             let gSpan = gEnd - gStart
             guard gSpan > 0 else { continue }
-            let params = group.map { pkParams(for: $0) }
+            let params = group.map { TimelineCurveModel.pkParams(for: $0) }
             let activeEnd = group.map { $0.doseTimestamp.timeIntervalSince(earliestDose) / 60 + $0.totalMinutes }.max() ?? gEnd
             let emph = emphasis(name: first.substanceName, isActive: nowGlobal >= gStart && nowGlobal <= activeEnd)
 
@@ -2113,7 +1619,7 @@ struct TimelineGraphView: View, Equatable {
             // single factor so a light group lifts off the axis without
             // deforming its shape.
             if let groupPeak = vs.max(), groupPeak > 0 {
-                let factor = compressedAmplitude(groupPeak) / groupPeak
+                let factor = TimelineCurveModel.compressedAmplitude(groupPeak) / groupPeak
                 if factor != 1 {
                     for i in vs.indices {
                         vs[i] *= factor
@@ -2222,7 +1728,7 @@ struct TimelineGraphView: View, Equatable {
         // come-up phase (otherwise the curve climbs through a "peak"-coloured
         // band with no come-up band at all).
         let peakEndForBands = max(s.peakEndMinutes, s.onsetEndMinutes + 2)
-        let comeupEndForBands = Self.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
+        let comeupEndForBands = TimelineCurveModel.effectiveComeupEnd(for: s, onsetEnd: s.onsetEndMinutes, peakEnd: peakEndForBands)
         let bands: [(start: Double, end: Double, color: Color)] = [
             (0, s.onsetEndMinutes, Color(hex: "9B9BA1")),
             (s.onsetEndMinutes, comeupEndForBands, Color(hex: "3A8DEF")),
@@ -2271,7 +1777,7 @@ struct TimelineGraphView: View, Equatable {
     ) {
         let graphWidth = size.width - graphInset * 2
         let calendar = Calendar.current
-        let interval = Self.intervalForSpan(visibleSpan)
+        let interval = TimelineCurveModel.intervalForSpan(visibleSpan)
 
         let graphOrigin = earliestDose
         let windowStart = graphOrigin.addingTimeInterval(visibleStart * 60)
@@ -2341,7 +1847,7 @@ struct TimelineGraphView: View, Equatable {
         let labelY = inset + graphHeight + labelAreaHeight / 2 + 2
         let calendar = Calendar.current
 
-        let interval = Self.intervalForSpan(visibleSpan)
+        let interval = TimelineCurveModel.intervalForSpan(visibleSpan)
 
         // Graph origin is earliestDose shifted left by padding
         let graphOrigin = earliestDose
