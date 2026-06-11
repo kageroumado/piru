@@ -52,6 +52,19 @@ private struct PushRouteView: View {
                 EntryDetailView(entry: entry)
             }
 
+        case let .rampDown(timestamp):
+            // Resolve the entry like `.entry`, then re-derive the duration
+            // profile the same way EntryDetailView gates its link — if either
+            // is gone, render nothing.
+            if let entry = lookupEntry(at: timestamp),
+               let substance = SubstanceLibrary.lookupByNameOrAlias(entry.substance),
+               let duration = substance.resolveDuration(for: entry.route) {
+                RampDownView(entry: entry, duration: duration)
+            }
+
+        case .comedownGuide:
+            ComedownGuideView()
+
         case let .substance(name):
             // Resolve via the detail path (not the lean `.all` batch list) so
             // detail-only fields — mechanism, chemistry identifiers, molar mass,

@@ -154,7 +154,7 @@ struct SessionDetailView: View {
     private var interactionsDisclosure: some View {
         let severity = maxInteractionSeverity
         DisclosureGroup(isExpanded: $interactionsExpanded) {
-            ForEach(Array(dayInteractions.enumerated()), id: \.offset) { _, warning in
+            ForEach(dayInteractions.enumerated(), id: \.offset) { _, warning in
                 InteractionWarningRow(warning: warning)
             }
         } label: {
@@ -324,7 +324,7 @@ struct SessionDetailView: View {
                     }
 
                     // Entries
-                    Section("\(entries.count) entr\(entries.count == 1 ? "y" : "ies")") {
+                    Section {
                         ForEach(entries) { entry in
                             DayEntryRow(
                                 entry: entry,
@@ -341,6 +341,8 @@ struct SessionDetailView: View {
                                 onMove: { entryToMove = entry },
                             )
                         }
+                    } header: {
+                        Text("^[\(entries.count) entry](inflect: true)")
                     }
 
                     // A single "Summary" section folds together the day's derived
@@ -357,9 +359,7 @@ struct SessionDetailView: View {
                                 cumulativeRow(item)
                             }
 
-                            NavigationLink {
-                                ComedownGuideView()
-                            } label: {
+                            NavigationLink(value: PushRoute.comedownGuide) {
                                 Label("Recovery tips", systemImage: "heart.text.clipboard")
                                     .font(.subheadline.weight(.semibold))
                                     .foregroundStyle(Theme.accent)
@@ -909,8 +909,9 @@ private struct MoveToSessionView: View {
                         if !targets.isEmpty {
                             Section("Move To") {
                                 ForEach(targets) { session in
+                                    let near = isNear(session)
                                     Button {
-                                        if isNear(session) {
+                                        if near {
                                             move(to: session)
                                         } else {
                                             retimeTarget = session
@@ -919,7 +920,7 @@ private struct MoveToSessionView: View {
                                         SessionTargetRow(
                                             session: session,
                                             colors: Array(substanceColors),
-                                            requiresRetime: !isNear(session),
+                                            requiresRetime: !near,
                                         )
                                     }
                                     .buttonStyle(.plain)
@@ -976,16 +977,12 @@ private struct SessionTargetRow: View {
     /// a small clock cue so the extra step isn't a surprise.
     let requiresRetime: Bool
 
-    private var doses: [DoseEntry] {
-        session.orderedDoses
-    }
-
     private var title: String {
         if let t = session.title, !t.isEmpty { return t }
         return session.startDate.formatted(.dateTime.weekday(.abbreviated).day().month(.abbreviated))
     }
 
-    private var timeRange: String {
+    private func timeRange(for doses: [DoseEntry]) -> String {
         guard let first = doses.first?.timestamp else { return "" }
         let last = doses.last?.timestamp ?? first
         let style = Date.FormatStyle.dateTime.hour().minute()
@@ -995,12 +992,12 @@ private struct SessionTargetRow: View {
         return "\(first.formatted(style)) – \(last.formatted(style))"
     }
 
-    private var countText: String {
+    private func countText(for doses: [DoseEntry]) -> String {
         doses.count == 1 ? String(localized: "1 dose") : String(localized: "\(doses.count) doses")
     }
 
     /// Up to three distinct substance colours, in first-seen order.
-    private var dotColors: [Color] {
+    private func dotColors(for doses: [DoseEntry]) -> [Color] {
         var seen = Set<String>()
         var result: [Color] = []
         for dose in doses {
@@ -1014,13 +1011,16 @@ private struct SessionTargetRow: View {
     }
 
     var body: some View {
+        // Sorted once per row render — `orderedDoses` sorts, and three derived
+        // values read it.
+        let doses = session.orderedDoses
         HStack(spacing: 12) {
-            dots
+            dots(dotColors(for: doses))
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.headline)
                     .foregroundStyle(.primary)
-                Text(timeRange)
+                Text(timeRange(for: doses))
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
@@ -1030,7 +1030,7 @@ private struct SessionTargetRow: View {
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryLabel)
             }
-            Text(countText)
+            Text(countText(for: doses))
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(Theme.accent)
         }
@@ -1039,9 +1039,9 @@ private struct SessionTargetRow: View {
 
     /// Overlapping color dots, each ringed in the card colour so they read as a
     /// distinct cluster rather than a blur.
-    private var dots: some View {
+    private func dots(_ dotColors: [Color]) -> some View {
         HStack(spacing: -5) {
-            ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in
+            ForEach(dotColors.enumerated(), id: \.offset) { _, color in
                 Circle()
                     .fill(color)
                     .frame(width: 12, height: 12)

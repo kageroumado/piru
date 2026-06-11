@@ -22,9 +22,10 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// are deduplicated within a 90-minute window against the pending request
 /// queue to avoid spamming the user during a multi-dose session.
 ///
-/// All schedulers are keyed off `DoseEntry.id` (specifically
-/// `persistentModelID.hashValue` at the call site) so cancellation continues
-/// to work after the underlying entry is edited or deleted.
+/// Comedown alerts are keyed off a stable per-entry string (see
+/// ``entryKey(for:)``) derived from the dose's substance and timestamp, so
+/// the "alert scheduled" state and the pending notification identifier both
+/// survive app relaunches.
 ///
 /// Depends on `UNUserNotificationCenter` authorization — call
 /// ``requestPermissionIfNeeded()`` before scheduling.
@@ -107,6 +108,14 @@ enum RampDownScheduler {
 
     // MARK: - Notifications
 
+    /// Stable per-entry key for the comedown alert. Derived from the dose's
+    /// content rather than `persistentModelID.hashValue` — `Hashable` is
+    /// seeded per process, so a hash-based key changes on every launch and
+    /// orphans both the persisted "active" flag and the pending notification.
+    static func entryKey(for entry: DoseEntry) -> String {
+        "\(entry.substance)-\(entry.timestamp.timeIntervalSince1970)"
+    }
+
     static func requestPermissionIfNeeded() async -> Bool {
         let center = UNUserNotificationCenter.current()
         let settings = await center.notificationSettings()
@@ -127,7 +136,7 @@ enum RampDownScheduler {
         unit _: String,
         doseTime: Date,
         duration: DurationProfile,
-        entryID: Int,
+        entryKey: String,
         category: SubstanceCategory? = nil,
     ) {
         let center = UNUserNotificationCenter.current()
@@ -163,7 +172,7 @@ enum RampDownScheduler {
         )
 
         let request = UNNotificationRequest(
-            identifier: notificationIdentifier(entryID: entryID),
+            identifier: notificationIdentifier(entryKey: entryKey),
             content: content,
             trigger: trigger,
         )
@@ -178,14 +187,14 @@ enum RampDownScheduler {
         }
     }
 
-    static func cancelNotification(for entryID: Int) {
+    static func cancelNotification(for entryKey: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: [notificationIdentifier(entryID: entryID)],
+            withIdentifiers: [notificationIdentifier(entryKey: entryKey)],
         )
     }
 
-    private static func notificationIdentifier(entryID: Int) -> String {
-        "\(rampDownCategoryID)_\(String(entryID))"
+    private static func notificationIdentifier(entryKey: String) -> String {
+        "\(rampDownCategoryID)_\(entryKey)"
     }
 
     // MARK: - Wellness Notifications (Auto-scheduled on dose log)
@@ -629,24 +638,28 @@ enum RampDownScheduler {
 
     private static let storageKey = "rampDownEntryIDs"
 
-    static func saveActiveEntry(_ entryID: Int) {
+    static func saveActiveEntry(_ entryKey: String) {
         var ids = loadActiveEntries()
-        ids.insert(String(entryID))
+        ids.insert(entryKey)
         UserDefaults.standard.set(Array(ids), forKey: storageKey)
     }
 
-    static func removeActiveEntry(_ entryID: Int) {
+    static func removeActiveEntry(_ entryKey: String) {
         var ids = loadActiveEntries()
-        ids.remove(String(entryID))
+        ids.remove(entryKey)
         UserDefaults.standard.set(Array(ids), forKey: storageKey)
     }
 
-    static func isActive(for entryID: Int) -> Bool {
-        loadActiveEntries().contains(String(entryID))
+    static func isActive(for entryKey: String) -> Bool {
+        loadActiveEntries().contains(entryKey)
     }
 
     private static func loadActiveEntries() -> Set<String> {
-        Set(UserDefaults.standard.stringArray(forKey: storageKey) ?? [])
+        let stored = UserDefaults.standard.stringArray(forKey: storageKey) ?? []
+        // Legacy values were per-launch `persistentModelID.hashValue`s —
+        // unrecoverable across relaunches, so drop them on read (the next
+        // save/remove persists the cleaned set).
+        return Set(stored.filter { Int($0) == nil })
     }
 }
 
