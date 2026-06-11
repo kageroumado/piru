@@ -7,11 +7,11 @@ struct HalfLifeCalculatorView: View {
 
     @State private var substanceName = ""
     @State private var selectedSubstance: Substance?
-    @State private var doseAmount: String = "100"
+    @State private var doseAmount: Double? = 100
     @State private var doseUnit: String = "mg"
     @State private var timeTaken: Date = .now
     @State private var useCustomHalfLife = false
-    @State private var customHalfLifeHours: String = ""
+    @State private var customHalfLifeHours: Double?
     @State private var cachedActiveSubstances: [ActiveSubstance] = []
     @State private var selectedRoute: RouteOfAdministration = .oral
     @State private var expandedSubstance: String?
@@ -23,7 +23,7 @@ struct HalfLifeCalculatorView: View {
 
     private var effectiveHalfLife: Double? {
         if useCustomHalfLife {
-            guard let hours = Double(customHalfLifeHours), hours > 0 else { return nil }
+            guard let hours = customHalfLifeHours, hours > 0 else { return nil }
             return hours * 60
         }
         if let hl = selectedSubstance?.halfLifeMinutes { return hl }
@@ -45,7 +45,7 @@ struct HalfLifeCalculatorView: View {
     }
 
     private var dose: Double {
-        Double(doseAmount) ?? 0
+        doseAmount ?? 0
     }
 
     var body: some View {
@@ -373,14 +373,14 @@ struct HalfLifeCalculatorView: View {
     private func populateCalculator(from active: ActiveSubstance) {
         substanceName = active.name
         selectedSubstance = SubstanceLibrary.search(active.name).first
-        doseAmount = active.totalDosed.doseFormatted
+        doseAmount = active.totalDosed
         // Use the most recent dose timestamp
         if let latest = active.doses.first?.timestamp {
             timeTaken = latest
         }
         doseUnit = SubstanceLibrary.lookup(active.name.lowercased())?.defaultUnit ?? "mg"
         useCustomHalfLife = false
-        customHalfLifeHours = ""
+        customHalfLifeHours = nil
     }
 
     private func timeAgoText(_ date: Date?) -> String {
@@ -437,7 +437,7 @@ struct HalfLifeCalculatorView: View {
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
                     HStack(spacing: 0) {
-                        TextField("Amount", text: $doseAmount)
+                        TextField("Amount", value: $doseAmount, format: .number)
                             .keyboardType(.decimalPad)
                             .padding(8)
                         Divider()
@@ -467,7 +467,7 @@ struct HalfLifeCalculatorView: View {
             Toggle("Custom half-life", isOn: $useCustomHalfLife)
             if useCustomHalfLife {
                 HStack {
-                    TextField("Hours", text: $customHalfLifeHours)
+                    TextField("Hours", value: $customHalfLifeHours, format: .number)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(.roundedBorder)
                     Text("hours")
