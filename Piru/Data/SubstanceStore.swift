@@ -28,9 +28,13 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 ///
 /// ## Concurrency
 ///
-/// Public API is `@MainActor`. Internal queries hop to GRDB's serial queue and
-/// hop back. Read-only bundled queries are cached in `resolvedCache`; the cache
-/// invalidates on source-priority change.
+/// Public API is `@MainActor`. Queries are **synchronous blocking reads** —
+/// `DatabaseQueue.read` blocks the calling thread until the SQL completes;
+/// there is no hop to GRDB's queue and back. The in-memory caches
+/// (`resolvedCache`, `allCache`, …) and the off-main launch prewarm keep the
+/// hot paths off SQLite, but an uncached query issued from the main actor
+/// still pays its full cost there — don't add main-actor call sites assuming
+/// reads are free.
 @MainActor
 @Observable
 final class SubstanceStore {
@@ -148,7 +152,10 @@ final class SubstanceStore {
             Task.detached(priority: .userInitiated) {
                 let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
                 await MainActor.run { [weak self] in
-                    guard let self, self.allCache == nil else { return }
+                    // Drop the prefill if the user reordered/toggled sources while
+                    // it ran — `reloadSourceOrder()` nils `allCache`, so the nil
+                    // check alone would publish a batch resolved with stale order.
+                    guard let self, self.allCache == nil, self.enabledSourceOrder == prewarmOrder else { return }
                     self.allCache = resolved
                 }
             }
@@ -406,13 +413,22 @@ final class SubstanceStore {
     // MARK: - Public lookup API
 
     /// Look up by exact canonical name (case-insensitive).
+    ///
+    /// **Raw library row — bypasses the user's custom-substance overlay.**
+    /// App code must resolve through ``SubstanceLibrary/lookup(_:)`` instead;
+    /// this stays `internal` (not `fileprivate`) only because
+    /// `MechanismOfActionTests` exercises the raw store directly.
     func lookup(_ name: String) -> Substance? {
         guard let id = nameIndex[name.lowercased()] else { return nil }
         return resolveSubstance(id: id, canonicalName: name)
     }
 
     /// Look up by canonical name OR any alias (case-insensitive).
-    func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
+    ///
+    /// **Raw library row — bypasses the user's custom-substance overlay.**
+    /// `fileprivate` so ``SubstanceLibrary/lookupByNameOrAlias(_:)`` (the
+    /// overlay-aware façade below) is the only resolution path for app code.
+    fileprivate func lookupByNameOrAlias(_ nameOrAlias: String) -> Substance? {
         let key = nameOrAlias.lowercased()
         let id = nameIndex[key] ?? aliasIndex[key]
         guard let id else { return nil }

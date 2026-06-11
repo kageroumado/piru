@@ -49,13 +49,13 @@ struct EntryDetailView: View {
     }
 
     private var hasActiveRampDown: Bool {
-        RampDownScheduler.isActive(for: entry.persistentModelID.hashValue)
+        RampDownScheduler.isActive(for: RampDownScheduler.entryKey(for: entry))
     }
 
     private var currentColorHex: String {
         substanceColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
+        }?.hexColor ?? PresetColor.defaultHex
     }
 
     private var substanceColor: Color {
@@ -308,11 +308,9 @@ struct EntryDetailView: View {
             }
         }
 
-        if let duration = resolvedDuration {
+        if resolvedDuration != nil {
             Section {
-                NavigationLink {
-                    RampDownView(entry: entry, duration: duration)
-                } label: {
+                NavigationLink(value: PushRoute.rampDown(timestamp: entry.timestamp)) {
                     HStack {
                         Label("Comedown Alert", systemImage: "bell.badge")
                         Spacer()

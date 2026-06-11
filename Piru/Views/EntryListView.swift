@@ -459,7 +459,7 @@ struct EntryListView: View {
                     // Button (programmatic push, no system disclosure chevron over
                     // the graph), so taps stay per-session.
                     VStack(spacing: 0) {
-                        ForEach(Array(cards.enumerated()), id: \.element.id) { index, card in
+                        ForEach(cards.enumerated(), id: \.element.id) { index, card in
                             Button {
                                 if let session = card.session {
                                     navigator.push(.session(id: session.id))
@@ -844,7 +844,7 @@ struct SessionCardView: View {
 
     private var substanceDots: some View {
         HStack(spacing: 3) {
-            ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in
+            ForEach(dotColors.enumerated(), id: \.offset) { _, color in
                 Circle()
                     .fill(color)
                     .frame(width: 7, height: 7)
@@ -1093,7 +1093,7 @@ private struct ActiveSessionHeroCard: View {
 
     private var substanceDots: some View {
         HStack(spacing: 3) {
-            ForEach(Array(dotColors.enumerated()), id: \.offset) { _, color in
+            ForEach(dotColors.enumerated(), id: \.offset) { _, color in
                 Circle()
                     .fill(color)
                     .frame(width: 7, height: 7)
@@ -1125,21 +1125,29 @@ struct JournalCalendarView: View {
 
     @State private var selectedMonth: Date = .now
 
+    /// Per-day entry counts keyed by day start, bucketed once per change to
+    /// `entries` so each of the ~31 day cells does an O(1) lookup instead of
+    /// scanning every entry.
+    @State private var dayCounts: [Date: Int] = [:]
+
     private var calendar: Calendar {
         Calendar.current
     }
 
-    private var datesWithEntries: Set<DateComponents> {
-        var set = Set<DateComponents>()
+    /// Content fingerprint of the fields the day buckets depend on — the
+    /// rebuild task's identity, mirroring `EntryListView.entriesSignature`.
+    private var entriesSignature: Int {
+        var hasher = Hasher()
         for entry in entries {
-            let comps = calendar.dateComponents([.year, .month, .day], from: entry.timestamp)
-            set.insert(comps)
+            hasher.combine(entry.timestamp)
         }
-        return set
+        return hasher.finalize()
     }
 
-    private func entriesFor(date: Date) -> Int {
-        entries.count(where: { calendar.isDate($0.timestamp, inSameDayAs: date) })
+    private func rebuildDayCounts() {
+        dayCounts = entries.reduce(into: [:]) { counts, entry in
+            counts[calendar.startOfDay(for: entry.timestamp), default: 0] += 1
+        }
     }
 
     var body: some View {
@@ -1178,7 +1186,7 @@ struct JournalCalendarView: View {
                         Color.clear.frame(height: 40)
                     } else {
                         let date = calendar.date(from: DateComponents(year: item.year, month: item.month, day: item.day))!
-                        let count = entriesFor(date: date)
+                        let count = dayCounts[date, default: 0]
                         Button {
                             onSelectDate(date)
                         } label: {
@@ -1211,6 +1219,9 @@ struct JournalCalendarView: View {
             Spacer()
         }
         .padding(.top)
+        .task(id: entriesSignature) {
+            rebuildDayCounts()
+        }
     }
 
     private struct CalendarDay: Identifiable, Hashable {

@@ -39,7 +39,7 @@ struct QuickLogHelpBanner: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    private func helpBannerLink(title: String, url: String) -> some View {
+    private func helpBannerLink(title: LocalizedStringKey, url: String) -> some View {
         Link(destination: URL(string: url)!) {
             HStack(spacing: 6) {
                 Image(systemName: "phone.fill")

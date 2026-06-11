@@ -85,6 +85,7 @@ struct LogMedicationsView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { navigator.dismiss() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel("Close")
                 }
             }
             .sheet(isPresented: $showInteractionSheet) {
@@ -230,6 +231,7 @@ struct InteractionWarningSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { onCancel() } label: { Image(systemName: "xmark") }
+                        .accessibilityLabel("Close")
                 }
             }
         }
