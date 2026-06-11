@@ -28,27 +28,27 @@ struct CustomSubstanceFormView: View {
     @State private var unit: String
     @State private var notes: String
 
-    // Dose tiers
-    @State private var thresholdStr: String
-    @State private var lightMin: String
-    @State private var lightMax: String
-    @State private var commonMin: String
-    @State private var commonMax: String
-    @State private var strongMin: String
-    @State private var strongMax: String
-    @State private var heavyStr: String
+    // Dose tiers — nil means "leave blank / keep library value"
+    @State private var threshold: Double?
+    @State private var lightMin: Double?
+    @State private var lightMax: Double?
+    @State private var commonMin: Double?
+    @State private var commonMax: Double?
+    @State private var strongMin: Double?
+    @State private var strongMax: Double?
+    @State private var heavy: Double?
 
-    @State private var halfLifeStr: String
+    @State private var halfLifeMinutes: Double?
 
     @State private var hasDuration: Bool
-    @State private var onsetMin: String
-    @State private var onsetMax: String
-    @State private var comeupMin: String
-    @State private var comeupMax: String
-    @State private var peakMin: String
-    @State private var peakMax: String
-    @State private var offsetMin: String
-    @State private var offsetMax: String
+    @State private var onsetMin: Double?
+    @State private var onsetMax: Double?
+    @State private var comeupMin: Double?
+    @State private var comeupMax: Double?
+    @State private var peakMin: Double?
+    @State private var peakMax: Double?
+    @State private var offsetMin: Double?
+    @State private var offsetMax: Double?
     @State private var showDuplicateAlert = false
 
     private var isEditing: Bool {
@@ -82,33 +82,35 @@ struct CustomSubstanceFormView: View {
         _notes = State(initialValue: existing?.notes ?? "")
 
         let doses = existing?.doses ?? (existing == nil ? baseRoute?.doses : nil)
-        _thresholdStr = State(initialValue: Self.format(doses?.threshold))
-        _lightMin = State(initialValue: Self.format(doses?.light?.lowerBound))
-        _lightMax = State(initialValue: Self.format(doses?.light?.upperBound))
-        _commonMin = State(initialValue: Self.format(doses?.common?.lowerBound))
-        _commonMax = State(initialValue: Self.format(doses?.common?.upperBound))
-        _strongMin = State(initialValue: Self.format(doses?.strong?.lowerBound))
-        _strongMax = State(initialValue: Self.format(doses?.strong?.upperBound))
-        _heavyStr = State(initialValue: Self.format(doses?.heavy))
+        _threshold = State(initialValue: Self.positive(doses?.threshold))
+        _lightMin = State(initialValue: Self.positive(doses?.light?.lowerBound))
+        _lightMax = State(initialValue: Self.positive(doses?.light?.upperBound))
+        _commonMin = State(initialValue: Self.positive(doses?.common?.lowerBound))
+        _commonMax = State(initialValue: Self.positive(doses?.common?.upperBound))
+        _strongMin = State(initialValue: Self.positive(doses?.strong?.lowerBound))
+        _strongMax = State(initialValue: Self.positive(doses?.strong?.upperBound))
+        _heavy = State(initialValue: Self.positive(doses?.heavy))
 
         let halfLife = existing?.halfLifeMinutes ?? (existing == nil ? personalizing?.halfLifeMinutes : nil)
-        _halfLifeStr = State(initialValue: Self.format(halfLife))
+        _halfLifeMinutes = State(initialValue: Self.positive(halfLife))
 
         let duration = existing?.duration ?? (existing == nil ? baseRoute?.duration : nil)
         _hasDuration = State(initialValue: duration != nil)
-        _onsetMin = State(initialValue: Self.format(duration?.onset?.min))
-        _onsetMax = State(initialValue: Self.format(duration?.onset?.max))
-        _comeupMin = State(initialValue: Self.format(duration?.comeup?.min))
-        _comeupMax = State(initialValue: Self.format(duration?.comeup?.max))
-        _peakMin = State(initialValue: Self.format(duration?.peak?.min))
-        _peakMax = State(initialValue: Self.format(duration?.peak?.max))
-        _offsetMin = State(initialValue: Self.format(duration?.offset?.min))
-        _offsetMax = State(initialValue: Self.format(duration?.offset?.max))
+        _onsetMin = State(initialValue: Self.positive(duration?.onset?.min))
+        _onsetMax = State(initialValue: Self.positive(duration?.onset?.max))
+        _comeupMin = State(initialValue: Self.positive(duration?.comeup?.min))
+        _comeupMax = State(initialValue: Self.positive(duration?.comeup?.max))
+        _peakMin = State(initialValue: Self.positive(duration?.peak?.min))
+        _peakMax = State(initialValue: Self.positive(duration?.peak?.max))
+        _offsetMin = State(initialValue: Self.positive(duration?.offset?.min))
+        _offsetMax = State(initialValue: Self.positive(duration?.offset?.max))
     }
 
-    private static func format(_ value: Double?) -> String {
-        guard let value, value > 0 else { return "" }
-        return value == value.rounded() ? String(Int(value)) : String(value)
+    /// Non-positive shipped values render as an empty field, matching the
+    /// old "blank means unset" semantics.
+    private static func positive(_ value: Double?) -> Double? {
+        guard let value, value > 0 else { return nil }
+        return value
     }
 
     private var unitLabel: String {
@@ -117,24 +119,24 @@ struct CustomSubstanceFormView: View {
 
     // MARK: - Rows
 
-    private func rangeRow(_ label: LocalizedStringResource, min: Binding<String>, max: Binding<String>, suffix: LocalizedStringResource) -> some View {
+    private func rangeRow(_ label: LocalizedStringResource, min: Binding<Double?>, max: Binding<Double?>, suffix: LocalizedStringResource) -> some View {
         HStack {
             Text(label)
             Spacer()
-            TextField("min", text: min)
+            TextField("min", value: min, format: .number)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
             Text("–").foregroundStyle(Theme.secondaryLabel)
-            TextField("max", text: max)
+            TextField("max", value: max, format: .number)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
     }
 
-    private func singleRow(_ label: LocalizedStringResource, value: Binding<String>, suffix: String) -> some View {
+    private func singleRow(_ label: LocalizedStringResource, value: Binding<Double?>, suffix: String) -> some View {
         HStack {
             Text(label)
             Spacer()
-            TextField("amount", text: value)
+            TextField("amount", value: value, format: .number)
                 .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 56)
             Text(suffix).foregroundStyle(Theme.secondaryLabel)
         }
@@ -143,31 +145,31 @@ struct CustomSubstanceFormView: View {
     // MARK: - Builders
 
     private func buildDoses() -> DoseRange? {
-        func val(_ s: String) -> Double? {
-            guard let d = Double(s), d > 0 else { return nil }
-            return d
+        func val(_ v: Double?) -> Double? {
+            guard let v, v > 0 else { return nil }
+            return v
         }
-        func range(_ lo: String, _ hi: String) -> ClosedRange<Double>? {
+        func range(_ lo: Double?, _ hi: Double?) -> ClosedRange<Double>? {
             guard let l = val(lo) else { return nil }
             let h = val(hi) ?? l
             guard h >= l else { return nil }
             return l ... h
         }
         let dr = DoseRange(
-            threshold: val(thresholdStr),
+            threshold: val(threshold),
             light: range(lightMin, lightMax),
             common: range(commonMin, commonMax),
             strong: range(strongMin, strongMax),
-            heavy: val(heavyStr),
+            heavy: val(heavy),
         )
         return dr.hasAnyValue ? dr : nil
     }
 
     private func buildDuration() -> DurationProfile? {
         guard hasDuration else { return nil }
-        func range(_ minStr: String, _ maxStr: String) -> DurationRange? {
-            guard let lo = Double(minStr), lo > 0 else { return nil }
-            let hi = Double(maxStr) ?? lo
+        func range(_ min: Double?, _ max: Double?) -> DurationRange? {
+            guard let lo = min, lo > 0 else { return nil }
+            let hi = max ?? lo
             guard hi >= lo else { return nil }
             return DurationRange(min: lo, max: hi)
         }
@@ -180,7 +182,7 @@ struct CustomSubstanceFormView: View {
     }
 
     private func buildHalfLife() -> Double? {
-        guard let v = Double(halfLifeStr), v > 0 else { return nil }
+        guard let v = halfLifeMinutes, v > 0 else { return nil }
         return v
     }
 
@@ -229,11 +231,11 @@ struct CustomSubstanceFormView: View {
                 }
 
                 Section {
-                    singleRow("Threshold", value: $thresholdStr, suffix: unitLabel)
+                    singleRow("Threshold", value: $threshold, suffix: unitLabel)
                     rangeRow("Light", min: $lightMin, max: $lightMax, suffix: "\(unitLabel)")
                     rangeRow("Common", min: $commonMin, max: $commonMax, suffix: "\(unitLabel)")
                     rangeRow("Strong", min: $strongMin, max: $strongMax, suffix: "\(unitLabel)")
-                    singleRow("Heavy", value: $heavyStr, suffix: unitLabel)
+                    singleRow("Heavy", value: $heavy, suffix: unitLabel)
                 } header: {
                     Text("Dose Ranges")
                 } footer: {
@@ -244,7 +246,7 @@ struct CustomSubstanceFormView: View {
                     HStack {
                         Text("Half-life")
                         Spacer()
-                        TextField("minutes", text: $halfLifeStr)
+                        TextField("minutes", value: $halfLifeMinutes, format: .number)
                             .keyboardType(.decimalPad).multilineTextAlignment(.trailing).frame(width: 80)
                         Text("minutes").foregroundStyle(Theme.secondaryLabel)
                     }
