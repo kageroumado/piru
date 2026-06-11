@@ -90,9 +90,23 @@ final class SubstanceStore {
         return bundleURL
     }
 
-    private init() {
-        let dbURL = Self.resolveSubstancesDBURL()
-
+    /// Designated initializer — the testability seam. Tests construct an
+    /// isolated store pointing at the (read-only) bundled substances DB and a
+    /// temp-directory user-prefs DB so priority/profile mutations never touch
+    /// the shared singleton or the real `Documents/piru-user-prefs.sqlite`.
+    /// Production goes through the `private convenience init()` below, which
+    /// resolves the real paths and keeps the prewarm enabled.
+    ///
+    /// - Parameters:
+    ///   - substancesDBURL: SQLite file holding the substance facts. Opened
+    ///     read-only; must exist.
+    ///   - userPrefsDBURL: Writable SQLite file for source priorities, profile
+    ///     and overrides. Created (schema + bundled-default seed) if missing.
+    ///   - prewarmsAllCache: Whether to fire the detached background task that
+    ///     prefills `allCache`. Defaults to `true` (production behavior); tests
+    ///     pass `false` so short-lived instances don't pay a ~600 ms batch
+    ///     resolve they never read.
+    init(substancesDBURL: URL, userPrefsDBURL: URL, prewarmsAllCache: Bool = true) {
         // The substances DB is opened read-only — both the bundled copy
         // (immutable resource bundle) and any opt-in update applied to
         // Documents/ (we never modify it after sha256-verified install).
@@ -102,20 +116,17 @@ final class SubstanceStore {
         bundleConfig.readonly = true
         bundleConfig.label = "piru-substances"
         do {
-            self.substancesDB = try DatabaseQueue(path: dbURL.path, configuration: bundleConfig)
+            self.substancesDB = try DatabaseQueue(path: substancesDBURL.path, configuration: bundleConfig)
         } catch {
-            fatalError("Failed to open substances DB at \(dbURL.path): \(error)")
+            fatalError("Failed to open substances DB at \(substancesDBURL.path): \(error)")
         }
 
-        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-            ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
-        let prefsURL = docs.appendingPathComponent("piru-user-prefs.sqlite")
         var prefsConfig = Configuration()
         prefsConfig.label = "piru-user-prefs"
         do {
-            self.userPrefsDB = try DatabaseQueue(path: prefsURL.path, configuration: prefsConfig)
+            self.userPrefsDB = try DatabaseQueue(path: userPrefsDBURL.path, configuration: prefsConfig)
         } catch {
-            fatalError("Failed to open user-prefs DB at \(prefsURL.path): \(error)")
+            fatalError("Failed to open user-prefs DB at \(userPrefsDBURL.path): \(error)")
         }
 
         seedUserPrefsIfNeeded()
@@ -131,15 +142,26 @@ final class SubstanceStore {
         // The batch loader is now a `nonisolated static` that does its SQL +
         // struct building on this background task; we only hop back to main to
         // publish the finished array into the cache.
-        let prewarmDB = substancesDB
-        let prewarmOrder = enabledSourceOrder
-        Task.detached(priority: .userInitiated) {
-            let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
-            await MainActor.run { [weak self] in
-                guard let self, self.allCache == nil else { return }
-                self.allCache = resolved
+        if prewarmsAllCache {
+            let prewarmDB = substancesDB
+            let prewarmOrder = enabledSourceOrder
+            Task.detached(priority: .userInitiated) {
+                let resolved = Self.loadAllSubstancesBatch(db: prewarmDB, order: prewarmOrder)
+                await MainActor.run { [weak self] in
+                    guard let self, self.allCache == nil else { return }
+                    self.allCache = resolved
+                }
             }
         }
+    }
+
+    private convenience init() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
+        self.init(
+            substancesDBURL: Self.resolveSubstancesDBURL(),
+            userPrefsDBURL: docs.appendingPathComponent("piru-user-prefs.sqlite"),
+        )
     }
 
     // MARK: - User prefs schema + seed

@@ -48,10 +48,10 @@ struct SubstanceProvenanceTests {
 
     @Test
     @MainActor
-    func `Provenance follows source-priority order`() {
-        let store = SubstanceStore.shared
+    func `Provenance follows source-priority order`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
         let originalOrder = store.enabledSourceOrder
-        defer { store.setSourcePriority(orderedSlugs: originalOrder) }
 
         // Push tripsit to the top; ask Caffeine; record the dose source.
         let withTripsitFirst = ["tripsit"] + originalOrder.filter { $0 != "tripsit" }
