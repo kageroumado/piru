@@ -19,7 +19,7 @@ struct SettingsView: View {
                         countRow(
                             "Routines",
                             systemImage: "repeat",
-                            value: "\(dailyDoseItems.count) item\(dailyDoseItems.count == 1 ? "" : "s")",
+                            value: String(localized: "^[\(dailyDoseItems.count) item](inflect: true)"),
                         )
                     }
 
@@ -124,6 +124,7 @@ struct SettingsView: View {
                     Image(systemName: "xmark")
                         .font(.body.weight(.semibold))
                 }
+                .accessibilityLabel(Text("Close"))
             }
         }
     }
