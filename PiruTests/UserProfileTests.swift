@@ -30,23 +30,26 @@ struct UserProfileTests {
 
     @Test
     @MainActor
-    func `Store persists profile change across a single session`() {
-        let original = SubstanceStore.shared.userProfile
-        defer { SubstanceStore.shared.setUserProfile(original) }
+    func `Store persists profile change across a single session`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        SubstanceStore.shared.setUserProfile(.pharmaNerd)
-        #expect(SubstanceStore.shared.userProfile == .pharmaNerd)
+        store.setUserProfile(.pharmaNerd)
+        #expect(store.userProfile == .pharmaNerd)
 
-        SubstanceStore.shared.setUserProfile(.casual)
-        #expect(SubstanceStore.shared.userProfile == .casual)
+        store.setUserProfile(.casual)
+        #expect(store.userProfile == .casual)
     }
 
     @Test
     @MainActor
-    func `Setting same profile is a no-op`() {
-        let original = SubstanceStore.shared.userProfile
-        SubstanceStore.shared.setUserProfile(original)
-        #expect(SubstanceStore.shared.userProfile == original)
+    func `Setting same profile is a no-op`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        let original = store.userProfile
+        store.setUserProfile(original)
+        #expect(store.userProfile == original)
     }
 }
 
@@ -66,24 +69,27 @@ struct SourcePriorityTests {
 
     @Test
     @MainActor
-    func `Reordering changes enabledSourceOrder and clears resolved cache`() {
-        let originalOrder = SubstanceStore.shared.enabledSourceOrder
-        defer { SubstanceStore.shared.setSourcePriority(orderedSlugs: originalOrder) }
+    func `Reordering changes enabledSourceOrder and clears resolved cache`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
 
+        let originalOrder = store.enabledSourceOrder
         guard originalOrder.count >= 2 else { return }
         let reversed = originalOrder.reversed()
-        SubstanceStore.shared.setSourcePriority(orderedSlugs: Array(reversed))
-        #expect(SubstanceStore.shared.enabledSourceOrder.first == reversed.first)
+        store.setSourcePriority(orderedSlugs: Array(reversed))
+        #expect(store.enabledSourceOrder.first == reversed.first)
     }
 
     @Test
     @MainActor
-    func `Disabling a source removes it from enabledSourceOrder`() {
-        let original = SubstanceStore.shared.enabledSourceOrder
-        guard let toDisable = original.last else { return }
-        defer { SubstanceStore.shared.setSource(toDisable, enabled: true) }
+    func `Disabling a source removes it from enabledSourceOrder`() throws {
+        let (store, tempDir) = try makeIsolatedSubstanceStore()
+        defer { try? FileManager.default.removeItem(at: tempDir) }
 
-        SubstanceStore.shared.setSource(toDisable, enabled: false)
-        #expect(!SubstanceStore.shared.enabledSourceOrder.contains(toDisable))
+        let original = store.enabledSourceOrder
+        guard let toDisable = original.last else { return }
+
+        store.setSource(toDisable, enabled: false)
+        #expect(!store.enabledSourceOrder.contains(toDisable))
     }
 }
