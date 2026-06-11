@@ -428,7 +428,7 @@ struct EntryListView: View {
     /// Shared by the flat, substance-grouped, and category-grouped lists.
     private func entryRow(_ entry: DoseEntry) -> some View {
         Button {
-            navigator.push(.entry(timestamp: entry.timestamp))
+            navigator.push(.entry(timestamp: entry.timestamp, id: entry.id))
         } label: {
             SubstanceEntryRow(entry: entry, colorMap: model.colorMap)
         }

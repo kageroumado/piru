@@ -102,33 +102,6 @@ final class AppNavigator {
         paths[tab, default: []]
     }
 
-    /// Rewrite any pushed `.entry` (or presented `.entryDetail`) route keyed by
-    /// the `old` timestamp to use `new`.
-    ///
-    /// Entry routes are keyed by timestamp so they stay Codable for deep links
-    /// (`piru://entry/<timestamp>`). The cost is that editing a dose's time
-    /// orphans the detail screen the user came from: its by-timestamp lookup
-    /// (see `PushRouteView`/`SheetRouteView`) no longer resolves and the screen
-    /// renders blank. Call this right after an edit changes a logged dose's
-    /// timestamp so the originating route follows the entry to its new time.
-    func remapEntryRoute(from old: Date, to new: Date) {
-        guard old != new else { return }
-        paths = paths.mapValues { stack in
-            stack.map { route in
-                if case let .entry(ts) = route, ts == old {
-                    return .entry(timestamp: new)
-                }
-                return route
-            }
-        }
-        sheetStack = sheetStack.map { route in
-            if case let .entryDetail(ts) = route, ts == old {
-                return .entryDetail(timestamp: new)
-            }
-            return route
-        }
-    }
-
     /// Binding into the per-tab path so a `NavigationStack(path:)` can mutate it
     /// directly when the system pops via back button or swipe.
     func pathBinding(for tab: AppTab) -> Binding<[PushRoute]> {

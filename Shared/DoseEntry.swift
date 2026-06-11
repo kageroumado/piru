@@ -23,6 +23,20 @@ import SwiftData
 /// - ``amount`` is clamped to be non-negative at construction time.
 @Model
 final class DoseEntry {
+    /// Stable identity for cross-boundary references — route payloads, deep
+    /// links, notification keys, and the Piru export format. `persistentModelID`
+    /// can't serve this role: it isn't Codable-friendly across launches and
+    /// changes on store rebuilds/restores.
+    ///
+    /// Defaulted so the V3→V4 schema migration stays additive. Deliberately NOT
+    /// `@Attribute(.unique)` — unique constraints + migration have sharp edges;
+    /// uniqueness is app-level instead (fresh value per insert, per-row
+    /// reassignment in the V3→V4 migration stage, and
+    /// `StoreRecovery.backfillDuplicateEntryIDs` as the post-open safety net,
+    /// because a lightweight migration fills ONE shared default into every
+    /// existing row). See `Specs/dose-entry-stable-id.md`.
+    var id: UUID = UUID()
+
     /// The substance's canonical (non-normalized) display name as logged by the user.
     var substance: String
     /// Quantity of the dose in ``unit``. Clamped to be `>= 0` at init.
