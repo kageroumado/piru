@@ -40,7 +40,7 @@ Piru/
 Shared/              # Code shared across all targets: SwiftData models, PKModel, DoseFormatting, timeline graph
 PiruLiveActivityExtension/  # Lock Screen Live Activity widget
 PiruWidget/          # Home Screen widgets (Today's Summary, Recent Dose)
-PiruTests/           # 48 test files, ~620 tests using Apple Testing framework (@Suite, @Test)
+PiruTests/           # 50 test files, ~660 tests using Apple Testing framework (@Suite, @Test)
 Tools/SubstanceValidator/   # SPM CLI tool for validating substance data against APIs
 pipeline/            # Python data pipeline that builds the bundled substance SQLite DB
 ```

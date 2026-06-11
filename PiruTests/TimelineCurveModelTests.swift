@@ -219,9 +219,9 @@ struct TimelineCurveModelTests {
     func `Same substance and route stack into one group while different routes split`() {
         let doses = [
             dose(name: "MDMA", route: "oral"),
-            dose(name: "mdma", route: "Oral", timestamp: t0.addingTimeInterval(3_600)),
-            dose(name: "MDMA", route: "insufflated", timestamp: t0.addingTimeInterval(7_200)),
-            dose(name: "Ketamine", route: "oral", timestamp: t0.addingTimeInterval(9_000)),
+            dose(name: "mdma", timestamp: t0.addingTimeInterval(3_600), route: "Oral"),
+            dose(name: "MDMA", timestamp: t0.addingTimeInterval(7_200), route: "insufflated"),
+            dose(name: "Ketamine", timestamp: t0.addingTimeInterval(9_000), route: "oral"),
         ]
         let groups = TimelineCurveModel.stackedGroups(of: doses)
         #expect(groups.count == 3)

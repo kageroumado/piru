@@ -59,10 +59,10 @@ struct UsageStatsModelTests {
     @Test
     func `Buckets entries by session day per substance and dedups substance days`() {
         let entries = [
-            entry("Caffeine", at: date(2026, 6, 1, 9)),
-            entry("Caffeine", at: date(2026, 6, 1, 15)),
-            entry("Caffeine", at: date(2026, 6, 2, 9)),
-            entry("Aspirin", at: date(2026, 6, 1, 9)),
+            entry("Caffeine", at: date(2_026, 6, 1, 9)),
+            entry("Caffeine", at: date(2_026, 6, 1, 15)),
+            entry("Caffeine", at: date(2_026, 6, 2, 9)),
+            entry("Aspirin", at: date(2_026, 6, 1, 9)),
         ]
         let agg = UsageStatsModel.aggregate(entries, calendar: utc)
 
@@ -78,8 +78,8 @@ struct UsageStatsModelTests {
         // Noon is always at-or-after the session boundary (0...12), so these
         // assertions hold regardless of the configured day-boundary hour.
         let entries = [
-            entry("Caffeine", at: date(2026, 5, 31, 12)),
-            entry("Caffeine", at: date(2026, 6, 1, 12)),
+            entry("Caffeine", at: date(2_026, 5, 31, 12)),
+            entry("Caffeine", at: date(2_026, 6, 1, 12)),
         ]
         let agg = UsageStatsModel.aggregate(entries, calendar: utc)
 
@@ -92,9 +92,9 @@ struct UsageStatsModelTests {
     func `Bucketing survives a DST spring-forward transition`() {
         // Europe/Amsterdam jumps 02:00 → 03:00 on 2026-03-29.
         let entries = [
-            entry("Melatonin", at: date(2026, 3, 28, 12, calendar: amsterdam)),
-            entry("Melatonin", at: date(2026, 3, 29, 12, calendar: amsterdam)),
-            entry("Melatonin", at: date(2026, 3, 30, 12, calendar: amsterdam)),
+            entry("Melatonin", at: date(2_026, 3, 28, 12, calendar: amsterdam)),
+            entry("Melatonin", at: date(2_026, 3, 29, 12, calendar: amsterdam)),
+            entry("Melatonin", at: date(2_026, 3, 30, 12, calendar: amsterdam)),
         ]
         let agg = UsageStatsModel.aggregate(entries, calendar: amsterdam)
 
@@ -106,9 +106,9 @@ struct UsageStatsModelTests {
     @Test
     func `Midnight and late-night entries group by the canonical session day`() {
         let entries = [
-            entry("Caffeine", at: date(2026, 6, 2, 0, 0)),
-            entry("Caffeine", at: date(2026, 6, 1, 23, 59)),
-            entry("Caffeine", at: date(2026, 6, 2, 12)),
+            entry("Caffeine", at: date(2_026, 6, 2, 0, 0)),
+            entry("Caffeine", at: date(2_026, 6, 1, 23, 59)),
+            entry("Caffeine", at: date(2_026, 6, 2, 12)),
         ]
         let agg = UsageStatsModel.aggregate(entries, calendar: utc)
 
@@ -133,10 +133,10 @@ struct UsageStatsModelTests {
     @Test
     func `Aggregation bins midnight as night and 23-59 as evening`() {
         let entries = [
-            entry("A", at: date(2026, 6, 1, 0, 0)),
-            entry("A", at: date(2026, 6, 1, 23, 59)),
-            entry("A", at: date(2026, 6, 1, 6, 0)),
-            entry("A", at: date(2026, 6, 1, 12, 0)),
+            entry("A", at: date(2_026, 6, 1, 0, 0)),
+            entry("A", at: date(2_026, 6, 1, 23, 59)),
+            entry("A", at: date(2_026, 6, 1, 6, 0)),
+            entry("A", at: date(2_026, 6, 1, 12, 0)),
         ]
         let agg = UsageStatsModel.aggregate(entries, calendar: utc)
         #expect(agg.timeOfDayBuckets == [1, 1, 1, 1])
@@ -171,8 +171,8 @@ struct UsageStatsModelTests {
 
     @Test
     func `Timeline data is sorted by date and daily totals sum across substances`() {
-        let day1 = date(2026, 6, 1)
-        let day2 = date(2026, 6, 2)
+        let day1 = date(2_026, 6, 1)
+        let day2 = date(2_026, 6, 2)
         let buckets: [DaySubstance: Int] = [
             DaySubstance(date: day2, substance: "B"): 1,
             DaySubstance(date: day1, substance: "A"): 2,
@@ -189,8 +189,8 @@ struct UsageStatsModelTests {
 
     @Test
     func `Legend dedups case-insensitively, keeps first-seen casing, and sorts by name`() {
-        let day1 = date(2026, 6, 1)
-        let day2 = date(2026, 6, 2)
+        let day1 = date(2_026, 6, 1)
+        let day2 = date(2_026, 6, 2)
         let timeline = UsageStatsModel.timelineData(from: [
             DaySubstance(date: day1, substance: "Caffeine"): 1,
             DaySubstance(date: day2, substance: "caffeine"): 1,
@@ -207,8 +207,8 @@ struct UsageStatsModelTests {
 
     @Test
     func `Trend candidates need two entries on two distinct days, ranked by count`() {
-        let day1 = date(2026, 6, 1)
-        let day2 = date(2026, 6, 2)
+        let day1 = date(2_026, 6, 1)
+        let day2 = date(2_026, 6, 2)
         let candidates = UsageStatsModel.trendCandidates(
             substanceDays: [
                 "MultiDay": [day1, day2],
@@ -238,18 +238,19 @@ struct UsageStatsModelTests {
             "Beer": .depressant,
         ]
         let entries = [
-            entry("Coffee", at: date(2026, 6, 1, 9)),
-            entry("Coffee", at: date(2026, 6, 1, 14)),
-            entry("Coffee", at: date(2026, 6, 2, 9)),
-            entry("Tea", at: date(2026, 6, 1, 16)),
-            entry("Tea", at: date(2026, 6, 2, 16)),
-            entry("Beer", at: date(2026, 6, 1, 20)),
-            entry("Mystery", at: date(2026, 6, 1, 21)),
+            entry("Coffee", at: date(2_026, 6, 1, 9)),
+            entry("Coffee", at: date(2_026, 6, 1, 14)),
+            entry("Coffee", at: date(2_026, 6, 2, 9)),
+            entry("Tea", at: date(2_026, 6, 1, 16)),
+            entry("Tea", at: date(2_026, 6, 2, 16)),
+            entry("Beer", at: date(2_026, 6, 1, 20)),
+            entry("Beer", at: date(2_026, 6, 2, 20)),
+            entry("Mystery", at: date(2_026, 6, 1, 21)),
         ]
         let result = UsageStatsModel.categoryAggregation(entries: entries) { categories[$0] ?? .other }
 
         #expect(result.counts.map(\.category) == [.stimulant, .depressant, .other])
-        #expect(result.counts.map(\.count) == [5, 1, 1])
+        #expect(result.counts.map(\.count) == [5, 2, 1])
         #expect(result.substanceCounts[.stimulant]?.map(\.substance) == ["Coffee", "Tea"])
         #expect(result.substanceCounts[.stimulant]?.map(\.count) == [3, 2])
         #expect(result.substanceCounts[.depressant]?.map(\.substance) == ["Beer"])
@@ -269,10 +270,10 @@ struct UsageStatsModelTests {
     func `Daily trend uses a trailing seven-point moving average`() {
         // Ten consecutive noon doses with amounts 1...10 (span 9 days → daily).
         let entries = (0 ..< 10).map { i in
-            entry("X", amount: Double(i + 1), at: date(2026, 1, 5 + i))
+            entry("X", amount: Double(i + 1), at: date(2_026, 1, 5 + i))
         }
         let result = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2026, 1, 15),
+            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2_026, 1, 15),
         )
 
         #expect(result.weekly == false)
@@ -292,12 +293,12 @@ struct UsageStatsModelTests {
     func `Weekly trend averages complete weeks over seven days with a four-point window`() {
         // Six Sunday doses, amounts 7,14,...,42; zoom 0.25 lowers the weekly
         // threshold to 22.5 days so the 35-day span aggregates weekly.
-        let sundays = [4, 11, 18, 25].map { date(2026, 1, $0) } + [date(2026, 2, 1), date(2026, 2, 8)]
+        let sundays = [4, 11, 18, 25].map { date(2_026, 1, $0) } + [date(2_026, 2, 1), date(2_026, 2, 8)]
         let entries = sundays.enumerated().map { i, day in
             entry("X", amount: Double((i + 1) * 7), at: day)
         }
         let result = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 0.25, calendar: utc, now: date(2026, 3, 1),
+            entries: entries, substance: "X", zoom: 0.25, calendar: utc, now: date(2_026, 3, 1),
         )
 
         #expect(result.weekly == true)
@@ -315,11 +316,11 @@ struct UsageStatsModelTests {
         // "Now" is Tuesday of the last entry's week, so that week is incomplete
         // and its total divides by the 3 elapsed days (Sun, Mon, Tue).
         let entries = [
-            entry("X", amount: 7, at: date(2025, 10, 1)),
-            entry("X", amount: 30, at: date(2026, 1, 4)),
+            entry("X", amount: 7, at: date(2_025, 10, 1)),
+            entry("X", amount: 30, at: date(2_026, 1, 4)),
         ]
         let result = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2026, 1, 6),
+            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2_026, 1, 6),
         )
 
         #expect(result.weekly == true)
@@ -331,15 +332,15 @@ struct UsageStatsModelTests {
     @Test
     func `Zooming in raises the weekly threshold back to daily buckets`() {
         let entries = [
-            entry("X", amount: 10, at: date(2026, 1, 1)),
-            entry("X", amount: 20, at: date(2026, 2, 20)),
-            entry("X", amount: 30, at: date(2026, 4, 11)), // span 100 days
+            entry("X", amount: 10, at: date(2_026, 1, 1)),
+            entry("X", amount: 20, at: date(2_026, 2, 20)),
+            entry("X", amount: 30, at: date(2_026, 4, 11)), // span 100 days
         ]
         let weekly = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2026, 5, 1),
+            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2_026, 5, 1),
         )
         let daily = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 2, calendar: utc, now: date(2026, 5, 1),
+            entries: entries, substance: "X", zoom: 2, calendar: utc, now: date(2_026, 5, 1),
         )
 
         #expect(weekly.weekly == true)
@@ -351,12 +352,12 @@ struct UsageStatsModelTests {
     @Test
     func `Mixed units keep only the predominant unit and flag the exclusion`() {
         let entries = [
-            entry("X", amount: 10, unit: "mg", at: date(2026, 6, 1)),
-            entry("X", amount: 20, unit: "mg", at: date(2026, 6, 2)),
-            entry("X", amount: 5, unit: "µg", at: date(2026, 6, 3)),
+            entry("X", amount: 10, unit: "mg", at: date(2_026, 6, 1)),
+            entry("X", amount: 20, unit: "mg", at: date(2_026, 6, 2)),
+            entry("X", amount: 5, unit: "µg", at: date(2_026, 6, 3)),
         ]
         let result = UsageStatsModel.trendData(
-            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2026, 6, 4),
+            entries: entries, substance: "X", zoom: 1, calendar: utc, now: date(2_026, 6, 4),
         )
 
         #expect(result.mixedUnits == true)
@@ -366,9 +367,9 @@ struct UsageStatsModelTests {
 
     @Test
     func `Trend data for an unknown substance is empty`() {
-        let entries = [entry("X", at: date(2026, 6, 1))]
+        let entries = [entry("X", at: date(2_026, 6, 1))]
         let result = UsageStatsModel.trendData(
-            entries: entries, substance: "Y", zoom: 1, calendar: utc, now: date(2026, 6, 2),
+            entries: entries, substance: "Y", zoom: 1, calendar: utc, now: date(2_026, 6, 2),
         )
 
         #expect(result.points.isEmpty)
