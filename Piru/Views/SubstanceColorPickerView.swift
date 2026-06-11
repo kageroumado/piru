@@ -40,13 +40,13 @@ struct SubstanceColorPickerView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Skip") {
-                        let fallback = firstAvailableHex ?? "007AFF"
+                        let fallback = firstAvailableHex ?? PresetColor.defaultHex
                         onPick(fallback)
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        onPick(selectedHex ?? "007AFF")
+                        onPick(selectedHex ?? PresetColor.defaultHex)
                     } label: {
                         Image(systemName: "checkmark").fontWeight(.semibold)
                     }

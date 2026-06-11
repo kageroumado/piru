@@ -55,7 +55,7 @@ struct EntryDetailView: View {
     private var currentColorHex: String {
         substanceColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
+        }?.hexColor ?? PresetColor.defaultHex
     }
 
     private var substanceColor: Color {
