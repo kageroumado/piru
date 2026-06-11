@@ -78,7 +78,11 @@ import SwiftData
             let clubNight = saturdaysAgo.count > 5 ? saturdaysAgo[5] : 38
             let mushroomDay = saturdaysAgo.count > 9 ? saturdaysAgo[9] : 66
 
-            for day in (0 ..< totalDays).reversed() {
+            // Day 0 is handcrafted below as a live session — generating it from
+            // the daily template would future-date entries (e.g. tonight's
+            // magnesium at a 9 AM capture) and never satisfy the active-window
+            // check the Journal's "Current Session" hero card keys on.
+            for day in (1 ..< totalDays).reversed() {
                 let dayStart = today.addingTimeInterval(-Double(day) * 86_400)
                 let weekday = cal.component(.weekday, from: dayStart)
                 let isWeekend = cal.isDateInWeekend(dayStart)
@@ -240,6 +244,38 @@ import SwiftData
                     ))
                 }
             }
+
+            // ── Today: a session that's active right now ────────
+            // Anchored to the seeding moment (not clock hours) so the Journal's
+            // "Current Session" hero card shows whenever screenshots are taken.
+
+            let now = Date()
+            entries.append(DoseEntry(
+                substance: "Caffeine",
+                amount: 110, unit: "mg", route: .oral,
+                timestamp: now.addingTimeInterval(-2.1 * 3_600),
+                notes: "Flat white",
+                tags: ["coffee", "morning"],
+            ))
+            entries.append(DoseEntry(
+                substance: "L-Theanine",
+                amount: 200, unit: "mg", route: .oral,
+                timestamp: now.addingTimeInterval(-2.0 * 3_600),
+                tags: ["coffee", "supplement"],
+            ))
+            entries.append(DoseEntry(
+                substance: "Vitamin D3",
+                amount: 4_000, unit: "IU", route: .oral,
+                timestamp: now.addingTimeInterval(-1.9 * 3_600),
+                tags: ["supplement"],
+            ))
+            entries.append(DoseEntry(
+                substance: "Caffeine",
+                amount: 60, unit: "mg", route: .oral,
+                timestamp: now.addingTimeInterval(-0.4 * 3_600),
+                notes: "Top-up",
+                tags: ["coffee"],
+            ))
 
             for entry in entries {
                 context.insert(entry)
