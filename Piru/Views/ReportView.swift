@@ -224,6 +224,8 @@ struct ReportView: View {
                 substanceA: i.substanceA,
                 substanceB: i.substanceB,
                 description: i.description,
+                drugClassesA: InteractionChecker.drugClasses(for: i.substanceA),
+                drugClassesB: InteractionChecker.drugClasses(for: i.substanceB),
             )
         }
 
@@ -239,20 +241,20 @@ struct ReportView: View {
             patientName: patientName,
         )
 
-        Task {
-            // PDFReportGenerator must stay MainActor-bound: its draw passes
-            // hit MainActor state (drug-class memoisation via
-            // SubstanceLibrary) and default-isolated helpers — see the note on
-            // `PDFReportGenerator`. So: yield once so the spinner gets a
-            // frame, and move only the file write off the main actor.
-            await Task.yield()
-            let pdfData = PDFReportGenerator.generate(from: data)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let filename = "Piru Report \(formatter.string(from: .now)).pdf"
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
 
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let filename = "Piru Report \(formatter.string(from: .now)).pdf"
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
-            try? await Task.detached { try pdfData.write(to: url) }.value
+        Task {
+            // The snapshot is plain Sendable value types with every
+            // MainActor-bound lookup (drug classes) pre-resolved above, so
+            // both the PDF render and the file write run off the main actor —
+            // see the note on `PDFReportGenerator`.
+            await Task.detached {
+                let pdfData = PDFReportGenerator.generate(from: data)
+                try? pdfData.write(to: url)
+            }.value
 
             isGenerating = false
             shareItem = PDFShareItem(url: url)

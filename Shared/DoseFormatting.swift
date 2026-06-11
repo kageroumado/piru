@@ -1,6 +1,6 @@
 import Foundation
 
-extension Double {
+nonisolated extension Double {
     /// Format a dose value with sensible rounding — no false precision
     var doseFormatted: String {
         let abs = Swift.abs(self)
