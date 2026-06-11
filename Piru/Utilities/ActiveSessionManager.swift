@@ -76,7 +76,7 @@ final class ActiveSessionManager {
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
+            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
 
@@ -114,7 +114,7 @@ final class ActiveSessionManager {
 
         for (entry, substance) in entries {
             let snapshot = DoseSnapshot(entry: entry)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
+            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             let duration = Self.resolveDuration(substance: substance, route: entry.route)
             activeEntries.append((snapshot: snapshot, duration: duration, colorHex: hex))
         }
@@ -205,12 +205,12 @@ final class ActiveSessionManager {
     ) {
         let colorHex = allColors.first {
             $0.substance.lowercased() == entry.substance.lowercased()
-        }?.hexColor ?? "007AFF"
+        }?.hexColor ?? PresetColor.defaultHex
         updateDose(
             previousSubstanceName: entry.substance,
             previousTimestamp: previousTimestamp,
             entry: entry,
-            substance: SubstanceStore.shared.lookupByNameOrAlias(entry.substance),
+            substance: SubstanceLibrary.lookupByNameOrAlias(entry.substance),
             colorHex: colorHex,
             allColors: allColors,
         )
@@ -228,7 +228,7 @@ final class ActiveSessionManager {
             let snapshot = DoseSnapshot(entry: entry)
             let matchedSubstance = SubstanceLibrary.lookupByNameOrAlias(snapshot.substance)
             let duration = Self.resolveDuration(substance: matchedSubstance, route: entry.route)
-            let hex = colorMap[snapshot.substance.lowercased()] ?? "007AFF"
+            let hex = colorMap[snapshot.substance.lowercased()] ?? PresetColor.defaultHex
             return (snapshot: snapshot, duration: duration, colorHex: hex)
         }
 
