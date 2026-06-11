@@ -246,15 +246,10 @@ struct QuickLogView: View {
 
     private func toggleFavorite(_ name: String) {
         let lowered = name.lowercased()
-        if let existing = favorites.first(where: { $0.substance.lowercased() == lowered }) {
-            cachedFavoriteSet.remove(lowered)
-            modelContext.delete(existing)
-        } else {
+        if FavoriteService.toggle(name, in: modelContext) {
             cachedFavoriteSet.insert(lowered)
-            // Append at the end — a new favorite never displaces the order
-            // the user has arranged.
-            let nextOrder = (favorites.map(\.sortOrder).max() ?? -1) + 1
-            modelContext.insert(FavoriteSubstance(substance: name, sortOrder: nextOrder))
+        } else {
+            cachedFavoriteSet.remove(lowered)
         }
     }
 
