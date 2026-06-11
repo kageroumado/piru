@@ -3,19 +3,18 @@ import UIKit
 
 /// Renders the shareable medical PDF report from pre-snapshotted data.
 ///
-/// **Why this stays MainActor-bound** (the target's default isolation), even
-/// though `UIGraphicsPDFRenderer` itself is documented thread-safe: the draw
-/// passes call into MainActor-isolated code that this generator doesn't own —
-/// `InteractionChecker.drugClasses(for:)` (memoises into a mutable static
-/// cache and resolves through the `SubstanceLibrary`/`SubstanceStore`
-/// singleton), `HalfLifeDatabase.halfLife(for:)`, `Calendar.sessionDayStart`,
-/// and `Double.doseFormatted`, all of which are `@MainActor` under the
-/// target-wide default isolation. Marking `generate` `nonisolated` does not
-/// compile until those lookups are either marked `nonisolated` at their
-/// declarations (most are pure and safely could be) or resolved into the
-/// snapshot types up front. Until then, callers should yield before invoking
-/// so pending UI gets a frame — see `ReportView.generateReport()`.
-enum PDFReportGenerator {
+/// **`nonisolated` by design** so generation can run off the main actor
+/// (`UIGraphicsPDFRenderer` is documented thread-safe). The draw passes only
+/// touch nonisolated helpers (`HalfLifeDatabase.halfLife(for:)`,
+/// `Calendar.sessionDayStart`, `Double.doseFormatted`, `PKModel`) and the
+/// snapshot value types below. The one genuinely MainActor-bound lookup —
+/// `InteractionChecker.drugClasses(for:)`, which memoises into a mutable
+/// static cache and resolves through the `SubstanceLibrary`/`SubstanceStore`
+/// singleton — is resolved on main at snapshot-build time and carried in
+/// `InteractionSnapshot`, so nothing here re-enters the main actor. See
+/// `ReportView.generateReport()`, which builds the snapshot on main and
+/// renders + writes the file from a detached task.
+nonisolated enum PDFReportGenerator {
     // MARK: - Layout
 
     private enum Layout {
@@ -77,6 +76,11 @@ enum PDFReportGenerator {
         let substanceA: String
         let substanceB: String
         let description: String
+        /// Drug classes resolved on the main actor at snapshot-build time —
+        /// `InteractionChecker.drugClasses(for:)` is MainActor-bound, so the
+        /// draw pass consumes these instead of looking classes up itself.
+        let drugClassesA: [DrugClass]
+        let drugClassesB: [DrugClass]
     }
 
     struct ReportData {
@@ -427,9 +431,9 @@ enum PDFReportGenerator {
             ).height
 
             // Check if drug classes are available to account for extra line height
-            let classesAPrecheck = InteractionChecker.drugClasses(for: interaction.substanceA)
-            let classesBPrecheck = InteractionChecker.drugClasses(for: interaction.substanceB)
-            let classLineHeight: CGFloat = (!classesAPrecheck.isEmpty || !classesBPrecheck.isEmpty) ? 12 : 0
+            let classesA = interaction.drugClassesA
+            let classesB = interaction.drugClassesB
+            let classLineHeight: CGFloat = (!classesA.isEmpty || !classesB.isEmpty) ? 12 : 0
             let totalHeight = 16 + classLineHeight + descHeight + 10
             cursor.ensureSpace(totalHeight)
 
@@ -475,8 +479,6 @@ enum PDFReportGenerator {
             cursor.y += 16
 
             // Drug class labels
-            let classesA = InteractionChecker.drugClasses(for: interaction.substanceA)
-            let classesB = InteractionChecker.drugClasses(for: interaction.substanceB)
             if !classesA.isEmpty || !classesB.isEmpty {
                 let classAttr: [NSAttributedString.Key: Any] = [.font: Fonts.caption, .foregroundColor: Colors.secondaryText]
                 let classLabelA = classesA.map(\.rawValue.capitalized).joined(separator: ", ")

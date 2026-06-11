@@ -10,7 +10,12 @@ import Foundation
 /// `dayBoundaryHour` so the main app, widgets, and Live Activity all agree
 /// on where the day breaks. A value of 0 reproduces the classic midnight
 /// behaviour. Default is 4 AM.
-extension Calendar {
+///
+/// `nonisolated`: pure date math over thread-safe `UserDefaults` reads, so it
+/// stays callable off the main actor under the app target's default MainActor
+/// isolation (the widget targets compile without that default, where this is
+/// a no-op).
+nonisolated extension Calendar {
     /// UserDefaults key used to persist the day-boundary hour across launches.
     static let dayBoundaryHourKey = "dayBoundaryHour"
 

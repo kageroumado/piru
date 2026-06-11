@@ -19,7 +19,7 @@ import Foundation
 /// - PiHKAL / TiHKAL (Shulgin)
 /// - EMCDDA risk assessments
 /// - WHO ECDD critical reviews
-enum HalfLifeDatabase {
+nonisolated enum HalfLifeDatabase {
     // MARK: - Lookup
 
     /// Case-insensitive lookup of half-life in minutes for a substance name or alias.

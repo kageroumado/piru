@@ -6,7 +6,7 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 
 // MARK: - Interaction Severity
 
-enum InteractionSeverity: Int, Comparable, Codable {
+nonisolated enum InteractionSeverity: Int, Comparable, Codable {
     case caution = 0
     case unsafe = 1
     case dangerous = 2
@@ -33,8 +33,8 @@ enum InteractionSeverity: Int, Comparable, Codable {
 
     /// Legible text/icon variant of ``color`` — yellow caution is unreadable on
     /// a light surface, so it darkens to amber in light mode while staying
-    /// yellow in dark mode.
-    var labelColor: Color {
+    /// yellow in dark mode. MainActor because `Theme.legibleYellow` is.
+    @MainActor var labelColor: Color {
         self == .caution ? Theme.legibleYellow : color
     }
 }
@@ -58,7 +58,7 @@ enum InteractionSource {
 
 // MARK: - Drug Class (for interaction matching)
 
-enum DrugClass: String, Codable {
+nonisolated enum DrugClass: String, Codable {
     case opioid
     case benzodiazepine
     case stimulant
