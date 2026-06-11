@@ -15,7 +15,6 @@ import WidgetKit
 struct EntryDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.appNavigator) private var navigator
     @Query private var substanceColors: [SubstanceColor]
 
     let entry: DoseEntry
@@ -315,7 +314,7 @@ struct EntryDetailView: View {
 
         if resolvedDuration != nil {
             Section {
-                NavigationLink(value: PushRoute.rampDown(timestamp: entry.timestamp)) {
+                NavigationLink(value: PushRoute.rampDown(timestamp: entry.timestamp, id: entry.id)) {
                     HStack {
                         Label("Comedown Alert", systemImage: "bell.badge")
                         Spacer()
@@ -574,10 +573,6 @@ struct EntryDetailView: View {
         entry.latitude = draftLocation?.latitude
         entry.longitude = draftLocation?.longitude
 
-        // This screen is keyed by timestamp; if the edit moved the dose in time,
-        // repoint the originating push route so it doesn't go blank on dismiss.
-        navigator.remapEntryRoute(from: previousTimestamp, to: draftTimestamp)
-
         // The session accessory & Live Activity read ActiveSessionManager's
         // snapshot, not SwiftData — sync it so they reflect the edit immediately.
         let colorHex = SubstancePalette.hex(for: entry.substance, hexMap: Array(substanceColors).hexColorMap)
@@ -612,6 +607,7 @@ struct EntryDetailView: View {
 
     private func deleteEntry() {
         // Capture before delete — the entry is invalid afterwards.
+        let id = entry.id
         let name = entry.substance
         let timestamp = entry.timestamp
         DoseNotificationManager.doseDeleted(timestamp: timestamp)
@@ -620,6 +616,7 @@ struct EntryDetailView: View {
         // a deleted "taking now" dose leaves the Live Activity and progress
         // accessory stuck on screen, uncancellable even after the app is quit.
         ActiveSessionManager.shared.removeDose(
+            id: id,
             substanceName: name,
             timestamp: timestamp,
             allColors: Array(substanceColors),

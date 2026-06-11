@@ -84,13 +84,112 @@ enum PiruSchemaV2: VersionedSchema {
 
 /// Adds ``DoseRoutine`` (named multi-routine sets with optional time +
 /// reminder). Purely additive — one new entity, no changes to existing
-/// models — so V2→V3 is lightweight. V2's model list is frozen above (it
-/// previously aliased `StoreRecovery.models`); a version's entity set is
-/// what distinguishes its checksum, so the live list and the frozen V2 list
-/// must be allowed to diverge.
+/// models — so V2→V3 is lightweight.
+///
+/// V3 is frozen at the **class** level, not just the list level: V4 changed a
+/// *property* of `DoseEntry` (added the defaulted `id: UUID`), and a version's
+/// checksum is computed from the compiled entity shapes — so a frozen V3 *list*
+/// referencing the live (id-bearing) `DoseEntry` would be byte-identical to V4
+/// and `ModelContainer.init` throws an uncatchable "Duplicate version
+/// checksums" NSException at launch (reproduced experimentally; the V2 list
+/// freeze above only works because V2 and V3 differ by entity *set*).
+/// ``DoseEntry`` and ``Session`` are therefore full copies of the exact shape
+/// that shipped as V3 — `Session` must come along because the
+/// `DoseEntry.session` relationship pulls it into the version's object graph,
+/// and a graph mixing the frozen `DoseEntry` with the live `Session` (whose
+/// inverse references the live, id-bearing `DoseEntry`) would collide on the
+/// entity name. The remaining six models are standalone and unchanged since V3
+/// shipped, so they are shared with the live schema.
+///
+/// **Frozen — do not edit these copies.** A real on-device V3 store matches
+/// this version's checksum only while the copies stay byte-equivalent to what
+/// shipped; editing them silently diverts upgrades to the automatic-lightweight
+/// fallback in `PiruApp.makeContainer` (still safe, but unstaged).
 enum PiruSchemaV3: VersionedSchema {
     nonisolated static var versionIdentifier: Schema.Version {
         Schema.Version(3, 0, 0)
+    }
+    nonisolated static var models: [any PersistentModel.Type] {
+        [
+            DoseEntry.self, // frozen copy below — the pre-`id` shape
+            SubstanceColor.self,
+            UserColor.self,
+            DailyDoseItem.self,
+            FavoriteSubstance.self,
+            QuickLogDose.self,
+            Session.self, // frozen copy below
+            DoseRoutine.self,
+        ]
+    }
+
+    /// The V3 `DoseEntry` exactly as shipped — no `id` property. Stored
+    /// properties (and their defaults) only; the live class's computed helpers
+    /// don't affect the schema and are omitted.
+    @Model
+    final class DoseEntry {
+        var substance: String
+        var amount: Double
+        var unit: String
+        var route: RouteOfAdministration
+        var timestamp: Date
+        var notes: String?
+        var tagsRaw: String?
+        var session: Session?
+        var isBackgroundMed: Bool = false
+        var locationName: String?
+        var latitude: Double?
+        var longitude: Double?
+
+        init(
+            substance: String,
+            amount: Double,
+            unit: String = "mg",
+            route: RouteOfAdministration = .oral,
+            timestamp: Date = .now,
+        ) {
+            self.substance = substance
+            self.amount = amount
+            self.unit = unit
+            self.route = route
+            self.timestamp = timestamp
+        }
+    }
+
+    /// The V3 `Session` exactly as shipped (unchanged in V4, but duplicated so
+    /// its `doses` inverse points at the frozen `DoseEntry` above).
+    @Model
+    final class Session {
+        @Attribute(.unique) var id: UUID
+        var startDate: Date
+        var title: String?
+        var note: String?
+        @Relationship(deleteRule: .nullify, inverse: \DoseEntry.session)
+        var doses: [DoseEntry]?
+
+        init(id: UUID = UUID(), startDate: Date, title: String? = nil, note: String? = nil) {
+            self.id = id
+            self.startDate = startDate
+            self.title = title
+            self.note = note
+        }
+    }
+}
+
+/// Adds the defaulted ``DoseEntry/id`` (stable identity for routes, deep
+/// links, notification keys, and exports). Takes the live `StoreRecovery.models`
+/// alias; V3 above holds the frozen pre-`id` copies that keep the two
+/// versions' checksums distinct.
+///
+/// The V3→V4 stage is `.custom`, not `.lightweight`, because a lightweight
+/// migration evaluates the property's default expression **once** and fills
+/// the same UUID into every existing row (reproduced experimentally) — the
+/// `didMigrate` pass reassigns a fresh per-row UUID. Stores that bypass the
+/// staged plan (the automatic-lightweight fallback in `PiruApp.makeContainer`)
+/// are uniquified by ``StoreRecovery/backfillDuplicateEntryIDs(container:)``
+/// right after open instead.
+enum PiruSchemaV4: VersionedSchema {
+    nonisolated static var versionIdentifier: Schema.Version {
+        Schema.Version(4, 0, 0)
     }
     nonisolated static var models: [any PersistentModel.Type] {
         StoreRecovery.models
@@ -99,12 +198,43 @@ enum PiruSchemaV3: VersionedSchema {
 
 enum PiruMigrationPlan: SchemaMigrationPlan {
     nonisolated static var schemas: [any VersionedSchema.Type] {
-        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self]
+        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self, PiruSchemaV4.self]
     }
     nonisolated static var stages: [MigrationStage] {
         [
             .lightweight(fromVersion: PiruSchemaV1.self, toVersion: PiruSchemaV2.self),
             .lightweight(fromVersion: PiruSchemaV2.self, toVersion: PiruSchemaV3.self),
+            .custom(
+                fromVersion: PiruSchemaV3.self,
+                toVersion: PiruSchemaV4.self,
+                willMigrate: nil,
+                didMigrate: { context in
+                    // The schema migration itself filled ONE shared UUID into
+                    // every pre-existing row (the default expression is
+                    // evaluated once); give each row its own.
+                    //
+                    // Stage closures run synchronously on the thread that opens
+                    // the container (verified empirically), and the app opens it
+                    // on the main thread — `assumeIsolated` is what lets this
+                    // `@Sendable` closure touch the MainActor-isolated model. If
+                    // a future SwiftData ever ran this off-main, skip rather
+                    // than crash or deadlock: `backfillDuplicateEntryIDs` runs
+                    // right after open and uniquifies as the second line of
+                    // defense.
+                    guard Thread.isMainThread else { return }
+                    // Safe: the context is used only inside this synchronous
+                    // closure, on this (main) thread — the unsafe transfer just
+                    // bridges region-isolation analysis into `assumeIsolated`.
+                    nonisolated(unsafe) let context = context
+                    try MainActor.assumeIsolated {
+                        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+                        for entry in entries {
+                            entry.id = UUID()
+                        }
+                        try context.save()
+                    }
+                },
+            ),
         ]
     }
 }
@@ -191,6 +321,47 @@ nonisolated enum StoreRecovery {
             recoveryLogger.error("Store recovery copy failed: \(error.localizedDescription, privacy: .public)")
         }
         return canonical
+    }
+
+    /// Ensure every ``DoseEntry`` carries its own unique `id`, reassigning
+    /// duplicates in place. Call once right after the container opens.
+    ///
+    /// Covers the stores the staged V3→V4 migration can't: anything that opened
+    /// through the automatic-lightweight fallback in `PiruApp.makeContainer`
+    /// (pre-V3 shapes, intermediate dev schemas) gets the *same* UUID filled
+    /// into every pre-existing row, because a lightweight migration evaluates
+    /// the property's default expression once.
+    ///
+    /// Runs a single full `DoseEntry` fetch on every launch rather than gating
+    /// on a "done" flag — a flag would go stale the moment the user restores an
+    /// older sidecar store (Data & Storage screen) or the store is swapped by
+    /// recovery, silently reintroducing duplicates behind it. The journal is at
+    /// most a few thousand rows and launch already fetches it elsewhere
+    /// (session backfill, journal model), so the no-op case is one cheap fetch
+    /// + a `Set` insert per row, with no writes.
+    ///
+    /// First occurrence keeps its id (stable references like ramp-down keys and
+    /// open routes survive); later duplicates get fresh UUIDs. Never deletes,
+    /// never touches any other field.
+    @MainActor
+    static func backfillDuplicateEntryIDs(container: ModelContainer) {
+        let context = container.mainContext
+        do {
+            let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+            var seen = Set<UUID>()
+            seen.reserveCapacity(entries.count)
+            var reassigned = 0
+            for entry in entries where !seen.insert(entry.id).inserted {
+                entry.id = UUID()
+                seen.insert(entry.id)
+                reassigned += 1
+            }
+            guard reassigned > 0 else { return }
+            try context.save()
+            recoveryLogger.notice("Backfilled \(reassigned, privacy: .public) duplicate DoseEntry ids")
+        } catch {
+            recoveryLogger.error("DoseEntry id backfill failed: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
     /// The data-bearing recovery candidate with the most rows, or `nil` if none

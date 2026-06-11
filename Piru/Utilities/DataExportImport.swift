@@ -509,6 +509,11 @@ private nonisolated struct PiruSessionData: Codable {
 }
 
 private nonisolated struct PiruDoseData: Codable {
+    /// The dose's stable ``DoseEntry/id``. Always emitted on export; optional
+    /// on decode so files written before schema V4 still import (those doses
+    /// get fresh UUIDs). Not the dedup key — that stays content-based
+    /// (see ``DataExportImport/doseDedupKey``).
+    var id: UUID?
     var substance: String
     var amount: Double
     var unit: String
@@ -692,6 +697,7 @@ enum DataExportImport {
 
         func doseData(_ e: DoseEntry) -> PiruDoseData {
             PiruDoseData(
+                id: e.id,
                 substance: e.substance, amount: e.amount, unit: e.unit, route: e.route,
                 timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
                 isBackgroundMed: e.isBackgroundMed,
@@ -889,6 +895,13 @@ enum DataExportImport {
         var seen = Set(existingDoses.map {
             doseDedupKey(substance: $0.substance, timestamp: $0.timestamp, amount: $0.amount, unit: $0.unit, route: $0.route)
         })
+        // Stable-id bookkeeping, seeded with the store's ids: an imported dose
+        // keeps its exported id (so references like ramp-down keys survive a
+        // wipe-and-restore) unless that id is already taken — a merge where the
+        // dose's content was edited on one side — in which case the fresh UUID
+        // from the initializer stands. Pre-V4 files carry no ids at all and get
+        // fresh UUIDs throughout.
+        var seenIDs = Set(existingDoses.map(\.id))
 
         func makeDose(_ d: PiruDoseData) -> DoseEntry? {
             let timestamp = Date(ms: d.timestamp)
@@ -899,6 +912,11 @@ enum DataExportImport {
                 timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
             )
+            if let id = d.id, seenIDs.insert(id).inserted {
+                entry.id = id
+            } else {
+                seenIDs.insert(entry.id)
+            }
             context.insert(entry)
             return entry
         }

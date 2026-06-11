@@ -23,9 +23,10 @@ private nonisolated let logger = Logger(subsystem: "dev.yumeji.piru", category: 
 /// queue to avoid spamming the user during a multi-dose session.
 ///
 /// Comedown alerts are keyed off a stable per-entry string (see
-/// ``entryKey(for:)``) derived from the dose's substance and timestamp, so
-/// the "alert scheduled" state and the pending notification identifier both
-/// survive app relaunches.
+/// ``entryKey(for:)``) derived from the dose's stable identity, so the
+/// "alert scheduled" state and the pending notification identifier survive
+/// both app relaunches and edits to the dose's fields (including its
+/// timestamp).
 ///
 /// Depends on `UNUserNotificationCenter` authorization — call
 /// ``requestPermissionIfNeeded()`` before scheduling.
@@ -108,12 +109,14 @@ enum RampDownScheduler {
 
     // MARK: - Notifications
 
-    /// Stable per-entry key for the comedown alert. Derived from the dose's
-    /// content rather than `persistentModelID.hashValue` — `Hashable` is
-    /// seeded per process, so a hash-based key changes on every launch and
-    /// orphans both the persisted "active" flag and the pending notification.
+    /// Stable per-entry key for the comedown alert: the entry's stable
+    /// ``DoseEntry/id``. Unlike the earlier `substance-timestamp` key, it
+    /// survives re-timing a dose (no orphaned alert), and unlike
+    /// `persistentModelID.hashValue` (`Hashable` is seeded per process) it
+    /// survives relaunches. Keys persisted under the older formats orphan and
+    /// are dropped on read — see ``loadActiveEntries()``.
     static func entryKey(for entry: DoseEntry) -> String {
-        "\(entry.substance)-\(entry.timestamp.timeIntervalSince1970)"
+        entry.id.uuidString
     }
 
     static func requestPermissionIfNeeded() async -> Bool {
@@ -656,10 +659,13 @@ enum RampDownScheduler {
 
     private static func loadActiveEntries() -> Set<String> {
         let stored = UserDefaults.standard.stringArray(forKey: storageKey) ?? []
-        // Legacy values were per-launch `persistentModelID.hashValue`s —
-        // unrecoverable across relaunches, so drop them on read (the next
-        // save/remove persists the cleaned set).
-        return Set(stored.filter { Int($0) == nil })
+        // Current keys are `DoseEntry.id` UUID strings. Drop legacy formats on
+        // read (the next save/remove persists the cleaned set): per-launch
+        // `persistentModelID.hashValue` ints, and the interim
+        // `substance-timestamp` strings — both unmatched by current keys, so
+        // keeping them would only leak. Their pending notifications, if any,
+        // orphan and fire once; acceptable for a PRN feature.
+        return Set(stored.filter { UUID(uuidString: $0) != nil })
     }
 }
 

@@ -77,32 +77,34 @@ struct RampDownSchedulerTests {
         #expect(RampDownScheduler.suggestedRedoseAmount(10) == 3.3)
     }
 
-    // MARK: - Notification identifier
+    // MARK: - Entry key
 
     @Test
-    func `Notification identifiers are deterministic`() {
-        // Test via the public isActive/saveActiveEntry/removeActiveEntry API
-        // These use UserDefaults, so we test the key format indirectly
-        let entryKey = "Caffeine-1700000000.0"
-        RampDownScheduler.saveActiveEntry(entryKey)
-        #expect(RampDownScheduler.isActive(for: entryKey))
-        RampDownScheduler.removeActiveEntry(entryKey)
-        #expect(!RampDownScheduler.isActive(for: entryKey))
-    }
-
-    @Test
-    func `Entry key is deterministic for the same entry`() {
+    func `Entry key is the entry's stable id — repeatable per entry, distinct across entries`() {
         let timestamp = Date(timeIntervalSince1970: 1_700_000_000)
         let a = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", timestamp: timestamp)
         let b = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", timestamp: timestamp)
-        #expect(RampDownScheduler.entryKey(for: a) == RampDownScheduler.entryKey(for: b))
+        // Repeatable for the same entry…
+        #expect(RampDownScheduler.entryKey(for: a) == RampDownScheduler.entryKey(for: a))
+        // …but two content-identical doses are still distinguishable (the
+        // failure mode of the old substance-timestamp key).
+        #expect(RampDownScheduler.entryKey(for: a) != RampDownScheduler.entryKey(for: b))
+        #expect(RampDownScheduler.entryKey(for: a) == a.id.uuidString)
+    }
+
+    @Test
+    func `Entry key survives a timestamp edit`() {
+        let entry = DoseEntry(substance: "Caffeine", amount: 100, unit: "mg", timestamp: Date(timeIntervalSince1970: 1_700_000_000))
+        let keyBefore = RampDownScheduler.entryKey(for: entry)
+        entry.timestamp = entry.timestamp.addingTimeInterval(3_600)
+        #expect(RampDownScheduler.entryKey(for: entry) == keyBefore)
     }
 
     // MARK: - Persistence (UserDefaults)
 
     @Test
     func `Save and check active entry`() {
-        let key = "Test-\(Double.random(in: 100_000 ... 999_999))"
+        let key = UUID().uuidString
         RampDownScheduler.saveActiveEntry(key)
         #expect(RampDownScheduler.isActive(for: key))
         // Cleanup
@@ -111,7 +113,7 @@ struct RampDownSchedulerTests {
 
     @Test
     func `Remove clears active entry`() {
-        let key = "Test-\(Double.random(in: 100_000 ... 999_999))"
+        let key = UUID().uuidString
         RampDownScheduler.saveActiveEntry(key)
         RampDownScheduler.removeActiveEntry(key)
         #expect(!RampDownScheduler.isActive(for: key))
@@ -119,13 +121,13 @@ struct RampDownSchedulerTests {
 
     @Test
     func `Non-existent entry is not active`() {
-        #expect(!RampDownScheduler.isActive(for: "Nonexistent--999"))
+        #expect(!RampDownScheduler.isActive(for: UUID().uuidString))
     }
 
     @Test
     func `Multiple entries can be active simultaneously`() {
-        let key1 = "TestA-\(Double.random(in: 100_000 ... 999_999))"
-        let key2 = "TestB-\(Double.random(in: 100_000 ... 999_999))"
+        let key1 = UUID().uuidString
+        let key2 = UUID().uuidString
         RampDownScheduler.saveActiveEntry(key1)
         RampDownScheduler.saveActiveEntry(key2)
         #expect(RampDownScheduler.isActive(for: key1))
@@ -133,6 +135,22 @@ struct RampDownSchedulerTests {
         // Cleanup
         RampDownScheduler.removeActiveEntry(key1)
         RampDownScheduler.removeActiveEntry(key2)
+    }
+
+    @Test
+    func `Legacy key formats are dropped on read`() {
+        // Pre-V4 formats: per-launch hashValue ints and substance-timestamp
+        // strings. Both orphan (no current key ever matches) and are pruned by
+        // loadActiveEntries' UUID filter.
+        RampDownScheduler.saveActiveEntry("Caffeine-1700000000.0")
+        RampDownScheduler.saveActiveEntry("-3458764513820540928")
+        #expect(!RampDownScheduler.isActive(for: "Caffeine-1700000000.0"))
+        #expect(!RampDownScheduler.isActive(for: "-3458764513820540928"))
+        // A real UUID key saved alongside still round-trips.
+        let key = UUID().uuidString
+        RampDownScheduler.saveActiveEntry(key)
+        #expect(RampDownScheduler.isActive(for: key))
+        RampDownScheduler.removeActiveEntry(key)
     }
 
     // MARK: - Cumulative dose check

@@ -8,6 +8,13 @@ private let logger = Logger(subsystem: "dev.yumeji.piru", category: "LiveActivit
 
 /// Lightweight value snapshot of a DoseEntry, decoupled from SwiftData.
 struct DoseSnapshot {
+    /// The source entry's stable ``DoseEntry/id``, used by
+    /// `ActiveSessionManager` to match a snapshot back to its entry exactly.
+    /// `nil` only for snapshots rebuilt from a running Live Activity
+    /// (``LiveActivityManager/recoverEntriesFromActivity()``) —
+    /// `PiruActivityAttributes` deliberately carries no entry references, so
+    /// those snapshots fall back to substance + timestamp matching.
+    let id: UUID?
     let substance: String
     let amount: Double
     let unit: String
@@ -15,6 +22,7 @@ struct DoseSnapshot {
     let timestamp: Date
 
     init(entry: DoseEntry) {
+        self.id = entry.id
         self.substance = entry.substance
         self.amount = entry.amount
         self.unit = entry.unit
@@ -22,7 +30,8 @@ struct DoseSnapshot {
         self.timestamp = entry.timestamp
     }
 
-    init(substance: String, amount: Double, unit: String, route: RouteOfAdministration, timestamp: Date) {
+    init(id: UUID? = nil, substance: String, amount: Double, unit: String, route: RouteOfAdministration, timestamp: Date) {
+        self.id = id
         self.substance = substance
         self.amount = amount
         self.unit = unit
