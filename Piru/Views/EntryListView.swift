@@ -197,18 +197,18 @@ struct EntryListView: View {
         .listSectionSpacing(.custom(2))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appHeader(
-            "Journal",
-            enabled: !isSearchSurface,
-            leadingControls: { journalHeaderControls },
-            menuExtras: {
-                Button {
-                    showingCalendar = true
-                } label: {
-                    Label("Jump to Date", systemImage: "calendar")
-                }
-            },
-        )
+        .navigationTitle("Journal")
+        .toolbarTitleDisplayMode(.inlineLarge)
+        .scrollEdgeEffectStyle(.soft, for: .top)
+        .toolbar {
+            if !isSearchSurface {
+                ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                ToolbarItem(placement: .topBarTrailing) { overflowToolbarMenu }
+            }
+        }
         .overlay {
             if model.filtered.isEmpty {
                 emptyState
@@ -266,6 +266,75 @@ struct EntryListView: View {
 
     // MARK: - Header Controls
 
+    /// Grouping picker as a plain toolbar item — the system bar supplies the
+    /// glass capsule, so the label is just text + chevron.
+    private var groupingToolbarMenu: some View {
+        Menu {
+            Picker("Group by", selection: $grouping) {
+                ForEach(JournalGrouping.allCases, id: \.self) { mode in
+                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Text(grouping.displayName)
+                    .lineLimit(1)
+                Image(systemName: "chevron.down")
+                    .font(.caption2.weight(.bold))
+            }
+            .fixedSize(horizontal: true, vertical: false)
+            .font(.subheadline.weight(.semibold))
+        }
+    }
+
+    private var filterToolbarMenu: some View {
+        Menu {
+            filterMenuContent
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
+                .background {
+                    Circle()
+                        .fill(Theme.accent)
+                        .frame(width: 38, height: 38)
+                        .opacity(hasActiveFilters ? 1 : 0)
+                }
+        }
+        .animation(.snappy, value: hasActiveFilters)
+    }
+
+    private var overflowToolbarMenu: some View {
+        Menu {
+            Button {
+                showingCalendar = true
+            } label: {
+                Label("Jump to Date", systemImage: "calendar")
+            }
+            Section {
+                Button {
+                    presentFromHeader(.settings)
+                } label: {
+                    Label("Settings", systemImage: "gearshape")
+                }
+                Button {
+                    presentFromHeader(.help)
+                } label: {
+                    Label("Help", systemImage: "lifepreserver")
+                }
+            }
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.system(size: 17, weight: .semibold))
+        }
+        .accessibilityLabel(Text("More"))
+    }
+
+    private func presentFromHeader(_ route: SheetRoute) {
+        guard navigator.sheetStack.isEmpty else { return }
+        navigator.present(route)
+    }
+
     /// Journal-specific controls injected into the app header: the grouping
     /// picker (primary, accent) and a filter pull-down. Each is its own glass
     /// capsule inside the header's shared `GlassEffectContainer`.
@@ -301,32 +370,7 @@ struct EntryListView: View {
     /// while any filter is active.
     private var filterMenu: some View {
         Menu {
-            // Category is the only meaningful filter here — the list already
-            // shows every day in order, so a time window adds nothing. Each
-            // category is a checkmark toggle (activate/deactivate in place).
-            if !model.categories.isEmpty {
-                Section("Category") {
-                    ForEach(model.categories, id: \.self) { category in
-                        Button {
-                            toggleCategory(category)
-                        } label: {
-                            Label {
-                                Text(category.displayName)
-                            } icon: {
-                                Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
-                            }
-                        }
-                    }
-                }
-            }
-
-            if hasActiveFilters {
-                Section {
-                    Button("Clear Filters", role: .destructive) {
-                        clearFilters()
-                    }
-                }
-            }
+            filterMenuContent
         } label: {
             // Constant glass effect — the active state is a filled accent disc
             // behind the glyph (animated opacity), NOT a change of glass *type*.
@@ -346,6 +390,37 @@ struct EntryListView: View {
         }
         .glassEffect(.regular, in: .circle)
         .animation(.snappy, value: hasActiveFilters)
+    }
+
+    /// Shared menu body for both the custom-header and toolbar filter buttons.
+    @ViewBuilder
+    private var filterMenuContent: some View {
+        // Category is the only meaningful filter here — the list already
+        // shows every day in order, so a time window adds nothing. Each
+        // category is a checkmark toggle (activate/deactivate in place).
+        if !model.categories.isEmpty {
+            Section("Category") {
+                ForEach(model.categories, id: \.self) { category in
+                    Button {
+                        toggleCategory(category)
+                    } label: {
+                        Label {
+                            Text(category.displayName)
+                        } icon: {
+                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
+                        }
+                    }
+                }
+            }
+        }
+
+        if hasActiveFilters {
+            Section {
+                Button("Clear Filters", role: .destructive) {
+                    clearFilters()
+                }
+            }
+        }
     }
 
     private func toggleCategory(_ category: SubstanceCategory) {
