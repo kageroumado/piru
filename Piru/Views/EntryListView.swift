@@ -293,31 +293,29 @@ struct EntryListView: View {
         }
     }
 
-    /// Active state fills the button's glass with the accent. Only a `Button`
-    /// with `.glassProminent` takes the toolbar-coordinated glass path that
-    /// replaces the item's platter at platter size — a `Menu` styled the same
-    /// way draws an undersized capsule inside a still-visible platter, and the
-    /// platter's own tint API isn't public. So the prominent Button provides
-    /// the visuals while a transparent Menu overlaid on top owns the tap and
-    /// anchors the pull-down.
+    /// Active state: an accent-filled circle nested inside the item's platter,
+    /// Phone-app style. A prominent `Menu` can't replace the platter the way a
+    /// prominent `Button` does (it renders via the generic bordered path), and
+    /// the platter's own tint API isn't public — so the filled circle is sized
+    /// *down* (regular control size + a small label frame) to sit within the
+    /// platter ring instead of fighting it. A Button-with-overlay-Menu hybrid
+    /// matched the platter exactly but swallowed the first tap.
     @ViewBuilder
     private var filterToolbarMenu: some View {
         if hasActiveFilters {
-            Button {} label: {
+            Menu {
+                filterMenuContent
+            } label: {
                 Image(systemName: "line.3.horizontal.decrease")
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.system(size: 15, weight: .semibold))
+                    .frame(width: 20, height: 20)
             }
+            .menuStyle(.button)
             .buttonStyle(.glassProminent)
+            .buttonBorderShape(.circle)
+            .controlSize(.regular)
             .tint(Theme.accent)
-            .accessibilityHidden(true)
-            .overlay {
-                Menu {
-                    filterMenuContent
-                } label: {
-                    Color.clear.contentShape(Circle())
-                }
-                .accessibilityLabel(Text("Filter"))
-            }
+            .accessibilityLabel(Text("Filter"))
         } else {
             Menu {
                 filterMenuContent
