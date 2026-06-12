@@ -82,6 +82,30 @@ enum SessionService {
             return candidate
         }
 
+        // 3. Prepend — a back-dated dose may immediately precede an existing
+        //    session (logged late, e.g. "15 minutes ago" right after a dose
+        //    that already opened one). Mirror the extend heuristic: would the
+        //    session's first dose join a session that ends with this one?
+        var nextSession: Session?
+        var nextFirstDose: DoseEntry?
+        for session in sessions {
+            let laterDoses = session.orderedDoses.filter { $0 !== entry }
+            guard let first = laterDoses.min(by: { $0.timestamp < $1.timestamp }),
+                  first.timestamp >= target else { continue }
+            if nextFirstDose == nil || first.timestamp < nextFirstDose!.timestamp {
+                nextSession = session
+                nextFirstDose = first
+            }
+        }
+        if let nextSession, let nextFirstDose {
+            let endingWithEntry = SessionClustering.OpenSession(doses: [clusterDose(for: entry)])
+            if case .join = SessionClustering.placement(of: clusterDose(for: nextFirstDose), into: endingWithEntry) {
+                entry.session = nextSession
+                nextSession.refreshStartDate()
+                return nextSession
+            }
+        }
+
         let session = Session(startDate: entry.timestamp)
         context.insert(session)
         entry.session = session

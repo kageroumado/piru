@@ -129,6 +129,40 @@ struct SessionServiceTests {
         #expect(c.session !== a.session)
     }
 
+    @Test
+    func `A back-dated dose just before a session's first dose prepends into it`() throws {
+        // TestFlight feedback (build 15): a dose logged "15 minutes ago" right
+        // after another dose had opened a session got its own session because
+        // assignment only looked backwards (in-span / extend), never forwards.
+        let context = try makeContext()
+
+        let kratom = insert(context, hoursFromNow: 0)
+        SessionService.assignSession(for: kratom, in: context)
+        #expect(try sessions(context).count == 1)
+
+        let backdated = insert(context, hoursFromNow: -0.25) // 15 min earlier
+        SessionService.assignSession(for: backdated, in: context)
+
+        #expect(backdated.session === kratom.session)
+        #expect(try sessions(context).count == 1)
+        // The session's start follows its new earliest dose.
+        #expect(kratom.session?.startDate == backdated.timestamp)
+    }
+
+    @Test
+    func `A back-dated dose far before a session still starts its own`() throws {
+        let context = try makeContext()
+
+        let a = insert(context, hoursFromNow: 0)
+        SessionService.assignSession(for: a, in: context)
+
+        let distant = insert(context, hoursFromNow: -20) // past the ceiling
+        SessionService.assignSession(for: distant, in: context)
+
+        #expect(distant.session !== a.session)
+        #expect(try sessions(context).count == 2)
+    }
+
     // MARK: - Background medications
 
     @Test

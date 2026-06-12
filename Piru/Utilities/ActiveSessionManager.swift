@@ -53,14 +53,17 @@ final class ActiveSessionManager {
 
         // Fall back to SwiftData
         let context = ModelContext(container)
-        // Recover from the current session day (configurable cutoff) so a
-        // dose taken at 01:30 still surfaces after a cold launch at 02:00.
-        let startOfDay = Calendar.current.sessionDayStart(for: .now)
-        let endOfDay = startOfDay.addingTimeInterval(86_400)
+        // Recover anything potentially still active: look back 12 h rather
+        // than only the current session day — a 01:30 dose must still surface
+        // when the app cold-launches at 04:50, just past the day cutoff. The
+        // forward bound keeps today's deliberately future-dated doses, as
+        // before; `pruneCompleted()` drops whatever has already run out.
+        let lookbackStart = Date.now.addingTimeInterval(-12 * 3_600)
+        let endOfDay = Calendar.current.sessionDayStart(for: .now).addingTimeInterval(86_400)
 
         let descriptor = FetchDescriptor<DoseEntry>(
             predicate: #Predicate { entry in
-                entry.timestamp >= startOfDay && entry.timestamp < endOfDay
+                entry.timestamp >= lookbackStart && entry.timestamp < endOfDay
             },
             sortBy: [SortDescriptor(\.timestamp)],
         )
