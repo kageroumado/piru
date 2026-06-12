@@ -24,7 +24,7 @@ struct InsightsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
-        .appHeader("Insights")
+        .appNavigationBar("Insights")
         .task(id: changeToken) { recompute() }
     }
 
