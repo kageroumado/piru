@@ -426,14 +426,13 @@ private struct SearchView: View {
 
     var body: some View {
         content
-            // Same chrome idiom as `appHeader` on the regular tab roots: the
-            // scope picker is the Search surface's header, pinned in a top
+            // The scope picker is the Search surface's header, pinned in a top
             // safe-area bar with the system navigation bar hidden. Letting the
             // system bar show here (inline "Search" title + toolbar buttons)
-            // made search activation/dismissal flash chrome no other screen
-            // uses. Sized to the header's 44pt row + 4/8 paddings so the
-            // content's top edge doesn't move when hopping between Search and
-            // the regular tabs.
+            // made search activation/dismissal flash chrome the surface doesn't
+            // want. Sized to roughly the tab roots' bar height so the content's
+            // top edge doesn't move when hopping between Search and the
+            // regular tabs.
             .scrollEdgeEffectStyle(.soft, for: .top)
             .safeAreaBar(edge: .top) {
                 scopePicker

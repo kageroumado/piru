@@ -66,6 +66,6 @@ struct ToolsView: View {
             .padding(.bottom, 80)
         }
         .background(Theme.background)
-        .appHeader("Tools")
+        .appNavigationBar("Tools")
     }
 }
