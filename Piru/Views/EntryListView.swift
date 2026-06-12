@@ -205,7 +205,7 @@ struct EntryListView: View {
                 ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
-                    .sharedBackgroundVisibility(hasActiveFilters ? .hidden : .automatic)
+                    .sharedBackgroundVisibility(.automatic)
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) { overflowToolbarMenu }
             }
@@ -288,23 +288,31 @@ struct EntryListView: View {
         }
     }
 
-    /// Active state fills the button's glass with the accent: plain `.tint`
-    /// on a toolbar item only recolors the foreground (already accent), so
-    /// the filled look needs the prominent glass button style.
+    /// Active state fills the button's glass with the accent. Only a `Button`
+    /// with `.glassProminent` takes the toolbar-coordinated glass path that
+    /// replaces the item's platter at platter size — a `Menu` styled the same
+    /// way draws an undersized capsule inside a still-visible platter, and the
+    /// platter's own tint API isn't public. So the prominent Button provides
+    /// the visuals while a transparent Menu overlaid on top owns the tap and
+    /// anchors the pull-down.
     @ViewBuilder
     private var filterToolbarMenu: some View {
         if hasActiveFilters {
-            Menu {
-                filterMenuContent
-            } label: {
+            Button {} label: {
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 17, weight: .semibold))
-                    .frame(width: 36, height: 36)
             }
-            .menuStyle(.button)
             .buttonStyle(.glassProminent)
-            .buttonBorderShape(.circle)
             .tint(Theme.accent)
+            .accessibilityHidden(true)
+            .overlay {
+                Menu {
+                    filterMenuContent
+                } label: {
+                    Color.clear.contentShape(Circle())
+                }
+                .accessibilityLabel(Text("Filter"))
+            }
         } else {
             Menu {
                 filterMenuContent
@@ -312,6 +320,7 @@ struct EntryListView: View {
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 17, weight: .semibold))
             }
+            .accessibilityLabel(Text("Filter"))
         }
     }
 
