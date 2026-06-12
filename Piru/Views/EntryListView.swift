@@ -205,6 +205,7 @@ struct EntryListView: View {
                 ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
+                    .sharedBackgroundVisibility(hasActiveFilters ? .hidden : .automatic)
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) { overflowToolbarMenu }
             }
@@ -287,21 +288,31 @@ struct EntryListView: View {
         }
     }
 
+    /// Active state fills the button's glass with the accent: plain `.tint`
+    /// on a toolbar item only recolors the foreground (already accent), so
+    /// the filled look needs the prominent glass button style.
+    @ViewBuilder
     private var filterToolbarMenu: some View {
-        Menu {
-            filterMenuContent
-        } label: {
-            Image(systemName: "line.3.horizontal.decrease")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
-                .background {
-                    Circle()
-                        .fill(Theme.accent)
-                        .frame(width: 38, height: 38)
-                        .opacity(hasActiveFilters ? 1 : 0)
-                }
+        if hasActiveFilters {
+            Menu {
+                filterMenuContent
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 17, weight: .semibold))
+                    .frame(width: 36, height: 36)
+            }
+            .menuStyle(.button)
+            .buttonStyle(.glassProminent)
+            .buttonBorderShape(.circle)
+            .tint(Theme.accent)
+        } else {
+            Menu {
+                filterMenuContent
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 17, weight: .semibold))
+            }
         }
-        .animation(.snappy, value: hasActiveFilters)
     }
 
     private var overflowToolbarMenu: some View {
