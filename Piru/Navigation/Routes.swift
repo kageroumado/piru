@@ -66,7 +66,7 @@ nonisolated enum SheetRoute: Hashable, Identifiable, Codable {
     case help
     case onboarding
 
-    // Session / entries
+    /// Session / entries
     case sessionDetail
     /// Entry detail sheet. Carries the entry's stable `id` with `timestamp`
     /// as the resolution fallback (see `PushRoute` — same compatibility
