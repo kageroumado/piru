@@ -501,7 +501,16 @@ struct QuickLogView: View {
                     results: dockResults,
                     onStageRecent: stageFromCard,
                     onOpenSubstance: openLibrarySubstance,
-                    onCreateCustom: { showCustomForm = true },
+                    onCreateCustom: {
+                        // Release search focus before presenting, like every
+                        // other handoff out of the search surface. Leaving it
+                        // set makes SwiftUI restore focus mid-transition when
+                        // the form later dismisses — the keyboard churn behind
+                        // the builds-13/14 SheetBridge exclusivity crash (and
+                        // the "search bar stuck mid-air" feedback).
+                        searchFocused = false
+                        showCustomForm = true
+                    },
                 )
             }
 
