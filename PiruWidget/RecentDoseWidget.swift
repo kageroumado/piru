@@ -180,12 +180,14 @@ struct RecentDoseView: View {
                         .lineLimit(1)
                     // Concatenated so the relative component self-updates.
                     // Amount + unit are verbatim numerals — nothing to localize.
-                    (Text(verbatim: "\(entry.amount.doseFormatted) \(entry.unit) · ")
-                        + (entry.doseTime.map { Text($0, style: .relative) } ?? Text(verbatim: "")))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
+                    (
+                        Text(verbatim: "\(entry.amount.doseFormatted) \(entry.unit) · ")
+                            + (entry.doseTime.map { Text($0, style: .relative) } ?? Text(verbatim: ""))
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                 }
             } else {
                 Text("No recent doses")
