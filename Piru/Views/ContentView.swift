@@ -261,7 +261,6 @@ private struct MainTabView: View, Equatable {
                         pickerRebuildToken: scopePickerToken,
                         onExitSearch: { navigator.selectedTab = tabBeforeSearch },
                     )
-                    .toolbar { sharedToolbar }
                     .withAppDestinations()
                 }
             }
@@ -370,28 +369,6 @@ private struct MainTabView: View, Equatable {
             source.clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         }
     }
-
-    // MARK: Toolbar
-
-    @ToolbarContentBuilder
-    private var sharedToolbar: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                guard navigator.sheetStack.isEmpty else { return }
-                navigator.present(.settings)
-            } label: {
-                Image(systemName: "gearshape")
-            }
-        }
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                guard navigator.sheetStack.isEmpty else { return }
-                navigator.present(.help)
-            } label: {
-                Image(systemName: "lifepreserver")
-            }
-        }
-    }
 }
 
 // MARK: - Unified Search
@@ -448,62 +425,83 @@ private struct SearchView: View {
     @State private var isSearchActive = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Full-width scope selector pinned above the results, matching the
-            // Music app's prominent top toggle. A native segmented Picker (not
-            // `.searchScopes`, whose bar can't be widened/enlarged and renders
-            // inconsistently with a tab-bar search field).
-            Picker("Search scope", selection: $scope) {
-                ForEach(SearchTabScope.allCases) { scope in
-                    Text(scope.title).tag(scope)
+        content
+            // Same chrome idiom as `appHeader` on the regular tab roots: the
+            // scope picker is the Search surface's header, pinned in a top
+            // safe-area bar with the system navigation bar hidden. Letting the
+            // system bar show here (inline "Search" title + toolbar buttons)
+            // made search activation/dismissal flash chrome no other screen
+            // uses. Sized to the header's 44pt row + 4/8 paddings so the
+            // content's top edge doesn't move when hopping between Search and
+            // the regular tabs.
+            .scrollEdgeEffectStyle(.soft, for: .top)
+            .safeAreaBar(edge: .top) {
+                scopePicker
+            }
+            .toolbar(.hidden, for: .navigationBar)
+            .searchable(
+                text: $searchText,
+                isPresented: $isSearchActive,
+                prompt: Text(scope.prompt),
+            )
+            // Raise the search field (and keyboard) whenever the Search tab is
+            // active. `.task(id:)` runs after first render and re-runs on every
+            // tab change, so it catches both the initial mount and later
+            // re-entries.
+            //
+            // Leaving the tab resets `isSearchActive` to false: the system hides
+            // the presentation without flipping our binding, so without this a
+            // re-entry would write true→true — no published change, field stays
+            // collapsed. The brief sleep lets the `.searchable` field finish
+            // installing on first mount before we present it.
+            .task(id: navigator.selectedTab) {
+                guard navigator.selectedTab == .search else {
+                    isSearchActive = false
+                    return
+                }
+                try? await Task.sleep(for: .milliseconds(50))
+                guard navigator.selectedTab == .search else { return }
+                isSearchActive = true
+            }
+            // Tapping the search field's cancel (X) flips `isSearchActive` to
+            // false while we're still on the Search tab — that's the user
+            // exiting search, so leave the tab entirely (Music behaviour) rather
+            // than stranding them on a dismissed search surface. Our own
+            // programmatic dismissal only happens once `selectedTab` has already
+            // left `.search`, so guarding on it avoids a feedback loop.
+            //
+            // The exit is deferred a runloop turn: switching tabs in the same
+            // transaction as the system's search dismissal — which, with an
+            // active session, also flips `tabViewBottomAccessory(isEnabled:)`
+            // when the journal hero takes over — cancels UIKit's
+            // search-field→tab-bar morph midway and the tab bar never returns.
+            .onChange(of: isSearchActive) { _, active in
+                guard !active, navigator.selectedTab == .search else { return }
+                Task {
+                    guard navigator.selectedTab == .search, !isSearchActive else { return }
+                    onExitSearch()
                 }
             }
-            .pickerStyle(.segmented)
-            .controlSize(.large)
-            .labelsHidden()
-            .id(pickerRebuildToken)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
+    }
 
-            content
-        }
-        .searchable(
-            text: $searchText,
-            isPresented: $isSearchActive,
-            prompt: Text(scope.prompt),
-        )
-        .navigationTitle("Search")
-        .navigationBarTitleDisplayMode(.inline)
-        // Raise the search field (and keyboard) whenever the Search tab is
-        // active. `.task(id:)` runs after first render and re-runs on every
-        // tab change, so it catches both the initial mount and later
-        // re-entries.
-        //
-        // Leaving the tab resets `isSearchActive` to false: the system hides
-        // the presentation without flipping our binding, so without this a
-        // re-entry would write true→true — no published change, field stays
-        // collapsed. The brief sleep lets the `.searchable` field finish
-        // installing on first mount before we present it.
-        .task(id: navigator.selectedTab) {
-            guard navigator.selectedTab == .search else {
-                isSearchActive = false
-                return
-            }
-            try? await Task.sleep(for: .milliseconds(50))
-            guard navigator.selectedTab == .search else { return }
-            isSearchActive = true
-        }
-        // Tapping the search field's cancel (X) flips `isSearchActive` to
-        // false while we're still on the Search tab — that's the user
-        // exiting search, so leave the tab entirely (Music behaviour) rather
-        // than stranding them on a dismissed search surface. Our own
-        // programmatic dismissal only happens once `selectedTab` has already
-        // left `.search`, so guarding on it avoids a feedback loop.
-        .onChange(of: isSearchActive) { _, active in
-            if !active, navigator.selectedTab == .search {
-                onExitSearch()
+    /// Full-width scope selector pinned above the results, matching the Music
+    /// app's prominent top toggle. A native segmented Picker (not
+    /// `.searchScopes`, whose bar can't be widened/enlarged and renders
+    /// inconsistently with a tab-bar search field).
+    private var scopePicker: some View {
+        Picker("Search scope", selection: $scope) {
+            ForEach(SearchTabScope.allCases) { scope in
+                Text(scope.title).tag(scope)
             }
         }
+        .pickerStyle(.segmented)
+        .controlSize(.large)
+        .labelsHidden()
+        .id(pickerRebuildToken)
+        .frame(height: 44)
+        .padding(.horizontal)
+        .padding(.top, 4)
+        .padding(.bottom, 8)
     }
 
     @ViewBuilder
