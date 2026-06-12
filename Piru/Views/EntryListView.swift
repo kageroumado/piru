@@ -197,17 +197,22 @@ struct EntryListView: View {
         .listSectionSpacing(.custom(2))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("Journal")
-        .toolbarTitleDisplayMode(.inlineLarge)
-        .scrollEdgeEffectStyle(.soft, for: .top)
+        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
         .toolbar {
             if !isSearchSurface {
                 ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
-                    .sharedBackgroundVisibility(.automatic)
                 ToolbarSpacer(.fixed, placement: .topBarTrailing)
-                ToolbarItem(placement: .topBarTrailing) { overflowToolbarMenu }
+                ToolbarItem(placement: .topBarTrailing) {
+                    AppOverflowMenu {
+                        Button {
+                            showingCalendar = true
+                        } label: {
+                            Label("Jump to Date", systemImage: "calendar")
+                        }
+                    }
+                }
             }
         }
         .overlay {
@@ -324,95 +329,7 @@ struct EntryListView: View {
         }
     }
 
-    private var overflowToolbarMenu: some View {
-        Menu {
-            Button {
-                showingCalendar = true
-            } label: {
-                Label("Jump to Date", systemImage: "calendar")
-            }
-            Section {
-                Button {
-                    presentFromHeader(.settings)
-                } label: {
-                    Label("Settings", systemImage: "gearshape")
-                }
-                Button {
-                    presentFromHeader(.help)
-                } label: {
-                    Label("Help", systemImage: "lifepreserver")
-                }
-            }
-        } label: {
-            Image(systemName: "ellipsis")
-                .font(.system(size: 17, weight: .semibold))
-        }
-        .accessibilityLabel(Text("More"))
-    }
-
-    private func presentFromHeader(_ route: SheetRoute) {
-        guard navigator.sheetStack.isEmpty else { return }
-        navigator.present(route)
-    }
-
-    /// Journal-specific controls injected into the app header: the grouping
-    /// picker (primary, accent) and a filter pull-down. Each is its own glass
-    /// capsule inside the header's shared `GlassEffectContainer`.
-    @ViewBuilder
-    private var journalHeaderControls: some View {
-        Menu {
-            Picker("Group by", selection: $grouping) {
-                ForEach(JournalGrouping.allCases, id: \.self) { mode in
-                    Label(mode.displayName, systemImage: mode.icon).tag(mode)
-                }
-            }
-        } label: {
-            HStack(spacing: 4) {
-                Text(grouping.displayName)
-                    .lineLimit(1)
-                Image(systemName: "chevron.down")
-                    .font(.caption2.weight(.bold))
-            }
-            .fixedSize(horizontal: true, vertical: false)
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(Theme.accent)
-            .frame(height: 44)
-            .padding(.horizontal, 14)
-            .contentShape(Capsule())
-        }
-        .glassEffect(.regular, in: .capsule)
-
-        filterMenu
-    }
-
-    /// Filter as a pull-down menu (Mail's idiom) rather than a modal sheet:
-    /// category checkmark toggles plus a one-tap Clear. The funnel tints pink
-    /// while any filter is active.
-    private var filterMenu: some View {
-        Menu {
-            filterMenuContent
-        } label: {
-            // Constant glass effect — the active state is a filled accent disc
-            // behind the glyph (animated opacity), NOT a change of glass *type*.
-            // Swapping the Glass value (tinted vs regular) changed the element's
-            // identity inside the shared GlassEffectContainer, so the button
-            // morphed out and briefly vanished whenever a filter toggled.
-            Image(systemName: "line.3.horizontal.decrease")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
-                .frame(width: 44, height: 44)
-                .background {
-                    Circle()
-                        .fill(Theme.accent)
-                        .opacity(hasActiveFilters ? 1 : 0)
-                }
-                .contentShape(Circle())
-        }
-        .glassEffect(.regular, in: .circle)
-        .animation(.snappy, value: hasActiveFilters)
-    }
-
-    /// Shared menu body for both the custom-header and toolbar filter buttons.
+    /// Shared menu body for both filter button states.
     @ViewBuilder
     private var filterMenuContent: some View {
         // Category is the only meaningful filter here — the list already
