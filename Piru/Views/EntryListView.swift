@@ -197,18 +197,24 @@ struct EntryListView: View {
         .listSectionSpacing(.custom(2))
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .appHeader(
-            "Journal",
-            enabled: !isSearchSurface,
-            leadingControls: { journalHeaderControls },
-            menuExtras: {
-                Button {
-                    showingCalendar = true
-                } label: {
-                    Label("Jump to Date", systemImage: "calendar")
+        .appNavigationBar("Journal", enabled: !isSearchSurface, showsOverflow: false)
+        .toolbar {
+            if !isSearchSurface {
+                ToolbarItem(placement: .topBarTrailing) { groupingToolbarMenu }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                ToolbarItem(placement: .topBarTrailing) { filterToolbarMenu }
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                ToolbarItem(placement: .topBarTrailing) {
+                    AppOverflowMenu {
+                        Button {
+                            showingCalendar = true
+                        } label: {
+                            Label("Jump to Date", systemImage: "calendar")
+                        }
+                    }
                 }
-            },
-        )
+            }
+        }
         .overlay {
             if model.filtered.isEmpty {
                 emptyState
@@ -266,11 +272,9 @@ struct EntryListView: View {
 
     // MARK: - Header Controls
 
-    /// Journal-specific controls injected into the app header: the grouping
-    /// picker (primary, accent) and a filter pull-down. Each is its own glass
-    /// capsule inside the header's shared `GlassEffectContainer`.
-    @ViewBuilder
-    private var journalHeaderControls: some View {
+    /// Grouping picker as a plain toolbar item — the system bar supplies the
+    /// glass capsule, so the label is just text + chevron.
+    private var groupingToolbarMenu: some View {
         Menu {
             Picker("Group by", selection: $grouping) {
                 ForEach(JournalGrouping.allCases, id: \.self) { mode in
@@ -286,66 +290,74 @@ struct EntryListView: View {
             }
             .fixedSize(horizontal: true, vertical: false)
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(Theme.accent)
-            .frame(height: 44)
-            .padding(.horizontal, 14)
-            .contentShape(Capsule())
         }
-        .glassEffect(.regular, in: .capsule)
-
-        filterMenu
     }
 
-    /// Filter as a pull-down menu (Mail's idiom) rather than a modal sheet:
-    /// category checkmark toggles plus a one-tap Clear. The funnel tints pink
-    /// while any filter is active.
-    private var filterMenu: some View {
-        Menu {
-            // Category is the only meaningful filter here — the list already
-            // shows every day in order, so a time window adds nothing. Each
-            // category is a checkmark toggle (activate/deactivate in place).
-            if !model.categories.isEmpty {
-                Section("Category") {
-                    ForEach(model.categories, id: \.self) { category in
-                        Button {
-                            toggleCategory(category)
-                        } label: {
-                            Label {
-                                Text(category.displayName)
-                            } icon: {
-                                Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
-                            }
+    /// Active state fills the button's glass with the accent. Only a `Button`
+    /// with `.glassProminent` takes the toolbar-coordinated glass path that
+    /// replaces the item's platter at platter size — a `Menu` styled the same
+    /// way draws an undersized capsule inside a still-visible platter, and the
+    /// platter's own tint API isn't public. So the prominent Button provides
+    /// the visuals while a transparent Menu overlaid on top owns the tap and
+    /// anchors the pull-down.
+    @ViewBuilder
+    private var filterToolbarMenu: some View {
+        if hasActiveFilters {
+            Button {} label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 17, weight: .semibold))
+            }
+            .buttonStyle(.glassProminent)
+            .tint(Theme.accent)
+            .accessibilityHidden(true)
+            .overlay {
+                Menu {
+                    filterMenuContent
+                } label: {
+                    Color.clear.contentShape(Circle())
+                }
+                .accessibilityLabel(Text("Filter"))
+            }
+        } else {
+            Menu {
+                filterMenuContent
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .font(.system(size: 17, weight: .semibold))
+            }
+            .accessibilityLabel(Text("Filter"))
+        }
+    }
+
+    /// Shared menu body for both filter button states.
+    @ViewBuilder
+    private var filterMenuContent: some View {
+        // Category is the only meaningful filter here — the list already
+        // shows every day in order, so a time window adds nothing. Each
+        // category is a checkmark toggle (activate/deactivate in place).
+        if !model.categories.isEmpty {
+            Section("Category") {
+                ForEach(model.categories, id: \.self) { category in
+                    Button {
+                        toggleCategory(category)
+                    } label: {
+                        Label {
+                            Text(category.displayName)
+                        } icon: {
+                            Image(systemName: filterCategories.contains(category) ? "checkmark" : category.icon)
                         }
                     }
                 }
             }
+        }
 
-            if hasActiveFilters {
-                Section {
-                    Button("Clear Filters", role: .destructive) {
-                        clearFilters()
-                    }
+        if hasActiveFilters {
+            Section {
+                Button("Clear Filters", role: .destructive) {
+                    clearFilters()
                 }
             }
-        } label: {
-            // Constant glass effect — the active state is a filled accent disc
-            // behind the glyph (animated opacity), NOT a change of glass *type*.
-            // Swapping the Glass value (tinted vs regular) changed the element's
-            // identity inside the shared GlassEffectContainer, so the button
-            // morphed out and briefly vanished whenever a filter toggled.
-            Image(systemName: "line.3.horizontal.decrease")
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(hasActiveFilters ? .white : Theme.accent)
-                .frame(width: 44, height: 44)
-                .background {
-                    Circle()
-                        .fill(Theme.accent)
-                        .opacity(hasActiveFilters ? 1 : 0)
-                }
-                .contentShape(Circle())
         }
-        .glassEffect(.regular, in: .circle)
-        .animation(.snappy, value: hasActiveFilters)
     }
 
     private func toggleCategory(_ category: SubstanceCategory) {
