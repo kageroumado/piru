@@ -24,6 +24,7 @@
       }
     },
     "%@ %@ · %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -122,6 +123,7 @@
       }
     },
     "%lldh %lldm ago" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -138,6 +140,7 @@
       }
     },
     "%lldh ago" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -170,6 +173,7 @@
       }
     },
     "%lldm ago" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

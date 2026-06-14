@@ -21,8 +21,8 @@ import Foundation
 /// - New fields must be optional (`Codable` decoding tolerates missing keys) or
 ///   provide a default in a custom `init(from:)` — see `ActiveSubstanceState`'s
 ///   `doseIntensity` for the pattern.
-struct PiruActivityAttributes: ActivityAttributes {
-    struct ContentState: Codable, Hashable {
+nonisolated struct PiruActivityAttributes: ActivityAttributes {
+    nonisolated struct ContentState: Codable, Hashable {
         var activeSubstances: [ActiveSubstanceState]
         var lastUpdated: Date
     }
@@ -30,7 +30,7 @@ struct PiruActivityAttributes: ActivityAttributes {
     let startTime: Date
 }
 
-struct ActiveSubstanceState: Codable, Hashable {
+nonisolated struct ActiveSubstanceState: Codable, Hashable {
     let substanceName: String
     let colorHex: String
     let doseTimestamp: Date

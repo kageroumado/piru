@@ -522,7 +522,7 @@ struct SessionDetailView: View {
 
     /// Split the session so `entry` and every later dose become a new session.
     private func splitSession(at entry: DoseEntry) {
-        withAnimation { SessionService.split(session, at: entry, in: modelContext) }
+        withAnimation { _ = SessionService.split(session, at: entry, in: modelContext) }
     }
 
     private func deleteEntry(_ entry: DoseEntry) {

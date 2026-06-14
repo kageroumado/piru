@@ -3,7 +3,7 @@ import Observation
 import os
 import SwiftData
 
-private nonisolated(unsafe) let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "StoreRecovery")
+private nonisolated let recoveryLogger = Logger(subsystem: "dev.yumeji.piru", category: "StoreRecovery")
 
 /// Owns the on-disk SwiftData store: where it lives, recovering orphaned data
 /// into it, and backing it up before anything destructive.
