@@ -70,10 +70,11 @@ struct DataExportImportRoundTripTests {
             tags: [],
         ))
         context.insert(DoseEntry(
-            substance: "Magnesium Glycinate",
+            substance: "Magnesium",
             amount: 400,
             unit: "mg",
             route: .oral,
+            saltForm: "Glycinate",
             timestamp: t3,
             notes: "with dinner",
             tags: ["routine", "sleep"],
@@ -103,10 +104,12 @@ struct DataExportImportRoundTripTests {
         #expect(melatonin.amount == 500)
         #expect(melatonin.unit == "µg")
         #expect(melatonin.route == .sublingual)
+        #expect(melatonin.saltForm == nil) // no salt → omitted from JSON, restores nil
 
-        let magnesium = try #require(imported.first { $0.substance == "Magnesium Glycinate" })
+        let magnesium = try #require(imported.first { $0.substance == "Magnesium" })
         #expect(magnesium.amount == 400)
         #expect(magnesium.route == .oral)
+        #expect(magnesium.saltForm == "Glycinate") // salt form survives the backup
     }
 
     // MARK: SubstanceColor and DailyDoseItem
