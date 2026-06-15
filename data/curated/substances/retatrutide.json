@@ -4,6 +4,7 @@
     "LY3437943"
   ],
   "category": "Peptide",
+  "popularity": 0.5,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

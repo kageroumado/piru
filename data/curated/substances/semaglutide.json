@@ -6,6 +6,7 @@
     "Rybelsus"
   ],
   "category": "Peptide",
+  "popularity": 0.85,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

@@ -5,6 +5,7 @@
     "Zepbound"
   ],
   "category": "Peptide",
+  "popularity": 0.78,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

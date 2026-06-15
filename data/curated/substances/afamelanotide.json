@@ -1,5 +1,6 @@
 {
   "name": "Afamelanotide",
+  "popularity": 0.2,
   "molarMass": 1646.85,
   "peptideProfile": {
     "sequence": "Ac-Ser-Tyr-Ser-Nle-Glu-His-D-Phe-Arg-Trp-Gly-Lys-Pro-Val-NH2 ([Nle4,D-Phe7]-α-MSH, 13 aa)",

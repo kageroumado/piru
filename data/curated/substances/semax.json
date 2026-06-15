@@ -4,6 +4,7 @@
     "Methionyl-glutamyl-histidyl-phenylalanyl-prolyl-glycyl-proline"
   ],
   "category": "Peptide",
+  "popularity": 0.36,
   "defaultRoute": "insufflation",
   "routes": [
     {

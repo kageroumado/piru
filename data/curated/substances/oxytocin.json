@@ -5,6 +5,7 @@
     "Syntocinon"
   ],
   "category": "Peptide",
+  "popularity": 0.52,
   "defaultRoute": "insufflation",
   "routes": [
     {

@@ -1382,6 +1382,16 @@ _NAME_REMAP: dict[str, str] = {
     "elvanse": "Lisdexamfetamine",
     "focalin": "Dexmethylphenidate",
     "focalin xr": "Dexmethylphenidate",
+    # Wikidata long-form / synonym variants that never matched the enriched
+    # canonical (different or absent InChIKey) and would otherwise be dropped as
+    # content-less stubs — fold them so their name survives as a search alias.
+    "dimethyltryptamine": "DMT",  # DMT = N,N-dimethyltryptamine
+    "dimethyltryptamine fumarate": "DMT",  # DMT fumarate salt
+    "dimethyltryptamine hydrochloride": "DMT",  # DMT HCl salt
+    "bufotenine": "Bufotenin",  # alternate spelling of 5-HO-DMT
+    "indopan": "AMT",  # Indopan = brand name for α-methyltryptamine
+    "5-bromodimethyltryptamine": "5-Bromo-DMT",  # same InChIKey ATEYZYQLBQUZJE
+    "4-hydroxy-n,n diethyltryptamine": "4-HO-DET",  # same InChIKey OHHYMKDBKJPILO
 }
 
 # Force a specific canonical display casing for names that arrive mis-cased and
@@ -3593,6 +3603,92 @@ class Build:
             )
         return {"groups": len(groups), "merged": merged, "needs_review": len(review)}
 
+    def drop_orphan_stubs(self, protect_norms: set[str] | None = None) -> dict[str, int]:
+        """Delete content-less wikidata long-tail stubs.
+
+        Wikidata contributes ~500 identifier-only rows for obscure chemistry —
+        tryptophan/tryptamine biosynthesis intermediates, peptide-drug
+        conjugates, plant alkaloids, even metabolites — that carry a name (and
+        maybe a formula) but NOTHING a dose-tracking app can show: no dose,
+        effect, mechanism, indication, binding, or duration from ANY source.
+        They only pollute search and browse.
+
+        A stub is KEPT when it carries recreational provenance — a category or
+        tag asserted by a harm-reduction source (PsychonautWiki / TripSit /
+        Erowid PIHKAL+TIHKAL) — OR when it has a hand-curated file
+        (``protect_norms``, the normalised names from ingest_curated_substances).
+        The latter preserves deliberate override-only records (a file that just
+        sets a displayName or popularity for an otherwise content-less compound).
+        That keeps recognisable name-only research chemicals (2C-H, DBT, NMT, the
+        Shulgin compounds) and every curated entry, while dropping the wikidata
+        biochemistry noise. Provenance, not the structural tag name ("tryptamine"
+        also tags the junk), is the signal.
+
+        Must run AFTER dedup (so a stub that was really an unmerged duplicate has
+        already folded its aliases into the survivor) and AFTER external ingest
+        (so pyrls/medtap indications etc. count as content).
+        """
+        rec_ids = [
+            self.source_ids[s]
+            for s in ("psychonautwiki", "tripsit", "erowid-pihkal", "erowid-tihkal")
+            if s in self.source_ids
+        ]
+        rec_csv = ",".join(str(i) for i in rec_ids) or "-1"
+        # "Content" = any substance-referencing table that isn't pure metadata.
+        # Computed from the live schema so new fact tables are covered without
+        # editing this list. A substance with metabolism / pk_routes / half-life
+        # / contraindication / tolerance etc. is NOT a stub even with no dose
+        # curve — that's real, showable information (Serotonin, Dopamine,
+        # Chloramphenicol, the meth enantiomers all land here).
+        metadata_tables = {"aliases", "categories", "tags", "substance_citations"}
+        all_tnames = [
+            r[0]
+            for r in self.cur.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()
+        ]
+        content_tables = []
+        for tname in all_tnames:
+            if tname in metadata_tables or tname == "substances":
+                continue
+            cols = [c[1] for c in self.cur.execute(f"PRAGMA table_info({tname})").fetchall()]
+            if "substance_id" in cols:
+                content_tables.append(tname)
+        no_content = " AND ".join(
+            f"NOT EXISTS(SELECT 1 FROM {t} x WHERE x.substance_id=s.id)" for t in content_tables
+        )
+        protect = protect_norms or set()
+        drop_ids = [
+            (r[0], r[1])
+            for r in self.cur.execute(
+                f"""
+                SELECT s.id, s.canonical_name, s.normalized_name FROM substances s
+                WHERE {no_content}
+                  AND NOT EXISTS(
+                      SELECT 1 FROM categories c
+                      WHERE c.substance_id=s.id AND c.source_id IN ({rec_csv}))
+                  AND NOT EXISTS(
+                      SELECT 1 FROM tags t
+                      WHERE t.substance_id=s.id AND t.source_id IN ({rec_csv}))
+                """
+            ).fetchall()
+            if r[2] not in protect
+        ]
+        if not drop_ids:
+            return {"dropped": 0}
+
+        # Every substance-referencing table: content tables plus the metadata
+        # ones we excluded from the stub test but must still clean up.
+        sub_tables = content_tables + [t for t in metadata_tables if t in all_tnames]
+        for sid, cname in drop_ids:
+            for t in sub_tables:
+                self.cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (sid,))
+            self.cur.execute("DELETE FROM substances WHERE id=?", (sid,))
+            self.substance_ids.pop(normalise(cname), None)
+        sample = sorted(c for _, c in drop_ids)[:12]
+        print(f"  drop_orphan_stubs sample: {sample}", file=sys.stderr)
+        return {"dropped": len(drop_ids)}
+
     def classify_compounds(self) -> dict[str, int]:
         """Bake each substance's display_class + duration_implausible from the
         resolved signals. Runs AFTER all ingest + promote_via_tags so category
@@ -3923,6 +4019,13 @@ def main() -> int:
     # classified once.
     deduped = build.dedup_substances()
     print(f"Substance dedup: {deduped}", file=sys.stderr)
+
+    # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
+    # indication/binding/duration and no recreational provenance). Runs after
+    # dedup so unmerged-duplicate stubs have already folded into their survivor,
+    # and after external ingest so pyrls/medtap data counts as content.
+    dropped = build.drop_orphan_stubs(protect_norms={normalise(n) for n in curated_names})
+    print(f"Orphan stub drop: {dropped}", file=sys.stderr)
 
     # Purge systematic/IUPAC/salt-form chemistry-noise aliases from the FINAL
     # table. Runs AFTER dedup so these still served as merge match keys

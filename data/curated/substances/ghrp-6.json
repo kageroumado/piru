@@ -5,6 +5,7 @@
     "His-DTrp-Ala-Trp-DPhe-Lys-NH2"
   ],
   "category": "Peptide",
+  "popularity": 0.32,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

@@ -4,6 +4,7 @@
     "NNC 26-0161"
   ],
   "category": "Peptide",
+  "popularity": 0.46,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

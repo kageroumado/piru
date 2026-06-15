@@ -6,6 +6,7 @@
     "Tα1"
   ],
   "category": "Peptide",
+  "popularity": 0.3,
   "defaultRoute": "subcutaneous",
   "routes": [
     {
