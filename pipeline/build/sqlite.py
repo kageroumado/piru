@@ -232,8 +232,9 @@ CREATE TABLE dose_ranges (
     strong_upper  REAL,
     heavy         REAL,
     notes         TEXT,
+    salt_form     TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id)
+    UNIQUE (substance_id, route, source_id, salt_form)
 );
 CREATE INDEX idx_dose_substance_route ON dose_ranges(substance_id, route);
 
@@ -245,8 +246,9 @@ CREATE TABLE durations (
     phase         TEXT NOT NULL,
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
+    salt_form     TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id, phase)
+    UNIQUE (substance_id, route, source_id, phase, salt_form)
 );
 CREATE INDEX idx_durations_substance_route ON durations(substance_id, route);
 
@@ -261,8 +263,9 @@ CREATE TABLE durations_of_action (
     source_id     INTEGER NOT NULL REFERENCES sources(id),
     min_minutes   REAL NOT NULL,
     max_minutes   REAL NOT NULL,
+    salt_form     TEXT,
     citation_id   INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id)
+    UNIQUE (substance_id, route, source_id, salt_form)
 );
 CREATE INDEX idx_doa_substance_route ON durations_of_action(substance_id, route);
 
@@ -578,8 +581,9 @@ CREATE TABLE protocol_dosing (
     titration_json  TEXT,
     course_duration TEXT,
     notes           TEXT,
+    salt_form       TEXT,
     citation_id     INTEGER REFERENCES citations(id),
-    UNIQUE (substance_id, route, source_id)
+    UNIQUE (substance_id, route, source_id, salt_form)
 );
 CREATE INDEX idx_protocol_substance_route ON protocol_dosing(substance_id, route);
 
@@ -1646,6 +1650,10 @@ class Build:
         self.db = db
         self.cur = db.cursor()
         self.source_ids: dict[str, int] = {}
+        # Normalised salt-variant names (Magnesium Citrate, …) folded into a
+        # salt-family parent — protected from the chemnoise alias purge so the
+        # variant stays searchable. Populated by fold_salt_families().
+        self.salt_alias_protect: set[str] = set()
         self.substance_ids: dict[str, int] = {}  # normalised_name -> id
         self.citation_cache: dict[tuple[str | None, int | None, str | None], int] = {}
         # Per-substance union of tags seen across every source so far. The
@@ -1892,6 +1900,7 @@ class Build:
         heavy=None,
         notes: str | None = None,
         citation: str | None = None,
+        salt_form: str | None = None,
     ) -> None:
         route = normalise_route(route)
         if not route:
@@ -1980,7 +1989,7 @@ class Build:
 
         try:
             self.cur.execute(
-                "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO dose_ranges(substance_id, route, source_id, unit, threshold, light_lower, light_upper, common_lower, common_upper, strong_lower, strong_upper, heavy, notes, salt_form, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     sid,
                     route,
@@ -1995,6 +2004,7 @@ class Build:
                     su,
                     h,
                     notes,
+                    salt_form,
                     self.cite(citation),
                 ),
             )
@@ -2043,7 +2053,13 @@ class Build:
             pass
 
     def add_protocol_dosing(
-        self, sid: int, source_slug: str, route: str, unit: str, protocol: dict
+        self,
+        sid: int,
+        source_slug: str,
+        route: str,
+        unit: str,
+        protocol: dict,
+        salt_form: str | None = None,
     ) -> None:
         """Insert a clinical-protocol dosing row (peptides/Rx). Requires a
         frequency — that's the minimum that makes a schedule meaningful. An
@@ -2060,8 +2076,8 @@ class Build:
         try:
             self.cur.execute(
                 "INSERT INTO protocol_dosing(substance_id, route, source_id, unit, low_amount, "
-                "high_amount, frequency, titration_json, course_duration, notes, citation_id) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "high_amount, frequency, titration_json, course_duration, notes, salt_form, citation_id) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     sid,
                     route,
@@ -2073,6 +2089,7 @@ class Build:
                     titration_json,
                     protocol.get("courseDuration"),
                     protocol.get("notes"),
+                    salt_form,
                     self.cite(protocol.get("source")),
                 ),
             )
@@ -2096,7 +2113,13 @@ class Build:
             pass
 
     def add_duration_profile(
-        self, sid: int, source_slug: str, route: str, profile: dict, citation: str | None = None
+        self,
+        sid: int,
+        source_slug: str,
+        route: str,
+        profile: dict,
+        citation: str | None = None,
+        salt_form: str | None = None,
     ) -> None:
         route = normalise_route(route)
         if not route or not profile:
@@ -2112,8 +2135,8 @@ class Build:
                 continue
             try:
                 self.cur.execute(
-                    "INSERT INTO durations(substance_id, route, source_id, phase, min_minutes, max_minutes, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (sid, route, src, phase, mn, mx, self.cite(citation)),
+                    "INSERT INTO durations(substance_id, route, source_id, phase, min_minutes, max_minutes, salt_form, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (sid, route, src, phase, mn, mx, salt_form, self.cite(citation)),
                 )
                 self.stats["durations"] += 1
             except sqlite3.IntegrityError:
@@ -2135,7 +2158,13 @@ class Build:
     }
 
     def add_duration_of_action(
-        self, sid: int, source_slug: str, route: str, doa: dict, citation: str | None = None
+        self,
+        sid: int,
+        source_slug: str,
+        route: str,
+        doa: dict,
+        citation: str | None = None,
+        salt_form: str | None = None,
     ) -> None:
         """Ingest a long-acting release/duration-of-action window ({min, max, unit})."""
         route = normalise_route(route)
@@ -2149,8 +2178,8 @@ class Build:
         src = self.source_ids[source_slug]
         try:
             self.cur.execute(
-                "INSERT INTO durations_of_action(substance_id, route, source_id, min_minutes, max_minutes, citation_id) VALUES (?, ?, ?, ?, ?, ?)",
-                (sid, route, src, mn * factor, mx * factor, self.cite(citation)),
+                "INSERT INTO durations_of_action(substance_id, route, source_id, min_minutes, max_minutes, salt_form, citation_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (sid, route, src, mn * factor, mx * factor, salt_form, self.cite(citation)),
             )
             self.stats["durations_of_action"] = self.stats.get("durations_of_action", 0) + 1
         except sqlite3.IntegrityError:
@@ -3604,6 +3633,114 @@ class Build:
             "rerouted_rows": rerouted,
         }
 
+    # Curated salt families: a shared parent canonical → [(variant, salt label)].
+    # The salt genuinely changes dosing (elemental fraction, indication), so each
+    # variant keeps its own dose ladder under the parent, tagged by `salt_form`,
+    # surfaced by the app's salt picker. Only families with ≥2 real ladders are
+    # listed — single-salt supplements (Iron Bisglycinate, Zinc Picolinate) gain
+    # nothing from a one-option picker and stay standalone. Antacid *combos*
+    # (Magnesium/Magaldrate, Magnesium/Sodium) are mixtures, not salt forms, and
+    # are deliberately excluded. See Specs/salt-forms-and-route-collapse.md (A.2).
+    _SALT_FAMILIES: dict[str, list[tuple[str, str]]] = {
+        "Magnesium": [
+            ("Magnesium Citrate", "Citrate"),
+            ("Magnesium Glycinate", "Glycinate"),
+            ("Magnesium Threonate", "L-Threonate"),
+            ("Magnesium hydroxide", "Hydroxide"),
+        ],
+        "Lithium": [
+            ("Lithium Carbonate", "Carbonate"),
+            ("Lithium orotate", "Orotate"),
+        ],
+    }
+
+    def fold_salt_families(self) -> dict[str, int]:
+        """Fold curated salt variants into a shared parent, tagging each variant's
+        dose/duration rows with its `salt_form` label.
+
+        For each family: create the parent if absent, then for every variant
+        rewrite its dose/duration/duration-of-action/protocol rows' `salt_form`
+        to the label *before* `_merge_into` reassigns them to the parent. The
+        variant canonical name survives as a parent alias (protected from the
+        chemnoise purge) so "Magnesium Citrate" still searches. The parent
+        inherits the max popularity of its variants. Runs after dedup/forced-
+        merges/route-collapse and before classify (which sets the parent's final
+        display_class). See Specs/salt-forms-and-route-collapse.md (A.2)."""
+        folded, families, parents_created = 0, 0, 0
+        salt_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
+
+        def tag_salt(sid: int, label: str) -> None:
+            for table in salt_tables:
+                self.cur.execute(
+                    f"UPDATE OR IGNORE {table} SET salt_form=? WHERE substance_id=?",
+                    (label, sid),
+                )
+
+        for parent_name, variants in self._SALT_FAMILIES.items():
+            present = {}  # variant id -> (canonical_name, salt label)
+            for vname, label in variants:
+                r = self.cur.execute(
+                    "SELECT id FROM substances WHERE canonical_name=?", (vname,)
+                ).fetchone()
+                if r:
+                    present[r[0]] = (vname, label)
+            if not present:
+                continue
+            families += 1
+            parent_norm = normalise(parent_name)
+
+            # normalise() strips some salt suffixes (e.g. "Magnesium Citrate" →
+            # "magnesium"), so the parent's normalised key may already be occupied
+            # by a *variant* row. Promote that row into the parent rather than
+            # creating a colliding duplicate.
+            occupant = self.substance_ids.get(parent_norm)
+            if occupant is not None:
+                cur_name = self.cur.execute(
+                    "SELECT canonical_name FROM substances WHERE id=?", (occupant,)
+                ).fetchone()[0]
+                if cur_name != parent_name and occupant not in present:
+                    print(
+                        f"  fold_salt_families: {parent_name!r} key occupied by "
+                        f"unrelated {cur_name!r}; skipping family",
+                        file=sys.stderr,
+                    )
+                    continue
+                parent_id = occupant
+                if cur_name != parent_name:
+                    # The occupant is a variant — rename it to the bare parent and
+                    # tag its own ladder with its salt label, keeping its old name
+                    # searchable (protected from the chemnoise purge).
+                    vname, label = present[parent_id]
+                    self.cur.execute(
+                        "UPDATE substances SET canonical_name=? WHERE id=?",
+                        (parent_name, parent_id),
+                    )
+                    tag_salt(parent_id, label)
+                    self.salt_alias_protect.add(normalise(vname))
+                    self._add_alias(parent_id, vname, "piru-curated")
+            else:
+                parent_id = self.upsert_substance(parent_name, source_slug="piru-curated")
+                if parent_id is None:
+                    continue
+                parents_created += 1
+
+            max_pop = self.cur.execute(
+                "SELECT COALESCE(MAX(popularity), 0) FROM substances WHERE id=?", (parent_id,)
+            ).fetchone()[0]
+            for vid, (vname, label) in present.items():
+                if vid == parent_id:
+                    continue
+                vpop = self.cur.execute(
+                    "SELECT popularity FROM substances WHERE id=?", (vid,)
+                ).fetchone()[0]
+                max_pop = max(max_pop, vpop or 0)
+                tag_salt(vid, label)
+                self.salt_alias_protect.add(normalise(vname))
+                self._merge_into(parent_id, vid, fold_aliases=True)
+                folded += 1
+            self.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (max_pop, parent_id))
+        return {"families": families, "folded": folded, "parents_created": parents_created}
+
     def dedup_substances(self) -> dict[str, int]:
         """Merge substance records that are the SAME compound under different
         names — typically a brand and its generic that came from different
@@ -4072,7 +4209,7 @@ class Build:
         sources_summary: dict,
     ) -> None:
         for k, v in [
-            ("schema_version", "2"),
+            ("schema_version", "3"),
             ("content_version", content_version),
             ("generated_at", datetime.now(UTC).isoformat()),
             ("generator_version", generator_version),
@@ -4183,6 +4320,13 @@ def main() -> int:
     collapsed = build.collapse_route_suffixes()
     print(f"Route-suffix collapse: {collapsed}", file=sys.stderr)
 
+    # Fold curated salt variants (Magnesium Citrate/Glycinate/…, Lithium
+    # Carbonate/orotate) into a shared parent, tagging each variant's dose ladder
+    # with its `salt_form`. Same placement rationale as route collapse: after
+    # dedup (operate on survivors), before classify (parent classified once).
+    salts = build.fold_salt_families()
+    print(f"Salt-family folding: {salts}", file=sys.stderr)
+
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after
     # dedup so unmerged-duplicate stubs have already folded into their survivor,
@@ -4197,7 +4341,7 @@ def main() -> int:
     # detail view's dedicated chemistry fields instead.
     purged = 0
     for rowid, alias in build.cur.execute("SELECT rowid, alias FROM aliases").fetchall():
-        if is_chemnoise_alias(alias):
+        if is_chemnoise_alias(alias) and normalise(alias) not in build.salt_alias_protect:
             build.cur.execute("DELETE FROM aliases WHERE rowid=?", (rowid,))
             purged += 1
     print(f"Chemnoise alias purge: {purged}", file=sys.stderr)
@@ -4280,7 +4424,7 @@ def main() -> int:
     size = OUT_SQLITE.stat().st_size
 
     manifest = {
-        "schema_version": 2,
+        "schema_version": 3,
         "content_version": content_version,
         "generated_at": datetime.now(UTC).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
