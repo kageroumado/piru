@@ -25959,6 +25959,22 @@
           }
         }
       }
+    },
+    "Form" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "盐型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鹽型"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -596,6 +596,7 @@ T = {
     "Amount": ("剂量", "劑量"),
     "Unit": ("单位", "單位"),
     "Route": ("给药途径", "給藥途徑"),
+    "Form": ("盐型", "鹽型"),
     "Default Route": ("默认途径", "預設途徑"),
     "Category": ("类别", "類別"),
     "Category name": ("类别名称", "類別名稱"),
@@ -2568,6 +2569,8 @@ if __name__ == "__main__":
         "Enter a valid 6-digit hex code",
         "This shade already exists in the preset palette",
         "You've already created this shade",
+        # Salt-form picker title (options are chemical proper nouns, not localized)
+        "Form",
     }
 
     print("--- Piru main app catalog ---")
