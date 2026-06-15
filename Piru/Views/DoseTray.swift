@@ -22,6 +22,9 @@ struct StagedDose: Identifiable {
     var components: [Component]
     var unit: String
     var route: RouteOfAdministration
+    /// Selected salt/ester form (Citrate, Glycinate…). `nil` for the vast
+    /// majority of substances, which have a single unspecified form.
+    var saltForm: String?
     var note: String = ""
     var colorHex: String?
     var librarySubstance: Substance?
@@ -36,6 +39,7 @@ struct StagedDose: Identifiable {
         amount: Double,
         unit: String,
         route: RouteOfAdministration,
+        saltForm: String? = nil,
         colorHex: String? = nil,
         librarySubstance: Substance? = nil,
         isFromDailySet: Bool = false,
@@ -45,6 +49,7 @@ struct StagedDose: Identifiable {
         self.components = [Component(amount: amount)]
         self.unit = unit
         self.route = route
+        self.saltForm = saltForm
         self.colorHex = colorHex
         self.librarySubstance = librarySubstance
         self.isFromDailySet = isFromDailySet
@@ -82,8 +87,8 @@ struct StagedDose: Identifiable {
     /// a different unit are converted to the route's reference unit first.
     var doseLevel: DoseLevel? {
         guard let librarySubstance, librarySubstance.displayClass.showsDoseLadder,
-              let range = librarySubstance.doseRange(for: route) else { return nil }
-        let referenceUnit = librarySubstance.unit(for: route)
+              let range = librarySubstance.doseRange(for: route, saltForm: saltForm) else { return nil }
+        let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm)
         let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
             ? totalAmount
             : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route) ?? totalAmount)
@@ -94,15 +99,14 @@ struct StagedDose: Identifiable {
     /// unit — anchors stepper increments and draft prefills to what a person
     /// actually takes (LSD steps in 10 µg, not 0.25 µg).
     var referenceDose: Double? {
-        Self.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit)
+        Self.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm)
     }
 
-    static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String) -> Double? {
+    static func lookupReferenceDose(substance: Substance?, route: RouteOfAdministration, unit: String, saltForm: String? = nil) -> Double? {
         guard let substance,
-              let routeInfo = substance.routes.first(where: { $0.route == route }),
-              routeInfo.unit == unit
+              let doses = substance.doseRange(for: route, saltForm: saltForm),
+              substance.unit(for: route, saltForm: saltForm) == unit
         else { return nil }
-        let doses = routeInfo.doses
         return doses.common?.lowerBound
             ?? doses.light?.upperBound
             ?? doses.strong?.lowerBound
@@ -219,6 +223,7 @@ final class DoseTrayModel {
                 amount: amount,
                 unit: unit,
                 route: route,
+                saltForm: librarySubstance?.saltForms(for: route).first,
                 colorHex: colorHex,
                 librarySubstance: librarySubstance,
                 isFromDailySet: isFromDailySet,
@@ -237,11 +242,13 @@ final class DoseTrayModel {
             expandedItemIDs.insert(staged[index].id)
             return
         }
+        let saltForm = librarySubstance?.saltForms(for: route).first
         let draft = StagedDose(
             substanceName: substance,
-            amount: StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit) ?? 0,
+            amount: StagedDose.lookupReferenceDose(substance: librarySubstance, route: route, unit: unit, saltForm: saltForm) ?? 0,
             unit: unit,
             route: route,
+            saltForm: saltForm,
             colorHex: colorHex,
             librarySubstance: librarySubstance,
         )
@@ -891,6 +898,7 @@ private struct StagedDoseEditor: View {
 
             HStack(spacing: 8) {
                 routeMenu
+                saltMenu
                 notePill
             }
 
@@ -1114,6 +1122,7 @@ private struct StagedDoseEditor: View {
             ForEach(RouteOfAdministration.allCases) { route in
                 Button {
                     item.route = route
+                    revalidateSalt(for: route)
                 } label: {
                     if route == item.route {
                         Label(String(localized: route.localizedName), systemImage: "checkmark")
@@ -1138,5 +1147,51 @@ private struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .matchedGeometryEffect(id: "route-\(item.id)", in: namespace)
+    }
+
+    /// Salt/ester picker — mirrors ``routeMenu`` but only appears when the
+    /// current route offers more than one form (Magnesium, Lithium). Labels are
+    /// chemical proper nouns (Citrate, Glycinate…), so they aren't localized.
+    @ViewBuilder
+    private var saltMenu: some View {
+        let forms = item.librarySubstance?.saltForms(for: item.route) ?? []
+        if forms.count > 1 {
+            Menu {
+                ForEach(forms, id: \.self) { form in
+                    Button {
+                        item.saltForm = form
+                    } label: {
+                        if form == item.saltForm {
+                            Label(form, systemImage: "checkmark")
+                        } else {
+                            Text(form)
+                        }
+                    }
+                }
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "atom")
+                        .imageScale(.small)
+                    Text(item.saltForm ?? forms.first ?? "")
+                    Image(systemName: "chevron.down")
+                        .font(.caption2.weight(.semibold))
+                }
+                .font(.footnote.weight(.semibold))
+                .padding(.horizontal, 11)
+                .frame(height: Self.pillHeight)
+                .background(Color(.secondarySystemFill), in: Capsule())
+                .foregroundStyle(.primary)
+            }
+            .buttonStyle(.plain)
+            .matchedGeometryEffect(id: "salt-\(item.id)", in: namespace)
+        }
+    }
+
+    /// Keep the selected salt when the new route still offers it; otherwise fall
+    /// to that route's default form (or `nil` when the route has none).
+    private func revalidateSalt(for route: RouteOfAdministration) {
+        let forms = item.librarySubstance?.saltForms(for: route) ?? []
+        if let current = item.saltForm, forms.contains(current) { return }
+        item.saltForm = forms.first
     }
 }

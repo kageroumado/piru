@@ -16,6 +16,8 @@ struct EntryFormView: View {
     @State private var amount = ""
     @State private var unit = "mg"
     @State private var route: RouteOfAdministration = .oral
+    /// Selected salt/ester form; `nil` unless the substance offers a choice.
+    @State private var saltForm: String?
     @State private var timestamp = Date.now
     @State private var notes = ""
     @State private var entryTags: [String] = []
@@ -95,7 +97,12 @@ struct EntryFormView: View {
     }
 
     private var currentDoseRange: DoseRange? {
-        selectedSubstance?.doseRange(for: route)
+        selectedSubstance?.doseRange(for: route, saltForm: saltForm)
+    }
+
+    /// Salt forms offered for the current route; the picker shows only when >1.
+    private var currentSaltForms: [String] {
+        selectedSubstance?.saltForms(for: route) ?? []
     }
 
     /// The user's input converted to the substance's native unit for accurate dose level comparison.
@@ -170,8 +177,22 @@ struct EntryFormView: View {
                             }
                         }
                         .onChange(of: route) {
+                            revalidateSalt()
                             if let sub = selectedSubstance {
-                                unit = sub.unit(for: route)
+                                unit = sub.unit(for: route, saltForm: saltForm)
+                            }
+                        }
+                        if currentSaltForms.count > 1 {
+                            // Salt labels are chemical proper nouns — not localized.
+                            Picker(String(localized: "Form"), selection: $saltForm) {
+                                ForEach(currentSaltForms, id: \.self) { form in
+                                    Text(form).tag(String?.some(form))
+                                }
+                            }
+                            .onChange(of: saltForm) {
+                                if let sub = selectedSubstance {
+                                    unit = sub.unit(for: route, saltForm: saltForm)
+                                }
                             }
                         }
                     }
@@ -181,6 +202,7 @@ struct EntryFormView: View {
                             DoseInfoView(
                                 substance: selectedSubstance,
                                 route: route,
+                                saltForm: saltForm,
                                 currentDose: normalizedAmount,
                             )
                             .padding(.vertical, 4)
@@ -264,9 +286,18 @@ struct EntryFormView: View {
     private func selectSubstance(_ sub: Substance) {
         selectedSubstance = sub
         route = sub.defaultRoute
-        unit = sub.unit(for: sub.defaultRoute)
+        saltForm = sub.saltForms(for: sub.defaultRoute).first
+        unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm)
         availableRoutes = sub.orderedRoutes
         checkInteractions()
+    }
+
+    /// Keep the selected salt valid for the current route: retain it when the
+    /// route still offers it, otherwise fall to that route's default form.
+    private func revalidateSalt() {
+        let forms = currentSaltForms
+        if let saltForm, forms.contains(saltForm) { return }
+        saltForm = forms.first
     }
 
     private func checkInteractions() {
@@ -284,6 +315,7 @@ struct EntryFormView: View {
             amount = String(entry.amount)
             unit = entry.unit
             route = entry.route
+            saltForm = entry.saltForm
             timestamp = entry.timestamp
             notes = entry.notes ?? ""
             entryTags = entry.tags
@@ -348,6 +380,7 @@ struct EntryFormView: View {
             entry.amount = storedAmount
             entry.unit = storedUnit
             entry.route = route
+            entry.saltForm = saltForm
             entry.timestamp = timestamp
             entry.notes = notes.isEmpty ? nil : notes
             let allTags = Array(Set(entryTags + TagExtractor.extractTags(from: notes)))
@@ -383,6 +416,7 @@ struct EntryFormView: View {
                 amount: storedAmount,
                 unit: storedUnit,
                 route: route,
+                saltForm: saltForm,
                 timestamp: timestamp,
                 notes: notes.isEmpty ? nil : notes,
                 tags: allTags,

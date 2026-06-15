@@ -898,6 +898,7 @@ struct QuickLogView: View {
                     amount: item.totalAmount,
                     unit: item.unit,
                     route: item.route,
+                    saltForm: item.saltForm,
                     timestamp: sharedTime,
                     notes: item.note.isEmpty ? nil : item.note,
                     tags: tags,

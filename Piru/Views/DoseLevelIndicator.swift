@@ -105,16 +105,18 @@ struct DoseLevelBadge: View {
 struct DoseInfoView: View {
     let substance: Substance
     let route: RouteOfAdministration
+    /// Selected salt form; `nil` (the default) selects the route's default ladder.
+    var saltForm: String?
     let currentDose: Double?
 
     private var doseRange: DoseRange? {
-        substance.doseRange(for: route)
+        substance.doseRange(for: route, saltForm: saltForm)
     }
 
     var body: some View {
         if let doseRange {
             VStack(alignment: .leading, spacing: 10) {
-                let unit = substance.unit(for: route)
+                let unit = substance.unit(for: route, saltForm: saltForm)
                 DoseLevelIndicator(doseRange: doseRange, currentDose: currentDose)
 
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {

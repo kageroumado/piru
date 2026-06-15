@@ -176,9 +176,8 @@ enum PiruSchemaV3: VersionedSchema {
 }
 
 /// Adds the defaulted ``DoseEntry/id`` (stable identity for routes, deep
-/// links, notification keys, and exports). Takes the live `StoreRecovery.models`
-/// alias; V3 above holds the frozen pre-`id` copies that keep the two
-/// versions' checksums distinct.
+/// links, notification keys, and exports). V3 above holds the frozen pre-`id`
+/// copies that keep the two versions' checksums distinct.
 ///
 /// The V3→V4 stage is `.custom`, not `.lightweight`, because a lightweight
 /// migration evaluates the property's default expression **once** and fills
@@ -187,9 +186,99 @@ enum PiruSchemaV3: VersionedSchema {
 /// staged plan (the automatic-lightweight fallback in `PiruApp.makeContainer`)
 /// are uniquified by ``StoreRecovery/backfillDuplicateEntryIDs(container:)``
 /// right after open instead.
+///
+/// **Frozen at the class level — do not edit these copies.** V5 added the
+/// optional `DoseEntry.saltForm`; a version's checksum is the compiled entity
+/// shape, so V4 must keep referencing the *pre-`saltForm`* `DoseEntry` (with
+/// `id`) or it would become byte-identical to V5 and `ModelContainer.init`
+/// would throw an uncatchable "Duplicate version checksums" NSException at
+/// launch (same trap V3 documents). `Session` comes along because the
+/// `DoseEntry.session` relationship pulls it into V4's object graph; the other
+/// six models are unchanged since V4 shipped and are shared with the live schema.
 enum PiruSchemaV4: VersionedSchema {
     nonisolated static var versionIdentifier: Schema.Version {
         Schema.Version(4, 0, 0)
+    }
+    nonisolated static var models: [any PersistentModel.Type] {
+        [
+            DoseEntry.self, // frozen copy below — the id-bearing, pre-`saltForm` shape
+            SubstanceColor.self,
+            UserColor.self,
+            DailyDoseItem.self,
+            FavoriteSubstance.self,
+            QuickLogDose.self,
+            Session.self, // frozen copy below
+            DoseRoutine.self,
+        ]
+    }
+
+    /// The V4 `DoseEntry` exactly as shipped — `id` present, no `saltForm`.
+    /// Stored properties (and defaults) only; the live class's computed helpers
+    /// don't affect the schema and are omitted.
+    @Model
+    final class DoseEntry {
+        var id: UUID = UUID()
+        var substance: String
+        var amount: Double
+        var unit: String
+        var route: RouteOfAdministration
+        var timestamp: Date
+        var notes: String?
+        var tagsRaw: String?
+        var session: Session?
+        var isBackgroundMed: Bool = false
+        var locationName: String?
+        var latitude: Double?
+        var longitude: Double?
+
+        init(
+            substance: String,
+            amount: Double,
+            unit: String = "mg",
+            route: RouteOfAdministration = .oral,
+            timestamp: Date = .now,
+        ) {
+            self.substance = substance
+            self.amount = amount
+            self.unit = unit
+            self.route = route
+            self.timestamp = timestamp
+        }
+    }
+
+    /// The V4 `Session` exactly as shipped, duplicated so its `doses` inverse
+    /// points at the frozen `DoseEntry` above (unchanged from V3).
+    @Model
+    final class Session {
+        @Attribute(.unique) var id: UUID
+        var startDate: Date
+        var title: String?
+        var note: String?
+        @Relationship(deleteRule: .nullify, inverse: \DoseEntry.session)
+        var doses: [DoseEntry]?
+
+        init(id: UUID = UUID(), startDate: Date, title: String? = nil, note: String? = nil) {
+            self.id = id
+            self.startDate = startDate
+            self.title = title
+            self.note = note
+        }
+    }
+}
+
+/// Adds the optional ``DoseEntry/saltForm`` (which salt/ester a dose was logged
+/// as, for Magnesium / Lithium). Takes the live `StoreRecovery.models` alias;
+/// V4 above holds the frozen pre-`saltForm` copies that keep the two versions'
+/// checksums distinct.
+///
+/// V4→V5 is `.lightweight`: `saltForm` is a brand-new optional whose correct
+/// value for every pre-existing row is `nil`. Unlike the V3→V4 `id` work (which
+/// needed a *unique* value per row, defeating the once-evaluated default), the
+/// single shared default here — `nil` — is exactly right, so no `didMigrate`
+/// pass or post-open backfill is needed.
+enum PiruSchemaV5: VersionedSchema {
+    nonisolated static var versionIdentifier: Schema.Version {
+        Schema.Version(5, 0, 0)
     }
     nonisolated static var models: [any PersistentModel.Type] {
         StoreRecovery.models
@@ -198,7 +287,7 @@ enum PiruSchemaV4: VersionedSchema {
 
 enum PiruMigrationPlan: SchemaMigrationPlan {
     nonisolated static var schemas: [any VersionedSchema.Type] {
-        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self, PiruSchemaV4.self]
+        [PiruSchemaV1.self, PiruSchemaV2.self, PiruSchemaV3.self, PiruSchemaV4.self, PiruSchemaV5.self]
     }
     nonisolated static var stages: [MigrationStage] {
         [
@@ -235,6 +324,8 @@ enum PiruMigrationPlan: SchemaMigrationPlan {
                     }
                 },
             ),
+            // Additive optional `saltForm` (nil correct for every existing row).
+            .lightweight(fromVersion: PiruSchemaV4.self, toVersion: PiruSchemaV5.self),
         ]
     }
 }

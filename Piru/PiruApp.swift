@@ -140,7 +140,7 @@ struct PiruApp: App {
         //    assigns each pre-existing DoseEntry a fresh unique id.
         do {
             return try ModelContainer(
-                for: Schema(versionedSchema: PiruSchemaV4.self),
+                for: Schema(versionedSchema: PiruSchemaV5.self),
                 migrationPlan: PiruMigrationPlan.self,
                 configurations: config,
             )
