@@ -1394,6 +1394,36 @@ _NAME_REMAP: dict[str, str] = {
     "4-hydroxy-n,n diethyltryptamine": "4-HO-DET",  # same InChIKey OHHYMKDBKJPILO
 }
 
+# Same-compound clusters the structural auto-dedup leaves split because the
+# members carry different/absent InChIKeys (RC analogues catalogued under a code
+# name, a code name, AND a trivial name, each holding partial dose/duration
+# data). Unlike _NAME_REMAP these fire AFTER all ingest+dedup, by exact current
+# canonical name, so they consolidate whatever survived. Each tuple is
+# (loser canonical, winner canonical, fold loser's aliases?). Verified synonyms
+# only — never enantiomers or merely-related drugs.
+_FORCE_MERGE: list[tuple[str, str, bool]] = [
+    # Bisfluoro-modafinil (flmodafinil = bisfluoromodafinil = CRL-40,940)
+    ("Bisfluoromodafinil", "Flmodafinil", True),
+    ("CRL-40,940", "Flmodafinil", True),
+    ("CRL-40-940", "Flmodafinil", True),
+    # Fladrafinil = CRL-40,941
+    ("CRL-40,941", "Fladrafinil", True),
+    ("CRL-40-941", "Fladrafinil", True),
+    # Desoxypipradrol = 2-DPMP (2-diphenylmethylpiperidine)
+    ("Desoxypipradrol", "2-DPMP", True),
+    # N-Ethylpentedrone = NEP = ethyl-pentedrone
+    ("NEP", "N-Ethylpentedrone", True),
+    ("Ethyl-pentedrone", "N-Ethylpentedrone", True),
+    # Aspirin = acetylsalicylic acid (Aspirin is the recognisable canonical)
+    ("Acetylsalicylic acid", "Aspirin", True),
+    # Same-InChIKey real duplicates dedup missed (not alias-linked).
+    ("S-Ketamine", "Esketamine", True),  # esketamine IS the S-enantiomer (YQEZLKZALYSWHR)
+    ("Ethylcathinone", "N-Ethylcathinone", True),  # ethcathinone (QTFKIBOSWFGCSL); NEC is curated
+    # Psilocybin's mg dose ladder lives in a mislabelled same-InChIKey sibling.
+    # Fold the DATA but NOT the name — "4-HO-DMT" is psilocin, a different drug.
+    ("4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER", "Psilocybin", False),
+]
+
 # Force a specific canonical display casing for names that arrive mis-cased and
 # that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
 # chemistry conventions like AcO / NBOMe). Keyed on normalise(name).
@@ -1519,6 +1549,19 @@ _ALIAS_BLOCKLIST: dict[str, set[str]] = {
         "focalin xr",
         "dexmethylphenidate hydrochloride extended-release",
     },
+    # medtap (FDA product labels) cross-drug contamination: a combo-product or
+    # related-drug label leaked another compound's name in as an alias. Each
+    # alias below names a DIFFERENT substance that has its own entry — dangerous
+    # in a dose tracker (searching the alias resolves to the wrong drug).
+    "salicylic acid": {"bismuth", "ibuprofen", "magnesium"},
+    "loratadine": {"fexofenadine"},
+    "famotidine": {"ranitidine"},
+    "epinephrine": {"bupivacaine"},
+    "estradiol": {"ethynodiol"},
+    "d-glucose": {"heparin"},
+    "aluminum hydroxide": {"calcium"},
+    "bismuth subsalicylate": {"bismuth"},
+    "docusate/sennosides": {"sennosides"},
 }
 
 
@@ -3408,6 +3451,101 @@ class Build:
             matched += 1
         self.stats["nps_identifier_matches"] = matched
 
+    def _substance_tables(self) -> list[str]:
+        """Every table (besides ``substances``) that carries a substance_id.
+
+        Materialised in full BEFORE any PRAGMA is issued on the cursor — reusing
+        the cursor mid-iteration would truncate the outer query.
+        """
+        tnames = [
+            r[0]
+            for r in self.cur.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()
+        ]
+        out = []
+        for tname in tnames:
+            if tname == "substances":
+                continue
+            cols = [c[1] for c in self.cur.execute(f"PRAGMA table_info({tname})").fetchall()]
+            if "substance_id" in cols:
+                out.append(tname)
+        return out
+
+    def _merge_into(self, winner: int, loser: int, *, fold_aliases: bool = True) -> None:
+        """Fold the ``loser`` substance into ``winner`` and delete it.
+
+        COALESCEs the loser's chemical identifiers into the winner (winner wins),
+        reassigns every child-table row, and removes the loser. When
+        ``fold_aliases`` is true the loser's canonical name and aliases become
+        winner aliases (the default — preserves searchability). Pass
+        ``fold_aliases=False`` when the loser's name is wrong/misleading and must
+        NOT attach to the winner (e.g. a mislabelled entry whose data is correct
+        but whose name belongs to a different molecule).
+        """
+        if winner == loser:
+            return
+        cur = self.cur
+        lname_row = cur.execute(
+            "SELECT canonical_name FROM substances WHERE id=?", (loser,)
+        ).fetchone()
+        laliases = [
+            r[0] for r in cur.execute("SELECT alias FROM aliases WHERE substance_id=?", (loser,))
+        ]
+        cur.execute("DELETE FROM aliases WHERE substance_id=?", (loser,))
+        cur.execute(
+            "UPDATE substances SET "
+            "inchikey=COALESCE(inchikey,(SELECT inchikey FROM substances WHERE id=:l)), "
+            "pubchem_cid=COALESCE(pubchem_cid,(SELECT pubchem_cid FROM substances WHERE id=:l)), "
+            "cas=COALESCE(cas,(SELECT cas FROM substances WHERE id=:l)), "
+            "smiles=COALESCE(smiles,(SELECT smiles FROM substances WHERE id=:l)), "
+            "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
+            "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
+            "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)) "
+            "WHERE id=:w",
+            {"l": loser, "w": winner},
+        )
+        for t in self._substance_tables():
+            if t == "aliases":
+                continue
+            cur.execute(
+                f"UPDATE OR IGNORE {t} SET substance_id=? WHERE substance_id=?",
+                (winner, loser),
+            )
+            cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (loser,))
+        cur.execute("DELETE FROM substances WHERE id=?", (loser,))
+        if lname_row:
+            self.substance_ids.pop(normalise(lname_row[0]), None)
+        if fold_aliases:
+            if lname_row:
+                self._add_alias(winner, lname_row[0], "piru-curated")
+            for a in laliases:
+                self._add_alias(winner, a, None)
+
+    def apply_forced_merges(self) -> dict[str, int]:
+        """Consolidate the verified same-compound clusters in _FORCE_MERGE that
+        structural auto-dedup can't reach (different/absent InChIKeys). Resolves
+        each pair by exact current canonical name and folds loser into winner.
+        Runs after dedup."""
+        merged, missing = 0, []
+        for loser_name, winner_name, fold in _FORCE_MERGE:
+            lr = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (loser_name,)
+            ).fetchone()
+            wr = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (winner_name,)
+            ).fetchone()
+            if not lr or not wr:
+                missing.append(loser_name if not lr else winner_name)
+                continue
+            if lr[0] == wr[0]:
+                continue
+            self._merge_into(wr[0], lr[0], fold_aliases=fold)
+            merged += 1
+        if missing:
+            print(f"  apply_forced_merges: targets not found: {missing}", file=sys.stderr)
+        return {"merged": merged, "missing": len(missing)}
+
     def dedup_substances(self) -> dict[str, int]:
         """Merge substance records that are the SAME compound under different
         names — typically a brand and its generic that came from different
@@ -3520,20 +3658,6 @@ class Build:
             iw, io = inchikey.get(w), inchikey.get(o)
             return bool(iw) and bool(io) and iw[:14] == io[:14]
 
-        # Materialise the table list BEFORE issuing PRAGMA on the same cursor
-        # (reusing the cursor mid-iteration would truncate the outer query).
-        tnames = [
-            r[0]
-            for r in cur.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-        ]
-        sub_tables = []
-        for tname in tnames:
-            if tname == "substances":
-                continue
-            cols = [c[1] for c in cur.execute(f"PRAGMA table_info({tname})").fetchall()]
-            if "substance_id" in cols:
-                sub_tables.append(tname)
-
         merged, review = 0, []
         for members in groups.values():
             # A very large cluster usually means a bad linking alias fused
@@ -3561,40 +3685,7 @@ class Build:
                 if not mergeable(winner, loser):
                     review.append(f"{names[loser]} ~ {names[winner]}")
                     continue
-                lname = cur.execute(
-                    "SELECT canonical_name FROM substances WHERE id=?", (loser,)
-                ).fetchone()
-                laliases = [
-                    r[0]
-                    for r in cur.execute("SELECT alias FROM aliases WHERE substance_id=?", (loser,))
-                ]
-                cur.execute("DELETE FROM aliases WHERE substance_id=?", (loser,))
-                cur.execute(
-                    "UPDATE substances SET "
-                    "inchikey=COALESCE(inchikey,(SELECT inchikey FROM substances WHERE id=:l)), "
-                    "pubchem_cid=COALESCE(pubchem_cid,(SELECT pubchem_cid FROM substances WHERE id=:l)), "
-                    "cas=COALESCE(cas,(SELECT cas FROM substances WHERE id=:l)), "
-                    "smiles=COALESCE(smiles,(SELECT smiles FROM substances WHERE id=:l)), "
-                    "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
-                    "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
-                    "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)) "
-                    "WHERE id=:w",
-                    {"l": loser, "w": winner},
-                )
-                for t in sub_tables:
-                    if t == "aliases":
-                        continue
-                    cur.execute(
-                        f"UPDATE OR IGNORE {t} SET substance_id=? WHERE substance_id=?",
-                        (winner, loser),
-                    )
-                    cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (loser,))
-                cur.execute("DELETE FROM substances WHERE id=?", (loser,))
-                self.substance_ids.pop(normalise(lname[0]) if lname else "", None)
-                if lname:
-                    self._add_alias(winner, lname[0], "piru-curated")
-                for a in laliases:
-                    self._add_alias(winner, a, None)
+                self._merge_into(winner, loser)
                 merged += 1
         if review:
             print(
@@ -4019,6 +4110,12 @@ def main() -> int:
     # classified once.
     deduped = build.dedup_substances()
     print(f"Substance dedup: {deduped}", file=sys.stderr)
+
+    # Consolidate verified same-compound clusters the structural dedup leaves
+    # split (RC analogues under code names with no/clashing InChIKeys). Runs
+    # after dedup so it operates on the survivors.
+    forced = build.apply_forced_merges()
+    print(f"Forced merges: {forced}", file=sys.stderr)
 
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after
