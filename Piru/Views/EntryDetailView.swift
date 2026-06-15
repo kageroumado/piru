@@ -418,24 +418,17 @@ struct EntryDetailView: View {
                 }
             }
             .onChange(of: draftRoute) {
-                revalidateDraftSalt()
+                SaltPicker.revalidate(&draftSaltForm, against: draftSaltForms)
                 if let sub = substanceInfo {
                     draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
                 }
             }
-            if draftSaltForms.count > 1 {
-                // Salt labels are chemical proper nouns — not localized.
-                Picker(String(localized: "Form"), selection: $draftSaltForm) {
-                    ForEach(draftSaltForms, id: \.self) { form in
-                        Text(form).tag(String?.some(form))
-                    }
-                }
+            SaltPicker(forms: draftSaltForms, selection: $draftSaltForm, style: .formRow)
                 .onChange(of: draftSaltForm) {
                     if let sub = substanceInfo {
                         draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
                     }
                 }
-            }
             DatePicker("Date & Time", selection: $draftTimestamp)
             Button {
                 showColorPicker = true
@@ -560,14 +553,6 @@ struct EntryDetailView: View {
     // MARK: - Phases
 
     // MARK: - Actions
-
-    /// Keep the draft salt valid for the draft route: retain it when offered,
-    /// else fall to that route's default form (or nil).
-    private func revalidateDraftSalt() {
-        let forms = draftSaltForms
-        if let draftSaltForm, forms.contains(draftSaltForm) { return }
-        draftSaltForm = forms.first
-    }
 
     private func beginEditing() {
         draftAmount = entry.amount == entry.amount.rounded()
