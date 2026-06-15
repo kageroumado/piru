@@ -1,26 +1,26 @@
 # Piru SQLite build report
 
-Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (15,278,080 bytes, sha256 `5e64cbe974b28827510a265f66b8526581eef51ff858b8ac32073684073a8561`)
+Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (15,310,848 bytes, sha256 `e7862503b78dd97e0d6692a0f4a8944aff50890887a21510a5afeb6cecc51c58`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,939 |
-| aliases | 5,495 |
+| substances | 1,934 |
+| aliases | 5,496 |
 | sources | 16 |
 | citations | 4,036 |
-| categories | 2,473 |
-| tags | 8,646 |
-| dose_ranges | 2,524 |
-| durations | 7,956 |
-| half_lives | 279 |
-| mechanisms_summary | 624 |
+| categories | 2,470 |
+| tags | 8,634 |
+| dose_ranges | 2,573 |
+| durations | 8,026 |
+| half_lives | 277 |
+| mechanisms_summary | 623 |
 | effects | 5,898 |
 | subjective_effects | 4,624 |
 | tolerance | 340 |
-| indications | 1,149 |
-| contraindications | 1,656 |
+| indications | 1,147 |
+| contraindications | 1,655 |
 | diazepam_equivalents | 33 |
 | bindings | 964 |
 | functional_assays | 218 |
@@ -41,11 +41,11 @@ Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 466 | 68 | 615 | 2,642 |
+| piru-curated | 490 | 68 | 612 | 2,631 |
 | peer-review-primary | 0 | 896 | 0 | 1,776 |
 | psychonautwiki | 389 | 0 | 277 | 324 |
-| tripsit | 587 | 0 | 553 | 1,370 |
-| drug.community | 875 | 0 | 417 | 420 |
+| tripsit | 596 | 0 | 553 | 1,370 |
+| drug.community | 891 | 0 | 417 | 420 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 178 | 454 |
 | erowid-tihkal | 41 | 0 | 55 | 139 |
@@ -53,7 +53,7 @@ Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 192 | 525 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 186 | 996 |
+| pyrls | 0 | 0 | 186 | 995 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |

@@ -859,6 +859,52 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ).fetchone()["c"]
             self.assertEqual(n, 1, f"{alias!r} did not fold onto {parent!r}")
 
+    def test_salt_families_folded_with_per_salt_ladders(self):
+        """Salt folding (Part A) collapses variants into a shared parent whose
+        dose ladders are tagged by `salt_form`, and leaves no orphan variant."""
+        for parent, salts in (
+            ("Magnesium", {"Citrate", "Glycinate", "L-Threonate"}),
+            ("Lithium", {"Carbonate", "Orotate"}),
+        ):
+            prow = self.db.execute(
+                "select id from substances where canonical_name=?", (parent,)
+            ).fetchone()
+            self.assertIsNotNone(prow, f"salt-family parent {parent!r} missing")
+            got = {
+                r["salt_form"]
+                for r in self.db.execute(
+                    "select distinct salt_form from dose_ranges where substance_id=? "
+                    "and salt_form is not null",
+                    (prow["id"],),
+                )
+            }
+            self.assertTrue(salts <= got, f"{parent}: expected salt ladders {salts}, got {got}")
+
+    def test_salt_variant_orphans_absent(self):
+        """The folded variant canonicals no longer exist as standalone rows."""
+        orphans = [
+            r["canonical_name"]
+            for r in self.db.execute(
+                "select canonical_name from substances where canonical_name in "
+                "('Magnesium Citrate','Magnesium Glycinate','Magnesium Threonate',"
+                "'Lithium Carbonate','Lithium orotate')"
+            )
+        ]
+        self.assertEqual(orphans, [], f"un-folded salt variants: {orphans}")
+
+    def test_antacid_combos_not_treated_as_salts(self):
+        """Combo products are mixtures, not salt forms — they stay standalone."""
+        for combo in ("Magnesium/Magaldrate", "Magnesium/Sodium"):
+            row = self.db.execute(
+                "select 1 from substances where canonical_name=?", (combo,)
+            ).fetchone()
+            self.assertIsNotNone(row, f"combo {combo!r} should remain standalone")
+
+    def test_schema_version_is_three(self):
+        """The salt_form schema bump set schema_version to 3."""
+        v = self.db.execute("select value from manifest where key='schema_version'").fetchone()
+        self.assertEqual(v["value"], "3")
+
     def test_no_intra_substance_duplicate_aliases(self):
         """A substance must not carry the same alias twice (case/salt variants);
         the alias-level dedup collapses them."""
