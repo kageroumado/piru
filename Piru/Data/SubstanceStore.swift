@@ -463,6 +463,47 @@ final class SubstanceStore {
         routeRanks[r] ?? Int.max
     }
 
+    /// One resolved (salt-tagged or unspecified) dose/duration row for a route,
+    /// before it's folded into a ``SubstanceRoute``. `salt == nil` is the
+    /// unspecified/base form that the vast majority of substances use.
+    struct RouteVariant {
+        let salt: String?
+        let unit: String
+        let doses: DoseRange
+        let duration: DurationProfile?
+    }
+
+    /// Fold the per-salt dose/duration variants of a single route into one
+    /// ``SubstanceRoute``. When salt-tagged variants exist they become
+    /// ``SubstanceRoute/saltForms`` (ordered by label, default = first), and the
+    /// route's top-level `unit`/`doses`/`duration` mirror that default so
+    /// salt-unaware code transparently gets the default form. With no salt tags
+    /// the single base variant populates the route directly (`saltForms == nil`).
+    private nonisolated static func makeRoute(
+        route: RouteOfAdministration,
+        variants: [RouteVariant],
+        protocolDosing: ProtocolDosing? = nil,
+        durationOfAction: DurationOfAction? = nil,
+    ) -> SubstanceRoute {
+        let tagged = variants.filter { $0.salt != nil }.sorted { $0.salt! < $1.salt! }
+        guard let first = tagged.first else {
+            // No salt dimension — use the base (unspecified) variant.
+            let base = variants.first
+            return SubstanceRoute(
+                route: route, unit: base?.unit ?? "mg",
+                doses: base?.doses ?? DoseRange(), duration: base?.duration,
+                protocolDosing: protocolDosing, durationOfAction: durationOfAction,
+            )
+        }
+        let saltForms = tagged.map {
+            SaltVariant(saltForm: $0.salt!, unit: $0.unit, doses: $0.doses, duration: $0.duration)
+        }
+        return SubstanceRoute(
+            route: route, unit: first.unit, doses: first.doses, duration: first.duration,
+            protocolDosing: protocolDosing, durationOfAction: durationOfAction, saltForms: saltForms,
+        )
+    }
+
     private nonisolated static func loadAllSubstancesBatch(db queue: DatabaseQueue, order: [String]) -> [Substance] {
         guard !order.isEmpty else { return [] }
         // Build the priority/source SQL fragments once up front so the read
@@ -543,16 +584,19 @@ final class SubstanceStore {
                     tagsByID[row["substance_id"], default: []].append(row["tag"])
                 }
 
-                // Dose ranges — priority-resolved per (substance, route).
-                struct DoseKey: Hashable { let sid: Int64; let route: String }
+                // Dose ranges — priority-resolved per (substance, route, salt form).
+                // `salt` is nil for the overwhelming majority of substances; a
+                // handful (Magnesium, Lithium) carry per-salt ladders that are
+                // grouped into `SubstanceRoute.saltForms` below.
+                struct DoseKey: Hashable { let sid: Int64; let route: String; let salt: String? }
                 var dosesByKey: [DoseKey: (unit: String, doses: DoseRange)] = [:]
                 for row in try Row.fetchAll(db, sql: """
-                    SELECT substance_id, route, unit, threshold,
+                    SELECT substance_id, route, salt_form, unit, threshold,
                            light_lower, light_upper, common_lower, common_upper,
                            strong_lower, strong_upper, heavy
                       FROM (
                         SELECT d.*, ROW_NUMBER() OVER (
-                            PARTITION BY d.substance_id, d.route
+                            PARTITION BY d.substance_id, d.route, d.salt_form
                             ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM dose_ranges d
                           JOIN sources src ON src.id = d.source_id
@@ -561,6 +605,7 @@ final class SubstanceStore {
                 """) {
                     let sid: Int64 = row["substance_id"]
                     let route: String = row["route"]
+                    let salt: String? = row["salt_form"]
                     let dose = DoseRange(
                         threshold: row["threshold"],
                         light: Self.rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
@@ -568,7 +613,7 @@ final class SubstanceStore {
                         strong: Self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
                         heavy: row["heavy"],
                     )
-                    dosesByKey[DoseKey(sid: sid, route: route)] = (row["unit"] ?? "mg", dose)
+                    dosesByKey[DoseKey(sid: sid, route: route, salt: salt)] = (row["unit"] ?? "mg", dose)
                 }
 
                 // Durations — pick the highest-priority source *per phase* so
@@ -579,12 +624,12 @@ final class SubstanceStore {
                 // render as a zero-width step in the timeline curve.
                 var durationByKey: [DoseKey: DurationProfile] = [:]
                 let durationPhases = try Row.fetchAll(db, sql: """
-                    SELECT substance_id, route, phase, min_minutes, max_minutes
+                    SELECT substance_id, route, salt_form, phase, min_minutes, max_minutes
                       FROM (
-                        SELECT du.substance_id, du.route, du.phase,
+                        SELECT du.substance_id, du.route, du.salt_form, du.phase,
                                du.min_minutes, du.max_minutes,
                                ROW_NUMBER() OVER (
-                                   PARTITION BY du.substance_id, du.route, du.phase
+                                   PARTITION BY du.substance_id, du.route, du.phase, du.salt_form
                                    ORDER BY \(priorityCaseSQL) ASC) AS rn
                           FROM durations du
                           JOIN sources src ON src.id = du.source_id
@@ -593,7 +638,7 @@ final class SubstanceStore {
                 """)
                 var phasesByKey: [DoseKey: [String: DurationRange]] = [:]
                 for row in durationPhases {
-                    let key = DoseKey(sid: row["substance_id"], route: row["route"])
+                    let key = DoseKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
                     phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
                         min: row["min_minutes"], max: row["max_minutes"],
                     )
@@ -659,13 +704,22 @@ final class SubstanceStore {
                     guard let name = names[sid] else { return nil }
                     let aliases = aliasesByID[sid] ?? []
                     let tags = tagsByID[sid] ?? []
-                    var routes: [SubstanceRoute] = []
+                    // Group dose rows by route, collecting per-salt variants so a
+                    // route with multiple salt forms folds into one SubstanceRoute
+                    // (default salt at top level, the rest in `saltForms`).
+                    var variantsByRoute: [String: [RouteVariant]] = [:]
                     for (key, value) in dosesByKey where key.sid == sid {
-                        routes.append(SubstanceRoute(
-                            route: RouteOfAdministration.from(string: key.route),
-                            unit: value.unit, doses: value.doses,
-                            duration: durationByKey[key],
-                        ))
+                        variantsByRoute[key.route, default: []].append(
+                            RouteVariant(
+                                salt: key.salt,
+                                unit: value.unit,
+                                doses: value.doses,
+                                duration: durationByKey[key],
+                            ),
+                        )
+                    }
+                    var routes: [SubstanceRoute] = variantsByRoute.map { routeStr, variants in
+                        Self.makeRoute(route: RouteOfAdministration.from(string: routeStr), variants: variants)
                     }
                     // Sort by RouteOfAdministration.allCases order so the
                     // default route is the most-common ROA (oral first,
@@ -1124,34 +1178,42 @@ final class SubstanceStore {
     }
 
     private func resolvedDoseForRoute(db: Database, substanceID: Int64, route: String) throws -> SubstanceRoute? {
-        let row = try Row.fetchOne(db, sql: """
-            SELECT d.unit, d.threshold, d.light_lower, d.light_upper,
-                   d.common_lower, d.common_upper, d.strong_lower, d.strong_upper, d.heavy
-              FROM dose_ranges d
-              JOIN sources src ON src.id = d.source_id
-             WHERE d.substance_id = ? AND d.route = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY \(priorityCaseSQL) ASC
-             LIMIT 1
+        // Highest-priority dose row *per salt form* (salt_form NULL = the
+        // unspecified base used by almost every substance). Multiple salt forms
+        // fold into one SubstanceRoute via `makeRoute`.
+        let rows = try Row.fetchAll(db, sql: """
+            SELECT salt_form, unit, threshold, light_lower, light_upper,
+                   common_lower, common_upper, strong_lower, strong_upper, heavy
+              FROM (
+                SELECT d.*, ROW_NUMBER() OVER (
+                    PARTITION BY d.salt_form
+                    ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM dose_ranges d
+                  JOIN sources src ON src.id = d.source_id
+                 WHERE d.substance_id = ? AND d.route = ?
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
         """, arguments: [substanceID, route])
-        guard let row else { return nil }
+        guard !rows.isEmpty else { return nil }
 
-        let dose = DoseRange(
-            threshold: row["threshold"],
-            light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
-            common: rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
-            strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
-            heavy: row["heavy"],
-        )
+        let variants = try rows.map { row -> RouteVariant in
+            let salt: String? = row["salt_form"]
+            let dose = DoseRange(
+                threshold: row["threshold"],
+                light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
+                common: rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
+                strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
+                heavy: row["heavy"],
+            )
+            let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route, saltForm: salt)
+            return RouteVariant(salt: salt, unit: row["unit"] ?? "mg", doses: dose, duration: duration)
+        }
 
-        let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
         let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
         let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
-        return SubstanceRoute(
+        return Self.makeRoute(
             route: RouteOfAdministration.from(string: route),
-            unit: row["unit"] ?? "mg",
-            doses: dose,
-            duration: duration,
+            variants: variants,
             protocolDosing: protocolDosing,
             durationOfAction: durationOfAction,
         )
@@ -1173,7 +1235,12 @@ final class SubstanceStore {
         return DurationOfAction(minMinutes: mn, maxMinutes: mx)
     }
 
-    private func resolvedDurationForRoute(db: Database, substanceID: Int64, route: String) throws -> DurationProfile? {
+    private func resolvedDurationForRoute(db: Database, substanceID: Int64, route: String, saltForm: String? = nil) throws -> DurationProfile? {
+        // Match the dose row's salt form: a salt-tagged variant takes its own
+        // duration, the unspecified base (saltForm == nil) takes the NULL-salt
+        // rows that every non-salt substance uses.
+        let saltFilter = saltForm == nil ? "AND du.salt_form IS NULL" : "AND du.salt_form = ?"
+        let arguments: StatementArguments = saltForm.map { [substanceID, route, $0] } ?? [substanceID, route]
         let rows = try Row.fetchAll(db, sql: """
             SELECT phase, min_minutes, max_minutes
               FROM (
@@ -1183,9 +1250,10 @@ final class SubstanceStore {
                   FROM durations du
                   JOIN sources src ON src.id = du.source_id
                  WHERE du.substance_id = ? AND du.route = ?
+                   \(saltFilter)
                    AND src.slug IN (\(enabledSourceListSQL))
             ) WHERE rn = 1
-        """, arguments: [substanceID, route])
+        """, arguments: arguments)
 
         guard !rows.isEmpty else { return nil }
 
