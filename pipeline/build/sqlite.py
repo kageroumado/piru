@@ -3546,6 +3546,64 @@ class Build:
             print(f"  apply_forced_merges: targets not found: {missing}", file=sys.stderr)
         return {"merged": merged, "missing": len(missing)}
 
+    # A route spelled into the canonical name as a suffix (`Fluticasone-nasal`,
+    # `Hydrocortisone-topical`, `Beclomethasone-inhaled`) — the route belongs in
+    # the `route` dimension, not the name. Maps each suffix to the enum case the
+    # app decodes it to (`RouteOfAdministration.from(string:)`), so any
+    # dose/duration rows the variant carries render identically once re-keyed.
+    # (Today these medtap catalog stubs carry no dose rows — the rewrite is a
+    # defensive no-op that keeps the pass correct if dose data ever lands on a
+    # nasal/topical entry.)
+    _ROUTE_SUFFIX_MAP = {
+        "inhaled": "inhalation",
+        "nasal": "insufflation",
+        "topical": "transdermal",
+        "ophthalmic": "other",
+    }
+    _ROUTE_SUFFIX_RE = re.compile(
+        r"^(?P<base>.+)-(?P<suffix>topical|inhaled|nasal|ophthalmic)$", re.IGNORECASE
+    )
+
+    def collapse_route_suffixes(self) -> dict[str, int]:
+        """Fold `<base>-<route>` canonicals into a single parent `<base>`, moving
+        the route from the name into the `route` column.
+
+        Each variant's dose/duration/duration-of-action/protocol rows are
+        re-keyed to the mapped route *before* `_merge_into` folds the variant
+        into its parent (created if absent). The variant's name and brand
+        aliases survive as parent aliases, so `Flonase`/`Fluticasone-nasal`
+        still resolve. Runs after dedup/forced-merges (operates on survivors)
+        and before classify (the merged parent is reclassified from final
+        signals). See Specs/salt-forms-and-route-collapse.md (Part B)."""
+        collapsed, parents_created, rerouted = 0, 0, 0
+        rows = self.cur.execute("SELECT id, canonical_name FROM substances").fetchall()
+        for vid, vname in rows:
+            m = self._ROUTE_SUFFIX_RE.match(vname)
+            if not m:
+                continue
+            base = m.group("base").strip()
+            new_route = self._ROUTE_SUFFIX_MAP[m.group("suffix").lower()]
+            parent_norm = normalise(base)
+            existing_parent = self.substance_ids.get(parent_norm)
+            parent_id = self.upsert_substance(base, source_slug="piru-curated")
+            if parent_id is None or parent_id == vid:
+                continue
+            if existing_parent is None:
+                parents_created += 1
+            for table in ("dose_ranges", "durations", "durations_of_action", "protocol_dosing"):
+                cur = self.cur.execute(
+                    f"UPDATE OR IGNORE {table} SET route=? WHERE substance_id=?",
+                    (new_route, vid),
+                )
+                rerouted += cur.rowcount
+            self._merge_into(parent_id, vid, fold_aliases=True)
+            collapsed += 1
+        return {
+            "collapsed": collapsed,
+            "parents_created": parents_created,
+            "rerouted_rows": rerouted,
+        }
+
     def dedup_substances(self) -> dict[str, int]:
         """Merge substance records that are the SAME compound under different
         names — typically a brand and its generic that came from different
@@ -4116,6 +4174,14 @@ def main() -> int:
     # after dedup so it operates on the survivors.
     forced = build.apply_forced_merges()
     print(f"Forced merges: {forced}", file=sys.stderr)
+
+    # Fold `<base>-<route>` name-suffix variants (Fluticasone-nasal,
+    # Hydrocortisone-topical, Beclomethasone-inhaled …) into a single parent
+    # `<base>`, moving the route out of the name into the `route` column. Runs
+    # after dedup/forced-merges so it operates on survivors, and before
+    # classify so the merged parent is classified once from final signals.
+    collapsed = build.collapse_route_suffixes()
+    print(f"Route-suffix collapse: {collapsed}", file=sys.stderr)
 
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after

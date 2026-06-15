@@ -828,6 +828,37 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
         ]
         self.assertEqual(dups, [], f"duplicate normalized canonical names: {dups}")
 
+    def test_no_route_suffix_canonicals(self):
+        """Route-suffix collapse (Part B) leaves no `<base>-<route>` canonical:
+        the route belongs in the `route` column, not the name."""
+        orphans = [
+            r["canonical_name"]
+            for r in self.db.execute(
+                "select canonical_name from substances where "
+                "canonical_name like '%-topical' or canonical_name like '%-inhaled' "
+                "or canonical_name like '%-nasal' or canonical_name like '%-ophthalmic'"
+            )
+        ]
+        self.assertEqual(orphans, [], f"un-collapsed route-suffix canonicals: {orphans}")
+
+    def test_route_suffix_parents_present_and_searchable(self):
+        """Folded variants survive as parent aliases (brand search still works)
+        and their parent exists as a single canonical entry."""
+        for parent, alias in (
+            ("Fluticasone", "Flonase"),
+            ("Beclomethasone", "QVAR RediHaler"),
+            ("Hydrocortisone", "Cortaid"),
+        ):
+            prow = self.db.execute(
+                "select id from substances where canonical_name=?", (parent,)
+            ).fetchone()
+            self.assertIsNotNone(prow, f"route-collapse parent {parent!r} missing")
+            n = self.db.execute(
+                "select count(*) c from aliases where substance_id=? and alias=?",
+                (prow["id"], alias),
+            ).fetchone()["c"]
+            self.assertEqual(n, 1, f"{alias!r} did not fold onto {parent!r}")
+
     def test_no_intra_substance_duplicate_aliases(self):
         """A substance must not carry the same alias twice (case/salt variants);
         the alias-level dedup collapses them."""
