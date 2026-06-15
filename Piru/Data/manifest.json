@@ -1,6 +1,6 @@
 {
   "content_version": "2026-06-15.0",
-  "generated_at": "2026-06-15T10:43:36.888154+00:00",
+  "generated_at": "2026-06-15T10:57:17.846334+00:00",
   "generator_version": "pipeline/build/sqlite.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
   "schema_version": 4,
@@ -87,7 +87,7 @@
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "b5f273262ff6919127dbe21726e4c18ab2615d54cd0396b001826608d2611538",
-  "sqlite_size_bytes": 15257600,
+  "sqlite_sha256": "51a7da2ebbb77ccb2e9b6e7381567428a0016004758a63b61d6dd035dd16be4a",
+  "sqlite_size_bytes": 15237120,
   "substance_count": 1909
 }
