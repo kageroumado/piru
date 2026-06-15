@@ -1023,6 +1023,12 @@ struct Substance: Identifiable {
     let displayName: String?
     let aliases: [String]
     let category: SubstanceCategory
+    /// Additional browse homes beyond `category` (the resolved primary). Lets an
+    /// intentionally cross-class compound surface under more than one family
+    /// (e.g. Tianeptine under both Antidepressant and Opioid). Curated-only,
+    /// loaded in the batch path; empty for everything else. The primary
+    /// `category` still drives card colour/icon and the default home.
+    let extraBrowseCategories: [SubstanceCategory]
     let defaultRoute: RouteOfAdministration
     let routes: [SubstanceRoute]
     let effects: [String]
@@ -1077,6 +1083,7 @@ struct Substance: Identifiable {
         displayName: String? = nil,
         aliases: [String],
         category: SubstanceCategory,
+        extraBrowseCategories: [SubstanceCategory] = [],
         defaultRoute: RouteOfAdministration,
         routes: [SubstanceRoute],
         effects: [String],
@@ -1106,6 +1113,7 @@ struct Substance: Identifiable {
         self.displayName = displayName
         self.aliases = aliases
         self.category = category
+        self.extraBrowseCategories = extraBrowseCategories
         self.defaultRoute = defaultRoute
         self.routes = routes
         self.effects = effects
@@ -1406,6 +1414,9 @@ extension Substance: Codable {
         displayName = try c.decodeIfPresent(String.self, forKey: .displayName)
         aliases = try c.decode([String].self, forKey: .aliases)
         category = try c.decode(SubstanceCategory.self, forKey: .category)
+        // Browse-only metadata loaded from the DB, never part of the serialized
+        // Substance (export/import) — default to none on decode.
+        extraBrowseCategories = []
         defaultRoute = try c.decode(RouteOfAdministration.self, forKey: .defaultRoute)
         routes = try c.decode([SubstanceRoute].self, forKey: .routes)
         effects = try c.decode([String].self, forKey: .effects)

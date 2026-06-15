@@ -1,0 +1,281 @@
+# Automated data-quality flags
+
+Heuristic — review before acting. Sections:
+
+
+## all_caps_name (213) — All-caps names not on the acronym allow-list (casing bug, e.g. IBOGAINE).
+
+- 1-(2,3,4-Trimethoxybenzyl)piperazine  (display='2,3,4-TMBZP')
+- 1-(2,5-Dimethoxybenzyl) piperazine  (display='2,5-DMBZP')
+- 1B-LSD  (display=None)
+- 1BP-LSD  (display=None)
+- 1D-LSD  (display=None)
+- 1P-ETH-LAD  (display=None)
+- 1S-LSD  (display=None)
+- 1V-LSD  (display=None)
+- 1ZP2MA  (display=None)
+- 2,3-Methylenedioxymethamphetamine  (display='2,3-MDMA')
+- 2-BR-4,5-MDA  (display=None)
+- 2-DPMP  (display=None)
+- 2-MAPB  (display=None)
+- 2-ME-DET  (display=None)
+- 2-ME-DMT  (display=None)
+- 2-MPPP  (display=None)
+- 2-TFMXP  (display=None)
+- 2-TOET  (display=None)
+- 2-hydroxy-N-methyltryptamine  (display='2-HO-NMT')
+- 25B-NBOH  (display=None)
+- 25C-NBOH  (display=None)
+- 25CN-NBOH  (display=None)
+- 25E-NBOH  (display=None)
+- 25I-NBF  (display=None)
+- 25I-NBMD  (display=None)
+- 25I-NBOH  (display=None)
+- 2C-B-AN  (display=None)
+- 2C-B-FLY  (display=None)
+- 3,3-Diphenylcyclobutanamine  (display='3-DPCB')
+- 3,4-CFPP  (display=None)
+- 3,4-CTMP  (display=None)
+- 3,4-DMMC  (display=None)
+- 3,4-Methylenedioxy-phencyclidine  (display='4-MD-PCP')
+- 3,4-Methylenedioxyphenmetrazine  (display='3-MDPM')
+- 3,4-Trimethylenepentedrone  (display='3,4-TMPD')
+- 3,6-DMPM  (display=None)
+- 3-HO-PCE  (display=None)
+- 3-HO-PCP  (display=None)
+- 3-Methyl-4-fluoro-Α-pyrrolidinovalerophenone  (display='MFPVP')
+- 3-PIP-OH-BTCP  (display=None)
+- 3-T-TRIS  (display=None)
+- 3-TASB  (display=None)
+- 4,4-DMAR  (display=None)
+- 4,5-MDO-DMT  (display=None)
+- 4-BR-3,5-DMA  (display=None)
+- 4-BR-DMT  (display=None)
+- 4-CL-DMT  (display=None)
+- 4-CL-PPP  (display=None)
+- 4-HO-DBT  (display=None)
+- 4-HO-DET  (display=None)
+- 4-HO-DPT  (display=None)
+- 4-HO-EPT  (display=None)
+- 4-HO-MCPT  (display=None)
+- 4-HO-MPMI  (display=None)
+- 4-HO-MPT  (display=None)
+- 4-HO-PYR-T  (display=None)
+- 4-T-TRIS  (display=None)
+- 4-TASB  (display=None)
+- 4B-MAR  (display=None)
+- 4F-DMT  (display=None)
+- 4F-EPH  (display=None)
+- 4F-MABP  (display=None)
+- 4F-MDMB-BINACA  (display=None)
+- 4F-NEB  (display=None)
+- 4F-PHP  (display=None)
+- 4F-PVP  (display=None)
+- 4T-MMDA-2  (display=None)
+- 5,6-MDO-DMT  (display=None)
+- 5-APDB  (display=None)
+- 5-APDI  (display=None)
+- 5-BPDI  (display=None)
+- 5-BR-DMT  (display=None)
+- 5-EAPB  (display=None)
+- 5-F-DMT  (display=None)
+- 5-MAPB  (display=None)
+- 5-MES-DMT  (display=None)
+- 5-PPDI  (display=None)
+- 5-TASB  (display=None)
+- 5-TOET  (display=None)
+- 5F-MDMB-PICA  (display=None)
+- 6-APDB  (display=None)
+- 6-EAPB  (display=None)
+- 6-F-DMT  (display=None)
+- 6-MAPB  (display=None)
+- 6-MDDM  (display=None)
+- 7-CL-DMT  (display=None)
+- A-PHP  (display=None)
+- ADB-BUTINACA  (display=None)
+- ADB-HEXINACA  (display=None)
+- ADB-INACA  (display=None)
+- ADB-PINACA  (display=None)
+- ADBICA  (display=None)
+- ALEPH  (display=None)
+- ALEPH-2  (display=None)
+- ALEPH-4  (display=None)
+- ALEPH-6  (display=None)
+- ALEPH-7  (display=None)
+- AMB-CHMICA  (display=None)
+- APAP  (display=None)
+- APICA  (display=None)
+- BIS-TOM  (display=None)
+- BOH-2C-B  (display=None)
+- BOHD  (display=None)
+- BTCP  (display=None)
+- CBDV  (display=None)
+- CBN-O  (display=None)
+- CBNA  (display=None)
+- DESOXY  (display=None)
+- DMAA  (display=None)
+- DMAE  (display=None)
+- DMCPA  (display=None)
+- DMHA  (display=None)
+- DMMDA  (display=None)
+- DMMDA-2  (display=None)
+- DMNPC  (display=None)
+- DMPC  (display=None)
+- DMPEA  (display=None)
+- DMXM  (display=None)
+- DOAM  (display=None)
+- DOBU  (display=None)
+- DOEF  (display=None)
+- DOET  (display=None)
+- DOPR  (display=None)
+- DSIP  (display=None)
+- EDMC  (display=None)
+- EIPT  (display=None)
+- ETH-CAT  (display=None)
+- ETHYL-J  (display=None)
+- ETHYL-K  (display=None)
+- FLEA  (display=None)
+- FOXO4-DRI  (display=None)
+- GHRP-2  (display=None)
+- GHRP-6  (display=None)
+- GSK1360707F  (display=None)
+- H4CBD  (display=None)
+- HDEP-28  (display=None)
+- HDMP-28  (display=None)
+- HHC-O  (display=None)
+- HHCP  (display=None)
+- IDNNA  (display=None)
+- IDRA-21  (display=None)
+- IRIS  (display=None)
+- MADAM-6  (display=None)
+- MBDB  (display=None)
+- MBZP  (display=None)
+- MD-PHP  (display=None)
+- MDAL  (display=None)
+- MDBU  (display=None)
+- MDBZ  (display=None)
+- MDCPM  (display=None)
+- MDDM  (display=None)
+- MDHOET  (display=None)
+- MDIP  (display=None)
+- MDMEO  (display=None)
+- MDMP  (display=None)
+- MDOH  (display=None)
+- MDPA  (display=None)
+- MDPBP  (display=None)
+- MDPEA  (display=None)
+- MDPH  (display=None)
+- MDPHP  (display=None)
+- MDPL  (display=None)
+- MDPPP  (display=None)
+- MDPR  (display=None)
+- MEDA  (display=None)
+- MEPEA  (display=None)
+- META-DOB  (display=None)
+- META-DOT  (display=None)
+- METHYL-DMA  (display=None)
+- METHYL-DOB  (display=None)
+- METHYL-J  (display=None)
+- METHYL-K  (display=None)
+- METHYL-MA  (display=None)
+- METHYL-MMDA-2  (display=None)
+- MMDA  (display=None)
+- MMDA-2  (display=None)
+- MPPP  (display=None)
+- MXPCP  (display=None)
+- Methylenedioxydeschlorobupropion  (display='MDPT')
+- N-Pyrrolidino-etonitazene  (display='PYRETZ')
+- N-Pyrrolidino-metonitazene  (display='PYRMTZ')
+- N-methylphenethylamine  (display='NMPEA')
+- NBOC-DMT  (display=None)
+- NM-2-AI  (display=None)
+- O-PCA  (display=None)
+- O-PCP  (display=None)
+- ORTHO-DOT  (display=None)
+- PAL-AHK  (display=None)
+- PAL-GHK  (display=None)
+- PARGY-LAD  (display=None)
+- PEPA  (display=None)
+- PGPIPN  (display=None)
+- PRO-LAD  (display=None)
+- PSI-2C-T-4  (display=None)
+- PYR-T  (display=None)
+- Phenethyl Isothiocyanate  (display='PEITC')
+- Phenylpropylaminopentane  (display='PPAP')
+- Pyrrolidino-protonitazene  (display='PYRPTZ')
+- R-(-)-MDMA  (display=None)
+- S-(+)-MDMA  (display=None)
+- SLU-PP-332  (display=None)
+- SNAP-8  (display=None)
+- SYN-AKE  (display=None)
+- SYN-COLL  (display=None)
+- THC-O  (display=None)
+- THCP  (display=None)
+- THCV  (display=None)
+- TMPEA  (display=None)
+- TOMSO  (display=None)
+- TRIS  (display=None)
+- alpha-N,N-trimethyltryptamine  (display='ATMT')
+- ΒK-2C-B  (display=None)
+- α-Pyrrolidinopropiophenone  (display='APPP')
+
+## raw_iupac_no_display (7) — Long raw-IUPAC canonical names with no display_name (need a friendly name).
+
+- [Other] 5-(2-Aminoethyl)-2,3-Dimethoxyphenol
+- [Stimulant] 1-(3-Chlorophenyl)-4-(2-phenylethyl)piperazine
+- [Stimulant] 1-Benzyl-4-(2-(diphenylmethoxy)ethyl)piperidine
+- [Stimulant] 1-Methyl-3-propyl-4-(p-chlorophenyl)piperidine
+- [Stimulant] 4-Fluoro-1-pyrazin-2-ylazepane
+- [Stimulant] 4-Fluoro-Α-pyrrolidinopropiophenone
+- [Stimulant] N,N-Dimethyl-3,3-diphenylcyclobutanamine
+
+## category_conflict_3plus (19) — Substances categorized 3+ different ways across sources.
+
+- 5-HTP: Supplement@piru-curated, Nootropic@psychonautwiki, Supplement@tripsit, Other@wikidata
+- ALEPH: Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Other@wikidata
+- Datura: Deliriant@piru-curated, Dysdelic@psychonautwiki, Depressant@tripsit
+- Dimenhydrinate: Deliriant@piru-curated, Depressant@tripsit, Antihistamine@drug.community
+- Diphenhydramine: Deliriant@piru-curated, Dysdelic@psychonautwiki, Depressant@tripsit, Antihistamine@pyrls
+- Doxylamine: Deliriant@piru-curated, Depressant@tripsit, Antihistamine@pyrls
+- Gabapentin: GABAergic@piru-curated, Depressant@psychonautwiki, Depressant@tripsit, Anticonvulsant@drug.community, Anticonvulsant@pyrls
+- Ibogaine: Psychedelic@psychonautwiki, Dysdelic@tripsit, Dissociative@drug.community, Dysdelic@erowid-tihkal
+- MDA: Psychedelic@psychonautwiki, Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Stimulant@wikidata
+- MDMA: Empathogen@piru-curated, Empathogen@psychonautwiki, Empathogen@tripsit, Psychedelic@drug.community, Psychedelic@erowid-pihkal, Antidepressant@wikidata
+- MDPV: Stimulant@piru-curated, Empathogen@psychonautwiki, Stimulant@tripsit, Antidepressant@drug.community
+- Melatonin: Nootropic@tripsit, Endocrine@drug.community, Psychedelic@erowid-tihkal, Other@wikidata
+- Nicotine: Stimulant@piru-curated, Depressant@psychonautwiki, Nootropic@tripsit, Stimulant@drug.community
+- Oxiracetam: Nootropic@piru-curated, Stimulant@psychonautwiki, Nootropic@drug.community, Other@tripsit
+- Phenethylamine: Nootropic@tripsit, Stimulant@drug.community, Other@wikidata
+- Pregabalin: GABAergic@piru-curated, Depressant@psychonautwiki, Depressant@tripsit, GABAergic@drug.community, Anticonvulsant@pyrls
+- Promethazine: Antihistamine@piru-curated, Dysdelic@psychonautwiki, Other@tripsit
+- Psilocin: Psychedelic@piru-curated, Psychedelic@psychonautwiki, Empathogen@tripsit, Other@wikidata
+- Tianeptine sulfate: Antidepressant@piru-curated, Nootropic@psychonautwiki, Opioid@tripsit
+
+## dup_same_inchikey_block (23) — Different names sharing an InChIKey connectivity block (likely dupes).
+
+- BRRSNXCXLSVPFC: 3-MMC | Myristicin
+- CYQFCXCEBYINGO: Cannabis | THC
+- DBGIVFWFUFKIQN: 4-Chloroamphetamine | Fenfluramine
+- DUGOZIWVEXMGBE: Dexmethylphenidate | Methylphenidate | Tilidine
+- GBBSUAFBMRNDJC: Eszopiclone | Zopiclone
+- GJJFMKBJSRMPLA: Levomilnacipran | Milnacipran
+- GVHJOSCBOCMTMQ: 4F-MDMB-BINACA | AMB-CHMICA
+- HPHUVLMMVZITSG: Etiracetam | Levetiracetam
+- JURKNVYFZMSNLP: Cyclobenzaprine | Methylone
+- KWGRBVOPPLSCSI: Ephedrine | Pseudoephedrine
+- KWTSXDURSIMDCE: Amphetamine | Dextroamphetamine
+- MEZLKOACVSPNER: Picamilon | Selegiline
+- MYWUZJCMWCOHBA: D-methamphetamine | L-methamphetamine | Methamphetamine
+- QXACEHWTBCFNSA: CBC | CBG
+- QZAYGJVTTNCVMB: Serotonin | Serotonin(1+)
+- RHCSKNNOAZULRK: 4-D | Mescaline | beta-D
+- SHXWCVYOXRDMCX: MDMA | R-(-)-MDMA | S-(+)-MDMA
+- WSEQXVZVJXJVFP: Citalopram | Escitalopram
+- XLMALTXPSGQGBX: Dextropropoxyphene | Propoxyphene
+- YFGHCGITMMYXAQ: Armodafinil | Modafinil
+- YQEZLKZALYSWHR: Arketamine | Esketamine | Ketamine
+- YRCWQPVGYLYSOX: D-synephrine(1+) | Oxedrine
+- ZROLHBHDLIHEMS: CBDV | THCV
+
+## dup_same_normalized (0) — Different names sharing a normalized_name (likely dupes).
+

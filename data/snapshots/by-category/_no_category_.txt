@@ -1,6 +1,721 @@
-# (no category) — 4 substances
+# (no category) — 314 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  4-(3-methylbut-2-enyl)-L-tryptophan  (source: —)
-  AMB-FUBINACA (AMB) — augmentation plan and justifications BEFORE JSON changes  [AMB-FUBINACA]  (source: —)  #full-agonist-CB1  #mass-poisoning-history  #zombie-cluster-Brooklyn-2016
-  D-Tryptophan  (source: —)
-  Tryptophan  [L-tryptophan|Trp]  (source: —)  #5-HT-precursor  #essential-amino-acid
+  Acalabrutinib  (STUB)  <medical_rx>
+      aka: Calquence
+  Aclidinium  (STUB)  <medical_rx>
+      aka: Tudorza Pressair
+      #dry powder inhaler  #long-acting muscarinic antagonist
+  Adenosine  (STUB)  <medical_rx>
+      aka: Adenocard
+  Albuterol  (STUB)  <medical_rx>
+      aka: ProAir|Proventil|Ventolin
+      #metered dose inhaler (this page does not cover nebulized albuterol)  #short-acting beta-2 agonist
+  Alendronate  (STUB)  <medical_rx>
+      aka: Binosto|Fosamax
+      #bisphosphonate  #tablet, effervescent tablet, solution
+  Alfuzosin  (STUB)  <medical_rx>
+      aka: Uroxatral
+      #selective alpha-1a blocker  #tablet
+  Alirocumab  (STUB)  <medical_rx>
+      aka: Praluent
+      #antihyperlipidemic  #injection pen, pre-filled syringe  #pcsk9 inhibitor
+  Allopurinol  (STUB)  <medical_rx>
+      aka: Zyloprim
+      #tablet  #xanthine oxidase inhibitor
+  Almotriptan  (STUB)  <medical_rx>
+      aka: Axert
+      #5-ht1b/1d agonist  #tablet  #triptan
+  Alogliptin  (STUB)  <medical_rx>
+      aka: Nesina
+      #antidiabetic  #dpp-4 inhibitor  #tablet
+  Aluminum hydroxide  (STUB)  <otc>
+      aka: Extra Strength Heartburn Relief|Gavis-care Antacid|Geri-lanta Antacid Antigas|Harris Teeter Antacid|Maximum Strength|Regular Strength Antacid Mint|Rulox Regular|Signature Care Antacid Plus Gas Relief|Sunmark Antacid Maximum Strength Cherry|aluminum/magnesium|aluminum/magnesium/dimethicone
+  Amiloride  (STUB)  <medical_rx>
+      aka: Midamor
+      #epithelial sodium channel blocker  #potassium-sparing diuretic  #tablet
+  Amiloride-Hydrochlorothiazide  (STUB)  <medical_rx>
+      aka: Hydro-Ride|Modiuretic
+      #epithelial sodium channel blocker  #potassium-sparing diuretic  #tablet  #thiazide diuretic
+  Amiodarone  (STUB)  <medical_rx>
+      aka: Nexterone|Pacerone
+      #antiarrhythmic, class iii  #tablet
+  Anastrozole  (STUB)  <medical_rx>
+  Apixaban  (STUB)  <medical_rx>
+      aka: Eliquis
+      #anticoagulant  #direct factor xa inhibitor  #tablet
+  Apraclonidine  (STUB)  <medical_rx>
+      aka: Apraclonidine Ophthalmic|Iopidine
+  Arformoterol  (STUB)  <medical_rx>
+      aka: Brovana
+  Asparaginase  (STUB)  <medical_rx>
+      aka: Erwinaze
+  Atorvastatin  (STUB)  <medical_rx>
+      aka: Lipitor
+      #antihyperlipidemic  #statin  #tablet
+  Auranofin  (STUB)  <medical_rx>
+      aka: Ridaura
+  Avanafil  (STUB)  <medical_rx>
+      aka: Stendra
+      #phosphodiesterase-5 inhibitor  #tablet
+  Azathioprine  (STUB)  <medical_rx>
+      aka: Azasan
+  B-lymphocyte antigen CD20  (STUB)  <medical_rx>
+      aka: Gazyva|obinutuzumab
+  Balsalazide  (STUB)  <medical_rx>
+      aka: Giazo
+  Barium  (STUB)  <medical_rx>
+      aka: E-z-paque
+  Becaplermin  (STUB)  <medical_rx>
+      aka: Regranex
+  Belinostat  (STUB)  <medical_rx>
+      aka: Beleodaq
+  Benzocaine  (STUB)  <otc>
+      aka: Cvs Oral Anesthetic|Kanka|Leader Oral Pain Relief|Oral Pain Relief Anesthetic|benzocaine/zinc
+  Benzonatate  (STUB)  <medical_rx>
+      aka: Tessalon Perles
+      #antitussive  #capsule
+  Benzylpenicillin  (STUB)  <medical_rx>
+      aka: penicillin g sodium
+  Betrixaban  (STUB)  <medical_rx>
+      aka: Bevyxxa
+      #anticoagulant  #capsule  #direct factor xa inhibitor
+  Bexarotene  (STUB)  <medical_rx>
+  Bicalutamide  (STUB)  <medical_rx>
+      aka: Casodex
+  Bicisate  (STUB)  <medical_rx>
+      aka: Neurolite
+  Bismuth  (STUB)  <otc>
+      aka: Kaopectate Regular Strength Peppermint Flavor Anti Diarrheal
+  Bismuth subsalicylate  (STUB)  <otc>
+      aka: Desempacho|Pepto Bismol
+      #antidiarrheal  #salicylate  #suspension, tablet, chewable tablet
+  Bivalirudin  (STUB)  <medical_rx>
+  Bleomycin  (STUB)  <medical_rx>
+  Blue Lotus  <recreational>  — inhalation g: common 1.25-2, heavy 5
+  Botulinum Toxin Type A  (STUB)  <medical_rx>
+      aka: Dysport
+  Bupivacaine  (STUB)  <medical_rx>
+  Busulfan  (STUB)  <medical_rx>
+      aka: N/a
+  Calcium  (STUB)  <otc>
+      aka: Antacid Relief|Calgest|Careone Calcium Antacid|Equate Ultra Strength Antacid|Good Neighbor Pharmacy Fiber-caps Fiber Laxative|Healthmart Calcium Antacid|Mylanta New Tonight Soothing Honey Chamomile|Orange Antacid Softchew|Regular Strength Antacid|Rolaids Ultra Strength Antacid Strawberry|Select Brand Antacid Assorted Berries|Sour Stomach Relief|aluminum/magnesium/dimethicone|calcium/magnesium|calcium/magnesium/dimethicone
+  Canagliflozin  (STUB)  <medical_rx>
+      aka: Invokana
+      #antidiabetic  #sglt-2 inhibitor  #tablet
+  Capreomycin  (STUB)  <medical_rx>
+  Carbidopa-Levodopa  (STUB)  <medical_rx>
+      aka: Sinemet|Sinemet CR
+      #dopamine precursor  #tablet, orally disintegrating tablet, extended release tablet, extended release capsule
+  Carbonic anhydrase 6  (STUB)  <medical_rx>
+      aka: mafenide
+  Castor Oil  (STUB)  <otc>
+      aka: Leader Castor|Signature Care
+  Cefazolin  (STUB)  <medical_rx>
+  Cefditoren  (STUB)  <medical_rx>
+      aka: Spectracef
+  Chloramphenicol  (STUB)  <medical_rx>
+  Chlorhexidine  (STUB)  <medical_rx>
+      aka: Chlorhexidine Gluconate 0.12% Oral Rinse|Dyna-hex|Nupro Chlorhexidine Gluconate|Paroex|Periogard|Scrub|Scrub-stat
+  Chloroprocaine  (STUB)  <medical_rx>
+      aka: Nesacaine
+  Chlorzoxazone  (STUB)  <medical_rx>
+      aka: Lorzone|Parafon Forte
+      #skeletal muscle relaxant  #tablet
+  Cidofovir  (STUB)  <medical_rx>
+      aka: Vistide
+  Cilastatin  (STUB)  <medical_rx>
+      aka: Imipenem And Cilastatin|imipenem/cilastatin
+  Cisatracurium  (STUB)  <medical_rx>
+  Citric Acid  (STUB)  <otc>
+      aka: Bicaruvas|tartaric acid/calcium/citric acid monohydrate/sodium
+  Clemastine  (STUB)  <otc>
+      aka: Tavist
+  Clomiphene  (STUB)  <medical_rx>
+  Clopidogrel  (STUB)  <medical_rx>
+      aka: Plavix
+      #antiplatelet  #p2y12 inhibitor  #tablet
+  Colchicine  (STUB)  <medical_rx>
+      aka: Colcrys
+      #antigout agent  #tablet, capsule, solution
+  Colistimethate  (STUB)  <medical_rx>
+      aka: Colistimethate Sodium
+  Combined Oral Contraceptive  (STUB)  <medical_rx>
+      aka: Various product names
+      #contraceptive  #estrogen/progestin combination  #tablet, chewable tablet, capsule
+  Combined Patch Contraceptive  (STUB)  <medical_rx>
+      aka: Twirla|Xulane
+      #contraceptive  #estrogen/progestin combination  #patch
+  Combined Ring Contraceptive  (STUB)  <medical_rx>
+      aka: Annovera|EluRyng|NuvaRing
+      #contraceptive  #estrogen/progestin combination  #ring
+  Cromolyn  (STUB)  <otc>
+      aka: Cromolyn-nasal|NasalCrom
+      #mast cell stabilizer  #nasal spray
+  Cyanocobalamin  (STUB)  <medical_rx>
+      aka: B12 Inject Kit
+  Cyclopentolate  (STUB)  <medical_rx>
+  D-glucose  (STUB)  <medical_rx>
+      aka: Acd|Dextrose In Lactated Ringers|Glucose|Heparin Sodium In Dextrose|Isolyte P In Dextrose|Potassium Chloride In Lactated Ringers And Dextrose|Sterile Cord Blood Collection Unit|dextrose monohydrate|dextrose monohydrate/sodium/citric acid monohydrate|dextrose monohydrate/sodium/potassium/magnesium/potassium|dextrose monohydrate/sodium/sodium/potassium/calcium|potassium/sodium/calcium/sodium/dextrose monohydrate|sodium/dextrose monohydrate/citric acid monohydrate/sodium
+  Dabigatran  (STUB)  <medical_rx>
+      aka: Pradaxa
+      #anticoagulant  #capsule  #direct thrombin inhibitor
+  Dalbavancin  (STUB)  <medical_rx>
+      aka: Dalvance
+  Dantrolene  (STUB)  <medical_rx>
+      aka: Dantrium|Revonto|Ryanodex
+      #capsule  #skeletal muscle relaxant
+  Dapagliflozin  (STUB)  <medical_rx>
+      aka: Farxiga
+      #antidiabetic  #sglt-2 inhibitor  #tablet
+  Darifenacin  (STUB)  <medical_rx>
+      aka: Enablex
+  Decitabine  (STUB)  <medical_rx>
+  Deferiprone  (STUB)  <medical_rx>
+      aka: Ferriprox
+  Deferoxamine  (STUB)  <medical_rx>
+      aka: Desferal
+  Defibrotide Sodium  (STUB)  <medical_rx>
+      aka: Defitelio
+  Desirudin  (STUB)  <medical_rx>
+      aka: Iprivask
+  Desmopressin  (STUB)  <medical_rx>
+      aka: Ddavp
+  Desogestrel  (STUB)  <medical_rx>
+      aka: Azurette|Caziant|Cyclessa|Kariva|Mircette|desogestrel/ethinyl estradiol and ethinyl estradiol
+  Dexlansoprazole  (STUB)  <medical_rx>
+      aka: Dexilant
+      #delayed release capsule  #proton pump inhibitor
+  Dexmedetomidine  (STUB)  <medical_rx>
+  Diatrizoate  (STUB)  <medical_rx>
+      aka: Cystografin|diatrizoate meglumine
+  Dicloxacillin  (STUB)  <medical_rx>
+      aka: Dicloxacillin Sodium
+  Dicyclomine  (STUB)  <medical_rx>
+      aka: Bentyl
+      #anticholinergic agent  #antispasmodic  #capsule, tablet, solution, syrup
+  Digoxin  (STUB)  <medical_rx>
+      aka: Digitek|Digox|Lanoxin
+      #antiarrhythmic  #cardiac glycoside  #tablet, solution
+  Dimercaprol  (STUB)  <medical_rx>
+      aka: Bal
+  Dimethicone  (STUB)  <otc>
+      aka: Infants Gas Relief Drops|Major Ultra Strength Gas Relief|Pluspharma|Premier Value Infants Gas Relief|Rx Act Gas Relief|Topcare Gas Relief|Ultra Strength Gas Relief|Up And Up Extra Strength Gas Relief Chewables
+  DNA  (STUB)  <medical_rx>
+      aka: Pentam 300|Yondelis|pentamidine|trabectedin
+  Docusate  (STUB)  <otc>
+      aka: Colace|Stool Softener Docusate Sodium|Stool Softener Laxative|Stool Softener Liquid|Stool Softner|Surfak Stool Softener
+      #capsule, tablet, liquid, syrup  #stool softener
+  Docusate/Sennosides  (STUB)  <otc>
+      aka: Colistat Plus|Health Sense Senno|Little Remedies Little Tummys Laxative Drops|Senna- S|Stimulant Laxative Plus Stool Softener|sennosides/docusate
+  Doripenem  (STUB)  <medical_rx>
+      aka: Doribax
+  Doxazosin  (STUB)  <medical_rx>
+      aka: Cardura|Cardura XL
+      #non-selective alpha-1 blocker  #tablet
+  Drospirenone  (STUB)  <medical_rx>
+      aka: Zarah
+  Dutasteride  (STUB)  <medical_rx>
+      aka: Avodart
+      #5 alpha-reductase inhibitor  #capsule
+  Dutasteride-Tamsulosin  (STUB)  <medical_rx>
+      aka: Jalyn
+      #5 alpha-reductase inhibitor  #capsule
+  Econazole  (STUB)  <medical_rx>
+      aka: Econazole Nitrate Cream
+  Edoxaban  (STUB)  <medical_rx>
+      aka: Savaysa
+      #anticoagulant  #direct factor xa inhibitor  #tablet
+  Eliglustat  (STUB)  <medical_rx>
+      aka: Cerdelga
+  Elm  (STUB)  <otc>
+      aka: Nin Jiom Pei Pa Koa
+  Emergency Contraceptive - Levonorgestrel  (STUB)  <otc>
+      aka: My Way|Next Choice|Plan B|Take Action
+      #contraceptive  #progestin  #tablet
+  Emergency Contraceptive - Ulipristal  (STUB)  <medical_rx>
+      aka: Ella
+      #contraceptive  #progestin receptor modulator  #tablet
+  Empagliflozin  (STUB)  <medical_rx>
+      aka: Jardiance
+      #antidiabetic  #sglt-2 inhibitor  #tablet
+  Eplerenone  (STUB)  <medical_rx>
+      aka: Inspra
+      #aldosterone antagonist  #potassium-sparing diuretic  #tablet
+  Epoprostenol  (STUB)  <medical_rx>
+      aka: Flolan
+  Eptifibatide  (STUB)  <medical_rx>
+      aka: Integrilin
+  Erenumab  (STUB)  <medical_rx>
+      aka: Aimovig
+      #cgrp antagonist  #injection pen, pre-filled syringe
+  Ertugliflozin  (STUB)  <medical_rx>
+      aka: Steglatro
+      #antidiabetic  #sglt-2 inhibitor  #tablet
+  Erythromycin  (STUB)  <medical_rx>
+      aka: Ery-tab|Erythrocin Lactobionate
+  Esomeprazole  (STUB)  <otc>
+      aka: Careone Esomeprazole Magnesium|Family Wellness Esomeprazole Magnesium|Health Mart Esomeprazole Magnesium|Nexium
+      #delayed release capsule, delayed release tablet, packet  #proton pump inhibitor
+  Estrogens, Conjugated  (STUB)  <medical_rx>
+      aka: Premarin
+  Ethambutol  (STUB)  <medical_rx>
+      aka: Myambutol
+  Ethotoin  (STUB)  <medical_rx>
+      aka: Peganone
+  Ethynodiol  (STUB)  <medical_rx>
+      aka: Zovia 1/50e-28
+  Etomidate  (STUB)  <medical_rx>
+      aka: Amidate
+  Etoposide  (STUB)  <medical_rx>
+  Everolimus  (STUB)  <medical_rx>
+      aka: Zortress
+  Evolocumab  (STUB)  <medical_rx>
+      aka: Repatha
+      #antihyperlipidemic  #injection pen, pre-filled syringe, cartridge for infusor  #pcsk9 inhibitor
+  Ezetimibe  (STUB)  <medical_rx>
+      aka: Zetia
+      #antihyperlipidemic  #tablet
+  Febuxostat  (STUB)  <medical_rx>
+      aka: Uloric
+      #tablet  #xanthine oxidase inhibitor
+  Felbamate  (STUB)  <medical_rx>
+      aka: Felbatol
+  Finasteride  (STUB)  <medical_rx>
+      aka: Propecia|Proscar
+      #5 alpha-reductase inhibitor  #tablet
+  Flibanserin  (STUB)  <medical_rx>
+      aka: Addyi
+      #5-ht1a agonist  #5-ht2a antagonist  #tablet
+  Fludarabine  (STUB)  <medical_rx>
+  Fluocinolone Acetonide  (STUB)  <medical_rx>
+      aka: Retisert|Tri-luma|fluocinolone|fluocinolone/hydroquinone/tretinoin
+  Fluorometholone  (STUB)  <medical_rx>
+      aka: Fml|Fml Forte
+  Fluorouracil  (STUB)  <medical_rx>
+  Fluvastatin  (STUB)  <medical_rx>
+      aka: Lescol|Lescol XL
+      #antihyperlipidemic  #capsule, extended release tablet  #statin
+  Folic Acid  (STUB)  <medical_rx>
+  Fremanezumab  (STUB)  <medical_rx>
+      aka: Ajovy
+      #cgrp antagonist  #injection pen, pre-filled syringe
+  Frovatriptan  (STUB)  <medical_rx>
+      aka: Frova
+      #5-ht1b/1d agonist  #tablet  #triptan
+  Galcanezumab  (STUB)  <medical_rx>
+      aka: Emgality
+      #cgrp antagonist  #injection pen, pre-filled syringe
+  Galsulfase  (STUB)  <medical_rx>
+      aka: Naglazyme
+  Ganciclovir  (STUB)  <medical_rx>
+  Gemcitabine  (STUB)  <medical_rx>
+  Gentamicin  (STUB)  <medical_rx>
+  Glimepiride  (STUB)  <medical_rx>
+      aka: Amaryl
+      #antidiabetic  #sulfonylurea  #tablet
+  Glipizide  (STUB)  <medical_rx>
+      aka: Glucotrol|Glucotrol XL
+      #antidiabetic  #sulfonylurea  #tablet, extended release tablet
+  Glyburide  (STUB)  <medical_rx>
+      aka: Diabeta|Glynase
+      #antidiabetic  #sulfonylurea  #tablet, micronized tablet
+  Glycopyrrolate  (STUB)  <medical_rx>
+      aka: Seebri Neohaler
+      #dry powder inhaler  #long-acting muscarinic antagonist
+  Glycopyrrolate-Formoterol  (STUB)  <medical_rx>
+      aka: Bevespi Aerosphere
+      #long-acting beta-2 agonist  #long-acting muscarinic antagonist  #metered dose inhaler
+  Granisetron  (STUB)  <medical_rx>
+  Griseofulvin  (STUB)  <medical_rx>
+      aka: Griseofulviin|Grisofulvin|Ultramicrosize Griseofulvin
+  Heparin  (STUB)  <medical_rx>
+      aka: Heparin Sodium
+  Hyaluronidase  (STUB)  <medical_rx>
+      aka: Hydase
+  Hydrogen  (STUB)  <otc>
+      aka: White Labs
+  Ibandronate  (STUB)  <medical_rx>
+      aka: Boniva
+      #bisphosphonate  #tablet
+  Idarubicin  (STUB)  <medical_rx>
+      aka: Idamycin Pfs
+  Ifosfamide  (STUB)  <medical_rx>
+      aka: Ifex
+  Indacaterol  (STUB)  <medical_rx>
+      aka: Arcapta Neohaler
+      #dry powder inhaler  #long-acting beta-2 agonist
+  Indacaterol-Glycopyrrolate  (STUB)  <medical_rx>
+      aka: Utibron Neohaler
+      #dry powder inhaler  #long-acting beta-2 agonist  #long-acting muscarinic antagonist
+  Indium  (STUB)  <medical_rx>
+      aka: Indium In 111 Chloride
+  Insulin aspart  (STUB)  <medical_rx>
+      aka: Fiasp|NovoLog
+      #antidiabetic  #injection pen, vial, cartridge  #rapid-acting insulin
+  Insulin degludec  (STUB)  <medical_rx>
+      aka: Tresiba
+      #antidiabetic  #injection pen, vial  #long-acting insulin
+  Insulin detemir  (STUB)  <medical_rx>
+      aka: Levemir
+      #antidiabetic  #injection pen, vial  #long-acting insulin
+  Insulin glargine  (STUB)  <medical_rx>
+      aka: Basaglar|Lantus|Semglee|Toujeo
+      #antidiabetic  #injection pen, vial, cartridge  #long-acting insulin
+  Insulin glulisine  (STUB)  <medical_rx>
+      aka: Apidra
+      #antidiabetic  #injection pen, vial  #rapid-acting insulin
+  Insulin Human  (STUB)  <medical_rx>
+      aka: Afrezza
+  Insulin lispro  (STUB)  <medical_rx>
+      aka: Admelog|HumaLog|Lyumjev
+      #antidiabetic  #injection pen, vial, cartridge  #rapid-acting insulin
+  Ipratropium  (STUB)  <medical_rx>
+      aka: Atrovent HFA
+      #metered dose inhaler  #short-acting muscarinic antagonist
+  Ipratropium-Albuterol  (STUB)  <medical_rx>
+      aka: Combivent Respimat
+      #short-acting beta-2 agonist  #short-acting muscarinic antagonist  #soft mist inhaler
+  Irinotecan  (STUB)  <medical_rx>
+      aka: Onivyde
+  Ivacaftor  (STUB)  <medical_rx>
+      aka: Kalydeco
+  Ivermectin  (STUB)  <medical_rx>
+  Lactulose  (STUB)  <medical_rx>
+      aka: Constulose|Enulose|Generlac|Kristalose
+      #ammonium detoxicant  #osmotic laxative  #solution, powder for solution
+  Lansoprazole  (STUB)  <otc>
+      aka: Healthy Accents Lansoprazole|Prevacid
+      #delayed release capsule, delayed release tablet  #proton pump inhibitor
+  Lenalidomide  (STUB)  <medical_rx>
+      aka: Revlimid
+  Leucovorin  (STUB)  <medical_rx>
+      aka: Leucovorin Calcium
+  Levalbuterol  (STUB)  <medical_rx>
+      aka: Xopenex
+      #metered dose inhaler (this page does not cover nebulized albuterol)  #short-acting beta-2 agonist
+  Levonorgestrel  (STUB)  <medical_rx>
+      aka: Amethia|Ayuna|Camrese Lo|Daysee|Econtra Ez|Levonest|levonorgestrel/ethinyl estradiol and ethinyl estradiol
+  Levothyroxine  (STUB)  <medical_rx>
+      aka: Levoxyl|Synthroid|Tirosint|Unithroid
+      #capsule, tablet, solution  #synthetic t4 thyroid hormone
+  Linagliptin  (STUB)  <medical_rx>
+      aka: Tradjenta
+      #antidiabetic  #dpp-4 inhibitor  #tablet
+  Liothyronine  (STUB)  <medical_rx>
+      aka: Cytomel|Triostat
+      #synthetic t3 thyroid hormone  #tablet
+  Lipoprotein lipase  (STUB)  <otc>
+      aka: Ez Char|activated charcoal
+  Lixisenatide  (STUB)  <medical_rx>
+      aka: Adlyxin
+      #antidiabetic  #glp-1 agonist  #injection pen
+  Loperamide  (STUB)  <otc>
+      aka: Dg Health Anti Diarrheal|Imodium|Kirkland Signature Anti Diarrheal|Medex Anti-diarrheal Relief|Rexall Anti Diarrheal|loperamide/dimethicone
+  Lovastatin  (STUB)  <medical_rx>
+      aka: Altoprev|Mevacor
+      #antihyperlipidemic  #statin  #tablet, extended release tablet
+  Lumefantrine  (STUB)  <medical_rx>
+      aka: Coartem|artemether/lumefantrine
+  Magnesium/Magaldrate  (STUB)  <otc>
+      aka: Zantanol Tab.
+  Magnesium/Sodium  (STUB)  <otc>
+      aka: Stomachin Antacid
+  Mecamylamine  (STUB)  <medical_rx>
+      aka: Vecamyl
+  Medronic Acid  (STUB)  <medical_rx>
+      aka: Technetium Tc 99m Medronate
+  Melphalan  (STUB)  <medical_rx>
+  Menthol  (STUB)  <otc>
+      aka: Bentasil|Dual Action Cherry Cough Suppressant Oral Anesthetic|Hallssugar Free Extra|Herbal Cough Drops|Honey Lemon Menthol Cough Drop|Leader Cough Drops Cherry Flavor|Moore Medical Honey Lemon Cough Drops|Natural Cherry Honey Herb Throat Drops|Natural Lemon Mint Herb Throat Drops|Olbas Lozenges|Physicians Care Cough And Sore Throat|Sf Black Cherry Cough Drops|Throat And Chest Chili And Lime|Watermelon Frost Sore Throat
+  Mesalazine  (STUB)  <medical_rx>
+      aka: Apriso|Asacol Hd|Lialda|mesalamine
+  Metformin  (STUB)  <medical_rx>
+      aka: Fortamet|Glucophage|Glumetza Fortamet|Riomet|glipizide/metformin
+      #biguanide  #tablet, extended release tablet, solution, extended release suspension
+  Methylcellulose  (STUB)  <otc>
+      aka: Citrucel
+      #bulk-forming laxative  #powder for solution, tablet
+  Miconazole  (STUB)  <otc>
+      aka: Equate Miconazole 1|Exchange Select Miconazole 1|Healthy Accents Miconazole 3|Topcare Miconazole 7|Up And Up Miconazole 1|Up And Up Miconazole 3|Up And Up Miconazole 7
+  Miglitol  (STUB)  <medical_rx>
+      aka: Glyset
+  Miglustat  (STUB)  <medical_rx>
+  Mineral Oil  (STUB)  <otc>
+      aka: Dynarex Laxative|Humco Mineral Oil Heavy
+  Minoxidil  (STUB)  <otc>
+      aka: Cerafill Retaliate|Core Values Minoxidil|Mens Rogaine Extra Strength Unscented|Up And Up Hair Regrowth Treatment For Women
+  Mitotane  (STUB)  <medical_rx>
+      aka: Lysodren
+  Mivacurium  (STUB)  <medical_rx>
+      aka: Mivacron
+  Montelukast  (STUB)  <medical_rx>
+      aka: Singulair
+      #leukotriene receptor antagonist  #tablet, chewable tablet, oral granules
+  Mupirocin  (STUB)  <medical_rx>
+      aka: Centany
+  Mycophenolic acid  (STUB)  <medical_rx>
+      aka: mycophenolate sodium
+  Naratriptan  (STUB)  <medical_rx>
+      aka: Amerge
+      #5-ht1b/1d agonist  #tablet  #triptan
+  Nateglinide  (STUB)  <medical_rx>
+      aka: Starlix
+      #antidiabetic  #meglitinide  #tablet
+  Nelarabine  (STUB)  <medical_rx>
+      aka: Arranon
+  Niraparib  (STUB)  <medical_rx>
+      aka: Zejula
+  Nitroglycerin  (STUB)  <medical_rx>
+      aka: Nitroglycerin In Dextrose
+  Norethisterone  (STUB)  <medical_rx>
+      aka: Aranelle|Jencycla|Jolivette|Junel 1/20|Minastrin 24 Fe|Nortrel 7/7/7|Ortho Micronor|Tri-norinyl|norethindrone|norethindrone/ethinyl estradiol
+  Norgestimate  (STUB)  <medical_rx>
+      aka: Ortho Tri Cyclen Lo
+  Nystatin  (STUB)  <medical_rx>
+  Octreotide  (STUB)  <medical_rx>
+  Olodaterol  (STUB)  <medical_rx>
+      aka: Striverdi Respimat
+      #long-acting beta-2 agonist  #soft mist inhaler
+  Omeprazole  (STUB)  <otc>
+      aka: Care One Omeprazole|Healthy Accents Omeprazole|Humana Pharmacy Omeprazole|Leader Omeprazole|Prilosec|Prilosec Otc|Sunmark Omeprazole
+      #delayed release capsule, delayed release tablet, packet  #proton pump inhibitor
+  Oxymetazoline  (STUB)  <otc>
+      aka: Afrin|Oxymetazoline-nasal
+      #alpha adrenergic agonist  #decongestant  #nasal spray
+  Pancrelipase/Pancrelipase/Pancrelipase  (STUB)  <medical_rx>
+      aka: Zenpep
+  Panitumumab  (STUB)  <medical_rx>
+      aka: Vectibix
+  Pantoprazole  (STUB)  <medical_rx>
+      aka: Protonix
+      #delayed release tablet, packet  #proton pump inhibitor
+  Paricalcitol  (STUB)  <medical_rx>
+  Pectin  (STUB)  <otc>
+      aka: Throat Relief Pops
+  Pectin/Echinacea Purpurea  (STUB)  <otc>
+      aka: Herbon Berry Buddies/watermelon Goodypops
+  Peginterferon alfa-2b  (STUB)  <medical_rx>
+      aka: Sylatron
+  Phenol  (STUB)  <otc>
+      aka: Phylorinol
+  Phentolamine  (STUB)  <medical_rx>
+      aka: Oraverse|Phentolamine Mesylate
+  Phytonadione  (STUB)  <medical_rx>
+      aka: Mephyton
+  Pioglitazone  (STUB)  <medical_rx>
+      aka: Actos
+      #antidiabetic  #tablet  #thiazolidinedione
+  Pitavastatin  (STUB)  <medical_rx>
+      aka: Livalo|Zypitamag
+      #antihyperlipidemic  #statin  #tablet, -calcium (livalo), tablet, -magnesium (zypitamag)
+  Polycarbophil  (STUB)  <otc>
+      aka: FiberCon
+      #bulk-forming laxative  #tablet
+  Polyethylene glycol  (STUB)  <otc>
+      aka: MiraLax
+      #osmotic laxative  #powder for solution
+  Polyethylene Glycol 3350  (STUB)  <otc>
+      aka: Basic Care Clearlax|Berkley And Jensen Clearlax|Welby Clearlax
+  Potassium  (STUB)  <medical_rx>
+      aka: Golytely|Isoplate|K-tab|Normosol-r And Dextrose|Peg-3350 And Electrolytes|Plasma-lyte 148|Thyrosafe|dextrose/sodium/sodium/sodium/potassium/magnesium|polyethylene glycol 3350/sodium/potassium/sodium/sodium|polyethylene glycol 3350/sodium/sodium/sodium/potassium|sodium/sodium/sodium/potassium/magnesium|sodium/sodium/sodium/potassium/magnesium/sodium/potassium
+  Pramipexole  (STUB)  <medical_rx>
+      aka: Mirapex|Mirapex ER
+      #dopamine agonist  #tablet, extended release tablet
+  Prasugrel  (STUB)  <medical_rx>
+      aka: Effient
+      #antiplatelet  #p2y12 inhibitor  #tablet
+  Pravastatin  (STUB)  <medical_rx>
+      aka: Pravachol|Pravastatin Sodium
+      #antihyperlipidemic  #statin  #tablet
+  Progesterone Oral Contraceptive - Drospirenone  (STUB)  <medical_rx>
+      aka: Slynd
+      #contraceptive  #progestin  #tablet
+  Progesterone Oral Contraceptive - Norethindrone  (STUB)  <medical_rx>
+      aka: Various product names
+      #contraceptive  #progestin  #tablet
+  Psyllium  (STUB)  <otc>
+      aka: Metamucil
+      #bulk-forming laxative  #powder for solution, capsule
+  Psyllium Husk  (STUB)  <otc>
+      aka: Konsyl Naturally Sweetened Psyllium Fiber|Natural Daily Fiber|Natural Fiber Therapy Natural Laxative|Reguloid
+  Pyrantel  (STUB)  <otc>
+      aka: Vermocks
+  Quinidine  (STUB)  <medical_rx>
+      aka: Quinidine Gluconate
+  Quinine  (STUB)  <medical_rx>
+      aka: Qualaquin
+  Rasburicase  (STUB)  <medical_rx>
+      aka: Elitek
+  Repaglinide  (STUB)  <medical_rx>
+      aka: Prandin
+      #antidiabetic  #meglitinide  #tablet
+  Retapamulin  (STUB)  <medical_rx>
+      aka: Altabax
+  Ribavirin  (STUB)  <medical_rx>
+      aka: Virazole
+  Rifabutin  (STUB)  <medical_rx>
+      aka: Mycobutin
+  Rimegepant  (STUB)  <medical_rx>
+      aka: Nurtec ODT
+      #cgrp antagonist  #orally disintegrating tablet
+  Risedronate  (STUB)  <medical_rx>
+      aka: Actonel|Atelvia
+      #bisphosphonate  #tablet, delayed release tablet
+  Rivaroxaban  (STUB)  <medical_rx>
+      aka: Xarelto
+      #anticoagulant  #direct factor xa inhibitor  #tablet
+  RK-0202  (STUB)  <medical_rx>
+      aka: acetylcysteine
+  Ropinirole  (STUB)  <medical_rx>
+      aka: Requip|Requip XL
+      #dopamine agonist  #tablet, extended release tablet
+  Rosiglitazone  (STUB)  <medical_rx>
+      aka: Avandia
+      #antidiabetic  #tablet  #thiazolidinedione
+  Rosuvastatin  (STUB)  <medical_rx>
+      aka: Crestor|Ezallor
+      #antihyperlipidemic  #statin  #tablet, capsule
+  Rotigotine  (STUB)  <medical_rx>
+      aka: Neupro
+  Salbutamol  (STUB)  <medical_rx>
+      aka: Ventolinhfa
+  Salicylic acid  (STUB)  <otc>
+      aka: Backache Relief|Circle K Stomach|Ibuprofen Sodium|Moore Medical Bismuth|Pepto Bismol|Salonpas Arthritis Pain|Stomach Relief|Stomach Relief Maximum Strength|menthol/methyl salicylate
+  Salmeterol  (STUB)  <medical_rx>
+      aka: Serevent Diskus
+      #dry powder inhaler  #long-acting beta-2 agonist
+  Sargramostim  (STUB)  <medical_rx>
+      aka: Leukine
+  Saxagliptin  (STUB)  <medical_rx>
+      aka: Onglyza
+      #antidiabetic  #dpp-4 inhibitor  #tablet
+  Sebelipase Alfa  (STUB)  <medical_rx>
+      aka: Kanuma
+  Senna Leaf/Docusate  (STUB)  <otc>
+      aka: Senna Leaf And Docusate Sodium
+  Sennosides  (STUB)  <otc>
+      aka: Agoral|Senna-lax
+  Sildenafil  (STUB)  <medical_rx>
+      aka: Revatio|Viagra
+      #phosphodiesterase-5 inhibitor  #tablet, oral reconstituted suspension
+  Silodosin  (STUB)  <medical_rx>
+      aka: Rapaflo
+      #capsule  #selective alpha-1a blocker
+  Silver  (STUB)  <medical_rx>
+      aka: Thermazene
+  Simvastatin  (STUB)  <medical_rx>
+      aka: FloLipid|Zocor
+      #antihyperlipidemic  #statin  #tablet, suspension
+  Sinecatechins  (STUB)  <medical_rx>
+      aka: Veregen
+  Sitagliptin  (STUB)  <medical_rx>
+      aka: Januvia
+      #antidiabetic  #dpp-4 inhibitor  #tablet
+  Sodium  (STUB)  <otc>
+      aka: Anti Cavity Fluoride|Anticavity Rinse|Anticavity Rinse Fluoride Rinse|Discount Drug Mart|Dr. Sheffield Fluoride Anticavity|Ferrlecit|Goodsense Sensitive Extra Whitening|Kids Anticavity|Listerine Healthy White Anticavity Fluoride Gentle Clean Mint|Meropenem And Sodium Chloride|Oral Saline Laxative Lemon Ginger|Pine Salt 170g|Plus White Super White Tooth With Peroxide|Pororo Toothpas Te Mixed Fruits|Premier Value Sodium Bicarbonate|Sensitive Anti-cavity|Sodium Chloride|Sodium Chloride For Irrigation|Sodium Ferric Gluconate Complex In Sucrose|Sodium Polystyrene Sulfonate|Truly Radiant|Up And Up Sensitive Maximum Strength Mint|eucalyptol/menthol/methyl salicylate/thymol|meropenem/sodium|potassium/sodium|sodium/sodium
+  Somatropin recombinant  (STUB)  <medical_rx>
+      aka: Zorbtive|somatropin
+  Spironolactone  (STUB)  <medical_rx>
+      aka: Aldactone|CaroSpir
+      #aldosterone antagonist  #potassium-sparing diuretic  #tablet, suspension
+  Squalene monooxygenase  (STUB)  <otc>
+      aka: Cvs Pharmacy|Preferred Plus|terbinafine
+  Sugammadex  (STUB)  <medical_rx>
+      aka: Bridion
+  Sulfacetamide  (STUB)  <medical_rx>
+      aka: sulfacetamide/prednisolone
+  Sulfasalazine  (STUB)  <medical_rx>
+      aka: Azulfidine
+  Tamsulosin  (STUB)  <medical_rx>
+      aka: Flomax
+      #capsule  #selective alpha-1a blocker
+  Technetium Tc-99M Disofenin  (STUB)  <medical_rx>
+      aka: Kit For The Preparation Of Technetium Tc99m Disofenin
+  Technetium Tc-99M Pyrophosphate  (STUB)  <medical_rx>
+      aka: Kit For The Preparation Of Technetium Tc99m Pyrophosphate
+  Technetium Tc-99M Sestamibi  (STUB)  <medical_rx>
+      aka: Kit For The Preparation Of Technetium Tc 99m Sestamibi
+  Telithromycin  (STUB)  <medical_rx>
+      aka: Ketek
+  Tenofovir  (STUB)  <medical_rx>
+      aka: Viread
+  Terazosin  (STUB)  <medical_rx>
+      aka: Hytrin|Tarazosin
+      #capsule  #non-selective alpha-1 blocker
+  Testosterone  (STUB)  <medical_rx>
+      aka: Testopel|Testosterone Enanthate|Vogelxo
+  Tetracosactide  (STUB)  <medical_rx>
+      aka: cosyntropin
+  Tetracycline  (STUB)  <medical_rx>
+      aka: Sumycin
+  Tetradecyl Hydrogen Sulfate (Ester)  (STUB)  <medical_rx>
+      aka: Sotradecol
+  Tetrofosmin  (STUB)  <medical_rx>
+      aka: Myoview
+  Thiamine  (STUB)  <medical_rx>
+  Thiotepa  (STUB)  <medical_rx>
+  Ticagrelor  (STUB)  <medical_rx>
+      aka: Brilinta
+      #antiplatelet  #p2y12 inhibitor  #tablet
+  Tiotropium  (STUB)  <medical_rx>
+      aka: Spiriva Handihaler|Spiriva Respimat
+      #dry powder inhaler, soft mist inhaler  #long-acting muscarinic antagonist
+  Tiotropium-Olodaterol  (STUB)  <medical_rx>
+      aka: Stiolto Respimat
+      #long-acting beta-2 agonist  #long-acting muscarinic antagonist  #soft mist inhaler
+  Tobramycin  (STUB)  <medical_rx>
+  Tocilizumab  (STUB)  <medical_rx>
+      aka: Actemra
+  Tolbutamide  (STUB)  <medical_rx>
+  Tolcapone  (STUB)  <medical_rx>
+  Tolmetin  (STUB)  <medical_rx>
+      aka: Tolmetin Sodium
+  Topotecan  (STUB)  <medical_rx>
+      aka: Hycamtin
+  Travoprost  (STUB)  <medical_rx>
+      aka: Travatan Z
+  Tretinoin  (STUB)  <medical_rx>
+      aka: Renova
+  Triamterene  (STUB)  <medical_rx>
+      aka: Dyrenium
+      #capsule  #epithelial sodium channel blocker  #potassium-sparing diuretic
+  Triamterene-Hydrochlorothiazide  (STUB)  <medical_rx>
+      aka: Dyazide|Maxzide
+      #epithelial sodium channel blocker  #potassium-sparing diuretic  #tablet, capsule  #thiazide diuretic
+  Trimethobenzamide  (STUB)  <medical_rx>
+      aka: Tigan
+  Triprolidine  (STUB)  <otc>
+      aka: Vanahist Pd
+  Tryptophan  (STUB)  <medical_rx>
+      aka: Trp
+      #5-HT-precursor  #essential-amino-acid
+  Ubrogepant  (STUB)  <medical_rx>
+      aka: Ubrelvy
+      #cgrp antagonist  #tablet
+  Umeclidinium  (STUB)  <medical_rx>
+      aka: Incruse Ellipta
+      #dry powder inhaler  #long-acting muscarinic antagonist
+  Umeclidinium-Vilanterol  (STUB)  <medical_rx>
+      aka: Anoro Ellipta
+      #dry powder inhaler  #long-acting beta-2 agonist  #long-acting muscarinic antagonist
+  Urofollitropin  (STUB)  <medical_rx>
+      aka: Bravelle
+  Valproic Acid  (STUB)  <medical_rx>
+      aka: Depakote|divalproex sodium
+  Vardenafil  (STUB)  <medical_rx>
+      aka: Levitra|Staxyn
+      #phosphodiesterase-5 inhibitor  #tablet, orally disintegrating tablet
+  Verteporfin  (STUB)  <medical_rx>
+      aka: Visudyne
+  Vorapaxar  (STUB)  <medical_rx>
+      aka: Zontivity
+  Zafirlukast  (STUB)  <medical_rx>
+      aka: Accolate
+      #leukotriene receptor antagonist  #tablet
+  Zidovudine  (STUB)  <medical_rx>
+      aka: Retrovir
+  Zinc/Zinc/Sambucus Nigra Flowering Top  (STUB)  <otc>
+      aka: Nbb
+  Zoledronic acid  (STUB)  <medical_rx>
+      aka: Reclast

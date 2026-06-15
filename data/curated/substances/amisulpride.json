@@ -1,0 +1,53 @@
+{
+  "name": "Amisulpride",
+  "aliases": [
+    "Solian",
+    "Barhemsys",
+    "氨磺必利",
+    "胺硫必利"
+  ],
+  "category": "Antipsychotic",
+  "defaultRoute": "oral",
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "doses": {
+        "threshold": 25,
+        "light": {
+          "lower": 50,
+          "upper": 100
+        },
+        "common": {
+          "lower": 100,
+          "upper": 400
+        },
+        "strong": {
+          "lower": 400,
+          "upper": 800
+        },
+        "heavy": 1200
+      }
+    }
+  ],
+  "effects": [
+    "Atypical antipsychotic — selective dopamine D2/D3 antagonist",
+    "Low doses (50–300 mg) preferentially block presynaptic autoreceptors, improving negative symptoms and mood",
+    "Higher doses (400–800 mg) block postsynaptic receptors for positive psychotic symptoms",
+    "Dose-dependent QT prolongation — avoid combining with other QT-prolonging drugs",
+    "Renally cleared; minimal hepatic metabolism"
+  ],
+  "halfLifeMinutes": 720,
+  "sources": [
+    "https://en.wikipedia.org/wiki/Amisulpride",
+    "https://pubchem.ncbi.nlm.nih.gov/compound/2159"
+  ],
+  "tags": [
+    "antipsychotic",
+    "atypical-antipsychotic",
+    "D2-antagonist",
+    "D3-antagonist",
+    "prescription-only"
+  ],
+  "popularity": 0.12
+}

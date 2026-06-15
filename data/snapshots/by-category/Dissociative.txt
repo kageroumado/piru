@@ -1,83 +1,233 @@
-# Dissociative — 81 substances
+# Dissociative — 78 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  2-Bromodeschloroketamine  [2-Br-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  2-Chloro-Ephenidine  [2-chloroephenidine|2-cl-ephenidine|2chloroephenidine|2clephenidine]  (source: tripsit)  #NMDA-antagonist  #diarylethylamine  #research-chemical  #tentative
-  2-Chlorodeschloroketamine  [2-Cl-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #name-collision-with-ketamine  #no-human-data  #research-chemical
-  2-Fdck  [2-fl-2'-oxo-pcm|2-fluorodeschloroketamine|2f-dck|2f-ket|2f-ketamine|2fdck|2fket]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical  #tentative
-  2-Fluorodeschloroketamine  [2-F-DCK|Canket|Fluorexetamine|Fluoroketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #designer-dissociative  #fatalities-reported  #research-chemical
-  2-FXE  [2-Fluoro-FXE]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  2-MeO-Ketamine  [2-(2‑Methoxyphenyl)-2-(methylamino)cyclohexanone|2‑MeO‑2‑deschloroketamine|2‑MeO‑K|2‑MeO‑ketamine|MXM (community abbreviation; ambiguous)|Methoxyketamine|O‑methoxyketamine]  (source: drug.community)  #class:Arylcyclohexylamine
-  2-TFMXP  [2-(trifluoromethyl)‑methoxphenidine|2‑TFM‑MXP|2‑TFM‑diphenidine|2‑trifluoromethyl‑MXP|TFMXP]  (source: drug.community)  #class:Arylcyclohexylamine (diphenidine/diarylethylamine family)
-  3,4-Methylenedioxy-phencyclidine  [3|3,4-MD-PCP|3,4-MD-PCP hydrochloride|3,4-MDPCP HCl|3,4-benzodioxole-PCP|3,4-methylenedioxy-PCP|4-MD-PCP|MDPCP]  (source: drug.community)  #class:Arylcyclohexylamine (PCP analogue, methylenedioxy-substituted)
-  3-EtO-PCP  [1-[1-(3-ethoxyphenyl)cyclohexyl]piperidine|3-OEt-PCP|3-ethoxy-PCP]  (source: drug.community)  #class:Arylcyclohexylamine dissociative
-  3-F-PCP  [1-[1-(3-fluorophenyl)cyclohexyl]piperidine|3-Fluoro-PCP|3-fluoro phencyclidine|3F-PCP|3FPCP|3′-F-PCP]  (source: drug.community)  #class:Arylcyclohexylamine dissociative  #duplicate-of-3-Fluoro-PCP
-  3-Fluoro-PCP  [3-F-PCP]  (source: piru-curated)  #NMDA-antagonist  #PCP-analog  #arylcyclohexylamine  #no-human-data  #research-chemical
-  3-Ho-Pce  [3-HO‑PCE|3HOPCE|3hopce|3‑(1‑(ethylamino)cyclohexyl)phenol|3‑HO‑Eticyclidine|3‑hydroxyeticyclidine|3‑hydroxy‑PCE|HO‑PCE]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #class:1,2-Diarylethylamine (arylcyclohexylamine)  #habit-forming  #possible-μ-opioid-agonist  #research-chemical  #respiratory-depression-risk  #tentative
-  3-HO-PCP  [3-Hydroxy-PCP|3-Hydroxyphencyclidine|3hopcp|3‑HOP|3‑HOPCP|3‑HO‑PCP HCl]  (source: piru-curated)  #MOR-agonist  #NMDA-antagonist  #PCP-analog  #arylcyclohexylamine  #class:Arylcyclohexylamine  #habit-forming  #mu-opioid-agonist  #naloxone-responsive-respiratory-depression  +5more
-  3-Me-PCPy  [1-[1-(3-methylphenyl)cyclohexyl]pyrrolidine|3-MePCPy|3-methyl-1-(1-phenylcyclohexyl)pyrrolidine (informal)|3-methyl-PCPy]  (source: drug.community)  #class:Arylcyclohexylamine (pyrrolidine-substituted PCP analogue)
-  3-MeO-PCE  [3-MeO-Eticyclidine|3-MeO-PCE HCl|3-Methoxy-eticyclidine|3-methoxyeticyclidine|3meopce|methoxieticyclidine|methoxyieticyclidine]  (source: piru-curated)  #NMDA-antagonist  #PCP-analog  #agitation-risk  #arylcyclohexylamine  #class:Arylcyclohexylamine  #designer-dissociative  #habit-forming  #research-chemical  +2more
-  3-Meo-Pcmo  [3-MeO-PCMo HCl|3-methoxy-PCMo|4-[1-(3-methoxyphenyl)cyclohexyl]morpholine|PCMo (morpholine PCP analogue)]  (source: tripsit)  #class:Arylcyclohexylamine (morpholine subgroup)  #research-chemical  #tentative
-  3-MeO-PCP  [1-[1-(3-methoxyphenyl)cyclohexyl]piperidine|3-MeO PCP|3-Methoxyphencyclidine|3-OMe-PCP|3-methoxyphencyclidine|3meopcp]  (source: piru-curated)  #NMDA-antagonist  #PCP-analog  #SERT-inhibitor  #agitation-risk  #arylcyclohexylamine  #class:Arylcyclohexylamine  #common  #designer-dissociative  +6more
-  3-Meo-Pcpr  [1-(3-Methoxyphenyl)-N-propylcyclohexan-1-amine (IUPAC)|3-MeO-PCPr HCl (salt form)|3-methoxy-PCPr]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #habit-forming  #research-chemical  #sigma-1  #tentative
-  3-Meo-Pcpy  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical  #sigma-1  #tentative
-  4-Meo-PCP  [4meopcp|methoxydine]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #lower-NMDA-than-3-MeO-isomer  #research-chemical  #sigma-1  #σ2-active
-  Allylketamine  [N-Allyl-ketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Arketamine  [(R)-ketamine|PCN-101|R-ketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #investigational  #investigational-antidepressant  #lower-dissociation  #research-chemical  #σ1-agonist-strong
-  Bromoketamine  [2-Bromodeschloroketamine|2‑(2‑bromophenyl)‑2‑(methylamino)cyclohexan‑1‑one|2‑BDCK|2‑BrDCK|2‑bromodeschloroketamine|BDCK|Bromo‑DCK]  (source: drug.community)  #class:Arylcyclohexylamine (ketamine analogue)  #duplicate-of-2-Br-DCK
-  Canket  [2-F-2'-Oxo-PCE|2F-NENDCK|2F‑2′‑Oxo‑PCE|2F‑NENDCK|2F‑NENK|2‑FXE|2‑Fluoro‑2‑oxo‑PCE|2′-Fluoro-2-oxo-PCE|3‑FXE (name sometimes used online; see identity note)|Canberra ketamine|FXE|Fluorexetamine]  (source: drug.community)  #class:Arylcyclohexylamine (fluorinated ketone)
-  Cyclobutylketamine  [N-Cyclobutyl-ketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Cyclopropylketamine  [N-Cyclopropyl-ketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Dehydronorketamine  [DHNK]  (source: piru-curated)  #arylcyclohexylamine  #inactive-at-NMDA  #metabolite  #no-human-data  #α7-nAChR-NAM
-  Deoxymethoxetamine  [3-Me-2′-oxo-PCE|3D-MXE|DMXE]  (source: drug.community)  #class:arylcyclohexylamine  #duplicate-of-DMXE
-  Deschloroketamine  [2'-oxo-pcm|2-Oxo-PCM|2-oxo-pcm|2′-Oxo-PCM|DCK|DXE|Deschloroketamine hydrochloride|O-PCM|dck|dxe|o-pcm|opcm]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #designer-dissociative  #habit-forming  #longer-duration-than-ketamine  #research-chemical  #tentative
-  Dextromethorphan  [CCC / Triple C (Coricidin HBP Cough & Cold; dangerous combo)|Coricidin/CCC (brand; WARNING contains CPM in many SKUs)|DM|DXM|DXM HBr|Delsym (DXM polistirex, ER formulation)|Delsym (brand; polistirex)|Dextromethorphan HBr|Dextromethorphan polistirex|Robitussin (brand; various)|Robo|Robotripping|Tussin|dex|dxm|robitussin|robo|robotussin|syrup]  (source: tripsit)  #CYP2D6-substrate  #SERT-inhibitor  #bromide-load-risk-chronic  #class:Morphinan (Levorphanol derivative, codeine analog)  #common  #hERG-moderate  #habit-forming  #serotonin-syndrome-risk-with-MAOI-SSRI  +1more
-  Dimethylketamine  [N,N-Dimethyl-ketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Diphenidine  [1,2-DEP|1-(1,2-diphenylethyl)piperidine|DEP|DPH (not to be confused with diphenhydramine)|dpd]  (source: tripsit)  #NMDA-antagonist  #PCP-like-affinity  #class:Diarylethylamine dissociative  #diarylethylamine  #habit-forming  #high-affinity-NMDA-blocker  #long-duration-dissociative  #research-chemical  +1more
-  DMXE  [3D-MXE|Deoxymethoxetamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #designer-dissociative  #research-chemical
-  DMXM  [3-Methoxy-PCM]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  DXM Polistirex  [DXM Poli|DXM extended‑release|DXM polistirex ER|Delsym (12‑hour)|Dextromethorphan polistirex]  (source: drug.community)  #class:Morphinan (Levorphanol derivative)  #extended-release  #ion-exchange-resin
-  Dxme  (source: tripsit)  #habit-forming  #research-chemical  #unidentified-RC
-  Ephenidine  [1|1,2-DP-E|1-(1,2-diphenylethyl)ethylamine|2-DP-E|DPD-E|EPE|N-ethyl-1,2-diphenylethanamine|N-ethyl-1,2-diphenylethylamine|NEDPA]  (source: tripsit)  #DAT-active  #NMDA-antagonist  #class:1,2-Diarylethylamine  #diarylethylamine  #habit-forming  #mid-affinity-NMDA-blocker  #research-chemical  #tentative
-  Esketamine  [(S)-ketamine|JNJ-54135419|S-ketamine|Spravato]  (source: piru-curated)  #FDA-approved-TRD  #HCN1-inhibitor  #NMDA-antagonist  #US-Schedule-III  #antidepressant  #arylcyclohexylamine  #prescription-only
-  Ethketamine  [NEK|n-ethyl-norketamine|n-ethylnorketamine|nek]  (source: tripsit)  #5-HT2-active  #AMPA-active  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical
-  Ethylketamine  [N-Ethylnorketamine|N-ethylnorketamine|NEK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #duplicate-of-Ethketamine  #no-human-data  #research-chemical
-  Eticyclidone  [2'-Oxo-PCE|N-Ethyldeschloroketamine|O-PCE]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #designer-dissociative  #duplicate-of-O-PCE  #research-chemical
-  Etoxadrol  [CL-1848C|Etoxadrol hydrochloride|U-37862A|U-37862A hydrochloride]  (source: drug.community)  #class:Dioxolane (piperidine) dissociative
-  Fluorexetamine  [3'-Fluoro-2-oxo-PCE|3-F-2'-Oxo-PCE|3-F-2-oxo-PCE|3-FXE|3-Fluoro-2-Oxo-PCE|3F-2'-Oxo-PCE|FXE]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #designer-dissociative  #research-chemical
-  Fluorolintane  [1-[1-(2-fluorophenyl)-2-phenylethyl]pyrrolidine|2-F-DPPy|2F-DPPy]  (source: tripsit)  #DAT > NMDA affinity  #habit-forming  #pyrrolidine-analogue  #research-chemical  #tentative
-  Hydroxetamine  [3-HO-2-Oxo-PCE|HXE]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #no-human-data  #possible-μ-opioid-agonist  #research-chemical  #respiratory-depression-risk
-  Hydroxynorketamine  [(2R,6R)-HNK|(2S,6S)-HNK|2R,6R-HNK|HNK]  (source: piru-curated)  #AMPA-active  #AMPA-potentiator  #arylcyclohexylamine  #investigational-antidepressant  #metabolite  #no-human-data  #non-dissociative  #research-chemical  +1more
-  Isophenidine  [N-(propan-2-yl)-1,2-diphenylethylamine|N-isopropyl-1,2-diphenylethylamine|NPDPA|NSC 34569|isopropylphenidine]  (source: drug.community)  #class:1,2-diarylethylamine
-  Ketamine  [(±)-ketamine|2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one|K|Ketalar|Ketaset|Special K|arketamine / R-ketamine|esketamine / S-ketamine|horse tranquilizer|k|ket|ketamine hydrochloride|kittens|kitty|racemic ketamine|special k|vitamin K|wonk]  (source: tripsit)  #CYP2B6-substrate  #CYP3A4-substrate  #FDA-approved-anesthetic  #HCN1-inhibitor  #NMDA-antagonist  #antidepressant  #arylcyclohexylamine  #class:Arylcyclohexylamine; cyclohexanone derivative; commonly encountered medically as ketamine hydrochloride  +2more
-  Memantine  [1-amino-3,5-dimethyladamantane|3,5-dimethyl-1-adamantanamine|3,5-dimethyltricyclo(3.3.1.1(3,7))decan-1-amine|Akatinol|Axura|D-145|DRG-0267|Ebixa|Memantina|Memantinum|Namenda]  (source: piru-curated)  #NMDA-antagonist  #class:Adamantane derivative  #extrasynaptic-selective  #fast-off-rate-NMDA-blocker  #minimal-CYP-DDI  #nootropic  #prescription-only  #renal-clearance-dominant  +1more
-  Methoxetamine  [3-MeO-2-Oxo-PCE|KMAX|M-ket|MXE|Methoxetamine hydrochloride|Mexxy|Special]  (source: piru-curated)  #NMDA-antagonist  #SERT-inhibitor  #arylcyclohexylamine  #class:Arylcyclohexylamine  #designer-dissociative  #fatalities-reported  #long-duration-dissociative  #research-chemical
-  Methoxmetamine  [3-MeO-2'-Oxo-PCM|3-MeO-2-Oxo-PCM|E-MXE|MMXE|MXM|Methoxymetamine|N-methyl-nor-methoxetamine (proposed)|e-Methoxetamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine dissociative  #no-human-data  #research-chemical
-  Methoxphenidine  [2-MXP|2-MeO-DPP|2-MeO-Diphenidine|2-MeO-diphenidine|2-meo-diphenidine|2-mxp|MXP|methoxyphenidine|mxp]  (source: piru-curated)  #NMDA-antagonist  #designer-dissociative  #diarylethylamine  #fatalities-documented  #fatalities-reported  #habit-forming  #high-affinity-NMDA-blocker  #long-duration-dissociative  +2more
-  Methoxyketamine  [2-MeO-Ketamine|2-meo-ketamine]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #duplicate-of-2-MeO-Ketamine  #habit-forming  #research-chemical
-  Methylethylketamine  [N-Methyl-N-ethyl-norketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Methylpropylketamine  [N-Methyl-N-propyl-norketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Mk-801  [dizocilpine|mk801]  (source: tripsit)  #duplicate-of-Dizocilpine  #habit-forming  #research-chemical  #research-tool-only  #tentative
-  MXE  [3-meo-2'oxo-pce|methoxetamine]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical
-  MXiPr  [2-(isopropylamino)-2-(3-methoxyphenyl)cyclohexan-1-one|3-MeO-2-oxo-PCiPr|3-MeO-2′-oxo-PCiPr|N-Isopropyl-MXE|methoxipropamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamine  #no-human-data  #research-chemical
-  Mxm  [methoxmetamine]  (source: tripsit)  #habit-forming  #research-chemical
-  MXP  [2-MXP|2-MeO-diphenidine|2-Methoxydiphenidine|Methoxphenidine]  (source: drug.community)  #class:Diarylethylamine (diphenidine family), not an arylcyclohexylamine  #duplicate-of-Methoxphenidine
-  MXPCP  [2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one|3-MeO-2'-Oxo-PCP HCl|3-MeO-2'-oxo-PCP|3-MeO-2'-oxo-PCP; 2-(3-methoxyphenyl)-2-(piperidin-1-yl)cyclohexan-1-one|3-MeO-O-PCP (market misnaming seen)|3-MeO-PCP-2-oxo analogue]  (source: drug.community)  #class:Arylcyclohexylamine (PCP-like; 2'-oxo PCP analogue)  #likely-very-high-NMDA-potency
-  MXPr  [3-MeO-2-Oxo-PCPr|N-Propyl-MXE]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Nitrous  [dinitrogen monoxide|hippy crack|laughing_gas|n20|n2o|nitrous oxide|nos]  (source: tripsit)  #B12-inactivation-neurotoxin  #Olney-lesion-positive-at-high-doses  #common  #endogenous-opioid-releaser  #fastest-onset-dissociative  #habit-forming
-  Norketamine  [DMK|N-Desmethylketamine]  (source: piru-curated)  #NMDA-antagonist  #active-metabolite  #arylcyclohexylamine  #metabolite  #no-human-data  #oral-PD-dominant
-  O-PCA  [O-Phenylcyclohexylamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  O-PCAl  [N-Allyl-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  O-PCcP  [N-Cyclopropyl-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  O-pce  [2'-Oxo-PCE|2'-oxo-pce|2-oxo-pce|2‑DCNEK|2‑Oxo‑PCE|2′‑Oxo‑PCE|N-ethyldeschloroketamine|N‑ethyldeschloroketamine|OPCE|O‑PCE|deschloro‑N‑ethyl‑ketamine|eticyclidon|eticyclidone|opce]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #habit-forming  #research-chemical  #tentative
-  O-PCEtOH  [N-Ethanol-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  O-PCiPr  [N-Isopropyl-DCK]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  O-PCP  [2'-Oxo-PCP|2-Keto-PCP|2-Oxo‑PCP|2‑Keto‑PCP|2‑Phenyl‑2‑(piperidin‑1‑yl)cyclohexan‑1‑one|2′-Oxo‑PCP]  (source: drug.community)  #class:Arylcyclohexylamine dissociative (2-oxo analogue of PCP)  #β-keto-PCP-analog
-  O-PCPr  [2'-Oxo-PCPr|2-Keto-PCPr|2-oxo-PCPr|2′-Oxo-PCPr|Deschloro‑N‑propyl ketamine|N-Propyl-DCK|O‑PCPr]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine (PCP analog)  #no-human-data  #research-chemical
-  Pce  [eticyclidine]  (source: tripsit)  #habit-forming  #tentative
-  PCP  [Angel Dust|Boat|Crystal|Dust|Embalming Fluid (slang for PCP, not actual formaldehyde)|Fry|Goon|Hog|KW|Killer Weed|Love Boat|Mintweed|Monkey Dust|Peace Pill|Phencyclidine|Rocket Fuel|Sherm|Tic|Wet|angel|angel_dust|angeldust|dust|phencyclidine|wet]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #habit-forming  #sigma-1
-  Propylketamine  [N-Propylnorketamine]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
-  Rolicyclidine  [pcpy]  (source: tripsit)  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical  #tentative
-  S-Ketamine  [(S)-ketamine|Esketamine|Ketanest S (parenteral brand)|L-ketamine|S-(−)-ketamine|S-ketamine HCl|Spravato (intranasal brand)]  (source: drug.community)  #antidepressant  #class:Arylcyclohexylamine (Cyclohexanone derivative)  #duplicate-of-esketamine
-  Salvia  (source: tripsit)  #common
-  Tiletamine  [2-(ethylamino)-2-(2-thienyl)cyclohexanone|CI-634|Telazol (tiletamine + zolazepam, 1:1)|Telazol component|Tiletamine HCl|Tiletaminum|Zoletil (tiletamine + zolazepam, 1:1)|telazol]  (source: piru-curated)  #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine dissociative (cyclohexanone core with thienyl substituent)  #habit-forming  #no-human-data  #research-chemical  #tentative  #veterinary-only
-  Tilmetamine  [2-(methylamino)-2-(thiophen-2-yl)cyclohexan-1-one|Arylcyclohexylamine (thiophene-substituted); not to be confused with tiletamine]  (source: drug.community)  #class:Arylcyclohexylamine
+  Ketamine  <recreational>  — insufflation mg: common 50-125, heavy 175
+      aka: Cat Tranquilizer|Jet|Ketalar|Ketanest|Ketaset|K他命|K粉|Purple|Vitamin K|arketamine / R-ketamine|esketamine / S-ketamine|horse tranquilizer|k|ket|kittens|kitty|racemic ketamine|special k|wonk|克他命|氯胺酮
+      #CYP2B6-substrate  #CYP3A4-substrate  #FDA-approved-anesthetic  #HCN1-inhibitor  #NMDA-antagonist  #antidepressant  #arylcyclohexylamine  #class:Arylcyclohexylamine; cyclohexanone derivative; commonly encountered medically as ketamine hydrochloride  #class:arylcyclohexylamines  #common  #habit-forming
+      also: Antidepressant
+  Nitrous  <recreational>  — inhalation g: common 8-16, heavy 40
+      aka: Laughing Gas|Nangs|Nitro|dinitrogen monoxide|hippy crack|laughing_gas|n20|n2o|nitrous oxide|nos|一氧化二氮|氧化亚氮|氧化亞氮|笑气|笑氣
+      #B12-inactivation-neurotoxin  #Olney-lesion-positive-at-high-doses  #common  #endogenous-opioid-releaser  #fastest-onset-dissociative  #habit-forming
+  PCP  <recreational>  — inhalation mg: common 4-8, heavy 12
+      aka: Angel Dust|Boat|Crystal|Embalming Fluid|Fry|Goon|Hog|KW|Killer Weed|Love Boat|Mintweed|Monkey Dust|Peace Pill|Rocket Fuel|Sernyl|Sherm|Sherman|Supergrass|Tic|Tic Tac|Zoom|angel|angel_dust|angeldust|dust|phencyclidine|wet
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #habit-forming  #sigma-1
+  2-Bromodeschloroketamine  [2-Br-DCK]  (STUB)  <recreational>
+      aka: 2-Br-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  2-Chloro-Ephenidine  <recreational>  — oral mg: common 130-175, heavy 200
+      aka: 2-chloroephenidine|2-cl-ephenidine|2chloroephenidine|2clephenidine
+      #NMDA-antagonist  #diarylethylamine  #research-chemical  #tentative
+  2-Chlorodeschloroketamine  [2-Cl-DCK]  (STUB)  <recreational>
+      aka: 2-Cl-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #name-collision-with-ketamine  #no-human-data  #research-chemical
+  2-Fluorodeschloroketamine  [2-FDCK]  <recreational>  — insufflation mg: common 75-150, heavy 250
+      aka: 2-F-DCK|2-FDCK|2-fl-2'-oxo-pcm|2f-dck|2f-ket|2f-ketamine|2fdck|2fket|Canket|Fluorexetamine|Fluoroketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamines  #designer-dissociative  #fatalities-reported  #habit-forming  #research-chemical  #tentative
+  2-FXE  (STUB)  <recreational>
+      aka: 2-Fluoro-FXE
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  2-FXiPr  <recreational>
+      aka: 2-F-2-oxo-PCiPr|FXiPr
+      #dissociative  #no-human-data  #oxo-arylcyclohexylamine  #research-chemical
+  2-MeO-Ketamine  <recreational>  — insufflation mg: common 60-130, heavy 200
+      aka: 2‑MeO‑2‑deschloroketamine|2‑MeO‑K|2‑MeO‑ketamine|MXM|Methoxyketamine|O‑methoxyketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #duplicate-of-2-MeO-Ketamine  #habit-forming  #research-chemical
+  2-TFMXP  <recreational>  — insufflation mg: common 15-30, heavy 45
+      aka: 2-(trifluoromethyl)‑methoxphenidine|2‑TFM‑MXP|2‑TFM‑diphenidine|2‑trifluoromethyl‑MXP|TFMXP
+      #class:Arylcyclohexylamine (diphenidine/diarylethylamine family)
+  3,4-Methylenedioxy-phencyclidine  [4-MD-PCP]  <recreational>  — insufflation mg: common 5-15, heavy 30
+      aka: 3|3,4-benzodioxole-PCP|3,4-methylenedioxy-PCP|4-MD-PCP|MDPCP
+      #class:Arylcyclohexylamine (PCP analogue, methylenedioxy-substituted)
+  3-EtO-PCP  <recreational>  — inhalation mg (free-base): common 15-30, heavy 50
+      aka: 3-OEt-PCP|3-ethoxy-PCP
+      #class:Arylcyclohexylamine dissociative
+  3-Fluoro-PCP  <recreational>  — insufflation mg: common 15-35, heavy 60
+      aka: 3-F-PCP|3-fluoro phencyclidine|3F-PCP|3FPCP|3′-F-PCP
+      #NMDA-antagonist  #PCP-analog  #arylcyclohexylamine  #class:Arylcyclohexylamine dissociative  #duplicate-of-3-Fluoro-PCP  #no-human-data  #research-chemical
+  3-HO-PCE  <recreational>  — insufflation mg: common 15-30, heavy 50
+      aka: 3-HO‑PCE|3hopce|3‑HO‑Eticyclidine|3‑hydroxyeticyclidine|3‑hydroxy‑PCE|HO‑PCE|Hydroxyeticyclidine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:1,2-Diarylethylamine (arylcyclohexylamine)  #class:arylcyclohexylamines  #habit-forming  #possible-μ-opioid-agonist  #research-chemical  #respiratory-depression-risk  #tentative
+  3-HO-PCP  <recreational>  — insufflation mg: common 4-6, heavy 8
+      aka: 3-Hydroxy-PCP|3-Hydroxyphencyclidine|3hopcp|3‑HOP|3‑HOPCP|Hydroxyphencyclidine
+      #MOR-agonist  #NMDA-antagonist  #PCP-analog  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #habit-forming  #mu-opioid-agonist  #naloxone-responsive-respiratory-depression  #no-human-data  #research-chemical  #sigma-1
+  3-Me-PCE  <recreational>
+      aka: 3-methyl-PCE|3-methyl-eticyclidine
+      #dissociative  #no-human-data  #pcp-analog  #psychosis-risk  #research-chemical
+  3-Me-PCP  <recreational>
+      aka: 3-methyl-PCP|3-methyl-phencyclidine|meta-methyl-PCP
+      #dissociative  #no-human-data  #pcp-analog  #psychosis-risk  #research-chemical
+  3-Me-PCPy  <recreational>  — insufflation mg: common 10-20, heavy 35
+      aka: 3-MePCPy|3-methyl-PCPy
+      #class:Arylcyclohexylamine (pyrrolidine-substituted PCP analogue)
+  3-MeO-PCE  <recreational>  — insufflation mg: common 6-12, heavy 20
+      aka: 3-MeO-Eticyclidine|3-Methoxy-eticyclidine|3-methoxyeticyclidine|3meopce|Methoxyeticyclidine|methoxieticyclidine|methoxyieticyclidine
+      #NMDA-antagonist  #PCP-analog  #agitation-risk  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #designer-dissociative  #habit-forming  #research-chemical  #tentative  #σ1-active
+  3-MeO-PCMO  <recreational>  — insufflation mg: common 100-160, heavy 220
+      aka: 3-methoxy-PCMo|PCMo
+      #class:Arylcyclohexylamine (morpholine subgroup)  #class:arylcyclohexylamines  #research-chemical  #tentative
+  3-MeO-PCP  <recreational>  — inhalation mg: common 10-20, heavy 25
+      aka: 3-MeO|3-MeO PCP|3-Methoxyphencyclidine|3-OMe-PCP|3meopcp
+      #NMDA-antagonist  #PCP-analog  #SERT-inhibitor  #agitation-risk  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #common  #designer-dissociative  #fatal-overdose-narrow-window  #fatalities-reported  #habit-forming
+  3-MeO-PCPR  <recreational>  — insufflation mg: common 3-8, heavy 15
+      aka: 3-methoxy-PCPr
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #habit-forming  #research-chemical  #sigma-1  #tentative
+  3-MeO-PCPY  <recreational>  — insufflation mg: common 3-6, heavy 10
+      #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical  #sigma-1  #tentative
+  4-MeO-PCP  <recreational>  — insufflation mg: common 75-150, heavy 150
+      aka: 4meopcp|Methoxydine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamines  #habit-forming  #lower-NMDA-than-3-MeO-isomer  #research-chemical  #sigma-1  #σ2-active
+  Allylketamine  (STUB)  <recreational>
+      aka: N-Allyl-ketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Arketamine  (STUB)  <recreational>
+      aka: PCN-101|R-ketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #investigational  #investigational-antidepressant  #lower-dissociation  #research-chemical  #σ1-agonist-strong
+  Bromoketamine  <recreational>  — insufflation mg: common 90-160, heavy 250
+      aka: 2-Bromodeschloroketamine|2‑BDCK|2‑BrDCK|2‑bromodeschloroketamine|BDCK|Bromo‑DCK
+      #class:Arylcyclohexylamine (ketamine analogue)  #duplicate-of-2-Br-DCK
+  Canket  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: 2-F-2'-Oxo-PCE|2F-NENDCK|2F‑2′‑Oxo‑PCE|2F‑NENDCK|2F‑NENK|2‑FXE|2‑Fluoro‑2‑oxo‑PCE|3‑FXE|Canberra ketamine|FXE|Fluorexetamine
+      #class:Arylcyclohexylamine (fluorinated ketone)
+  Cyclobutylketamine  (STUB)  <recreational>
+      aka: N-Cyclobutyl-ketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Cyclopropylketamine  (STUB)  <recreational>
+      aka: N-Cyclopropyl-ketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Dehydronorketamine  (STUB)  <recreational>
+      aka: DHNK
+      #arylcyclohexylamine  #inactive-at-NMDA  #metabolite  #no-human-data  #α7-nAChR-NAM
+  Deschloroketamine  <recreational>  — inhalation mg: common 10-20, heavy 40
+      aka: 2'-oxo-pcm|2-Oxo-PCM|2′-Oxo-PCM|DCK|DXE|O-PCM|opcm
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #designer-dissociative  #habit-forming  #longer-duration-than-ketamine  #research-chemical  #tentative
+  Dextromethorphan  <recreational>  — oral mg/kg: common 2.5-7.5, heavy 15
+      aka: Abatuss Dmx|CCC / Triple C|Coricidin/CCC|Cough Control|Cough Dm|DM|DMO|Delsym|DexAlone|Dextromethorphan Polistirex Extended Release|Dextromethorphan polistirex|Healthy Accents Night Time Cough|Leader Childrens Cough Dm|Non-drowsy Formula Wal-tussin|Q Tapp Cold And Cough|Robotripping|Scot-tussin Diabetes Cough Formula With Dm|Silphen Dm Cough|Topcare Cough Dm|Tussin|Tussin 12 Hr|Tussin Dm Cough|brompheniramine/dextromethorphan/pseudoephedrine|brompheniramine/pseudoephedrine/dextromethorphan|dex|dexchlorpheniramine/dextromethorphan/pseudoephedrine|dextromethorphan/doxylamine|dextromethorphan/promethazine|dxm|robitussin|robo|robotussin|syrup
+      #CYP2D6-substrate  #SERT-inhibitor  #bromide-load-risk-chronic  #class:Morphinan (Levorphanol derivative, codeine analog)  #class:substituted morphinans  #common  #hERG-moderate  #habit-forming  #serotonin-syndrome-risk-with-MAOI-SSRI  #sigma-1-agonist
+  Dimethylketamine  (STUB)  <recreational>
+      aka: N,N-Dimethyl-ketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Diphenidine  <recreational>  — inhalation mg: common 20-40, heavy 55
+      aka: 1,2-DEP|DEP|DPH|dpd
+      #NMDA-antagonist  #PCP-like-affinity  #class:Diarylethylamine dissociative  #class:diarylethylamines  #diarylethylamine  #habit-forming  #high-affinity-NMDA-blocker  #long-duration-dissociative  #research-chemical  #tentative
+  Dizocilpine  <recreational>  — insufflation mg: common 0.25-0.8, heavy 1.5
+      aka: CID 180081|MK-801|mk801
+      #Olney-lesion-positive  #class:Diarycycloheptene; NMDA-channel blocker (PCP-site ligand)  #duplicate-of-Dizocilpine  #habit-forming  #high-affinity-NMDA-blocker  #research-chemical  #research-tool-only  #tentative  #trapping-blocker
+      also: Other
+  DMXE  <recreational>  — insufflation mg: common 30-60, heavy 120
+      aka: 3-Me-2′-oxo-PCE|3D-MXE|Deoxymethoxetamine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamine  #designer-dissociative  #duplicate-of-DMXE  #research-chemical
+  DMXM  (STUB)  <recreational>
+      aka: 3-Methoxy-PCM
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  DXM Polistirex  <recreational>  — oral mg (DXM base equivalent): common 150-360, heavy 720
+      aka: DXM Poli|DXM extended‑release|DXM polistirex ER|Delsym|Dextromethorphan polistirex
+      #class:Morphinan (Levorphanol derivative)  #extended-release  #ion-exchange-resin
+  Dxme  <recreational>  — oral mg: common 30-50, heavy 80
+      #habit-forming  #research-chemical  #unidentified-RC
+  Ephenidine  <recreational>  — insufflation mg: common 40-100, heavy 150
+      aka: 1|1,2-DP-E|2-DP-E|DPD-E|EPE|NEDPA
+      #DAT-active  #NMDA-antagonist  #class:1,2-Diarylethylamine  #class:diarylethylamines  #diarylethylamine  #habit-forming  #mid-affinity-NMDA-blocker  #research-chemical  #tentative
+  Esketamine  <recreational>  — insufflation mg: common 56-84, heavy 140
+      aka: JNJ-54135419|Ketanest S|L-ketamine|S-(−)-ketamine|S-ketamine|Spravato
+      #FDA-approved-TRD  #HCN1-inhibitor  #NMDA-antagonist  #US-Schedule-III  #antidepressant  #arylcyclohexylamine  #class:Arylcyclohexylamine (Cyclohexanone derivative)  #duplicate-of-esketamine  #prescription-only
+  Ethketamine  <recreational>  — oral mg: common 40-90, heavy 160
+      aka: n-ethyl-norketamine|n-ethylnorketamine|nek
+      #5-HT2-active  #AMPA-active  #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical
+  Ethylketamine  (STUB)  <recreational>
+      aka: N-Ethylnorketamine|NEK
+      #NMDA-antagonist  #arylcyclohexylamine  #duplicate-of-Ethketamine  #no-human-data  #research-chemical
+  Eticyclidone  <recreational>  — insufflation mg: common 10-20, heavy 40
+      aka: 2'-Oxo-PCE|N-Ethyldeschloroketamine|O-PCE
+      #NMDA-antagonist  #arylcyclohexylamine  #designer-dissociative  #duplicate-of-O-PCE  #research-chemical
+  Etoxadrol  <recreational>  — intravenous mg/kg: common 0.6-0.9, heavy 2
+      aka: CL-1848C
+      #class:Dioxolane (piperidine) dissociative
+  Fluorexetamine  <recreational>  — insufflation mg: common 15-30, heavy 50
+      aka: 3-F-2'-Oxo-PCE|3-F-2-oxo-PCE|3-FXE|3F-2'-Oxo-PCE|FXE
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #designer-dissociative  #research-chemical
+  Fluorolintane  <recreational>  — oral mg: common 100-150, heavy 250
+      aka: 2-F-DPPy|2F-DPPy
+      #DAT > NMDA affinity  #habit-forming  #pyrrolidine-analogue  #research-chemical  #tentative
+  HXE  <recreational>  — insufflation mg: common 40-70, heavy 120
+      #class:arylcyclohexylamines
+  Hydroxetamine  <recreational>  — insufflation mg: common 30-60, heavy 100
+      aka: 3-HO-2-Oxo-PCE|HXE
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #no-human-data  #possible-μ-opioid-agonist  #research-chemical  #respiratory-depression-risk
+  Hydroxynorketamine  (STUB)  <recreational>
+      aka: 2R,6R-HNK|HNK
+      #AMPA-active  #AMPA-potentiator  #arylcyclohexylamine  #investigational-antidepressant  #metabolite  #no-human-data  #non-dissociative  #research-chemical  #α7-nAChR-active
+  Isophenidine  <recreational>  — insufflation mg: common 100-150, heavy 200
+      aka: NPDPA|NSC 34569|isopropylphenidine
+      #class:1,2-diarylethylamine
+  Memantine  <recreational>  — oral mg: common 20-40, heavy 100
+      aka: Akatinol|Axura|D-145|DRG-0267|Ebixa|Memantina|Memantinum|Memaxa|Namenda|Namenda XR|Namzaric (with donepezil|both extended-release)
+      #NMDA-antagonist  #class:Adamantane derivative  #class:adamantanes  #extrasynaptic-selective  #fast-off-rate-NMDA-blocker  #minimal-CYP-DDI  #nootropic  #prescription-only  #renal-clearance-dominant  #tentative
+  Methoxetamine  <recreational>  — insufflation mg: common 25-50, heavy 100
+      aka: 3-MeO-2-Oxo-PCE|KMAX|M-ket|MXE|Mexxy|Special
+      #NMDA-antagonist  #SERT-inhibitor  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #designer-dissociative  #fatalities-reported  #long-duration-dissociative  #research-chemical
+  Methoxmetamine  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 3-MeO-2'-Oxo-PCM|3-MeO-2-Oxo-PCM|E-MXE|MMXE|MXM|Methoxymetamine|e-Methoxetamine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine dissociative  #no-human-data  #research-chemical
+  Methoxphenidine  <recreational>  — intravenous mg: common 20-40, heavy 60
+      aka: 2-MeO-DPP|2-MeO-Diphenidine|2-Methoxydiphenidine|2-mxp|MXP|methoxyphenidine
+      #NMDA-antagonist  #class:Diarylethylamine (diphenidine family), not an arylcyclohexylamine  #class:diarylethylamines  #designer-dissociative  #diarylethylamine  #duplicate-of-Methoxphenidine  #fatalities-documented  #fatalities-reported  #habit-forming  #high-affinity-NMDA-blocker  #long-duration-dissociative  #research-chemical
+  Methylethylketamine  (STUB)  <recreational>
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Methylpropylketamine  (STUB)  <recreational>
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  MXE  <recreational>  — insufflation mg: common 20-35, heavy 60
+      aka: 3-meo-2'oxo-pce|methoxetamine
+      #NMDA-antagonist  #arylcyclohexylamine  #habit-forming  #research-chemical
+  MXiPr  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: MXiP|N-Isopropyl-MXE|methoxipropamine
+      #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamine  #class:arylcyclohexylamines  #no-human-data  #research-chemical
+  Mxm  <recreational>  — oral mg: common 40-60, heavy 100
+      aka: methoxmetamine
+      #habit-forming  #research-chemical
+  MXPCP  <recreational>  — insufflation mg: common 30-80, heavy 120
+      aka: 3-MeO-O-PCP
+      #class:Arylcyclohexylamine (PCP-like; 2'-oxo PCP analogue)  #likely-very-high-NMDA-potency
+  MXPr  (STUB)  <recreational>
+      aka: 3-MeO-2-Oxo-PCPr|N-Propyl-MXE
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Norketamine  (STUB)  <recreational>
+      aka: DMK|N-Desmethylketamine
+      #NMDA-antagonist  #active-metabolite  #arylcyclohexylamine  #metabolite  #no-human-data  #oral-PD-dominant
+  O-PCA  (STUB)  <recreational>
+      aka: O-Phenylcyclohexylamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  O-PCAl  (STUB)  <recreational>
+      aka: N-Allyl-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  O-PCcP  (STUB)  <recreational>
+      aka: N-Cyclopropyl-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  O-pce  <recreational>  — insufflation mg: common 6-12, heavy 20
+      aka: 2'-oxo-pce|2-oxo-pce|2‑DCNEK|2‑Oxo‑PCE|2′‑Oxo‑PCE|N-ethyldeschloroketamine|N‑ethyldeschloroketamine|O‑PCE|deschloro‑N‑ethyl‑ketamine|eticyclidon|eticyclidone|opce
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine  #class:arylcyclohexylamines  #habit-forming  #research-chemical  #tentative
+  O-PCEtOH  (STUB)  <recreational>
+      aka: N-Ethanol-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  O-PCiPr  (STUB)  <recreational>
+      aka: N-Isopropyl-DCK
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  O-PCP  <recreational>  — inhalation mg: common 8-15, heavy 25
+      aka: 2'-Oxo-PCP|2-Keto-PCP|2-Oxo‑PCP|2‑Keto‑PCP|2‑Phenyl‑2‑(piperidin‑1‑yl)cyclohexan‑1‑one|2′-Oxo‑PCP
+      #class:Arylcyclohexylamine dissociative (2-oxo analogue of PCP)  #β-keto-PCP-analog
+  O-PCPr  <recreational>  — insufflation mg: common 20-40, heavy 70
+      aka: 2'-Oxo-PCPr|2-Keto-PCPr|2-oxo-PCPr|2′-Oxo-PCPr|Deschloro‑N‑propyl ketamine|N-Propyl-DCK|O‑PCPr
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine (PCP analog)  #no-human-data  #research-chemical
+  PCE  <recreational>  — inhalation mg: common 4-8, heavy 12
+      aka: eticyclidine
+      #class:arylcyclohexylamines  #habit-forming  #tentative
+  Propylketamine  (STUB)  <recreational>
+      aka: N-Propylnorketamine
+      #NMDA-antagonist  #arylcyclohexylamine  #no-human-data  #research-chemical
+  Rolicyclidine  <recreational>  — inhalation mg: common 4-8, heavy 12
+      aka: pcpy
+      #NMDA-antagonist  #arylcyclohexylamine  #class:arylcyclohexylamines  #habit-forming  #research-chemical  #tentative
+  Tiletamine  <recreational>  — insufflation mg: common 7-20, heavy 35
+      aka: CI-634|Telazol component|Tiletaminum|Zoletil|telazol
+      #NMDA-antagonist  #arylcyclohexylamine  #class:Arylcyclohexylamine dissociative (cyclohexanone core with thienyl substituent)  #habit-forming  #no-human-data  #research-chemical  #tentative  #veterinary-only
+  Tilmetamine  <recreational>  — insufflation mg: common 5-10, heavy 20
+      #class:Arylcyclohexylamine

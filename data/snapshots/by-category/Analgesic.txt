@@ -1,3 +1,57 @@
-# Analgesic — 1 substances
+# Analgesic — 17 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Monotropa uniflora  [Convulsion root|Corpse plant|Ghost Pipe|Ghost flower|Ghost pipe|Ghost plant|Ice plant|Indian Pipe|Indian pipe]  (source: drug.community)  #class:Mycoheterotrophic herb in Ericaceae; phytochemistry incompletely characterized (reports of phenolic/salicylate-type glycosides exist, specific diterpenes unconfirmed).
+  Acetaminophen  (STUB)  <otc>
+      aka: Tylenol
+      #analgesic  #antipyretic  #tablet, chewable tablet, dispersible tablet, extended release tablet, capsule, solution, suspension, syrup
+  Aspirin  <recreational>
+      aka: Acetylsalicylic acid|Adult Aspirin Regimen|Alka Seltzer Original|Alka-seltzer|Aspirin 325mg|Aspirin 5 Grain|Aspirin E-c|Bayer|Bromo Seltzer|Durlaza|Ecotrin|Physicians Care Aspirin|Regular Strength Tri-buffered Aspirin|St. Joseph Chewable Low Dose Aspirin|Sunmark Aspirin|acetylsalicylate|anhydrous citric acid/aspirin/sodium|sodium/anhydrous citric acid/aspirin
+      #analgesic  #common  #nsaid  #salicylate  #tablet, delayed release tablet, chewable tablet, extended release capsule
+      also: Other
+  Celecoxib  (STUB)  <medical_rx>
+      aka: Celebrex|Celecoxib 400 Mg|Elyxyb
+      #analgesic  #capsule, oral solution  #cox-2 selective  #nsaid
+  Diclofenac  (STUB)  <otc>
+      aka: Cambia|Diclofenac Sodium Delayed Release|Previdolrx Plus Analgesic Pak|Solaraze|Voltaren|Zipsor|Zorvolex
+      #analgesic  #moderate cox-2 selectivity  #nsaid  #tablet, delayed release tablet, extended release tablet, capsule, powder for solution
+  Etodolac  (STUB)  <medical_rx>
+      aka: Lodine
+      #analgesic  #capsule, tablet, extended release tablet  #moderate cox-2 selectivity  #nsaid
+  Fenoprofen  (STUB)  <medical_rx>
+      aka: Fenortho|Nalfon
+      #analgesic  #cox-1/cox-2 non-selective  #nsaid  #tablet, capsule
+  Ibuprofen  <recreational>  — oral mg: common 400-800, heavy 800
+      aka: Advil|Caldolor|Care One Ibuprofen Ib|Careone Ibuprofen|Dye Free Childrens Ibuprofen|Good Neighbor Pharmacy Ibuprofen|Handy Solutions Ibuprofen|Health Mart Ibuprofen Ib|Humana Pharmacy Childrens Ibuprofen|Ibutab|Motrin|Neoprofen|Redicare Ibuprofen|Rexall Ibuprofen|Shoprite Infants Ibuprofen|Smart Sense Ibuprofen|Topcare Childrens Ibuprofen|Topcare Ibuprofen|Up And Up Ibuprofen Sodium
+      #analgesic  #common  #cox-1/cox-2 non-selective  #nsaid  #tablet, chewable tablet, capsule, suspension
+      also: Other
+  Indomethacin  (STUB)  <medical_rx>
+      aka: Indocin|Tivorbex
+      #analgesic  #capsule, extended release capsule, suspension  #cox-1/cox-2 non-selective  #nsaid
+  Ketorolac  (STUB)  <medical_rx>
+      aka: Acular Ls|Ketorolac Tromethamine|Toradol
+      #analgesic  #cox-1/cox-2 non-selective  #nsaid  #tablet
+  Meloxicam  (STUB)  <medical_rx>
+      aka: Mobic|Qmiiz|Vivlodex
+      #analgesic  #capsule, tablet, orally disintegrating tablet  #moderate cox-2 selectivity  #nsaid
+  Monotropa uniflora  <medical_rx>  — oral g: common 0.6-2, heavy 4
+      aka: Convulsion root|Corpse plant|Ghost Pipe|Ghost flower|Ghost plant|Ice plant|Indian pipe
+      #class:Mycoheterotrophic herb in Ericaceae; phytochemistry incompletely characterized (reports of phenolic/salicylate-type glycosides exist, specific diterpenes unconfirmed).
+  Nabumetone  (STUB)  <medical_rx>
+      aka: Relafen DS
+      #analgesic  #moderate cox-2 selectivity  #nsaid  #tablet
+  Naproxen  <recreational>  — oral mg: common 250-500, heavy 500
+      aka: Aleve|Naprelan|Naprosyn
+      #analgesic  #common  #cox-1/cox-2 non-selective  #nsaid  #tablet, extended release tablet, capsule, suspension
+      also: Other
+  Phenazopyridine  (STUB)  <otc>
+      aka: AZO Urinary Pain Relief|Pyridium
+      #tablet  #urinary tract analgesic
+  Piroxicam  (STUB)  <medical_rx>
+      aka: Feldene
+      #analgesic  #capsule  #cox-1/cox-2 non-selective  #nsaid
+  Salsalate  (STUB)  <medical_rx>
+      aka: Disalcid
+      #analgesic  #nsaid  #salicylate  #tablet
+  Sulindac  (STUB)  <medical_rx>
+      aka: Clinoril
+      #analgesic  #cox-1/cox-2 non-selective  #nsaid  #tablet

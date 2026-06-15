@@ -1,0 +1,35 @@
+# Deliriant — 9 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
+
+  3-Quinuclidinyl benzilate  [3-QNB]  <recreational>  — intramuscular µg/kg: common 6-7, heavy 9
+      aka: 3-QNB|Agent Buzz|BZ|EA-2277|QNB|Substance 78
+      #class:Tropane-derived glycolate ester (antimuscarinic)
+  Atropine  <recreational>  — intravenous mg: common 0.6-1, heavy 2
+      aka: Atropen|Atropin|Atropina|Atropinum|Duodote|Isopto Atropine|Lomotil/Motofen co-formulated atropine|Tropine tropate|dl-Hyoscyamine|dl-tropyltropate
+      #class:Tropane alkaloid (belladonna alkaloid)
+  Datura  <recreational>
+      aka: Datura stramonium|Jimson Weed|jimsonweed
+      #anticholinergic-deliriant  #miscategorised  #tentative
+      also: Depressant, Dysdelic
+  Dimenhydrinate  <recreational>  — oral mg: common 50-100, heavy 400
+      aka: Airmit Ace|Dinate|Diphenhydramine 8-chlorotheophyllinate|Diphenhydramine theoclate|Dramamine|Driminate|Gravol|O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate|Triptone|Vomex A
+      #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  #class:Ethanolamine first‑generation H1 antihistamine salt: diphenhydramine + 8‑chlorotheophylline (xanthine).  #common  #deliriant  #diphenhydramine-salt  #duplicate-of-dimenhydrinate  #first-gen-antihistamine  #sedating
+      also: Antihistamine, Depressant
+  Diphenhydramine  <recreational>  — intramuscular mg: common 25-50, heavy 100
+      aka: Aller-g-time|Allergy|Aphenap|Aurodryl Childrens Allergy|Bactimicina Childrens Allergy|Benadryl|Childrens Benadryl Dye-free Allergy|Childrens Wal-dryl Allergy|First Aid Shot Therapy Sleep Aid|Good Sense Allergy Relief|Good Sense Nighttime Sleep Aid|Healthy Accents Ibuprofen Pm|Jet-asleep Double Strength Night Time Sleep Aid|Motion Sickness Relief|Nighttime Sleep Easy|Nighttime Sleep-aid|Nite Time Sleep Aid Liquidgels|Nytol|Original Formula Motion Sickness Relief|Rx Act Ibuprofen Pm|Shoprite Sleep Aid|Smart Sense Allergy|Smart Sense Allergy Relief|Sominex|Sominex Max|Somnitabs|Unisom SleepMelts|Unisom SleepTabs|Wal-sleep Z|ZzzQuil|diphenhydramine/ibuprofen|dph
+      #Beers-list  #CYP2D6-inhibitor  #H1-antagonist  #H1-inverse-agonist  #Na-channel-blocker  #OTC  #anticholinergic  #anticholinergic-strong  #antihistamine  #antihistamine, 1st generation  #class:ethanolamine  #common
+      also: Antihistamine, Depressant, Dysdelic
+  Doxylamine  <recreational>  — oral mg: common 25-25, heavy 75
+      aka: Bonjesta|Diclegis|NyQuil|Shoprite Sleep-aid|Unisom|Unisom SleepTabs
+      #5-HT2A-agonist  #CYP2D6-substrate  #DOx  #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  #antihistamine, 1st generation  #deliriant  #first-gen-antihistamine  #muscarinic-antagonist
+      also: Antihistamine, Depressant
+  EA-3167  <recreational>  — intramuscular ug/kg: common 2.5-4, heavy 6
+      aka: EA 3167|Edgewood Agent EA-3167|Quinuclidinyl phenylcyclopentyl glycolate
+      #class:Quinuclidinyl phenylcyclopentyl glycolate ester (tropane-related antimuscarinic)
+  Ibotenic acid  <recreational>  — oral mg: common 50-100, heavy 150
+      aka: IBO
+      #class:Isoxazole amino acid
+  Scopolamine  (STUB)  <medical_rx>
+      aka: Hyoscine|Hyoscine butylbromide|Transderm Scop|Transderm Scōp
+      #BBB-penetrant-high  #Beers-criteria-avoid-elderly  #CYP3A4-substrate  #M1-pan-muscarinic-antagonist  #antidepressant-rapid-investigational  #physostigmine-reversible  #tentative  #tropane-alkaloid
+      also: Antihistamine

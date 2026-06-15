@@ -1,30 +1,232 @@
-# Peptide — 28 substances
+# Peptide — 83 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  5-Amino-1MQ  [5-Amino-1-methylquinolinium|5A1MQ]  (source: piru-curated)  #NNMT-inhibitor  #anti-obesity  #grey-market  #metabolic  #peptide  #peptide-mimetic  #research-chemical  #weight-loss
-  BPC-157  [BPC 15|Bepecin|Body Protection Compound 157|PL 14736|PL-14736]  (source: piru-curated)  #WADA-banned  #WADA-banned-S0  #gut-healing  #no-human-data  #no-published-human-pk  #nootropic  #peptide  #research-chemical  +1more
-  Cerebrolysin  [Cerebrolisin|FPF-1070]  (source: piru-curated)  #nootropic  #parenteral-only  #peptide  #porcine-brain-hydrolysate  #prescription-only  #undefined-active-component
-  CJC-1295  [CJC-1295 DAC|Drug Affinity Complex-GRF 1-29|Modified GRF 1-29 DAC]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
-  Dihexa  [N-hexanoic-Tyr-Ile-(6) aminohexanoic amide|PNB-0408]  (source: piru-curated)  #HGF-augmenter  #c-Met-signaling  #investigational  #no-human-data  #nootropic  #oncogenic-theoretical-concern  #peptide  #research-chemical
-  DSIP  [Delta Sleep-Inducing Peptide|delta sleep peptide]  (source: piru-curated)  #anxiolytic  #grey-market  #peptide  #research-chemical  #sleep-peptide
-  Dulaglutide  [Trulicity]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #peptide  #prescription-only
-  Epitalon  [Ala-Glu-Asp-Gly|Epithalon|Epithalone|Tetrapeptide-5]  (source: piru-curated)  #anti-aging  #grey-market  #longevity-research  #peptide  #research-chemical  #telomerase-activator
-  Exenatide  [Bydureon|Bydureon BCise|Byetta]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #peptide  #prescription-only
-  GHK-Cu  [Copper peptide GHK-Cu|Copper tripeptide-1|Glycyl-L-histidyl-L-lysine copper]  (source: piru-curated)  #anti-aging  #dermatological  #grey-market  #healing-peptide  #peptide  #research-chemical
-  GHRP-2  [Growth Hormone Releasing Peptide 2|KP-102|Pralmorelin]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
-  GHRP-6  [GH-releasing hexapeptide 6|Growth Hormone Releasing Peptide 6|His-DTrp-Ala-Trp-DPhe-Lys-NH2|Skf 110679|growth hormone releasing hexapeptide|growth hormone releasing peptide-6]  (source: piru-curated)  #GH-secretagogue  #grey-market  #no-human-data  #peptide  #performance-enhancing  #research-chemical  #tryptamine
-  Hexarelin  [EP-23905|Examorelin|MF-6003]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
-  Ipamorelin  [NNC 26-0161]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #performance-enhancing  #research-chemical
-  Liraglutide  [Saxenda|Victoza]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
-  Melanotan II  [MT-2|MT-II|Melanotan 2]  (source: piru-curated)  #aphrodisiac  #grey-market  #melanocortin-agonist  #peptide  #research-chemical  #tanning
-  MK-677  [Ibutamoren|Ibutamoren mesylate|L-163,191|Nutrobal]  (source: piru-curated)  #GH-secretagogue  #grey-market  #peptide  #peptide-mimetic  #performance-enhancing  #research-chemical
-  MOTS-c  [MOTS c peptide|Mitochondrial Open Reading Frame of 12S rRNA-c]  (source: piru-curated)  #grey-market  #longevity-research  #metabolic  #mitochondrial  #peptide  #research-chemical
-  P21  [Ac-DGGL-amide|CNTF mimetic peptide|Ciliary neurotrophic factor peptide mimetic|P021]  (source: piru-curated)  #CNTF-derived-peptide  #investigational  #no-human-data  #nootropic  #peptide  #research-chemical  #single-lab-data-only
-  PT-141  [Bremelanotide|Vyleesi]  (source: piru-curated)  #HSDD-treatment  #aphrodisiac  #melanocortin-agonist  #peptide  #prescription-only
-  Retatrutide  [LY3437943]  (source: piru-curated)  #GIP-agonist  #GLP-1-agonist  #anti-obesity  #peptide  #research-chemical  #weight-loss
-  Selank  [TKPRPGP|Thr-Lys-Pro-Arg-Pro-Gly-Pro|Threonyl-lysyl-prolyl-arginyl-prolyl-glycyl-proline]  (source: piru-curated)  #Russian-clinical-only  #anxiolytic  #indirect-GABAergic  #intranasal-only-practical-route  #nootropic  #peptide  #tuftsin-analog
-  Semaglutide  [Ozempic|Rybelsus|Wegovy]  (source: piru-curated)  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
-  Semax  [MEHFPGP|Met-Glu-His-Phe-Pro-Gly-Pro|Methionyl-glutamyl-histidyl-phenylalanyl-prolyl-glycyl-proline]  (source: piru-curated)  #ACTH-4-10-analog  #BDNF-upregulator  #Russian-clinical-only  #intranasal-only-practical-route  #neurotrophic  #nootropic  #peptide
-  Sermorelin  [GHRH(1-29)|GRF 1-29|Geref]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #anti-aging  #grey-market  #peptide  #research-chemical
-  TB-500  [Thymosin Beta-4|Tβ4]  (source: piru-curated)  #anti-inflammatory  #grey-market  #healing-peptide  #peptide  #research-chemical
-  Tesamorelin  [Egrifta|Egrifta SV|TH9507]  (source: piru-curated)  #GH-secretagogue  #GHRH-analogue  #anti-lipodystrophy  #peptide  #prescription-only
-  Tirzepatide  [Mounjaro|Zepbound]  (source: piru-curated)  #GIP-agonist  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
+  Semaglutide  <medical_rx>  — oral mg: common 7-14, heavy 25
+      aka: Ozempic|Rybelsus|Wegovy
+      #GLP-1-agonist  #anti-diabetic  #anti-obesity  #antidiabetic  #glp-1 agonist  #injection pen, oral tablet  #peptide  #prescription-only  #weight-loss
+  Tirzepatide  <medical_rx>  — subcutaneous mg: common 5-10, heavy 15
+      aka: Mounjaro|Zepbound
+      #GIP-agonist  #GLP-1-agonist  #anti-diabetic  #anti-obesity  #peptide  #prescription-only  #weight-loss
+  BPC-157  <medical_rx>
+      aka: BPC 15|Bepecin|Body Protection Compound 157|PL 14736|PL-14736
+      #WADA-banned  #WADA-banned-S0  #gut-healing  #no-human-data  #no-published-human-pk  #nootropic  #peptide  #single-lab-dominant-literature
+  Liraglutide  <medical_rx>  — subcutaneous mg: common 1.2-1.8, heavy 3
+      aka: Saxenda|Victoza
+      #GLP-1-agonist  #anti-diabetic  #anti-obesity  #antidiabetic  #glp-1 agonist  #injection pen  #peptide  #prescription-only  #weight-loss
+  Oxytocin  <medical_rx>
+      aka: Pitocin|Syntocinon
+      #hormone  #neuropeptide  #peptide
+  Retatrutide  <medical_rx>  — subcutaneous mg: common 4-8, heavy 12
+      aka: LY3437943
+      #GIP-agonist  #GLP-1-agonist  #anti-obesity  #peptide  #weight-loss
+  TB-500  <medical_rx>  — subcutaneous mg: common 2-5, heavy 10
+      aka: Thymosin Beta-4|Tβ4
+      #anti-inflammatory  #grey-market  #healing-peptide  #peptide
+  Dulaglutide  <medical_rx>  — subcutaneous mg: common 1.5-3, heavy 4.5
+      aka: Trulicity
+      #GLP-1-agonist  #anti-diabetic  #antidiabetic  #glp-1 agonist  #injection pen  #peptide  #prescription-only
+  Ipamorelin  <medical_rx>  — subcutaneous µg: common 150-300, heavy 500
+      aka: NNC 26-0161
+      #GH-secretagogue  #grey-market  #peptide  #performance-enhancing
+  Melanotan II  <medical_rx>  — subcutaneous mg: common 0.5-1, heavy 2
+      aka: MT-2|MT-II|Melanotan 2
+      #aphrodisiac  #grey-market  #melanocortin-agonist  #peptide  #tanning
+  CJC-1295  <medical_rx>  — subcutaneous µg: common 250-500, heavy 2000
+      aka: CJC-1295 DAC|Drug Affinity Complex-GRF 1-29|Modified GRF 1-29 DAC
+      #GH-secretagogue  #GHRH-analogue  #grey-market  #peptide  #performance-enhancing
+  Epitalon  <medical_rx>  — insufflation mg: common 2-5, heavy 10
+      aka: Ala-Glu-Asp-Gly|Epithalon|Epithalone|Tetrapeptide-5
+      #anti-aging  #grey-market  #longevity-research  #peptide  #telomerase-activator
+  GHK-Cu  <medical_rx>  — subcutaneous mg: common 1-2, heavy 5
+      aka: Copper peptide GHK-Cu|Copper tripeptide-1
+      #anti-aging  #dermatological  #grey-market  #healing-peptide  #peptide
+  PT-141  <medical_rx>  — subcutaneous mg: common 1.25-1.75, heavy 2
+      aka: Bremelanotide|Vyleesi
+      #HSDD-treatment  #aphrodisiac  #melanocortin-agonist  #peptide  #prescription-only
+  Sermorelin  <medical_rx>  — subcutaneous µg: common 200-400, heavy 1000
+      aka: GHRH|GRF 1-29|Geref
+      #GH-secretagogue  #GHRH-analogue  #anti-aging  #grey-market  #peptide
+  Tesamorelin  <medical_rx>  — subcutaneous mg: common 2-2, heavy 2
+      aka: Egrifta|Egrifta SV|TH9507
+      #GH-secretagogue  #GHRH-analogue  #anti-lipodystrophy  #peptide  #prescription-only
+  MOTS-c  <medical_rx>  — subcutaneous mg: common 10-15, heavy 20
+      aka: MOTS c peptide|Mitochondrial Open Reading Frame of 12S rRNA-c
+      #grey-market  #longevity-research  #metabolic  #mitochondrial  #peptide
+  Semax  <medical_rx>  — insufflation mg: common 0.3-0.9, heavy 3
+      aka: MEHFPGP
+      #ACTH-4-10-analog  #BDNF-upregulator  #Russian-clinical-only  #intranasal-only-practical-route  #neurotrophic  #nootropic  #peptide
+  Selank  <medical_rx>  — insufflation mg: common 0.9-2, heavy 4
+      aka: TKPRPGP
+      #Russian-clinical-only  #anxiolytic  #indirect-GABAergic  #intranasal-only-practical-route  #nootropic  #peptide  #tuftsin-analog
+  GHRP-6  <medical_rx>  — subcutaneous µg: common 100-200, heavy 300
+      aka: GH-releasing hexapeptide 6|Growth Hormone Releasing Peptide 6|SKF-110679|Skf 110679|growth hormone releasing hexapeptide|growth hormone releasing peptide-6|growth hormone-releasing hexapeptide
+      #GH-secretagogue  #grey-market  #no-human-data  #peptide  #performance-enhancing  #tryptamine
+      also: Other
+  HGH Fragment 176-191  <medical_rx>
+      aka: HGH Frag 176-191|Lipolytic fragment
+      #hgh-fragment  #lipolytic  #peptide
+  IGF-1 LR3  <medical_rx>
+      aka: Long R3 IGF-1
+      #growth-factor  #no-human-data  #peptide  #wada-prohibited
+  AOD-9604  <medical_rx>
+      aka: Anti-Obesity Drug 9604|Tyr-hGH 177-191
+      #hgh-fragment  #lipolytic  #peptide
+  GHRP-2  <medical_rx>  — subcutaneous µg: common 100-200, heavy 300
+      aka: Growth Hormone Releasing Peptide 2|KP-102|Pralmorelin
+      #GH-secretagogue  #grey-market  #peptide  #performance-enhancing
+  Thymosin alpha-1  <medical_rx>
+      aka: Thymalfasin|Tα1|Zadaxin
+      #immune  #peptide
+  DSIP  <medical_rx>  — subcutaneous µg: common 250-500, heavy 1000
+      aka: Delta Sleep-Inducing Peptide|delta sleep peptide
+      #anxiolytic  #grey-market  #peptide  #sleep-peptide
+  Hexarelin  <medical_rx>  — subcutaneous µg: common 100-200, heavy 400
+      aka: EP-23905|Examorelin|MF-6003
+      #GH-secretagogue  #grey-market  #peptide  #performance-enhancing
+  IGF-1 DES  <medical_rx>
+      #growth-factor  #no-human-data  #peptide  #wada-prohibited
+  SS-31  <medical_rx>
+      aka: Bendavia|Elamipretide|MTP-131
+      #longevity  #no-human-data  #peptide
+  Triptorelin  <medical_rx>
+      aka: AY-25650|CL-118532|Decapeptyl|Diphereline|Trelstar
+      #gnrh-agonist  #gonadotropin  #peptide  #wada-prohibited
+  Thymalin  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Humanin  <medical_rx>
+      aka: HN|HNG
+      #longevity  #no-human-data  #peptide
+  VIP  <medical_rx>
+      aka: Aviptadil|Vasoactive Intestinal Peptide
+      #neuropeptide  #peptide
+  5-Amino-1MQ  <medical_rx>  — oral mg: common 50-100, heavy 200
+      aka: 5A1MQ
+      #NNMT-inhibitor  #anti-obesity  #grey-market  #metabolic  #peptide  #peptide-mimetic  #weight-loss
+  Adamax  <medical_rx>
+      aka: Enhanced Semax
+      #no-human-data  #nootropic  #peptide
+  Adipotide  <medical_rx>
+      aka: FTPP|Prohibitin-targeting peptidomimetic
+      #nephrotoxic  #no-human-data  #peptide  #peptidomimetic
+  AHK-Cu  <medical_rx>
+      aka: Tripeptide-3 copper
+      #cosmetic  #peptide
+  Argireline  <medical_rx>
+      aka: Acetyl Hexapeptide-3|Acetyl Hexapeptide-8
+      #cosmetic  #peptide
+  BPC-157 + TB-500  <medical_rx>
+      aka: BPC-157/TB-500 stack
+      #blend  #no-human-data  #peptide  #tissue-repair  #wada-prohibited
+  Bronchogen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  CagriSema  <medical_rx>
+      aka: Cagrilintide + Semaglutide
+      #amylin-agonist  #blend  #glp-1-agonist  #no-human-data  #peptide
+  Cardiogen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Cartalax  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Cerebrolysin  (STUB)  <medical_rx>
+      aka: Cerebrolisin|FPF-1070
+      #nootropic  #parenteral-only  #peptide  #porcine-brain-hydrolysate  #prescription-only  #undefined-active-component
+  Chonluten  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Cortagen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Decapeptide-12  <medical_rx>
+      aka: Lumixyl
+      #cosmetic  #peptide
+  Dermorphin  <medical_rx>
+      aka: Frog opioid
+      #opioid  #peptide  #wada-prohibited
+  Dihexa  (STUB)  <medical_rx>
+      aka: PNB-0408
+      #HGF-augmenter  #c-Met-signaling  #investigational  #no-human-data  #nootropic  #oncogenic-theoretical-concern  #peptide
+  DS5  <medical_rx>
+      #no-human-data  #peptide
+  Eloralintide  <medical_rx>
+      aka: LY3841136
+      #amylin-agonist  #no-human-data  #peptide
+  Exenatide  <medical_rx>  — subcutaneous µg: common 5-10, heavy 10
+      aka: Bydureon|Bydureon BCise|Byetta
+      #GLP-1-agonist  #anti-diabetic  #antidiabetic  #glp-1 agonist  #injection pen  #peptide  #prescription-only
+  Follistatin 315  <medical_rx>
+      aka: FST-315
+      #no-human-data  #peptide  #wada-prohibited
+  Follistatin 344  <medical_rx>
+      aka: FST-344
+      #no-human-data  #peptide  #wada-prohibited
+  FOXO4-DRI  <medical_rx>
+      aka: senolytic peptide
+      #longevity  #no-human-data  #peptide
+  GHK  <medical_rx>
+      aka: Copper-free tripeptide GHK|Gly-His-Lys
+      #cosmetic  #peptide
+  Leuphasyl  <medical_rx>
+      aka: Pentapeptide-18
+      #cosmetic  #peptide
+  Livagen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Matrixyl  <medical_rx>
+      aka: Pal-KTTKS|Palmitoyl Pentapeptide-4
+      #cosmetic  #peptide
+  MK-677  <medical_rx>  — oral mg: common 10-25, heavy 50
+      aka: Ibutamoren|L-163,191|Nutrobal
+      #GH-secretagogue  #grey-market  #peptide  #peptide-mimetic  #performance-enhancing
+  Nonapeptide-1  <medical_rx>
+      aka: MSH-antagonist nonapeptide|Melanostatine
+      #cosmetic  #peptide
+  Ovagen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  P21  (STUB)  <medical_rx>
+      aka: Ac-DGGL-amide|CNTF mimetic peptide|Ciliary neurotrophic factor peptide mimetic|P021
+      #CNTF-derived-peptide  #investigational  #no-human-data  #nootropic  #peptide  #single-lab-data-only
+  PAL-AHK  <medical_rx>
+      aka: Palmitoyl Tripeptide-3
+      #cosmetic  #peptide
+  PAL-GHK  <medical_rx>
+      aka: Palmitoyl Tripeptide-1
+      #cosmetic  #peptide
+  Palmitoyl Dipeptide-6  <medical_rx>
+      #cosmetic  #peptide
+  Pancragen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  PE-22-28  <medical_rx>
+      aka: Spadin analog
+      #no-human-data  #nootropic  #peptide
+  PGPIPN  <medical_rx>
+      #immunomodulator  #no-human-data  #peptide
+  Pinealon  <medical_rx>
+      #bioregulator  #no-human-data  #nootropic  #peptide
+  PNC-27  <medical_rx>
+      aka: p53-derived anticancer peptide
+      #no-human-data  #peptide
+  Prostamax  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Rigin  <medical_rx>
+      aka: Palmitoyl Tetrapeptide-7
+      #cosmetic  #peptide
+  SNAP-8  <medical_rx>
+      aka: Acetyl Octapeptide-3
+      #cosmetic  #peptide
+  SYN-AKE  <medical_rx>
+      aka: Dipeptide diaminobutyroyl benzylamide diacetate
+      #cosmetic  #peptide
+  SYN-COLL  <medical_rx>
+      aka: Palmitoyl Tripeptide-5
+      #cosmetic  #peptide
+  Testagen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Thymagen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Tripeptide-29  <medical_rx>
+      #cosmetic  #peptide
+  Vesilute  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Vesugen  <medical_rx>
+      #bioregulator  #no-human-data  #peptide
+  Vialox  <medical_rx>
+      aka: Pentapeptide-3|Pentapeptide-3V
+      #cosmetic  #peptide
+  Vilon  <medical_rx>
+      #bioregulator  #no-human-data  #peptide

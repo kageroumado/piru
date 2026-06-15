@@ -1,57 +1,57 @@
 # Piru SQLite build report
 
-Built 2026-06-15.0 → `Piru/Data/piru-substances.sqlite` (15,323,136 bytes, sha256 `56bedcb935347d1c45f651bbb69c66b2f1c527c5bce51052e2744029e2778847`)
+Built 2026-06-15.0 → `Piru/Data/piru-substances.sqlite` (15,257,600 bytes, sha256 `b5f273262ff6919127dbe21726e4c18ab2615d54cd0396b001826608d2611538`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,934 |
-| aliases | 5,496 |
+| substances | 1,909 |
+| aliases | 5,476 |
 | sources | 16 |
-| citations | 4,036 |
-| categories | 2,470 |
-| tags | 8,634 |
-| dose_ranges | 2,573 |
+| citations | 4,038 |
+| categories | 2,474 |
+| tags | 8,568 |
+| dose_ranges | 2,574 |
 | durations | 8,014 |
-| half_lives | 277 |
-| mechanisms_summary | 623 |
-| effects | 5,898 |
+| half_lives | 278 |
+| mechanisms_summary | 621 |
+| effects | 5,895 |
 | subjective_effects | 4,624 |
-| tolerance | 340 |
-| indications | 1,147 |
-| contraindications | 1,655 |
+| tolerance | 336 |
+| indications | 1,144 |
+| contraindications | 1,652 |
 | diazepam_equivalents | 33 |
-| bindings | 964 |
+| bindings | 963 |
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 820 |
+| downstream_signalling | 805 |
 | neuroimaging | 57 |
 | pk_routes | 394 |
 | concentration_effects | 38 |
 | metabolism | 528 |
 | drug_interactions_pk | 229 |
 | pharmacogenetics | 274 |
-| off_targets | 227 |
+| off_targets | 226 |
 | class_contexts | 58 |
-| substance_classes | 226 |
+| substance_classes | 218 |
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 490 | 68 | 612 | 2,631 |
-| peer-review-primary | 0 | 896 | 0 | 1,776 |
+| piru-curated | 491 | 68 | 628 | 2,614 |
+| peer-review-primary | 0 | 895 | 0 | 1,764 |
 | psychonautwiki | 389 | 0 | 277 | 324 |
-| tripsit | 596 | 0 | 553 | 1,370 |
+| tripsit | 596 | 0 | 545 | 1,353 |
 | drug.community | 891 | 0 | 417 | 420 |
 | dailymed | 0 | 0 | 0 | 0 |
 | erowid-pihkal | 166 | 0 | 178 | 454 |
 | erowid-tihkal | 41 | 0 | 55 | 139 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 192 | 525 |
+| wikidata | 0 | 0 | 188 | 505 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 186 | 995 |
 | medtap | 0 | 0 | 0 | 0 |

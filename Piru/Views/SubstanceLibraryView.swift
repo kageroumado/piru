@@ -370,9 +370,21 @@ struct SubstanceRowView: View {
                         .padding(.vertical, 2)
                         .background(.fill.secondary, in: Capsule())
                 }
-                Text(substance.defaultUnit)
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
+                // Stubs / lesser-characterized compounds get a "Limited data"
+                // badge instead of a (meaningless) dose unit, so the list signals
+                // which entries are thin without hiding them.
+                if substance.hasNoDoseData {
+                    Text("Limited data")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(.fill.tertiary, in: Capsule())
+                } else {
+                    Text(substance.defaultUnit)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.secondaryLabel)
+                }
             }
         }
         .contentShape(Rectangle())

@@ -715,12 +715,15 @@ final class SubstanceStore {
                     aliasesByID[sid, default: []].append(row["alias"])
                 }
 
-                // Category — priority-resolved.
+                // Category — priority-resolved, with the non-informative "Other"
+                // sunk below any specific category (mirrors `resolvedCategory`).
                 let categoryRows = try Row.fetchAll(db, sql: """
                     SELECT substance_id, category FROM (
                         SELECT c.substance_id, c.category,
                                ROW_NUMBER() OVER (PARTITION BY c.substance_id
-                                                  ORDER BY \(priorityCaseSQL) ASC) AS rn
+                                                  ORDER BY (c.category = 'Other'
+                                                            AND src.slug != 'piru-curated') ASC,
+                                                           \(priorityCaseSQL) ASC) AS rn
                           FROM categories c
                           JOIN sources src ON src.id = c.source_id
                          WHERE src.slug IN (\(enabledSourceListSQL))
@@ -731,6 +734,16 @@ final class SubstanceStore {
                     let raw: String = row["category"]
                     let cat = SubstanceCategory(rawValue: raw) ?? SubstanceCategory.from(tripSitCategory: raw)
                     categoryByID[row["substance_id"]] = cat
+                }
+
+                // Additional browse homes (curated multi-class compounds).
+                var extraCategoriesByID: [Int64: [SubstanceCategory]] = [:]
+                for row in try Row.fetchAll(
+                    db, sql: "SELECT substance_id, category FROM browse_extra_categories",
+                ) {
+                    let raw: String = row["category"]
+                    guard let cat = SubstanceCategory(rawValue: raw) else { continue }
+                    extraCategoriesByID[row["substance_id"], default: []].append(cat)
                 }
 
                 // Tags — union across enabled sources.
@@ -818,6 +831,7 @@ final class SubstanceStore {
                     return Substance(
                         name: name, displayName: displayNameByID[sid], aliases: aliases,
                         category: categoryByID[sid] ?? .other,
+                        extraBrowseCategories: extraCategoriesByID[sid] ?? [],
                         defaultRoute: defaultRoute, routes: routes,
                         effects: effectsByID[sid] ?? [],
                         subjectiveEffects: [],
@@ -850,7 +864,12 @@ final class SubstanceStore {
         if let cached = substancesByCategoryCache[category] { return cached }
         // Non-recreational compounds (antibiotics, …) stay searchable for
         // medication tracking but are hidden from recreational category browse.
-        let filtered = all.filter { $0.category == category && $0.displayClass.surfacesInBrowse }
+        // A substance lands here under its primary `category` OR any curated
+        // `extraBrowseCategories` (intentional multi-class homes).
+        let filtered = all.filter {
+            ($0.category == category || $0.extraBrowseCategories.contains(category))
+                && $0.displayClass.surfacesInBrowse
+        }
         substancesByCategoryCache[category] = filtered
         return filtered
     }
@@ -858,7 +877,10 @@ final class SubstanceStore {
     /// Categories that have at least one browsable substance after resolution.
     var nonEmptyCategories: [SubstanceCategory] {
         if let cached = nonEmptyCategoriesCache { return cached }
-        let cats = Set(all.lazy.filter(\.displayClass.surfacesInBrowse).map(\.category))
+        var cats = Set(all.lazy.filter(\.displayClass.surfacesInBrowse).map(\.category))
+        for s in all where s.displayClass.surfacesInBrowse {
+            cats.formUnion(s.extraBrowseCategories)
+        }
         let result = SubstanceCategory.allCases.filter(cats.contains)
         nonEmptyCategoriesCache = result
         return result
@@ -1051,7 +1073,8 @@ final class SubstanceStore {
               JOIN sources src ON src.id = c.source_id
              WHERE c.substance_id = ?
                AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY \(priorityCaseSQL) ASC
+             ORDER BY (c.category = 'Other' AND src.slug != 'piru-curated') ASC,
+                      \(priorityCaseSQL) ASC
              LIMIT 1
         """, arguments: [substanceID])
         guard let raw: String = row?["category"] else { return nil }

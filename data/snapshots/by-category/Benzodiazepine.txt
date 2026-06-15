@@ -1,63 +1,212 @@
-# Benzodiazepine — 61 substances
+# Benzodiazepine — 63 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  3-Hydroxyphenazepam  [3-HO-Phenazepam|3-OH-Phenazepam|7-bromo-5-(2-chlorophenyl)-3-hydroxy-1,3-dihydro-2H-1,4-benzodiazepin-2-one]  (source: piru-curated)  #UGT-substrate  #class:Benzodiazepine  #designer-benzo  #metabolite-as-drug
-  3-Oh-Phenazepam  [3-ho-p|3-ho-phenazepam|3-hydroxyphenazepam|3-oh-p|3hop|3hophenazepam|3ohp|3ohphenazepam]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #research-chemical  #tentative
-  4'-Chlorodiazepam  [4'-Chlordiazepam|4′-Chlorodiazepam|Chlorodiazepam (Ro5-4864; not to be confused with other similarly named benzodiazepines)|Ro 5-4864|Ro5-4864]  (source: drug.community)  #NOT-classical-benzodiazepine  #TSPO-agonist  #class:1,4-benzodiazepine (diazepam analogue)  #research-tool
-  4-Chlorodiazepam  [4'-chlorodiazepam|ro5-4864]  (source: piru-curated)  #GABAA-PAM  #NOT-classical-benzodiazepine  #TSPO-agonist  #benzodiazepine  #research-chemical  #tentative
-  Adinazolam  [Adinazolam mesylate|Deracyn|deracyn]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:1,2,4-triazolo[4,3-a][1,4]benzodiazepine (triazolobenzodiazepine)  #designer-benzo  #habit-forming  #prodrug  #tentative  +1more
-  Alprazolam  [Alprax|Alprazolamum|Cassadan|Ksalol|Tafil|Trankimazin|Xanax|Zopax|ksalol|niravam|prazolam|xanax]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:Benzodiazepine (Triazolobenzodiazepine)  #common  #habit-forming  #high-potency  +1more
-  Avizafone  [Avizafone dihydrochloride|Pro-diazepam|RO 03-7355|RO-03-7355/000|Ro03-7355]  (source: drug.community)  #class:Peptidic benzodiazepine prodrug  #military-antidote  #peptidic-prodrug  #prodrug-of-diazepam
-  Bentazepam  [thiadipone|tiadipona]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #thienodiazepine
-  Bromazepam  [7-bromo-5-(pyridin-2-yl)-1H-benzo[e][1,4]diazepin-2(3H)-one|Bromazepamum|Calmepam|Creosedin|Lectopam|Lekotam|Lexaurin|Lexilium|Lexomil|Lexotan|Lexotanil|Normoc|RO 5-3350|RO-5-3350|Ultramidol|brazepam|lectopam|lexilium|lexotan|lexotanil]  (source: tripsit)  #CYP1A2-substrate  #GABAA-PAM  #atypical-CYP-pathway  #benzodiazepine  #class:Benzodiazepine  #habit-forming
-  Bromazolam  [xli-268|xli268]  (source: piru-curated)  #GABAA-PAM  #benzodiazepine  #designer-benzo  #fatalities-confirmed  #fatalities-reported  #fentanyl-adulterant  #habit-forming  #research-chemical  +2more
-  Brotizolam  [2-bromo-4-(o-chlorophenyl)-9-methyl-6H-thieno[3,2-f]-s-triazolo[4,3-a][1,4]diazepine|Lendorm|Lendormin|Mederantil|Nimbisan|Sintonal|WE-941-BS|lendormin]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Thienodiazepine (benzodiazepine analogue)  #habit-forming  #high-potency-hypnotic  #thienotriazolodiazepine
-  Camazepam  [albego|limpidon|paxor]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug  #tentative
-  Clobazam  [1,5-benzodiazepine|Aedon|Castilium|Clobam|Clobamax|Frisium|Mystan|Noiafren|Onfi|Sympazan|Urbanil|Urbanol|Urbanyl|frisium]  (source: tripsit)  #1,5-benzodiazepine  #CYP2C19-substrate  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-norclobazam  #alpha2-preferring  #benzodiazepine  #class:Benzodiazepine (1,5-benzodiazepine)  +1more
-  Clobromazolam  [DM-II-90|DM-ii-90|Phenazolam|phenazolam]  (source: drug.community)  #class:Triazolobenzodiazepine (benzodiazepine derivative)  #designer-benzo  #extreme-potency  #triazolobenzodiazepine
-  Clonazepam  ["K-pins" (slang)|Clonapam|Iktorivil|Klonopin|RO 5-4023|Rivotril|klonopin|kpin]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepine)  #common  #habit-forming  #high-binding-affinity  #long-half-life
-  Clonazolam  [Clam|c-lam|clam]  (source: piru-curated)  #GABAA-PAM  #benzodiazepine  #common  #designer-benzo  #extreme-potency  #fatalities-reported  #habit-forming  #research-chemical  +1more
-  Cloniprazepam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #tentative
-  Clorazepate  [novo-clopate|tranxene|tranzene]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug-of-nordazepam  #very-long-half-life
-  Clotiazepam  [clozan|distensan|rize|rizen|trecalmo|veratran]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #short-acting  #tentative  #thienodiazepine
-  Delorazepam  [nordiclazepam]  (source: tripsit)  #GABAA-PAM  #active-metabolite-lorazepam  #benzodiazepine  #habit-forming  #long-half-life
-  Deschloroetizolam  [DCE|Deschloro-etizolam|Etizolam-2|etizolam-2]  (source: piru-curated)  #GABAA-PAM  #benzodiazepine  #class:Thienotriazolodiazepine  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienodiazepine  +1more
-  Desmethylflunitrazepam  [Fonazepam|N-Desmethylflunitrazepam|Norflunitrazepam|Ro 5‑4435|Ro05‑4435|fonazepam|norflunitrazepam|ro05-4435]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #metabolite-as-drug  #research-chemical
-  Diazepam  [Diastat|Diazemuls|Dzp|Libervant|NRL-1|Relanium|Valium|Valtoco|valium]  (source: tripsit)  #CYP2C19-substrate  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-long-t1/2  #benzodiazepine  #class:Benzodiazepine  #common  #habit-forming
-  Diclazepam  [2'-Chloro-diazepam|2'-Chlorodiazepam|2-chloro-diazepam|Chlorodiazepam|Ro5-3448]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-lorazepam  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #long-half-life
-  Estazolam  [elprazolam|eurodin|prosom]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #hypnotic  #triazolobenzodiazepine
-  Etizolam  [4-(2-chlorophenyl)-2-ethyl-9-methyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepine|AHR-3219|Arophalm|Capsafe|Depas|Dezolam|Eticalm|Etilaam|Etizest|Etizex|Etizola|Pasaden|Sedekopan|Y-7131|depas|etilaam|etiz|etizest|etizola|inxity|lamet|sedekopan|towa|zoly]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:Thienodiazepine (benzodiazepine analogue)  #designer-benzo  #habit-forming  #prescription-some-countries  +3more
-  Flualprazolam  [Flualp]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #US-Schedule-IV  #benzodiazepine  #designer-benzo  #extreme-potency  #fatalities-confirmed  #fatalities-reported  +4more
-  Flubromazepam  [7-bromo-5-(2-fluorophenyl)-1,3-dihydro-1,4-benzodiazepin-2-one|F-bromazepam|Fluorobromazepam (common mislabel)|JYI-42|iso-flubromazepam (positional isomer sometimes mis-sold)]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #long-half-life  #research-chemical  +1more
-  Flubromazolam  [FBZ|f-lam|flam]  (source: piru-curated)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #designer-benzo  #extreme-potency  #fatalities-confirmed  #fatalities-reported  #habit-forming  +2more
-  Fluclotizolam  [fluclo|fluclotizolam (IUPAC: 4-(2-chlorophenyl)-2-ethyl-9-methyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepine)]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Thienotriazolodiazepine (designer benzodiazepine)  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienotriazolodiazepine
-  Flunitrazepam  [Forget-me pill|Hipnosedon|Hypnodorm|Mexican Valium|Narcozep|RO 5-4200|RO-5-4200|Roche|Rohypnol|Roofies|Rophies|Ruffies|rohypnol|roofies]  (source: tripsit)  #CYP2C19-substrate  #CYP3A4-substrate  #DFSA-implicated  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:1,4-benzodiazepine  #habit-forming
-  Flunitrazolam  [fln]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (triazolobenzodiazepine)  #designer-benzo  #extreme-potency  #habit-forming  #tentative  #triazolobenzodiazepine
-  Flurazepam  [Dalmadorm|Dalmane|Felison|Flunox|Flurazepam hydrochloride|Ro 5-6901|Sompan|Valdorm|dalmane]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #long-acting-metabolite  #prodrug-like
-  Flutazolam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming
-  Flutoprazepam  [7-chloro-5-(2-fluorophenyl)-1-propyl-1,3-dihydro-2H-1,4-benzodiazepin-2-one (likely IUPAC; structural analogue of flurazepam)|FZP|N-desalkylflutoprazepam (active metabolite known as norflurazepam)|Restas (reported JP brand)|restas]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #long-half-life
-  Halazepam  [7-chloro-5-phenyl-1-(2,2,2-trifluoroethyl)-3H-1,4-benzodiazepin-2-one|Alapryl|Halazpam (alt. spelling)|Pacinone|Paxipam|SCH-12041|Sch 12041|paxipam]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #prodrug-of-nordazepam
-  Librium  [chlordiazepoxide]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #brand-name-of-chlordiazepoxide  #habit-forming
-  Lorazepam  [Ativan|Loreev XR|Tavor|Temesta|ativan|o-Chloroxazepam]  (source: tripsit)  #GABAA-PAM  #UGT2B15-substrate  #benzodiazepine  #class:Benzodiazepine (3-hydroxy 1,4-benzodiazepine)  #common  #habit-forming  #no-CYP-metabolism  #no-active-metabolite
-  Lormetazepam  [noctamid]  (source: tripsit)  #GABAA-PAM  #UGT-substrate  #benzodiazepine  #habit-forming  #minimal-CYP-metabolism
-  Meclonazepam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #nitro-benzodiazepine  #tentative
-  Medazepam  [Ansilan|Debrum|Lerisum|Medacepan|Megasedan|Nobritol|Nobrium|Rudotel|Rusedal|Tranko‑Buskas (medazepam + butylscopolamine)|Tranquirax|azepamid|mezapam|nobrium|raporan|rudotel|talis]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepine; non-2-keto)  #habit-forming  #prodrug-of-diazepam-nordazepam
-  Metizolam  [desmethyletizolam|metiz]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienotriazolodiazepine
-  Midazolam  [Buccolam|Dormicum|Hypnovel|Midazolam hydrochloride|Nayzilam|Seizalam|Versed]  (source: tripsit)  #CYP3A4-probe-substrate  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #imidazobenzodiazepine
-  Nifoxipam  [3-Hydroxydesmethylflunitrazepam]  (source: piru-curated)  #GABAA-PAM  #UGT-substrate  #benzodiazepine  #designer-benzo  #habit-forming  #metabolite-as-drug  #research-chemical  #tentative
-  Nimetazepam  [Erimin|Erimin 5|Happy 5|Hypnon|erimin]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (7-nitro-1,4-benzodiazepine)  #habit-forming  #nitro-benzodiazepine
-  Nitemazepam  [3-hydroxynimetazepam]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #metabolite-as-drug  #tentative
-  Nitrazepam  [1,3-dihydro-7-nitro-5-phenyl-2H-1,4-benzodiazepin-2-one|Mogadon|N05CD02|Nitrazepamum|Nitrazépam|RO 4-5360|RO 5-3059|baronite|dormin|dreem|enzed|gentravit|hypnonex|hypnoril|hypnotex|konit|mogadon|nicare|nigap|nipam|nirosun|nitavan|nithra]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming
-  Nitrazolam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #nitro-benzodiazepine  #tentative  #triazolobenzodiazepine
-  Nordazepam  [desmethyldiazepam|nordaz|nordiazepam]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #common-active-metabolite  #habit-forming  #very-long-half-life
-  Norflurazepam  [Dealkylflurazepam|Desalkylflurazepam|Descarbethoxyloflazepate|Desmethylflurazepam|N-desalkyl-2-oxoquazepam|N-desalkylflurazepam|N-desalkylflutoprazepam|Norfludiazepam|Norflutoprazepam|Ro-05-3367|n-desalkylflurazepam]  (source: piru-curated)  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #metabolite-as-drug  #tentative  #very-long-half-life
-  Oxazepam  [Serax|Serepax|Seresta|Sobril|serax]  (source: tripsit)  #GABAA-PAM  #UGT2B15-substrate  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #hepatic-failure-safe  #no-CYP-metabolism  #no-active-metabolite
-  Phenazepam  [7-bromo-5-(2-chlorophenyl)-1,3-dihydro-2H-1,4-benzodiazepin-2-one|Bonsai supersleep|Bromdihydrochlorphenylbenzodiazepine|Fenazepam|Phenzitat|Феназепам]  (source: piru-curated)  #GABAA-PAM  #Soviet-era  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #fatalities-confirmed  #fatalities-reported  #habit-forming  +4more
-  Pinazepam  [domar]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug
-  Prazepam  [Centrax|Demetrin|Lysanxia|Prazepamum|Sedapran|Trepidan|centrac|centrax|demetrin|lysanxia|pozapam|prasepine|prazene|reapam|trepidan]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepin-2-one; 2-keto subtype)  #habit-forming  #prodrug-of-nordazepam
-  Pyrazolam  [8-bromo-1-methyl-6-(pyridin-2-yl)-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine|IUPAC: 12-bromo-3-methyl-9-(pyridin-2-yl)-2,4,5,8-tetraazatricyclo[8.4.0.0^{2,6}]tetradeca-1(10),3,5,8,11,13-hexaene|Pirazolam]  (source: piru-curated)  #GABAA-PAM  #UGT-substrate  #benzodiazepine  #class:triazolobenzodiazepine (benzodiazepine)  #designer-benzo  #habit-forming  #no-CYP-metabolism  #research-chemical  +1more
-  Quazepam  [doral]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #alpha1-preferring  #benzodiazepine  #habit-forming  #long-acting-metabolite  #thione
-  Rilmazafone  [rhythmy]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #peptidic-prodrug  #prodrug  #triazolobenzodiazepine
-  Temazepam  [Apo-Temazepam|Euhypnos|Normison|Remestan|Restoril|Temaze|duck eggs (street)|jellies (street)|restoril]  (source: tripsit)  #GABAA-PAM  #UGT2B15-substrate  #benzodiazepine  #class:1,4-benzodiazepine (3-hydroxy)  #habit-forming  #no-CYP-metabolism  #no-active-metabolite
-  Tetrazepam  (source: tripsit)  #GABAA-PAM  #SJS-risk  #benzodiazepine  #habit-forming  #withdrawn-EMA-2013
-  Triazolam  [halcion]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #high-amnesia  #short-half-life  #triazolobenzodiazepine
-  Zolazepam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #pyrazolodiazepine  #veterinary
+  Alprazolam  <recreational>  — inhalation mg: common 0.25-0.5, heavy 1
+      aka: Alprax|Alprazolamum|Cassadan|Tafil|Trankimazin|Zopax|ksalol|niravam|prazolam|xanax|贊安諾|赞安诺|阿普唑仑|阿普唑侖
+      #CYP3A4-substrate  #GABAA-PAM  #active-metabolite  #anxiolytic  #benzodiazepine  #class:Benzodiazepine (Triazolobenzodiazepine)  #class:benzodiazepines  #common  #habit-forming  #high-potency  #tablet, orally disintegrating tablet, solution  #triazolobenzodiazepine
+      also: Depressant
+  Diazepam  <recreational>  — intravenous mg: common 5-10, heavy 20
+      aka: AcuDial|Apaurin|Diastat|Diazemuls|Dzp|Libervant|Mother's Little Helper|NRL-1|Relanium|Valtoco|valium|地西泮|安定
+      #CYP2C19-substrate  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-long-t1/2  #anticonvulsant  #anxiolytic  #benzodiazepine  #class:Benzodiazepine  #class:benzodiazepines  #common  #habit-forming  #tablet, solution
+  Clonazepam  <recreational>  — oral mg: common 0.5-1, heavy 2
+      aka: Clonapam|Iktorivil|K-Pins|K-pins"|RO 5-4023|Rivotril|klonopin|kpin|氯硝安定|氯硝西泮
+      #CYP3A4-substrate  #GABAA-PAM  #anticonvulsant  #anxiolytic  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepine)  #class:benzodiazepines  #common  #habit-forming  #high-binding-affinity  #long-half-life  #tablet, orally disintegrating tablet
+      also: Anticonvulsant
+  Lorazepam  <recreational>  — intramuscular mg: common 0.5-1, heavy 2
+      aka: Loreev XR|Lorsilan|Orfidal|Tavor|Temesta|ativan|o-Chloroxazepam
+      #GABAA-PAM  #UGT2B15-substrate  #anticonvulsant  #anxiolytic  #benzodiazepine  #class:Benzodiazepine (3-hydroxy 1,4-benzodiazepine)  #class:benzodiazepines  #common  #habit-forming  #no-CYP-metabolism  #no-active-metabolite  #tablet, solution
+      also: Depressant
+  3-Hydroxyphenazepam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: 3-HO-Phenazepam|3-OH-Phenazepam
+      #UGT-substrate  #class:Benzodiazepine  #designer-benzo  #metabolite-as-drug
+      also: Depressant
+  3-OH-Phenazepam  <recreational>  — oral mg: common 1-2, heavy 2
+      aka: 3-ho-p|3-ho-phenazepam|3-hydroxyphenazepam|3-oh-p|3hop|3hophenazepam|3ohp|3ohphenazepam
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #research-chemical  #tentative
+  4'-Chlorodiazepam  <recreational>  — oral mg: common 1.5-3, heavy 5
+      aka: 4'-Chlordiazepam|4′-Chlorodiazepam|Chlorodiazepam|Ro 5-4864|Ro5-4864
+      #NOT-classical-benzodiazepine  #TSPO-agonist  #class:1,4-benzodiazepine (diazepam analogue)  #research-tool
+  4-Chlorodiazepam  (STUB)  <recreational>
+      aka: 4'-chlorodiazepam|ro5-4864
+      #GABAA-PAM  #NOT-classical-benzodiazepine  #TSPO-agonist  #benzodiazepine  #research-chemical  #tentative
+      also: Other
+  Adinazolam  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: Adinazolam mesylate|deracyn
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:1,2,4-triazolo[4,3-a][1,4]benzodiazepine (triazolobenzodiazepine)  #designer-benzo  #habit-forming  #prodrug  #tentative  #triazolobenzodiazepine
+      also: Depressant
+  Avizafone  <recreational>  — insufflation mg: common 10-15, heavy 20
+      aka: Pro-diazepam|RO 03-7355|RO-03-7355/000|Ro03-7355
+      #class:Peptidic benzodiazepine prodrug  #military-antidote  #peptidic-prodrug  #prodrug-of-diazepam
+  Bentazepam  <recreational>  — oral mg: common 30-50, heavy 75
+      aka: thiadipone|tiadipona
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #thienodiazepine
+  Bretazenil  <recreational>
+      aka: Ro16-6028|bretazenilum
+      #designer-benzo  #partial-agonist  #research-chemical
+  Bromazepam  <recreational>  — oral mg: common 5-10, heavy 10
+      aka: Bromaze|Bromazepamum|Brozam|Calmepam|Creosedin|Lekotam|Lexatin|Lexaurin|Lexomil|Normoc|RO 5-3350|RO-5-3350|Rekotnil|Somalium|Ultramidol|Zepam|brazepam|lectopam|lexilium|lexotan|lexotanil
+      #CYP1A2-substrate  #GABAA-PAM  #atypical-CYP-pathway  #benzodiazepine  #class:Benzodiazepine  #habit-forming
+      also: Depressant
+  Bromazolam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: xli-268|xli268
+      #GABAA-PAM  #benzodiazepine  #designer-benzo  #fatalities-confirmed  #fatalities-reported  #fentanyl-adulterant  #habit-forming  #research-chemical  #tentative  #triazolobenzodiazepine
+  Brotizolam  <recreational>  — oral µg: common 200-400, heavy 400
+      aka: Lendorm|Mederantil|Nimbisan|Sintonal|WE-941-BS|lendormin
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Thienodiazepine (benzodiazepine analogue)  #habit-forming  #high-potency-hypnotic  #thienotriazolodiazepine
+      also: Depressant
+  Camazepam  <recreational>  — oral mg: common 20-40, heavy 40
+      aka: albego|limpidon|paxor
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug  #tentative
+  Clobazam  <recreational>  — oral mg: common 10-15, heavy 15
+      aka: 1,5-benzodiazepine|Aedon|Castilium|Clobam|Clobamax|Mystan|Noiafren|Onfi|Sympazan|Urbanil|Urbanol|Urbanyl|frisium
+      #1,5-benzodiazepine  #CYP2C19-substrate  #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-norclobazam  #alpha2-preferring  #benzodiazepine  #class:Benzodiazepine (1,5-benzodiazepine)  #habit-forming
+      also: Anticonvulsant
+  Clobromazolam  <recreational>  — oral mg: common 0.15-0.3, heavy 0.5
+      aka: DM-II-90|Phenazolam
+      #class:Triazolobenzodiazepine (benzodiazepine derivative)  #designer-benzo  #extreme-potency  #triazolobenzodiazepine
+  Clonazolam  <recreational>  — oral mg: common 0.25-0.5, heavy 1
+      aka: Clam|Clonitrazolam|c-lam
+      #GABAA-PAM  #benzodiazepine  #class:benzodiazepines  #common  #designer-benzo  #extreme-potency  #fatalities-reported  #habit-forming  #research-chemical  #triazolobenzodiazepine
+  Cloniprazepam  <recreational>
+      #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #tentative
+  Clorazepate  <recreational>  — oral mg: common 10-20, heavy 40
+      aka: Tranxene-T|clorazepate dipotassium|novo-clopate|tranxene|tranzene
+      #GABAA-PAM  #anticonvulsant  #anxiolytic  #benzodiazepine  #habit-forming  #prodrug-of-nordazepam  #tablet, orally disintegrating tablet  #very-long-half-life
+  Clotiazepam  <recreational>  — oral mg: common 5-10, heavy 15
+      aka: clozan|distensan|rize|rizen|trecalmo|veratran
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #short-acting  #tentative  #thienodiazepine
+  Delorazepam  <recreational>  — oral mg: common 0.5-1.5, heavy 2
+      aka: nordiclazepam
+      #GABAA-PAM  #active-metabolite-lorazepam  #benzodiazepine  #habit-forming  #long-half-life
+  Deschloroetizolam  <recreational>  — oral mg: common 4-8, heavy 15
+      aka: DCE|Deschloro-etizolam|etizolam-2
+      #GABAA-PAM  #benzodiazepine  #class:Thienotriazolodiazepine  #class:thienodiazepines  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienodiazepine  #thienotriazolodiazepine
+      also: Depressant
+  Desmethylflunitrazepam  <recreational>  — insufflation mg: common 0.5-1, heavy 2
+      aka: N-Desmethylflunitrazepam|Ro 5‑4435|Ro05‑4435|fonazepam|norflunitrazepam|ro05-4435
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #metabolite-as-drug  #research-chemical
+      also: Depressant
+  Diclazepam  <recreational>  — oral mg: common 2-4, heavy 8
+      aka: 2'-Chloro-diazepam|2'-Chlorodiazepam|2-chloro-diazepam|Chlorodiazepam|Ro5-3448
+      #CYP3A4-substrate  #GABAA-PAM  #active-metabolite-lorazepam  #benzodiazepine  #class:Benzodiazepine  #class:benzodiazepines  #designer-benzo  #habit-forming  #long-half-life
+      also: Depressant
+  Estazolam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: elprazolam|eurodin|prosom
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #hypnotic  #triazolobenzodiazepine
+  Etizolam  <recreational>  — oral mg: common 1-2, heavy 5
+      aka: AHR-3219|Arophalm|Capsafe|Dezolam|Eticalm|Etilaam|Etizest|Etizex|Pasaden|Y-7131|depas|etiz|etizola|inxity|lamet|sedekopan|towa|zoly
+      #CYP3A4-substrate  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:Thienodiazepine (benzodiazepine analogue)  #class:thienodiazepines  #designer-benzo  #habit-forming  #prescription-some-countries  #research-chemical  #thienodiazepine  #thienotriazolodiazepine
+      also: Depressant
+  Flualprazolam  <recreational>  — oral mg: common 0.5-1, heavy 2
+      aka: Flualp
+      #CYP3A4-substrate  #GABAA-PAM  #US-Schedule-IV  #benzodiazepine  #class:benzodiazepines  #designer-benzo  #extreme-potency  #fatalities-confirmed  #fatalities-reported  #habit-forming  #research-chemical  #tentative
+  Flubromazepam  <recreational>  — oral mg: common 4-8, heavy 16
+      aka: F-bromazepam|Fluorobromazepam|JYI-42|iso-flubromazepam
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #class:benzodiazepines  #designer-benzo  #habit-forming  #long-half-life  #research-chemical  #very-long-half-life
+      also: Depressant
+  Flubromazolam  <recreational>  — oral mg: common 0.25-0.5, heavy 1
+      aka: FBZ|f-lam|flam
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:benzodiazepines  #designer-benzo  #extreme-potency  #fatalities-confirmed  #fatalities-reported  #habit-forming  #research-chemical  #triazolobenzodiazepine
+  Fluclotizolam  <recreational>  — insufflation mg: common 0.2-0.4, heavy 0.6
+      aka: fluclo
+      #GABAA-PAM  #benzodiazepine  #class:Thienotriazolodiazepine (designer benzodiazepine)  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienotriazolodiazepine
+      also: Depressant
+  Flunitrazepam  <recreational>  — oral mg: common 1-2, heavy 2
+      aka: Circles|Forget Me Pill|Forget Pill|Forget-me pill|Hipnosedon|Hypnodorm|La Rocha|Mexican Valium|Narcozep|R2|RO 5-4200|RO-5-4200|Roach 2|Roche|Roches|Rophies|Ruffies|Wolfies|rohypnol|roofies
+      #CYP2C19-substrate  #CYP3A4-substrate  #DFSA-implicated  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:1,4-benzodiazepine  #class:benzodiazepines  #habit-forming
+  Flunitrazolam  <recreational>  — oral µg: common 80-150, heavy 300
+      aka: fln
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (triazolobenzodiazepine)  #class:benzodiazepines  #designer-benzo  #extreme-potency  #habit-forming  #tentative  #triazolobenzodiazepine
+      also: Depressant
+  Fluoprazolam  <recreational>
+      aka: floprazolam|fluloprazolam
+      #designer-benzo  #high-potency  #no-human-data  #research-chemical
+  Flurazepam  <recreational>  — oral mg: common 15-30, heavy 60
+      aka: Dalmadorm|Felison|Flunox|Ro 5-6901|Sompan|Valdorm|dalmane
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #long-acting-metabolite  #prodrug-like
+      also: Depressant
+  Flutazolam  <recreational>  — oral mg: common 5-10, heavy 15
+      #GABAA-PAM  #benzodiazepine  #habit-forming
+  Flutoprazepam  <recreational>  — oral mg: common 1.5-3, heavy 5
+      aka: FZP|N-desalkylflutoprazepam|restas
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #long-half-life
+      also: Depressant
+  Halazepam  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: Alapryl|Halazpam|Pacinone|SCH-12041|Sch 12041|paxipam
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming  #prodrug-of-nordazepam
+      also: Anticonvulsant
+  Librium  <recreational>  — oral mg: common 10-20, heavy 20
+      aka: chlordiazepoxide
+      #GABAA-PAM  #benzodiazepine  #brand-name-of-chlordiazepoxide  #habit-forming
+  Lormetazepam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: noctamid
+      #GABAA-PAM  #UGT-substrate  #benzodiazepine  #habit-forming  #minimal-CYP-metabolism
+  Meclonazepam  <recreational>  — oral mg: common 3-6, heavy 6
+      #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #nitro-benzodiazepine  #tentative
+  Medazepam  <recreational>  — oral mg: common 10-20, heavy 40
+      aka: Ansilan|Debrum|Lerisum|Medacepan|Megasedan|Nobritol|Rusedal|Tranko‑Buskas|Tranquirax|azepamid|mezapam|nobrium|raporan|rudotel|talis
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepine; non-2-keto)  #habit-forming  #prodrug-of-diazepam-nordazepam
+  Midazolam  <recreational>  — insufflation mg: common 7-15, heavy 25
+      aka: Buccolam|Dormicum|Hypnovel|Nayzilam|Seizalam|Versed
+      #CYP3A4-probe-substrate  #GABAA-PAM  #active-metabolite  #benzodiazepine  #class:Benzodiazepine  #class:benzodiazepines  #habit-forming  #imidazobenzodiazepine
+      also: Depressant
+  Nifoxipam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: 3-Hydroxydesmethylflunitrazepam
+      #GABAA-PAM  #UGT-substrate  #benzodiazepine  #class:benzodiazepines  #designer-benzo  #habit-forming  #metabolite-as-drug  #research-chemical  #tentative
+  Nimetazepam  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: Erimin 5|Happy 5|Hypnon|erimin
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (7-nitro-1,4-benzodiazepine)  #habit-forming  #nitro-benzodiazepine
+      also: Depressant
+  Nitemazepam  <recreational>  — oral mg: common 1.5-3, heavy 5
+      aka: 3-hydroxynimetazepam
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #metabolite-as-drug  #tentative
+  Nitrazepam  <recreational>  — oral mg: common 5-15, heavy 20
+      aka: N05CD02|Nitrazepamum|Nitrazépam|RO 4-5360|RO 5-3059|baronite|dormin|dreem|enzed|gentravit|hypnonex|hypnoril|hypnotex|konit|mogadon|nicare|nigap|nipam|nirosun|nitavan|nithra
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #habit-forming
+  Nitrazolam  <recreational>  — oral mg: common 1-2, heavy 3
+      #GABAA-PAM  #benzodiazepine  #designer-benzo  #habit-forming  #nitro-benzodiazepine  #tentative  #triazolobenzodiazepine
+  Nordazepam  <recreational>  — oral mg: common 5-15, heavy 30
+      aka: desmethyldiazepam|nordaz|nordiazepam
+      #GABAA-PAM  #benzodiazepine  #common-active-metabolite  #habit-forming  #very-long-half-life
+  Norflurazepam  <recreational>  — oral mg: common 4-8, heavy 16
+      aka: Dealkylflurazepam|Desalkylflurazepam|Descarbethoxyloflazepate|Desmethylflurazepam|N-desalkylflutoprazepam|Norfludiazepam|Norflutoprazepam|Ro-05-3367|n-desalkylflurazepam
+      #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #habit-forming  #metabolite-as-drug  #tentative  #very-long-half-life
+      also: Depressant
+  Oxazepam  <recreational>  — oral mg: common 10-30, heavy 45
+      aka: Serepax|Seresta|Sobril|Zaxopam|serax
+      #GABAA-PAM  #UGT2B15-substrate  #anxiolytic  #benzodiazepine  #capsule  #class:Benzodiazepine  #habit-forming  #hepatic-failure-safe  #no-CYP-metabolism  #no-active-metabolite
+      also: Depressant
+  Phenazepam  <recreational>  — insufflation mg: common 0.5-1, heavy 2
+      aka: Bonsai supersleep|Bromdihydrochlorphenylbenzodiazepine|Fenazepam|Phenzitat|Феназепам
+      #GABAA-PAM  #Soviet-era  #benzodiazepine  #class:Benzodiazepine  #designer-benzo  #fatalities-confirmed  #fatalities-reported  #habit-forming  #high-potency  #long-half-life  #research-chemical  #very-long-half-life
+      also: Depressant
+  Pinazepam  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: domar
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug
+  Prazepam  <recreational>  — oral mg: common 10-20, heavy 40
+      aka: Prazepamum|Sedapran|centrac|centrax|demetrin|lysanxia|pozapam|prasepine|prazene|reapam|trepidan
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #class:Benzodiazepine (1,4-benzodiazepin-2-one; 2-keto subtype)  #habit-forming  #prodrug-of-nordazepam
+      also: Depressant
+  Pynazolam  <recreational>
+      aka: pinazolam
+      #designer-benzo  #no-human-data  #research-chemical
+  Pyrazolam  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: Pirazolam
+      #GABAA-PAM  #UGT-substrate  #benzodiazepine  #class:benzodiazepines  #class:triazolobenzodiazepine (benzodiazepine)  #designer-benzo  #habit-forming  #no-CYP-metabolism  #research-chemical  #triazolobenzodiazepine
+  Quazepam  <recreational>  — oral mg: common 10-15, heavy 30
+      aka: doral
+      #CYP3A4-substrate  #GABAA-PAM  #alpha1-preferring  #benzodiazepine  #habit-forming  #long-acting-metabolite  #thione
+  Rilmazafone  <recreational>
+      aka: rhythmy
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #peptidic-prodrug  #prodrug  #triazolobenzodiazepine
+  Temazepam  <recreational>  — oral mg: common 10-20, heavy 40
+      aka: Apo-Temazepam|Euhypnos|Normison|Remestan|Temaze|duck eggs|jellies|restoril
+      #GABAA-PAM  #UGT2B15-substrate  #benzodiazepine  #capsule  #class:1,4-benzodiazepine (3-hydroxy)  #class:benzodiazepines  #habit-forming  #no-CYP-metabolism  #no-active-metabolite
+      also: Depressant
+  Tetrazepam  <recreational>  — oral mg: common 50-100, heavy 200
+      #GABAA-PAM  #SJS-risk  #benzodiazepine  #habit-forming  #withdrawn-EMA-2013
+  Triazolam  <recreational>  — oral mg: common 0.25-0.5, heavy 1.5
+      aka: halcion
+      #CYP3A4-substrate  #GABAA-PAM  #benzodiazepine  #habit-forming  #high-amnesia  #short-half-life  #tablet  #triazolobenzodiazepine
+  Zolazepam  <recreational>  — insufflation mg: common 3-6, heavy 12
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #pyrazolodiazepine  #veterinary

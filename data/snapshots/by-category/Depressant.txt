@@ -1,75 +1,231 @@
-# Depressant — 73 substances
+# Depressant — 76 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  1,4-BDO  [1|1,4-B|1,4-butylene glycol|4-Butanediol|BDO|butane-1,4-diol|liquid fantasy|one comma four|one-four bee|tetramethylene glycol]  (source: drug.community)  #class:Aliphatic diol (tetramethylene glycol)
-  1,4-Butanediol  [1,4-BD|1,4-bd|14bd|BD|bd|butane-1,4-diol|tetramethylene glycol]  (source: tripsit)  #ADH-substrate  #GHB-prodrug  #ethanol-interaction-major  #habit-forming
-  2-Methyl-2-Butanol  [2M2B|2m2b|tert-amyl alcohol]  (source: tripsit)  #ADH-resistant  #GABA-A-PAM-alcohol-pocket  #habit-forming  #tentative  #tertiary-alcohol
-  Aceburic acid  [4-OAc-GHB|4-acetoxybutanoic acid|4-acetoxybutyric acid|Butanoic acid, 4-acetoxy-|GHB acetate (prodrug)]  (source: drug.community)  #GHB-prodrug-ester  #class:Aliphatic carboxylic acid ester (acetyl ester of GHB)
-  Afloqualone  [6-amino-2-(fluoromethyl)-3-(2-methylphenyl)quinazolin-4-one|6-amino-2-(fluoromethyl)-3-(o-tolyl)quinazolin-4-one|Aflocualona|Afloqualon|Arofuto (brand name reported in user communities)|HQ 495|HQ-495]  (source: tripsit)  #class:quinazolinone (methaqualone analogue)  #habit-forming  #muscle-relaxant-japan  #quinazolinone  #tentative
-  Alcohol  [beer|booze|ethanol|etoh|hooch]  (source: tripsit)  #5-HT3-PAM  #ALDH2-pharmacogenetic  #CYP2E1-substrate-inducer  #GABA-A-PAM-delta  #NMDA-antagonist  #common  #glycine-PAM  #habit-forming  +1more
-  Allobarbital  [diallylbarbituric acid]  (source: tripsit)  #barbiturate-intermediate-acting  #habit-forming  #historic  #tentative
-  Amobarbital  [5-ethyl-5-(3-methylbutyl)barbituric acid|5-ethyl-5-isoamylbarbituric acid|Amylobarbitone (INN)|Amytal|Amytal (former brand)|Blue Heavens/Blues (historical street names used for some amobarbital products)|Sodium amobarbital|amylobarbitone]  (source: tripsit)  #barbiturate-intermediate-acting  #class:Barbiturate (5,5-disubstituted barbituric acid derivative)  #habit-forming
-  Baclofen  [Kemstro|Lioresal|Ozobax|gablofen]  (source: tripsit)  #GABA-B-selective-agonist  #habit-forming  #intrathecal-route  #renally-cleared  #withdrawal-emergency
-  Barbital  [Veronal|diethylbarbituric acid]  (source: tripsit)  #barbiturate-long-acting  #habit-forming
-  Carisoprodol  [Carisoma|Carisoprodolo|Carisoprodolum|Isomeprobamate|Isopropyl meprobamate|Soma|Somadril|Vanadom|soma]  (source: tripsit)  #CYP2C19-pharmacogenetic  #GABA-A-PAM  #class:Carbamate  #habit-forming  #meprobamate-prodrug
-  Chloral Hydrate  [1,1,1-trichloro-2,2-ethanediol|Aquachloral|Knockout drops|Mickey Finn|Noctec|Somnote|Trichloroacetaldehyde monohydrate|Welldorm]  (source: drug.community)  #ADH-substrate-prodrug  #GABA-A-PAM-via-metabolite  #IARC-2A  #class:Chloral derivatives (trichloroacetaldehyde hydrate)
-  Chloral-betaine  [Beta-Chlor]  (source: tripsit)  #chloral-hydrate-prodrug  #habit-forming
-  Chlordiazepoxide  [CDP|Chloradiazepoxide|Chlordiazepoxidum|Clopoxide|Librium]  (source: drug.community)  #CYP-cascade-active-metabolites  #alcohol-withdrawal-first-line  #class:Benzodiazepine
-  Chloroform  (source: tripsit)  #abandoned  #cardiotoxic  #habit-forming  #hepatotoxic  #tentative  #volatile-anaesthetic
-  Cinolazepam  [geroderm]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming
-  Clomethiazole  [Heminevrin|chlormethiazole]  (source: tripsit)  #GABA-A-PAM  #alcohol-withdrawal-treatment  #glycine-PAM  #habit-forming  #research-chemical  #tentative
-  Clonidine  [Catapres|Kapvay|catapres|duraclon|kapvay]  (source: tripsit)  #I1-imidazoline-agonist  #alpha-2A-partial-agonist  #common  #rebound-hypertension-risk
-  Cloxazolam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #oxazolobenzodiazepine  #prodrug-of-delorazepam
-  Cyclizine  [Marezine]  (source: tripsit)  #H1-antiemetic
-  Cyclobenzaprine  [(3-dibenzo[a,d]cyclohepten-5-ylidene-propyl)-dimethylamine|Amrix (ER)|Cyclobenzaprinum|Cycoflex|Flexeril|MK-130|N,N-dimethyl-5H-dibenzo(a,d)cycloheptene-Δ5,γ-propylamine|TNX-102|apo-cyclobenzaprin|fexmid|flexeril|novo-cycloprine]  (source: tripsit)  #5-HT2A-antagonist  #class:Tricyclic compound (structurally related to tricyclic antidepressants)  #common  #habit-forming  #muscle-relaxant-central
-  Daridorexant  [Quviviq]  (source: piru-curated)  #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
-  Datura  [Datura stramonium|jimsonweed]  (source: tripsit)  #anticholinergic-deliriant  #miscategorised  #tentative
-  Diethyl-ether  [ether]  (source: tripsit)  #flammable  #habit-forming  #historic  #tentative  #volatile-anaesthetic
-  Dramamine  [dimenhydrinate|gravol]  (source: tripsit)  #common  #duplicate-of-dimenhydrinate
-  Eszopiclone  [(S)-zopiclone|lunesta]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #S-enantiomer-of-zopiclone  #habit-forming  #non-selective-GABA-A
-  Ethaqualone  [etaqualone]  (source: tripsit)  #habit-forming  #quinazolinone  #research-chemical
-  Flubrotizolam  [Flurotizolam|LS-152,574]  (source: drug.community)  #class:Thienotriazolodiazepine  #research-chemical  #thienotriazolodiazepine
-  Fluetizolam  [Flu-E (colloquial)|Fluetizolam (IUPAC): 4-ethyl-7-(2-fluorophenyl)-13-methyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^2,6]trideca-2(6),4,7,10,12-pentaene]  (source: drug.community)  #class:Thienotriazolodiazepine  #designer-benzo  #thienotriazolodiazepine
-  Fluorophenibut  (source: tripsit)  #duplicate-of-4-fluorophenibut  #habit-forming  #tentative
-  Fosazepam  [Fosazepam (INN)]  (source: drug.community)  #benzodiazepine  #class:Benzodiazepine
-  GBL  [1,2-Butanolide|1,4-butanolide|Butyrolactone|Dihydro-2(3H)-furanone|Easy Lay|G|Gamma-Butyrolactone|Gamma-butyrolactone|Geebs|Goop|Grievous Bodily Harm|Juice|Liquid Ecstasy|Liquid X|Scoop|dihydrofuran-2(3H)-one|gamma-butyrolactone|γ-butyrolactone]  (source: tripsit)  #GHB-prodrug  #PON1-substrate  #class:Lactone (cyclic ester)  #common  #habit-forming  #rapid-onset
-  GHB  [1,4-BD (1,4-butanediol, prodrug)|4-hydroxybutanoic acid|4-hydroxybutyric acid|G|GBL (gamma-butyrolactone, prodrug)|Gamma-Hydroxybutyric Acid|Liquid Ecstasy|Liquid X|NaGHB (sodium salt)|Scoop|Sodium oxybate (Xyrem/Xywav)|Xyrem|Xywav|gamma-hydroxybutyric acid|sodium oxybate|γ-hydroxybutyrate]  (source: tripsit)  #GABA-B-partial-agonist  #GHB-receptor-agonist  #capacity-limited-PK  #class:Short-chain fatty acid (structurally related to GABA)  #common  #habit-forming  #narrow-therapeutic-index  #severe-withdrawal
-  Gidazepam  [Bromonordiazepam (active metabolite)|Desalkylgidazepam (active metabolite; aka bromonordiazepam)|Gidazepam IC|Gidazepam monohydrate|Hidazepam|Hydazepam]  (source: drug.community)  #class:Benzodiazepine  #designer-benzo  #post-Soviet  #prodrug
-  Glutethimide  [doriden|elrodorm|glimid|noxyron]  (source: tripsit)  #CYP-inducer  #anticholinergic  #habit-forming  #non-barbiturate-hypnotic
-  Halothane  (source: tripsit)  #MH-trigger  #halothane-hepatitis  #tentative  #volatile-anaesthetic
-  Hexobarbital  [Evipal]  (source: tripsit)  #CYP2C19-probe-drug  #barbiturate-short-acting  #habit-forming  #tentative
-  Kanna  [Sceletium tortuosum|channa]  (source: tripsit)  #SSRI-like-natural-product  #habit-forming  #miscategorised
-  Kava  [Piper methysticum|kava-kava]  (source: tripsit)  #CYP3A4-inhibitor  #GABA-A-PAM-non-BZ-site  #habit-forming  #hepatotoxicity-rare
-  Ketazolam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug-of-diazepam
-  Lemborexant  [Dayvigo]  (source: piru-curated)  #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
-  Loprazolam  [dormonoct]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #imidazolobenzodiazepine
-  Marinol  [cesamet|delta9-tetrahydrocannabinol|delta9-thc|dronabinol|syndros|δ9--tetrahydrocannabinol|δ9-thc]  (source: tripsit)  #cannabinoid-miscategorised  #tentative
-  Mebroqualone  [MBQ|mbq]  (source: tripsit)  #habit-forming  #quinazolinone  #research-chemical  #tentative
-  Metaclazepam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #tentative
-  Metaxalone  [Skelaxin|skelaxin]  (source: tripsit)  #central-muscle-relaxant  #mechanism-unknown
-  Methaqualone  [2-methyl-3-(2-methylphenyl)-4(3H)-quinazolinone|2-methyl-3-o-tolyl-4(3H)-quinazolinone|714s|Dr. Jekyll and Mr. Hyde|Ludes|Mandrakes|Mandrax|Mequelone|Quaalude|Quacks|Sopes|Sopor|ludes|mandrax|quaaludes|qualudes]  (source: tripsit)  #GABA-A-PAM-etomidate-site  #class:Quinazolinone  #habit-forming  #quinazolinone
-  Methocarbamol  [Robaxin|Robaxin-750]  (source: piru-curated)  #muscle-relaxant  #prescription-only  #sedating
-  Methylmethaqualone  [MMQ|mmq]  (source: tripsit)  #habit-forming  #pro-convulsant  #quinazolinone  #research-chemical
-  Methyprylon  [Noludar|noludar]  (source: tripsit)  #habit-forming  #historic  #non-barbiturate-hypnotic  #tentative
-  Mexazolam  [melex|sedoxil]  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming
-  Noctec  [aquachloral|chloral-hydrate|somnos]  (source: tripsit)  #duplicate-of-chloral-hydrate  #habit-forming
-  Orphenadrine  [Disipal|Norflex|Norgesic]  (source: piru-curated)  #NMDA-antagonist  #abuse-potential  #anticholinergic  #muscle-relaxant  #prescription-only
-  Oxazolam  (source: tripsit)  #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug-of-nordazepam
-  Pagoclone  (source: tripsit)  #BZ-site-partial-agonist  #cyclopyrrolone  #habit-forming  #research-chemical  #tentative
-  Pentobarbital  [Nembutal|nembutal|novopentobarb]  (source: tripsit)  #CYP-inducer  #GABA-A-direct-agonist  #anaesthetic-grade-lethality  #habit-forming
-  Phenazolam  [8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine|Clobromazolam (common vendor synonym; community treats as the same compound)|RC/triazolobenzodiazepine|clobromazolam]  (source: drug.community)  #class:Triazolobenzodiazepine (8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine)  #designer-benzo  #triazolobenzodiazepine
-  Phenobarbital  [5-ethyl-5-phenylbarbituric acid|Luminal|PB|Phenobarb|Phenobarbitol|Phenobarbitone|Sezaby|Solfoton|luminal|pheno|phenobarbitone]  (source: tripsit)  #CYP-pan-inducer  #GABA-A-PAM-direct-agonist-high-conc  #class:Barbiturate (Barbituric acid derivative)  #habit-forming  #very-long-half-life  #withdrawal-treatment-tool
-  Placdyl  [Placidyl|ethchlorvnol|placidyl]  (source: tripsit)  #habit-forming  #historic  #tertiary-alcohol-hypnotic
-  Propofol  [2,6-diisopropylphenol|diprivan|milk-of-amnesia]  (source: tripsit)  #GABA-A-PAM-beta-pocket  #IV-anaesthetic  #PRIS-risk  #UGT1A9-substrate  #habit-forming
-  Ramelteon  [Rozerem]  (source: piru-curated)  #circadian  #melatonin-agonist  #prescription-only  #sedative-hypnotic
-  Ronlax  [Meilax|Victan|ethyl loflazepate|ethyl-loflazepate|meilax|victan]  (source: tripsit)  #BZ-prodrug  #habit-forming  #very-long-acting
-  Secobarbital  [Seconal|quinalbarbitone|seconal]  (source: tripsit)  #MAID-protocol-drug  #barbiturate-short-acting  #habit-forming
-  SL-164  [Dicloqualone|SL 164|SL164|methaqualone analogue|quinazolinone sedative]  (source: drug.community)  #class:Quinazolinone (4-quinazolinone) derivative; methaqualone analogue.  #quinazolinone  #research-chemical
-  Sonata  [zaleplon]  (source: tripsit)  #aldehyde-oxidase-substrate  #alpha1-highly-selective  #common  #habit-forming  #ultra-short-half-life
-  Suvorexant  [Belsomra]  (source: piru-curated)  #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
-  Thiopental  [Nesdonal|Penthiobarbital|Pentothal|Sodipental|Thiomebumal|Thionembutal|Thiopental Sodium|Thiopentobarbital|Thiopentone|Trapanal|thiopentone]  (source: tripsit)  #IV-anaesthetic  #class:Barbiturate  #context-sensitive-half-life  #habit-forming  #thiobarbiturate
-  Tizanidine  [Sirdalud|Zanaflex]  (source: piru-curated)  #alpha2-agonist  #antispasmodic  #muscle-relaxant  #prescription-only  #sedating
-  Tolibut  [tolybut|β-(4-methylphenyl)-GABA]  (source: tripsit)  #GABA-B-agonist  #habit-forming  #phenibut-analog  #research-chemical  #tentative
-  Tuinal  [beans|chirstmas-trees|jeebs|nawls|rainbows|tuinol]  (source: tripsit)  #barbiturate-combination-product  #habit-forming  #historic
-  Zaleplon  [Sonata]  (source: piru-curated)  #GABA-modulator  #US-Schedule-IV  #Z-drug  #prescription-only  #sedative-hypnotic
-  Zolpidem  [Ambien|Ambien CR|Edluar|Hypnogen|Intermezzo|Ivedal|Nimadorm|Stilnoct|Stilnox|Stilnox CR|Zolpimist|Zolsana|Zoltis|ambien|stilnox]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #alpha1-preferring  #class:Imidazopyridine  #common  #complex-sleep-behaviors  #habit-forming
-  Zopiclone  [Imovane|Limovan|Nu‑Zopiclone|Optidorm|Rhovane|Siaten|Somnosan|Ximovan|Zileze|Zimovane|Zopiclon AL|Zopiclon Stada|Zopiclon TAD|Zopiclon-neuraxpharm|Zopiclon-ratiopharm|Zopitan|imovane|zimovane]  (source: tripsit)  #CYP3A4-substrate  #GABAA-PAM  #class:Cyclopyrrolone (nonbenzodiazepine hypnotic)  #common  #habit-forming  #non-selective-Z-drug  #racemate
+  Alcohol  <recreational>  — oral units: common 2-4, heavy 5
+      aka: Bevvy|Juice|Liquor|Moonshine|Sauce|beer|booze|ethanol|etoh|hooch|乙醇|酒|酒精
+      #5-HT3-PAM  #ALDH2-pharmacogenetic  #CYP2E1-substrate-inducer  #GABA-A-PAM-delta  #NMDA-antagonist  #class:alcohol  #common  #glycine-PAM  #habit-forming  #zero-order-PK
+  Zolpidem  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: Ambien CR|Edluar|Hypnogen|Intermezzo|Ivedal|Nimadorm|Stilnoct|Stilnox CR|Zolpidem Tartrate Sublingual|Zolpimist|Zolsana|Zoltis|ambien|stilnox|唑吡坦
+      #CYP3A4-substrate  #GABAA-PAM  #alpha1-preferring  #benzodiazepine receptor agonist  #class:Imidazopyridine  #class:imidazopyridine  #common  #complex-sleep-behaviors  #habit-forming  #hypnotic  #tablet, extended release tablet, sublingual tablet, spray
+      also: Benzodiazepine
+  Kava  <recreational>  — oral mg: common 70-150, heavy 300
+      aka: Piper methysticum|kava-kava
+      #CYP3A4-inhibitor  #GABA-A-PAM-non-BZ-site  #habit-forming  #hepatotoxicity-rare
+  Carisoprodol  <recreational>  — oral mg: common 325-500, heavy 750
+      aka: Carisoma|Carisoprodolo|Carisoprodolum|Isomeprobamate|Isopropyl meprobamate|Somadril|Vanadom|soma
+      #CYP2C19-pharmacogenetic  #GABA-A-PAM  #class:1,3-propanediol dicarbamate  #class:Carbamate  #habit-forming  #meprobamate-prodrug  #skeletal muscle relaxant  #tablet
+      also: Other
+  GHB  <recreational>  — oral g: common 1-2.5, heavy 3.5
+      aka: 1,4-BD|4-hydroxybutanoic acid|4-hydroxybutyric acid|G|GBL|Gamma-Hydroxybutyric Acid|Liquid Ecstasy|Liquid X|NaGHB|Scoop|Sodium oxybate|Xyrem|Xywav|γ-hydroxybutyrate|γ-羟基丁酸|γ-羥基丁酸
+      #GABA-B-partial-agonist  #GHB-receptor-agonist  #capacity-limited-PK  #class:Short-chain fatty acid (structurally related to GABA)  #class:γ-hydroxy acid  #common  #habit-forming  #narrow-therapeutic-index  #severe-withdrawal
+  GBL  <recreational>  — oral ml: common 0.6-1.5, heavy 2
+      aka: 1,2-Butanolide|1,4-butanolide|Butyrolactone|Easy Lay|G|Geebs|Goop|Grievous Bodily Harm|Juice|Liquid Ecstasy|Liquid X|Scoop|gamma-Butyrolactone|γ-butyrolactone
+      #GHB-prodrug  #PON1-substrate  #class:Lactone (cyclic ester)  #class:lactone  #common  #habit-forming  #rapid-onset
+  1,4-BDO  <recreational>  — oral mL: common 1-2.5, heavy 4
+      aka: 1|1,4-B|1,4-butylene glycol|4-Butanediol|BDO|butane-1,4-diol|liquid fantasy|one comma four|one-four bee|tetramethylene glycol
+      #class:Aliphatic diol (tetramethylene glycol)
+  1,4-Butanediol  <recreational>  — oral ml: common 1-1.5, heavy 1.5
+      aka: 1,4-B|1,4-bd|14bd|BDO|Butylene Glycol|One Comma Four|One Four B-D-O|One Four Bee|bd|butane-1,4-diol|tetramethylene glycol
+      #ADH-substrate  #GHB-prodrug  #class:alkanediol  #class:diol  #ethanol-interaction-major  #habit-forming
+  2-Methyl-2-Butanol  <recreational>  — oral g: common 5-7.5, heavy 15
+      aka: 2m2b|tert-amyl alcohol
+      #ADH-resistant  #GABA-A-PAM-alcohol-pocket  #habit-forming  #tentative  #tertiary-alcohol
+  2M2B  <recreational>  — oral mL: common 5-10, heavy 15
+      #class:alcohol
+  4-Fluorophenibut  <recreational>  — oral mg: common 100-150, heavy 250
+      aka: 4-F-Phenibut|F-Phenibut|F-Phenibut FAA|Fluorobut|Fluorophenibut
+      #GABA-B-partial-agonist  #alpha-2-delta-ligand  #class:Gabapentinoid (structurally related to phenibut and baclofen)  #duplicate-of-4-fluorophenibut  #habit-forming  #high-dependence-risk  #tentative
+      also: GABAergic
+  Aceburic acid  <recreational>  — insufflation mg: common 900-1800, heavy 2800
+      aka: 4-OAc-GHB|4-acetoxybutanoic acid|4-acetoxybutyric acid
+      #GHB-prodrug-ester  #class:Aliphatic carboxylic acid ester (acetyl ester of GHB)
+  Afloqualone  <recreational>  — oral mg: common 75-100, heavy 200
+      aka: Aflocualona|Afloqualon|Arofuto|HQ 495|HQ-495
+      #class:quinazolinone (methaqualone analogue)  #habit-forming  #muscle-relaxant-japan  #quinazolinone  #tentative
+  Allobarbital  <recreational>  — oral mg: common 1000-1500, heavy 2000
+      aka: diallylbarbituric acid
+      #barbiturate-intermediate-acting  #habit-forming  #historic  #tentative
+  Amobarbital  <recreational>  — intramuscular mg: common 125-250, heavy 400
+      aka: Amylobarbitone|Amytal|Blue Heavens/Blues|Sodium amobarbital
+      #barbiturate-intermediate-acting  #class:Barbiturate (5,5-disubstituted barbituric acid derivative)  #habit-forming
+  Baclofen  <recreational>  — oral mg: common 20-50, heavy 75
+      aka: Fleqsuvy|Kemstro|Lioresal|Lyvispah|Ozobax|gablofen
+      #GABA-B-selective-agonist  #class:butyric acid  #class:gabapentinoids  #gaba analogue  #habit-forming  #intrathecal-route  #renally-cleared  #skeletal muscle relaxant  #tablet, solution, suspension, granule  #withdrawal-emergency
+  Barbital  <recreational>  — oral mg: common 650-970, heavy 970
+      aka: Veronal|diethylbarbituric acid
+      #barbiturate-long-acting  #habit-forming
+  Chloral Hydrate  <recreational>  — oral mg: common 500-1000, heavy 2000
+      aka: Aquachloral|Knockout drops|Mickey Finn|Noctec|Somnote|Trichloroacetaldehyde monohydrate|Welldorm
+      #ADH-substrate-prodrug  #GABA-A-PAM-via-metabolite  #IARC-2A  #class:Chloral derivatives (trichloroacetaldehyde hydrate)
+  Chloral-betaine  <recreational>  — oral mg: common 250-500, heavy 1000
+      aka: Beta-Chlor
+      #chloral-hydrate-prodrug  #habit-forming
+  Chlordiazepoxide  <recreational>  — oral mg: common 10-25, heavy 50
+      aka: CDP|Chloradiazepoxide|Chlordiazepoxidum|Clopoxide|Librium
+      #CYP-cascade-active-metabolites  #alcohol-withdrawal-first-line  #anxiolytic  #benzodiazepine  #capsule  #class:Benzodiazepine
+      also: Benzodiazepine
+  Chloroform  (STUB)  <recreational>
+      #abandoned  #cardiotoxic  #habit-forming  #hepatotoxic  #tentative  #volatile-anaesthetic
+  Cinolazepam  <recreational>  — oral mg: common 30-60, heavy 120
+      aka: geroderm
+      #GABAA-PAM  #benzodiazepine  #habit-forming
+  Clomethiazole  <recreational>  — oral mg: common 150-200, heavy 200
+      aka: Heminevrin|chlormethiazole
+      #GABA-A-PAM  #alcohol-withdrawal-treatment  #glycine-PAM  #habit-forming  #research-chemical  #tentative
+  Clonidine  <recreational>  — oral µg: common 50-100, heavy 250
+      aka: Catapres-TTS|Nexiclon XR|catapres|duraclon|kapvay
+      #I1-imidazoline-agonist  #alpha-2A-partial-agonist  #centrally-acting alpha-2 agonist  #class:arylaminoimidazoline  #class:imidazoline  #common  #rebound-hypertension-risk  #tablet, extended release tablet
+  Cloxazolam  <recreational>  — oral mg: common 3-6, heavy 12
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #oxazolobenzodiazepine  #prodrug-of-delorazepam
+  Cyclizine  <recreational>  — oral mg: common 25-50, heavy 50
+      aka: Marezine
+      #H1-antiemetic
+  Cyclobenzaprine  <recreational>  — oral mg: common 5-10, heavy 15
+      aka: Amrix|Cyclobenzaprinum|Cycoflex|MK-130|TNX-102|apo-cyclobenzaprin|fexmid|flexeril|novo-cycloprine
+      #5-HT2A-antagonist  #class:Tricyclic compound (structurally related to tricyclic antidepressants)  #common  #habit-forming  #muscle-relaxant-central  #skeletal muscle relaxant  #tablet, extended release capsule
+  Daridorexant  <recreational>  — oral mg: common 25-50, heavy 50
+      aka: Quviviq
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
+  Diethyl-ether  (STUB)  <recreational>
+      aka: ether
+      #flammable  #habit-forming  #historic  #tentative  #volatile-anaesthetic
+  Emylcamate  <recreational>  — oral mg: common 200-400, heavy 400
+      aka: Striatal|Striatran
+      #carbamate  #depressant  #discontinued  #historical
+  Eszopiclone  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: Eszop|Lunesta
+      #CYP3A4-substrate  #GABAA-PAM  #S-enantiomer-of-zopiclone  #benzodiazepine receptor agonist  #class:cyclopyrrolone  #habit-forming  #hypnotic  #non-selective-GABA-A  #tablet
+      also: Benzodiazepine
+  Ethaqualone  <recreational>  — oral mg: common 175-300, heavy 450
+      aka: etaqualone
+      #habit-forming  #quinazolinone  #research-chemical
+  Flubrotizolam  <recreational>  — oral mg: common 0.4-0.6, heavy 1
+      aka: Flurotizolam|LS-152,574
+      #class:Thienotriazolodiazepine  #research-chemical  #thienotriazolodiazepine
+  Fluetizolam  <recreational>
+      aka: Flu-E
+      #class:Thienotriazolodiazepine  #designer-benzo  #thienotriazolodiazepine
+  Fosazepam  <recreational>  — oral mg: common 10-30, heavy 50
+      #benzodiazepine  #class:Benzodiazepine
+  Gaboxadol  <recreational>  — oral mg: common 15-30, heavy 45
+      aka: Lu 02-030|MK-0928|MK0928|THIP
+      #class:3-hydroxyisoxazole  #class:Isoxazole derivative
+      also: GABAergic
+  Gidazepam  <recreational>  — oral mg: common 20-50, heavy 70
+      aka: Bromonordiazepam|Desalkylgidazepam|Gidazepam IC|Gidazepam monohydrate|Hidazepam|Hydazepam
+      #class:Benzodiazepine  #designer-benzo  #post-Soviet  #prodrug
+  Glutethimide  <recreational>  — oral mg: common 500-500, heavy 750
+      aka: doriden|elrodorm|glimid|noxyron
+      #CYP-inducer  #anticholinergic  #habit-forming  #non-barbiturate-hypnotic
+  Halothane  (STUB)  <recreational>
+      #MH-trigger  #halothane-hepatitis  #tentative  #volatile-anaesthetic
+  Hexobarbital  <recreational>  — oral mg: common 15-20, heavy 30
+      aka: Evipal
+      #CYP2C19-probe-drug  #barbiturate-short-acting  #habit-forming  #tentative
+  Kanna  <recreational>  — inhalation mg: common 50-100, heavy 250
+      aka: Sceletium tortuosum|channa
+      #SSRI-like-natural-product  #habit-forming  #miscategorised
+  Ketazolam  <recreational>  — oral mg: common 15-30, heavy 60
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug-of-diazepam
+  Lemborexant  <recreational>  — oral mg: common 5-10, heavy 10
+      aka: Dayvigo
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
+  Loprazolam  <recreational>  — oral mg: common 0.5-1.5, heavy 3
+      aka: dormonoct
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #imidazolobenzodiazepine
+  Mebroqualone  <recreational>  — inhalation mg: common 5-10, heavy 20
+      aka: mbq
+      #habit-forming  #quinazolinone  #research-chemical  #tentative
+  Mephenaqualone  <recreational>  — oral mg: common 1.5-2.5, heavy 4
+      #class:quinazolinone
+  Metaclazepam  <recreational>  — oral mg: common 18.75-18.75, heavy 50
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #tentative
+  Metaxalone  <recreational>  — oral mg: common 800-1600, heavy 2400
+      aka: Metaxall|skelaxin
+      #central-muscle-relaxant  #mechanism-unknown  #skeletal muscle relaxant  #tablet
+  Methaqualone  <recreational>  — inhalation mg: common 100-200, heavy 300
+      aka: 714s|Dr. Jekyll and Mr. Hyde|Mandrakes|Mequelone|Quaalude|Quack|Quacks|Soaper|Sopes|Sopor|Vitamin Q|ludes|mandrax|quaaludes|qualudes
+      #GABA-A-PAM-etomidate-site  #class:Quinazolinone  #class:quinazolinone  #habit-forming  #quinazolinone
+  Methocarbamol  <recreational>  — oral mg: common 1500-3000, heavy 6000
+      aka: Robaxin|Robaxin-750
+      #muscle-relaxant  #prescription-only  #sedating  #skeletal muscle relaxant  #tablet
+  Methylmethaqualone  <recreational>  — inhalation mg: common 5-10, heavy 20
+      aka: mmq
+      #habit-forming  #pro-convulsant  #quinazolinone  #research-chemical
+  Methyprylon  <recreational>  — oral mg: common 200-300, heavy 300
+      aka: noludar
+      #habit-forming  #historic  #non-barbiturate-hypnotic  #tentative
+  Metizolam  <recreational>  — oral mg: common 2-4, heavy 6
+      aka: desmethyletizolam|metiz
+      #GABAA-PAM  #benzodiazepine  #class:thienodiazepines  #designer-benzo  #habit-forming  #research-chemical  #tentative  #thienotriazolodiazepine
+      also: Benzodiazepine
+  Mexazolam  <recreational>  — oral mg: common 0.5-1.5, heavy 2
+      aka: melex|sedoxil
+      #GABAA-PAM  #benzodiazepine  #habit-forming
+  Noctec  <recreational>  — oral mg: common 200-500, heavy 1000
+      aka: aquachloral|chloral-hydrate|somnos
+      #duplicate-of-chloral-hydrate  #habit-forming
+  Orphenadrine  <recreational>  — oral mg: common 100-200, heavy 400
+      aka: Disipal|Norflex|Norgesic
+      #NMDA-antagonist  #abuse-potential  #anticholinergic  #antihistamine  #extended release tablet  #muscle-relaxant  #prescription-only  #skeletal muscle relaxant
+      also: Antihistamine
+  Oxazolam  <recreational>  — oral mg: common 10-15, heavy 30
+      #GABAA-PAM  #benzodiazepine  #habit-forming  #prodrug-of-nordazepam
+  Pagoclone  (STUB)  <recreational>
+      #BZ-site-partial-agonist  #cyclopyrrolone  #habit-forming  #research-chemical  #tentative
+  Pentobarbital  <recreational>  — intramuscular mg: common 150-200, heavy 200
+      aka: nembutal|novopentobarb|pentobarbitone
+      #CYP-inducer  #GABA-A-direct-agonist  #anaesthetic-grade-lethality  #class:barbiturates  #habit-forming
+  Phenazolam  <recreational>  — oral mg: common 0.25-0.6, heavy 1
+      aka: Clobromazolam|RC/triazolobenzodiazepine
+      #class:Triazolobenzodiazepine (8-bromo-6-(2-chlorophenyl)-1-methyl-4H-[1,2,4]triazolo[4,3-a][1,4]benzodiazepine)  #designer-benzo  #triazolobenzodiazepine
+  Phenobarbital  <recreational>  — intravenous mg: common 30-60, heavy 100
+      aka: PB|Phenobarb|Phenobarbitol|Sezaby|Solfoton|luminal|pheno|phenobarbitone
+      #CYP-pan-inducer  #GABA-A-PAM-direct-agonist-high-conc  #anticonvulsant  #barbiturate  #class:Barbiturate (Barbituric acid derivative)  #class:barbiturates  #habit-forming  #tablet, elixir, solution  #very-long-half-life  #withdrawal-treatment-tool
+      also: Anticonvulsant
+  Placdyl  <recreational>  — oral mg: common 200-500, heavy 750
+      aka: ethchlorvnol|placidyl
+      #habit-forming  #historic  #tertiary-alcohol-hypnotic
+  Progesterone  <recreational>  — oral mg: common 200-400, heavy 600
+      aka: Endometrin
+      #class:steroid
+  Propofol  <recreational>  — intravenous mg: common 30-60, heavy 100
+      aka: 2,6-diisopropylphenol|diprivan|milk-of-amnesia
+      #GABA-A-PAM-beta-pocket  #IV-anaesthetic  #PRIS-risk  #UGT1A9-substrate  #habit-forming
+  Ramelteon  <recreational>  — oral mg: common 8-8, heavy 16
+      aka: Rozerem
+      #circadian  #hypnotic  #melatonin receptor agonist  #melatonin-agonist  #prescription-only  #sedative-hypnotic  #tablet
+  Ronlax  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: ethyl loflazepate|ethyl-loflazepate|meilax|victan
+      #BZ-prodrug  #habit-forming  #very-long-acting
+  Secobarbital  <recreational>  — oral mg: common 50-150, heavy 300
+      aka: Secobarbitone|quinalbarbitone|seconal
+      #MAID-protocol-drug  #barbiturate-short-acting  #class:barbiturates  #habit-forming
+  SL-164  <recreational>  — insufflation mg: common 60-120, heavy 200
+      aka: Dicloqualone|SL 164|SL164|methaqualone analogue|quinazolinone sedative
+      #class:Quinazolinone (4-quinazolinone) derivative; methaqualone analogue.  #quinazolinone  #research-chemical
+  Sodium oxybate  (STUB)  <recreational>
+      aka: Xyrem|Xywav
+      #euphoriant  #gaba-b receptor agonist  #hypnotic  #oral solution
+  Suvorexant  <recreational>  — oral mg: common 10-20, heavy 20
+      aka: Belsomra
+      #DORA  #US-Schedule-IV  #orexin-antagonist  #prescription-only  #sedative-hypnotic
+  Thiopental  <recreational>  — intravenous mg/kg: common 3-5, heavy 6
+      aka: Nesdonal|Penthiobarbital|Pentothal|Sodipental|Thiomebumal|Thionembutal|Thiopental Sodium|Thiopentobarbital|Thiopentone|Trapanal
+      #IV-anaesthetic  #class:Barbiturate  #context-sensitive-half-life  #habit-forming  #thiobarbiturate
+  Tizanidine  <recreational>  — oral mg: common 4-8, heavy 36
+      aka: Sirdalud|Zanaflex
+      #alpha-2 agonist  #alpha2-agonist  #antispasmodic  #class:arylaminoimidazoline  #class:imidazoline  #muscle-relaxant  #prescription-only  #sedating  #skeletal muscle relaxant  #tablet, capsule
+  Tolibut  (STUB)  <recreational>
+      aka: tolybut
+      #GABA-B-agonist  #habit-forming  #phenibut-analog  #research-chemical  #tentative
+  Tuinal  <recreational>  — oral mg: common 75-150, heavy 300
+      aka: beans|chirstmas-trees|jeebs|nawls|rainbows|tuinol
+      #barbiturate-combination-product  #habit-forming  #historic
+  Zaleplon  <recreational>  — oral mg: common 10-20, heavy 40
+      aka: Sonata
+      #GABA-modulator  #US-Schedule-IV  #Z-drug  #aldehyde-oxidase-substrate  #alpha1-highly-selective  #benzodiazepine receptor agonist  #capsule  #common  #habit-forming  #hypnotic  #prescription-only  #sedative-hypnotic
+      also: Benzodiazepine
+  Zopiclone  <recreational>  — oral mg: common 5-7.5, heavy 15
+      aka: Limovan|Nu‑Zopiclone|Optidorm|Rhovane|Siaten|Somnosan|Ximovan|Zileze|Zopiclon AL|Zopiclon Stada|Zopiclon TAD|Zopiclon-neuraxpharm|Zopiclon-ratiopharm|Zopitan|imovane|zimovane
+      #CYP3A4-substrate  #GABAA-PAM  #class:Cyclopyrrolone (nonbenzodiazepine hypnotic)  #class:cyclopyrrolone  #common  #habit-forming  #non-selective-Z-drug  #racemate

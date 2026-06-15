@@ -155,6 +155,16 @@ def _validate_entry(e: dict, fname: str, err, warn) -> None:
         err.append(f"{tag}: empty name")
     if "category" in e and e["category"] not in CATEGORIES:
         err.append(f"{tag}: bad category {e.get('category')!r}")
+    if "extraCategories" in e:
+        ec = e["extraCategories"]
+        if not isinstance(ec, list):
+            err.append(f"{tag}: extraCategories must be a list")
+        else:
+            for c in ec:
+                if c not in CATEGORIES:
+                    err.append(f"{tag}: bad extraCategories entry {c!r}")
+                if c == e.get("category"):
+                    err.append(f"{tag}: extraCategories duplicates primary category {c!r}")
     if "aliases" in e and not isinstance(e["aliases"], list):
         err.append(f"{tag}: aliases must be a list")
     if e.get("defaultRoute") and _normalise_route(e["defaultRoute"]) not in ROUTES:

@@ -1,4 +1,152 @@
-# Endocrine — 2 substances
+# Endocrine — 51 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Arimistane  [17-dione|5-diene-7|7-oxo-androst-3,5-diene-17-one|ADD|Androst-3,5-dien-7,17-dione|Androsta-3|Androsta-3,5-diene-7,17-dione]  (source: drug.community)  #class:Steroidal aromatase inhibitor (7-keto-DHEA–related androstane)
-  Estradiol  [(17β)-estra-1,3,5(10)-triene-3,17-diol|17-beta-estradiol|17β-estradiol|Estradiol-17β|Oestradiol|beta-Estradiol|cis-Estradiol]  (source: drug.community)  #class:Estrogenic steroid
+  AC-262536  <medical_rx>
+      aka: Accadrine
+      #no-human-data  #research-chemical  #sarm  #wada-prohibited
+  Alclometasone  (STUB)  <medical_rx>
+      aka: Aclovate|Alclometasone-topical
+      #corticosteroid  #cream, ointment
+  Amcinonide  (STUB)  <medical_rx>
+      aka: Amcinonide-topical|Cyclocort
+      #corticosteroid  #cream, lotion, ointment
+  Arimistane  <medical_rx>  — oral mg: common 25-50, heavy 75
+      aka: 17-dione|5-diene-7|ADD|Androsta-3
+      #class:Steroidal aromatase inhibitor (7-keto-DHEA–related androstane)
+  BAM-15  <medical_rx>
+      #no-human-data  #research-chemical
+  Beclomethasone  (STUB)  <medical_rx>
+      aka: Beclomethasone-inhaled|Beclomethasone-nasal|Beconase AQ|QVAR RediHaler|Qnasl
+      #corticosteroid  #inhaled corticosteroid  #metered dose inhaler  #nasal spray
+  Bemethyl  <medical_rx>
+      aka: 2-Ethylthiobenzimidazole|Antihot|Bemitil|Betamyl|Metaprot
+      #research-chemical
+  Betamethasone  (STUB)  <medical_rx>
+      aka: Betaderm|Betamethasone Valerate|Betamethasone-topical|Diprolene|Luxiq|Sernivo|Valisone
+      #corticosteroid  #cream, foam, ointment, gel, lotion, spray
+  Budesonide  (STUB)  <medical_rx>
+      aka: Budesonide-inhaled|Budesonide-nasal|Pulmicort Flexhaler|Pulmicort Respules|Rhinocort
+      #corticosteroid  #dry powder inhaler (twisthaler), metered dose inhaler (hfa)  #inhaled corticosteroid  #nasal spray
+  Budesonide-Formoterol  (STUB)  <medical_rx>
+      aka: Symbicort
+      #inhaled corticosteroid  #long-acting beta-2 agonist  #metered dose inhaler (hfa)
+  Ciclesonide  (STUB)  <medical_rx>
+      aka: Alvesco|Ciclesonide-inhaled|Ciclesonide-nasal|Omnaris|Zetonna
+      #corticosteroid  #inhaled corticosteroid  #metered dose inhaler  #nasal spray
+  Clobetasol  (STUB)  <medical_rx>
+      aka: Clobetasol-topical|Clobex|Clodan|Impeklo|Impoyz|Olux|Temovate
+      #corticosteroid  #cream, foam, ointment, gel, lotion, solution, spray, shampoo
+  Cortisone acetate  (STUB)  <medical_rx>
+      #corticosteroid  #glucocorticoid  #tablet
+  Desonide  (STUB)  <medical_rx>
+      aka: DesOwen|Desonate|Desonide-topical|Tridesilon|Verdeso
+      #corticosteroid  #cream, ointment, gel, lotion, foam
+  Desoximetasone  (STUB)  <medical_rx>
+      aka: Desoximetasone-topical|Topicort
+      #corticosteroid  #cream, ointment, gel, spray
+  Dexamethasone  (STUB)  <medical_rx>
+      aka: Decadron|DexPak|Dexabliss|Dexamethsone|Maxidex|neomycin/polymyxin b sulfate/dexamethasone
+      #antiemetic  #corticosteroid  #glucocorticoid  #tablet, solution, elixir, concentrate
+  Diflorasone  (STUB)  <medical_rx>
+      aka: ApexiCon E|Diflorasone Diacetate|Diflorasone-topical|Psorcon
+      #corticosteroid  #cream, ointment
+  Enclomiphene  <medical_rx>
+      aka: Androxal|Enclomifene|trans-Clomiphene
+      #research-chemical  #wada-prohibited
+  Estradiol  <medical_rx>  — intramuscular mg: common 5-10, heavy 20
+      aka: 17-beta-estradiol|17β-estradiol|Climara|Delestrogen|Elestrin|Estradiol-17β|Mimvey|Oestradiol|Zovia 1/35e-28|beta-Estradiol|cis-Estradiol|estradiol/norethindrone
+      #class:Estrogenic steroid
+  Flunisolide  (STUB)  <medical_rx>
+      aka: Flunisolide-nasal
+      #corticosteroid  #nasal spray
+  Fluocinolone  (STUB)  <medical_rx>
+      aka: Capex|Derma-Smoothe|Fluocinolone-topical|Synalar
+      #corticosteroid  #cream, ointment, oil, shampoo, solution
+  Fluocinonide  (STUB)  <medical_rx>
+      aka: Fluocinonide Cream|Fluocinonide-topical|Lidex|Vanos
+      #corticosteroid  #cream, ointment, gel, solution
+  Flurandrenolide  (STUB)  <medical_rx>
+      aka: Cordran|Flurandrenolide-topical|Nolix
+      #corticosteroid  #tape, cream, ointment, lotion
+  Fluticasone  (STUB)  <otc>
+      aka: Allergy Nasal|Beser|Careone Fluticasone Propionate|Childrens 24 Hour Allergy Relief Nasal|Cutivate|Flonase|Flonase Sensimist|Fluticasone-nasal|Fluticasone-topical|Leader Allergy Relief Nasal|Up And Up Allergy Relief Nasal|Xhance
+      #corticosteroid  #cream, ointment, lotion  #nasal spray
+  Fluticasone furoate  (STUB)  <otc>
+      aka: Arnuity Ellipta
+      #dry powder inhaler  #inhaled corticosteroid
+  Fluticasone propionate  (STUB)  <medical_rx>
+      aka: ArmonAir Digihaler|Flovent Diskus|Flovent HFA|Fluticasone propionate-inhaled
+      #dry powder inhaler (diskus), metered dose inhaler (hfa)  #inhaled corticosteroid
+  Fluticasone-Salmeterol  (STUB)  <medical_rx>
+      aka: Advair Diskus/HFA|AirDuo Respiclick|Wixela Inhub
+      #dry powder inhaler (diskus, inhub, respiclick), metered dose inhaler (hfa)  #inhaled corticosteroid  #long-acting beta-2 agonist
+  Fluticasone-Umeclidinium-Vilanterol  (STUB)  <medical_rx>
+      aka: Trelegy Ellipta
+      #dry powder inhaler  #inhaled corticosteroid  #long-acting beta-2 agonist  #long-acting muscarinic antagonist
+  Fluticasone-Vilanterol  (STUB)  <medical_rx>
+      aka: Breo Ellipta
+      #dry powder inhaler  #inhaled corticosteroid  #long-acting beta-2 agonist
+  GW-501516  <medical_rx>
+      aka: Cardarine|Endurobol|GW-1516
+      #research-chemical  #wada-prohibited
+  Halcinonide  (STUB)  <medical_rx>
+      aka: Halcinonide-topical|Halog
+      #corticosteroid  #cream, ointment, solution
+  Halobetasol  (STUB)  <medical_rx>
+      aka: Bryhali|Halobetasol-topical|Lexette|Ultravate
+      #corticosteroid  #cream, ointment, lotion, foam
+  Hydrocortisone  (STUB)  <medical_rx>
+      aka: Cortaid|Cortifoam|Cortisone|Hydrocortisone Butyrate|Hydrocortisone-topical|Procto-pak|Westcort|various other brands
+      #corticosteroid  #cream, ointment, lotion, foam
+  Letrozole  <medical_rx>
+      aka: CGS-20267|Femara
+      #wada-prohibited
+  Methylprednisolone  (STUB)  <medical_rx>
+      aka: Medrol
+      #corticosteroid  #glucocorticoid  #tablet, therapy pack of tablets
+  Mirabegron  <medical_rx>
+      aka: Myrbetriq|YM-178
+  Mometasone  (STUB)  <medical_rx>
+      aka: Asmanex HFA|Asmanex Twisthaler|Elocon|Mometasone-inhaled|Mometasone-nasal|Mometasone-topical|Nasonex
+      #corticosteroid  #cream, ointment, lotion, solution  #dry powder inhaler (twisthaler), metered dose inhaler (hfa)  #inhaled corticosteroid  #nasal spray
+  Mometasone-Formoterol  (STUB)  <medical_rx>
+      aka: Dulera
+      #inhaled corticosteroid  #long-acting beta-2 agonist  #metered dose inhaler
+  Prednicarbate  (STUB)  <medical_rx>
+      aka: Dermatop|Prednicarbate-topical
+      #corticosteroid  #cream, ointment
+  Prednisolone  (STUB)  <medical_rx>
+      aka: Millipred|Orapred ODT|Pediapred
+      #corticosteroid  #glucocorticoid  #tablet, orally disintegrating tablet, solution, syrup
+  Prednisone  (STUB)  <medical_rx>
+      aka: Deltasone|Rayos
+      #corticosteroid  #glucocorticoid  #tablet, delayed release tablet, solution, concentrate
+  RAD-140  <medical_rx>
+      aka: Testolone|Vosilasarm
+      #research-chemical  #sarm  #wada-prohibited
+  RAD-150  <medical_rx>
+      aka: TLB-150|Testolone Benzoate
+      #no-human-data  #research-chemical  #sarm  #wada-prohibited
+  RU58841  <medical_rx>
+      aka: HMR-3841|PSK-3841
+      #research-chemical
+  S-23  <medical_rx>
+      aka: Mastorin
+      #no-human-data  #research-chemical  #sarm  #wada-prohibited
+  S4  <medical_rx>
+      aka: Andarine|GTx-007
+      #research-chemical  #sarm  #wada-prohibited
+  SLU-PP-332  <medical_rx>
+      aka: SR9861
+      #no-human-data  #research-chemical
+  SR-9011  <medical_rx>
+      #no-human-data  #research-chemical  #wada-prohibited
+  Tesofensine  <medical_rx>
+      aka: NS2330
+      #wada-prohibited
+  Triamcinolone  (STUB)  <otc>
+      aka: 24 Hour Nasal Allergy|Aristospan|Equaline Nasal Allergy|Kenalog|Nasacort|Nasal Allergy 24 Hour|Triamcinolone-nasal|Triamcinolone-topical|Triderm
+      #corticosteroid  #cream, lotion, ointment, spray, dental paste  #nasal spray
+  YK-11  <medical_rx>
+      aka: Myostine
+      #no-human-data  #research-chemical  #sarm  #wada-prohibited

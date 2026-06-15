@@ -7,6 +7,13 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # DB cleanup 2026-06 — RC taxonomy rename, Other bucket, limited-data badge
+    "Other / Miscellaneous": ("其他 / 杂项", "其他 / 雜項"),
+    "Everything that doesn't fit a class above.": (
+        "不属于以上任何类别的物质。",
+        "不屬於以上任何類別的物質。",
+    ),
+    "Limited data": ("数据有限", "資料有限"),
     # Library redesign — family cards, taxonomy renames, sub-class blurbs
     "Stimulants": ("兴奋剂", "興奮劑"),
     "Empathogens": ("共情剂", "共情劑"),
@@ -2370,6 +2377,10 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # DB cleanup 2026-06
+        "Other / Miscellaneous",
+        "Everything that doesn't fit a class above.",
+        "Limited data",
         # Library redesign — family titles, blurbs, sub-class blurbs, renames
         "Stimulants",
         "Empathogens",

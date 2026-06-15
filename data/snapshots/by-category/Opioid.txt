@@ -1,96 +1,295 @@
-# Opioid — 94 substances
+# Opioid — 98 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  4-Meo-Butryfentanyl  [4-Methoxybutyrfentanyl|4-meo-bf]  (source: tripsit)  #duplicate-of-4-methoxybutyrfentanyl  #habit-forming  #mu-opioid-agonist  #research-chemical  #tentative
-  4-Methoxybutyrfentanyl  [4-MeO-BF|4-Methoxy-butyrylfentanyl|N-(4-methoxyphenyl)-N-[1-(2-phenylethyl)-4-piperidinyl]butanamide|p-MeO-butyrylfentanyl|para-Methoxybutyrylfentanyl]  (source: drug.community)  #CYP3A4-substrate  #class:4-Anilidopiperidine (fentanyl) analogue  #mu-full-agonist  #wooden-chest-syndrome-risk
-  4Cl-iBF  [4-Cl-IBF|4-Cl-iBF|p-Chloro-isobutyrylfentanyl|p-Chloroisobutyrylfentanyl|p-Cl-IBF|p-Cl-iBF|para-Chloroisobutyrylfentanyl]  (source: drug.community)  #CYP3A4-substrate  #class:4-anilidopiperidine (fentanyl analogue)  #mu-full-agonist  #wooden-chest-syndrome-risk
-  6-Mddm  [6-methylenedihydrodesoxymorphine]  (source: tripsit)  #MOR-superagonist  #habit-forming  #morphine-derivative  #tentative
-  6-Monoacetylmorphine  [6-ACM|6-AM|6-Acetylmorphine|6-MAM|6-acetyl morphine|6-acetylmorphine]  (source: drug.community)  #MOR-full-agonist  #class:Semi-synthetic morphinan opioid  #heroin-metabolite  #primary-active-species-after-heroin
-  7-Hydroxymitragynine  [7-HMG|7-OH|7-OH-MG|7-OHM|7OH]  (source: drug.community)  #G-protein-biased  #MOR-near-full-agonist  #class:Terpenoid indole alkaloid  #high-abuse-liability  #kratom-metabolite
-  Acetorphine  [7α-etorphine 3-acetate|Acetorfina|Acetylpropylorvinol|acetylpropylorvinol]  (source: drug.community)  #Bentley-compound  #MOR-superagonist  #class:Morphinan (organic polycyclic compound with a four-ring skeleton)  #veterinary-only-class
-  Acetyldihydrocodeine  [6-ADC|6-acetyldihydrocodeine|ADC|dihydrocodeine 6-acetate|dihydrocodeine acetate]  (source: drug.community)  #CYP2D6-bioactivation  #MOR-prodrug  #class:semi-synthetic morphinan opioid
-  Acetylfentanyl  [a-f|acetyl-fentanyl]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
-  Acryl-fentanyl  [Acrylfentanyl]  (source: tripsit)  #duplicate-of-acrylfentanyl  #habit-forming  #mu-opioid-agonist  #research-chemical  #tentative
-  Acrylfentanyl  [Acryl-fentanyl|Acryloylfentanyl|N-(1-phenethylpiperidin-4-yl)-N-phenylacrylamide|N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]acrylamide]  (source: drug.community)  #CYP3A4-substrate  #class:4-anilidopiperidine (fentanyl analogue)  #mu-full-agonist  #wooden-chest-syndrome-risk
-  Ah-7921  [ah7921|doxylam]  (source: tripsit)  #habit-forming  #kappa-agonist  #morphine-equivalent-potency  #mu-full-agonist  #research-chemical
-  Alfentanil  [Alfenta|Alfentanil hydrochloride|Alfentanyl|Fanaxal|R 39209|R-39209|Rapifen]  (source: drug.community)  #CYP3A4-substrate  #class:Phenylpiperidine (fentanyl analog)  #mu-full-agonist  #rapid-onset  #short-acting
-  Benzodioxole-fentanyl  (source: tripsit)  #mu-agonist-presumed  #mu-opioid-agonist  #research-chemical  #tentative
-  Beta-meprodine  [(3R,4R)-3-ethyl-1-methyl-4-phenylpiperidin-4-yl propanoate|Betameprodine|CAS 468-50-8|DB01552|β-Meprodine]  (source: drug.community)  #class:4-Phenylpiperidine ester (meperidine analog)
-  Bezitramide  [Bezitramida|Bezitramidum|Burgodin|Despropionyl‑bezitramide (active metabolite; R‑4618)|R 4845|R-4845]  (source: drug.community)  #class:Diphenylpropylamide-derived benzimidazolone opioid
-  Bromadol  [BDPC|bdpc]  (source: tripsit)  #MOR-full-agonist  #designer-opioid  #habit-forming  #tentative  #ultra-high-potency
-  Brorphine  [1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-1,3-dihydro-2H-benzo[d]imidazol-2-one]  (source: piru-curated)  #US-Schedule-I  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #mu-full-agonist  #naloxone-high-dose-required
-  Buprenorphine  [Belbuca|Brixadi / Buvidal (extended‑release injection)|Bunavail|Buprenex|Butrans|Sublocade|Sublocade (extended‑release injection)|Suboxone (buprenorphine/naloxone)|Subutex|Zubsolv|bupe|suboxone|subs]  (source: tripsit)  #CYP3A4-substrate  #KOR-antagonist  #MOR-partial-agonist  #OUD-treatment  #ceiling-effect-respiratory  #class:Semi-synthetic opioid (thebaine derivative)  #habit-forming  #long-half-life
-  Butonitazene  [BTZ]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
-  Butorphanol  [(−)-17-(cyclobutylmethyl)morphinan-3,14-diol|(−)-N-cyclobutylmethyl-3,14-dihydroxymorphinan|Butorphanol tartrate|Butorphanolum|LEVO-BC-2627|Stadol]  (source: drug.community)  #KOR-partial-agonist  #MOR-partial-agonist  #ceiling-effect  #class:Morphinan opioid (synthetic morphinan derivative)
-  Butyrfentanyl  [b-f|bf|butyrylfentanyl]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
-  Carfentanil  [4-methoxycarbonylfentanyl|Carfentanyl|R-33799|Wildnil|Wildnil (veterinary brand)|methyl 1-(2-phenylethyl)-4-(N-phenylpropanamido)piperidine-4-carboxylate]  (source: drug.community)  #beta-arrestin-biased  #class:Opioid (4-anilidopiperidine)  #extreme-potency  #mu-superagonist  #naloxone-partial-resistance  #wooden-chest-syndrome-risk
-  Clonitazene  [CTZ]  (source: tripsit)  #habit-forming  #morphine-stronger  #mu-full-agonist  #mu-opioid-agonist  #nitazene  #research-chemical
-  Codeine  [3-methylmorphine|methylmorphine]  (source: tripsit)  #CYP2D6-prodrug  #MOR-via-metabolite  #common  #habit-forming  #pharmacogenetic-critical
-  Cychlorphine  [Cyclorphine|piperidinyl-benzimidazolone (“orphine”) opioid]  (source: drug.community)  #class:Piperidinyl-benzimidazolone derivative
-  Cyclopentyl-fentanyl  [cp-f|cpf]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
-  Demerol  [meperidine|pethidine]  (source: tripsit)  #MAOI-contraindicated  #MOR-agonist  #SERT-weak  #avoid-in-renal-failure  #habit-forming  #seizure-risk-normeperidine
-  Desomorphine  [6‑Deoxy‑7,8‑dihydromorphine|Crocodile|Deoxydihydromorphine D|Desomorphine hydrochloride (salt)|Dihydrodeoxymorphine|Dihydrodesoxymorphine D|Krokodil|Permonid]  (source: drug.community)  #MOR-full-agonist  #class:Morphinan (morphine derivative)  #high-potency  #short-duration
-  Dextropropoxyphene  [Co-proxamol|Darvon|capadex|co-proxamol|coproxamol|darvocet|di-gesic|propoxyphene]  (source: tripsit)  #MOR-weak  #cardiotoxic  #hERG-strong  #habit-forming  #withdrawn-multiple-markets
-  Dihydrocodeine  [DF118|DF118 (legacy UK brand)|DHC|DHC Continus (controlled‑release brand)|Dihydrocodeine bitartrate|Dihydrocodeine phosphate|Panlor DC (combo product)|dhc]  (source: tripsit)  #CYP2D6-bioactivation  #MOR-agonist  #class:Opioid (semi-synthetic)  #habit-forming
-  Dipipanone  [Diconal|Wellconal|diconal]  (source: tripsit)  #MOR-full-agonist  #habit-forming  #methadone-class
-  DPP-26  [1-(4-(ethylsulfonyl)-4,4-diphenylbutan-2-yl)piperidine|DPP-26 (dipipanone-sulfone analogue)|DPP26|IC‑26/dipipanone hybrid (community nickname; not formal)|dipipanone–sulfone analogue]  (source: drug.community)  #class:Diphenylpiperidine opioid (dipipanone-sulfone analogue)
-  Etazene  [Desnitroetonitazene]  (source: piru-curated)  #benzimidazole-opioid  #duplicate-of-etodesnitazene  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene
-  Ethylmorphine  [Dionine|codethyline]  (source: tripsit)  #CYP2D6-bioactivation  #MOR-prodrug  #codeine-analog  #habit-forming
-  Etodesnitazene  [Desnitroetonitazene|ETD|Etazene|etazene]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #mu-opioid-agonist  #naloxone-high-dose-required  #nitazene  +1more
-  Etonitazene  [(2-{2-[(4-ethoxyphenyl)methyl]-5-nitro-1H-1,3-benzodiazol-1-yl}ethyl)diethylamine|BA-20684|Benzimidazole opioid; nitazene class|ETZ|IDS-NE-006|NIH 7607]  (source: piru-curated)  #US-Schedule-I  #benzimidazole-opioid  #class:Nitazene (2-benzylbenzimidazole) synthetic opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  +2more
-  Fentanyl  [1-Phenethyl-4-(N-phenylpropionamido)piperidine|1-phenethyl-4-(N-phenylpropionamido)piperidine|1-phenethyl-4-N-propionylanilinopiperidine|N-(1-phenethyl-4-piperidinyl)-N-phenylpropionamide|N-(1-phenethyl-4-piperidyl)propionanilide|N-(1-phenethyl-piperidin-4-yl)-N-phenyl-propionamide|N-(1-phenethylpiperidin-4-yl)-N-phenylpropionamide|N-phenethyl-4-(N-propionylanilino)piperidine|N-phenyl-N-(1-(2-phenylethyl)-4-piperidinyl)propanamide|fent|phentanyl]  (source: tripsit)  #CYP3A4-substrate  #OPRM1-pharmacogenetic  #class:Phenylpiperidine opioid  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #naloxone-responsive  #no-human-data  +2more
-  Flunitazene  [FTZ]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene  #weaker-than-fentanyl-class
-  Furanylfentanyl  [Fu-F|Furanyl fentanyl|Furanyl-fentanyl|N-phenyl-N-[1-(2-phenylethyl)piperidin-4-yl]furan-2-carboxamide|fu-f|furanyl-fentanyl]  (source: tripsit)  #CYP3A4-substrate  #class:Anilide fentanyl analogue  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
-  Glaucine  [Bofedrol|d-glaucine]  (source: tripsit)  #antitussive  #aporphine-alkaloid  #habit-forming  #not-opioid  #tentative
-  Herkinorin  [Salvinorin B benzoate]  (source: piru-curated)  #MOR-selective-on-salvinorin-scaffold  #biased-agonist  #biased-agonist-G-protein-contested  #mu-opioid-agonist  #no-human-data  #research-chemical  #research-tool-compound  #salvinorin-derivative
-  Heroin  [3,6-diacetylmorphine|3,6‑Diacetylmorphine|Black tar|Brown|Diacetylmorphine|Diamorphine|H|Horse|No.3 (base heroin)|No.4 (hydrochloride salt)|Smack|diacetylmorphine|diamorphine]  (source: tripsit)  #MOR-full-agonist-via-metabolite  #class:Opioid (semi-synthetic opiate, diacetylated morphine derivative)  #common  #habit-forming  #high-abuse-liability  #prodrug
-  Hydrocodone  [Co-Gesic (hydrocodone/APAP)|Dihydrocodeinone|Hydrocodone bitartrate|Hydrocodone polistirex|Hysingla ER (hydrocodone bitartrate, extended-release)|Lortab|Lortab (hydrocodone/APAP)|Norco|Norco (hydrocodone/APAP)|Tussionex (hydrocodone polistirex/chlorpheniramine)|Vicodin|Vicodin (hydrocodone/APAP)|Zohydro ER (hydrocodone bitartrate, extended-release)|hydro|vicodin]  (source: tripsit)  #CYP2D6-bioactivation  #CYP3A4-substrate  #MOR-agonist  #class:Opioid (semi-synthetic, derived from codeine)  #common  #habit-forming
-  Hydromorphone  [Dihydromorphinone|Dilaudid|Dimorphone|Exalgo|Hidromorfona|Hydromorph-Contin|Hydromorphonum|Idromorfone|Palladone|dilaudid|diluadid]  (source: tripsit)  #MOR-full-agonist  #UGT2B7-substrate  #class:Opioid (semi-synthetic hydrogenated ketone derivative of morphine)  #habit-forming  #high-potency
-  Ic-26  [Methiodone|WIN 1161-3]  (source: tripsit)  #MOR-agonist  #habit-forming  #methadone-analog
-  Isomethadone  [isoamidone]  (source: tripsit)  #MOR-full-agonist  #habit-forming  #methadone-isomer  #tentative
-  Isotonitazene  [ISO|ITZ|Iso|Isotonitazene HCl|N,N-diethyl-2-[[4-(1-methylethoxy)phenyl]methyl]-5-nitro-1H-benzimidazole-1-ethanamine|iso]  (source: piru-curated)  #US-Schedule-I  #active-metabolite  #benzimidazole-opioid  #class:Benzimidazole-derived nitazene opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  +3more
-  Isotonitazepyne  [N-pyrrolidino isotonitazene|NPI|PYRITZ|iso-pyne|isotonitazepyne citrate (as sold, salt form varies)]  (source: piru-curated)  #class:Benzimidazole opioid (nitazene subclass)  #designer-opioid  #fatalities-reported  #fentanyl-class-potency  #fentanyl-stronger  #less-mor-selective  #mu-full-agonist  #mu-opioid-agonist  +3more
-  Ketobemidone  [Ketogan|kbd]  (source: tripsit)  #MOR-full-agonist  #NMDA-antagonist-weak  #habit-forming  #neuropathic-pain
-  Kratom  [Mitragyna speciosa|biak|ketum]  (source: tripsit)  #MOR-via-7-OH-MG  #common  #habit-forming  #plant-mixture
-  Levomethorphan  [(-)-3-methoxy-17-methylmorphinan|L-methorphan|LVM|Levomethorphanum|Levometorfano]  (source: drug.community)  #MOR-prodrug  #NMDA-antagonist  #SNRI  #class:Morphinan  #long-half-life
-  Lofentanil  [3-methyl-4-carbomethoxyfentanyl|3-methylcarfentanil|R-34995|levo-cis-3-methylcarfentanil]  (source: drug.community)  #class:3-methyl-4-carbomethoxy fentanyl (piperidinyl anilide opioid)  #extreme-potency  #mu-superagonist  #very-long-acting  #wooden-chest-syndrome-risk
-  Methadone  [6-(dimethylamino)-4,4-diphenylheptan-3-one (IUPAC)|6-Dimethylamino-4,4-diphenyl-3-heptanone|Adolan|Depridol|Diskets|Dolophine|Heptadon|Heptanon|Ketalgin|Mephenon|Metadol|Metadol-D|Methadonum|Methadose|Physeptone|dl-methadone]  (source: tripsit)  #CYP2B6-substrate  #MOR-full-agonist  #NMDA-antagonist  #QT-prolonging  #class:Diphenylheptane derivative (synthetic opioid)  #common  #hERG-strong  #habit-forming  +1more
-  Methiodone  [Ethyl 1,1-diphenyl-3-dimethylaminobutyl sulfone|IC-26]  (source: drug.community)  #MOR-agonist  #class:Diphenylpropylamine sulfone (methadone analogue)  #opioid
-  Methoxyacetyl-fentanyl  [desfluoroocfentanil|maf]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
-  Metodesnitazene  [MTD]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene
-  Metonitazene  [MTZ]  (source: piru-curated)  #US-Schedule-I  #benzimidazole-opioid  #class:Nitazene (synthetic opioid)  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  +1more
-  MGM-15  [7-OH derivative (Matsumoto series)|DH-7OH-MIT|MGM-15 free base / salts (vendor labels vary)|MGM15|Matsumoto MGM-15|dihydro-7-hydroxymitragynine|dihydro-7-hydroxymitragynine (1,2-dihydro 7-OH)]  (source: drug.community)  #DOR-full-agonist  #MOR-full-agonist  #class:Indole-based kratom alkaloid derivative (semi-synthetic from 7-hydroxymitragynine)  #kratom-derivative  #semi-synthetic
-  Mitragynine  [(αE,2S,3S,12bS)-3-ethyl-1,2,3,4,6,7,12,12b-octahydro-8-methoxy-α-(methoxymethylene)-indolo[2,3-a]quinolizine-2-acetic acid methyl ester|9-methoxycorynantheidine|MG|MIT|SK&F 12711]  (source: drug.community)  #CYP3A4-bioactivation  #G-protein-biased  #KOR-antagonist  #MOR-partial-agonist  #class:Indole alkaloid  #kratom-alkaloid
-  Morpheridine  [morpholinoethyl­norpethidine]  (source: tripsit)  #MOR-agonist  #habit-forming  #pethidine-analog  #tentative
-  Morphine  [Arymo ER|Avinza|Duramorph|Embeda (morphine/naltrexone)|God’s Drug|Infumorph|Kadian|M|M.S.|MS Contin|MSIR|Miss Emma|Mister Blue|Morf|Morphia|Morphium|Morpho|Oramorph SR / Oramorph|Roxanol|Statex|Unkie]  (source: tripsit)  #MOR-full-agonist  #OPRM1-sensitive  #UGT2B7-substrate  #active-glucuronide-M6G  #class:Opiate alkaloid (Phenanthrene class)  #common  #habit-forming
-  Mt-45  [1-cyclohexyl-4-(1,2-diphenylethyl)piperazine|IC-6|MT45|ic-6|mt45]  (source: tripsit)  #G-protein-biased  #habit-forming  #moderate-potency  #mu-partial-agonist  #ototoxicity-reported  #research-chemical
-  N-Desethylprotonitazene  [Desethyl-protonitazene|N-desethyl protonitazene|N-desethyl-protonitazene|N-desethyl-protonitazene HCl|NDP|Nitazene (subclass)]  (source: drug.community)  #class:Benzimidazole opioid (nitazene subclass; 2-benzylbenzimidazole)  #extreme-potency  #fentanyl-stronger  #mu-superagonist  #naloxone-high-dose-required
-  N-Pyrrolidino-etonitazene  [Etazene-pyrrolidine|Etonitazepyne|PYRETZ|etonitazepyne]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
-  N-Pyrrolidino-metonitazene  [Metonitazepyne|PYRMTZ|metonitazepyne]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
-  Nicomorphine  [Vilan|morphine-3,6-dinicotinate]  (source: tripsit)  #MOR-prodrug  #habit-forming  #morphine-ester  #tentative
-  Nitazene  [1-[2-(Diethylamino)ethyl]-2-benzyl-5-nitro-1H-benzimidazole|14030-71-8|DTXSID601356250|Nitazene|nitazene-parent]  (source: wikidata)  #mu-full-agonist  #mu-opioid-agonist  #nitazene  #no-human-data  #research-chemical
-  O-desmethyltramadol  [M1|O-DSMT|ODT|O‑DSMT|O‑SMT|O‑desmethyl tramadol|desmetramadol|o-dsmt|o-smt|odt]  (source: tripsit)  #MOR-full-agonist  #SNRI  #class:Cyclohexanol derivative (structurally related to tramadol, a synthetic opioid)  #habit-forming  #research-chemical  #seizure-risk  #tentative  #tramadol-metabolite
-  Opium  [O|Papaver somniferum latex]  (source: tripsit)  #MOR-via-morphine  #common  #habit-forming  #plant-mixture
-  Oxycodone  [(-)-14-Hydroxydihydrocodeinone|Counterfeit slang: “M30 blues” (often fake)|Dihydrohydroxycodeinone|OxyContin (ER oxycodone)|Oxycodone HCl|Oxycodonum|Percocet (oxycodone + acetaminophen)|Percodan (oxycodone + aspirin)|Roxicodone (IR oxycodone)|oxy|oxycontin|oxynorm|percocet|“Oxy”, “Oxys”|“Percs”]  (source: tripsit)  #CYP2D6-minor  #CYP3A4-substrate  #MOR-full-agonist  #class:Opioid (semisynthetic, derived from thebaine)  #common  #habit-forming  #high-oral-F
-  Oxymorphone  [Numorphan|Opana|opana|stopsigns]  (source: tripsit)  #MOR-full-agonist  #UGT2B7-substrate  #habit-forming  #high-potency
-  Palfium  [Palfium|dextromoramide]  (source: tripsit)  #MOR-full-agonist  #habit-forming  #high-oral-F  #methadone-class  #short-half-life
-  Parafluorobutyrfentanyl  [4-fbf|4-fluorobutyrfentanyl|pfbf]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
-  Parafluorofentanyl  [4-fluorofentanyl|pff]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #tentative  #wooden-chest-syndrome-risk
-  Pentazocine  [Talwin|talwin]  (source: tripsit)  #KOR-agonist  #MOR-partial-agonist  #dysphoric  #habit-forming  #sigma-1-agonist
-  Propoxyphene  [Darvon]  (source: tripsit)  #MOR-weak  #cardiotoxic  #habit-forming  #withdrawn
-  Protonitazene  [N,N-diethyl-2-[5-nitro-2-((4-propoxyphenyl)methyl)benzimidazol-1-yl]ethanamine|PTZ|Pronitazene|Propoxynitazene|Protonitazene HCl|Protonitazene freebase]  (source: piru-curated)  #benzimidazole-opioid  #class:Benzimidazole opioid (nitazene family)  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
-  Pst  [poppy seed tea|poppy tea|poppy-seed-tea|poppy-tea]  (source: tripsit)  #MOR-via-morphine  #habit-forming  #highly-variable-dose  #plant-extract
-  Pyrrolidino-protonitazene  [PYRPTZ|Protonitazepyne|protonitazepyne]  (source: piru-curated)  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
-  Remifentanil  [Remifentanil hydrochloride|Remifentanyl|Ultiva]  (source: drug.community)  #OIH-risk  #class:Phenyl-piperidine synthetic opioid  #ester-hydrolysis-cleared  #mu-full-agonist  #ultra-short-acting
-  Spirochlorphine  [R-6890|R6890|SPC]  (source: drug.community)  #class:Spiropiperidine opioid
-  SR-14968  [1-(1-(1-(4-bromophenyl)ethyl)piperidin-4-yl)-5,6-dichloro-1H-benzo[d]imidazol-2(3H)-one|SR-14|SR14968]  (source: drug.community)  #class:Piperidine benzimidazolone (G-protein-biased μ-opioid agonist)
-  SR-17018  [5,6-dichloro-3-(1-((4-chlorophenyl)methyl)piperidin-4-yl)-1H-benzimidazol-2-one|SR 17018|SR17018|SR‑17]  (source: drug.community)  #class:Piperidine benzimidazolone; G‑protein‑biased μ‑opioid receptor agonist
-  Sufentanil  [Sufenta]  (source: tripsit)  #CYP3A4-substrate  #fentanyl-stronger  #habit-forming  #mu-full-agonist  #mu-opioid-agonist
-  Tapentadol  [Nucynta|Palexia]  (source: tripsit)  #MOR-agonist  #NRI  #UGT-substrate  #class:Synthetic opioid analgesic; benzenoid phenol  #habit-forming  #low-serotonin-risk  #no-CYP2D6-dependence
-  Tetrahydrofuran-fentanyl  [thf-f|thff]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
-  Tilidine  [Valoron|Valtran|tilidate|tilidin|valoron|valtran]  (source: tripsit)  #CYP3A4-bioactivation  #MOR-prodrug  #habit-forming  #naloxone-combined
-  Tramadol  [Tramadol HCl|Tramadolum|Tramal|Ultracet|Ultram|tram]  (source: tripsit)  #CYP2D6-prodrug  #MOR-weak-via-M1  #SNRI  #class:Synthetic opioid  #common  #habit-forming  #seizure-risk  #serotonin-syndrome-risk
-  U-47700  [u47700]  (source: tripsit)  #fatalities-reported  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #naloxone-responsive  #research-chemical
-  U-49900  (source: tripsit)  #mu-agonist  #research-chemical  #tentative
-  U-51754  [U51754|methene-u-47700|methene-u47700]  (source: tripsit)  #KOR-selective  #U-series-opioid  #designer-opioid  #research-chemical  #tentative
-  Valerylfentanyl  [vf]  (source: tripsit)  #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
-  W-15  (source: tripsit)  #habit-forming  #mis-classified-opioid  #not-opioid  #research-chemical  #tentative
+  Oxycodone  <recreational>  — insufflation mg: common 7.5-15, heavy 25
+      aka: Codilek|Dihydrohydroxycodeinone|Endone|Oxaydo|Oxecta|OxyIR|Oxycodonum|Oxydor|Oxygesic|Oxynor|Percodan|Percs|Redocam|Roxicodone|Xtampza ER|oxy|oxycontin|oxynorm|percocet|羟考酮|羥考酮
+      #CYP2D6-minor  #CYP3A4-substrate  #MOR-full-agonist  #analgesic  #class:Opioid (semisynthetic, derived from thebaine)  #class:substituted morphinans  #common  #habit-forming  #high-oral-F  #opioid  #tablet, capsule, extended release tablet, extended release capsule, solution, concentrate
+  Hydrocodone  <recreational>  — oral mg: common 10-25, heavy 40
+      aka: Co-Gesic|Dihydrocodeinone|Hydrocodone polistirex|Hysingla ER|Lortab|Norco|Tussionex|Zohydro ER|hydro|vicodin|氢可酮|氫可酮
+      #CYP2D6-bioactivation  #CYP3A4-substrate  #MOR-agonist  #analgesic  #class:Opioid (semi-synthetic, derived from codeine)  #class:substituted morphinans  #common  #extended release tablet, extended release capsule  #habit-forming  #opioid
+  Codeine  <recreational>  — oral mg: common 100-150, heavy 150
+      aka: 3-methylmorphine|Lean|Purple Drank|Syrup|methylmorphine|可待因
+      #CYP2D6-prodrug  #MOR-via-metabolite  #analgesic  #class:substituted morphinans  #common  #habit-forming  #opioid  #pharmacogenetic-critical  #tablet
+  Fentanyl  <recreational>  — insufflation µg: common 25-50, heavy 75
+      aka: Abstral|Actiq|Duragesic|Durogesic|Fentora|Haldid|Instanyl|Lazanda|Matrifen|Onsolis|Sublimaze|fent|fentanil|phentanyl|吩坦尼|芬太尼
+      #CYP3A4-substrate  #OPRM1-pharmacogenetic  #analgesic  #class:Phenylpiperidine opioid  #class:anilidopiperidine  #class:substituted piperidines  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #naloxone-responsive  #no-human-data  #opioid
+  Morphine  <recreational>  — intramuscular mg: common 5-15, heavy 30
+      aka: Arymo ER|Avinza|Duramorph|Embeda|God’s Drug|Infumorph|Kadian|M|M.S.|MS Contin|MS-Contin|MSIR|Miss Emma|Mister Blue|Morf|Morphabond|Morphia|Morphine Sulfate Extended-release|Morphium|Morpho|Oramorph|Oramorph SR / Oramorph|Roxanol|Sevredol|Statex|Unkie|Zomorph|吗啡|嗎啡
+      #MOR-full-agonist  #OPRM1-sensitive  #UGT2B7-substrate  #active-glucuronide-M6G  #analgesic  #class:Opiate alkaloid (Phenanthrene class)  #class:substituted morphinans  #common  #habit-forming  #opioid  #tablet, extended release tablet, extended release capsule, solution
+  Heroin  <recreational>  — inhalation mg: common 15-25, heavy 30
+      aka: 3,6-diacetylmorphine|3,6‑Diacetylmorphine|Black tar|Brown|Diacetylmorphine|H|Horse|Junk|No.3|No.4|Smack|diamorphine|海洛因|白粉
+      #MOR-full-agonist-via-metabolite  #class:Opioid (semi-synthetic opiate, diacetylated morphine derivative)  #class:substituted morphinans  #common  #habit-forming  #high-abuse-liability  #prodrug
+  Buprenorphine  <recreational>  — insufflation mg: common 0.4-0.8, heavy 1.5
+      aka: Addnok|Belbuca|Brixadi / Buvidal|Bunavail|Buprenex|Butrans|Cizdol|Sublocade|Subutex|Transtec|Zubsolv|bupe|suboxone|subs
+      #CYP3A4-substrate  #KOR-antagonist  #MOR-partial-agonist  #OUD-treatment  #ceiling-effect-respiratory  #class:Semi-synthetic opioid (thebaine derivative)  #class:substituted morphinans  #habit-forming  #long-half-life
+  Tramadol  <recreational>  — oral mg: common 100-250, heavy 250
+      aka: ConZip|Qdolo|Tadol|Tramacur|Tramadol Er|Tramadolum|Tramal|Tramundin|Ultracet|Ultram|tram|曲馬多|曲马多
+      #CYP2D6-prodrug  #MOR-weak-via-M1  #SNRI  #analgesic  #class:Synthetic opioid  #class:phenylpropylamine  #common  #habit-forming  #opioid  #seizure-risk  #serotonin-syndrome-risk  #tablet, extended release tablet, extended release capsule, solution
+  Methadone  <recreational>  — intravenous mg: common 5-20, heavy 40
+      aka: Adolan|Depridol|Diskets|Dolophine|Heptadon|Heptanon|Ketalgin|Mephenon|Metadol|Metadol-D|Methadonum|Methadose|Methadose Dispersible|Physeptone|dl-methadone|美沙冬|美沙酮
+      #CYP2B6-substrate  #MOR-full-agonist  #NMDA-antagonist  #QT-prolonging  #class:Diphenylheptane derivative (synthetic opioid)  #class:diphenylpropylamine  #common  #hERG-strong  #habit-forming  #long-half-life
+  Hydromorphone  <recreational>  — insufflation mg: common 3-4, heavy 8
+      aka: Dihydromorphinone|Dimorphone|Exalgo|Hidromorfona|Hydromorph-Contin|Hydromorphonum|Idromorfone|Jurnista|Palladone|dilaudid|diluadid
+      #MOR-full-agonist  #UGT2B7-substrate  #analgesic  #class:Opioid (semi-synthetic hydrogenated ketone derivative of morphine)  #class:substituted morphinans  #habit-forming  #high-potency  #opioid  #tablet, extended release tablet, solution
+  Kratom  <recreational>  — oral g: common 1.5-3, heavy 6
+      aka: Ketum|Kratum|Mitragyna Speciosa|biak|กระท่อม|卡痛|卡痛叶|卡痛葉|帽柱木
+      #MOR-via-7-OH-MG  #class:indole alkaloids  #common  #habit-forming  #plant-mixture
+      also: Stimulant
+  Naloxone  <recreational>  — insufflation mg: common 4-8, heavy 16
+      aka: Evzio|Kloxxado|Narcan|Revia nasal|Zimhi|納洛酮|纳洛酮
+      #OTC-available  #antidote  #class:substituted morphinans  #harm-reduction  #nasal spray, auto-injector, injection  #opioid antagonist  #opioid-precipitated-withdrawal  #opioid-receptor-antagonist  #overdose-reversal
+  Oxymorphone  <recreational>  — insufflation mg: common 4-6, heavy 6
+      aka: Numorphan|opana|stopsigns
+      #MOR-full-agonist  #UGT2B7-substrate  #analgesic  #class:substituted morphinans  #habit-forming  #high-potency  #opioid  #tablet, extended release tablet
+  Naltrexone  <recreational>  — oral mg: common 25-50, heavy 150
+      aka: Contrave|ReVia|Vivitrol
+      #AUD-treatment  #OUD-treatment  #opioid-precipitated-withdrawal  #opioid-receptor-antagonist  #prescription-only
+  Tapentadol  <recreational>  — oral mg: common 50-75, heavy 150
+      aka: Nucynta|Palexia|Yantil|Yantil SR
+      #MOR-agonist  #NRI  #UGT-substrate  #class:Synthetic opioid analgesic; benzenoid phenol  #class:phenylpropylamine  #habit-forming  #low-serotonin-risk  #no-CYP2D6-dependence
+  Alfentanil  <recreational>  — intravenous µg/kg: common 8-20, heavy 40
+      aka: Alfenta|Alfentanyl|Fanaxal|R 39209|R-39209|Rapifen
+      #CYP3A4-substrate  #class:Phenylpiperidine (fentanyl analog)  #mu-full-agonist  #rapid-onset  #short-acting
+  Acetylfentanyl  <recreational>  — insufflation mg: common 10-15, heavy 20
+      aka: a-f|acetyl-fentanyl
+      #CYP3A4-substrate  #class:anilidopiperidine  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
+  Sufentanil  <recreational>  — intravenous μg: common 5-10, heavy 25
+      aka: Chronogesic|Sufenta|Sufentanyl
+      #CYP3A4-substrate  #class:anilidopiperidine  #fentanyl-stronger  #habit-forming  #mu-full-agonist  #mu-opioid-agonist
+  Remifentanil  <recreational>  — intravenous µg: common 20-50, heavy 100
+      aka: Remifentanyl|Ultiva
+      #OIH-risk  #class:Phenyl-piperidine synthetic opioid  #ester-hydrolysis-cleared  #mu-full-agonist  #ultra-short-acting
+  Brorphine  (STUB)  <recreational>
+      #US-Schedule-I  #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #mu-full-agonist  #naloxone-high-dose-required
+  Butonitazene  (STUB)  <recreational>
+      aka: BTZ
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  AH-7921  <recreational>  — oral mg: common 10-25, heavy 25
+      aka: ah7921|doxylam
+      #habit-forming  #kappa-agonist  #morphine-equivalent-potency  #mu-full-agonist  #research-chemical
+  4-Methoxybutyrfentanyl  [4-MeO-BF]  <recreational>  — insufflation µg: common 75-200, heavy 400
+      aka: 4-MeO-BF|4-MeO-Butryfentanyl|4-Methoxy-butyrylfentanyl|p-MeO-butyrylfentanyl|para-Methoxybutyrylfentanyl
+      #CYP3A4-substrate  #class:4-Anilidopiperidine (fentanyl) analogue  #duplicate-of-4-methoxybutyrfentanyl  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  4Cl-iBF  <recreational>  — insufflation µg: common 40-80, heavy 150
+      aka: 4-Cl-iBF|p-Chloro-isobutyrylfentanyl|p-Chloroisobutyrylfentanyl|p-Cl-iBF|para-Chloroisobutyrylfentanyl
+      #CYP3A4-substrate  #class:4-anilidopiperidine (fentanyl analogue)  #mu-full-agonist  #wooden-chest-syndrome-risk
+  6-MDDM  <recreational>  — oral µg: common 187-250, heavy 375
+      aka: 6-methylenedihydrodesoxymorphine
+      #MOR-superagonist  #habit-forming  #morphine-derivative  #tentative
+  6-Monoacetylmorphine  <recreational>  — inhalation mg: common 5-15, heavy 25
+      aka: 6-ACM|6-AM|6-Acetylmorphine|6-MAM|6-acetyl morphine
+      #MOR-full-agonist  #class:Semi-synthetic morphinan opioid  #heroin-metabolite  #primary-active-species-after-heroin
+  7-Hydroxymitragynine  <recreational>  — oral mg: common 2-5, heavy 10
+      aka: 7-HMG|7-OH|7-OH-MG|7-OHM|7OH
+      #G-protein-biased  #MOR-near-full-agonist  #class:Terpenoid indole alkaloid  #high-abuse-liability  #kratom-metabolite
+  Acetaminophen-Codeine  (STUB)  <recreational>
+      aka: Tylenol #3|Tylenol #4
+      #analgesic  #antipyretic  #opioid  #tablet, solution, suspension
+  Acetorphine  <recreational>
+      aka: Acetorfina|Acetylpropylorvinol
+      #Bentley-compound  #MOR-superagonist  #class:Morphinan (organic polycyclic compound with a four-ring skeleton)  #veterinary-only-class
+  Acetyldihydrocodeine  <recreational>  — insufflation mg: common 20-40, heavy 80
+      aka: 6-ADC|6-acetyldihydrocodeine|ADC
+      #CYP2D6-bioactivation  #MOR-prodrug  #class:semi-synthetic morphinan opioid
+  Acrylfentanyl  <recreational>  — inhalation µg: common 15-30, heavy 50
+      aka: Acryl-fentanyl|Acryloylfentanyl
+      #CYP3A4-substrate  #class:4-anilidopiperidine (fentanyl analogue)  #duplicate-of-acrylfentanyl  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  Benzodioxole-fentanyl  (STUB)  <recreational>
+      #mu-agonist-presumed  #mu-opioid-agonist  #research-chemical  #tentative
+  Beta-meprodine  <recreational>  — intramuscular mg: common 5-10, heavy 20
+      aka: Betameprodine|CAS 468-50-8|DB01552|β-Meprodine
+      #class:4-Phenylpiperidine ester (meperidine analog)
+  Bezitramide  <recreational>  — oral mg: common 1-2.5, heavy 5
+      aka: Bezitramida|Bezitramidum|Burgodin|Despropionyl‑bezitramide|R 4845|R-4845
+      #class:Diphenylpropylamide-derived benzimidazolone opioid
+  Bromadol  (STUB)  <recreational>
+      aka: bdpc
+      #MOR-full-agonist  #designer-opioid  #habit-forming  #tentative  #ultra-high-potency
+  Butorphanol  <recreational>  — insufflation mg: common 1-2, heavy 3.5
+      aka: Butorphanolum|LEVO-BC-2627|Stadol
+      #KOR-partial-agonist  #MOR-partial-agonist  #ceiling-effect  #class:Morphinan opioid (synthetic morphinan derivative)
+  Butyrfentanyl  <recreational>
+      aka: b-f|bf|butyrylfentanyl
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  Carfentanil  <recreational>
+      aka: 4-methoxycarbonylfentanyl|Carfentanyl|R-33799|Wildnil
+      #beta-arrestin-biased  #class:Opioid (4-anilidopiperidine)  #extreme-potency  #mu-superagonist  #naloxone-partial-resistance  #wooden-chest-syndrome-risk
+  Clonitazene  <recreational>  — oral mg: common 5-10, heavy 15
+      aka: CTZ
+      #habit-forming  #morphine-stronger  #mu-full-agonist  #mu-opioid-agonist  #nitazene  #research-chemical
+  Codeine-Guaifenesin  (STUB)  <recreational>
+      aka: Cheratussin AC|Robafen AC|Virtussin AC
+      #antitussive  #expectorant  #opioid  #solution, syrup
+  Cychlorphine  <recreational>  — insufflation µg: common 25-80, heavy 150
+      aka: Cyclorphine|piperidinyl-benzimidazolone (“orphine”) opioid
+      #class:Piperidinyl-benzimidazolone derivative
+  Cyclopentyl-fentanyl  (STUB)  <recreational>
+      aka: cp-f|cpf
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  Demerol  <recreational>  — oral mg: common 100-200, heavy 400
+      aka: Dolantin|Dolcontral|meperidine|pethidine
+      #MAOI-contraindicated  #MOR-agonist  #SERT-weak  #avoid-in-renal-failure  #class:substituted piperidines  #habit-forming  #seizure-risk-normeperidine
+  Desomorphine  <recreational>  — insufflation mg: common 3-6, heavy 8
+      aka: 6‑Deoxy‑7,8‑dihydromorphine|Crocodile|Deoxydihydromorphine D|Dihydrodeoxymorphine|Dihydrodesoxymorphine D|Krok|Krokodil|Permonid
+      #MOR-full-agonist  #class:Morphinan (morphine derivative)  #class:substituted morphinans  #high-potency  #short-duration
+  Dextropropoxyphene  <recreational>  — oral mg: common 65-100, heavy 200
+      aka: Darvon|Propoxyphene|capadex|co-proxamol|coproxamol|darvocet|di-gesic
+      #MOR-weak  #cardiotoxic  #class:phenylpropylamine  #hERG-strong  #habit-forming  #withdrawn-multiple-markets
+  Dihydrocodeine  <recreational>  — insufflation mg: common 20-60, heavy 90
+      aka: DF118|DHC Continus|Panlor DC|dhc
+      #CYP2D6-bioactivation  #MOR-agonist  #class:Opioid (semi-synthetic)  #class:substituted morphinans  #habit-forming
+  Dipipanone  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: Wellconal|diconal
+      #MOR-full-agonist  #habit-forming  #methadone-class
+  DPP-26  <recreational>  — insufflation mg: common 10-25, heavy 45
+      aka: DPP26|IC‑26/dipipanone hybrid|dipipanone–sulfone analogue
+      #class:Diphenylpiperidine opioid (dipipanone-sulfone analogue)
+  Etazene  (STUB)  <recreational>
+      aka: Desnitroetonitazene
+      #benzimidazole-opioid  #duplicate-of-etodesnitazene  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene
+  Ethylmorphine  <recreational>  — oral mg: common 50-100, heavy 200
+      aka: Codethyline|Dionine
+      #CYP2D6-bioactivation  #MOR-prodrug  #class:substituted morphinans  #codeine-analog  #habit-forming
+  Etodesnitazene  (STUB)  <recreational>
+      aka: Desnitroetonitazene|ETD|Etazene
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #mu-opioid-agonist  #naloxone-high-dose-required  #nitazene  #research-chemical
+      also: Other
+  Etonitazene  <recreational>
+      aka: BA-20684|Benzimidazole opioid; nitazene class|ETZ|IDS-NE-006|NIH 7607
+      #US-Schedule-I  #benzimidazole-opioid  #class:Nitazene (2-benzylbenzimidazole) synthetic opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene  #subnanomolar-Ki
+  Flunitazene  (STUB)  <recreational>
+      aka: FTZ
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene  #weaker-than-fentanyl-class
+  Furanylfentanyl  <recreational>  — insufflation µg: common 400-800, heavy 1600
+      aka: Furanyl fentanyl|fu-f|furanyl-fentanyl
+      #CYP3A4-substrate  #class:Anilide fentanyl analogue  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  Glaucine  <recreational>  — oral mg: common 100-150, heavy 200
+      aka: Bofedrol
+      #antitussive  #aporphine-alkaloid  #habit-forming  #not-opioid  #tentative
+  Herkinorin  (STUB)  <recreational>
+      aka: Salvinorin B benzoate
+      #MOR-selective-on-salvinorin-scaffold  #biased-agonist  #biased-agonist-G-protein-contested  #mu-opioid-agonist  #no-human-data  #research-chemical  #research-tool-compound  #salvinorin-derivative
+  Hydrocodone-Acetaminophen  (STUB)  <recreational>
+      aka: Lorcet|Lortab|Norco|Vicodin
+      #analgesic  #antipyretic  #opioid  #tablet, solution, syrup
+  IC-26  <recreational>  — oral mg: common 10-20, heavy 35
+      aka: Methiodone|WIN 1161-3
+      #MOR-agonist  #habit-forming  #methadone-analog
+  Isomethadone  <recreational>  — oral mg: common 2.5-7.5, heavy 15
+      aka: isoamidone
+      #MOR-full-agonist  #habit-forming  #methadone-isomer  #tentative
+  Isotonitazene  <recreational>  — insufflation µg: common 80-150, heavy 300
+      aka: ITZ|Iso
+      #US-Schedule-I  #active-metabolite  #benzimidazole-opioid  #class:Benzimidazole-derived nitazene opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene  #subnanomolar-EC50
+  Isotonitazepyne  <recreational>  — insufflation µg: common 100-300, heavy 600
+      aka: N-pyrrolidino isotonitazene|NPI|PYRITZ|iso-pyne
+      #class:Benzimidazole opioid (nitazene subclass)  #designer-opioid  #fatalities-reported  #fentanyl-class-potency  #fentanyl-stronger  #less-mor-selective  #mu-full-agonist  #mu-opioid-agonist  #naloxone-high-dose-required  #nitazene  #opioid
+  Ketobemidone  <recreational>  — oral mg: common 5-10, heavy 15
+      aka: Ketogan|kbd
+      #MOR-full-agonist  #NMDA-antagonist-weak  #habit-forming  #neuropathic-pain
+  Levomethorphan  <recreational>
+      aka: L-methorphan|LVM|Levomethorphanum|Levometorfano
+      #MOR-prodrug  #NMDA-antagonist  #SNRI  #class:Morphinan  #long-half-life
+  Lofentanil  <recreational>  — intravenous µg: common 0.3-1, heavy 2
+      aka: 3-methylcarfentanil|R-34995
+      #class:3-methyl-4-carbomethoxy fentanyl (piperidinyl anilide opioid)  #extreme-potency  #mu-superagonist  #very-long-acting  #wooden-chest-syndrome-risk
+  Methiodone  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: IC-26
+      #MOR-agonist  #class:Diphenylpropylamine sulfone (methadone analogue)  #opioid
+  Methoxyacetyl-fentanyl  <recreational>  — oral mg: common 0.5-1.5, heavy 1.5
+      aka: desfluoroocfentanil|maf
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
+  Metodesnitazene  (STUB)  <recreational>
+      aka: MTD
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #nitazene
+  Metonitazene  <recreational>  — insufflation mg: common 0.1-0.3, heavy 0.6
+      aka: MTZ
+      #US-Schedule-I  #benzimidazole-opioid  #class:Nitazene (synthetic opioid)  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  MGM-15  <recreational>  — oral mg: common 15-40, heavy 80
+      aka: 7-OH derivative|DH-7OH-MIT|MGM-15 free base / salts|MGM15|Matsumoto MGM-15|dihydro-7-hydroxymitragynine
+      #DOR-full-agonist  #MOR-full-agonist  #class:Indole-based kratom alkaloid derivative (semi-synthetic from 7-hydroxymitragynine)  #kratom-derivative  #semi-synthetic
+  Mitragynine  <recreational>  — oral mg: common 25-50, heavy 80
+      aka: 9-methoxycorynantheidine|MG|MIT|SK&F 12711
+      #CYP3A4-bioactivation  #G-protein-biased  #KOR-antagonist  #MOR-partial-agonist  #class:Indole alkaloid  #kratom-alkaloid
+  Morpheridine  <recreational>  — oral mg: common 10-20, heavy 35
+      aka: morpholinoethyl­norpethidine
+      #MOR-agonist  #habit-forming  #pethidine-analog  #tentative
+  MT-45  <recreational>  — oral mg: common 45-60, heavy 60
+      aka: ic-6|mt45
+      #G-protein-biased  #habit-forming  #moderate-potency  #mu-partial-agonist  #ototoxicity-reported  #research-chemical
+  N-Desethylprotonitazene  [NDP]  <recreational>  — insufflation µg: common 5-10, heavy 20
+      aka: Desethyl-protonitazene|N-desethyl protonitazene|N-desethyl-protonitazene|NDP|Nitazene
+      #class:Benzimidazole opioid (nitazene subclass; 2-benzylbenzimidazole)  #extreme-potency  #fentanyl-stronger  #mu-superagonist  #naloxone-high-dose-required
+  N-Pyrrolidino-etonitazene  [PYRETZ]  (STUB)  <recreational>
+      aka: Etazene-pyrrolidine|Etonitazepyne|PYRETZ
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  N-Pyrrolidino-metonitazene  [PYRMTZ]  (STUB)  <recreational>
+      aka: Metonitazepyne|PYRMTZ
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  Nicomorphine  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: Vilan|morphine-3,6-dinicotinate
+      #MOR-prodrug  #habit-forming  #morphine-ester  #tentative
+  Nitazene  (STUB)  <recreational>
+      aka: 14030-71-8|DTXSID601356250|nitazene-parent
+      #mu-full-agonist  #mu-opioid-agonist  #nitazene  #no-human-data  #research-chemical
+  O-desmethyltramadol  <recreational>  — insufflation mg: common 10-30, heavy 50
+      aka: M1|O‑DSMT|O‑SMT|O‑desmethyl tramadol|desmetramadol|o-dsmt|o-smt|odt
+      #MOR-full-agonist  #SNRI  #class:Cyclohexanol derivative (structurally related to tramadol, a synthetic opioid)  #class:phenylpropylamine  #habit-forming  #research-chemical  #seizure-risk  #tentative  #tramadol-metabolite
+  Opium  <recreational>  — inhalation mg: common 100-100, heavy 100
+      aka: O|Papaver somniferum latex
+      #MOR-via-morphine  #common  #habit-forming  #plant-mixture
+  Oxycodone-Acetaminophen  (STUB)  <recreational>
+      aka: Endocet|Percocet|Primlev
+      #analgesic  #antipyretic  #opioid  #tablet, solution
+  Palfium  <recreational>  — oral mg: common 5-7.5, heavy 10
+      aka: dextromoramide
+      #MOR-full-agonist  #habit-forming  #high-oral-F  #methadone-class  #short-half-life
+  Parafluorobutyrfentanyl  <recreational>  — oral µg: common 600-900, heavy 1200
+      aka: 4-fbf|4-fluorobutyrfentanyl|pfbf
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
+  Parafluorofentanyl  <recreational>  — insufflation µg: common 25-40, heavy 65
+      aka: 4-fluorofentanyl|pff
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #tentative  #wooden-chest-syndrome-risk
+  Pentazocine  <recreational>  — intramuscular mg: common 20-20, heavy 60
+      aka: talwin
+      #KOR-agonist  #MOR-partial-agonist  #dysphoric  #habit-forming  #sigma-1-agonist
+  Promethazine-Codeine  (STUB)  <recreational>
+      aka: Phenergan w/ Codeine
+      #antihistamine, 1st generation  #antitussive  #opioid  #solution, syrup
+  Propoxyphene  <recreational>
+      aka: Darvon
+      #MOR-weak  #cardiotoxic  #habit-forming  #withdrawn
+  Protonitazene  <recreational>  — inhalation µg: common 25-100, heavy 200
+      aka: PTZ|Pronitazene|Propoxynitazene
+      #benzimidazole-opioid  #class:Benzimidazole opioid (nitazene family)  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  Pst  (STUB)  <recreational>
+      aka: poppy seed tea|poppy tea|poppy-seed-tea|poppy-tea
+      #MOR-via-morphine  #habit-forming  #highly-variable-dose  #plant-extract
+  Pyrrolidino-protonitazene  [PYRPTZ]  (STUB)  <recreational>
+      aka: PYRPTZ|Protonitazepyne
+      #benzimidazole-opioid  #extreme-potency  #fatalities-reported  #fentanyl-stronger  #mu-full-agonist  #naloxone-high-dose-required  #nitazene
+  Spirochlorphine  <recreational>  — insufflation µg: common 250-400, heavy 800
+      aka: R-6890|R6890|SPC
+      #class:Spiropiperidine opioid
+  SR-14968  <recreational>  — oral mg: common 75-150, heavy 250
+      aka: SR-14|SR14968
+      #class:Piperidine benzimidazolone (G-protein-biased μ-opioid agonist)
+  SR-17018  <recreational>  — oral mg: common 30-80, heavy 150
+      aka: SR 17018|SR17018|SR‑17
+      #class:Piperidine benzimidazolone; G‑protein‑biased μ‑opioid receptor agonist
+  Tetrahydrofuran-fentanyl  (STUB)  <recreational>
+      aka: thf-f|thff
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #wooden-chest-syndrome-risk
+  Tilidine  <recreational>  — oral mg: common 50-100, heavy 200
+      aka: tilidate|tilidin|valoron|valtran
+      #CYP3A4-bioactivation  #MOR-prodrug  #habit-forming  #naloxone-combined
+  U-47700  <recreational>  — insufflation mg: common 6-8, heavy 10
+      aka: u47700
+      #class:benzamide  #fatalities-reported  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #naloxone-responsive  #research-chemical
+  U-49900  (STUB)  <recreational>
+      #mu-agonist  #research-chemical  #tentative
+  Valerylfentanyl  <recreational>
+      aka: vf
+      #CYP3A4-substrate  #habit-forming  #mu-full-agonist  #mu-opioid-agonist  #research-chemical  #tentative  #wooden-chest-syndrome-risk
+  W-15  <recreational>  — oral mg: common 5-10, heavy 15
+      #habit-forming  #mis-classified-opioid  #not-opioid  #research-chemical  #tentative

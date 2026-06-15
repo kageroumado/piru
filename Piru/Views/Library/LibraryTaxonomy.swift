@@ -65,12 +65,14 @@ extension SubstanceCategory {
     /// Title used when browsing this category from the Library. A couple of
     /// categories read better here than their raw class chip: the circular
     /// "Depressant" (inside the *Sedatives & Depressants* family) becomes
-    /// "Sedative-Hypnotic", and the catch-all "Other" surfaces as the
-    /// "Research Chemicals" bucket it mostly is.
+    /// "Sedative-Hypnotic". The catch-all "Other" is a genuine miscellaneous
+    /// bucket — *not* "Research Chemicals" (those are surfaced by the
+    /// `research-chemical` tag instead, so medical odd-ones like Naloxone don't
+    /// get mislabelled as RCs).
     var browseTitle: LocalizedStringResource {
         switch self {
         case .depressant: "Sedative-Hypnotic"
-        case .other: "Research Chemicals"
+        case .other: "Other / Miscellaneous"
         default: displayName
         }
     }
@@ -243,6 +245,18 @@ extension LibraryFamily {
             blurb: "Novel and lesser-characterized compounds.",
             icon: "flask.fill",
             color: Color(red: 0.53, green: 0.55, blue: 0.60),
+            molecule: "twocb",
+            // Tag-driven, not the catch-all category: only compounds actually
+            // flagged `research-chemical` surface here, so medical odd-ones
+            // (Naloxone, Naltrexone) that resolve to "Other" no longer appear.
+            source: .tag("research-chemical"),
+        ),
+        LibraryFamily(
+            id: "other",
+            title: "Other / Miscellaneous",
+            blurb: "Everything that doesn't fit a class above.",
+            icon: "ellipsis.circle.fill",
+            color: Color(red: 0.45, green: 0.47, blue: 0.50),
             molecule: "twocb",
             source: .category(.other),
         ),

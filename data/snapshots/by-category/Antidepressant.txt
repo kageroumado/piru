@@ -1,44 +1,143 @@
-# Antidepressant — 42 substances
+# Antidepressant — 46 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Agomelatine  [Melitor|Thymanax|Valdoxan]  (source: piru-curated)  #MT1-MT2-agonist  #antidepressant  #hepatotoxicity-risk  #melatonergic-antidepressant  #prescription-only
-  Amitriptyline  [Elavil|Endep|Tryptanol]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
-  Befuraline  (source: piru-curated)  #BZP-metabolite  #antidepressant  #discontinued  #non-tricyclic  #phosphodiesterase-inhibitor
-  Brexanolone  [SAGE-547|Zulresso]  (source: piru-curated)  #GABA-A-PAM  #REMS-required  #antidepressant  #inpatient-only  #neurosteroid  #postpartum-depression  #prescription-only
-  Bupropion  [(±)-2-tert-butylamino-3'-chloropropiophenone|Aplenzin|Forfivo XL|Wellbutrin|Wellbutrin SR|Wellbutrin XL|Zyban|amfebutamone|wellbutrin|zyban]  (source: piru-curated)  #CYP2B6-substrate  #CYP2D6-inhibitor-strong  #NDRI  #antidepressant  #nAChR-antagonist  #prescription-only  #seizure-risk  #smoking-cessation
-  Citalopram  [Celexa|Cipram|Cipramil|Talohexal|celexa|cipramil]  (source: piru-curated)  #CYP2C19-substrate  #QTc-prolongation-risk  #QTc-risk  #SRI  #SSRI  #antidepressant  #common  #hERG-strong  +2more
-  Clomipramine  [Anafranil]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #seizure-risk  #serotonin-syndrome-risk
-  Desipramine  [Norpramin|Pertofrane]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #antidepressant  #overdose-risk  #prescription-only
-  Desvenlafaxine  [Khedezla|Pristiq]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
-  Doxepin  [Adapin|Silenor|Sinequan]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only
-  Duloxetine  [Cymbalta|Irenka]  (source: piru-curated)  #SNRI  #antidepressant  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk
-  Escitalopram  [Cipralex|Lexapro|S-citalopram|Seroplex|cipralex|lexapro]  (source: piru-curated)  #CYP2C19-substrate  #QTc-prolongation-risk  #SRI  #SSRI  #allosteric-self-potentiation  #antidepressant  #prescription-only  #serotonin-syndrome-risk
-  EXP-561  [1-amino-4-phenylbicyclo[2.2.2]octane]  (source: piru-curated)  #NDRI  #bicyclic-amine  #failed-clinical  #investigational  #research-chemical  #triple-reuptake-inhibitor
-  Fluoxetine  [Fontex|Prozac|Sarafem|Selfemra|Symbyax (w/ olanzapine)|prozac|sarafem]  (source: piru-curated)  #5-HT2C-antagonist  #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #CYP3A4-inhibitor-moderate  #SRI  #SSRI  #activating-SSRI  #antidepressant  +2more
-  Fluvoxamine  [Dumirox|Fevarin|Floxyfral|Luvox|faverin|luvox]  (source: piru-curated)  #CYP1A2-inhibitor  #CYP1A2-inhibitor-strong  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-agonist  #sigma1-agonist
-  Imipramine  [Janimine|Tofranil]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
-  Isocarboxazid  [Marplan]  (source: piru-curated)  #MAOI  #antidepressant  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  #prescription-only  #serotonin-syndrome-risk
-  JNJ-7925476  (source: piru-curated)  #SNDRI  #investigational  #research-chemical
-  Levomilnacipran  [Fetzima]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
-  Lys-MDA  [L-Lys-MDA|Lysine-MDA|N-(L-lysinamidyl)-3,4-methylenedioxyamphetamine]  (source: wikidata)  #SNDRI  #investigational  #no-human-data  #phase-1-data  #phenethylamine  #prodrug
-  MD-PiHP  [(putative EMCDDA framework class: methylenedioxy-pyrrolidinophenone; isohexanophenone side chain)|3,4-MD-PiHP|3,4-methylenedioxy-α-pyrrolidinoisohexanophenone|MD-PiHP HCl|MD-PiHP freebase|MDPiHP]  (source: drug.community)  #NDRI  #class:Synthetic cathinone (pyrrolidinophenone)  #pyrovalerone-cathinone  #stimulant-not-entactogen
-  Medifoxamine  [Cledial|Gerdaxyl]  (source: piru-curated)  #DRI  #antidepressant  #diphenoxy-scaffold  #hepatotoxic  #withdrawn
-  Milnacipran  [Ixel|Savella|Toledomin]  (source: piru-curated)  #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
-  Mirtazapine  [6-Azamianserin|Avanza|Mepirzapine|Mirtazapinum|Org 3770|Remeron|Remeron SolTab|Zispin]  (source: piru-curated)  #5-HT3-antagonist  #H1-strong-antagonist  #NaSSA  #alpha2-antagonist  #antidepressant  #antihistamine  #class:Tetracyclic (piperazino-azepine) antidepressant  #minimal-sexual-dysfunction  +1more
-  Nefazodone  [Serzone]  (source: piru-curated)  #CYP3A4-inhibitor  #SARI  #antidepressant  #black-box-warning  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk
-  Nortriptyline  [Aventyl|Pamelor]  (source: piru-curated)  #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk
-  Paroxetine  [Aropax|Brisdelle|Paxil|Paxil CR|Seroxat|paxil|seroxat]  (source: piru-curated)  #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #NOS-inhibitor  #SRI  #SSRI  #anticholinergic  #anticholinergic-SSRI  #antidepressant  +3more
-  Phenelzine  [2-phenylethylhydrazine|Nardil|Nardil®|Phenelzine|Phenelzinum|W-1544a|phenelzine sulfate|phenethyl-hydrazine|phenethylhydrazine|β-phenylethylhydrazine]  (source: piru-curated)  #GABA-T-inhibitor  #MAOI  #MAOI-A  #MAOI-B  #aldehyde-scavenger  #antidepressant  #class:Hydrazine derivative (β-phenylethylhydrazine)  #dietary-restriction  +7more
-  Pipradrol  [Meratran|Meratran (former brand)|Pipradrol HCl|diphenyl(piperidin-2-yl)methanol (IUPAC)]  (source: drug.community)  #NDRI  #class:Diphenylmethylpiperidine (pipradrol family)  #stimulant-miscategorised
-  Pridefine  [AHR-1118]  (source: piru-curated)  #SNDRI  #investigational  #noncompetitive-inhibitor  #research-chemical
-  R-(-)-MDMA  [(R)-(−)-MDMA|(R)-1-(Benzo[d] [1,3]dioxol-5-yl)-N-methylpropan-2-amine|(R)-methylenedioxymethamphetamine|R-MDMA]  (source: wikidata)  #SNDRI  #SSRA-dominant  #investigational  #long-half-life  #no-human-data  #phenethylamine
-  S-(+)-MDMA  [(2S)-1-(1,3-benzodioxol-5-yl)-N-methylpropan-2-amine|(S)-(+)-MDMA|(S)-methylenedioxymethamphetamine|S-MDMA]  (source: wikidata)  #SNDRI  #fast-clearance  #no-human-data  #phenethylamine  #stimulant-enantiomer
-  Selegiline  [Eldepryl|Emsam (patch)|L-deprenyl|Zelapar]  (source: piru-curated)  #MAO-B-selective  #MAOI  #antidepressant  #dietary-restriction  #dopamine-enhancer  #prescription-only  #serotonin-syndrome-risk
-  Serdexmethylphenidate  [Azstarys SDX component|KP-415 inner salt|SDX|Serdexmethylphenidate chloride (inner salt)]  (source: drug.community)  #class:Piperidine-derived phenidate prodrug (quaternary pyridinium carbamate of dexmethylphenidate)  #extended-duration  #low-IV-abuse-liability  #prodrug
-  Sertraline  [Lustral|Zoloft|lustral|zoloft]  (source: piru-curated)  #CYP2B6-substrate  #DAT-affinity  #SRI  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-inverse-agonist
-  Tianeptine  [Coaxil|Stablon|Tatinol|Tianeptin]  (source: piru-curated)  #OPRM1-substrate  #antidepressant  #habit-forming  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #non-CYP-metabolized  +2more
-  Tianeptine sodium  [Stablon sodium salt|tianeptine Na]  (source: piru-curated)  #antidepressant  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #nootropic
-  Tranylcypromine  [(±)-trans-2-phenylcyclopropylamine|Parnate|Racemic tranylcypromine|SKF-385|Tranylcypromine sulfate|trans-2-phenylcyclopropan-1-amine]  (source: piru-curated)  #LSD1-inhibitor  #MAOI  #amphetamine-scaffold  #antidepressant  #class:Phenethylamine (substituted amphetamine; cyclopropylamine)  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  +3more
-  Trazodone  [AF-1161|Desyrel|Molipaxin|Oleptro|Thombran|Trazolan|Trittico]  (source: piru-curated)  #5-HT2A-antagonist  #CYP3A4-substrate  #SARI  #SERT-inhibitor  #antidepressant  #class:Triazolopyridine derivative  #prescription-only  #priapism-risk  +1more
-  Venlafaxine  [Effexor|Effexor XR]  (source: piru-curated)  #SNRI  #antidepressant  #hypertension-risk  #prescription-only  #serotonin-syndrome-risk
-  Vilazodone  [EMD-68843|SB-659746A|Viibryd]  (source: piru-curated)  #5-HT1A-partial-agonist  #CYP3A4-substrate  #SPARI  #SSRI  #antidepressant  #class:Indole-derived benzofuran; serotonergic antidepressant  #prescription-only  #serotonin-syndrome-risk
-  Vortioxetine  [Brintellix|Trintellix]  (source: piru-curated)  #SSRI  #antidepressant  #prescription-only  #serotonin-modulator  #serotonin-syndrome-risk
+  Agomelatine  <medical_rx>  — oral mg: common 25-25, heavy 50
+      aka: Melitor|Thymanax|Valdoxan
+      #MT1-MT2-agonist  #antidepressant  #hepatotoxicity-risk  #melatonergic-antidepressant  #prescription-only
+  Amitriptyline  <medical_rx>  — oral mg: common 50-150, heavy 300
+      aka: Elavil|Endep|Tryptanol
+      #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #overdose-risk  #prescription-only  #serotonin-syndrome-risk  #tablet  #tertiary amine  #tricyclic antidepressant
+  Amoxapine  (STUB)  <medical_rx>
+      aka: Asendin
+      #secondary amine  #tablet  #tricyclic antidepressant
+  Befuraline  (STUB)  <medical_rx>
+      #BZP-metabolite  #antidepressant  #discontinued  #non-tricyclic  #phosphodiesterase-inhibitor
+  Brexanolone  <medical_rx>  — intravenous mcg/kg/h: common 60-90, heavy 90
+      aka: SAGE-547|Zulresso
+      #GABA-A-PAM  #REMS-required  #antidepressant  #inpatient-only  #neurosteroid  #postpartum-depression  #prescription-only
+  Bupropion  <dual_use>  — oral mg: common 150-300, heavy 450
+      aka: Aplenzin|Forfivo|Forfivo XL|Wellbutrin|Wellbutrin SR|Wellbutrin XL|Zyban|amfebutamone
+      #CYP2B6-substrate  #CYP2D6-inhibitor-strong  #NDRI  #antidepressant  #dopamine/ne reuptake inhibitor  #nAChR-antagonist  #prescription-only  #seizure-risk  #smoking-cessation  #tablet, extended release tablet (24 hour), sustained release tablet (12 hour)
+      also: Stimulant
+  Citalopram  <dual_use>  — oral mg: common 20-40, heavy 60
+      aka: Celexa|Cipram|Cipramil|Talohexal
+      #CYP2C19-substrate  #QTc-prolongation-risk  #QTc-risk  #SRI  #SSRI  #antidepressant  #common  #hERG-strong  #prescription-only  #serotonin-syndrome-risk  #ssri  #tablet, solution
+  Clomipramine  <medical_rx>  — oral mg: common 75-200, heavy 250
+      aka: Anafranil
+      #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #capsule  #overdose-risk  #prescription-only  #seizure-risk  #serotonin-syndrome-risk  #tertiary amine  #tricyclic antidepressant
+  Desipramine  <medical_rx>  — oral mg: common 100-200, heavy 300
+      aka: Norpramin|Pertofrane
+      #QTc-prolongation-risk  #TCA  #antidepressant  #overdose-risk  #prescription-only  #secondary amine  #tablet  #tricyclic antidepressant
+  Desvenlafaxine  <medical_rx>  — oral mg: common 50-50, heavy 400
+      aka: Khedezla|Pristiq
+      #SNRI  #antidepressant  #extended release tablet  #prescription-only  #serotonin-syndrome-risk  #snri
+  Doxepin  <medical_rx>  — oral mg: common 75-150, heavy 300
+      aka: Adapin|Silenor|Sinequan
+      #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #capsule, tablet, solution  #overdose-risk  #prescription-only  #tertiary amine  #tricyclic antidepressant
+  Duloxetine  <medical_rx>  — oral mg: common 60-90, heavy 120
+      aka: Cymbalta|Drizalma|Irenka
+      #SNRI  #antidepressant  #delayed release capsule (particle), delayed release capsule (sprinkle)  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk  #snri
+  Escitalopram  <medical_rx>  — oral mg: common 10-20, heavy 40
+      aka: Cipralex|Lexapro|S-citalopram|Seroplex
+      #CYP2C19-substrate  #QTc-prolongation-risk  #SRI  #SSRI  #allosteric-self-potentiation  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #ssri  #tablet, solution
+  EXP-561  (STUB)  <medical_rx>
+      #NDRI  #bicyclic-amine  #failed-clinical  #investigational  #research-chemical  #triple-reuptake-inhibitor
+  Fluoxetine  <medical_rx>  — oral mg: common 20-60, heavy 80
+      aka: Fontex|Prozac|Sarafem|Selfemra|Symbyax
+      #5-HT2C-antagonist  #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #CYP3A4-inhibitor-moderate  #SRI  #SSRI  #activating-SSRI  #antidepressant  #capsule, extended release capsule, solution, tablet  #prescription-only  #serotonin-syndrome-risk  #ssri
+  Fluvoxamine  <medical_rx>  — oral mg: common 100-200, heavy 300
+      aka: Dumirox|Fevarin|Floxyfral|Luvox|faverin
+      #CYP1A2-inhibitor  #CYP1A2-inhibitor-strong  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-agonist  #sigma1-agonist
+  Imipramine  <medical_rx>  — oral mg: common 75-200, heavy 300
+      aka: Janimine|Tofranil
+      #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #capsule, tablet  #overdose-risk  #prescription-only  #serotonin-syndrome-risk  #tertiary amine  #tricyclic antidepressant
+  Isocarboxazid  <medical_rx>  — oral mg: common 20-40, heavy 60
+      aka: Marplan
+      #MAOI  #antidepressant  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  #prescription-only  #serotonin-syndrome-risk
+  JNJ-7925476  (STUB)  <medical_rx>
+      #SNDRI  #investigational  #research-chemical
+  Levomilnacipran  <medical_rx>  — oral mg: common 40-80, heavy 120
+      aka: Fetzima
+      #SNRI  #antidepressant  #extended release capsule  #prescription-only  #serotonin-syndrome-risk  #snri
+  Lys-MDA  (STUB)  <medical_rx>
+      aka: Lysine-MDA
+      #SNDRI  #investigational  #no-human-data  #phase-1-data  #phenethylamine  #prodrug
+  Maprotiline  (STUB)  <medical_rx>
+      aka: Ludiomil
+      #secondary amine  #tablet  #tricyclic antidepressant
+  Medifoxamine  (STUB)  <medical_rx>
+      aka: Cledial|Gerdaxyl
+      #DRI  #antidepressant  #diphenoxy-scaffold  #hepatotoxic  #withdrawn
+  Milnacipran  <medical_rx>  — oral mg: common 100-200, heavy 200
+      aka: Ixel|Savella|Toledomin
+      #SNRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk
+  Mirtazapine  <dual_use>  — oral mg: common 15-30, heavy 45
+      aka: 6-Azamianserin|Avanza|Axit|Mepirzapine|Mirtaz|Mirtazapinum|Mirtazon|Org 3770|Remeron|Remeron SolTab|Zispin
+      #5-HT3-antagonist  #H1-strong-antagonist  #NaSSA  #alpha2-antagonist  #antidepressant  #antihistamine  #centrally-acting alpha-2 antagonist  #class:Tetracyclic (piperazino-azepine) antidepressant  #class:piperazinoazepine  #minimal-sexual-dysfunction  #prescription-only  #tablet, orally disintegrating tablet
+      also: Dysdelic
+  Moclobemide  <recreational>  — oral mg: common 300-300, heavy 600
+      aka: Aurorex|Aurorix|Manerix|Ro 11-1163
+      #CYP2C19-substrate  #MAO-A-selective  #MAOI-A  #RIMA  #class:Benzamide; reversible monoamine oxidase-A inhibitor (RIMA)  #tyramine-safe
+      also: Other
+  Nefazodone  <medical_rx>  — oral mg: common 300-500, heavy 600
+      aka: Serzone
+      #CYP3A4-inhibitor  #SARI  #antidepressant  #black-box-warning  #hepatotoxicity-risk  #prescription-only  #serotonin-syndrome-risk
+  Nortriptyline  <medical_rx>  — oral mg: common 50-100, heavy 150
+      aka: Aventyl|Pamelor
+      #QTc-prolongation-risk  #TCA  #anticholinergic  #antidepressant  #capsule, solution  #overdose-risk  #prescription-only  #secondary amine  #serotonin-syndrome-risk  #tricyclic antidepressant
+  Paroxetine  <medical_rx>  — oral mg: common 20-50, heavy 60
+      aka: Aropax|Brisdelle|Paxil|Paxil CR|Pexeva|Seroxat
+      #CYP2D6-inhibitor  #CYP2D6-inhibitor-strong  #NOS-inhibitor  #SRI  #SSRI  #anticholinergic  #anticholinergic-SSRI  #antidepressant  #high-discontinuation-risk  #prescription-only  #serotonin-syndrome-risk  #ssri
+  Phenelzine  <medical_rx>  — oral mg: common 45-60, heavy 90
+      aka: 2-phenylethylhydrazine|Nardil|Nardil®|Phenelzinum|W-1544a|phenethyl-hydrazine|phenethylhydrazine|β-phenylethylhydrazine
+      #GABA-T-inhibitor  #MAOI  #MAOI-A  #MAOI-B  #aldehyde-scavenger  #antidepressant  #class:Hydrazine derivative (β-phenylethylhydrazine)  #dietary-restriction  #hydrazine-hepatotoxic-risk  #hypertensive-crisis-risk  #irreversible-MAOI  #no-human-data
+  Pipradrol  <medical_rx>  — oral mg: common 2-4, heavy 10
+      aka: Meratran|diphenyl(piperidin-2-yl)methanol
+      #NDRI  #class:Diphenylmethylpiperidine (pipradrol family)  #stimulant-miscategorised
+  Pridefine  (STUB)  <medical_rx>
+      aka: AHR-1118
+      #SNDRI  #investigational  #noncompetitive-inhibitor  #research-chemical
+  Protriptyline  (STUB)  <medical_rx>
+      aka: Vivactil
+      #secondary amine  #tablet  #tricyclic antidepressant
+  R-(-)-MDMA  (STUB)  <medical_rx>
+      aka: R-MDMA
+      #SNDRI  #SSRA-dominant  #investigational  #long-half-life  #no-human-data  #phenethylamine
+  S-(+)-MDMA  (STUB)  <medical_rx>
+      aka: S-MDMA
+      #SNDRI  #fast-clearance  #no-human-data  #phenethylamine  #stimulant-enantiomer
+  Selegiline  <medical_rx>  — oral mg: common 5-10, heavy 10
+      aka: Eldepryl|Emsam|L-deprenyl|Zelapar
+      #MAO-B-selective  #MAOI  #antidepressant  #dietary-restriction  #dopamine-enhancer  #prescription-only  #serotonin-syndrome-risk
+  Serdexmethylphenidate  <medical_rx>
+      aka: Azstarys SDX component|KP-415 inner salt|SDX|Serdexmethylphenidate chloride
+      #class:Piperidine-derived phenidate prodrug (quaternary pyridinium carbamate of dexmethylphenidate)  #extended-duration  #low-IV-abuse-liability  #prodrug
+  Sertraline  <medical_rx>  — oral mg: common 50-150, heavy 200
+      aka: Lustral|Sertraline Hydrochloride Tablets|Zoloft
+      #CYP2B6-substrate  #DAT-affinity  #SRI  #SSRI  #antidepressant  #prescription-only  #serotonin-syndrome-risk  #sigma-1-inverse-agonist  #ssri  #tablet, oral concentrate
+  Tianeptine sodium  <medical_rx>  — oral mg: common 25-50, heavy 100
+      aka: Stablon sodium salt|tianeptine Na
+      #antidepressant  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #nootropic
+  Tianeptine sulfate  <dual_use>  — oral mg: common 50-100, heavy 200
+      aka: Coaxil|Stablon|Tatinol|Tianeptin
+      #OPRM1-substrate  #antidepressant  #class:antidepressants  #class:dibenzothiazepine  #habit-forming  #high-abuse-liability  #high-dependence-risk  #mu-opioid-agonist  #mu-opioid-full-agonist  #non-CYP-metabolized  #nootropic  #opioid-withdrawal-on-cessation
+      also: Nootropic, Opioid
+  Tranylcypromine  <medical_rx>  — oral mg: common 30-60, heavy 60
+      aka: Parnate|Racemic tranylcypromine|SKF-385
+      #LSD1-inhibitor  #MAOI  #amphetamine-scaffold  #antidepressant  #class:Phenethylamine (substituted amphetamine; cyclopropylamine)  #dietary-restriction  #hypertensive-crisis-risk  #irreversible-MAOI  #prescription-only  #serotonin-syndrome-risk  #tyramine-restricted
+  Trazodone  <dual_use>  — oral mg: common 150-400, heavy 600
+      aka: AF-1161|Desyrel|Molipaxin|Oleptro|Thombran|Trazolan|Trittico
+      #5-HT2A-antagonist  #CYP3A4-substrate  #SARI  #SERT-inhibitor  #antidepressant  #class:Triazolopyridine derivative  #prescription-only  #priapism-risk  #serotonin-syndrome-risk  #ssri and 5ht2 receptor antagonist  #tablet
+      also: Depressant
+  Trimipramine  (STUB)  <medical_rx>
+      aka: Surmontil
+      #capsule  #tertiary amine  #tricyclic antidepressant
+  Venlafaxine  <medical_rx>  — oral mg: common 75-225, heavy 375
+      aka: Effexor|Effexor XR
+      #SNRI  #antidepressant  #hypertension-risk  #prescription-only  #serotonin-syndrome-risk  #snri  #tablet, extended release capsule, extended release tablet
+  Vilazodone  <medical_rx>  — oral mg: common 20-40, heavy 40
+      aka: EMD-68843|SB-659746A|Viibryd
+      #5-HT1A-partial-agonist  #CYP3A4-substrate  #SPARI  #SSRI  #antidepressant  #class:Indole-derived benzofuran; serotonergic antidepressant  #prescription-only  #serotonin-syndrome-risk  #ssri & 5-ht1a partial agonist  #tablet
+  Vortioxetine  <medical_rx>  — oral mg: common 10-20, heavy 20
+      aka: Brintellix|Trintellix
+      #SSRI  #antidepressant  #prescription-only  #serotonin-modulator  #serotonin-syndrome-risk  #ssri, 5-ht ra, 5-ht1a agonist  #tablet

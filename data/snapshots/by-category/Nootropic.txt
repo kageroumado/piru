@@ -1,54 +1,181 @@
-# Nootropic — 52 substances
+# Nootropic — 58 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  4-Fluorodeprenyl  [4-F-deprenyl|4-fluoroselegiline|4‑Fluoroselegiline|4‑F‑Deprenyl|pFSL|pF‑Deprenyl|p‑Fluoroselegiline|p‑F‑Deprenyl]  (source: drug.community)  #MAO-B-inhibitor  #PET-tracer  #class:Propargylamine; substituted amphetamine (phenethylamine) derivative
-  9-Me-BC  [9-Methyl-β-carboline|9-methyl-9H-pyrido[3,4-b]indole|9-methyl-beta-carboline|9-methyl-β-carboline|9-methylpyrido[3,4-b]indole|9‑MBC|9‑MeBC]  (source: piru-curated)  #BDNF-upregulator-astrocytic  #MAO-A-moderate-selective  #MAOI-A-weak  #beta-carboline  #class:β-Carboline alkaloid  #no-human-data  #nootropic  #research-chemical
-  ABT-126  [A-1075249]  (source: piru-curated)  #alpha7-nAChR-agonist  #alpha7-partial-agonist  #failed-phase-2b-schizophrenia  #investigational  #nootropic  #research-chemical
-  ABT-418  (source: piru-curated)  #discontinued  #investigational  #nAChR-agonist  #nicotinic-agonist-broad  #nootropic  #research-chemical
-  Agmatine  [(4-aminobutyl)guanidine|1-Amino-4-guanidinobutane|AGM|AGS|Agmatine sulfate|Agmatine sulfate (salt form)|Decarboxylated L-arginine|Decarboxylated arginine|agmatine sulfate]  (source: piru-curated)  #NMDA-antagonist  #class:Guanidine derivative (biogenic amine, decarboxylated arginine)  #imidazoline  #imidazoline-agonist  #nootropic  #polyamine-derivative  #supplement  #weak-NMDA-antagonist
-  Alpha-GPC  [Choline alfoscerate|GPC|L-Alpha glycerylphosphorylcholine|L-α-glycerylphosphorylcholine|choline alfoscerate|α-GPC]  (source: piru-curated)  #ACh-precursor  #TMAO-precursor  #choline-donor  #cholinergic  #nootropic  #supplement
-  Bromantane  [4-bromophenyladamantan-2-amine|87913-26-6|ADK-709|Bromantan|Bromontan|Ladasten|N-(2-adamantyl)-4-bromoaniline|N-(4-bromophenyl)adamantan-2-amine]  (source: piru-curated)  #TH-upregulator  #WADA-banned  #atypical-stimulant  #class:Adamantane derivative (adamantyl-aniline)  #non-releasing  #nootropic  #research-chemical  #stimulant
-  Centrophenoxine  [ANP-235|Lucidril|Meclofenoxate|centrophenoxin|lucidril|meclofenoxate]  (source: piru-curated)  #DMAE-prodrug  #cholinergic  #nootropic  #old-pharmaceutical  #tentative
-  Citicoline  [CDP-Choline|CDP-choline|Cognizin|Cytidine diphosphate-choline|cytidine diphosphate-choline]  (source: piru-curated)  #Kennedy-pathway-substrate  #choline-donor  #cholinergic  #cytidine-donor  #nootropic  #phospholipid
-  Coluracetam  [BCI-540|MKC-231]  (source: piru-curated)  #CHT1-modulator-proposed  #HACU-enhancer  #cholinergic  #class:Racetam (pyrrolidone derivative)  #nootropic  #preclinical-only  #racetam  #research-chemical
-  Cytisine  [Baphitoxine|Cytisinicline|Desmoxan|Tabex]  (source: piru-curated)  #alpha4beta2-low-efficacy-partial-agonist  #nAChR-partial-agonist  #natural  #natural-product  #nootropic  #smoking-cessation
-  Dimiracetam  [EN-101]  (source: piru-curated)  #investigational  #mechanism-unknown  #neuropathic-pain-investigational  #racetam  #research-chemical
-  DMAE  [Deanol|Dimethylethanolamine|dimethylethanolamine]  (source: piru-curated)  #cholinergic  #efficacy-questionable  #miscategorised  #nootropic  #nootropic-supplement  #supplement
-  Encenicline  [EVP-6124|MT-4666]  (source: piru-curated)  #GI-safety-signal  #alpha7-nAChR-agonist  #alpha7-partial-agonist  #failed-phase-3  #investigational  #nootropic  #research-chemical
-  Etiracetam  [UCB-6474]  (source: piru-curated)  #(S)-enantiomer-active  #SV2A-racemate  #investigational  #racetam  #research-chemical  #superseded-by-levetiracetam
-  Fasoracetam  [LAM-105|NS-105]  (source: piru-curated)  #GABA-B-agonist  #mGluR-modulator  #nootropic  #racetam  #research-chemical  #tentative
-  Galantamine  [Galamer|Galantamine HBr|Galantamine hydrobromide|Galanthamine (older spelling)|Nivalin|Razadyne|Razadyne (US brand; formerly Reminyl)|Reminyl]  (source: piru-curated)  #AChE-inhibitor  #CYP2D6-substrate  #CYP3A4-substrate  #cholinergic  #class:Tertiary isoquinoline alkaloid (phenanthrene-type)  #nootropic  #prescription-only
-  Huperzine A  [(-)-huperzine A|HupA|Selagine]  (source: piru-curated)  #AChE-inhibitor  #AChE-inhibitor-potent-reversible  #NMDA-antagonist  #NMDA-weak-clinically-negligible  #cholinergic  #donepezil-equivalent-mechanism  #nootropic
-  Huperzine-a  [h-a]  (source: tripsit)  #tentative
-  Hydergine  [Dihydroergotoxine|Ergoloid mesylates|dihydroergotoxine|ergoloid mesylates]  (source: piru-curated)  #alpha-antagonist  #ergot-derivative  #ergot-mixture  #nootropic
-  Idebenone  [Catena|Raxone|Sovrima]  (source: piru-curated)  #NQO1-dependent  #antioxidant  #complex-I-bypass  #low-oral-bioavailability  #mitochondrial  #nootropic
-  Imuracetam  (source: piru-curated)  #investigational  #mechanism-unknown  #no-human-data  #preclinical-only  #racetam  #research-chemical
-  Ispronicline  [AZD-3480|TC-1734]  (source: piru-curated)  #alpha4beta2-brain-selective  #discontinued  #investigational  #nAChR-agonist  #nootropic  #research-chemical
-  J-147  [J147]  (source: piru-curated)  #AMPK-activator-indirect  #ATP-synthase-modulator  #investigational  #neuroprotective  #nootropic  #preclinical-mostly  #research-chemical
-  MELATONIN  [5-MT|5-methoxy-N-acetyltryptamine|Circadin (modified-release brand)|MLT|MT6|Melatol|Melatonin (synth.) standard-grade|Melatonin (synth.) ultra-pure|Melatoninum|Melovine|N-(2-(5-Methoxy-1H-indol-3-yl)ethyl)acetamide|N-(2-(5-Methoxyindol-3-yl)ethyl)-Acetamide|N-(2-(5-Methoxyindol-3-yl)ethyl)acetamide|N-Acetyl-5-methoxy-tryptamine|N-Acetyl-5-methoxy-tryptamine Melatonine|N-[2-(5-Methoxy-1H-indol-3-yl)ethyl)acetamide|N-[2-(5-Methoxy-1H-indol-3-yl)ethyl]-Acetamide|N-[2-(5-Methoxy-1H-indol-3-yl)ethyl]acetamide|N-[2-(5-Methoxyindol-3-yl)ethyl]-Acetamide|N-[2-(5-methoxyindol-3-yl)ethyl]acetamide|N-acetyl-5-methoxytryptamine|Pineal hormone|Ramelteon is a distinct prescription melatonin receptor agonist, not melatonin itself|Regulin|{N-[2-(5-methoxy-1H-indol-3-yl)ethyl]-} Acetamide|{N-[2-(5-methoxyindol-3-yl)ethyl]-} Acetamide]  (source: tripsit)  #CYP1A2-substrate  #MT1-MT2-agonist  #TIHKAL  #class:Tryptamine derivative (indoleamine)  #common  #endogenous  #no-human-data  #tryptamine
-  Methylene blue  [MB|MTC|Methylthioninium chloride|basic blue 9|methylthioninium chloride]  (source: piru-curated)  #G6PD-caution  #MAO-A-potent-reversible  #MAOI-A  #mitochondrial  #mitochondrial-electron-carrier  #nootropic  #prescription-OTC-mixed  #serotonin-syndrome-risk
-  Methylliberine  [Dynamine|O(2),1,7,9-Tetramethyluric acid|O(2),1,7,9-tetramethyluric acid]  (source: piru-curated)  #adenosine-antagonist  #caffeine-PK-prolonging  #fast-onset  #nootropic  #purine-alkaloid  #supplement
-  N-Methyl-Cyclazodone  [Cyclazodone N‑methyl analogue|N-methylcyclazodone|NMC|NMCY|N‑methyl‑cyclaz|N‑methyl‑cyclazadone (common misspelling)|N‑methyl‑cyclazodone]  (source: drug.community)  #DAT-NET-inhibitor  #class:2-Oxazolidinone (pemoline) derivative  #stimulant
-  Nebracetam  [WEB-1881]  (source: piru-curated)  #M1-muscarinic-agonist  #cholinergic  #discontinued-development  #investigational  #racetam  #research-chemical
-  Nefiracetam  [DM-9384|Translon|nerfiracetam]  (source: piru-curated)  #Ca-channel-modulator  #GABAergic  #Japan-only  #PKA-dependent  #nAChR-potentiator  #nootropic  #racetam  #research-chemical  +1more
-  Nicotine  [(-)-nicotine|(S)-3-(1-methylpyrrolidin-2-yl)pyridine|(S)-nicotine|NRT (collective term for nicotine replacement therapy)|Nicoderm CQ (patch, brand)|Nicorette (gum/lozenge, brand)|Nicotrol (patch, brand)|nicotinic acetylcholine receptor agonist|tobacco alkaloid]  (source: tripsit)  #CYP2A6-substrate  #alpha4beta2-full-agonist  #class:Pyridine/pyrrolidine alkaloid  #common  #habit-forming  #high-abuse-liability  #receptor-upregulation
-  Noopept  [DVD-111|GVS-111|N-Phenylacetyl-L-prolylglycine ethyl ester|N-phenylacetyl-L-prolylglycine ethyl ester|Omberacetam|SGS-111]  (source: piru-curated)  #AMPA-PAM-indirect  #Russian-clinical-only  #class:Peptide-derived racetam (dipeptidomimetic)  #glutamate-modulator  #nootropic  #prodrug-of-cPG  #racetam-adjacent  #research-chemical
-  NSI-189  [NSI-189 phosphate|amdiglurax]  (source: piru-curated)  #failed-phase-2-MDD-primary-endpoint  #investigational  #long-half-life  #neurogenesis  #nootropic  #research-chemical  #unknown-receptor
-  Oxiracetam  [2-(4-hydroxy-2-oxopyrrolidin-1-yl)acetamide|4-hydroxy-2-oxopyrrolidineacetamide|CGP-21690E|CT-848|Hydroxypiracetam|ISF-2522|Neuractiv|Neuromet|Oxiracetamum|hydroxypiracetam|neuractiv|neuromet]  (source: piru-curated)  #HACU-upregulator  #cholinergic  #class:Racetam  #italy-approved  #nootropic  #racetam  #renal-eliminated
-  Phenethylamine  [2-Phenylethylamine|2-phenylethylamine|Benzeneethanamine|PEA|Phenylethylamine|beta-Phenylethylamine|pea|phenylethylamine|β-PEA|β-Phenethylamine|β-aminoethylbenzene]  (source: tripsit)  #MAO-substrate  #class:Phenethylamine (PEA)  #endogenous-TAAR1-agonist  #orally-inactive
-  Phenylpiracetam  [Carphedon|Fonturacetam|Phenotropil]  (source: piru-curated)  #DAT-inhibitor  #WADA-banned  #nootropic  #racetam  #stimulant-adjacent
-  Phenylpiracetam hydrazide  [Fonturacetam hydrazide]  (source: piru-curated)  #BBB-penetrant  #anticonvulsant-original-purpose  #mechanism-unknown  #no-human-data  #racetam  #research-chemical
-  Picamilon  [N-Nicotinoyl-GABA|N-nicotinoyl-GABA|Pikamilon|Pycamilon]  (source: piru-curated)  #GABA-prodrug  #GABAergic  #habit-forming  #nootropic  #vasodilator  #vasodilator-niacin
-  Piracetam  [2-oxo-1-pyrrolidineacetamide|Avigilen|Cerebroforte|Cerebrospan|Cetam|Dinagen|Encefalux|Encetrop|Euvifor|Gabacet|Genogris|Lucetam|Memo-Puren|Memotopil|Nootron|Nootropil|Nootropyl|Normabrain|Norzetam|Pirroxil|Psycotron|Stimucortex|UCB-6215|biotropil|breinox|geratam|lucetam|noostan|nootropil|oikamid]  (source: piru-curated)  #AMPA-modulator  #century-old-mechanism-unknown  #cholinergic  #class:Nootropic cyclic GABA derivative (pyrrolidone family)  #membrane-fluidity-modulator-proposed  #nootropic  #racetam  #renal-eliminated
-  Polygala tenuifolia  [Chinese senega|Radix Polygalae|Yuan zhi]  (source: piru-curated)  #BACE1-inhibitor-weak  #TCM  #TCM-herb  #herb  #nootropic  #saponin-mixture
-  Pramiracetam  [CI-879|Neupramir|Pramistar]  (source: piru-curated)  #HACU-enhancer  #brain-penetrant  #cholinergic  #lipophilic  #lipophilic-racetam  #nootropic  #racetam
-  PRL-8-53  [methyl 3-(2-(benzyl(methyl)amino)ethyl)benzoate|prl853]  (source: piru-curated)  #investigational  #nootropic  #research-chemical  #single-trial-1978  #tentative  #unknown-mechanism  #unreplicated
-  Pterostilbene  [trans-3,5-Dimethoxy-4'-hydroxystilbene|trans-3,5-dimethoxy-4'-hydroxystilbene]  (source: piru-curated)  #BBB-permeable  #PPAR-alpha-activator  #nootropic  #resveratrol-analog-improved-bioavailability  #sirtuin-activator  #supplement
-  Pyritinol  [Cerbon 6|Encephabol|Pyridoxine disulfide|pyridoxine disulfide|pyrithioxine]  (source: piru-curated)  #B6-derivative  #B6-disulfide  #cholinergic  #hepatotoxicity-risk  #nootropic  #old-pharmaceutical
-  RG3487  [MEM-3454]  (source: piru-curated)  #alpha7-nAChR-PAM  #alpha7-partial-agonist-5HT3-antagonist  #failed-phase-2  #investigational  #nootropic  #research-chemical
-  Rolziracetam  [CI-911]  (source: piru-curated)  #discontinued  #mechanism-unknown  #no-human-data  #racetam  #research-chemical
-  Sabroxy  [Oroxylin A]  (source: piru-curated)  #GABA-A-NAM  #flavone  #flavonoid  #miscategorised  #nootropic
-  Seletracetam  [UCB-44212]  (source: piru-curated)  #SV2A-high-affinity  #SV2A-ligand  #discontinued-development  #investigational  #racetam  #research-chemical
-  Sulbutiamine  [Arcalion|Bisibutiamine|Enerion|arcalion|bisibuthiamine|bisibutiamine|enerion|isobutyryl-thiamine disulfide|sulbut|youvitan]  (source: piru-curated)  #D1-upregulation-chronic  #habit-forming  #habit-forming-anecdotal  #nootropic  #tentative  #thiamine-derivative  #thiamine-prodrug-lipophilic
-  Sulforaphane  [1-Isothiocyanato-4-(methylsulfinyl)butane|1-isothiocyanato-4-(methylsulfinyl)butane|SFN]  (source: piru-curated)  #Keap1-cysteine-modifier  #Nrf2-activator  #Nrf2-activator-covalent  #myrosinase-dependent  #nootropic  #supplement
-  Varenicline  [CP-526555|Champix|Chantix]  (source: piru-curated)  #FDA-approved-smoking-cessation  #alpha4beta2-partial-agonist-subnanomolar  #nAChR-partial-agonist  #nootropic  #prescription-only  #renally-cleared  #smoking-cessation
-  Vinpocetine  [Cavinton|Ethyl apovincaminate|RGH-4405|ethyl apovincaminate]  (source: piru-curated)  #PDE1-inhibitor  #cerebral-vasodilator  #low-oral-bioavailability  #nootropic  #pregnancy-contraindicated  #vasodilator
+  Melatonin  <recreational>  — oral mg: common 1-10, heavy 10
+      aka: Circadin|MLT|MT6|Melatol|Melatonin (synth.) standard-grade|Melatonin (synth.) ultra-pure|Melatoninum|Melovine|Pineal hormone|Regulin|褪黑激素|褪黑素
+      #CYP1A2-substrate  #MT1-MT2-agonist  #TIHKAL  #class:Tryptamine derivative (indoleamine)  #class:substituted tryptamines  #common  #endogenous  #no-human-data  #tryptamine
+      also: Endocrine, Other, Psychedelic
+  4-Fluorodeprenyl  <recreational>  — oral mg: common 2-5, heavy 10
+      aka: 4-F-deprenyl|4-fluoroselegiline|4‑Fluoroselegiline|4‑F‑Deprenyl|pFSL|pF‑Deprenyl|p‑Fluoroselegiline|p‑F‑Deprenyl
+      #MAO-B-inhibitor  #PET-tracer  #class:Propargylamine; substituted amphetamine (phenethylamine) derivative
+  9-Me-BC  <recreational>  — insufflation mg: common 5-15, heavy 25
+      aka: 9‑MBC|9‑MeBC
+      #BDNF-upregulator-astrocytic  #MAO-A-moderate-selective  #MAOI-A-weak  #beta-carboline  #class:β-Carboline alkaloid  #no-human-data  #nootropic  #research-chemical
+      also: Other
+  ABT-126  (STUB)  <recreational>
+      aka: A-1075249
+      #alpha7-nAChR-agonist  #alpha7-partial-agonist  #failed-phase-2b-schizophrenia  #investigational  #nootropic  #research-chemical
+  ABT-418  (STUB)  <recreational>
+      #discontinued  #investigational  #nAChR-agonist  #nicotinic-agonist-broad  #nootropic  #research-chemical
+  Agmatine  <recreational>  — oral mg: common 1000-2000, heavy 4000
+      aka: AGM|AGS|Decarboxylated L-arginine|Decarboxylated arginine
+      #NMDA-antagonist  #class:Guanidine derivative (biogenic amine, decarboxylated arginine)  #imidazoline  #imidazoline-agonist  #nootropic  #polyamine-derivative  #supplement  #weak-NMDA-antagonist
+      also: Antidepressant
+  Alpha-GPC  <recreational>  — oral mg: common 300-600, heavy 1500
+      aka: Choline alfoscerate|GPC|L-Alpha glycerylphosphorylcholine|L-α-glycerylphosphorylcholine|α-GPC
+      #ACh-precursor  #TMAO-precursor  #choline-donor  #cholinergic  #class:choline derivative  #nootropic  #supplement
+  Bromantane  <recreational>  — oral mg: common 75-100, heavy 200
+      aka: 87913-26-6|ADK-709|Bromantan|Bromontan|Ladasten
+      #TH-upregulator  #WADA-banned  #atypical-stimulant  #class:Adamantane derivative (adamantyl-aniline)  #class:adamantanes  #non-releasing  #nootropic  #research-chemical  #stimulant
+      also: Stimulant
+  Centrophenoxine  <recreational>  — oral mg: common 750-1500, heavy 2500
+      aka: ANP-235|Lucidril|Meclofenoxate|centrophenoxin
+      #DMAE-prodrug  #cholinergic  #nootropic  #old-pharmaceutical  #tentative
+      also: Stimulant
+  Choline bitartrate  <recreational>  — oral mg: common 250-1000, heavy 2000
+      aka: Choline
+      #class:ammonium salt
+  Citicoline  <recreational>  — oral mg: common 500-1000, heavy 2500
+      aka: CDP-Choline|Cognizin|Cytidine diphosphate-choline
+      #Kennedy-pathway-substrate  #choline-donor  #cholinergic  #class:ammonium salt  #cytidine-donor  #nootropic  #phospholipid
+  Coluracetam  <recreational>  — insufflation mg: common 5-10, heavy 10
+      aka: BCI-540|MKC-231
+      #CHT1-modulator-proposed  #HACU-enhancer  #cholinergic  #class:Racetam (pyrrolidone derivative)  #class:racetams  #nootropic  #preclinical-only  #racetam  #research-chemical
+  Creatine  <recreational>  — oral g: common 5-10, heavy 20
+      aka: Methylguanidoacetic acid
+  Cytisine  <recreational>  — oral mg: common 1.5-3, heavy 9
+      aka: Baphitoxine|Cytisinicline|Desmoxan|Tabex
+      #alpha4beta2-low-efficacy-partial-agonist  #nAChR-partial-agonist  #natural  #natural-product  #nootropic  #smoking-cessation
+  Dimiracetam  (STUB)  <recreational>
+      aka: EN-101
+      #investigational  #mechanism-unknown  #neuropathic-pain-investigational  #racetam  #research-chemical
+  DMAE  <recreational>  — oral mg: common 350-750, heavy 1500
+      aka: Deanol|Dimethylethanolamine
+      #cholinergic  #efficacy-questionable  #miscategorised  #nootropic  #nootropic-supplement  #supplement
+  Encenicline  (STUB)  <recreational>
+      aka: EVP-6124|MT-4666
+      #GI-safety-signal  #alpha7-nAChR-agonist  #alpha7-partial-agonist  #failed-phase-3  #investigational  #nootropic  #research-chemical
+  Etiracetam  (STUB)  <recreational>
+      aka: UCB-6474
+      #(S)-enantiomer-active  #SV2A-racemate  #investigational  #racetam  #research-chemical  #superseded-by-levetiracetam
+  Fasoracetam  <recreational>  — oral mg: common 20-50, heavy 200
+      aka: LAM-105|NS-105
+      #GABA-B-agonist  #mGluR-modulator  #nootropic  #racetam  #research-chemical  #tentative
+  Galantamine  <recreational>  — oral mg: common 8-16, heavy 32
+      aka: Galamer|Galanthamine|Nivalin|Razadyne|Reminyl
+      #AChE-inhibitor  #CYP2D6-substrate  #CYP3A4-substrate  #cholinergic  #class:Tertiary isoquinoline alkaloid (phenanthrene-type)  #class:benzazepine  #nootropic  #prescription-only
+  Huperzine A  <recreational>  — oral µg: common 200-400, heavy 800
+      aka: HupA|Selagine
+      #AChE-inhibitor  #AChE-inhibitor-potent-reversible  #NMDA-antagonist  #NMDA-weak-clinically-negligible  #cholinergic  #donepezil-equivalent-mechanism  #nootropic
+  Huperzine-a  <recreational>  — insufflation µg: common 75-150, heavy 150
+      aka: h-a
+      #tentative
+  Hydergine  <recreational>  — oral mg: common 3-6, heavy 12
+      aka: Dihydroergotoxine|Ergoloid mesylates
+      #alpha-antagonist  #ergot-derivative  #ergot-mixture  #nootropic
+  Idebenone  <recreational>  — oral mg: common 180-360, heavy 900
+      aka: Catena|Raxone|Sovrima
+      #NQO1-dependent  #antioxidant  #complex-I-bypass  #low-oral-bioavailability  #mitochondrial  #nootropic
+  Imuracetam  (STUB)  <recreational>
+      #investigational  #mechanism-unknown  #no-human-data  #preclinical-only  #racetam  #research-chemical
+  Ispronicline  (STUB)  <recreational>
+      aka: AZD-3480|TC-1734
+      #alpha4beta2-brain-selective  #discontinued  #investigational  #nAChR-agonist  #nootropic  #research-chemical
+  J-147  (STUB)  <recreational>
+      aka: J147
+      #AMPK-activator-indirect  #ATP-synthase-modulator  #investigational  #neuroprotective  #nootropic  #preclinical-mostly  #research-chemical
+  Meclofenoxate  (STUB)  <recreational>
+      #class:cholinergic
+  Methylene blue  <recreational>  — oral mg: common 4-8, heavy 20
+      aka: MB|MTC|Methylthioninium chloride|basic blue 9
+      #G6PD-caution  #MAO-A-potent-reversible  #MAOI-A  #mitochondrial  #mitochondrial-electron-carrier  #nootropic  #prescription-OTC-mixed  #serotonin-syndrome-risk
+  Methylliberine  <recreational>  — oral mg: common 100-200, heavy 400
+      aka: Dynamine
+      #adenosine-antagonist  #caffeine-PK-prolonging  #fast-onset  #nootropic  #purine-alkaloid  #supplement
+  N-Methyl-Cyclazodone  <recreational>  — oral mg: common 10-15, heavy 30
+      aka: Cyclazodone N‑methyl analogue|N-methylcyclazodone|NMC|NMCY|N‑methyl‑cyclaz|N‑methyl‑cyclazadone|N‑methyl‑cyclazodone
+      #DAT-NET-inhibitor  #class:2-Oxazolidinone (pemoline) derivative  #stimulant
+  Nebracetam  (STUB)  <recreational>
+      aka: WEB-1881
+      #M1-muscarinic-agonist  #cholinergic  #discontinued-development  #investigational  #racetam  #research-chemical
+  Nefiracetam  <recreational>  — oral mg: common 300-600, heavy 1200
+      aka: DM-9384|Translon|nerfiracetam
+      #Ca-channel-modulator  #GABAergic  #Japan-only  #PKA-dependent  #nAChR-potentiator  #nootropic  #racetam  #research-chemical  #tentative
+  Noopept  <recreational>  — insufflation mg: common 5-10, heavy 10
+      aka: DVD-111|GVS-111|Omberacetam|SGS-111
+      #AMPA-PAM-indirect  #Russian-clinical-only  #class:Peptide-derived racetam (dipeptidomimetic)  #glutamate-modulator  #nootropic  #prodrug-of-cPG  #racetam-adjacent  #research-chemical
+  NSI-189  <recreational>  — oral mg: common 40-80, heavy 160
+      aka: amdiglurax
+      #failed-phase-2-MDD-primary-endpoint  #investigational  #long-half-life  #neurogenesis  #nootropic  #research-chemical  #unknown-receptor
+  Omberacetam  <recreational>  — insufflation mg: common 5-10, heavy 20
+      aka: GVS-111|Noopept|Ноопепт
+      #class:peptide
+  Oxiracetam  <recreational>  — oral mg: common 800-1600, heavy 3000
+      aka: CGP-21690E|CT-848|Hydroxypiracetam|ISF-2522|Oxiracetamum|neuractiv|neuromet
+      #HACU-upregulator  #cholinergic  #class:Racetam  #class:racetams  #italy-approved  #nootropic  #racetam  #renal-eliminated
+      also: Other, Stimulant
+  Phenethylamine  <recreational>  — oral mg: common 300-500, heavy 500
+      aka: 2-Phenethylamine|2-Phenylethylamine|2-phenylethanamine|Benzeneethanamine|Phenylethylamine|beta-Phenylethylamine|beta-aminoethylbenzene|beta-phenethylamine|pea|β-PEA|β-Phenethylamine|β-aminoethylbenzene
+      #MAO-substrate  #class:Phenethylamine (PEA)  #endogenous-TAAR1-agonist  #no-human-data  #orally-inactive  #phenethylamine
+      also: Other, Stimulant
+  Phenylpiracetam  <recreational>  — oral mg: common 100-200, heavy 600
+      aka: Carphedon|Fonturacetam|Phenotropil
+      #DAT-inhibitor  #WADA-banned  #class:racetams  #nootropic  #racetam  #stimulant-adjacent
+      also: Stimulant
+  Phenylpiracetam hydrazide  (STUB)  <recreational>
+      aka: Fonturacetam hydrazide
+      #BBB-penetrant  #anticonvulsant-original-purpose  #mechanism-unknown  #no-human-data  #racetam  #research-chemical
+  Picamilon  <recreational>  — oral mg: common 200-300, heavy 500
+      aka: N-Nicotinoyl-GABA|Pikamilon|Pycamilon
+      #GABA-prodrug  #GABAergic  #habit-forming  #nootropic  #vasodilator  #vasodilator-niacin
+      also: Depressant
+  Piracetam  <recreational>  — oral mg: common 1600-4800, heavy 9600
+      aka: Avigilen|Cerebroforte|Cerebrospan|Cetam|Dinagen|Encefalux|Encetrop|Euvifor|Gabacet|Genogris|Memo-Puren|Memotopil|Nootron|Nootropil|Nootropyl|Normabrain|Norzetam|Pirroxil|Psycotron|Stimucortex|UCB-6215|biotropil|breinox|geratam|lucetam|noostan|oikamid
+      #AMPA-modulator  #century-old-mechanism-unknown  #cholinergic  #class:Nootropic cyclic GABA derivative (pyrrolidone family)  #class:racetams  #membrane-fluidity-modulator-proposed  #nootropic  #racetam  #renal-eliminated
+  Polygala tenuifolia  <recreational>  — oral mg: common 400-800, heavy 1500
+      aka: Chinese senega|Radix Polygalae|Yuan zhi
+      #BACE1-inhibitor-weak  #TCM  #TCM-herb  #herb  #nootropic  #saponin-mixture
+  Pramiracetam  <recreational>  — oral mg: common 400-800, heavy 1500
+      aka: CI-879|Neupramir|Pramistar
+      #HACU-enhancer  #brain-penetrant  #cholinergic  #class:racetams  #lipophilic  #lipophilic-racetam  #nootropic  #racetam
+  PRE-084  <recreational>  — insufflation mg: common 8-20, heavy 40
+      aka: Research ligand PRE-084
+      #class:Selective sigma-1 (σ1) receptor agonist; cyclohexane carboxylate structurally related to PCP derivatives.  #tentative
+      also: Other
+  PRL-8-53  <recreational>  — oral mg: common 5-10, heavy 20
+      aka: prl853
+      #investigational  #nootropic  #research-chemical  #single-trial-1978  #tentative  #unknown-mechanism  #unreplicated
+  Pterostilbene  <recreational>  — oral mg: common 100-250, heavy 500
+      #BBB-permeable  #PPAR-alpha-activator  #nootropic  #resveratrol-analog-improved-bioavailability  #sirtuin-activator  #supplement
+  Pyritinol  <recreational>  — oral mg: common 600-1200, heavy 2400
+      aka: Cerbon 6|Encephabol|Pyridoxine disulfide|pyrithioxine
+      #B6-derivative  #B6-disulfide  #cholinergic  #hepatotoxicity-risk  #nootropic  #old-pharmaceutical
+  RG3487  (STUB)  <recreational>
+      aka: MEM-3454
+      #alpha7-nAChR-PAM  #alpha7-partial-agonist-5HT3-antagonist  #failed-phase-2  #investigational  #nootropic  #research-chemical
+  Rolziracetam  (STUB)  <recreational>
+      aka: CI-911
+      #discontinued  #mechanism-unknown  #no-human-data  #racetam  #research-chemical
+  Sabroxy  <recreational>  — oral mg: common 200-400, heavy 800
+      aka: Oroxylin A
+      #GABA-A-NAM  #flavone  #flavonoid  #miscategorised  #nootropic
+  SAM-e  <recreational>  — oral mg: common 800-1200, heavy 1600
+      aka: Methylguanidoacetic Acid|S-Adenosyl Methionine
+      #class:nitrogenous organic acid
+  Seletracetam  (STUB)  <recreational>
+      aka: UCB-44212
+      #SV2A-high-affinity  #SV2A-ligand  #discontinued-development  #investigational  #racetam  #research-chemical
+  Sulbutiamine  <recreational>  — oral mg: common 400-600, heavy 1000
+      aka: Arcalion|Bisibutiamine|bisibuthiamine|enerion|isobutyryl-thiamine disulfide|sulbut|youvitan
+      #D1-upregulation-chronic  #habit-forming  #habit-forming-anecdotal  #nootropic  #tentative  #thiamine-derivative  #thiamine-prodrug-lipophilic
+      also: Stimulant
+  Sulforaphane  <recreational>  — oral mg: common 25-50, heavy 120
+      aka: SFN
+      #Keap1-cysteine-modifier  #Nrf2-activator  #Nrf2-activator-covalent  #myrosinase-dependent  #nootropic  #supplement
+  Theanine  <recreational>  — oral mg: common 175-300, heavy 500
+  Varenicline  <recreational>  — oral mg: common 1-2, heavy 4
+      aka: CP-526555|Champix|Chantix
+      #FDA-approved-smoking-cessation  #alpha4beta2-partial-agonist-subnanomolar  #nAChR-partial-agonist  #nootropic  #partial nicotine agonist  #prescription-only  #renally-cleared  #smoking-cessation  #tablet
+  Vinpocetine  <recreational>  — oral mg: common 10-30, heavy 60
+      aka: Cavinton|Ethyl apovincaminate|RGH-4405
+      #PDE1-inhibitor  #cerebral-vasodilator  #low-oral-bioavailability  #nootropic  #pregnancy-contraindicated  #vasodilator
