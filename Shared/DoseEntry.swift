@@ -45,6 +45,11 @@ final class DoseEntry {
     var unit: String
     /// Route of administration; persisted as `rawValue` (a `String`).
     var route: RouteOfAdministration
+    /// The salt/ester form logged (Citrate, Glycinate, Carbonate…), for the
+    /// handful of substances that offer a choice (Magnesium, Lithium). `nil` for
+    /// every other dose — which keeps the V4→V5 migration lightweight, since nil
+    /// is the correct value for every pre-existing row.
+    var saltForm: String?
     /// When the dose was taken.
     var timestamp: Date
     /// Optional free-form note attached to the dose.
@@ -104,6 +109,7 @@ final class DoseEntry {
         amount: Double,
         unit: String = "mg",
         route: RouteOfAdministration = .oral,
+        saltForm: String? = nil,
         timestamp: Date = .now,
         notes: String? = nil,
         tags: [String] = [],
@@ -116,6 +122,7 @@ final class DoseEntry {
         self.amount = max(0, amount)
         self.unit = unit
         self.route = route
+        self.saltForm = saltForm
         self.timestamp = timestamp
         self.notes = notes
         self.tagsRaw = tags.isEmpty ? nil : tags.joined(separator: ",")

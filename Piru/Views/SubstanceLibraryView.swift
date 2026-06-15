@@ -404,6 +404,11 @@ struct SubstanceDetailView: View {
     /// substance's default route (resolved in ``activeSubstanceRoute``).
     @State private var selectedRoute: RouteOfAdministration?
 
+    /// The salt/ester form the dose card is showing (Magnesium, Lithium).
+    /// `nil` defaults to the active route's first form (resolved in
+    /// ``activeSaltVariant``).
+    @State private var selectedSaltForm: String?
+
     /// The user's personal override for this substance, if any (keyed by canonical name).
     private var personalOverride: CustomSubstanceEntry? {
         customStore.first(whereName: baseSubstance.name)
@@ -590,7 +595,37 @@ struct SubstanceDetailView: View {
     private var routeSelection: Binding<RouteOfAdministration> {
         Binding(
             get: { activeSubstanceRoute?.route ?? substance.defaultRoute },
-            set: { selectedRoute = $0 },
+            set: { newRoute in
+                selectedRoute = newRoute
+                // Reset the salt to the new route's default unless it carries
+                // the same form (salt is a sub-dimension of route).
+                let forms = presentableRoutes.first { $0.route == newRoute }?.saltForms ?? []
+                if let current = selectedSaltForm, !forms.contains(where: { $0.saltForm == current }) {
+                    selectedSaltForm = nil
+                }
+            },
+        )
+    }
+
+    /// Salt forms offered by the active route — drives the browse-time salt picker.
+    private var activeSaltForms: [SaltVariant] {
+        activeSubstanceRoute?.saltForms ?? []
+    }
+
+    /// The salt variant driving the dose card: the user's pick when valid, else
+    /// the route's default (first) form. `nil` when the route has no salt dimension.
+    private var activeSaltVariant: SaltVariant? {
+        let forms = activeSaltForms
+        if let selectedSaltForm, let match = forms.first(where: { $0.saltForm == selectedSaltForm }) {
+            return match
+        }
+        return forms.first
+    }
+
+    private var saltSelection: Binding<String> {
+        Binding(
+            get: { activeSaltVariant?.saltForm ?? activeSaltForms.first?.saltForm ?? "" },
+            set: { selectedSaltForm = $0 },
         )
     }
 
@@ -619,13 +654,31 @@ struct SubstanceDetailView: View {
             }
         }
 
+        if activeSaltForms.count > 1 {
+            Section {
+                // Salt labels are chemical proper nouns — not localized.
+                let picker = Picker(String(localized: "Form"), selection: saltSelection) {
+                    ForEach(activeSaltForms, id: \.saltForm) { variant in
+                        Text(variant.saltForm).tag(variant.saltForm)
+                    }
+                }
+                if activeSaltForms.count >= 4 {
+                    picker.pickerStyle(.menu)
+                } else {
+                    picker.pickerStyle(.segmented)
+                        .listRowSeparator(.hidden)
+                }
+            }
+        }
+
         if let route = activeSubstanceRoute {
+            let salt = activeSaltVariant
             Section {
                 RouteDosingCard(
                     route: route.route,
-                    unit: route.unit,
-                    doses: route.doses,
-                    duration: durationVisible ? route.duration : nil,
+                    unit: salt?.unit ?? route.unit,
+                    doses: salt?.doses ?? route.doses,
+                    duration: durationVisible ? (salt?.duration ?? route.duration) : nil,
                     releaseWindow: route.durationOfAction?.formattedWindow,
                     showsDoseLadder: displayClass.showsDoseLadder,
                     showsDuration: durationVisible,

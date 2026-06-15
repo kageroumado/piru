@@ -28,6 +28,7 @@ struct EntryDetailView: View {
     @State private var draftAmount = ""
     @State private var draftUnit = "mg"
     @State private var draftRoute: RouteOfAdministration = .oral
+    @State private var draftSaltForm: String?
     @State private var draftTimestamp = Date.now
     @State private var draftNotes = ""
     @State private var draftTags: [String] = []
@@ -92,8 +93,8 @@ struct EntryDetailView: View {
     /// meaningful ladder.
     private var committedDoseLevel: DoseLevel? {
         guard let sub = substanceInfo, sub.displayClass.showsDoseLadder,
-              let range = sub.doseRange(for: entry.route) else { return nil }
-        let refUnit = sub.unit(for: entry.route)
+              let range = sub.doseRange(for: entry.route, saltForm: entry.saltForm) else { return nil }
+        let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm)
         let amount = entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame
             ? entry.amount
             : (sub.convert(amount: entry.amount, from: entry.unit, toRoute: entry.route) ?? entry.amount)
@@ -120,8 +121,14 @@ struct EntryDetailView: View {
     }
 
     private var draftDoseLevel: DoseLevel? {
-        guard let normalizedDraftAmount, let range = substanceInfo?.doseRange(for: draftRoute) else { return nil }
+        guard let normalizedDraftAmount,
+              let range = substanceInfo?.doseRange(for: draftRoute, saltForm: draftSaltForm) else { return nil }
         return range.level(for: normalizedDraftAmount)
+    }
+
+    /// Salt forms offered for the draft route — drives the edit-mode salt picker.
+    private var draftSaltForms: [String] {
+        substanceInfo?.saltForms(for: draftRoute) ?? []
     }
 
     private var currentUnits: [String] {
@@ -246,8 +253,8 @@ struct EntryDetailView: View {
         }
 
         if let info = substanceInfo {
-            if info.displayClass.showsDoseLadder, let doses = info.doseRange(for: entry.route) {
-                let refUnit = info.unit(for: entry.route)
+            if info.displayClass.showsDoseLadder, let doses = info.doseRange(for: entry.route, saltForm: entry.saltForm) {
+                let refUnit = info.unit(for: entry.route, saltForm: entry.saltForm)
                 Section("Dose Ranges") {
                     DoseLevelIndicator(
                         doseRange: doses,
@@ -340,12 +347,23 @@ struct EntryDetailView: View {
                         .foregroundStyle(committedDoseLevel?.swiftUIColor ?? .primary)
                         .contentTransition(.numericText())
                     Spacer(minLength: 8)
-                    Text(entry.route.localizedName)
-                        .font(.caption.weight(.semibold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(substanceColor.opacity(0.16), in: Capsule())
-                        .foregroundStyle(substanceColor)
+                    HStack(spacing: 6) {
+                        if let saltForm = entry.saltForm {
+                            // Chemical proper noun — not localized.
+                            Text(saltForm)
+                                .font(.caption.weight(.semibold))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 5)
+                                .background(substanceColor.opacity(0.16), in: Capsule())
+                                .foregroundStyle(substanceColor)
+                        }
+                        Text(entry.route.localizedName)
+                            .font(.caption.weight(.semibold))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
+                            .background(substanceColor.opacity(0.16), in: Capsule())
+                            .foregroundStyle(substanceColor)
+                    }
                 }
                 Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
                     .font(.subheadline)
@@ -400,8 +418,22 @@ struct EntryDetailView: View {
                 }
             }
             .onChange(of: draftRoute) {
+                revalidateDraftSalt()
                 if let sub = substanceInfo {
-                    draftUnit = sub.unit(for: draftRoute)
+                    draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
+                }
+            }
+            if draftSaltForms.count > 1 {
+                // Salt labels are chemical proper nouns — not localized.
+                Picker(String(localized: "Form"), selection: $draftSaltForm) {
+                    ForEach(draftSaltForms, id: \.self) { form in
+                        Text(form).tag(String?.some(form))
+                    }
+                }
+                .onChange(of: draftSaltForm) {
+                    if let sub = substanceInfo {
+                        draftUnit = sub.unit(for: draftRoute, saltForm: draftSaltForm)
+                    }
                 }
             }
             DatePicker("Date & Time", selection: $draftTimestamp)
@@ -462,6 +494,7 @@ struct EntryDetailView: View {
                 DoseInfoView(
                     substance: sub,
                     route: draftRoute,
+                    saltForm: draftSaltForm,
                     currentDose: normalizedDraftAmount,
                 )
                 .padding(.vertical, 4)
@@ -528,12 +561,21 @@ struct EntryDetailView: View {
 
     // MARK: - Actions
 
+    /// Keep the draft salt valid for the draft route: retain it when offered,
+    /// else fall to that route's default form (or nil).
+    private func revalidateDraftSalt() {
+        let forms = draftSaltForms
+        if let draftSaltForm, forms.contains(draftSaltForm) { return }
+        draftSaltForm = forms.first
+    }
+
     private func beginEditing() {
         draftAmount = entry.amount == entry.amount.rounded()
             ? String(Int(entry.amount))
             : String(entry.amount)
         draftUnit = entry.unit
         draftRoute = entry.route
+        draftSaltForm = entry.saltForm
         draftTimestamp = entry.timestamp
         draftNotes = entry.notes ?? ""
         draftTags = entry.tags
@@ -566,6 +608,7 @@ struct EntryDetailView: View {
         entry.amount = storedAmount
         entry.unit = storedUnit
         entry.route = draftRoute
+        entry.saltForm = draftSaltForm
         entry.timestamp = draftTimestamp
         entry.notes = draftNotes.isEmpty ? nil : draftNotes
         entry.tags = Array(Set(draftTags + TagExtractor.extractTags(from: draftNotes)))
