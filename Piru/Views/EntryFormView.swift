@@ -177,24 +177,17 @@ struct EntryFormView: View {
                             }
                         }
                         .onChange(of: route) {
-                            revalidateSalt()
+                            SaltPicker.revalidate(&saltForm, against: currentSaltForms)
                             if let sub = selectedSubstance {
                                 unit = sub.unit(for: route, saltForm: saltForm)
                             }
                         }
-                        if currentSaltForms.count > 1 {
-                            // Salt labels are chemical proper nouns — not localized.
-                            Picker(String(localized: "Form"), selection: $saltForm) {
-                                ForEach(currentSaltForms, id: \.self) { form in
-                                    Text(form).tag(String?.some(form))
-                                }
-                            }
+                        SaltPicker(forms: currentSaltForms, selection: $saltForm, style: .formRow)
                             .onChange(of: saltForm) {
                                 if let sub = selectedSubstance {
                                     unit = sub.unit(for: route, saltForm: saltForm)
                                 }
                             }
-                        }
                     }
 
                     if let selectedSubstance {
@@ -290,14 +283,6 @@ struct EntryFormView: View {
         unit = sub.unit(for: sub.defaultRoute, saltForm: saltForm)
         availableRoutes = sub.orderedRoutes
         checkInteractions()
-    }
-
-    /// Keep the selected salt valid for the current route: retain it when the
-    /// route still offers it, otherwise fall to that route's default form.
-    private func revalidateSalt() {
-        let forms = currentSaltForms
-        if let saltForm, forms.contains(saltForm) { return }
-        saltForm = forms.first
     }
 
     private func checkInteractions() {
