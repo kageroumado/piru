@@ -612,17 +612,23 @@ struct SaltVariant: Codable, Hashable {
     let unit: String
     let doses: DoseRange
     let duration: DurationProfile?
+    /// Mass fraction of the elemental active (e.g. elemental magnesium) in this
+    /// salt — Magnesium citrate ≈ 0.16, glycinate ≈ 0.14, L-threonate ≈ 0.08.
+    /// `nil` when unknown / not applicable. Lets the UI show "= ⟨elemental⟩ mg".
+    let elementalFraction: Double?
 
     nonisolated init(
         saltForm: String,
         unit: String,
         doses: DoseRange,
         duration: DurationProfile? = nil,
+        elementalFraction: Double? = nil,
     ) {
         self.saltForm = saltForm
         self.unit = unit
         self.doses = doses
         self.duration = duration
+        self.elementalFraction = elementalFraction
     }
 }
 
@@ -1267,6 +1273,22 @@ struct Substance: Identifiable {
             return variant.duration
         }
         return r.duration
+    }
+
+    /// Mass fraction of the elemental active for a salt form on a route (e.g.
+    /// 0.14 for Magnesium glycinate). `nil` when unknown / not applicable.
+    func elementalFraction(for route: RouteOfAdministration, saltForm: String?) -> Double? {
+        guard let saltForm else { return nil }
+        return routes.first { $0.route == route }?
+            .saltForms?.first { $0.saltForm == saltForm }?.elementalFraction
+    }
+
+    /// The amount of *elemental* active (e.g. elemental magnesium) in `amount`
+    /// of the given salt form on a route — `amount × elementalFraction`. `nil`
+    /// when the salt has no known elemental fraction (the common case), so the
+    /// UI shows the breakdown only where it's meaningful (Magnesium, Lithium…).
+    func elementalAmount(of amount: Double, for route: RouteOfAdministration, saltForm: String?) -> Double? {
+        elementalFraction(for: route, saltForm: saltForm).map { amount * $0 }
     }
 
     /// Best available duration: exact route → similar route → generic fallback.

@@ -108,7 +108,7 @@ struct EntryFormView: View {
     /// The user's input converted to the substance's native unit for accurate dose level comparison.
     private var normalizedAmount: Double? {
         guard let parsedAmount, let sub = selectedSubstance else { return parsedAmount }
-        return sub.convert(amount: parsedAmount, from: unit, toRoute: route) ?? parsedAmount
+        return sub.convert(amount: parsedAmount, from: unit, toRoute: route, saltForm: saltForm) ?? parsedAmount
     }
 
     private var currentDoseLevel: DoseLevel? {
