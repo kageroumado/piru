@@ -24,6 +24,7 @@ is_chemistry_noise = _mod.is_chemistry_noise
 is_chemnoise_alias = _mod.is_chemnoise_alias
 normalize_category = _mod.normalize_category
 normalise = _mod.normalise
+canonical_salt_form = _mod.canonical_salt_form
 smart_title_case = _mod.smart_title_case
 chem_caps = _mod.chem_caps
 _unit_to_mg_factor = _mod._unit_to_mg_factor
@@ -900,10 +901,138 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
             ).fetchone()
             self.assertIsNotNone(row, f"combo {combo!r} should remain standalone")
 
-    def test_schema_version_is_three(self):
-        """The salt_form schema bump set schema_version to 3."""
+    def test_schema_version_is_four(self):
+        """The salt_rank/elemental_fraction/is_stub bump set schema_version to 4."""
         v = self.db.execute("select value from manifest where key='schema_version'").fetchone()
-        self.assertEqual(v["value"], "3")
+        self.assertEqual(v["value"], "4")
+
+    def test_journal_mode_is_delete(self):
+        """The shipped DB must be DELETE-mode (self-contained, no -wal/-shm
+        sidecars), or a read-only bundle open fails with SQLITE_CANTOPEN."""
+        mode = self.db.execute("pragma journal_mode").fetchone()[0]
+        self.assertEqual(mode.lower(), "delete")
+
+    def test_salt_rank_default_intent(self):
+        """salt_rank encodes the curated default (rank 0): Magnesium → Glycinate,
+        Lithium → Carbonate. Loader reads this in WS-2b; the column is populated
+        now so the intent ships with the DB."""
+        for parent, expected_default in (("Magnesium", "Glycinate"), ("Lithium", "Carbonate")):
+            row = self.db.execute(
+                "select d.salt_form from dose_ranges d "
+                "join substances s on s.id=d.substance_id "
+                "where s.canonical_name=? and d.salt_rank=0",
+                (parent,),
+            ).fetchone()
+            self.assertIsNotNone(row, f"{parent}: no rank-0 default salt row")
+            self.assertEqual(row["salt_form"], expected_default)
+
+    def test_every_salt_dose_row_has_rank_and_elemental(self):
+        """No salt-tagged dose row may ship with a NULL rank or elemental fraction
+        — the build's coverage gate guarantees curated metadata for each."""
+        rows = self.db.execute(
+            "select s.canonical_name, d.salt_form from dose_ranges d "
+            "join substances s on s.id=d.substance_id "
+            "where d.salt_form is not null "
+            "and (d.salt_rank is null or d.elemental_fraction is null)"
+        ).fetchall()
+        self.assertEqual(
+            [(r["canonical_name"], r["salt_form"]) for r in rows],
+            [],
+            "salt-tagged dose rows missing rank/elemental",
+        )
+
+    def test_elemental_fraction_in_expected_range(self):
+        """Elemental fractions are physical mass ratios in (0, 1) — sanity-check a
+        couple of known values so a typo (e.g. 16 for 0.16) is caught."""
+        mg_citrate = self.db.execute(
+            "select elemental_fraction f from dose_ranges d "
+            "join substances s on s.id=d.substance_id "
+            "where s.canonical_name='Magnesium' and d.salt_form='Citrate'"
+        ).fetchone()["f"]
+        self.assertAlmostEqual(mg_citrate, 0.16, places=2)
+        li_carbonate = self.db.execute(
+            "select elemental_fraction f from dose_ranges d "
+            "join substances s on s.id=d.substance_id "
+            "where s.canonical_name='Lithium' and d.salt_form='Carbonate'"
+        ).fetchone()["f"]
+        self.assertAlmostEqual(li_carbonate, 0.188, places=3)
+        for r in self.db.execute(
+            "select elemental_fraction f from dose_ranges where elemental_fraction is not null"
+        ):
+            self.assertTrue(0.0 < r["f"] < 1.0, f"elemental fraction out of range: {r['f']}")
+
+    def test_salt_supplement_acute_durations_removed(self):
+        """The audit drops the salt-tagged acute durations on Mg/Li supplements
+        (imperceptible curves) — none survive."""
+        n = self.db.execute(
+            "select count(*) c from durations d "
+            "join substances s on s.id=d.substance_id "
+            "where s.canonical_name in ('Magnesium','Lithium') and d.salt_form is not null"
+        ).fetchone()["c"]
+        self.assertEqual(n, 0, "salt-tagged Mg/Li acute durations should have been removed")
+
+    def test_salt_dose_values_unchanged(self):
+        """The metadata/audit passes must not perturb any salt dose value the app
+        tests pin (SaltFormTests). Lock the common ranges here too."""
+        expected = {
+            ("Magnesium", "Citrate"): (400.0, 600.0),
+            ("Magnesium", "Glycinate"): (200.0, 400.0),
+            ("Magnesium", "L-Threonate"): (1500.0, 2000.0),
+            ("Lithium", "Carbonate"): (600.0, 900.0),
+            ("Lithium", "Orotate"): (125.0, 250.0),
+        }
+        for (parent, salt), (lo, hi) in expected.items():
+            row = self.db.execute(
+                "select common_lower, common_upper from dose_ranges d "
+                "join substances s on s.id=d.substance_id "
+                "where s.canonical_name=? and d.salt_form=?",
+                (parent, salt),
+            ).fetchone()
+            self.assertIsNotNone(row, f"{parent} {salt}: dose row missing")
+            self.assertEqual((row["common_lower"], row["common_upper"]), (lo, hi))
+
+    def test_dose_less_stubs_flagged_consistently(self):
+        """is_stub == 1 exactly when a substance has zero dose/duration/protocol
+        rows, and there is at least one (medtap catalog stubs exist)."""
+        flagged = self.db.execute("select count(*) c from substances where is_stub=1").fetchone()[
+            "c"
+        ]
+        self.assertGreater(flagged, 0, "expected some dose-less catalog stubs")
+        # Every flagged row genuinely has no dose/duration/protocol data.
+        leaks = self.db.execute(
+            "select count(*) c from substances s where s.is_stub=1 and ("
+            " exists(select 1 from dose_ranges where substance_id=s.id)"
+            " or exists(select 1 from durations where substance_id=s.id)"
+            " or exists(select 1 from protocol_dosing where substance_id=s.id))"
+        ).fetchone()["c"]
+        self.assertEqual(leaks, 0, "is_stub set on a substance that has dose data")
+        # And no unflagged row is genuinely dose-less.
+        missed = self.db.execute(
+            "select count(*) c from substances s where s.is_stub=0 and not ("
+            " exists(select 1 from dose_ranges where substance_id=s.id)"
+            " or exists(select 1 from durations where substance_id=s.id)"
+            " or exists(select 1 from protocol_dosing where substance_id=s.id))"
+        ).fetchone()["c"]
+        self.assertEqual(missed, 0, "dose-less substance not flagged is_stub")
+
+    def test_inchikey_false_merges_stay_split(self):
+        """The four known InChIKey-collision pairs (#8) must remain DISTINCT rows
+        after the do-not-merge guard."""
+        for a, b in (
+            ("Methylone", "Cyclobenzaprine"),
+            ("Cannabis", "THC"),
+            ("CBC", "CBG"),
+            ("3-MMC", "Myristicin"),
+        ):
+            ra = self.db.execute(
+                "select id from substances where canonical_name=?", (a,)
+            ).fetchone()
+            rb = self.db.execute(
+                "select id from substances where canonical_name=?", (b,)
+            ).fetchone()
+            self.assertIsNotNone(ra, f"{a} missing")
+            self.assertIsNotNone(rb, f"{b} missing")
+            self.assertNotEqual(ra["id"], rb["id"], f"{a} and {b} wrongly merged")
 
     def test_no_intra_substance_duplicate_aliases(self):
         """A substance must not carry the same alias twice (case/salt variants);
@@ -1270,6 +1399,33 @@ class TestCuratedDirIngest(unittest.TestCase):
         ).fetchall()
         for r in rows:
             self.assertFalse(r["url"].startswith("http"))
+
+
+class TestCanonicalSaltForm(unittest.TestCase):
+    """The controlled salt-form vocabulary canonicaliser keeps the exact blessed
+    spellings, trims/cases variants, and never drops an unknown tag."""
+
+    def test_blessed_spellings_pass_through(self):
+        for s in ("Citrate", "Glycinate", "L-Threonate", "Carbonate", "Orotate"):
+            self.assertEqual(canonical_salt_form(s), s)
+
+    def test_case_and_whitespace_canonicalised(self):
+        self.assertEqual(canonical_salt_form("  glycinate "), "Glycinate")
+        self.assertEqual(canonical_salt_form("CITRATE"), "Citrate")
+        self.assertEqual(canonical_salt_form("threonate"), "L-Threonate")
+        self.assertEqual(canonical_salt_form("bisglycinate"), "Glycinate")
+
+    def test_idempotent(self):
+        for s in ("glycinate", "L-Threonate", "  carbonate"):
+            once = canonical_salt_form(s)
+            self.assertEqual(canonical_salt_form(once), once)
+
+    def test_unknown_passes_through_trimmed(self):
+        self.assertEqual(canonical_salt_form("  Sulfate "), "Sulfate")
+
+    def test_none_and_empty(self):
+        self.assertIsNone(canonical_salt_form(None))
+        self.assertIsNone(canonical_salt_form("   "))
 
 
 if __name__ == "__main__":
