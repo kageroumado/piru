@@ -117,6 +117,22 @@
         }
       }
     },
+    "“%@” isn’t in the library anymore. It may have been renamed or merged." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”已不在资料库中，可能已被重命名或合并。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」已不在資料庫中，可能已被重新命名或合併。"
+          }
+        }
+      }
+    },
     "(%@)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1600,7 +1616,24 @@
         }
       }
     },
+    "^[%lld saved substance](inflect: true)." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 种收藏的物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 種收藏的物質。"
+          }
+        }
+      }
+    },
     "^[%lld substance](inflect: true)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -2549,6 +2582,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "絕對不要駕駛或操作機器。"
+          }
+        }
+      }
+    },
+    "Acid, nausea, and gut motility." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胃酸、恶心与胃肠动力。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胃酸、噁心與胃腸動力。"
           }
         }
       }
@@ -3779,6 +3828,22 @@
         }
       }
     },
+    "Allergy and sleep antihistamines." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗过敏与助眠抗组胺药。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗過敏與助眠抗組織胺藥。"
+          }
+        }
+      }
+    },
     "Also known as" : {
       "localizations" : {
         "zh-Hans" : {
@@ -3791,6 +3856,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "別名"
+          }
+        }
+      }
+    },
+    "Alter perception, thought, and sense of reality." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改变知觉、思维与现实感。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改變知覺、思維與現實感。"
           }
         }
       }
@@ -3871,6 +3952,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "AMP 活化蛋白激酶 (AMPK) 激動劑"
+          }
+        }
+      }
+    },
+    "AMPA-receptor positive modulators." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMPA 受体正向调节剂。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMPA 受體正向調節劑。"
           }
         }
       }
@@ -4067,6 +4164,38 @@
         }
       }
     },
+    "Antibiotics, antivirals, and antifungals." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗生素、抗病毒与抗真菌药。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗生素、抗病毒與抗真菌藥。"
+          }
+        }
+      }
+    },
+    "Anticholinergic — DPH, datura, Benadryl." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗胆碱能 — 苯海拉明、曼陀罗、Benadryl。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗膽鹼能 — 苯海拉明、曼陀羅、Benadryl。"
+          }
+        }
+      }
+    },
     "Anticonvulsant" : {
       "localizations" : {
         "zh-Hans" : {
@@ -4239,6 +4368,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在此時間點,這些物質未同時高於閾值活躍。"
+          }
+        }
+      }
+    },
+    "Atypical tryptamines — DiPT, 5-MeO-MiPT." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非典型色胺类 — DiPT、5-MeO-MiPT。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非典型色胺類 — DiPT、5-MeO-MiPT。"
           }
         }
       }
@@ -4695,6 +4841,22 @@
         }
       }
     },
+    "Barbiturates, sedative-hypnotics, and Z-drugs." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巴比妥类、镇静催眠药与 Z 类药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巴比妥類、鎮靜催眠藥與 Z 類藥物。"
+          }
+        }
+      }
+    },
     "Baseline" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5111,6 +5273,22 @@
         }
       }
     },
+    "Blood pressure, heart, and cholesterol." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血压、心脏与胆固醇。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血壓、心臟與膽固醇。"
+          }
+        }
+      }
+    },
     "Both substances active" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5303,6 +5481,22 @@
         }
       }
     },
+    "Calm and slow the central nervous system." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平静并减缓中枢神经系统。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平靜並減緩中樞神經系統。"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "zh-Hans" : {
@@ -5411,6 +5605,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大麻素 CB1/CB2 受體激動劑"
+          }
+        }
+      }
+    },
+    "Cannabinoids" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大麻素"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大麻素"
           }
         }
       }
@@ -6053,6 +6263,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除搜尋"
+          }
+        }
+      }
+    },
+    "Clinical medications, by therapeutic class." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "临床药物，按治疗类别划分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "臨床藥物，按治療類別劃分。"
           }
         }
       }
@@ -8483,6 +8709,22 @@
         }
       }
     },
+    "Dopamine antagonists — quetiapine, risperidone." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺拮抗剂 — 喹硫平、利培酮。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "多巴胺拮抗劑 — 喹硫平、利培酮。"
+          }
+        }
+      }
+    },
     "Dopamine D2 Partial Agonist and Serotonin Modulator" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9775,6 +10017,22 @@
         }
       }
     },
+    "Empathogens" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共情剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共情劑"
+          }
+        }
+      }
+    },
     "Enable Comedown Alert" : {
       "localizations" : {
         "zh-Hans" : {
@@ -9868,6 +10126,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "內分泌藥物"
+          }
+        }
+      }
+    },
+    "Energy, focus, and wakefulness." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提升精力、专注与清醒。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提升精力、專注與清醒。"
           }
         }
       }
@@ -10221,6 +10495,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隔日"
+          }
+        }
+      }
+    },
+    "Everyday substances, by the names most people know." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常物质，以大多数人熟知的名称呈现。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常物質，以大多數人熟知的名稱呈現。"
           }
         }
       }
@@ -11124,6 +11414,22 @@
         }
       }
     },
+    "GABA-A modulators — diazepam, alprazolam." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 调节剂 — 地西泮、阿普唑仑。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA-A 調節劑 — 地西泮、阿普唑侖。"
+          }
+        }
+      }
+    },
     "GABA-A Positive Allosteric Modulator (Barbiturate)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11188,6 +11494,23 @@
         }
       }
     },
+    "GABA-active — GHB, phenibut, gabapentin." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA 活性 — GHB、苯巴胺、加巴喷丁。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA 活性 — GHB、苯巴胺、加巴噴丁。"
+          }
+        }
+      }
+    },
     "GABA-B Receptor Agonist and α2δ Calcium Channel Ligand" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11216,6 +11539,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GABA 類"
+          }
+        }
+      }
+    },
+    "GABAergics & gabapentinoids — GHB, pregabalin, phenibut." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA能药物与加巴喷丁类 — GHB、普瑞巴林、苯尼布特。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GABA能藥物與加巴噴丁類 — GHB、普瑞巴林、苯尼布特。"
           }
         }
       }
@@ -11460,6 +11799,22 @@
         }
       }
     },
+    "GLP-1, healing, and research peptides." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GLP-1、修复与研究类肽。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GLP-1、修復與研究類肽。"
+          }
+        }
+      }
+    },
     "Glucocorticoid Receptor Agonist" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11601,6 +11956,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無 %@ 的半衰期資料"
+          }
+        }
+      }
+    },
+    "Hallucinogens" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "致幻剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "致幻劑"
           }
         }
       }
@@ -11788,6 +12159,22 @@
         }
       }
     },
+    "Highest overdose risk" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "过量风险最高"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過量風險最高"
+          }
+        }
+      }
+    },
     "Histamine H1 Receptor Inverse Agonist (First-Generation)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -11832,6 +12219,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "HMG-CoA 還原酶抑制劑(他汀類)"
+          }
+        }
+      }
+    },
+    "Hormones, thyroid, and metabolic drugs." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激素、甲状腺与代谢药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激素、甲狀腺與代謝藥物。"
           }
         }
       }
@@ -12206,6 +12609,22 @@
         }
       }
     },
+    "Immune modulators and steroids." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免疫调节剂与类固醇。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免疫調節劑與類固醇。"
+          }
+        }
+      }
+    },
     "Immunological" : {
       "localizations" : {
         "zh-Hans" : {
@@ -12575,6 +12994,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "吸入"
+          }
+        }
+      }
+    },
+    "Inhalers, decongestants, and cough." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸入剂、减充血剂与止咳药。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸入劑、減充血劑與止咳藥。"
           }
         }
       }
@@ -14318,6 +14753,22 @@
         }
       }
     },
+    "Mind & Cognition" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精神与认知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精神與認知"
+          }
+        }
+      }
+    },
     "Mind Sjalvmordslinjen" : {
       "localizations" : {
         "zh-Hans" : {
@@ -14592,6 +15043,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "情緒穩定劑(多重細胞內機制)"
+          }
+        }
+      }
+    },
+    "Mood, psychiatric, and cognitive medications." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情绪、精神与认知类药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情緒、精神與認知類藥物。"
           }
         }
       }
@@ -15258,6 +15725,22 @@
         }
       }
     },
+    "NMDA antagonists — ketamine, DXM, PCP." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 拮抗剂 — 氯胺酮、右美沙芬、苯环利定。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NMDA 拮抗劑 — 氯胺酮、右美沙芬、苯環利定。"
+          }
+        }
+      }
+    },
     "NMDA Receptor Antagonist (Dissociative)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -15759,6 +16242,22 @@
         }
       }
     },
+    "Non-opioid pain relief — NSAIDs, paracetamol." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非阿片类镇痛 — NSAID、对乙酰氨基酚。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非阿片類鎮痛 — NSAID、對乙醯氨基酚。"
+          }
+        }
+      }
+    },
     "Non-Selective Adenosine Receptor Antagonist" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16063,6 +16562,22 @@
         }
       }
     },
+    "Novel and lesser-characterized compounds." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新型且研究较少的化合物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新型且研究較少的化合物。"
+          }
+        }
+      }
+    },
     "Now" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16235,6 +16750,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿片受體拮抗劑"
+          }
+        }
+      }
+    },
+    "Opioids" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿片類"
           }
         }
       }
@@ -16445,6 +16976,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "血清素再攝取抑制重疊 — 血清素綜合徵的風險增加。"
+          }
+        }
+      }
+    },
+    "Pain relief, euphoria, and sedation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇痛、欣快与镇静。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮痛、欣快與鎮靜。"
           }
         }
       }
@@ -16769,6 +17316,22 @@
         }
       }
     },
+    "Peptides" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽類"
+          }
+        }
+      }
+    },
     "Per day" : {
       "localizations" : {
         "zh-Hans" : {
@@ -16926,6 +17489,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "藥理搜尋"
+          }
+        }
+      }
+    },
+    "Pharmaceuticals" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥品"
           }
         }
       }
@@ -17944,6 +18523,22 @@
         }
       }
     },
+    "Racetams, choline, and cognitive aids." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拉西坦类、胆碱与认知辅助剂。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拉西坦類、膽鹼與認知輔助劑。"
+          }
+        }
+      }
+    },
     "Ramp Down" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18362,6 +18957,22 @@
         }
       }
     },
+    "Relaxation, euphoria, and altered senses." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放松、欣快与感官改变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放鬆、欣快與感官改變。"
+          }
+        }
+      }
+    },
     "Release window" : {
       "localizations" : {
         "zh-Hans" : {
@@ -18713,6 +19324,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "研究／增效化合物"
+          }
+        }
+      }
+    },
+    "Research Chemicals" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "研究化学品"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "研究化學品"
           }
         }
       }
@@ -19780,6 +20407,38 @@
         }
       }
     },
+    "Sedative-Hypnotic" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静催眠药"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜催眠藥"
+          }
+        }
+      }
+    },
+    "Sedatives & Depressants" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "镇静与抑制剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎮靜與抑制劑"
+          }
+        }
+      }
+    },
     "See your current session's doses at a glance." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19793,6 +20452,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一目了然地查看本次記錄的劑量。"
+          }
+        }
+      }
+    },
+    "Seizure and mood-stabilizing drugs." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗癫痫与情绪稳定药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "抗癲癇與情緒穩定藥物。"
           }
         }
       }
@@ -20226,6 +20901,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "胺基酸序列"
+          }
+        }
+      }
+    },
+    "Serotonergic — LSD, psilocybin, mescaline." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-羟色胺能 — LSD、裸盖菇素、麦司卡林。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "血清素能 — LSD、裸蓋菇素、麥司卡林。"
           }
         }
       }
@@ -21451,6 +22142,22 @@
         }
       }
     },
+    "SSRIs, SNRIs, and MAOIs." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI、SNRI 与 MAOI。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSRI、SNRI 與 MAOI。"
+          }
+        }
+      }
+    },
     "Stabilizes neuronal membranes by blocking voltage-gated sodium channels in their inactivated state, reducing sustained repetitive firing. Preferentially reduces glutamate release rather than GABA release, distinguishing it from other sodium channel blockers and potentially accounting for its mood-stabilizing properties, particularly in preventing depressive episodes in bipolar disorder." : {
       "localizations" : {
         "zh-Hans" : {
@@ -21741,6 +22448,22 @@
       }
     },
     "Stimulant" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兴奋剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "興奮劑"
+          }
+        }
+      }
+    },
+    "Stimulants" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -22079,6 +22802,22 @@
         }
       }
     },
+    "Substance Not Found" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到物质"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到物質"
+          }
+        }
+      }
+    },
     "Substances" : {
       "localizations" : {
         "zh-Hans" : {
@@ -22226,6 +22965,22 @@
       }
     },
     "Supplement" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食补充"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食補充"
+          }
+        }
+      }
+    },
+    "Supplements" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -24147,6 +24902,22 @@
         }
       }
     },
+    "Vitamins, minerals, and nutrients." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "维生素、矿物质与营养素。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "維生素、礦物質與營養素。"
+          }
+        }
+      }
+    },
     "Voltage-Gated Calcium Channel α2δ Subunit Ligand" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24244,6 +25015,22 @@
         }
       }
     },
+    "Wakefulness — modafinil, armodafinil." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "促清醒 — 莫达非尼、阿莫达非尼。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "促清醒 — 莫達非尼、阿莫達非尼。"
+          }
+        }
+      }
+    },
     "Wakefulness-Promoting Agent (Atypical Stimulant)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -24272,6 +25059,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "促醒劑(莫達非尼右旋異構物)"
+          }
+        }
+      }
+    },
+    "Warmth, empathy, and emotional openness." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "温暖、共情与情感开放。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "溫暖、共情與情感開放。"
           }
         }
       }
@@ -25089,6 +25892,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "β2-腎上腺素受體激動劑(短效支氣管擴張劑)"
+          }
+        }
+      }
+    },
+    "κ-opioid agonists — salvia, salvinorin A." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "κ-阿片受体激动剂 — 鼠尾草、沙维诺林A。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "κ-鴉片受體激動劑 — 鼠尾草、沙維諾林A。"
           }
         }
       }

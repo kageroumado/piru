@@ -7,6 +7,128 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Library redesign — family cards, taxonomy renames, sub-class blurbs
+    "Stimulants": ("兴奋剂", "興奮劑"),
+    "Empathogens": ("共情剂", "共情劑"),
+    "Hallucinogens": ("致幻剂", "致幻劑"),
+    "Cannabinoids": ("大麻素", "大麻素"),
+    "Opioids": ("阿片类", "阿片類"),
+    "Sedatives & Depressants": ("镇静与抑制剂", "鎮靜與抑制劑"),
+    "Peptides": ("肽类", "肽類"),
+    "Mind & Cognition": ("精神与认知", "精神與認知"),
+    "Pharmaceuticals": ("药品", "藥品"),
+    "Supplements": ("膳食补充", "膳食補充"),
+    "Research Chemicals": ("研究化学品", "研究化學品"),
+    "Sedative-Hypnotic": ("镇静催眠药", "鎮靜催眠藥"),
+    "Everyday substances, by the names most people know.": (
+        "日常物质，以大多数人熟知的名称呈现。",
+        "日常物質，以大多數人熟知的名稱呈現。",
+    ),
+    "Energy, focus, and wakefulness.": ("提升精力、专注与清醒。", "提升精力、專注與清醒。"),
+    "Warmth, empathy, and emotional openness.": (
+        "温暖、共情与情感开放。",
+        "溫暖、共情與情感開放。",
+    ),
+    "Alter perception, thought, and sense of reality.": (
+        "改变知觉、思维与现实感。",
+        "改變知覺、思維與現實感。",
+    ),
+    "Relaxation, euphoria, and altered senses.": (
+        "放松、欣快与感官改变。",
+        "放鬆、欣快與感官改變。",
+    ),
+    "Pain relief, euphoria, and sedation.": ("镇痛、欣快与镇静。", "鎮痛、欣快與鎮靜。"),
+    "Calm and slow the central nervous system.": (
+        "平静并减缓中枢神经系统。",
+        "平靜並減緩中樞神經系統。",
+    ),
+    "GLP-1, healing, and research peptides.": (
+        "GLP-1、修复与研究类肽。",
+        "GLP-1、修復與研究類肽。",
+    ),
+    "Mood, psychiatric, and cognitive medications.": (
+        "情绪、精神与认知类药物。",
+        "情緒、精神與認知類藥物。",
+    ),
+    "Clinical medications, by therapeutic class.": (
+        "临床药物，按治疗类别划分。",
+        "臨床藥物，按治療類別劃分。",
+    ),
+    "Vitamins, minerals, and nutrients.": ("维生素、矿物质与营养素。", "維生素、礦物質與營養素。"),
+    "Novel and lesser-characterized compounds.": (
+        "新型且研究较少的化合物。",
+        "新型且研究較少的化合物。",
+    ),
+    "Serotonergic — LSD, psilocybin, mescaline.": (
+        "5-羟色胺能 — LSD、裸盖菇素、麦司卡林。",
+        "血清素能 — LSD、裸蓋菇素、麥司卡林。",
+    ),
+    "NMDA antagonists — ketamine, DXM, PCP.": (
+        "NMDA 拮抗剂 — 氯胺酮、右美沙芬、苯环利定。",
+        "NMDA 拮抗劑 — 氯胺酮、右美沙芬、苯環利定。",
+    ),
+    "Anticholinergic — DPH, datura, Benadryl.": (
+        "抗胆碱能 — 苯海拉明、曼陀罗、Benadryl。",
+        "抗膽鹼能 — 苯海拉明、曼陀羅、Benadryl。",
+    ),
+    "Atypical tryptamines — DiPT, 5-MeO-MiPT.": (
+        "非典型色胺类 — DiPT、5-MeO-MiPT。",
+        "非典型色胺類 — DiPT、5-MeO-MiPT。",
+    ),
+    "GABA-A modulators — diazepam, alprazolam.": (
+        "GABA-A 调节剂 — 地西泮、阿普唑仑。",
+        "GABA-A 調節劑 — 地西泮、阿普唑侖。",
+    ),
+    "GABA-active — GHB, phenibut, gabapentin.": (
+        "GABA 活性 — GHB、苯巴胺、加巴喷丁。",
+        "GABA 活性 — GHB、苯巴胺、加巴噴丁。",
+    ),
+    "Barbiturates, sedative-hypnotics, and Z-drugs.": (
+        "巴比妥类、镇静催眠药与 Z 类药物。",
+        "巴比妥類、鎮靜催眠藥與 Z 類藥物。",
+    ),
+    "SSRIs, SNRIs, and MAOIs.": ("SSRI、SNRI 与 MAOI。", "SSRI、SNRI 與 MAOI。"),
+    "Dopamine antagonists — quetiapine, risperidone.": (
+        "多巴胺拮抗剂 — 喹硫平、利培酮。",
+        "多巴胺拮抗劑 — 喹硫平、利培酮。",
+    ),
+    "Racetams, choline, and cognitive aids.": (
+        "拉西坦类、胆碱与认知辅助剂。",
+        "拉西坦類、膽鹼與認知輔助劑。",
+    ),
+    "AMPA-receptor positive modulators.": ("AMPA 受体正向调节剂。", "AMPA 受體正向調節劑。"),
+    "Wakefulness — modafinil, armodafinil.": (
+        "促清醒 — 莫达非尼、阿莫达非尼。",
+        "促清醒 — 莫達非尼、阿莫達非尼。",
+    ),
+    "Non-opioid pain relief — NSAIDs, paracetamol.": (
+        "非阿片类镇痛 — NSAID、对乙酰氨基酚。",
+        "非阿片類鎮痛 — NSAID、對乙醯氨基酚。",
+    ),
+    "Allergy and sleep antihistamines.": (
+        "抗过敏与助眠抗组胺药。",
+        "抗過敏與助眠抗組織胺藥。",
+    ),
+    "Blood pressure, heart, and cholesterol.": ("血压、心脏与胆固醇。", "血壓、心臟與膽固醇。"),
+    "Antibiotics, antivirals, and antifungals.": (
+        "抗生素、抗病毒与抗真菌药。",
+        "抗生素、抗病毒與抗真菌藥。",
+    ),
+    "Acid, nausea, and gut motility.": ("胃酸、恶心与胃肠动力。", "胃酸、噁心與胃腸動力。"),
+    "Inhalers, decongestants, and cough.": (
+        "吸入剂、减充血剂与止咳药。",
+        "吸入劑、減充血劑與止咳藥。",
+    ),
+    "Hormones, thyroid, and metabolic drugs.": (
+        "激素、甲状腺与代谢药物。",
+        "激素、甲狀腺與代謝藥物。",
+    ),
+    "Immune modulators and steroids.": ("免疫调节剂与类固醇。", "免疫調節劑與類固醇。"),
+    "Seizure and mood-stabilizing drugs.": (
+        "抗癫痫与情绪稳定药物。",
+        "抗癲癇與情緒穩定藥物。",
+    ),
+    "Highest overdose risk": ("过量风险最高", "過量風險最高"),
     # Quick-log redesign — dose tray (staging, shared When/Tags/Location, inline editor)
     "%lld min ago": ("%lld 分钟前", "%lld 分鐘前"),
     "Pick date & time…": ("选择日期和时间…", "選擇日期和時間…"),
@@ -2094,6 +2216,21 @@ T = {
     "^[%lld substance](inflect: true)": ("%lld 种物质", "%lld 種物質"),
     "^[%lld entry](inflect: true)": ("%lld 条记录", "%lld 條記錄"),
     "^[%lld item](inflect: true)": ("%lld 项", "%lld 項"),
+    # 2026-06 Library browse redesign — family blurbs, favorites card, not-found
+    "κ-opioid agonists — salvia, salvinorin A.": (
+        "κ-阿片受体激动剂 — 鼠尾草、沙维诺林A。",
+        "κ-鴉片受體激動劑 — 鼠尾草、沙維諾林A。",
+    ),
+    "GABAergics & gabapentinoids — GHB, pregabalin, phenibut.": (
+        "GABA能药物与加巴喷丁类 — GHB、普瑞巴林、苯尼布特。",
+        "GABA能藥物與加巴噴丁類 — GHB、普瑞巴林、苯尼布特。",
+    ),
+    "^[%lld saved substance](inflect: true).": ("%lld 种收藏的物质。", "%lld 種收藏的物質。"),
+    "Substance Not Found": ("未找到物质", "未找到物質"),
+    "“%@” isn’t in the library anymore. It may have been renamed or merged.": (
+        "“%@”已不在资料库中，可能已被重命名或合并。",
+        "「%@」已不在資料庫中，可能已被重新命名或合併。",
+    ),
     # 2026-06 review fixes — accessibility labels & chart descriptions
     "Back": ("返回", "返回"),
     "Expand Chart": ("展开图表", "展開圖表"),
@@ -2230,6 +2367,53 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Library redesign — family titles, blurbs, sub-class blurbs, renames
+        "Stimulants",
+        "Empathogens",
+        "Hallucinogens",
+        "Cannabinoids",
+        "Opioids",
+        "Sedatives & Depressants",
+        "Peptides",
+        "Mind & Cognition",
+        "Pharmaceuticals",
+        "Supplements",
+        "Research Chemicals",
+        "Sedative-Hypnotic",
+        "Everyday substances, by the names most people know.",
+        "Energy, focus, and wakefulness.",
+        "Warmth, empathy, and emotional openness.",
+        "Alter perception, thought, and sense of reality.",
+        "Relaxation, euphoria, and altered senses.",
+        "Pain relief, euphoria, and sedation.",
+        "Calm and slow the central nervous system.",
+        "GLP-1, healing, and research peptides.",
+        "Mood, psychiatric, and cognitive medications.",
+        "Clinical medications, by therapeutic class.",
+        "Vitamins, minerals, and nutrients.",
+        "Novel and lesser-characterized compounds.",
+        "Serotonergic — LSD, psilocybin, mescaline.",
+        "NMDA antagonists — ketamine, DXM, PCP.",
+        "Anticholinergic — DPH, datura, Benadryl.",
+        "Atypical tryptamines — DiPT, 5-MeO-MiPT.",
+        "GABA-A modulators — diazepam, alprazolam.",
+        "GABA-active — GHB, phenibut, gabapentin.",
+        "Barbiturates, sedative-hypnotics, and Z-drugs.",
+        "SSRIs, SNRIs, and MAOIs.",
+        "Dopamine antagonists — quetiapine, risperidone.",
+        "Racetams, choline, and cognitive aids.",
+        "AMPA-receptor positive modulators.",
+        "Wakefulness — modafinil, armodafinil.",
+        "Non-opioid pain relief — NSAIDs, paracetamol.",
+        "Allergy and sleep antihistamines.",
+        "Blood pressure, heart, and cholesterol.",
+        "Antibiotics, antivirals, and antifungals.",
+        "Acid, nausea, and gut motility.",
+        "Inhalers, decongestants, and cough.",
+        "Hormones, thyroid, and metabolic drugs.",
+        "Immune modulators and steroids.",
+        "Seizure and mood-stabilizing drugs.",
+        "Highest overdose risk",
         "This calculator uses a one-compartment oral pharmacokinetic model with absorption and elimination phases. Absorption rates are estimated from known duration profiles (onset + comeup timing) when available, or use a default 4× elimination rate ratio. Population-average elimination half-lives are sourced from FDA-approved prescribing information, published pharmacokinetic studies (PubMed), and DrugBank. Half-lives for some research chemicals and novel substances are estimated from structurally similar compounds and may be less reliable.\n\nReal pharmacokinetics vary significantly based on individual metabolism, genetics, liver and kidney function, body composition, age, drug interactions, tolerance, and route of administration. Multi-compartment distribution, protein binding, active metabolites, and enterohepatic recirculation are not accounted for. Polydrug use may alter elimination rates unpredictably.\n\nThese figures are approximate population averages — not a substitute for clinical monitoring or professional medical advice. Always consult a qualified healthcare professional.",
         "My Substances",
         "Notifications",
@@ -2364,6 +2548,11 @@ if __name__ == "__main__":
         "^[%lld substance](inflect: true)",
         "^[%lld entry](inflect: true)",
         "^[%lld item](inflect: true)",
+        "κ-opioid agonists — salvia, salvinorin A.",
+        "GABAergics & gabapentinoids — GHB, pregabalin, phenibut.",
+        "^[%lld saved substance](inflect: true).",
+        "Substance Not Found",
+        "“%@” isn’t in the library anymore. It may have been renamed or merged.",
         "Back",
         "Expand Chart",
         "Collapse Chart",

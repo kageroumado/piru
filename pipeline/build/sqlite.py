@@ -1397,6 +1397,26 @@ _CANONICAL_CASE: dict[str, str] = {
     "bk-2c-b": "bk-2C-B",
     "bk-2c-i": "bk-2C-I",
     "βh-2c-b": "βH-2C-B",  # β-hydroxy-2C-B
+    # Cathinones / piperazines / RCs whose lowercase-from-source names get
+    # title-cased to "Mdpv"/"Bzp" — these are acronyms and read ALL CAPS.
+    "mdpv": "MDPV",
+    "mdai": "MDAI",
+    "mdpa": "MDPA",
+    "mdphp": "MDPHP",
+    "mbdb": "MBDB",
+    "mbzp": "MBZP",
+    "bzp": "BZP",
+    "dmaa": "DMAA",
+    "mpa": "MPA",
+    "pce": "PCE",
+    "aet": "AET",
+    "ept": "EPT",
+    "lsz": "LSZ",
+    "pma": "PMA",
+    "pmma": "PMMA",
+    "apap": "APAP",
+    "mcpp": "mCPP",  # meta-chlorophenylpiperazine — lowercase locant m
+    "pipt": "PiPT",  # propyl-isopropyltryptamine — camel morpheme
 }
 
 

@@ -12,31 +12,28 @@ struct SubstanceLibraryView: View {
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @State private var searchResults: [Substance] = []
 
-    private var favoriteSubstances: [Substance] {
-        favorites.compactMap { fav in
-            SubstanceLibrary.lookup(fav.substance.lowercased())
-        }
-    }
-
     private var favoriteNames: Set<String> {
         Set(favorites.map { $0.substance.lowercased() })
     }
 
     var body: some View {
-        List {
-            if searchText.isEmpty {
-                if isSearchSurface {
-                    RecentSubstancesSection()
-                } else {
-                    categoryGrid
-                }
+        Group {
+            if searchText.isEmpty, !isSearchSurface {
+                // Library tab browse: the bold family-card flow.
+                LibraryBrowseView()
             } else {
-                searchResultsList
+                List {
+                    if searchText.isEmpty {
+                        RecentSubstancesSection()
+                    } else {
+                        searchResultsList
+                    }
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(Theme.background)
             }
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .background(Theme.background)
         .appNavigationBar("Library", enabled: !isSearchSurface)
         .task(id: searchText) {
             guard !searchText.isEmpty else {
@@ -47,53 +44,6 @@ struct SubstanceLibraryView: View {
             guard !Task.isCancelled else { return }
             searchResults = SubstanceLibrary.search(searchText)
         }
-    }
-
-    // MARK: - Category Grid
-
-    private var categoryGrid: some View {
-        Section {
-            if !favoriteSubstances.isEmpty {
-                let count = favoriteSubstances.count
-                NavigationLink(value: PushRoute.libraryFavorites) {
-                    HStack {
-                        Image(systemName: "star.fill")
-                            .font(.title3)
-                            .foregroundStyle(.yellow)
-                            .frame(width: 30)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Favorites")
-                                .font(.body)
-                            Text("^[\(count) substance](inflect: true)")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        Spacer()
-                    }
-                }
-            }
-
-            ForEach(SubstanceLibrary.nonEmptyCategories) { category in
-                let count = SubstanceLibrary.substances(in: category).count
-                NavigationLink(value: PushRoute.libraryCategory(category)) {
-                    HStack {
-                        Image(systemName: category.icon)
-                            .font(.title3)
-                            .foregroundStyle(category.color)
-                            .frame(width: 30)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(category.displayName)
-                                .font(.body)
-                            Text("^[\(count) substance](inflect: true)")
-                                .font(.caption)
-                                .foregroundStyle(Theme.secondaryLabel)
-                        }
-                        Spacer()
-                    }
-                }
-            }
-        }
-        .listSectionSeparator(.hidden, edges: .top)
     }
 
     // MARK: - Search Results
@@ -290,25 +240,39 @@ private struct RecentSubstancesSection: View {
 
 struct SubstanceCategoryListView: View {
     let title: LocalizedStringResource
-    let category: SubstanceCategory?
+    var category: SubstanceCategory?
+    /// Tag-backed list (the Library's Common card); mutually exclusive with
+    /// `category`. When both are nil the view shows Favorites.
+    var tag: String?
     @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
     @Environment(\.modelContext) private var modelContext
 
     enum SortMode: String, CaseIterable { case popularity, name }
     @State private var sortMode: SortMode = .popularity
 
+    /// Whether this list browses a class (category or tag) versus Favorites —
+    /// browse lists are sortable, Favorites keep the user's own order.
+    private var isBrowse: Bool {
+        category != nil || tag != nil
+    }
+
     private var substances: [Substance] {
+        if let tag {
+            return SubstanceLibrary.substances(taggedWith: tag)
+        }
         if let category {
             return SubstanceLibrary.substances(in: category)
         }
-        return favorites.compactMap { SubstanceLibrary.lookup($0.substance.lowercased()) }
+        // Exact canonical lookup — alias fallback mis-resolves on polluted
+        // aliases (e.g. "magnesium" is also an alias of Salicylic acid).
+        return favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
     }
 
     /// Category browse is sortable (popularity surfaces well-known substances
     /// above obscure research chemicals); Favorites keep the user's own order.
     private var sortedSubstances: [Substance] {
         let list = substances
-        guard category != nil else { return list }
+        guard isBrowse else { return list }
         switch sortMode {
         case .name:
             return list.sorted { $0.displayTitle.localizedCaseInsensitiveCompare($1.displayTitle) == .orderedAscending }
@@ -329,7 +293,9 @@ struct SubstanceCategoryListView: View {
         List {
             ForEach(sortedSubstances) { substance in
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                    SubstanceRowView(substance: substance)
+                    // A single-category list already names the class in its title;
+                    // tag/favorites lists span classes, so keep the chip there.
+                    SubstanceRowView(substance: substance, showsCategoryBadge: category == nil)
                 }
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -349,7 +315,7 @@ struct SubstanceCategoryListView: View {
         .navigationTitle(Text(title))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
-            if category != nil {
+            if isBrowse {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Picker("Sort", selection: $sortMode) {
@@ -369,6 +335,10 @@ struct SubstanceCategoryListView: View {
 
 struct SubstanceRowView: View {
     let substance: Substance
+    /// The trailing class chip (e.g. "Stimulant"). Hidden when the surrounding
+    /// list is already scoped to one category — repeating the class on every
+    /// row there is just noise.
+    var showsCategoryBadge = true
     @State private var customStore = CustomSubstanceStore.shared
 
     /// Personal display-name override, if it differs from the library title.
@@ -393,11 +363,13 @@ struct SubstanceRowView: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 3) {
-                Text(substance.category.displayName)
-                    .font(.caption2)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(.fill.secondary, in: Capsule())
+                if showsCategoryBadge {
+                    Text(substance.category.displayName)
+                        .font(.caption2)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(.fill.secondary, in: Capsule())
+                }
                 Text(substance.defaultUnit)
                     .font(.caption2)
                     .foregroundStyle(Theme.secondaryLabel)
