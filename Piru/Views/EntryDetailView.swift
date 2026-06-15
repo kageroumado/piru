@@ -97,7 +97,7 @@ struct EntryDetailView: View {
         let refUnit = sub.unit(for: entry.route, saltForm: entry.saltForm)
         let amount = entry.unit.caseInsensitiveCompare(refUnit) == .orderedSame
             ? entry.amount
-            : (sub.convert(amount: entry.amount, from: entry.unit, toRoute: entry.route) ?? entry.amount)
+            : (sub.convert(amount: entry.amount, from: entry.unit, toRoute: entry.route, saltForm: entry.saltForm) ?? entry.amount)
         return range.level(for: amount)
     }
 
@@ -117,7 +117,7 @@ struct EntryDetailView: View {
     /// Draft amount converted to the substance's native unit, for accurate level comparison.
     private var normalizedDraftAmount: Double? {
         guard let parsedDraftAmount, let sub = substanceInfo else { return parsedDraftAmount }
-        return sub.convert(amount: parsedDraftAmount, from: draftUnit, toRoute: draftRoute) ?? parsedDraftAmount
+        return sub.convert(amount: parsedDraftAmount, from: draftUnit, toRoute: draftRoute, saltForm: draftSaltForm) ?? parsedDraftAmount
     }
 
     private var draftDoseLevel: DoseLevel? {

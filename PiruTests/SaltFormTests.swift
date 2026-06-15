@@ -99,12 +99,19 @@ struct SaltFormTests {
             return
         }
         #expect(Set(mg.availableSaltForms) == ["Citrate", "Glycinate", "L-Threonate"])
-        // Alphabetical ordering puts Citrate first → it's the default.
-        #expect(mg.defaultSaltForm == "Citrate")
+        // Curated salt_rank (not alphabetical) makes Glycinate the default —
+        // the best-absorbed, best-tolerated common Mg form.
+        #expect(mg.defaultSaltForm == "Glycinate")
+        #expect(mg.availableSaltForms.first == "Glycinate") // rank-ordered, default first
         // Each salt resolves its own (distinct) ladder.
         #expect(mg.doseRange(for: .oral, saltForm: "Citrate")?.common == 400 ... 600)
         #expect(mg.doseRange(for: .oral, saltForm: "Glycinate")?.common == 200 ... 400)
         #expect(mg.doseRange(for: .oral, saltForm: "L-Threonate")?.common == 1_500 ... 2_000)
+        // Elemental-magnesium fraction surfaces per salt: 1000 mg compound →
+        // ~160 mg elemental (citrate ≈16%), ~141 mg (glycinate ≈14.1%).
+        #expect(mg.elementalAmount(of: 1_000, for: .oral, saltForm: "Citrate").map { $0.rounded() } == 160)
+        #expect(mg.elementalAmount(of: 1_000, for: .oral, saltForm: "Glycinate").map { $0.rounded() } == 141)
+        #expect(mg.elementalAmount(of: 1_000, for: .oral, saltForm: nil) == nil) // no salt → no breakdown
     }
 
     @Test

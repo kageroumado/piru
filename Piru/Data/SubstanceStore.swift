@@ -471,6 +471,10 @@ final class SubstanceStore {
         let unit: String
         let doses: DoseRange
         let duration: DurationProfile?
+        /// Curated ordering rank (0 = the default salt); `nil` sorts last.
+        var rank: Int?
+        /// Mass fraction of the elemental active for this salt, if known.
+        var elementalFraction: Double?
     }
 
     /// Fold the per-salt dose/duration variants of a single route into one
@@ -485,7 +489,12 @@ final class SubstanceStore {
         protocolDosing: ProtocolDosing? = nil,
         durationOfAction: DurationOfAction? = nil,
     ) -> SubstanceRoute {
-        let tagged = variants.filter { $0.salt != nil }.sorted { $0.salt! < $1.salt! }
+        // Order by curated `salt_rank` (0 = default); fall back to label for ties
+        // or when no rank is set (older DBs), so the default is data-driven, not
+        // alphabetical-by-accident.
+        let tagged = variants.filter { $0.salt != nil }.sorted {
+            ($0.rank ?? Int.max, $0.salt!) < ($1.rank ?? Int.max, $1.salt!)
+        }
         guard let first = tagged.first else {
             // No salt dimension — use the base (unspecified) variant.
             let base = variants.first
@@ -496,7 +505,10 @@ final class SubstanceStore {
             )
         }
         let saltForms = tagged.map {
-            SaltVariant(saltForm: $0.salt!, unit: $0.unit, doses: $0.doses, duration: $0.duration)
+            SaltVariant(
+                saltForm: $0.salt!, unit: $0.unit, doses: $0.doses,
+                duration: $0.duration, elementalFraction: $0.elementalFraction,
+            )
         }
         return SubstanceRoute(
             route: route, unit: first.unit, doses: first.doses, duration: first.duration,
@@ -553,9 +565,9 @@ final class SubstanceStore {
         let idListSQL = substanceIDs.map(String.init).joined(separator: ", ")
 
         // 1. Dose ladders — highest-priority source per (substance, route, salt).
-        var dosesByKey: [RouteSaltKey: (unit: String, doses: DoseRange)] = [:]
+        var dosesByKey: [RouteSaltKey: (unit: String, doses: DoseRange, rank: Int?, elemental: Double?)] = [:]
         for row in try Row.fetchAll(db, sql: """
-            SELECT substance_id, route, salt_form, unit, threshold,
+            SELECT substance_id, route, salt_form, salt_rank, elemental_fraction, unit, threshold,
                    light_lower, light_upper, common_lower, common_upper,
                    strong_lower, strong_upper, heavy
               FROM (
@@ -576,7 +588,10 @@ final class SubstanceStore {
                 strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
                 heavy: row["heavy"],
             )
-            dosesByKey[key] = (row["unit"] ?? "mg", dose)
+            dosesByKey[key] = (
+                row["unit"] ?? "mg", dose,
+                (row["salt_rank"] as Int64?).map(Int.init), row["elemental_fraction"],
+            )
         }
 
         // 2. Durations — highest-priority source *per phase* so different
@@ -599,6 +614,7 @@ final class SubstanceStore {
                 RouteVariant(
                     salt: key.salt, unit: value.unit, doses: value.doses,
                     duration: durationByKey[key],
+                    rank: value.rank, elementalFraction: value.elemental,
                 ),
             )
         }
@@ -1191,13 +1207,18 @@ final class SubstanceStore {
             let proto = protocolByRoute[route.route]?.dosing
             let doa = doaByRoute[route.route]
             guard proto != nil || doa != nil else { return route }
-            let variants: [RouteVariant]
-            if let saltForms = route.saltForms {
-                variants = saltForms.map {
-                    RouteVariant(salt: $0.saltForm, unit: $0.unit, doses: $0.doses, duration: $0.duration)
+            let variants: [RouteVariant] = if let saltForms = route.saltForms {
+                // `saltForms` is already in curated (rank) order — preserve it by
+                // feeding the index as the rank, and carry the elemental fraction,
+                // so re-folding through makeRoute is order-preserving and lossless.
+                saltForms.enumerated().map { idx, sv in
+                    RouteVariant(
+                        salt: sv.saltForm, unit: sv.unit, doses: sv.doses, duration: sv.duration,
+                        rank: idx, elementalFraction: sv.elementalFraction,
+                    )
                 }
             } else {
-                variants = [RouteVariant(salt: nil, unit: route.unit, doses: route.doses, duration: route.duration)]
+                [RouteVariant(salt: nil, unit: route.unit, doses: route.doses, duration: route.duration)]
             }
             return Self.makeRoute(
                 route: route.route, variants: variants,

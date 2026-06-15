@@ -91,7 +91,7 @@ struct StagedDose: Identifiable {
         let referenceUnit = librarySubstance.unit(for: route, saltForm: saltForm)
         let normalized = unit.caseInsensitiveCompare(referenceUnit) == .orderedSame
             ? totalAmount
-            : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route) ?? totalAmount)
+            : (librarySubstance.convert(amount: totalAmount, from: unit, toRoute: route, saltForm: saltForm) ?? totalAmount)
         return range.level(for: normalized)
     }
 

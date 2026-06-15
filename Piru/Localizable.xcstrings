@@ -25975,6 +25975,38 @@
           }
         }
       }
+    },
+    "≈ %@ %@ elemental" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ %@ 元素含量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ %@ 元素含量"
+          }
+        }
+      }
+    },
+    "%lld%% elemental" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% 元素含量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% 元素含量"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

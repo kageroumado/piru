@@ -157,12 +157,33 @@ struct DoseInfoView: View {
                     }
                 }
 
+                elementalNote(unit: unit)
+
                 switch doseRange.dosingPrecision(unit: unit) {
                 case .critical: VolumetricDosingDisclaimer()
                 case .recommended: PreciseScaleNote()
                 case .none: EmptyView()
                 }
             }
+        }
+    }
+
+    /// Elemental-content breakdown for salts where it matters (Magnesium,
+    /// Lithium…): "≈ N mg elemental" for the entered dose, else the percentage.
+    /// Hidden when the selected salt has no known elemental fraction.
+    @ViewBuilder
+    private func elementalNote(unit: String) -> some View {
+        if let fraction = substance.elementalFraction(for: route, saltForm: saltForm) {
+            HStack(spacing: 5) {
+                Image(systemName: "atom").imageScale(.small)
+                if let currentDose, let elemental = substance.elementalAmount(of: currentDose, for: route, saltForm: saltForm) {
+                    Text("≈ \(elemental.doseFormatted) \(unit) elemental", comment: "Elemental content of a salt dose")
+                } else {
+                    Text("\(Int((fraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
+                }
+            }
+            .font(.caption)
+            .foregroundStyle(Theme.secondaryLabel)
         }
     }
 

@@ -597,6 +597,8 @@ T = {
     "Unit": ("单位", "單位"),
     "Route": ("给药途径", "給藥途徑"),
     "Form": ("盐型", "鹽型"),
+    "≈ %@ %@ elemental": ("≈ %@ %@ 元素含量", "≈ %@ %@ 元素含量"),
+    "%lld%% elemental": ("%lld%% 元素含量", "%lld%% 元素含量"),
     "Default Route": ("默认途径", "預設途徑"),
     "Category": ("类别", "類別"),
     "Category name": ("类别名称", "類別名稱"),
@@ -2571,6 +2573,9 @@ if __name__ == "__main__":
         "You've already created this shade",
         # Salt-form picker title (options are chemical proper nouns, not localized)
         "Form",
+        # Elemental-content breakdown for salts (Magnesium, Lithium…)
+        "≈ %@ %@ elemental",
+        "%lld%% elemental",
     }
 
     print("--- Piru main app catalog ---")
