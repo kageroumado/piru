@@ -32,6 +32,8 @@ nonisolated enum PushRoute: Hashable, Codable {
     case comedownGuide
     case substance(name: String)
     case libraryCategory(SubstanceCategory)
+    /// Substances flagged with a metadata tag (the Library's Common card).
+    case libraryTag(String)
     case libraryFavorites
     case tool(Tool)
     case insight(Insight)

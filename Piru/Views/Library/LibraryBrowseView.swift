@@ -1,0 +1,326 @@
+import SwiftData
+import SwiftUI
+
+/// The Library tab's browse surface: a flow of bold effect-family cards in
+/// place of the old flat category list. Single cards push straight to a
+/// substance list; umbrella cards expand in place into their sub-classes.
+struct LibraryBrowseView: View {
+    @Query(sort: \FavoriteSubstance.createdAt, order: .reverse) private var favorites: [FavoriteSubstance]
+    @State private var expanded: Set<String> = []
+
+    private var favoriteSubstances: [Substance] {
+        // Exact canonical lookup only. Alias fallback was tempting (so a favorite
+        // under a since-merged name like "Magnesium" still resolves), but some
+        // aliases are polluted in the data — "magnesium" is also an alias of
+        // Salicylic acid — so it mis-resolves. Paired with `total =
+        // favoriteSubstances.count` this keeps the card's count honest instead.
+        favorites.compactMap { SubstanceLibrary.lookup($0.substance) }
+    }
+
+    /// Families with their empty sub-classes (and empty single cards) pruned, so
+    /// a category with nothing browsable never shows a dead card.
+    private var visibleFamilies: [LibraryFamily] {
+        LibraryFamily.all.compactMap { family in
+            guard family.isUmbrella else {
+                return familyHasSubstances(family) ? family : nil
+            }
+            let live = family.subclasses.filter { !SubstanceLibrary.substances(in: $0.category).isEmpty }
+            guard !live.isEmpty else { return nil }
+            var pruned = family
+            pruned.subclasses = live
+            return pruned
+        }
+    }
+
+    private func familyHasSubstances(_ family: LibraryFamily) -> Bool {
+        switch family.source {
+        case let .category(category): !SubstanceLibrary.substances(in: category).isEmpty
+        case let .tag(tag): !SubstanceLibrary.substances(taggedWith: tag).isEmpty
+        case .none: false
+        }
+    }
+
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                if !favoriteSubstances.isEmpty {
+                    LibraryFavoritesCard(substances: favoriteSubstances, total: favoriteSubstances.count)
+                }
+                ForEach(visibleFamilies) { family in
+                    LibraryFamilyCard(
+                        family: family,
+                        isExpanded: expanded.contains(family.id),
+                        toggle: { toggle(family.id) },
+                    )
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 4)
+            .padding(.bottom, 28)
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+    }
+
+    private func toggle(_ id: String) {
+        withAnimation(.snappy(duration: 0.3)) {
+            if expanded.contains(id) { expanded.remove(id) } else { expanded.insert(id) }
+        }
+    }
+}
+
+// MARK: - Family Card
+
+/// One family card. Single families are a single navigation link; umbrella
+/// families grow in place — their chips slide down and enlarge into described,
+/// tappable sub-rows within the same gradient surface.
+private struct LibraryFamilyCard: View {
+    let family: LibraryFamily
+    let isExpanded: Bool
+    let toggle: () -> Void
+
+    var body: some View {
+        if family.isUmbrella {
+            umbrella
+        } else if let source = family.source {
+            NavigationLink(value: source.route) {
+                surface {
+                    VStack(alignment: .leading, spacing: 4) {
+                        header(showsChevron: false)
+                        if family.highlightsRisk {
+                            riskBadge.padding(.top, 5)
+                        } else {
+                            exemplarsLine.padding(.top, 5)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var umbrella: some View {
+        surface {
+            VStack(alignment: .leading, spacing: 12) {
+                header(showsChevron: true)
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: toggle)
+
+                if isExpanded {
+                    VStack(spacing: 8) {
+                        ForEach(family.subclasses) { sub in
+                            NavigationLink(value: sub.route) {
+                                LibrarySubclassRow(sub: sub)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    // Scale+fade grows the rows in place as a transform — the laid-out
+                    // views never re-flow mid-flight (which is what made the matched-
+                    // geometry morph flash a one-line description at the boundary).
+                    .transition(.scale(scale: 0.92, anchor: .top).combined(with: .opacity))
+                } else {
+                    FlowLayout(spacing: 6) {
+                        ForEach(family.subclasses) { sub in
+                            chip(sub)
+                        }
+                    }
+                    .transition(.scale(scale: 0.96, anchor: .top).combined(with: .opacity))
+                }
+            }
+        }
+    }
+
+    // MARK: Pieces
+
+    private func header(showsChevron: Bool) -> some View {
+        HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Image(systemName: family.icon)
+                    .font(.system(size: 21, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(height: 28, alignment: .leading)
+                Text(family.title)
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(.white)
+                Text(family.blurb)
+                    .font(.footnote)
+                    .foregroundStyle(.white.opacity(0.93))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: 210, alignment: .leading)
+            }
+            Spacer(minLength: 8)
+            if showsChevron {
+                // A down/up disclosure chevron, not a right chevron — on Apple
+                // platforms a trailing right chevron reads as "pushes a screen",
+                // which the expand-in-place umbrellas don't. The sub-rows do push,
+                // and they keep the right chevron.
+                Image(systemName: "chevron.down")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(.white.opacity(0.9))
+                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                    .padding(.top, 4)
+            }
+        }
+    }
+
+    private var exemplarsLine: some View {
+        Text(LibraryFamily.exemplars(for: family.source).joined(separator: " · "))
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.white.opacity(0.92))
+            .lineLimit(1)
+            .frame(maxWidth: 220, alignment: .leading)
+    }
+
+    private var riskBadge: some View {
+        Label("Highest overdose risk", systemImage: "exclamationmark.triangle.fill")
+            .font(.caption2.weight(.bold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 5)
+            .background(.black.opacity(0.22), in: Capsule())
+    }
+
+    private func chip(_ sub: LibrarySubclass) -> some View {
+        Text(sub.title)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(.white.opacity(0.22), in: Capsule())
+    }
+
+    // MARK: Surface
+
+    private func surface(@ViewBuilder _ content: () -> some View) -> some View {
+        content()
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(alignment: .topTrailing) {
+                // Anchored to the header (top-trailing in both states with one fixed
+                // offset) so expanding doesn't slide it down — only the card grows
+                // beneath it. Faint, lightly blurred when expanded so the rows read.
+                MoleculeView(key: family.molecule)
+                    .frame(width: 178, height: 178)
+                    .opacity(isExpanded ? 0.22 : 0.5)
+                    .blur(radius: isExpanded ? 3 : 0)
+                    .offset(x: 20, y: -16)
+            }
+            .background(
+                LinearGradient(
+                    colors: [family.color, family.color.mix(with: .white, by: 0.35)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing,
+                ),
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .shadow(color: family.color.opacity(0.3), radius: 10, x: 0, y: 5)
+    }
+}
+
+// MARK: - Sub-class Row
+
+/// An expanded umbrella's sub-class: icon, name, one-line description, the
+/// substance count, and a trailing chevron so it reads as tappable.
+private struct LibrarySubclassRow: View {
+    let sub: LibrarySubclass
+
+    private var count: Int {
+        SubstanceLibrary.substances(in: sub.category).count
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: sub.category.icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(sub.title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.white)
+                Text(sub.blurb)
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 6)
+            Text("\(count)")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.92))
+                .monospacedDigit()
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.8))
+        }
+        .padding(.horizontal, 13)
+        .padding(.vertical, 11)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.17), in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                .strokeBorder(.white.opacity(0.18), lineWidth: 0.5),
+        )
+        .contentShape(Rectangle())
+    }
+}
+
+// MARK: - Favorites Card
+
+/// The user's favorites as a gradient card matching the family cards — a warm
+/// gold surface with a big faint star hero, sitting at the top of the browse
+/// flow. Single card: taps straight through to the full favorites list.
+private struct LibraryFavoritesCard: View {
+    let substances: [Substance]
+    let total: Int
+
+    private static let gold = Color(red: 0.96, green: 0.64, blue: 0.12)
+
+    private var exemplarLine: String {
+        substances.prefix(3).map(\.displayTitle).joined(separator: " · ")
+    }
+
+    var body: some View {
+        NavigationLink(value: PushRoute.libraryFavorites) {
+            VStack(alignment: .leading, spacing: 4) {
+                Image(systemName: "star.fill")
+                    .font(.system(size: 21, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(height: 28, alignment: .leading)
+                Text("Favorites")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundStyle(.white)
+                Text("^[\(total) saved substance](inflect: true).")
+                    .font(.footnote)
+                    .foregroundStyle(.white.opacity(0.93))
+                Text(exemplarLine)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.white.opacity(0.92))
+                    .lineLimit(1)
+                    .frame(maxWidth: 220, alignment: .leading)
+                    .padding(.top, 5)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(alignment: .topTrailing) {
+                Image(systemName: "star.fill")
+                    .font(.system(size: 132))
+                    .foregroundStyle(.white.opacity(0.16))
+                    .rotationEffect(.degrees(8))
+                    .offset(x: 30, y: -8)
+            }
+            .background(
+                LinearGradient(
+                    colors: [Self.gold, Self.gold.mix(with: .white, by: 0.35)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing,
+                ),
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .shadow(color: Self.gold.opacity(0.3), radius: 10, x: 0, y: 5)
+        }
+        .buttonStyle(.plain)
+    }
+}

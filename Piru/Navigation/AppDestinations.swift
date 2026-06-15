@@ -70,12 +70,28 @@ private struct PushRouteView: View {
             // Resolve via the detail path (not the lean `.all` batch list) so
             // detail-only fields — mechanism, chemistry identifiers, molar mass,
             // peptide profile, and per-route protocol dosing — are hydrated.
+            //
+            // If a *stored* name no longer resolves to a canonical substance
+            // (renamed/merged since it was saved — e.g. "Magnesium" was split
+            // into specific salts), show an explicit not-found state rather than
+            // a blank screen. Alias fallback is deliberately avoided: some
+            // aliases are polluted ("magnesium" → Salicylic acid), so it would
+            // mis-resolve to an unrelated substance.
             if let substance = SubstanceLibrary.lookup(name) {
                 SubstanceDetailView(substance: substance)
+            } else {
+                ContentUnavailableView(
+                    "Substance Not Found",
+                    systemImage: "questionmark.circle",
+                    description: Text("“\(name)” isn’t in the library anymore. It may have been renamed or merged."),
+                )
             }
 
         case let .libraryCategory(category):
-            SubstanceCategoryListView(title: category.displayName, category: category)
+            SubstanceCategoryListView(title: category.browseTitle, category: category)
+
+        case let .libraryTag(tag):
+            SubstanceCategoryListView(title: LibraryFamily.tagTitle(tag), tag: tag)
 
         case .libraryFavorites:
             SubstanceCategoryListView(title: "Favorites", category: nil)

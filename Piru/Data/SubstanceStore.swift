@@ -1626,6 +1626,16 @@ enum SubstanceLibrary {
         SubstanceStore.shared.substances(in: category)
     }
 
+    /// Browsable substances flagged with a metadata `tag` (e.g. `"common"`,
+    /// `"research-chemical"`). Unlike ``substances(in:)`` this cuts *across*
+    /// categories — the Library's Common card surfaces alcohol, caffeine, and
+    /// cannabis side by side regardless of their resolved class.
+    static func substances(taggedWith tag: String) -> [Substance] {
+        SubstanceStore.shared.all.filter {
+            $0.displayClass.surfacesInBrowse && $0.tags.contains(tag)
+        }
+    }
+
     static func lookup(_ name: String) -> Substance? {
         overlayCustom(library: SubstanceStore.shared.lookup(name), query: name)
     }
