@@ -1,26 +1,26 @@
 # Piru SQLite build report
 
-Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (15,286,272 bytes, sha256 `b413dccf075570a876eab8fbdb8eb45f51016086af1b5764eb658ed64def4930`)
+Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sqlite` (15,278,080 bytes, sha256 `5e64cbe974b28827510a265f66b8526581eef51ff858b8ac32073684073a8561`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,955 |
-| aliases | 5,462 |
+| substances | 1,939 |
+| aliases | 5,495 |
 | sources | 16 |
 | citations | 4,036 |
-| categories | 2,480 |
-| tags | 8,652 |
+| categories | 2,473 |
+| tags | 8,646 |
 | dose_ranges | 2,524 |
 | durations | 7,956 |
 | half_lives | 279 |
-| mechanisms_summary | 632 |
+| mechanisms_summary | 624 |
 | effects | 5,898 |
 | subjective_effects | 4,624 |
 | tolerance | 340 |
-| indications | 1,150 |
-| contraindications | 1,658 |
+| indications | 1,149 |
+| contraindications | 1,656 |
 | diazepam_equivalents | 33 |
 | bindings | 964 |
 | functional_assays | 218 |
@@ -53,7 +53,7 @@ Built 2026-06-15.0 → `/Users/kirie/Developer/piru/Piru/Data/piru-substances.sq
 | pubchem | 0 | 0 | 0 | 0 |
 | wikidata | 0 | 0 | 192 | 525 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
-| pyrls | 0 | 0 | 193 | 1,002 |
+| pyrls | 0 | 0 | 186 | 996 |
 | medtap | 0 | 0 | 0 | 0 |
 | benzos-cited | 0 | 0 | 0 | 0 |
 | nps-datahub | 0 | 0 | 0 | 0 |
