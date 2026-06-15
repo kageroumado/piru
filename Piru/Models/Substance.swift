@@ -576,6 +576,33 @@ struct DurationOfAction: Codable, Hashable {
     }
 }
 
+/// One salt/ester form of a substance for a given route — e.g. Magnesium
+/// *Citrate* vs *Glycinate* vs *L-Threonate*. The salt genuinely changes dosing
+/// (elemental fraction, absorption), so each form carries its own dose ladder
+/// and (optionally) duration. Nested under ``SubstanceRoute``: a route's
+/// ``SubstanceRoute/saltForms`` lists all forms, ordered with the default first;
+/// the route's top-level `doses`/`unit`/`duration` mirror that default form so
+/// salt-unaware code keeps working transparently.
+struct SaltVariant: Codable, Hashable {
+    /// Free-form label (Citrate, Glycinate, L-Threonate, Carbonate, Orotate…).
+    let saltForm: String
+    let unit: String
+    let doses: DoseRange
+    let duration: DurationProfile?
+
+    nonisolated init(
+        saltForm: String,
+        unit: String,
+        doses: DoseRange,
+        duration: DurationProfile? = nil,
+    ) {
+        self.saltForm = saltForm
+        self.unit = unit
+        self.doses = doses
+        self.duration = duration
+    }
+}
+
 struct SubstanceRoute: Codable {
     let route: RouteOfAdministration
     let unit: String
@@ -588,6 +615,13 @@ struct SubstanceRoute: Codable {
     /// injections, weekly peptides). Shown in the drug card; never drawn as an
     /// acute timeline curve.
     let durationOfAction: DurationOfAction?
+    /// Salt/ester forms available for this route, ordered with the default
+    /// (highest-priority) form first. `nil`/empty for the overwhelming majority
+    /// of substances, which have a single unspecified form. When present, the
+    /// top-level `unit`/`doses`/`duration` mirror `saltForms.first` (the
+    /// default), so code that ignores salt form transparently gets the default.
+    /// The salt picker is shown only when this holds more than one form.
+    let saltForms: [SaltVariant]?
 
     nonisolated init(
         route: RouteOfAdministration,
@@ -596,6 +630,7 @@ struct SubstanceRoute: Codable {
         duration: DurationProfile? = nil,
         protocolDosing: ProtocolDosing? = nil,
         durationOfAction: DurationOfAction? = nil,
+        saltForms: [SaltVariant]? = nil,
     ) {
         self.route = route
         self.unit = unit
@@ -603,6 +638,7 @@ struct SubstanceRoute: Codable {
         self.duration = duration
         self.protocolDosing = protocolDosing
         self.durationOfAction = durationOfAction
+        self.saltForms = saltForms
     }
 }
 
@@ -1130,6 +1166,67 @@ struct Substance: Identifiable {
 
     func duration(for route: RouteOfAdministration) -> DurationProfile? {
         routes.first { $0.route == route }?.duration
+    }
+
+    // MARK: - Salt forms
+
+    /// Distinct salt/ester forms across all routes, ordered (default first,
+    /// then by first appearance). Empty for the vast majority of substances.
+    /// Drives the "does this substance have a salt dimension at all" check.
+    var availableSaltForms: [String] {
+        var seen = Set<String>()
+        var ordered: [String] = []
+        for route in routes {
+            for variant in route.saltForms ?? [] where seen.insert(variant.saltForm).inserted {
+                ordered.append(variant.saltForm)
+            }
+        }
+        return ordered
+    }
+
+    /// Salt forms available for a specific route, in stored order (default
+    /// first). The salt picker is shown only when this has more than one entry.
+    func saltForms(for route: RouteOfAdministration) -> [String] {
+        routes.first { $0.route == route }?.saltForms?.map(\.saltForm) ?? []
+    }
+
+    /// The salt form selected by default — the default route's first form,
+    /// falling back to any route's first form. `nil` when the substance has no
+    /// salt dimension.
+    var defaultSaltForm: String? {
+        (routes.first { $0.route == defaultRoute } ?? routes.first)?
+            .saltForms?.first?.saltForm
+    }
+
+    /// Dose ladder for a route, narrowed to a salt form when one is given and
+    /// present. Falls back to the route's default (top-level) ladder when the
+    /// salt is `nil` or not found — so salt-unaware callers stay correct.
+    func doseRange(for route: RouteOfAdministration, saltForm: String?) -> DoseRange? {
+        guard let r = routes.first(where: { $0.route == route }) else { return nil }
+        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
+            return variant.doses
+        }
+        return r.doses
+    }
+
+    /// Unit for a route, narrowed to a salt form when present (salts may differ:
+    /// elemental mg vs compound mg). Falls back to the route/default unit.
+    func unit(for route: RouteOfAdministration, saltForm: String?) -> String {
+        guard let r = routes.first(where: { $0.route == route }) else { return defaultUnit }
+        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
+            return variant.unit
+        }
+        return r.unit
+    }
+
+    /// Duration profile for a route, narrowed to a salt form when present.
+    /// Falls back to the route's default duration.
+    func duration(for route: RouteOfAdministration, saltForm: String?) -> DurationProfile? {
+        guard let r = routes.first(where: { $0.route == route }) else { return nil }
+        if let saltForm, let variant = r.saltForms?.first(where: { $0.saltForm == saltForm }) {
+            return variant.duration
+        }
+        return r.duration
     }
 
     /// Best available duration: exact route → similar route → generic fallback.
