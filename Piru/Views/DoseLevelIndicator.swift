@@ -458,6 +458,9 @@ struct RouteDosingCard: View {
     let duration: DurationProfile?
     /// Long-acting release window (`DurationOfAction.formattedWindow`), if any.
     var releaseWindow: String?
+    /// Elemental mass fraction of the selected salt (Magnesium, Lithium…), shown
+    /// as a "N% elemental" note beneath the ladder. `nil` hides it.
+    var elementalFraction: Double?
     var showsDoseLadder = true
     var showsDuration = true
     /// Volumetric / precise-scale / THC safety notes — shown in the app, hidden
@@ -519,6 +522,14 @@ struct RouteDosingCard: View {
                 if let heavy = doses.heavy {
                     levelRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", color: DoseLevel.heavy.swiftUIColor)
                 }
+            }
+            if let elementalFraction {
+                HStack(spacing: 5) {
+                    Image(systemName: "atom").imageScale(.small)
+                    Text("\(Int((elementalFraction * 100).rounded()))% elemental", comment: "Elemental fraction of a salt")
+                }
+                .font(.caption)
+                .foregroundStyle(Theme.secondaryLabel)
             }
             if showDisclaimers {
                 disclaimer(for: doses)

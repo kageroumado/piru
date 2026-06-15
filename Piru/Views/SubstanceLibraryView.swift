@@ -677,6 +677,7 @@ struct SubstanceDetailView: View {
                     doses: salt?.doses ?? route.doses,
                     duration: durationVisible ? (salt?.duration ?? route.duration) : nil,
                     releaseWindow: route.durationOfAction?.formattedWindow,
+                    elementalFraction: salt?.elementalFraction,
                     showsDoseLadder: displayClass.showsDoseLadder,
                     showsDuration: durationVisible,
                     showsTitle: false,
