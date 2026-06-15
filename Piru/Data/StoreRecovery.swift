@@ -302,6 +302,14 @@ enum PiruMigrationPlan: SchemaMigrationPlan {
                     // every pre-existing row (the default expression is
                     // evaluated once); give each row its own.
                     //
+                    // Fetch the *frozen* `PiruSchemaV4.DoseEntry`, not the live
+                    // `DoseEntry`: this stage's destination schema is V4, so the
+                    // entity "DoseEntry" is bound to that frozen class. Fetching
+                    // the live class (whose later shape adds `saltForm`) makes
+                    // SwiftData hand back V4 instances it can't cast to the live
+                    // type — an uncatchable "Failed to cast model" fatalError.
+                    // (Worked before V5 only because V4 *was* the live alias.)
+                    //
                     // Stage closures run synchronously on the thread that opens
                     // the container (verified empirically), and the app opens it
                     // on the main thread — `assumeIsolated` is what lets this
@@ -316,7 +324,7 @@ enum PiruMigrationPlan: SchemaMigrationPlan {
                     // bridges region-isolation analysis into `assumeIsolated`.
                     nonisolated(unsafe) let context = context
                     try MainActor.assumeIsolated {
-                        let entries = try context.fetch(FetchDescriptor<DoseEntry>())
+                        let entries = try context.fetch(FetchDescriptor<PiruSchemaV4.DoseEntry>())
                         for entry in entries {
                             entry.id = UUID()
                         }

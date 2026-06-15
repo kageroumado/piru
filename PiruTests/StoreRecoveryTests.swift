@@ -40,9 +40,9 @@ struct StoreRecoveryTests {
         // Reopen with the current versioned schema + migration plan, as the app
         // now does — walking the full stage chain must preserve all data.
         // (The target must be the plan's final version: a mid-plan target like
-        // V2 stopped loading once the plan continued past it to V3/V4.)
+        // V2 stopped loading once the plan continued past it to V3/V4/V5.)
         let container = try ModelContainer(
-            for: Schema(versionedSchema: PiruSchemaV4.self),
+            for: Schema(versionedSchema: PiruSchemaV5.self),
             migrationPlan: PiruMigrationPlan.self,
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
@@ -234,7 +234,7 @@ struct SchemaV4MigrationTests {
         try seedV3Store(at: url, entries: 5)
 
         let container = try ModelContainer(
-            for: Schema(versionedSchema: PiruSchemaV4.self),
+            for: Schema(versionedSchema: PiruSchemaV5.self),
             migrationPlan: PiruMigrationPlan.self,
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
@@ -258,13 +258,13 @@ struct SchemaV4MigrationTests {
     }
 
     @Test
-    func `A fresh V4 store round-trips ids across reopen`() throws {
+    func `A fresh V5 store round-trips ids across reopen`() throws {
         let url = tmpStoreURL()
         let fixedID = try #require(UUID(uuidString: "AAAAAAAA-BBBB-CCCC-DDDD-000000000001"))
 
         do {
             let container = try ModelContainer(
-                for: Schema(versionedSchema: PiruSchemaV4.self),
+                for: Schema(versionedSchema: PiruSchemaV5.self),
                 migrationPlan: PiruMigrationPlan.self,
                 configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
             )
@@ -276,10 +276,10 @@ struct SchemaV4MigrationTests {
             try ctx.save()
         }
 
-        // Reopen with the same plan — already at V4, no migration must run and
+        // Reopen with the same plan — already at V5, no migration must run and
         // the persisted ids must come back verbatim.
         let container = try ModelContainer(
-            for: Schema(versionedSchema: PiruSchemaV4.self),
+            for: Schema(versionedSchema: PiruSchemaV5.self),
             migrationPlan: PiruMigrationPlan.self,
             configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
         )
@@ -347,5 +347,87 @@ struct SchemaV4MigrationTests {
 
         let after = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.amount)])).map(\.id)
         #expect(after == before)
+    }
+}
+
+/// The V4→V5 migration adds the optional `DoseEntry.saltForm`. These tests build
+/// a store in the exact frozen V4 shape (id-bearing, pre-`saltForm`) real devices
+/// have on disk, open it through the real plan, and assert the lightweight stage
+/// preserves every row and id while leaving `saltForm` nil — and that the freeze
+/// of V4 didn't reintroduce the "Duplicate version checksums" launch crash.
+@Suite("Schema V5 migration")
+@MainActor
+struct SchemaV5MigrationTests {
+    private func tmpStoreURL() -> URL {
+        let dir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("piru-v5test-\(UUID().uuidString)", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir.appendingPathComponent("default.store")
+    }
+
+    /// Seed a store in the exact shape shipped as V4: the frozen
+    /// `PiruSchemaV4.DoseEntry` (id, no `saltForm`) with `n` doses.
+    private func seedV4Store(at url: URL, entries n: Int) throws {
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV4.self),
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        for i in 0 ..< n {
+            let dose = PiruSchemaV4.DoseEntry(
+                substance: "Caffeine",
+                amount: Double(50 + i),
+                timestamp: Date(timeIntervalSince1970: 1_700_000_000 + Double(i) * 60),
+            )
+            dose.id = UUID()
+            ctx.insert(dose)
+        }
+        try ctx.save()
+    }
+
+    @Test
+    func `V4 store migrates to V5 with rows + ids preserved and saltForm nil`() throws {
+        let url = tmpStoreURL()
+        try seedV4Store(at: url, entries: 4)
+
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV5.self),
+            migrationPlan: PiruMigrationPlan.self,
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        let entries = try ctx.fetch(FetchDescriptor<DoseEntry>(sortBy: [SortDescriptor(\.timestamp)]))
+
+        #expect(entries.count == 4)
+        #expect(entries.map(\.amount) == [50, 51, 52, 53])
+        #expect(Set(entries.map(\.id)).count == 4) // ids carried over verbatim
+        // The new column is nil for every pre-existing row — the whole reason
+        // V4→V5 is a safe lightweight stage.
+        #expect(entries.allSatisfy { $0.saltForm == nil })
+    }
+
+    @Test
+    func `A logged saltForm round-trips through a V5 store`() throws {
+        let url = tmpStoreURL()
+        do {
+            let container = try ModelContainer(
+                for: Schema(versionedSchema: PiruSchemaV5.self),
+                migrationPlan: PiruMigrationPlan.self,
+                configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+            )
+            let ctx = ModelContext(container)
+            ctx.insert(DoseEntry(substance: "Magnesium", amount: 300, unit: "mg", route: .oral, saltForm: "Glycinate"))
+            ctx.insert(DoseEntry(substance: "Caffeine", amount: 80, unit: "mg", route: .oral))
+            try ctx.save()
+        }
+        let container = try ModelContainer(
+            for: Schema(versionedSchema: PiruSchemaV5.self),
+            migrationPlan: PiruMigrationPlan.self,
+            configurations: ModelConfiguration(url: url, cloudKitDatabase: .none),
+        )
+        let ctx = ModelContext(container)
+        let entries = try ctx.fetch(FetchDescriptor<DoseEntry>())
+        #expect(entries.first { $0.substance == "Magnesium" }?.saltForm == "Glycinate")
+        #expect(entries.first { $0.substance == "Caffeine" }?.saltForm == nil)
     }
 }
