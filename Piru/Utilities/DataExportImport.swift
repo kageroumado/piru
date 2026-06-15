@@ -518,6 +518,11 @@ private nonisolated struct PiruDoseData: Codable {
     var amount: Double
     var unit: String
     var route: RouteOfAdministration
+    /// The salt/ester form logged (Magnesium Glycinate, Lithium Orotate…).
+    /// Optional on both encode and decode — omitted for the vast majority of
+    /// doses, and absent from files written before salt-form support, which
+    /// import with `saltForm == nil` unchanged.
+    var saltForm: String?
     var timestamp: Int64
     var notes: String?
     var tags: [String]
@@ -699,6 +704,7 @@ enum DataExportImport {
             PiruDoseData(
                 id: e.id,
                 substance: e.substance, amount: e.amount, unit: e.unit, route: e.route,
+                saltForm: e.saltForm,
                 timestamp: e.timestamp.msSince1970, notes: e.notes, tags: e.tags,
                 isBackgroundMed: e.isBackgroundMed,
                 locationName: e.locationName, latitude: e.latitude, longitude: e.longitude,
@@ -909,6 +915,7 @@ enum DataExportImport {
             guard seen.insert(key).inserted else { return nil }
             let entry = DoseEntry(
                 substance: d.substance, amount: d.amount, unit: d.unit, route: d.route,
+                saltForm: d.saltForm,
                 timestamp: timestamp, notes: d.notes, tags: d.tags, isBackgroundMed: d.isBackgroundMed,
                 locationName: d.locationName, latitude: d.latitude, longitude: d.longitude,
             )
