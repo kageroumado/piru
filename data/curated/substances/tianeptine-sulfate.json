@@ -39,5 +39,8 @@
     "mu-opioid-agonist",
     "nootropic",
     "high-dependence-risk"
+  ],
+  "extraCategories": [
+    "Opioid"
   ]
 }

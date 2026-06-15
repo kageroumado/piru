@@ -1,54 +1,161 @@
-# Supplement — 52 substances
+# Supplement — 51 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  5-HTP  [5-HTP|5-Hydroxytryptophan|5-hydroxytryptophan|5htp|L-5-HTP|Oxitriptan|l-tryptophan|oxitriptan|tryptophan]  (source: piru-curated)  #5HT-precursor  #AADC-substrate  #OTC  #amino-acid-derivative  #common  #mood  #serotonin-precursor  #serotonin-syndrome-risk  +2more
-  Acetyl-L-Carnitine  [ALCAR|Acetylcarnitine|L-Acetylcarnitine]  (source: piru-curated)  #OTC  #amino-acid-derivative  #cholinergic  #mitochondrial-support  #nootropic  #supplement
-  Alpha-Lipoic Acid  [ALA|Alpha Lipoic Acid|R-ALA|R-Lipoic Acid|Thioctic Acid]  (source: piru-curated)  #OTC  #antioxidant  #insulin-sensitizer  #neuroprotective  #supplement
-  Ashwagandha  [Indian Ginseng|KSM-66|Sensoril|Winter Cherry|Withania somnifera]  (source: piru-curated)  #HPA-modulator  #OTC  #adaptogen  #anxiolytic  #common  #cortisol-reducer  #herbal  #sleep  +2more
-  Bacopa Monnieri  [Bacopa|Brahmi|Synapsa|Water Hyssop]  (source: piru-curated)  #OTC  #adaptogen  #anxiolytic  #cholinergic  #cognitive-enhancement  #herbal  #nootropic  #supplement
-  Berberine  [Berberine HCl|Berberine Hydrochloride|Dihydroberberine|GlucoVantage]  (source: piru-curated)  #AMPK-activator  #CYP450-inhibitor  #GI-side-effects  #OTC  #herbal  #insulin-sensitizer  #metabolic  #supplement
-  Beta-Alanine  [3-Aminopropionic Acid|β-Alanine]  (source: piru-curated)  #OTC  #amino-acid  #athletic-performance  #carnosine-precursor  #supplement
-  CDP-Choline  [Citicoline|Cognizin|Cytidine Diphosphocholine]  (source: piru-curated)  #OTC  #acetylcholine-precursor  #choline-donor  #cholinergic  #cognitive-enhancement  #dopaminergic  #nootropic  #supplement
-  CoQ10  [CoQ|Coenzyme Q|Coenzyme Q10|Ubiquinol|Ubiquinone]  (source: piru-curated)  #OTC  #antioxidant  #cardiovascular  #energy-metabolism  #mitochondrial-support  #supplement
-  Cordyceps  [CS-4|Cordyceps militaris|Cordyceps sinensis|Dong Chong Xia Cao]  (source: piru-curated)  #OTC  #adaptogen  #athletic-performance  #energy-metabolism  #herbal  #immunomodulator  #mushroom  #supplement
-  Creatine Monohydrate  [Creapure|Creatine|Creatine Monohydrate]  (source: piru-curated)  #NMDA-modulator  #OTC  #amino-acid-derivative  #athletic-performance  #energy-metabolism  #nootropic  #supplement
-  Curcumin  [BCM-95|Curcuma longa|Curcumin with Piperine|Longvida|Meriva|Turmeric Extract]  (source: piru-curated)  #CYP450-inhibitor  #NF-kB-inhibitor  #OTC  #anti-inflammatory  #antioxidant  #herbal  #polyphenol  #supplement
-  DL-Phenylalanine  [DL-Phe|DL-Phenylalanine|DLPA|F|PHE|Phenylalanine]  (source: piru-curated)  #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #no-human-data  #opioid-modulator  #phenethylamine  #supplement
-  Folate  [5-MTHF|L-5-MTHF|L-Methylfolate|Metafolin|Methylfolate|Vitamin B9]  (source: piru-curated)  #B-vitamin  #OTC  #methylation  #prenatal  #supplement  #vitamin  #water-soluble
-  GABA  [Gamma-Amino Butyric Acid|Gamma-Aminobutyric Acid|γ-aminobutyric acid]  (source: piru-curated)  #GABAergic  #OTC  #amino-acid  #anxiolytic  #endogenous-neurotransmitter  #poor-BBB-penetration  #supplement  #supplement-questionable-efficacy
-  Ginkgo Biloba  [EGb 761|Ginkgo|Maidenhair Tree Extract]  (source: piru-curated)  #MAO-inhibitor-weak  #OTC  #anticoagulant  #antioxidant  #cognitive-enhancement  #herbal  #nootropic  #supplement
-  Glutathione  [GSH|L-Glutathione|Reduced Glutathione]  (source: piru-curated)  #OTC  #amino-acid-derivative  #antioxidant  #detoxification  #supplement
-  Glycine  [2-Aminoacetic Acid|Aminoacetic Acid|Gly]  (source: piru-curated)  #GABAergic  #NMDA-modulator  #OTC  #amino-acid  #collagen-precursor  #sleep  #supplement
-  Holy Basil  [Ocimum sanctum|Ocimum tenuiflorum|Sacred Basil|Tulsi]  (source: piru-curated)  #HPA-modulator  #OTC  #adaptogen  #anti-inflammatory  #anxiolytic  #herbal  #supplement
-  Inositol  [D-Chiro-Inositol|IP6|Inositol Hexaphosphate|Myo-Inositol]  (source: piru-curated)  #GABAergic  #OTC  #PCOS  #amino-acid-derivative  #anxiolytic  #insulin-sensitizer  #mood  #supplement
-  Iodine  [KI|Lugol's Iodine|Nascent Iodine|Potassium Iodide]  (source: piru-curated)  #OTC  #essential-mineral  #mineral  #supplement  #thyroid
-  Iron Bisglycinate  [Ferrochel|Ferrous Bisglycinate|Gentle Iron|Iron Glycinate]  (source: piru-curated)  #GI-side-effects  #OTC  #hematopoiesis  #mineral  #oxygen-transport  #supplement
-  L-Carnitine  [Carnitine|Carnitor|L-Carnitine Tartrate]  (source: piru-curated)  #OTC  #amino-acid-derivative  #cardiovascular  #mitochondrial-support  #supplement
-  L-Theanine  [L-γ-glutamylethylamide|Suntheanine|Theanine|theanine]  (source: piru-curated)  #AMPA-modulator  #GABAergic  #OTC  #adaptogen  #amino-acid-derivative  #anxiolytic  #common  #nootropic  +1more
-  L-Tryptophan  [L-Trp|Optimax|Tryptophan]  (source: piru-curated)  #5HT-precursor  #OTC  #amino-acid  #serotonin-syndrome-risk  #sleep  #supplement
-  L-Tyrosine  [4-Hydroxyphenylalanine|N-Acetyl-L-Tyrosine|NALT|Tyrosine]  (source: piru-curated)  #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #nootropic  #supplement
-  Lion's Mane  [Hericium erinaceus|Monkey Head Mushroom|Yamabushitake]  (source: piru-curated)  #NGF-stimulator  #OTC  #cognitive-enhancement  #herbal  #mushroom  #neuroprotective  #nootropic  #supplement
-  Maca  [Black Maca|Lepidium meyenii|Maca Root|Peruvian Ginseng|Red Maca]  (source: piru-curated)  #OTC  #adaptogen  #fertility  #herbal  #libido  #supplement
-  Magnesium Citrate  [Citrate of Magnesia|Magnesium Tri-Citrate]  (source: piru-curated)  #NMDA-modulator  #OTC  #anxiolytic  #laxative  #mineral  #sleep  #supplement
-  Magnesium Glycinate  [Bisglycinate Chelate|Magnesium Bisglycinate|Magnesium Diglycinate]  (source: piru-curated)  #NMDA-modulator  #OTC  #anxiolytic  #mineral  #muscle-relaxant  #sleep  #supplement
-  Magnesium Threonate  [Magnesium L-Threonate|Magtein|Mg-T]  (source: piru-curated)  #NMDA-modulator  #OTC  #cognitive-enhancement  #mineral  #nootropic  #supplement
-  N-Acetylcysteine  [Acetylcysteine|Fluimucil|Mucomyst|N-acetyl-L-cysteine|NAC]  (source: piru-curated)  #OTC  #amino-acid-derivative  #antioxidant  #glutathione-precursor  #mucolytic  #supplement
-  Omega-3 Fatty Acids  [Algal Oil|DHA|Docosahexaenoic Acid|EPA|Eicosapentaenoic Acid|Fish Oil|Krill Oil]  (source: piru-curated)  #OTC  #anti-inflammatory  #cardiovascular  #essential-fatty-acid  #nootropic  #supplement
-  Panax Ginseng  [American Ginseng|Asian Ginseng|Ginsenosides|Korean Ginseng|Panax quinquefolius|Red Ginseng]  (source: piru-curated)  #CYP450-inducer  #OTC  #adaptogen  #herbal  #immunomodulator  #insulin-sensitizer  #nootropic  #supplement
-  Phosphatidylserine  [PS|Phosphatidyl Serine|Sharp-PS|Soy-Derived Phosphatidylserine]  (source: piru-curated)  #HPA-modulator  #OTC  #cognitive-enhancement  #cortisol-reducer  #neuroprotective  #nootropic  #supplement
-  PQQ  [BioPQQ|Methoxatin|Pyrroloquinoline Quinone]  (source: piru-curated)  #OTC  #antioxidant  #mitochondrial-support  #neuroprotective  #nootropic  #supplement
-  Quercetin  [Quercetin Dihydrate|Quercetin Phytosome|Sophora japonica extract]  (source: piru-curated)  #OTC  #anti-inflammatory  #antihistamine  #antioxidant  #herbal  #polyphenol  #senolytic  #supplement
-  Reishi  [Ganoderma lucidum|Lingzhi|Mannentake]  (source: piru-curated)  #OTC  #adaptogen  #herbal  #immunomodulator  #mushroom  #sleep  #supplement
-  Resveratrol  [3,5,4'-Trihydroxystilbene|Polygonum cuspidatum extract|Trans-Resveratrol]  (source: piru-curated)  #OTC  #antioxidant  #cardiovascular  #polyphenol  #sirtuin-activator  #supplement
-  Rhodiola Rosea  [Arctic Root|Golden Root|Rosavin|Salidroside]  (source: piru-curated)  #MAO-inhibitor-weak  #OTC  #adaptogen  #anti-fatigue  #anxiolytic  #herbal  #nootropic  #supplement
-  Selenium  [Se|Selenium Yeast|Selenomethionine|Sodium Selenate]  (source: piru-curated)  #OTC  #antioxidant  #immunomodulator  #mineral  #supplement  #thyroid
-  Taurine  [2-Aminoethanesulfonic Acid]  (source: piru-curated)  #GABAergic  #OTC  #amino-acid  #antioxidant  #cardiovascular  #supplement
-  Vitamin A  [Beta-Carotene|Retinol|Retinyl Acetate|Retinyl Palmitate]  (source: piru-curated)  #OTC  #fat-soluble  #immunomodulator  #supplement  #vision  #vitamin
-  Vitamin B1  [Benfotiamine|TTFD|Thiamin|Thiamine|Thiamine HCl]  (source: piru-curated)  #B-vitamin  #OTC  #energy-metabolism  #neurological  #supplement  #vitamin  #water-soluble
-  Vitamin B12  [B12|Cobalamin|Cyanocobalamin|MeCbl|Methylcobalamin]  (source: piru-curated)  #B-vitamin  #OTC  #methylation  #neurological  #supplement  #vitamin  #water-soluble
-  Vitamin B3  [NMN|NR|Niacin|Niacinamide|Nicotinamide|Nicotinamide Mononucleotide|Nicotinamide Riboside|Nicotinic Acid]  (source: piru-curated)  #B-vitamin  #NAD-precursor  #OTC  #energy-metabolism  #hepatotoxic-at-high-dose  #supplement  #vitamin  #water-soluble
-  Vitamin B6  [P5P|Pyridoxal Phosphate|Pyridoxal-5-Phosphate|Pyridoxine]  (source: piru-curated)  #B-vitamin  #OTC  #energy-metabolism  #neurotransmitter-synthesis  #supplement  #vitamin  #water-soluble
-  Vitamin C  [Ascorbate|Ascorbic Acid|L-Ascorbic Acid|Liposomal Vitamin C|Sodium Ascorbate]  (source: piru-curated)  #OTC  #antioxidant  #collagen-precursor  #immune  #supplement  #vitamin  #water-soluble
-  Vitamin D3  [Cholecalciferol|Colecalciferol|Vitamin D]  (source: piru-curated)  #OTC  #bone-health  #fat-soluble  #hormonal  #immunomodulator  #supplement  #vitamin
-  Vitamin E  [Alpha-Tocopherol|Mixed Tocopherols|Tocopherol|d-Alpha Tocopherol]  (source: piru-curated)  #OTC  #antioxidant  #fat-soluble  #supplement  #vitamin
-  Vitamin K2  [MK-7|MenaQ7|Menaquinone-7|Vitamin K2 MK-7]  (source: piru-curated)  #OTC  #bone-health  #cardiovascular  #fat-soluble  #supplement  #vitamin
-  Zinc Picolinate  [Zinc|Zinc Bisglycinate|Zinc Gluconate|Zinc L-Carnosine]  (source: piru-curated)  #OTC  #antioxidant  #immune  #mineral  #supplement  #testosterone
+  5-HTP  <recreational>  — oral mg: common 100-200, heavy 400
+      aka: 5-Hydroxytryptophan|5-hydroxytryptophan DL-form|5htp|Cincofarm|DL-5-HTP|DL-5-hydroxytryptophan|Levothym|Levotonine|Oxitriptan|Oxyfan|Telesol|Tript-OH|Triptum
+      #5HT-precursor  #AADC-substrate  #OTC  #amino-acid-derivative  #class:amino acid  #class:substituted tryptamines  #common  #mood  #no-human-data  #serotonin-precursor  #serotonin-syndrome-risk  #sleep
+      also: Nootropic, Other
+  Acetyl-L-Carnitine  <otc>  — oral mg: common 1000-2000, heavy 4000
+      aka: ALCAR|Acetylcarnitine|L-Acetylcarnitine
+      #OTC  #amino-acid-derivative  #cholinergic  #mitochondrial-support  #nootropic  #supplement
+  Alpha-Lipoic Acid  <otc>  — oral mg: common 200-600, heavy 1800
+      aka: ALA|Alpha Lipoic Acid|R-ALA|R-Lipoic Acid|Thioctic Acid
+      #OTC  #antioxidant  #insulin-sensitizer  #neuroprotective  #supplement
+  Ashwagandha  <recreational>  — oral mg: common 600-1200, heavy 1500
+      aka: Indian Ginseng|KSM-66|Sensoril|Winter Cherry|Withania somnifera
+      #HPA-modulator  #OTC  #adaptogen  #anxiolytic  #common  #cortisol-reducer  #herbal  #sleep  #supplement  #weak-GABA-A-PAM
+      also: Depressant
+  Bacopa Monnieri  <otc>  — oral mg: common 450-600, heavy 900
+      aka: Bacopa|Brahmi|Synapsa|Water Hyssop
+      #OTC  #adaptogen  #anxiolytic  #cholinergic  #cognitive-enhancement  #herbal  #nootropic  #supplement
+  Berberine  <otc>  — oral mg: common 500-1000, heavy 1500
+      aka: Dihydroberberine|GlucoVantage
+      #AMPK-activator  #CYP450-inhibitor  #GI-side-effects  #OTC  #herbal  #insulin-sensitizer  #metabolic  #supplement
+  Beta-Alanine  <otc>  — oral mg: common 1600-3200, heavy 6400
+      aka: 3-Aminopropionic Acid|β-Alanine
+      #OTC  #amino-acid  #athletic-performance  #carnosine-precursor  #supplement
+  CDP-Choline  <otc>  — oral mg: common 500-1000, heavy 2000
+      aka: Citicoline|Cognizin|Cytidine Diphosphocholine
+      #OTC  #acetylcholine-precursor  #choline-donor  #cholinergic  #cognitive-enhancement  #dopaminergic  #nootropic  #supplement
+  CoQ10  <otc>  — oral mg: common 200-400, heavy 1200
+      aka: CoQ|Coenzyme Q|Coenzyme Q10|Ubiquinol|Ubiquinone
+      #OTC  #antioxidant  #cardiovascular  #energy-metabolism  #mitochondrial-support  #supplement
+  Cordyceps  <otc>  — oral mg: common 2000-3000, heavy 4500
+      aka: CS-4|Cordyceps militaris|Cordyceps sinensis|Dong Chong Xia Cao
+      #OTC  #adaptogen  #athletic-performance  #energy-metabolism  #herbal  #immunomodulator  #mushroom  #supplement
+  Creatine Monohydrate  <otc>  — oral g: common 3-5, heavy 20
+      aka: Creapure|Creatine
+      #NMDA-modulator  #OTC  #amino-acid-derivative  #athletic-performance  #energy-metabolism  #nootropic  #supplement
+  Curcumin  <otc>  — oral mg: common 1000-2000, heavy 8000
+      aka: BCM-95|Curcuma longa|Curcumin with Piperine|Longvida|Meriva|Turmeric Extract
+      #CYP450-inhibitor  #NF-kB-inhibitor  #OTC  #anti-inflammatory  #antioxidant  #herbal  #polyphenol  #supplement
+  DL-Phenylalanine  <recreational>  — oral mg: common 1000-2000, heavy 4000
+      aka: DL-Phe|DLPA|F|L-Phe|PHE|Phenylalanine
+      #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #no-human-data  #opioid-modulator  #phenethylamine  #supplement
+      also: Other
+  Folate  <otc>  — oral mcg: common 800-1000, heavy 15000
+      aka: 5-MTHF|L-5-MTHF|L-Methylfolate|Metafolin|Methylfolate|Vitamin B9
+      #B-vitamin  #OTC  #methylation  #prenatal  #supplement  #vitamin  #water-soluble
+  GABA  <recreational>  — oral mg: common 500-1500, heavy 3000
+      aka: Gamma-Amino Butyric Acid|Gamma-Aminobutyric Acid|γ-aminobutyric acid
+      #GABAergic  #OTC  #amino-acid  #anxiolytic  #endogenous-neurotransmitter  #poor-BBB-penetration  #supplement  #supplement-questionable-efficacy
+      also: Depressant
+  Ginkgo Biloba  <otc>  — oral mg: common 120-240, heavy 480
+      aka: EGb 761|Ginkgo|Maidenhair Tree Extract
+      #MAO-inhibitor-weak  #OTC  #anticoagulant  #antioxidant  #cognitive-enhancement  #herbal  #nootropic  #supplement
+  Glutathione  <otc>  — oral mg: common 500-1000, heavy 2000
+      aka: GSH|Reduced Glutathione
+      #OTC  #amino-acid-derivative  #antioxidant  #detoxification  #supplement
+  Glycine  <otc>  — oral mg: common 3000-5000, heavy 10000
+      aka: 2-Aminoacetic Acid|Aminoacetic Acid|Gly
+      #GABAergic  #NMDA-modulator  #OTC  #amino-acid  #collagen-precursor  #sleep  #supplement
+  Holy Basil  <otc>  — oral mg: common 500-1000, heavy 2000
+      aka: Ocimum sanctum|Ocimum tenuiflorum|Sacred Basil|Tulsi
+      #HPA-modulator  #OTC  #adaptogen  #anti-inflammatory  #anxiolytic  #herbal  #supplement
+  Inositol  <otc>  — oral mg: common 2000-4000, heavy 18000
+      aka: D-Chiro-Inositol|IP6|Inositol Hexaphosphate|Myo-Inositol
+      #GABAergic  #OTC  #PCOS  #amino-acid-derivative  #anxiolytic  #insulin-sensitizer  #mood  #supplement
+  Iodine  <otc>  — oral mcg: common 300-500, heavy 1100
+      aka: KI|Lugol's Iodine|Nascent Iodine|Potassium Iodide
+      #OTC  #essential-mineral  #mineral  #supplement  #thyroid
+  Iron Bisglycinate  <otc>  — oral mg: common 36-65, heavy 150
+      aka: Ferrochel|Ferrous Bisglycinate|Gentle Iron|Iron Glycinate
+      #GI-side-effects  #OTC  #hematopoiesis  #mineral  #oxygen-transport  #supplement
+  L-Carnitine  <otc>  — oral mg: common 1000-2000, heavy 4000
+      aka: Carnitine|Carnitor
+      #OTC  #amino-acid-derivative  #cardiovascular  #mitochondrial-support  #supplement
+  L-Theanine  <recreational>  — oral mg: common 200-400, heavy 800
+      aka: L-γ-glutamylethylamide|Suntheanine|Theanine
+      #AMPA-modulator  #GABAergic  #OTC  #adaptogen  #amino-acid-derivative  #anxiolytic  #common  #nootropic  #supplement
+  L-Tryptophan  <otc>  — oral mg: common 1000-2000, heavy 6000
+      aka: L-Trp|Optimax|Tryptophan
+      #5HT-precursor  #OTC  #amino-acid  #serotonin-syndrome-risk  #sleep  #supplement
+  L-Tyrosine  <otc>  — oral mg: common 1000-2000, heavy 6000
+      aka: 4-Hydroxyphenylalanine|NALT|Tyrosine
+      #OTC  #amino-acid  #catecholamine-precursor  #dopamine-precursor  #nootropic  #supplement
+  Lion's Mane  <otc>  — oral mg: common 1000-2000, heavy 3000
+      aka: Hericium erinaceus|Monkey Head Mushroom|Yamabushitake
+      #NGF-stimulator  #OTC  #cognitive-enhancement  #herbal  #mushroom  #neuroprotective  #nootropic  #supplement
+  Maca  <otc>  — oral mg: common 3000-5000, heavy 10000
+      aka: Black Maca|Lepidium meyenii|Maca Root|Peruvian Ginseng|Red Maca
+      #OTC  #adaptogen  #fertility  #herbal  #libido  #supplement
+  Magnesium  <otc>  — oral mg: common 400-600, heavy 1000
+      aka: Bisglycinate Chelate|Citrate of Magnesia|Citroma|Epsom Salts|Magnesium Bisglycinate|Magnesium Diglycinate|Magnesium Glycinate|Magnesium L-Threonate|Magnesium Threonate|Magnesium hydroxide|Magtein|Mg-T|Milk of Magnesia|Mint|magnesium
+      #NMDA-modulator  #OTC  #antacid  #anxiolytic  #cognitive-enhancement  #laxative  #mineral  #muscle-relaxant  #nootropic  #osmotic laxative  #sleep  #solution
+  N-Acetylcysteine  <recreational>  — oral mg: common 600-1200, heavy 2400
+      aka: Acetylcysteine|Fluimucil|Mucomyst|NAC
+      #OTC  #amino-acid-derivative  #antioxidant  #class:cysteine  #glutathione-precursor  #mucolytic  #supplement
+      also: Nootropic
+  Omega-3 Fatty Acids  <otc>  — oral mg: common 1000-2000, heavy 5000
+      aka: Algal Oil|DHA|Docosahexaenoic Acid|EPA|Eicosapentaenoic Acid|Fish Oil|Krill Oil
+      #OTC  #anti-inflammatory  #cardiovascular  #essential-fatty-acid  #nootropic  #supplement
+  Panax Ginseng  <otc>  — oral mg: common 400-800, heavy 2000
+      aka: American Ginseng|Asian Ginseng|Ginsenosides|Korean Ginseng|Panax quinquefolius|Red Ginseng
+      #CYP450-inducer  #OTC  #adaptogen  #herbal  #immunomodulator  #insulin-sensitizer  #nootropic  #supplement
+  Phosphatidylserine  <otc>  — oral mg: common 200-400, heavy 800
+      aka: PS|Phosphatidyl Serine|Sharp-PS|Soy-Derived Phosphatidylserine
+      #HPA-modulator  #OTC  #cognitive-enhancement  #cortisol-reducer  #neuroprotective  #nootropic  #supplement
+  PQQ  <otc>  — oral mg: common 15-20, heavy 40
+      aka: BioPQQ|Methoxatin|Pyrroloquinoline Quinone
+      #OTC  #antioxidant  #mitochondrial-support  #neuroprotective  #nootropic  #supplement
+  Quercetin  <otc>  — oral mg: common 500-1000, heavy 2500
+      aka: Quercetin Dihydrate|Quercetin Phytosome|Sophora japonica extract
+      #OTC  #anti-inflammatory  #antihistamine  #antioxidant  #herbal  #polyphenol  #senolytic  #supplement
+  Reishi  <otc>  — oral mg: common 2000-4000, heavy 6000
+      aka: Ganoderma lucidum|Lingzhi|Mannentake
+      #OTC  #adaptogen  #herbal  #immunomodulator  #mushroom  #sleep  #supplement
+  Resveratrol  <otc>  — oral mg: common 250-500, heavy 1500
+      aka: 3,5,4'-Trihydroxystilbene|Polygonum cuspidatum extract|Trans-Resveratrol
+      #OTC  #antioxidant  #cardiovascular  #polyphenol  #sirtuin-activator  #supplement
+  Rhodiola Rosea  <otc>  — oral mg: common 200-400, heavy 600
+      aka: Arctic Root|Golden Root|Rosavin|Salidroside
+      #MAO-inhibitor-weak  #OTC  #adaptogen  #anti-fatigue  #anxiolytic  #herbal  #nootropic  #supplement
+  Selenium  <otc>  — oral mcg: common 100-200, heavy 400
+      aka: Se|Selenium Yeast|Selenomethionine|Sodium Selenate
+      #OTC  #antioxidant  #immunomodulator  #mineral  #supplement  #thyroid
+  Taurine  <otc>  — oral mg: common 1000-3000, heavy 6000
+      aka: 2-Aminoethanesulfonic Acid
+      #GABAergic  #OTC  #amino-acid  #antioxidant  #cardiovascular  #supplement
+  Vitamin A  <otc>  — oral IU: common 5000-10000, heavy 25000
+      aka: Beta-Carotene|Retinol|Retinyl Palmitate
+      #OTC  #fat-soluble  #immunomodulator  #supplement  #vision  #vitamin
+  Vitamin B1  <otc>  — oral mg: common 100-300, heavy 1500
+      aka: Benfotiamine|TTFD|Thiamin|Thiamine
+      #B-vitamin  #OTC  #energy-metabolism  #neurological  #supplement  #vitamin  #water-soluble
+  Vitamin B12  <otc>  — oral mcg: common 1000-2500, heavy 5000
+      aka: B12|Cobalamin|Cyanocobalamin|MeCbl|Methylcobalamin
+      #B-vitamin  #OTC  #methylation  #neurological  #supplement  #vitamin  #water-soluble
+  Vitamin B3  <otc>  — oral mg: common 100-500, heavy 2000
+      aka: NMN|NR|Niacin|Niacinamide|Nicotinamide|Nicotinamide Mononucleotide|Nicotinamide Riboside|Nicotinic Acid
+      #B-vitamin  #NAD-precursor  #OTC  #energy-metabolism  #hepatotoxic-at-high-dose  #supplement  #vitamin  #water-soluble
+  Vitamin B6  <otc>  — oral mg: common 25-100, heavy 200
+      aka: P5P|Pyridoxine
+      #B-vitamin  #OTC  #energy-metabolism  #neurotransmitter-synthesis  #supplement  #vitamin  #water-soluble
+  Vitamin C  <otc>  — oral mg: common 500-1000, heavy 2000
+      aka: Ascorbate|Ascorbic Acid|L-Ascorbic Acid|Liposomal Vitamin C|Sodium Ascorbate
+      #OTC  #antioxidant  #collagen-precursor  #immune  #supplement  #vitamin  #water-soluble
+  Vitamin D3  <otc>  — oral IU: common 2000-5000, heavy 10000
+      aka: Cholecalciferol|Colecalciferol|Vitamin D
+      #OTC  #bone-health  #fat-soluble  #hormonal  #immunomodulator  #supplement  #vitamin
+  Vitamin E  <otc>  — oral IU: common 400-800, heavy 1500
+      aka: Alpha-Tocopherol|Mixed Tocopherols|Tocopherol|d-Alpha Tocopherol
+      #OTC  #antioxidant  #fat-soluble  #supplement  #vitamin
+  Vitamin K2  <otc>  — oral mcg: common 100-200, heavy 500
+      aka: MK-7|MenaQ7|Menaquinone-7|Vitamin K2 MK-7
+      #OTC  #bone-health  #cardiovascular  #fat-soluble  #supplement  #vitamin
+  Warfarin  (STUB)  <otc>
+      aka: Coumadin|Jantoven
+      #anticoagulant  #tablet  #vitamin k antagonist
+  Zinc Picolinate  <otc>  — oral mg: common 25-50, heavy 100
+      aka: Zinc|Zinc Bisglycinate|Zinc Gluconate|Zinc L-Carnosine
+      #OTC  #antioxidant  #immune  #mineral  #supplement  #testosterone

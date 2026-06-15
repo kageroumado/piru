@@ -1,18 +1,57 @@
-# Dysdelic — 16 substances
+# Dysdelic — 19 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  16-Bromo-salvinorin A  [16-Br-Sal A|16-Br-SalA|16-bromosalvinorin A]  (source: piru-curated)  #anti-cocaine-preclinical  #biased-agonist-G-protein  #kappa-opioid-agonist  #longer-duration-than-Sal-A  #no-human-data  #research-chemical  #salvinorin
-  2-Methoxymethyl-salvinorin B  [MOM-Sal B|MOM-SalB|SymBMS]  (source: piru-curated)  #balanced-KOR-full-agonist  #designer-drug-encountered-2020  #kappa-opioid-agonist  #long-duration-3h  #no-human-data  #research-chemical  #salvinorin
-  22-Thiocyanatosalvinorin A  [RB-64]  (source: piru-curated)  #biased-agonist-Gi  #irreversible-covalent-agonist  #kappa-opioid-agonist  #no-human-data  #research-chemical  #research-probe  #salvinorin
-  Divinatorin A  (source: piru-curated)  #KOR-inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
-  Divinatorin B  (source: piru-curated)  #KOR-inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
-  IBOGAINE  [12-methoxyibogamine|Iboga TA (total alkaloid) extract|Ibogaine HCl|Ibogamine-class indole alkaloid|T. iboga root bark|Tabernanthe iboga (plant source)|iboga|ibogaine]  (source: tripsit)  #CYP2D6-substrate  #QT-prolongation-risk  #TIHKAL  #class:Tryptamine alkaloid (indole alkaloid)  #hERG-high-risk  #iboga-alkaloid  #long-acting-via-noribogaine  #no-human-data  +4more
-  Mesyl Sal B  [22-Methylsulfonyloxy-salvinorin B|RB-64]  (source: piru-curated)  #biased-agonist  #biased-agonist-Gi  #covalent-probe  #irreversible-agonist  #kappa-opioid-agonist  #longer-acting-than-Sal-A  #no-human-data  #research-chemical  +1more
-  Salvinicin A  (source: piru-curated)  #KOR-partial-agonist  #kappa-opioid-partial-agonist  #no-human-data  #research-chemical  #salvinorin
-  Salvinicin B  (source: piru-curated)  #MOR-antagonist  #mu-opioid-antagonist  #no-human-data  #research-chemical  #salvinorin
-  Salvinorin A  [(2S,4aR,6aR,7R,9S,10aS,10bR)-9-(acetyloxy)-2-(3-furanyl)dodecahydro-6a,10b-dimethyl-4,10-dioxo-2H-naphtho[2,1-c]pyran-7-carboxylic acid methyl ester|CAS 83729-01-5|Divinorin A|Sal A|Salvia divinorum extract|Salvinorin (original Ortega name for salvinorin A)]  (source: piru-curated)  #DMN-attenuating  #KOR-selective  #balanced-agonist-KOR  #class:Diterpenoid (neoclerodane diterpene)  #dysdelic  #kappa-opioid-agonist  #natural  #neoclerodane-diterpene  +4more
-  Salvinorin B  [Sal B]  (source: piru-curated)  #inactive  #inactive-metabolite  #kappa-opioid-inactive  #research-chemical  #salvinorin  #synthetic-precursor
-  Salvinorin B ethoxymethyl ether  [EOM-Sal B|EOM-SalB|Salvinorin B ethyl glycol ether]  (source: piru-curated)  #EAE-active  #anti-cocaine-preclinical  #biased-agonist-G-protein  #kappa-opioid-agonist  #long-duration  #no-human-data  #research-chemical  #salvinorin
-  Salvinorin C  [2-acetoxysalvinorin A (sometimes used incorrectly)]  (source: piru-curated)  #kappa-opioid-agonist  #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist
-  Salvinorin D  (source: piru-curated)  #inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
-  Salvinorin E  (source: piru-curated)  #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist
-  Salvinorin F  (source: piru-curated)  #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist-or-inactive
+  Salvia  (STUB)  <recreational>
+      #common
+      also: Dissociative
+  16-Bromo-salvinorin A  (STUB)  <recreational>
+      aka: 16-Br-Sal A|16-Br-SalA|16-bromosalvinorin A
+      #anti-cocaine-preclinical  #biased-agonist-G-protein  #kappa-opioid-agonist  #longer-duration-than-Sal-A  #no-human-data  #research-chemical  #salvinorin
+  2-Methoxymethyl-salvinorin B  (STUB)  <recreational>
+      aka: MOM-Sal B|MOM-SalB|SymBMS
+      #balanced-KOR-full-agonist  #designer-drug-encountered-2020  #kappa-opioid-agonist  #long-duration-3h  #no-human-data  #research-chemical  #salvinorin
+  22-Thiocyanatosalvinorin A  (STUB)  <recreational>
+      aka: RB-64
+      #biased-agonist-Gi  #irreversible-covalent-agonist  #kappa-opioid-agonist  #no-human-data  #research-chemical  #research-probe  #salvinorin
+  Benzydamine  <recreational>  — oral mg: common 500-1000, heavy 1500
+      aka: Tantum Verde|tantum
+      #class:indazole  #tentative
+      also: Stimulant
+  Divinatorin A  (STUB)  <recreational>
+      #KOR-inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
+  Divinatorin B  (STUB)  <recreational>
+      #KOR-inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
+  Mesyl Sal B  (STUB)  <recreational>
+      aka: 22-Methylsulfonyloxy-salvinorin B|RB-64
+      #biased-agonist  #biased-agonist-Gi  #covalent-probe  #irreversible-agonist  #kappa-opioid-agonist  #longer-acting-than-Sal-A  #no-human-data  #research-chemical  #salvinorin
+  Myristicin  <recreational>  — oral mg: common 200-500, heavy 800
+      aka: MMDA-precursor|Nutmeg|constituent of Myristica fragrans (nutmeg) and mace|nutmeg principal|principal aromatic ether in nutmeg oil
+      #MMDA-precursor  #class:Phenylpropene (aromatic ether)  #class:phenylpropenes  #deliriant  #natural-product  #weak-MAOI
+      also: Psychedelic
+  Salvinicin A  (STUB)  <recreational>
+      #KOR-partial-agonist  #kappa-opioid-partial-agonist  #no-human-data  #research-chemical  #salvinorin
+  Salvinicin B  (STUB)  <recreational>
+      #MOR-antagonist  #mu-opioid-antagonist  #no-human-data  #research-chemical  #salvinorin
+  Salvinorin A  <recreational>  — inhalation mg: common 0.5-1, heavy 2
+      aka: CAS 83729-01-5|Diviner's Sage|Divinorin A|Sal A|Sally|Salvia|Salvia divinorum|Salvia divinorum extract|Salvinorin|Seer's Sage|Ska María Pastora
+      #DMN-attenuating  #KOR-selective  #balanced-agonist-KOR  #class:Diterpenoid (neoclerodane diterpene)  #class:salvinorin  #class:terpenoid  #dysdelic  #kappa-opioid-agonist  #natural  #neoclerodane-diterpene  #non-nitrogenous-opioid  #rapid-onset
+      also: Opioid
+  Salvinorin B  (STUB)  <recreational>
+      aka: Sal B
+      #inactive  #inactive-metabolite  #kappa-opioid-inactive  #research-chemical  #salvinorin  #synthetic-precursor
+  Salvinorin B ethoxymethyl ether  (STUB)  <recreational>
+      aka: EOM-Sal B|EOM-SalB|Salvinorin B ethyl glycol ether
+      #EAE-active  #anti-cocaine-preclinical  #biased-agonist-G-protein  #kappa-opioid-agonist  #long-duration  #no-human-data  #research-chemical  #salvinorin
+  Salvinorin C  (STUB)  <recreational>
+      aka: 2-acetoxysalvinorin A
+      #kappa-opioid-agonist  #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist
+  Salvinorin D  (STUB)  <recreational>
+      #inactive-or-near-inactive  #no-human-data  #research-chemical  #salvinorin
+  Salvinorin E  (STUB)  <recreational>
+      #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist
+  Salvinorin F  (STUB)  <recreational>
+      #no-human-data  #research-chemical  #salvinorin  #weak-KOR-agonist-or-inactive
+  U-51754  <recreational>  — rectal mg: common 3-5, heavy 10
+      aka: U51754|methene-u-47700|methene-u47700
+      #KOR-selective  #U-series-opioid  #designer-opioid  #research-chemical  #tentative
+      also: Opioid

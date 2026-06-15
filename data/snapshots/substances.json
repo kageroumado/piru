@@ -1504,57 +1504,13 @@
     ]
   },
   {
-    "name": "2-FDCK",
-    "display_name": "",
-    "aliases": [
-      "2-fl-2'-oxo-pcm",
-      "2-fluorodeschloroketamine",
-      "2f-dck",
-      "2f-ket",
-      "2f-ketamine",
-      "2fdck",
-      "2fket"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "arylcyclohexylamine",
-      "habit-forming",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation"
-    ],
-    "routes_with_dose": [
-      "insufflation"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Dissociative anesthetic of the arylcyclohexylamine class. Seemingly on par with ketamine in dosage. Longer onset than the prior."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "2-FEA",
     "display_name": "",
     "aliases": [
       "2-fluoroethamphetamine",
       "2-fluoroethylamphetamine"
     ],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "class:substituted amphetamines",
@@ -1637,6 +1593,12 @@
     "aliases": [
       "2-F-DCK",
       "2-FDCK",
+      "2-fl-2'-oxo-pcm",
+      "2f-dck",
+      "2f-ket",
+      "2f-ketamine",
+      "2fdck",
+      "2fket",
       "Canket",
       "Fluorexetamine",
       "Fluoroketamine"
@@ -1649,7 +1611,9 @@
       "class:arylcyclohexylamines",
       "designer-dissociative",
       "fatalities-reported",
-      "research-chemical"
+      "habit-forming",
+      "research-chemical",
+      "tentative"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -1669,11 +1633,13 @@
       "Fluorine analog of DCK — slightly less potent than ketamine",
       "Confirmed fatalities in EU NPS market — extreme caution",
       "Chronic use linked to ulcerative cystitis (extrapolated from ketamine)",
-      "Long elimination half-life increases redose risk"
+      "Long elimination half-life increases redose risk",
+      "Dissociative anesthetic of the arylcyclohexylamine class. Seemingly on par with ketamine in dosage. Longer onset than the prior."
     ],
     "references": [
       "https://psychonautwiki.org/wiki/2F-DCK",
       "https://www.emcdda.europa.eu/publications/risk-assessments/2f-dck_en",
+      "TripSit drugs.json: https://github.com/TripSit/drugs",
       "https://psychonautwiki.org/wiki/2-Fluorodeschloroketamine"
     ],
     "data_gaps": [
@@ -2147,7 +2113,12 @@
     "category": "Dissociative",
     "display_class": "recreational",
     "tags": [
-      "class:Arylcyclohexylamine"
+      "NMDA-antagonist",
+      "arylcyclohexylamine",
+      "class:Arylcyclohexylamine",
+      "duplicate-of-2-MeO-Ketamine",
+      "habit-forming",
+      "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -2165,12 +2136,15 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
-    "effects": [],
-    "references": [],
+    "effects": [
+      "An arylcyclohexylamine drug and analogue of ketamine. The drug is slightly less potent than ketamine. It is reported to have similar dissociative and anasthetic effects to ketamine. The drug is reported to be extremely rare."
+    ],
+    "references": [
+      "TripSit drugs.json: https://github.com/TripSit/drugs"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -3650,23 +3624,35 @@
     "name": "25P-NBOMe",
     "display_name": "",
     "aliases": [
-      "NBOMe-2C-P"
+      "25P",
+      "2C-P-NBOMe",
+      "NBOMe",
+      "NBOMe-2C-P",
+      "P‑NBOMe"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "NBOMe",
+      "class:Phenethylamine; NBOMe (N‑methoxybenzyl) series; 2C family derivative (2C‑P analog)",
+      "duplicate-of-25P-NBOMe",
       "phenethylamine",
       "research-chemical",
       "tentative"
     ],
-    "default_route": "oral",
+    "default_route": "inhalation",
     "all_routes": [
-      "oral"
+      "inhalation",
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "routes_with_dose": [
-      "oral"
+      "inhalation",
+      "insufflation",
+      "oral",
+      "sublingual"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -5031,46 +5017,6 @@
     ]
   },
   {
-    "name": "2C-P-NBOMe",
-    "display_name": "",
-    "aliases": [
-      "25P",
-      "25P-NBOMe",
-      "NBOMe",
-      "NBOMe-2C-P",
-      "P‑NBOMe"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "class:Phenethylamine; NBOMe (N‑methoxybenzyl) series; 2C family derivative (2C‑P analog)",
-      "duplicate-of-25P-NBOMe"
-    ],
-    "default_route": "inhalation",
-    "all_routes": [
-      "inhalation",
-      "insufflation",
-      "sublingual"
-    ],
-    "routes_with_dose": [
-      "inhalation",
-      "insufflation",
-      "sublingual"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "2C-SE",
     "display_name": "",
     "aliases": [],
@@ -6047,7 +5993,6 @@
     "display_name": "4-MD-PCP",
     "aliases": [
       "3",
-      "3,4-MD-PCP",
       "3,4-benzodioxole-PCP",
       "3,4-methylenedioxy-PCP",
       "4-MD-PCP",
@@ -6078,54 +6023,6 @@
       "half_life_minutes",
       "mechanism_of_action",
       "references"
-    ]
-  },
-  {
-    "name": "3,4-Methylenedioxyamphetamine",
-    "display_name": "3,4-MDA",
-    "aliases": [
-      "3,4-MDA",
-      "EA-1299",
-      "MDA",
-      "SKF-5",
-      "Sally",
-      "Sass",
-      "Sassafras",
-      "Tenamfetamine",
-      "methylendioxyamphetamine"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "DRI",
-      "NDRI",
-      "TAAR1",
-      "class:Phenethylamine; Amphetamine (ring-substituted methylenedioxyamphetamine)",
-      "duplicate-of-MDA",
-      "no-human-data",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q223020",
-      "PubChem CID 1614: https://pubchem.ncbi.nlm.nih.gov/compound/1614",
-      "CAS 4764-17-4"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
     ]
   },
   {
@@ -6275,9 +6172,9 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
-      "3-Chloroethcathinone",
       "3-Cl-ethcathinone",
-      "3-chloro-NEC"
+      "3-chloro-NEC",
+      "3-chloroethcathinone"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -6311,10 +6208,11 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
+      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "DRI",
@@ -6476,50 +6374,6 @@
     ]
   },
   {
-    "name": "3-F-PCP",
-    "display_name": "",
-    "aliases": [
-      "3-Fluoro-PCP",
-      "3-fluoro phencyclidine",
-      "3F-PCP",
-      "3FPCP",
-      "3′-F-PCP"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "class:Arylcyclohexylamine dissociative",
-      "duplicate-of-3-Fluoro-PCP"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "intramuscular",
-      "oral",
-      "rectal",
-      "sublingual"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "intramuscular",
-      "oral",
-      "rectal",
-      "sublingual"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "3-FA",
     "display_name": "",
     "aliases": [
@@ -6564,7 +6418,7 @@
     "name": "3-FEA",
     "display_name": "",
     "aliases": [],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "class:amphetamine",
@@ -6603,7 +6457,11 @@
     "name": "3-Fluoro-PCP",
     "display_name": "",
     "aliases": [
-      "3-F-PCP"
+      "3-F-PCP",
+      "3-fluoro phencyclidine",
+      "3F-PCP",
+      "3FPCP",
+      "3′-F-PCP"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -6611,14 +6469,28 @@
       "NMDA-antagonist",
       "PCP-analog",
       "arylcyclohexylamine",
+      "class:Arylcyclohexylamine dissociative",
+      "duplicate-of-3-Fluoro-PCP",
       "no-human-data",
       "research-chemical"
     ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
+    "default_route": "insufflation",
+    "all_routes": [
+      "insufflation",
+      "intramuscular",
+      "oral",
+      "rectal",
+      "sublingual"
+    ],
+    "routes_with_dose": [
+      "insufflation",
+      "intramuscular",
+      "oral",
+      "rectal",
+      "sublingual"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
@@ -6631,8 +6503,6 @@
       "https://psychonautwiki.org/wiki/3-Fluoro-PCP"
     ],
     "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -6761,7 +6631,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-FPM",
+      "3-fpm",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -6808,7 +6678,7 @@
       "3-fluoromethamphetamine",
       "3fma"
     ],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "class:amphetamine",
@@ -8255,8 +8125,7 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-Fluoro-PiHP",
-      "3F-Alpha-PHIP",
+      "3-fluoro-PiHP",
       "3F-PHIP",
       "3F-alpha-PiHP",
       "3F-α-PiHP"
@@ -8658,7 +8527,6 @@
       "class:substituted tryptamines",
       "common",
       "prodrug-of-psilocin",
-      "research-chemical",
       "tryptamine"
     ],
     "default_route": "insufflation",
@@ -9095,7 +8963,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-chloroethcathinone",
+      "4-Chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -9304,36 +9172,6 @@
       "Wikidata: https://www.wikidata.org/wiki/Q21098974",
       "PubChem CID 82100418: https://pubchem.ncbi.nlm.nih.gov/compound/82100418",
       "CAS 1225843-86-6"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "4-CIC",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "medical_rx",
-    "tags": [
-      "inactive"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "reportedly inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -10092,13 +9930,16 @@
       "Fluorobut",
       "Fluorophenibut"
     ],
-    "category": "GABAergic",
+    "category": "Depressant",
     "display_class": "recreational",
     "tags": [
       "GABA-B-partial-agonist",
       "alpha-2-delta-ligand",
       "class:Gabapentinoid (structurally related to phenibut and baclofen)",
-      "high-dependence-risk"
+      "duplicate-of-4-fluorophenibut",
+      "habit-forming",
+      "high-dependence-risk",
+      "tentative"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -10114,12 +9955,16 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
-    "effects": [],
-    "references": [],
+    "effects": [
+      "An anxiolytic analogue of GABA and phenibut, with similar activity to the latter. Suggested to be 5-10x potent as phenibut, with some preliminary reports indicating tolerance builds more slowly.",
+      "Severe protracted withdrawal; dependence in weeks of daily use"
+    ],
+    "references": [
+      "TripSit drugs.json: https://github.com/TripSit/drugs"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -11043,43 +10888,6 @@
     ]
   },
   {
-    "name": "4-MeO-Butryfentanyl",
-    "display_name": "",
-    "aliases": [
-      "4-Methoxybutyrfentanyl",
-      "4-meo-bf"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "duplicate-of-4-methoxybutyrfentanyl",
-      "habit-forming",
-      "mu-opioid-agonist",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Rare opioid and fentanyl analogue (not to be confused with Butyrfentanyl). There is very limited information online and little to no dosage information. Exercise extreme caution when using this drug. Overdose may result in respiratory depression. Do not mix with stimulants or depressants."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "4-MeO-MiPT",
     "display_name": "",
     "aliases": [],
@@ -11170,6 +10978,7 @@
     "display_name": "4-MeO-BF",
     "aliases": [
       "4-MeO-BF",
+      "4-MeO-Butryfentanyl",
       "4-Methoxy-butyrylfentanyl",
       "p-MeO-butyrylfentanyl",
       "para-Methoxybutyrylfentanyl"
@@ -11179,7 +10988,12 @@
     "tags": [
       "CYP3A4-substrate",
       "class:4-Anilidopiperidine (fentanyl) analogue",
+      "duplicate-of-4-methoxybutyrfentanyl",
+      "habit-forming",
       "mu-full-agonist",
+      "mu-opioid-agonist",
+      "research-chemical",
+      "tentative",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "insufflation",
@@ -11198,12 +11012,15 @@
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
-    "effects": [],
-    "references": [],
+    "effects": [
+      "Rare opioid and fentanyl analogue (not to be confused with Butyrfentanyl). There is very limited information online and little to no dosage information. Exercise extreme caution when using this drug. Overdose may result in respiratory depression. Do not mix with stimulants or depressants."
+    ],
+    "references": [
+      "TripSit drugs.json: https://github.com/TripSit/drugs"
+    ],
     "data_gaps": [
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -11826,7 +11643,7 @@
       "4-Cl-iBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-IBF",
+      "p-Cl-iBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -12484,7 +12301,6 @@
       "metabolic",
       "peptide",
       "peptide-mimetic",
-      "research-chemical",
       "weight-loss"
     ],
     "default_route": "oral",
@@ -13640,7 +13456,6 @@
       "class:Tryptamine (indolealkylamine)",
       "class:substituted tryptamines",
       "no-tachyphylaxis",
-      "research-chemical",
       "tryptamine"
     ],
     "default_route": "inhalation",
@@ -15314,7 +15129,7 @@
       "pihp",
       "α-PiHP"
     ],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "NDRI",
@@ -16101,44 +15916,6 @@
     ]
   },
   {
-    "name": "Acryl-fentanyl",
-    "display_name": "",
-    "aliases": [
-      "Acrylfentanyl"
-    ],
-    "category": "Opioid",
-    "display_class": "recreational",
-    "tags": [
-      "duplicate-of-acrylfentanyl",
-      "habit-forming",
-      "mu-opioid-agonist",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "A rare opioid and fentanyl analogue (not to be confused with acetyl-fentanyl), this drug is a powerful and potent analgesic. Little reliable information exists, even for basic usage such as dosage. Exercise extreme caution. Overdose may result in respiratory depression. Do not mix with depressants or stimulants. Potentially neurotoxic and carcinogenic."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Acrylfentanyl",
     "display_name": "",
     "aliases": [
@@ -16150,7 +15927,12 @@
     "tags": [
       "CYP3A4-substrate",
       "class:4-anilidopiperidine (fentanyl analogue)",
+      "duplicate-of-acrylfentanyl",
+      "habit-forming",
       "mu-full-agonist",
+      "mu-opioid-agonist",
+      "research-chemical",
+      "tentative",
       "wooden-chest-syndrome-risk"
     ],
     "default_route": "inhalation",
@@ -16167,17 +15949,19 @@
       "oral"
     ],
     "has_dose_data": true,
-    "has_duration_data": false,
+    "has_duration_data": true,
     "has_protocol_dosing": false,
     "half_life_minutes": null,
     "mechanism_summary": "",
-    "effects": [],
-    "references": [],
+    "effects": [
+      "A rare opioid and fentanyl analogue (not to be confused with acetyl-fentanyl), this drug is a powerful and potent analgesic. Little reliable information exists, even for basic usage such as dosage. Exercise extreme caution. Overdose may result in respiratory depression. Do not mix with depressants or stimulants. Potentially neurotoxic and carcinogenic."
+    ],
+    "references": [
+      "TripSit drugs.json: https://github.com/TripSit/drugs"
+    ],
     "data_gaps": [
-      "duration_by_route",
       "half_life_minutes",
-      "mechanism_of_action",
-      "references"
+      "mechanism_of_action"
     ]
   },
   {
@@ -16220,8 +16004,7 @@
     "tags": [
       "no-human-data",
       "nootropic",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -16610,8 +16393,7 @@
       "habit-forming",
       "hepatotoxic-monitor",
       "hepatotoxic-potential",
-      "prodrug",
-      "research-chemical"
+      "prodrug"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -17205,8 +16987,8 @@
       "Aclovate",
       "Alclometasone-topical"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment"
@@ -18077,12 +17859,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
-      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
+      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -18575,8 +18357,8 @@
       "Amcinonide-topical",
       "Cyclocort"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, lotion, ointment"
@@ -18924,6 +18706,52 @@
       "duration_by_route",
       "half_life_minutes",
       "references"
+    ]
+  },
+  {
+    "name": "Amisulpride",
+    "display_name": "",
+    "aliases": [
+      "Barhemsys",
+      "Solian",
+      "氨磺必利",
+      "胺硫必利"
+    ],
+    "category": "Antipsychotic",
+    "display_class": "medical_rx",
+    "tags": [
+      "D2-antagonist",
+      "D3-antagonist",
+      "antipsychotic",
+      "atypical-antipsychotic",
+      "prescription-only"
+    ],
+    "default_route": "oral",
+    "all_routes": [
+      "oral"
+    ],
+    "routes_with_dose": [
+      "oral"
+    ],
+    "has_dose_data": true,
+    "has_duration_data": false,
+    "has_protocol_dosing": false,
+    "half_life_minutes": 720.0,
+    "mechanism_summary": "",
+    "effects": [
+      "Atypical antipsychotic — selective dopamine D2/D3 antagonist",
+      "Low doses (50–300 mg) preferentially block presynaptic autoreceptors, improving negative symptoms and mood",
+      "Higher doses (400–800 mg) block postsynaptic receptors for positive psychotic symptoms",
+      "Dose-dependent QT prolongation — avoid combining with other QT-prolonging drugs",
+      "Renally cleared; minimal hepatic metabolism"
+    ],
+    "references": [
+      "https://en.wikipedia.org/wiki/Amisulpride",
+      "https://pubchem.ncbi.nlm.nih.gov/compound/2159"
+    ],
+    "data_gaps": [
+      "duration_by_route",
+      "mechanism_of_action"
     ]
   },
   {
@@ -19718,7 +19546,7 @@
     ]
   },
   {
-    "name": "ARIADNE",
+    "name": "Ariadne",
     "display_name": "",
     "aliases": [
       "4C-D",
@@ -20994,7 +20822,7 @@
     ]
   },
   {
-    "name": "BEATRICE",
+    "name": "Beatrice",
     "display_name": "",
     "aliases": [
       "Bea",
@@ -21073,8 +20901,8 @@
       "QVAR RediHaler",
       "Qnasl"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "inhaled corticosteroid",
@@ -21678,8 +21506,8 @@
       "Sernivo",
       "Valisone"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, foam, ointment, gel, lotion, spray"
@@ -22573,7 +22401,6 @@
       "no-published-human-pk",
       "nootropic",
       "peptide",
-      "research-chemical",
       "single-lab-dominant-literature"
     ],
     "default_route": "subcutaneous",
@@ -23411,8 +23238,8 @@
       "Pulmicort Respules",
       "Rhinocort"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "dry powder inhaler (twisthaler), metered dose inhaler (hfa)",
@@ -23442,8 +23269,8 @@
     "aliases": [
       "Symbicort"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "inhaled corticosteroid",
       "long-acting beta-2 agonist",
@@ -24219,14 +24046,17 @@
   },
   {
     "name": "Cake",
-    "display_name": "",
+    "display_name": "🍰 Cake",
     "aliases": [
       "Caky",
       "Cokoo"
     ],
-    "category": "Depressant",
+    "category": "Other",
     "display_class": "recreational",
-    "tags": [],
+    "tags": [
+      "easter-egg",
+      "fictional"
+    ],
     "default_route": "oral",
     "all_routes": [
       "oral"
@@ -26386,8 +26216,8 @@
       "Omnaris",
       "Zetonna"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "inhaled corticosteroid",
@@ -26745,8 +26575,7 @@
       "GHRH-analogue",
       "grey-market",
       "peptide",
-      "performance-enhancing",
-      "research-chemical"
+      "performance-enhancing"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -27012,8 +26841,8 @@
       "Olux",
       "Temovate"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, foam, ointment, gel, lotion, solution, spray, shampoo"
@@ -27039,7 +26868,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-ii-90",
+      "DM-II-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -28258,8 +28087,8 @@
     "name": "Cortisone acetate",
     "display_name": "",
     "aliases": [],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "glucocorticoid",
@@ -29204,7 +29033,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-cyclohexylmethylone"
+      "N-Cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -29832,36 +29661,6 @@
     ]
   },
   {
-    "name": "Db-mdbp",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "medical_rx",
-    "tags": [
-      "inactive"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "DBT",
     "display_name": "",
     "aliases": [],
@@ -30321,42 +30120,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Deoxymethoxetamine",
-    "display_name": "",
-    "aliases": [
-      "3-Me-2′-oxo-PCE",
-      "3D-MXE",
-      "DMXE"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "class:arylcyclohexylamine",
-      "duplicate-of-DMXE"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation",
-      "oral"
-    ],
-    "routes_with_dose": [
-      "insufflation",
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
     ]
   },
   {
@@ -30880,8 +30643,8 @@
       "Tridesilon",
       "Verdeso"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, gel, lotion, foam"
@@ -30910,8 +30673,8 @@
       "Desoximetasone-topical",
       "Topicort"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, gel, spray"
@@ -31078,8 +30841,8 @@
       "Maxidex",
       "neomycin/polymyxin b sulfate/dexamethasone"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "antiemetic",
       "corticosteroid",
@@ -31914,8 +31677,8 @@
       "Diflorasone-topical",
       "Psorcon"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment"
@@ -31984,8 +31747,7 @@
       "no-human-data",
       "nootropic",
       "oncogenic-theoretical-concern",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "",
     "all_routes": [],
@@ -32209,8 +31971,10 @@
       "antiemetic",
       "antihistamine",
       "class:Ethanolamine first‑generation H1 antihistamine salt: diphenhydramine + 8‑chlorotheophylline (xanthine).",
+      "common",
       "deliriant",
       "diphenhydramine-salt",
+      "duplicate-of-dimenhydrinate",
       "first-gen-antihistamine",
       "sedating"
     ],
@@ -32231,11 +31995,13 @@
       "Motion sickness prevention",
       "Sedation",
       "Prodrug: 55% diphenhydramine — shares deliriant potential at high doses",
-      "At doses >700 mg: hallucinations, delirium, anticholinergic toxidrome"
+      "At doses >700 mg: hallucinations, delirium, anticholinergic toxidrome",
+      "A combination of diphenhydramine and a mild stimulant to counteract the drowsiness accompanied by typical medical use of diphenhydramine. Roughly half the potency of diphenhydramine. Small doses can relieve motion sickness, reduce body load from opioids or dextromethorphan. The drug produces deliriant effects in higher doses, keeping the user awake and often causing dysphoric, realistic hallucinations."
     ],
     "references": [
       "https://en.wikipedia.org/wiki/Dimenhydrinate",
-      "https://pubchem.ncbi.nlm.nih.gov/compound/441211"
+      "https://pubchem.ncbi.nlm.nih.gov/compound/441211",
+      "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
       "mechanism_of_action"
@@ -32370,39 +32136,6 @@
     ],
     "references": [
       "https://pubmed.ncbi.nlm.nih.gov/38301014/"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Dimethylone",
-    "display_name": "",
-    "aliases": [
-      "bk-MDDMA"
-    ],
-    "category": "Other",
-    "display_class": "medical_rx",
-    "tags": [
-      "inactive",
-      "weak-potency-predicted"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -33596,6 +33329,7 @@
     "name": "DMXE",
     "display_name": "",
     "aliases": [
+      "3-Me-2′-oxo-PCE",
       "3D-MXE",
       "Deoxymethoxetamine"
     ],
@@ -33604,15 +33338,19 @@
     "tags": [
       "NMDA-antagonist",
       "arylcyclohexylamine",
+      "class:arylcyclohexylamine",
       "designer-dissociative",
+      "duplicate-of-DMXE",
       "research-chemical"
     ],
     "default_route": "insufflation",
     "all_routes": [
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "routes_with_dose": [
-      "insufflation"
+      "insufflation",
+      "oral"
     ],
     "has_dose_data": true,
     "has_duration_data": true,
@@ -33695,33 +33433,6 @@
       "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
-      "references"
-    ]
-  },
-  {
-    "name": "DNA (cytosine-5)-methyltransferase 1",
-    "display_name": "",
-    "aliases": [
-      "azacitidine"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
       "references"
     ]
   },
@@ -34623,42 +34334,6 @@
     ]
   },
   {
-    "name": "Dramamine",
-    "display_name": "",
-    "aliases": [
-      "dimenhydrinate",
-      "gravol"
-    ],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "common",
-      "duplicate-of-dimenhydrinate"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "A combination of diphenhydramine and a mild stimulant to counteract the drowsiness accompanied by typical medical use of diphenhydramine. Roughly half the potency of diphenhydramine. Small doses can relieve motion sickness, reduce body load from opioids or dextromethorphan. The drug produces deliriant effects in higher doses, keeping the user awake and often causing dysphoric, realistic hallucinations."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Dronabinol",
     "display_name": "",
     "aliases": [
@@ -34820,7 +34495,6 @@
       "anxiolytic",
       "grey-market",
       "peptide",
-      "research-chemical",
       "sleep-peptide"
     ],
     "default_route": "subcutaneous",
@@ -35077,43 +34751,6 @@
     ]
   },
   {
-    "name": "E; ESCALINE",
-    "display_name": "",
-    "aliases": [
-      "Escaline"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "PIHKAL",
-      "duplicate-of-Escaline",
-      "phenethylamine"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "(with 40 mg) This is a powerful and complex intoxicant--I could not have coordinated any rational muscular activity. I could not walk; I could not tie my shoe-laces. There is analgesia and an incoordination that I cannot shake. My menstrual flow started a bit ahead of time, but i"
-    ],
-    "references": [
-      "PIHKAL by Alexander & Ann Shulgin (Transform Press, 1991) — text used with permission per https://erowid.org/library/books_online/pihkal/pihkal.shtml",
-      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "EA-3167",
     "display_name": "",
     "aliases": [
@@ -35334,38 +34971,6 @@
       "https://psychonautwiki.org/wiki/Efavirenz"
     ],
     "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Eflea",
-    "display_name": "",
-    "aliases": [],
-    "category": "Stimulant",
-    "display_class": "recreational",
-    "tags": [
-      "inactive",
-      "research-chemical",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Prodrug for EDMA. May be inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
     ]
@@ -36174,7 +35779,6 @@
       "grey-market",
       "longevity-research",
       "peptide",
-      "research-chemical",
       "telomerase-activator"
     ],
     "default_route": "insufflation",
@@ -36426,11 +36030,16 @@
   {
     "name": "Escaline",
     "display_name": "",
-    "aliases": [],
+    "aliases": [
+      "E; ESCALINE"
+    ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
+      "PIHKAL",
       "class:substituted phenethylamines",
+      "duplicate-of-Escaline",
+      "phenethylamine",
       "research-chemical"
     ],
     "default_route": "oral",
@@ -36446,6 +36055,7 @@
     "half_life_minutes": null,
     "mechanism_summary": "",
     "effects": [
+      "(with 40 mg) This is a powerful and complex intoxicant--I could not have coordinated any rational muscular activity. I could not walk; I could not tie my shoe-laces. There is analgesia and an incoordination that I cannot shake. My menstrual flow started a bit ahead of time, but i",
       "Acuity enhancement",
       "After images",
       "Auditory distortion",
@@ -36489,6 +36099,8 @@
       "Wakefulness"
     ],
     "references": [
+      "PIHKAL by Alexander & Ann Shulgin (Transform Press, 1991) — text used with permission per https://erowid.org/library/books_online/pihkal/pihkal.shtml",
+      "https://erowid.org/library/books_online/pihkal/pihkal072.shtml",
       "TripSit drugs.json: https://github.com/TripSit/drugs",
       "https://psychonautwiki.org/wiki/Escaline"
     ],
@@ -39269,8 +38881,8 @@
     "aliases": [
       "Flunisolide-nasal"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "nasal spray"
@@ -39447,8 +39059,8 @@
       "Fluocinolone-topical",
       "Synalar"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, oil, shampoo, solution"
@@ -39508,8 +39120,8 @@
       "Lidex",
       "Vanos"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, gel, solution"
@@ -39689,41 +39301,6 @@
     ]
   },
   {
-    "name": "Fluorophenibut",
-    "display_name": "",
-    "aliases": [],
-    "category": "Depressant",
-    "display_class": "recreational",
-    "tags": [
-      "duplicate-of-4-fluorophenibut",
-      "habit-forming",
-      "tentative"
-    ],
-    "default_route": "oral",
-    "all_routes": [
-      "oral"
-    ],
-    "routes_with_dose": [
-      "oral"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "An anxiolytic analogue of GABA and phenibut, with similar activity to the latter. Suggested to be 5-10x potent as phenibut, with some preliminary reports indicating tolerance builds more slowly.",
-      "Severe protracted withdrawal; dependence in weeks of daily use"
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Fluorouracil",
     "display_name": "",
     "aliases": [],
@@ -39862,8 +39439,8 @@
       "Flurandrenolide-topical",
       "Nolix"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "tape, cream, ointment, lotion"
@@ -39982,7 +39559,7 @@
       "Up And Up Allergy Relief Nasal",
       "Xhance"
     ],
-    "category": "Supplement",
+    "category": "Endocrine",
     "display_class": "otc",
     "tags": [
       "corticosteroid",
@@ -40012,7 +39589,7 @@
     "aliases": [
       "Arnuity Ellipta"
     ],
-    "category": "Supplement",
+    "category": "Endocrine",
     "display_class": "otc",
     "tags": [
       "dry powder inhaler",
@@ -40044,8 +39621,8 @@
       "Flovent HFA",
       "Fluticasone propionate-inhaled"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "dry powder inhaler (diskus), metered dose inhaler (hfa)",
       "inhaled corticosteroid"
@@ -40075,8 +39652,8 @@
       "AirDuo Respiclick",
       "Wixela Inhub"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "dry powder inhaler (diskus, inhub, respiclick), metered dose inhaler (hfa)",
       "inhaled corticosteroid",
@@ -40105,8 +39682,8 @@
     "aliases": [
       "Trelegy Ellipta"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "dry powder inhaler",
       "inhaled corticosteroid",
@@ -40136,8 +39713,8 @@
     "aliases": [
       "Breo Ellipta"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "dry powder inhaler",
       "inhaled corticosteroid",
@@ -40476,8 +40053,7 @@
     "tags": [
       "longevity",
       "no-human-data",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -41089,7 +40665,7 @@
     ]
   },
   {
-    "name": "GANESHA",
+    "name": "Ganesha",
     "display_name": "",
     "aliases": [],
     "category": "Psychedelic",
@@ -41379,8 +40955,7 @@
       "dermatological",
       "grey-market",
       "healing-peptide",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -41428,8 +41003,7 @@
       "GH-secretagogue",
       "grey-market",
       "peptide",
-      "performance-enhancing",
-      "research-chemical"
+      "performance-enhancing"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -41481,7 +41055,6 @@
       "no-human-data",
       "peptide",
       "performance-enhancing",
-      "research-chemical",
       "tryptamine"
     ],
     "default_route": "subcutaneous",
@@ -42278,8 +41851,8 @@
       "Halcinonide-topical",
       "Halog"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, solution"
@@ -42310,8 +41883,8 @@
       "Lexette",
       "Ultravate"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, lotion, foam"
@@ -42419,7 +41992,7 @@
     ]
   },
   {
-    "name": "HARMALINE",
+    "name": "Harmaline",
     "display_name": "",
     "aliases": [
       "harmidine"
@@ -42457,7 +42030,7 @@
     ]
   },
   {
-    "name": "HARMINE",
+    "name": "Harmine",
     "display_name": "",
     "aliases": [
       "banisterine",
@@ -42756,8 +42329,7 @@
       "GH-secretagogue",
       "grey-market",
       "peptide",
-      "performance-enhancing",
-      "research-chemical"
+      "performance-enhancing"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -43388,8 +42960,7 @@
     "tags": [
       "longevity",
       "no-human-data",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -43781,8 +43352,8 @@
       "Westcort",
       "various other brands"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, lotion, foam"
@@ -44060,7 +43631,7 @@
     ]
   },
   {
-    "name": "IBOGAINE",
+    "name": "Ibogaine",
     "display_name": "",
     "aliases": [
       "12-methoxyibogamine",
@@ -44906,82 +44477,6 @@
     ]
   },
   {
-    "name": "Indol-3-Ylacetaldoxime",
-    "display_name": "",
-    "aliases": [
-      "IAOx",
-      "indole-3-acetaldehyde oxime"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "DOx",
-      "no-human-data",
-      "not-psychoactive",
-      "phenethylamine",
-      "plant-metabolite",
-      "tryptamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q27103629",
-      "PubChem CID 439854: https://pubchem.ncbi.nlm.nih.gov/compound/439854",
-      "CAS 2776-06-9"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Indole-3-acetaldoxime N-oxide",
-    "display_name": "",
-    "aliases": [
-      "IAOx N-oxide"
-    ],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "DOx",
-      "no-human-data",
-      "not-psychoactive",
-      "phenethylamine",
-      "plant-metabolite",
-      "tryptamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q27154929",
-      "PubChem CID 46173868: https://pubchem.ncbi.nlm.nih.gov/compound/46173868"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Indomethacin",
     "display_name": "",
     "aliases": [
@@ -45403,8 +44898,7 @@
       "GH-secretagogue",
       "grey-market",
       "peptide",
-      "performance-enhancing",
-      "research-chemical"
+      "performance-enhancing"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -45633,41 +45127,6 @@
     ],
     "data_gaps": [
       "duration_by_route",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Isobutyrylvalindomycin",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "DOx",
-      "natural-product",
-      "no-human-data",
-      "not-psychoactive",
-      "phenethylamine",
-      "tryptamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q105305408",
-      "PubChem CID 139591558: https://pubchem.ncbi.nlm.nih.gov/compound/139591558"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
       "mechanism_of_action"
     ]
   },
@@ -46179,39 +45638,6 @@
     ],
     "references": [
       "https://en.wikipedia.org/wiki/J147"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Jenkem",
-    "display_name": "",
-    "aliases": [],
-    "category": "Antihistamine",
-    "display_class": "medical_rx",
-    "tags": [
-      "hoax-or-urban-legend",
-      "no-known-active-pharmacology",
-      "not-recommended-classification-as-anticholinergic-deliriant",
-      "tentative"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "-"
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
       "dose_ranges_by_route",
@@ -48478,7 +47904,7 @@
     ]
   },
   {
-    "name": "LOPHOPHINE",
+    "name": "Lophophine",
     "display_name": "",
     "aliases": [],
     "category": "Psychedelic",
@@ -50044,8 +49470,8 @@
       "3,4-MD-PiHP",
       "MDPiHP"
     ],
-    "category": "Antidepressant",
-    "display_class": "medical_rx",
+    "category": "Stimulant",
+    "display_class": "recreational",
     "tags": [
       "NDRI",
       "class:Synthetic cathinone (pyrrolidinophenone)",
@@ -50086,23 +49512,33 @@
     "name": "MDA",
     "display_name": "",
     "aliases": [
+      "3,4-MDA",
+      "3,4-Methylenedioxyamphetamine",
       "EA-1299",
       "SKF-5",
       "Sally",
       "Sass",
-      "Tenamfetamine"
+      "Sassafras",
+      "Tenamfetamine",
+      "methylendioxyamphetamine"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
       "5-HT2B-agonist",
+      "DRI",
+      "NDRI",
       "PIHKAL",
       "SNDRA",
       "SNDRI",
+      "TAAR1",
+      "class:Phenethylamine; Amphetamine (ring-substituted methylenedioxyamphetamine)",
       "class:amphetamine",
       "common",
+      "duplicate-of-MDA",
       "habit-forming",
+      "no-human-data",
       "phenethylamine",
       "psychedelic-entactogen-hybrid"
     ],
@@ -50126,6 +49562,9 @@
       "PIHKAL by Alexander & Ann Shulgin (Transform Press, 1991) — text used with permission per https://erowid.org/library/books_online/pihkal/pihkal.shtml",
       "https://erowid.org/library/books_online/pihkal/pihkal100.shtml",
       "TripSit drugs.json: https://github.com/TripSit/drugs",
+      "Wikidata: https://www.wikidata.org/wiki/Q223020",
+      "PubChem CID 1614: https://pubchem.ncbi.nlm.nih.gov/compound/1614",
+      "CAS 4764-17-4",
       "https://psychonautwiki.org/wiki/MDA"
     ],
     "data_gaps": [
@@ -50630,7 +50069,7 @@
     ]
   },
   {
-    "name": "MDMEOET",
+    "name": "Mdmeoet",
     "display_name": "",
     "aliases": [],
     "category": "Psychedelic",
@@ -51037,7 +50476,7 @@
       "Vanilla Sky",
       "bath_salts"
     ],
-    "category": "Empathogen",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "CYP2D6-CYP2C19-substrate",
@@ -51536,7 +50975,6 @@
       "grey-market",
       "melanocortin-agonist",
       "peptide",
-      "research-chemical",
       "tanning"
     ],
     "default_route": "subcutaneous",
@@ -51894,7 +51332,6 @@
       "habit-forming",
       "no-human-data",
       "phenethylamine",
-      "research-chemical",
       "substrate-releaser"
     ],
     "default_route": "insufflation",
@@ -53409,75 +52846,6 @@
     ]
   },
   {
-    "name": "Methoxyketamine",
-    "display_name": "",
-    "aliases": [
-      "2-meo-ketamine"
-    ],
-    "category": "Dissociative",
-    "display_class": "recreational",
-    "tags": [
-      "NMDA-antagonist",
-      "arylcyclohexylamine",
-      "duplicate-of-2-MeO-Ketamine",
-      "habit-forming",
-      "research-chemical"
-    ],
-    "default_route": "insufflation",
-    "all_routes": [
-      "insufflation"
-    ],
-    "routes_with_dose": [
-      "insufflation"
-    ],
-    "has_dose_data": true,
-    "has_duration_data": true,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "An arylcyclohexylamine drug and analogue of ketamine. The drug is slightly less potent than ketamine. It is reported to have similar dissociative and anasthetic effects to ketamine. The drug is reported to be extremely rare."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Methoxypiperamide",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "inactive",
-      "research-chemical"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Drug of the Piperazine class. The 4-Methoxy-α-keto analogue of Methylbenzylpiperazine. The drug is reported to inactive on its own. The drug was sold in combination with Mephtetramine."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "METHYL-DMA",
     "display_name": "",
     "aliases": [],
@@ -54236,8 +53604,8 @@
     "aliases": [
       "Medrol"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "glucocorticoid",
@@ -55385,8 +54753,7 @@
       "grey-market",
       "peptide",
       "peptide-mimetic",
-      "performance-enhancing",
-      "research-chemical"
+      "performance-enhancing"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -55845,8 +55212,8 @@
       "Mometasone-topical",
       "Nasonex"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment, lotion, solution",
@@ -55877,8 +55244,8 @@
     "aliases": [
       "Dulera"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "inhaled corticosteroid",
       "long-acting beta-2 agonist",
@@ -55911,7 +55278,7 @@
       "Ghost flower",
       "Ghost plant",
       "Ice plant",
-      "Indian Pipe"
+      "Indian pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
@@ -56109,8 +55476,7 @@
       "longevity-research",
       "metabolic",
       "mitochondrial",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -56670,7 +56036,6 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
-      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
@@ -57752,7 +57117,7 @@
       "納洛酮",
       "纳洛酮"
     ],
-    "category": "Other",
+    "category": "Opioid",
     "display_class": "recreational",
     "tags": [
       "OTC-available",
@@ -57806,8 +57171,8 @@
       "ReVia",
       "Vivitrol"
     ],
-    "category": "Other",
-    "display_class": "medical_rx",
+    "category": "Opioid",
+    "display_class": "recreational",
     "tags": [
       "AUD-treatment",
       "OUD-treatment",
@@ -58436,7 +57801,7 @@
       "烟碱",
       "菸鹼"
     ],
-    "category": "Depressant",
+    "category": "Stimulant",
     "display_class": "recreational",
     "tags": [
       "CYP2A6-substrate",
@@ -61294,7 +60659,6 @@
       "no-human-data",
       "nootropic",
       "peptide",
-      "research-chemical",
       "single-lab-data-only"
     ],
     "default_route": "",
@@ -62152,8 +61516,7 @@
     "tags": [
       "no-human-data",
       "nootropic",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "insufflation",
     "all_routes": [
@@ -62595,33 +61958,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Peptidyl-prolyl cis-trans isomerase FKBP1A",
-    "display_name": "",
-    "aliases": [
-      "Astagraf Xl",
-      "tacrolimus"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action Tacrolimus binds to an intracellular protein, FKBP-12. A complex of tacrolimus-FKBP-12, calcium, calmodulin, and calcineurin (an ubiquitous mammalian intracellular enzyme) is then formed and the phosphatase activity of calcineurin inhibited. Such inhibition prevents the dephosphorylation and translocation of various factors such as the nuclear factor of activated T-cells (NF-AT), and nuclear factor kappa-light-chain-enhancer of activated B-cells (NF-κB). Tacrolimus inhibits the expression and/or production of several cytokines that include interleukin (IL)-1 beta, IL‑2, IL-3, IL-4, IL-5, IL-6, IL-8, IL-10, gamma interferon, tumor necrosis factor-alpha, and granulocyte macrophage colony stimulating factor. Tacrolimus also inhibits IL-2 receptor expression and nitric oxide release, induces apoptosis and production of transforming growth factor-beta that can lead to immunosuppressive activity. The net result is the inhibition of T-lymphocyte activation and proliferation as well as T-helper-cell-dependent B-cell response (i.e., immunosuppression). Pharmacokinetics Table 7 summarizes the pharmacokinetic (PK) parameters of tacrolimus following oral administration of Astagraf Xl in healthy subjects and in kidney transplant patients. Whole blood tacrolimus concentrations in these pharmacokinetic studies were measured using validated HPLC/MS/MS assays. Table 7: Pharmacokinetic Parameters of Astagraf Xl (Given Once Daily) in Healthy Subjects and in Kidney Transplant Patients (Under Fasted Conditions) a Healthy adult subjects (actual administered dose of Astagraf Xl); Adult de novo kidney transplant patients (actual group mean dose of Astagraf Xl) b Day of Astagraf Xl treatment and PK profiling c Arithmetic means ± S.D. d Median e “De novo” refers to immunosuppression starting at the time of transplantation; data from PK substudy of Study 2 f Tacrolimus trough concentration before the next dose g Same daily dose of ASTAGRAF XL for 14-day period h Correlation coefficient of AUC 24 to C min r = 0.88 Population Astagraf Xl Dose a Day b Pharmacokinetic Parameters of Astagraf Xl C max c (ng/mL) T max d (hr) AUC 24 c (nghr/mL) C 24 f (ng/mL) Healthy Subjects (n=24) 4 mg 4 mg Day 1 Day 10 ± 2.1 ± 3.4 74 ± 22 155 ± 46 ± 0.8 ± 1.5 Adult Kidney De novo e (n=17) mg/kg mg/kg mg/kg mg/kg Day 1 Day 3 Day 7 Day 14 ± 13.7 ± 13.9 ± 10.2 ± 9.0 372 ± 202 437 ± 175 405 ± 117 412 ± 109 ± 7.2 ± 5.6 ± 4.0 ± 3.9 Adult Kidney (6 months or greater post-transplant) (n=60) mg/day g Day 14 g ± 5.3 222 ± 64 ± 1.9 h In de novo adult kidney transplant patients, the tacrolimus systemic exposure, as assessed by AUC 24 , for Astagraf Xl 0.2 mg/kg once daily on Day 1 post-transplant was 18% (Ratio : 0.822 ) lower when compared with PROGRAF ® (tacrolimus immediate-release) 0.2 mg/kg/day given twice daily. By Day 3 post-transplant, the AUC 24 was similar between the two formulations. On Day 14 (steady state), the AUC 24 for Astagraf Xl was 21% (Ratio : 1.207 ) higher than that of PROGRAF (tacrolimus immediate-release), at comparable trough concentrations (C 24 ). Due to intersubject variability in tacrolimus pharmacokinetics, individualization of dosing regimen is necessary for optimal therapy . Pharmacokinetic data indicate that whole blood concentrations rather than plasma concentrations serve as the more appropriate sampling compartment to describe tacrolimus pharmacokinetics. Absorption In healthy subjects, the administration of escalating Astagraf Xl doses ranging from 1.5 mg to 10 mg resulted in dose-proportional increases in tacrolimus AUC and C 24h , and no change in elimination half-life. Food Effects The presence of a meal affects the absorption of tacrolimus; the rate and extent of absorption is greatest under fasted conditions. In 24 healthy subjects, administration of Astagraf Xl immediately following a high-fat meal (150 protein calories, 250 carbohydrate calories, and 500 to 600 fat calories) reduced the C max , AUC t , and AUC inf of tacrolimus by approximately 25% compared with fasting values. Food delayed the median T max from 2 hours in the fasted state to 4 hours in the fed state; however, the terminal half-life remained 36 hours regardless of dosing conditions. The time when a meal is consumed also affected tacrolimus bioavailability. In 24 healthy subjects, when Astagraf Xl was administered 1.5 hours after consumption of a high-fat breakfast, tacrolimus exposure was decreased approximately 35%. Administration of Astagraf Xl 1 hour prior to a high-fat breakfast reduced tacrolimus exposure by 10%. Astagraf Xl capsules should be taken preferably on an empty stomach at least 1 hour before a meal or at least 2 hours after a meal. Chronopharmacokinetic Effect In 23 healthy subjects, a diurnal effect on the absorption of tacrolimus was observed. Evening dosing of Astagraf Xl reduced AUC inf by 35% relative to morning dosing. Astagraf Xl capsules should be taken consistently at the same time every morning. Distribution The plasma protein binding of tacrolimus is approximately 99% and is independent of concentration over a range of 5-50 ng/mL. Tacrolimus is bound mainly to albumin and alpha-1-acid glycoprotein, and has a high level of association with erythrocytes. The distribution of tacrolimus between whole blood and plasma depends on several factors, such as hematocrit, temperature at the time of plasma separation, drug concentration, and plasma protein concentration. In a U.S. trial in which tacrolimus was administered as tacrolimus immediate-release, the ratio of whole blood concentration to plasma concentration averaged 35 (range 12 to 67). Metabolism The desired pharmacological activity of tacrolimus is primarily due to the parent drug. Tacrolimus is extensively metabolized by the mixed-function oxidase system, primarily the cytochrome P-450 system (CYP3A). A metabolic pathway leading to the formation of 8 possible metabolites has been proposed. Demethylation and hydroxylation were identified as the primary mechanisms of biotransformation in vitro . The major metabolite identified in incubations with human liver microsomes is 13-demethyl tacrolimus. In in vitro studies, a 31-demethyl metabolite has been reported to have the same activity as tacrolimus. Excretion In a mass balance study of orally-administered radiolabeled tacrolimus to 6 healthy subjects, the mean recovery of the radiolabel was 94.9 ± 30.7%. Fecal elimination accounted for 92.6 ± 30.7% and urinary elimination accounted for 2.3 ± 1.1% of the total radiolabel administered. The elimination half-life based on radioactivity was 31.9 ± 10.5 hours, whereas it was 48.4 ± 12.3 hours based on tacrolimus concentrations. The mean clearance of radiolabel was 0.226 ± 0.116 L/hr/kg and the mean clearance of tacrolimus was 0.172 ± 0.088 L/hr/kg. The elimination half-life of tacrolimus after oral administration of 4 mg Astagraf Xl daily for 10 days was 38 ± 3 hours in 24 healthy subjects. Specific Populations Renal Impairment Tacrolimus pharmacokinetics following a single administration of tacrolimus immediate-release injection (administered as a continuous IV infusion) were determined in 12 patients (7 not on dialysis and 5 on dialysis, serum creatinine of 3.9 ± 1.6 and 12.0 ± 2.4 mg/dL, respectively) prior to their kidney transplant. The mean clearance of tacrolimus in patients with renal dysfunction given tacrolimus IV was similar to that in healthy subjects given tacrolimus IV and in healthy subjects given oral tacrolimus immediate-release . Hepatic Impairment Tacrolimus pharmacokinetics have been determined in six patients with mild hepatic impairment (mean Child-Pugh score: 6.2) following single oral administration of tacrolimus immediate-release. The mean clearance of tacrolimus in patients with mild hepatic impairment was not substantially different from that in healthy subjects. Tacrolimus pharmacokinetics were studied in 6 patients with severe hepatic impairment (mean Pugh score: > 10). The mean clearance was substantially lower in patients with severe hepatic impairment . Race The pharmacokinetics of tacrolimus was studied following single oral administration of tacrolimus immediate-release (5 mg) in 10 African-American, 12 Latino-American, and 12 Caucasian healthy subjects : The mean (± SD) tacrolimus C max in African-Americans (23.6 ± 12.1 ng/mL) was lower than in Caucasians (40.2 ± 12.6 ng/mL) and Latino-Americans (36.2 ± 15.8 ng/mL). Mean AUC 0-inf tended to be lower in African-Americans (203 ± 115 ng hr/mL) than Caucasians (344 ± 186 ng hr/mL) and Latino-Americans (274 ± 150 ng hr/mL). The mean (± SD) absolute oral bioavailability (F) in African-Americans (12 ± 4.5%) and Latino-Americans (14 ± 7.4%) was lower than in Caucasians (19 ± 5.8%). There was no significant difference in mean terminal half-life among the three ethnic groups (range from approximately 25 to 30 hours). Gender A formal trial to evaluate the effect of gender on tacrolimus pharmacokinetics has not been conducted; however, there was no difference in total mg daily dosages between male and female patients receiving Astagraf Xl in the kidney transplant trials. A retrospective comparison of pharmacokinetics in healthy subjects, and in kidney transplant patients indicated no gender-based differences. Drug Interactions Because tacrolimus is metabolized mainly by CYP3A enzymes, drugs or substances known to inhibit these enzymes and/or are known CYP3A substrates may increase tacrolimus whole blood concentrations. Drugs known to induce CYP3A enzymes may decrease tacrolimus whole blood concentrations . Figures 1 and 2 summarize the PK data from drug interaction studies of Astagraf Xl or tacrolimus immediate-release capsules. These studies assessed the effect of co-administered drugs on tacrolimus PK in healthy subjects. For the clinical recommendations, see Drug Interactions . Figure 1: Effect of Co-administered Drugs on the Pharmacokinetics of Tacrolimus (when Given as Astagraf Xl) Figure 2: Effect of Co-administered Drugs on the Pharmacokinetics of Tacrolimus (when Given as Immediate-Release Tacrolimus) Figure 1: Effect of Co-administered Drugs on the Pharmacokinetics of Tacrolimus (when Given as Astagraf Xl®) Figure 2: Effect of Co-administered Drugs on the Pharmacokinetics of Tacrolimus (when Given as Immediate-Release Tacrolimus)",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -63191,8 +62527,7 @@
       "habit-forming",
       "high-dependence-risk",
       "nootropic",
-      "protracted-withdrawal",
-      "research-chemical"
+      "protracted-withdrawal"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -63726,6 +63061,7 @@
     "aliases": [
       "DPPEA",
       "MK-306",
+      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -64493,8 +63829,7 @@
     "display_class": "medical_rx",
     "tags": [
       "no-human-data",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "intravenous",
     "all_routes": [
@@ -65078,8 +64413,8 @@
       "Dermatop",
       "Prednicarbate-topical"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "cream, ointment"
@@ -65109,8 +64444,8 @@
       "Orapred ODT",
       "Pediapred"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "glucocorticoid",
@@ -65140,8 +64475,8 @@
       "Deltasone",
       "Rayos"
     ],
-    "category": "Supplement",
-    "display_class": "otc",
+    "category": "Endocrine",
+    "display_class": "medical_rx",
     "tags": [
       "corticosteroid",
       "glucocorticoid",
@@ -65686,41 +65021,6 @@
     ]
   },
   {
-    "name": "Propionylvalindomycin",
-    "display_name": "",
-    "aliases": [],
-    "category": "Psychedelic",
-    "display_class": "recreational",
-    "tags": [
-      "5-HT2A-agonist",
-      "DOx",
-      "natural-product",
-      "no-human-data",
-      "not-psychoactive",
-      "phenethylamine",
-      "tryptamine"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [
-      "Wikidata: https://www.wikidata.org/wiki/Q105368835",
-      "PubChem CID 139591557: https://pubchem.ncbi.nlm.nih.gov/compound/139591557"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "Propofol",
     "display_name": "",
     "aliases": [
@@ -65973,7 +65273,7 @@
     ]
   },
   {
-    "name": "PROPYNYL",
+    "name": "Propynyl",
     "display_name": "",
     "aliases": [],
     "category": "Psychedelic",
@@ -66325,7 +65625,6 @@
       "class:substituted tryptamines",
       "no-human-data",
       "psychedelic",
-      "research-chemical",
       "tentative",
       "tryptamine"
     ],
@@ -66637,36 +65936,6 @@
     ]
   },
   {
-    "name": "PV-10",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "medical_rx",
-    "tags": [
-      "inactive"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Reportedly inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
     "name": "PV-8",
     "display_name": "",
     "aliases": [
@@ -66698,36 +65967,6 @@
       "TripSit drugs.json: https://github.com/TripSit/drugs"
     ],
     "data_gaps": [
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "PV-9",
-    "display_name": "",
-    "aliases": [],
-    "category": "Other",
-    "display_class": "medical_rx",
-    "tags": [
-      "inactive"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [
-      "Inactive."
-    ],
-    "references": [
-      "TripSit drugs.json: https://github.com/TripSit/drugs"
-    ],
-    "data_gaps": [
-      "dose_ranges_by_route",
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
@@ -67831,7 +67070,6 @@
       "GLP-1-agonist",
       "anti-obesity",
       "peptide",
-      "research-chemical",
       "weight-loss"
     ],
     "default_route": "subcutaneous",
@@ -70377,8 +69615,7 @@
       "GHRH-analogue",
       "anti-aging",
       "grey-market",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -71340,8 +70577,7 @@
     "tags": [
       "longevity",
       "no-human-data",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -72183,8 +71419,7 @@
       "anti-inflammatory",
       "grey-market",
       "healing-peptide",
-      "peptide",
-      "research-chemical"
+      "peptide"
     ],
     "default_route": "subcutaneous",
     "all_routes": [
@@ -72728,7 +71963,7 @@
     ]
   },
   {
-    "name": "TETRAHYDROHARMINE",
+    "name": "Tetrahydroharmine",
     "display_name": "",
     "aliases": [
       "THH"
@@ -72764,32 +71999,6 @@
       "duration_by_route",
       "half_life_minutes",
       "mechanism_of_action"
-    ]
-  },
-  {
-    "name": "Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate",
-    "display_name": "",
-    "aliases": [
-      "Technetium Tc 99m Sestamibi"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Pharmacokinetics Pulmonary activity is negligible even immediately after injection. Blood clearance studies indicate that the fast clearing component clears with a t ½ of 4.3 minutes at rest, and clears with a t ½ of 1.6 minutes under exercise conditions. At five minutes post injection about 8% of the injected dose remains in circulation. There is less than 1% protein binding of Technetium Tc 99m Sestamibi in plasma. The myocardial biological half-life is approximately six hours after a rest or exercise injection. The biological half-life for the liver is approximately 30 minutes after a rest or exercise injection. The effective half-life of clearance (which includes both the biological half-life and radionuclide decay) for the heart is approximately 3 hours, and for the liver is approximately 30 minutes, after a rest or exercise injection. The ideal imaging time reflects the best compromise between heart count rate and surrounding organ uptake. Myocardial uptake which is coronary flow dependent is 1.2% of the injected dose at rest and 1.5% of the injected dose at exercise. Table 6 illustrates the biological clearance as well as effective clearance (which includes biological clearance and radionuclide decay) of Tc 99m Sestamibi from the heart and liver. Table 6 REST Heart Liver Time Biological Effective Biological Effective 5 min. 1.2 1.2 19.6 19.4 30 min. 1.1 1.0 12.2 11.5 1 hour 1.0 0.9 5.6 5.0 2 hours 1.0 0.8 2.2 1.7 4 hours 0.8 0.5 0.7 0.4 STRESS Heart Liver Time Biological Effective Biological Effective 5 min. 1.5 1.5 5.9 5.8 30 min. 1.4 1.3 4.5 4.2 1 hour 1.4 1.2 2.4 2.1 2 hours 1.2 1.0 0.9 0.7 4 hours 1.0 0.6 0.3 0.2 A study in a dog myocardial ischemia model reported that Technetium Tc 99m Sestamibi undergoes myocardial distribution (redistribution), although more slowly and less completely than thallous chloride Tl-201. A study in a dog myocardial infarction model reported that the drug showed no redistribution of any consequence. Definitive human studies to demonstrate possible redistribution have not been reported. In patients with documented myocardial infarction, imaging revealed the infarct up to four hours post dose.",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
     ]
   },
   {
@@ -74961,7 +74170,7 @@
       "Triamcinolone-topical",
       "Triderm"
     ],
-    "category": "Supplement",
+    "category": "Endocrine",
     "display_class": "otc",
     "tags": [
       "corticosteroid",

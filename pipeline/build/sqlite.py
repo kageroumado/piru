@@ -212,6 +212,19 @@ CREATE TABLE categories (
 );
 CREATE INDEX idx_categories_category ON categories(category);
 
+-- Additional browse homes for a substance, beyond its single resolved primary
+-- category. Lets an intentionally cross-class compound surface under more than
+-- one family (e.g. Tianeptine under both Antidepressant and Opioid). Curated-
+-- only, written from a file's `extraCategories`. The PRIMARY category (card
+-- colour/icon, default home) stays the resolved `categories` winner; these are
+-- purely additive browse membership. Auto-reassigned on merge via substance_id.
+CREATE TABLE browse_extra_categories (
+    substance_id INTEGER NOT NULL REFERENCES substances(id),
+    category     TEXT NOT NULL,
+    PRIMARY KEY (substance_id, category)
+);
+CREATE INDEX idx_browse_extra_category ON browse_extra_categories(category);
+
 CREATE TABLE tags (
     substance_id INTEGER NOT NULL REFERENCES substances(id),
     tag          TEXT NOT NULL,
@@ -801,9 +814,17 @@ def smart_title_case(name: str) -> str:
 
     Names already containing any uppercase letter are returned unchanged —
     the source's casing is presumed intentional (preserves "MDMA", "5-MeO-DMT",
-    etc.).
+    etc.) — EXCEPT a fully-uppercase single alphabetic word that isn't a known
+    acronym, which is a SHOUTED common name (e.g. "IBOGAINE", "HARMALINE") and
+    gets title-cased. Genuine acronyms are short and/or carry digits/hyphens, so
+    the `isalpha()` + length≥7 + `_ACRONYMS` guard keeps "MBDB", "ADBICA",
+    "25I-NBOMe" untouched. `_CANONICAL_CASE` overrides any residual edge case.
     """
-    if not name or any(c.isupper() for c in name):
+    if not name:
+        return name
+    if name.isupper() and name.isalpha() and len(name) >= 7 and name.lower() not in _ACRONYMS:
+        return name[0] + name[1:].lower()
+    if any(c.isupper() for c in name):
         return name
     # Tokenise on word-separator characters, keeping the separators.
     parts = re.split(r"([\s\-,;()/.])", name)
@@ -1474,6 +1495,11 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # Psilocybin's mg dose ladder lives in a mislabelled same-InChIKey sibling.
     # Fold the DATA but NOT the name — "4-HO-DMT" is psilocin, a different drug.
     ("4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER", "Psilocybin", False),
+    # 2-FDCK doubled: the short-name stub carries a WRONG InChIKey
+    # (PHFAGYYTDLITTB) so structural dedup never matched the full-name record
+    # (BAHANNQVCQDQQT, the correct key). Fold the stub into the correctly-keyed
+    # canonical; display stays "2-FDCK" via its display_name.
+    ("2-FDCK", "2-Fluorodeschloroketamine", True),
 ]
 
 # Do-NOT-merge pairs: distinct compounds whose source InChIKeys collide on the
@@ -1490,6 +1516,14 @@ _DO_NOT_MERGE: set[frozenset[str]] = {
     frozenset({normalise("Cannabis"), normalise("THC")}),
     frozenset({normalise("CBC"), normalise("CBG")}),
     frozenset({normalise("3-MMC"), normalise("Myristicin")}),
+    # Further mislabelled-InChIKey collisions surfaced by the by-category audit
+    # (_FLAGS dup_same_inchikey_block). Each pair is unrelated chemistry sharing
+    # a connectivity block only because one record carries a wrong key.
+    frozenset({normalise("Tilidine"), normalise("Methylphenidate")}),
+    frozenset({normalise("Tilidine"), normalise("Dexmethylphenidate")}),
+    frozenset({normalise("Picamilon"), normalise("Selegiline")}),
+    frozenset({normalise("CBDV"), normalise("THCV")}),
+    frozenset({normalise("4-Chloroamphetamine"), normalise("Fenfluramine")}),
 }
 
 # Force a specific canonical display casing for names that arrive mis-cased and
@@ -1537,6 +1571,50 @@ _CANONICAL_CASE: dict[str, str] = {
 # lineage via its category + lysergamide/tryptamine/TIHKAL/common tags.
 _TAG_BLOCKLIST: dict[str, set[str]] = {
     "lsd": {"no-human-data", "phenethylamine"},
+    # Pure dopaminergic/noradrenergic stimulants wrongly carrying an empathogen
+    # tag (no meaningful serotonin release). Category is pinned via curated; this
+    # strips the residual cosmetic tag so the detail card doesn't call them
+    # empathogens. (See findings A/B — empathogen requires 5-HT release.)
+    "mdpv": {"empathogen", "entactogen"},
+    "2-fea": {"empathogen", "entactogen"},
+    "a-pihp": {"empathogen", "entactogen"},
+    "alpha-pihp": {"empathogen", "entactogen"},
+    "md-pihp": {"empathogen", "entactogen"},
+    "2-me-pihp": {"empathogen", "entactogen"},
+    "3f-pihp": {"empathogen", "entactogen"},
+    "flephedrone": {"empathogen", "entactogen"},
+    "methcathinone": {"empathogen", "entactogen"},
+    "n-ethylpentedrone": {"empathogen", "entactogen"},
+    "mexedrone": {"empathogen", "entactogen"},
+    "3-chloromethcathinone": {"empathogen", "entactogen"},
+    "3-fea": {"empathogen", "entactogen"},
+    "3-fma": {"empathogen", "entactogen"},
+    "4-fluoropentedrone": {"empathogen", "entactogen"},
+    "4-mpd": {"empathogen", "entactogen"},
+    "3-fluoromethcathinone": {"empathogen", "entactogen"},
+}
+
+# Final removal blocklist: rows that are NOT consumable substances and should
+# never reach the app. Keyed on normalise(canonical_name). Distinct from the
+# medtap protein-name regex (which fires at ingest): these are arbitrary
+# non-drug entries (enzymes, lab reagents, hoaxes) that slipped through from
+# any source. Verified non-substances only.
+_REMOVE_NAMES: set[str] = {
+    normalise("DNA (cytosine-5)-methyltransferase 1"),
+    normalise("Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate"),
+    normalise("Jenkem"),  # urban-legend hoax, no active pharmacology
+}
+
+# Tags that mark a row as pharmacologically inert / fake. A substance carrying
+# any of these AND with no dose data AND no curated file is dropped as clutter
+# (PV-9/PV-10/4-CIC/Methoxypiperamide-class inert RCs). Recreational provenance
+# or a dose ladder protects it (we never drop something with real data).
+_INERT_TAGS: set[str] = {
+    "inactive",
+    "not-psychoactive",
+    "no-known-active-pharmacology",
+    "hoax",
+    "hoax-or-urban-legend",
 }
 
 
@@ -2901,6 +2979,18 @@ class Build:
                 pubchem_cid=to_int(entry.get("pubchemCID")),
                 cas=entry.get("cas"),
             )
+            # Additional browse homes (multi-class compounds). Primary category
+            # stays the resolved winner; these only add browse membership.
+            extra = entry.get("extraCategories") or []
+            if extra:
+                sid = self.substance_ids.get(normalise(entry["name"]))
+                if sid is not None:
+                    for cat in extra:
+                        self.cur.execute(
+                            "INSERT OR IGNORE INTO browse_extra_categories"
+                            "(substance_id, category) VALUES(?, ?)",
+                            (sid, cat),
+                        )
         self.stats["curated_files"] = len(names)
         return names
 
@@ -3257,7 +3347,11 @@ class Build:
             ),
             ({"antipsychotic", "atypical-antipsychotic", "typical-antipsychotic"}, "Antipsychotic"),
             (
-                {"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "NDRI", "SARI", "NaSSA"},
+                # NB: `NDRI` deliberately excluded — bupropion is an NDRI but so
+                # are many stimulants (pyrovalerones like MD-PiHP). The NDRI tag
+                # alone is not antidepressant-specific and used to drag stimulants
+                # into Antidepressant. Require an antidepressant-class tag instead.
+                {"antidepressant", "SSRI", "SNRI", "TCA", "MAOI", "SARI", "NaSSA"},
                 "Antidepressant",
             ),
             ({"antihistamine", "H1-antagonist", "H2-antagonist", "deliriant"}, "Antihistamine"),
@@ -3439,7 +3533,9 @@ class Build:
     # so match on word boundaries rather than endswith.
     _MEDTAP_JUNK_RE = re.compile(
         r"\b(receptor|transporter|channel|subunit|ribosomal|topoisomerase|atpase|"
-        r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease)\b",
+        r"binding protein|reductase|synthase|kinase|polymerase|integrase|protease|"
+        r"transferase|methyltransferase|dehydrogenase|hydroxylase|carboxylase|"
+        r"transaminase|aminotransferase|lyase|ligase|isomerase)\b",
         re.IGNORECASE,
     )
 
@@ -3638,6 +3734,52 @@ class Build:
         if missing:
             print(f"  apply_forced_merges: targets not found: {missing}", file=sys.stderr)
         return {"merged": merged, "missing": len(missing)}
+
+    def merge_self_flagged_duplicates(
+        self, protect_norms: set[str] | None = None
+    ) -> dict[str, int]:
+        """Fold rows a prior enrichment pass already tagged `duplicate-of-<X>`
+        into their target X. The structural dedup leaves these split because the
+        stub carries no/clashing InChIKey, but the curators identified them by
+        hand. Target is matched on normalise() so the tag suffix may be a slug
+        ('chloral-hydrate') or a name ('2-MeO-Ketamine'). Honours _DO_NOT_MERGE.
+
+        A loser that has its own curated file (``protect_norms``) is NEVER merged
+        away — a hand-authored entry is deliberate; if it's truly a duplicate the
+        curator deletes its file. Runs after apply_forced_merges (survivors)."""
+        protect = protect_norms or set()
+        by_norm: dict[str, int] = {}
+        for sid, cname in self.cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+            by_norm.setdefault(normalise(cname), sid)
+        prefix = "duplicate-of-"
+        pairs: list[tuple[int, int, str]] = []
+        for sid, tag in self.cur.execute(
+            "SELECT substance_id, tag FROM tags WHERE tag LIKE 'duplicate-of-%'"
+        ).fetchall():
+            target_norm = normalise(tag[len(prefix) :])
+            winner = by_norm.get(target_norm)
+            if winner is None or winner == sid:
+                continue
+            lname = self.cur.execute(
+                "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+            ).fetchone()
+            if not lname:
+                continue
+            if normalise(lname[0]) in protect:
+                continue
+            if frozenset({normalise(lname[0]), target_norm}) in _DO_NOT_MERGE:
+                continue
+            pairs.append((winner, sid, tag))
+        merged = 0
+        for winner, loser, _tag in pairs:
+            # Both may have been consumed by an earlier merge in this loop.
+            if not self.cur.execute("SELECT 1 FROM substances WHERE id=?", (loser,)).fetchone():
+                continue
+            if not self.cur.execute("SELECT 1 FROM substances WHERE id=?", (winner,)).fetchone():
+                continue
+            self._merge_into(winner, loser, fold_aliases=True)
+            merged += 1
+        return {"merged": merged}
 
     # A route spelled into the canonical name as a suffix (`Fluticasone-nasal`,
     # `Hydrocortisone-topical`, `Beclomethasone-inhaled`) — the route belongs in
@@ -4070,6 +4212,79 @@ class Build:
             )
         return {"groups": len(groups), "merged": merged, "needs_review": len(review)}
 
+    def _delete_substance(self, sid: int) -> None:
+        """Hard-delete a substance and every child row referencing it."""
+        for t in self._substance_tables():
+            self.cur.execute(f"DELETE FROM {t} WHERE substance_id=?", (sid,))
+        row = self.cur.execute(
+            "SELECT canonical_name FROM substances WHERE id=?", (sid,)
+        ).fetchone()
+        self.cur.execute("DELETE FROM substances WHERE id=?", (sid,))
+        if row:
+            self.substance_ids.pop(normalise(row[0]), None)
+
+    def purge_overbroad_research_chemical_tag(self) -> int:
+        """Strip the `research-chemical` tag from substances that are NOT novel/
+        obscure research chemicals, so the tag-driven "Research Chemicals" browse
+        group (and the detail-card tag label) stays genuine. Sources over-apply
+        it: every peptide is sold "for research use" and well-studied classics
+        (Psilocin, 5-MeO-DMT) and approved meds (Phenibut) get swept in.
+
+        Remove it when the substance is:
+          - a peptide (has a peptide_profile or a Peptide category — it lives in
+            the Peptides family, never "RC"), or
+          - well-established: curated popularity >= the threshold (the genuine
+            obscure RCs all sit at popularity 0; only established compounds clear
+            it — psilocin, 5-MeO-DMT, phenibut, the GLP-1/healing peptides).
+        Runs after dedup + curated popularity are final."""
+        RC_ESTABLISHED_POPULARITY = 0.3
+        rows = self.cur.execute(
+            """
+            SELECT DISTINCT s.id FROM substances s
+              JOIN tags t ON t.substance_id = s.id AND t.tag = 'research-chemical'
+             WHERE s.popularity >= ?
+                OR EXISTS(SELECT 1 FROM peptide_profiles p WHERE p.substance_id = s.id)
+                OR EXISTS(SELECT 1 FROM categories c
+                           WHERE c.substance_id = s.id AND c.category = 'Peptide')
+            """,
+            (RC_ESTABLISHED_POPULARITY,),
+        ).fetchall()
+        n = 0
+        for (sid,) in rows:
+            cur = self.cur.execute(
+                "DELETE FROM tags WHERE substance_id=? AND tag='research-chemical'", (sid,)
+            )
+            n += cur.rowcount
+        return n
+
+    def drop_junk_and_inert(self, protect_norms: set[str] | None = None) -> dict[str, int]:
+        """Remove rows that are not consumable substances: explicit non-drug
+        entries (``_REMOVE_NAMES``: enzymes, lab reagents, hoaxes) and inert/fake
+        compounds (``_INERT_TAGS`` with NO dose data and NO curated file). A dose
+        ladder or a curated override always protects a row. Runs after dedup so a
+        junk row that was an unmerged duplicate has already folded."""
+        protect = protect_norms or set()
+        removed_named = removed_inert = 0
+        for sid, cname in self.cur.execute("SELECT id, canonical_name FROM substances").fetchall():
+            if normalise(cname) in _REMOVE_NAMES and normalise(cname) not in protect:
+                self._delete_substance(sid)
+                removed_named += 1
+        tag_csv = ",".join("?" * len(_INERT_TAGS))
+        inert_rows = self.cur.execute(
+            f"""
+            SELECT s.id, s.canonical_name, s.normalized_name FROM substances s
+             WHERE EXISTS(SELECT 1 FROM tags t WHERE t.substance_id=s.id AND t.tag IN ({tag_csv}))
+               AND NOT EXISTS(SELECT 1 FROM dose_ranges d WHERE d.substance_id=s.id)
+            """,
+            tuple(_INERT_TAGS),
+        ).fetchall()
+        for sid, _cname, norm in inert_rows:
+            if norm in protect:
+                continue
+            self._delete_substance(sid)
+            removed_inert += 1
+        return {"named": removed_named, "inert": removed_inert}
+
     def drop_orphan_stubs(self, protect_norms: set[str] | None = None) -> dict[str, int]:
         """Delete content-less wikidata long-tail stubs.
 
@@ -4493,6 +4708,14 @@ def main() -> int:
     forced = build.apply_forced_merges()
     print(f"Forced merges: {forced}", file=sys.stderr)
 
+    # Fold rows hand-tagged `duplicate-of-<X>` by prior enrichment into their
+    # target (the structural dedup misses them — stub/clashing InChIKey). Runs
+    # after forced merges so it operates on survivors; honours _DO_NOT_MERGE.
+    self_dups = build.merge_self_flagged_duplicates(
+        protect_norms={normalise(n) for n in curated_names}
+    )
+    print(f"Self-flagged duplicate merges: {self_dups}", file=sys.stderr)
+
     # Fold `<base>-<route>` name-suffix variants (Fluticasone-nasal,
     # Hydrocortisone-topical, Beclomethasone-inhaled …) into a single parent
     # `<base>`, moving the route out of the name into the `route` column. Runs
@@ -4520,6 +4743,12 @@ def main() -> int:
     # curve, so those routes fall back to marker rendering. Dose ladders untouched.
     dur_audit = build.audit_salt_supplement_durations()
     print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
+
+    # Remove non-substance junk (enzyme/reagent names, hoaxes) and inert/fake
+    # compounds (no dose data, no curated file). Runs after dedup/merges so a
+    # junk row that was an unmerged duplicate has already folded.
+    junk = build.drop_junk_and_inert(protect_norms={normalise(n) for n in curated_names})
+    print(f"Junk/inert removal: {junk}", file=sys.stderr)
 
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after
@@ -4553,6 +4782,13 @@ def main() -> int:
             cur = build.cur.execute("DELETE FROM tags WHERE substance_id=? AND tag=?", (sid, tag))
             tags_purged += cur.rowcount
     print(f"Tag blocklist purge: {tags_purged}", file=sys.stderr)
+
+    # Keep the "Research Chemicals" group genuine: drop the over-applied
+    # research-chemical tag from peptides (own family) and well-established
+    # compounds (popularity >= 0.3 — psilocin, 5-MeO-DMT, phenibut, GLP-1/healing
+    # peptides). Runs after dedup + popularity are final.
+    rc_purged = build.purge_overbroad_research_chemical_tag()
+    print(f"Research-chemical tag purge: {rc_purged}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer

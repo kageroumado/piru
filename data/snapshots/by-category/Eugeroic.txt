@@ -1,14 +1,32 @@
-# Eugeroic — 12 substances
+# Eugeroic — 8 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Adrafinil  [CRL-40,028|Olmifon]  (source: piru-curated)  #afinil  #eugeroic  #habit-forming  #hepatotoxic-monitor  #hepatotoxic-potential  #prodrug  #research-chemical
-  Armodafinil  [(R)-(−)-modafinil|(R)-modafinil|(−)-2-[(R)-(diphenylmethyl)sulfinyl]acetamide|Nuvigil|Nuvigil (brand)|R-modafinil|nuvigil]  (source: piru-curated)  #CYP2C19-inhibitor-weak  #CYP3A4-inducer-moderate  #DAT-inhibitor  #US-Schedule-IV  #afinil  #atypical-DAT-inhibitor  #class:Benzhydryl sulfoxide (R-enantiomer of modafinil)  #eugeroic  +2more
-  Bisfluoromodafinil  [CRL-40,940|Flmodafinil|Lauflumide|NLS-4]  (source: piru-curated)  #DAT-selective  #afinil  #atypical-DAT-inhibitor  #eugeroic  #no-human-data  #research-chemical
-  CRL-40,940  [Flmodafinil|Lauflumide]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #research-chemical
-  CRL-40,941  [Bisfluoroadrafinil|Fladrafinil|Fluorafinil]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #prodrug  #research-chemical
-  Fladrafinil  [Bisfluoroadrafinil|CRL-40,941|Fluorafinil]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #research-chemical
-  Flmodafinil  [Bisfluoromodafinil|CRL-40,940|Flodafinil|Fluoromodafinil|Lauflumide|NLS-4|bisfluoromodafinil]  (source: piru-curated)  #afinil  #class:Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)  #eugeroic  #no-human-data  #research-chemical
-  Fluorenol  [9-fluorenol|9H-fluoren-9-ol|hydrafinil]  (source: piru-curated)  #eugeroic  #no-human-data  #research-chemical
-  Hydrafinil  [9-Hydroxyfluorene|9-fluorenol|9-hydroxyfluorene|Fluorenol|fluorenol]  (source: piru-curated)  #afinil  #eugeroic  #no-human-data  #poorly-characterized  #research-chemical  #weak-DAT
-  Modafinil  [2-(diphenylmethylsulfinyl)acetamide|Alertec|Modavigil|Provigil|provigil]  (source: piru-curated)  #DAT-inhibitor  #DAT-inhibitor-weak  #US-Schedule-IV  #afinil  #common  #eugeroic  #habit-forming  #prescription-only
-  Modafinil acid  [CRL-40,467|Modafinilic acid|modafinilic acid]  (source: piru-curated)  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data
-  Modafinil sulfone  [Modafinil sulphone|modafinil sulphone]  (source: piru-curated)  #accumulating  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data
+  Armodafinil  <recreational>  — oral mg: common 100-150, heavy 250
+      aka: Artvigil|Neoresotyl|Nuvigil|R-Modawake|R-modafinil|Waklert
+      #CYP2C19-inhibitor-weak  #CYP3A4-inducer-moderate  #DAT-inhibitor  #US-Schedule-IV  #afinil  #atypical-DAT-inhibitor  #class:Benzhydryl sulfoxide (R-enantiomer of modafinil)  #class:benzhydryl  #eugeroic  #habit-forming  #prescription-only
+      also: Stimulant
+  Adrafinil  <recreational>  — oral mg: common 600-900, heavy 1500
+      aka: CRL-40,028|Olmifon
+      #afinil  #class:benzhydryl  #eugeroic  #habit-forming  #hepatotoxic-monitor  #hepatotoxic-potential  #prodrug
+      also: Stimulant
+  Fladrafinil  <recreational>  — oral mg: common 100-250, heavy 350
+      aka: Bisfluoroadrafinil|CRL-40,941|CRL-40-941|Fluorafinil|fluoromodafinil
+      #afinil  #eugeroic  #no-human-data  #prodrug  #research-chemical  #tentative
+      also: Stimulant
+  Flmodafinil  <recreational>  — insufflation mg: common 20-35, heavy 50
+      aka: Bisfluoromodafinil|CRL-40,940|CRL-40-940|Flodafinil|Fluoromodafinil|Lauflumide|NLS-4
+      #DAT-selective  #afinil  #atypical-DAT-inhibitor  #class:Diphenylmethyl-sulfoxide acetamide (bis-4-fluoro analogue of modafinil)  #eugeroic  #no-human-data  #research-chemical  #tentative
+      also: Stimulant
+  Hydrafinil  (STUB)  <recreational>
+      aka: 9-Hydroxyfluorene|9-fluorenol|9H-fluoren-9-ol|Fluorenol
+      #afinil  #eugeroic  #no-human-data  #poorly-characterized  #research-chemical  #weak-DAT
+  Modafinil  <recreational>  — oral mg: common 150-200, heavy 400
+      aka: 2-(diphenylmethylsulfinyl)acetamide|Alertec|Modalert|Modavigil|Modiodal|Provigil
+      #DAT-inhibitor  #DAT-inhibitor-weak  #US-Schedule-IV  #afinil  #class:benzhydryl  #common  #eugeroic  #habit-forming  #prescription-only
+      also: Stimulant
+  Modafinil acid  (STUB)  <recreational>
+      aka: CRL-40,467|Modafinilic acid
+      #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data
+  Modafinil sulfone  (STUB)  <recreational>
+      aka: Modafinil sulphone
+      #accumulating  #eugeroic  #inactive  #inactive-metabolite  #metabolite  #no-human-data

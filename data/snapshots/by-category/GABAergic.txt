@@ -1,8 +1,21 @@
-# GABAergic — 6 substances
+# GABAergic — 5 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  4-Fluorophenibut  [4-F-Phenibut|4-amino-3-(4-fluorophenyl)butanoic acid|F-Phenibut|F-Phenibut FAA|F-Phenibut HCl|F-phenibut|Fluorobut|Fluorophenibut]  (source: drug.community)  #GABA-B-partial-agonist  #alpha-2-delta-ligand  #class:Gabapentinoid (structurally related to phenibut and baclofen)  #high-dependence-risk
-  F-Phenibut  [Fluorophenibut|fluorophenibut|β-(4-Fluorophenyl)-GABA]  (source: piru-curated)  #GABA-B-agonist  #GABAergic  #duplicate-of-4-fluorophenibut  #high-dependence-risk  #research-chemical
-  Gabapentin  [1-(Aminomethyl)cyclohexaneacetic acid|CI-945|DM-1796|Gabapentinum|Gabarone|Gralise|Horizant (as gabapentin enacarbil prodrug)|Neurontin|neurontin]  (source: piru-curated)  #NOT-GABA-receptor-ligand  #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #class:GABA analogue (structural analogue of gamma-aminobutyric acid)  #gabapentinoid  #habit-forming  #no-CYP-metabolism  +3more
-  Gaboxadol  [2H,3H,4H,5H,6H,7H-[1,2]oxazolo[5,4-c]pyridin-3-one|4,5,6,7-tetrahydroisoxazolo[5,4-c]pyridin-3-ol|Lu 02-030|MK-0928|MK0928|THIP]  (source: drug.community)  #class:Isoxazole derivative
-  Phenibut  [Anvifen|Fenibut|Noofen|phenigamma|phenybut|β-Phenyl-γ-aminobutyric acid|β-phenyl-GABA]  (source: piru-curated)  #GABA-B-agonist  #GABA-B-partial-agonist  #GABAergic  #alpha-2-delta-ligand  #habit-forming  #high-dependence-risk  #nootropic  #protracted-withdrawal  +1more
-  Pregabalin  [(S)-(+)-4-amino-3-(2-methylpropyl)butanoic acid|(S)-3-isobutyl GABA|CI-1008|DB00230|Lyrica|PD-144723|PGB|lyrica|pregablin|α2δ calcium-channel ligand]  (source: piru-curated)  #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #anxiolytic  #class:Gabapentinoid; GABA analogue (does not act at GABA-A/B receptors)  #common  #gabapentinoid  #habit-forming  +4more
+  Gabapentin  <recreational>  — oral mg: common 600-900, heavy 1200
+      aka: 1-(Aminomethyl)cyclohexaneacetic acid|CI-945|DM-1796|Gabapentinum|Gabarone|Gralise|Horizant|neurontin|加巴喷丁|加巴噴丁
+      #NOT-GABA-receptor-ligand  #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #capsule, tablet, extended-release tablet, solution  #class:GABA analogue (structural analogue of gamma-aminobutyric acid)  #class:gabapentinoids  #gabapentinoid  #habit-forming  #neuropathic analgesic  #no-CYP-metabolism  #prescription-only
+      also: Anticonvulsant, Depressant
+  Pregabalin  <recreational>  — insufflation mg: common 75-200, heavy 400
+      aka: CI-1008|DB00230|Nervalin|PD-144723|PGB|lyrica|pregablin|α2δ calcium-channel ligand|普瑞巴林
+      #alpha-2-delta-ligand  #alpha2-delta-ligand  #anticonvulsant  #anxiolytic  #capsule, extended-release tablet, solution  #class:Gabapentinoid; GABA analogue (does not act at GABA-A/B receptors)  #class:gabapentinoids  #common  #gabapentinoid  #habit-forming  #high-affinity-vs-gabapentin  #linear-PK
+      also: Anticonvulsant, Depressant
+  Phenibut  <recreational>  — oral mg: common 500-1000, heavy 2000
+      aka: Anvifen|Fenibut|Noofen|PhGABA|Phenybut|phenigamma|β-phenyl-GABA
+      #GABA-B-agonist  #GABA-B-partial-agonist  #GABAergic  #alpha-2-delta-ligand  #class:gabapentinoids  #habit-forming  #high-dependence-risk  #nootropic  #protracted-withdrawal
+      also: Depressant
+  CL-218,872  <recreational>
+      #gaba-a-tool-compound  #lab-reagent  #no-human-data  #research-chemical
+  F-Phenibut  <recreational>  — oral mg: common 100-200, heavy 400
+      aka: Fluorobut|Fluorophenibut
+      #GABA-B-agonist  #GABAergic  #class:gabapentinoids  #duplicate-of-4-fluorophenibut  #high-dependence-risk  #research-chemical
+      also: Depressant

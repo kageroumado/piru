@@ -1,14 +1,119 @@
-# Cardiovascular — 12 substances
+# Cardiovascular — 38 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Atenolol  [Tenormin]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
-  Bisoprolol  [Concor|Zebeta]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
-  Carvedilol  [Coreg|Coreg CR]  (source: piru-curated)  #alpha1-blocker  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
-  Guanfacine  [Intuniv|Tenex]  (source: piru-curated)  #ADHD  #alpha2-agonist  #antihypertensive  #anxiolytic  #prescription-only
-  Labetalol  [Normodyne|Trandate]  (source: piru-curated)  #alpha1-blocker  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
-  Lofexidine  [BritLofex|Lucemyra]  (source: piru-curated)  #QT-prolonging  #alpha2-agonist  #antihypertensive  #opioid-withdrawal  #prescription-only
-  Methyldopa  [Aldomet|Dopamet]  (source: piru-curated)  #alpha2-agonist  #antihypertensive  #prescription-only  #sedating
-  Metoprolol  [Lopressor|Metoprolol Succinate|Metoprolol Tartrate|Toprol-XL]  (source: piru-curated)  #antihypertensive  #beta-1-selective  #beta-blocker  #prescription-only
-  Nadolol  [Corgard]  (source: piru-curated)  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
-  Prazosin  [Minipress]  (source: piru-curated)  #PTSD-nightmares  #alpha1-blocker  #antihypertensive  #prescription-only
-  Propranolol  [Hemangeol|Hemangiol|IUPAC: 1-(isopropylamino)-3-(1-naphthyloxy)propan-2-ol|Inderal|Inderal LA|Innopran XL|hemangeol|inderal|innopran]  (source: piru-curated)  #CYP1A2-substrate  #CYP2D6-MBI  #anti-anxiety-physical  #antihypertensive  #beta-blocker  #class:Beta-adrenergic antagonist (non-selective); Naphthalene derivative  #common  #non-selective-beta-blocker  +2more
-  Sotalol  [Betapace|Sorine|Sotylize]  (source: piru-curated)  #QT-prolonging  #antiarrhythmic  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
+  Acetildenafil  <recreational>  — oral mg: common 15-30, heavy 40
+      aka: Hongdenafil
+      #class:Pyrazolopyrimidinone phosphodiesterase-5 inhibitor (sildenafil analogue)  #research-chemical
+      also: Other
+  Amlodipine  (STUB)  <medical_rx>
+      aka: Norvasc
+      #antihypertensive  #calcium channel blocker, dihydropyridine  #tablet, suspension
+  Atenolol  <medical_rx>  — oral mg: common 50-100, heavy 200
+      aka: Tenormin
+      #antihypertensive  #beta-1 selective  #beta-1-selective  #beta-blocker  #prescription-only  #tablet
+  Benazepril  (STUB)  <medical_rx>
+      aka: Lotensin
+      #ace inhibitor  #antihypertensive  #tablet
+  Bisoprolol  <medical_rx>  — oral mg: common 5-10, heavy 20
+      aka: Concor|Zebeta
+      #antihypertensive  #beta-1 selective  #beta-1-selective  #beta-blocker  #prescription-only  #tablet
+  Bumetanide  (STUB)  <medical_rx>
+      aka: Bumex
+      #antihypertensive  #loop diuretic  #tablet
+  Carvedilol  <medical_rx>  — oral mg: common 12.5-25, heavy 50
+      aka: Coreg|Coreg CR
+      #alpha-1 blocker  #alpha1-blocker  #antihypertensive  #beta-1 & beta-2 non-selective  #beta-blocker  #non-selective  #prescription-only  #tablet, extended release capsule
+  Chlorothiazide  (STUB)  <medical_rx>
+      aka: Diuril
+      #antihypertensive  #tablet, suspension  #thiazide diuretic
+  Chlorthalidone  (STUB)  <medical_rx>
+      aka: Thalitone
+      #antihypertensive  #tablet  #thiazide diuretic
+  Diltiazem  (STUB)  <medical_rx>
+      aka: Cardizem|Cartia XT|Dilt-XR|Matzim LA|Taztia XT|Tiadylt ER|Tiazac
+      #antianginal  #antiarrhythmic, class iv  #antihypertensive  #calcium channel blocker, nondihydropyridine  #tablet, extended-release 24 hour tablet, extended-release 12 hour capsule, extended-release 24 hour capsule
+  Enalapril  (STUB)  <medical_rx>
+      aka: Vasotec
+      #ace inhibitor  #antihypertensive  #tablet, solution
+  Ethacrynic acid  (STUB)  <medical_rx>
+      aka: Edecrin
+      #antihypertensive  #loop diuretic  #tablet
+  Felodipine  (STUB)  <medical_rx>
+      aka: Plendil
+      #antihypertensive  #calcium channel blocker, dihydropyridine  #extended release tablet
+  Furosemide  (STUB)  <medical_rx>
+      aka: Lasix
+      #antihypertensive  #loop diuretic  #tablet, solution
+  Guanfacine  <medical_rx>  — oral mg: common 1-3, heavy 4
+      aka: Intuniv|Tenex
+      #ADHD  #alpha2-agonist  #antihypertensive  #anxiolytic  #centrally-acting alpha-2 agonist  #prescription-only  #tablet, extended release tablet
+  Hydrochlorothiazide  (STUB)  <medical_rx>
+      aka: Microzide
+      #antihypertensive  #capsule, tablet  #thiazide diuretic
+  Indapamide  (STUB)  <medical_rx>
+      aka: Lozol
+      #antihypertensive  #tablet  #thiazide diuretic
+  Irbesartan  (STUB)  <medical_rx>
+      aka: Avapro
+      #angiotensin-ii receptor blocker  #antihypertensive  #tablet
+  Labetalol  <medical_rx>  — intravenous mg: common 40-80, heavy 300
+      aka: Normodyne|Trandate
+      #alpha-1 blocker  #alpha1-blocker  #antihypertensive  #beta-1 & beta-2 non-selective  #beta-blocker  #non-selective  #prescription-only  #tablet
+  Lisinopril  (STUB)  <medical_rx>
+      aka: Lisinopril 2.5mg|Prinivil|Qbrelis|Zestril
+      #ace inhibitor  #antihypertensive  #tablet, solution
+  Lofexidine  <medical_rx>  — oral mg: common 0.54-1.08, heavy 2.88
+      aka: BritLofex|Lucemyra
+      #QT-prolonging  #alpha2-agonist  #antihypertensive  #opioid-withdrawal  #prescription-only
+  Losartan  (STUB)  <medical_rx>
+      aka: Cozaar|Losortan Potassium
+      #angiotensin-ii receptor blocker  #antihypertensive  #tablet
+  Methyldopa  <medical_rx>  — oral mg: common 500-1000, heavy 3000
+      aka: Aldomet|Dopamet
+      #alpha2-agonist  #antihypertensive  #prescription-only  #sedating
+  Metolazone  (STUB)  <medical_rx>
+      aka: Zaroxolyn
+      #antihypertensive  #tablet  #thiazide diuretic
+  Metoprolol  <medical_rx>  — oral mg: common 50-100, heavy 400
+      aka: Kapspargo|Lopressor|Toprol XL|Toprol-XL
+      #antihypertensive  #beta-1 selective  #beta-1-selective  #beta-blocker  #prescription-only  #tablet (tartrate), extended release tablet (succinate), extended release capsule (succinate)
+  Nadolol  <medical_rx>  — oral mg: common 80-160, heavy 320
+      aka: Corgard
+      #antihypertensive  #beta-1 & beta-2 non-selective  #beta-blocker  #non-selective  #prescription-only  #tablet
+  Nebivolol  (STUB)  <medical_rx>
+      aka: Bystolic
+      #beta-1 selective  #beta-blocker  #nitric oxide-dependent vasodilator  #tablet
+  Nifedipine  (STUB)  <medical_rx>
+      aka: Adalat CC|Procardia|Procardia XL
+      #antihypertensive  #calcium channel blocker, dihydropyridine  #capsule, extended release tablet (coat-core), extended release tablet (osmotic-pump)
+  Olmesartan  (STUB)  <medical_rx>
+      aka: Benicar
+      #angiotensin-ii receptor blocker  #antihypertensive  #tablet
+  Pindolol  (STUB)  <medical_rx>
+      aka: Visken
+      #beta-1 & beta-2 non-selective  #beta-blocker  #tablet
+  Prazosin  <medical_rx>  — oral mg: common 2-5, heavy 20
+      aka: Minipress
+      #PTSD-nightmares  #alpha1-blocker  #antihypertensive  #capsule  #non-selective alpha-1 blocker  #prescription-only
+  Propranolol  <dual_use>  — intravenous mg: common 2-10, heavy 20
+      aka: Hemangiol|Inderal IR|Inderal LA|Innopran XL|LA & XR|hemangeol|inderal|innopran
+      #CYP1A2-substrate  #CYP2D6-MBI  #anti-anxiety-physical  #antihypertensive  #beta-1 & beta-2 non-selective  #beta-blocker  #class:Beta-adrenergic antagonist (non-selective); Naphthalene derivative  #common  #non-selective-beta-blocker  #prescription-only  #rebound-risk  #tablet, extended release capsule, solution
+      also: Depressant
+  Quinapril  (STUB)  <medical_rx>
+      aka: Accupril
+      #ace inhibitor  #antihypertensive  #tablet
+  Ramipril  (STUB)  <medical_rx>
+      aka: Altace
+      #ace inhibitor  #antihypertensive  #capsule
+  Sotalol  <medical_rx>  — oral mg: common 120-160, heavy 320
+      aka: Betapace|Sorine|Sotylize
+      #QT-prolonging  #antiarrhythmic  #antihypertensive  #beta-blocker  #non-selective  #prescription-only
+  Torsemide  (STUB)  <medical_rx>
+      aka: Demadex
+      #antihypertensive  #loop diuretic  #tablet
+  Valsartan  (STUB)  <medical_rx>
+      aka: Diovan
+      #angiotensin-ii receptor blocker  #antihypertensive  #tablet
+  Verapamil  (STUB)  <medical_rx>
+      aka: Calan SR|Verelan|Verelan PM
+      #antianginal  #antiarrhythmic, class iv  #antihypertensive  #calcium channel blocker, nondihydropyridine  #tablet, extended-release tablet, extended-release capsule, delayed onset extended-release capsule

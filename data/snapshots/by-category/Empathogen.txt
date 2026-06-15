@@ -1,75 +1,195 @@
-# Empathogen — 73 substances
+# Empathogen — 60 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  2-Bromo-4,5-MDMA  [2-Br-4,5-MDMA|2-bromo-4,5-methylenedioxy-N-methylamphetamine|2-bromo-4,5-methylenedioxymethamphetamine|6-Br-MDMA]  (source: drug.community)  #class:Substituted amphetamine (methylenedioxyphenethylamine; halogenated MDMA analogue)  #psychedelic-leaning
-  2-Fluoroethamphetamine  [1-(2-fluorophenyl)-N-ethylpropan-2-amine|2-F-ethylamphetamine|2-FEA|N-ethyl-1-(2-fluorophenyl)propan-2-amine]  (source: drug.community)  #class:Substituted amphetamine (fluorinated ethylamphetamine)
-  2-MAPB  [(±)-2-MAPB|1-(1-benzofuran-2-yl)-N-methylpropan-2-amine|2-(methylamino)propylbenzofuran]  (source: drug.community)  #class:Benzofuran-substituted amphetamine
-  2-Methylethcathinone  [2-MEC|2-methyl-N-ethylcathinone|N-ethyl-2-methylcathinone|o-methyl-N-ethylcathinone|ortho-methylethcathinone]  (source: drug.community)  #class:Substituted cathinone (β-keto phenethylamine)  #weak-predicted
-  2C-B-Fly-NBOME  [2C-B-FLY–NBOMe (informal)|2cbflynbome|NBOMe-2C-B-FLY]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #MISCATEGORIZED  #NBOMe  #class:N-benzylated benzodifuran phenethylamine (NBOMe)  #fatality-risk  #phenethylamine  #psychedelic  +2more
-  2C-T  [2,5-dimethoxy-4-(methylthio)benzeneethanamine|2,5-dimethoxy-4-methylthiophenethylamine|2-(2,5-dimethoxy-4-methylsulfanylphenyl)ethanamine|2-[2,5-dimethoxy-4-(methylsulfanyl)phenyl]ethan-1-amine|2ct|4-methylthio-2,5-DMPEA|4-methylthio-2,5-dimethoxyphenethylamine]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #no-human-data  #phenethylamine  #research-chemical  #tentative
-  2C-T-7  [2,5-dimethoxy-4-(n)-propylthiophenethylamine|2,5-dimethoxy-4-(propylsulfanyl)phenethylamine|2,5-dimethoxy-4-(propylthio)phenethylamine|2,5-dimethoxy-4-n-propylthiophenethylamine|2,5-dimethoxy-4-propylthiophenethylamine|2-[2,5-dimethoxy-4-(propylsulfanyl)phenyl]ethan-1-amine|2C‑T7|2ct7|4-propylthio-2,5-dimethoxyphenethylamine|7th heaven|7‑Up|Beautiful|Blue Mystic|PT‑DM‑PEA|T7|Tripstasy|blue mystic|tweety-bird mescaline]  (source: tripsit)  #2C-x  #5-HT2A-agonist  #PIHKAL  #class:Phenethylamine (2C series, thioether-substituted)  #no-human-data  #phenethylamine  #research-chemical
-  3,4-CFPP  [1-(3-chloro-4-fluorophenyl)piperazine|3,4‑CFPP|3-chloro-4-fluorophenylpiperazine|CFPP|Kleferein|phenylpiperazine, 3‑chloro‑4‑fluoro‑]  (source: drug.community)  #class:Phenylpiperazine (halogenated)
-  3,4-DMMC  [3|3,4-dimethyl methcathinone|3,4-dimethylmethcathinone|4-dimethyl-methcathinone|DMMC|M2]  (source: drug.community)  #class:Synthetic cathinone (β-keto-phenethylamine)  #substrate-releaser-predicted
-  3,4-Methylenedioxyphenmetrazine  [3,4-MD-phenmetrazine|3,4-MDPM|3-MDPM|MDPM|Methylenedioxyphenmetrazine]  (source: drug.community)  #NDRA  #class:Substituted phenylmorpholine (phenmetrazine analogue)
-  3,4-Trimethylenepentedrone  [3,4-TMPD|TMPD]  (source: drug.community)  #DAT-NET-blocker-predicted  #class:Substituted cathinone (phenethylamine, trimethylenedioxy analogue)
-  3-CAF  [3-CA|3-CAF (vendor code; more common shorthand is 3-CA)|3-chloroamphetamine|MCA|m-CA|meta-chloroamphetamine]  (source: drug.community)  #class:Substituted amphetamine (chloro-substituted phenethylamine)
-  3-Chloromethcathinone  [1-(3-chlorophenyl)-2-(methylamino)propan-1-one|3-CMC|3-CMC HCl|3-chloro-N-methylcathinone|clophedrone|m-chloro-methcathinone]  (source: drug.community)  #DRI  #cathinone  #class:substituted cathinone (β-keto phenethylamine)  #no-human-data  #phenethylamine
-  3-Fluoroethamphetamine  [3-FEA|3-fluoro-N-ethylamphetamine|N-ethyl-1-(3-fluorophenyl)propan-2-amine|meta-fluoro ethylamphetamine]  (source: drug.community)  #class:Substituted amphetamine (N-ethyl, meta-fluoro)
-  3-Fluoromethcathinone  [1-(3-fluorophenyl)-2-(methylamino)propan-1-one|3-FMC|3F-MC|3′-fluoro-2-(methylamino)propiophenone|NOTE: often confused with 4-FMC (flephedrone); verify isomer via analytical data]  (source: drug.community)  #class:Substituted cathinone (β-keto phenethylamine)
-  3-Meomc  [3-methoxymethcathinone]  (source: tripsit)  #cathinone  #habit-forming
-  4,4-Dmar  [4,4'-DMAR|4,4'-dimethylaminorex|4,4-dmap|Serotoni|serotoni]  (source: tripsit)  #PAH-risk  #SNDRA  #aminorex-class  #fatalities-confirmed  #habit-forming  #tentative
-  4-Aco-MIPT  [4-AcO-MiPT|4-acetoxy-MiPT|4acomipt|mipracetin]  (source: tripsit)  #5-HT2A-agonist  #MISCATEGORIZED  #prodrug  #psychedelic  #research-chemical  #tentative
-  4-Bromoamphetamine  [1-(4-bromophenyl)propan-2-amine|4-BA|4-Br-AMP|PBA|p-BA|p-Bromoamphetamine|p-bromoamphetamine|para-Bromoamphetamine|para-bromoamphetamine]  (source: drug.community)  #MAO-A-inhibitor  #class:Phenethylamine (substituted amphetamine)  #serotonergic-neurotoxin
-  4-CBC  (source: tripsit)  #habit-forming  #research-chemical
-  4-Chlorobuphedrone  [4-CBC|4-chloro-buphedrone|4-chloro-butyrophenone cathinone|4-chloro-α-methylamino-butyrophenone|4-chloro-α-methylaminobutyrophenone|para-Chloro-buphedrone]  (source: drug.community)  #class:Substituted cathinone (β-keto phenethylamine)  #hybrid-DAT-blocker-SERT-substrate-predicted  #para-chloro-neurotoxicity-flag
-  4-EEC  [2‑(ethylamino)‑1‑(4‑ethylphenyl)propan‑1‑one|4-Ethyl-N-ethylcathinone|4-Ethylethcathinone|4‑EEC|4‑Ethyl‑N‑ethylcathinone|4‑Ethyl‑ethcathinone|para‑ethyl ethcathinone|p‑ethyl ethcathinone]  (source: drug.community)  #class:substituted cathinone (β-ketoamphetamine)  #hybrid-predicted
-  4-Fa  [4-FA|4-Fluoroamphetamine|4-fluoroamphetamine|4-fmp|4fa|para-fluoroamphetamine]  (source: tripsit)  #common  #habit-forming  #research-chemical
-  4-Fluoroamphetamine  [4-FA|4-FMP|Flux|PAL-303|PFA|p-fluoroamphetamine|para-fluoroamphetamine]  (source: drug.community)  #5-HT2B-weak  #class:Substituted amphetamine (phenethylamine, fluoroamphetamine subclass)  #empathogen-stimulant-hybrid
-  4-Fluoroethamphetamine  [4-FEA|4-FNEA|p-FEA|p-fluoro-N-ethylamphetamine|para-fluoroethamphetamine]  (source: drug.community)  #class:Substituted amphetamine (para-fluorinated, N-ethylated)
-  4-Fma  [4-fluoromethamphetamine|4-fluromethamphetamine|4fma]  (source: tripsit)  #habit-forming  #research-chemical
-  4-Fpp  [1-(4-fluorophenyl)piperazine|4-fluorophenylpiperazine|pFPP|para-Fluorophenylpiperazine]  (source: tripsit)  #5-HT-agonist  #class:phenylpiperazine  #piperazine  #tentative
-  4-MBC  [(colloquial) benzyl‑mephedrone|4‑MBC (cathinone)|4‑methylbenzylcathinone|4‑methyl‑N‑benzylcathinone|Benzedrone|Do not confuse with: 4‑methylbenzylidene camphor (also called 4‑MBC; a sunscreen filter)|N-benzyl-4-methylcathinone|N‑benzyl‑4‑methylcathinone]  (source: drug.community)  #class:substituted cathinone (β‑keto amphetamine, phenethylamine derivative)  #weak-DAT-blocker-predicted
-  4-Mta  [4-methylthioamphetamine]  (source: tripsit)  #research-chemical  #tentative
-  5-Apb  [1-(benzofuran-5-yl)propan-2-amine|5-(2-aminopropyl)benzofuran|5-APB|5apb|5‑APB (benzofuran-5-yl)propan-2-amine|5‑APB HCl|5‑APB freebase|5‑APB succinate|Benzo Fury (brand; may also refer to 6‑APB)|benzofury]  (source: tripsit)  #5-HT2B-strong-agonist  #SNDRA  #cardiotoxicity-risk  #class:Benzofuran (substituted benzofuran)  #fatalities-reported  #habit-forming  #research-chemical
-  5-Apdb  [5-APDB|EMA-3]  (source: tripsit)  #5-HT2C-affinity  #SSRA-NRI  #habit-forming  #research-chemical
-  5-Apdi  [5-(2-aminopropyl)-2,3-dihydro-1H-indene|5-APDI|5-IAP|IAP|Indanyl-aminopropane|Indanylaminopropane|Indanylamphetamine|iap]  (source: tripsit)  #aminoindane-class  #class:Indanylamphetamine (indane-based amphetamine analogue)  #research-chemical  #tentative
-  5-Eapb  [1-(1-benzofuran-5-yl)-N-ethylpropan-2-amine|5-(2-ethylamino)propyl benzofuran (informal expansion of acronym)|5-EAPB|5eapb|5‑EAPB HCl (common salt form)|Aminoalkylbenzofuran (class descriptor)|N-ethyl-5-APB]  (source: tripsit)  #SNDRA-presumed  #class:Aminoalkylbenzofuran (benzofuran‑substituted amphetamine)  #habit-forming  #research-chemical
-  5-Iai  [2-aminoindane derivative (5-iodo)|5-IAI|5-iodo-2,3-dihydro-1H-inden-2-amine|5-iodo-2-aminoindan|5-iodo-2-aminoindane|5iai|CAS 132367-76-1|NRG-5|PubChem CID 131506]  (source: tripsit)  #Nichols-compound  #SSRA-selective  #class:Aminoindan (rigid analogue of substituted amphetamines)  #habit-forming  #research-chemical
-  5-It  [5-(2-aminopropyl)indole|5-API|5-IT|5-api]  (source: tripsit)  #MAO-A-inhibitor  #fatalities-confirmed  #habit-forming  #research-chemical  #self-potentiating
-  5-Mapb  [1-(benzofuran-5-yl)-N-methylpropan-2-amine|5-(2-methylaminopropyl)benzofuran|5-MAPB|5MAPB|5mapb|N-methyl-5-APB]  (source: tripsit)  #5-HT2B-agonist  #SNDRA  #class:benzofuran / phenethylamine  #habit-forming  #research-chemical
-  5-Mapdb  [5-MAPDB|5mapdb|N-methyl-5-APDB]  (source: tripsit)  #SSRA-NRI  #research-chemical
-  5-Meo-AMT  [5-MeO-AMT|5-MeO-AMT HCl (salt form)|5-MeO-αMT|5-Methoxy-α-methyltryptamine|5-methoxy-α-methyltryptamine|5meoamt|Alpha-O|alpha-O|α,O-DMS|α,O-dimethylserotonin]  (source: tripsit)  #5-HT2A-agonist  #MISCATEGORIZED  #class:Tryptamine (α-alkyl-5-methoxytryptamine)  #fatalities-reported  #psychedelic  #research-chemical  #serotonergic-toxicity-risk  #very-long-duration
-  5-Meo-Dibf  [5-Methoxy-diisopropylbenzofuranethylamine|5-methoxy-diisopropylbenzofuran-ethylamine|N-[2-(5-methoxy-1-benzofuran-3-yl)ethyl]-N,N-diisopropylamine|benzofuran analogue of 5-MeO-DiPT]  (source: tripsit)  #class:Benzofuran analogue of 5-MeO tryptamines  #research-chemical  #tentative
-  5-MEO-DIPT  [5-methoxy-N,N-diisopropyltryptamine|5meodipt|foxy|foxy methoxy|foxy-methoxy]  (source: tripsit)  #5-HT2A-agonist  #CYP2D6-substrate  #TIHKAL  #no-human-data  #research-chemical  #tryptamine
-  5-MEO-MIPT  [5-MeO-MiPT HCl|5-methoxy-N-methyl-N-isopropyltryptamine|5meo-mipt|5meomipt|5‑methoxy‑N‑methyl‑N‑isopropyltryptamine|Moxy|N‑isopropyl‑5‑methoxy‑N‑methyltryptamine|moxy]  (source: tripsit)  #5-HT2A-preferring-5MeO  #TIHKAL  #class:Tryptamine  #common  #research-chemical  #tryptamine
-  6-Apb  [1-(benzofuran-6-yl)propan-2-amine|6-(2-aminopropyl)benzofuran|6-APB|6APB|6apb|Benzo Fury|benzofury]  (source: tripsit)  #5-HT2B-strong-agonist  #SNDRA  #cardiotoxicity-risk  #class:Benzofuran phenethylamine  #habit-forming  #long-acting  #research-chemical
-  6-Apdb  [4-desoxy-MDA|4-desoxy-mda|6-APDB|EMA-4]  (source: tripsit)  #5-HT2B-agonist  #SSRA-NRI  #habit-forming  #research-chemical
-  6-Eapb  [6-EAPB|N-ethyl-6-APB]  (source: tripsit)  #SNDRA-presumed  #habit-forming  #research-chemical
-  6-Mapb  [6-MAPB|N-methyl-6-APB]  (source: tripsit)  #5-HT2B-agonist  #SNDRA  #habit-forming  #research-chemical
-  A-pihp  [pihp|α-PiHP]  (source: tripsit)  #NDRI  #habit-forming  #pyrovalerone-cathinone  #research-chemical  #stimulant-not-entactogen  #tentative
-  Aet  [a-et|a-ethyltryptamine|alpha-ethyl-tryptamine]  (source: tripsit)  #research-chemical  #tentative
-  ALEPH  [1-(4-methylthio-2,5-dimethoxyphenyl)-2-aminopropane|1-[2,5-dimethoxy-4-(methylsulfanyl)phenyl]propan-2-amine|2,5-Dimethoxy-4-methylthioamphetamine|2,5-dimethoxy-4-(methylthio)amphetamine|2,5-dimethoxy-4-methylthioamphetamine|4-methylthio-2,5-dimethoxyamphetamine|Aleph-1|DOT|dot|para-DOT|para-dot]  (source: tripsit)  #PIHKAL  #class:Phenethylamine (subclass: substituted amphetamine, thioether)  #no-human-data  #phenethylamine  #research-chemical  #tentative
-  Ayahuasca  [pharmahuasca|yage|yagé]  (source: tripsit)  #MAOI  #MISCATEGORIZED  #psychedelic
-  Brephedrone  [1-(4-bromophenyl)-2-(methylamino)propan-1-one|4-BMC|4-Bromomethcathinone|BrMcat|para-Bromomethcathinone]  (source: drug.community)  #class:Substituted cathinone (β-keto phenethylamine)  #para-bromo-neurotoxicity-flag  #substrate-releaser
-  Cyclo-methiodrone  (source: tripsit)  #habit-forming  #research-chemical  #tentative
-  Cyputylone  [1-(1,3-benzodioxol-5-yl)-2-(cyclohexylamino)propan-1-one|BDCP (vendor/colloquial label)|N-CMC|N-Cyclohexylmethylone|N-cyclohexylmethylone|common misspelling: Cuiputylone]  (source: drug.community)  #DAT-NET-blocker-predicted  #class:Substituted cathinone (β-keto phenethylamine); N-cyclohexyl analogue of methylone
-  Dimemebfe  [5-MeO-BFE|5-meo-bfe]  (source: tripsit)  #research-chemical  #tentative
-  Dimethylpentylone  [BU crystal|DM-Pentylone|Dimethylpentylone HCl|Dipentylone|KU|KU crystals|N|N,N-Dimethylpentylone|N-Dimethylpentylone]  (source: drug.community)  #DAT-preferring  #class:Cathinone (substituted cathinone; beta-keto amphetamine; tertiary dimethylamino analogue of pentylone)  #fatalities-mdma-substitution  #post-eutylone-market-successor
-  Dipentylone  [1-(1,3-benzodioxol-5-yl)-2-(dimethylamino)pentan-1-one|DMBDP|KU (street name reported)|N,N-dimethylpentylone|bk-DMBDP|dimethylpentylone]  (source: drug.community)  #class:Substituted cathinone (-keto phenethylamine)
-  EDMC  [1-(2,3-dihydro-1,4-benzodioxin-6-yl)-2-(methylamino)propan-1-one|3|3,4-EDMC|3′,4′-Ethylenedioxy-2-(methylamino)propiophenone|4-EDMC|4-Ethylenedioxymethcathinone|ED-MC|βk-EDMA]  (source: drug.community)  #SNDRA-predicted  #class:Substituted cathinone (benzodioxine-derived)
-  Ethyl-pentedrone  [NEP|n-ethylpentedrone|nep|α-ethylaminopentiophenone]  (source: tripsit)  #DAT-selective  #pure-DAT-NET-blocker  #research-chemical  #tentative
-  Homarylamine  [Homarylamine hydrochloride|MDMPEA|N-methyl-2-phenylethanamine|N-methyl-PEA|N-methyl-beta-phenethylamine]  (source: drug.community)  #class:Phenethylamine
-  HOT-7  [hot7]  (source: tripsit)  #PIHKAL  #phenethylamine  #research-chemical  #tentative
-  Mbdb  [eden|methyl-j]  (source: tripsit)  #habit-forming  #research-chemical  #tentative
-  MDA  [EA-1299|SKF-5|tenamfetamine]  (source: tripsit)  #5-HT2A-agonist  #5-HT2B-agonist  #PIHKAL  #SNDRA  #SNDRI  #common  #habit-forming  #phenethylamine  +1more
-  Mdai  [5,6-methylenedioxy-2-aminoindane|MDAI|mindy|sparkle]  (source: tripsit)  #Nichols-compound  #SNDRI  #SRI  #SSRA-selective  #fatalities-reported  #habit-forming  #phenethylamine  #research-chemical
-  Mdea  [Eve|MDE|N-ethyl-MDA|eve|mde]  (source: tripsit)  #duplicate-of-MDE  #tentative
-  MDMA  [(RS)-3,4-(methylenedioxy)methamphetamine|(RS)-MDMA|(±)-MDMA|1-(1,3-benzodioxol-5-yl)-N-methyl-2-propanamine|3,4-MDMA|3,4-methylenedioxymethamphetamine|Adam|DL-(3,4-Methylenedioxy)methamphetamine|E|Love Drug|M&M|MA|MD|Mandy|Molly|N,alpha-dimethyl-1,3-benzodioxole-5-ethanamine|N-methyl-3,4-methylenedioxyamphetamine|The Love Drug|X|XTC|adam|beans|california sunrise|clarity|ecstasy|essence|happy pills|hug drug|lover’s speed|mandy|md|methylenedioxymethamphetamine|midomafetamine|molly|stacy|tenamfetamine (INN)|x|xtc]  (source: tripsit)  #5-HT2B-agonist  #CYP2D6-mechanism-based-inhibitor  #PIHKAL  #SNDRA  #SNDRI  #SSRA-dominant  #Schedule-I  #class:Substituted phenethylamine (methylenedioxyamphetamine family)  +5more
-  MDOH  [N-hydroxy-MDA]  (source: tripsit)  #MDA-prodrug  #PIHKAL  #habit-forming  #phenethylamine  #research-chemical  #tentative
-  Mdpa  [methylenedioxyphenylacetamide]  (source: tripsit)  #habit-forming  #research-chemical  #tentative
-  Mephedrone  [4-MMC|4-Methylmethcathinone|4-methylephedrone|4-methylmethcathinone|4-mmc|4mmc|4‑MMC|Bubbles|Drone|Meow Meow|M‑Cat|m-cat|meow|meow meow|meph]  (source: tripsit)  #CYP2D6-substrate  #DAT-NET-SERT-balanced  #TAAR1-inactive-human  #class:Substituted cathinone (β-keto amphetamine)  #hERG-safe  #habit-forming  #no-human-data  #phenethylamine  +2more
-  Mephenmetrazine  [4-MPM|4-methylphenmetrazine|4-mpm]  (source: tripsit)  #habit-forming  #research-chemical  #tentative
-  Methamnetamine  [MNA|N-methyl-PAL-287|PAL-1046|methylnaphetamine|mnt|n-methyl-pal-287]  (source: tripsit)  #SNDRA  #balanced-release  #habit-forming  #research-chemical  #tentative
-  Mexedrone  [4-MMeOC|4-methylmethcathinone β-methoxy|4-mmeoc]  (source: tripsit)  #cathinone  #habit-forming  #research-chemical  #tentative  #weak-SSRA
-  Nm-2-ai  [N-methyl-2-AI|N-methyl-2-aminoindane|NM-2AI|NM2AI|NMe-2-AI]  (source: tripsit)  #aminoindane-class  #class:Aminoindane
-  Psilocin  [3-(2-(Dimethylamino)ethyl)indol-4-ol|4-HO-DMT|4-OH-DMT|4-ho-dmt|4-hydroxy-N,N-dimethyltryptamine|4-oh-dmt|N,N-dimethyl-4-hydroxytryptamine|Psilocine|Psilotsin]  (source: tripsit)  #5-HT2A-agonist  #MISCATEGORIZED  #no-human-data  #psychedelic  #research-chemical  #tentative  #tryptamine
-  Yopo  ["anadenanthera|Anadenanthera peregrina snuff|anadenanthera]  (source: tripsit)  #MISCATEGORIZED  #psychedelic
+  MDMA  <recreational>  — insufflation mg: common 70-120, heavy 165
+      aka: 3,4-MDMA|3,4-methylenedioxymethamphetamine|E|Emma|Love Drug|M&M|Pingers|Rolls|The Love Drug|adam|beans|california sunrise|clarity|ecstasy|essence|happy pills|hug drug|lover’s speed|mandy|md|methylenedioxymethamphetamine|midomafetamine|molly|stacy|tenamfetamine|x|xtc|快乐丸|快樂丸|搖頭丸|摇头丸|莫莉
+      #5-HT2B-agonist  #CYP2D6-mechanism-based-inhibitor  #PIHKAL  #SNDRA  #SNDRI  #SSRA-dominant  #Schedule-I  #class:Substituted phenethylamine (methylenedioxyamphetamine family)  #class:amphetamine  #class:mdxx  #class:substituted amphetamines  #common
+      also: Antidepressant, Psychedelic
+  Mephedrone  <recreational>  — insufflation mg: common 20-80, heavy 125
+      aka: 4-methylephedrone|4-methylmethcathinone|4-mmc|4mmc|4‑MMC|Bubbles|Drone|M‑Cat|m-cat|meow|meow meow|meph|喵喵|甲基甲卡西酮
+      #CYP2D6-substrate  #DAT-NET-SERT-balanced  #TAAR1-inactive-human  #class:Substituted cathinone (β-keto amphetamine)  #class:cathinone  #class:substituted cathinones  #hERG-safe  #habit-forming  #no-human-data  #phenethylamine  #substrate-releaser
+      also: Other
+  2-Bromo-4,5-MDMA  <recreational>  — insufflation mg: common 35-60, heavy 90
+      aka: 2-Br-4,5-MDMA|6-Br-MDMA
+      #class:Substituted amphetamine (methylenedioxyphenethylamine; halogenated MDMA analogue)  #psychedelic-leaning
+  2-Fluoroethamphetamine  [2-FEA]  <recreational>  — insufflation mg: common 15-30, heavy 45
+      aka: 2-F-ethylamphetamine|2-FEA
+      #class:Substituted amphetamine (fluorinated ethylamphetamine)
+  2-MAPB  <recreational>  — insufflation mg: common 25-50, heavy 80
+      aka: 2-(methylamino)propylbenzofuran
+      #class:Benzofuran-substituted amphetamine
+  2-Methylethcathinone  [2-MEC]  <recreational>  — insufflation mg: common 30-100, heavy 150
+      aka: 2-MEC|ortho-methylethcathinone
+      #class:Substituted cathinone (β-keto phenethylamine)  #weak-predicted
+  2-NMC  <recreational>  — inhalation mg: common 10-20, heavy 30
+      aka: 2'-Propionaphthone|2NMC|2‑(methylamino)‑1‑(naphthalen‑2‑yl)propan‑1‑one|2‑naphthyl methcathinone|2‑naphthylmethcathinone|2‑naphthyl‑N‑methylcathinone
+      #class:Substituted cathinone (β-keto amphetamine; naphthyl analogue of methcathinone)  #inactive
+      also: Other
+  2C-B-FLY-NBOMe  <recreational>  — buccal µg: common 350-650, heavy 950
+      aka: 2C-B-FLY–NBOMe|2cbflynbome|NBOMe-2C-B-FLY
+      #2C-x  #5-HT2A-agonist  #MISCATEGORIZED  #NBOMe  #class:N-benzylated benzodifuran phenethylamine (NBOMe)  #fatality-risk  #phenethylamine  #psychedelic  #research-chemical  #tentative
+      also: Psychedelic
+  3,4-CFPP  <recreational>  — insufflation mg: common 15-40, heavy 70
+      aka: 3,4‑CFPP|CFPP|Kleferein
+      #class:Phenylpiperazine (halogenated)
+  3,4-DMMC  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 3|3,4-dimethyl methcathinone|3,4-dimethylmethcathinone|4-dimethyl-methcathinone|DMMC|M2
+      #class:Synthetic cathinone (β-keto-phenethylamine)  #substrate-releaser-predicted
+  3,4-Methylenedioxyphenmetrazine  [3-MDPM]  <recreational>  — insufflation mg: common 60-100, heavy 150
+      aka: 3,4-MD-phenmetrazine|3,4-MDPM|3-MDPM|MDPM|Methylenedioxyphenmetrazine
+      #NDRA  #class:Substituted phenylmorpholine (phenmetrazine analogue)
+  3,4-Trimethylenepentedrone  [3,4-TMPD]  <recreational>  — insufflation mg: common 20-40, heavy 60
+      aka: 3,4-TMPD|TMPD
+      #DAT-NET-blocker-predicted  #class:Substituted cathinone (phenethylamine, trimethylenedioxy analogue)
+  3-CAF  <recreational>  — insufflation mg: common 5-12, heavy 20
+      aka: 3-CA|3-chloroamphetamine|MCA|m-CA|meta-chloroamphetamine
+      #class:Substituted amphetamine (chloro-substituted phenethylamine)
+  3-Fluoroethamphetamine  [3-FEA]  <recreational>  — insufflation mg: common 15-40, heavy 80
+      aka: 3-FEA|meta-fluoro ethylamphetamine
+      #class:Substituted amphetamine (N-ethyl, meta-fluoro)
+  3-Meomc  <recreational>  — insufflation mg: common 50-100, heavy 150
+      aka: 3-methoxymethcathinone
+      #cathinone  #habit-forming
+  4,4-DMAR  <recreational>  — oral mg: common 60-120, heavy 200
+      aka: 4,4'-DMAR|4,4'-dimethylaminorex|4,4-dmap|serotoni
+      #PAH-risk  #SNDRA  #aminorex-class  #fatalities-confirmed  #habit-forming  #tentative
+  4-Bromoamphetamine  [4-BA]  <recreational>  — oral mg: common 10-20, heavy 30
+      aka: 4-BA|4-Br-AMP|PBA|p-BA|p-Bromoamphetamine|para-Bromoamphetamine
+      #MAO-A-inhibitor  #class:Phenethylamine (substituted amphetamine)  #serotonergic-neurotoxin
+  4-CBC  <recreational>  — insufflation mg: common 50-80, heavy 100
+      #habit-forming  #research-chemical
+  4-Chlorobuphedrone  <recreational>  — insufflation mg: common 50-80, heavy 110
+      aka: 4-CBC|4-chloro-buphedrone|4-chloro-butyrophenone cathinone|para-Chloro-buphedrone
+      #class:Substituted cathinone (β-keto phenethylamine)  #hybrid-DAT-blocker-SERT-substrate-predicted  #para-chloro-neurotoxicity-flag
+  4-EEC  <recreational>  — insufflation mg: common 60-120, heavy 200
+      aka: 4-Ethylethcathinone|4‑EEC|4‑Ethyl‑N‑ethylcathinone|4‑Ethyl‑ethcathinone|para‑ethyl ethcathinone|p‑ethyl ethcathinone
+      #class:substituted cathinone (β-ketoamphetamine)  #hybrid-predicted
+  4-FA  <recreational>  — insufflation mg: common 15-30, heavy 60
+      aka: 4-Fluoroamphetamine|4-fmp|4fa|Flux|PAL-303|PFA|p-fluoroamphetamine|para-fluoroamphetamine
+      #5-HT2B-weak  #class:Substituted amphetamine (phenethylamine, fluoroamphetamine subclass)  #class:substituted amphetamines  #common  #empathogen-stimulant-hybrid  #habit-forming  #research-chemical
+  4-Fluoroethamphetamine  [4-FEA]  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 4-FEA|4-FNEA|p-FEA|para-fluoroethamphetamine
+      #class:Substituted amphetamine (para-fluorinated, N-ethylated)
+  4-FMA  <recreational>  — oral mg: common 75-125, heavy 125
+      aka: 4-fluoromethamphetamine|4-fluromethamphetamine|4fma
+      #class:substituted amphetamines  #habit-forming  #research-chemical
+  4-FPP  <recreational>  — insufflation mg: common 20-40, heavy 70
+      aka: 4-fluorophenylpiperazine|pFPP|para-Fluorophenylpiperazine
+      #5-HT-agonist  #class:phenylpiperazine  #piperazine  #tentative
+      also: Psychedelic
+  4-MBC  <recreational>  — insufflation mg: common 60-120, heavy 200
+      aka: (colloquial) benzyl‑mephedrone|4‑MBC|4‑methylbenzylcathinone|4‑methyl‑N‑benzylcathinone|Benzedrone|N‑benzyl‑4‑methylcathinone
+      #class:substituted cathinone (β‑keto amphetamine, phenethylamine derivative)  #weak-DAT-blocker-predicted
+  4-MTA  (STUB)  <recreational>
+      aka: 4-methylthioamphetamine
+      #research-chemical  #tentative
+  5-APB  <recreational>  — insufflation mg: common 30-60, heavy 90
+      aka: 5apb|Benzo Fury|benzofury
+      #5-HT2B-strong-agonist  #SNDRA  #cardiotoxicity-risk  #class:Benzofuran (substituted benzofuran)  #class:substituted amphetamines  #class:substituted benzofurans  #fatalities-reported  #habit-forming  #research-chemical
+      also: Psychedelic
+  5-APDB  <recreational>  — oral mg: common 75-125, heavy 125
+      aka: EMA-3
+      #5-HT2C-affinity  #SSRA-NRI  #habit-forming  #research-chemical
+  5-APDI  <recreational>  — insufflation mg: common 10-20, heavy 30
+      aka: 5-IAP|Indanyl-aminopropane|Indanylaminopropane|Indanylamphetamine|iap
+      #aminoindane-class  #class:Indanylamphetamine (indane-based amphetamine analogue)  #research-chemical  #tentative
+      also: Psychedelic
+  5-EAPB  <recreational>  — insufflation mg: common 40-60, heavy 100
+      aka: 5eapb|Aminoalkylbenzofuran|N-ethyl-5-APB
+      #SNDRA-presumed  #class:Aminoalkylbenzofuran (benzofuran‑substituted amphetamine)  #habit-forming  #research-chemical
+      also: Psychedelic
+  5-IAI  <recreational>  — insufflation mg: common 60-120, heavy 180
+      aka: 2-aminoindane derivative|5iai|CAS 132367-76-1|NRG-5|PubChem CID 131506
+      #Nichols-compound  #SSRA-selective  #class:Aminoindan (rigid analogue of substituted amphetamines)  #habit-forming  #research-chemical
+      also: Stimulant
+  5-IT  <recreational>  — oral mg: common 50-100, heavy 150
+      aka: 5-api
+      #MAO-A-inhibitor  #fatalities-confirmed  #habit-forming  #research-chemical  #self-potentiating
+  5-MAPB  <recreational>  — insufflation mg: common 20-50, heavy 80
+      aka: 5mapb|N-methyl-5-APB
+      #5-HT2B-agonist  #SNDRA  #class:benzofuran / phenethylamine  #class:substituted amphetamines  #class:substituted benzofurans  #habit-forming  #research-chemical
+  5-Mapdb  <recreational>  — oral mg: common 75-120, heavy 150
+      aka: 5mapdb|N-methyl-5-APDB
+      #SSRA-NRI  #research-chemical
+  5-MeO-AMT  <recreational>  — insufflation mg: common 1-2, heavy 3
+      aka: 5-MeO-αMT|5meoamt|Alpha-O|α,O-DMS|α,O-dimethylserotonin
+      #5-HT2A-agonist  #MISCATEGORIZED  #class:Tryptamine (α-alkyl-5-methoxytryptamine)  #fatalities-reported  #psychedelic  #research-chemical  #serotonergic-toxicity-risk  #very-long-duration
+      also: Psychedelic
+  6-APDB  <recreational>  — oral mg: common 40-75, heavy 75
+      aka: 4-desoxy-mda|EMA-4
+      #5-HT2B-agonist  #SSRA-NRI  #class:substituted amphetamines  #class:substituted benzofurans  #class:substituted phenethylamines  #habit-forming  #research-chemical
+  6-EAPB  <recreational>  — oral mg: common 75-100, heavy 150
+      aka: N-ethyl-6-APB
+      #SNDRA-presumed  #habit-forming  #research-chemical
+  6-MAPB  <recreational>  — insufflation mg: common 20-40, heavy 100
+      aka: N-methyl-6-APB
+      #5-HT2B-agonist  #SNDRA  #habit-forming  #research-chemical
+  AET  <recreational>  — oral mg: common 100-125, heavy 150
+      aka: a-et|a-ethyltryptamine|alpha-ethyl-tryptamine
+      #research-chemical  #tentative
+  ALEPH  <recreational>  — oral mg: common 5-10, heavy 10
+      aka: Aleph-1|dot|para-dot
+      #PIHKAL  #class:Phenethylamine (subclass: substituted amphetamine, thioether)  #no-human-data  #phenethylamine  #research-chemical  #tentative
+      also: Other, Psychedelic
+  Brephedrone  <recreational>  — insufflation mg: common 40-80, heavy 120
+      aka: 4-BMC|4-Bromomethcathinone|BrMcat|para-Bromomethcathinone
+      #class:Substituted cathinone (β-keto phenethylamine)  #para-bromo-neurotoxicity-flag  #substrate-releaser
+  Cyclo-methiodrone  <recreational>  — oral mg: common 45-65, heavy 90
+      #habit-forming  #research-chemical  #tentative
+  Cyputylone  <recreational>  — insufflation mg: common 30-60, heavy 100
+      aka: BDCP|N-CMC|N-Cyclohexylmethylone
+      #DAT-NET-blocker-predicted  #class:Substituted cathinone (β-keto phenethylamine); N-cyclohexyl analogue of methylone
+  Dimemebfe  <recreational>  — oral mg: common 50-75, heavy 125
+      aka: 5-meo-bfe
+      #research-chemical  #tentative
+  Dimethylpentylone  <recreational>  — insufflation mg: common 15-40, heavy 70
+      aka: BU crystal|DM-Pentylone|Dipentylone|KU|KU crystals|N|N,N-Dimethylpentylone|N-Dimethylpentylone
+      #DAT-preferring  #class:Cathinone (substituted cathinone; beta-keto amphetamine; tertiary dimethylamino analogue of pentylone)  #fatalities-mdma-substitution  #post-eutylone-market-successor
+  Dipentylone  <recreational>
+      aka: DMBDP|KU|N,N-dimethylpentylone|bk-DMBDP|dimethylpentylone
+      #class:Substituted cathinone (-keto phenethylamine)
+  EDMC  <recreational>  — insufflation mg: common 60-130, heavy 220
+      aka: 3|3,4-EDMC|4-EDMC|4-Ethylenedioxymethcathinone|ED-MC|βk-EDMA
+      #SNDRA-predicted  #class:Substituted cathinone (benzodioxine-derived)
+  Ephylone  <recreational>  — oral mg: common 20-40, heavy 80
+      aka: bk-EBDP|bk-ethyl-K|βk-EBDP
+      #class:cathinone
+  Homarylamine  <recreational>
+      aka: MDMPEA|N-methyl-PEA
+      #class:Phenethylamine
+  HOT-7  <recreational>  — oral mg: common 15-25, heavy 25
+      aka: hot7
+      #PIHKAL  #phenethylamine  #research-chemical  #tentative
+      also: Psychedelic
+  MBDB  <recreational>  — oral mg: common 180-210, heavy 250
+      aka: eden|methyl-j
+      #habit-forming  #research-chemical  #tentative
+  MDAI  <recreational>  — oral mg: common 100-150, heavy 150
+      aka: mindy|sparkle
+      #Nichols-compound  #SNDRI  #SRI  #SSRA-selective  #class:aminoindane  #fatalities-reported  #habit-forming  #phenethylamine  #research-chemical
+  MDE  <recreational>  — oral mg: common 100-200, heavy 200
+      aka: Eve|MDEA|N-ethyl-MDA
+      #PIHKAL  #SSRA-dominant  #Schedule-I  #class:amphetamine  #class:mdxx  #class:substituted amphetamines  #duplicate-of-MDE  #low-DA-release  #phenethylamine  #tentative
+      also: Psychedelic
+  MDOH  <recreational>  — oral mg: common 100-160, heavy 160
+      aka: N-hydroxy-MDA
+      #MDA-prodrug  #PIHKAL  #habit-forming  #phenethylamine  #research-chemical  #tentative
+      also: Psychedelic
+  MDPA  <recreational>  — oral mg: common 125-175, heavy 250
+      aka: methylenedioxyphenylacetamide
+      #habit-forming  #research-chemical  #tentative
+  Mephenmetrazine  <recreational>  — insufflation mg: common 10-20, heavy 25
+      aka: 4-methylphenmetrazine|4-mpm
+      #habit-forming  #research-chemical  #tentative
+  Methamnetamine  <recreational>  — oral mg: common 80-120, heavy 150
+      aka: MNA|PAL-1046|methylnaphetamine|mnt|n-methyl-pal-287
+      #SNDRA  #balanced-release  #habit-forming  #research-chemical  #tentative
+  PMA  <recreational>  — oral mg: common 40-60, heavy 60
+      aka: Para-Methoxyamphetamine
+      #class:amphetamine  #class:substituted amphetamines  #tentative
+      also: Stimulant
+  PMMA  <recreational>  — oral mg: common 100-120, heavy 120
+      #class:amphetamine  #class:substituted amphetamines
+  Yopo  (STUB)  <recreational>
+      aka: Anadenanthera peregrina snuff|anadenanthera
+      #MISCATEGORIZED  #psychedelic

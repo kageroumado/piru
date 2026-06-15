@@ -26007,6 +26007,54 @@
           }
         }
       }
+    },
+    "Other / Miscellaneous" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他 / 杂项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他 / 雜項"
+          }
+        }
+      }
+    },
+    "Everything that doesn't fit a class above." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不属于以上任何类别的物质。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不屬於以上任何類別的物質。"
+          }
+        }
+      }
+    },
+    "Limited data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据有限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料有限"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

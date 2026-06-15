@@ -1,4 +1,84 @@
-# Antimicrobial — 2 substances
+# Antimicrobial — 27 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  Fluconazole  [Diflucan|FLZ|Fluconazol|Fluconazole sodium (IV formulations)|Fluconazolum]  (source: drug.community)  #class:Triazole antifungal
-  Mefloquine  [(R*,S*)-2,8-bis(trifluoromethyl)quinolin-4-yl-(2-piperidyl)methanol|Lariam|Mefloquina|Mefloquinum|RO 21-5998|WR 142,490]  (source: drug.community)  #antimalarial  #class:Quinoline methanol derivative  #miscategorised  #neuropsychiatric-AE-risk
+  Acyclovir  (STUB)  <non_recreational>
+      aka: Zovirax
+      #antiviral  #tablet, capsule, oral suspension
+  Amoxicillin  (STUB)  <non_recreational>
+      aka: Amoxil
+      #aminopenicillin  #beta-lactam antibiotic  #capsule, tablet, chewable tablet, extended release tablet, suspension
+  Amoxicillin-Clavulanate  (STUB)  <non_recreational>
+      aka: Augmentin
+      #aminopenicillin  #beta-lactam antibiotic  #tablet, chewable tablet, suspension
+  Azithromycin  (STUB)  <non_recreational>
+      aka: Zithromax
+      #macrolide antibiotic  #tablet, oral suspension
+  Baloxavir  (STUB)  <non_recreational>
+      aka: Xofluza
+      #antiviral  #endonuclease inhibitor  #tablet
+  Cefadroxil  (STUB)  <non_recreational>
+      aka: Duricef
+      #1st generation cephalosporin  #beta-lactam antibiotic  #capsule, tablet, suspension
+  Cefdinir  (STUB)  <non_recreational>
+      aka: Omnicef
+      #3rd generation cephalosporin  #beta-lactam antibiotic  #capsule, suspension
+  Cefprozil  (STUB)  <non_recreational>
+      aka: Cefzil
+      #2nd generation cephalosporin  #beta-lactam antibiotic  #tablet, suspension
+  Cefuroxime  (STUB)  <non_recreational>
+      aka: Ceftin
+      #2nd generation cephalosporin  #beta-lactam antibiotic  #tablet, suspension
+  Cephalexin  (STUB)  <non_recreational>
+      aka: Daxbia|Keflex
+      #1st generation cephalosporin  #beta-lactam antibiotic  #capsule, tablet, suspension
+  Ciprofloxacin  (STUB)  <non_recreational>
+      aka: Cipro
+      #fluoroquinolone antibiotic  #tablet, extended release tablet, suspension
+  Clarithromycin  (STUB)  <non_recreational>
+      aka: Biaxin
+      #macrolide antibiotic  #tablet, extended release tablet, oral suspension
+  Clindamycin  (STUB)  <non_recreational>
+      aka: Benzaclin|Cleocin|Clindacin P|Clindamax Lotion|Neuac|Veltin|clindamycin/benzoyl peroxide|clindamycin/tretinoin
+      #capsule, solution  #lincosamide antibiotic
+  Doxycycline  (STUB)  <non_recreational>
+      aka: Acticlate|Adoxa|Doxycyclate Hyclate|Doxycycline Hyclate|Vibramycin
+      #tablet, delayed release tablet, capsule, delayed release capsule, suspension, syrup  #tetracycline antibiotic
+  Famciclovir  (STUB)  <non_recreational>
+      aka: Famvir
+      #antiviral  #tablet
+  Fluconazole  <non_recreational>  — intravenous mg: common 100-200, heavy 400
+      aka: Diflucan|FLZ|Fluconazol|Fluconazole sodium|Fluconazolum
+      #antifungal  #class:Triazole antifungal  #tablet, suspension
+  Levofloxacin  (STUB)  <non_recreational>
+      aka: Levaquin
+      #fluoroquinolone antibiotic  #tablet, solution
+  Mefloquine  <non_recreational>
+      aka: Lariam|Mefloquina|Mefloquinum|RO 21-5998|WR 142,490
+      #antimalarial  #class:Quinoline methanol derivative  #miscategorised  #neuropsychiatric-AE-risk
+  Metronidazole  (STUB)  <non_recreational>
+      aka: Flagyl
+      #antibiotic  #tablet, extended release tablet, capsule
+  Minocycline  (STUB)  <non_recreational>
+      aka: Minocin
+      #tablet, delayed release tablet, capsule, delayed release capsule  #tetracycline antibiotic
+  Nitrofurantoin  (STUB)  <non_recreational>
+      aka: Macrobid|Macrodantin|Nitrofurantoin Monohydrate/macrocrystalline|Nitrofurantoin Monohydrate/macrocrystals|nitrofurantoin/nitrofurantoin
+      #antibiotic  #capsule
+  Oseltamivir  (STUB)  <non_recreational>
+      aka: Tamiflu
+      #antiviral  #capsule, suspension  #neuraminidase inhibitor
+  Penicillin V Potassium  (STUB)  <non_recreational>
+      aka: Pen VK
+      #beta-lactam antibiotic  #natural penicillin  #tablet, solution
+  Sulfamethoxazole-Trimethoprim  (STUB)  <non_recreational>
+      aka: Bactrim
+      #sulfonamide antibiotic  #tablet, suspension
+  Tinidazole  (STUB)  <non_recreational>
+      aka: Tindamax
+      #antibiotic  #tablet
+  Valacyclovir  (STUB)  <non_recreational>
+      aka: Valtrex
+      #antiviral  #tablet
+  Zanamivir  (STUB)  <non_recreational>
+      aka: Relenza
+      #antiviral  #dry powder inhaler (diskhaler)  #neuraminidase inhibitor

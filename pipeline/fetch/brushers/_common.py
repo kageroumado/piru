@@ -88,8 +88,11 @@ _PIRU_CATEGORY_MAP: dict[str, str] = {
     "nonsteroidal anti-inflammatory drug": "Analgesic",
     "supplement": "Supplement",
     "vitamin": "Supplement",
-    "steroid": "Supplement",
-    "corticosteroid": "Supplement",
+    # Glucocorticoids/corticosteroids are an endocrine drug class, not dietary
+    # supplements. (Inhaled/topical steroids still read better under Endocrine
+    # than Supplement; the brusher can't see route here.)
+    "steroid": "Endocrine",
+    "corticosteroid": "Endocrine",
     "peptide": "Peptide",
     "gabapentinoid": "GABAergic",
     "gabaergic": "GABAergic",

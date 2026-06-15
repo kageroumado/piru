@@ -1,33 +1,74 @@
-# Antihistamine — 31 substances
+# Antihistamine — 23 substances (sorted by popularity)
+# fields: NAME [display] {aliases} <display_class> dose | #tags | also-categorized
 
-  3-Quinuclidinyl benzilate  [3-QNB|Agent Buzz|BZ|EA-2277|QNB|Substance 78 (Soviet code)]  (source: drug.community)  #class:Tropane-derived glycolate ester (antimuscarinic)
-  Atropine  [(±)-Atropine|Atropen (auto-injector brand)|Atropin|Atropina|Atropinum|Duodote (atropine/pralidoxime combo)|Isopto Atropine (ophthalmic brand)|Lomotil/Motofen co-formulated atropine (very low dose for deterrence)|Tropine tropate|dl-Hyoscyamine|dl-tropyltropate]  (source: drug.community)  #class:Tropane alkaloid (belladonna alkaloid)
-  Azelastine  [Astelin|Astepro|Dymista (with fluticasone)|Optivar]  (source: piru-curated)  #H1-antagonist  #antihistamine  #mast-cell-stabilizer  #nasal  #non-sedating  #ophthalmic  #prescription-only  #second-gen-antihistamine
-  Bilastine  [Blexten|Ilaxten|Obalix]  (source: piru-curated)  #H1-antagonist  #antihistamine  #non-sedating  #prescription-only  #second-gen-antihistamine
-  Brompheniramine  [Bromfed|Dimetapp|J-Tan]  (source: piru-curated)  #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #sedating
-  Cetirizine  [All Day Allergy|Reactine|Zirtec|Zyrtec]  (source: piru-curated)  #H1-antagonist  #OTC  #antihistamine  #non-sedating  #second-gen-antihistamine
-  Chlorpheniramine  [(R)-(-)-chlorpheniramine|(S)-(+)-chlorpheniramine|Aller-Chlor|Chlor-Trimeton|Chlorphenamine|Chlorphenamine maleate|Chlorphenaminum|Chlorpheniramine Maleate|Chlorpheniramine maleate|Chlorpheniramine polistirex|Chlorprophenpyridamine|Chlortab|Clorfeniramina|Dexchlorpheniramine|Piriton]  (source: piru-curated)  #CYP2D6-substrate  #H1-antagonist  #H1-inverse-agonist  #OTC  #SERT-inhibitor-clinically-relevant  #anticholinergic  #antihistamine  #class:Alkylamine derivative (first-generation antihistamine)  +4more
-  Cimetidine  [Tagamet|Tagamet HB]  (source: piru-curated)  #CYP-inhibitor  #H2-antagonist  #OTC  #acid-reducer  #antihistamine  #non-sedating
-  Cyproheptadine  [4-(5H-dibenzo[a,d]cyclohepten-5-ylidene)-1-methylpiperidine|Ciplactin|Cyprodine|Cyproheptadinum|Periactin|Peritol|Vimicon]  (source: piru-curated)  #H1-antagonist  #anticholinergic  #antihistamine  #appetite-stimulant  #class:Tricyclic benzocycloheptene (first-generation antihistamine)  #first-gen-antihistamine  #prescription-only  #sedating  +1more
-  Desloratadine  [Aerius|Clarinex|NeoClarityn]  (source: piru-curated)  #H1-antagonist  #antihistamine  #non-sedating  #prescription-only  #second-gen-antihistamine
-  Dimenhydrinate  [Dinate|Diphenhydramine 8-chlorotheophyllinate|Diphenhydramine theoclate|Dramamine|Dramamine (Original Formula)|Driminate|Gravol|O-benzhydryldimethylaminoethanol 8-chlorotheophyllinate|Triptone|Vomex A]  (source: piru-curated)  #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  #class:Ethanolamine first‑generation H1 antihistamine salt: diphenhydramine + 8‑chlorotheophylline (xanthine).  #deliriant  #diphenhydramine-salt  +2more
-  Diphenhydramine  [Benadryl|DPH|Nytol|Sominex|Unisom SleepTabs|ZzzQuil|benadryl|diphenhydramine|dph]  (source: piru-curated)  #Beers-list  #CYP2D6-inhibitor  #H1-antagonist  #H1-inverse-agonist  #Na-channel-blocker  #OTC  #anticholinergic  #anticholinergic-strong  +6more
-  Doxylamine  [Bonjesta|Diclegis (with B6)|NyQuil (component)|Unisom SleepTabs]  (source: piru-curated)  #5-HT2A-agonist  #CYP2D6-substrate  #DOx  #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  +6more
-  EA-3167  [3-Quinuclidinyl-(phenylcyclopentyl)-glycolate|EA 3167|Edgewood Agent EA-3167|Quinuclidinyl phenylcyclopentyl glycolate]  (source: drug.community)  #class:Quinuclidinyl phenylcyclopentyl glycolate ester (tropane-related antimuscarinic)
-  Famotidine  [Pepcid|Pepcid AC|Zantac 360]  (source: piru-curated)  #H2-antagonist  #OTC  #acid-reducer  #antihistamine  #non-sedating
-  Fexofenadine  [Allegra|Fastofen|Telfast]  (source: piru-curated)  #H1-antagonist  #OTC  #antihistamine  #non-sedating  #second-gen-antihistamine
-  Hydroxyzine  [Atarax|Vistaril|atarax|vistaril]  (source: piru-curated)  #5-HT2A-antagonist  #H1-antagonist  #H1-strong  #anticholinergic  #antihistamine  #anxiolytic  #cetirizine-prodrug  #first-gen-antihistamine  +2more
-  Ibotenic acid  [IBO|alpha-amino-2,3-dihydro-3-oxo-5-isoxazoleacetic acid|alpha-amino-3-hydroxy-5-isoxazoleacetic acid|amino-(3-hydroxy-5-isoxazolyl)acetic acid|α-amino-3-hydroxy-5-isoxazoleacetic acid]  (source: drug.community)  #class:Isoxazole amino acid
-  Jenkem  (source: tripsit)  #hoax-or-urban-legend  #no-known-active-pharmacology  #not-recommended-classification-as-anticholinergic-deliriant  #tentative
-  Ketotifen  [Alaway|Ketof|Zaditen|Zaditor]  (source: piru-curated)  #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #mast-cell-stabilizer  #ophthalmic  #sedating
-  Lean  [Promethazine+Codeine|Purple Drank|barre|drank|pint (slang for ~473 mL bottle)|purple drank|sizzurp|syrup|texas tea|wock]  (source: drug.community)  #QT-risk  #class:Phenothiazine antihistamine (promethazine) + natural opiate alkaloid, phenanthrene class (codeine)  #codeine-promethazine-syrup  #polypharmacy
-  Levocetirizine  [Xuzal|Xyzal]  (source: piru-curated)  #H1-antagonist  #OTC  #antihistamine  #non-sedating  #second-gen-antihistamine
-  Loratadine  [Alavert|Claritin|Clarityn]  (source: piru-curated)  #H1-antagonist  #OTC  #antihistamine  #non-sedating  #second-gen-antihistamine
-  Meclizine  [Antivert|Bonine|Dramamine Less Drowsy]  (source: piru-curated)  #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  #first-gen-antihistamine  #sedating
-  Nizatidine  [Axid|Tazac]  (source: piru-curated)  #H2-antagonist  #OTC  #acid-reducer  #antihistamine  #non-sedating
-  Olopatadine  [Pataday|Patanol|Pazeo]  (source: piru-curated)  #H1-antagonist  #antihistamine  #mast-cell-stabilizer  #nasal  #non-sedating  #ophthalmic  #prescription-only  #second-gen-antihistamine
-  Promethazine  [Avomine|Phenergan|Pipolphen|Promethegan|Romergan|promethazine HCl]  (source: piru-curated)  #Beers-criteria-avoid-elderly  #D2-antagonist  #FDA-black-box-IV-tissue-injury  #FDA-black-box-pediatric-respiratory-depression  #H1-antagonist  #H1-inverse-agonist  #anticholinergic  #antiemetic  +8more
-  Pyrilamine  [Mepyramine|Neo-Synephrine Nighttime (component)|PBZ]  (source: piru-curated)  #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #sedating
-  Ranitidine  [Taladine|Zantac (withdrawn)]  (source: piru-curated)  #H2-antagonist  #acid-reducer  #antihistamine  #non-sedating  #withdrawn-US
-  Rupatadine  [Rinialer|Rupa|Rupafin]  (source: piru-curated)  #H1-antagonist  #PAF-antagonist  #antihistamine  #non-sedating  #prescription-only  #second-gen-antihistamine
-  Scopolamine  [(-)-scopolamine|Hyoscine|Hyoscine butylbromide (peripheral analogue)|Hyoscine hydrobromide|L-scopolamine|Transderm Scōp]  (source: tripsit)  #BBB-penetrant-high  #Beers-criteria-avoid-elderly  #CYP3A4-substrate  #M1-pan-muscarinic-antagonist  #antidepressant-rapid-investigational  #physostigmine-reversible  #tentative  #tropane-alkaloid
+  Azelastine  <otc>  — insufflation sprays: common 2-2, heavy 4
+      aka: Astelin|Astepro|Dymista|Optivar
+      #H1-antagonist  #antihistamine  #antihistamine, 2nd generation  #mast-cell-stabilizer  #nasal  #nasal spray  #non-sedating  #ophthalmic  #prescription-only  #second-gen-antihistamine
+  Azelastine-Fluticasone  (STUB)  <medical_rx>
+      aka: Dymista
+      #antihistamine, 2nd generation  #corticosteroid  #nasal spray
+  Bilastine  <medical_rx>  — oral mg: common 20-20, heavy 40
+      aka: Blexten|Ilaxten|Obalix
+      #H1-antagonist  #antihistamine  #non-sedating  #prescription-only  #second-gen-antihistamine
+  Brompheniramine  <medical_rx>  — oral mg: common 4-8, heavy 24
+      aka: Bromfed|Dimetapp|J-Tan
+      #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #sedating
+  Cetirizine  <otc>  — oral mg: common 5-10, heavy 20
+      aka: 24 Hour Allergy|All Day Allergy|Childrens Cetirizine Hydrochloride Allergy|Good Neighbor Pharmacy Childrens All Day Allergy|Harris Teeter All Day Allergy|Kirkland Signature Aller Tec|Leader All Day Allergy|Reactine|Zirtec|Zyrtec
+      #H1-antagonist  #OTC  #antihistamine  #antihistamine, 2nd generation  #non-sedating  #second-gen-antihistamine  #tablet, chewable tablet, orally disintegrating, capsule, solution
+  Chlorpheniramine  <otc>  — oral mg: common 4-8, heavy 24
+      aka: Aller-Chlor|Chlor-Trimeton|Chlorphenaminum|Chlorpheniramine polistirex|Chlorprophenpyridamine|Chlortab|Chlortabs|Clorfeniramina|Piriton|hydrocodone/pseudoephedrine/chlorpheniramine
+      #CYP2D6-substrate  #H1-antagonist  #H1-inverse-agonist  #OTC  #SERT-inhibitor-clinically-relevant  #anticholinergic  #antihistamine  #antihistamine, 1st generation  #class:Alkylamine derivative (first-generation antihistamine)  #first-gen-antihistamine  #hERG-moderate-overdose-only  #sedating
+  Cimetidine  <medical_rx>  — oral mg: common 400-800, heavy 1600
+      aka: Tagamet|Tagamet HB
+      #CYP-inhibitor  #H2-antagonist  #OTC  #acid-reducer  #antacid agent  #antihistamine  #histamine-2 receptor antagonist  #non-sedating  #tablet, solution
+  Cyproheptadine  <medical_rx>  — oral mg: common 4-8, heavy 32
+      aka: Ciplactin|Cyprodine|Cyproheptadinum|Periactin|Peritol|Vimicon
+      #H1-antagonist  #anticholinergic  #antihistamine  #appetite-stimulant  #class:Tricyclic benzocycloheptene (first-generation antihistamine)  #first-gen-antihistamine  #prescription-only  #sedating  #serotonin-antagonist
+  Desloratadine  <medical_rx>  — oral mg: common 5-5, heavy 10
+      aka: Aerius|Clarinex|NeoClarityn
+      #H1-antagonist  #antihistamine  #antihistamine, 3rd generation  #non-sedating  #prescription-only  #second-gen-antihistamine  #tablet, orally disintegrating tablet, syrup
+  Famotidine  <otc>  — intravenous mg: common 20-20, heavy 40
+      aka: 7 Select Acid Controller|Good Neighbor Pharmacy Acid Reducer|Good Sense Acid Reducer|Pepcid|Pepcid AC|Signature Care Acid Controller|Sunmark Dual Action Complete|Up And Up Famotidine|Zantac 360|famotidine/magnesium/calcium
+      #H2-antagonist  #OTC  #acid-reducer  #antacid agent  #antihistamine  #histamine-2 receptor antagonist  #non-sedating  #tablet, suspension
+  Fexofenadine  <otc>  — oral mg: common 120-180, heavy 360
+      aka: Allegra|Care One Aller Ease|Childrens Allegra Allergy|Fastofen|Leader Aller Ease|Telfast
+      #H1-antagonist  #OTC  #antihistamine  #antihistamine, 3rd generation  #non-sedating  #second-gen-antihistamine  #tablet, orally disintegrating tablet, suspension
+  Hydroxyzine  <dual_use>  — intramuscular mg: common 25-50, heavy 100
+      aka: Atarax|Vistaril
+      #5-HT2A-antagonist  #H1-antagonist  #H1-strong  #anticholinergic  #antihistamine  #antihistamine, 1st generation  #anxiolytic  #cetirizine-prodrug  #first-gen-antihistamine  #prescription-only  #sedating  #tablet, capsule, syrup
+      also: Depressant
+  Ketotifen  <medical_rx>  — oral mg: common 1-2, heavy 4
+      aka: Alaway|Ketof|Zaditen|Zaditor
+      #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #mast-cell-stabilizer  #ophthalmic  #sedating
+  Lean  <medical_rx>  — oral mL: common 20-60, heavy 90
+      aka: Promethazine+Codeine|Purple Drank|barre|drank|pint|sizzurp|syrup|texas tea|wock
+      #QT-risk  #class:Phenothiazine antihistamine (promethazine) + natural opiate alkaloid, phenanthrene class (codeine)  #codeine-promethazine-syrup  #polypharmacy
+  Levocetirizine  <otc>  — oral mg: common 2.5-5, heavy 10
+      aka: Xuzal|Xyzal
+      #H1-antagonist  #OTC  #antihistamine  #antihistamine, 3rd generation  #non-sedating  #second-gen-antihistamine  #tablet, solution
+  Loratadine  <otc>  — oral mg: common 10-10, heavy 20
+      aka: Alavert|Allergy Relief-d|Berkley And Jensen Allergy Relief|Childrens Loratadine|Claritin|Clarityn|Healthy Accents Allergy Relief|Hy-vee|Signature Care Allergy And Congestion Relief|Sunmark Loratadine|Wal Itin|cetirizine/pseudoephedrine|loratadine/pseudoephedrine
+      #H1-antagonist  #OTC  #antihistamine  #antihistamine, 2nd generation  #non-sedating  #second-gen-antihistamine  #tablet, chewable tablet, orally disintegrating tablet, capsule, solution, syrup
+  Meclizine  <otc>  — oral mg: common 25-50, heavy 100
+      aka: Antivert|Bonine|Dramamine Less Drowsy
+      #H1-antagonist  #OTC  #anticholinergic  #antiemetic  #antihistamine  #antihistamine, 1st generation  #first-gen-antihistamine  #sedating  #tablet, chewable tablet
+  Nizatidine  <medical_rx>  — oral mg: common 150-300, heavy 300
+      aka: Axid|Tazac
+      #H2-antagonist  #OTC  #acid-reducer  #antihistamine  #non-sedating
+  Olopatadine  <medical_rx>  — insufflation sprays: common 2-2, heavy 4
+      aka: Olopatadine-nasal|Pataday|Patanase|Patanol|Pazeo
+      #H1-antagonist  #antihistamine  #antihistamine, 2nd generation  #mast-cell-stabilizer  #nasal  #nasal spray  #non-sedating  #ophthalmic  #prescription-only  #second-gen-antihistamine
+  Promethazine  <dual_use>  — intramuscular mg: common 25-50, heavy 75
+      aka: Avomine|Lergigan|Phenergan|Pipolphen|Promethegan|Romergan
+      #Beers-criteria-avoid-elderly  #D2-antagonist  #FDA-black-box-IV-tissue-injury  #FDA-black-box-pediatric-respiratory-depression  #H1-antagonist  #H1-inverse-agonist  #anticholinergic  #antiemetic  #antihistamine  #class:phenothiazine  #common  #first-gen-antihistamine
+      also: Dysdelic, Other
+  Pyrilamine  <medical_rx>  — oral mg: common 25-50, heavy 100
+      aka: Mepyramine|Neo-Synephrine Nighttime|PBZ
+      #H1-antagonist  #OTC  #anticholinergic  #antihistamine  #first-gen-antihistamine  #sedating
+  Ranitidine  <otc>  — oral mg: common 150-150, heavy 300
+      aka: Acid Reducer 150|Basic Care Acid Reducer 150|Equaline Heartburn Relief|Harris Teeter Acid Reducer 150|Heratburn Relief|Taladine|Wal-zan 75|Zantac|Zantac 75
+      #H2-antagonist  #acid-reducer  #antacid agent  #antihistamine  #histamine-2 receptor antagonist  #non-sedating  #tablet, capsule, syrup  #withdrawn-US
+  Rupatadine  <medical_rx>  — oral mg: common 10-10, heavy 20
+      aka: Rinialer|Rupa|Rupafin
+      #H1-antagonist  #PAF-antagonist  #antihistamine  #non-sedating  #prescription-only  #second-gen-antihistamine
