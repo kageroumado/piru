@@ -206,11 +206,34 @@ extension Substance {
     }
 
     /// Convert an amount-in-some-unit to this substance's native unit for the
-    /// given route. Tries direct mass conversion first, then falls back to
-    /// substance-specific aliases (e.g. "drink" → grams of ethanol). Returns
-    /// `nil` if no conversion path exists.
+    /// given route, against the route's **default-salt** unit.
+    ///
+    /// Route-only overload (see the overload-family note on
+    /// ``unit(for:saltForm:)``): it resolves the reference unit via the default
+    /// salt by design. For substances whose salts share a unit this is exact; it
+    /// only mis-targets when a *specific* selected salt uses a different unit
+    /// than the route default. Reach for
+    /// ``convert(amount:from:toRoute:saltForm:)`` on any surface that converts
+    /// for a chosen/logged salt.
     func convert(amount: Double, from unit: String, toRoute route: RouteOfAdministration) -> Double? {
-        let targetUnit = self.unit(for: route)
+        convert(amount: amount, from: unit, toRoute: route, saltForm: nil)
+    }
+
+    /// Salt-aware unit conversion: resolves the reference unit via
+    /// ``unit(for:saltForm:)`` so a salt whose unit differs from the route
+    /// default (elemental mg vs compound mg, or an IU-dosed form) converts
+    /// against its *own* unit. Tries direct mass conversion first, then falls
+    /// back to substance-specific aliases (e.g. "drink" → grams of ethanol).
+    /// Returns `nil` if no conversion path exists. A `nil` (or unknown) salt
+    /// label falls back to the route's default-salt unit, so the route-only
+    /// ``convert(amount:from:toRoute:)`` delegates here unchanged.
+    func convert(
+        amount: Double,
+        from unit: String,
+        toRoute route: RouteOfAdministration,
+        saltForm: String?,
+    ) -> Double? {
+        let targetUnit = self.unit(for: route, saltForm: saltForm)
         if let direct = DoseUnit.convert(amount, from: unit, to: targetUnit) {
             return direct
         }
@@ -1169,6 +1192,23 @@ struct Substance: Identifiable {
     }
 
     // MARK: - Salt forms
+
+    // Overload-family convention — `…(for:)` vs `…(for:saltForm:)`:
+    //
+    // The route-only accessors — `doseRange(for:)`, `unit(for:)`,
+    // `duration(for:)`, and `convert(amount:from:toRoute:)` — intentionally
+    // return the route's **default-salt** data (the top-level fields, which
+    // mirror `saltForms.first`). They exist so salt-unaware code stays correct
+    // without threading a salt through every call site.
+    //
+    // The `…(for:saltForm:)` variants narrow to a *specific* form, falling back
+    // to the default when the salt is `nil` or unknown. Any surface that
+    // displays or computes for a SPECIFIC logged/selected salt (the dose-level
+    // ladder, the unit shown next to an amount, a salt-aware conversion) MUST
+    // use the salt overload — otherwise it silently shows the default form's
+    // numbers/unit for a different salt. New call sites: default to the salt
+    // overload whenever a salt is in scope; reach for the route-only one only
+    // when no salt selection exists.
 
     /// Distinct salt/ester forms across all routes, ordered (default first,
     /// then by first appearance). Empty for the vast majority of substances.
