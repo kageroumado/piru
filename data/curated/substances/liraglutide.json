@@ -5,6 +5,7 @@
     "Saxenda"
   ],
   "category": "Peptide",
+  "popularity": 0.55,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

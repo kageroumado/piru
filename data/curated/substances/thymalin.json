@@ -2,6 +2,7 @@
   "name": "Thymalin",
   "aliases": [],
   "category": "Peptide",
+  "popularity": 0.22,
   "defaultRoute": "intramuscular",
   "routes": [
     {

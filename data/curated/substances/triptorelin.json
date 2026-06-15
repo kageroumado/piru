@@ -8,6 +8,7 @@
     "CL-118532"
   ],
   "category": "Peptide",
+  "popularity": 0.24,
   "defaultRoute": "intramuscular",
   "routes": [
     {

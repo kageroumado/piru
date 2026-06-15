@@ -4,6 +4,7 @@
     "Threonyl-lysyl-prolyl-arginyl-prolyl-glycyl-proline"
   ],
   "category": "Peptide",
+  "popularity": 0.34,
   "defaultRoute": "insufflation",
   "routes": [
     {
