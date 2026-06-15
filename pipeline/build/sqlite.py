@@ -182,7 +182,12 @@ CREATE TABLE substances (
     -- (seeded from NSDUH/UNODC/EMCDDA prevalence). Drives the "Popularity" sort
     -- in category browse — well-known substances on top, the rest fall to 0 and
     -- sort alphabetically. 0 = not curated.
-    popularity REAL NOT NULL DEFAULT 0
+    popularity REAL NOT NULL DEFAULT 0,
+    -- 1 when this substance carries NO dose_ranges, NO durations, and NO
+    -- protocol_dosing rows from any source — a bare catalog stub (mostly medtap
+    -- regulatory entries). The app can demote/badge these (cf. Substance.has
+    -- NoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least one ladder.
+    is_stub INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -233,6 +238,17 @@ CREATE TABLE dose_ranges (
     heavy         REAL,
     notes         TEXT,
     salt_form     TEXT,
+    -- Curated default-salt ordering for multi-salt families (0 = the default the
+    -- app should pre-select; 1, 2, … = the rest). NULL for single-form / non-salt
+    -- rows. Data-driven intent replacing the loader's alphabetical accident; the
+    -- loader consumes it in a later workstream (WS-2b) — until then the app still
+    -- defaults alphabetically, so this column is forward-looking metadata.
+    salt_rank     INTEGER,
+    -- Mass fraction of the elemental metal in this salt (e.g. Magnesium Citrate
+    -- ≈ 0.16 means 1000 mg of the citrate salt ≈ 160 mg elemental Mg). NULL for
+    -- everything that isn't an elemental-mineral salt row. Lets the app surface
+    -- "= ⟨elemental⟩ mg elemental Mg" alongside the salt dose.
+    elemental_fraction REAL,
     citation_id   INTEGER REFERENCES citations(id),
     UNIQUE (substance_id, route, source_id, salt_form)
 );
@@ -608,6 +624,38 @@ CREATE TABLE manifest (
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+# Controlled salt-form vocabulary. Folding tags dose rows with these labels; the
+# canonicaliser trims whitespace and maps case-/spelling-variants back to the one
+# blessed spelling so the app sees a stable, deduplicated salt picker. Keep the
+# values byte-identical to what SaltFormTests asserts ("Citrate", "Glycinate",
+# "L-Threonate", "Carbonate", "Orotate") — never rename them here.
+_SALT_FORM_CANON: dict[str, str] = {
+    "citrate": "Citrate",
+    "glycinate": "Glycinate",
+    "bisglycinate": "Glycinate",
+    "l-threonate": "L-Threonate",
+    "threonate": "L-Threonate",
+    "carbonate": "Carbonate",
+    "orotate": "Orotate",
+    "hydroxide": "Hydroxide",
+}
+
+
+def canonical_salt_form(label: str | None) -> str | None:
+    """Trim/canonicalise a salt label to the controlled vocabulary.
+
+    Unknown labels pass through trimmed (we never *drop* a salt tag), so a future
+    family works before its entry is added here — but the known forms collapse to
+    one blessed spelling so the picker never shows 'glycinate' and 'Glycinate' as
+    two options. Idempotent: canonical_salt_form(canonical_salt_form(x)) == it."""
+    if label is None:
+        return None
+    trimmed = label.strip()
+    if not trimmed:
+        return None
+    return _SALT_FORM_CANON.get(trimmed.lower(), trimmed)
 
 
 def normalise(s: str) -> str:
@@ -1427,6 +1475,22 @@ _FORCE_MERGE: list[tuple[str, str, bool]] = [
     # Fold the DATA but NOT the name — "4-HO-DMT" is psilocin, a different drug.
     ("4-HO-DMT / 4-HO-DMT PHOSPHATE ESTER", "Psilocybin", False),
 ]
+
+# Do-NOT-merge pairs: distinct compounds whose source InChIKeys collide on the
+# first-14 connectivity block, so the structural auto-dedup (mergeable()) would
+# wrongly fuse them if a linking alias ever puts them in the same union-find
+# group (#8). The collisions are NPS-catalogue salt-form / mislabelled-key
+# artifacts — e.g. Methylone and Cyclobenzaprine both carry JURKNVYFZMSNLP in the
+# raw data though they are unrelated molecules. Keyed on the unordered pair of
+# normalise(canonical) names; the guard fires regardless of which is winner/loser.
+# Floor deliverable (no external PubChem re-lookup required); each pair is
+# verified to stay SPLIT after rebuild.
+_DO_NOT_MERGE: set[frozenset[str]] = {
+    frozenset({normalise("Methylone"), normalise("Cyclobenzaprine")}),
+    frozenset({normalise("Cannabis"), normalise("THC")}),
+    frozenset({normalise("CBC"), normalise("CBG")}),
+    frozenset({normalise("3-MMC"), normalise("Myristicin")}),
+}
 
 # Force a specific canonical display casing for names that arrive mis-cased and
 # that smart_title_case can't fix (all-caps like "MELATONIN", or mixed-case
@@ -3654,6 +3718,32 @@ class Build:
         ],
     }
 
+    # Per-salt curated metadata, keyed by (parent canonical, salt label). Drives
+    # two forward-looking dose_ranges columns the loader consumes later (WS-2b):
+    #
+    #   rank      0 = the default the app should pre-select; 1, 2 … = the rest.
+    #             Kiri-approved: Magnesium Glycinate (best-absorbed/best-tolerated
+    #             common form) and Lithium Carbonate (the pharma standard) lead.
+    #   elemental mass fraction of the elemental metal in the salt — so the app
+    #             can show "≈ N mg elemental Mg/Li" beside the salt dose.
+    #             Mg citrate 0.16, glycinate 0.141, L-threonate 0.083;
+    #             Li carbonate 0.188, orotate 0.043.
+    #
+    # The salt label here MUST match the (already-canonical) label set by
+    # fold_salt_families(); apply_salt_metadata() asserts coverage so a typo or a
+    # new family without metadata surfaces at build time, not silently.
+    _SALT_METADATA: dict[str, dict[str, tuple[int, float]]] = {
+        "Magnesium": {
+            "Glycinate": (0, 0.141),
+            "Citrate": (1, 0.16),
+            "L-Threonate": (2, 0.083),
+        },
+        "Lithium": {
+            "Carbonate": (0, 0.188),
+            "Orotate": (1, 0.043),
+        },
+    }
+
     def fold_salt_families(self) -> dict[str, int]:
         """Fold curated salt variants into a shared parent, tagging each variant's
         dose/duration rows with its `salt_form` label.
@@ -3670,6 +3760,7 @@ class Build:
         salt_tables = ("dose_ranges", "durations", "durations_of_action", "protocol_dosing")
 
         def tag_salt(sid: int, label: str) -> None:
+            label = canonical_salt_form(label)
             for table in salt_tables:
                 self.cur.execute(
                     f"UPDATE OR IGNORE {table} SET salt_form=? WHERE substance_id=?",
@@ -3740,6 +3831,92 @@ class Build:
                 folded += 1
             self.cur.execute("UPDATE substances SET popularity=? WHERE id=?", (max_pop, parent_id))
         return {"families": families, "folded": folded, "parents_created": parents_created}
+
+    def apply_salt_metadata(self) -> dict[str, int]:
+        """Stamp curated `salt_rank` + `elemental_fraction` onto the salt-tagged
+        dose rows produced by fold_salt_families().
+
+        Data-driven default-salt intent: rank 0 is the form the app should
+        pre-select (Magnesium Glycinate, Lithium Carbonate). The loader still
+        defaults alphabetically until WS-2b reads this column, so this is
+        forward-looking metadata — it changes no current app behaviour or dose
+        value. Asserts every salt-tagged dose row got metadata, so a new family
+        without an entry fails the build loudly instead of silently shipping
+        NULLs. Runs immediately after fold_salt_families()."""
+        ranked, with_elemental = 0, 0
+        for parent_name, by_salt in self._SALT_METADATA.items():
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
+            ).fetchone()
+            if prow is None:
+                continue
+            pid = prow[0]
+            for salt_form, (rank, elemental) in by_salt.items():
+                cur = self.cur.execute(
+                    "UPDATE dose_ranges SET salt_rank=?, elemental_fraction=? "
+                    "WHERE substance_id=? AND salt_form=?",
+                    (rank, elemental, pid, salt_form),
+                )
+                if cur.rowcount:
+                    ranked += cur.rowcount
+                    with_elemental += cur.rowcount
+
+        # Coverage gate: every salt-tagged dose row must have received a rank.
+        uncovered = self.cur.execute(
+            "SELECT s.canonical_name, d.salt_form FROM dose_ranges d "
+            "JOIN substances s ON s.id=d.substance_id "
+            "WHERE d.salt_form IS NOT NULL AND d.salt_rank IS NULL"
+        ).fetchall()
+        if uncovered:
+            raise SystemExit(
+                f"apply_salt_metadata: {len(uncovered)} salt-tagged dose rows have "
+                f"no curated rank/elemental — add them to _SALT_METADATA: {uncovered}"
+            )
+        return {"ranked_rows": ranked, "elemental_rows": with_elemental}
+
+    def audit_salt_supplement_durations(self) -> dict[str, int]:
+        """Remove the salt-tagged ACUTE duration rows on the Mg/Li supplement
+        parents.
+
+        Audit decision (WS-5 #5, Kiri-flagged): Magnesium (a mineral ion) and
+        Lithium (a serum-level-titrated maintenance drug) have no perceptible
+        acute onset/peak/offset curve — the salt-tagged durations folded in from
+        the curated variant files reflect serum Tmax, not a felt effect, and
+        drawing a PK timeline for them is the imperceptible-curve problem. Dropping
+        them makes those routes fall back to marker rendering. Dose ladders and the
+        salt picker are untouched (only `durations` rows go); long-acting depot
+        windows (durations_of_action) are unaffected. Runs after apply_salt_metadata."""
+        removed = 0
+        for parent_name in ("Magnesium", "Lithium"):
+            prow = self.cur.execute(
+                "SELECT id FROM substances WHERE canonical_name=?", (parent_name,)
+            ).fetchone()
+            if prow is None:
+                continue
+            cur = self.cur.execute(
+                "DELETE FROM durations WHERE substance_id=? AND salt_form IS NOT NULL",
+                (prow[0],),
+            )
+            removed += cur.rowcount
+        return {"removed_duration_rows": removed}
+
+    def flag_dose_less_stubs(self) -> int:
+        """Set `substances.is_stub = 1` for every substance with ZERO dose_ranges,
+        ZERO durations, and ZERO protocol_dosing rows.
+
+        These are bare catalog entries — overwhelmingly medtap regulatory rows
+        that carry a name/indication but nothing dose-trackable. Flagging (rather
+        than dropping) lets the app demote/badge them without losing the catalog.
+        Distinct from drop_orphan_stubs(), which deletes truly content-less
+        wikidata rows; a stub here may still carry indications/mechanism/effects.
+        Runs after all dose/duration ingest + folding + the duration audit."""
+        cur = self.cur.execute(
+            "UPDATE substances SET is_stub = 1 WHERE id NOT IN ("
+            "  SELECT substance_id FROM dose_ranges "
+            "  UNION SELECT substance_id FROM durations "
+            "  UNION SELECT substance_id FROM protocol_dosing)"
+        )
+        return cur.rowcount
 
     def dedup_substances(self) -> dict[str, int]:
         """Merge substance records that are the SAME compound under different
@@ -3849,6 +4026,10 @@ class Build:
             # wrong merge is worse than a leftover duplicate. Known brands that
             # lack an InChIKey are handled explicitly in _NAME_REMAP instead.
             if stereoisomer_pair(names[w], names[o]):
+                return False
+            # Curated do-not-merge guard (#8): distinct compounds whose source
+            # InChIKeys collide on the connectivity block must never fuse.
+            if frozenset({normalise(names[w]), normalise(names[o])}) in _DO_NOT_MERGE:
                 return False
             iw, io = inchikey.get(w), inchikey.get(o)
             return bool(iw) and bool(io) and iw[:14] == io[:14]
@@ -4209,7 +4390,7 @@ class Build:
         sources_summary: dict,
     ) -> None:
         for k, v in [
-            ("schema_version", "3"),
+            ("schema_version", "4"),
             ("content_version", content_version),
             ("generated_at", datetime.now(UTC).isoformat()),
             ("generator_version", generator_version),
@@ -4327,6 +4508,19 @@ def main() -> int:
     salts = build.fold_salt_families()
     print(f"Salt-family folding: {salts}", file=sys.stderr)
 
+    # Stamp curated salt_rank (default-salt intent) + elemental_fraction onto the
+    # salt-tagged dose rows. Must run right after folding (so the salt_form tags
+    # exist) and asserts full coverage. Loader reads salt_rank in WS-2b; until
+    # then it's forward-looking metadata that changes no dose value.
+    salt_meta = build.apply_salt_metadata()
+    print(f"Salt metadata: {salt_meta}", file=sys.stderr)
+
+    # Audit decision (#5): drop the salt-tagged ACUTE durations on the Mg/Li
+    # supplement parents — minerals/maintenance ions have no perceptible acute
+    # curve, so those routes fall back to marker rendering. Dose ladders untouched.
+    dur_audit = build.audit_salt_supplement_durations()
+    print(f"Salt-supplement duration audit: {dur_audit}", file=sys.stderr)
+
     # Drop content-less wikidata long-tail stubs (no dose/effect/mechanism/
     # indication/binding/duration and no recreational provenance). Runs after
     # dedup so unmerged-duplicate stubs have already folded into their survivor,
@@ -4373,6 +4567,12 @@ def main() -> int:
     # the remaining durations).
     scrub = build.scrub_durations()
     print(f"Duration scrub: {scrub}", file=sys.stderr)
+
+    # Flag dose-less catalog stubs (zero dose + duration + protocol rows from any
+    # source). Runs after ALL dose/duration mutation (folding, audit, scrub) so
+    # the count is final; the app can demote/badge these.
+    stub_count = build.flag_dose_less_stubs()
+    print(f"Dose-less stubs flagged: {stub_count}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,
@@ -4424,7 +4624,7 @@ def main() -> int:
     size = OUT_SQLITE.stat().st_size
 
     manifest = {
-        "schema_version": 3,
+        "schema_version": 4,
         "content_version": content_version,
         "generated_at": datetime.now(UTC).isoformat(),
         "generator_version": "pipeline/build/sqlite.py 0.1.0",
@@ -4441,7 +4641,7 @@ def main() -> int:
     lines = [
         "# Piru SQLite build report",
         "",
-        f"Built {content_version} → `{OUT_SQLITE}` ({size:,} bytes, sha256 `{sha}`)",
+        f"Built {content_version} → `{OUT_SQLITE.relative_to(REPO)}` ({size:,} bytes, sha256 `{sha}`)",
         "",
         "## Row counts",
         "",
