@@ -46,10 +46,10 @@ struct PiruApp: App {
 
         container = Self.makeContainer()
 
-        // Stores that opened through the automatic-lightweight fallback below
-        // (rather than the staged V3→V4 migration) have the SAME UUID filled
-        // into every pre-existing DoseEntry — uniquify before any UI reads.
-        // Idempotent and cheap when there's nothing to do.
+        // Automatic lightweight migration fills the SAME UUID into every
+        // pre-existing DoseEntry when it adds `id` (the default expression is
+        // evaluated once) — uniquify before any UI reads. Idempotent and cheap
+        // when there's nothing to do.
         StoreRecovery.backfillDuplicateEntryIDs(container: container)
 
         // Routes notification taps (routine reminders carry a piru:// deep
@@ -110,15 +110,19 @@ struct PiruApp: App {
     /// Build the SwiftData `ModelContainer` on the canonical (already-recovered)
     /// store. The open path is layered so an upgrade never loses visible data:
     ///
-    /// 1. **Versioned migration** — the explicit `PiruMigrationPlan`. Succeeds for
-    ///    a fresh install (creates the store) and for any store already at V1/V2.
-    /// 2. **Automatic lightweight migration** — open the bare current schema with
-    ///    *no* plan. SwiftData then infers a migration from whatever shape is on
-    ///    disk. This absorbs *intermediate* dev/TestFlight schemas that match
-    ///    neither V1 nor V2 exactly — the case that previously threw
-    ///    `SwiftDataError 1`, got mis-classified as corruption, and stranded the
-    ///    user's data behind a fresh empty store.
-    /// 3. **Preserve + in-memory** — if the store still won't open, it is NOT
+    /// 1. **Automatic lightweight migration** — open the bare current schema with
+    ///    *no* explicit `SchemaMigrationPlan`. SwiftData infers the migration from
+    ///    whatever shape is on disk to ``StoreRecovery/models``. Every shipped
+    ///    change has been additive (new entities, new optional/defaulted
+    ///    properties), and this absorbs them all — including the *intermediate*
+    ///    dev/TestFlight shapes that previously threw `SwiftDataError 1`, got
+    ///    mis-classified as corruption, and stranded data behind a fresh empty
+    ///    store. The one non-additive step (per-row `DoseEntry.id`) is finished
+    ///    *after* open by ``StoreRecovery/backfillDuplicateEntryIDs(container:)``,
+    ///    which uniquifies the shared UUID a lightweight migration fills in. The
+    ///    old `PiruMigrationPlan` + frozen `PiruSchemaV1…V5` are retired; see the
+    ///    schema-migration policy block in ``StoreRecovery``.
+    /// 2. **Preserve + in-memory** — if the store still won't open, it is NOT
     ///    replaced. The bytes stay on disk untouched (a future version can recover
     ///    them), ``StoreLaunchState`` is flagged so the UI shows a reassuring
     ///    "temporarily unavailable" alert, and the app launches on a transient
@@ -135,27 +139,15 @@ struct PiruApp: App {
         // attributes, .unique constraints), failing every container open.
         let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .none)
 
-        // 1. Explicit versioned migration (also the fresh-install path). A
-        //    store at the shipped V3 shape takes the custom V3→V4 stage, which
-        //    assigns each pre-existing DoseEntry a fresh unique id.
+        // 1. Automatic lightweight migration (also the fresh-install path).
+        //    SwiftData infers the migration from the on-disk shape to the current
+        //    models; the post-open backfill in `init` uniquifies any shared
+        //    DoseEntry.id the lightweight `id` migration filled in.
         do {
-            return try ModelContainer(
-                for: Schema(versionedSchema: PiruSchemaV5.self),
-                migrationPlan: PiruMigrationPlan.self,
-                configurations: config,
-            )
+            return try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
         } catch {
-            appLogger.error("Versioned-plan open failed: \(error.localizedDescription, privacy: .public). Trying automatic lightweight migration.")
-        }
-
-        // 2. Automatic lightweight migration — absorbs intermediate schemas.
-        do {
-            let container = try ModelContainer(for: Schema(StoreRecovery.models), configurations: config)
-            appLogger.notice("Opened store via automatic lightweight migration after the versioned plan failed.")
-            return container
-        } catch {
-            // 3. Preserve the store untouched; launch in-memory and flag the UI.
-            appLogger.fault("Store open failed under both the versioned plan and automatic migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
+            // 2. Preserve the store untouched; launch in-memory and flag the UI.
+            appLogger.fault("Store open failed under automatic lightweight migration: \(error.localizedDescription, privacy: .public). Preserving the store on disk and launching in-memory; data is not lost.")
             StoreLaunchState.shared.storeUnavailable = true
             StoreLaunchState.shared.failureDetail = error.localizedDescription
             do {
