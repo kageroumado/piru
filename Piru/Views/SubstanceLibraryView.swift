@@ -622,9 +622,13 @@ struct SubstanceDetailView: View {
         return forms.first
     }
 
-    private var saltSelection: Binding<String> {
+    /// Drives the salt ``SaltPicker``. Reads the active variant (the user's pick
+    /// or the route's default) so the picker highlights the right form even when
+    /// `selectedSaltForm` is still `nil` ("track the default"); writing records
+    /// the explicit pick.
+    private var saltSelection: Binding<String?> {
         Binding(
-            get: { activeSaltVariant?.saltForm ?? activeSaltForms.first?.saltForm ?? "" },
+            get: { activeSaltVariant?.saltForm ?? activeSaltForms.first?.saltForm },
             set: { selectedSaltForm = $0 },
         )
     }
@@ -656,18 +660,11 @@ struct SubstanceDetailView: View {
 
         if activeSaltForms.count > 1 {
             Section {
-                // Salt labels are chemical proper nouns — not localized.
-                let picker = Picker(String(localized: "Form"), selection: saltSelection) {
-                    ForEach(activeSaltForms, id: \.saltForm) { variant in
-                        Text(variant.saltForm).tag(variant.saltForm)
-                    }
-                }
-                if activeSaltForms.count >= 4 {
-                    picker.pickerStyle(.menu)
-                } else {
-                    picker.pickerStyle(.segmented)
-                        .listRowSeparator(.hidden)
-                }
+                SaltPicker(
+                    forms: activeSaltForms.map(\.saltForm),
+                    selection: saltSelection,
+                    style: .formRow,
+                )
             }
         }
 

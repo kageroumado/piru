@@ -898,7 +898,11 @@ private struct StagedDoseEditor: View {
 
             HStack(spacing: 8) {
                 routeMenu
-                saltMenu
+                SaltPicker(
+                    forms: item.librarySubstance?.saltForms(for: item.route) ?? [],
+                    selection: $item.saltForm,
+                    style: .menuPill(namespace: namespace, id: "salt-\(item.id)", height: Self.pillHeight),
+                )
                 notePill
             }
 
@@ -1122,7 +1126,7 @@ private struct StagedDoseEditor: View {
             ForEach(RouteOfAdministration.allCases) { route in
                 Button {
                     item.route = route
-                    revalidateSalt(for: route)
+                    SaltPicker.revalidate(&item.saltForm, against: item.librarySubstance?.saltForms(for: route) ?? [])
                 } label: {
                     if route == item.route {
                         Label(String(localized: route.localizedName), systemImage: "checkmark")
@@ -1147,51 +1151,5 @@ private struct StagedDoseEditor: View {
         }
         .buttonStyle(.plain)
         .matchedGeometryEffect(id: "route-\(item.id)", in: namespace)
-    }
-
-    /// Salt/ester picker — mirrors ``routeMenu`` but only appears when the
-    /// current route offers more than one form (Magnesium, Lithium). Labels are
-    /// chemical proper nouns (Citrate, Glycinate…), so they aren't localized.
-    @ViewBuilder
-    private var saltMenu: some View {
-        let forms = item.librarySubstance?.saltForms(for: item.route) ?? []
-        if forms.count > 1 {
-            Menu {
-                ForEach(forms, id: \.self) { form in
-                    Button {
-                        item.saltForm = form
-                    } label: {
-                        if form == item.saltForm {
-                            Label(form, systemImage: "checkmark")
-                        } else {
-                            Text(form)
-                        }
-                    }
-                }
-            } label: {
-                HStack(spacing: 5) {
-                    Image(systemName: "atom")
-                        .imageScale(.small)
-                    Text(item.saltForm ?? forms.first ?? "")
-                    Image(systemName: "chevron.down")
-                        .font(.caption2.weight(.semibold))
-                }
-                .font(.footnote.weight(.semibold))
-                .padding(.horizontal, 11)
-                .frame(height: Self.pillHeight)
-                .background(Color(.secondarySystemFill), in: Capsule())
-                .foregroundStyle(.primary)
-            }
-            .buttonStyle(.plain)
-            .matchedGeometryEffect(id: "salt-\(item.id)", in: namespace)
-        }
-    }
-
-    /// Keep the selected salt when the new route still offers it; otherwise fall
-    /// to that route's default form (or `nil` when the route has none).
-    private func revalidateSalt(for route: RouteOfAdministration) {
-        let forms = item.librarySubstance?.saltForms(for: route) ?? []
-        if let current = item.saltForm, forms.contains(current) { return }
-        item.saltForm = forms.first
     }
 }
