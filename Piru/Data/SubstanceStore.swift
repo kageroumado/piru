@@ -504,6 +504,151 @@ final class SubstanceStore {
         )
     }
 
+    /// Identifies a (substance, route, salt) tuple in the set-based route
+    /// resolver. `salt == nil` is the unspecified/base form the vast majority
+    /// of substances use; a handful (Magnesium, Lithium) carry per-salt rows.
+    ///
+    /// `nonisolated` so its synthesized `Hashable` conformance is usable from
+    /// the `nonisolated static` resolver (which runs off-main during the
+    /// library prewarm) — without it the default `MainActor` isolation would
+    /// taint the conformance and reject the off-main dictionary keying.
+    private nonisolated struct RouteSaltKey: Hashable { let sid: Int64; let route: String; let salt: String? }
+
+    /// The **single** set-based dose/duration route resolver, shared by the
+    /// batch loader and the per-substance detail/`lookup` path. Given a set of
+    /// substance ids it runs **one windowed query per table** (`dose_ranges`,
+    /// `durations`) — partitioned by `(substance_id, route, salt_form)`
+    /// (durations also by `phase`) and restricted to `substance_id IN (…)` —
+    /// then groups the rows in Swift and assembles each substance's dose-bearing
+    /// `[SubstanceRoute]` via ``makeRoute`` (the single salt-fold point).
+    ///
+    /// This collapses the former detail-path N+1 — one dose query per substance,
+    /// then a `resolvedDoseForRoute` per route and a per-salt
+    /// `resolvedDurationForRoute` under it (~10-15 tiny queries) — into a
+    /// constant two queries regardless of id-set size, and removes the
+    /// string-built `salt_form IS NULL` vs `= ?` branch: a row's `salt_form` is
+    /// read as `String?` and grouped in Swift.
+    ///
+    /// `nonisolated` so it runs off-main during the library prewarm; every model
+    /// it builds (`DoseRange`, `DurationProfile`, `SubstanceRoute`,
+    /// `SaltVariant`) has a `nonisolated init`. Protocol-dosing and
+    /// duration-of-action — whose model initializers are `MainActor`-isolated,
+    /// and which never appeared in the browse path — are folded in afterward by
+    /// the MainActor ``attachAuxiliaryRoutes(db:substanceID:doseRoutes:)`` on the
+    /// detail path only.
+    ///
+    /// The returned arrays are **not** route-rank sorted — callers sort, exactly
+    /// as they did before.
+    private nonisolated static func resolveRoutes(
+        db: Database,
+        substanceIDs: Set<Int64>,
+        order: [String],
+    ) throws -> [Int64: [SubstanceRoute]] {
+        guard !substanceIDs.isEmpty, !order.isEmpty else { return [:] }
+        let priorityCaseSQL = priorityCaseSQL(order)
+        let enabledSourceListSQL = enabledSourceListSQL(order)
+        // `substance_id IN (…)` over the id set. The ids are our own Int64 row
+        // ids (never user input), so interpolation is safe and lets one
+        // statement serve any id-set size without a parameter blowup.
+        let idListSQL = substanceIDs.map(String.init).joined(separator: ", ")
+
+        // 1. Dose ladders — highest-priority source per (substance, route, salt).
+        var dosesByKey: [RouteSaltKey: (unit: String, doses: DoseRange)] = [:]
+        for row in try Row.fetchAll(db, sql: """
+            SELECT substance_id, route, salt_form, unit, threshold,
+                   light_lower, light_upper, common_lower, common_upper,
+                   strong_lower, strong_upper, heavy
+              FROM (
+                SELECT d.*, ROW_NUMBER() OVER (
+                    PARTITION BY d.substance_id, d.route, d.salt_form
+                    ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM dose_ranges d
+                  JOIN sources src ON src.id = d.source_id
+                 WHERE d.substance_id IN (\(idListSQL))
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
+        """) {
+            let key = RouteSaltKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
+            let dose = DoseRange(
+                threshold: row["threshold"],
+                light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
+                common: rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
+                strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
+                heavy: row["heavy"],
+            )
+            dosesByKey[key] = (row["unit"] ?? "mg", dose)
+        }
+
+        // 2. Durations — highest-priority source *per phase* so different
+        // sources can contribute different phases (curated supplies onset/peak/
+        // offset while PsychonautWiki fills comeup/afterglow). Keyed by
+        // (substance, route, salt); a salt-tagged dose variant takes its own
+        // salt's duration, the unspecified base takes the NULL-salt rows.
+        let durationByKey = try resolveDurations(
+            db: db, idListSQL: idListSQL,
+            priorityCaseSQL: priorityCaseSQL, enabledSourceListSQL: enabledSourceListSQL,
+        )
+
+        // Assemble dose-bearing routes. Per-salt variants of a route fold into
+        // one SubstanceRoute (default salt mirrored at top level by makeRoute).
+        var result: [Int64: [SubstanceRoute]] = [:]
+        result.reserveCapacity(substanceIDs.count)
+        var variantsByID: [Int64: [String: [RouteVariant]]] = [:]
+        for (key, value) in dosesByKey {
+            variantsByID[key.sid, default: [:]][key.route, default: []].append(
+                RouteVariant(
+                    salt: key.salt, unit: value.unit, doses: value.doses,
+                    duration: durationByKey[key],
+                ),
+            )
+        }
+        for (sid, variantsByRoute) in variantsByID {
+            let routes = variantsByRoute.map { routeStr, variants in
+                makeRoute(route: RouteOfAdministration.from(string: routeStr), variants: variants)
+            }
+            if !routes.isEmpty { result[sid] = routes }
+        }
+        return result
+    }
+
+    /// Windowed per-(substance, route, salt, phase) duration resolution shared
+    /// by ``resolveRoutes`` and the detail path's auxiliary route fill, so the
+    /// phase-merge logic lives in exactly one place.
+    private nonisolated static func resolveDurations(
+        db: Database, idListSQL: String,
+        priorityCaseSQL: String, enabledSourceListSQL: String,
+    ) throws -> [RouteSaltKey: DurationProfile] {
+        var phasesByKey: [RouteSaltKey: [String: DurationRange]] = [:]
+        for row in try Row.fetchAll(db, sql: """
+            SELECT substance_id, route, salt_form, phase, min_minutes, max_minutes
+              FROM (
+                SELECT du.substance_id, du.route, du.salt_form, du.phase,
+                       du.min_minutes, du.max_minutes,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY du.substance_id, du.route, du.phase, du.salt_form
+                           ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM durations du
+                  JOIN sources src ON src.id = du.source_id
+                 WHERE du.substance_id IN (\(idListSQL))
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
+        """) {
+            let key = RouteSaltKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
+            phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
+                min: row["min_minutes"], max: row["max_minutes"],
+            )
+        }
+        var durationByKey: [RouteSaltKey: DurationProfile] = [:]
+        for (key, phases) in phasesByKey {
+            durationByKey[key] = DurationProfile(
+                onset: phases["onset"], comeup: phases["comeup"],
+                peak: phases["peak"], offset: phases["offset"],
+                afterglow: phases["afterglow"], total: phases["total"],
+            )
+        }
+        return durationByKey
+    }
+
     private nonisolated static func loadAllSubstancesBatch(db queue: DatabaseQueue, order: [String]) -> [Substance] {
         guard !order.isEmpty else { return [] }
         // Build the priority/source SQL fragments once up front so the read
@@ -584,72 +729,12 @@ final class SubstanceStore {
                     tagsByID[row["substance_id"], default: []].append(row["tag"])
                 }
 
-                // Dose ranges — priority-resolved per (substance, route, salt form).
-                // `salt` is nil for the overwhelming majority of substances; a
-                // handful (Magnesium, Lithium) carry per-salt ladders that are
-                // grouped into `SubstanceRoute.saltForms` below.
-                struct DoseKey: Hashable { let sid: Int64; let route: String; let salt: String? }
-                var dosesByKey: [DoseKey: (unit: String, doses: DoseRange)] = [:]
-                for row in try Row.fetchAll(db, sql: """
-                    SELECT substance_id, route, salt_form, unit, threshold,
-                           light_lower, light_upper, common_lower, common_upper,
-                           strong_lower, strong_upper, heavy
-                      FROM (
-                        SELECT d.*, ROW_NUMBER() OVER (
-                            PARTITION BY d.substance_id, d.route, d.salt_form
-                            ORDER BY \(priorityCaseSQL) ASC) AS rn
-                          FROM dose_ranges d
-                          JOIN sources src ON src.id = d.source_id
-                         WHERE src.slug IN (\(enabledSourceListSQL))
-                    ) WHERE rn = 1
-                """) {
-                    let sid: Int64 = row["substance_id"]
-                    let route: String = row["route"]
-                    let salt: String? = row["salt_form"]
-                    let dose = DoseRange(
-                        threshold: row["threshold"],
-                        light: Self.rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
-                        common: Self.rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
-                        strong: Self.rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
-                        heavy: row["heavy"],
-                    )
-                    dosesByKey[DoseKey(sid: sid, route: route, salt: salt)] = (row["unit"] ?? "mg", dose)
-                }
-
-                // Durations — pick the highest-priority source *per phase* so
-                // different sources can contribute different phases (e.g. the
-                // curated source supplies onset/peak/offset while PsychonautWiki
-                // fills comeup/afterglow). Picking a single winning source per
-                // (substance, route) makes any phase that source happens to omit
-                // render as a zero-width step in the timeline curve.
-                var durationByKey: [DoseKey: DurationProfile] = [:]
-                let durationPhases = try Row.fetchAll(db, sql: """
-                    SELECT substance_id, route, salt_form, phase, min_minutes, max_minutes
-                      FROM (
-                        SELECT du.substance_id, du.route, du.salt_form, du.phase,
-                               du.min_minutes, du.max_minutes,
-                               ROW_NUMBER() OVER (
-                                   PARTITION BY du.substance_id, du.route, du.phase, du.salt_form
-                                   ORDER BY \(priorityCaseSQL) ASC) AS rn
-                          FROM durations du
-                          JOIN sources src ON src.id = du.source_id
-                         WHERE src.slug IN (\(enabledSourceListSQL))
-                    ) WHERE rn = 1
-                """)
-                var phasesByKey: [DoseKey: [String: DurationRange]] = [:]
-                for row in durationPhases {
-                    let key = DoseKey(sid: row["substance_id"], route: row["route"], salt: row["salt_form"])
-                    phasesByKey[key, default: [:]][row["phase"]] = DurationRange(
-                        min: row["min_minutes"], max: row["max_minutes"],
-                    )
-                }
-                for (key, phases) in phasesByKey {
-                    durationByKey[key] = DurationProfile(
-                        onset: phases["onset"], comeup: phases["comeup"],
-                        peak: phases["peak"], offset: phases["offset"],
-                        afterglow: phases["afterglow"], total: phases["total"],
-                    )
-                }
+                // Routes (dose / duration / protocol / duration-of-action) —
+                // resolved set-based through the single shared resolver. One
+                // windowed query per table over the full id set; per-salt
+                // ladders fold into `SubstanceRoute.saltForms`, and duration-/
+                // protocol-/DOA-only routes are surfaced too.
+                let routesByID = try Self.resolveRoutes(db: db, substanceIDs: Set(ids), order: order)
 
                 // Half-life — priority-resolved.
                 var halfLifeByID: [Int64: Double] = [:]
@@ -704,23 +789,7 @@ final class SubstanceStore {
                     guard let name = names[sid] else { return nil }
                     let aliases = aliasesByID[sid] ?? []
                     let tags = tagsByID[sid] ?? []
-                    // Group dose rows by route, collecting per-salt variants so a
-                    // route with multiple salt forms folds into one SubstanceRoute
-                    // (default salt at top level, the rest in `saltForms`).
-                    var variantsByRoute: [String: [RouteVariant]] = [:]
-                    for (key, value) in dosesByKey where key.sid == sid {
-                        variantsByRoute[key.route, default: []].append(
-                            RouteVariant(
-                                salt: key.salt,
-                                unit: value.unit,
-                                doses: value.doses,
-                                duration: durationByKey[key],
-                            ),
-                        )
-                    }
-                    var routes: [SubstanceRoute] = variantsByRoute.map { routeStr, variants in
-                        Self.makeRoute(route: RouteOfAdministration.from(string: routeStr), variants: variants)
-                    }
+                    var routes = routesByID[sid] ?? []
                     // Sort by RouteOfAdministration.allCases order so the
                     // default route is the most-common ROA (oral first,
                     // then sublingual / insufflation / inhalation /
@@ -1030,71 +1099,152 @@ final class SubstanceStore {
         )
     }
 
+    /// Detail-path routes for one substance.
+    ///
+    /// The dose/duration ladders (and the per-salt fold) come from the **single**
+    /// set-based ``resolveRoutes(db:substanceIDs:order:)`` — the same code path
+    /// the batch loader uses, run with a one-element id set — which is what
+    /// collapses the former per-route `resolvedDoseForRoute` + per-salt
+    /// `resolvedDurationForRoute` N+1 into two windowed queries.
+    ///
+    /// The protocol-dosing and duration-of-action layers (whose model
+    /// initializers are `MainActor`-isolated, so the off-main resolver can't
+    /// build them — and which the browse path never surfaced) are folded in here
+    /// on the main actor: attached to the dose routes, then any
+    /// protocol-/DOA-/duration-only routes are appended, matching the legacy
+    /// resolver's surfacing order. Still set-based — three queries for the id,
+    /// not per-route.
     private func resolvedRoutes(db: Database, substanceID: Int64) throws -> [SubstanceRoute] {
-        let routes = try String.fetchAll(db, sql: """
-            SELECT DISTINCT route
-              FROM dose_ranges d
-              JOIN sources src ON src.id = d.source_id
-             WHERE d.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-        """, arguments: [substanceID])
+        let doseRoutes = try Self.resolveRoutes(db: db, substanceIDs: [substanceID], order: enabledSourceOrder)[substanceID] ?? []
+        return try attachAuxiliaryRoutes(db: db, substanceID: substanceID, doseRoutes: doseRoutes)
+    }
 
-        var resolved: [SubstanceRoute] = []
-        for route in routes {
-            guard let r = try resolvedDoseForRoute(db: db, substanceID: substanceID, route: route) else { continue }
-            resolved.append(r)
+    /// Folds protocol-dosing and duration-of-action data into a substance's
+    /// dose routes and surfaces routes whose *only* data is a duration profile,
+    /// a clinical schedule, or a long-acting release window. MainActor-isolated
+    /// because `ProtocolDosing` / `DurationOfAction` carry MainActor-isolated
+    /// initializers; the detail path is already on the main actor, and the
+    /// browse path deliberately omits these (it always has).
+    private func attachAuxiliaryRoutes(
+        db: Database, substanceID: Int64, doseRoutes: [SubstanceRoute],
+    ) throws -> [SubstanceRoute] {
+        let order = enabledSourceOrder
+        let priorityCaseSQL = Self.priorityCaseSQL(order)
+        let enabledSourceListSQL = Self.enabledSourceListSQL(order)
+        let idListSQL = String(substanceID)
+
+        // Protocol dosing — highest-priority source per route, keyed by the
+        // parsed `RouteOfAdministration` so it lines up with the dose routes'
+        // enum (DB route strings like `intranasal`/`oral_er` normalize).
+        var protocolByRoute: [RouteOfAdministration: (unit: String, dosing: ProtocolDosing)] = [:]
+        for row in try Row.fetchAll(db, sql: """
+            SELECT route, unit, low_amount, high_amount, frequency,
+                   titration_json, course_duration, notes
+              FROM (
+                SELECT p.*, ROW_NUMBER() OVER (
+                    PARTITION BY p.route
+                    ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM protocol_dosing p
+                  JOIN sources src ON src.id = p.source_id
+                 WHERE p.substance_id = \(idListSQL)
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
+        """) {
+            guard let frequency = row["frequency"] as String? else { continue }
+            var titration: [TitrationStep]? = nil
+            if let json = row["titration_json"] as String?, let data = json.data(using: .utf8) {
+                titration = try? JSONDecoder().decode([TitrationStep].self, from: data)
+            }
+            let dosing = ProtocolDosing(
+                lowAmount: row["low_amount"],
+                highAmount: row["high_amount"],
+                frequency: frequency,
+                titration: titration,
+                courseDuration: row["course_duration"],
+                notes: row["notes"],
+            )
+            protocolByRoute[RouteOfAdministration.from(string: row["route"])] = (row["unit"] ?? "mg", dosing)
         }
 
-        // Also surface routes that have duration data but no dose data
-        let durationOnlyRoutes = try String.fetchAll(db, sql: """
-            SELECT DISTINCT route
-              FROM durations du
-              JOIN sources src ON src.id = du.source_id
-             WHERE du.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-               AND route NOT IN (SELECT DISTINCT route FROM dose_ranges WHERE substance_id = ?)
-        """, arguments: [substanceID, substanceID])
-        for route in durationOnlyRoutes {
-            let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route)
-            let ra = RouteOfAdministration.from(string: route)
-            let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
-            let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
-            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: duration, protocolDosing: protocolDosing, durationOfAction: durationOfAction))
+        // Duration-of-action — highest-priority source per route.
+        var doaByRoute: [RouteOfAdministration: DurationOfAction] = [:]
+        for row in try Row.fetchAll(db, sql: """
+            SELECT route, min_minutes, max_minutes
+              FROM (
+                SELECT da.route, da.min_minutes, da.max_minutes,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY da.route
+                           ORDER BY \(priorityCaseSQL) ASC) AS rn
+                  FROM durations_of_action da
+                  JOIN sources src ON src.id = da.source_id
+                 WHERE da.substance_id = \(idListSQL)
+                   AND src.slug IN (\(enabledSourceListSQL))
+            ) WHERE rn = 1
+        """) {
+            guard let mn = row["min_minutes"] as Double?, let mx = row["max_minutes"] as Double? else { continue }
+            doaByRoute[RouteOfAdministration.from(string: row["route"])] = DurationOfAction(minMinutes: mn, maxMinutes: mx)
         }
 
-        // Surface protocol-dosing-only routes (peptides dosed on a schedule with
-        // no trip-intensity ladder and no phase durations).
-        let alreadyHave = Set(resolved.map(\.route))
-        let protocolRows = try Row.fetchAll(db, sql: """
-            SELECT route, unit FROM protocol_dosing p
-              JOIN sources src ON src.id = p.source_id
-             WHERE p.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-        """, arguments: [substanceID])
-        for row in protocolRows {
-            let route: String = row["route"]
-            let ra = RouteOfAdministration.from(string: route)
-            if alreadyHave.contains(ra) { continue }
-            guard let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route) else { continue }
-            let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
-            resolved.append(SubstanceRoute(route: ra, unit: row["unit"] ?? "mg", doses: DoseRange(), duration: nil, protocolDosing: protocolDosing, durationOfAction: durationOfAction))
+        // Attach protocol/DOA to the existing dose routes (re-using makeRoute so
+        // the salt fold and default-mirror invariant stay single-sourced).
+        var resolved: [SubstanceRoute] = doseRoutes.map { route in
+            let proto = protocolByRoute[route.route]?.dosing
+            let doa = doaByRoute[route.route]
+            guard proto != nil || doa != nil else { return route }
+            let variants: [RouteVariant]
+            if let saltForms = route.saltForms {
+                variants = saltForms.map {
+                    RouteVariant(salt: $0.saltForm, unit: $0.unit, doses: $0.doses, duration: $0.duration)
+                }
+            } else {
+                variants = [RouteVariant(salt: nil, unit: route.unit, doses: route.doses, duration: route.duration)]
+            }
+            return Self.makeRoute(
+                route: route.route, variants: variants,
+                protocolDosing: proto, durationOfAction: doa,
+            )
+        }
+        var haveRoutes = Set(resolved.map(\.route))
+
+        // Duration-only routes — durations but no dose ladder. Take the NULL-salt
+        // (base) duration, matching the legacy `resolvedDurationForRoute` default.
+        let durationByKey = try Self.resolveDurations(
+            db: db, idListSQL: idListSQL,
+            priorityCaseSQL: priorityCaseSQL, enabledSourceListSQL: enabledSourceListSQL,
+        )
+        let durationRoutes = Set(durationByKey.keys.map(\.route))
+        for routeStr in durationRoutes.sorted() {
+            let ra = RouteOfAdministration.from(string: routeStr)
+            guard !haveRoutes.contains(ra) else { continue }
+            let duration = durationByKey[RouteSaltKey(sid: substanceID, route: routeStr, salt: nil)]
+            resolved.append(SubstanceRoute(
+                route: ra, unit: "mg", doses: DoseRange(), duration: duration,
+                protocolDosing: protocolByRoute[ra]?.dosing,
+                durationOfAction: doaByRoute[ra],
+            ))
+            haveRoutes.insert(ra)
         }
 
-        // Surface routes whose ONLY data is a long-acting release window (depot
-        // injections with no trip-ladder / acute curve / protocol schedule).
-        let haveRoutes = Set(resolved.map(\.route))
-        let doaRoutes = try String.fetchAll(db, sql: """
-            SELECT DISTINCT route FROM durations_of_action da
-              JOIN sources src ON src.id = da.source_id
-             WHERE da.substance_id = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-        """, arguments: [substanceID])
-        for route in doaRoutes {
-            let ra = RouteOfAdministration.from(string: route)
-            if haveRoutes.contains(ra) { continue }
-            guard let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route) else { continue }
-            resolved.append(SubstanceRoute(route: ra, unit: "mg", doses: DoseRange(), duration: nil, protocolDosing: nil, durationOfAction: durationOfAction))
+        // Protocol-only routes — a clinical schedule with no ladder/phases.
+        for (ra, value) in protocolByRoute {
+            guard !haveRoutes.contains(ra) else { continue }
+            resolved.append(SubstanceRoute(
+                route: ra, unit: value.unit, doses: DoseRange(), duration: nil,
+                protocolDosing: value.dosing, durationOfAction: doaByRoute[ra],
+            ))
+            haveRoutes.insert(ra)
         }
+
+        // Duration-of-action-only routes — long-acting depot window only.
+        for (ra, value) in doaByRoute {
+            guard !haveRoutes.contains(ra) else { continue }
+            resolved.append(SubstanceRoute(
+                route: ra, unit: "mg", doses: DoseRange(), duration: nil,
+                protocolDosing: nil, durationOfAction: value,
+            ))
+            haveRoutes.insert(ra)
+        }
+
         return resolved
     }
 
@@ -1152,135 +1302,9 @@ final class SubstanceStore {
         return profile.hasAnyValue ? profile : nil
     }
 
-    private func resolvedProtocolForRoute(db: Database, substanceID: Int64, route: String) throws -> ProtocolDosing? {
-        let row = try Row.fetchOne(db, sql: """
-            SELECT p.low_amount, p.high_amount, p.frequency, p.titration_json, p.course_duration, p.notes
-              FROM protocol_dosing p
-              JOIN sources src ON src.id = p.source_id
-             WHERE p.substance_id = ? AND p.route = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY \(priorityCaseSQL) ASC
-             LIMIT 1
-        """, arguments: [substanceID, route])
-        guard let row, let frequency = row["frequency"] as String? else { return nil }
-        var titration: [TitrationStep]? = nil
-        if let json = row["titration_json"] as String?, let data = json.data(using: .utf8) {
-            titration = try? JSONDecoder().decode([TitrationStep].self, from: data)
-        }
-        return ProtocolDosing(
-            lowAmount: row["low_amount"],
-            highAmount: row["high_amount"],
-            frequency: frequency,
-            titration: titration,
-            courseDuration: row["course_duration"],
-            notes: row["notes"],
-        )
-    }
-
-    private func resolvedDoseForRoute(db: Database, substanceID: Int64, route: String) throws -> SubstanceRoute? {
-        // Highest-priority dose row *per salt form* (salt_form NULL = the
-        // unspecified base used by almost every substance). Multiple salt forms
-        // fold into one SubstanceRoute via `makeRoute`.
-        let rows = try Row.fetchAll(db, sql: """
-            SELECT salt_form, unit, threshold, light_lower, light_upper,
-                   common_lower, common_upper, strong_lower, strong_upper, heavy
-              FROM (
-                SELECT d.*, ROW_NUMBER() OVER (
-                    PARTITION BY d.salt_form
-                    ORDER BY \(priorityCaseSQL) ASC) AS rn
-                  FROM dose_ranges d
-                  JOIN sources src ON src.id = d.source_id
-                 WHERE d.substance_id = ? AND d.route = ?
-                   AND src.slug IN (\(enabledSourceListSQL))
-            ) WHERE rn = 1
-        """, arguments: [substanceID, route])
-        guard !rows.isEmpty else { return nil }
-
-        let variants = try rows.map { row -> RouteVariant in
-            let salt: String? = row["salt_form"]
-            let dose = DoseRange(
-                threshold: row["threshold"],
-                light: rangeFrom(lower: row["light_lower"], upper: row["light_upper"]),
-                common: rangeFrom(lower: row["common_lower"], upper: row["common_upper"]),
-                strong: rangeFrom(lower: row["strong_lower"], upper: row["strong_upper"]),
-                heavy: row["heavy"],
-            )
-            let duration = try resolvedDurationForRoute(db: db, substanceID: substanceID, route: route, saltForm: salt)
-            return RouteVariant(salt: salt, unit: row["unit"] ?? "mg", doses: dose, duration: duration)
-        }
-
-        let protocolDosing = try resolvedProtocolForRoute(db: db, substanceID: substanceID, route: route)
-        let durationOfAction = try resolvedDurationOfActionForRoute(db: db, substanceID: substanceID, route: route)
-        return Self.makeRoute(
-            route: RouteOfAdministration.from(string: route),
-            variants: variants,
-            protocolDosing: protocolDosing,
-            durationOfAction: durationOfAction,
-        )
-    }
-
-    /// Highest-priority long-acting release / duration-of-action window for a
-    /// route. Drives the drug card's "release window" row; never an acute curve.
-    private func resolvedDurationOfActionForRoute(db: Database, substanceID: Int64, route: String) throws -> DurationOfAction? {
-        let row = try Row.fetchOne(db, sql: """
-            SELECT min_minutes, max_minutes
-              FROM durations_of_action da
-              JOIN sources src ON src.id = da.source_id
-             WHERE da.substance_id = ? AND da.route = ?
-               AND src.slug IN (\(enabledSourceListSQL))
-             ORDER BY \(priorityCaseSQL) ASC
-             LIMIT 1
-        """, arguments: [substanceID, route])
-        guard let row, let mn = row["min_minutes"] as Double?, let mx = row["max_minutes"] as Double? else { return nil }
-        return DurationOfAction(minMinutes: mn, maxMinutes: mx)
-    }
-
-    private func resolvedDurationForRoute(db: Database, substanceID: Int64, route: String, saltForm: String? = nil) throws -> DurationProfile? {
-        // Match the dose row's salt form: a salt-tagged variant takes its own
-        // duration, the unspecified base (saltForm == nil) takes the NULL-salt
-        // rows that every non-salt substance uses.
-        let saltFilter = saltForm == nil ? "AND du.salt_form IS NULL" : "AND du.salt_form = ?"
-        let arguments: StatementArguments = saltForm.map { [substanceID, route, $0] } ?? [substanceID, route]
-        let rows = try Row.fetchAll(db, sql: """
-            SELECT phase, min_minutes, max_minutes
-              FROM (
-                SELECT du.phase, du.min_minutes, du.max_minutes,
-                       ROW_NUMBER() OVER (PARTITION BY du.phase
-                                          ORDER BY \(priorityCaseSQL) ASC) AS rn
-                  FROM durations du
-                  JOIN sources src ON src.id = du.source_id
-                 WHERE du.substance_id = ? AND du.route = ?
-                   \(saltFilter)
-                   AND src.slug IN (\(enabledSourceListSQL))
-            ) WHERE rn = 1
-        """, arguments: arguments)
-
-        guard !rows.isEmpty else { return nil }
-
-        var phases: [String: DurationRange] = [:]
-        for row in rows {
-            let phase: String = row["phase"]
-            phases[phase] = DurationRange(min: row["min_minutes"], max: row["max_minutes"])
-        }
-        return DurationProfile(
-            onset: phases["onset"],
-            comeup: phases["comeup"],
-            peak: phases["peak"],
-            offset: phases["offset"],
-            afterglow: phases["afterglow"],
-            total: phases["total"],
-        )
-    }
-
     private nonisolated static func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
         guard let lo = lower, let hi = upper, lo <= hi else { return nil }
         return lo ... hi
-    }
-
-    /// Instance shim kept for the main-actor per-substance resolvers that still
-    /// call `rangeFrom` unqualified.
-    private nonisolated func rangeFrom(lower: Double?, upper: Double?) -> ClosedRange<Double>? {
-        Self.rangeFrom(lower: lower, upper: upper)
     }
 
     private func resolvedHalfLife(db: Database, substanceID: Int64) throws -> Double? {
