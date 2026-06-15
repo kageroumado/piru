@@ -7,6 +7,14 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # DB cleanup 2026-06 — sources/references merge
+    "Sources & references": ("来源与参考文献", "來源與參考文獻"),
+    "Databases": ("数据库", "資料庫"),
+    "Primary literature": ("原始文献", "原始文獻"),
+    "The databases and primary literature behind this compound's data. Tap to open; always verify against the original source.": (
+        "本化合物数据背后的数据库与原始文献。点按打开；请始终对照原始来源核实。",
+        "本化合物資料背後的資料庫與原始文獻。點按開啟；請始終對照原始來源核實。",
+    ),
     # DB cleanup 2026-06 — RC taxonomy rename, Other bucket, limited-data badge
     "Other / Miscellaneous": ("其他 / 杂项", "其他 / 雜項"),
     "Everything that doesn't fit a class above.": (
@@ -2381,6 +2389,10 @@ if __name__ == "__main__":
         "Other / Miscellaneous",
         "Everything that doesn't fit a class above.",
         "Limited data",
+        "Sources & references",
+        "Databases",
+        "Primary literature",
+        "The databases and primary literature behind this compound's data. Tap to open; always verify against the original source.",
         # Library redesign — family titles, blurbs, sub-class blurbs, renames
         "Stimulants",
         "Empathogens",

@@ -446,7 +446,6 @@ struct SubstanceDetailView: View {
     @State private var mechanismExpanded: Bool?
     @State private var subjectiveExpanded: Bool?
     @State private var sourcesExpanded: Bool?
-    @State private var referencesExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
     /// collapsed by default — few users need the chemical identity up front.
@@ -728,39 +727,65 @@ struct SubstanceDetailView: View {
         }
     }
 
-    /// Primary references for the compound's curated claims — DOIs / PMIDs /
-    /// URLs render as tappable links; free-text labels as plain text.
-    @ViewBuilder private var referencesSection: some View {
-        if policy.showsSources, !substance.references.isEmpty {
+    /// Unified provenance: the **databases** that contributed this compound's
+    /// data (deep-linked to their page for it) followed by the **primary
+    /// literature** (DOIs / PMIDs / URLs as tappable links, free-text labels as
+    /// plain text). Merged into one disclosure — they used to read as two
+    /// near-identical "Sources"/"References" sections.
+    @ViewBuilder private var sourcesAndReferencesSection: some View {
+        let hasSources = !substance.sources.isEmpty
+        let hasReferences = !substance.references.isEmpty
+        if policy.showsSources, hasSources || hasReferences {
             Section {
                 DisclosureGroup(
                     isExpanded: Binding(
-                        get: { referencesExpanded ?? policy.sourcesDefaultExpanded },
-                        set: { referencesExpanded = $0 },
+                        get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
+                        set: { sourcesExpanded = $0 },
                     ),
                 ) {
-                    ForEach(substance.references, id: \.self) { ref in
-                        if let url = ref.resolvedURL {
-                            Link(destination: url) {
-                                Label(ref.label, systemImage: "link")
+                    if hasSources {
+                        if hasReferences {
+                            provenanceSubheader("Databases")
+                        }
+                        ForEach(substance.sources, id: \.self) { source in
+                            sourceRow(source)
+                        }
+                    }
+                    if hasReferences {
+                        if hasSources {
+                            provenanceSubheader("Primary literature")
+                        }
+                        ForEach(substance.references, id: \.self) { ref in
+                            if let url = ref.resolvedURL {
+                                Link(destination: url) {
+                                    Label(ref.label, systemImage: "link")
+                                        .font(.subheadline)
+                                        .labelStyle(EffectLabelStyle())
+                                }
+                            } else {
+                                Text(ref.label)
                                     .font(.subheadline)
-                                    .labelStyle(EffectLabelStyle())
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
-                        } else {
-                            Text(ref.label)
-                                .font(.subheadline)
-                                .foregroundStyle(Theme.secondaryLabel)
-                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 } label: {
-                    Label("References", systemImage: "text.book.closed")
+                    Label("Sources & references", systemImage: "book.closed")
                         .font(.subheadline.weight(.semibold))
                 }
             } footer: {
-                Text("Primary references for this compound's data. Tap to open. Always verify against the original source.")
+                Text("The databases and primary literature behind this compound's data. Tap to open; always verify against the original source.")
             }
         }
+    }
+
+    private func provenanceSubheader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(Theme.secondaryLabel)
+            .textCase(.uppercase)
+            .listRowSeparator(.hidden)
     }
 
     /// Peptide / protocol-dosed compounds: clinical-protocol schedule,
@@ -1006,27 +1031,7 @@ struct SubstanceDetailView: View {
 
                 chemistrySection
 
-                if policy.showsSources, !substance.sources.isEmpty {
-                    Section {
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
-                                set: { sourcesExpanded = $0 },
-                            ),
-                        ) {
-                            ForEach(substance.sources, id: \.self) { source in
-                                sourceRow(source)
-                            }
-                        } label: {
-                            Label("Sources", systemImage: "book.closed")
-                                .font(.subheadline.weight(.semibold))
-                        }
-                    } footer: {
-                        Text("Data sourced from peer-reviewed literature, FDA labels, and established pharmacological databases. Always consult a healthcare professional.")
-                    }
-                }
-
-                referencesSection
+                sourcesAndReferencesSection
             }
             .listRowBackground(Theme.cardBackground)
         }

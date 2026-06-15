@@ -1301,36 +1301,68 @@ def normalize_category(raw: str | None) -> str:
     return "Other"
 
 
-def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None]:
-    """Parse a 'doi:10.x/y' | 'pmid:12345' | 'https://...' reference string."""
+def parse_reference(ref: str | None) -> tuple[str | None, int | None, str | None, str | None]:
+    """Parse a reference string into ``(doi, pmid, url, title)``.
+
+    Beyond the clean ``doi:`` / ``pmid:`` / ``https://`` forms, sources hand us
+    free text with a structured id embedded in a human label:
+      - "PubChem CID 170703347"           → a real PubChem compound link
+      - "PMID 12345"                       → a PubMed id (space form, no colon)
+      - "Baar 2017 Cell; https://…/FOXO4"  → the URL + "Baar 2017 Cell" as title
+      - "Azuma 2026 Drug Test Anal DOI:10.1002/…" → the DOI + label as title
+    Extracting these turns ~1.2k dead-text "references" into tappable, titled
+    links. A pure label with no id (e.g. "Ambien FDA label", "CAS 50-37-3") is
+    kept verbatim in ``url`` — it both renders as readable text and keeps the
+    (doi,pmid,url) dedup key unique (a bare title in the 4th slot would collapse
+    every label onto one citation)."""
     if not ref:
-        return (None, None, None)
+        return (None, None, None, None)
     s = str(ref).strip()
     if not s:
-        return (None, None, None)
+        return (None, None, None, None)
     low = s.lower()
     if low.startswith("doi:"):
-        return (s[4:].strip().lower(), None, None)
+        return (s[4:].strip().lower(), None, None, None)
     if low.startswith("pmid:"):
         try:
-            return (None, int(s[5:].strip()), None)
+            return (None, int(s[5:].strip()), None, None)
         except ValueError:
-            return (None, None, s)
+            return (None, None, s, None)
     if low.startswith("https://") or low.startswith("http://"):
         # Try to extract DOI from URL
         m = re.search(r"10\.\d{4,9}/[^\s]+", s)
         if m:
-            return (m.group(0).lower(), None, s)
+            return (m.group(0).lower(), None, s, None)
         m = re.search(r"/(\d{6,9})(?:/|$)", s)
         if m and "pubmed" in low:
             try:
-                return (None, int(m.group(1)), s)
+                return (None, int(m.group(1)), s, None)
             except ValueError:
                 pass
-        return (None, None, s)
+        return (None, None, s, None)
     if re.match(r"^10\.\d{4,9}/", s):
-        return (s.lower(), None, None)
-    return (None, None, s)
+        return (s.lower(), None, None, None)
+    # "PubChem CID <n>" → canonical compound link.
+    m = re.fullmatch(r"(?i)pubchem\s+cid[:\s]+(\d+)", s)
+    if m:
+        return (None, None, f"https://pubchem.ncbi.nlm.nih.gov/compound/{m.group(1)}", None)
+    # "PMID <n>" (space form, no colon).
+    m = re.fullmatch(r"(?i)pmid[:\s]+(\d+)", s)
+    if m:
+        return (None, int(m.group(1)), None, None)
+    # Descriptive label with an embedded URL — keep the prose as the title.
+    m = re.search(r"https?://[^\s;]+", s)
+    if m:
+        url = m.group(0).rstrip(".,;")
+        title = s[: m.start()].strip(" ;,-—:") or None
+        dm = re.search(r"10\.\d{4,9}/[^\s]+", url)
+        return (dm.group(0).lower() if dm else None, None, url, title)
+    # Descriptive label with an embedded DOI.
+    m = re.search(r"(?i)\bdoi[:\s]+(10\.\d{4,9}/\S+)", s) or re.search(r"\b(10\.\d{4,9}/\S+)", s)
+    if m:
+        title = s[: m.start()].strip(" ;,-—:") or None
+        return (m.group(1).rstrip(".,;").lower(), None, None, title)
+    return (None, None, s, None)
 
 
 def to_float(v) -> float | None:
@@ -1819,16 +1851,23 @@ class Build:
     def cite(self, ref: str | None) -> int | None:
         if not ref:
             return None
-        key = parse_reference(ref)
-        if key == (None, None, None):
+        doi, pmid, url, title = parse_reference(ref)
+        if (doi, pmid, url) == (None, None, None):
             return None
+        # Dedup key stays (doi, pmid, url) — the UNIQUE constraint; title is
+        # descriptive metadata that backfills onto the shared citation.
+        key = (doi, pmid, url)
         if key in self.citation_cache:
-            return self.citation_cache[key]
-        doi, pmid, url = key
+            cid = self.citation_cache[key]
+            if title:
+                self.cur.execute(
+                    "UPDATE citations SET title=COALESCE(title, ?) WHERE id=?", (title, cid)
+                )
+            return cid
         try:
             self.cur.execute(
-                "INSERT INTO citations(doi, pmid, url) VALUES (?, ?, ?)",
-                (doi, pmid, url),
+                "INSERT INTO citations(doi, pmid, url, title) VALUES (?, ?, ?, ?)",
+                (doi, pmid, url, title),
             )
             cid = self.cur.lastrowid
         except sqlite3.IntegrityError:
@@ -1837,6 +1876,10 @@ class Build:
                 (doi, pmid, url),
             ).fetchone()
             cid = row[0]
+            if title:
+                self.cur.execute(
+                    "UPDATE citations SET title=COALESCE(title, ?) WHERE id=?", (title, cid)
+                )
         self.citation_cache[key] = cid
         return cid
 

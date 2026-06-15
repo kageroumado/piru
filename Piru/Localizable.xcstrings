@@ -26055,6 +26055,70 @@
           }
         }
       }
+    },
+    "Sources & references" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源与参考文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來源與參考文獻"
+          }
+        }
+      }
+    },
+    "Databases" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据库"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資料庫"
+          }
+        }
+      }
+    },
+    "Primary literature" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始文献"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始文獻"
+          }
+        }
+      }
+    },
+    "The databases and primary literature behind this compound's data. Tap to open; always verify against the original source." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本化合物数据背后的数据库与原始文献。点按打开；请始终对照原始来源核实。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本化合物資料背後的資料庫與原始文獻。點按開啟；請始終對照原始來源核實。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
