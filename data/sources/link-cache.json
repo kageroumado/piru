@@ -1,0 +1,4661 @@
+{
+  "https://bscg.org": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.bscg.org/"
+  },
+  "https://cdn.who.int/media/docs/default-source/46th-ecdd/dipentylone_46th-ecdd_critical-review_public-version.pdf": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://cdn.who.int/media/docs/default-source/controlled-substances/43rd-ecdd/2-meo-diphenidine-report-final-a.pdf": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://cdn.who.int/media/docs/default-source/essential-medicines/unedited--advance-copy-44th-ecdd-critical-review-report_phenibut.pdf": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://cfsre.org/nps-discovery/monographs/3-methyl-pcp": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.cfsre.org/nps-discovery/monographs/3-methyl-pcp"
+  },
+  "https://clinicaltrials.gov/search?term=LY3841136": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://ctv.veeva.com/study/pharmacokinetics-safety-and-tolerability-of-intramuscular-5-meo-dmt-in-healthy-volunteers": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://doi.org/10.1002/dta.70042": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://analyticalsciencejournals.onlinelibrary.wiley.com/doi/10.1002/dta.70042"
+  },
+  "https://doi.org/10.1021/jm50006a003": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pubs.acs.org/doi/abs/10.1021/jm50006a003"
+  },
+  "https://doi.org/10.1038/ijo.2010.51": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.nature.com/articles/ijo201051?error=cookies_not_supported&code=856f3f29-78b7-4032-a4f3-efb5377dc557"
+  },
+  "https://doi.org/10.1172/JCI134892": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.jci.org/articles/view/134892"
+  },
+  "https://drugs.ncats.io/drug/KCJ747D3R4": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://e-lactancia.org/media/papers/Bromazepam-DS-2012.pdf": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/1BP-LSD": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/1Bz-LSD": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/1D-LSD": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2,5-Dimethoxy-4-bromoamphetamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2-Chloromethcathinone": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2-FXPr": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2-Fluoromethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2-Methylmethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/25B-NBOMe": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/25C-NBOMe": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/25I-NBOMe": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2C-B": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2C-B-FLY": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2C-D": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/2C-F": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-Fluoromethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-HO-PCP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-Me-PCE": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-MeO-PCP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-Methyl-PCP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/3-Methylmethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/4-Benzylpiperidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/4-Ethylmethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/4-Methyl-N-ethylcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/4F-MDMB-BINACA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/5-Amino-1-methylquinolinium": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/5-Bromo-DMT": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/5-Hydroxytryptophan": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/5F-MDMB-PICA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/9-Hydroxyfluorene": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/ABT-418": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/AC-262,536": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/ADB-BUTINACA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/ADB-PINACA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/AM-2201": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/AMB-FUBINACA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/AOD9604": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Acamprosate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Acetylcarnitine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Acetylcysteine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Adinazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Adipotide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Adrafinil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Agmatine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Agomelatine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Alpha-GPC": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Alpha-PHP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Alpha-PiHP": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Alpha-Pyrrolidinopentiophenone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Amfonelic_acid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Amisulpride": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Amitriptyline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ampakine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Andarine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Aniracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Aripiprazole": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Arketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Armodafinil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Asenapine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Atenolol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ayahuasca": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Azelastine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/BPC-157": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/BTCP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bacopa_monnieri": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Befuraline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bemethyl": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Benztropine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Berberine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Beta-Alanine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bilastine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bisoprolol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brasofensine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bremelanotide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bretazenil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brexanolone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brexpiprazole": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brivaracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bromantane": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bromazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bromo-DragonFLY": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bromoketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brompheniramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Brorphine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Buphedrone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Bupropion": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Buspirone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Butonitazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Butylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CFT": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CJC-1295": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CL-218,872": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CX-1739": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CX-516": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CX-546": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CX-614": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/CX-717": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cagrilintide/semaglutide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Camazepam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cannabichromene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cannabidiol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cannabidivarin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cannabigerol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cannabinol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Carbamazepine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cariprazine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Carnitine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Carvedilol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cerebrolysin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cetirizine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Chlorphenamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Chlorpromazine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cholecalciferol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cimetidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Citalopram": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Citicoline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Clephedrone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Clofenciclan": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Clomipramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Clonazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Clozapine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Coenzyme_Q10": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Coluracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cordyceps": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Creatine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Curcumin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cyproheptadine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Cytisine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/DOC_(drug)": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/DOET": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/DOM_(drug)": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Daridorexant": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dasotraline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dehydronorketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Delta-10-tetrahydrocannabinol": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Delta-8-tetrahydrocannabinol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Delta_sleep-inducing_peptide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dermorphin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Deschloroketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Desipramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Desloratadine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Desvenlafaxine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dexmethylphenidate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dibutylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Diclazepam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dihexa": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dihydroergotamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dimenhydrinate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dimethylethanolamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dimiracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Diphenhydramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Disulfiram": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Doxepin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Doxylamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dronabinol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Droperidol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Dulaglutide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Duloxetine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Elamipretide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Eletriptan": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Encenicline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ephylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Epidiolex": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Epitalon": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ergoloid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Escaline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Escitalopram": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Esketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ethcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ethylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Eticyclidone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etifelmine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etiracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etizolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etonitazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Etonitazepyne": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Eutylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Exenatide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/FOXO4": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Famotidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Farampator": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fasoracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fexofenadine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fladrafinil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Flephedrone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Flmodafinil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Flualprazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Flubromazepam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Flubromazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluloprazolam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluorinated_tryptamines": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluorophenibut": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluoxetine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluphenazine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Fluvoxamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Folic_acid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Follistatin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/GHK-Cu": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/GHRP-2": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/GHRP-6": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/GW501516": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Gabapentin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Galantamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Gamma-Aminobutyric_acid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ganoderma_lucidum": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Gepirone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ginkgo_biloba": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Glutathione": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Glycine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Guaifenesin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Guanfacine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Haloperidol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hericium_erinaceus": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Herkinorin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hexahydrocannabidiol": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hexahydrocannabinol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hexahydrocannabiphorol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hexarelin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hexedrone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Humanin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Huperzine_A": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hydroxynorketamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Hydroxyzine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/IDRA-21": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/IGF-1_LR3": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ibutamoren": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Idebenone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Iloperidone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Imipramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Indanorex": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Indatraline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Inositol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Insulin-like_growth_factor_1": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Iodine_in_biology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Iometopane": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ipamorelin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Iron_supplement": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Isocarboxazid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Isoproscaline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Isotonitazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Isotonitazepyne": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ispronicline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/J147": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/JWH-018": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/JWH-073": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Jenkem": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ketotifen": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/LY-404187": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/LY-503430": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Labetalol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lacosamide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lemborexant": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Levetiracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Levocetirizine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Levomilnacipran": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lipoic_acid": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Liraglutide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lithium_(medication)": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lithium_orotate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lofexidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Loratadine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Loxapine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Lurasidone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/MDMB-4en-PINACA": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/MDPBP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/MDPPP": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/MOTS-c": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/MPPP_(stimulant)": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Maca_(plant)": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Magnesium_L-threonate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Magnesium_citrate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Magnesium_glycinate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Mazindol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Meclizine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Meclofenoxate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Medifoxamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Melanotan_II": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Memantine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Menaquinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Meprylcaine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Mepyramine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methallylescaline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methcathinone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methocarbamol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methoxetamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methoxphenidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methyldopa": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methylene_blue": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methylethylcathinone": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methylliberine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methylone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Methylpropyltryptamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Metoclopramide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Metodesnitazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Metonitazene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Metoprolol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Mibampator": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Milnacipran": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Mirtazapine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Modafinil": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/N,O-Dimethyl-4-(2-naphthyl)piperidine-3-carboxylate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/NB-5-MeO-DALT": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/NB-5-MeO-MiPT": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/NBoc-DMT": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/NSI-189": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nabilone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nabiximols": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nadolol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Naloxone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Naltrexone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Naphyrone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nebracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nefazodone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nefiracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Niacin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nitrazepam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nizatidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Noopept": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Norflurazepam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Norketamine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Nortriptyline": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ocimum_tenuiflorum": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Olanzapine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Olopatadine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Omega-3_fatty_acid": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Org_26576": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Oroxylin_A": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Orphenadrine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Oxcarbazepine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Oxiracetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Oxytocin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/PEPA_(drug)": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/PRL-8-53": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Paliperidone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Panax_ginseng": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Paroxetine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pentedrone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pentylone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Perampanel": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Perphenazine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenazepam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenelzine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenibut": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenylalanine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenylephrine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenylpiracetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenyltropane": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phenytoin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Phosphatidylserine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Picamilon": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pimavanserin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pimozide": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pinazepam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Piracetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Polygala_tenuifolia": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pramiracetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Prazosin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pregabalin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pridefine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Prochlorperazine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Promethazine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Propranolol": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Proscaline": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Protonitazene": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Psilocin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Psilocybin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pterostilbene": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pynazolam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pyrazolam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pyridoxal_phosphate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pyritinol": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Pyrroloquinoline_quinone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Quercetin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Quetiapine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/RU-58841": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Racetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ramelteon": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ranitidine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Resveratrol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Retatrutide": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Rhodiola_rosea": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Rimcazole": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Risperidone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Rizatriptan": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ro5-4864": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Rolziracetam": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Rupatadine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/S-18986": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/S-23_(drug)": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/SLU-PP-332": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/SR9011": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Salvinorin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Salvinorin_A": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Salvinorin_B": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Salvinorin_B_methoxymethyl_ether": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Salvinorin_C": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Scopolamine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Selank": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Selegiline": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Selenium#Biological_role": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Seletracetam": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Semaglutide": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Semax": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sermorelin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sertraline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sotalol": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Stimulant": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sulbutiamine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sulforaphane": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sumatriptan": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Sunifiram": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Suvorexant": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/THC-O-acetate": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tametraline": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Taurine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tesamorelin": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tetrahydrocannabinol": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tetrahydrocannabiphorol": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tetrahydrocannabivarin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Theanine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Thiamine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Thiothixene": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Thozalinone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Thymalfasin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Thymosin_beta-4": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tianeptine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tiletamine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tirzepatide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tizanidine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Topiramate": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tranylcypromine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Trazodone": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Trifluoperazine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Triptorelin": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tropacocaine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tryptophan": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Tyrosine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Unifiram": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Valproate": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Varenicline": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vasoactive_intestinal_peptide": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Venlafaxine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vilazodone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vinpocetine": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vitamin_A": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vitamin_B12": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vitamin_C": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vitamin_E": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Vortioxetine": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Withania_somnifera": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/YK-11": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Zaleplon": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Zinc_picolinate": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Ziprasidone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Zonisamide": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://en.wikipedia.org/wiki/Zopiclone": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal001.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal002.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal003.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal004.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal005.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal006.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal007.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal008.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal009.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal010.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal011.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal012.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal013.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal014.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal015.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal016.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal017.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal018.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal019.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal020.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal021.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal022.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal023.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal024.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal025.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal026.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal027.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal028.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal029.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal030.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal031.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal032.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal033.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal034.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal035.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal036.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal037.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal038.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal039.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal040.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal041.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal042.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal043.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal044.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal045.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal046.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal047.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal048.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal049.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal050.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal051.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal052.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal053.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal054.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal055.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal056.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal057.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal058.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal059.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal060.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal061.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal062.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal063.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal064.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal065.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal066.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal067.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal068.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal069.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal070.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal071.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal072.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal073.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal074.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal075.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal076.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal077.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal078.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal079.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal080.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal081.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal082.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal083.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal084.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal085.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal086.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal087.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal088.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal089.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal090.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal091.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal092.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal093.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal094.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal095.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal096.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal097.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal098.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal099.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal100.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal101.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal102.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal103.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal104.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal105.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal106.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal107.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal108.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal109.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal111.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal112.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal113.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal114.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal115.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal116.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal117.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal118.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal119.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal120.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal121.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal122.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal123.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal124.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal125.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal126.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal127.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal128.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal129.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal130.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal131.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal132.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal133.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal134.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal135.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal136.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal137.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal138.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal139.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal140.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal141.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal142.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal143.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal144.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal145.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal146.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal147.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal148.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal149.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal150.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal151.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal152.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal153.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal154.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal155.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal156.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal157.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal158.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal159.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal160.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal161.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal162.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal163.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal164.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal165.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal166.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal167.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal168.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal169.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal170.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal171.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal172.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal173.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal174.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal175.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal176.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal177.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal178.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/pihkal/pihkal179.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal01.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal02.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal03.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal04.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal05.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal06.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal07.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal08.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal09.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal10.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal11.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal12.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal13.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal14.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal15.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal16.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal17.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal18.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal19.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal20.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal21.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal22.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal23.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal24.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal25.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal26.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal27.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal28.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal29.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal30.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal31.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal32.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal33.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal34.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal35.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal36.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal37.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal38.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal39.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal40.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal41.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal42.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal43.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal44.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal45.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal46.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal47.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal48.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal49.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal50.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal51.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal52.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal53.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal54.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://erowid.org/library/books_online/tihkal/tihkal55.shtml": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/5-htp/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/acetyl-l-carnitine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/ashwagandha/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/bacopa-monnieri/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/berberine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/beta-alanine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/cdp-choline/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/cordyceps/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/creatine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/curcumin/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/dl-phenylalanine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/gaba/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/ganoderma-lucidum/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/ginkgo-biloba/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/glycine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/holy-basil/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/inositol/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/l-tyrosine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/lions-mane-mushroom/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/maca/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/magnesium-l-threonate/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/panax-ginseng/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/phosphatidylserine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/pyrroloquinoline-quinone/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/quercetin/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/resveratrol/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/rhodiola-rosea/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/taurine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://examine.com/supplements/theanine/": {
+    "verdict": "unknown",
+    "status": 429,
+    "checked": "2026-06-16"
+  },
+  "https://nervewing.blogspot.com/2025/10/fxipr.html": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Antioxidants-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Carnitine-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Coenzyme-Q10-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Folate-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Iodine-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Niacin-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Selenium-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Thiamin-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Tryptophan-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminE-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://pdsp.unc.edu/databases/kidb.php": {
+    "verdict": "unknown",
+    "status": null,
+    "checked": "2026-06-16",
+    "error": "URLError"
+  },
+  "https://pdsp.unc.edu/databases/kidb.php)": {
+    "verdict": "unknown",
+    "status": null,
+    "checked": "2026-06-16",
+    "error": "URLError"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/12423785/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/13572116/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/14744474/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/15670653/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/15870423/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/16108680/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/16352683/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/18004297/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/18393251/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/19053744/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/21856770/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/22323769/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/22483621/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/25738459/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/2688924/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/27144355/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/28720424/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/30403295/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/30681787/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/34799658/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/34960435/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/38301014/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/40992254/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/4962734/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/6136526/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/7721842/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/7902274/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/8799523/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/8944494/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/8999953/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/9467534/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/9849822/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://pubmed.ncbi.nlm.nih.gov/9867539/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://royalsocietypublishing.org/doi/10.1098/rsob.220355": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://thepeptidelist.com/peptides": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/08495s041lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/19657s070lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2002/20784slr013_zyrtec_lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2003/021487lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/007491s044lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/009761s028lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/012140s027lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/017683s094lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/019462s039lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2004/021521s004lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2006/018677s011lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/020859s011lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/021937s002lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/010632s041lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/016462s036lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019842s034lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/019908s027lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2008/020975s013lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020272s056lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/020825s032lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021035s078s080,021505s021s024lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/021928s011lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022117lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2009/022192lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/010138s030lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/018207s030lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/021875s011lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/022036lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012013s074lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/012230s062lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/018276s045lbl.pdf)": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2011/020872s032lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/017473s055lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/019906s022lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020031s071lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/020822s044,021046s019lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/021117s025lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022200lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2012/022549lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/010894s042lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/012771s027lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020152s018lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/020768s029lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021169s032lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/021876s004lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022047s019lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/022256s009lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/200603s009lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/204168s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/009768s055lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011459s060lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/011835s065lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012036s098lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/012449s069lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/016403s037lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020415s028lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021336s010lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021427s045lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021436s038lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021476s030lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/021999s026lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/019758s083lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/020717s037s038lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/022567s012lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/204370orig1s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2015/205422orig1s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/018163s065lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/019839s092lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/020648s019lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/205836lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/207318orig1s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/017533s059lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018644s059lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/018651s029lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020151s068,020699s057lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021875s029lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021992s030lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/021487s023s024lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/210365lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/210557s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211243lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/211371s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/022341s031lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/125469s030lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/204447s013lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2020/210365s006lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/020592s074lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213051s006lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/215866s000lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/018936s114lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/022505s013lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/211964s013lbl.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.alzforum.org/news/research-news/rare-severe-side-effects-sideline-some-phase-3-encenicline-trials": {
+    "verdict": "unknown",
+    "status": 503,
+    "checked": "2026-06-16"
+  },
+  "https://www.bjaed.org/article/S2058-5349(17)30084-7/fulltext": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://secure.jbs.elsevierhealth.com/action/cookieAbsent"
+  },
+  "https://www.dea.gov/sites/default/files/2018-07/N-Ethylpentylone-2018.pdf": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://www.dea.gov/sites/default/files/2018-07/alpha-PVP-2018.pdf": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://www.deadiversion.usdoj.gov/drug_chem_info/flualprazolam.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.deadiversion.usdoj.gov/drug_chem_info/metonitazene.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.deadiversion.usdoj.gov/fed_regs/rules/2020/fr0617_2.htm": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.deadiversion.usdoj.gov/fed_regs/rules/2020/fr1209_2.htm": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.drugs.com/monograph/flurazepam.html": {
+    "verdict": "unknown",
+    "status": 403,
+    "checked": "2026-06-16"
+  },
+  "https://www.ema.europa.eu/en/documents/product-information/bilaxten-epar-product-information_en.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.ema.europa.eu/en/documents/product-information/rupafin-epar-product-information_en.pdf": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.ema.europa.eu/en/documents/product-information/valdoxan-epar-product-information_en.pdf": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.ema.europa.eu/en/medicines/human/EPAR/sativex": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.emcdda.europa.eu/publications/eu-drug-markets/nps_en": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.emcdda.europa.eu/publications/risk-assessments/2f-dck_en": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.emcdda.europa.eu/publications/risk-assessments/3-cmc_en": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.euda.europa.eu/publications/risk-assessments/3-cmc_en"
+  },
+  "https://www.emcdda.europa.eu/publications/risk-assessments/4-cmc_en": {
+    "verdict": "dead",
+    "status": 404,
+    "checked": "2026-06-16"
+  },
+  "https://www.emcdda.europa.eu/publications/risk-assessments/mdmb-4en-pinaca_en": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://www.euda.europa.eu/publications/risk-assessments/mdmb-4en-pinaca_en"
+  },
+  "https://www.fda.gov/consumers/consumer-updates/tianeptine-products-linked-serious-harm-overdoses-death": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.fda.gov/media/166741/download": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.gov.uk/government/publications/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine/acmd-review-of-the-evidence-on-the-use-and-harms-of-diphenidine-accessible": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.ncbi.nlm.nih.gov/books/NBK425390/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.ncbi.nlm.nih.gov/books/NBK546789/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/?term=PNC-27+p53+peptide": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/search/?term=PNC-27+p53+peptide"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/?term=spadin+TREK-1": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/search/?term=spadin+TREK-1"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10054042/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10054042/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11051472/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11051472/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12023825/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12023825/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12858478/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12858478/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5085709/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5085709/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6475847/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6475847/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7569319/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7569319/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8881971/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8881971/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9191647/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9191647/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9325264/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9325264/"
+  },
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9715504/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16",
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9715504/"
+  },
+  "https://www.nejm.org/doi/10.1056/NEJMoa2301972": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.pfizermedical.com/halcion/clinical-pharmacology": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.snopes.com/fact-check/jenkem/": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  },
+  "https://www.uspharmacist.com/article/gender-differences-in-pharmacokinetics": {
+    "verdict": "ok",
+    "status": 200,
+    "checked": "2026-06-16"
+  }
+}
