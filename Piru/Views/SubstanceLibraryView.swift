@@ -30,7 +30,7 @@ struct SubstanceLibraryView: View {
                         searchResultsList
                     }
                 }
-                .listStyle(.plain)
+                .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
                 .background(Theme.background)
             }
@@ -80,6 +80,7 @@ struct SubstanceLibraryView: View {
                         }
                         .tint(.yellow)
                     }
+                    .listRowBackground(Theme.cardBackground)
                 }
             }
         }
@@ -230,9 +231,9 @@ private struct RecentSubstancesSection: View {
                     NavigationLink(value: PushRoute.substance(name: substance.name)) {
                         SubstanceRowView(substance: substance)
                     }
+                    .listRowBackground(Theme.cardBackground)
                 }
             }
-            .listSectionSeparator(.hidden, edges: .top)
         }
     }
 }
@@ -308,9 +309,9 @@ struct SubstanceCategoryListView: View {
                     .tint(.yellow)
                 }
             }
-            .listSectionSeparator(.hidden, edges: .top)
+            .listRowBackground(Theme.cardBackground)
         }
-        .listStyle(.plain)
+        .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(Theme.background)
         .navigationTitle(Text(title))
@@ -349,45 +350,47 @@ struct SubstanceRowView: View {
     }
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 3) {
+        HStack(spacing: 12) {
+            // Category-color accent — ties each row to the family palette and
+            // adds a touch of colour to an otherwise flat list.
+            Circle()
+                .fill(substance.category.color.gradient)
+                .frame(width: 10, height: 10)
+            VStack(alignment: .leading, spacing: 2) {
                 Text(personalName ?? substance.displayTitle)
-                    .font(.body)
+                    .font(.body.weight(.medium))
                     .foregroundStyle(.primary)
                 // When personalized, show the canonical name as the subtitle so
-                // the user can tell what "joint" actually maps to.
+                // the user can tell what "joint" actually maps to. One line —
+                // long alias lists shouldn't blow a row up to three lines.
                 if let subtitle = personalName != nil ? substance.name : substance.displaySubtitle {
                     Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(Theme.secondaryLabel)
+                        .lineLimit(1)
                 }
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 3) {
-                if showsCategoryBadge {
-                    Text(substance.category.displayName)
-                        .font(.caption2)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(.fill.secondary, in: Capsule())
-                }
-                // Stubs / lesser-characterized compounds get a "Limited data"
-                // badge instead of a (meaningless) dose unit, so the list signals
-                // which entries are thin without hiding them.
-                if substance.hasNoDoseData {
-                    Text("Limited data")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(.fill.tertiary, in: Capsule())
-                } else {
-                    Text(substance.defaultUnit)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.secondaryLabel)
-                }
+            Spacer(minLength: 8)
+            // Genuinely thin entries (zero dose + duration + protocol) get a
+            // "Limited data" badge. The unit used to sit here — useless in a
+            // browse list, so it's gone.
+            if substance.isStub {
+                Text("Limited data")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(.fill.tertiary, in: Capsule())
+            } else if showsCategoryBadge {
+                Text(substance.category.displayName)
+                    .font(.caption2.weight(.medium))
+                    .foregroundStyle(substance.category.color)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(substance.category.color.opacity(0.12), in: Capsule())
             }
         }
+        .padding(.vertical, 3)
         .contentShape(Rectangle())
     }
 }
