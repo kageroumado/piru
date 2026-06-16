@@ -8,6 +8,7 @@ from pathlib import Path
 # Translations: English -> (Simplified, Traditional)
 T = {
     # Detail-view restructure 2026-06 — effects merge + chemistry fold + copyable
+    "Search experiences on Erowid": ("在 Erowid 上搜索体验报告", "在 Erowid 上搜尋體驗報告"),
     "All effects": ("全部效应", "全部效應"),
     "All effects (%lld)": ("全部效应（%lld）", "全部效應（%lld）"),
     "Press and hold a value to copy it.": ("长按数值即可复制。", "長按數值即可複製。"),
@@ -2401,6 +2402,7 @@ if __name__ == "__main__":
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
         # Detail-view restructure 2026-06
+        "Search experiences on Erowid",
         "All effects",
         "All effects (%lld)",
         "Press and hold a value to copy it.",

@@ -96,6 +96,16 @@ enum AppSources {
         return substanceURL(for: name, substance: substance)
     }
 
+    /// A search on Erowid's Experience Vaults for first-hand reports of a
+    /// substance. We can't deep-link a specific vault page or show a report
+    /// count — Erowid blocks automated access (403), so we can neither verify a
+    /// page exists nor scrape counts — but a search always resolves for a person
+    /// tapping it in their browser, with no dead-link or scraping concerns.
+    static func erowidSearchURL(substance: String) -> URL? {
+        let query = substance.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? substance
+        return URL(string: "https://www.erowid.org/search.php?q=\(query)")
+    }
+
     static func substanceURL(for source: String, substance: String) -> URL? {
         switch source {
         case "PsychonautWiki":
