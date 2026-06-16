@@ -779,7 +779,7 @@ struct SubstanceDetailView: View {
                     SourceAttributionRow(
                         slug: slug,
                         label: "Dose data",
-                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                        deepLink: sourceDeepLink(slug),
                     )
                 }
                 if durationVisible, route.duration != nil,
@@ -787,7 +787,7 @@ struct SubstanceDetailView: View {
                     SourceAttributionRow(
                         slug: slug,
                         label: "Duration data",
-                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                        deepLink: sourceDeepLink(slug),
                     )
                 }
             } header: {
@@ -999,14 +999,14 @@ struct SubstanceDetailView: View {
                     SourceAttributionRow(
                         slug: slug,
                         label: "Category",
-                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                        deepLink: sourceDeepLink(slug),
                     )
                 }
                 if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
                     SourceAttributionRow(
                         slug: slug,
                         label: "Half-life",
-                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                        deepLink: sourceDeepLink(slug),
                     )
                 }
             } label: {
@@ -1059,7 +1059,7 @@ struct SubstanceDetailView: View {
                             SourceAttributionRow(
                                 slug: slug,
                                 label: "Mechanism",
-                                deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                                deepLink: sourceDeepLink(slug),
                             )
                         }
                     }
@@ -1210,6 +1210,18 @@ struct SubstanceDetailView: View {
     }
 
     // MARK: - Source attribution
+
+    /// Deep link for a source-attribution row. drug.community's `/drug/<slug>`
+    /// page resolves only the canonical slug captured at build time (no alias
+    /// fallback), so it can't be derived from the app's name; every other source
+    /// deep-links from the substance name via ``AppSources``.
+    private func sourceDeepLink(_ slug: String) -> URL? {
+        if slug == "drug.community" {
+            guard let dc = substance.drugCommunitySlug else { return nil }
+            return URL(string: "https://drug.community/drug/\(dc)")
+        }
+        return AppSources.substanceURL(forSlug: slug, substance: substance.name)
+    }
 
     private func doseSourceSlug(for route: RouteOfAdministration) -> String? {
         provenance?.routesBySource[route]?.doseSource

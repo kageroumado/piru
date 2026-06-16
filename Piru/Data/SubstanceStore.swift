@@ -960,7 +960,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, drug_community_slug FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -974,6 +974,7 @@ final class SubstanceStore {
                 let pubchemCID = (coreRow["pubchem_cid"] as Int64?).map(Int.init)
                 let molarMass = coreRow["molecular_weight"] as Double?
                 let popularity = coreRow["popularity"] as Double? ?? 0
+                let drugCommunitySlug: String? = coreRow["drug_community_slug"]
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
                 let peptideProfile = try resolvedPeptideProfile(db: db, substanceID: id)
@@ -1024,6 +1025,7 @@ final class SubstanceStore {
                     molarMass: molarMass,
                     peptideProfile: peptideProfile,
                     references: references,
+                    drugCommunitySlug: drugCommunitySlug,
                 )
             }
             if let resolved {

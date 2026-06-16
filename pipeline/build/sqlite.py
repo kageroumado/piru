@@ -194,7 +194,13 @@ CREATE TABLE substances (
     -- protocol_dosing rows from any source — a bare catalog stub (mostly medtap
     -- regulatory entries). The app can demote/badge these (cf. Substance.has
     -- NoDoseData). Baked by flag_dose_less_stubs(); 0 = has at least one ladder.
-    is_stub INTEGER NOT NULL DEFAULT 0
+    is_stub INTEGER NOT NULL DEFAULT 0,
+    -- Canonical drug.community page slug (slugify of that source's drug_name),
+    -- captured during ingest. drug.community's /drug/<slug> page resolves ONLY
+    -- the canonical slug (no alias fallback), so the app can't derive a working
+    -- link from its own name — it must use this. NULL when the substance has no
+    -- drug.community entry. Carried across merges via _merge_into's COALESCE.
+    drug_community_slug TEXT
 );
 CREATE INDEX idx_substances_normalized  ON substances(normalized_name);
 CREATE INDEX idx_substances_inchikey    ON substances(inchikey)    WHERE inchikey    IS NOT NULL;
@@ -677,6 +683,14 @@ def canonical_salt_form(label: str | None) -> str | None:
     if not trimmed:
         return None
     return _SALT_FORM_CANON.get(trimmed.lower(), trimmed)
+
+
+def dc_slugify(name: str) -> str:
+    """drug.community's page-slug function: lowercase, runs of non-alphanumeric
+    characters collapsed to a single '-', leading/trailing '-' trimmed. Must
+    match the site's ``Kt`` exactly — its /drug/<slug> route resolves only this
+    canonical form."""
+    return re.sub(r"(^-|-$)", "", re.sub(r"[^a-z0-9]+", "-", (name or "").lower()))
 
 
 def normalise(s: str) -> str:
@@ -3176,6 +3190,12 @@ class Build:
             sid = self.upsert_substance(name, aliases=aliases, source_slug=slug)
             if sid is None:
                 continue
+            # Record the canonical drug.community page slug (from the full
+            # original drug_name) so the app can deep-link /drug/<slug> reliably.
+            self.cur.execute(
+                "UPDATE substances SET drug_community_slug=COALESCE(drug_community_slug, ?) WHERE id=?",
+                (dc_slugify(raw), sid),
+            )
             if s.get("psychoactive_class"):
                 self.add_category(sid, slug, s["psychoactive_class"])
             elif s.get("categories"):
@@ -3753,7 +3773,8 @@ class Build:
             "smiles=COALESCE(smiles,(SELECT smiles FROM substances WHERE id=:l)), "
             "formula=COALESCE(formula,(SELECT formula FROM substances WHERE id=:l)), "
             "molecular_weight=COALESCE(molecular_weight,(SELECT molecular_weight FROM substances WHERE id=:l)), "
-            "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)) "
+            "regulatory_status=COALESCE(regulatory_status,(SELECT regulatory_status FROM substances WHERE id=:l)), "
+            "drug_community_slug=COALESCE(drug_community_slug,(SELECT drug_community_slug FROM substances WHERE id=:l)) "
             "WHERE id=:w",
             {"l": loser, "w": winner},
         )

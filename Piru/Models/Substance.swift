@@ -1077,6 +1077,11 @@ struct Substance: Identifiable {
     /// Primary references (DOIs / PMIDs / URLs / labels) for this compound's
     /// curated claims. Detail-only (empty in the batch/browse path).
     let references: [Citation]
+    /// Canonical drug.community page slug, for deep-linking `/drug/<slug>`.
+    /// drug.community's page resolves only this canonical form (no alias
+    /// fallback), so it can't be derived from the app's own name. Detail-only
+    /// (nil in the batch/browse path); nil when there's no drug.community entry.
+    let drugCommunitySlug: String?
 
     nonisolated init(
         name: String,
@@ -1107,6 +1112,7 @@ struct Substance: Identifiable {
         molarMass: Double? = nil,
         peptideProfile: PeptideProfile? = nil,
         references: [Citation] = [],
+        drugCommunitySlug: String? = nil,
     ) {
         self.id = UUID()
         self.name = name
@@ -1137,6 +1143,7 @@ struct Substance: Identifiable {
         self.molarMass = molarMass
         self.peptideProfile = peptideProfile
         self.references = references
+        self.drugCommunitySlug = drugCommunitySlug
     }
 
     /// Title shown in lists and the detail header — the curated override when
@@ -1405,6 +1412,7 @@ extension Substance: Codable {
         case molarMass
         case peptideProfile
         case references
+        case drugCommunitySlug
     }
 
     init(from decoder: Decoder) throws {
@@ -1440,6 +1448,7 @@ extension Substance: Codable {
         molarMass = try c.decodeIfPresent(Double.self, forKey: .molarMass)
         peptideProfile = try c.decodeIfPresent(PeptideProfile.self, forKey: .peptideProfile)
         references = try c.decodeIfPresent([Citation].self, forKey: .references) ?? []
+        drugCommunitySlug = try c.decodeIfPresent(String.self, forKey: .drugCommunitySlug)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -1487,6 +1496,7 @@ extension Substance: Codable {
             try c.encode(peptideProfile, forKey: .peptideProfile)
         }
         if !references.isEmpty { try c.encode(references, forKey: .references) }
+        try c.encodeIfPresent(drugCommunitySlug, forKey: .drugCommunitySlug)
     }
 }
 
