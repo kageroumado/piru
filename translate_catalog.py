@@ -7,6 +7,12 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Cake (PsychonautWiki 🍰 April-Fools entry) — emoji off the title, joke in detail
+    "Made-up drug": ("虚构药物", "虛構藥物"),
+    "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.": (
+        "出自 1997 年一部讽刺媒体毒品恐慌的电视节目的虚构药物——“Cake”并不存在，下面的内容也都是假的。据说它会过度刺激控制时间感的大脑区域“夏特纳的巴松管（Shatner’s Bassoon）”。产自布拉格。",
+        "出自 1997 年一部諷刺媒體毒品恐慌的電視節目的虛構藥物——「Cake」並不存在，下面的內容也都是假的。據說它會過度刺激控制時間感的大腦區域「夏特納的巴松管（Shatner’s Bassoon）」。產自布拉格。",
+    ),
     # Detail-view Design D 2026-06 — merged dose/duration card, Show All effects,
     # Erowid as its own group, two-column Info/Chemistry grids, merged Sources.
     "Dose & Duration": ("剂量与时长", "劑量與時長"),
@@ -2416,6 +2422,9 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Cake joke entry 2026-06
+        "Made-up drug",
+        "A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.",
         # Detail-view Design D 2026-06
         "Dose & Duration",
         "Show All",
