@@ -5,7 +5,6 @@
     "delta sleep peptide"
   ],
   "category": "Peptide",
-  "popularity": 0.28,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

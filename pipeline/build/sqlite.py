@@ -188,10 +188,10 @@ CREATE TABLE substances (
     -- 1 when total duration > 24h (the vitamin problem); OTC durations are
     -- suppressed when set. Recreational/dual-use are exempt (long psychedelics).
     duration_implausible INTEGER NOT NULL DEFAULT 0,
-    -- Hand-curated popularity score [0,1] from data/curated/popularity.json
-    -- (seeded from NSDUH/UNODC/EMCDDA prevalence). Drives the "Popularity" sort
-    -- in category browse — well-known substances on top, the rest fall to 0 and
-    -- sort alphabetically. 0 = not curated.
+    -- Reproducible popularity score [0,1] from English-Wikipedia pageviews
+    -- (data/sources/wikipedia-popularity.json, chemical-verified; applied by
+    -- apply_wikipedia_popularity). Drives the "Popularity" sort — recognizable
+    -- substances on top, the unmapped long tail at 0. 0 = no chemical article.
     popularity REAL NOT NULL DEFAULT 0,
     -- 1 when this substance carries NO dose_ranges, NO durations, and NO
     -- protocol_dosing rows from any source — a bare catalog stub (mostly medtap
@@ -697,6 +697,28 @@ def dc_slugify(name: str) -> str:
 
 
 PUBCHEM_PROPERTIES = REPO / "data/sources/pubchem-properties.json"
+WIKIPEDIA_POPULARITY = REPO / "data/sources/wikipedia-popularity.json"
+
+
+def apply_wikipedia_popularity(con, data: dict) -> int:
+    """Set `popularity` from the reproducible Wikipedia-pageviews snapshot
+    (``data/sources/wikipedia-popularity.json``), keyed by canonical_name. This
+    is the authoritative popularity source — it supersedes any hand-set curated
+    value so the "by popularity" sort is fully reproducible. Substances absent
+    from the snapshot (no chemical Wikipedia article) keep popularity 0."""
+    cur = con.cursor()
+    n = 0
+    for name, entry in data.items():
+        score = entry.get("score")
+        if score is None:
+            continue
+        cur.execute(
+            "UPDATE substances SET popularity = ? WHERE canonical_name = ?", (float(score), name)
+        )
+        n += cur.rowcount
+    con.commit()
+    return n
+
 
 # Elements a real pharmaceutical counter-ion / desalt leftover may contain
 # (HCl, HBr, HI, H2SO4, H3PO4, tartrate/citrate/fumarate/maleate/mesylate, Na/K).
@@ -5212,6 +5234,17 @@ def main() -> int:
     # the count is final; the app can demote/badge these.
     stub_count = build.flag_dose_less_stubs()
     print(f"Dose-less stubs flagged: {stub_count}", file=sys.stderr)
+
+    # Reproducible popularity from the committed Wikipedia-pageviews snapshot
+    # (chemical-verified). Authoritative — supersedes hand-set curated values.
+    # Before classify (which reads popularity for the RC-established threshold)
+    # and keyed by the now-final canonical_names. Refresh with
+    # fetch_wikipedia_popularity.py (incremental; the build never fetches).
+    if WIKIPEDIA_POPULARITY.exists():
+        pop_n = apply_wikipedia_popularity(
+            build.cur.connection, json.loads(WIKIPEDIA_POPULARITY.read_text())
+        )
+        print(f"Wikipedia popularity applied: {pop_n}", file=sys.stderr)
 
     # Display-policy classification — bakes display_class + duration_implausible
     # from the now-final signals (recreational dose/duration provenance,

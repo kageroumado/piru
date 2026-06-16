@@ -5,7 +5,6 @@
     "MOTS c peptide"
   ],
   "category": "Peptide",
-  "popularity": 0.36,
   "defaultRoute": "subcutaneous",
   "routes": [
     {

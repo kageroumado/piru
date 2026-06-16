@@ -6,7 +6,6 @@
     "[Gly14]-humanin"
   ],
   "category": "Peptide",
-  "popularity": 0.2,
   "defaultRoute": "subcutaneous",
   "routes": [
     {
