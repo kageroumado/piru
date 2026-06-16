@@ -677,7 +677,7 @@ final class SubstanceStore {
                 let allRows = try Row.fetchAll(
                     db,
                     sql:
-                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity FROM substances ORDER BY canonical_name COLLATE NOCASE",
+                    "SELECT id, canonical_name, display_name, display_class, regulatory_status, duration_implausible, popularity, is_stub FROM substances ORDER BY canonical_name COLLATE NOCASE",
                 )
                 let ids: [Int64] = allRows.map { $0["id"] }
                 let names: [Int64: String] = Dictionary(
@@ -693,6 +693,7 @@ final class SubstanceStore {
                 var displayClassByID: [Int64: CompoundDisplayClass] = [:]
                 var regulatoryByID: [Int64: String] = [:]
                 var durationImplausibleByID: [Int64: Bool] = [:]
+                var isStubByID: [Int64: Bool] = [:]
                 for row in allRows {
                     let sid: Int64 = row["id"]
                     if let raw: String = row["display_class"], let cls = CompoundDisplayClass(rawValue: raw) {
@@ -702,6 +703,7 @@ final class SubstanceStore {
                     durationImplausibleByID[sid] = (row["duration_implausible"] as Int64? ?? 0) != 0
                     if let dn: String = row["display_name"] { displayNameByID[sid] = dn }
                     popularityByID[sid] = row["popularity"] as Double? ?? 0
+                    isStubByID[sid] = (row["is_stub"] as Int64? ?? 0) != 0
                 }
 
                 // Aliases — union across sources.
@@ -844,6 +846,7 @@ final class SubstanceStore {
                         regulatoryStatus: regulatoryByID[sid],
                         durationImplausible: durationImplausibleByID[sid] ?? false,
                         popularity: popularityByID[sid] ?? 0,
+                        isStub: isStubByID[sid] ?? false,
                     )
                 }
             }
@@ -960,7 +963,7 @@ final class SubstanceStore {
 
         do {
             let resolved = try substancesDB.read { db -> Substance? in
-                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, drug_community_slug FROM substances WHERE id = ?", arguments: [id]) else {
+                guard let coreRow = try Row.fetchOne(db, sql: "SELECT canonical_name, display_name, display_class, regulatory_status, duration_implausible, cas, inchikey, formula, pubchem_cid, molecular_weight, popularity, is_stub, drug_community_slug FROM substances WHERE id = ?", arguments: [id]) else {
                     return nil
                 }
                 let name: String = coreRow["canonical_name"]
@@ -974,6 +977,7 @@ final class SubstanceStore {
                 let pubchemCID = (coreRow["pubchem_cid"] as Int64?).map(Int.init)
                 let molarMass = coreRow["molecular_weight"] as Double?
                 let popularity = coreRow["popularity"] as Double? ?? 0
+                let isStub = (coreRow["is_stub"] as Int64? ?? 0) != 0
                 let drugCommunitySlug: String? = coreRow["drug_community_slug"]
 
                 let aliases = try String.fetchAll(db, sql: "SELECT alias FROM aliases WHERE substance_id = ? ORDER BY alias", arguments: [id])
@@ -1022,6 +1026,7 @@ final class SubstanceStore {
                     formula: formula,
                     pubchemCID: pubchemCID,
                     popularity: popularity,
+                    isStub: isStub,
                     molarMass: molarMass,
                     peptideProfile: peptideProfile,
                     references: references,

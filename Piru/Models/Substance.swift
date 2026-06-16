@@ -1061,6 +1061,12 @@ struct Substance: Identifiable {
     /// Hand-curated popularity score in [0,1] (0 = not curated). Drives the
     /// "Popularity" sort in category browse; loaded in the batch path.
     let popularity: Double
+    /// True for a genuinely thin catalog entry — zero dose AND duration AND
+    /// protocol data from any source (the pipeline's `flag_dose_less_stubs`).
+    /// Drives the "Limited data" list badge. NOT the same as "no dose ladder":
+    /// a brew like Ayahuasca has no mg ladder but plenty of duration/effect data,
+    /// so it isn't a stub. Loaded in the batch path.
+    let isStub: Bool
     /// Orthogonal class metadata: mechanism (`DRI`, `NMDA-antagonist`), chemical
     /// family (`cathinone`, `arylcyclohexylamine`), provenance (`PIHKAL`,
     /// `research-chemical`), legal/safety status (`US-Schedule-I`, `no-human-data`).
@@ -1109,6 +1115,7 @@ struct Substance: Identifiable {
         formula: String? = nil,
         pubchemCID: Int? = nil,
         popularity: Double = 0,
+        isStub: Bool = false,
         molarMass: Double? = nil,
         peptideProfile: PeptideProfile? = nil,
         references: [Citation] = [],
@@ -1140,6 +1147,7 @@ struct Substance: Identifiable {
         self.formula = formula
         self.pubchemCID = pubchemCID
         self.popularity = popularity
+        self.isStub = isStub
         self.molarMass = molarMass
         self.peptideProfile = peptideProfile
         self.references = references
@@ -1431,6 +1439,7 @@ extension Substance: Codable {
         case formula
         case pubchemCID
         case popularity
+        case isStub
         case molarMass
         case peptideProfile
         case references
@@ -1467,6 +1476,7 @@ extension Substance: Codable {
         formula = try c.decodeIfPresent(String.self, forKey: .formula)
         pubchemCID = try c.decodeIfPresent(Int.self, forKey: .pubchemCID)
         popularity = try c.decodeIfPresent(Double.self, forKey: .popularity) ?? 0
+        isStub = try c.decodeIfPresent(Bool.self, forKey: .isStub) ?? false
         molarMass = try c.decodeIfPresent(Double.self, forKey: .molarMass)
         peptideProfile = try c.decodeIfPresent(PeptideProfile.self, forKey: .peptideProfile)
         references = try c.decodeIfPresent([Citation].self, forKey: .references) ?? []
@@ -1513,6 +1523,7 @@ extension Substance: Codable {
         try c.encodeIfPresent(formula, forKey: .formula)
         try c.encodeIfPresent(pubchemCID, forKey: .pubchemCID)
         if popularity != 0 { try c.encode(popularity, forKey: .popularity) }
+        if isStub { try c.encode(isStub, forKey: .isStub) }
         try c.encodeIfPresent(molarMass, forKey: .molarMass)
         if let peptideProfile, peptideProfile.hasAnyValue {
             try c.encode(peptideProfile, forKey: .peptideProfile)
