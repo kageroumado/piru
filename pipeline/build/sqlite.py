@@ -1871,6 +1871,12 @@ _REMOVE_NAMES: set[str] = {
     normalise("DNA (cytosine-5)-methyltransferase 1"),
     normalise("Tetrakis(2-Methoxyisobutylisocyanide)Copper(I) Tetrafluoroborate"),
     normalise("Jenkem"),  # urban-legend hoax, no active pharmacology
+    # Periodic-table / biomolecule entries that aren't consumable substances —
+    # this is a substance tracker, not a chemistry catalogue. (Calcium / Iodine /
+    # Lithium / Potassium / Sodium stay: they're real supplements / medications.)
+    normalise("DNA"),
+    normalise("Silver"),
+    normalise("Hydrogen"),
 }
 
 # Tags that mark a row as pharmacologically inert / fake. A substance carrying

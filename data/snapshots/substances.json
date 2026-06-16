@@ -4558,6 +4558,7 @@
     "display_name": "",
     "aliases": [
       "2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine",
+      "2C‑P",
       "2cp",
       "4‑propyl‑2,5‑dimethoxyphenethylamine",
       "selene"
@@ -5746,6 +5747,7 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
+      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
@@ -8292,7 +8294,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-chloroethcathinone",
+      "4-Chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -10333,7 +10335,6 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
-      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10401,7 +10402,7 @@
     "name": "4-MPD",
     "display_name": "",
     "aliases": [
-      "4-Methylpentedrone",
+      "4-methylpentedrone",
       "p-methyl pentedrone",
       "para-methyl pentedrone"
     ],
@@ -10784,7 +10785,7 @@
       "4-Cl-iBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-IBF",
+      "p-Cl-iBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -24045,6 +24046,7 @@
     "aliases": [
       "Aller-Chlor",
       "Chlor-Trimeton",
+      "Chlorphenamine",
       "Chlorphenaminum",
       "Chlorpheniramine polistirex",
       "Chlorprophenpyridamine",
@@ -24874,7 +24876,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-II-90",
+      "DM-ii-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -26870,7 +26872,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-cyclohexylmethylone"
+      "N-Cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -30930,35 +30932,6 @@
     ]
   },
   {
-    "name": "DNA",
-    "display_name": "",
-    "aliases": [
-      "Pentam 300",
-      "Yondelis",
-      "pentamidine",
-      "trabectedin"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "Mechanism Of Action Trabectedin is an alkylating drug that binds guanine residues in the minor groove of DNA, forming adducts and resulting in a bending of the DNA helix towards the major groove. Adduct formation triggers a cascade of events that can affect the subsequent activity of DNA binding proteins, including some transcription factors, and DNA repair pathways, resulting in perturbation of the cell cycle and eventual cell death. Pharmacodynamics Cardiac Electrophysiology The effect of trabectedin on the QT/QTc interval was evaluated in 75 patients who received placebo on day 1 and trabectedin (1.3 mg/m 2 ) as a 3-hour intravenous infusion on day 2. No patients in the study showed a QTc interval exceeding 500 msec or more than 60 msec increase from baseline, and no large changes in the mean QTc interval (i.e., >20 msec) were observed. Pharmacokinetics The pharmacokinetics of trabectedin is characterized by a rapid decline phase at the end of the infusion and slower exponential phases. Population pharmacokinetic analyses suggest that the pharmacokinetics of trabectedin is dose-proportional (over the dose range of 0.024 to 1.8 mg/m 2 ) and exposure is time-independent. No accumulation of trabectedin in plasma is observed upon repeated administrations every 3 weeks. Distribution Binding of trabectedin to human plasma proteins was approximately 97%, independent of trabectedin concentrations ranging from 10 ng/mL to 100 ng/mL. Steady state volume of distribution of trabectedin exceeds 5000 L. Elimination The estimated mean (% coefficient of variation) clearance of trabectedin is 31.5 L/hr (50%) and the terminal elimination half-life is approximately 175 hours. Metabolism CYP3A is the predominant CYP enzyme responsible for the hepatic metabolism of trabectedin. Trabectedin was extensively metabolized with negligible unchanged drug in urine and feces following administration of trabectedin to humans. Excretion In patients with solid tumors, following a 3-hour or a 24-hour intravenous infusion of 14 C-labeled trabectedin, 64% of the total administered radioactive dose was recovered in 24 days, with 58% in feces and 6% in urine. Specific Populations The following population characteristics are not associated with a clinically significant effect on the pharmacokinetics of trabectedin: sex, age (19 to 83 years), body weight (36 to 148 kg), body surface area (0.9 to 2.8 m 2 ), mild hepatic impairment, or mild to moderate renal impairment. The effects of severe hepatic impairment, severe renal impairment or end stage renal disease on trabectedin exposure are unknown. Hepatic Impairment The geometric mean dose normalized trabectedin exposure (AUC) increased by 97% (90% CI: 20%, 222%) in patients with moderate hepatic impairment following administration of a single Yondelis dose of 0.58 mg/m 2 or 0.9 mg/m 2 compared to patients with normal liver function following administration of a single Yondelis dose of 1.3 mg/m 2 . Drug Interactions Effect of Strong CYP3A Inhibitors on Trabectedin Coadministration of multiple doses of ketoconazole (200 mg twice daily for 7.5 days) with a single dose of Yondelis (0.58 mg/m 2 ) on day 1 increased trabectedin dose-normalized AUC by 66% and C max by 22% compared to a single Yondelis dose (1.3 mg/m 2 ) given alone. Effect of Strong CYP3A Inducers on Trabectedin Coadministration of multiple doses of rifampin (600 mg daily for 6 days) with a single Yondelis dose (1.3 mg/m 2 ) on day 6 decreased trabectedin AUC by 31% and C max by 21% compared to a single Yondelis dose (1.3 mg/m 2 ) given alone. Effect of Trabectedin on CYP Enzymes In vitro , trabectedin has limited inhibition or induction potential of major CYP enzymes (CYP1A2, 2A6, 2B6, 2C9, 2C19, 2D6, 2E1, and 3A4).",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "references"
-    ]
-  },
-  {
     "name": "DOAM",
     "display_name": "",
     "aliases": [],
@@ -34580,8 +34553,7 @@
     "name": "Etoxadrol",
     "display_name": "",
     "aliases": [
-      "CL-1848C",
-      "U-37862A"
+      "CL-1848C"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -40096,33 +40068,6 @@
     ]
   },
   {
-    "name": "Hydrogen",
-    "display_name": "",
-    "aliases": [
-      "White Labs"
-    ],
-    "category": "",
-    "display_class": "otc",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Hydromorphone",
     "display_name": "",
     "aliases": [
@@ -43245,10 +43190,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
+      "Purple Drank",
       "barre",
       "drank",
       "pint",
-      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -51059,7 +51004,7 @@
       "Ghost pipe",
       "Ghost plant",
       "Ice plant",
-      "Indian Pipe"
+      "Indian pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
@@ -51771,6 +51716,7 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
+      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
@@ -52048,7 +51994,6 @@
     "aliases": [
       "Desethyl-protonitazene",
       "N-desethyl protonitazene",
-      "N-desethyl-protonitazene",
       "NDP",
       "Nitazene"
     ],
@@ -64509,33 +64454,6 @@
     ]
   },
   {
-    "name": "Silver",
-    "display_name": "",
-    "aliases": [
-      "Thermazene"
-    ],
-    "category": "",
-    "display_class": "medical_rx",
-    "tags": [],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
     "name": "Simvastatin",
     "display_name": "",
     "aliases": [
@@ -70843,8 +70761,7 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon",
-      "Ziprasidone mesylate"
+      "Geodon"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",
