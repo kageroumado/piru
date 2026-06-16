@@ -7,6 +7,21 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Detail-view restructure 2026-06 — effects merge + chemistry fold + copyable
+    "All effects": ("全部效应", "全部效應"),
+    "All effects (%lld)": ("全部效应（%lld）", "全部效應（%lld）"),
+    "Press and hold a value to copy it.": ("长按数值即可复制。", "長按數值即可複製。"),
+    # PsychonautWiki effect categories (dynamic LocalizedStringKey — not auto-extracted)
+    "Physical": ("身体", "身體"),
+    "Cognitive": ("认知", "認知"),
+    "Visual": ("视觉", "視覺"),
+    "Auditory": ("听觉", "聽覺"),
+    "Tactile": ("触觉", "觸覺"),
+    "Multisensory": ("多重感官", "多重感官"),
+    "Sensory": ("感官", "感官"),
+    "Smell and taste": ("嗅觉与味觉", "嗅覺與味覺"),
+    "Transpersonal": ("超个人", "超個人"),
+    "Disconnective": ("解离", "解離"),
     # DB cleanup 2026-06 — sources/references merge
     "Sources & references": ("来源与参考文献", "來源與參考文獻"),
     "Databases": ("数据库", "資料庫"),
@@ -2385,6 +2400,20 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Detail-view restructure 2026-06
+        "All effects",
+        "All effects (%lld)",
+        "Press and hold a value to copy it.",
+        "Physical",
+        "Cognitive",
+        "Visual",
+        "Auditory",
+        "Tactile",
+        "Multisensory",
+        "Sensory",
+        "Smell and taste",
+        "Transpersonal",
+        "Disconnective",
         # DB cleanup 2026-06
         "Other / Miscellaneous",
         "Everything that doesn't fit a class above.",

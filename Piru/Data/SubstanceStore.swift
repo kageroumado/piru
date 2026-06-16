@@ -1668,6 +1668,63 @@ final class SubstanceStore {
         return try String.fetchOne(db, sql: sql, arguments: StatementArguments(values))
     }
 
+    /// A group of effects sharing one PsychonautWiki category, for the
+    /// "All effects" screen.
+    struct EffectGroup: Identifiable, Hashable {
+        let category: String
+        let effects: [String]
+        var id: String {
+            category
+        }
+    }
+
+    /// Canonical display order for PW effect categories. Mirrors
+    /// `CATEGORY_ORDER` in `pipeline/build/pw_effect_categories.py`. Unknown
+    /// categories (including the `Other` bucket for uncategorized survivors)
+    /// sort last, alphabetically.
+    private static let effectCategoryOrder = [
+        "Physical", "Cognitive", "Visual", "Auditory", "Tactile",
+        "Multisensory", "Sensory", "Smell and taste", "Transpersonal", "Disconnective",
+    ]
+
+    /// The substance's effects grouped by PsychonautWiki category, ordered for
+    /// display. Lazily resolved on the "All effects" screen — the flat
+    /// `Substance.effects` union drives the browse/search paths; this is the
+    /// grouped view used only when a user drills into the full taxonomy.
+    func effectsByCategory(forSubstanceName name: String) -> [EffectGroup] {
+        guard let substanceID = nameIndex[name.lowercased()] else { return [] }
+        do {
+            let rows = try substancesDB.read { db in
+                try Row.fetchAll(db, sql: """
+                    SELECT DISTINCT e.text AS text,
+                                    COALESCE(e.effect_category, '') AS category
+                      FROM effects e
+                      JOIN sources src ON src.id = e.source_id
+                     WHERE e.substance_id = ?
+                       AND src.slug IN (\(enabledSourceListSQL))
+                     ORDER BY e.text COLLATE NOCASE
+                """, arguments: [substanceID])
+            }
+            var byCategory: [String: [String]] = [:]
+            for row in rows {
+                let raw = (row["category"] as String?) ?? ""
+                let category = raw.isEmpty ? "Other" : raw
+                byCategory[category, default: []].append(row["text"])
+            }
+            let order = Self.effectCategoryOrder
+            return byCategory.keys
+                .sorted { a, b in
+                    let ia = order.firstIndex(of: a) ?? order.count
+                    let ib = order.firstIndex(of: b) ?? order.count
+                    return ia != ib ? ia < ib : a < b
+                }
+                .map { EffectGroup(category: $0, effects: byCategory[$0] ?? []) }
+        } catch {
+            logger.error("effectsByCategory(forSubstanceName:) failed: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
     /// Every binding row associated with a specific substance, resolved by
     /// canonical name. Used by the detail view's "Receptor Literature"
     /// disclosure (pharma-nerd tier) to show the full Ki/EC50 table with

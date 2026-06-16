@@ -75,6 +75,27 @@ enum AppSources {
         all.first { $0.name == name }
     }
 
+    /// Maps the bundled DB's wire `slug` (e.g. "tripsit", "psychonautwiki") to
+    /// the display-name keys used by ``all`` / ``substanceURL(for:substance:)``.
+    /// Only sources with a usable per-substance page are listed; others have no
+    /// deep link.
+    static let slugToName: [String: String] = [
+        "tripsit": "TripSit",
+        "psychonautwiki": "PsychonautWiki",
+        "dailymed": "DailyMed",
+        "peer-review-primary": "PubMed",
+        "erowid-pihkal": "PiHKAL",
+        "erowid-tihkal": "TiHKAL",
+    ]
+
+    /// Deep link to a source's page for a substance, keyed by the DB `slug`
+    /// rather than the display name. Used by the dose/duration source rows so
+    /// "Dose data · TripSit" becomes a tappable link to that compound's page.
+    static func substanceURL(forSlug slug: String, substance: String) -> URL? {
+        guard let name = slugToName[slug] else { return nil }
+        return substanceURL(for: name, substance: substance)
+    }
+
     static func substanceURL(for source: String, substance: String) -> URL? {
         switch source {
         case "PsychonautWiki":
