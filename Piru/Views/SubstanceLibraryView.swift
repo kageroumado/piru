@@ -454,6 +454,11 @@ struct SubstanceDetailView: View {
     /// Chemistry / identifiers — demoted to a collapsed "Additional information"
     /// disclosure; the chemical numbers are reference data few users open.
     @State private var chemistryExpanded = false
+    /// Reveals the full alias list behind the "+N more" chip in the Info grid.
+    @State private var aliasesExpanded = false
+    /// Drives the push to the grouped "All effects" screen from the Effects
+    /// header's "Show All" (a header NavigationLink isn't reliably hittable).
+    @State private var showAllEffects = false
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
@@ -522,47 +527,57 @@ struct SubstanceDetailView: View {
     /// is selectable and carries a Copy action — an InChIKey you can't copy is
     /// useless.
     @ViewBuilder private var chemistryDisclosure: some View {
+        let hasPubChem = substance.pubChemURL != nil
         if policy.showsMechanism,
-           substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil {
+           substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil || hasPubChem {
             Section {
                 DisclosureGroup(isExpanded: $chemistryExpanded) {
-                    if let f = substance.formula {
-                        copyableRow("Formula", value: f)
+                    let showMW = substance.molarMass != nil && !substance.usesPeptidePresentation
+                    Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+                        if substance.formula != nil || showMW {
+                            GridRow {
+                                if let f = substance.formula { gridCell("Formula", f) } else { Color.clear }
+                                if showMW, let mw = substance.molarMass {
+                                    gridCell("Molar mass", "\(mw.doseFormatted) g/mol")
+                                } else { Color.clear }
+                            }
+                        }
+                        if let k = substance.inchikey {
+                            GridRow { gridCell("InChIKey", k, mono: true).gridCellColumns(2) }
+                        }
+                        if substance.cas != nil || hasPubChem {
+                            GridRow {
+                                if let c = substance.cas { gridCell("CAS", c, mono: true) } else { Color.clear }
+                                if let cid = substance.pubchemCID, let url = substance.pubChemURL {
+                                    pubChemCell(cid: cid, url: url)
+                                } else { Color.clear }
+                            }
+                        }
                     }
-                    if let mw = substance.molarMass, !substance.usesPeptidePresentation {
-                        copyableRow("Molar mass", value: "\(mw.doseFormatted) g/mol")
-                    }
-                    if let c = substance.cas {
-                        copyableRow("CAS", value: c)
-                    }
-                    if let k = substance.inchikey {
-                        copyableRow("InChIKey", value: k, mono: true)
-                    }
+                    .padding(.vertical, 4)
                 } label: {
                     Label("Chemistry", systemImage: "atom")
                         .font(.subheadline.weight(.semibold))
                 }
-            } footer: {
-                Text("Press and hold a value to copy it.")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.secondaryLabel)
             }
         }
     }
 
-    /// A `LabeledContent` row whose value is selectable and copyable.
-    private func copyableRow(_ label: LocalizedStringKey, value: String, mono: Bool = false) -> some View {
-        LabeledContent(label) {
-            Group {
-                if mono {
-                    Text(value).font(.caption.monospaced())
-                } else {
-                    Text(value)
-                }
-            }
-            .multilineTextAlignment(.trailing)
-            .textSelection(.enabled)
+    /// One labelled cell in the Info / Chemistry two-column grids. The value is
+    /// selectable and carries a Copy action — long-press is the natural gesture,
+    /// so no "press and hold to copy" caption is needed.
+    private func gridCell(_ label: LocalizedStringResource, _ value: String, mono: Bool = false) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .textCase(.uppercase)
+            Text(value)
+                .font(mono ? .footnote.monospaced() : .subheadline)
+                .textSelection(.enabled)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .contextMenu {
             Button {
                 UIPasteboard.general.string = value
@@ -572,25 +587,44 @@ struct SubstanceDetailView: View {
         }
     }
 
+    /// PubChem cell — a tappable link out to the curated chemistry record. Lives
+    /// in Chemistry (not Info): it's a chemical identifier, same as the rest.
+    private func pubChemCell(cid: Int, url: URL) -> some View {
+        Link(destination: url) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("PubChem CID")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+                    .textCase(.uppercase)
+                HStack(spacing: 3) {
+                    Text(verbatim: "\(cid)").font(.subheadline)
+                    Image(systemName: "arrow.up.right").font(.caption2)
+                }
+                .foregroundStyle(Theme.accent)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
     /// Effects — the merged surface. Curated subjective effects (rich tier) read
     /// as the readable summary; the full PsychonautWiki taxonomy lives one tap
     /// away on the grouped ``AllEffectsView`` so the detail view stays short.
+    /// First-hand Erowid reports show on the pushed "All effects" screen, gated
+    /// to recreational / dual-use compounds where such reports exist.
+    private var showsErowidReports: Bool {
+        displayClass == .recreational || displayClass == .dualUse
+    }
+
     @ViewBuilder private var effectsSection: some View {
         let curated = policy.showsRichSubjective ? substance.subjectiveEffects : []
         let hasAllEffects = !substance.effects.isEmpty
         if displayClass != .nonRecreational, !curated.isEmpty || hasAllEffects {
             Section {
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
-                        set: { subjectiveExpanded = $0 },
-                    ),
-                ) {
+                if !curated.isEmpty {
                     ForEach(curated, id: \.name) { effect in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(effect.name)
                                 .font(.subheadline)
-                                .fontWeight(.medium)
                             if !effect.description.isEmpty {
                                 Text(effect.description)
                                     .font(.caption)
@@ -600,27 +634,31 @@ struct SubstanceDetailView: View {
                         }
                         .padding(.vertical, 2)
                     }
-                    if hasAllEffects {
-                        NavigationLink {
-                            AllEffectsView(substanceName: substance.name)
-                        } label: {
-                            Label("All effects (\(substance.effects.count))", systemImage: "list.bullet.rectangle")
-                                .font(.subheadline)
+                } else if hasAllEffects {
+                    Button { showAllEffects = true } label: {
+                        Label("All effects (\(substance.effects.count))", systemImage: "list.bullet.rectangle")
+                            .font(.subheadline)
+                    }
+                }
+            } header: {
+                HStack {
+                    Text("Effects")
+                    Spacer()
+                    // Health-style "Show All" → the full PsychonautWiki taxonomy
+                    // (and Erowid reports), grouped by category, one tap away.
+                    // A header NavigationLink isn't reliably hittable, so drive a
+                    // navigationDestination from a Button instead.
+                    if !curated.isEmpty, hasAllEffects {
+                        Button { showAllEffects = true } label: {
+                            HStack(spacing: 2) {
+                                Text("Show All")
+                                Image(systemName: "chevron.right").font(.caption2)
+                            }
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.accent)
+                            .textCase(nil)
                         }
                     }
-                    // First-hand reports live on Erowid's Experience Vaults. We
-                    // can't link a specific page or show a count (Erowid blocks
-                    // automated access), but a search opens fine for the user.
-                    if displayClass == .recreational || displayClass == .dualUse,
-                       let erowid = AppSources.erowidSearchURL(substance: substance.name) {
-                        Link(destination: erowid) {
-                            Label("Search experiences on Erowid", systemImage: "text.bubble")
-                                .font(.subheadline)
-                        }
-                    }
-                } label: {
-                    Label("Effects", systemImage: "sparkles")
-                        .font(.subheadline.weight(.semibold))
                 }
             }
         }
@@ -740,37 +778,23 @@ struct SubstanceDetailView: View {
     /// stack, so a multi-route compound reads in a single screenful.
     @ViewBuilder
     private var doseDurationSections: some View {
-        if presentableRoutes.count > 1 {
-            Section {
-                let picker = Picker("Route", selection: routeSelection) {
-                    ForEach(presentableRoutes, id: \.route) { route in
-                        Text(route.route.localizedName).tag(route.route)
-                    }
-                }
-                // Segmented reads best for a couple of routes; past three the
-                // labels truncate, so fall back to a menu that keeps them full.
-                if presentableRoutes.count >= 4 {
-                    picker.pickerStyle(.menu)
-                } else {
-                    picker.pickerStyle(.segmented)
-                        .listRowSeparator(.hidden)
-                }
-            }
-        }
-
-        if activeSaltForms.count > 1 {
-            Section {
-                SaltPicker(
-                    forms: activeSaltForms.map(\.saltForm),
-                    selection: saltSelection,
-                    style: .formRow,
-                )
-            }
-        }
-
         if let route = activeSubstanceRoute {
             let salt = activeSaltVariant
             Section {
+                if presentableRoutes.count > 1 {
+                    routeChips
+                        .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 4, trailing: 0))
+                        .listRowSeparator(.hidden)
+                }
+                if activeSaltForms.count > 1 {
+                    SaltPicker(
+                        forms: activeSaltForms.map(\.saltForm),
+                        selection: saltSelection,
+                        style: .formRow,
+                    )
+                    .listRowSeparator(.hidden)
+                }
+
                 RouteDosingCard(
                     route: route.route,
                     unit: salt?.unit ?? route.unit,
@@ -784,26 +808,52 @@ struct SubstanceDetailView: View {
                 )
                 .listRowSeparator(.hidden)
 
-                if displayClass.showsDoseLadder, route.doses.hasAnyValue,
-                   let slug = doseSourceSlug(for: route.route) {
-                    SourceAttributionRow(
-                        slug: slug,
-                        label: "Dose data",
-                        deepLink: sourceDeepLink(slug),
-                    )
-                }
-                if durationVisible, route.duration != nil,
-                   let slug = durationSourceSlug(for: route.route) {
-                    SourceAttributionRow(
-                        slug: slug,
-                        label: "Duration data",
-                        deepLink: sourceDeepLink(slug),
-                    )
+                // One source line: dose + duration usually share a source (and a
+                // deep link), so collapse to a single row when they match.
+                let doseSlug = displayClass.showsDoseLadder && route.doses.hasAnyValue ? doseSourceSlug(for: route.route) : nil
+                let durSlug = durationVisible && route.duration != nil ? durationSourceSlug(for: route.route) : nil
+                if let doseSlug, doseSlug == durSlug {
+                    SourceAttributionRow(slug: doseSlug, label: "Dose & duration", deepLink: sourceDeepLink(doseSlug))
+                } else {
+                    if let doseSlug {
+                        SourceAttributionRow(slug: doseSlug, label: "Dose data", deepLink: sourceDeepLink(doseSlug))
+                    }
+                    if let durSlug {
+                        SourceAttributionRow(slug: durSlug, label: "Duration data", deepLink: sourceDeepLink(durSlug))
+                    }
                 }
             } header: {
-                Text(route.route.localizedName)
+                Text("Dose & duration")
             }
         }
+    }
+
+    /// Horizontal capsule selector for routes — replaces the segmented/menu
+    /// picker. Reads clearly even with many routes (it scrolls) and the active
+    /// route is unmistakable.
+    private var routeChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(presentableRoutes, id: \.route) { r in
+                    let isOn = activeSubstanceRoute?.route == r.route
+                    Button {
+                        routeSelection.wrappedValue = r.route
+                    } label: {
+                        Text(r.route.localizedName)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(isOn ? Color.white : Color.primary)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule().fill(isOn ? Theme.accent : Color(.tertiarySystemFill)),
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 16)
+        }
+        .listRowInsets(EdgeInsets())
     }
 
     /// Renders the current route's dose/duration card to a shareable image and
@@ -830,59 +880,94 @@ struct SubstanceDetailView: View {
     /// plain text). Merged into one disclosure — they used to read as two
     /// near-identical "Sources"/"References" sections.
     @ViewBuilder private var sourcesAndReferencesSection: some View {
-        let hasSources = !substance.sources.isEmpty
-        let hasReferences = !substance.references.isEmpty
-        if policy.showsSources, hasSources || hasReferences {
+        let links = mergedSourceLinks
+        if policy.showsSources, !links.isEmpty {
             Section {
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { sourcesExpanded ?? policy.sourcesDefaultExpanded },
-                        set: { sourcesExpanded = $0 },
-                    ),
-                ) {
-                    if hasSources {
-                        if hasReferences {
-                            provenanceSubheader("Databases")
+                ForEach(links) { link in
+                    if let url = link.url {
+                        Link(destination: url) {
+                            sourceLinkRow(link, linked: true)
                         }
-                        ForEach(substance.sources, id: \.self) { source in
-                            sourceRow(source)
-                        }
+                    } else {
+                        sourceLinkRow(link, linked: false)
                     }
-                    if hasReferences {
-                        if hasSources {
-                            provenanceSubheader("Primary literature")
-                        }
-                        ForEach(substance.references, id: \.self) { ref in
-                            if let url = ref.resolvedURL {
-                                Link(destination: url) {
-                                    Label(ref.label, systemImage: "link")
-                                        .font(.subheadline)
-                                        .labelStyle(EffectLabelStyle())
-                                }
-                            } else {
-                                Text(ref.label)
-                                    .font(.subheadline)
-                                    .foregroundStyle(Theme.secondaryLabel)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                        }
-                    }
-                } label: {
-                    Label("Sources & references", systemImage: "book.closed")
-                        .font(.subheadline.weight(.semibold))
                 }
+            } header: {
+                Text("Sources")
             } footer: {
-                Text("The databases and primary literature behind this compound's data. Tap to open; always verify against the original source.")
+                Text("Each link opens this substance's page on that source. Always verify against the original.")
             }
         }
     }
 
-    private func provenanceSubheader(_ title: LocalizedStringKey) -> some View {
-        Text(title)
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(Theme.secondaryLabel)
-            .textCase(.uppercase)
-            .listRowSeparator(.hidden)
+    /// The merged, de-duplicated provenance list: the databases that contributed
+    /// this compound's data followed by any primary literature, each deep-linked
+    /// to the substance's own page where one exists. Used to be two near-identical
+    /// "Databases" / "References" subsections; collapsed into one tappable list.
+    private var mergedSourceLinks: [DetailSourceLink] {
+        var seenKeys = Set<String>()
+        var seenLabels = Set<String>()
+        var out: [DetailSourceLink] = []
+        func add(label: String, url: URL?) {
+            // Dedup by resolved URL *and* by display label, so the same source
+            // arriving as both a database row and a citation (e.g. TiHKAL) shows
+            // once. A linked candidate wins over an identical bare-text one.
+            let key = url?.absoluteString ?? label.lowercased()
+            let labelKey = label.lowercased()
+            if seenKeys.contains(key) { return }
+            if seenLabels.contains(labelKey) { return }
+            seenKeys.insert(key)
+            seenLabels.insert(labelKey)
+            out.append(DetailSourceLink(label: label, url: url))
+        }
+        // `substance.sources` holds wire slugs ("peer-review-primary",
+        // "tripsit") — map each to a human source name and its per-substance page.
+        for slug in substance.sources {
+            add(label: sourceLabel(forSlug: slug), url: sourceDeepLink(slug))
+        }
+        for ref in substance.references {
+            add(label: friendlyReferenceLabel(ref), url: ref.resolvedURL)
+        }
+        return out
+    }
+
+    /// Human-readable name for a source slug — preferring the clean website
+    /// names in ``AppSources`` (PubMed, TripSit…), falling back to the bundled
+    /// `sources` table's display name (drug.community, Wikidata…).
+    private func sourceLabel(forSlug slug: String) -> String {
+        if let name = AppSources.slugToName[slug] { return name }
+        return SubstanceStore.shared.sourceDisplayName(forSlug: slug)
+    }
+
+    /// A tidy display name for a citation that lacks a title — the bare URL
+    /// (the old `Citation.label` fallback) reads as clutter, so name the work
+    /// (TiHKAL / PiHKAL) when recognisable, else show the host.
+    private func friendlyReferenceLabel(_ ref: Citation) -> String {
+        if let title = ref.title, !title.isEmpty { return title }
+        if let doi = ref.doi, !doi.isEmpty { return "DOI \(doi)" }
+        if let pmid = ref.pmid { return "PMID \(pmid)" }
+        if let urlString = ref.url?.lowercased() {
+            if urlString.contains("tihkal") { return "TiHKAL" }
+            if urlString.contains("pihkal") { return "PiHKAL" }
+        }
+        if let host = ref.resolvedURL?.host() {
+            return host.hasPrefix("www.") ? String(host.dropFirst(4)) : host
+        }
+        return ref.label
+    }
+
+    private func sourceLinkRow(_ link: DetailSourceLink, linked: Bool) -> some View {
+        HStack(spacing: 8) {
+            Text(link.label)
+                .font(.subheadline)
+                .foregroundStyle(linked ? Color.primary : Theme.secondaryLabel)
+            Spacer()
+            if linked {
+                Image(systemName: "arrow.up.right")
+                    .font(.caption)
+                    .foregroundStyle(Theme.accent)
+            }
+        }
     }
 
     /// Peptide / protocol-dosed compounds: clinical-protocol schedule,
@@ -972,38 +1057,27 @@ struct SubstanceDetailView: View {
     private var infoDisclosure: some View {
         Section {
             DisclosureGroup(isExpanded: $infoExpanded) {
-                LabeledContent("Name", value: substance.name)
+                let extras = infoExtraCells
+                Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 14) {
+                    GridRow {
+                        gridCell("Category", String(localized: substance.category.displayName))
+                        gridCell("Default route", String(localized: substance.defaultRoute.localizedName))
+                    }
+                    if !extras.isEmpty {
+                        GridRow {
+                            gridCell(extras[0].0, extras[0].1)
+                            if extras.count > 1 { gridCell(extras[1].0, extras[1].1) } else { Color.clear }
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+
                 if !substance.aliases.isEmpty {
-                    LabeledContent("Also known as") {
-                        Text(substance.aliases.joined(separator: ", "))
-                            .multilineTextAlignment(.trailing)
-                    }
-                }
-                LabeledContent("Category") {
-                    Text(substance.category.displayName)
-                }
-                LabeledContent("Default Route") {
-                    Text(substance.defaultRoute.localizedName)
-                }
-                if let reg = substance.regulatoryStatus {
-                    LabeledContent("Availability") {
-                        Text(regulatoryDisplay(reg)).multilineTextAlignment(.trailing)
-                    }
-                }
-                if displayClass.showsDoseLadder, let dz = substance.diazepamEquivalent, let text = dz.displayText {
-                    LabeledContent("Diazepam equivalent") {
-                        Text(text).multilineTextAlignment(.trailing)
-                    }
+                    aliasChips
                 }
                 if !substance.tags.isEmpty {
                     SubstanceTagFlow(tags: substance.tags, accent: substance.category.color)
                         .padding(.vertical, 4)
-                }
-                if let url = substance.pubChemURL {
-                    Link(destination: url) {
-                        Label("View on PubChem", systemImage: "atom")
-                    }
-                    .font(.subheadline)
                 }
                 if let slug = provenance?.categorySource {
                     SourceAttributionRow(
@@ -1024,6 +1098,57 @@ struct SubstanceDetailView: View {
                     .font(.subheadline.weight(.semibold))
             }
         }
+    }
+
+    /// Optional second-row identity cells — availability and (benzodiazepines
+    /// only) the cross-benzo diazepam equivalent. Empty for most compounds.
+    private var infoExtraCells: [(LocalizedStringResource, String)] {
+        var cells: [(LocalizedStringResource, String)] = []
+        if let reg = substance.regulatoryStatus {
+            cells.append(("Availability", regulatoryDisplay(reg)))
+        }
+        if displayClass.showsDoseLadder, let dz = substance.diazepamEquivalent, let text = dz.displayText {
+            cells.append(("Diazepam equivalent", text))
+        }
+        return cells
+    }
+
+    /// Aliases as a wrapping chip flow, collapsed to the first few with a
+    /// "+N more" chip — a long comma list was a single over-tall row before.
+    private var aliasChips: some View {
+        let all = substance.aliases
+        let limit = 5
+        let shown = aliasesExpanded ? all : Array(all.prefix(limit))
+        let hidden = all.count - shown.count
+        return VStack(alignment: .leading, spacing: 7) {
+            Text("Also known as")
+                .font(.caption2)
+                .foregroundStyle(Theme.secondaryLabel)
+                .textCase(.uppercase)
+            FlowLayout(spacing: 6) {
+                ForEach(shown, id: \.self) { alias in
+                    aliasChip(Text(alias))
+                }
+                if hidden > 0 {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) { aliasesExpanded = true }
+                    } label: {
+                        aliasChip(Text("+\(hidden) more"), accent: true)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func aliasChip(_ text: Text, accent: Bool = false) -> some View {
+        text
+            .font(.caption.weight(.medium))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(accent ? Theme.accent.opacity(0.12) : Color(.tertiarySystemFill), in: Capsule())
+            .foregroundStyle(accent ? Theme.accent : Theme.secondaryLabel)
     }
 
     var body: some View {
@@ -1113,6 +1238,9 @@ struct SubstanceDetailView: View {
         .background(Theme.background)
         .navigationTitle(substance.displayTitle)
         .navigationBarTitleDisplayMode(.large)
+        .navigationDestination(isPresented: $showAllEffects) {
+            AllEffectsView(substanceName: substance.name, showsExperienceReports: showsErowidReports)
+        }
         .toolbar {
             if activeSubstanceRoute != nil {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -1306,30 +1434,6 @@ struct SubstanceDetailView: View {
         .padding(.vertical, 4)
     }
 
-    @ViewBuilder
-    private func sourceRow(_ source: String) -> some View {
-        if let info = AppSources.info(for: source) {
-            let deepURL = AppSources.substanceURL(for: source, substance: substance.name)
-            if let url = deepURL {
-                Link(destination: url) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(source).font(.subheadline.weight(.medium))
-                        Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
-                    }
-                }
-            } else {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(source).font(.subheadline.weight(.medium))
-                    Text(info.detail).font(.caption).foregroundStyle(Theme.secondaryLabel)
-                }
-            }
-        } else {
-            Text(source)
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
-        }
-    }
-
     // MARK: - History
 
     @ViewBuilder
@@ -1410,6 +1514,14 @@ struct SubstanceDetailView: View {
 
 // MARK: - Source Attribution
 
+/// One row in the merged "Sources" list — a contributing database or a piece of
+/// primary literature, deep-linked to this substance's page where one exists.
+private struct DetailSourceLink: Identifiable {
+    let id = UUID()
+    let label: String
+    let url: URL?
+}
+
 /// Small inline badge that names the source that supplied a specific field
 /// after source-priority resolution. Visible to all tiers so users always see
 /// where each fact came from — the per-field counterpart to the
@@ -1474,6 +1586,9 @@ private struct SourceAttributionRow: View {
 /// ~60-term list never clutters the main screen.
 private struct AllEffectsView: View {
     let substanceName: String
+    /// Show the Erowid "Experience reports" group at the bottom — gated to
+    /// recreational / dual-use compounds, where first-hand reports exist.
+    var showsExperienceReports = false
     @State private var groups: [SubstanceStore.EffectGroup] = []
 
     var body: some View {
@@ -1489,10 +1604,28 @@ private struct AllEffectsView: View {
                 }
                 .listRowBackground(Theme.cardBackground)
             }
+
+            // Erowid lives here as its own group rather than crowding the
+            // detail screen's curated Effects card. We can't link a specific
+            // page or show a count (Erowid blocks automated access), but a
+            // search always opens for the user in their browser.
+            if showsExperienceReports, let erowid = AppSources.erowidSearchURL(substance: substanceName) {
+                Section {
+                    Link(destination: erowid) {
+                        Label("Search experiences on Erowid", systemImage: "magnifyingglass")
+                            .font(.subheadline)
+                    }
+                } header: {
+                    Text("Experience reports")
+                } footer: {
+                    Text("First-hand reports from Erowid's Experience Vaults. Opens a search in your browser.")
+                }
+                .listRowBackground(Theme.cardBackground)
+            }
         }
         .scrollContentBackground(.hidden)
         .background(Theme.background)
-        .navigationTitle("All effects")
+        .navigationTitle("Effects")
         .navigationBarTitleDisplayMode(.inline)
         .task(id: substanceName) {
             groups = SubstanceStore.shared.effectsByCategory(forSubstanceName: substanceName)
