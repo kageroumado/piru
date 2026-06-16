@@ -1,7 +1,7 @@
 {
   "source": "PubChem PUG REST — MolecularFormula + MolecularWeight by CID",
   "url_pattern": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cids}/property/MolecularFormula,MolecularWeight/JSON",
-  "fetched_at": "2026-06-16T09:15:38+00:00",
-  "cid_count": 239,
+  "fetched_at": "2026-06-16T09:49:19+00:00",
+  "cid_count": 238,
   "note": "Free-base formula/weight (the stored CID is the free base); overrides salt-form values at build time."
 }

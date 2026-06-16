@@ -263,6 +263,10 @@
     "formula": "C8H12BrNO2",
     "molecular_weight": 234.09
   },
+  "73587": {
+    "formula": "C14H24N6O4",
+    "molecular_weight": 340.38
+  },
   "76632": {
     "formula": "C10H15NO2",
     "molecular_weight": 181.23
@@ -275,17 +279,9 @@
     "formula": "C11H17NO2",
     "molecular_weight": 195.26
   },
-  "92155": {
-    "formula": "C30H50",
-    "molecular_weight": 410.7
-  },
   "98527": {
     "formula": "C10H14BrNO2",
     "molecular_weight": 260.13
-  },
-  "105808": {
-    "formula": "C18H19Cl2N5O4",
-    "molecular_weight": 440.3
   },
   "107786": {
     "formula": "C9H11NO",
@@ -298,6 +294,10 @@
   "107950": {
     "formula": "C13H9F3N4",
     "molecular_weight": 278.23
+  },
+  "110821": {
+    "formula": "C16H19N",
+    "molecular_weight": 225.33
   },
   "114772": {
     "formula": "C8H11NO3",
@@ -346,6 +346,10 @@
   "204932": {
     "formula": "C13H21NO3",
     "molecular_weight": 239.31
+  },
+  "206666": {
+    "formula": "C19H23N",
+    "molecular_weight": 265.4
   },
   "208044": {
     "formula": "C11H16BrNO2",
@@ -459,13 +463,13 @@
     "formula": "C18H25NO",
     "molecular_weight": 271.4
   },
+  "5485199": {
+    "formula": "C40H50N8O10",
+    "molecular_weight": 802.9
+  },
   "6619012": {
     "formula": "C14H20N2O",
     "molecular_weight": 232.32
-  },
-  "6918155": {
-    "formula": "C32H44O7",
-    "molecular_weight": 540.7
   },
   "6951208": {
     "formula": "C9H14NO2+",
@@ -486,10 +490,6 @@
   "9824562": {
     "formula": "C19H18F3N3O6",
     "molecular_weight": 441.4
-  },
-  "9837349": {
-    "formula": "C4H4KO8+",
-    "molecular_weight": 219.17
   },
   "9865528": {
     "formula": "C21H24N4O2S",
@@ -543,13 +543,13 @@
     "formula": "C14H23NO2S",
     "molecular_weight": 269.4
   },
-  "11198681": {
-    "formula": "C18H14FNO5",
-    "molecular_weight": 343.3
-  },
   "11370864": {
     "formula": "C17H23Cl2NO",
     "molecular_weight": 328.3
+  },
+  "11764719": {
+    "formula": "C32H49N9O5",
+    "molecular_weight": 639.8
   },
   "12074193": {
     "formula": "C12H19NO2S",
@@ -562,10 +562,6 @@
   "12371485": {
     "formula": "C23H21FN6O3",
     "molecular_weight": 448.4
-  },
-  "12609961": {
-    "formula": "C17H20N2O",
-    "molecular_weight": 268.35
   },
   "13679707": {
     "formula": "C13H18N2O",
@@ -611,10 +607,6 @@
     "formula": "C129H215N33O55",
     "molecular_weight": 3108.3
   },
-  "16132300": {
-    "formula": "C147H237N43O43S",
-    "molecular_weight": 3326.8
-  },
   "16134409": {
     "formula": "C91H117N19O26",
     "molecular_weight": 1893.0
@@ -650,10 +642,6 @@
   "23009084": {
     "formula": "C13H18N2O",
     "molecular_weight": 218.29
-  },
-  "23583015": {
-    "formula": "C19H30O6",
-    "molecular_weight": 354.4
   },
   "24728635": {
     "formula": "C13H21NO2S",
@@ -883,13 +871,21 @@
     "formula": "C15H23NO2",
     "molecular_weight": 249.35
   },
+  "67833251": {
+    "formula": "C20H25NO",
+    "molecular_weight": 295.4
+  },
   "68547459": {
     "formula": "C27H20ClN5O3",
     "molecular_weight": 497.9
   },
-  "73548906": {
-    "formula": "C13H11N5O4S",
-    "molecular_weight": 333.32
+  "71300630": {
+    "formula": "C78H123N23O23S2",
+    "molecular_weight": 1815.1
+  },
+  "71587772": {
+    "formula": "C35H62N14O11S",
+    "molecular_weight": 887.0
   },
   "74405184": {
     "formula": "C15H22N2",

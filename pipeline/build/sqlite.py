@@ -745,6 +745,65 @@ def is_clean_desalt(freebase: str | None, salt: str | None) -> bool:
     return False
 
 
+# Verified-wrong chemical identifiers carried in from upstream sources, keyed by
+# canonical_name. Resolved against PubChem by compound name + InChIKey audit
+# (a stored CID/InChIKey whose structure doesn't match the compound). `cid: None`
+# nulls an unresolvable wrong CID rather than keep it pointing at the wrong thing.
+IDENTIFIER_CORRECTIONS: dict[str, dict] = {
+    # Wrong CID (the stored CID pointed at an unrelated compound):
+    "Diphenidine": {"cid": 206666},
+    "Ephenidine": {"cid": 110821},
+    "Methoxphenidine": {"cid": 67833251},
+    "Dermorphin": {"cid": 5485199},
+    "GHK": {"cid": 73587},
+    "Argireline": {"cid": 71587772},
+    "SS-31": {"cid": 11764719},  # elamipretide
+    "AOD-9604": {"cid": 71300630},
+    "VIP": {"cid": None},  # no PubChem match for the peptide — drop the wrong CID
+    # Wrong InChIKey (CID was correct — the stored key belonged to another molecule,
+    # e.g. MDA carried amphetamine's key):
+    "MDA": {"inchikey": "NGBBVGZWCFBOGO-UHFFFAOYSA-N"},
+    "Tropacocaine": {"inchikey": "XQJMXPAEFMWDOZ-UHFFFAOYSA-N"},
+    "25CN-NBOH": {"inchikey": "VWEDZTZAXHMZIL-UHFFFAOYSA-N"},
+}
+
+
+def apply_identifier_corrections(con, props: dict | None = None) -> dict:
+    """Overwrite verified-wrong pubchem_cid / inchikey values (see
+    ``IDENTIFIER_CORRECTIONS``). Runs before ``apply_pubchem_freebase`` so the
+    corrected CID drives the free-base formula lookup. When ``props`` (the
+    PubChem snapshot) is given, a CID correction also adopts that CID's
+    formula/MW — the CID was hand-verified, so PubChem is authoritative (fixes
+    stale stored formulae the desalt guard would otherwise refuse). Returns
+    {name: change}."""
+    cur = con.cursor()
+    changed: dict[str, str] = {}
+    for name, fix in IDENTIFIER_CORRECTIONS.items():
+        row = cur.execute(
+            "SELECT id, pubchem_cid, inchikey FROM substances WHERE canonical_name = ?", (name,)
+        ).fetchone()
+        if not row:
+            continue
+        sid, old_cid, old_ik = row
+        if "cid" in fix and fix["cid"] != old_cid:
+            cur.execute("UPDATE substances SET pubchem_cid = ? WHERE id = ?", (fix["cid"], sid))
+            changed[name] = f"cid {old_cid}→{fix['cid']}"
+            prop = (props or {}).get(str(fix["cid"])) if fix["cid"] is not None else None
+            if prop and prop.get("formula"):
+                cur.execute(
+                    "UPDATE substances SET formula = ?, molecular_weight = ? WHERE id = ?",
+                    (prop["formula"], prop.get("molecular_weight"), sid),
+                )
+                changed[name] += f", formula→{prop['formula']}"
+        if "inchikey" in fix and fix["inchikey"] != old_ik:
+            cur.execute("UPDATE substances SET inchikey = ? WHERE id = ?", (fix["inchikey"], sid))
+            changed[name] = (
+                changed.get(name, "") + f" inchikey {old_ik}→{fix['inchikey']}"
+            ).strip()
+    con.commit()
+    return changed
+
+
 def apply_pubchem_freebase(con, props: dict) -> dict:
     """Overwrite salt-form ``formula``/``molecular_weight`` with the PubChem
     free-base values keyed by ``pubchem_cid``, but only where the change is a
@@ -5098,16 +5157,34 @@ def main() -> int:
     dead_dropped = build.drop_dead_citations(LINK_CACHE)
     print(f"Dead-citation drop: {dead_dropped}", file=sys.stderr)
 
+    # Dedup the categories table — upstream merges left duplicate
+    # (substance_id, category) pairs (MDMA carried "Empathogen" ×3), which skews
+    # any category-count / exemplar logic that joins it.
+    cat_dupes = build.cur.execute(
+        "DELETE FROM categories WHERE rowid NOT IN "
+        "(SELECT MIN(rowid) FROM categories GROUP BY substance_id, category)"
+    ).rowcount
+    print(f"Duplicate category rows removed: {cat_dupes}", file=sys.stderr)
+
+    _pubchem_props = (
+        json.loads(PUBCHEM_PROPERTIES.read_text()) if PUBCHEM_PROPERTIES.exists() else {}
+    )
+
+    # Correct verified-wrong chemical identifiers (wrong PubChem CID / InChIKey)
+    # before the free-base override, so the corrected CID drives that lookup.
+    id_fixes = apply_identifier_corrections(build.cur.connection, _pubchem_props)
+    print(f"Identifier corrections: {len(id_fixes)}", file=sys.stderr)
+    for name, change in sorted(id_fixes.items()):
+        print(f"  {name}: {change}", file=sys.stderr)
+
     # Replace salt-form formula/MW with the PubChem free base keyed by CID (the
     # stored CID *is* the free base — DMT 6089 = C12H16N2). Sources hand us salts
     # (DMT·HCl, MDMA·HCl, LSD tartrate, amphetamine sulfate); the displayed doses
     # are free-base-scale, so the salt chemistry was inconsistent. Only verified
     # clean desalts are applied — wrong CIDs are skipped. Snapshot:
     # data/sources/pubchem-properties.json (refresh via fetch_pubchem_properties.py).
-    if PUBCHEM_PROPERTIES.exists():
-        fb = apply_pubchem_freebase(
-            build.cur.connection, json.loads(PUBCHEM_PROPERTIES.read_text())
-        )
+    if _pubchem_props:
+        fb = apply_pubchem_freebase(build.cur.connection, _pubchem_props)
         print(
             f"PubChem free-base override: applied={fb['applied']} "
             f"wrong-cid-skipped={len(fb['flagged'])} no-formula={fb['no_formula']}",
