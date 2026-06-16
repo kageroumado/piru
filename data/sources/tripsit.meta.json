@@ -1,0 +1,7 @@
+{
+  "source": "TripSit drugs.json",
+  "url": "https://raw.githubusercontent.com/TripSit/drugs/master/drugs.json",
+  "human_url_pattern": "https://drugs.tripsit.me/{slug}",
+  "fetched_at": "2026-06-16T01:44:27+00:00",
+  "substance_count": 555
+}
