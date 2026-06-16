@@ -30,6 +30,9 @@ chem_caps = _mod.chem_caps
 is_identifier_citation = _mod.is_identifier_citation
 parse_reference = _mod.parse_reference
 dc_slugify = _mod.dc_slugify
+parse_formula = _mod.parse_formula
+is_clean_desalt = _mod.is_clean_desalt
+apply_pubchem_freebase = _mod.apply_pubchem_freebase
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 _REPO = Path(__file__).resolve().parents[3]
@@ -1492,6 +1495,87 @@ class TestDcSlugify(unittest.TestCase):
 
     def test_trim_and_collapse(self):
         self.assertEqual(dc_slugify("  1,4-BDO  "), "1-4-bdo")
+
+
+class TestParseFormula(unittest.TestCase):
+    def test_basic(self):
+        self.assertEqual(parse_formula("C12H16N2"), {"C": 12, "H": 16, "N": 2})
+
+    def test_two_letter_and_implicit_one(self):
+        self.assertEqual(parse_formula("C10H14BrNO2"), {"C": 10, "H": 14, "Br": 1, "N": 1, "O": 2})
+
+    def test_empty(self):
+        self.assertIsNone(parse_formula(None))
+        self.assertIsNone(parse_formula(""))
+
+
+class TestIsCleanDesalt(unittest.TestCase):
+    """The free base must be the salt minus a nitrogen-free counter-ion."""
+
+    def test_hydrochloride(self):  # DMT·HCl → DMT
+        self.assertTrue(is_clean_desalt("C12H16N2", "C12H17ClN2"))
+
+    def test_sulfate_2to1(self):  # amphetamine sulfate (2 base : 1 H2SO4)
+        self.assertTrue(is_clean_desalt("C9H13N", "C18H28N2O4S"))
+
+    def test_tartrate(self):  # LSD tartrate → LSD
+        self.assertTrue(is_clean_desalt("C20H25N3O", "C24H31N3O7"))
+
+    def test_structural_halogen_preserved(self):  # 2C-B·HCl → keeps Br, drops Cl
+        self.assertTrue(is_clean_desalt("C10H14BrNO2", "C10H15BrClNO2"))
+
+    def test_dual_chlorine(self):  # 2C-C: one ring Cl kept, salt Cl removed
+        self.assertTrue(is_clean_desalt("C10H14ClNO2", "C10H15Cl2NO2"))
+
+    def test_wrong_cid_nitrogen_loss(self):  # VIP CID → C32H44O7 (no N)
+        self.assertFalse(is_clean_desalt("C32H44O7", "C147H237N43O43S"))
+
+    def test_wrong_cid_foreign_element(self):  # methoxphenidine CID gains S, N
+        self.assertFalse(is_clean_desalt("C13H11N5O4S", "C20H26ClNO"))
+
+    def test_cation_not_desalt(self):  # synephrine(1+) gains an H, is a cation
+        self.assertFalse(is_clean_desalt("C9H14NO2", "C9H13NO2"))
+
+    def test_identical_is_not_a_change(self):
+        self.assertFalse(is_clean_desalt("C10H15N", "C10H15N"))
+
+
+class TestApplyPubchemFreebase(unittest.TestCase):
+    def _db(self):
+        con = sqlite3.connect(":memory:")
+        con.execute(
+            "CREATE TABLE substances(id INTEGER PRIMARY KEY, canonical_name TEXT, "
+            "pubchem_cid INTEGER, formula TEXT, molecular_weight REAL)"
+        )
+        con.executemany(
+            "INSERT INTO substances(canonical_name, pubchem_cid, formula, molecular_weight) VALUES (?,?,?,?)",
+            [
+                ("DMT", 6089, "C12H17ClN2", 224.73),  # salt → fixed
+                ("Ketamine", 3821, "C13H16ClNO", 237.73),  # already free base → untouched
+                ("VIP", 6918155, "C147H237N43O43S", 3326.8),  # wrong CID → kept
+                ("NoFormula", 999, None, None),  # no formula → not filled
+            ],
+        )
+        con.commit()
+        return con
+
+    def test_applies_only_clean_desalts(self):
+        con = self._db()
+        props = {
+            "6089": {"formula": "C12H16N2", "molecular_weight": 188.27},
+            "3821": {"formula": "C13H16ClNO", "molecular_weight": 237.73},
+            "6918155": {"formula": "C32H44O7", "molecular_weight": 540.7},
+            "999": {"formula": "C9H11NO2", "molecular_weight": 165.19},
+        }
+        stats = apply_pubchem_freebase(con, props)
+        self.assertEqual(stats["applied"], 1)
+        self.assertEqual(stats["names"], ["DMT"])
+        self.assertEqual(len(stats["flagged"]), 1)  # VIP
+        self.assertEqual(stats["no_formula"], 1)  # NoFormula
+        got = dict(con.execute("SELECT canonical_name, formula FROM substances").fetchall())
+        self.assertEqual(got["DMT"], "C12H16N2")  # desalted
+        self.assertEqual(got["VIP"], "C147H237N43O43S")  # kept (wrong CID)
+        self.assertIsNone(got["NoFormula"])  # not filled
 
 
 if __name__ == "__main__":
