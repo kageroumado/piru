@@ -827,48 +827,56 @@ def apply_identifier_corrections(con, props: dict | None = None) -> dict:
 
 
 def apply_pubchem_freebase(con, props: dict) -> dict:
-    """Overwrite salt-form ``formula``/``molecular_weight`` with the PubChem
-    free-base values keyed by ``pubchem_cid``, but only where the change is a
-    verified clean desalt (see ``is_clean_desalt``). Returns a stats dict and
-    leaves wrong-CID / non-desalt rows untouched (logged under ``flagged``)."""
+    """Set ``formula``/``molecular_weight`` from PubChem, keyed by ``pubchem_cid``.
+
+    The identifier audit corrected every CID↔InChIKey mismatch, so **a substance
+    that has both a CID and an InChIKey has a verified-consistent structure** —
+    PubChem's formula/MW for that CID is authoritative. One rule then covers fill
+    (was null), desalt (salt→free base), and stale-formula fix.
+
+    A substance with a CID but **no InChIKey** can't be verified that way, so it
+    stays conservative: apply only a clean desalt (``is_clean_desalt``); never
+    fill from an unverifiable CID (some are wrong — GHK→C30H50, peptide→fragment)."""
     cur = con.cursor()
     rows = cur.execute(
-        "SELECT id, canonical_name, pubchem_cid, formula, molecular_weight "
+        "SELECT id, canonical_name, pubchem_cid, formula, molecular_weight, inchikey "
         "FROM substances WHERE pubchem_cid IS NOT NULL"
     ).fetchall()
-    applied: list[str] = []
+    trusted: list[str] = []  # CID verified by InChIKey → PubChem wins
+    desalted: list[str] = []  # no InChIKey → clean desalt only
     flagged: list[str] = []
-    no_formula = 0
-    for sid, name, cid, formula, _mw in rows:
+    unverified_no_formula = 0
+
+    def write(sid, formula, mw):
+        cur.execute(
+            "UPDATE substances SET formula = ?, molecular_weight = ? WHERE id = ?",
+            (formula, mw, sid),
+        )
+
+    for sid, name, cid, formula, _mw, inchikey in rows:
         prop = props.get(str(cid))
         if not prop or not prop.get("formula"):
             continue
-        new_formula = prop["formula"]
-        new_mw = prop.get("molecular_weight")
-        if formula is None:
-            # No existing formula to desalt. Don't fill from the CID — some
-            # stored CIDs are wrong (GHK→C30H50, peptides→fragments), and we
-            # can't verify without a salt to diff against. Leave it null.
-            no_formula += 1
-            continue
+        new_formula, new_mw = prop["formula"], prop.get("molecular_weight")
         if parse_formula(new_formula) == parse_formula(formula):
-            continue  # already free base (or same composition) — nothing to fix
-        if is_clean_desalt(new_formula, formula):
-            cur.execute(
-                "UPDATE substances SET formula = ?, molecular_weight = ? WHERE id = ?",
-                (new_formula, new_mw, sid),
-            )
-            applied.append(name)
+            continue  # already correct
+        if inchikey:
+            write(sid, new_formula, new_mw)
+            trusted.append(name)
+        elif formula is None:
+            unverified_no_formula += 1  # can't verify an unmatched CID — leave null
+        elif is_clean_desalt(new_formula, formula):
+            write(sid, new_formula, new_mw)
+            desalted.append(name)
         else:
-            # A non-desalt change on an existing formula ⇒ the CID is wrong
-            # (e.g. VIP→C32H44O7). Keep the existing value, surface for review.
             flagged.append(f"{name}({cid}): {formula}→{new_formula}")
     con.commit()
     return {
-        "applied": len(applied),
+        "trusted": len(trusted),
+        "desalted": len(desalted),
         "flagged": flagged,
-        "no_formula": no_formula,
-        "names": sorted(applied),
+        "unverified_no_formula": unverified_no_formula,
+        "names": sorted(trusted + desalted),
     }
 
 
@@ -1877,6 +1885,8 @@ _REMOVE_NAMES: set[str] = {
     normalise("DNA"),
     normalise("Silver"),
     normalise("Hydrogen"),
+    # Redundant protonated-cation duplicate of Oxedrine (synephrine).
+    normalise("D-synephrine(1+)"),
 }
 
 # Tags that mark a row as pharmacologically inert / fake. A substance carrying
@@ -5214,12 +5224,12 @@ def main() -> int:
     if _pubchem_props:
         fb = apply_pubchem_freebase(build.cur.connection, _pubchem_props)
         print(
-            f"PubChem free-base override: applied={fb['applied']} "
-            f"wrong-cid-skipped={len(fb['flagged'])} no-formula={fb['no_formula']}",
+            f"PubChem formula: trusted={fb['trusted']} desalted={fb['desalted']} "
+            f"unverified-skipped={len(fb['flagged'])} unverified-no-formula={fb['unverified_no_formula']}",
             file=sys.stderr,
         )
         for f in fb["flagged"]:
-            print(f"  wrong CID, kept existing: {f}", file=sys.stderr)
+            print(f"  unverified CID, kept existing: {f}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer

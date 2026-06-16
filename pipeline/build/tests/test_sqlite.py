@@ -1561,37 +1561,66 @@ class TestApplyPubchemFreebase(unittest.TestCase):
         con = sqlite3.connect(":memory:")
         con.execute(
             "CREATE TABLE substances(id INTEGER PRIMARY KEY, canonical_name TEXT, "
-            "pubchem_cid INTEGER, formula TEXT, molecular_weight REAL)"
+            "pubchem_cid INTEGER, formula TEXT, molecular_weight REAL, inchikey TEXT)"
         )
         con.executemany(
-            "INSERT INTO substances(canonical_name, pubchem_cid, formula, molecular_weight) VALUES (?,?,?,?)",
+            "INSERT INTO substances(canonical_name, pubchem_cid, formula, molecular_weight, inchikey) VALUES (?,?,?,?,?)",
             [
-                ("DMT", 6089, "C12H17ClN2", 224.73),  # salt → fixed
-                ("Ketamine", 3821, "C13H16ClNO", 237.73),  # already free base → untouched
-                ("VIP", 6918155, "C147H237N43O43S", 3326.8),  # wrong CID → kept
-                ("NoFormula", 999, None, None),  # no formula → not filled
+                # InChIKey present → CID verified → PubChem authoritative:
+                (
+                    "DMT",
+                    6089,
+                    "C12H17ClN2",
+                    224.73,
+                    "DMULVCHRPCFFGV-UHFFFAOYSA-N",
+                ),  # salt → free base
+                (
+                    "Ketamine",
+                    3821,
+                    "C13H16ClNO",
+                    237.73,
+                    "YQEZLKZALYSWHR-UHFFFAOYSA-N",
+                ),  # same → untouched
+                (
+                    "Stale",
+                    44349798,
+                    "C14H21NO2S",
+                    0.0,
+                    "AAAAAAAAAAAAAA-UHFFFAOYSA-N",
+                ),  # wrong stored → fixed
+                ("Empty", 1614, None, None, "NGBBVGZWCFBOGO-UHFFFAOYSA-N"),  # null → filled
+                # No InChIKey → unverifiable CID → conservative:
+                ("SaltNoIK", 6090, "C12H17ClN2", 224.73, None),  # clean desalt → applied
+                ("WrongNoIK", 6918155, "C147H237N43O43S", 3326.8, None),  # non-desalt → flagged
+                ("EmptyNoIK", 999, None, None, None),  # null + no IK → left null
             ],
         )
         con.commit()
         return con
 
-    def test_applies_only_clean_desalts(self):
+    def test_trusts_pubchem_when_inchikey_present(self):
         con = self._db()
         props = {
             "6089": {"formula": "C12H16N2", "molecular_weight": 188.27},
             "3821": {"formula": "C13H16ClNO", "molecular_weight": 237.73},
+            "44349798": {"formula": "C14H23NO2S", "molecular_weight": 255.4},
+            "1614": {"formula": "C10H13NO2", "molecular_weight": 179.22},
+            "6090": {"formula": "C12H16N2", "molecular_weight": 188.27},
             "6918155": {"formula": "C32H44O7", "molecular_weight": 540.7},
             "999": {"formula": "C9H11NO2", "molecular_weight": 165.19},
         }
         stats = apply_pubchem_freebase(con, props)
-        self.assertEqual(stats["applied"], 1)
-        self.assertEqual(stats["names"], ["DMT"])
-        self.assertEqual(len(stats["flagged"]), 1)  # VIP
-        self.assertEqual(stats["no_formula"], 1)  # NoFormula
+        self.assertEqual(stats["trusted"], 3)  # DMT desalt, Stale fix, Empty fill
+        self.assertEqual(stats["desalted"], 1)  # SaltNoIK
+        self.assertEqual(len(stats["flagged"]), 1)  # WrongNoIK
+        self.assertEqual(stats["unverified_no_formula"], 1)  # EmptyNoIK
         got = dict(con.execute("SELECT canonical_name, formula FROM substances").fetchall())
-        self.assertEqual(got["DMT"], "C12H16N2")  # desalted
-        self.assertEqual(got["VIP"], "C147H237N43O43S")  # kept (wrong CID)
-        self.assertIsNone(got["NoFormula"])  # not filled
+        self.assertEqual(got["DMT"], "C12H16N2")  # desalted (verified)
+        self.assertEqual(got["Stale"], "C14H23NO2S")  # stale formula fixed (verified)
+        self.assertEqual(got["Empty"], "C10H13NO2")  # filled (verified)
+        self.assertEqual(got["SaltNoIK"], "C12H16N2")  # clean desalt (unverified path)
+        self.assertEqual(got["WrongNoIK"], "C147H237N43O43S")  # kept (unverified non-desalt)
+        self.assertIsNone(got["EmptyNoIK"])  # not filled (unverifiable)
 
 
 class TestApplyWikipediaPopularity(unittest.TestCase):

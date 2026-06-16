@@ -5,6 +5,7 @@
     "Metaphedrone"
   ],
   "category": "Stimulant",
+  "extraCategories": ["Empathogen"],
   "defaultRoute": "insufflation",
   "routes": [
     {

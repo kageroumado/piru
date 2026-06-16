@@ -1,17 +1,17 @@
 # Piru SQLite build report
 
-Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,569,472 bytes, sha256 `0717c96f346b09bd5fee894085a7bf0b6abe5c6c6fab6aadb4e1a5658d087b0c`)
+Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,565,376 bytes, sha256 `97f6cc3e21406318c2ad73ff14d88f9c0aa65b0f30f6a572e721af3a9ef12d69`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,906 |
-| aliases | 5,471 |
+| substances | 1,905 |
+| aliases | 5,474 |
 | sources | 16 |
 | citations | 1,809 |
-| categories | 1,848 |
-| tags | 8,573 |
+| categories | 1,847 |
+| tags | 8,571 |
 | dose_ranges | 2,572 |
 | durations | 8,003 |
 | half_lives | 278 |
@@ -26,7 +26,7 @@ Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,569,472 bytes, sha
 | functional_assays | 218 |
 | biased_agonism | 23 |
 | receptor_oligomers | 8 |
-| downstream_signalling | 805 |
+| downstream_signalling | 804 |
 | neuroimaging | 57 |
 | pk_routes | 394 |
 | concentration_effects | 38 |
@@ -35,23 +35,23 @@ Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,569,472 bytes, sha
 | pharmacogenetics | 274 |
 | off_targets | 226 |
 | class_contexts | 58 |
-| substance_classes | 218 |
+| substance_classes | 217 |
 
 ## Per-source coverage
 
 | Source | Dose ranges | Bindings | Categories | Tags |
 |---|---|---|---|---|
-| piru-curated | 491 | 68 | 628 | 2,614 |
+| piru-curated | 491 | 68 | 632 | 2,614 |
 | peer-review-primary | 0 | 895 | 0 | 1,764 |
 | psychonautwiki | 389 | 0 | 80 | 324 |
-| tripsit | 596 | 0 | 434 | 1,359 |
+| tripsit | 596 | 0 | 433 | 1,359 |
 | drug.community | 889 | 0 | 220 | 419 |
 | dailymed | 0 | 0 | 0 | 0 |
-| erowid-pihkal | 166 | 0 | 176 | 454 |
-| erowid-tihkal | 41 | 0 | 54 | 139 |
+| erowid-pihkal | 166 | 0 | 175 | 454 |
+| erowid-tihkal | 41 | 0 | 52 | 139 |
 | pdsp | 0 | 0 | 0 | 0 |
 | pubchem | 0 | 0 | 0 | 0 |
-| wikidata | 0 | 0 | 153 | 505 |
+| wikidata | 0 | 0 | 152 | 503 |
 | dea-orange-book | 0 | 0 | 0 | 0 |
 | pyrls | 0 | 0 | 103 | 995 |
 | medtap | 0 | 0 | 0 | 0 |
