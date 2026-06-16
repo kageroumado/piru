@@ -1,6 +1,5 @@
 {
   "name": "Gonadorelin",
-  "popularity": 0.3,
   "molarMass": 1182.29,
   "peptideProfile": {
     "sequence": "pGlu-His-Trp-Ser-Tyr-Gly-Leu-Arg-Pro-Gly-NH2",

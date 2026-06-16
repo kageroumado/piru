@@ -5533,6 +5533,7 @@
     "display_name": "4-MD-PCP",
     "aliases": [
       "3",
+      "3,4-MD-PCP",
       "3,4-benzodioxole-PCP",
       "3,4-methylenedioxy-PCP",
       "4-MD-PCP",
@@ -5745,7 +5746,6 @@
     "name": "3-Chloromethcathinone",
     "display_name": "3-CMC",
     "aliases": [
-      "3-CMC",
       "clophedrone",
       "m-chloro-methcathinone"
     ],
@@ -6140,7 +6140,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-FPM",
+      "3-fpm",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -7503,7 +7503,8 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-Fluoro-PiHP",
+      "3-fluoro-PiHP",
+      "3F-Alpha-PHIP",
       "3F-PHIP",
       "3F-alpha-PiHP",
       "3F-α-PiHP"
@@ -7887,6 +7888,7 @@
       "class:substituted tryptamines",
       "common",
       "prodrug-of-psilocin",
+      "research-chemical",
       "tryptamine"
     ],
     "default_route": "insufflation",
@@ -8290,7 +8292,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-Chloroethcathinone",
+      "4-chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -10331,6 +10333,7 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
+      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10781,7 +10784,7 @@
       "4-Cl-iBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-iBF",
+      "p-Cl-IBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -12440,6 +12443,7 @@
       "class:Tryptamine (indolealkylamine)",
       "class:substituted tryptamines",
       "no-tachyphylaxis",
+      "research-chemical",
       "tryptamine"
     ],
     "default_route": "inhalation",
@@ -15147,7 +15151,8 @@
       "habit-forming",
       "hepatotoxic-monitor",
       "hepatotoxic-potential",
-      "prodrug"
+      "prodrug",
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -16374,7 +16379,7 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "a-D2PV",
+      "A-D2PV",
       "alpha D2PV",
       "α-D2PV"
     ],
@@ -16496,12 +16501,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
+      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
-      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -30314,7 +30319,6 @@
     "display_name": "",
     "aliases": [
       "CID 180081",
-      "MK-801",
       "mk801"
     ],
     "category": "Dissociative",
@@ -43241,10 +43245,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
-      "Purple Drank",
       "barre",
       "drank",
       "pint",
+      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -47401,6 +47405,7 @@
       "habit-forming",
       "no-human-data",
       "phenethylamine",
+      "research-chemical",
       "substrate-releaser"
     ],
     "default_route": "insufflation",
@@ -57725,7 +57730,8 @@
       "habit-forming",
       "high-dependence-risk",
       "nootropic",
-      "protracted-withdrawal"
+      "protracted-withdrawal",
+      "research-chemical"
     ],
     "default_route": "oral",
     "all_routes": [
@@ -58211,7 +58217,6 @@
     "aliases": [
       "DPPEA",
       "MK-306",
-      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -60578,6 +60583,7 @@
       "class:substituted tryptamines",
       "no-human-data",
       "psychedelic",
+      "research-chemical",
       "tentative",
       "tryptamine"
     ],

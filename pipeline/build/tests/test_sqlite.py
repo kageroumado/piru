@@ -33,6 +33,8 @@ dc_slugify = _mod.dc_slugify
 parse_formula = _mod.parse_formula
 is_clean_desalt = _mod.is_clean_desalt
 apply_pubchem_freebase = _mod.apply_pubchem_freebase
+apply_identifier_corrections = _mod.apply_identifier_corrections
+apply_wikipedia_popularity = _mod.apply_wikipedia_popularity
 _unit_to_mg_factor = _mod._unit_to_mg_factor
 _CLASS_DOSE_CEILING_MG = _mod._CLASS_DOSE_CEILING_MG
 _REPO = Path(__file__).resolve().parents[3]
@@ -1124,27 +1126,41 @@ class TestBuiltDatabaseInvariants(unittest.TestCase):
                 f"display_name for {e['name']!r} not applied",
             )
 
-    def test_curated_popularity_resolves_and_in_range(self):
-        entries = [
-            e
-            for e in self._curated_entries()
-            if e.get("popularity") is not None and not is_chemistry_noise(e["name"])
-        ]
-        self.assertGreater(len(entries), 0, "no curated popularity scores found")
-        for e in entries:
+    def test_popularity_from_wikipedia_snapshot(self):
+        # Popularity now comes from the reproducible Wikipedia-pageviews snapshot
+        # (apply_wikipedia_popularity), superseding hand-set curated values.
+        snap_path = _REPO / "data/sources/wikipedia-popularity.json"
+        if not snap_path.exists():
+            self.skipTest("no wikipedia-popularity snapshot")
+        snap = __import__("json").loads(snap_path.read_text())
+        # every popularity is in range
+        for row in self.db.execute("select popularity from substances"):
             self.assertTrue(
-                0.0 <= float(e["popularity"]) <= 1.0,
-                f"popularity for {e['name']!r} outside [0,1]: {e['popularity']}",
+                0.0 <= row["popularity"] <= 1.0, f"popularity out of [0,1]: {row['popularity']}"
             )
-            sid = self._resolve_sid(e["name"])
-            self.assertIsNotNone(sid, f"popularity target {e['name']!r} no longer exists")
-            row = self.db.execute("select popularity from substances where id=?", (sid,)).fetchone()
-            self.assertAlmostEqual(
-                row["popularity"],
-                float(e["popularity"]),
-                places=6,
-                msg=f"popularity for {e['name']!r} not applied",
-            )
+        # a mapped substance carries its snapshot score
+        sid = self._resolve_sid("MDMA")
+        self.assertIsNotNone(sid)
+        pop = self.db.execute("select popularity from substances where id=?", (sid,)).fetchone()[
+            "popularity"
+        ]
+        self.assertAlmostEqual(pop, float(snap["MDMA"]["score"]), places=4)
+
+    def test_recognizable_outranks_obscure_rc(self):
+        # The regression that motivated the reproducible signal: a recognizable
+        # benzofuran must sort above an obscure RC, not below it alphabetically.
+        def pop(name):
+            sid = self._resolve_sid(name)
+            if sid is None:
+                return None
+            return self.db.execute(
+                "select popularity from substances where id=?", (sid,)
+            ).fetchone()["popularity"]
+
+        apb, obscure = pop("6-APB"), pop("2-Bromo-4,5-MDMA")
+        if apb is None or obscure is None:
+            self.skipTest("benchmark substances absent")
+        self.assertGreater(apb, obscure, "6-APB should outrank 2-Bromo-4,5-MDMA by popularity")
 
     def test_curated_categories_resolve_and_are_valid_enums(self):
         # Skip chemistry-noise names (intentionally never ingested as substances).
@@ -1576,6 +1592,26 @@ class TestApplyPubchemFreebase(unittest.TestCase):
         self.assertEqual(got["DMT"], "C12H16N2")  # desalted
         self.assertEqual(got["VIP"], "C147H237N43O43S")  # kept (wrong CID)
         self.assertIsNone(got["NoFormula"])  # not filled
+
+
+class TestApplyWikipediaPopularity(unittest.TestCase):
+    def test_sets_scores_and_leaves_unmapped(self):
+        con = sqlite3.connect(":memory:")
+        con.execute(
+            "CREATE TABLE substances(id INTEGER PRIMARY KEY, canonical_name TEXT, popularity REAL DEFAULT 0)"
+        )
+        con.executemany(
+            "INSERT INTO substances(canonical_name, popularity) VALUES (?,?)",
+            [("MDMA", 0.5), ("6-APB", 0.0), ("ObscureRC", 0.0)],
+        )
+        con.commit()
+        data = {"MDMA": {"score": 0.99}, "6-APB": {"score": 0.69}}  # ObscureRC absent
+        n = apply_wikipedia_popularity(con, data)
+        self.assertEqual(n, 2)
+        got = dict(con.execute("SELECT canonical_name, popularity FROM substances").fetchall())
+        self.assertAlmostEqual(got["MDMA"], 0.99)  # supersedes the old hand value
+        self.assertAlmostEqual(got["6-APB"], 0.69)  # benzofuran now outranks the RC
+        self.assertAlmostEqual(got["ObscureRC"], 0.0)  # unmapped stays 0
 
 
 if __name__ == "__main__":

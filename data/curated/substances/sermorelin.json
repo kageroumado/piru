@@ -6,7 +6,6 @@
     "Geref"
   ],
   "category": "Peptide",
-  "popularity": 0.4,
   "defaultRoute": "subcutaneous",
   "routes": [
     {
