@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UIKit
 
 struct SubstanceLibraryView: View {
     @Environment(\.modelContext) private var modelContext
@@ -450,6 +451,9 @@ struct SubstanceDetailView: View {
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
     /// collapsed by default — few users need the chemical identity up front.
     @State private var infoExpanded = false
+    /// Chemistry / identifiers — demoted to a collapsed "Additional information"
+    /// disclosure; the chemical numbers are reference data few users open.
+    @State private var chemistryExpanded = false
     @State private var literatureBindings: [SubstanceStore.BindingHit] = []
     @State private var provenance: SubstanceStore.SubstanceProvenance?
 
@@ -513,25 +517,100 @@ struct SubstanceDetailView: View {
         }
     }
 
-    /// Compact chemical-identity section (formula / CAS / InChIKey). Reference
-    /// data, surfaced above the casual tier when present.
-    @ViewBuilder private var chemistrySection: some View {
+    /// Chemical identity (formula / molar mass / CAS / InChIKey) folded into a
+    /// collapsed "Chemistry" disclosure below the identity Info card. Every value
+    /// is selectable and carries a Copy action — an InChIKey you can't copy is
+    /// useless.
+    @ViewBuilder private var chemistryDisclosure: some View {
         if policy.showsMechanism,
            substance.formula != nil || substance.cas != nil || substance.inchikey != nil || substance.molarMass != nil {
-            Section("Chemistry") {
-                if let f = substance.formula {
-                    LabeledContent("Formula") { Text(f) }
-                }
-                if let mw = substance.molarMass, !substance.usesPeptidePresentation {
-                    LabeledContent("Molar mass") { Text("\(mw.doseFormatted) g/mol") }
-                }
-                if let c = substance.cas {
-                    LabeledContent("CAS") { Text(c) }
-                }
-                if let k = substance.inchikey {
-                    LabeledContent("InChIKey") {
-                        Text(k).font(.caption.monospaced()).multilineTextAlignment(.trailing)
+            Section {
+                DisclosureGroup(isExpanded: $chemistryExpanded) {
+                    if let f = substance.formula {
+                        copyableRow("Formula", value: f)
                     }
+                    if let mw = substance.molarMass, !substance.usesPeptidePresentation {
+                        copyableRow("Molar mass", value: "\(mw.doseFormatted) g/mol")
+                    }
+                    if let c = substance.cas {
+                        copyableRow("CAS", value: c)
+                    }
+                    if let k = substance.inchikey {
+                        copyableRow("InChIKey", value: k, mono: true)
+                    }
+                } label: {
+                    Label("Chemistry", systemImage: "atom")
+                        .font(.subheadline.weight(.semibold))
+                }
+            } footer: {
+                Text("Press and hold a value to copy it.")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.secondaryLabel)
+            }
+        }
+    }
+
+    /// A `LabeledContent` row whose value is selectable and copyable.
+    private func copyableRow(_ label: LocalizedStringKey, value: String, mono: Bool = false) -> some View {
+        LabeledContent(label) {
+            Group {
+                if mono {
+                    Text(value).font(.caption.monospaced())
+                } else {
+                    Text(value)
+                }
+            }
+            .multilineTextAlignment(.trailing)
+            .textSelection(.enabled)
+        }
+        .contextMenu {
+            Button {
+                UIPasteboard.general.string = value
+            } label: {
+                Label("Copy", systemImage: "doc.on.doc")
+            }
+        }
+    }
+
+    /// Effects — the merged surface. Curated subjective effects (rich tier) read
+    /// as the readable summary; the full PsychonautWiki taxonomy lives one tap
+    /// away on the grouped ``AllEffectsView`` so the detail view stays short.
+    @ViewBuilder private var effectsSection: some View {
+        let curated = policy.showsRichSubjective ? substance.subjectiveEffects : []
+        let hasAllEffects = !substance.effects.isEmpty
+        if displayClass != .nonRecreational, !curated.isEmpty || hasAllEffects {
+            Section {
+                DisclosureGroup(
+                    isExpanded: Binding(
+                        get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
+                        set: { subjectiveExpanded = $0 },
+                    ),
+                ) {
+                    ForEach(curated, id: \.name) { effect in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(effect.name)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            if !effect.description.isEmpty {
+                                Text(effect.description)
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.secondaryLabel)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                        .padding(.vertical, 2)
+                    }
+                    if hasAllEffects {
+                        NavigationLink {
+                            AllEffectsView(substanceName: substance.name)
+                        } label: {
+                            Label("All effects (\(substance.effects.count))", systemImage: "list.bullet.rectangle")
+                                .font(.subheadline)
+                        }
+                    }
+                } label: {
+                    Label("Effects", systemImage: "sparkles")
+                        .font(.subheadline.weight(.semibold))
                 }
             }
         }
@@ -697,11 +776,19 @@ struct SubstanceDetailView: View {
 
                 if displayClass.showsDoseLadder, route.doses.hasAnyValue,
                    let slug = doseSourceSlug(for: route.route) {
-                    SourceAttributionRow(slug: slug, label: "Dose data")
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Dose data",
+                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                    )
                 }
                 if durationVisible, route.duration != nil,
                    let slug = durationSourceSlug(for: route.route) {
-                    SourceAttributionRow(slug: slug, label: "Duration data")
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Duration data",
+                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                    )
                 }
             } header: {
                 Text(route.route.localizedName)
@@ -909,10 +996,18 @@ struct SubstanceDetailView: View {
                     .font(.subheadline)
                 }
                 if let slug = provenance?.categorySource {
-                    SourceAttributionRow(slug: slug, label: "Category")
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Category",
+                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                    )
                 }
                 if let slug = provenance?.halfLifeSource, substance.halfLifeMinutes != nil {
-                    SourceAttributionRow(slug: slug, label: "Half-life")
+                    SourceAttributionRow(
+                        slug: slug,
+                        label: "Half-life",
+                        deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                    )
                 }
             } label: {
                 Label("Info", systemImage: "info.circle")
@@ -944,6 +1039,9 @@ struct SubstanceDetailView: View {
 
                 statusBanner
 
+                // Effects — curated summary + grouped "All effects" navigation.
+                effectsSection
+
                 if policy.showsMechanism, let moa = composedMechanism {
                     Section {
                         DisclosureGroup(
@@ -958,7 +1056,11 @@ struct SubstanceDetailView: View {
                                 .font(.subheadline.weight(.semibold))
                         }
                         if let slug = provenance?.mechanismSource {
-                            SourceAttributionRow(slug: slug, label: "Mechanism")
+                            SourceAttributionRow(
+                                slug: slug,
+                                label: "Mechanism",
+                                deepLink: AppSources.substanceURL(forSlug: slug, substance: substance.name),
+                            )
                         }
                     }
                 }
@@ -983,53 +1085,15 @@ struct SubstanceDetailView: View {
                     }
                 }
 
-                if !substance.effects.isEmpty, displayClass != .nonRecreational {
-                    Section("Effects") {
-                        ForEach(substance.effects, id: \.self) { effect in
-                            Label(effect, systemImage: "circle.fill")
-                                .font(.subheadline)
-                                .labelStyle(EffectLabelStyle())
-                        }
-                    }
-                }
-
                 // Medical context (indications / contraindications / boxed warnings)
                 // — shown for any compound that has clinical data. Net-new surface.
                 medicalInfoSection
 
-                // Name / aliases / route / chemistry — demoted here, below dosing,
-                // and collapsed by default.
+                // Identity (name / aliases / route) — collapsed by default.
                 infoDisclosure
 
-                if policy.showsRichSubjective, !substance.subjectiveEffects.isEmpty,
-                   displayClass == .recreational || displayClass == .dualUse {
-                    Section {
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { subjectiveExpanded ?? policy.subjectiveDefaultExpanded },
-                                set: { subjectiveExpanded = $0 },
-                            ),
-                        ) {
-                            ForEach(substance.subjectiveEffects, id: \.name) { effect in
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(effect.name)
-                                        .font(.subheadline)
-                                        .fontWeight(.medium)
-                                    Text(effect.description)
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.secondaryLabel)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                }
-                                .padding(.vertical, 2)
-                            }
-                        } label: {
-                            Label("Reported Subjective Effects", systemImage: "person.wave.2")
-                                .font(.subheadline.weight(.semibold))
-                        }
-                    }
-                }
-
-                chemistrySection
+                // Chemistry numbers — folded into their own collapsed disclosure.
+                chemistryDisclosure
 
                 sourcesAndReferencesSection
             }
@@ -1336,16 +1400,21 @@ struct SubstanceDetailView: View {
 private struct SourceAttributionRow: View {
     let slug: String
     let label: LocalizedStringResource
+    /// When set, the row becomes a tappable link to the source's page for this
+    /// substance. Without it (a source with no deep link), it renders as plain
+    /// attribution text.
+    var deepLink: URL?
 
     private var displayName: String {
         SubstanceStore.shared.sourceDisplayName(forSlug: slug)
     }
 
-    var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "checkmark.seal")
+    private var rowContent: some View {
+        let linked = deepLink != nil
+        return HStack(spacing: 6) {
+            Image(systemName: linked ? "checkmark.seal.fill" : "checkmark.seal")
                 .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
+                .foregroundStyle(linked ? Theme.accent : Theme.secondaryLabel)
             Text(label)
                 .font(.caption2)
                 .foregroundStyle(Theme.secondaryLabel)
@@ -1354,12 +1423,58 @@ private struct SourceAttributionRow: View {
                 .foregroundStyle(Theme.secondaryLabel)
             Text(displayName)
                 .font(.caption2)
-                .foregroundStyle(Theme.secondaryLabel)
+                .foregroundStyle(linked ? Theme.accent : Theme.secondaryLabel)
+            if linked {
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 9, weight: .semibold))
+                    .foregroundStyle(Theme.accent)
+            }
             Spacer()
         }
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(String(localized: label)), source: \(displayName)"))
+    }
+
+    var body: some View {
+        if let deepLink {
+            Link(destination: deepLink) { rowContent }
+        } else {
+            rowContent
+        }
+    }
+}
+
+// MARK: - All Effects
+
+/// The full PsychonautWiki effect taxonomy for a substance, grouped under
+/// category headers. Pushed from the detail view's Effects disclosure so the
+/// ~60-term list never clutters the main screen.
+private struct AllEffectsView: View {
+    let substanceName: String
+    @State private var groups: [SubstanceStore.EffectGroup] = []
+
+    var body: some View {
+        List {
+            ForEach(groups) { group in
+                Section {
+                    ForEach(group.effects, id: \.self) { effect in
+                        Text(effect)
+                            .font(.subheadline)
+                    }
+                } header: {
+                    Text(LocalizedStringKey(group.category))
+                }
+                .listRowBackground(Theme.cardBackground)
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.background)
+        .navigationTitle("All effects")
+        .navigationBarTitleDisplayMode(.inline)
+        .task(id: substanceName) {
+            groups = SubstanceStore.shared.effectsByCategory(forSubstanceName: substanceName)
+        }
     }
 }
 

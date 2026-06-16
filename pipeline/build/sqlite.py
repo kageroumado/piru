@@ -33,6 +33,13 @@ from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
+# Sibling module import that works both as a script (`python3 pipeline/build/
+# sqlite.py`, where the script dir is already on sys.path) and when the test
+# suite loads this file via importlib spec (where it is not).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from pw_effect_categories import PW_EFFECT_CATEGORY, normalize_effect  # noqa: E402
+
 REPO = Path(__file__).resolve().parents[2]
 OUT_SQLITE = REPO / "Piru/Data/piru-substances.sqlite"
 OUT_MANIFEST = REPO / "Piru/Data/manifest.json"
@@ -317,12 +324,13 @@ CREATE TABLE mechanisms_summary (
 );
 
 CREATE TABLE effects (
-    id           INTEGER PRIMARY KEY,
-    substance_id INTEGER NOT NULL REFERENCES substances(id),
-    source_id    INTEGER NOT NULL REFERENCES sources(id),
-    text         TEXT NOT NULL,
-    kind         TEXT,
-    citation_id  INTEGER REFERENCES citations(id)
+    id              INTEGER PRIMARY KEY,
+    substance_id    INTEGER NOT NULL REFERENCES substances(id),
+    source_id       INTEGER NOT NULL REFERENCES sources(id),
+    text            TEXT NOT NULL,
+    kind            TEXT,
+    effect_category TEXT,
+    citation_id     INTEGER REFERENCES citations(id)
 );
 CREATE INDEX idx_effects_substance ON effects(substance_id);
 
@@ -2543,10 +2551,22 @@ class Build:
     def add_effect(self, sid: int, source_slug: str, text: str, kind: str | None = None) -> None:
         if not text:
             return
+        # Whitelist + categorize against the canonical PsychonautWiki subjective
+        # effect index. The `effects` arrays across every source are heavily
+        # polluted with non-effects — TripSit/Erowid mis-ingest substance-summary
+        # prose and PiHKAL/TiHKAL dose-report fragments, and curated NPS files
+        # dump SAR/risk descriptors ("DAT-selective DRI", "No human data"). Only
+        # genuine PW taxonomy terms survive, each tagged with its category so the
+        # detail view can group them. Source JSON is untouched, so relocating the
+        # descriptor blurbs to a dedicated notes field later remains possible.
+        category = PW_EFFECT_CATEGORY.get(normalize_effect(text))
+        if category is None:
+            self.stats["effects_dropped"] = self.stats.get("effects_dropped", 0) + 1
+            return
         src = self.source_ids[source_slug]
         self.cur.execute(
-            "INSERT INTO effects(substance_id, source_id, text, kind) VALUES (?, ?, ?, ?)",
-            (sid, src, text, kind),
+            "INSERT INTO effects(substance_id, source_id, text, kind, effect_category) VALUES (?, ?, ?, ?, ?)",
+            (sid, src, text, kind, category),
         )
         self.stats["effects"] += 1
 
