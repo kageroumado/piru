@@ -295,9 +295,10 @@ struct SubstanceCategoryListView: View {
         List {
             ForEach(sortedSubstances) { substance in
                 NavigationLink(value: PushRoute.substance(name: substance.name)) {
-                    // A single-category list already names the class in its title;
-                    // tag/favorites lists span classes, so keep the chip there.
-                    SubstanceRowView(substance: substance, showsCategoryBadge: category == nil)
+                    // Pass the list's category so a mixed compound from another
+                    // family (e.g. a balanced stimulant in Empathogens) shows a
+                    // disambiguating class chip; pure members stay chip-free.
+                    SubstanceRowView(substance: substance, contextCategory: category)
                 }
                 .swipeActions(edge: .trailing) {
                     let isFav = favoriteNames.contains(substance.name.lowercased())
@@ -337,11 +338,20 @@ struct SubstanceCategoryListView: View {
 
 struct SubstanceRowView: View {
     let substance: Substance
-    /// The trailing class chip (e.g. "Stimulant"). Hidden when the surrounding
-    /// list is already scoped to one category — repeating the class on every
-    /// row there is just noise.
-    var showsCategoryBadge = true
+    /// The category whose list this row is in (nil for cross-category lists:
+    /// search, recents, the Common tag). Drives the trailing class chip: in a
+    /// single-category list the chip is hidden for rows that belong there, and
+    /// SHOWN for a mixed compound surfacing from another family (e.g. a balanced
+    /// stimulant like 3-MMC in Empathogens reads "Stimulant") — the colour dot +
+    /// label disambiguate why it's here.
+    var contextCategory: SubstanceCategory?
     @State private var customStore = CustomSubstanceStore.shared
+
+    /// Show the class chip in a cross-category list, or when this row's primary
+    /// class differs from the list it's appearing in (a cross-listed mixed case).
+    private var showsCategoryBadge: Bool {
+        contextCategory == nil || substance.category != contextCategory
+    }
 
     /// Personal display-name override, if it differs from the library title.
     private var personalName: String? {
@@ -448,8 +458,6 @@ struct SubstanceDetailView: View {
     // (otherwise the user would be permanently stuck on whatever defaults
     // applied the first time the section was rendered).
     @State private var mechanismExpanded: Bool?
-    @State private var subjectiveExpanded: Bool?
-    @State private var sourcesExpanded: Bool?
     @State private var receptorLitExpanded: Bool?
     /// The Info block (name/aliases/route/chemistry) is demoted below dosing and
     /// collapsed by default — few users need the chemical identity up front.
@@ -1346,8 +1354,6 @@ struct SubstanceDetailView: View {
             // win. Any disclosure the user touches after this point sticks
             // until the next profile change.
             mechanismExpanded = nil
-            subjectiveExpanded = nil
-            sourcesExpanded = nil
             receptorLitExpanded = nil
         }
     }

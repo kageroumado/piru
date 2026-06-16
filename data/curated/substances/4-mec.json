@@ -4,6 +4,7 @@
     "4-Methyl-N-ethylcathinone"
   ],
   "category": "Stimulant",
+  "extraCategories": ["Empathogen"],
   "defaultRoute": "insufflation",
   "routes": [
     {

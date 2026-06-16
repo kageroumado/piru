@@ -2541,6 +2541,7 @@
     "name": "25B-NBOH",
     "display_name": "",
     "aliases": [
+      "25B NBOH",
       "25bnboh",
       "2c-b-nboh",
       "2cb-nboh",
@@ -5064,7 +5065,7 @@
       "blue mystic",
       "tweety-bird mescaline"
     ],
-    "category": "Empathogen",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "2C-x",
@@ -5711,9 +5712,9 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
+      "3-Chloroethcathinone",
       "3-Cl-ethcathinone",
-      "3-chloro-NEC",
-      "3-chloroethcathinone"
+      "3-chloro-NEC"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -6142,7 +6143,7 @@
     "display_name": "",
     "aliases": [
       "3-FPH",
-      "3-fpm",
+      "3-FPM",
       "3FPM",
       "3f-p",
       "3f-phenmetrazine",
@@ -7505,7 +7506,7 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-fluoro-PiHP",
+      "3-Fluoro-PiHP",
       "3F-Alpha-PHIP",
       "3F-PHIP",
       "3F-alpha-PiHP",
@@ -10335,6 +10336,7 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
+      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10782,7 +10784,7 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-Cl-iBF",
+      "4-Cl-IBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
       "p-Cl-iBF",
@@ -12381,7 +12383,7 @@
       "foxy",
       "foxy-methoxy"
     ],
-    "category": "Empathogen",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-agonist",
@@ -12650,7 +12652,7 @@
       "N‑isopropyl‑5‑methoxy‑N‑methyltryptamine",
       "moxy"
     ],
-    "category": "Empathogen",
+    "category": "Psychedelic",
     "display_class": "recreational",
     "tags": [
       "5-HT2A-preferring-5MeO",
@@ -16380,7 +16382,7 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "A-D2PV",
+      "a-D2PV",
       "alpha D2PV",
       "α-D2PV"
     ],
@@ -16502,12 +16504,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
-      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
+      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -24046,7 +24048,6 @@
     "aliases": [
       "Aller-Chlor",
       "Chlor-Trimeton",
-      "Chlorphenamine",
       "Chlorphenaminum",
       "Chlorpheniramine polistirex",
       "Chlorprophenpyridamine",
@@ -26872,7 +26873,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-Cyclohexylmethylone"
+      "N-cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -27062,37 +27063,6 @@
       "no-human-data",
       "phenethylamine",
       "σ1-agonist"
-    ],
-    "default_route": "",
-    "all_routes": [],
-    "routes_with_dose": [],
-    "has_dose_data": false,
-    "has_duration_data": false,
-    "has_protocol_dosing": false,
-    "half_life_minutes": null,
-    "mechanism_summary": "",
-    "effects": [],
-    "references": [],
-    "data_gaps": [
-      "dose_ranges_by_route",
-      "duration_by_route",
-      "half_life_minutes",
-      "mechanism_of_action",
-      "references"
-    ]
-  },
-  {
-    "name": "D-synephrine(1+)",
-    "display_name": "",
-    "aliases": [
-      "D-(-)-synephrine",
-      "d-synephrine cation"
-    ],
-    "category": "Other",
-    "display_class": "recreational",
-    "tags": [
-      "no-human-data",
-      "phenethylamine"
     ],
     "default_route": "",
     "all_routes": [],
@@ -34553,7 +34523,8 @@
     "name": "Etoxadrol",
     "display_name": "",
     "aliases": [
-      "CL-1848C"
+      "CL-1848C",
+      "U-37862A"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -43190,10 +43161,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
-      "Purple Drank",
       "barre",
       "drank",
       "pint",
+      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -51004,7 +50975,7 @@
       "Ghost pipe",
       "Ghost plant",
       "Ice plant",
-      "Indian pipe"
+      "Indian Pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
@@ -51994,6 +51965,7 @@
     "aliases": [
       "Desethyl-protonitazene",
       "N-desethyl protonitazene",
+      "N-desethyl-protonitazene",
       "NDP",
       "Nitazene"
     ],
@@ -58162,6 +58134,7 @@
     "aliases": [
       "DPPEA",
       "MK-306",
+      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -70761,7 +70734,8 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon"
+      "Geodon",
+      "Ziprasidone mesylate"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",
