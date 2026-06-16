@@ -608,6 +608,16 @@ struct SubstanceDetailView: View {
                                 .font(.subheadline)
                         }
                     }
+                    // First-hand reports live on Erowid's Experience Vaults. We
+                    // can't link a specific page or show a count (Erowid blocks
+                    // automated access), but a search opens fine for the user.
+                    if displayClass == .recreational || displayClass == .dualUse,
+                       let erowid = AppSources.erowidSearchURL(substance: substance.name) {
+                        Link(destination: erowid) {
+                            Label("Search experiences on Erowid", systemImage: "text.bubble")
+                                .font(.subheadline)
+                        }
+                    }
                 } label: {
                     Label("Effects", systemImage: "sparkles")
                         .font(.subheadline.weight(.semibold))

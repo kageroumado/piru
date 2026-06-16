@@ -26327,6 +26327,22 @@
           }
         }
       }
+    },
+    "Search experiences on Erowid" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Erowid 上搜索体验报告"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Erowid 上搜尋體驗報告"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
