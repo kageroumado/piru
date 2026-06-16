@@ -171,6 +171,8 @@ private struct LibraryFamilyCard: View {
                 }
             }
             .padding(.top, 4)
+            // Lift the count/chevron off the molecule skeleton behind them.
+            .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
         }
     }
 
@@ -334,6 +336,7 @@ private struct LibraryFavoritesCard: View {
                         .foregroundStyle(.white.opacity(0.9))
                 }
                 .padding(.top, 4)
+                .shadow(color: .black.opacity(0.22), radius: 2.5, x: 0, y: 1)
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
