@@ -113,7 +113,9 @@ extension LibraryFamily {
             title: "Common",
             blurb: "Everyday substances, by the names most people know.",
             icon: "flame.fill",
-            color: Color(red: 0.80, green: 0.55, blue: 0.22),
+            // Cool cornflower blue — keeps the meta-cards clear of the warm
+            // Stimulants orange they used to blur into.
+            color: Color(red: 0.28, green: 0.46, blue: 0.74),
             molecule: "caffeine",
             source: .tag("common"),
         ),

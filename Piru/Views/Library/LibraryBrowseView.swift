@@ -86,7 +86,7 @@ private struct LibraryFamilyCard: View {
             NavigationLink(value: source.route) {
                 surface {
                     VStack(alignment: .leading, spacing: 4) {
-                        header(showsChevron: false)
+                        header(chevron: "chevron.right", count: groupCount)
                         if family.highlightsRisk {
                             riskBadge.padding(.top, 5)
                         } else {
@@ -102,7 +102,7 @@ private struct LibraryFamilyCard: View {
     private var umbrella: some View {
         surface {
             VStack(alignment: .leading, spacing: 12) {
-                header(showsChevron: true)
+                header(chevron: "chevron.down", rotates: true)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: toggle)
 
@@ -133,7 +133,11 @@ private struct LibraryFamilyCard: View {
 
     // MARK: Pieces
 
-    private func header(showsChevron: Bool) -> some View {
+    /// `chevron` is the trailing affordance: `chevron.right` on cards that push a
+    /// screen (Apple's "navigates" cue), `chevron.down` (with `rotates`) on the
+    /// expand-in-place umbrellas. The umbrella's pushing sub-rows keep their own
+    /// right chevron.
+    private func header(chevron: String?, rotates: Bool = false, count: Int? = nil) -> some View {
         HStack(alignment: .top, spacing: 0) {
             VStack(alignment: .leading, spacing: 4) {
                 Image(systemName: family.icon)
@@ -150,17 +154,32 @@ private struct LibraryFamilyCard: View {
                     .frame(maxWidth: 210, alignment: .leading)
             }
             Spacer(minLength: 8)
-            if showsChevron {
-                // A down/up disclosure chevron, not a right chevron — on Apple
-                // platforms a trailing right chevron reads as "pushes a screen",
-                // which the expand-in-place umbrellas don't. The sub-rows do push,
-                // and they keep the right chevron.
-                Image(systemName: "chevron.down")
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.white.opacity(0.9))
-                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                    .padding(.top, 4)
+            HStack(spacing: 6) {
+                // Group size, like the inner sub-rows show. Only on navigating
+                // cards — umbrellas expand to reveal their sub-rows' own counts.
+                if let count {
+                    Text("\(count)")
+                        .font(.subheadline.weight(.semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(.white.opacity(0.9))
+                }
+                if let chevron {
+                    Image(systemName: chevron)
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(.white.opacity(0.9))
+                        .rotationEffect(.degrees(rotates && isExpanded ? 180 : 0))
+                }
             }
+            .padding(.top, 4)
+        }
+    }
+
+    /// Substance count for a single navigating card (nil for umbrellas).
+    private var groupCount: Int? {
+        switch family.source {
+        case let .category(category): SubstanceLibrary.substances(in: category).count
+        case let .tag(tag): SubstanceLibrary.substances(taggedWith: tag).count
+        case nil: nil
         }
     }
 
@@ -276,7 +295,9 @@ private struct LibraryFavoritesCard: View {
     let substances: [Substance]
     let total: Int
 
-    private static let gold = Color(red: 0.96, green: 0.64, blue: 0.12)
+    /// Raspberry — distinct from the warm Stimulants orange the gold used to clash
+    /// with, and from the cool Common blue.
+    private static let accent = Color(red: 0.85, green: 0.26, blue: 0.47)
 
     private var exemplarLine: String {
         substances.prefix(3).map(\.displayTitle).joined(separator: " · ")
@@ -284,23 +305,35 @@ private struct LibraryFavoritesCard: View {
 
     var body: some View {
         NavigationLink(value: PushRoute.libraryFavorites) {
-            VStack(alignment: .leading, spacing: 4) {
-                Image(systemName: "star.fill")
-                    .font(.system(size: 21, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(height: 28, alignment: .leading)
-                Text("Favorites")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundStyle(.white)
-                Text("^[\(total) saved substance](inflect: true).")
-                    .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.93))
-                Text(exemplarLine)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.92))
-                    .lineLimit(1)
-                    .frame(maxWidth: 220, alignment: .leading)
-                    .padding(.top, 5)
+            HStack(alignment: .top, spacing: 0) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 21, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(height: 28, alignment: .leading)
+                    Text("Favorites")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(.white)
+                    // The saved-count now sits by the chevron, so this card drops
+                    // its count subtitle and runs a line shorter than the rest.
+                    Text(exemplarLine)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.92))
+                        .lineLimit(1)
+                        .frame(maxWidth: 220, alignment: .leading)
+                        .padding(.top, 5)
+                }
+                Spacer(minLength: 8)
+                HStack(spacing: 6) {
+                    Text("\(total)")
+                        .font(.subheadline.weight(.semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(.white.opacity(0.9))
+                    Image(systemName: "chevron.right")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(.white.opacity(0.9))
+                }
+                .padding(.top, 4)
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -313,13 +346,13 @@ private struct LibraryFavoritesCard: View {
             }
             .background(
                 LinearGradient(
-                    colors: [Self.gold, Self.gold.mix(with: .white, by: 0.35)],
+                    colors: [Self.accent, Self.accent.mix(with: .white, by: 0.35)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing,
                 ),
             )
             .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-            .shadow(color: Self.gold.opacity(0.3), radius: 10, x: 0, y: 5)
+            .shadow(color: Self.accent.opacity(0.3), radius: 10, x: 0, y: 5)
         }
         .buttonStyle(.plain)
     }
