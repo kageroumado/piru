@@ -2541,6 +2541,7 @@
     "name": "25B-NBOH",
     "display_name": "",
     "aliases": [
+      "25B NBOH",
       "25bnboh",
       "2c-b-nboh",
       "2cb-nboh",
@@ -4558,6 +4559,7 @@
     "display_name": "",
     "aliases": [
       "2,5‑Dimethoxy‑4‑(n)‑propylphenethylamine",
+      "2C‑P",
       "2cp",
       "4‑propyl‑2,5‑dimethoxyphenethylamine",
       "selene"
@@ -5533,7 +5535,6 @@
     "display_name": "4-MD-PCP",
     "aliases": [
       "3",
-      "3,4-MD-PCP",
       "3,4-benzodioxole-PCP",
       "3,4-methylenedioxy-PCP",
       "4-MD-PCP",
@@ -5710,9 +5711,9 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
+      "3-Chloroethcathinone",
       "3-Cl-ethcathinone",
-      "3-chloro-NEC",
-      "3-chloroethcathinone"
+      "3-chloro-NEC"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -7504,7 +7505,6 @@
     "display_name": "",
     "aliases": [
       "3-fluoro-PiHP",
-      "3F-Alpha-PHIP",
       "3F-PHIP",
       "3F-alpha-PiHP",
       "3F-α-PiHP"
@@ -8291,7 +8291,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-chloroethcathinone",
+      "4-Chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -8328,8 +8328,8 @@
     "display_name": "4-CA",
     "aliases": [
       "4-CA",
+      "PCA",
       "p-Chloroamphetamine",
-      "pCA",
       "para-Chloroamphetamine"
     ],
     "category": "Stimulant",
@@ -10332,6 +10332,7 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
+      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10399,7 +10400,7 @@
     "name": "4-MPD",
     "display_name": "",
     "aliases": [
-      "4-methylpentedrone",
+      "4-Methylpentedrone",
       "p-methyl pentedrone",
       "para-methyl pentedrone"
     ],
@@ -10782,7 +10783,7 @@
       "4-Cl-IBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
-      "p-Cl-IBF",
+      "p-Cl-iBF",
       "para-Chloroisobutyrylfentanyl"
     ],
     "category": "Opioid",
@@ -16375,7 +16376,7 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "a-D2PV",
+      "A-D2PV",
       "alpha D2PV",
       "α-D2PV"
     ],
@@ -24041,6 +24042,7 @@
     "aliases": [
       "Aller-Chlor",
       "Chlor-Trimeton",
+      "Chlorphenamine",
       "Chlorphenaminum",
       "Chlorpheniramine polistirex",
       "Chlorprophenpyridamine",
@@ -26866,7 +26868,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-cyclohexylmethylone"
+      "N-Cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -34577,8 +34579,7 @@
     "name": "Etoxadrol",
     "display_name": "",
     "aliases": [
-      "CL-1848C",
-      "U-37862A"
+      "CL-1848C"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -43242,10 +43243,10 @@
     "display_name": "",
     "aliases": [
       "Promethazine+Codeine",
-      "Purple Drank",
       "barre",
       "drank",
       "pint",
+      "purple drank",
       "sizzurp",
       "syrup",
       "texas tea",
@@ -51051,8 +51052,8 @@
     "aliases": [
       "Convulsion root",
       "Corpse plant",
-      "Ghost Pipe",
       "Ghost flower",
+      "Ghost pipe",
       "Ghost plant",
       "Ice plant",
       "Indian pipe"
@@ -51767,7 +51768,6 @@
     "name": "MXPCP",
     "display_name": "",
     "aliases": [
-      "3-MeO-2'-oxo-PCP",
       "3-MeO-O-PCP"
     ],
     "category": "Dissociative",
@@ -52045,6 +52045,7 @@
     "aliases": [
       "Desethyl-protonitazene",
       "N-desethyl protonitazene",
+      "N-desethyl-protonitazene",
       "NDP",
       "Nitazene"
     ],
@@ -58212,6 +58213,7 @@
     "aliases": [
       "DPPEA",
       "MK-306",
+      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -70837,7 +70839,8 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon"
+      "Geodon",
+      "Ziprasidone mesylate"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",

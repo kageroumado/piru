@@ -696,6 +696,101 @@ def dc_slugify(name: str) -> str:
     return re.sub(r"(^-|-$)", "", re.sub(r"[^a-z0-9]+", "-", (name or "").lower()))
 
 
+PUBCHEM_PROPERTIES = REPO / "data/sources/pubchem-properties.json"
+
+# Elements a real pharmaceutical counter-ion / desalt leftover may contain
+# (HCl, HBr, HI, H2SO4, H3PO4, tartrate/citrate/fumarate/maleate/mesylate, Na/K).
+# Notably NOT nitrogen — no common counter-ion carries N, so a "free base" that
+# drops nitrogen vs its "salt" is a wrong CID, not a desalt.
+_COUNTERION_ELEMENTS = frozenset({"H", "C", "O", "S", "Cl", "Br", "I", "P", "Na", "K"})
+
+
+def parse_formula(formula: str | None) -> dict[str, int] | None:
+    """Parse a Hill-notation molecular formula into an element→count map.
+    ``None`` / empty → ``None``. Charge suffixes ("+"/"-") are ignored."""
+    if not formula:
+        return None
+    out: dict[str, int] = {}
+    for el, ct in re.findall(r"([A-Z][a-z]?)(\d*)", formula):
+        if not el:
+            continue
+        out[el] = out.get(el, 0) + (int(ct) if ct else 1)
+    return out or None
+
+
+def is_clean_desalt(freebase: str | None, salt: str | None) -> bool:
+    """True when ``freebase`` is plausibly the salt-free form of ``salt`` — i.e.
+    ``salt`` = k·``freebase`` + a nitrogen-free counter-ion, for a small base:acid
+    ratio k. Guards the PubChem-by-CID override against wrong CIDs (a CID that
+    points at an unrelated compound, e.g. VIP→C32H44O7 or a peptide→K-salt
+    fragment): such a "free base" loses nitrogen or introduces foreign elements,
+    which a genuine desalt never does. Structural halogens (2C-B's Br, 2C-C's
+    ring Cl) are preserved because they appear in both formulae."""
+    new = parse_formula(freebase)
+    old = parse_formula(salt)
+    if not new or not old or new == old:
+        return False
+    if new.get("N", 0) < 1:  # drugs keep their nitrogen; all-N-loss ⇒ wrong CID
+        return False
+    for k in (1, 2, 3):
+        scaled = {el: c * k for el, c in new.items()}
+        if any(scaled.get(el, 0) > old.get(el, 0) for el in set(old) | set(scaled)):
+            continue  # k·freebase isn't contained in the salt
+        remainder = {el: old.get(el, 0) - scaled.get(el, 0) for el in set(old) | set(scaled)}
+        if remainder.get("N", 0) != 0 or remainder.get("P", 0) != 0:
+            continue  # a counter-ion never carries N/P
+        if any(c > 0 and el not in _COUNTERION_ELEMENTS for el, c in remainder.items()):
+            continue  # leftover has a non-counter-ion element ⇒ not a desalt
+        return True
+    return False
+
+
+def apply_pubchem_freebase(con, props: dict) -> dict:
+    """Overwrite salt-form ``formula``/``molecular_weight`` with the PubChem
+    free-base values keyed by ``pubchem_cid``, but only where the change is a
+    verified clean desalt (see ``is_clean_desalt``). Returns a stats dict and
+    leaves wrong-CID / non-desalt rows untouched (logged under ``flagged``)."""
+    cur = con.cursor()
+    rows = cur.execute(
+        "SELECT id, canonical_name, pubchem_cid, formula, molecular_weight "
+        "FROM substances WHERE pubchem_cid IS NOT NULL"
+    ).fetchall()
+    applied: list[str] = []
+    flagged: list[str] = []
+    no_formula = 0
+    for sid, name, cid, formula, _mw in rows:
+        prop = props.get(str(cid))
+        if not prop or not prop.get("formula"):
+            continue
+        new_formula = prop["formula"]
+        new_mw = prop.get("molecular_weight")
+        if formula is None:
+            # No existing formula to desalt. Don't fill from the CID — some
+            # stored CIDs are wrong (GHK→C30H50, peptides→fragments), and we
+            # can't verify without a salt to diff against. Leave it null.
+            no_formula += 1
+            continue
+        if parse_formula(new_formula) == parse_formula(formula):
+            continue  # already free base (or same composition) — nothing to fix
+        if is_clean_desalt(new_formula, formula):
+            cur.execute(
+                "UPDATE substances SET formula = ?, molecular_weight = ? WHERE id = ?",
+                (new_formula, new_mw, sid),
+            )
+            applied.append(name)
+        else:
+            # A non-desalt change on an existing formula ⇒ the CID is wrong
+            # (e.g. VIP→C32H44O7). Keep the existing value, surface for review.
+            flagged.append(f"{name}({cid}): {formula}→{new_formula}")
+    con.commit()
+    return {
+        "applied": len(applied),
+        "flagged": flagged,
+        "no_formula": no_formula,
+        "names": sorted(applied),
+    }
+
+
 def normalise(s: str) -> str:
     s = unicodedata.normalize("NFKD", s or "").lower().strip()
     s = re.sub(r"^\(\s*[+\-±rs]\s*\)\s*-?\s*", "", s)
@@ -5002,6 +5097,24 @@ def main() -> int:
     # checked; rerun the validator after data changes to refresh it.
     dead_dropped = build.drop_dead_citations(LINK_CACHE)
     print(f"Dead-citation drop: {dead_dropped}", file=sys.stderr)
+
+    # Replace salt-form formula/MW with the PubChem free base keyed by CID (the
+    # stored CID *is* the free base — DMT 6089 = C12H16N2). Sources hand us salts
+    # (DMT·HCl, MDMA·HCl, LSD tartrate, amphetamine sulfate); the displayed doses
+    # are free-base-scale, so the salt chemistry was inconsistent. Only verified
+    # clean desalts are applied — wrong CIDs are skipped. Snapshot:
+    # data/sources/pubchem-properties.json (refresh via fetch_pubchem_properties.py).
+    if PUBCHEM_PROPERTIES.exists():
+        fb = apply_pubchem_freebase(
+            build.cur.connection, json.loads(PUBCHEM_PROPERTIES.read_text())
+        )
+        print(
+            f"PubChem free-base override: applied={fb['applied']} "
+            f"wrong-cid-skipped={len(fb['flagged'])} no-formula={fb['no_formula']}",
+            file=sys.stderr,
+        )
+        for f in fb["flagged"]:
+            print(f"  wrong CID, kept existing: {f}", file=sys.stderr)
 
     # Display-name overrides, popularity scores, category corrections, CJK search
     # aliases, curated dose overrides, and peptide enrichment are no longer
