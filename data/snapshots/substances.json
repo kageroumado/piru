@@ -8,7 +8,7 @@
       "1,4-butylene glycol",
       "4-Butanediol",
       "BDO",
-      "butane-1,4-diol",
+      "butane-1,4-DIOL",
       "liquid fantasy",
       "one comma four",
       "one-four bee",
@@ -44,7 +44,7 @@
     "display_name": "",
     "aliases": [
       "1,4-B",
-      "1,4-bd",
+      "1,4-BD",
       "14bd",
       "BDO",
       "Butylene Glycol",
@@ -52,7 +52,7 @@
       "One Four B-D-O",
       "One Four Bee",
       "bd",
-      "butane-1,4-diol",
+      "butane-1,4-DIOL",
       "tetramethylene glycol"
     ],
     "category": "Depressant",
@@ -263,8 +263,8 @@
     "name": "16-Bromo-salvinorin A",
     "display_name": "",
     "aliases": [
-      "16-Br-Sal A",
-      "16-Br-SalA",
+      "16-BR-Sal A",
+      "16-BR-SalA",
       "16-bromosalvinorin A"
     ],
     "category": "Dysdelic",
@@ -380,7 +380,7 @@
     "display_name": "",
     "aliases": [
       "1-benzoyl-LSD",
-      "SYN-L-018"
+      "syn-L-018"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -539,8 +539,8 @@
     "name": "1D-LSD",
     "display_name": "",
     "aliases": [
-      "SYN-L-229",
-      "Valerie"
+      "Valerie",
+      "syn-L-229"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -1154,7 +1154,7 @@
     "name": "2-BR-4,5-MDA",
     "display_name": "",
     "aliases": [
-      "6-Br-MDA"
+      "6-BR-MDA"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -1191,8 +1191,8 @@
     "name": "2-Bromo-4,5-MDMA",
     "display_name": "",
     "aliases": [
-      "2-Br-4,5-MDMA",
-      "6-Br-MDMA"
+      "2-BR-4,5-MDMA",
+      "6-BR-MDMA"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -1226,7 +1226,7 @@
     "name": "2-Bromodeschloroketamine",
     "display_name": "2-Br-DCK",
     "aliases": [
-      "2-Br-DCK"
+      "2-BR-DCK"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -1259,8 +1259,8 @@
     "name": "2-Chloro-Ephenidine",
     "display_name": "",
     "aliases": [
+      "2-CL-ephenidine",
       "2-chloroephenidine",
-      "2-cl-ephenidine",
       "2chloroephenidine",
       "2clephenidine"
     ],
@@ -1296,7 +1296,7 @@
     "name": "2-Chlorodeschloroketamine",
     "display_name": "2-Cl-DCK",
     "aliases": [
-      "2-Cl-DCK"
+      "2-CL-DCK"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -1442,7 +1442,7 @@
     "aliases": [
       "2-F-amphetamine",
       "2-FA",
-      "2-fmp",
+      "2-FMP",
       "2fa",
       "o-FA",
       "ortho-fluoroamphetamine"
@@ -1484,9 +1484,9 @@
     "aliases": [
       "2-F-DCK",
       "2-FDCK",
-      "2-fl-2'-oxo-pcm",
-      "2f-dck",
-      "2f-ket",
+      "2-FL-2'-oxo-PCM",
+      "2f-DCK",
+      "2f-KET",
       "2f-ketamine",
       "2fdck",
       "2fket",
@@ -1877,7 +1877,7 @@
     "name": "2-Me-PiHP",
     "display_name": "",
     "aliases": [
-      "2-Me-α-PiHP"
+      "2-Me-Α-PiHP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -2083,9 +2083,9 @@
     "name": "2-Methylamphetamine",
     "display_name": "2-MeA",
     "aliases": [
+      "2-MA",
       "2-Me-AMP",
       "2-MeA",
-      "2-ma",
       "Ortetamine",
       "o-Methylamphetamine",
       "o-TAP",
@@ -2336,7 +2336,7 @@
     "display_name": "",
     "aliases": [
       "2-(p-tolyl)acetamide",
-      "4-methyl-2-pa"
+      "4-methyl-2-PA"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -2541,13 +2541,12 @@
     "name": "25B-NBOH",
     "display_name": "",
     "aliases": [
-      "25B NBOH",
       "25bnboh",
-      "2c-b-nboh",
-      "2cb-nboh",
+      "2c-B-NBOH",
+      "2cb-NBOH",
       "NBOH-25B",
       "NBOH-2C-B",
-      "nboh-2cb"
+      "NBOH-2cb"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -2745,7 +2744,7 @@
     "aliases": [
       "25c",
       "2C-C-NBOMe",
-      "2c-nbome",
+      "2c-NBOMe",
       "Cimbi-82",
       "NBOMe-2C-C"
     ],
@@ -2878,7 +2877,7 @@
     "display_name": "",
     "aliases": [
       "25d",
-      "2c-d-nbome",
+      "2c-D-NBOMe",
       "NBOMe-2C-D"
     ],
     "category": "Psychedelic",
@@ -3018,7 +3017,7 @@
     "name": "25H-NBOMe",
     "display_name": "",
     "aliases": [
-      "25-h-nbome",
+      "25-H-NBOMe",
       "25h",
       "2C-H-NBOMe",
       "NBOMe-2C-H",
@@ -3147,8 +3146,8 @@
     "aliases": [
       "2C-I-NBOH",
       "NBOH-2C-I",
-      "cimbi-27",
-      "nboh-2ci"
+      "NBOH-2ci",
+      "cimbi-27"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -3191,8 +3190,8 @@
     "name": "25I-NBOMe",
     "display_name": "",
     "aliases": [
-      "2-c-i-nbome",
-      "25-i",
+      "2-C-I-NBOMe",
+      "25-I",
       "25i",
       "2C-I-NBOMe",
       "Cimbi-5",
@@ -3338,7 +3337,7 @@
     "name": "25N-NBOMe",
     "display_name": "",
     "aliases": [
-      "2-c-n-nbome",
+      "2-C-N-NBOMe",
       "25n",
       "NBOMe-2C-N"
     ],
@@ -3423,7 +3422,7 @@
     "name": "25T-2-NBOMe",
     "display_name": "",
     "aliases": [
-      "25t2-nbome",
+      "25t2-NBOMe",
       "2C-T-2-NBOMe",
       "NBOMe-2C-T-2",
       "OZEBFZPAWCXEGK"
@@ -3466,7 +3465,7 @@
     "name": "25T-4-NBOMe",
     "display_name": "",
     "aliases": [
-      "25t4-nbome",
+      "25t4-NBOMe",
       "NBOMe-2C-T-4"
     ],
     "category": "Psychedelic",
@@ -3543,7 +3542,7 @@
     "name": "2C-B",
     "display_name": "",
     "aliases": [
-      "2-cb",
+      "2-CB",
       "2cb",
       "BDMPEA",
       "Bromo-mescaline",
@@ -3687,7 +3686,7 @@
     "display_name": "",
     "aliases": [
       "2C-Bromo-FLY",
-      "2cb-fly",
+      "2cb-FLY",
       "2cbfly"
     ],
     "category": "Psychedelic",
@@ -3895,7 +3894,7 @@
     "display_name": "",
     "aliases": [
       "2C‑D",
-      "2c-m",
+      "2c-M",
       "2cd",
       "2cm",
       "LE-25"
@@ -5424,7 +5423,7 @@
     "display_name": "",
     "aliases": [
       "3,4-DMPV”",
-      "3,4-DiMeO-α-PHP",
+      "3,4-DiMeO-Α-PHP",
       "DMO-PHP"
     ],
     "category": "Stimulant",
@@ -5712,8 +5711,8 @@
     "name": "3-CEC",
     "display_name": "",
     "aliases": [
+      "3-CL-ethcathinone",
       "3-Chloroethcathinone",
-      "3-Cl-ethcathinone",
       "3-chloro-NEC"
     ],
     "category": "Stimulant",
@@ -6145,7 +6144,7 @@
       "3-FPH",
       "3-FPM",
       "3FPM",
-      "3f-p",
+      "3f-P",
       "3f-phenmetrazine",
       "3fp",
       "PAL-593"
@@ -6222,13 +6221,13 @@
     "name": "3-FPM",
     "display_name": "",
     "aliases": [
+      "3-FPH",
       "3-fluorophenmetrazine",
-      "3-fph",
-      "3f-p",
+      "3f-P",
       "3f-phenmetrazine",
       "3fp",
       "3fpm",
-      "pal-593"
+      "PAL-593"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -6891,9 +6890,9 @@
     "name": "3-Methyl-4-fluoro-Α-pyrrolidinovalerophenone",
     "display_name": "MFPVP",
     "aliases": [
-      "3-Me-4-F-α-PVP",
+      "3-Me-4-F-Α-PVP",
       "4F-3Me-PVP",
-      "4F-3Me-α-PVP",
+      "4F-3Me-Α-PVP",
       "MF-PVP",
       "MFPVP"
     ],
@@ -6969,8 +6968,8 @@
     "name": "3-MMC",
     "display_name": "",
     "aliases": [
+      "3-MEPH",
       "3-Methylmethcathinone",
-      "3-meph",
       "3-mephedrone",
       "3methylmethcathinone",
       "3mmc",
@@ -7050,10 +7049,10 @@
     "name": "3-OH-Phenazepam",
     "display_name": "",
     "aliases": [
-      "3-ho-p",
-      "3-ho-phenazepam",
+      "3-HO-P",
+      "3-HO-phenazepam",
+      "3-OH-P",
       "3-hydroxyphenazepam",
-      "3-oh-p",
       "3hop",
       "3hophenazepam",
       "3ohp",
@@ -7506,11 +7505,10 @@
     "name": "3F-PiHP",
     "display_name": "",
     "aliases": [
-      "3-Fluoro-PiHP",
-      "3F-Alpha-PHIP",
+      "3-fluoro-PiHP",
       "3F-PHIP",
       "3F-alpha-PiHP",
-      "3F-α-PiHP"
+      "3F-Α-PiHP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -7587,7 +7585,7 @@
       "4-FPO",
       "4F-MAR",
       "4′-F-4-MAR",
-      "p-F-4-MAR"
+      "P-F-4-MAR"
     ],
     "category": "Other",
     "display_class": "recreational",
@@ -7662,7 +7660,7 @@
     "aliases": [
       "4,4'-DMAR",
       "4,4'-dimethylaminorex",
-      "4,4-dmap",
+      "4,4-DMAP",
       "serotoni"
     ],
     "category": "Empathogen",
@@ -7796,7 +7794,7 @@
     "name": "4-AcO-DET",
     "display_name": "",
     "aliases": [
-      "4-acetoxy-det",
+      "4-acetoxy-DET",
       "ethacetin",
       "ethylacybin"
     ],
@@ -7836,7 +7834,7 @@
     "name": "4-AcO-DiPT",
     "display_name": "",
     "aliases": [
-      "4-acetoxy-dipt",
+      "4-acetoxy-DiPT",
       "4acodipt",
       "aces",
       "ipracetin",
@@ -7875,8 +7873,8 @@
     "name": "4-AcO-DMT",
     "display_name": "",
     "aliases": [
-      "4-acetoxy-dmt",
-      "4-aco",
+      "4-AcO",
+      "4-acetoxy-DMT",
       "4acodmt",
       "O-Acetylpsilocin",
       "Synthetic mushrooms",
@@ -8004,7 +8002,7 @@
     "name": "4-AcO-MET",
     "display_name": "",
     "aliases": [
-      "4-acetoxy-met",
+      "4-acetoxy-MET",
       "4acomet",
       "O-Acetylmetocin",
       "metacetin"
@@ -8123,7 +8121,7 @@
     "display_name": "4-BP",
     "aliases": [
       "4-BP",
-      "4-pmpd"
+      "4-PMPD"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -8225,7 +8223,7 @@
     "display_name": "4-BA",
     "aliases": [
       "4-BA",
-      "4-Br-AMP",
+      "4-BR-AMP",
       "PBA",
       "p-BA",
       "p-Bromoamphetamine",
@@ -8295,7 +8293,7 @@
     "name": "4-CEC",
     "display_name": "",
     "aliases": [
-      "4-Chloroethcathinone",
+      "4-chloroethcathinone",
       "p-chloro-ethcathinone",
       "para-chloro-ethcathinone"
     ],
@@ -8541,7 +8539,7 @@
     "name": "4-CL-PPP",
     "display_name": "",
     "aliases": [
-      "4-Cl-α-PPP",
+      "4-CL-Α-PPP",
       "4-chloro-PPP",
       "p-chloro-α-PPP"
     ],
@@ -8603,8 +8601,8 @@
     "name": "4-CMC",
     "display_name": "",
     "aliases": [
+      "4-CL-MC",
       "4-Chloromethcathinone",
-      "4-Cl-MC",
       "4cmc",
       "Clephedrone",
       "p-Chloromethcathinone"
@@ -8804,8 +8802,8 @@
     "name": "4-FA",
     "display_name": "",
     "aliases": [
+      "4-FMP",
       "4-Fluoroamphetamine",
-      "4-fmp",
       "4fa",
       "Flux",
       "PAL-303",
@@ -8939,8 +8937,8 @@
     "display_name": "",
     "aliases": [
       "4F-PHP",
-      "4F-α-PHP",
-      "4′-fluoro-α-PHP"
+      "4F-Α-PHP",
+      "4′-fluoro-Α-PHP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -9088,8 +9086,8 @@
     "name": "4-Fluoroethylphenidate",
     "display_name": "",
     "aliases": [
-      "4-feph",
-      "4f-eph"
+      "4-FEPH",
+      "4f-EPH"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -9123,10 +9121,10 @@
     "name": "4-Fluoromethylphenidate",
     "display_name": "",
     "aliases": [
-      "4-fl-mph",
-      "4-fluoro-mph",
-      "4-fmph",
-      "4f-mph",
+      "4-FL-MPH",
+      "4-FMPH",
+      "4-fluoro-MPH",
+      "4f-MPH",
       "4fmph"
     ],
     "category": "Stimulant",
@@ -9160,8 +9158,8 @@
     "name": "4-Fluoropentedrone",
     "display_name": "",
     "aliases": [
-      "4-f-pentedrone",
-      "4-fpd",
+      "4-F-pentedrone",
+      "4-FPD",
       "4F-PD",
       "4f-pentedrone"
     ],
@@ -9203,7 +9201,6 @@
     "display_name": "",
     "aliases": [
       "4-F-Phenibut",
-      "F-Phenibut",
       "F-Phenibut FAA",
       "Fluorobut",
       "Fluorophenibut"
@@ -9445,8 +9442,8 @@
     "name": "4-HO-DET",
     "display_name": "",
     "aliases": [
+      "4-hydroxy-DET",
       "4-hydroxy-N,N diethyltryptamine",
-      "4-hydroxy-det",
       "4hodet",
       "CZ-74",
       "Ethocin",
@@ -9525,7 +9522,7 @@
     "display_name": "",
     "aliases": [
       "4-hydroxy-DPT",
-      "4-hydroxy-n",
+      "4-hydroxy-N",
       "4hodpt",
       "Procin",
       "n-dipropyltryptamine"
@@ -9720,7 +9717,7 @@
     "name": "4-HO-MiPT",
     "display_name": "",
     "aliases": [
-      "4-ho",
+      "4-HO",
       "4homipt",
       "ho-mipt",
       "homipt",
@@ -10256,9 +10253,9 @@
     "display_name": "",
     "aliases": [
       "4'-Methylmethylphenidate",
-      "4-me-tmp",
+      "4-MMPH",
+      "4-Me-TMP",
       "4-metmp",
-      "4-mmph",
       "4M-TMP",
       "Threo-4-methylmethylphenidate",
       "p-Methyl methylphenidate"
@@ -10336,7 +10333,6 @@
     "display_name": "MTA",
     "aliases": [
       "4-(methylthio)amphetamine",
-      "4-MTA",
       "Flatliners",
       "MTA",
       "p-methylthioamphetamine",
@@ -10784,7 +10780,7 @@
     "name": "4Cl-iBF",
     "display_name": "",
     "aliases": [
-      "4-Cl-IBF",
+      "4-CL-IBF",
       "p-Chloro-isobutyrylfentanyl",
       "p-Chloroisobutyrylfentanyl",
       "p-Cl-iBF",
@@ -11080,7 +11076,7 @@
     "display_name": "",
     "aliases": [
       "4F-alpha-PHP",
-      "4F-α-PHP"
+      "4F-Α-PHP"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -11118,8 +11114,8 @@
     "name": "4F-PVP",
     "display_name": "",
     "aliases": [
-      "4-fluoro-α-PVP",
-      "4f-a-pvp",
+      "4-fluoro-Α-PVP",
+      "4f-A-PVP",
       "pfpvp"
     ],
     "category": "Stimulant",
@@ -11193,7 +11189,7 @@
     "name": "4′-Chloro-4-methylaminorex",
     "display_name": "4-Cl-MAR",
     "aliases": [
-      "4-Cl-MAR",
+      "4-CL-MAR",
       "4-Cl‑MAR",
       "4C-MAR",
       "4C‑MAR",
@@ -11620,7 +11616,7 @@
     "name": "5-Bromo-DMT",
     "display_name": "",
     "aliases": [
-      "5-Br-DMT",
+      "5-BR-DMT",
       "5-bromodimethyltryptamine",
       "SpongeBob DMT"
     ],
@@ -11656,7 +11652,7 @@
     "name": "5-Bromotryptamine",
     "display_name": "5-Br-T",
     "aliases": [
-      "5-Br-T",
+      "5-BR-T",
       "PAL-518"
     ],
     "category": "Other",
@@ -11922,7 +11918,7 @@
     "display_name": "",
     "aliases": [
       "5-Hydroxytryptophan",
-      "5-hydroxytryptophan DL-form",
+      "5-hydroxytryptophan DL-FORM",
       "5htp",
       "Cincofarm",
       "DL-5-HTP",
@@ -12055,7 +12051,7 @@
     "name": "5-IT",
     "display_name": "",
     "aliases": [
-      "5-api"
+      "5-API"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -12419,8 +12415,8 @@
     "name": "5-MeO-DMT",
     "display_name": "",
     "aliases": [
+      "5-MeO",
       "5-medmt",
-      "5-meo",
       "5meo",
       "5meodmt",
       "Bufo",
@@ -12646,7 +12642,7 @@
     "name": "5-MeO-MiPT",
     "display_name": "",
     "aliases": [
-      "5meo-mipt",
+      "5meo-MiPT",
       "5meomipt",
       "5‑methoxy‑N‑methyl‑N‑isopropyltryptamine",
       "N‑isopropyl‑5‑methoxy‑N‑methyltryptamine",
@@ -13050,7 +13046,7 @@
     "name": "5-Methyl-bk-MDEA",
     "display_name": "",
     "aliases": [
-      "5-me",
+      "5-Me",
       "5-methyl-ethylone"
     ],
     "category": "Stimulant",
@@ -13409,7 +13405,7 @@
     "name": "6-APDB",
     "display_name": "",
     "aliases": [
-      "4-desoxy-mda",
+      "4-desoxy-MDA",
       "EMA-4"
     ],
     "category": "Empathogen",
@@ -15813,7 +15809,7 @@
     "aliases": [
       "1-Acetyl-LSD",
       "1A-LAD",
-      "1a-lsd",
+      "1a-LSD",
       "1alsd",
       "OAL-52",
       "Orange Sunshine",
@@ -15921,8 +15917,8 @@
     "display_name": "",
     "aliases": [
       "2",
+      "DOT-2",
       "aleph2",
-      "dot-2",
       "dot2"
     ],
     "category": "Psychedelic",
@@ -16382,9 +16378,9 @@
     "name": "alpha-D2PV",
     "display_name": "",
     "aliases": [
-      "a-D2PV",
+      "A-D2PV",
       "alpha D2PV",
-      "α-D2PV"
+      "Α-D2PV"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -16504,12 +16500,12 @@
     "display_name": "AMT",
     "aliases": [
       "3-IT",
+      "AMT",
       "Amthrax",
       "Amtrak",
       "IT-290",
       "Indopan",
       "U-14,164E",
-      "aMT",
       "α-methyltryptamine",
       "αMT"
     ],
@@ -17807,8 +17803,8 @@
     "name": "AOD-9604",
     "display_name": "",
     "aliases": [
-      "Anti-Obesity Drug 9604",
-      "Tyr-hGH 177-191"
+      "ANTI-Obesity Drug 9604",
+      "TYR-hGH 177-191"
     ],
     "category": "Peptide",
     "display_class": "medical_rx",
@@ -18108,8 +18104,8 @@
       "BL-3912",
       "alpha-Et-2C-D",
       "dimoxamine",
-      "α-Et-2C-D",
-      "α-ethyl-2C-D"
+      "Α-Et-2C-D",
+      "Α-ethyl-2C-D"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -20299,15 +20295,15 @@
     "name": "bk-2C-B",
     "display_name": "",
     "aliases": [
-      "b-k-2-c-b",
-      "b-k-2cb",
-      "b-k2-c-b",
-      "b-k2-cb",
-      "b-k2cb",
-      "bk-2-cb",
+      "B-K-2-C-B",
+      "B-K-2cb",
+      "B-k2-C-B",
+      "B-k2-CB",
+      "B-k2cb",
+      "bk-2-CB",
       "bk-2cb",
       "bk2cb",
-      "β-keto-2C-B"
+      "Β-keto-2C-B"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -20342,7 +20338,7 @@
     "name": "bk-2C-I",
     "display_name": "",
     "aliases": [
-      "β-keto-2C-I"
+      "Β-keto-2C-I"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -20496,7 +20492,7 @@
     "name": "BOB",
     "display_name": "",
     "aliases": [
-      "β-methoxy-2C-B"
+      "Β-methoxy-2C-B"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -20530,7 +20526,7 @@
     "name": "BOD",
     "display_name": "",
     "aliases": [
-      "β-methoxy-2C-D"
+      "Β-methoxy-2C-D"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -20599,7 +20595,7 @@
     "display_name": "",
     "aliases": [
       "2C-B-OH",
-      "2C-B-β-ol",
+      "2C-B-Β-OL",
       "BH2CB",
       "BOH2CB",
       "BOHB",
@@ -21180,7 +21176,7 @@
     "name": "Bromazolam",
     "display_name": "",
     "aliases": [
-      "xli-268",
+      "XLI-268",
       "xli268"
     ],
     "category": "Benzodiazepine",
@@ -22386,7 +22382,7 @@
     "name": "Canket",
     "display_name": "",
     "aliases": [
-      "2-F-2'-Oxo-PCE",
+      "2-F-2'-oxo-PCE",
       "2F-NENDCK",
       "2F‑2′‑Oxo‑PCE",
       "2F‑NENDCK",
@@ -24877,7 +24873,7 @@
     "name": "Clobromazolam",
     "display_name": "",
     "aliases": [
-      "DM-ii-90",
+      "DM-II-90",
       "Phenazolam"
     ],
     "category": "Benzodiazepine",
@@ -26873,7 +26869,7 @@
     "aliases": [
       "BDCP",
       "N-CMC",
-      "N-cyclohexylmethylone"
+      "N-Cyclohexylmethylone"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -27960,9 +27956,9 @@
     "name": "Deschloroketamine",
     "display_name": "",
     "aliases": [
-      "2'-oxo-pcm",
-      "2-Oxo-PCM",
-      "2′-Oxo-PCM",
+      "2'-oxo-PCM",
+      "2-oxo-PCM",
+      "2′-oxo-PCM",
       "DCK",
       "DXE",
       "O-PCM",
@@ -29546,7 +29542,7 @@
     "name": "Dimemebfe",
     "display_name": "",
     "aliases": [
-      "5-meo-bfe"
+      "5-MeO-BFE"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -33526,7 +33522,7 @@
     "name": "Estradiol",
     "display_name": "",
     "aliases": [
-      "17-beta-estradiol",
+      "17-BETA-estradiol",
       "17β-estradiol",
       "Climara",
       "Delestrogen",
@@ -34171,7 +34167,7 @@
     "name": "Eticyclidone",
     "display_name": "",
     "aliases": [
-      "2'-Oxo-PCE",
+      "2'-oxo-PCE",
       "N-Ethyldeschloroketamine",
       "O-PCE"
     ],
@@ -34523,8 +34519,7 @@
     "name": "Etoxadrol",
     "display_name": "",
     "aliases": [
-      "CL-1848C",
-      "U-37862A"
+      "CL-1848C"
     ],
     "category": "Dissociative",
     "display_class": "recreational",
@@ -36222,7 +36217,7 @@
     "aliases": [
       "9-Hydroxyfluorene",
       "9-fluorenol",
-      "9H-fluoren-9-ol",
+      "9H-fluoren-9-OL",
       "hydrafinil"
     ],
     "category": "Eugeroic",
@@ -36257,10 +36252,10 @@
     "name": "Fluorexetamine",
     "display_name": "",
     "aliases": [
-      "3-F-2'-Oxo-PCE",
+      "3-F-2'-oxo-PCE",
       "3-F-2-oxo-PCE",
       "3-FXE",
-      "3F-2'-Oxo-PCE",
+      "3F-2'-oxo-PCE",
       "FXE"
     ],
     "category": "Dissociative",
@@ -40096,7 +40091,7 @@
     "name": "Hydroxetamine",
     "display_name": "",
     "aliases": [
-      "3-HO-2-Oxo-PCE",
+      "3-HO-2-oxo-PCE",
       "HXE"
     ],
     "category": "Dissociative",
@@ -40901,7 +40896,7 @@
     "name": "Indapex",
     "display_name": "",
     "aliases": [
-      "5-meo-tmt"
+      "5-MeO-TMT"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -40967,7 +40962,7 @@
     "name": "Indatraline",
     "display_name": "",
     "aliases": [
-      "Lu-19-005"
+      "LU-19-005"
     ],
     "category": "Stimulant",
     "display_class": "recreational",
@@ -44647,6 +44642,7 @@
       "Delysid",
       "L",
       "LSD 25",
+      "LSD-25",
       "Lysergic Acid Diethylamide",
       "N,N-diethyllysergamide",
       "Tabs",
@@ -44656,7 +44652,6 @@
       "d-lysergic acid diethylamide",
       "dots",
       "hits",
-      "lsd-25",
       "lucy",
       "lysergamide",
       "lysergic acid amide",
@@ -47293,9 +47288,9 @@
     "name": "Mephedrone",
     "display_name": "",
     "aliases": [
+      "4-MMC",
       "4-methylephedrone",
       "4-methylmethcathinone",
-      "4-mmc",
       "4mmc",
       "4‑MMC",
       "Bubbles",
@@ -47413,8 +47408,8 @@
     "name": "Mephenmetrazine",
     "display_name": "",
     "aliases": [
-      "4-methylphenmetrazine",
-      "4-mpm"
+      "4-MPM",
+      "4-methylphenmetrazine"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -48052,10 +48047,10 @@
     "display_name": "",
     "aliases": [
       "MNA",
+      "N-methyl-PAL-287",
       "PAL-1046",
       "methylnaphetamine",
-      "mnt",
-      "n-methyl-pal-287"
+      "mnt"
     ],
     "category": "Empathogen",
     "display_class": "recreational",
@@ -48476,7 +48471,7 @@
     "name": "Methoxetamine",
     "display_name": "",
     "aliases": [
-      "3-MeO-2-Oxo-PCE",
+      "3-MeO-2-oxo-PCE",
       "KMAX",
       "M-ket",
       "MXE",
@@ -48528,8 +48523,8 @@
     "name": "Methoxmetamine",
     "display_name": "",
     "aliases": [
-      "3-MeO-2'-Oxo-PCM",
-      "3-MeO-2-Oxo-PCM",
+      "3-MeO-2'-oxo-PCM",
+      "3-MeO-2-oxo-PCM",
       "E-MXE",
       "MMXE",
       "MXM",
@@ -48578,10 +48573,10 @@
     "name": "Methoxphenidine",
     "display_name": "",
     "aliases": [
+      "2-MXP",
       "2-MeO-DPP",
       "2-MeO-Diphenidine",
       "2-Methoxydiphenidine",
-      "2-mxp",
       "MXP",
       "methoxyphenidine"
     ],
@@ -50975,7 +50970,7 @@
       "Ghost pipe",
       "Ghost plant",
       "Ice plant",
-      "Indian Pipe"
+      "Indian pipe"
     ],
     "category": "Analgesic",
     "display_class": "medical_rx",
@@ -51159,7 +51154,7 @@
     "display_name": "",
     "aliases": [
       "MOTS c peptide",
-      "Mitochondrial Open Reading Frame of 12S rRNA-c"
+      "Mitochondrial Open Reading Frame of 12S rRNA-C"
     ],
     "category": "Peptide",
     "display_class": "medical_rx",
@@ -51378,7 +51373,7 @@
     "name": "MT-45",
     "display_name": "",
     "aliases": [
-      "ic-6",
+      "IC-6",
       "mt45"
     ],
     "category": "Opioid",
@@ -51526,7 +51521,7 @@
     "name": "MXE",
     "display_name": "",
     "aliases": [
-      "3-meo-2'oxo-pce",
+      "3-MeO-2'oxo-PCE",
       "methoxetamine"
     ],
     "category": "Dissociative",
@@ -51724,7 +51719,7 @@
     "name": "MXPr",
     "display_name": "",
     "aliases": [
-      "3-MeO-2-Oxo-PCPr",
+      "3-MeO-2-oxo-PCPr",
       "N-Propyl-MXE"
     ],
     "category": "Dissociative",
@@ -52893,7 +52888,7 @@
     "name": "NB-5-MeO-DALT",
     "display_name": "",
     "aliases": [
-      "5-MeO-DALT-Boc"
+      "5-MeO-DALT-BOC"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -52928,7 +52923,7 @@
     "name": "NB-5-MeO-MiPT",
     "display_name": "",
     "aliases": [
-      "5-MeO-MiPT-Boc"
+      "5-MeO-MiPT-BOC"
     ],
     "category": "Psychedelic",
     "display_class": "recreational",
@@ -52965,7 +52960,7 @@
     "name": "NBOC-DMT",
     "display_name": "",
     "aliases": [
-      "N1-Boc-DMT",
+      "N1-BOC-DMT",
       "NB-DMT"
     ],
     "category": "Psychedelic",
@@ -54224,7 +54219,7 @@
       "N-desalkylflutoprazepam",
       "Norfludiazepam",
       "Norflutoprazepam",
-      "Ro-05-3367",
+      "RO-05-3367",
       "n-desalkylflurazepam"
     ],
     "category": "Benzodiazepine",
@@ -54683,8 +54678,8 @@
     "name": "O-pce",
     "display_name": "",
     "aliases": [
-      "2'-oxo-pce",
-      "2-oxo-pce",
+      "2'-oxo-PCE",
+      "2-oxo-PCE",
       "2‑DCNEK",
       "2‑Oxo‑PCE",
       "2′‑Oxo‑PCE",
@@ -54799,9 +54794,9 @@
     "name": "O-PCP",
     "display_name": "",
     "aliases": [
-      "2'-Oxo-PCP",
-      "2-Keto-PCP",
+      "2'-oxo-PCP",
       "2-Oxo‑PCP",
+      "2-keto-PCP",
       "2‑Keto‑PCP",
       "2‑Phenyl‑2‑(piperidin‑1‑yl)cyclohexan‑1‑one",
       "2′-Oxo‑PCP"
@@ -54844,10 +54839,10 @@
     "name": "O-PCPr",
     "display_name": "",
     "aliases": [
-      "2'-Oxo-PCPr",
-      "2-Keto-PCPr",
+      "2'-oxo-PCPr",
+      "2-keto-PCPr",
       "2-oxo-PCPr",
-      "2′-Oxo-PCPr",
+      "2′-oxo-PCPr",
       "Deschloro‑N‑propyl ketamine",
       "N-Propyl-DCK",
       "O‑PCPr"
@@ -56369,7 +56364,7 @@
     "name": "Parafluorobutyrfentanyl",
     "display_name": "",
     "aliases": [
-      "4-fbf",
+      "4-FBF",
       "4-fluorobutyrfentanyl",
       "pfbf"
     ],
@@ -58134,7 +58129,6 @@
     "aliases": [
       "DPPEA",
       "MK-306",
-      "PPAP",
       "α,N-dipropylphenethylamine"
     ],
     "category": "Stimulant",
@@ -59027,7 +59021,7 @@
       "Isoplate",
       "K-tab",
       "Normosol-r And Dextrose",
-      "Peg-3350 And Electrolytes",
+      "PEG-3350 And Electrolytes",
       "Plasma-lyte 148",
       "Thyrosafe",
       "dextrose/sodium/sodium/sodium/potassium/magnesium",
@@ -60485,8 +60479,8 @@
     "name": "Psilocin",
     "display_name": "",
     "aliases": [
-      "4-ho-dmt",
-      "4-oh-dmt",
+      "4-HO-DMT",
+      "4-OH-DMT",
       "Psilocine",
       "Psilocyn",
       "Psilotsin"
@@ -61548,7 +61542,7 @@
       "Harris Teeter Acid Reducer 150",
       "Heratburn Relief",
       "Taladine",
-      "Wal-zan 75",
+      "WAL-zan 75",
       "Zantac",
       "Zantac 75"
     ],
@@ -66502,8 +66496,8 @@
       "Marinol",
       "Tetrahydrocannabinol",
       "cesamet",
+      "delta9-THC",
       "delta9-tetrahydrocannabinol",
-      "delta9-thc",
       "syndros",
       "Δ9-THC",
       "δ9--tetrahydrocannabinol",
@@ -69118,7 +69112,7 @@
     "display_name": "",
     "aliases": [
       "U51754",
-      "methene-u-47700",
+      "methene-U-47700",
       "methene-u47700"
     ],
     "category": "Dysdelic",
@@ -70734,8 +70728,7 @@
     "name": "Ziprasidone",
     "display_name": "",
     "aliases": [
-      "Geodon",
-      "Ziprasidone mesylate"
+      "Geodon"
     ],
     "category": "Antipsychotic",
     "display_class": "medical_rx",
@@ -71205,7 +71198,7 @@
     "name": "ΒK-2C-B",
     "display_name": "",
     "aliases": [
-      "beta-keto 2C-B",
+      "BETA-keto 2C-B",
       "bk-2C-B"
     ],
     "category": "Psychedelic",
@@ -71313,12 +71306,12 @@
     "name": "βH-2C-B",
     "display_name": "",
     "aliases": [
-      "bh-2c-b",
-      "bh-2cb",
-      "boh-2c-b",
-      "boh-2cb",
+      "BH-2c-B",
+      "BH-2cb",
+      "BOH-2c-B",
+      "BOH-2cb",
       "bohb",
-      "β-hydroxy-2C-B",
+      "Β-hydroxy-2C-B",
       "βOH-2C-B"
     ],
     "category": "Psychedelic",
