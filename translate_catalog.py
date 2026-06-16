@@ -7,6 +7,21 @@ from pathlib import Path
 
 # Translations: English -> (Simplified, Traditional)
 T = {
+    # Detail-view Design D 2026-06 — merged dose/duration card, Show All effects,
+    # Erowid as its own group, two-column Info/Chemistry grids, merged Sources.
+    "Dose & duration": ("剂量与时长", "劑量與時長"),
+    "Show All": ("查看全部", "查看全部"),
+    "Default route": ("默认途径", "預設途徑"),
+    "Experience reports": ("体验报告", "體驗報告"),
+    "PubChem CID": ("PubChem CID", "PubChem CID"),
+    "First-hand reports from Erowid's Experience Vaults. Opens a search in your browser.": (
+        "来自 Erowid 体验库的第一手报告。将在浏览器中打开搜索。",
+        "來自 Erowid 體驗庫的第一手報告。將在瀏覽器中開啟搜尋。",
+    ),
+    "Each link opens this substance's page on that source. Always verify against the original.": (
+        "每个链接都会打开该来源中此物质的页面。请始终对照原始来源核实。",
+        "每個連結都會開啟該來源中此物質的頁面。請始終對照原始來源核實。",
+    ),
     # Detail-view restructure 2026-06 — effects merge + chemistry fold + copyable
     "Search experiences on Erowid": ("在 Erowid 上搜索体验报告", "在 Erowid 上搜尋體驗報告"),
     "All effects": ("全部效应", "全部效應"),
@@ -2401,6 +2416,14 @@ if __name__ == "__main__":
     # catalog yet. List them here so they get inserted; clear once Xcode has
     # picked them up on a real build (after which they're update-only).
     NEW_KEYS = {
+        # Detail-view Design D 2026-06
+        "Dose & duration",
+        "Show All",
+        "Default route",
+        "Experience reports",
+        "PubChem CID",
+        "First-hand reports from Erowid's Experience Vaults. Opens a search in your browser.",
+        "Each link opens this substance's page on that source. Always verify against the original.",
         # Detail-view restructure 2026-06
         "Search experiences on Erowid",
         "All effects",

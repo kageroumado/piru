@@ -505,22 +505,21 @@ struct RouteDosingCard: View {
     private func dosageBlock(_ doses: DoseRange) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             eyebrow("Dosage")
-            DoseLevelIndicator(doseRange: doses, currentDose: nil)
-            VStack(spacing: 11) {
+            VStack(spacing: 9) {
                 if let threshold = doses.threshold {
-                    levelRow("Threshold", value: "\(threshold.doseFormatted) \(unit)", color: DoseLevel.threshold.swiftUIColor)
+                    levelRow("Threshold", value: "\(threshold.doseFormatted) \(unit)")
                 }
                 if let light = doses.light {
-                    levelRow("Light", value: rangeText(light), color: DoseLevel.light.swiftUIColor)
+                    levelRow("Light", value: rangeText(light))
                 }
                 if let common = doses.common {
-                    levelRow("Common", value: rangeText(common), color: DoseLevel.common.swiftUIColor)
+                    levelRow("Common", value: rangeText(common), emphasized: true)
                 }
                 if let strong = doses.strong {
-                    levelRow("Strong", value: rangeText(strong), color: DoseLevel.strong.swiftUIColor)
+                    levelRow("Strong", value: rangeText(strong))
                 }
                 if let heavy = doses.heavy {
-                    levelRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)", color: DoseLevel.heavy.swiftUIColor)
+                    levelRow("Heavy", value: "\(heavy.doseFormatted)+ \(unit)")
                 }
             }
             if let elementalFraction {
@@ -559,20 +558,15 @@ struct RouteDosingCard: View {
     private func durationBlock(_ duration: DurationProfile) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             eyebrow("Duration")
-            DurationTimelineBar(duration: duration)
-            VStack(spacing: 11) {
+            VStack(spacing: 9) {
                 ForEach(ExperiencePhase.allCases, id: \.self) { phase in
                     if let range = phase.range(in: duration) {
-                        levelRow(phase.label, value: range.displayString, color: phase.color)
+                        levelRow(phase.label, value: range.displayString)
                     }
                 }
                 if let total = duration.total {
-                    HStack {
-                        Text("Total").fontWeight(.semibold)
-                        Spacer()
-                        Text(total.displayString).fontWeight(.semibold).monospacedDigit()
-                    }
-                    .font(.subheadline)
+                    Divider()
+                    levelRow("Total", value: total.displayString, emphasized: true)
                 }
             }
         }
@@ -603,16 +597,27 @@ struct RouteDosingCard: View {
             .foregroundStyle(Theme.secondaryLabel)
     }
 
-    private func levelRow(_ label: LocalizedStringResource, value: String, color: Color) -> some View {
+    /// A clean dose/duration row — no colored dot or bar (those read as noise).
+    /// `emphasized` highlights the typical value (Common dose, Total duration)
+    /// with weight and a faint accent wash that bleeds slightly past the content
+    /// so the labels and values stay edge-aligned with the plain rows.
+    private func levelRow(_ label: LocalizedStringResource, value: String, emphasized: Bool = false) -> some View {
         HStack {
-            HStack(spacing: 8) {
-                Circle().fill(color).frame(width: 8, height: 8)
-                Text(label).foregroundStyle(Theme.secondaryLabel)
-            }
+            Text(label).foregroundStyle(emphasized ? Color.primary : Theme.secondaryLabel)
             Spacer()
             Text(value).monospacedDigit().foregroundStyle(.primary)
         }
         .font(.subheadline)
+        .fontWeight(emphasized ? .semibold : .regular)
+        .padding(.vertical, emphasized ? 6 : 0)
+        .background {
+            if emphasized {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Theme.accent.opacity(0.08))
+                    .padding(.horizontal, -10)
+                    .padding(.vertical, -1)
+            }
+        }
     }
 }
 
