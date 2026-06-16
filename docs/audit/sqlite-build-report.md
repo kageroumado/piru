@@ -1,13 +1,13 @@
 # Piru SQLite build report
 
-Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,602,240 bytes, sha256 `4258e3902c3e0bc11a40a8d75faa842468067dfe9a7cd5ae9080a6cb59d1ee15`)
+Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,569,472 bytes, sha256 `0717c96f346b09bd5fee894085a7bf0b6abe5c6c6fab6aadb4e1a5658d087b0c`)
 
 ## Row counts
 
 | Table | Rows |
 |---|---|
-| substances | 1,909 |
-| aliases | 5,477 |
+| substances | 1,906 |
+| aliases | 5,471 |
 | sources | 16 |
 | citations | 1,809 |
 | categories | 1,848 |
@@ -15,12 +15,12 @@ Built 2026-06-16.0 → `Piru/Data/piru-substances.sqlite` (14,602,240 bytes, sha
 | dose_ranges | 2,572 |
 | durations | 8,003 |
 | half_lives | 278 |
-| mechanisms_summary | 621 |
+| mechanisms_summary | 620 |
 | effects | 2,996 |
 | subjective_effects | 4,615 |
 | tolerance | 336 |
-| indications | 1,144 |
-| contraindications | 1,652 |
+| indications | 1,141 |
+| contraindications | 1,649 |
 | diazepam_equivalents | 33 |
 | bindings | 963 |
 | functional_assays | 218 |
