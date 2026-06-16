@@ -1,6 +1,6 @@
 {
   "content_version": "2026-06-16.0",
-  "generated_at": "2026-06-16T15:13:24.654489+00:00",
+  "generated_at": "2026-06-16T18:57:29.947499+00:00",
   "generator_version": "pipeline/build/sqlite.py 0.1.0",
   "release_notes": "Initial SQLite bundled build. Multi-source attribution per field. 18 enrichment batches merged.",
   "schema_version": 4,
@@ -37,7 +37,7 @@
     },
     "freeodwiki": {
       "bindings": 0,
-      "categories": 31,
+      "categories": 30,
       "dose_ranges": 321
     },
     "medtap": {
@@ -92,7 +92,7 @@
     }
   },
   "sqlite_path": "Piru/Data/piru-substances.sqlite",
-  "sqlite_sha256": "887784fdfc65767f917c228c56ab31b29e88c63ae6618bb869af43fbca6084dd",
-  "sqlite_size_bytes": 16228352,
-  "substance_count": 1970
+  "sqlite_sha256": "826c62b17649d670647a662ca7286dd3925c5676ef50bfa7a35ca3e835127478",
+  "sqlite_size_bytes": 17059840,
+  "substance_count": 1968
 }

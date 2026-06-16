@@ -269,6 +269,14 @@ FREEOD_NAME_OVERRIDE = {
     "氯苄雷司": "Clobenzorex",
     "水虉草": "Phalaris",
     "亚硝酸酯": "Poppers",
+    # Chinese-titled pages whose English/street name mined to a junk fragment
+    # (a single letter or a number split out of a systematic name), which then
+    # became a bogus canonical and, for Heroin, a duplicate substance.
+    "海洛因": "Heroin",
+    "替扎尼定": "Tizanidine",
+    "甲基己胺": "DMAA",
+    "艾斯卡林": "Escaline",
+    "可可": "Cocoa",
 }
 
 # FreeOD index/category/genus pages that aren't individual substances — skipped
@@ -283,15 +291,28 @@ FREEOD_SKIP_PAGES = {
 
 def _freeod_canonical_name(title: str, names: list[str]) -> str | None:
     """Pick a Latin canonical name for a FreeOD page so it matches an existing
-    English substance; fall back to the zh title for FreeOD-only compounds."""
+    English substance; fall back to the zh title for FreeOD-only compounds.
+
+    Candidates that are clearly fragments — a lone letter or a number split out
+    of a systematic name like "3,4-dimethoxy…" by comma-splitting — are rejected
+    so they can never become a bogus canonical (which previously created junk
+    substances named "1"/"2"/"H" and a Heroin duplicate)."""
+
+    def is_fragment(c: str) -> bool:
+        # No alpha at all ("1", "3-"), or a single bare letter ("H", "E").
+        alpha = [ch for ch in c if ch.isalpha()]
+        return not alpha or (len(alpha) < 2 and len(c) <= 2)
+
     cands = [
         c.strip() for c in ([title] + list(names)) if c and c.strip() and not _CJK_RE.search(c)
     ]
     for c in cands:
-        if len(c) >= 3 and any(ch.isalpha() for ch in c):
+        if len(c) >= 3 and any(ch.isalpha() for ch in c) and not is_fragment(c):
             return c
-    if cands:
-        return cands[0]
+    for c in cands:
+        if not is_fragment(c):
+            return c
+    # Every Latin candidate was a fragment — keep the zh title rather than junk.
     return (title or "").strip() or None
 
 
@@ -4304,18 +4325,30 @@ class Build:
             for eff in rec.get("subjective_effects") or []:
                 self.add_subjective_effect(sid, slug, eff, language="zh-Hans")
 
-            # Optional machine-translated English (from translate_freeodwiki.py);
-            # en rows fill gaps for substances English sources don't cover.
+            # English text for the Overview. Authentic PsychonautWiki lead prose is
+            # attributed to `psychonautwiki` (not machine-translated); the remainder
+            # — substances PW doesn't cover — is machine-translated from FreeOD's zh
+            # and attributed to `freeodwiki` with machine_translated=1 so the UI can
+            # mark it. Effect names are mapped to canonical PW Subjective Effect Index
+            # names, so they ride as plain en rows (not flagged translated).
             if rec.get("description_en"):
                 self.add_description(
-                    sid, slug, rec["description_en"], language="en", machine_translated=True
+                    sid,
+                    rec.get("description_en_source", slug),
+                    rec["description_en"],
+                    language="en",
+                    machine_translated=bool(rec.get("description_en_mt", True)),
                 )
             if rec.get("mechanism_en"):
                 self.add_mechanism_summary(
-                    sid, slug, rec["mechanism_en"], language="en", machine_translated=True
+                    sid,
+                    slug,
+                    rec["mechanism_en"],
+                    language="en",
+                    machine_translated=bool(rec.get("mechanism_en_mt", True)),
                 )
             for eff in rec.get("subjective_effects_en") or []:
-                self.add_subjective_effect(sid, slug, eff, language="en", machine_translated=True)
+                self.add_subjective_effect(sid, slug, eff, language="en", machine_translated=False)
 
         self.stats["freeodwiki_substances"] = len(data)
         self.stats["freeodwiki_created"] = len(created)
