@@ -900,19 +900,26 @@ struct SubstanceDetailView: View {
     /// to the substance's own page where one exists. Used to be two near-identical
     /// "Databases" / "References" subsections; collapsed into one tappable list.
     private var mergedSourceLinks: [DetailSourceLink] {
-        var seenKeys = Set<String>()
-        var seenLabels = Set<String>()
+        var seenURLs = Set<String>()
         var out: [DetailSourceLink] = []
         func add(label: String, url: URL?) {
-            // Dedup by resolved URL *and* by display label, so the same source
-            // arriving as both a database row and a citation (e.g. TiHKAL) shows
-            // once. A linked candidate wins over an identical bare-text one.
-            let key = url?.absoluteString ?? label.lowercased()
+            // The same work can arrive as both a database row and a citation
+            // (e.g. TiHKAL — the source only knows the book's homepage, the
+            // citation has this substance's chapter). Dedup by display label,
+            // and let a *linked* candidate upgrade an already-added bare-text
+            // one so the chapter URL wins over the missing homepage.
             let labelKey = label.lowercased()
-            if seenKeys.contains(key) { return }
-            if seenLabels.contains(labelKey) { return }
-            seenKeys.insert(key)
-            seenLabels.insert(labelKey)
+            if let idx = out.firstIndex(where: { $0.label.lowercased() == labelKey }) {
+                if out[idx].url == nil, let url {
+                    seenURLs.insert(url.absoluteString)
+                    out[idx] = DetailSourceLink(label: out[idx].label, url: url)
+                }
+                return
+            }
+            if let url {
+                if seenURLs.contains(url.absoluteString) { return }
+                seenURLs.insert(url.absoluteString)
+            }
             out.append(DetailSourceLink(label: label, url: url))
         }
         // `substance.sources` holds wire slugs ("peer-review-primary",
@@ -1029,6 +1036,29 @@ struct SubstanceDetailView: View {
                 tint: .orange,
                 message: "This compound has no validated human dose data. Information below is for reference only — see the linked sources for primary literature. Do not extrapolate doses from related compounds.",
             )
+        }
+    }
+
+    /// Plays along with an in-joke entry (PsychonautWiki's "🍰 Cake"). The emoji
+    /// is off the title now — so the gag lives here, deadpan, while making plain
+    /// the thing is fictional (this is a harm-reduction app; nobody should go
+    /// sourcing "Cake").
+    @ViewBuilder private var jokeBanner: some View {
+        if let emoji = substance.titlePictograph {
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        Text(emoji)
+                        Text("Made-up drug")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    Text("A fictional drug from a 1997 TV satire on media drug panics — “Cake” isn’t real, and nothing below is either. It supposedly overstimulates “Shatner’s Bassoon,” the part of the brain that governs time. Made in Prague.")
+                        .font(.caption)
+                        .foregroundStyle(Theme.secondaryLabel)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.vertical, 4)
+            }
         }
     }
 
@@ -1169,6 +1199,7 @@ struct SubstanceDetailView: View {
                 }
 
                 statusBanner
+                jokeBanner
 
                 // Effects — curated summary + grouped "All effects" navigation.
                 effectsSection
@@ -1364,6 +1395,11 @@ struct SubstanceDetailView: View {
             guard let dc = substance.drugCommunitySlug else { return nil }
             return URL(string: "https://drug.community/drug/\(dc)")
         }
+        // The Shulgin books (PiHKAL/TiHKAL) only have a book homepage, not a
+        // per-substance page. The citation carries the real chapter link, so
+        // don't offer the misleading homepage — `mergedSourceLinks` upgrades the
+        // bare "TiHKAL" row to the citation's chapter URL.
+        if slug == "erowid-pihkal" || slug == "erowid-tihkal" { return nil }
         return AppSources.substanceURL(forSlug: slug, substance: substance.name)
     }
 

@@ -1147,15 +1147,37 @@ struct Substance: Identifiable {
     }
 
     /// Title shown in lists and the detail header — the curated override when
-    /// present, otherwise the canonical `name`.
+    /// present, otherwise the canonical `name`. A leading pictograph is stripped
+    /// (see ``titlePictograph``).
     var displayTitle: String {
-        displayName ?? name
+        Substance.strippingLeadingPictograph(displayName ?? name).text
     }
 
-    /// Secondary line for rows: when a display-name override is active, the
-    /// canonical (expanded) name; otherwise the cleaned aliases (up to 3).
+    /// A leading pictograph in the curated display name — e.g. PsychonautWiki's
+    /// "🍰 Cake" April-Fools entry — telegraphs the in-joke wherever the title
+    /// shows (search, browse lists). It's stripped from ``displayTitle`` and
+    /// surfaced here so the *detail* screen can play along instead of spoiling it.
+    var titlePictograph: String? {
+        Substance.strippingLeadingPictograph(displayName ?? name).pictograph
+    }
+
+    /// Splits a leading emoji (a default-emoji-presentation scalar) off a title:
+    /// "🍰 Cake" → ("Cake", "🍰"). Ordinary names pass through unchanged.
+    static func strippingLeadingPictograph(_ s: String) -> (text: String, pictograph: String?) {
+        guard let first = s.first,
+              let scalar = first.unicodeScalars.first,
+              scalar.properties.isEmojiPresentation
+        else {
+            return (s, nil)
+        }
+        let rest = String(s.dropFirst()).drop(while: \.isWhitespace)
+        return (String(rest), String(first))
+    }
+
+    /// Secondary line for rows: the canonical (expanded) name when it differs
+    /// from the shown title, otherwise the cleaned aliases (up to 3).
     var displaySubtitle: String? {
-        if displayName != nil { return name }
+        if displayName != nil, name != displayTitle { return name }
         guard !aliases.isEmpty else { return nil }
         return aliases.prefix(3).joined(separator: ", ")
     }
